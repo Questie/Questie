@@ -49,7 +49,7 @@ local trackerUILocales = {
         ["koKR"] = "Sizer 재설정",
         ["ptBR"] = "Redefinir medidor",
         ["ruRU"] = "Сбросить сайзер",
-        ["zhCN"] = "重置 Sizer",
+        ["zhCN"] = "重置大小",
         ["zhTW"] = "重置大小",
     },
     ["NOTE"] = {

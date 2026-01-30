@@ -95,7 +95,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用毁灭结界",
         ["zhTW"] = false,
     },
     ["Use Quetz'lun's Ritual"] = { -- 12674
@@ -107,7 +107,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "使用奎丝鲁恩的妖术棒",
+        ["zhCN"] = "使用奎丝鲁恩的仪祭",
         ["zhTW"] = false,
     },
     ["Capture Chicken Escapee"] = { -- 12532
@@ -467,7 +467,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在被遗忘者封锁线附近击杀维库人，直到他们出现",
         ["zhTW"] = false,
     },
     ["Talk to Bat Handler Camille"] = { -- 11170
@@ -479,7 +479,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与蝙蝠管理员卡米尔交谈",
         ["zhTW"] = false,
     },
     ["Talk to Wyrmbait"] = { -- 12467
@@ -491,7 +491,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与龙饵交谈",
         ["zhTW"] = false,
     },
     ["Fish for Severed Arm"] = { -- 13836
@@ -503,7 +503,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取断臂",
         ["zhTW"] = false,
     },
     ["Fish for Corroded Jewelry"] = { -- 13832
@@ -515,7 +515,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取腐蚀的珠宝",
         ["zhTW"] = false,
     },
     ["Fish for Terror Fish"] = { -- 13834
@@ -527,7 +527,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取恐怖鱼",
         ["zhTW"] = false,
     },
     ["Slay any beast, jump in any water location and fish in the Pool of Blood"] = { -- 13833
@@ -539,7 +539,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀任意野兽，然后跳入任意水域，并在血之池中钓鱼",
         ["zhTW"] = false,
     },
     ["Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"] = { -- 11306
@@ -551,7 +551,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在维库之血大锅处填满空药剂师之瓶",
         ["zhTW"] = false,
     },
     ["Mix the Flask of Vrykul Blood with Harris's Plague Samples"] = { -- 11306
@@ -563,7 +563,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将维库之血瓶与哈里斯的瘟疫样本混合",
         ["zhTW"] = false,
     },
     ["Break Riven Widow Cocoons to free captives"] = { -- 11296
@@ -575,7 +575,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打破裂缝寡妇的蛹以解救被俘者",
         ["zhTW"] = false,
     },
     ["Use Grick's Bonesaw on corpses of Deranged Explorers"] = { -- 11301
@@ -587,7 +587,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用格瑞克的骨锯处理疯狂探险者的尸体",
         ["zhTW"] = false,
     },
     ["Ask Alanya for transportation"] = { -- 11567
@@ -599,7 +599,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "向阿兰娅请求交通协助",
         ["zhTW"] = false,
     },
     ["Lure Reef Bull with Tasty Reef Fish"] = { -- 11472
@@ -611,7 +611,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用美味礁鱼诱捕礁牛",
         ["zhTW"] = false,
     },
     ["Place Tillinghast's Plagued Meat on the ground"] = { -- 11280
@@ -623,7 +623,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将蒂林哈斯特的瘟疫肉放置在地面上",
         ["zhTW"] = false,
     },
     ["Plagued Vrykul Sprayed"] = { -- 11307
@@ -635,7 +635,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "喷洒瘟疫维库人",
         ["zhTW"] = false,
     },
     ["Feed it with Zul'Drak Rat"] = { -- 12527
@@ -647,7 +647,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用祖达克老鼠喂食",
         ["zhTW"] = false,
     },
     ["Plagued Vrykul exterminated"] = { -- 11310
@@ -659,7 +659,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "消灭瘟疫维库人",
         ["zhTW"] = false,
     },
     ["Place fake fur near Caribou Traps"] = { -- 11865
@@ -671,7 +671,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在驯鹿陷阱附近放置假毛皮",
         ["zhTW"] = false,
     },
     ["Use Beryl Shield Detonator"] = { -- 11671
@@ -683,7 +683,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用碧蓝护盾引爆器",
         ["zhTW"] = false,
     },
     ["Kill Inquisitor Salrand"] = { -- 11671
@@ -695,7 +695,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀审判者萨尔兰德",
         ["zhTW"] = false,
     },
     ["Place Icemaw Bear Flank"] = { -- 13011
@@ -707,7 +707,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "放置冰爪熊肋肉",
         ["zhTW"] = false,
     },
     ["Use Imperean's Primal on Snarlfang's Totem"] = { -- 11631
@@ -719,7 +719,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在咆牙图腾上使用因佩里安的原始之力",
         ["zhTW"] = false,
     },
     ["Use Jenny's Whistle near a crashed flying machine"] = { -- 11881
@@ -731,7 +731,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在坠毁的飞行器附近使用珍妮的口哨",
         ["zhTW"] = false,
     },
     ["Return Jenny to safety without losing cargo"] = { -- 11881
@@ -743,7 +743,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在不丢失货物的情况下将珍妮安全护送回去",
         ["zhTW"] = false,
     },
     ["Use the Carved Horn"] = { -- 11281
@@ -755,7 +755,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用雕刻过的号角",
         ["zhTW"] = false,
     },
     ["Test Rune of Command on normal Stone Giants"] = { -- 11348, 11352
@@ -767,7 +767,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在普通石巨人身上测试指挥符文",
         ["zhTW"] = false,
     },
     ["Use Windsoul Totem to collect energy from killing Steam Ragers"] = { -- 11893
@@ -779,7 +779,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用风魂图腾从击杀蒸汽狂怒者中收集能量",
         ["zhTW"] = false,
     },
     ["Robots weakened and destroyed"] = { -- 11896
@@ -791,7 +791,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "机器人被削弱并摧毁",
         ["zhTW"] = false,
     },
     ["Nerubian tunnels collapsed"] = { -- 11706
@@ -803,7 +803,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "蛛魔隧道已塌陷",
         ["zhTW"] = false,
     },
     ["Use The Horn of Elemental Fury near the southern sinkhole"] = { -- 11706
@@ -815,7 +815,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在南部塌陷坑附近使用元素之怒号角",
         ["zhTW"] = false,
     },
     ["Ride Flamebringer"] = { -- 12259
@@ -827,7 +827,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑乘烈焰者",
         ["zhTW"] = false,
     },
     ["Enlist Budd's help"] = { -- 11984
@@ -839,7 +839,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "请求巴德的帮助",
         ["zhTW"] = false,
     },
     ["Escort Budd to the Drak'Zin Ruins"] = { -- 11984
@@ -851,7 +851,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "护送巴德前往德拉克辛废墟",
         ["zhTW"] = false,
     },
     ["Use Budd's Tag Troll spell to stun Drakkari trolls"] = { -- 11984
@@ -863,7 +863,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用巴德的标记巨魔法术眩晕德拉卡里巨魔",
         ["zhTW"] = false,
     },
     ["Capture stunned Drakkari trolls with Bounty Hunter's Cage"] = { -- 11984
@@ -875,7 +875,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用赏金猎人笼捕捉被眩晕的德拉卡里巨魔",
         ["zhTW"] = false,
     },
     ["Place Scourged Troll Mummy in the fire"] = { -- 12484
@@ -887,7 +887,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将天灾巨魔木乃伊放入火中",
         ["zhTW"] = false,
     },
     ["Use Tranquilizer Dart on Tatjana"] = { -- 12330
@@ -899,7 +899,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "对塔佳娜使用麻醉飞镖",
         ["zhTW"] = false,
     },
     ["Talk to Tur Ragepaw to summon Ursoc"] = { -- 12236, 12249
@@ -911,7 +911,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与图尔·怒爪交谈以召唤乌索克",
         ["zhTW"] = false,
     },
     ["Spray Proto-Drake Egg"] = { -- 11279
@@ -923,7 +923,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "喷洒原始龙蛋",
         ["zhTW"] = false,
     },
     ["Use Skytalon Molts"] = { -- 12456
@@ -935,7 +935,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用天爪枭的绒毛",
         ["zhTW"] = false,
     },
     ["Use Ethereal Worg's Fang"] = { -- 12994
@@ -947,7 +947,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用灵体座狼之牙",
         ["zhTW"] = false,
     },
     ["Fight Lightning Sentries with Depleted War Golem deployed nearby"] = { -- 12138, 12198
@@ -959,7 +959,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在附近部署耗能战争魔像的情况下，与闪电哨兵作战",
         ["zhTW"] = false,
     },
     ["Use Eye of Dominion"] = { -- 13168
@@ -971,7 +971,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用统御之眼",
         ["zhTW"] = false,
     },
     ["Intercept the message from Loken"] = { -- 12185, 12203
@@ -983,7 +983,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "拦截洛肯的消息",
         ["zhTW"] = false,
     },
     ["Commandeer Crykul Harpoon Gun"] = { -- 11421
@@ -995,7 +995,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "夺取维库鱼叉炮的控制权",
         ["zhTW"] = false,
     },
     ["Ring the gong outside Drakil'jin to summon Warlord Jin'arrak"] = { -- 12121
@@ -1007,7 +1007,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在达基尔金外敲响战鼓以召唤督军金阿拉克",
         ["zhTW"] = false,
     },
     ["Touch Talonshrike's Egg"] = { -- 11416 + 11417
@@ -1019,7 +1019,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "触碰鹰爪风蛇的蛋",
         ["zhTW"] = false,
     },
     ["Speak with Gan'jo to return to life"] = { -- 12137
@@ -1031,7 +1031,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与甘乔交谈以复活",
         ["zhTW"] = false,
     },
     ["Use the Snow of Eternal Slumber on ancient Drakkari spirits"] = { -- 12137
@@ -1043,7 +1043,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在古代德拉卡里灵体上使用永眠之雪",
         ["zhTW"] = false,
     },
     ["Place the Infused Drakkari Offering at the gongs outside Drakil'jin"] = { -- 12152
@@ -1055,7 +1055,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将注能德拉卡里祭品放置在德拉基尔金外的战鼓旁",
         ["zhTW"] = false,
     },
     ["Free Roanauk Icemist"] = { -- 12069
@@ -1067,7 +1067,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "解救罗诺克·冰雾",
         ["zhTW"] = false,
     },
     ["Use Abbey Bell Rope"] = { -- 12274
@@ -1079,7 +1079,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用修道院钟绳",
         ["zhTW"] = false,
     },
     ["High Abbot spoken with"] = { -- 12274
@@ -1091,7 +1091,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "已与大主教交谈",
         ["zhTW"] = false,
     },
     ["Pull Sturdy Vines to reveal fruit"] = { -- 12634
@@ -1103,7 +1103,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "拉动坚固的藤蔓以显露果实",
         ["zhTW"] = false,
     },
     ["Use Freya's Horn atop of the Glimmering Pillar"] = { -- 12620
@@ -1115,7 +1115,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在闪光之柱顶端使用弗蕾娅的号角",
         ["zhTW"] = false,
     },
     ["Use Zort's Scraper when covered in Corrosive Spit"] = { -- 12076
@@ -1127,7 +1127,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在被腐蚀之唾覆盖时使用佐特的刮刀",
         ["zhTW"] = false,
     },
     ["Slay Antiok's mount to make him vulnerable"] = { -- 12498
@@ -1139,7 +1139,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀安提奥克的坐骑，使其变得脆弱",
         ["zhTW"] = false,
     },
     ["Listen to what the Avatar of Freya has to say"] = { -- 12621
@@ -1151,7 +1151,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "聆听弗蕾娅化身的指示",
         ["zhTW"] = false,
     },
     ["Use Sandfern Disguise near the fallen log"] = { -- 12569
