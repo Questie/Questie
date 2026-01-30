@@ -87,6 +87,9 @@ function QuestieQuestFixes:Load()
         [46] = {
             [questKeys.preQuestSingle] = {39},
         },
+        [76] = {
+            [questKeys.nextQuestInChain] = 239,
+        },
         [90] = {
             [questKeys.requiredSkill] = {185, 50},
         },
@@ -144,14 +147,20 @@ function QuestieQuestFixes:Load()
         },
         [217] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {263,267},
+            [questKeys.preQuestGroup] = {263,267}, -- #7059
         },
         [219] = {
             [questKeys.triggerEnd] = {"Escort Corporal Keeshan back to Redridge", {[zoneIDs.REDRIDGE_MOUNTAINS]={{33.36,48.7}}}},
         },
+        [224] = {
+            [questKeys.nextQuestInChain] = 237,
+        },
         [235] = {
             [questKeys.breadcrumbForQuestId] = 6383,
             [questKeys.nextQuestInChain] = 6383,
+        },
+        [237] = {
+            [questKeys.nextQuestInChain] = 263,
         },
         [239] = {
             [questKeys.breadcrumbForQuestId] = 11,
@@ -202,7 +211,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {308,403},
         },
         [315] = {
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 415,
         },
         [349] = {
             [questKeys.objectivesText] = {},
@@ -766,6 +775,9 @@ function QuestieQuestFixes:Load()
         },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.NONE, -- horde CAN get this quest
+        },
+        [1200] = {
+            [questKeys.breadcrumbs] = {1198},
         },
         [1204] = {
             [questKeys.preQuestSingle] = {},
@@ -2928,6 +2940,9 @@ function QuestieQuestFixes:Load()
         },
         [6544] = {
             [questKeys.triggerEnd] = {"Take Silverwing Outpost.", {[zoneIDs.ASHENVALE]={{64.65,75.35}}}},
+        },
+        [6561] = {
+            [questKeys.breadcrumbs] = {1198},
         },
         [6562] = {
             [questKeys.breadcrumbForQuestId] = 6563, -- #1826
@@ -5208,6 +5223,10 @@ function QuestieQuestFixes:LoadFactionFixes()
         [737] = {
             [questKeys.startedBy] = {{2934},nil,nil},
         },
+        [1198] = {
+            [questKeys.breadcrumbForQuestId] = 6561,
+            [questKeys.nextQuestInChain] = 6561,
+        },
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
         },
@@ -5253,6 +5272,10 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [737] = {
             [questKeys.startedBy] = {{2786},nil,nil},
+        },
+        [1198] = {
+            [questKeys.breadcrumbForQuestId] = 1200,
+            [questKeys.nextQuestInChain] = 1200,
         },
         [1718] = {
             [questKeys.startedBy] = {{5113,5479},nil,nil},
