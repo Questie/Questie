@@ -14,7 +14,7 @@ function QuestieQuestBlacklist:Load()
     local locale = GetLocale()
     local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
-        [2358] = true, -- See #921
+        [2358] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Wotlk, -- available in TBC anniversary (!)
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
@@ -28,7 +28,6 @@ function QuestieQuestBlacklist:Load()
         [7704] = Expansions.Current ~= Expansions.Wotlk, -- Only implemented in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
-        [6066] = true, -- Not in the game - #1957
         [4601] = true, -- Duplicate of 2951
         [4602] = true, -- Duplicate of 2951
         [4603] = true, -- Duplicate of 2953
@@ -351,6 +350,7 @@ function QuestieQuestBlacklist:Load()
         [11450] = true,
         [11454] = true,
         [11528] = true,
+        [11558] = true,
         [11580] = true,
         [11581] = true,
         [11583] = true,
@@ -1204,7 +1204,7 @@ function QuestieQuestBlacklist:Load()
         [10048] = true, -- A Handful of Magic Dust BETA
         [10049] = true, -- A Handful of Magic Dust BETA
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
-        [10259] = true, -- Into the Breach (TBC Pre patch event)
+        [10259] = Expansions.Current ~= Expansions.Tbc, -- Into the Breach (TBC Pre patch event)
         [10364] = true, -- Caedmos (Unavailable Priest quest)
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
         [10534] = true, -- Returning Home (Unavailable Priest quest)
@@ -1382,7 +1382,7 @@ function QuestieQuestBlacklist:Load()
         [8443] = Expansions.Current >= Expansions.Tbc,
 
         -- Phase 4 Zul'Aman
-        --[11196] = true, -- Not in the game
+        [11196] = true, -- Not in the game
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
@@ -1664,6 +1664,7 @@ function QuestieQuestBlacklist:Load()
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
         [93975] = Expansions.Current >= Expansions.Wotlk, -- Ragnaros Must Die!
+        [94577] = Expansions.Current >= Expansions.Wotlk, -- Kael'thas Must Die!
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -4182,6 +4183,7 @@ function QuestieQuestBlacklist:Load()
         [6063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6066] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6069] = Expansions.Current >= Expansions.Cata, -- Removed with cata

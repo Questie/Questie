@@ -314,6 +314,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {793, 717},
             [itemKeys.npcDrops] = {},
         },
+        [4851] = { -- Dirt-stained Map
+            [itemKeys.startQuest] = 781,
+        },
         [4854] = { -- Demon Scarred Cloak
             [itemKeys.npcDrops] = {3056},
         },
@@ -565,7 +568,7 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {2206},
         },
         [7737] = { -- Sethir's Journal
-            [itemKeys.relatedQuests] = {},
+            [itemKeys.relatedQuests] = {2242},
             [itemKeys.npcDrops] = {6909},
             [itemKeys.objectDrops] = {},
         },

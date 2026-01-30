@@ -198,9 +198,6 @@ function QuestieWotlkQuestFixes:Load()
         [2279] = {
             [questKeys.preQuestSingle] = {2278},
         },
-        [2358] = {
-            [questKeys.startedBy] = {{7009}},
-        },
         [2701] = {
             [questKeys.finishedBy] = {nil,{141980}},
         },
@@ -248,6 +245,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [4491] = {
             [questKeys.requiredSourceItems] = {},
+        },
+        [4740] = { -- WANTED: Murkdeep!
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4763] = {
             [questKeys.objectives] = {nil,nil,{{12355}}},
@@ -514,15 +514,14 @@ function QuestieWotlkQuestFixes:Load()
         [9425] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
+        [9582] = { -- Strength of One
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [9644] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Nightbane"), 0, {{"object", 194092}}}},
         },
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.KARAZHAN]={{-1,-1}}}},
-        },
-        [9648] = {
-            [questKeys.name] = "Maatparm Mushroom Menagerie",
-            [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 1 Aquatic Stinkhorn, 1 Blood Mushroom, 1 Ruinous Polyspore, and 1 Fel Cone Fungus."},
         },
         [9681] = {
             [questKeys.startedBy] = {{17717,17718}},
@@ -7839,15 +7838,29 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [93975] = {
-            [questKeys.name] = "Ragnaros Must Die!",
+            [questKeys.name] = "拉格纳罗斯必须死！", -- "Ragnaros Must Die!", only present on chinese servers
             [questKeys.startedBy] = {},
             [questKeys.finishedBy] = {},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"Kill Ragnaros."},
+            [questKeys.objectivesText] = {"团队消灭拉格纳罗斯。"}, -- {"Kill Ragnaros."}, only present on chinese servers
             [questKeys.objectives] = {{{11502}}},
             [questKeys.zoneOrSort] = zoneIDs.MOLTEN_CORE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
+        [94577] = {
+            [questKeys.name] = "凯尔萨斯必须死！", -- "Kael'thas Must Die!", only present on chinese servers
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"消灭风暴要塞的凯尔萨斯逐日者。"}, -- "Kill Kael'thas Sunstrider in Tempest Keep." only present on chinese servers
+            [questKeys.objectives] = {{{19622}}},
+            [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},

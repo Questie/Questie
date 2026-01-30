@@ -45,6 +45,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [2038] = { -- Lord Melenas
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{51.23,50.8},{51.31,50.19},{52.82,50.21}}},
+            [npcKeys.waypoints] = {},
         },
         [2385] = {
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{63.59,67.96},{58.52,55.59},{60.98,50.92},{70.35,67.98},{61.14,66.86},{57.56,49.97},{66.26,74.09},{60.16,58.47},{56.7,60.08},{58.98,56.53},{57.68,59.31},{67.97,80.87},{61.79,69.02},{66.33,75.32},{64.98,66.4},{64.87,69.26},{65.09,72.99},{62.62,71.43}}},
@@ -109,7 +110,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
         [3407] = { -- Sian'dur
-            [npcKeys.questStarts] = {6068,9617},
+            [npcKeys.questStarts] = {6066,6068,9617},
         },
         [3516] = { -- Arch Druid Fandral Staghelm
             [npcKeys.questStarts] = {952,3764,3781,6761},
@@ -278,6 +279,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {936,5927,6385,8359,63448,63767,65284,65561,93823},
             [npcKeys.questEnds] = {6384,8359,63448,63767,65284,65561,93823},
         },
+        [7009] = { -- Arantir
+            [npcKeys.questStarts] = {2358},
+        },
         [7315] = { -- Darnath Bladesinger
             [npcKeys.questStarts] = {1698,8417},
         },
@@ -300,6 +304,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [10540] = { -- Vol'jin
             [npcKeys.questStarts] = {1361},
+            [npcKeys.waypoints] = {},
         },
         [10837] = { -- High Executor Derrington
             [npcKeys.questEnds] = {105,5093,5094,5095,5096,5098,5238,5511,10374},
@@ -779,6 +784,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [17612] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{31.8,25.4},{34.0,25.4},{34.4,22.8},{34.0,20.8},{34.6,17.6},{34.2,14.6},{35.2,12.6},{35.6,11.6}}},
+        },
+        [17663] = { -- Maatparm
+            [npcKeys.name] = "Maatparm",
         },
         [17767] = {
             [npcKeys.spawns] = {[zoneIDs.HYJAL_SUMMIT] = {{-1,-1}}},
@@ -1642,6 +1650,9 @@ function QuestieTBCNpcFixes:Load()
             },
             [npcKeys.questStarts] = {11886,11954,11955},
             [npcKeys.questEnds] = {11917,11947,11948,11952,11953,11954,12012},
+        },
+        [26309] = { -- Weapons Vendor
+            [npcKeys.spawns] = {},
         },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,

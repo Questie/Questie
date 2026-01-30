@@ -50,7 +50,6 @@ local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
     QUEST_TURNED_IN = "QUEST_TURNED_IN",
     QUEST_REMOVED = "QUEST_REMOVED",
-    QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 
 local questLog = {}
@@ -370,7 +369,6 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
-        questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
         QuestLogCache.RemoveQuest(questId)
         QuestieQuest:SetObjectivesDirty(questId)
@@ -466,6 +464,11 @@ function QuestEventHandler.UnitQuestLogChanged(unitTarget)
         Questie:Debug(Questie.DEBUG_INFO, "Skipping UnitQuestLogChanged")
     end
     skipNextUQLCEvent = false
+end
+
+--- This is for debugging of #6734
+function QuestEventHandler.GetQuestLogStates()
+    return questLog
 end
 
 --- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed

@@ -570,6 +570,13 @@ function CataQuestFixes.Load()
         [6324] = { -- Return to Morris
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [6341] = { -- The Bounty of Teldrassil
+            [questKeys.preQuestSingle] = {6344},
+            [questKeys.breadcrumbs] = {},
+        },
+        [6344] = { -- Nessa Shadowsong
+            [questKeys.breadcrumbForQuestId] = 0,
+        },
         [6362] = { -- Ride to Thunder Bluff
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },
@@ -1945,9 +1952,6 @@ function CataQuestFixes.Load()
             [questKeys.finishedBy] = {{19935}},
             [questKeys.specialFlags] = 1,
         },
-        [11129] = { -- Kyle's Gone Missing!
-            [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
-        },
         [11131] = { -- Stop the Fires!
             [questKeys.exclusiveTo] = {12135},
             [questKeys.preQuestSingle] = {11360,11439,11440},
@@ -2326,11 +2330,7 @@ function CataQuestFixes.Load()
         [12492] = { -- Direbrew's Dire Brew
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [12513] = { -- Nice Hat...
-            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
-        },
         [12515] = { -- Nice Hat...
-            [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF + raceIDs.GOBLIN + raceIDs.WORGEN,
         },
         [12517] = { -- Rogues Deck

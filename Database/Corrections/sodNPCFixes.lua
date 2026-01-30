@@ -530,7 +530,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {3094,77648},
         },
         [3061] = { -- Lanka Farshot
-            [npcKeys.questStarts] = {6066,77649},
+            [npcKeys.questStarts] = {77649},
             [npcKeys.questEnds] = {3092,77649},
         },
         [3062] = { -- Meela Dawnstrider
@@ -608,6 +608,9 @@ function SeasonOfDiscovery:LoadNPCs()
         [3399] = { -- Zamja
             [npcKeys.questStarts] = {6611,90109},
             [npcKeys.questEnds] = {90109},
+        },
+        [3407] = { -- Sian'dur
+            [npcKeys.questStarts] = {6066,6068},
         },
         [3408] = { -- Zel'mak
             [npcKeys.questStarts] = {78304},

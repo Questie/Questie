@@ -509,7 +509,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         tinsert(factionTree[6].children, temp)
                         unobtainableCounter = unobtainableCounter + 1
                     end
-                elseif (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
+                elseif (nextQuestInChain ~= 0 and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(factionTree[4].children, temp)
                     completedCounter = completedCounter + 1
                 elseif parentQuest and Questie.db.char.complete[parentQuest] then

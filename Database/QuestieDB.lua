@@ -839,15 +839,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    if Questiedbcharhidden[questId] then
-        local msg = "Quest " .. questId .. " is hidden manually!"
-        if returnText and returnBrief then
-            return "Unknown: Manually blacklisted"
-        elseif returnText and not returnBrief then
-            return msg
-        end
-    end
-
     -- We keep this here, even though it is removed from QuestieDB.IsDoable because AvailableQuests.CalculateAndDrawAll
     -- checks child quests differently and before IsDoable
     if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
@@ -1090,6 +1081,18 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return "Ineligible: Daily quest not active"
         elseif returnText then
             return "Daily quest " .. questId .. " is not active"
+        end
+    end
+
+    -- only present in verbose.
+    -- IsDoable has its own logic that varies based on player settings for quest visibility
+    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
+    if (requiredLevel and (UnitLevel("player") < requiredLevel)) then
+        local msg = "Player level is too low for quest " .. questId
+        if returnText and returnBrief then
+            return "Ineligible: Level too low"
+        elseif returnText and not returnBrief then
+            return msg
         end
     end
 

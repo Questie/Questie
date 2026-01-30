@@ -397,11 +397,13 @@ function QuestieMenu:Show(hideDelay)
         QuestieJourney.tabGroup:SelectTab("zone");
         QuestieJourney:ToggleJourneyWindow()
     end})
+
     tinsert(menuTable, { text= l10n('Quests by Faction'), func=function()
         QuestieOptions:HideFrame();
         QuestieJourney.tabGroup:SelectTab("faction");
         QuestieJourney:ToggleJourneyWindow()
     end})
+
     tinsert(menuTable, { text= l10n("Questie Options"), func=function()
         QuestieCombatQueue:Queue(function()
             QuestieOptions:ToggleConfigWindow()

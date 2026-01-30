@@ -519,6 +519,8 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
         -- overwrite tooltipKey, so stuff shows in monster tooltips
         tooltipKey = "m_" .. starter.id
         starterType = "itemFromMonster"
+    elseif tooltipKey == "o_" .. starter.id then
+        starterType = "Object"
     elseif tooltipKey == "io_" .. starter.id then
         -- overwrite tooltipKey, so stuff shows in object tooltips
         tooltipKey = "o_" .. starter.id

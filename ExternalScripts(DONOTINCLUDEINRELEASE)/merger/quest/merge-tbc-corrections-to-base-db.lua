@@ -70,10 +70,10 @@ for questId, data in pairs(tbc) do
         if (not data[questKeys.questLevel]) or data[questKeys.questLevel] == 0 then
             data[questKeys.questLevel] = quest[questKeys.questLevel]
         end
-        if ((not data[questKeys.requiredRaces]) or data[questKeys.requiredRaces] == 0) and quest[questKeys.requiredRaces] ~= 0 then
+        if ((not data[questKeys.requiredRaces]) and quest[questKeys.requiredRaces] ~= 0) or (data[questKeys.requiredRaces] ~= quest[questKeys.requiredRaces] and quest[questKeys.requiredRaces] ~= 0) then
             data[questKeys.requiredRaces] = quest[questKeys.requiredRaces]
         end
-        if ((not data[questKeys.requiredClasses]) or data[questKeys.requiredClasses] == 0) and quest[questKeys.requiredClasses] ~= 0 then
+        if ((not data[questKeys.requiredClasses]) and quest[questKeys.requiredClasses] ~= 0) or (data[questKeys.requiredClasses] ~= quest[questKeys.requiredClasses] and quest[questKeys.requiredClasses] ~= 0) then
             data[questKeys.requiredClasses] = quest[questKeys.requiredClasses]
         end
     end
