@@ -369,11 +369,17 @@ function QuestieQuestFixes:Load()
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
         },
+        [576] = {
+            [questKeys.preQuestSingle] = {597},
+        },
         [578] = {
             [questKeys.childQuests] = {579},
         },
         [579] = {
             [questKeys.parentQuest] = 578,
+        },
+        [587] = {
+            [questKeys.preQuestSingle] = {597},
         },
         [590] = {
             [questKeys.triggerEnd] = {"Defeat Calvin Montague",{[zoneIDs.TIRISFAL_GLADES]={{38.19,56.74}}}},
