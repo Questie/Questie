@@ -20755,6 +20755,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [233029] = "Tresor der verbotenen Schätze",
 [233030] = "Entsicherte Titanentruhe mit Pandarenschätzen",
 [375544] = "Holzstatuette",
+[400001] = "Nicht angezündete Fackel",
 [420039] = "Konstrukteurswerkzeuge",
 [420040] = "Konstrukteurswerkzeuge",
 [440003] = "Tückische Arathifackel",

@@ -20479,6 +20479,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [233029] = "Alijo de tesoros prohibidos",
 [233030] = "Reserva desprotegida del botín pandaren",
 [375544] = "Figurilla de madera",
+[400001] = "Antorcha apagada",
 [420039] = "Herramientas de artificios",
 [420040] = "Herramientas de artificios",
 [440003] = "Antorcha arathi maldita",
