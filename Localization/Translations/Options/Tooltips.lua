@@ -108,7 +108,7 @@ local tooltipOptionsLocales = {
         ["ptBR"] = "Próxima missão:",
         ["ruRU"] = "Следующее в цепочке",
         ["zhCN"] = "下一个任务链中的任务：",
-        ["zhTW"] = "後續任務:",
+        ["zhTW"] = "後續任務：",
     },
     ["Show next quests in chain"] = {
         ["enUS"] = true,
