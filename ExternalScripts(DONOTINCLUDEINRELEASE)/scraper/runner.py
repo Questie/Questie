@@ -124,7 +124,6 @@ if __name__ == '__main__':
     parser.add_argument("--item", help="Run item spider", action="store_true")
     parser.add_argument("--object", help="Run object spider", action="store_true")
     parser.add_argument("--object-zone", help="Run object zone IDs spider", action="store_true")
-    parser.add_argument("--item-translations", help="Run item translation spider", action="store_true")
 
     parser.add_argument("--npc-translations", help="Run npc translation spider", action="store_true")
     parser.add_argument("--object-translations", help="Run object translation spider", action="store_true")
@@ -135,9 +134,8 @@ if __name__ == '__main__':
     if not args.expansion:
         print("The --expansion argument is required.")
 
-    if (not args.quest) and (not args.quest_translations_sod) and (not args.npc) and (not args.npc_zone) and (not args.item) and (
-            not args.object) and (not args.object_translations) and (not args.object_zone) and (not args.item_translations) and (not args.npc_translations) and (
-            not args.quest_translations):
+    if (not args.quest) and (not args.quest_translations_sod) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.item_translations) and (
+            not args.npc_translations) and (not args.quest_translations):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -169,6 +167,7 @@ if __name__ == '__main__':
         print("Running object zone ID spider")
         runner.run_object_zone_ids()
 
+    # Item translations are grapped from the ItemSparse client tables
     if args.npc_translations:
         print("Running npc translation spider")
         runner.run_npc_translations()
