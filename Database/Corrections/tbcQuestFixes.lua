@@ -1521,8 +1521,9 @@ function QuestieTBCQuestFixes:Load()
         [9576] = {
             [questKeys.startedBy] = {nil,nil,{23870}},
         },
-        [9582] = {
+        [9582] = { -- Strength of One
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 181849}}}},
         },
         [9587] = {
             [questKeys.startedBy] = {nil,nil,{23890}},

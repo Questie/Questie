@@ -52,6 +52,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{41,30}}},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
+        [181849] = { -- Ravager Cage
+            [objectKeys.name] = "Ravager Cage",
+            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{54.03,9.95}}},
+            [objectKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+        },
         [181897] = {
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{68.3,21.7},{69.98,26.3},{70.6,16.5},{71.4,11.7},{71.4,28.2},{72.7,21.4},{74.7,16.3},{75,8.7},{75.4,19.1},{75.7,28.4},{75.54,13.85},{76,24.8},{76.8,21.4}}},
         },
