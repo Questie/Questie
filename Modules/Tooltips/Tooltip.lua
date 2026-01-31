@@ -330,7 +330,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             else
                                 dropRateText = string.format("%.3f", dropRateData[1])
                             end
-                            dropRateText = "  |cFF999999[" .. dropIcon .. dropRateText .. "%]|r";
+                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. dropRateText .. "%]|r";
                         end
                         if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
