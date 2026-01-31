@@ -957,6 +957,7 @@ function QuestieQuestFixes:Load()
         },
         [1472] = {
             [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
         },
         [1473] = {
             [questKeys.preQuestSingle] = {},
@@ -986,7 +987,7 @@ function QuestieQuestFixes:Load()
         [1485] = {
             [questKeys.exclusiveTo] = {1470}, -- #999
         },
-       [1498] = {
+        [1498] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1505},
         },
@@ -1008,6 +1009,7 @@ function QuestieQuestFixes:Load()
         },
         [1507] = {
             [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
         },
         [1513] = {
             [questKeys.exclusiveTo] = {1474},
@@ -5131,6 +5133,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{5675},nil},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 65597,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
@@ -5161,6 +5164,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{3363},nil},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 65610,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
@@ -5175,10 +5179,10 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = -1,
             [questKeys.nextQuestInChain] = 65603,
-            [questKeys.preQuestSingle] = {1716},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
+            [questKeys.preQuestSingle] = {1716},
             [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSourceItems] = {190307},
@@ -5197,7 +5201,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {65602},
             [questKeys.requiredSourceItems] = {190186},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Withered Scarf to summon an Incubus and slay it."),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Wooden Figurine to summon an Incubus and slay it."),}},
         },
         [65604] = {
             [questKeys.name] = "The Binding",
@@ -5221,6 +5225,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{5875},nil},
             [questKeys.requiredLevel] = 20,
             [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 65604,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
