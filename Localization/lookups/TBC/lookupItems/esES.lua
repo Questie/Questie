@@ -25005,4 +25005,6 @@ l10n.itemLookup["esES"] = loadstring([[return {
 [39477] = "Lúpulo enano de la Fiesta de la cerveza fresco",
 [39656] = "Empuñadura de Tyrael",
 [190307] = "Antorcha apagada",
+[190308] = "Antorcha encendida",
+[190309] = "Figurilla de madera",
 }]])

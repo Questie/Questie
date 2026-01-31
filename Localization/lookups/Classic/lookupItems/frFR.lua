@@ -1676,4 +1676,6 @@ l10n.itemLookup["frFR"] = loadstring([[return {
 [22892] = "Pierre nécrotique pâle",
 [23250] = "Coquille prismatique",
 [190307] = "Torche éteinte",
+[190308] = "Torche ardente",
+[190309] = "Figurine en bois",
 }]])

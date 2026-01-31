@@ -1676,4 +1676,6 @@ l10n.itemLookup["ptBR"] = loadstring([[return {
 [22892] = "Pedra Necrótica Opaca",
 [23250] = "Concha Prismática",
 [190307] = "Tocha Apagada",
+[190308] = "Tocha Acesa",
+[190309] = "Estatueta de Madeira",
 }]])

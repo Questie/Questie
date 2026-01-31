@@ -25005,4 +25005,6 @@ l10n.itemLookup["ptBR"] = loadstring([[return {
 [39477] = "Lúpulo Enânico Fresco de CervaFest",
 [39656] = "Punho de Tyrael",
 [190307] = "Tocha Apagada",
+[190308] = "Tocha Acesa",
+[190309] = "Estatueta de Madeira",
 }]])
