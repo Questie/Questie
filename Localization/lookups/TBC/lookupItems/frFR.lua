@@ -25002,6 +25002,7 @@ l10n.itemLookup["frFR"] = loadstring([[return {
 [39476] = "Houblon gobelin frais de la fête des Brasseurs",
 [39477] = "Houblon nain frais de la fête des Brasseurs",
 [39656] = "Garde de Tyraël",
+[190186] = "Figurine en bois",
 [190307] = "Torche éteinte",
 [190308] = "Torche ardente",
 [190309] = "Figurine en bois",

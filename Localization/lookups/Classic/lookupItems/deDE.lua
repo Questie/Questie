@@ -1675,6 +1675,7 @@ l10n.itemLookup["deDE"] = loadstring([[return {
 [22734] = "Stabfuß von Atiesh",
 [22892] = "Dunkler nekrotischer Stein",
 [23250] = "Prismatische Muschel",
+[190186] = "Holzstatuette",
 [190307] = "Nicht angezündete Fackel",
 [190308] = "Brennende Fackel",
 [190309] = "Holzstatuette",

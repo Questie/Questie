@@ -25004,6 +25004,7 @@ l10n.itemLookup["deDE"] = loadstring([[return {
 [39476] = "Frischer Braufesthopfen aus Goblinanbau",
 [39477] = "Frischer Braufesthopfen aus Zwergenanbau",
 [39656] = "Tyraels Schwertgriff",
+[190186] = "Holzstatuette",
 [190307] = "Nicht angezündete Fackel",
 [190308] = "Brennende Fackel",
 [190309] = "Holzstatuette",

@@ -1675,6 +1675,7 @@ l10n.itemLookup["frFR"] = loadstring([[return {
 [22734] = "Talon d'Atiesh",
 [22892] = "Pierre nécrotique pâle",
 [23250] = "Coquille prismatique",
+[190186] = "Figurine en bois",
 [190307] = "Torche éteinte",
 [190308] = "Torche ardente",
 [190309] = "Figurine en bois",

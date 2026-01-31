@@ -1681,6 +1681,7 @@ l10n.itemLookup["esES"] = loadstring([[return {
 [22734] = "Base de Atiesh",
 [22892] = "Piedra necrótica oscura",
 [23250] = "Concha centelleante",
+[190186] = "Figurilla de madera",
 [190307] = "Antorcha apagada",
 [190308] = "Antorcha encendida",
 [190309] = "Figurilla de madera",
