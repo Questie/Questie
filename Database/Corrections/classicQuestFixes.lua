@@ -160,7 +160,7 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 6383,
         },
         [237] = {
-            [questKeys.nextQuestInChain] = 217,
+            [questKeys.nextQuestInChain] = 263,
         },
         [239] = {
             [questKeys.breadcrumbForQuestId] = 11,
@@ -178,7 +178,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {6141}, -- #1744
         },
         [263] = {
-            [questKeys.nextQuestInChain] = 267,
+            [questKeys.nextQuestInChain] = 217,
         },
         [272] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
