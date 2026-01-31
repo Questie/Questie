@@ -177,6 +177,9 @@ function QuestieQuestFixes:Load()
         [261] = {
             [questKeys.breadcrumbs] = {6141}, -- #1744
         },
+        [263] = {
+            [questKeys.nextQuestInChain] = 267,
+        },
         [272] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
         },
