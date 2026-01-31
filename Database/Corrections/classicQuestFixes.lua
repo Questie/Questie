@@ -160,7 +160,7 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 6383,
         },
         [237] = {
-            [questKeys.nextQuestInChain] = 263,
+            [questKeys.nextQuestInChain] = 217,
         },
         [239] = {
             [questKeys.breadcrumbForQuestId] = 11,
