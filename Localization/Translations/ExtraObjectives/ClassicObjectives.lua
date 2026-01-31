@@ -346,9 +346,9 @@ local classicObjectiveLocales = {
         ["frFR"] = "Allumez la Torche éteinte près d’un feu et utilisez la Torche ardente pour mettre le feu au Chariot d’archéologue",
         ["koKR"] = "불가 근처에서 불을 붙이지 않은 횃불에 불을 붙인 후, 불타는 횃불을 사용하여 고고학자의 수레에 불을 붙이세요",
         ["ptBR"] = "Acenda a Tocha Apagada perto de um fogo e use a Tocha Acesa para incendiar a Carroça do Arqueólogo",
-        ["ruRU"] = "Зажгите Незажженный факел с помощью огня, затем используйте Зажженный Факел чтобы поджечь Телегу Археолога.",
+        ["ruRU"] = "Зажгите Незажженный факел с помощью огня, затем используйте Горящий Факел, чтобы поджечь Повозку Археолога.",
         ["zhCN"] = "在火堆附近点燃未点燃的火把，然后用燃烧的火把点燃考古学家的推车",
-        ["zhTW"] = "靠近火點燃未點燃的火把，然後使用燃燒的火把點燃考古學家的車。",
+        ["zhTW"] = "靠近火源以點燃未點燃的火炬，然後使用燃燒的火炬來點燃考古學家的推車。",
     },
     ["Use the Wooden Figurine to summon an Incubus and slay it."] = { -- 65603
         ["enUS"] = true,
