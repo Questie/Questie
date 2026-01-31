@@ -1088,16 +1088,20 @@ function QuestieQuestFixes:Load()
         [1618] = {
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING, 60},
         },
-        [1638] = {
-            [questKeys.exclusiveTo] = {1666,1678,1680,1683,1686},
+        [1638] = { -- A Warrior's Training
+            [questKeys.exclusiveTo] = {
+                1678,1683, -- not available once you turn in these main quests
+                1639, -- "follow up" quest from same NPC. NOT breadcrumb
+            },
+            [questKeys.nextQuestInChain] = 0,
         },
-        [1639] = {
+        [1639] = { -- Bartleby the Drunk
+            [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1678,1683},
-            [questKeys.preQuestSingle] = {1638,1679,1684},
         },
-        [1640] = {
-            [questKeys.triggerEnd] = {"Beat Bartleby", {[zoneIDs.STORMWIND_CITY]={{73.7,36.85}}}},
-            [questKeys.preQuestSingle] = {1638,1679,1684},
+        [1640] = { -- Beat Bartleby
+            [questKeys.objectives] = {{{6090}}},
+            [questKeys.preQuestSingle] = {1639,1678,1683},
         },
         [1641] = { -- This is repeatable giving an item starting 1642
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
@@ -1124,25 +1128,47 @@ function QuestieQuestFixes:Load()
         [1661] = {
             [questKeys.exclusiveTo] = {4485,4486},
         },
-        [1678] = {
-            [questKeys.preQuestSingle] = {1638,1679,1684},
+        [1665] = { -- Bartleby's Mug
+            [questKeys.nextQuestInChain] = 1666,
         },
-        [1679] = {
-            [questKeys.exclusiveTo] = {1639,1666,1680,1683,1686}, -- #1724
+        [1678] = { -- Vejrek
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1679},
+            [questKeys.exclusiveTo] = {1639,1683},
         },
-        [1681] = {
-            [questKeys.preQuestSingle] = {1678},
+        [1679] = { -- Muren Stormpike
+            [questKeys.exclusiveTo] = {
+                1639,1683, -- not available once you turn in these main quests
+            },
+            [questKeys.breadcrumbForQuestId] = 1678,
         },
-        [1683] = {
-            [questKeys.preQuestSingle] = {1638,1679,1684},
+        [1680] = { -- Tormus Deepforge
+            [questKeys.preQuestSingle] = {1683,1678,1639},
+            [questKeys.breadcrumbForQuestId] = 1681,
         },
-        [1684] = {
-            [questKeys.startedBy] = {{2151,3598,3657},nil,nil},
-            [questKeys.exclusiveTo] = {1639,1666,1678,1686,1680},
+        [1681] = { -- Ironband's Compound
+            [questKeys.preQuestSingle] = {1683,1678,1639},
+            [questKeys.breadcrumbs] = {1680},
+        },
+        [1683] = { -- Vorlus Vilehoof
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {1639,1678},
+            [questKeys.nextQuestInChain] = 1686,
+        },
+        [1684] = { -- Elanaria
+            [questKeys.startedBy] = {{2151,3598,3657}},
+            [questKeys.exclusiveTo] = {
+                1639,1678, -- not available once you pick these main quests
+                1683, -- "follow up" quest from same NPC. NOT breadcrumb
+            },
+            [questKeys.nextQuestInChain] = 0,
         },
         [1685] = {
             [questKeys.breadcrumbForQuestId] = 1688, -- #7095
             [questKeys.exclusiveTo] = {},
+        },
+        [1686] = { -- The Shade of Elura
+            [questKeys.preQuestSingle] = {1683,1678,1639},
         },
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
@@ -1152,6 +1178,10 @@ function QuestieQuestFixes:Load()
         },
         [1689] = {
             [questKeys.requiredSourceItems] = {},
+        },
+        [1692] = { -- Smith Mathiel
+            [questKeys.preQuestSingle] = {1686},
+            [questKeys.nextQuestInChain] = 1693,
         },
         [1698] = {
             [questKeys.startedBy] = {{5113,5479,7315}},

@@ -241,6 +241,55 @@ function QuestieTBCQuestFixes:Load()
         [1558] = {
             [questKeys.questLevel] = -1,
         },
+        [1638] = { -- A Warrior's Training
+            [questKeys.startedBy] = {{913,5480}},
+            [questKeys.exclusiveTo] = {
+                1678,1683, -- not available once you turn in these main quests
+                1639, -- "follow up" quest from same NPC. NOT breadcrumb
+                9582, -- not available once you pick this draenei main quest -- TBC+
+            },
+        },
+        [1639] = { -- Bartleby the Drunk
+            [questKeys.exclusiveTo] = {1678,1683,9582},
+        },
+        [1640] = { -- Beat Bartleby
+            [questKeys.preQuestSingle] = {1639,1678,1683,9582},
+        },
+        [1678] = { -- Vejrek
+            [questKeys.exclusiveTo] = {1639,1683,9582},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- TBC+
+        },
+        [1679] = { -- Muren Stormpike
+            [questKeys.exclusiveTo] = {
+                1639,1683, -- not available once you turn in these main quests
+                9582, -- not available once you pick this draenei main quest -- TBC+
+            },
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- TBC+
+        },
+        [1680] = { -- Tormus Deepforge
+            [questKeys.preQuestSingle] = {1683,1678,1639,9582},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- TBC+
+        },
+        [1681] = { -- Ironband's Compound
+            [questKeys.preQuestSingle] = {1683,1678,1639,9582},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- TBC+
+        },
+        [1682] = { -- Grey Iron Weapons
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- TBC+
+        },
+        [1683] = { -- Vorlus Vilehoof
+            [questKeys.exclusiveTo] = {1639,1678,9582},
+        },
+        [1684] = { -- Elanaria
+            [questKeys.exclusiveTo] = {
+                1639,1678, -- not available once you pick these main quests
+                1683, -- "follow up" quest from same NPC. NOT breadcrumb
+                9582, -- not available once you pick this draenei main quest
+            },
+        },
+        [1686] = { -- The Shade of Elura
+            [questKeys.preQuestSingle] = {1683,1678,1639,9582},
+        },
         [1687] = {
             [questKeys.questLevel] = -1,
         },
@@ -1523,6 +1572,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9582] = { -- Strength of One
             [questKeys.requiredSourceItems] = {},
+            [questKeys.exclusiveTo] = {1678,1683,1639},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 181849}}}},
         },
         [9587] = {
@@ -2377,6 +2427,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10344] = {
             [questKeys.exclusiveTo] = {10163},
+        },
+        [10350] = { -- Behomat
+            [questKeys.preQuestSingle] = {1639,1678,1683,9582},
         },
         [10352] = {
             [questKeys.startedBy] = {{14725},nil,nil},

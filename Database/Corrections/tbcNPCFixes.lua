@@ -192,6 +192,9 @@ function QuestieTBCNpcFixes:Load()
         [5167] = { -- Fenthwick
             [npcKeys.questStarts] = {6681},
         },
+        [5480] = { -- Ilsa Corbin
+            [npcKeys.questStarts] = {1638},
+        },
         [5495] = { -- Ursula Deline
             [npcKeys.questStarts] = {64031,64034,64035,64037,64038},
             [npcKeys.questEnds] = {64028,64031,64034,64035},

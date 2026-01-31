@@ -170,6 +170,9 @@ function QuestieWotlkQuestFixes:Load()
         [1682] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [1681] = { -- Ironband's Compound
+            [questKeys.nextQuestInChain] = 1682,
+        },
         [1687] = {
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
