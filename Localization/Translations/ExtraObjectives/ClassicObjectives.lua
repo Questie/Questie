@@ -11,7 +11,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "마법의 해조를 사용하여 포악한 다군을 소환",
         ["ptBR"] = "Evoca Dagun, o Voraz, usando uma Alga Marinha Encantada",
         ["ruRU"] = "Призовите Дагун Ненасытный используя Зачарованные морские водоросли",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用魔力海藻召唤贪婪的达古恩",
         ["zhTW"] = "使用附魔海藻召喚貪婪的達古恩",
     },
     ["Use a Fresh Carcass at the Flame of Uzel"] = { -- 1136
@@ -23,7 +23,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "우젤의 불꽃에서 방금 죽은 사자 시체를 사용하세요",
         ["ptBR"] = "Coloque a Carcaça Fresca sobre a Chama de Uzel",
         ["ruRU"] = "Используйте Свежую Тушу в Пламени Узеля",
-        ["zhCN"] = false,
+        ["zhCN"] = "在尤基尔之焰处使用新鲜的尸体",
         ["zhTW"] = "在尤基爾之焰使用新鮮的屍體",
     },
     ["Fish for Darkshore Groupers"] = { -- 1141
@@ -35,7 +35,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "낚시를 통해 어둠의해안 농어를 획득하세요",
         ["ptBR"] = "Pesca Garoupas da Costa Negra",
         ["ruRU"] = "Выловите Окунь с Темных берегов",
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取黑海岸石斑鱼",
         ["zhTW"] = "釣魚取得黑海岸石斑魚",
     },
     ["Slay Gelkis centaur to increase your reputation with the Magram Clan"] = { -- 1367
@@ -47,7 +47,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "마그람일족의 평판 획득을 위해 겔키스 켄타우로스를 사냥하세요",
         ["ptBR"] = "Mata centauros Gelkis para aumentar sua reputação com o Clã dos Centauros Magram",
         ["ruRU"] = "Убейте кентавра из племени Гелкис, чтобы поднять свою репутацию с племенем Маграм",
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀吉尔吉斯半人马以提高你在玛格拉姆氏族中的声望",
         ["zhTW"] = "殺死吉爾吉斯半人馬來提高你在瑪格拉姆氏族中的聲望",
     },
     ["Slay Magram centaur to increase your reputation with the Gelkis Clan"] = { -- 1368
@@ -59,7 +59,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "겔키스일족의 평판 획득을 위해 마그람 켄타우로스를 사냥하세요",
         ["ptBR"] = "Mata centauros Magram para aumentar sua reputação com o Clã dos Centauros Gelkis",
         ["ruRU"] = "Убейте кентавра из племени Маграм, чтобы поднять свою репутацию с племенем Гелкис",
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀玛格拉姆半人马以提高你在吉尔吉斯氏族中的声望",
         ["zhTW"] = "殺死瑪格拉姆半人馬來提高你在吉爾吉斯氏族中的聲望",
     },
     ["Use the War Horn Mouthpiece to summon Khan Hratha"] = { -- 1380 1381
@@ -71,7 +71,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "전쟁 뿔피리 파이프를 사용하여 칸 흐라사를 소환하세요",
         ["ptBR"] = "Usa a Boquilha da Corneta de Guerra para evocar Khan Hratha",
         ["ruRU"] = "Используйте Загубник боевого горна, чтобы призвать Вождя Храта",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用半人马号角哨嘴召唤赫鲁萨可汗",
         ["zhTW"] = "使用半人馬號角哨嘴召喚赫蘭薩可汗",
     },
     ["Fish for Gaffer Jacks"] = { -- 1579
@@ -95,7 +95,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "낚시로 전력추진기를 획득하세요",
         ["ptBR"] = "Pesca Eletromolas",
         ["ruRU"] = "Выловите Электропеллеры",
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取导电器",
         ["zhTW"] = "釣魚取得導電器",
     },
     ["Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"] = { -- 1920 & 1960
@@ -107,7 +107,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "현신의 주문서를 사용하여 균열의 정령을 찾으세요. 스턴 상태의 균열의 정령에게 속박의 상자를 사용하세요",
         ["ptBR"] = "Usa o Cantochão da Manifestação para revelar Aparição Etérea. Crie um cofre de contenção em uma Aparição Etérea atordoada.",
         ["ruRU"] = "Используйте Свиток заклятия Проявления, чтобы увидеть Порождение Разлома. Используйте Ящик со шкатулками-духоловками на ошеломленное Порождение Разлома",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用显形卷轴显露裂隙怒灵，并对被击昏的裂隙怒灵使用封灵箱。",
         ["zhTW"] = "使用顯形卷軸讓裂隙怒靈顯示出來，對暈住的裂隙怒靈使用封靈箱。",
     },
     ["Step 1: obtain the Yellow Punch Card. You need the White Punch Card."] = { -- 2930
@@ -119,7 +119,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "1 단계: 황색 천공 카드를 획득하세요. 백색 천공 카드가 필요합니다",
         ["ptBR"] = "Passo 1: Obtenha o Cartão Perfurado Amarelo. Você precisa do Cartão Perfurado Branco.",
         ["ruRU"] = "Шаг 1: получите Желтую перфокарту. Вам нужна Белая перфокарта.",
-        ["zhCN"] = false,
+        ["zhCN"] = "步骤 1：获取黄色穿孔卡片，需要白色穿孔卡片。",
         ["zhTW"] = "步驟 1: 取得黃色穿孔卡片，需要白色穿孔卡片。",
     },
     ["Step 2: obtain the Blue Punch Card. You need the Yellow Punch Card."] = { -- 2930
@@ -131,7 +131,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "2 단계: 청색 천공 카드를 획득하세요. 황색 천공 카드가 필요합니다",
         ["ptBR"] = "Passo 2: Obtenha o Cartão Perfurado Azul. Você precisa do Cartão Perfurado Amarelo.",
         ["ruRU"] = "Шаг 2: получите Синюю перфокарту. Вам нужна Желтая перфокарта.",
-        ["zhCN"] = false,
+        ["zhCN"] = "步骤 2：获取蓝色穿孔卡片，需要黄色穿孔卡片。",
         ["zhTW"] = "步驟 2: 取得藍色穿孔卡片，需要黃色穿孔卡片。",
     },
     ["Step 3: obtain the Red Punch Card. You need the Blue Punch Card."] = { -- 2930
@@ -143,7 +143,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "3 단계: 적색 천공 카드를 획득하세요. 청색 천공 카드가 필요합니다",
         ["ptBR"] = "Passo 3: Obtenha o Cartão Perfurado Vermelho. Você precisa do Cartão Perfurado Azul.",
         ["ruRU"] = "Шаг 3: получите Красную перфокарту. Вам нужна Синяя перфокарта.",
-        ["zhCN"] = false,
+        ["zhCN"] = "步骤 3：获取红色穿孔卡片，需要蓝色穿孔卡片。",
         ["zhTW"] = "步驟 3: 取得紅色穿孔卡片，需要藍色穿孔卡片。",
     },
     ["Step 4: obtain the Prismatic Punch Card. You need the Red Punch Card."] = { -- 2930
@@ -155,7 +155,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "Step 4: 오색 천공 카드를 획득하세요. 적색 천공 카드가 필요합니다",
         ["ptBR"] = "Passo 4: Obtenha o Cartão Perfurado Prismático. Você precisa do Cartão Perfurado Vermelho.",
         ["ruRU"] = "Шаг 4: получите Призматическую перфокарту. Вам нужна Красная перфокарта.",
-        ["zhCN"] = false,
+        ["zhCN"] = "步骤 4：获取彩色穿孔卡片，需要红色穿孔卡片。",
         ["zhTW"] = "步驟 4: 取得稜彩穿孔卡片，需要紅色穿孔卡片。",
     },
     ["Slay Vale Screechers and use Yeh'kinya's Bramble on their corpse."] = { -- 3520
@@ -167,7 +167,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "계곡 천둥매 처치 후 예킨야의 나뭇가지를 천둥매 시체에 사용하세요",
         ["ptBR"] = "Mata os Guinchadores do Vale e use a Morácea de Yeh'Kinya em seu cadáver",
         ["ruRU"] = "Убейте Норовистого дольного крикуна, а затем используйте Колючку Йе'киньи на его трупе.",
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀山谷尖啸者，并在其尸体上使用叶基亚的树枝。",
         ["zhTW"] = "殺死山谷尖嘯者，對屍體使用葉基亞的樹枝。",
     },
     ["Use the Ward of the Defiler to summon Razelikh."] = { -- 3628
@@ -179,7 +179,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "파멸자의 수호물을 사용하여 파멸자 라젤리크를 소환하세요",
         ["ptBR"] = "Usa o Proteção do Profanador para evocar Razelikh, o Profanador",
         ["ruRU"] = "Используйте Оберег Осквернителя, чтобы призвать Разелиха.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用污染者防护结界召唤拉瑟莱克",
         ["zhTW"] = "使用污染者防護結界召喚拉瑟萊克。",
     },
     ["Teleport to the top of the mountain."] = { -- 3628
@@ -191,7 +191,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "산 꼭대기로 텔레포트 하세요",
         ["ptBR"] = "Teleporta-se para o topo da montanha",
         ["ruRU"] = "Телепортируйтесь на вершину горы.",
-        ["zhCN"] = false,
+        ["zhCN"] = "传送到山顶。",
         ["zhTW"] = "傳送到山頂。",
     },
     ["Place the Bait in front of Miblon Snarltooth."] = { -- 3909
@@ -203,7 +203,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "미블론 스날투스 앞에 미끼를 두세요",
         ["ptBR"] = "Coloque a isca na frente de Miblon Rosnadente",
         ["ruRU"] = "Разместите Приманку перед Миблон Рыкозубом.",
-        ["zhCN"] = false,
+        ["zhCN"] = "将诱饵放在米布隆·乱齿面前",
         ["zhTW"] = "將誘餌放在米布隆·亂齒面前。",
     },
     ["Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."] = { -- 4021
@@ -215,7 +215,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "콜카르 침입자를 무찌르고, 콜가르 일족의 워로드 크롬자드를 처치 한 뒤 그의 시체로부터 나오는 깃발을 획득하세요",
         ["ptBR"] = "Mata os invasores Kolkar até que o Senhor da Guerra Krom'zar apareça e, em seguida, saqueie o estandarte que surge em seu cadáver",
         ["ruRU"] = "Убивайте захватчиков из племени Колкар, пока не появится предводитель Кром'зар, а затем заберите знамя с его трупа.",
-        ["zhCN"] = false,
+        ["zhCN"] = "阻挡科卡尔入侵者，直到督军克罗姆扎出现，然后拾取其尸体上出现的旗帜",
         ["zhTW"] = "阻擋科卡爾入侵者直到督軍克羅姆札出現，然後拾取他屍體上生成的旗幟。",
     },
     ["Use the Altered Black Dragonflight Molt on Bael'gar's corpse."] = { -- 4024
@@ -227,7 +227,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "밸가르 시체 위에서 변형된 검은용군단 허물을 사용하세요",
         ["ptBR"] = "Usa a Muda de Pele Alterada da Revoada Negra nos restos de Bael'Gar",
         ["ruRU"] = "Используйте Измененную сброшенную шкуру черного дракона на трупе Бейл'Гора.",
-        ["zhCN"] = false,
+        ["zhCN"] = "在贝尔加的尸体上使用特殊的黑龙皮",
         ["zhTW"] = "對貝爾加的屍體使用變化後的黑龍軍團之皮。",
     },
     ["Use the Gorishi Queen Lure."] = { -- 4507
@@ -239,7 +239,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "여왕 고리쉬 미끼를 사용하세요",
         ["ptBR"] = "Usa a Isca para a Rainha Gorishi",
         ["ruRU"] = "Используйте Приманку для королевы Гориши.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用格里什皇后诱引剂",
         ["zhTW"] = "使用格里什皇后誘引劑。",
     },
     ["Collect eggs using the Collectronic Module."] = { -- 4735
@@ -251,7 +251,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "수집전자 모듈을 사용하여 용의 알을 수집하세요",
         ["ptBR"] = "Coleta ovos usando o Módulo Colectrônico",
         ["ruRU"] = "Соберите яйца используя Устройство-коллекционер.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用电动采集模块收集蛋",
         ["zhTW"] = "使用電動採集模組收集蛋",
     },
     ["Summon Xabraxxis once you have the required items from the Blackwood Stores."] = { -- 4763
@@ -263,7 +263,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "검은나무일족 곡식 저장고에서 사브라시스 소환에 필요한 아이템을 모두 모았다면 소환 의식을 진행하세요",
         ["ptBR"] = "Evoca Xabraxxis assim que você tiver os itens necessários das Reservas de Bosquenero",
         ["ruRU"] = "Призовите Забраксис, когда у вас будут необходимые предметы из Зернохранилищ.",
-        ["zhCN"] = false,
+        ["zhCN"] = "在从黑木商店获得所需物品后召唤萨巴克希斯",
         ["zhTW"] = "從黑木商店獲得所需物品後，即可召喚薩巴克希斯。",
     },
     ["Use the Flames of the Black Flight over it to create the Seal."] = { -- 4743
@@ -275,7 +275,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "인장을 만들기 위해 검은용군단의 불길을 시전하세요",
         ["ptBR"] = "Lance as Chamas da Revoada Negra sobre ele para criar o Selo",
         ["ruRU"] = "Используйте Пламя Черного дракона над ним, чтобы создать Печать.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用黑龙之焰以创建封印",
         ["zhTW"] = "使用黑龍之焰來建立封印。",
     },
     ["Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."] = { -- 4743
@@ -287,7 +287,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "엠버스트라이프를 의지가 꺾일 때 까지 때린 후, 벼려지지 않은 승천의 인장을 엠버스트라이프 앞에 놓으세요. 그 후, 용력의 보주를 사용하여 엠버스트라이프의 정신을 제압하세요",
         ["ptBR"] = "Encontre o draco ancião Ardeluta e ataque-o sem misericórdia até que sua vontade seja quebrada. É nesse momento que você deve colocar o Selo da Ascensão de Metal Bruto em frente a essa fera imponente para usar o Orbe de Energia Dracônica",
         ["ruRU"] = "Победите Огнебора, пока его воля не сломлена, затем поместите Заготовку печати Вознесения перед ним, после чего используйте Сферу энергии дракона.",
-        ["zhCN"] = false,
+        ["zhCN"] = "击败埃博斯塔夫直到其意志崩溃，然后将未铸造的晋升印章放在他面前，并使用龙力宝珠",
         ["zhTW"] = "擊敗艾博斯塔夫直到他失去意志，然後將未鑄造的晉升徽印放在他面前並使用龍力寶珠。",
     },
     ["Lure the Kodos to Smeed Scrabblescrew."] = { -- 5561
@@ -299,7 +299,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "코도를 유인하여 스미드 스크래블스크류에게 데려가세요",
         ["ptBR"] = "Atrai os kodos para Smid Rabiscafuso",
         ["ruRU"] = "Приманите Кодо к Смиду Заржавень.",
-        ["zhCN"] = false,
+        ["zhCN"] = "将科多兽引诱至斯米德·瑟卡布斯库",
         ["zhTW"] = "將科多獸引誘至斯米德·瑟卡布斯庫。",
     },
     ["Summon Lord Kragaru"] = { -- 6027
@@ -311,7 +311,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "군주 크라가루를 소환하세요",
         ["ptBR"] = "Evoca Lorde Kragero",
         ["ruRU"] = "Призовите Лорда Крагару",
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤科拉加鲁",
         ["zhTW"] = "召喚柯拉加魯領主",
     },
     ["Place the Crate of Ghost Magnets"] = { -- 6134
@@ -323,7 +323,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "유령 유인기 상자를 설치하세요",
         ["ptBR"] = "Coloque o Caixote de Ímãs Fantasmais",
         ["ruRU"] = "Разместите Ящик с призрачным магнитом",
-        ["zhCN"] = false,
+        ["zhCN"] = "放置幽灵磁铁箱",
         ["zhTW"] = "放置鬼魂磁鐵木箱",
     },
     ["Use the Lovers' Hearts to summon an Incubus and slay it."] = { -- 65597
@@ -347,7 +347,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "불가 근처에서 불을 붙이지 않은 횃불에 불을 붙인 후, 불타는 횃불을 사용하여 고고학자의 수레에 불을 붙이세요",
         ["ptBR"] = "Acenda a Tocha Apagada perto de um fogo e use a Tocha Acesa para incendiar a Carroça do Arqueólogo",
         ["ruRU"] = "Зажгите Незажженный факел с помощью огня, затем используйте Зажженный Факел чтобы поджечь Телегу Археолога.",
-        ["zhCN"] = false,
+        ["zhCN"] = "在火堆附近点燃未点燃的火把，然后用燃烧的火把点燃考古学家的推车",
         ["zhTW"] = "靠近火點燃未點燃的火把，然後使用燃燒的火把點燃考古學家的車。",
     },
     ["Use the Wooden Figurine to summon an Incubus and slay it."] = { -- 65603
@@ -383,7 +383,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "구울을 처치해 다로우샤이어 영혼에게 자유를 선사하세요",
         ["ptBR"] = "Matar carniçais para libertar os Espíritos da Vila das Flechas",
         ["ruRU"] = "Убейте Вурдалаков, чтобы освободить Духов Дарроушира",
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死食尸鬼以释放达隆郡居民的灵魂",
         ["zhTW"] = "殺死食屍鬼以釋放達隆郡居民的靈魂",
     },
     ["Exorcise the spirits"] = { -- 7640
@@ -395,7 +395,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "영혼을 퇴마하세요",
         ["ptBR"] = "Use o Incensório de Exorcismo para expulsar os espíritos",
         ["ruRU"] = "Изгоните духов",
-        ["zhCN"] = false,
+        ["zhCN"] = "驱逐灵魂",
         ["zhTW"] = "驅除靈魂",
     },
     ["Plant the Demon Summoning Torch"] = { -- 8481
@@ -407,7 +407,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "악마 소환의 횃불을 설치하세요",
         ["ptBR"] = "Coloque a Tocha de Evocação Demoníaca",
         ["ruRU"] = "Поставьте Факел призыва демонов",
-        ["zhCN"] = false,
+        ["zhCN"] = "放置恶魔召唤火炬",
         ["zhTW"] = "放置惡魔召喚火炬",
     },
     ["Use Arcanite Buoy"] = { -- 8729
@@ -419,7 +419,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "아케이나이트 부표를 사용하세요",
         ["ptBR"] = "Coloca a Boia de Arcanita",
         ["ruRU"] = "Используйте Арканитовый буй",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用奥金鱼漂",
         ["zhTW"] = "使用奧金浮標",
     },
     ["Talk to Silva Fil'naveth to fly back to Darnassus"] = { -- 5931
@@ -431,7 +431,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "실비아 필나베스에게 말을 걸어 다르나서스로 이동하세요",
         ["ptBR"] = "Converse com Silva Fil'naveth para voar de volta para Darnassus",
         ["ruRU"] = "Поговорите с Сильва Фил'навет, чтобы вернуться в Дарнассус",
-        ["zhCN"] = false,
+        ["zhCN"] = "与希尔瓦·菲纳雯斯交谈以飞回达纳苏斯",
         ["zhTW"] = "與希爾瓦·菲納雯斯交談，飛回達納蘇斯。",
     },
     ["Talk to Bunthen Plainswind to fly back to Thunder Bluff"] = { -- 5932
@@ -443,7 +443,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "분덴 플레인즈윈드에게 말을 걸어 썬더블러프로 이동하세요",
         ["ptBR"] = "Converse com Bonthen Vento do Prado para voar de volta para Penhasco do Trovão",
         ["ruRU"] = "Поговорите с Бунтен Ветер Равнин, чтобы вернуться в Громовой Утес",
-        ["zhCN"] = false,
+        ["zhCN"] = "与布瑟恩·草风交谈以飞回雷霆崖",
         ["zhTW"] = "與布瑟恩·草風交談，飛回雷霆崖。",
     },
     ["Release the kitten near the Jadefire Satyrs' corrupted moonwell."] = { -- quest 4506, text from item 12565
@@ -467,7 +467,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "황혼의 제복 세트를 모두 착용하여 기사단을 소환하세요",
         ["ptBR"] = "Evocar um Templário usando um conjunto Crepúsculo",
         ["ruRU"] = "Призовите Храмовника используя Сумеречное облачение.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用完整的暮光套装召唤一名圣殿骑士",
         ["zhTW"] = "使用全套暮光套裝召喚一名聖殿騎士。",
     },
     ["Summon a Duke using a full Twilight set and neck."] = { -- 8341 8348
@@ -479,7 +479,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "황혼의 제복 세트와 황혼의 신도 계급장을 착용하여 군주를 소환하세요",
         ["ptBR"] = "Evocar um Duque usando um conjunto Crepúsculo e o Medalhão de Posto",
         ["ruRU"] = "Призовите Герцога используя Сумеречное облачение и шею.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用完整的暮光套装及项链召唤一名公爵",
         ["zhTW"] = "使用全套暮光套裝和項鍊召喚一位公爵。",
     },
     ["Summon a Lord using a full Twilight set, neck and ring."] = { -- 8352 9248
@@ -491,7 +491,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "황혼의 제복 세트, 황혼의 신도 계급장, 황혼의 신도 지휘관 반지를 착용하여 심연의 대의회 보스 몬스터를 소환하세요",
         ["ptBR"] = "Evocar um Lorde usando um conjunto Crepúsculo, o Medalhão de Posto e Anel",
         ["ruRU"] = "Призовите Лорда используя Сумеречное облачение, шею и кольцо.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用完整的暮光套装、项链和戒指召唤一名领主",
         ["zhTW"] = "使用全套暮光套裝、項鍊和戒指召喚領主。",
     },
     ["Ask to see the Captain."] = { -- 8507
@@ -503,7 +503,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "선장을 뵙기를 요청하세요",
         ["ptBR"] = "Peça para ver o Capitão",
         ["ruRU"] = "Попросите встретиться с капитаном.",
-        ["zhCN"] = false,
+        ["zhCN"] = "请求见船长",
         ["zhTW"] = "要求見船長。",
     },
     ["Draw the glyphs into the sand to summon the Qiraji Emissary."] = { -- 8315
@@ -515,7 +515,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "부름의 상형문자를 사막에 가지고 간 후 퀴라지 밀사를 소환하세요",
         ["ptBR"] = "Desenhe os glifos na areia para evocar o Emissário Qiraji",
         ["ruRU"] = "Нарисуйте письмена зова на песке, чтобы призвать Киражского посланника.",
-        ["zhCN"] = false,
+        ["zhCN"] = "在雕文放在沙中以召唤其拉使者。",
         ["zhTW"] = "將雕文放到沙中來召喚其拉蟲人使者。",
     },
     ["Place the Relic Bundle in the Town Square."] = { -- 5721
@@ -527,7 +527,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "마을 광장에 유물 더미를 놓으세요",
         ["ptBR"] = "Coloque o Saco de Relíquias na Praça da Vila das Flechas",
         ["ruRU"] = "Положите сверток с реликвиями на городскую площадь.",
-        ["zhCN"] = false,
+        ["zhCN"] = "将遗物包裹放在城镇广场中。",
         ["zhTW"] = "將聖物包裹放在城鎮廣場中。",
     },
     ["Search the false grave for the Taelan's Hammer."] = { -- 5781
@@ -539,7 +539,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "지하 납골당 근처에서 탤런의 망치를 찾으세요",
         ["ptBR"] = "Procure o Monturo de Terra pelo Martelo de Taelan",
         ["ruRU"] = "Ищите ложное могильное место для Молота Таэлана.",
-        ["zhCN"] = false,
+        ["zhCN"] = "在伪造的坟墓中寻找泰兰之锤。",
         ["zhTW"] = "在假墳墓中尋找泰蘭之錘。",
     },
     ["Plant the bomb!"] = { -- 6041
@@ -551,7 +551,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "폭탄을 설치하세요",
         ["ptBR"] = "Planta a bomba!",
         ["ruRU"] = "Установите бомбу!",
-        ["zhCN"] = false,
+        ["zhCN"] = "安放炸弹！",
         ["zhTW"] = "安置炸彈!",
     },
     ["Use the Empty Worg Pup Cage to capture it."] = { -- 4729
@@ -563,7 +563,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "빈 검은늑대 우리 아이템을 사용하여 사로잡으세요",
         ["ptBR"] = "Use a Jaula Vazia de Filhote de Worg para capturá-lo",
         ["ruRU"] = "Используйте Пустую клетку для щенка ворга, чтобы поймать его.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用空的座狼幼崽笼来捕捉它",
         ["zhTW"] = "使用空的小座狼籠來捕捉它。",
     },
     ["Combine Omokk's Head with the Roughshod Pike."] = { -- 4867
@@ -575,7 +575,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "오모크의 머리 장식과 날카로운 장창을 조합하세요",
         ["ptBR"] = "Junte a Cabeça do Omokk com o Pique da Brutalidade",
         ["ruRU"] = "Соедините голову Омокка с грубым копьем.",
-        ["zhCN"] = false,
+        ["zhCN"] = "将欧莫克的徽记与尖锐长矛合并",
         ["zhTW"] = "將歐莫克的頭顱與尖銳長矛結合。",
     },
     ["Use it to instantly kill one nearby ogre."] = { -- 4867
@@ -587,7 +587,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "근처 오우거를 즉시 사살하기 위해 사용하세요",
         ["ptBR"] = "Use-a para matar instantaneamente um ogro próximo",
         ["ruRU"] = "Используйте его, чтобы мгновенно убить одного ближайшего огра.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用它立即击杀附近的一名食人魔",
         ["zhTW"] = "用它立即殺死附近的一個巨魔。",
     },
     ["Place a tribute at Uther's Tomb"] = { -- 8149
@@ -599,7 +599,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "우서 경의 무덤에 공물을 두세요",
         ["ptBR"] = "Coloca uma homenagem na tumba de Uther",
         ["ruRU"] = "Положите подношения у гробницы Утера",
-        ["zhCN"] = false,
+        ["zhCN"] = "在乌瑟尔的墓地放置贡品",
         ["zhTW"] = "在烏瑟之墓前獻上一份敬意",
     },
     ["Place a tribute at Grom's Monument"] = { -- 8150
@@ -611,7 +611,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "그롬 헬스크림의 기념비에 공물을 두세요",
         ["ptBR"] = "Oferece um tributo no monumento de Grom",
         ["ruRU"] = "Положите подношения у памятника Грому",
-        ["zhCN"] = false,
+        ["zhCN"] = "在格罗姆的纪念碑放置贡品",
         ["zhTW"] = "在葛羅的紀念碑前致敬",
     },
     ["Combine the Pendant halves at the Shrine of Remulos."] = { -- 30 & 272
@@ -623,7 +623,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "레물로스 신전에서 펜던트 반쪽을 결합하세요",
         ["ptBR"] = "Combine os Meio-pingentes perto do Santuário de Remulos",
         ["ruRU"] = "Сложите из половинок подвеску в святилище Ремулоса.",
-        ["zhCN"] = false,
+        ["zhCN"] = "在雷姆洛斯神殿附近合并吊坠的两半",
         ["zhTW"] = "在雷姆洛斯神殿附近將墜飾的兩部分合而為一。",
     },
     ["Use the Draco-Incarcinatrix 900 and defeat the dragonkin."] = {
@@ -635,7 +635,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "새끼용 속박장치 900을 사용하여 드래곤킨을 물리칩니다",
         ["ptBR"] = "Use o Draco-incarcinatrix 900 e dispara contra um filhote de draconiano nas Estepes Ardentes",
         ["ruRU"] = "Используйте Драко-инкарцинатор 900 и одолейте детеныша дракона.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用龙灵采集器900型并击败龙人",
         ["zhTW"] = "使用龍靈採集器900型並擊敗龍人。",
     },
     ["Silithyst"] = {
@@ -659,7 +659,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "빈 가연채집병을 사용하세요",
         ["ptBR"] = "Use o Coletor de Chumbo Vazio",
         ["ruRU"] = "Используйте пустую освинцованную склянку для проб.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用空铅瓶",
         ["zhTW"] = "使用空鉛瓶。",
     },
     ["Use the Aspect of Neptulon."] = {
@@ -671,7 +671,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "넵튤론의 상을 사용하세요",
         ["ptBR"] = "Use o Aspecto de Neptulon",
         ["ruRU"] = "Используйте аспект Нептулона.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用海神之水",
         ["zhTW"] = "使用海神之水。",
     },
 }
