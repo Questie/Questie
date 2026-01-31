@@ -3,24 +3,34 @@ import scrapy
 from scrapy import signals
 
 from match_dungeon_spawns import match_dungeon_spawns
-from npc.mop_npcs_without_spawns import MOP_NPC_IDS_WITHOUT_SPAWN
 from npc.npc_formatter import NPCFormatter
 from npc.npc_ids import NPC_IDS
 
 
 class NPCSpider(scrapy.Spider):
     name = "npc"
-    base_url_classic = "https://www.wowhead.com/classic/npc={}"
-    base_url_retail = "https://www.wowhead.com/npc={}"
-
     start_urls = []
 
-    def __init__(self, run_for_retail: bool) -> None:
+    def __init__(self, expansion: int) -> None:
         super().__init__()
-        if run_for_retail:
-            self.start_urls = [self.base_url_retail.format(npc_id) for npc_id in MOP_NPC_IDS_WITHOUT_SPAWN]
-        else:
-            self.start_urls = [self.base_url_classic.format(npc_id) for npc_id in NPC_IDS]
+
+        match expansion:
+            case 0:
+                base_url = "https://www.wowhead.com/npc={}"
+            case 1:
+                base_url = "https://www.wowhead.com/classic/npc={}"
+            case 2:
+                base_url = "https://www.wowhead.com/tbc/npc={}"
+            case 3:
+                base_url = "https://www.wowhead.com/wotlk/npc={}"
+            case 4:
+                base_url = "https://www.wowhead.com/cata/npc={}"
+            case 5:
+                base_url = "https://www.wowhead.com/mop-classic/npc={}"
+            case _: # If number is unknown, treat it as classic
+                base_url = "https://www.wowhead.com/classic/npc={}"
+
+        self.start_urls = [base_url.format(npc_id) for npc_id in NPC_IDS]
 
     def parse(self, response):
         result = {}

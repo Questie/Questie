@@ -137,6 +137,10 @@ Database\Corrections\mopNPCFixes.lua
 Database\Corrections\mopItemFixes.lua
 Database\Corrections\mopObjectFixes.lua
 
+# Item Drops
+Database\DropTables\dropDB.lua
+Database\DropTables\data\mopItemDrops.lua
+
 # Compiler
 Database\compiler.lua
 
