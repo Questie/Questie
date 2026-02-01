@@ -21,6 +21,12 @@ function QuestieNPCFixes:Load()
     local phases = Phasing.phases
 
     return {
+        [272] = { -- Chef Grual
+            [npcKeys.waypoints] = {},
+        },
+        [288] = { -- Jitters
+            [npcKeys.waypoints] = {},
+        },
         [294] = { -- Marshal Haggard
             [npcKeys.questStarts] = {75,78,109,1667},
         },
@@ -51,6 +57,9 @@ function QuestieNPCFixes:Load()
         },
         [377] = { -- Priestess Josetta
             [npcKeys.questStarts] = {5624,5628,5635},
+        },
+        [379] = { -- Darcy
+            [npcKeys.waypoints] = {},
         },
         [384] = { -- Katie Hunter <Horse Breeder>
             [npcKeys.npcFlags] = npcFlags.NONE,
