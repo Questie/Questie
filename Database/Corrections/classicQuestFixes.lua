@@ -111,6 +111,9 @@ function QuestieQuestFixes:Load()
         [121] = { -- Messenger to Stormwind
             [questKeys.nextQuestInChain] = 143,
         },
+        [142] = {
+            [questKeys.nextQuestInChain] = 155,
+        },
         [144] = { -- Messenger to Westfall
             [questKeys.nextQuestInChain] = 145,
         },
@@ -2302,6 +2305,7 @@ function QuestieQuestFixes:Load()
         },
         [5056] = {
             [questKeys.requiredSourceItems] = {12733},
+            [questKeys.nextQuestInChain] = 5057,
         },
         [5057] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
