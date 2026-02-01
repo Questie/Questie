@@ -1071,6 +1071,16 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    local requiredMaxLevel = QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel")
+    if (requiredMaxLevel and (UnitLevel("player") > requiredMaxLevel)) then
+        local msg = "Player level is too high for quest " .. questId
+        if returnText and returnBrief then
+            return "Ineligible: Level too high"
+        elseif returnText and not returnBrief then
+            return msg
+        end
+    end
+
     -- only present in verbose.
     -- IsDoable has its own logic that varies based on player settings for quest visibility
     local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
