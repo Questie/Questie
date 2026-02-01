@@ -1055,7 +1055,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         for _, breadcrumbId in ipairs(breadcrumbs) do
             if currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
-                    return "Ineligible: A breadcrumb is active: " .. breadcrumbId
+                    return l10n("Ineligible")..l10n(": ")..l10n("A breadcrumb is active")..l10n(": ").. breadcrumbId
                 elseif returnText and not returnBrief then
                     return "A breadcrumb quest " .. breadcrumbId .." is in the quest log for quest " .. questId
                 end
