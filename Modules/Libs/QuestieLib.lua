@@ -398,37 +398,38 @@ function QuestieLib:SanitizePattern(pattern)
     return sanitize_cache[pattern]
 end
 
+local suffixPriority = {
+    [""] = 1, -- No suffix (normal quests) - should come first
+    ["+"] = 2, -- Elite
+    ["S"] = 3, -- Scenario
+    ["D"] = 4, -- Dungeon
+    ["H"] = 5, -- Heroic
+    ["R"] = 6, -- Raid
+    ["++"] = 7, -- Legendary
+    ["A"] = 8, -- Account
+    ["C"] = 9, -- Celestial
+}
+
+local function compareQuestsByLevelAndType(a, b)
+    if a[1] ~= b[1] then
+        return a[1] < b[1]
+    end
+
+    -- if levels are the same, compare by suffix priority
+    local suffixA = a[3] or ""
+    local suffixB = b[3] or ""
+    local priorityA = suffixPriority[suffixA] or 999
+    local priorityB = suffixPriority[suffixB] or 999
+
+    if priorityA ~= priorityB then
+        return priorityA < priorityB
+    end
+
+    return a[2] < b[2]
+end
+
 function QuestieLib:SortQuestIDsByLevel(quests)
     local sortedQuestsByLevel = {}
-    local suffixPriority = {
-        [""] = 1, -- No suffix (normal quests) - should come first
-        ["+"] = 2, -- Elite
-        ["S"] = 3, -- Scenario
-        ["D"] = 4, -- Dungeon
-        ["H"] = 5, -- Heroic
-        ["R"] = 6, -- Raid
-        ["++"] = 7, -- Legendary
-        ["A"] = 8, -- Account
-        ["C"] = 9, -- Celestial
-    }
-
-    local function compareQuestsByLevelAndType(a, b)
-        if a[1] ~= b[1] then
-            return a[1] < b[1]
-        end
-
-        -- if levels are the same, compare by suffix priority
-        local suffixA = a[3] or ""
-        local suffixB = b[3] or ""
-        local priorityA = suffixPriority[suffixA] or 999
-        local priorityB = suffixPriority[suffixB] or 999
-
-        if priorityA ~= priorityB then
-            return priorityA < priorityB
-        end
-
-        return a[2] < b[2]
-    end
 
     for q in pairs(quests) do
         local questLevel, _ = QuestieLib.GetTbcLevel(q)
