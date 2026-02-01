@@ -1904,6 +1904,9 @@ function QuestieNPCFixes:Load()
         [11688] = { -- Cursed Centaur
             [npcKeys.waypoints] = {},
         },
+        [11711] = { -- Sentinel Aynasha
+            [npcKeys.waypoints] = {},
+        },
         [11714] = { -- Marosh the Devious
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.84,90.41}}},

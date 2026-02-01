@@ -406,7 +406,7 @@ function MapIconTooltip:Show()
                 end
             end
             if self.miniMapIcon == false and not data.disableShiftToRemove then
-                self:AddLine('|cFFa6a6a6Shift-click to hide|r') -- grey
+                self:AddLine(l10n("|cFFa6a6a6Shift-click to hide|r")) -- grey
             end
         end
     end
