@@ -518,6 +518,9 @@ function QuestieTBCQuestFixes:Load()
         [5002] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [5054] = { -- Ursius of the Shardtooth
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
         },
