@@ -752,6 +752,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [174714] = "Fleur-de-chant purifiée",
 [174715] = "Fleur-de-chant purifiée",
 [174728] = "Caisse endommagée",
+[174795] = "Puits de lune d'Auberdine",
 [174848] = "Equipement de test",
 [175084] = "Le Décapeur 5200",
 [175085] = "Le Décapeur 5200",

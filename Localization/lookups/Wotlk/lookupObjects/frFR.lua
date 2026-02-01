@@ -739,6 +739,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [174713] = "Fleur-de-chant corrompue",
 [174714] = "Fleur-de-chant purifiée",
 [174715] = "Fleur-de-chant purifiée",
+[174795] = "Puits de lune d'Auberdine",
 [174728] = "Caisse endommagée",
 [174848] = "Equipement de test",
 [175084] = "Le Brille-o-Matic 5200",

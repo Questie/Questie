@@ -741,6 +741,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [174715] = "Gesäuberte Liedblume",
 [174728] = "Beschädigte Kiste",
 [174848] = "Testausrüstung",
+[174795] = "Auberdine Mondbrunnen",
 [175084] = "Der Funkelmat 5200",
 [175085] = "Der Funkelmat 5200",
 [175124] = "Krähenhorstei",
