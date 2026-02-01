@@ -521,6 +521,9 @@ function QuestieTBCQuestFixes:Load()
         [5054] = { -- Ursius of the Shardtooth
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [5055] = { -- Brumeran of the Chillwind
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
         },
