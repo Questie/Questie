@@ -396,6 +396,7 @@ function QuestieQuestFixes:Load()
         },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
+            [questKeys.requiredLevel] = 35,
         },
         [621] = {
             [questKeys.inGroupWith] = {}, -- #886
@@ -3103,6 +3104,9 @@ function QuestieQuestFixes:Load()
         },
         [6804] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Aspect of Neptulon."), 0, {{"monster", 8519},{"monster", 8520},{"monster", 8521},{"monster", 8522}}}},
+        },
+        [6846] = {
+            [questKeys.requiredLevel] = 51,
         },
         [6861] = {
             [questKeys.objectivesText] = {},

@@ -75,7 +75,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
     ) then
         QuestieTooltips.lastGametooltipItem = name
         if Questie.db.profile.enableTooltipsItemID then
-            GameTooltip:AddDoubleLine("Item ID", "|cFFFFFFFF" .. itemId .. "|r")
+            GameTooltip:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
         end
 
         if (not checkedQuestStartItems[itemId]) then

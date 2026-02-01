@@ -296,10 +296,10 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     local query
     local spawnObject
     if spawnType == "npc" then
-        typeLabel = "NPC"
+        typeLabel = l10n("NPC ID")
         spawnObject = QuestieDB:GetNPC(spawn)
     elseif spawnType == "object" then
-        typeLabel = "Object"
+        typeLabel = l10n("Object ID")
         spawnObject = QuestieDB:GetObject(spawn)
     end
 
@@ -308,21 +308,21 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
     QuestieJourneyUtils:Spacer(f);
 
-    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel).." ID")..": "..spawn)
+    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel))..l10n(": ")..spawn)
     if spawnType == "npc" then
         if spawnObject.subName then
-            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title"))..": "..spawnObject.subName)
+            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title"))..l10n(": ")..spawnObject.subName)
         end
         local minLevel = spawnObject.minLevel
         local maxLevel = spawnObject.maxLevel
         local level
         if minLevel == maxLevel then level = minLevel else level = minLevel.." - "..maxLevel end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level"))..": "..level)
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level"))..l10n(": ")..level)
         local minLevelHealth = spawnObject.minLevelHealth
         local maxLevelHealth = spawnObject.maxLevelHealth
         local health
         if minLevelHealth == maxLevelHealth then health = minLevelHealth else health = minLevelHealth.." - "..maxLevelHealth end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health"))..": "..health)
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health"))..l10n(": ")..health)
         local friendlyTo = l10n("no faction")
         if spawnObject.friendlyToFaction == "AH" then
             friendlyTo = l10n("both factions")
@@ -447,7 +447,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     grp:AddChild(itemIcon)
 
     local spawnIdLabel = AceGUI:Create("Label")
-    spawnIdLabel:SetText("  Item ID: " .. itemId)
+    spawnIdLabel:SetText(l10n("Item ID")..l10n(": ") .. itemId)
     grp:AddChild(spawnIdLabel)
 
     f:AddChild(grp)

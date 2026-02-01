@@ -458,7 +458,7 @@ local genericsLocales = {
         ["zhCN"] = "挑战模式",
         ["zhTW"] = "挑戰模式",
     },
-    [":"] = {
+    [": "] = {
         ["enUS"] = true,
         ["deDE"] = true,
         ["esES"] = true,

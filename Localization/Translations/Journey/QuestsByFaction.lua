@@ -50,17 +50,17 @@ local questsByFactionLocales = {
         ["zhCN"] = "选择阵营",
         ["zhTW"] = "選擇陣營",
     },
-    ["Reputation Reward: "] = {
+    ["Reputation Reward"] = {
         ["enUS"] = true,
-        ["deDE"] = "Rufbelohnung: ",
-        ["esES"] = "Recompensa de reputación: ",
-        ["esMX"] = "Recompensa de reputación: ",
-        ["frFR"] = "Récompense de réputation : ",
-        ["koKR"] = "관계 보상: ",
-        ["ptBR"] = "Recompensa de reputação: ",
-        ["ruRU"] = "Награда за репутацию: ",
-        ["zhCN"] = "关系奖励: ",
-        ["zhTW"] = "關係獎勵: ",
+        ["deDE"] = "Rufbelohnung",
+        ["esES"] = "Recompensa de reputación",
+        ["esMX"] = "Recompensa de reputación",
+        ["frFR"] = "Récompense de réputation",
+        ["koKR"] = "관계 보상",
+        ["ptBR"] = "Recompensa de reputação",
+        ["ruRU"] = "Награда за репутацию",
+        ["zhCN"] = "关系奖励",
+        ["zhTW"] = "關係獎勵",
     },
 }
 
