@@ -34,7 +34,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
     end
 
     local success, event = Questie:Deserialize(message)
-    if (not success) then
+    if (not success) or (type(event) ~= "table") then
         return
     end
 

@@ -71,6 +71,14 @@ describe("Comms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
+        it("should reject HideDailyQuests events when they are not a table", function()
+            Questie.Deserialize = function() return true, 123 end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
         it("should reject HideDailyQuests events without data", function()
             local event = {
                 eventName = "HideDailyQuests"
