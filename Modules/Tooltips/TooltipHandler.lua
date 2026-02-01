@@ -32,7 +32,7 @@ function _QuestieTooltips:AddUnitDataToTooltip()
     ) then
         QuestieTooltips.lastGametooltipUnit = name
         if Questie.db.profile.enableTooltipsNPCID then
-            GameTooltip:AddDoubleLine("NPC ID", "|cFFFFFFFF" .. npcId .. "|r")
+            GameTooltip:AddDoubleLine(l10n("NPC ID"), "|cFFFFFFFF" .. npcId .. "|r")
         end
 
         local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
@@ -115,11 +115,11 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
 
     if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then
         if count == 1 then
-            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. "|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. "|r")
         elseif count > 10 and (not Questie.db.profile.debugEnabled) then
-            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. " (10+)|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (10+)|r")
         else
-            GameTooltip:AddDoubleLine("Object ID", "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
         end
     end
 

@@ -205,6 +205,9 @@ function QuestieNPCFixes:Load()
         [1516] = { -- Konda
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.06,60.85}}},
         },
+        [1680] = { -- Matthew Hooper
+            [npcKeys.waypoints] = {},
+        },
         [1721] = { -- Nikova Raskol
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{73.34,50.7}}},
