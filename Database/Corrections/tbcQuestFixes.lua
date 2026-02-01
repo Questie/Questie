@@ -524,6 +524,9 @@ function QuestieTBCQuestFixes:Load()
         [5055] = { -- Brumeran of the Chillwind
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [5056] = { -- Shy-Rotam
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
         },
