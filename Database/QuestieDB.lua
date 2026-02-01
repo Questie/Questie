@@ -1075,7 +1075,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if (requiredMaxLevel and (UnitLevel("player") > requiredMaxLevel)) then
         local msg = "Player level is too high for quest " .. questId
         if returnText and returnBrief then
-            return "Ineligible: Level too high"
+            return l10n("Ineligible")..l10n(": ")..l10n("Level too high")
         elseif returnText and not returnBrief then
             return msg
         end

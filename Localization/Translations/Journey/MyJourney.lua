@@ -674,6 +674,18 @@ local myJourneyLocales = {
         ["zhCN"] = "等级过低",
         ["zhTW"] = "等級過低",
     },
+    ["Level too high"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Stufe zu hoch",
+        ["esES"] = "Nivel demasiado alto",
+        ["esMX"] = "Nivel demasiado alto",
+        ["frFR"] = "Niveau trop élevé",
+        ["koKR"] = "레벨이 너무 높음",
+        ["ptBR"] = "Nível muito alto",
+        ["ruRU"] = "Слишком высокий уровень",
+        ["zhCN"] = "等级过高",
+        ["zhTW"] = "等級過高",
+    },
 }
 
 for k, v in pairs(myJourneyLocales) do
