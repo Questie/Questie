@@ -38,7 +38,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    if event.eventName == "HideDailyQuests" and event.data then
+    if event.eventName == "HideDailyQuests" and event.data and type(event.data) == "table" then
         local npcId = event.data.npcId
         if (not npcId) then
             return
