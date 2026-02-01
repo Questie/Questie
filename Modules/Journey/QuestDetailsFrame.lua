@@ -202,7 +202,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
-            startObjectZoneLabel:SetText(continent)
+            startObjectZoneLabel:SetText(l10n(continent))
             startObjectZoneLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectZoneLabel)
 
