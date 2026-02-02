@@ -1480,16 +1480,20 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10123},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [9500] = {
+        [9500] = { -- Call of Water
+            [questKeys.startedBy] = {{17212}},
             [questKeys.questLevel] = -1,
         },
-        [9501] = {
+        [9501] = { -- Call of Water
             [questKeys.questLevel] = -1,
         },
-        [9503] = {
+        [9502] = { -- Call of Water
+            [questKeys.startedBy] = {{17219}},
+        },
+        [9503] = { -- Call of Water
             [questKeys.questLevel] = -1,
         },
-        [9504] = {
+        [9504] = { -- Call of Water
             [questKeys.questLevel] = -1,
         },
         [9505] = { -- The Prophecy of Velen
@@ -1498,11 +1502,11 @@ function QuestieTBCQuestFixes:Load()
         [9506] = { -- A Small Start
             [questKeys.breadcrumbs] = {9505},
         },
-        [9508] = {
+        [9508] = { -- Call of Water
             [questKeys.questLevel] = -1,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Destroy the barrel using the Skin of Purest Water"), 0, {{"object", 181699}}}},
         },
-        [9509] = {
+        [9509] = { -- Call of Water
             [questKeys.questLevel] = -1,
         },
         [9514] = {
