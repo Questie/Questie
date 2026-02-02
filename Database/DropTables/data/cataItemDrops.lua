@@ -26704,16 +26704,3 @@ QuestieCataItemDrops.mangos3Data = {
         [27483] = 20.0,
     },
 }
-
-  -- This table contains manual drop corrections.
-  --
-  -- Use the following format:
-  -- [itemID] = { -- Item Name
-  --    [npcID] = 80.0,
-  -- }
-  --
-  -- This example would be an 80% drop rate.
-
-QuestieCataItemDrops.corrections = {
-
-}

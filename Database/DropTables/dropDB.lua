@@ -8,7 +8,11 @@ local DropDB = QuestieLoader:CreateModule("DropDB")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
+---@type QuestieItemDropCorrections
+local QuestieItemDropCorrections = QuestieLoader:ImportModule("QuestieItemDropCorrections")
 ---@type QuestieClassicItemDrops
 local QuestieClassicItemDrops = QuestieLoader:ImportModule("QuestieClassicItemDrops")
 ---@type QuestieTBCItemDrops
@@ -19,8 +23,6 @@ local QuestieWotlkItemDrops = QuestieLoader:ImportModule("QuestieWotlkItemDrops"
 local QuestieCataItemDrops = QuestieLoader:ImportModule("QuestieCataItemDrops")
 ---@type QuestieMopItemDrops
 local QuestieMopItemDrops = QuestieLoader:ImportModule("QuestieMopItemDrops")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 
 DropDB.dropRateTableWowhead = nil
 DropDB.dropRateTableCmangos = nil
@@ -53,31 +55,31 @@ function DropDB:Initialize()
 
     -- Corrections are loaded starting from Era; this means Era corrections are still
     -- applied to later expansions unless overridden by those expansions' corrections
-    DropDB.dropRateTableCorrections = QuestieClassicItemDrops.corrections
+    DropDB.dropRateTableCorrections = QuestieItemDropCorrections.Era
     if Expansions.Current >= Expansions.Tbc then
-        for k,v in pairs(QuestieTBCItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+        for k,v in pairs(QuestieItemDropCorrections.Tbc) do DropDB.dropRateTableCorrections[k] = v end
         if Expansions.Current >= Expansions.Wotlk then
-            for k,v in pairs(QuestieWotlkItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+            for k,v in pairs(QuestieItemDropCorrections.Wotlk) do DropDB.dropRateTableCorrections[k] = v end
             if Expansions.Current >= Expansions.Cata then
-                for k,v in pairs(QuestieCataItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+                for k,v in pairs(QuestieItemDropCorrections.Cata) do DropDB.dropRateTableCorrections[k] = v end
                 if Expansions.Current >= Expansions.MoP then
-                    for k,v in pairs(QuestieMopItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+                    for k,v in pairs(QuestieItemDropCorrections.MoP) do DropDB.dropRateTableCorrections[k] = v end
                 end
             end
         end
     end
 end
 
--- To obtain final drop data rates, query QuestieDB.GetItemDroprate(ItemID,NpcID).
+-- To obtain final drop rate data, query QuestieDB.GetItemDroprate(ItemID,NpcID).
 -- That function will query DropDB to ascertain the real value.
 -- DropDB then determines which data to provide based upon current expansion level and other rules.
 
 -- The number provided is a float; it is up to the end user to determine how to display that.
 -- 100.0 would be 100%, 47.254 would be 47.254%, etc.
 
--- Return values are {dropRate, sourceDB}
+-- Return values are {dropRate, sourceDB} as {float, str}
 
--- This function will return nil if the DB is not loaded properly or there is no data.
+-- This function will return nil if the DB is not loaded properly or there is no data match.
 -- Be sure you can handle successful nil returns!
 
 ---@param itemId ItemId

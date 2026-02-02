@@ -17,16 +17,3 @@ QuestieMopItemDrops.wowheadData = {
 QuestieMopItemDrops.cmangosData = {
 
 }
-
-  -- This table contains manual drop corrections.
-  --
-  -- Use the following format:
-  -- [itemID] = { -- Item Name
-  --    [npcID] = 80.0,
-  -- }
-  --
-  -- This example would be an 80% drop rate.
-
-QuestieMopItemDrops.corrections = {
-
-}

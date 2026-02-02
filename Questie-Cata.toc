@@ -131,9 +131,7 @@ Database\Corrections\cataObjectFixes.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua
-Database\DropTables\data\classicItemDrops.lua
-Database\DropTables\data\tbcItemDrops.lua
-Database\DropTables\data\wotlkItemDrops.lua
+Database\DropTables\data\itemDropCorrections.lua
 Database\DropTables\data\cataItemDrops.lua
 
 # Compiler

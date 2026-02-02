@@ -26284,19 +26284,3 @@ QuestieTBCItemDrops.cmangosData = {
         [28171] = 100.0,
     },
 }
-
-  -- This table contains manual drop corrections.
-  --
-  -- Use the following format:
-  -- [itemID] = { -- Item Name
-  --    [npcID] = 80.0,
-  -- }
-  --
-  -- This example would be an 80% drop rate.
-
-QuestieTBCItemDrops.corrections = {
-    [23614] = { -- Red Snapper
-        [17102] = 100,
-    },
-
-}
