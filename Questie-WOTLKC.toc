@@ -126,6 +126,8 @@ Database\Corrections\wotlkObjectFixes.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua
+Database\DropTables\data\classicItemDrops.lua
+Database\DropTables\data\tbcItemDrops.lua
 Database\DropTables\data\wotlkItemDrops.lua
 
 # Compiler

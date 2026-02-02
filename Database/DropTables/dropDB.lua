@@ -19,6 +19,8 @@ local QuestieWotlkItemDrops = QuestieLoader:ImportModule("QuestieWotlkItemDrops"
 local QuestieCataItemDrops = QuestieLoader:ImportModule("QuestieCataItemDrops")
 ---@type QuestieMopItemDrops
 local QuestieMopItemDrops = QuestieLoader:ImportModule("QuestieMopItemDrops")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 -- To obtain final drop data rates, query QuestieDB.GetItemDroprate(ItemID,NpcID).
 -- That function will query DropDB to ascertain the real value.
@@ -47,27 +49,38 @@ function DropDB.GetItemDroprate(itemId, npcId)
         -- this should not affect Era players because the Era DB will never reference those IDs
         dropRateTableWowhead = QuestieClassicItemDrops.wowheadData
         dropRateTableCmangos = QuestieClassicItemDrops.cmangosData
-        dropRateTableCorrections = QuestieClassicItemDrops.corrections
     elseif Questie.IsTBC then
         dropRateTableWowhead = QuestieTBCItemDrops.wowheadData
         dropRateTableCmangos = QuestieTBCItemDrops.cmangosData
-        dropRateTableCorrections = QuestieTBCItemDrops.corrections
     elseif Questie.IsWotlk then
         dropRateTableWowhead = QuestieWotlkItemDrops.wowheadData
         dropRateTableCmangos = QuestieWotlkItemDrops.cmangosData
-        dropRateTableCorrections = QuestieWotlkItemDrops.corrections
     elseif Questie.IsCata then
         dropRateTableWowhead = QuestieCataItemDrops.wowheadData
         dropRateTableTrinity = QuestieCataItemDrops.trinityData
-        dropRateTableCorrections = QuestieCataItemDrops.corrections
     elseif Questie.IsMoP then
         dropRateTableWowhead = QuestieMopItemDrops.wowheadData
         -- we use cata trinity data for mop instead because mop DBs are so spotty;
         -- this means mop-only quests will use wowhead data exclusively
         dropRateTableTrinity = QuestieCataItemDrops.trinityData
-        dropRateTableCorrections = QuestieMopItemDrops.corrections
     else
         Questie:Debug("ItemDrops: Unknown Expansion!")
+    end
+
+    -- Corrections are loaded starting from Era; this means Era corrections are still
+    -- applied to later expansions unless overridden by those expansions' corrections
+    dropRateTableCorrections = QuestieClassicItemDrops.corrections
+    if Expansions.Current >= Expansions.Tbc then
+        for k,v in pairs(QuestieTBCItemDrops.corrections) do dropRateTableCorrections[k] = v end
+        if Expansions.Current >= Expansions.Wotlk then
+            for k,v in pairs(QuestieWotlkItemDrops.corrections) do dropRateTableCorrections[k] = v end
+            if Expansions.Current >= Expansions.Cata then
+                for k,v in pairs(QuestieCataItemDrops.corrections) do dropRateTableCorrections[k] = v end
+                if Expansions.Current >= Expansions.MoP then
+                    for k,v in pairs(QuestieMopItemDrops.corrections) do dropRateTableCorrections[k] = v end
+                end
+            end
+        end
     end
 
     -- The hierarchy for drop rate data is as follows:
