@@ -299,6 +299,9 @@ function QuestieItemFixes:Load()
         [4532] = { -- Trelane's Ember Agate
             [itemKeys.objectDrops] = {2718},
         },
+        [4703] = { -- Broken Tools
+            [itemKeys.objectDrops] = {17190},
+        },
         [4806] = { -- Plainstrider Scale
             [itemKeys.npcDrops] = {2956, 2957, 3068},
         },
