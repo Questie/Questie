@@ -942,7 +942,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if completedQuests[nextQuestInChain] or currentQuestlog[nextQuestInChain] then
             local msg = "Follow up quests already completed or in the quest log for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Ineligible")..l10n(": ")..l10n("Later quest completed or active").." ".. nextQuestInChain
+                return l10n("Ineligible")..l10n(": ")..l10n("Later quest completed or active")..l10n(": ").. nextQuestInChain
             elseif returnText and not returnBrief then
                 return msg
             end

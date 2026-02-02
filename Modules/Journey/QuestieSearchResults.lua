@@ -238,19 +238,19 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     -- do not reduce offset, as checkbox is followed by text
 
     -- general info
-    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest ID")) .. ": " .. id)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Quest Level")) .. ": " .. questLevel)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Required Level")) .. ": " .. requiredLevel)
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest ID")) .. l10n(": ") .. id)
+    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Quest Level")) .. l10n(": ") .. questLevel)
+    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Required Level")) .. l10n(": ") .. requiredLevel)
     local reqRaces = QuestieLib:GetRaceString(requiredRaces)
     if (reqRaces ~= "") then
-        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race")) .. ": " .. reqRaces)
+        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race")) .. l10n(": ") .. reqRaces)
     end
-    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable")) .. ": " .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
+    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable")) .. l10n(": ") .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
 
     -- objectives text
     if objectivesText then
         QuestieJourneyUtils:AddLine(details, "")
-        QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Objectives")) .. ":")
+        QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Objectives")) .. l10n(": "))
         for _, v in pairs(objectivesText) do
             QuestieJourneyUtils:AddLine(details, v)
         end
@@ -259,26 +259,26 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     if startedBy then
         -- quest starters
         QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "npc", startedBy[1], l10n("NPCs starting this quest:"), QuestieDB.QueryNPCSingle)
-        AddLinkedParagraph(details, "object", startedBy[2], l10n("Objects starting this quest:"), QuestieDB.QueryObjectSingle)
+        AddLinkedParagraph(details, "npc", startedBy[1], l10n("NPCs starting this quest"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(details, "object", startedBy[2], l10n("Objects starting this quest"), QuestieDB.QueryObjectSingle)
         -- TODO change to linked paragraph once item details page exists
-        AddLinkedParagraph(details, "item", startedBy[3], l10n("Items starting this quest:"), QuestieDB.QueryItemSingle)
+        AddLinkedParagraph(details, "item", startedBy[3], l10n("Items starting this quest"), QuestieDB.QueryItemSingle)
     end
     if finishedBy then
         -- quest finishers
         QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "npc", finishedBy[1], l10n("NPCs finishing this quest:"), QuestieDB.QueryNPCSingle)
-        AddLinkedParagraph(details, "object", finishedBy[2], l10n("Objects finishing this quest:"), QuestieDB.QueryObjectSingle)
+        AddLinkedParagraph(details, "npc", finishedBy[1], l10n("NPCs finishing this quest"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(details, "object", finishedBy[2], l10n("Objects finishing this quest"), QuestieDB.QueryObjectSingle)
     end
 
     -- pre quests
     if preQuestGroup then
         QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "quest", preQuestGroup, l10n("Requires all of these quests to be finished:"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(details, "quest", preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle)
     end
     if preQuestSingle then
         QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "quest", preQuestSingle, l10n("Requires one of these quests to be finished:"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(details, "quest", preQuestSingle, l10n("Requires one of these quests to be finished"), QuestieDB.QueryQuestSingle)
     end
     QuestieJourneyUtils:AddLine(details, "")
 
@@ -331,7 +331,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         elseif spawnObject.friendlyToFaction == "H" then
             friendlyTo = l10n("Horde")
         end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"))..": "..friendlyTo)
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"))..l10n(": ")..friendlyTo)
     end
 
     QuestieJourneyUtils:Spacer(f);

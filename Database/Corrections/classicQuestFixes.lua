@@ -542,6 +542,9 @@ function QuestieQuestFixes:Load()
         [863] = {
             [questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[zoneIDs.THE_BARRENS]={{55.36,7.68}}}},
         },
+        [865] = {
+            [questKeys.nextQuestInChain] = 1491,
+        },
         [870] = {
             [questKeys.breadcrumbs] = {886},
         },
