@@ -506,7 +506,7 @@ local searchLocales = {
         ["zhCN"] = "有 %d 位商人贩售此物品",
         ["zhTW"] = "有 %d 位商人販售此物品",
     },
-    ["Requires all of these quests to be finished:"] = {
+    ["Requires all of these quests to be finished"] = {
         ["enUS"] = true,
         ["deDE"] = "Benötigt, dass alle folgenden Quests abgeschlossen sind",
         ["esES"] = "Requiere completar todas estas misiones",
