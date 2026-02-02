@@ -22,6 +22,52 @@ local QuestieMopItemDrops = QuestieLoader:ImportModule("QuestieMopItemDrops")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
+DropDB.dropRateTableWowhead = nil
+DropDB.dropRateTableCmangos = nil
+DropDB.dropRateTableMangos3 = nil
+DropDB.dropRateTableCorrections = nil
+
+function DropDB:Initialize()
+    if Questie.IsClassic then
+        -- Wowhead Classic data was gathered with the SoD QuestieDB, so SoD IDs are included as well;
+        -- this should not affect Era players because the Era DB will never reference those IDs
+        DropDB.dropRateTableWowhead = QuestieClassicItemDrops.wowheadData
+        DropDB.dropRateTableCmangos = QuestieClassicItemDrops.cmangosData
+    elseif Questie.IsTBC then
+        DropDB.dropRateTableWowhead = QuestieTBCItemDrops.wowheadData
+        DropDB.dropRateTableCmangos = QuestieTBCItemDrops.cmangosData
+    elseif Questie.IsWotlk then
+        DropDB.dropRateTableWowhead = QuestieWotlkItemDrops.wowheadData
+        DropDB.dropRateTableCmangos = QuestieWotlkItemDrops.cmangosData
+    elseif Questie.IsCata then
+        DropDB.dropRateTableWowhead = QuestieCataItemDrops.wowheadData
+        DropDB.dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
+    elseif Questie.IsMoP then
+        DropDB.dropRateTableWowhead = QuestieMopItemDrops.wowheadData
+        DropDB.dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
+        -- we use cata mangos3 data for mop instead because mop DBs are so spotty;
+        -- this means mop-only quests will use wowhead data exclusively
+    else
+        Questie:Error("ItemDrops: Unknown Expansion!")
+    end
+
+    -- Corrections are loaded starting from Era; this means Era corrections are still
+    -- applied to later expansions unless overridden by those expansions' corrections
+    DropDB.dropRateTableCorrections = QuestieClassicItemDrops.corrections
+    if Expansions.Current >= Expansions.Tbc then
+        for k,v in pairs(QuestieTBCItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+        if Expansions.Current >= Expansions.Wotlk then
+            for k,v in pairs(QuestieWotlkItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+            if Expansions.Current >= Expansions.Cata then
+                for k,v in pairs(QuestieCataItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+                if Expansions.Current >= Expansions.MoP then
+                    for k,v in pairs(QuestieMopItemDrops.corrections) do DropDB.dropRateTableCorrections[k] = v end
+                end
+            end
+        end
+    end
+end
+
 -- To obtain final drop data rates, query QuestieDB.GetItemDroprate(ItemID,NpcID).
 -- That function will query DropDB to ascertain the real value.
 -- DropDB then determines which data to provide based upon current expansion level and other rules.
@@ -38,49 +84,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@param npcId NpcId
 ---@return table<number, string>
 function DropDB.GetItemDroprate(itemId, npcId)
-    local dropRateTableWowhead = nil
-    local dropRateTableCmangos = nil
-    local dropRateTableMangos3 = nil
     local dropRate = nil
-
-    if Questie.IsClassic then
-        -- Wowhead Classic data was gathered with the SoD QuestieDB, so SoD IDs are included as well;
-        -- this should not affect Era players because the Era DB will never reference those IDs
-        dropRateTableWowhead = QuestieClassicItemDrops.wowheadData
-        dropRateTableCmangos = QuestieClassicItemDrops.cmangosData
-    elseif Questie.IsTBC then
-        dropRateTableWowhead = QuestieTBCItemDrops.wowheadData
-        dropRateTableCmangos = QuestieTBCItemDrops.cmangosData
-    elseif Questie.IsWotlk then
-        dropRateTableWowhead = QuestieWotlkItemDrops.wowheadData
-        dropRateTableCmangos = QuestieWotlkItemDrops.cmangosData
-    elseif Questie.IsCata then
-        dropRateTableWowhead = QuestieCataItemDrops.wowheadData
-        dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
-    elseif Questie.IsMoP then
-        dropRateTableWowhead = QuestieMopItemDrops.wowheadData
-        -- we use cata mangos3 data for mop instead because mop DBs are so spotty;
-        -- this means mop-only quests will use wowhead data exclusively
-        dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
-    else
-        Questie:Debug("ItemDrops: Unknown Expansion!")
-    end
-
-    -- Corrections are loaded starting from Era; this means Era corrections are still
-    -- applied to later expansions unless overridden by those expansions' corrections
-    local dropRateTableCorrections = QuestieClassicItemDrops.corrections
-    if Expansions.Current >= Expansions.Tbc then
-        for k,v in pairs(QuestieTBCItemDrops.corrections) do dropRateTableCorrections[k] = v end
-        if Expansions.Current >= Expansions.Wotlk then
-            for k,v in pairs(QuestieWotlkItemDrops.corrections) do dropRateTableCorrections[k] = v end
-            if Expansions.Current >= Expansions.Cata then
-                for k,v in pairs(QuestieCataItemDrops.corrections) do dropRateTableCorrections[k] = v end
-                if Expansions.Current >= Expansions.MoP then
-                    for k,v in pairs(QuestieMopItemDrops.corrections) do dropRateTableCorrections[k] = v end
-                end
-            end
-        end
-    end
 
     -- The hierarchy for drop rate data is as follows:
     -- 1. Manual Corrections > 2. Cmangos Data > 3. Mangos3 Data > 4. Wowhead Data
@@ -116,14 +120,14 @@ function DropDB.GetItemDroprate(itemId, npcId)
     -- 4. Once it's done extracting, the data will be in Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/item_drop/item_drop_data.lua
     -- (we don't need a list of IDs like for wowhead because we rely on cmangos' own data for what items are quest-only drops)
 
-    if dropRateTableCorrections and dropRateTableCorrections[itemId] and dropRateTableCorrections[itemId][npcId] then
-        return {dropRateTableCorrections[itemId][npcId],"questie"}
-    elseif dropRateTableCmangos and dropRateTableCmangos[itemId] and dropRateTableCmangos[itemId][npcId] then
-        return {dropRateTableCmangos[itemId][npcId],"cmangos"}
-    elseif dropRateTableMangos3 and dropRateTableMangos3[itemId] and dropRateTableMangos3[itemId][npcId] then
-        return {dropRateTableMangos3[itemId][npcId],"mangos3"}
-    elseif dropRateTableWowhead and dropRateTableWowhead[itemId] and dropRateTableWowhead[itemId][npcId] then
-        return {dropRateTableWowhead[itemId][npcId],"wowhead"}
+    if DropDB.dropRateTableCorrections and DropDB.dropRateTableCorrections[itemId] and DropDB.dropRateTableCorrections[itemId][npcId] then
+        return {DropDB.dropRateTableCorrections[itemId][npcId],"questie"}
+    elseif DropDB.dropRateTableCmangos and DropDB.dropRateTableCmangos[itemId] and DropDB.dropRateTableCmangos[itemId][npcId] then
+        return {DropDB.dropRateTableCmangos[itemId][npcId],"cmangos"}
+    elseif DropDB.dropRateTableMangos3 and DropDB.dropRateTableMangos3[itemId] and DropDB.dropRateTableMangos3[itemId][npcId] then
+        return {DropDB.dropRateTableMangos3[itemId][npcId],"mangos3"}
+    elseif DropDB.dropRateTableWowhead and DropDB.dropRateTableWowhead[itemId] and DropDB.dropRateTableWowhead[itemId][npcId] then
+        return {DropDB.dropRateTableWowhead[itemId][npcId],"wowhead"}
     end
     return nil
 end
