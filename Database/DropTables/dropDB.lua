@@ -41,7 +41,6 @@ function DropDB.GetItemDroprate(itemId, npcId)
     local dropRateTableWowhead = nil
     local dropRateTableCmangos = nil
     local dropRateTableMangos3 = nil
-    local dropRateTableCorrections = nil
     local dropRate = nil
 
     if Questie.IsClassic then
@@ -69,7 +68,7 @@ function DropDB.GetItemDroprate(itemId, npcId)
 
     -- Corrections are loaded starting from Era; this means Era corrections are still
     -- applied to later expansions unless overridden by those expansions' corrections
-    dropRateTableCorrections = QuestieClassicItemDrops.corrections
+    local dropRateTableCorrections = QuestieClassicItemDrops.corrections
     if Expansions.Current >= Expansions.Tbc then
         for k,v in pairs(QuestieTBCItemDrops.corrections) do dropRateTableCorrections[k] = v end
         if Expansions.Current >= Expansions.Wotlk then
