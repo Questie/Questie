@@ -23265,7 +23265,7 @@ QuestieClassicItemDrops.cmangosData = {
   -- This table contains manual drop corrections.
   --
   -- Use the following format:
-  -- [itemID] { -- Item Name
+  -- [itemID] = { -- Item Name
   --    [npcID] = 80.0,
   -- }
   --

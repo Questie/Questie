@@ -40,7 +40,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 function DropDB.GetItemDroprate(itemId, npcId)
     local dropRateTableWowhead = nil
     local dropRateTableCmangos = nil
-    local dropRateTableTrinity = nil
+    local dropRateTableMangos3 = nil
     local dropRateTableCorrections = nil
     local dropRate = nil
 
@@ -57,12 +57,12 @@ function DropDB.GetItemDroprate(itemId, npcId)
         dropRateTableCmangos = QuestieWotlkItemDrops.cmangosData
     elseif Questie.IsCata then
         dropRateTableWowhead = QuestieCataItemDrops.wowheadData
-        dropRateTableTrinity = QuestieCataItemDrops.trinityData
+        dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
     elseif Questie.IsMoP then
         dropRateTableWowhead = QuestieMopItemDrops.wowheadData
-        -- we use cata trinity data for mop instead because mop DBs are so spotty;
+        -- we use cata mangos3 data for mop instead because mop DBs are so spotty;
         -- this means mop-only quests will use wowhead data exclusively
-        dropRateTableTrinity = QuestieCataItemDrops.trinityData
+        dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
     else
         Questie:Debug("ItemDrops: Unknown Expansion!")
     end
@@ -84,13 +84,13 @@ function DropDB.GetItemDroprate(itemId, npcId)
     end
 
     -- The hierarchy for drop rate data is as follows:
-    -- 1. Manual Corrections > 2. Cmangos Data > 3. Trinity Data > 4. Wowhead Data
+    -- 1. Manual Corrections > 2. Cmangos Data > 3. Mangos3 Data > 4. Wowhead Data
     -- We check each database in order for item:npc matches, and we report the first match we find.
 
     -- Wowhead data consists of the full drop rates (every NPC listed on wowhead for an item), for all items
     -- contained in either item objectives or RequiredSourceItems for all quests in that expansion's compiled Questie DB.
 
-    -- Cmangos/Trinity data only consists of items that those databases believe drop only while on a quest (internally specified with a negative drop value).
+    -- Cmangos/Mangos3 data only consists of items that those databases believe drop only while on a quest (internally specified with a negative drop value).
 
     -- Wowhead's crowdsourced drop data is likely more accurate for items that always drop, but unfortunately, while their looter addon does
     -- record active quests when reporting data, item drop rates are not filtered on Wowhead's site to show data only from those on the quest.
@@ -110,7 +110,7 @@ function DropDB.GetItemDroprate(itemId, npcId)
     -- 4. Run:   python Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/runner.py --item-drop -ex #      where # is the expansion level; 0 for classic, 1 for tbc, etc. also accepts strings
     -- 5. Once it's done scraping, the data will be in Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/item_drop/item_drop_data.lua
 
-    -- To extract cmangos/trinity data:
+    -- To extract cmangos/mangos3 data:
     -- 1. Host the relevant MySQL database locally on your machine
     -- 2. Tweak Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/item_drop/cmangos_itemdrops.py for your host IP, user, password, and database ID, if necessary
     -- 3. Run:   python cmangos_itemdrops.py
@@ -121,8 +121,8 @@ function DropDB.GetItemDroprate(itemId, npcId)
         return {dropRateTableCorrections[itemId][npcId],"questie"}
     elseif dropRateTableCmangos and dropRateTableCmangos[itemId] and dropRateTableCmangos[itemId][npcId] then
         return {dropRateTableCmangos[itemId][npcId],"cmangos"}
-    elseif dropRateTableTrinity and dropRateTableTrinity[itemId] and dropRateTableTrinity[itemId][npcId] then
-        return {dropRateTableTrinity[itemId][npcId],"trinity"}
+    elseif dropRateTableMangos3 and dropRateTableMangos3[itemId] and dropRateTableMangos3[itemId][npcId] then
+        return {dropRateTableMangos3[itemId][npcId],"mangos3"}
     elseif dropRateTableWowhead and dropRateTableWowhead[itemId] and dropRateTableWowhead[itemId][npcId] then
         return {dropRateTableWowhead[itemId][npcId],"wowhead"}
     end
