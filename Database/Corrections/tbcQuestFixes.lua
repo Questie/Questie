@@ -320,6 +320,9 @@ function QuestieTBCQuestFixes:Load()
         [1805] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [1821] = { -- Agamand Heirlooms
+            [questKeys.nextQuestInChain] = 1822,
+        },
         [1858] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },

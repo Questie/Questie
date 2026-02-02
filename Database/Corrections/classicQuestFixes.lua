@@ -998,21 +998,27 @@ function QuestieQuestFixes:Load()
         [1485] = {
             [questKeys.exclusiveTo] = {1470}, -- #999
         },
-        [1498] = {
+        [1498] = { -- Path of Defense
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1505},
+            [questKeys.exclusiveTo] = {1819},
         },
         [1501] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1473},
             [questKeys.breadcrumbs] = {1506},
         },
+        [1502] = { -- Thun'grim Firegaze
+            [questKeys.preQuestSingle] = {1498,1819},
+        },
         [1504] = {
             [questKeys.exclusiveTo] = {1471}, -- #1542
             [questKeys.requiredSourceItems] = {},
         },
-        [1505] = {
+        [1505] = { -- Veteran Uzzek
+            [questKeys.startedBy] = {{3041,3063,3169,3354}},
             [questKeys.breadcrumbForQuestId] = 1498,
+            [questKeys.exclusiveTo] = {1819},
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
@@ -1274,12 +1280,24 @@ function QuestieQuestFixes:Load()
         [1801] = {
             [questKeys.breadcrumbs] = {2996,3001},
         },
-        [1818] = {
+        [1818] = { -- Speak with Dillinger
             [questKeys.breadcrumbForQuestId] = 1819,
+            [questKeys.exclusiveTo] = {1498},
         },
-        [1819] = {
+        [1819] = { -- Ulag the Cleaver
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1818},
+            [questKeys.exclusiveTo] = {1498},
+        },
+        [1820] = { -- Speak with Coleman
+            [questKeys.preQuestSingle] = {1498,1819},
+            [questKeys.exclusiveTo] = {1498},
+            [questKeys.breadcrumbForQuestId] = 1821,
+        },
+        [1821] = { -- Agamand Heirlooms
+            [questKeys.preQuestSingle] = {1498,1819},
+            [questKeys.exclusiveTo] = {1498},
+            [questKeys.breadcrumbs] = {1820},
         },
         [1823] = {
             [questKeys.startedBy] = {{3041,3354,4595},nil,nil},

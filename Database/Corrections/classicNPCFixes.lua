@@ -457,7 +457,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {8151},
         },
         [3041] = { -- Torm Ragetotem
-            [npcKeys.questStarts] = {1718,1823,8417},
+            [npcKeys.questStarts] = {1505,1718,1823,8417},
         },
         [3044] = { -- Miles Welsh
             [npcKeys.questStarts] = {5642,5644,5656,5663},
