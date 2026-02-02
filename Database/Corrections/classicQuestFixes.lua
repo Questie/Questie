@@ -756,9 +756,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1065
         },
         [1132] = {
-            [questKeys.exclusiveTo] = {1133}, -- #1738
+            [questKeys.breadcrumbForQuestId] = 1133, -- #1738
         },
         [1133] = {
+            [questKeys.breadcrumbs] = {1132},
             [questKeys.preQuestSingle] = {}, -- #1738
             [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
         },
