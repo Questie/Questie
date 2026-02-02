@@ -508,6 +508,9 @@ function QuestieNPCFixes:Load()
         [3204] = { -- Gazz'uz
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.61,8.82}}},
         },
+        [3209] = { -- Brave Windfeather
+            [npcKeys.waypoints] = {},
+        },
         [3237] = { -- Wooly Kodo
             [npcKeys.waypoints] = {},
         },
