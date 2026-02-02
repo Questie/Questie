@@ -9296,6 +9296,7 @@ l10n.questLookup["frFR"] = loadstring([[return {
 [65561] = {"Tabard de flammes", nil, nil},
 [65562] = {"Tabard de flammes", nil, nil},
 [65593] = {"Les cœurs des amoureux", nil, {"Apportez les Cœurs d’Avelina Lilly et d’Isaac Pearson à Carendin Halgar dans le Temple des Damnés."}},
+[65597] = {"Le lien", nil, {"Utilisez les Coeurs des amoureux pour invoquer et soumettre un incube, puis rapportez les Coeurs des amoureux à Carendin Halgar, dans le Quartier de la magie à Fossoyeuse."}},
 [65601] = {"Les affres de l’amour", nil, {"Parlez à Magar, à Orgrimmar."}},
 [65602] = {"Qu’est-ce que l’amour ?", nil, {"Récupérez la Figurine en bois et rapportez-la à Gakin le Tisse-noir, au Quartier des mages de Hurlevent."}},
 [65603] = {"Le lien", nil, {"Utilisez la Figurine en bois pour invoquer et asservir un incube, puis rapportez l’objet à Gakin le Tisse-noir à l’Agneau assassiné."}},

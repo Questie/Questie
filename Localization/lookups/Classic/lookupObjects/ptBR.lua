@@ -729,6 +729,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [174714] = "Flor da Canção Purificada",
 [174715] = "Flor da Canção Purificada",
 [174728] = "Caixote Danificado",
+[174795] = "Poço Lunar de Auberdine",
 [174848] = "Equipamento de Teste",
 [175084] = "A Brastematic 5200",
 [175085] = "A Brastematic 5200",
@@ -1138,4 +1139,5 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [190483] = "Baú de Documentos",
 [190484] = "Baú de Documentos",
 [375544] = "Estatueta de Madeira",
+[400001] = "Tocha Apagada",
 }]])

@@ -4286,6 +4286,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [233029] = "Cofre de Tesouros Proibidos",
 [233030] = "Reserva Destrancada de Tesouros Pandarênicos",
 [375544] = "Estatueta de Madeira",
+[400001] = "Tocha Apagada",
 [420039] = "Ferramentas de Artifício",
 [420040] = "Ferramentas de Artifício",
 [440003] = "Tocha Arathi Perversa",

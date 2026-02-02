@@ -185,7 +185,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if (not args.quest) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.item_drops) and (not args.object) and (not args.object_zone) and (not args.npc_translations) and (not args.object_translations) and (not args.quest_translations) and (not args.quest_translations_sod):
+    if (not args.quest) and (not args.npc) and (not args.npc_zone) and (not args.item) and (not args.item_drops) and (not args.object) and (not args.object_zone) and (
+            not args.npc_translations) and (not args.object_translations) and (not args.quest_translations) and (not args.quest_translations_sod):
         parser.error("No spider selected")
 
     runner = Runner()
@@ -211,6 +212,8 @@ if __name__ == '__main__':
     if args.object_zone:
         print("Running object zone ID spider at expansion level " + str(args.expac))
         runner.run_object_zone_ids(args.expac)
+
+    # Item translations are grapped from the ItemSparse client tables
     if args.npc_translations:
         print("Running npc translation spider")
         runner.run_npc_translations()

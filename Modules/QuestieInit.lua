@@ -59,6 +59,8 @@ local Hooks = QuestieLoader:ImportModule("Hooks")
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type Comms
+local Comms = QuestieLoader:ImportModule("Comms")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
@@ -180,7 +182,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     -- Check if the DB needs to be recompiled
     if (not dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= dbCompiledOnVersion) or (l10n:GetUILocale() ~= dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
-        print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
+        print("\124cFFAAEEFF" ..
+            l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
         dbCompiled = true
@@ -253,6 +256,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     if Expansions.Current >= Expansions.MoP then
         ChallengeModeTimer.Initialize()
     end
+
+    Comms.Initialize()
     QuestieComms:Initialize()
 
     coYield()
@@ -302,14 +307,16 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         Questie.db.profile.aqWarningPrintDate = dateToday
         C_Timer.After(2, function()
             print("|cffff0000-----------------------------|r")
-            Questie:Print("|cffff0000" .. l10n("The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!") .. "|r");
+            Questie:Print("|cffff0000" ..
+                l10n("The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!") .. "|r");
             print("|cffff0000-----------------------------|r")
         end)
     end
 
     if Questie.IsTBC and ContentPhases.activePhases.TBC == 5 and (not Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled) then
         C_Timer.After(2, function()
-            Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.", IsleOfQuelDanas.localizedPhaseNames[Questie.db.global.isleOfQuelDanasPhase]))
+            Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.",
+                IsleOfQuelDanas.localizedPhaseNames[Questie.db.global.isleOfQuelDanasPhase]))
         end)
     end
 

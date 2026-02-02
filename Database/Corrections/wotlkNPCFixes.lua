@@ -398,7 +398,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {10960,64139,64140,64141,64142,64143,64144,64145},
         },
         [17219] = { -- Sulaa
-            [npcKeys.questStarts] = {9462,9500,9551,14111},
+            [npcKeys.questStarts] = {9462,9502,9551,14111},
         },
         [17718] = {
             [npcKeys.questStarts] = {9684,9681},

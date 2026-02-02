@@ -31,7 +31,7 @@ describe("QuestieFrame", function()
             hideUntrackedQuestsMapIcons = false,
         }
 
-        QuestieDB = require("Database/QuestieDB")
+        QuestieDB = require("Database.QuestieDB")
         QuestieDB.IsRepeatable = function() return false end
         QuestieDB.IsActiveEventQuest = function() return false end
         QuestieDB.IsDungeonQuest = function() return false end
@@ -39,15 +39,15 @@ describe("QuestieFrame", function()
         QuestieDB.IsPvPQuest = function() return false end
         QuestieDB.IsRuneAndShouldBeHidden = function() return false end
 
-        QuestieMap = require("Modules/Map/QuestieMap")
+        QuestieMap = require("Modules.Map.QuestieMap")
         QuestieMap.utils.IsExplored = function() return true end
 
-        QuestieQuest = require("Modules/Quest/QuestieQuest")
+        QuestieQuest = require("Modules.Quest.QuestieQuest")
         QuestieQuest.ShouldShowQuestNotes = function() return true end
 
-        require("Modules/Quest/DailyQuests/DailyQuests")
+        require("Modules.Quest.DailyQuests.DailyQuests")
 
-        QuestieFrameHandler = require("Modules/FramePool/QuestieFrame")
+        QuestieFrameHandler = require("Modules.FramePool.QuestieFrame")
         QuestieFrame = {
             data = {
                 Type = "monster",

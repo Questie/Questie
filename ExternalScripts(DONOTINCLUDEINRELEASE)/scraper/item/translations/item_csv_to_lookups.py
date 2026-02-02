@@ -2,12 +2,14 @@ import csv
 import os
 from supported_locales import LOCALES
 
-PATCH_VERSION = "5.5.0.61916"
+PATCH_VERSION = "2.5.5.65534"
+OUTPUT_DIR = "../../../../Localization/lookups/TBC/lookupItems/"
+
 
 def process_csv(locale):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     input_file = os.path.join(base_dir, f"data/ItemSparse_{locale}.{PATCH_VERSION}.csv")
-    output_file = os.path.join(base_dir, f"../../../../Localization/lookups/MoP/lookupItems/{locale}.lua")
+    output_file = os.path.join(base_dir, OUTPUT_DIR + f"{locale}.lua")
 
     if not os.path.exists(input_file):
         print(f"Input file for locale {locale} does not exist: {input_file}")
@@ -20,7 +22,32 @@ def process_csv(locale):
         for row in reader:
             item_id = row.get("ID")
             display_name = row.get("Display_lang")
-            if item_id and display_name:
+            if item_id and display_name and (
+                    not "deprecated" in display_name.lower()) and (
+                    not "Test " in display_name) and (
+                    not "TEST" in display_name) and (
+                    not "Testing" in display_name) and (
+                    not display_name[0].isdigit()) and (
+                    not display_name.startswith("[")) and (
+                    not display_name.startswith("OLD")) and (
+                    not display_name.lower().startswith("test")) and (
+                    not display_name.startswith("QA")) and (
+                    not display_name.startswith("QR")) and (
+                    not display_name.startswith("UNUSED")) and (
+                    not display_name.startswith("DEBUG")) and (
+                    not display_name.startswith("Level ")) and (
+                    not display_name.startswith("(OLD)")) and (
+                    not display_name.startswith("Monster ")) and (
+                    not display_name.lower().startswith("zzold")) and (
+                    not display_name.lower().endswith("(test)")) and (
+                    not display_name.lower().endswith("(old)")) and (
+                    not display_name.endswith("OLD")) and (
+                    not display_name.endswith("Test")) and (
+                    not display_name.endswith("DEBUG")) and (
+                    not display_name.endswith("UNUSED")) and (
+                    not display_name.endswith("(UNUSED)")) and (
+                    not display_name.endswith("]")
+            ):
                 items.append((int(item_id), display_name.replace('"', '\\"')))
 
     items.sort(key=lambda x: x[0])
@@ -40,10 +67,12 @@ def process_csv(locale):
 
     print(f"Processed {len(items)} items for locale {locale} and saved to {output_file}")
 
+
 def main():
     for locale in [entry["output"] for entry in LOCALES]:
         print(f"Processing locale: {locale}")
         process_csv(locale)
+
 
 if __name__ == "__main__":
     main()

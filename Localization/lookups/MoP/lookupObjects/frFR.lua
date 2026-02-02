@@ -20706,6 +20706,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [233029] = "Caveau des trésors interdits",
 [233030] = "Coffre de butin de Pandarie déverrouillé",
 [375544] = "Figurine en bois",
+[400001] = "Torche éteinte",
 [420039] = "Outils d’artificière",
 [420040] = "Outils d’artificière",
 [440003] = "Torche arathie malfaisante",

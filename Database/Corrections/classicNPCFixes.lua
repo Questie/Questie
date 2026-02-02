@@ -21,6 +21,12 @@ function QuestieNPCFixes:Load()
     local phases = Phasing.phases
 
     return {
+        [272] = { -- Chef Grual
+            [npcKeys.waypoints] = {},
+        },
+        [288] = { -- Jitters
+            [npcKeys.waypoints] = {},
+        },
         [294] = { -- Marshal Haggard
             [npcKeys.questStarts] = {75,78,109,1667},
         },
@@ -51,6 +57,9 @@ function QuestieNPCFixes:Load()
         },
         [377] = { -- Priestess Josetta
             [npcKeys.questStarts] = {5624,5628,5635},
+        },
+        [379] = { -- Darcy
+            [npcKeys.waypoints] = {},
         },
         [384] = { -- Katie Hunter <Horse Breeder>
             [npcKeys.npcFlags] = npcFlags.NONE,
@@ -195,6 +204,9 @@ function QuestieNPCFixes:Load()
         },
         [1516] = { -- Konda
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.06,60.85}}},
+        },
+        [1680] = { -- Matthew Hooper
+            [npcKeys.waypoints] = {},
         },
         [1721] = { -- Nikova Raskol
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
@@ -445,7 +457,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {8151},
         },
         [3041] = { -- Torm Ragetotem
-            [npcKeys.questStarts] = {1718,1823,8417},
+            [npcKeys.questStarts] = {1505,1718,1823,8417},
         },
         [3044] = { -- Miles Welsh
             [npcKeys.questStarts] = {5642,5644,5656,5663},
@@ -495,6 +507,9 @@ function QuestieNPCFixes:Load()
         },
         [3204] = { -- Gazz'uz
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.61,8.82}}},
+        },
+        [3209] = { -- Brave Windfeather
+            [npcKeys.waypoints] = {},
         },
         [3237] = { -- Wooly Kodo
             [npcKeys.waypoints] = {},
@@ -1904,6 +1919,9 @@ function QuestieNPCFixes:Load()
         [11688] = { -- Cursed Centaur
             [npcKeys.waypoints] = {},
         },
+        [11711] = { -- Sentinel Aynasha
+            [npcKeys.waypoints] = {},
+        },
         [11714] = { -- Marosh the Devious
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.84,90.41}}},
@@ -2101,6 +2119,9 @@ function QuestieNPCFixes:Load()
         [13081] = { -- Irondeep Raider
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{52.43,4.59},{50.95,5.24},{49.85,5.68},{51.4,5.75},{52.94,6.21},{51.21,6.28},{52.35,6.61},{51.65,7.12},{50.17,7.25},{50.1,7.41},{51.52,7.46},{51.57,7.56},{51.56,7.57},{51.57,7.57},{51.58,7.57},{51.57,7.57},{51.57,7.58},{51.3,7.69},{51.29,7.69},{51.3,7.7},{51.29,7.71},{52.41,8.03},{50.59,8.28},{50.23,8.44},{51.99,8.61},{50.8,8.75},{51.89,9.13},{52.83,9.15},{49.64,9.2},{52.5,7.71},{52.77,4.54},{49.74,4.79},{50.45,5.26},{51.93,5.63},{51.41,5.69},{53.27,6.49},{50.03,6.65},{50.16,7.18},{51.48,7.22},{51.49,7.27},{51.9,7.34},{51.57,7.58},{51.57,7.59},{51.38,8.07},{51.37,8.08},{51.35,8.08},{51.37,8.08},{51.36,8.1},{51.25,8.3},{51.2,8.42},{51.11,8.62},{51.22,8.97},{51.93,9.13},{50.28,9.17},{52.79,9.47},{49.73,9.79}}},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
+        },
+        [13084] = { -- Bixi Wobblebonk
+            [npcKeys.waypoints] = {},
         },
         [13098] = { -- Irondeep Surveyor
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{52.43,4.59},{50.95,5.24},{49.85,5.68},{51.4,5.75},{52.94,6.21},{51.21,6.28},{52.35,6.61},{51.65,7.12},{50.17,7.25},{50.1,7.41},{51.52,7.46},{51.57,7.56},{51.56,7.57},{51.57,7.57},{51.58,7.57},{51.57,7.57},{51.57,7.58},{51.3,7.69},{51.29,7.69},{51.3,7.7},{51.29,7.71},{52.41,8.03},{50.59,8.28},{50.23,8.44},{51.99,8.61},{50.8,8.75},{51.89,9.13},{52.83,9.15},{49.64,9.2},{52.5,7.71},{52.77,4.54},{49.74,4.79},{50.45,5.26},{51.93,5.63},{51.41,5.69},{53.27,6.49},{50.03,6.65},{50.16,7.18},{51.48,7.22},{51.49,7.27},{51.9,7.34},{51.57,7.58},{51.57,7.59},{51.38,8.07},{51.37,8.08},{51.35,8.08},{51.37,8.08},{51.36,8.1},{51.25,8.3},{51.2,8.42},{51.11,8.62},{51.22,8.97},{51.93,9.13},{50.28,9.17},{52.79,9.47},{49.73,9.79}}},

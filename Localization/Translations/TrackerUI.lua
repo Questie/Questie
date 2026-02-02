@@ -46,10 +46,10 @@ local trackerUILocales = {
         ["esES"] = "Restablecer medidor",
         ["esMX"] = "Restablecer medidor",
         ["frFR"] = "Réinitialiser le calibreur",
-        ["koKR"] = "Sizer 재설정",
+        ["koKR"] = "사이저 재설정",
         ["ptBR"] = "Redefinir medidor",
         ["ruRU"] = "Сбросить сайзер",
-        ["zhCN"] = "重置 Sizer",
+        ["zhCN"] = "重置大小",
         ["zhTW"] = "重置大小",
     },
     ["NOTE"] = {

@@ -748,6 +748,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [174714] = "Melodía limpia",
 [174715] = "Melodía limpia",
 [174728] = "Cajón dañado",
+[174795] = "Poza de la Luna de Auberdine",
 [174848] = "Equipo de pruebas",
 [175084] = "La Chispamática 5200",
 [175085] = "La Chispamática 5200",
@@ -1188,4 +1189,5 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [190483] = "Cofre de documentos",
 [190484] = "Cofre de documentos",
 [375544] = "Figurilla de madera",
+[400001] = "Antorcha apagada",
 }]])

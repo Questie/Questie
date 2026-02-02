@@ -378,9 +378,9 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
         health = health .. '-' .. tostring(npc.maxLevelHealth)
     end
     data.ManualTooltipData.Body = body or {
-        { 'ID:',     tostring(npc.id) },
-        { 'Level:',  level },
-        { 'Health:', health },
+        { l10n("ID") .. l10n(": "),     tostring(npc.id) },
+        { l10n("Level") .. l10n(": "),  level },
+        { l10n("Health") .. l10n(": "), health },
     }
     data.ManualTooltipData.disableShiftToRemove = disableShiftToRemove
 

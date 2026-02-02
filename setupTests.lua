@@ -59,7 +59,8 @@ _G.C_AddOns = {
 _G.C_QuestLog = {IsQuestFlaggedCompleted = {}}
 setmetatable(_G.C_QuestLog.IsQuestFlaggedCompleted, {
     mockedReturnValue = false,
-    __call = function(_, ...) return _.mockedReturnValue end}
+    __call = function(_, ...) return _.mockedReturnValue end
+}
 )
 _G.DurabilityFrame = {
     GetPoint = function() return nil end
@@ -86,6 +87,7 @@ _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
 _G.UnitFactionGroup = function() return "Horde" end
 _G.UnitName = function() return "Testi" end
+_G.GetRealmName = function() return "Ook Ook" end
 _G.QUEST_MONSTERS_KILLED = "%s slain: %d/%d"
 _G.QUEST_ITEMS_NEEDED = "%s: %d/%d"
 _G.QUEST_OBJECTS_FOUND = "%s: %d/%d"
@@ -280,6 +282,11 @@ local TestUtils = {
     isEventRegistered = function(eventName)
         return registeredEvents[eventName] ~= nil
     end,
+    clearTable = function(t)
+        for k in pairs(t or {}) do
+            t[k] = nil
+        end
+    end
 }
 
 return TestUtils

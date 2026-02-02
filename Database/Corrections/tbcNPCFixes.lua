@@ -192,6 +192,9 @@ function QuestieTBCNpcFixes:Load()
         [5167] = { -- Fenthwick
             [npcKeys.questStarts] = {6681},
         },
+        [5480] = { -- Ilsa Corbin
+            [npcKeys.questStarts] = {1638},
+        },
         [5495] = { -- Ursula Deline
             [npcKeys.questStarts] = {64031,64034,64035,64037,64038},
             [npcKeys.questEnds] = {64028,64031,64034,64035},
@@ -636,6 +639,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{11.36,82.34}}},
             [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
         },
+        [17212] = { -- Tuluun
+            [npcKeys.questStarts] = {9461,9464,9500},
+        },
         [17214] = {
             [npcKeys.waypoints] = {},
         },
@@ -643,7 +649,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [17219] = { -- Sulaa
-            [npcKeys.questStarts] = {9462,9500,9551},
+            [npcKeys.questStarts] = {9462,9502,9551},
         },
         [17240] = {
             [npcKeys.waypoints] = {},
@@ -777,6 +783,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [17589] = {
             [npcKeys.waypoints] = {},
+        },
+        [17591] = { -- Blood Elf Bandit
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{26.21,67.0},{28.45,78.55},{36.27,60.96},{53.17,61.63},{65.1,39.27},{53.88,40.83},{54.39,21.66},{59.13,18.55},{34.1,18.78},{33.82,26.22},{36.7,32.66},{36.83,20.96},{51.78,17.52},{50.49,29.18},{46.49,39.52},{43.08,63.46},{35.27,64.86},{33.92,70.78},{32.31,62.66},{27.6,52.19}}},
         },
         [17592] = {
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{72.81,20.83}}},
@@ -1383,6 +1392,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [23100] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{44.2,41.0},},},
+        },
+        [23127] = { -- Farseer Javad
+            [npcKeys.questStarts] = {8410,9547},
         },
         [23161] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{70.23,83.35},{70.06,79.45},{73.5,80.7},{69.67,74.72},{75.24,81.2},{72.23,88.18},{74.79,87.51},{61.99,74.66},{61.38,78.07}}},

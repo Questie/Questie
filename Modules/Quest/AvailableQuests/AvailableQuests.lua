@@ -21,6 +21,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type Comms
+local Comms = QuestieLoader:ImportModule("Comms")
 
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
@@ -34,9 +36,17 @@ local QUESTS_PER_YIELD = 24
 local timer
 
 -- Keep track of all available quests to unload undoable when abandoning a quest
+---@type table<QuestId, boolean>
 local availableQuests = {}
+AvailableQuests.__availableQuests = availableQuests
+
+---@type table<NpcId, table<QuestId, boolean>>
 local availableQuestsByNpc = {}
-local unavailableQuestsDeterminedByTalking -- quests that were hidden after talking to an NPC
+AvailableQuests.__availableQuestsByNpc = availableQuestsByNpc
+
+--- Quests that were hidden after talking to an NPC
+---@type table<QuestId, boolean>
+local unavailableQuestsDeterminedByTalking
 
 local dungeons
 local playerFaction
@@ -54,6 +64,7 @@ function AvailableQuests.Initialize()
         Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
     end
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
+    AvailableQuests.__unavailableQuestsDeterminedByTalking = unavailableQuestsDeterminedByTalking
 end
 
 ---@param callback function | nil
@@ -157,6 +168,18 @@ function AvailableQuests.RemoveQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
 end
 
+---@param npcId NpcId @The ID of the NPC associated with the daily quests.
+---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
+function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+    for _, questId in pairs(questIds) do
+        if availableQuestsByNpc[npcId] then
+            AvailableQuests.RemoveQuest(questId)
+            availableQuestsByNpc[npcId][questId] = nil
+        end
+        unavailableQuestsDeterminedByTalking[questId] = true
+    end
+end
+
 ---@type string|nil
 local lastNpcGuid
 
@@ -172,6 +195,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
         return
     end
 
+    ---@type NpcId
     local npcId = tonumber(npcIDStr)
     if lastNpcGuid == npcGuid then
         return
@@ -188,6 +212,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
             unavailableQuestsDeterminedByTalking[questId] = nil
             local quest = QuestieDB.GetQuest(questId)
             if quest then
+                availableQuests[questId] = true
                 AvailableQuests.DrawAvailableQuest(quest)
             end
         end
@@ -196,6 +221,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
     -- Active quests are relevant, because the API can fire GOSSIP_SHOW before QUEST_ACCEPTED.
     -- So we need to check active quests to not hide them incorrectly for the day.
     local activeQuests = QuestieCompat.GetActiveQuests()
+    local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
         local isAvailableInGossip = false
         for _, gossipQuest in pairs(availableQuestsInGossip) do
@@ -214,7 +240,12 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
         if (not isAvailableInGossip) and QuestieDB.IsDailyQuest(questId) then
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
+            table.insert(unavailableQuestsToBroadcast, questId)
         end
+    end
+
+    if next(unavailableQuestsToBroadcast) then
+        Comms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -231,6 +262,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
         return
     end
 
+    ---@type NpcId
     local npcId = tonumber(npcIDStr)
     if lastNpcGuid == npcGuid then
         return
@@ -250,15 +282,22 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
         unavailableQuestsDeterminedByTalking[availableQuestId] = nil
         local quest = QuestieDB.GetQuest(availableQuestId)
         if quest then
+            availableQuests[availableQuestId] = true
             AvailableQuests.DrawAvailableQuest(quest)
         end
     end
 
+    local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
         if questId ~= availableQuestId and QuestieDB.IsDailyQuest(questId) then
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
+            table.insert(unavailableQuestsToBroadcast, questId)
         end
+    end
+
+    if next(unavailableQuestsToBroadcast) then
+        Comms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -275,6 +314,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
         return
     end
 
+    ---@type NpcId
     local npcId = tonumber(npcIDStr)
     if lastNpcGuid == npcGuid then
         return
@@ -310,16 +350,23 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
             unavailableQuestsDeterminedByTalking[questId] = nil
             local quest = QuestieDB.GetQuest(questId)
             if quest then
+                availableQuests[questId] = true
                 AvailableQuests.DrawAvailableQuest(quest)
             end
         end
     end
 
+    local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
         if (not availableQuestsInGreeting[questId]) and QuestieDB.IsDailyQuest(questId) then
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
+            table.insert(unavailableQuestsToBroadcast, questId)
         end
+    end
+
+    if next(unavailableQuestsToBroadcast) then
+        Comms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -627,8 +674,6 @@ end
 _MarkQuestAsUnavailableFromNPC = function(questId, npcId)
     unavailableQuestsDeterminedByTalking[questId] = true
     availableQuestsByNpc[npcId][questId] = nil
-
-    -- TODO: Add Comms call to inform other players about this unavailable quest
 end
 
 return AvailableQuests
