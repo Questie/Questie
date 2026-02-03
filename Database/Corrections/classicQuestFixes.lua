@@ -662,6 +662,9 @@ function QuestieQuestFixes:Load()
         [1004] = {
             [questKeys.exclusiveTo] = {1000,1018},
         },
+        [1007] = { -- The Ancient Statuette
+            [questKeys.nextQuestInChain] = 1009
+        },
         [1011] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4581},
