@@ -665,6 +665,9 @@ function QuestieQuestFixes:Load()
         [1007] = { -- The Ancient Statuette
             [questKeys.nextQuestInChain] = 1009
         },
+        [1010] = { -- Bathran's Hair
+            [questKeys.nextQuestInChain] = 1020
+        },
         [1011] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4581},
@@ -678,8 +681,17 @@ function QuestieQuestFixes:Load()
         [1019] = {
             [questKeys.exclusiveTo] = {1015,1047},
         },
+        [1020] = { -- Orendil's Cure
+            [questKeys.nextQuestInChain] = 1033
+        },
         [1026] = {
             [questKeys.requiredSourceItems] = {5475},
+        },
+        [1033] = { -- Elune's Tear
+            [questKeys.nextQuestInChain] = 1034
+        },
+        [1034] = { -- The Ruins of Stardust
+            [questKeys.nextQuestInChain] = 1035
         },
         [1036] = {
             [questKeys.requiredMinRep] = {87,3000},
