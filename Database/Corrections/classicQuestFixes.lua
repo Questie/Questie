@@ -1291,12 +1291,10 @@ function QuestieQuestFixes:Load()
         },
         [1820] = { -- Speak with Coleman
             [questKeys.preQuestSingle] = {1498,1819},
-            [questKeys.exclusiveTo] = {1498},
             [questKeys.breadcrumbForQuestId] = 1821,
         },
         [1821] = { -- Agamand Heirlooms
             [questKeys.preQuestSingle] = {1498,1819},
-            [questKeys.exclusiveTo] = {1498},
             [questKeys.breadcrumbs] = {1820},
         },
         [1823] = {
