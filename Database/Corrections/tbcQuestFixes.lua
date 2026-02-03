@@ -44,6 +44,9 @@ function QuestieTBCQuestFixes:Load()
         [100] = {
             [questKeys.childQuests] = {},
         },
+        [123] = { -- The Collector
+            [questKeys.nextQuestInChain] = 147,
+        },
         [171] = {
             [questKeys.questLevel] = -1,
         },
