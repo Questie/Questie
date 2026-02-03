@@ -377,7 +377,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [15351] = { -- Alliance Brigadier General
             [npcKeys.spawns] = {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
+                -- [zoneIDs.IRONFORGE]={{70.41,91.10}}, -- temporary
                 [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
                 [zoneIDs.THE_EXODAR]={{24.55,55.42}},
