@@ -43,9 +43,10 @@ end
 
 local stringFind = string.find
 local pattern
+local pattern_logo
 
 function QuestieShutUp.FilterFunc(self, event, msg, author, ...)
-    if stringFind(msg, pattern) then
+    if stringFind(msg, pattern) or stringFind (msg, pattern_logo) then
         return true
     end
 end
@@ -54,6 +55,7 @@ function QuestieShutUp:ToggleFilters(value)
     if value then
         -- In French a blank is added before the colon, so we need to account for that (%s?)
         pattern = "^"..(l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}").." Questie%s?: "
+        pattern_logo = "^|TInterface\\Addons\\Questie\\Icons\\questie.png:0|t "
         Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle on. Pattern:", pattern)
         SafeAddMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
         SafeAddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieShutUp.FilterFunc)
