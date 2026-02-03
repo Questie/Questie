@@ -102,7 +102,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                     if limit == 0 or added < limit then
                         added = added + _AddStarter(no, quest, "im_" .. npc, (limit == 0 and 0) or (limit - added))
                     else
-                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, no.name, npc, "m_" .. npc)
+                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, no.name, npc, "m_" .. npc, "itemFromMonster")
                     end
                 end
             end
@@ -112,7 +112,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                     if limit == 0 or added < limit then
                         added = added + _AddStarter(oo, quest, "io_" .. obj, (limit == 0 and 0) or (limit - added))
                     else
-                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, oo.name, obj, "o_" .. obj)
+                        QuestieTooltips:RegisterQuestStartTooltip(quest.Id, oo.name, obj, "o_" .. obj, "itemFromObject")
                     end
                 end
             end
@@ -132,7 +132,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
             if limit == 0 or added < limit then
                 added = added + _AddStarter(obj, quest, "o_" .. obj.id, (limit == 0 and 0) or (limit - added))
             else
-                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, obj.name, obj.id, "o_" .. obj.id)
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, obj.name, obj.id, "o_" .. obj.id, "Object")
             end
         end
     end
@@ -155,7 +155,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
             if limit == 0 or added < limit then
                 added = added + _AddStarter(npc, quest, "m_" .. npc.id, (limit == 0 and 0) or (limit - added))
             else
-                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc.name, npc.id, "m_" .. npc.id)
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc.name, npc.id, "m_" .. npc.id, "NPC")
             end
         end
     end
@@ -574,7 +574,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
         starterType = "itemFromObject"
     end
 
-    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey)
+    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey, (starterType or "NPC"))
 
     local starterIcons = {}
     local starterLocs = {}

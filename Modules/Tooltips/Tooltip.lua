@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -60,7 +62,8 @@ end
 ---@param name string The name of the object or NPC the tooltip should show on
 ---@param starterId number The ID of the object or NPC the tooltip should show on
 ---@param key string @Either m_<npcId> or o_<objectId>
-function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key)
+---@param type string Indicates the type of quest starter; this changes icon in tooltip
+function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key, type)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
@@ -71,6 +74,7 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key
         questId = questId,
         name = name,
         starterId = starterId,
+        type = type,
     };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. name .. " " .. starterId] = tooltip
     tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
@@ -288,6 +292,29 @@ function QuestieTooltips.GetTooltip(key, playerZone)
             if tooltip.name then
                 if Questie.db.profile.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
+                    if tooltip.type then
+                        local level, _ = QuestieLib.GetTbcLevel(questId)
+                        local colorText
+                        if QuestieEvent.IsEventQuest(questId) then
+                            colorText = ":108:227:20"
+                        elseif QuestieDB.IsPvPQuest(questId) then
+                            colorText = ":227:86:57"
+                        elseif QuestieDB.IsRepeatable(questId) then
+                            colorText = ":33:204:231"
+                        else -- normal quest, use leveled colors
+                            local r, g, b = QuestieLib:GetDifficultyColorPercent(level)
+                            colorText = ":" .. tostring(r * 255) .. ":" .. tostring(g * 255) .. ":" .. tostring(b * 255)
+                        end
+                        if tooltip.type == "NPC" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
+                        elseif tooltip.type == "Finisher" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_complete.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
+                        elseif tooltip.type == "itemFromMonster" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_mobdrop.png:14|t" .. questString
+                        elseif tooltip.type == "itemFromObject" or tooltip.type == "Object" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_object.png:14|t" .. questString
+                        end
+                    end
                     tinsert(tooltipLines, questString)
                 end
             elseif (not finishedAndUnacceptedQuests[questId]) then

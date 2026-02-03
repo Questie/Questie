@@ -74,7 +74,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
         _RemoveDuplicateQuestTitle(quest.Id, key, finisher.name, quest.SpecialObjectives[1], playerZone)
     end
 
-    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key)
+    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key, "Finisher")
 
     local finisherIcons = {}
     local finisherLocs = {}
