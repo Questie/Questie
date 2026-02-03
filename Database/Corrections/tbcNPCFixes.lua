@@ -177,9 +177,6 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {3790,8353,63448,63767,65284,65561,93823},
             [npcKeys.questEnds] = {8353,63448,63767,65284,65561,93823},
         },
-        [5113] = { -- Kelv Sternhammer
-            [npcKeys.questStarts] = {1718,8417},
-        },
         [5149] = { -- Brandur Ironhammer
             [npcKeys.questStarts] = {2999,3681,7670,8415},
         },

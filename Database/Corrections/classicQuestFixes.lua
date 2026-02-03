@@ -1197,11 +1197,11 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1686},
             [questKeys.nextQuestInChain] = 1693,
         },
-        [1698] = {
+        [1698] = { -- Yorus Barleybrew
             [questKeys.startedBy] = {{5113,5479,7315}},
             [questKeys.breadcrumbForQuestId] = 1699,
         },
-        [1699] = {
+        [1699] = { -- The Rethban Gauntlet
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1698},
         },
@@ -1216,15 +1216,15 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1708, -- #1857
         },
         [1705] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1701},
             [questKeys.breadcrumbs] = {1700}, -- #1857
         },
         [1708] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1701},
             [questKeys.breadcrumbs] = {1704}, -- #1857
         },
         [1710] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1701},
             [questKeys.breadcrumbs] = {1703}, -- #1857
         },
         [1715] = {
