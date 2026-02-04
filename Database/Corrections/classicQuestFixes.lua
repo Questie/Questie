@@ -674,6 +674,9 @@ function QuestieQuestFixes:Load()
         [1007] = { -- The Ancient Statuette
             [questKeys.nextQuestInChain] = 1009
         },
+        [1008] = { -- The Zoram Strand
+            [questKeys.nextQuestInChain] = 1134
+        },
         [1010] = { -- Bathran's Hair
             [questKeys.nextQuestInChain] = 1020
         },
