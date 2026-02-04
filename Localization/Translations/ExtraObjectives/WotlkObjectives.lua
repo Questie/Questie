@@ -2483,7 +2483,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "使用克	克瓦迪尔战争号角召唤德罗丁洛斯加尔",
+        ["zhCN"] = "使用克瓦迪尔战争号角召唤德罗丁洛斯加尔",
         ["zhTW"] = false,
     },
     ["Summon Mistcaller Yngvar using the Mistcaller's Charm"] = { -- 14102
