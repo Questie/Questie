@@ -2195,7 +2195,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "雄性猛犸象将协助杀死猛犸毁灭者卡奥",
+        ["zhCN"] = "骑乘雄性猛犸象以协助杀死猛犸毁灭者卡奥",
         ["zhTW"] = false,
     },
     ["Use Storm Totem to summon Storm Tempest"] = { -- 11895
