@@ -529,6 +529,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 871, -- #2014
             [questKeys.nextQuestInChain] = 871,
         },
+        [858] = {
+            [questKeys.nextQuestInChain] = 863,
+        },
         [860] = {
             [questKeys.breadcrumbForQuestId] = 844,
         },
