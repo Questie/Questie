@@ -166,6 +166,9 @@ function QuestieWotlkQuestFixes:Load()
         [1698] = {
             [questKeys.startedBy] = {{5479,7315}},
         },
+        [1712] = { -- Cyclonian
+            [questKeys.requiredSourceItems] = {4480,4479,4481},
+        },
         [1716] = {
             [questKeys.preQuestSingle] = {},
         },
