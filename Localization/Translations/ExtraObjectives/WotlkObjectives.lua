@@ -3023,7 +3023,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "如果你有钥匙，就把伐木机打开。",
+        ["zhCN"] = "如果你有钥匙，就进入伐木机。",
         ["zhTW"] = false,
     },
     ["Ride the rocket!"] = { -- 12432 12437
@@ -3071,7 +3071,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "收集到5个绝望魔精后饮用德达库鲁的药剂",
+        ["zhCN"] = "收集到5个绝望魔精后饮用达库鲁的药剂",
         ["zhTW"] = false,
     },
     ["Drink Drakuru's Elixir after gathering 5 Sacred Mojo"] = { -- 12068
