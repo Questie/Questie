@@ -1607,7 +1607,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "唤醒休眠的尤尔丁人，直到找到伊斯卡尔德",
+        ["zhCN"] = "唤醒休眠的尤尔丁人，直到找到伊斯卡德尔",
         ["zhTW"] = false,
     },
     ["Iskalder delivered to The Bone Witch"] = { -- 13133
@@ -1631,7 +1631,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "使用战痕信号火焰召唤伊斯卡尔德",
+        ["zhCN"] = "使用战痕信号火焰召唤伊斯卡德尔",
         ["zhTW"] = false,
     },
     ["Blow the War Horn of Jotunheim to challenge Overthane Balargarde"] = { -- 13142
