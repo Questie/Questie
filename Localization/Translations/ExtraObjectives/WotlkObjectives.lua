@@ -3443,7 +3443,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "驯服一只被捕获的青蛙",
+        ["zhCN"] = "对一只抓来的青蛙施法",
         ["zhTW"] = false,
     },
     ["Talk to Handler Marnlek and deploy the frogs on the white smoke"] = { -- 25446
