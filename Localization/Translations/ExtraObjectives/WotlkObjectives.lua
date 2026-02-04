@@ -2423,7 +2423,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "与大大德鲁伊莉琳德拉交谈，即可获得前往月光林地的交通工具。",
+        ["zhCN"] = "与大德鲁伊莉琳德拉交谈，即可获得前往月光林地的交通工具。",
         ["zhTW"] = false,
     },
     ["Use Crusader Olakin's Remains at the Sanctum of Reanimation Slab"] = {
@@ -2507,7 +2507,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "使用缴获的克瓦迪尔旗帜挑疤面者奥诺夫",
+        ["zhCN"] = "使用缴获的克瓦迪尔旗帜挑战疤面者奥诺夫",
         ["zhTW"] = false,
     },
     ["Take chum"] = { -- 14112 14145
