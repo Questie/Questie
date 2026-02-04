@@ -2075,7 +2075,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "攀登",
+        ["zhCN"] = "骑乘",
         ["zhTW"] = false,
     },
     ["Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"] = { -- 13666, 13673
