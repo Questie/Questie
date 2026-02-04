@@ -506,7 +506,7 @@ local myJourneyLocales = {
         ["zhCN"] = "专业要求",
         ["zhTW"] = "專業要求",
     },
-    ["Incomplete Pre-Quest Group"] = {
+    ["Incomplete pre-quest group"] = {
         ["enUS"] = true,
         ["deDE"] = "Prequests nicht abgeschlossen",
         ["esES"] = "Faltan misiones requisitas",
