@@ -350,7 +350,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     for questId, questData in pairs(tooltipData) do
         local hasObjective = false
         local tempObjectives = {}
-        for x, playerList in pairs(questData.objectivesText or {}) do
+        for _, playerList in pairs(questData.objectivesText or {}) do
             for objectivePlayerName, objectiveInfo in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(objectivePlayerName)
                 local playerColor
