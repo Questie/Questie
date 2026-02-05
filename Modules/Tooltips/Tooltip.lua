@@ -303,7 +303,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             colorText = ":33:204:231"
                         else -- normal quest, use leveled colors
                             local r, g, b = QuestieLib:GetDifficultyColorPercent(level)
-                            colorText = ":" .. tostring(r * 255) .. ":" .. tostring(g * 255) .. ":" .. tostring(b * 255)
+                            colorText = ":" .. tostring(math.floor(r * 255)) .. ":" .. tostring(math.floor(g * 255)) .. ":" .. tostring(math.floor(b * 255))
                         end
                         if tooltip.type == "NPC" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
