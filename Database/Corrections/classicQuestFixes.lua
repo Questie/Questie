@@ -1480,6 +1480,9 @@ function QuestieQuestFixes:Load()
         [2118] = {
             [questKeys.objectives] = {{{2164,"Rabid Thistle Bear Captured"}}},
         },
+        [2138] = {
+            [questKeys.nextQuestInChain] = 2139,
+        },
         [2201] = {
             [questKeys.childQuests] = {3375},
             [questKeys.requiredLevel] = 37, -- #2447
