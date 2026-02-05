@@ -491,7 +491,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "使用索克雷萨传送石打开通往索索克雷萨之座的传送门",
+        ["zhCN"] = "使用索克雷萨传送石打开通往索克雷萨之座的传送门",
         ["zhTW"] = false,
     },
     ["After defeating Socrethar, you can open a portal back"] = { -- 10409 10507
