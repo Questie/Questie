@@ -140,8 +140,10 @@ Database\Corrections\mopObjectFixes.lua
 # Item Drops
 Database\DropTables\dropDB.lua
 Database\DropTables\data\itemDropCorrections.lua
-Database\DropTables\data\cataItemDrops.lua
 Database\DropTables\data\mopItemDrops.lua
+# this is not a mistake - we load cata pserver data for mop because mop pserver data is so spotty;
+# if we implement mop pserver itemdrop data, we can remove this entry from mop toc
+Database\DropTables\data\cataItemDrops.lua
 
 # Compiler
 Database\compiler.lua
