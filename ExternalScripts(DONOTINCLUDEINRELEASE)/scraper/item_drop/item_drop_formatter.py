@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 json_path = 'item_drop/item_drop_data.json' #input
-lua_path = 'item_drop/item_drop_data.lua' #output
+lua_path = 'item_drop/item_drop_data_wowhead.lua' #output
 
 class ItemDropFormatter:
 

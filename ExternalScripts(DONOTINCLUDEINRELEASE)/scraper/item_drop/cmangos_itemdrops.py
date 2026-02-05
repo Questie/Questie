@@ -26,7 +26,7 @@ try:
         # comment above line for mangos3
         item_groups[item_id]['entries'][row['entry']] = abs(row['ChanceOrQuestChance'])
 
-    with open("item_drop_data.lua", "w") as f:
+    with open("item_drop_data_cmangos.lua", "w") as f:
         f.write("return {\n")
 
         sorted_items = sorted(item_groups.keys())
