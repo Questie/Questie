@@ -6,38 +6,37 @@ from scrapy import signals
 from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
 from quest.factions_ignore import FACTIONS_IGNORE_LIST
-from quest.quest_ids_retail import QUEST_IDS_RETAIL
-from quest.quest_ids_tbc import QUEST_IDS_TBC
-
-
-def get_wowhead_url(expansion: str) -> str:
-    if expansion == "retail":
-        return "https://www.wowhead.com/quest={}"
-    elif expansion == "era":
-        return "https://www.wowhead.com/classic/quest={}"
-    else:
-        return "https://www.wowhead.com/{exp}/quest={{}}".format(exp=expansion)
-
-
-def get_quest_ids(expansion: str) -> list[int]:
-    if expansion == "retail":
-        return QUEST_IDS_RETAIL
-    elif expansion == "tbc":
-        return QUEST_IDS_TBC
-    else:
-        return QUEST_IDS
 
 
 class QuestSpider(scrapy.Spider):
     name = "quest"
+    base_url = "https://www.wowhead.com/classic/quest={}"
+    exp = ""
 
     start_urls = []
 
-    def __init__(self, expansion: str) -> None:
+    def __init__(self, expansion: int) -> None:
         super().__init__()
-        self.base_url = get_wowhead_url(expansion)
-        quest_ids = get_quest_ids(expansion)
-        self.start_urls = [self.base_url.format(quest_id) for quest_id in quest_ids]
+
+        # This expansion code differs from the other spiders because we also need to use the expansion prefix later on for URL validation
+        match expansion:
+            case 0:
+                self.exp = ""
+            case 1:
+                self.exp = "classic/"
+            case 2:
+                self.exp = "tbc/"
+            case 3:
+                self.exp = "wotlk/"
+            case 4:
+                self.exp = "cata/"
+            case 5:
+                self.exp = "mop-classic/"
+            case _: # If number is unknown, treat it as classic
+                self.exp = "classic/"
+
+        self.base_url = "https://www.wowhead.com/" + self.exp + "quest={}"
+        self.start_urls = [self.base_url.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
         # debug the response

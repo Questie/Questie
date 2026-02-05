@@ -126,6 +126,21 @@ function QuestieTooltips:RemoveQuest(questId)
     QuestieTooltips.lookupKeysByQuestId[questId] = nil
 end
 
+-- This function contains the rules for formatting text for drop rate tooltips.
+---@param rate number
+---@return string
+local function FormatDropText(rate)
+    if rate >= 10 then
+        return string.format("%.0f", rate)
+    elseif rate >= 2 then
+        return string.format("%.1f", rate)
+    elseif rate >= 0.01 then
+        return string.format("%.2f", rate)
+    else
+        return string.format("%.3f", rate)
+    end
+end
+
 -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
 -- It uses a similar system like here with i_ID etc as keys.
 local function _FetchTooltipsForGroupMembers(key, tooltipData)
@@ -295,17 +310,35 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     local text;
                     local color = QuestieLib:GetRGBForObjective(objective)
 
-                    if objective.Type == "spell" and objective.spawnList[tonumber(key:sub(3))].ItemId then
-                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[tonumber(key:sub(3))].ItemId, "name"));
+                    local npcId = tonumber(key:sub(3))
+                    local objectiveId = objective.Id
+                    if objective.Type == "spell" and objective.spawnList[npcId].ItemId then
+                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[npcId].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
-                    elseif objective.Needed then
-                        if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
-                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
+                    else
+                        local dropIcon, dropRateText = "", ""
+                        local dropRateData = QuestieDB.GetItemDroprate(objectiveId, npcId)
+                        if dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates then
+                            if Questie.db.profile.debugEnabled and dropRateData and dropRateData[2] then
+                                if dropRateData[2] == "cmangos" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
+                                elseif dropRateData[2] == "mangos3" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\mangos3.png:12|t "
+                                elseif dropRateData[2] == "wowhead" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                                elseif dropRateData[2] == "questie" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
+                                end
+                            end
+                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
+                        end
+                        if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        else
+                            text = "   " .. color .. tostring(objective.Description) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
-                    else
-                        text = "   " .. color .. tostring(objective.Description);
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     end
                 end
             end
@@ -336,11 +369,17 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         playerType = " (" .. l10n("Nearby") .. ")"
                     end
                 end
-                if objectivePlayerName == playerName and anotherPlayer then -- why did we have this case
+                if objectivePlayerName == playerName and anotherPlayer then -- Add current player name to own objective
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
-                    objectiveInfo.text = objectiveInfo.text .. " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
-                elseif playerColor and objectivePlayerName ~= playerName then
+                    local dropIndex = string.find(objectiveInfo.text, "  |cFF999999")
+                    local playerString = " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
+                    if dropIndex then
+                        objectiveInfo.text = objectiveInfo.text:sub(1,dropIndex-1)..playerString.." "..objectiveInfo.text:sub(dropIndex+1) -- Ensures drop data is shown after player name
+                    else
+                        objectiveInfo.text = objectiveInfo.text .. playerString
+                    end
+                elseif playerColor and objectivePlayerName ~= playerName then -- Add other player name to their objective
                     objectiveInfo.text = objectiveInfo.text .. " (" .. playerColor .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r" .. playerType
                 end
                 -- We want the player to be on top.

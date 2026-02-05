@@ -101,6 +101,8 @@ local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+---@type DropDB
+local DropDB = QuestieLoader:ImportModule("DropDB")
 
 local coYield = coroutine.yield
 
@@ -249,6 +251,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 3 start.")
 
     QuestieTooltips:Initialize()
+    DropDB:Initialize()
     TrackerQuestTimers:Initialize()
     if Expansions.Current >= Expansions.MoP then
         ChallengeModeTimer.Initialize()

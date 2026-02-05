@@ -263,6 +263,66 @@ function QuestieSlash.HandleCommands(input)
         return
     end
 
+    if Questie.db.profile.debugEnabled and mainCommand == "itemdrop" then
+        -- This is a developer tool to output a list of item IDs based upon all quests' item objectives in the currently loaded DB at runtime.
+        -- It should not be documented for users.
+        -- It does perform a bruteforce operation on the DB, it's a bit laggy, and this is a hacky way of doing it... but we only do it manually.
+
+        local data = {}
+        for i=1,35000 do -- Manually search every quest ID from 1-35000 (roughly the upper bound for MoP;
+            -- if you're reading this and know if there's a way to just 'check every quest' cleanly feel free to rewrite)
+            local obj = QuestieDB.QueryQuestSingle(i, "objectives")
+            if obj and obj[3] then -- If there are itemoObjectives for that quest ID (aka if the quest is valid)
+                for x=1,table.getn(obj[3]) do -- then for each objective
+                    if obj[3][x] then -- If x objective is an itemObjective
+                        local item = obj[3][x][1] -- then write down the item ID from that itemObjective
+                        if item ~= nil and tContains(data,item) == false then -- If there was an item ID and it isn't on our list
+                            table.insert(data,item) -- add it to the list
+                        end
+                    end
+                end
+            end
+            local sourceItems = QuestieDB.QueryQuestSingle(i, "requiredSourceItems")
+            if sourceItems then
+                for x=1,table.getn(sourceItems) do
+                    if tContains(data,sourceItems[x]) == false then
+                        table.insert(data,sourceItems[x]) -- do the same for requiredSourceItems
+                    end
+                end
+            end
+        end
+
+        local output = table.concat(data, ",") -- generate a string list of the items, comma-separated (for json syntax)
+
+        StaticPopupDialogs["QUESTIE_ITEMDROPOUTPUT"] = {
+            text = "Questie Item Drop Output",
+            button2 = CLOSE,
+            hasEditBox = true,
+            editBoxWidth = 280,
+
+            EditBoxOnEnterPressed = function(self)
+                self:GetParent():Hide()
+            end,
+
+            EditBoxOnEscapePressed = function(self)
+                self:GetParent():Hide()
+            end,
+
+            OnShow = function(self)
+                local editBox = _G[self:GetName() .. "WideEditBox"] or _G[self:GetName() .. "EditBox"] -- this is new as of midnight??? editBox isn't instantiated anymore for some reason
+                editBox:SetText(output);
+                editBox:SetFocus();
+                editBox:HighlightText();
+            end,
+
+            whileDead = true,
+            hideOnEscape = true
+        }
+
+        StaticPopup_Show("QUESTIE_ITEMDROPOUTPUT") -- display a popup with a copyable text field so we can get the list out of the game
+        return
+    end
+
     -- if no condition returned so far we have received an invalid command
     print(Questie:Colorize("/questie "..input..":"), l10n("Invalid command. For a list of options please type:"), Questie:Colorize("/questie help"))
 end

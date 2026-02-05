@@ -126,6 +126,11 @@ Database\Corrections\sodNPCFixes.lua
 Database\Corrections\sodItemFixes.lua
 Database\Corrections\sodObjectFixes.lua
 
+# Item Drops
+Database\DropTables\dropDB.lua
+Database\DropTables\data\itemDropCorrections.lua
+Database\DropTables\data\classicItemDrops.lua
+
 # Compiler
 Database\compiler.lua
 
