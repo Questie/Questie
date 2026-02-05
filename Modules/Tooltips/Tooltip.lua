@@ -126,6 +126,21 @@ function QuestieTooltips:RemoveQuest(questId)
     QuestieTooltips.lookupKeysByQuestId[questId] = nil
 end
 
+-- This function contains the rules for formatting text for drop rate tooltips.
+---@param rate number
+---@return string
+local function FormatDropText(rate)
+    if rate >= 10 then
+        return string.format("%.0f", rate)
+    elseif rate >= 2 then
+        return string.format("%.1f", rate)
+    elseif rate >= 0.01 then
+        return string.format("%.2f", rate)
+    else
+        return string.format("%.3f", rate)
+    end
+end
+
 -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
 -- It uses a similar system like here with i_ID etc as keys.
 local function _FetchTooltipsForGroupMembers(key, tooltipData)
@@ -301,31 +316,21 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[npcId].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     else
-                        local dropRateText = ""
-                        local dropIcon = ""
+                        local dropIcon, dropRateText = "", ""
                         local dropRateData = QuestieDB.GetItemDroprate(objectiveId, npcId)
-                        if Questie.db.profile.debugEnabled and dropRateData then
-                            if dropRateData[2] == "cmangos" then
-                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
-                            elseif dropRateData[2] == "mangos3" then
-                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\mangos3.png:12|t "
-                            elseif dropRateData[2] == "wowhead" then
-                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
-                            elseif dropRateData[2] == "questie" then
-                                dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
-                            end
-                        end
                         if dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates then
-                            if dropRateData[1] >= 10 then
-                                dropRateText = string.format("%.0f", dropRateData[1])
-                            elseif dropRateData[1] >= 2 then
-                                dropRateText = string.format("%.1f", dropRateData[1])
-                            elseif dropRateData[1] >= 0.01 then
-                                dropRateText = string.format("%.2f", dropRateData[1])
-                            else
-                                dropRateText = string.format("%.3f", dropRateData[1])
+                            if Questie.db.profile.debugEnabled and dropRateData and dropRateData[2] then
+                                if dropRateData[2] == "cmangos" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
+                                elseif dropRateData[2] == "mangos3" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\mangos3.png:12|t "
+                                elseif dropRateData[2] == "wowhead" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                                elseif dropRateData[2] == "questie" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
+                                end
                             end
-                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. dropRateText .. "%]|r";
+                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
                         end
                         if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;

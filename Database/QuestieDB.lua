@@ -371,7 +371,7 @@ end
 ---@return table<number, string>?
 function QuestieDB.GetItemDroprate(itemId, npcId)
      if not DropDB or not DropDB.GetItemDroprate then
-         Questie:Debug("ItemDrops: DropDB not available")
+         Questie:Debug(Questie.DEBUG_CRITICAL, "ItemDrops: DropDB not available")
          return nil
      end
      return DropDB.GetItemDroprate(itemId, npcId)
