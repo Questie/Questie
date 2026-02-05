@@ -263,18 +263,10 @@ function QuestieSlash.HandleCommands(input)
         return
     end
 
-    if mainCommand == "itemdrop" then
+    if Questie.db.profile.debugEnabled and mainCommand == "itemdrop" then
         -- This is a developer tool to output a list of item IDs based upon all quests' item objectives in the currently loaded DB at runtime.
         -- It should not be documented for users.
         -- It does perform a bruteforce operation on the DB, it's a bit laggy, and this is a hacky way of doing it... but we only do it manually.
-        local function contains(table, val)
-            for i=1,#table do
-                if table[i] == val then
-                    return true
-                end
-            end
-            return false
-        end
 
         local data = {}
         for i=1,35000 do -- Manually search every quest ID from 1-35000 (roughly the upper bound for MoP;
