@@ -103,6 +103,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type DropDB
 local DropDB = QuestieLoader:ImportModule("DropDB")
+---@type QuestieAnnounce
+local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 
 local coYield = coroutine.yield
 
@@ -259,6 +261,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Comms.Initialize()
     QuestieComms:Initialize()
+
+    QuestieAnnounce:InitializeLogoFilter()
 
     coYield()
 

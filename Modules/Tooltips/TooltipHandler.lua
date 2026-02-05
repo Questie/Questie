@@ -85,7 +85,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
                 local startQuestId = QuestieDB.QueryItemSingle(itemIdAsNumber, "startQuest")
                 local itemName = QuestieDB.QueryItemSingle(itemIdAsNumber, "name")
                 if startQuestId and startQuestId ~= 0 and itemName then
-                    QuestieTooltips:RegisterQuestStartTooltip(startQuestId, itemName, itemIdAsNumber, "i_"..itemId)
+                    QuestieTooltips:RegisterQuestStartTooltip(startQuestId, itemName, itemIdAsNumber, "i_"..itemId, "itemFromMonster")
                 end
             end
         end

@@ -110,7 +110,7 @@ describe("AvailableQuests", function()
             AvailableQuests.DrawAvailableQuest(quest)
 
             assert.spy(QuestieDB.GetNPC).was.called_with(QuestieDB, NPC_ID)
-            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
         end)
     end)
 
@@ -270,7 +270,7 @@ describe("AvailableQuests", function()
 
             AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
-            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
@@ -375,7 +375,7 @@ describe("AvailableQuests", function()
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
-            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
@@ -499,7 +499,7 @@ describe("AvailableQuests", function()
 
             AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
-            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
