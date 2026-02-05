@@ -2,17 +2,41 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local autoLocales = {
-    ["Automatically rejected quest shared by player."] = {
+    ["Automatically rejected quest %s shared by %s in battleground. Change this in Questie settings under Auto Accept."] = {
         ["enUS"] = true,
-        ["deDE"] = "Von Spieler geteilte Quest wurde automatisch abgelehnt.",
-        ["esES"] = "Se rechazó automáticamente la misión compartida por el jugador.",
-        ["esMX"] = "Se rechazó automáticamente la misión compartida por el jugador.",
-        ["frFR"] = "La quête partagée par le joueur a été rejetée automatiquement.",
-        ["koKR"] = "플레이어로부터 공유받은 퀘스트를 자동으로 거절합니다.",
-        ["ptBR"] = "Rejeitou-se automaticamente a missão compartilhada pelo jogador.",
-        ["ruRU"] = "Задание, которым поделился другой игрок, автоматически отменено.",
-        ["zhCN"] = "已自动拒绝玩家分享的任务。",
-        ["zhTW"] = "已自動拒絕玩家分享的任務。",
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Unknown Player"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Unknown Quest"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
     },
 }
 
