@@ -7,7 +7,7 @@ local QuestieMopItemDrops = QuestieLoader:CreateModule("QuestieMopItemDrops")
   --! This table is automatically generated from wowhead data based upon objective data from our DB.
   --! See External Scripts/dropdata/
 
-QuestieMopItemDrops.wowheadData = {
+QuestieMopItemDrops.wowheadData = [[return {
     [159] = { -- Refreshing Spring Water
         [6] = 10.49,
         [38] = 9.6821,
@@ -25940,11 +25940,11 @@ QuestieMopItemDrops.wowheadData = {
         [59522] = 0.0011,
         [66413] = 0.0007,
     },
-}
+}]]
 
   --! This table is automatically generated from cmangos data.
   --! See External Scripts/dropdata/
 
-QuestieMopItemDrops.cmangosData = {
+QuestieMopItemDrops.cmangosData = [[return {
 
-}
+}]]

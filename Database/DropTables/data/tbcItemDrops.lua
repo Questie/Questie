@@ -7,7 +7,7 @@ local QuestieTBCItemDrops = QuestieLoader:CreateModule("QuestieTBCItemDrops")
   --! This table is automatically generated from wowhead data based upon objective data from our DB.
   --! See External Scripts/dropdata/
 
-QuestieTBCItemDrops.wowheadData = {
+QuestieTBCItemDrops.wowheadData = [[return {
     [159] = { -- Refreshing Spring Water
         [6] = 11.074,
         [38] = 9.7414,
@@ -19393,12 +19393,12 @@ QuestieTBCItemDrops.wowheadData = {
     [38329] = { -- Don Carlos' Hat
         [28132] = 76.9978,
     },
-}
+}]]
 
   --! This table is automatically generated from cmangos data.
   --! See External Scripts/dropdata/
 
-QuestieTBCItemDrops.cmangosData = {
+QuestieTBCItemDrops.cmangosData = [[return {
     [182] = { -- Garrick's Head
         [103] = 100.0,
     },
@@ -26283,4 +26283,4 @@ QuestieTBCItemDrops.cmangosData = {
         [28132] = 100.0,
         [28171] = 100.0,
     },
-}
+}]]

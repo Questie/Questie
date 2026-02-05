@@ -7,7 +7,7 @@ local QuestieCataItemDrops = QuestieLoader:CreateModule("QuestieCataItemDrops")
   --! This table is automatically generated from wowhead data based upon objective data from our DB.
   --! See External Scripts/dropdata/
 
-QuestieCataItemDrops.wowheadData = {
+QuestieCataItemDrops.wowheadData = [[return {
     [159] = { -- Refreshing Spring Water
         [40] = 5.4726,
         [46] = 5.0989,
@@ -16886,14 +16886,14 @@ QuestieCataItemDrops.wowheadData = {
     [77954] = { -- Vial of Black Dragonsblood
         [57910] = 94.4444,
     },
-}
+}]]
 
   --! This table is automatically generated from trinity data.
   --! See External Scripts/dropdata/
   -- MangosThree holds item names in a separate table, they could
   -- be exported but they were only used for comments so w/e
 
-QuestieCataItemDrops.mangos3Data = {
+QuestieCataItemDrops.mangos3Data = [[return {
     [182] = {
         [103] = 100.0,
     },
@@ -26703,4 +26703,4 @@ QuestieCataItemDrops.mangos3Data = {
     [74755] = {
         [27483] = 20.0,
     },
-}
+}]]

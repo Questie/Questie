@@ -7,7 +7,7 @@ local QuestieWotlkItemDrops = QuestieLoader:CreateModule("QuestieWotlkItemDrops"
   --! This table is automatically generated from wowhead data based upon objective data from our DB.
   --! See External Scripts/dropdata/
 
-QuestieWotlkItemDrops.wowheadData = {
+QuestieWotlkItemDrops.wowheadData = [[return {
     [159] = { -- Refreshing Spring Water
         [6] = 10.7479,
         [38] = 9.7072,
@@ -21067,12 +21067,12 @@ QuestieWotlkItemDrops.wowheadData = {
     [51027] = { -- Crystalline Essence of Sindragosa
         [36853] = 2.2989,
     },
-}
+}]]
 
   --! This table is automatically generated from cmangos data.
   --! See External Scripts/dropdata/
 
-QuestieWotlkItemDrops.cmangosData = {
+QuestieWotlkItemDrops.cmangosData = [[return {
     [182] = { -- Garrick's Head
         [103] = 100.0,
     },
@@ -30206,4 +30206,4 @@ QuestieWotlkItemDrops.cmangosData = {
     [51026] = { -- Crystalline Essence of Sindragosa
         [36853] = 100.0,
     },
-}
+}]]

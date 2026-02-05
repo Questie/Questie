@@ -7,7 +7,7 @@ local QuestieClassicItemDrops = QuestieLoader:CreateModule("QuestieClassicItemDr
   --! This table is automatically generated from wowhead data based upon objective data from our DB.
   --! See External Scripts/dropdata/
 
-QuestieClassicItemDrops.wowheadData = {
+QuestieClassicItemDrops.wowheadData = [[return {
     [159] = { -- Refreshing Spring Water
         [6] = 10.9946,
         [38] = 9.6832,
@@ -17801,12 +17801,12 @@ QuestieClassicItemDrops.wowheadData = {
     [23250] = { -- Prismatic Shell
         [8408] = 43.4511,
     },
-}
+}]]
 
   --! This table is automatically generated from cmangos data.
   --! See External Scripts/dropdata/
 
-QuestieClassicItemDrops.cmangosData = {
+QuestieClassicItemDrops.cmangosData = [[return {
     [182] = { -- Garrick's Head
         [103] = 100.0,
     },
@@ -23260,4 +23260,4 @@ QuestieClassicItemDrops.cmangosData = {
     [23250] = { -- Prismatic Shell
         [8408] = 100.0,
     },
-}
+}]]

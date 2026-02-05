@@ -33,20 +33,20 @@ function DropDB:Initialize()
     if Questie.IsClassic then
         -- Wowhead Classic data was gathered with the SoD QuestieDB, so SoD IDs are included as well;
         -- this should not affect Era players because the Era DB will never reference those IDs
-        DropDB.dropRateTableWowhead = QuestieClassicItemDrops.wowheadData
-        DropDB.dropRateTableCmangos = QuestieClassicItemDrops.cmangosData
+        DropDB.dropRateTableWowhead = loadstring(QuestieClassicItemDrops.wowheadData)()
+        DropDB.dropRateTableCmangos = loadstring(QuestieClassicItemDrops.cmangosData)()
     elseif Questie.IsTBC then
-        DropDB.dropRateTableWowhead = QuestieTBCItemDrops.wowheadData
-        DropDB.dropRateTableCmangos = QuestieTBCItemDrops.cmangosData
+        DropDB.dropRateTableWowhead = loadstring(QuestieTBCItemDrops.wowheadData)()
+        DropDB.dropRateTableCmangos = loadstring(QuestieTBCItemDrops.cmangosData)()
     elseif Questie.IsWotlk then
-        DropDB.dropRateTableWowhead = QuestieWotlkItemDrops.wowheadData
-        DropDB.dropRateTableCmangos = QuestieWotlkItemDrops.cmangosData
+        DropDB.dropRateTableWowhead = loadstring(QuestieWotlkItemDrops.wowheadData)()
+        DropDB.dropRateTableCmangos = loadstring(QuestieWotlkItemDrops.cmangosData)()
     elseif Questie.IsCata then
-        DropDB.dropRateTableWowhead = QuestieCataItemDrops.wowheadData
-        DropDB.dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
+        DropDB.dropRateTableWowhead = loadstring(QuestieCataItemDrops.wowheadData)()
+        DropDB.dropRateTableMangos3 = loadstring(QuestieCataItemDrops.mangos3Data)()
     elseif Questie.IsMoP then
-        DropDB.dropRateTableWowhead = QuestieMopItemDrops.wowheadData
-        DropDB.dropRateTableMangos3 = QuestieCataItemDrops.mangos3Data
+        DropDB.dropRateTableWowhead = loadstring(QuestieMopItemDrops.wowheadData)()
+        DropDB.dropRateTableMangos3 = loadstring(QuestieCataItemDrops.mangos3Data)()
         -- we use cata mangos3 data for mop instead because mop DBs are so spotty;
         -- this means mop-only quests will use wowhead data exclusively
     else
