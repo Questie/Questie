@@ -174,7 +174,7 @@ _AddQuestDescription = function(quest)
     local description = quest.Description
     if description and description[1] then
         _AddColoredTooltipLine(description[1], "white", true)
-        if #description > 2 then
+        if #description >= 2 then
             for i = 2, #description do
                 --_AddTooltipLine(" ") -- this is just adding extra lines between text definitions in DB files
                 _AddColoredTooltipLine(description[i], "white", true)
