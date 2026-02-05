@@ -133,7 +133,6 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
     if QuestieComms and QuestieComms.data:KeyExists(key) then
         ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
         local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
-        --DevTools_Dump(QuestieComms.data)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
@@ -269,8 +268,6 @@ function QuestieTooltips.GetTooltip(key, playerZone)
         end
 
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
-            --print("test1")
-            --DevTools_Dump(tooltip)
             local questId = tooltip.questId
 
             if tooltip.name then
@@ -280,8 +277,6 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 end
             elseif (not finishedAndUnacceptedQuests[questId]) then
                 local objective = tooltip.objective
-                --print("test2")
-                --DevTools_Dump(objective)
                 if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
                     -- Tooltip was registered for a real "objective" and not for a sourceItem or requiredSourceItem
                     objective:Update()
