@@ -83,7 +83,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "낚시로 개퍼 잭을 획득하세요",
         ["ptBR"] = "Pesca Deschanfradores",
         ["ruRU"] = "Выловите Суперразъемы",
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取小齿轮",
         ["zhTW"] = "釣魚取得小齒輪",
     },
     ["Fish for Electropellers"] = { -- 1580

@@ -11,7 +11,7 @@ local seasonObjectiveLocals = {
         ["koKR"] = false,
         ["ptBR"] = "Use o barco a remo para alcançar a margem leste.",
         ["ruRU"] = "Используйте лодку с веслами, чтобы добраться до восточного берега.",
-        ["zhCN"] = false,
+        ["zhCN"] = "使用划艇到达东岸",
         ["zhTW"] = false,
     },
     ["Drink the Squall-breakers Potion and talk to Nyse."] = { -- 79366
@@ -23,7 +23,7 @@ local seasonObjectiveLocals = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "喝下破飑药水，然后和奈斯交谈。",
         ["zhTW"] = false,
     },
     ["Defeat enough enemies to call forth the Shadowy Figure and talk to her to receive a Mote of Darkness."] = { -- 79982
@@ -35,7 +35,7 @@ local seasonObjectiveLocals = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败足够多的敌人，召唤出暗影身影，与她对话即可获得黑暗微粒。",
         ["zhTW"] = false,
     },
     ["Use the Holy Spring Water next to the Holy Spring, while you have two meditation buffs active. Then loot the rune from the fountain."] = { -- 79731
