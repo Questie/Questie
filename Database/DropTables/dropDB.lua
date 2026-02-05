@@ -86,7 +86,6 @@ end
 ---@param npcId NpcId
 ---@return table<number, string>
 function DropDB.GetItemDroprate(itemId, npcId)
-    local dropRate = nil
 
     -- The hierarchy for drop rate data is as follows:
     -- 1. Manual Corrections > 2. Cmangos Data > 3. Mangos3 Data > 4. Wowhead Data
@@ -107,20 +106,6 @@ function DropDB.GetItemDroprate(itemId, npcId)
     -- So if we've manually excluded an NPC from dropping the item in QuestieDB corrections (like for a rare mob), then even if that drop
     -- data exists in our drop data DB, it won't ever actually be shown on NPC tooltips, because Questie itself doesn't think it should.
     -- This function will still return data for those NPCs in case external addons request it, Questie simply won't ever ask this function to.
-
-    -- To scrape new Wowhead data:
-    -- 1. Launch WoW with the desired expansion level and Questie installed.
-    -- 2. Once Questie is fully loaded ingame, run /questie itemdrop
-    -- 3. Copy that list of IDs into the file Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/item_drop/item_ids.py
-    -- 4. Run:   python Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/runner.py --item-drop -ex #      where # is the expansion level; 0 for classic, 1 for tbc, etc. also accepts strings
-    -- 5. Once it's done scraping, the data will be in Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/item_drop/item_drop_data.lua
-
-    -- To extract cmangos/mangos3 data:
-    -- 1. Host the relevant MySQL database locally on your machine
-    -- 2. Tweak Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/item_drop/cmangos_itemdrops.py for your host IP, user, password, and database ID, if necessary
-    -- 3. Run:   python cmangos_itemdrops.py
-    -- 4. Once it's done extracting, the data will be in Questie/ExternalScripts(DONOTINCLUDEINRELEASE)/scraper/item_drop/item_drop_data.lua
-    -- (we don't need a list of IDs like for wowhead because we rely on cmangos' own data for what items are quest-only drops)
 
     if DropDB.dropRateTableCorrections and DropDB.dropRateTableCorrections[itemId] and DropDB.dropRateTableCorrections[itemId][npcId] then
         return {DropDB.dropRateTableCorrections[itemId][npcId],"questie"}
