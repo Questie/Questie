@@ -290,7 +290,7 @@ function MapIconTooltip:Show()
                         local firstInChain = true;
                         while nextQuest ~= nil and (not Questie.db.char.hidden[nextQuest.Id]) do
                             if firstInChain then
-                                self:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain:"), 0.86, 0.86, 0.86)
+                                self:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                                 firstInChain = false
                             end
 

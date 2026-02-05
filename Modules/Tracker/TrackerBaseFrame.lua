@@ -565,20 +565,20 @@ _SetSizerTooltip = function()
 
     if IsShiftKeyDown() then
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. l10n(": "), "white") .. trackerSizeMode)
         if Questie.db.profile.trackerLocked then
-            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker"))
-            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. ": ", "gray") .. l10n("Reset Sizer"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. l10n(": "), "gray") .. l10n("Resize Tracker"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. l10n(": "), "gray") .. l10n("Reset Sizer"))
         else
-            GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker"))
-            GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Reset Sizer"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. l10n(": "), "gray") .. l10n("Resize Tracker"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. l10n(": "), "gray") .. l10n("Reset Sizer"))
         end
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. ": ", "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. l10n(": "), "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
         GameTooltip:Show()
     else
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. l10n(": "), "white") .. trackerSizeMode)
         GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
         GameTooltip:Show()
     end

@@ -338,12 +338,12 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
     -- Also Starts
     if spawnObject.questStarts then
-        AddLinkedParagraph(f, "quest", spawnObject.questStarts, l10n("Starts the following quests:"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(f, "quest", spawnObject.questStarts, l10n("Starts the following quests"), QuestieDB.QueryQuestSingle)
     end
 
     -- Also ends
     if spawnObject.questEnds then
-        AddLinkedParagraph(f, "quest", spawnObject.questEnds, l10n("Ends the following quests:"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(f, "quest", spawnObject.questEnds, l10n("Ends the following quests"), QuestieDB.QueryQuestSingle)
     end
 
     local spawnZone = AceGUI:Create("Label");

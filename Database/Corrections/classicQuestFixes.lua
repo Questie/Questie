@@ -3193,7 +3193,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {6961,7021,7024},
         },
         [6981] = {
-            [questKeys.objectives] = {{{3442,"Speak with someone in Ratchet about the Glowing Shard",Questie.ICON_TYPE_TALK}},nil,nil,nil},
+            [questKeys.objectives] = {{{3442,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil},
         },
         [6982] = {
             [questKeys.questLevel] = 55,
@@ -5380,6 +5380,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [6681] = {
             [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}}, -- #7244
         },
+        [6981] = {
+            [questKeys.nextQuestInChain] = 3369,
+        },
         [7562] = {
             [questKeys.startedBy] = {{5753,5815},nil,nil},
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5426,6 +5429,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [6681] = {
             [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}}, -- #7244
+        },
+        [6981] = {
+            [questKeys.nextQuestInChain] = 3370,
         },
         [7562] = {
             [questKeys.startedBy] = {{5520,6382},nil,nil},

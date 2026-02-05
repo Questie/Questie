@@ -185,18 +185,6 @@ _AddQuestDescription = function(quest)
     end
 end
 
--- helper function to format a label with a colon, respecting localization rules
----@param label string
----@return string
-local function FormatLabelWithColon(label)
-    local locale = GetLocale()
-    if locale == "frFR" then
-        return label .. " :"
-    else
-        return label .. ":"
-    end
-end
-
 ---@param quest Quest
 _AddDungeonInfo = function(quest)
     local zoneOrSort = quest.zoneOrSort
@@ -204,7 +192,7 @@ _AddDungeonInfo = function(quest)
         local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
         if localizedDungeonName then
             _AddTooltipLine(" ")
-            _AddColoredTooltipLine(FormatLabelWithColon(l10n("Dungeon")) .. " " .. localizedDungeonName, "gray")
+            _AddColoredTooltipLine(l10n("Dungeon") .. l10n(": ") .. localizedDungeonName, "gray")
         end
     end
 end
@@ -334,24 +322,24 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
         -- On Quest: display quest progress
         if (QuestieDB.IsComplete(quest.Id) == 0) then
             _AddTooltipLine(" ")
-            _AddTooltipLine(l10n("Your progress")..":")
+            _AddTooltipLine(l10n("Your progress")..l10n(": "))
             for _, objective in pairs(quest.Objectives) do
                 local objDesc = objective.Description:gsub("%.", "")
 
                 if objective.Needed > 0 then
                     local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
-                    _AddTooltipLine(" - " .. QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding.."|r")
+                    _AddTooltipLine(" - " .. QuestieLib:GetRGBForObjective(objective) .. objDesc .. l10n(": ") .. lineEnding.."|r")
                 end
             end
         -- Completed Quest (not turned in): display quest ended by npc and zone
         else
             if finisherName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((l10n("Ended by")..": " .. Questie:Colorize(finisherName, "gray")))
+                _AddTooltipLine((l10n("Ended by")..l10n(": ") .. Questie:Colorize(finisherName, "gray")))
             end
             if finisherZoneName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(finisherZoneName, "gray")))
+                _AddTooltipLine((l10n("Found in")..l10n(": ") .. Questie:Colorize(finisherZoneName, "gray")))
             end
         end
     else
@@ -369,7 +357,7 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
                 end
                 if timestamp then
                     _AddTooltipLine(" ")
-                    _AddTooltipLine(l10n("Completed on:"))
+                    _AddTooltipLine(l10n("Completed on")..l10n(": "))
                     _AddTooltipLine(timestamp)
                 end
             end
@@ -377,10 +365,10 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
         else
             if starterName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((l10n("Started by")..": " .. Questie:Colorize(starterName, "gray")))
+                _AddTooltipLine((l10n("Started by")..l10n(": ") .. Questie:Colorize(starterName, "gray")))
             end
             if starterZoneName then
-                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(starterZoneName, "gray")))
+                _AddTooltipLine((l10n("Found in")..l10n(": ") .. Questie:Colorize(starterZoneName, "gray")))
             end
         end
     end
