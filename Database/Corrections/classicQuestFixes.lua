@@ -1682,9 +1682,11 @@ function QuestieQuestFixes:Load()
         [2926] = { -- Gnogaine
             [questKeys.preQuestSingle] = {}, -- #2389
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Empty Leaden Collection Phial."), 0, {{"monster", 6213},{"monster", 6329}}}},
+            [questKeys.breadcrumbs] = {2927},
         },
-        [2927] = {
+        [2927] = { -- The Day After
             [questKeys.nextQuestInChain] = 2926,
+            [questKeys.breadcrumbForQuestId] = 2926,
         },
         [2930] = {
             [questKeys.extraObjectives] = {
@@ -1835,7 +1837,7 @@ function QuestieQuestFixes:Load()
         [3628] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Teleport to the top of the mountain."), 0, {{"object", 153203},{"monster", 8816}}},
                                           {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Ward of the Defiler to summon Razelikh."), 0, {{"object", 153205}}},
-			},
+            },
         },
         [3629] = { -- Goblin Engineering (Stormwind)
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -2239,8 +2241,8 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{10299}},
             [questKeys.finishedBy] = {{10299}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},
-			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Flames of the Black Flight over it to create the Seal."), 0, {{"object", 175321}}},
-			},
+                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Flames of the Black Flight over it to create the Seal."), 0, {{"object", 175321}}},
+            },
         },
         [4762] = {
             [questKeys.nextQuestInChain] = 4763,
