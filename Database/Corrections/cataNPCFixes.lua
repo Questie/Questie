@@ -264,9 +264,6 @@ function CataNpcFixes.Load()
             [npcKeys.waypoints] = {},
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{69.79,44.37}}},
         },
-        [1416] = { -- Grimand Elmore
-            [npcKeys.waypoints] = {},
-        },
         [1422] = { -- Corporal Sethman
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{46.98,10.84,phases.SETHMAN_VISIBLE}}},
         },

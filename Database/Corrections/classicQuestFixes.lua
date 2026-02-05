@@ -1234,27 +1234,36 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1698},
         },
-        [1700] = {
+        [1700] = { -- Grimand Elmore
+            [questKeys.preQuestSingle] = {1782},
             [questKeys.requiredRaces] = raceIDs.HUMAN,
             [questKeys.breadcrumbForQuestId] = 1705, -- #1857
         },
-        [1703] = {
+        [1701] = { -- Fire Hardened Mail
+            [questKeys.nextQuestInChain] = 1782,
+        },
+        [1703] = { -- Mathiel
+            [questKeys.preQuestSingle] = {1782},
             [questKeys.breadcrumbForQuestId] = 1710, -- #1857
         },
-        [1704] = {
+        [1704] = { -- Klockmort Spannerspan
+            [questKeys.preQuestSingle] = {1782},
             [questKeys.breadcrumbForQuestId] = 1708, -- #1857
         },
-        [1705] = {
-            [questKeys.preQuestSingle] = {1701},
+        [1705] = { -- Burning Blood
+            [questKeys.preQuestSingle] = {1782},
             [questKeys.breadcrumbs] = {1700}, -- #1857
+            [questKeys.nextQuestInChain] = 1706,
         },
-        [1708] = {
-            [questKeys.preQuestSingle] = {1701},
+        [1708] = { -- Iron Coral
+            [questKeys.preQuestSingle] = {1782},
             [questKeys.breadcrumbs] = {1704}, -- #1857
+            [questKeys.nextQuestInChain] = 1709,
         },
-        [1710] = {
-            [questKeys.preQuestSingle] = {1701},
+        [1710] = { -- Sunscorched Shells
+            [questKeys.preQuestSingle] = {1782},
             [questKeys.breadcrumbs] = {1703}, -- #1857
+            [questKeys.nextQuestInChain] = 1711,
         },
         [1715] = {
             [questKeys.nextQuestInChain] = 1688,

@@ -304,10 +304,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
             [questKeys.breadcrumbs] = {1698,10371},
         },
+        [1703] = { -- Mathiel
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [1704] = { -- Klockmort Spannerspan
+            [questKeys.requiredRaces] = raceIDs.GNOME + raceIDs.DWARF,
+        },
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
         },
-        [1782] = {
+        [1782] = { -- Furen's Armor
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
         [1799] = {

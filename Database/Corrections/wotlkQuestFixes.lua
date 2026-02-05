@@ -172,6 +172,9 @@ function QuestieWotlkQuestFixes:Load()
         [1716] = {
             [questKeys.preQuestSingle] = {},
         },
+        [1782] = { -- Furen's Armor
+            [questKeys.requiredClasses] = classKeys.WARRIOR,
+        },
         [1795] = {
             [questKeys.requiredSourceItems] = {},
         },
