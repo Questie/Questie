@@ -368,7 +368,7 @@ end
 
 ---@param itemId ItemId
 ---@param npcId NpcId
----@return number?
+---@return table<number, string>?
 function QuestieDB.GetItemDroprate(itemId, npcId)
      if not DropDB or not DropDB.GetItemDroprate then
          Questie:Debug("ItemDrops: DropDB not available")
