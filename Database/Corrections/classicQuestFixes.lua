@@ -661,9 +661,11 @@ function QuestieQuestFixes:Load()
         },
         [994] = {
             [questKeys.triggerEnd] = {"Help Volcor to the road", {[zoneIDs.DARKSHORE]={{41.92,81.76}}}},
+            [questKeys.nextQuestInChain] = 990,
         },
         [995] = {
             [questKeys.triggerEnd] = {"Help Volcor escape the cave", {[zoneIDs.DARKSHORE]={{44.57,85}}}},
+            [questKeys.nextQuestInChain] = 990,
         },
         [1000] = {
             [questKeys.exclusiveTo] = {1004,1018},
