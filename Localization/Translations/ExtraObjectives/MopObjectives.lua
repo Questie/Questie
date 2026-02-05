@@ -11,7 +11,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用风之石",
         ["zhTW"] = false,
     },
     ["Use the Firework Launcher"] = {
@@ -23,7 +23,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用烟花发射器",
         ["zhTW"] = false,
     },
     ["Bring the Injured Sailor to Delora Lionheart"] = {
@@ -35,7 +35,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把受伤的船员带到德罗娜·莱因哈特那里。",
         ["zhTW"] = false,
     },
     ["Take a ride"] = {
@@ -47,7 +47,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车",
         ["zhTW"] = false,
     },
     ["Throw the Gut Bomb"] = {
@@ -59,7 +59,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "扔出内脏炸弹",
         ["zhTW"] = false,
     },
     ["Talk to Chen"] = {
@@ -71,7 +71,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和陈谈谈",
         ["zhTW"] = false,
     },
     ["Fill the vial"] = {
@@ -83,7 +83,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将小瓶装满",
         ["zhTW"] = false,
     },
     ["Talk to Mudmug"] = {
@@ -95,7 +95,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和泥盏交谈",
         ["zhTW"] = false,
     },
     ["Use the bait"] = {
@@ -107,7 +107,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用诱饵",
         ["zhTW"] = false,
     },
     ["Talk to Gai Lan"] = {
@@ -119,7 +119,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与蓝盖交谈",
         ["zhTW"] = false,
     },
     ["Talk to Gardener Fran"] = {
@@ -131,7 +131,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和园丁芳兰谈谈",
         ["zhTW"] = false,
     },
     ["Talk to Yi-Mo"] = {
@@ -143,7 +143,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和易默谈谈",
         ["zhTW"] = false,
     },
     ["Talk to Master Bruised Paw"] = {
@@ -155,7 +155,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与断掌大师交谈",
         ["zhTW"] = false,
     },
     ["Talk to Na Lek"] = {
@@ -167,7 +167,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与纳乐交谈",
         ["zhTW"] = false,
     },
     ["Talk to Li Li"] = {
@@ -179,7 +179,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和丽丽谈谈",
         ["zhTW"] = false,
     },
     ["Talk to Hemet"] = {
@@ -191,7 +191,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与赫米特交谈",
         ["zhTW"] = false,
     },
     ["Talk to Koro Mistwalker"] = {
@@ -203,7 +203,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与科洛·迷雾行者交谈",
         ["zhTW"] = false,
     },
     ["Talk to Chi-Ji"] = {
@@ -215,7 +215,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与赤精交谈",
         ["zhTW"] = false,
     },
     ["Talk to Rivett"] = {
@@ -227,7 +227,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与利维特交谈",
         ["zhTW"] = false,
     },
     ["Talk to Toya"] = {
@@ -239,7 +239,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和托亚谈谈",
         ["zhTW"] = false,
     },
     ["Talk to Kor Bloodtusk"] = {
@@ -251,7 +251,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与科尔·血牙交谈",
         ["zhTW"] = false,
     },
     ["Smash the Spirit Bottles"] = {
@@ -263,7 +263,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "砸碎灵魂瓶",
         ["zhTW"] = false,
     },
     ["Talk to Lyalia"] = {
@@ -275,7 +275,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和丽娅拉谈谈",
         ["zhTW"] = false,
     },
     ["Talk to Miss Fanny"] = {
@@ -287,7 +287,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和范妮小姐谈谈",
         ["zhTW"] = false,
     },
     ["Defeat the Stonebound Colossus"] = {
@@ -299,7 +299,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败缚岩巨像",
         ["zhTW"] = false,
     },
     ["Shoot the fireworks"] = {
@@ -311,7 +311,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "燃放烟花",
         ["zhTW"] = false,
     },
     ["Talk to Kitemaster Shoku for a ride to the top"] = {
@@ -323,7 +323,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "找风筝大师卓续搭车上山",
         ["zhTW"] = false,
     },
     ["Talk to Kitemaster Inga for a ride back to the bottom"] = {
@@ -335,7 +335,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "跟风筝大师恩娜说一声，让他送你回山脚。",
         ["zhTW"] = false,
     },
     ["Search through the book"] = {
@@ -347,7 +347,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "翻阅本书",
         ["zhTW"] = false,
     },
     ["Talk to Mishi"] = {
@@ -359,7 +359,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与米师交谈",
         ["zhTW"] = false,
     },
     ["Set the Yaungol Banner ablaze"] = {
@@ -371,7 +371,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "点燃野牛人旗帜",
         ["zhTW"] = false,
     },
     ["Slay the overseers"] = {
@@ -383,7 +383,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死监工",
         ["zhTW"] = false,
     },
     ["Cleanse the pool"] = {
@@ -395,7 +395,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "清理泳池",
         ["zhTW"] = false,
     },
     ["Use the rope"] = {
@@ -407,7 +407,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用绳子",
         ["zhTW"] = false,
     },
     ["Talk to Kil'ruk"] = {
@@ -419,7 +419,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与克尔鲁克交谈",
         ["zhTW"] = false,
     },
     ["Reel in the fishing rod"] = {
@@ -431,7 +431,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "收起鱼竿",
         ["zhTW"] = false,
     },
     ["Jump in"] = {
@@ -443,7 +443,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "跳进去",
         ["zhTW"] = false,
     },
     ["Enter the burrow"] = {
@@ -455,7 +455,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入洞穴",
         ["zhTW"] = false,
     },
     ["Let the Chanter pick-up the Motherseeds"] = {
@@ -467,7 +467,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "让吟咏者拾起母种",
         ["zhTW"] = false,
     },
     ["Talk to Chief Rikkitun"] = {
@@ -479,7 +479,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与里基屯酋长交谈",
         ["zhTW"] = false,
     },
     ["Remove the boulders"] = {
@@ -491,7 +491,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "移走巨石",
         ["zhTW"] = false,
     },
     ["Talk to Cho"] = {
@@ -503,7 +503,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和周谈谈",
         ["zhTW"] = false,
     },
     ["Feed the Flask of Kafa to Kota Kon"] = {
@@ -515,7 +515,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将一瓶咔啡喂给寇塔空",
         ["zhTW"] = false,
     },
     ["Talk to Lun-Chi"] = {
@@ -527,7 +527,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和丽春谈谈",
         ["zhTW"] = false,
     },
     ["Talk to Brewmaster Chani"] = {
@@ -539,7 +539,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与酒仙倩妮交谈",
         ["zhTW"] = false,
     },
     ["Enter the underwater cave"] = {
@@ -551,7 +551,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入水下洞穴",
         ["zhTW"] = false,
     },
     ["Talk to Kang Bramblestaff"] = {
@@ -563,7 +563,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与康·棘杖交谈",
         ["zhTW"] = false,
     },
     ["Give him a shield"] = {
@@ -575,7 +575,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "给他一面盾牌",
         ["zhTW"] = false,
     },
     ["Talk to The Wrestler"] = {
@@ -587,7 +587,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与摔跤手对话",
         ["zhTW"] = false,
     },
     ["Give him a book"] = {
@@ -599,7 +599,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "给他一本书",
         ["zhTW"] = false,
     },
     ["Talk to Master Boom Boom"] = {
@@ -611,7 +611,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和布姆布姆大师谈谈",
         ["zhTW"] = false,
     },
     ["Give him a staff"] = {
@@ -623,7 +623,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "给他一根权杖",
         ["zhTW"] = false,
     },
     ["Talk to Master Windfur"] = {
@@ -635,7 +635,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与风裘大师交谈。",
         ["zhTW"] = false,
     },
     ["Give him a dagger"] = {
@@ -647,7 +647,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "给他一把匕首",
         ["zhTW"] = false,
     },
     ["After quest is complete, select 3rd option"] = {
@@ -659,7 +659,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "任务完成后，选择第三个选项",
         ["zhTW"] = false,
     },
     ["Pink Turnip - 2nd option"] = {
@@ -671,7 +671,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "粉色芜菁 - 第二种选择",
         ["zhTW"] = false,
     },
     ["Watermelon - 1st option"] = {
@@ -683,7 +683,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "西瓜——首选",
         ["zhTW"] = false,
     },
     ["Tofu - 3rd option"] = {
@@ -695,7 +695,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "豆腐——第三种选择",
         ["zhTW"] = false,
     },
     ["Follow the students and help them"] = {
@@ -707,7 +707,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "跟随学生并帮助他们",
         ["zhTW"] = false,
     },
     ["Reveal Virmen Pesters"] = {
@@ -719,7 +719,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "揭露兔妖骚扰者",
         ["zhTW"] = false,
     },
     ["Plant the banner"] = {
@@ -731,7 +731,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "插上横幅",
         ["zhTW"] = false,
     },
     ["Place a totem next to the ranger"] = {
@@ -743,7 +743,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在游侠旁边放置一个图腾",
         ["zhTW"] = false,
     },
     ["Man a Dragon Launcher"] = {
@@ -755,7 +755,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "操控龙息火炮",
         ["zhTW"] = false,
     },
     ["Kill the Mist-Shamans after they placed their torch"] = {
@@ -767,7 +767,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在迷雾萨满放置火炬后杀死他们。",
         ["zhTW"] = false,
     },
     ["Plant the torch"] = {
@@ -779,7 +779,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "插上火炬",
         ["zhTW"] = false,
     },
     ["Attack Zhao-Jin the Bloodletter"] = {
@@ -791,7 +791,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "攻击放血者兆金",
         ["zhTW"] = false,
     },
     ["Borrow a kite"] = {
@@ -803,7 +803,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "借一只风筝",
         ["zhTW"] = false,
     },
     ["Return the hatchlings to the nests"] = {
@@ -815,7 +815,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将雏鸟放回巢穴",
         ["zhTW"] = false,
     },
     ["Kill the eyes"] = {
@@ -827,7 +827,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死眼睛",
         ["zhTW"] = false,
     },
     ["Talk to Wika-Wika"] = {
@@ -839,7 +839,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与维卡维卡交谈",
         ["zhTW"] = false,
     },
     ["Phase into the Spirit Void"] = {
@@ -851,7 +851,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入幽魂虚空",
         ["zhTW"] = false,
     },
     ["Fish for Dojani Eel"] = {
@@ -863,7 +863,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取都阳鳗鱼",
         ["zhTW"] = false,
     },
     ["Fish for Wolf Piranha"] = {
@@ -875,7 +875,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取贪狼食人鱼",
         ["zhTW"] = false,
     },
     ["Attack it to drop the Stolen Mistfall Keg"] = {
@@ -887,7 +887,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "攻击它即可掉落失窃的雾临酒桶",
         ["zhTW"] = false,
     },
     ["Use the raft"] = {
@@ -899,7 +899,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用木筏",
         ["zhTW"] = false,
     },
     ["Take a ride to the Temple of the Jade Serpent"] = {
@@ -911,7 +911,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车前往青龙寺",
         ["zhTW"] = false,
     },
     ["Bring the yaks here"] = {
@@ -923,7 +923,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把牦牛带到这里来",
         ["zhTW"] = false,
     },
     ["Speak to Kiryn"] = {
@@ -935,7 +935,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与琪麟交谈",
         ["zhTW"] = false,
     },
     ["Clear the rocks"] = {
@@ -947,7 +947,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "清除石头",
         ["zhTW"] = false,
     },
     ["Use the crystal"] = {
@@ -959,7 +959,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用水晶",
         ["zhTW"] = false,
     },
     ["Use the Amber Tap"] = {
@@ -971,7 +971,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用琥珀活栓",
         ["zhTW"] = false,
     },
     ["Start the fight"] = {
@@ -983,7 +983,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "开始战斗",
         ["zhTW"] = false,
     },
     ["Talk to Ban"] = {
@@ -995,7 +995,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与班交谈",
         ["zhTW"] = false,
     },
     ["Grab another torch"] = {
@@ -1007,7 +1007,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "抓取另一个火炬",
         ["zhTW"] = false,
     },
     ["Bring the Motherseeds here"] = {
@@ -1019,7 +1019,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把母种带到这里",
         ["zhTW"] = false,
     },
     ["Blow up the explosives"] = {
@@ -1031,7 +1031,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "引爆炸药",
         ["zhTW"] = false,
     },
     ["Take a ride to Dawn's Blossom"] = {
@@ -1043,7 +1043,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车前往晨芳园",
         ["zhTW"] = false,
     },
     ["Grab the drinks"] = {
@@ -1055,7 +1055,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "拿饮料",
         ["zhTW"] = false,
     },
     ["Kill them near stone blocks"] = {
@@ -1067,7 +1067,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在石块附近杀死它们",
         ["zhTW"] = false,
     },
     ["Fly to Fire Camp Bataar"] = {
@@ -1079,7 +1079,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往巴塔尔消防营",
         ["zhTW"] = false,
     },
     ["Fly to the Shrine"] = {
@@ -1091,7 +1091,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往神殿",
         ["zhTW"] = false,
     },
     ["Fly to Mogujia"] = {
@@ -1103,7 +1103,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往魔古岬",
         ["zhTW"] = false,
     },
     ["Fly to Binan Village"] = {
@@ -1115,7 +1115,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往滨岸村",
         ["zhTW"] = false,
     },
     ["Kill the ones near Blood Elves in fire pillars"] = {
@@ -1127,7 +1127,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀掉火焰柱附近血精灵的那些敌人",
         ["zhTW"] = false,
     },
     ["Fly to the Grummle Bazaar"] = {
@@ -1139,7 +1139,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往土地精集市",
         ["zhTW"] = false,
     },
     ["Deactivate Spirit Wall"] = {
@@ -1151,7 +1151,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "关闭幽魂墙",
         ["zhTW"] = false,
     },
     ["Fish in the Mysterious Whirlpool"] = {
@@ -1163,7 +1163,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在神秘的漩涡中钓鱼",
         ["zhTW"] = false,
     },
     ["Use the crane egg and fish in the yolk"] = {
@@ -1175,7 +1175,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用仙鹤蛋然后在蛋黄中钓鱼",
         ["zhTW"] = false,
     },
     ["Use Ken-Ken's Mask on Ik'thik Wing Commander"] = {
@@ -1187,7 +1187,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "对伊克提克空军指挥官使用肯肯面具",
         ["zhTW"] = false,
     },
     ["Release Ancestors"] = {
@@ -1199,7 +1199,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "释放先祖",
         ["zhTW"] = false,
     },
     ["Talk to Kaz'tik"] = {
@@ -1211,7 +1211,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和卡兹提克谈谈",
         ["zhTW"] = false,
     },
     ["Learn to make Sliced Peaches"] = {
@@ -1223,7 +1223,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "学习如何制作蜜桃片",
         ["zhTW"] = false,
     },
     ["Fly to the Valley of Emperors"] = {
@@ -1235,7 +1235,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往皇帝谷",
         ["zhTW"] = false,
     },
     ["Fly to the Ruins of Korune"] = {
@@ -1247,7 +1247,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往寇茹废墟",
         ["zhTW"] = false,
     },
     ["Open the amber"] = {
@@ -1259,7 +1259,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打开琥珀",
         ["zhTW"] = false,
     },
     ["Open the box"] = {
@@ -1271,7 +1271,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打开箱子",
         ["zhTW"] = false,
     },
     ["Fly to Emperor's Reach"] = {
@@ -1283,7 +1283,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往帝皇之域",
         ["zhTW"] = false,
     },
     ["Fly to Garrosh'ar Advance"] = {
@@ -1295,7 +1295,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往加尔鲁什尔先锋营地",
         ["zhTW"] = false,
     },
     ["Go through the portal"] = {
@@ -1307,7 +1307,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "穿过传送门",
         ["zhTW"] = false,
     },
     ["Kill the Arcweaver"] = {
@@ -1319,7 +1319,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死织奥者",
         ["zhTW"] = false,
     },
     ["Kill the Shan'ze Thundercallers"] = {
@@ -1331,7 +1331,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "消灭山泽唤雷者",
         ["zhTW"] = false,
     },
     ["Summon Gura"] = {
@@ -1343,7 +1343,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤古拉",
         ["zhTW"] = false,
     },
     ["Disrupt the Ancient Stone Conqueror ritual"] = {
@@ -1355,7 +1355,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "扰乱古代岩石征服者的仪式",
         ["zhTW"] = false,
     },
     ["Kill the Master Caller to disrupt the ritual"] = {
@@ -1367,7 +1367,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死控兽召唤师以破坏仪式",
         ["zhTW"] = false,
     },
     ["Hurl the Lightning Lance into Nalak"] = {
@@ -1379,7 +1379,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将闪电长枪掷向纳拉克",
         ["zhTW"] = false,
     },
 }
