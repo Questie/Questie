@@ -44,6 +44,9 @@ function QuestieTBCQuestFixes:Load()
         [100] = {
             [questKeys.childQuests] = {},
         },
+        [123] = { -- The Collector
+            [questKeys.nextQuestInChain] = 147,
+        },
         [171] = {
             [questKeys.questLevel] = -1,
         },
@@ -293,11 +296,13 @@ function QuestieTBCQuestFixes:Load()
         [1687] = {
             [questKeys.questLevel] = -1,
         },
-        [1698] = {
-            [questKeys.startedBy] = {{5479,7315}},
+        [1698] = { -- Yorus Barleybrew
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {10371},
         },
-        [1699] = {
+        [1699] = { -- The Rethban Gauntlet
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
+            [questKeys.breadcrumbs] = {1698,10371},
         },
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
@@ -2477,6 +2482,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10369] = {
             [questKeys.objectives] = {{{19354}}},
+        },
+        [10371] = { -- Yorus Barleybrew
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {1698},
+            [questKeys.breadcrumbForQuestId] = 1699,
         },
         [10373] = {
             [questKeys.startedBy] = {{20722},nil,nil},

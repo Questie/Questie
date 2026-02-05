@@ -529,6 +529,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 871, -- #2014
             [questKeys.nextQuestInChain] = 871,
         },
+        [858] = {
+            [questKeys.nextQuestInChain] = 863,
+        },
         [860] = {
             [questKeys.breadcrumbForQuestId] = 844,
         },
@@ -650,6 +653,12 @@ function QuestieQuestFixes:Load()
         [984] = {
             [questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[zoneIDs.DARKSHORE]={{50.91,34.74},{39.86,53.89},{42.68,86.53},{39.95,78.41}}}},
         },
+        [985] = {
+            [questKeys.nextQuestInChain] = 986,
+        },
+        [986] = {
+            [questKeys.nextQuestInChain] = 993,
+        },
         [994] = {
             [questKeys.triggerEnd] = {"Help Volcor to the road", {[zoneIDs.DARKSHORE]={{41.92,81.76}}}},
         },
@@ -661,6 +670,15 @@ function QuestieQuestFixes:Load()
         },
         [1004] = {
             [questKeys.exclusiveTo] = {1000,1018},
+        },
+        [1007] = { -- The Ancient Statuette
+            [questKeys.nextQuestInChain] = 1009
+        },
+        [1008] = { -- The Zoram Strand
+            [questKeys.nextQuestInChain] = 1134
+        },
+        [1010] = { -- Bathran's Hair
+            [questKeys.nextQuestInChain] = 1020
         },
         [1011] = {
             [questKeys.preQuestSingle] = {},
@@ -675,8 +693,17 @@ function QuestieQuestFixes:Load()
         [1019] = {
             [questKeys.exclusiveTo] = {1015,1047},
         },
+        [1020] = { -- Orendil's Cure
+            [questKeys.nextQuestInChain] = 1033
+        },
         [1026] = {
             [questKeys.requiredSourceItems] = {5475},
+        },
+        [1033] = { -- Elune's Tear
+            [questKeys.nextQuestInChain] = 1034
+        },
+        [1034] = { -- The Ruins of Stardust
+            [questKeys.nextQuestInChain] = 1035
         },
         [1036] = {
             [questKeys.requiredMinRep] = {87,3000},
@@ -1197,11 +1224,11 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1686},
             [questKeys.nextQuestInChain] = 1693,
         },
-        [1698] = {
+        [1698] = { -- Yorus Barleybrew
             [questKeys.startedBy] = {{5113,5479,7315}},
             [questKeys.breadcrumbForQuestId] = 1699,
         },
-        [1699] = {
+        [1699] = { -- The Rethban Gauntlet
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1698},
         },
@@ -1216,15 +1243,15 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1708, -- #1857
         },
         [1705] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1701},
             [questKeys.breadcrumbs] = {1700}, -- #1857
         },
         [1708] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1701},
             [questKeys.breadcrumbs] = {1704}, -- #1857
         },
         [1710] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {1701},
             [questKeys.breadcrumbs] = {1703}, -- #1857
         },
         [1715] = {
@@ -1291,12 +1318,10 @@ function QuestieQuestFixes:Load()
         },
         [1820] = { -- Speak with Coleman
             [questKeys.preQuestSingle] = {1498,1819},
-            [questKeys.exclusiveTo] = {1498},
             [questKeys.breadcrumbForQuestId] = 1821,
         },
         [1821] = { -- Agamand Heirlooms
             [questKeys.preQuestSingle] = {1498,1819},
-            [questKeys.exclusiveTo] = {1498},
             [questKeys.breadcrumbs] = {1820},
         },
         [1823] = {
@@ -1660,9 +1685,11 @@ function QuestieQuestFixes:Load()
         [2926] = { -- Gnogaine
             [questKeys.preQuestSingle] = {}, -- #2389
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Empty Leaden Collection Phial."), 0, {{"monster", 6213},{"monster", 6329}}}},
+            [questKeys.breadcrumbs] = {2927},
         },
-        [2927] = {
+        [2927] = { -- The Day After
             [questKeys.nextQuestInChain] = 2926,
+            [questKeys.breadcrumbForQuestId] = 2926,
         },
         [2930] = {
             [questKeys.extraObjectives] = {
@@ -1813,7 +1840,7 @@ function QuestieQuestFixes:Load()
         [3628] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Teleport to the top of the mountain."), 0, {{"object", 153203},{"monster", 8816}}},
                                           {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Ward of the Defiler to summon Razelikh."), 0, {{"object", 153205}}},
-			},
+            },
         },
         [3629] = { -- Goblin Engineering (Stormwind)
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -2217,8 +2244,11 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{10299}},
             [questKeys.finishedBy] = {{10299}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},
-			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Flames of the Black Flight over it to create the Seal."), 0, {{"object", 175321}}},
-			},
+                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Flames of the Black Flight over it to create the Seal."), 0, {{"object", 175321}}},
+            },
+        },
+        [4762] = {
+            [questKeys.nextQuestInChain] = 4763,
         },
         [4763] = {
             [questKeys.requiredSourceItems] = {12341,12342,12343,12347}, -- #798

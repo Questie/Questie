@@ -74,9 +74,12 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(reputationRewardLabel)
     end
 
-    local completedStatus = Questie.db.char.complete[quest.Id] and Questie:Colorize(YES, 'green') or Questie:Colorize(NO, 'red')
-    local completedLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n('Completed') .. l10n(": "), 'yellow') .. completedStatus, true)
-    container:AddChild(completedLabel)
+    local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(quest.Id, "breadcrumbForQuestId")
+    if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+        local completedStatus = Questie.db.char.complete[quest.Id] and Questie:Colorize(YES, 'green') or Questie:Colorize(NO, 'red')
+        local completedLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n('Completed') .. l10n(": "), 'yellow') .. completedStatus, true)
+        container:AddChild(completedLabel)
+    end
 
     QuestieJourneyUtils:Spacer(container)
 
