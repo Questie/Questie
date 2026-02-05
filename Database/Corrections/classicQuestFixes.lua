@@ -653,6 +653,12 @@ function QuestieQuestFixes:Load()
         [984] = {
             [questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[zoneIDs.DARKSHORE]={{50.91,34.74},{39.86,53.89},{42.68,86.53},{39.95,78.41}}}},
         },
+        [985] = {
+            [questKeys.nextQuestInChain] = 986,
+        },
+        [986] = {
+            [questKeys.nextQuestInChain] = 993,
+        },
         [994] = {
             [questKeys.triggerEnd] = {"Help Volcor to the road", {[zoneIDs.DARKSHORE]={{41.92,81.76}}}},
         },
@@ -2235,6 +2241,9 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},
 			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Flames of the Black Flight over it to create the Seal."), 0, {{"object", 175321}}},
 			},
+        },
+        [4762] = {
+            [questKeys.nextQuestInChain] = 4763,
         },
         [4763] = {
             [questKeys.requiredSourceItems] = {12341,12342,12343,12347}, -- #798
