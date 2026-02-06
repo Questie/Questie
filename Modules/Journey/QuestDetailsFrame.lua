@@ -129,7 +129,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         local starty = startNpc.spawns[startindex][1][2]
         if (startx ~= -1 or starty ~= -1) then
             local startNPCLocLabel = AceGUI:Create("Label")
-            startNPCLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
+            startNPCLocLabel:SetText("X" .. l10n(": ") .. startx .." || Y" .. l10n(": ") .. starty)
             startNPCLocLabel:SetFullWidth(true)
             startNPCGroup:AddChild(startNPCLocLabel)
         end
@@ -213,7 +213,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local starty = startObj.spawns[startindex][1][2]
             if (startx ~= -1 or starty ~= -1) then
                 local startObjectLocLabel = AceGUI:Create("Label")
-                startObjectLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
+                startObjectLocLabel:SetText("X" .. l10n(": ") .. startx .." || Y" .. l10n(": ") .. starty)
                 startObjectLocLabel:SetFullWidth(true)
                 startObjectGroup:AddChild(startObjectLocLabel)
             end
@@ -302,7 +302,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local endy = endNPC.spawns[endindex][1][2]
             if (endx ~= -1 or endy ~= -1) then
                 local endNPCLocLabel = AceGUI:Create("Label")
-                endNPCLocLabel:SetText("X: ".. endx .." || Y: ".. endy)
+                endNPCLocLabel:SetText("X" .. l10n(": ") .. endx .." || Y" .. l10n(": ") .. endy)
                 endNPCLocLabel:SetFullWidth(true)
                 endNPCGroup:AddChild(endNPCLocLabel)
             end

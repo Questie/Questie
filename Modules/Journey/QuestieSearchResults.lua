@@ -371,7 +371,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
             if (startx ~= -1 or starty ~= -1) then
                 local spawnLoc = AceGUI:Create("Label");
-                spawnLoc:SetText("X: ".. startx .." || Y: ".. starty);
+                spawnLoc:SetText("X" .. l10n(": ") .. startx .." || Y" .. l10n(": ") .. starty);
                 spawnLoc:SetFullWidth(true);
                 f:AddChild(spawnLoc);
             end

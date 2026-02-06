@@ -1,3 +1,5 @@
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -52,10 +54,10 @@ local kalimdorLocales = {
     },
     ["Ashenvale"] = {
         ["enUS"] = true,
-        ["deDE"] = "Eschental",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Eschental",
         ["esES"] = "Vallefresno",
         ["esMX"] = "Vallefresno",
-        ["frFR"] = "Orneval",
+        ["frFR"] = (Expansions.Current == Expansions.Era and true) or "Orneval",
         ["koKR"] = "잿빛 골짜기",
         ["ptBR"] = "Vale Gris",
         ["ruRU"] = "Ясеневый лес",
@@ -220,10 +222,10 @@ local kalimdorLocales = {
     },
     ["Thunder Bluff"] = {
         ["enUS"] = true,
-        ["deDE"] = "Donnerfels",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Donnerfels",
         ["esES"] = "Cima del Trueno",
         ["esMX"] = "Cima del Trueno",
-        ["frFR"] = "Les Pitons-du-Tonnerre",
+        ["frFR"] = (Expansions.Current == Expansions.Era and true) or "Les Pitons-du-Tonnerre",
         ["koKR"] = "썬더 블러프",
         ["ptBR"] = "Penhasco do Trovão",
         ["ruRU"] = "Громовой Утес",

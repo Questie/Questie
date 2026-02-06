@@ -1,3 +1,5 @@
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -64,10 +66,10 @@ local easternKingdomsLocales = {
     },
     ["Blackrock Mountain"] = {
         ["enUS"] = true,
-        ["deDE"] = "Der Schwarzfels",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Der Blackrock") or "Der Schwarzfels",
         ["esES"] = "Montaña Roca Negra",
         ["esMX"] = "Montaña Roca Negra",
-        ["frFR"] = "Mont Rochenoire",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Mont Blackrock") or "Mont Rochenoire",
         ["koKR"] = "검은바위 산",
         ["ptBR"] = "Montanha Rocha Negra",
         ["ruRU"] = "Черная гора",
@@ -208,10 +210,10 @@ local easternKingdomsLocales = {
     },
     ["Stormwind City"] = {
         ["enUS"] = true,
-        ["deDE"] = "Sturmwind",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Stormwind") or "Sturmwind",
         ["esES"] = "Ciudad de Ventormenta",
         ["esMX"] = "Ciudad de Ventormenta",
-        ["frFR"] = "Hurlevent",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Cité de Stormwind") or "Hurlevent",
         ["koKR"] = "스톰윈드",
         ["ptBR"] = "Ventobravo",
         ["ruRU"] = "Штормград",
@@ -232,10 +234,10 @@ local easternKingdomsLocales = {
     },
     ["Ironforge"] = {
         ["enUS"] = true,
-        ["deDE"] = "Eisenschmiede",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Eisenschmiede",
         ["esES"] = "Forjaz",
         ["esMX"] = "Forjaz",
-        ["frFR"] = "Forgefer",
+        ["frFR"] = (Expansions.Current == Expansions.Era and true) or "Forgefer",
         ["koKR"] = "아이언포지",
         ["ptBR"] = "Altaforja",
         ["ruRU"] = "Стальгорн",
@@ -244,10 +246,10 @@ local easternKingdomsLocales = {
     },
     ["Undercity"] = {
         ["enUS"] = true,
-        ["deDE"] = "Unterstadt",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Unterstadt",
         ["esES"] = "Entrañas",
         ["esMX"] = "Entrañas",
-        ["frFR"] = "Fossoyeuse",
+        ["frFR"] = (Expansions.Current == Expansions.Era and true) or "Fossoyeuse",
         ["koKR"] = "언더시티",
         ["ptBR"] = "Cidade Baixa",
         ["ruRU"] = "Подгород",
@@ -256,8 +258,8 @@ local easternKingdomsLocales = {
     },
     ["Deeprun Tram"] = {
         ["enUS"] = true,
-        ["deDE"] = "Tiefenbahn",
-        ["esES"] = "Tren Subterráneo",
+        ["deDE"] = "Die Tiefenbahn",
+        ["esES"] = (Expansions.Current == Expansions.Era and "Tren subterráneo") or "Tranvía Subterráneo",
         ["esMX"] = "Tranvía Subterráneo",
         ["frFR"] = "Tram des profondeurs",
         ["koKR"] = "깊은굴 지하철",
@@ -268,10 +270,10 @@ local easternKingdomsLocales = {
     },
     ["Hillsbrad Foothills"] = {
         ["enUS"] = true,
-        ["deDE"] = "Vorgebirge von Hillsbrad",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Vorgebirge von Hillsbrad") or "Vorgebirge des Hügellands",
         ["esES"] = "Laderas de Trabalomas",
         ["esMX"] = "Laderas de Trabalomas",
-        ["frFR"] = "Contreforts d'Hillsbrad",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Contreforts d'Hillsbrad") or "Contreforts de Hautebrande",
         ["koKR"] = "힐스브래드 구릉지",
         ["ptBR"] = "Contraforte de Eira dos Montes",
         ["ruRU"] = "Предгорья Хилсбрада",
