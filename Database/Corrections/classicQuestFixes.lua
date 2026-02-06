@@ -3378,6 +3378,7 @@ function QuestieQuestFixes:Load()
         [7507] = {
             [questKeys.name] = "Nostro's Compendium",
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.nextQuestInChain] = 7508,
         },
         [7508] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
