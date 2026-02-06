@@ -4050,7 +4050,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{25003,nil,Questie.ICON_TYPE_INTERACT}},nil,nil,nil,{{{24999,25001,25002,25008,25068},25068}}},
         },
         [11541] = {
-            [questKeys.objectives] = {{{25084,,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{25084,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSourceItems] = {34483},
         },
         [11542] = {
