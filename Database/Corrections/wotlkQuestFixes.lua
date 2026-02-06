@@ -3289,7 +3289,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12932,12954},
         },
         [12934] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{30019,30024,30025,30026},30019,"Elemental Lord Defeated"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30019,30024,30025,30026},30019}}},
         },
         [12935] = {
             [questKeys.objectives] = {{{30020}}},
