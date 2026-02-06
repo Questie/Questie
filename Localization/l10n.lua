@@ -55,13 +55,12 @@ function l10n:Initialize()
             if data[1] then
                 QuestieDB.questData[id][QuestieDB.questKeys.name] = data[1]
             end
-            -- TODO add details text to questDB.lua (data[2])
-            if data[3] then
+            if data[2] then
                 -- needs to be saved as a table for tooltips to have lines
-                if type(data[3]) == "string" then
-                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[3]}
+                if type(data[2]) == "string" then
+                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[2]}
                 else
-                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[3]
+                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[2]
                 end
             end
         end
@@ -109,7 +108,10 @@ _InitializeLocaleOverride = function()
     local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
     supportedLocals[overridingLocale] = true
     l10n.itemLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.itemLookup end
-    l10n.questLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.questLookup end
+    l10n.questLookup[overridingLocale] = function()
+        -- We don't want to break compatibility with the override addons, so we simply ignore [2] which was the unused quest description
+        return {QUESTIE_LOCALES_OVERRIDE.questLookup[1], QUESTIE_LOCALES_OVERRIDE.questLookup[3]}
+    end
     l10n.npcNameLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.npcNameLookup end
     l10n.objectLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.objectLookup end
 
