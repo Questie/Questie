@@ -235,7 +235,7 @@ local dungeonLocales = {
     ["Razorfen Downs"] = {
         ["enUS"] = true,
         ["deDE"] = (Expansions.Current == Expansions.Era and "Die Hügel von Razorfen") or "Hügel der Klingenhauer",
-        ["esES"] = (Expansions.Current == Expansions.Era and "Zahúrda Rojocieno") or "Zahúrda Rajacieno",
+        ["esES"] = "Zahúrda Rajacieno",
         ["esMX"] = "Zahúrda Rajacieno",
         ["frFR"] = "Souilles de Tranchebauge",
         ["koKR"] = "가시덩굴 구릉",
