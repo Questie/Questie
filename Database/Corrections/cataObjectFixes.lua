@@ -332,10 +332,6 @@ function CataObjectFixes.Load()
         [179517] = { -- Treasure of the Shen'dralar
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{70.66,24.05},{-1,-1}}},
         },
-        [179547] = { -- A Dusty Tome
-            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.DIRE_MAUL,
-        },
         [179553] = { -- Core Fragment
             [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{69.27,36.95}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
