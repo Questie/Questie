@@ -641,6 +641,7 @@ function QuestieNPCFixes:Load()
         },
         [3654] = { -- Mutanus the Devourer
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
         },
         [3657] = { -- Sentinel Elissa Starbreeze
             [npcKeys.questStarts] = {965,1684},
