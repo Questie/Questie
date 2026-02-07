@@ -331,7 +331,7 @@ function QuestieItemFixes:Load()
         [4986] = { -- Flawed Power Stone
             [itemKeys.relatedQuests] = {924, 926},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {5621},
+            [itemKeys.objectDrops] = {5619,5620,5621},
         },
         [5051] = { -- Dig Rat
             [itemKeys.relatedQuests] = {862},

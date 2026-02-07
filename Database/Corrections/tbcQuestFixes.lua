@@ -138,6 +138,10 @@ function QuestieTBCQuestFixes:Load()
         [925] = {
             [questKeys.questLevel] = -1,
         },
+        [926] = { -- Flawed Power Stone
+            [questKeys.startedBy] = {nil,{5619,5620,5621}},
+            [questKeys.finishedBy] = {nil,{5619,5620,5621}},
+        },
         [927] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -560,6 +564,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [5649] = {
             [questKeys.requiredLevel] = 5,
+        },
+        [5726] = { -- Hidden Enemies
+            [questKeys.nextQuestInChain] = 5727,
         },
         [5961] = {
             [questKeys.requiredLevel] = 54,

@@ -593,7 +593,6 @@ function QuestieQuestFixes:Load()
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
             [questKeys.preQuestSingle] = {809}, -- #606
-            [questKeys.exclusiveTo] = {924}, -- #2195
         },
         [930] = {
             [questKeys.preQuestSingle] = {918}, -- #971
@@ -751,6 +750,9 @@ function QuestieQuestFixes:Load()
         [1090] = {
             [questKeys.objectives] = {{{4276,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [1093] = {
+            [questKeys.breadcrumbs] = {1483},
+        },
         [1097] = {
             [questKeys.startedBy] = {{415,514}},
             [questKeys.breadcrumbForQuestId] = 353, -- #2364
@@ -784,8 +786,12 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #884
             [questKeys.parentQuest] = 1119, -- #1084
         },
+        [1130] = {
+            [questKeys.breadcrumbForQuestId] = 1131,
+        },
         [1131] = {
             [questKeys.preQuestSingle] = {}, -- #1065
+            [questKeys.breadcrumbs] = {1130},
         },
         [1132] = {
             [questKeys.breadcrumbForQuestId] = 1133, -- #1738
@@ -1022,7 +1028,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {nil,nil,{20310}},
         },
         [1483] = {
-            [questKeys.exclusiveTo] = {1093},
+            [questKeys.breadcrumbForQuestId] = 1093,
         },
         [1485] = {
             [questKeys.exclusiveTo] = {1470}, -- #999
@@ -1343,7 +1349,12 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1823},
         },
+        [1825] = {
+            [questKeys.breadcrumbForQuestId] = 1838,
+        },
         [1838] = {
+            [questKeys.preQuestSingle] = {1824},
+            [questKeys.breadcrumbs] = {1825},
             [questKeys.nextQuestInChain] = 1848,
         },
         [1839] = {
@@ -2336,6 +2347,9 @@ function QuestieQuestFixes:Load()
         [4907] = {
             [questKeys.breadcrumbForQuestId] = 4734,
         },
+        [4921] = {
+            [questKeys.objectives] = {{{10668,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [4941] = {
             [questKeys.triggerEnd] = {"Council with Eitrigg.", {[zoneIDs.ORGRIMMAR]={{34.14,39.26}}}},
         },
@@ -2749,10 +2763,8 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{38.8,91.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
             [questKeys.objectives] = {{{10936,nil,Questie.ICON_TYPE_TALK}}},
         },
-        -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
-        -- Alliance
         [5727] = {
-            [questKeys.triggerEnd] = {"Gauge Neeru Fireblade's reaction to you being a member of the Burning Blade", {[zoneIDs.ORGRIMMAR]={{49.6,50.46}}}},
+            [questKeys.objectives] = {{{3216,nil,Questie.ICON_TYPE_TALK}}},
         },
         [5742] = {
             [questKeys.objectives] = {{{1855,nil,Questie.ICON_TYPE_TALK}}},
@@ -2766,6 +2778,8 @@ function QuestieQuestFixes:Load()
         [5821] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE]={{67.17,56.62}}}},
         },
+        -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
+        -- Alliance
         [5882] = { -- Salve via Hunting
             [questKeys.startedBy] = {{9528}},
             [questKeys.finishedBy] = {{9528}},
@@ -3058,6 +3072,15 @@ function QuestieQuestFixes:Load()
         },
         [6523] = {
             [questKeys.triggerEnd] = {"Kaya Escorted to Camp Aparaje", {[zoneIDs.STONETALON_MOUNTAINS]={{77.1,90.85}}}},
+        },
+        [6541] = { -- Report to Kadrak
+            [questKeys.breadcrumbForQuestId] = 6543,
+        },
+        [6542] = { -- Report to Kadrak
+            [questKeys.breadcrumbForQuestId] = 6543,
+        },
+        [6543] = { -- The Warsong Reports
+            [questKeys.breadcrumbs] = {6541,6542},
         },
         [6544] = {
             [questKeys.triggerEnd] = {"Take Silverwing Outpost.", {[zoneIDs.ASHENVALE]={{64.65,75.35}}}},
