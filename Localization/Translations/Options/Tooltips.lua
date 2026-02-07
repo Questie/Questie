@@ -71,7 +71,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "NPC 툴팁에 (가능한/완료한) 퀘스트표시",
         ["ptBR"] = "Mostra missões (disponíveis/concluídas) nas dicas de ferramentas do NPC.",
         ["ruRU"] = "Показать/скрыть задания (доступные/выполненные) во всплывающих подсказках NPC",
-        ["zhCN"] = "启用后，在鼠标提示中显示NPC（可接/完成）任务。",
+        ["zhCN"] = "启用时，在鼠标提示中显示NPC（可接/完成）任务。",
         ["zhTW"] = "在 NPC 的浮動提示資訊中顯示任務 (可接/完成)。",
     },
     ["Show quest XP at max level"] = {
@@ -151,7 +151,7 @@ local tooltipOptionsLocales = {
         ["deDE"] = "Aktiviert/Deaktiviert die Drop-Rate für Quest-Gegenstände in den Tooltips von Gegnern.",
         ["esES"] = "Si está activado, la probabilidad de obtención de los objetivos de misión se mostrará en los tooltips de los enemigos.",
         ["esMX"] = "Si está activado, la probabilidad de obtención de los objetivos de misión se mostrará en los tooltips de los enemigos.",
-        ["frFR"] = "Si cette option est activée, les taux d'obtention des objectifs de quête s'affichent dans les infobulles des ennemis.",
+        ["frFR"] = "Si cette option est cochée, les taux d'obtention des objectifs de quête s'affichent dans les infobulles des ennemis.",
         ["koKR"] = false,
         ["ptBR"] = "Se ativado, a chance de saque dos objetivos de missão será mostrada nas dicas dos inimigos.",
         ["ruRU"] = false,
