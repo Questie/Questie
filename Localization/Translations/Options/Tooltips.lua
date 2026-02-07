@@ -38,7 +38,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "仅限队伍",
         ["zhTW"] = "只顯示隊友的任務",
     },
-    ["When this is enabled, shared quest info will only show players in your party."] = {
+    ["If checked, shared quest info will only show players in your party."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, werden freigegebene Questinformationen nur angezeigt, wenn sie von Gruppenmitgliedern stammen.",
         ["esES"] = "Si está activado, la información de misiones compartidas solo se mostrará si son de miembros del grupo.",
@@ -122,7 +122,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "显示下一个任务链中的任务",
         ["zhTW"] = "顯示後續任務",
     },
-    ["When this is checked, the next quests in the chain will show in the expanded map tooltips."] = {
+    ["If checked, the next quests in the chain will show in the expanded map tooltips."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn ausgewählt, werden die nächsten Quests der Reihe in den erweiterten Map-Tooltips angezeigt.",
         ["esES"] = "Si está activado, las siguientes misiones en la serie se mostrarán en los tooltips de mapa expandidos.",
@@ -146,7 +146,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "显示物品掉率",
         ["zhTW"] = false,
     },
-    ["When this is checked, drop rates for quest objectives will show on mob tooltips."] = {
+    ["If checked, drop rates for quest objectives will show on mob tooltips."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Drop-Rate für Quest-Gegenstände in den Tooltips von Gegnern.",
         ["esES"] = "Si está activado, la probabilidad de obtención de los objetivos de misión se mostrará en los tooltips de los enemigos.",
@@ -155,7 +155,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Se ativado, a chance de saque dos objetivos de missão será mostrada nas dicas dos inimigos.",
         ["ruRU"] = false,
-        ["zhCN"] = "选中此项后，任务目标的掉率将显示在怪物提示信息中",
+        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息中",
         ["zhTW"] = false,
     },
 }

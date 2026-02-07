@@ -64,7 +64,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "显示已完成的任务",
         ["zhTW"] = "顯示已完成的任務",
     },
-    ["When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when \"Auto Track Quests\" is enabled."] = {
+    ["If checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when \"Auto Track Quests\" is enabled."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden abgeschlossene Quests im Questie-Tracker angezeigt.\n\nHINWEIS: Diese Einstellung funktioniert nur, wenn \"Quests automatisch verfolgen\" aktiviert ist.",
         ["esES"] = "Si está activado, las misiones completadas se mostrarán en el rastreador.\n\nNOTA: Esta configuración solo funciona cuando el \"Rastrear misiones automáticamente\" está activado.",
@@ -89,7 +89,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "显示任务等级",
         ["zhTW"] = "顯示任務等級",
     },
-    ["When this is checked, the Quest Level Tags for Quest Titles will show in the Questie Tracker."] = {
+    ["If checked, the Quest Level Tags for Quest Titles will show in the Questie Tracker."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden die Quest-Level-Tags für Quest-Titel im Questie-Tracker angezeigt.",
         ["esES"] = "Si está activado, el nivel de la misión se mostrará en el rastreador.",
@@ -114,7 +114,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "自动收起已完成的任务",
         ["zhTW"] = "自動最小化已完成的任務",
     },
-    ["When this is checked, completed Quests will automatically minimize."] = {
+    ["If checked, completed Quests will automatically minimize."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, werden abgeschlossene Quests automatisch minimiert.",
         ["esES"] = "Si está activado, las misiones completadas se minimizarán automáticamente.",
@@ -139,7 +139,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "隐藏已完成的任务目标",
         ["zhTW"] = "隱藏已完成的任務目標",
     },
-    ["When this is checked, completed Quest Objectives will automatically be removed from the Questie Tracker."] = {
+    ["If checked, completed Quest Objectives will automatically be removed from the Questie Tracker."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden abgeschlossene Quest-Ziele automatisch aus dem Questie-Tracker entfernt.",
         ["esES"] = "Si está activado, los objetivos de misiones completados se eliminarán automáticamente del rastreador.",
@@ -164,7 +164,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "隐藏内建的完成信息",
         ["zhTW"] = "隱藏內建的完成訊息",
     },
-    ["When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: \"Quest Complete!\" or \"Quest Failed!\""] = {
+    ["If checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: \"Quest Complete!\" or \"Quest Failed!\""] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, wird der Blizzard Quest-Abgeschlossen-Text für abgeschlossene Quests ausgeblendet und stattdessen die alten Questie-Tags angezeigt: 'Quest abgeschlossen!' oder 'Quest fehlgeschlagen!'",
         ["esES"] = "Si está activado, el texto de completación de Blizzard se ocultará para las misiones completadas y en su lugar mostrará las etiquetas de Questie antiguas: \"¡Misión completada!\" o \"¡Misión fracasada!\"",
@@ -190,7 +190,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "隐藏已完成的成就目标",
         ["zhTW"] = "隱藏已完成的成就目標",
     },
-    ["When this is checked, completed Achievement Objectives will automatically be removed from the Questie Tracker."] = {
+    ["If checked, completed Achievement Objectives will automatically be removed from the Questie Tracker."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden abgeschlossene Erfolgsziele automatisch aus dem Questie-Tracker entfernt.",
         ["esES"] = "Si está activado, los objetivos de logro completados serán eliminados automáticamente del rastreador de Questie.",
@@ -215,7 +215,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "显示暴雪计时器",
         ["zhTW"] = "顯示內建任務計時器",
     },
-    ["When this is checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker."] = {
+    ["If checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, wird der Standard-Blizzard-Timer-Frame für Quests angezeigt, anstatt in den Tracker eingebettet zu sein.",
         ["esES"] = "Si está activado, se mostrará el marco del temporizador de Blizzard para las misiones en lugar de estar incorporado dentro del rastreador.",
@@ -290,7 +290,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "锁定任务道具",
         ["zhTW"] = "耐久度貼齊清單",
     },
-    ["When this is checked, the durability frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
+    ["If checked, the durability frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, wird die Haltbarkeitsanzeige auf der linken oder rechten Seite des Trackers platziert, je nachdem, wo sich der Tracker auf dem Bildschirm befindet.",
         ["esES"] = "Si está activado, el marco de durabilidad se colocará en el lado izquierdo o derecho del rastreador, dependiendo de dónde esté ubicado el rastreador en su pantalla.",
@@ -315,7 +315,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "在战斗中最小化",
         ["zhTW"] = "戰鬥中最小化",
     },
-    ["When this is checked, the Questie Tracker will automatically be minimized while entering combat."] = {
+    ["If checked, the Questie Tracker will automatically be minimized while entering combat."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Eintritt in den Kampf automatisch minimiert.",
         ["esES"] = "Si está activado, el rastreador se minimizará automáticamente al entrar en combate.",
@@ -340,7 +340,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "地下城时最小化",
         ["zhTW"] = "地下城中最小化",
     },
-    ["When this is checked, the Questie Tracker will automatically be minimized when entering a dungeon."] = {
+    ["If checked, the Questie Tracker will automatically be minimized when entering a dungeon."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch minimiert.",
         ["esES"] = "Si está activado, el rastreador se minimizará automáticamente al entrar a una mazmorra.",
@@ -365,7 +365,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "在战斗中隐藏",
         ["zhTW"] = "戰鬥中隱藏",
     },
-    ["When this is checked, the Questie Tracker will automatically be hidden when entering combat."] = {
+    ["If checked, the Questie Tracker will automatically be hidden when entering combat."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Eintritt in den Kampf automatisch ausgeblendet.",
         ["esES"] = "Si está activado, el rastreador se ocultará automáticamente al entrar en combate.",
@@ -390,7 +390,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "在地下城中隐藏",
         ["zhTW"] = "在地下城中隱藏",
     },
-    ["When this is checked, the Questie Tracker will automatically be hidden when entering a dungeon."] = {
+    ["If checked, the Questie Tracker will automatically be hidden when entering a dungeon."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch ausgeblendet.",
         ["esES"] = "Si está activado, el rastreador se ocultará automáticamente al entrar a una mazmorra.",
@@ -415,7 +415,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "在宠物对战中隐藏",
         ["zhTW"] = "在寵物對戰中隱藏",
     },
-    ["When this is checked, the Questie Tracker will automatically be hidden when entering a pet battle."] = {
+    ["If checked, the Questie Tracker will automatically be hidden when entering a pet battle."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Haustierkampfs automatisch ausgeblendet.",
         ["esES"] = "Si está activado, el rastreador se ocultará automáticamente al entrar en un duelo de mascotas.",
@@ -440,7 +440,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "淡化按钮",
         ["zhTW"] = "淡出最大化/最小化按鈕",
     },
-    ["When this is checked, the Minimize and Maximize Buttons will fade and become transparent when not in use."] = {
+    ["If checked, the Minimize and Maximize Buttons will fade and become transparent when not in use."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden die Schaltflächen zum Minimieren und Maximieren von Quests ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está activado, los botones minimizar y maximizar se desvanecerán y se volverán transparentes cuando no estén en uso.",
@@ -465,7 +465,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "淡化任务物品按钮",
         ["zhTW"] = "淡出任務物品按鈕",
     },
-    ["When this is checked, the Quest Item Buttons will fade and become transparent when not in use."] = {
+    ["If checked, the Quest Item Buttons will fade and become transparent when not in use."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden die Schaltflächen für die Questgegenstände ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está activado, los botones de objetos de misión se desvanecerán y se volverán transparentes cuando no estén en uso.",
@@ -490,7 +490,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用背景",
         ["zhTW"] = "顯示背景",
     },
-    ["When this is checked, the Questie Tracker Background becomes visible."] = {
+    ["If checked, the Questie Tracker Background becomes visible."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, wird der Questie-Tracker-Hintergrund angezeigt.",
         ["esES"] = "Si está activado, el fondo del rastreador se vuelve visible.",
@@ -515,7 +515,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用边框",
         ["zhTW"] = "顯示邊框",
     },
-    ["When this is checked, the Questie Tracker Border becomes visible."] = {
+    ["If checked, the Questie Tracker Border becomes visible."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Rand des Questie-Trackers sichtbar.",
         ["esES"] = "Si está activado, el borde del rastreador se vuelve visible.",
@@ -540,7 +540,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "淡化背景",
         ["zhTW"] = "淡出背景",
     },
-    ["When this is checked, the Questie Tracker background and border (if enabled) will fade and become transparent when not in use."] = {
+    ["If checked, the Questie Tracker background and border (if enabled) will fade and become transparent when not in use."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden der Hintergrund des Questie-Trackers und der Rahmen (falls aktiviert) ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está activado, el fondo y el borde del rastreador (si está activado) se desvanecerán y se volverán transparentes cuando no estén en uso.",
@@ -565,7 +565,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "禁用任务悬停淡出",
         ["zhTW"] = "停用任務滑鼠懸停淡出",
     },
-    ["When this is checked, the other quests in the tracker will stay fully opaque while hovering a quest."] = {
+    ["If checked, the other quests in the tracker will stay fully opaque while hovering a quest."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, wird der Hover-Effekt von anderen Quests deaktiviert und sie verblassen nicht.",
         ["esES"] = "Si está activado, las demás misiones del rastreador permanecerán totalmente opacas al pasar el cursor sobre una misión.",
@@ -590,7 +590,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "隐藏列表大小调整点",
         ["zhTW"] = "隱藏清單大小調整點",
     },
-    ["When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden."] = {
+    ["If checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, wird der Tracker-Sizer, der in der unteren oder oberen rechten Ecke angezeigt wird, ausgeblendet.",
         ["esES"] = "Si está activado, el medidor del rastreador que aparece en la esquina inferior o superior derecha estará oculto.",
@@ -641,7 +641,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "成就排前面",
         ["zhTW"] = "成就排在前面",
     },
-    ["When this is checked, the Questie Tracker will list Achievements first then Quests."] = {
+    ["If checked, the Questie Tracker will list Achievements first then Quests."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden Erfolge im Tracker zuerst und dann Quests angezeigt.",
         ["esES"] = "Si está activado, el rastreador listará primero los logros y después las misiones.",
@@ -667,7 +667,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "语音贴齐清单",
         ["zhTW"] = "語音貼齊清單",
     },
-    ["When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
+    ["If checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, wird das VoiceOver-Fenster auf der linken oder rechten Seite des Questie-Trackers platziert, je nachdem, wo sich der Tracker auf dem Bildschirm befindet.",
         ["esES"] = "Si está activado, el marco de la cabeza parlante de VoiceOver / cola de sonido se colocará en el lado izquierdo o derecho del rastreador de Questie dependiendo de dónde esté ubicado el rastreador en la pantalla.",
@@ -692,7 +692,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "锁定框体",
         ["zhTW"] = "鎖定任務清單",
     },
-    ["When this is checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it."] = {
+    ["If checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, dann muss STRG gedrückt gehalten werden, wenn der Tracker bewegt werden soll.",
         ["esES"] = "Si está activado, el rastreador estará bloqueado y debes mantener presionada la tecla CTRL cuando quieras moverlo.",

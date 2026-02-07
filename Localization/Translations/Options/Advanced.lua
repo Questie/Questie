@@ -170,7 +170,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "显示任务ID",
         ["zhTW"] = "顯示任務 ID",
     },
-    ["When this is checked, the ID of quests will show in tooltips and the tracker."] = {
+    ["If checked, the ID of quests will show in tooltips and the tracker."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert, dass die Quest-ID in den Tooltips und dem Tracker angezeigt werden.",
         ["esES"] = "Si está activado, la ID de misiones se mostrará en los tooltips y el rastreador.",
@@ -434,7 +434,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "显示物品 ID",
         ["zhTW"] = "顯示物品 ID",
     },
-    ["When this is checked, the ID of items will shown in tooltips."] = {
+    ["If checked, the ID of items will shown in tooltips."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden die Gegenstand-IDs in den Tooltips angezeigt.",
         ["esES"] = "Si está activado, la ID de los objetos se mostrará en los tooltips.",
@@ -470,7 +470,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "显示物体 ID",
         ["zhTW"] = "顯示物體 ID",
     },
-    ["When this is checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB."] = {
+    ["If checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden die Objekt-IDs in den Tooltips angezeigt. Diese sind Schätzungen und zeigen nur die erste passende ID aus der QuestieDB.",
         ["esES"] = "Si está activado, la ID de los objetos se mostrará en los tooltips. Estas son conjeturas y solo muestran la primera identificación coincidente en QuestieDB.",
@@ -506,7 +506,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "显示 NPC ID",
         ["zhTW"] = "顯示 NPC ID",
     },
-    ["When this is checked, the ID of NPCs will be shown in tooltips."] = {
+    ["If checked, the ID of NPCs will be shown in tooltips."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn diese Option aktiviert ist, werden die NPC-IDs in den Tooltips angezeigt.",
         ["esES"] = "Si está activado, la ID de los PNJ se mostrará en los tooltips.",

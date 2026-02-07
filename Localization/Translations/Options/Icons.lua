@@ -86,7 +86,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "图标类别",
         ["zhTW"] = "圖示類型",
     },
-    ["When this is enabled, the quest turn-in locations will be shown on the map/minimap."] = {
+    ["If checked, the quest turn-in locations will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der abgeschlossenen Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones completadas se mostrará en el mapa y minimapa.",
@@ -230,7 +230,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用可接任务图标",
         ["zhTW"] = "啟用可接的任務圖示",
     },
-    ["When this is enabled, the locations of available quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of available quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der verfügbaren Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones disponibles se mostrará en el mapa y minimapa.",
@@ -254,7 +254,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用事件任务图标",
         ["zhTW"] = "啟用事件任務圖示",
     },
-    ["When this is enabled, the locations of active event quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of active event quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von Event-Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones de evento se mostrará en el mapa y minimapa.",
@@ -278,7 +278,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用目标图标",
         ["zhTW"] = "啟用目標圖示",
     },
-    ["When this is enabled, quest objective icons will be shown on the map/minimap."] = {
+    ["If checked, quest objective icons will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der Questziele auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de objetivos de misión se mostrará en el mapa y minimapa.",
@@ -302,7 +302,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用重复的任务图标",
         ["zhTW"] = "顯示可重覆接取的任務圖示",
     },
-    ["When this is enabled, the locations of repeatable quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of repeatable quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von wiederholbaren Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones repetibles se mostrará en el mapa y minimapa.",
@@ -326,7 +326,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用团队任务图标",
         ["zhTW"] = "啟用團隊任務圖示",
     },
-    ["When this is enabled, the locations of raid quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of raid quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von Raid-Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones de banda se mostrará en el mapa y minimapa.",
@@ -350,7 +350,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用地下城任务图标",
         ["zhTW"] = "啟用地下城任務圖示",
     },
-    ["When this is enabled, the locations of dungeon quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of dungeon quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von Dungeon-Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones de mazmorra se mostrará en el mapa y minimapa.",
@@ -386,7 +386,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用PVP任务图标",
         ["zhTW"] = "啟用 PvP 任務圖示",
     },
-    ["When this is enabled, the locations of PvP quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of PvP quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons von PvP-Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones de JcJ se mostrará en el mapa y minimapa.",
@@ -410,7 +410,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "启用安其拉战备任务图标",
         ["zhTW"] = "啟用安其拉之門戰火任務圖示",
     },
-    ["When this is enabled, the locations of the AQ War Effort quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of the AQ War Effort quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert die Icons der AQ Kriegsanstrengungen Quests auf der Karte/Minimap.",
         ["esES"] = "Si está activado, la ubicación de misiones del esfuerzo de guerra de Ahn'Qiraj se mostrará en el mapa y minimapa.",
@@ -914,7 +914,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "可从物品接取的任务",
         ["zhTW"] = "可從物品接到的任務",
     },
-    ["When this is enabled, the locations of item drops that start quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of item drops that start quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist werden die Orte wo man Gegenstände plündern kann die Quest starten auf der Karte/Minikarte angezeigt.",
         ["esES"] = "Si está activado, la ubicación de los objetos que inician misiones se mostrará en el mapa y minimapa.",
@@ -1154,7 +1154,7 @@ local iconOptionsLocales = {
         ["zhCN"] = "显示符文",
         ["zhTW"] = "顯示符文",
     },
-    ["When this is enabled, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."] = {
+    ["If checked, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn aktiv, werden die Positionen der Runen der Saison der Entdeckung und Runen-Quests auf der Karte/Minikarte angezeigt.",
         ["esES"] = "Si está activado, la ubicación de las runas de la Temporada de descubrimiento y las misiones de runas se mostrará en el mapa y minimapa.",

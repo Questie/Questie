@@ -26,7 +26,7 @@ local soundsOptionsLocales = {
         ["zhCN"] = "加载自定义声音",
         ["zhTW"] = "載入自訂音效",
     },
-    ["When this is enabled, sounds added through LibSharedMedia are loaded."] = {
+    ["If checked, sounds added through LibSharedMedia are loaded."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn dies aktiviert ist, werden Custom Sounds geladen, die über LibSharedMedia hinzugefügt wurden.",
         ["esES"] = "Si está activado, los sonidos añadidos a través de LibSharedMedia estarán cargados.",

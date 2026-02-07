@@ -590,7 +590,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "在悬浮窗中显示任务等级",
         ["zhTW"] = "在浮動提示資訊中顯示任務等級",
     },
-    ["When this is checked, the level of quests will show in the tooltips."] = {
+    ["If checked, the level of quests will show in the tooltips."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert, ob das Questlevel in den Tooltips angezeigt wird.",
         ["esES"] = "Si está activado, el nivel de las misiones se mostrará en los tooltips.",
@@ -614,7 +614,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用世界悬浮窗",
         ["zhTW"] = "啟用世界浮動提示資訊",
     },
-    ["When this is enabled, quest info will be added to relevant mob/item tooltips."] = {
+    ["If checked, quest info will be added to relevant mob/item tooltips."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert zusätzliche Informationen zu Gegnern und Gegenständen als Tooltip.",
         ["esES"] = "Si está activado, la información de la mision se mostrará en el tooltip de los monstruos/objetos relevantes.",
