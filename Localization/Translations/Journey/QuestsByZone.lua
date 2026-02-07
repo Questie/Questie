@@ -194,6 +194,18 @@ local questsByZoneLocales = {
         ["zhCN"] = "所有任务",
         ["zhTW"] = "所有任務",
     },
+    ["Missing Requirement"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Fehlende Voraussetzung",
+        ["esES"] = "Requisitos faltantes",
+        ["esMX"] = "Requisitos faltantes",
+        ["frFR"] = "Conditions manquantes",
+        ["koKR"] = "요구 사항 미충족",
+        ["ptBR"] = "Requisitos ausentes",
+        ["ruRU"] = "Пропущено требование",
+        ["zhCN"] = "条件不满足",
+        ["zhTW"] = "未滿足需求",
+    },
 }
 
 for k, v in pairs(questsByZoneLocales) do
