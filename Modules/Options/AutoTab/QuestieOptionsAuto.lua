@@ -278,7 +278,7 @@ function QuestieOptions.tabs.auto:Initialize()
             --    type = "toggle",
             --    order = 8,
             --    name = function() return l10n("Accept trivial (low level) quests"); end,
-            --    desc = function() return l10n("When this is enabled trivial (gray) quests will be auto accepted as well."); end,
+            --    desc = function() return l10n("If checked, trivial (gray) quests will be auto accepted as well."); end,
             --    disabled = function() return (not Questie.db.profile.autoAccept.enabled) end,
             --    width = 1.5,
             --    get = function () return Questie.db.profile.autoAccept.trivial; end,

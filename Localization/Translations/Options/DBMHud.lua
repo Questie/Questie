@@ -120,7 +120,7 @@ local dbmHudOptionsLocales = {
         ["ptBR"] = "Ajusta a taxa de atualização dos ícones do HUD, que afeta a frequência com que a interface do usuário atualiza sua posição. (Padrão: %s)",
         ["ruRU"] = "Регулирует частоту обновления значков DBM HUD, которая влияет на то, как часто пользовательский интерфейс обновляет их позиции (по умолчанию: %s)",
         ["zhCN"] = "调整HUD图标的刷新率，这会影响UI更新其位置的频率。（默认：%s）",
-        ["zhTW"] = "調整 HUD 圖示的更新頻率，會影響介面有多頻繁更新位置。(預設值: %s)",
+        ["zhTW"] = "調整 HUD 圖示的更新頻率，會影響介面有多頻繁更新位置。（預設值：%s）",
     },
     ["Enable proximity visual for HUD icons"] = {
         ["enUS"] = true,
@@ -144,7 +144,7 @@ local dbmHudOptionsLocales = {
         ["ptBR"] = "Ajusta o tamanho dos ícones que aparecem no HUD. (Padrão: %s)",
         ["ruRU"] = "Регулирует размер значков, отображаемых на HUD (по умолчанию: %s)",
         ["zhCN"] = "调整HUD上显示的图标的大小。（默认：%s）",
-        ["zhTW"] = "調整 HUD 上出現的圖示大小。(預設值: %s)",
+        ["zhTW"] = "調整 HUD 上出現的圖示大小。（預設值：%s）",
     },
     ["Toggles whether or not object (gear) icons appear on the HUD."] = {
         ["enUS"] = true,
@@ -264,7 +264,7 @@ local dbmHudOptionsLocales = {
         ["ptBR"] = "Ajusta o nível de zoom dos ícones HUD, o que afeta a proximidade ou a distância que você os vê. (Padrão: %s)",
         ["ruRU"] = "Регулирует уровень масштабирования для значков DBM HUD, который влияет на то, как близко или как далеко вы видите их (по умолчанию: %s)",
         ["zhCN"] = "调整HUD图标的缩放级别，这会影响您看到它们的接近程度或远近程度。（默认：%s）",
-        ["zhTW"] = "調整 HUD 圖示的檢視大小，會影響你看到它們的遠近程度。(預設值: %s)",
+        ["zhTW"] = "調整 HUD 圖示的檢視大小，會影響你看到它們的遠近程度。（預設值：%s）",
     },
     ["The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect."] = {
         ["enUS"] = true,

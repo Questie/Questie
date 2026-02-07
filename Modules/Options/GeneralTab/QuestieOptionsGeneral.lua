@@ -347,7 +347,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 3.1,
                         name = function() return l10n("Player level offset"); end,
                         desc = function()
-                            return l10n("How many levels below your character to show. ( Default: %s )", optionsDefaults.profile.manualLevelOffset);
+                            return l10n("How many levels below your character to show. (Default: %s)", optionsDefaults.profile.manualLevelOffset);
                         end,
                         width = 1.063,
                         min = 0,

@@ -62,7 +62,7 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "图标X座标",
         ["zhTW"] = "圖示水平位置",
     },
-    ["Where on the X axis the nameplate icon should be. ( Default: %s )"] = {
+    ["Where on the X axis the nameplate icon should be. (Default: %s)"] = {
         ["enUS"] = true,
         ["deDE"] = "An welcher Stelle auf der X-Achse des anvisierten Ziels die Icons der Questziele angezeigt werden sollen. (Standard: %s)",
         ["esES"] = "La posicion del eje X del marco de objetivo en la que debería estar el icono. (Predeterminado: %s)",
@@ -72,7 +72,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone dos nomes da placa. (Padrão: %s)",
         ["ruRU"] = "Регулировка позиции значков по оси X (по умолчанию: %s)",
         ["zhCN"] = "图标锚点于目标头像的X座标（默认：%s）",
-        ["zhTW"] = "名條圖示的水平方向位置。(預設值: %s)",
+        ["zhTW"] = "名條圖示的水平方向位置。（預設值：%s）",
     },
     ["Icon Position Y"] = {
         ["enUS"] = true,
@@ -86,7 +86,7 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "图标Y座标",
         ["zhTW"] = "圖示垂直位置",
     },
-    ["Where on the Y axis the nameplate icon should be. ( Default: %s )"] = {
+    ["Where on the Y axis the nameplate icon should be. (Default: %s)"] = {
         ["enUS"] = true,
         ["deDE"] = "An welcher Stelle auf der Y-Achse des anvisierten Ziels die Icons der Questziele angezeigt werden sollen. (Standard: %s)",
         ["esES"] = "La posicion del eje Y del marco de objetivo en la que debería estar el icono. (Predeterminado: %s)",
@@ -95,8 +95,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "대상 프레임에 표시할 아이콘의 Y좌표를 설정합니다. (기본값: %s)",
         ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone de ordenadas. (Padrão: %s)",
         ["ruRU"] = "Регулировка позиции значков по оси Y (по умолчанию: %s)",
-        ["zhCN"] = "图标锚点于目标头像的Y座标（默认：%s）",
-        ["zhTW"] = "名條圖示的垂直方向位置。(預設值: %s)",
+        ["zhCN"] = "图标锚点于目标头像的Y座标。（默认：%s）",
+        ["zhTW"] = "名條圖示的垂直方向位置。（預設值：%s）",
     },
     ["Nameplate Icon Scale"] = {
         ["enUS"] = true,
@@ -110,7 +110,7 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "图标大小",
         ["zhTW"] = "名條圖示縮放大小",
     },
-    ["Scale the size of the quest icons on creature nameplates. ( Default: %s )"] = {
+    ["Scale the size of the quest icons on creature nameplates. (Default: %s)"] = {
         ["enUS"] = true,
         ["deDE"] = "Skaliert wie groß die Quest-Icons an den Namensplaketten der Gegner sein sollen. (Standard: %s)",
         ["esES"] = "Define el tamaño del icono de misión en la placa de nombre de la criatura. (Predeterminado: %s)",
@@ -119,8 +119,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "퀘스트 목표 이름표에 표시할 아이콘의 크기를 설정합니다. (기본값: %s)",
         ["ptBR"] = "Mude o tamanho dos ícones da missão nas placas de nome das criaturas. (Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков на индикаторах здоровья (по умолчанию: %s)",
-        ["zhCN"] = "调整姓名板图标的缩放（默认：%s）",
-        ["zhTW"] = "怪物名條上任務圖示的縮放大小。(預設值: %s)",
+        ["zhCN"] = "调整姓名板图标的缩放。（默认：%s）",
+        ["zhTW"] = "怪物名條上任務圖示的縮放大小。（預設值：%s）",
     },
     ["Reset Nameplates"] = {
         ["enUS"] = true,

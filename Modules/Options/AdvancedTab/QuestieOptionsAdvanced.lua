@@ -61,7 +61,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "range",
                 order = 1.2,
                 name = function() return l10n("Icon Limit"); end,
-                desc = function() return l10n("Limits the amount of icons drawn per type. ( Default: %s )", optionsDefaults.profile.iconLimit); end,
+                desc = function() return l10n("Limits the amount of icons drawn per type. (Default: %s)", optionsDefaults.profile.iconLimit); end,
                 width = 1.5,
                 min = 1,
                 max = 5000,

@@ -95,7 +95,7 @@ local iconOptionsLocales = {
         ["koKR"] = "퀘스트 완료 아이콘을 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões concluídas será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения выполненных заданий на карте и миникарте",
-        ["zhCN"] = "启用时，在地图上标记提交任务的地点",
+        ["zhCN"] = "启用时，在地图上标记提交任务的地点。",
         ["zhTW"] = "啟用時，大地圖/小地圖上會顯示回任務的位置。",
     },
     ["Enable Map Icons"] = {
@@ -239,7 +239,7 @@ local iconOptionsLocales = {
         ["koKR"] = "수행 가능한 퀘스트 아이콘을 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se ativado, a localização de missões disponíveis será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения доступных заданий на карте и миникарте",
-        ["zhCN"] = "启用时，在地图上标记可接任务的地点",
+        ["zhCN"] = "启用时，在地图上标记可接任务的地点。",
         ["zhTW"] = "啟用時，大地圖/小地圖上會顯示可取得任務的位置。",
     },
     ["Enable Event Quest Icons"] = {
@@ -1163,7 +1163,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션이 활성화되면 발견의 시즌 룬과 룬 퀘스트의 위치가 지도/미니맵에 표시됩니다.",
         ["ptBR"] = "Se ativado, a localização das runas da Temporada de Descoberta e das missões de runas será exibida no mapa e minimapa.",
         ["ruRU"] = "Когда включено, местоположения рун Сезона Открытий и рун заданий будут отображаться на карте и миникарте",
-        ["zhCN"] = "启用时，会在大地图和小地图上显示探索符文和符文任务的图标",
+        ["zhCN"] = "启用时，会在大地图和小地图上显示探索符文和符文任务的图标。",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示探索賽季符文和符文任務。",
     },
     ["Phase 1"] = {

@@ -59,10 +59,10 @@ local advancedOptionsLocales = {
         ["koKR"] = "아이콘의 종류 별로 표시할 개수를 제한합니다.",
         ["ptBR"] = "Ativa o limite de ícones desenhados por tipo.",
         ["ruRU"] = "Включает ограничение количества значков, отображаемых для каждого типа",
-        ["zhCN"] = "启用对每种类型图标的限制",
+        ["zhCN"] = "启用对每种类型图标的限制。",
         ["zhTW"] = "啟用每種類型繪製圖示的限制。",
     },
-    ["Limits the amount of icons drawn per type. ( Default: %s )"] = {
+    ["Limits the amount of icons drawn per type. (Default: %s)"] = {
         ["enUS"] = true,
         ["deDE"] = "Wie viele Icons pro Type gezeigt werden sollen. (Standard: %s)",
         ["esES"] = "Limita la cantidad de iconos por tipo. (Predeterminado: %s)",
@@ -71,8 +71,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "아이콘의 종류 별로 표시를 제한할 개수를 설정합니다. (기본값: %s)",
         ["ptBR"] = "Limita a quantidade de ícones desenhados por tipo. (Padrão: %s)",
         ["ruRU"] = "Регулировка ограничения количества значков, отображаемых для каждого типа (по умолчанию: %s)",
-        ["zhCN"] = "限制每种类型图标数量 (默认: %s)",
-        ["zhTW"] = "限制每種類型繪製的圖示數量。(預設值: %s)",
+        ["zhCN"] = "限制每种类型图标数量。（默认：%s）",
+        ["zhTW"] = "限制每種類型繪製的圖示數量。（預設值：%s）",
     },
     ["Available quest filter distance"] = {
         ["enUS"] = true,
@@ -179,7 +179,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "퀘스트의 ID를 툴팁과 추적기에 표시합니다.",
         ["ptBR"] = "Se ativado, a ID de missões será mostrada nas dicas de ferramentas e no rastreador.",
         ["ruRU"] = "Когда включено, ID заданий будут отображаться во всплывающих подсказках и в трекере",
-        ["zhCN"] = "启用时，任务ID将显示在鼠标提示和跟踪器中",
+        ["zhCN"] = "启用时，任务ID将显示在鼠标提示和跟踪器中。",
         ["zhTW"] = "啟用時，會在浮動提示資訊和任務追蹤清單內顯示任務 ID。",
     },
     ["Enable Debug"] = {
@@ -443,7 +443,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 아이템 ID가 툴팁에 표시됩니다.",
         ["ptBR"] = "Se ativado, a ID dos itens será mostrada nas dicas.",
         ["ruRU"] = "Когда включено, в подсказках будут отображаться ID предметов",
-        ["zhCN"] = "启用时，物品ID会在悬浮窗中显示",
+        ["zhCN"] = "启用时，物品ID会在悬浮窗中显示。",
         ["zhTW"] = "啟用時，會在浮動提示資訊中顯示物品 ID。",
     },
    ["Object ID"] = {
@@ -515,7 +515,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 NPC ID가 툴팁에 표시됩니다.",
         ["ptBR"] = "Se ativado, a ID dos NPCs será mostrada nas dicas de ferramentas.",
         ["ruRU"] = "Когда включено, в подсказках будут отображаться ID NPC",
-        ["zhCN"] = "启用时，NPC ID会在悬浮窗中显示",
+        ["zhCN"] = "启用时，NPC ID会在悬浮窗中显示。",
         ["zhTW"] = "啟用時，會在浮動提示資訊中顯示 NPC ID。",
     },
     ["Hide Startup Warnings"] = {

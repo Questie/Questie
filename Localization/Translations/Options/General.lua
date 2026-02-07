@@ -182,7 +182,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "自动接受琐碎的（低等级）任务",
         ["zhTW"] = "接受不重要的 (低等級) 任務",
     },
-    ["When this is enabled trivial (gray) quests will be auto accepted as well."] = {
+    ["If checked, trivial (gray) quests will be auto accepted as well."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert, ob Questie triviale (graune) Quests automatisch annimmt.",
         ["esES"] = "Si está activado, las misiones triviales (grises) también se aceptarán automáticamente.",
@@ -278,7 +278,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "哪些可用任务应显示",
         ["zhTW"] = "要顯示哪些可接的任務",
     },
-    ["How many levels below your character to show. ( Default: %s )"] = {
+    ["How many levels below your character to show. (Default: %s)"] = {
         ["enUS"] = true,
         ["deDE"] = "Quests bis X Level unter deinem eigenen anzeigen. (Standard: %s)",
         ["esES"] = "Cuantos niveles por debajo de tu personaje. (Predeterminado: %s)",
@@ -287,8 +287,8 @@ local generalOptionsLocales = {
         ["koKR"] = "현재 레벨보다 얼마나 낮은 퀘스트까지 표시할지 설정합니다. (기본값: %s)",
         ["ptBR"] = "Quantos níveis sobre o seu personagem para exibir. (Padrão: %s)",
         ["ruRU"] = "Отображение заданий, у которых уровень ниже, чем ваш уровень, на выбранное значение (по умолчанию: %s)",
-        ["zhCN"] = "显示比你低了多少级的任务（默认：%s）",
-        ["zhTW"] = "要顯示低於你的角色多少等級以內的任務。(預設值: %s)",
+        ["zhCN"] = "显示比你低了多少级的任务。（默认：%s）",
+        ["zhTW"] = "要顯示低於你的角色多少等級以內的任務。（預設值：%s）",
     },
     ["Level from"] = {
         ["enUS"] = true,
@@ -599,7 +599,7 @@ local generalOptionsLocales = {
         ["koKR"] = "툴팁에 퀘스트의 레벨을 표시합니다.",
         ["ptBR"] = "Se ativado, o nível das missões será mostrado nas dicas de ferramentas.",
         ["ruRU"] = "Показать/скрыть уровень заданий во всплывающих подсказках",
-        ["zhCN"] = "启用时，任务等级将显示在悬浮窗提示中",
+        ["zhCN"] = "启用时，任务等级将显示在悬浮窗提示中。",
         ["zhTW"] = "啟用時，浮動提示資訊中會顯示任務的等級。",
     },
     ["Enable World Tooltips"] = {

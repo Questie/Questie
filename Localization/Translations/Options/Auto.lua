@@ -23,7 +23,7 @@ local autoOptionsLocales = {
         ["koKR"] = "활성화되면 Questie는 NPC와 대화할 때 완료된 퀘스트를 자동으로 제출합니다.",
         ["ptBR"] = "Se ativado, o Questie entregará automaticamente missões concluídas ao falar com NPCs.",
         ["ruRU"] = "Когда включено, задания будут завершаться автоматически при разговоре с NPC",
-        ["zhCN"] = "启用后，与NPC对话时自动交回任务",
+        ["zhCN"] = "启用后，与NPC对话时自动交回任务。",
         ["zhTW"] = "啟用時，和 NPC 對話會自動交回已完成的任務。",
     },
     ["Auto Accept"] = {
@@ -47,7 +47,7 @@ local autoOptionsLocales = {
         ["koKR"] = "활성화되면 Questie는 아래 규칙에 따라 퀘스트 대화 상자가 나타날 때 자동으로 수락합니다.",
         ["ptBR"] = "Se ativado, Questie aceitará automaticamente as missões quando aparecerem, dependendo das regras abaixo.",
         ["ruRU"] = "Когда включено, задания будут приниматься автоматически в зависимости от правил ниже",
-        ["zhCN"] = "启动后，会根据下列规则，在任务对话框出现时自动接任务",
+        ["zhCN"] = "启动后，会根据下列规则，在任务对话框出现时自动接任务。",
         ["zhTW"] = "啟用時，會根據下方的規則，在任務對話框出現時自動接受任務。",
     },
     ["Rules for NPCs"] = {

@@ -131,7 +131,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 연계 퀘스트가 확장된 지도 툴팁에 표시됩니다.",
         ["ptBR"] = "Se ativado, as próximas missões na série serão mostradas nas dicas de mapa expandidas.",
         ["ruRU"] = "Когда включено, следующие задания в цепочке будут отображаться в расширенной подсказке на карте",
-        ["zhCN"] = "启用时，下一个任务链中的任务会在悬浮窗中显示",
+        ["zhCN"] = "启用时，下一个任务链中的任务会在悬浮窗中显示。",
         ["zhTW"] = "啟用時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務。",
     },
     ["Show item drop rates"] = {

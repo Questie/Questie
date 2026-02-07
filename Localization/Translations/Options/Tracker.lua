@@ -98,7 +98,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 퀘스트 제목에 대한 퀘스트 레벨 태그가 Questie 트래커에 표시됩니다.",
         ["ptBR"] = "Se ativado, o nível da missão será mostrado no rastreador.",
         ["ruRU"] = "Показать/скрыть уровень заданий слева от их названий",
-        ["zhCN"] = "启用时，任务标题的任务等级将显示在Questie追踪窗口",
+        ["zhCN"] = "启用时，任务标题的任务等级将显示在Questie追踪窗口。",
         ["zhTW"] = "啟用時，任務清單中的任務標題將會顯示任務等級。",
     },
     ---------------------------------------------------------
@@ -123,7 +123,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 완료된 퀘스트가 자동으로 최소화됩니다.",
         ["ptBR"] = "Se ativado, as missões concluídas serão automaticamente minimizadas.",
         ["ruRU"] = "Когда включено, задания будут автоматически сворачиваться после их выполнения",
-        ["zhCN"] = "启用时，已完成的任务将自动收起",
+        ["zhCN"] = "启用时，已完成的任务将自动收起。",
         ["zhTW"] = "啟用時，已完成的任務會自動收合起來。",
     },
     ---------------------------------------------------------
@@ -174,7 +174,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Se ativado, o texto de conclusão de Blizzard será ocultado para as missões concluídas e, em vez disso, mostrará as antigas etiquetas de Questie: \"Missão concluída!\" ou \"Missão falhou!\"",
         ["ruRU"] = "Когда включено, Blizzard-ский текст об окончании задания будет скрыт, а вместо него будет отображен текст Questie: 'Задание выполнено!' или 'Задание провалено!'",
         ["zhCN"] = "启用时，完成任务时不会显示游戏内建的完成信息，而会显示传统的信息：\"任务完成！\" 和 \"任务失败！\"",
-        ["zhTW"] = "啟用時，完成任務時不會顯示遊戲內建的完成訊息，而會顯示傳統的訊息: \"任務完成！\" or \"任務失敗！\"",
+        ["zhTW"] = "啟用時，完成任務時不會顯示遊戲內建的完成訊息，而會顯示傳統的訊息： \"任務完成！\" 和 \"任務失敗！\"",
     },
     ---------------------------------------------------------
     -- Wrath of the Lich King only
@@ -224,7 +224,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 추적기에 내장 된 대신 퀘스트에 대한 기본 블리자드 타이머 프레임이 표시됩니다.",
         ["ptBR"] = "Se ativado, o quadro do temporizador de Blizzard para missões será mostrado em vez de incorporado no rastreador.",
         ["ruRU"] = "Когда включено, будет отображаться стандартный таймер Blizzard вместо встраивания его в трекер",
-        ["zhCN"] = "启用时，任务计时器将会显示",
+        ["zhCN"] = "启用时，任务计时器将会显示。",
         ["zhTW"] = "啟用時，會顯示遊戲內建的任務計時器框架，而不會內嵌在任務清單裡面。",
     },
     ---------------------------------------------------------
@@ -449,7 +449,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 사용하지 않을 때 최소화 및 최대화 버튼이 사라지고 투명 해집니다.",
         ["ptBR"] = "Se ativado, os botões minimizar e maximizar desaparecerão e se tornarão transparentes quando não estiverem em uso.",
         ["ruRU"] = "Когда включено, кнопки сворачивания и разворачивания заданий исчезают и становятся прозрачными при неиспользовании",
-        ["zhCN"] = "启用时，自动淡化按钮",
+        ["zhCN"] = "启用时，自动淡化按钮。",
         ["zhTW"] = "啟用時，滑鼠沒有指向最大化和最小化按鈕時會變成透明。",
     },
     ---------------------------------------------------------
@@ -549,7 +549,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 Questie 트래커 배경 및 테두리 (사용 가능한 경우)가 사라지고 사용하지 않을 때 투명 해집니다.",
         ["ptBR"] = "Se ativado, o Pano de fundo e a borda de Questie Rastreador (se ativado) desaparecerão e se tornarão transparentes quando não estiverem em uso.",
         ["ruRU"] = "Когда включено, фон и граница трекера исчезают и становятся прозрачными при неиспользовании",
-        ["zhCN"] = "启用时，自动淡化背景及边框",
+        ["zhCN"] = "启用时，自动淡化背景及边框。",
         ["zhTW"] = "啟用時，滑鼠沒有指向任務清單時，背景和 (如果有啟用) 邊框會變成透明。",
     },
     ---------------------------------------------------------
@@ -650,7 +650,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 Questie 추적기가 먼저 업적을 나열한 후 퀘스트를 나열합니다.",
         ["ptBR"] = "Se ativado, o rastreador de Questie listará primeiro as conquistas e depois as missões.",
         ["ruRU"] = "Когда включено, достижения в трекере будут отображаться сверху заданий",
-        ["zhCN"] = "启用时，任务追踪列表会将成就排在任务的前面",
+        ["zhCN"] = "启用时，任务追踪列表会将成就排在任务的前面。",
         ["zhTW"] = "啟用時，任務追蹤清單會將成就排列在任務的前面。",
     },
     ---------------------------------------------------------

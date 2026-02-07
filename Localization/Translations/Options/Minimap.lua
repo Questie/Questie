@@ -95,8 +95,8 @@ local minimapOptionsLocales = {
         ["koKR"] = "미니맵 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["ptBR"] = "Qual é o tamanho dos ícones do minimapa.\n(Padrão: %s)",
         ["ruRU"] = "Одновременная регулировка размера всех значков на миникарте\n(по умолчанию: %s)",
-        ["zhCN"] = "调整小度图标记图标的缩放比例\n（预设：%s）",
-        ["zhTW"] = "小地圖上圖示的大小。\n(預設值: %s)",
+        ["zhCN"] = "调整小度图标记图标的缩放比例\n（默认：%s）",
+        ["zhTW"] = "小地圖上圖示的大小。\n（預設值：%s）",
     },
     ["Fade Icons over Player"] = {
         ["enUS"] = true,
@@ -132,7 +132,7 @@ local minimapOptionsLocales = {
         ["ptBR"] = "Quantos ícones do objectivo devem desaparecer dependendo da distância.\n(Padrão: %s)",
         ["ruRU"] = "Дистанция, на которой отдаленные значки на миникарте будут блекнуть\n(по умолчанию: %s)",
         ["zhCN"] = "根据距离，任务目标图标应淡化的程度。（默认：%s）",
-        ["zhTW"] = "根據距離，任務目標圖示應淡化的程度。（預設：%s）",
+        ["zhTW"] = "根據距離，任務目標圖示應淡化的程度。（預設值：%s）",
     },
     ["Fades icons on the minimap when your player walks near them."] = {
         ["enUS"] = true,
@@ -179,8 +179,8 @@ local minimapOptionsLocales = {
         ["koKR"] = "플레이어와 얼마나 멀리에 있는 퀘스트까지 흐릿하게 표시할지 설정합니다.\n(기본값: %s)",
         ["ptBR"] = "A que distância do jogador os ícones começam a desaparecer.\n(Padrão: %s)",
         ["ruRU"] = "Дистанция, на которой значки на миникарте рядом с игроком будут блекнуть\n(по умолчанию: %s)",
-        ["zhCN"] = "目标距离你多近时，开始将其标记淡出\n（预设：%s）",
-        ["zhTW"] = "距離玩家多近的圖示要開始淡出。\n(預設值: %s)",
+        ["zhCN"] = "目标距离你多近时，开始将其标记淡出\n（默认：%s）",
+        ["zhTW"] = "距離玩家多近的圖示要開始淡出。\n（預設值：%s）",
     },
     ["How much should the icons around the player fade.\n(Default: %s)"] = {
         ["enUS"] = true,
@@ -191,8 +191,8 @@ local minimapOptionsLocales = {
         ["koKR"] = "얼마나 많은 퀘스트 아이콘을 흐릿하게 표시할지 설정합니다.\n(기본값: %s)",
         ["ptBR"] = "Quantos ícones ao redor do jogador devem desaparecer.\n(Padrão: %s)",
         ["ruRU"] = "Настройка степени блеклости значков на миникарте рядом с игроком\n(по умолчанию: %s)",
-        ["zhCN"] = "靠近或与玩家重叠的标记，其淡出的透明度数值\n（预设：%s）",
-        ["zhTW"] = "玩家附近的圖示要多透明。\n(預設值: %s)",
+        ["zhCN"] = "靠近或与玩家重叠的标记，其淡出的透明度数值\n（默认：%s）",
+        ["zhTW"] = "玩家附近的圖示要多透明。\n（預設值：%s）",
     },
     ["Show Minimap Coordinates"] = {
         ["enUS"] = true,
