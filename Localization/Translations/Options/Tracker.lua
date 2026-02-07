@@ -39,7 +39,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "自动追踪任务",
         ["zhTW"] = "自動追蹤所有任務",
     },
-    ["This is the same as \"Enable Automatic Quest Tracking\" in the Blizzard Interface Options. When enabled, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: \"Show Complete Quests\" is disabled while this option is not being used."] = {
+    ["This is the same as \"Enable Automatic Quest Tracking\" in the Blizzard Interface Options. If checked, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: \"Show Complete Quests\" is disabled while this option is not being used."] = {
         ["enUS"] = true,
         ["deDE"] = "Dies ist dasselbe wie \"Automatische Questverfolgung aktivieren\" in den Schnittstellenoptionen. Wenn aktiviert, verfolgt der Questie-Tracker automatisch alle Quests im Questlog. Dies verhindert die manuelle Verfolgung durch \"Umschalten + Linksklick\".",
         ["esES"] = "Esto es lo mismo que \"Activar el seguimiento automático de misiones\" en las opciones de la interfaz. Si está activado, el rastreador rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",

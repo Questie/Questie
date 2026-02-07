@@ -331,7 +331,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.01,
                 name = function() return l10n("Enable bug workarounds"); end,
-                desc = function() return l10n("When enabled, Questie will hotfix vanilla UI bugs."); end,
+                desc = function() return l10n("If checked, Questie will hotfix vanilla UI bugs."); end,
                 width = "full",
                 get = function() return Questie.db.profile.bugWorkarounds; end,
                 set = function (_, value)

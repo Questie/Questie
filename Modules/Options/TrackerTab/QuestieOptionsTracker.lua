@@ -138,7 +138,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 1,
                         width = 1.5,
                         name = function() return l10n("Auto Track Quests") end,
-                        desc = function() return l10n("This is the same as \"Enable Automatic Quest Tracking\" in the Blizzard Interface Options. When enabled, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: \"Show Complete Quests\" is disabled while this option is not being used.") end,
+                        desc = function() return l10n("This is the same as \"Enable Automatic Quest Tracking\" in the Blizzard Interface Options. If checked, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: \"Show Complete Quests\" is disabled while this option is not being used.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.autoTrackQuests end,
                         set = function(_, value)

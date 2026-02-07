@@ -134,7 +134,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用错误修正功能",
         ["zhTW"] = "啟用錯誤修正功能",
     },
-    ["When enabled, Questie will hotfix vanilla UI bugs."] = {
+    ["If checked, Questie will hotfix vanilla UI bugs."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert, dass Questie Fehler im Vanilla UI behebt.",
         ["esES"] = "Si está activado, Questie corregirá los errores de la interfaz de usuario.",

@@ -14,7 +14,7 @@ local autoOptionsLocales = {
         ["zhCN"] = "自动交回任务",
         ["zhTW"] = "自動回任務",
     },
-    ["When enabled, Questie will automatically hand in finished quests when talking to NPCs."] = {
+    ["If checked, Questie will automatically hand in finished quests when talking to NPCs."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn aktiviert, wird Questie automatisch Quests abgeben.",
         ["esES"] = "Si está activado, Questie entregará automáticamente las misiones completadas cuando hables con los PNJ.",
@@ -38,7 +38,7 @@ local autoOptionsLocales = {
         ["zhCN"] = "自动接任务",
         ["zhTW"] = "自動接任務",
     },
-    ["When enabled, Questie will automatically accept quest dialogs when they appear, depending on the rules below."] = {
+    ["If checked, Questie will automatically accept quest dialogs when they appear, depending on the rules below."] = {
         ["enUS"] = true,
         ["deDE"] = "Wenn aktiviert, wird Questie automatisch Quests annehmen, abhängig von den unten stehenden Regeln.",
         ["esES"] = "Si está activado, Questie aceptará automáticamente las misiones cuando aparezcan, dependiendo de las reglas a continuación.",
