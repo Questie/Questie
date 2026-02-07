@@ -144,7 +144,7 @@ local tooltipOptionsLocales = {
         ["ptBR"] = "Mostrar chance de saque",
         ["ruRU"] = false,
         ["zhCN"] = "显示物品掉率",
-        ["zhTW"] = false,
+        ["zhTW"] = "顯示物品掉落率",
     },
     ["If checked, drop rates for quest objectives will show on mob tooltips."] = {
         ["enUS"] = true,
@@ -155,8 +155,8 @@ local tooltipOptionsLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Se ativado, a chance de saque dos objetivos de missão será mostrada nas dicas dos inimigos.",
         ["ruRU"] = false,
-        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息中",
-        ["zhTW"] = false,
+        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息中。",
+        ["zhTW"] = "啟用時，任務目標的掉落率將顯示在怪物的提示資訊中。",
     },
 }
 
