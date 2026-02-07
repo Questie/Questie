@@ -1341,45 +1341,48 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1498,1819},
             [questKeys.breadcrumbs] = {1820},
         },
-        [1823] = {
+        [1823] = { -- Speak with Ruga
             [questKeys.startedBy] = {{3041,3354,4595}},
             [questKeys.breadcrumbForQuestId] = 1824,
         },
-        [1824] = {
+        [1824] = { -- Trial at the Field of Giants
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1823},
         },
-        [1825] = {
+        [1825] = { -- Speak with Thun'grim
             [questKeys.breadcrumbForQuestId] = 1838,
         },
-        [1838] = {
+        [1838] = { -- Brutal Armor
             [questKeys.preQuestSingle] = {1824},
             [questKeys.breadcrumbs] = {1825},
             [questKeys.nextQuestInChain] = 1848,
         },
-        [1839] = {
+        [1839] = { -- Ula'elek and the Brutal Gauntlets
             [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1842,
         },
-        [1840] = {
+        [1840] = { -- Orm Stonehoof and the Brutal Helm
             [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1844,
         },
-        [1841] = {
+        [1841] = { -- Velora Nitely and the Brutal Legguards
             [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbForQuestId] = 1846,
         },
-        [1842] = {
+        [1842] = { -- Satyr Hooves
             [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1839},
+            [questKeys.nextQuestInChain] = 1843,
         },
-        [1844] = {
+        [1844] = { -- Chimaeric Horn
             [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1840},
+            [questKeys.nextQuestInChain] = 1845,
         },
-        [1846] = {
+        [1846] = { -- Dragonmaw Shinbones
             [questKeys.preQuestSingle] = {1848},
             [questKeys.breadcrumbs] = {1841},
+            [questKeys.nextQuestInChain] = 1847,
         },
         [1859] = {
             [questKeys.breadcrumbForQuestId] = 1963,
