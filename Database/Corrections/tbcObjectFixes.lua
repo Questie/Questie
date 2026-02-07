@@ -19,9 +19,11 @@ function QuestieTBCObjectFixes:Load()
         },
         [5619] = { -- Flawed Power Stone
             [objectKeys.questStarts] = {926},
+            [objectKeys.questEnds] = {926},
         },
         [5621] = { -- Flawed Power Stones
             [objectKeys.questStarts] = {926},
+            [objectKeys.questEnds] = {926},
         },
         [142122] = {
             [objectKeys.questStarts] = {2781,2875},
