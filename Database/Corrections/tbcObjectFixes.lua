@@ -17,6 +17,12 @@ function QuestieTBCObjectFixes:Load()
         [1739] = { -- Syndicate Documents
             [objectKeys.questStarts] = {},
         },
+        [5619] = { -- Flawed Power Stone
+            [objectKeys.questStarts] = {926},
+        },
+        [5621] = { -- Flawed Power Stones
+            [objectKeys.questStarts] = {926},
+        },
         [142122] = {
             [objectKeys.questStarts] = {2781,2875},
         },
