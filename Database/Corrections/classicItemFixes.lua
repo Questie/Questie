@@ -1009,6 +1009,9 @@ function QuestieItemFixes:Load()
         [15874] = { -- Soft-shelled Clam
             [itemKeys.npcDrops] = {12347},
         },
+        [15885] = { -- Pendant of the Sea Lion
+            [itemKeys.objectDrops] = {15885},
+        },
         [15924] = { -- Soft-shelled Clam Meat
             [itemKeys.objectDrops] = {177784},
             [itemKeys.npcDrops] = {12347},

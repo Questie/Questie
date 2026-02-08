@@ -614,18 +614,6 @@ local classicObjectiveLocales = {
         ["zhCN"] = "在格罗姆的纪念碑放置贡品",
         ["zhTW"] = "在葛羅的紀念碑前致敬",
     },
-    ["Combine the Pendant halves at the Shrine of Remulos."] = { -- 30 & 272
-        ["enUS"] = true,
-        ["deDE"] = "Kombiniere die Anhängerhälften am Schrein von Remulos",
-        ["esES"] = "Combina los dos medio colgantes cuando estés cerca del Santuario de Remulos",
-        ["esMX"] = "Combina los dos medio colgantes cuando estés cerca del Santuario de Remulos",
-        ["frFR"] = "Combinez les Demi-pendentifs à proximité du sanctuaire de Remulos",
-        ["koKR"] = "레물로스 신전에서 펜던트 반쪽을 결합하세요",
-        ["ptBR"] = "Combine os Meio-pingentes perto do Santuário de Remulos",
-        ["ruRU"] = "Сложите из половинок подвеску в святилище Ремулоса.",
-        ["zhCN"] = "在雷姆洛斯神殿附近合并吊坠的两半",
-        ["zhTW"] = "在雷姆洛斯神殿附近將墜飾的兩部分合而為一。",
-    },
     ["Use the Draco-Incarcinatrix 900 and defeat the dragonkin."] = {
         ["enUS"] = true,
         ["deDE"] = "Benutze den Draco-Incarcinatrix 900 und besiege den Drachkinbrutling",

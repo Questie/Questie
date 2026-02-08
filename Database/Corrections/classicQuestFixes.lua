@@ -71,14 +71,16 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.nextQuestInChain] = 28,
         },
-        [28] = {
+        [28] = { -- Trial of the Lake
+            [questKeys.preQuestSingle] = {27},
             [questKeys.objectives] = {nil,{{15885,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [29] = {
+        [29] = { -- Trial of the Lake
+            [questKeys.preQuestSingle] = {26},
             [questKeys.objectives] = {nil,{{15885,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [30] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
+        [30] = { -- Trial of the Sea Lion
+            [questKeys.objectives] = {nil,nil,{{15885,nil,Questie.ICON_TYPE_EVENT}}}, -- we need event icon here
         },
         [33] = {
             [questKeys.preQuestSingle] = {},
@@ -183,8 +185,8 @@ function QuestieQuestFixes:Load()
         [263] = {
             [questKeys.nextQuestInChain] = 217,
         },
-        [272] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
+        [272] = { -- Trial of the Sea Lion
+            [questKeys.objectives] = {nil,nil,{{15885,nil,Questie.ICON_TYPE_EVENT}}}, -- we need event icon here
         },
         [273] = {
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN]={{51.16, 68.96}}}},
