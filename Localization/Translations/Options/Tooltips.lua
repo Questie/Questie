@@ -44,7 +44,7 @@ local tooltipOptionsLocales = {
         ["esES"] = "Si está activado, la información de misiones compartidas solo se mostrará si son de miembros del grupo.",
         ["esMX"] = "Si está activado, la información de misiones compartidas solo se mostrará si son de miembros del grupo.",
         ["frFR"] = "Si cette option est cochée, les informations des quêtes partagées ne seront affichées qu’aux joueurs de votre groupe.",
-        ["koKR"] = "이 기능을 활성화하면 공유 퀘스트 정보가 파티원의 정보 인 경우에만 표시됩니다.",
+        ["koKR"] = "이 옵션을 선택하면 공유 퀘스트 정보가 파티원의 정보인 경우에만 표시됩니다.",
         ["ptBR"] = "Se ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros do grupo.",
         ["ruRU"] = "Когда включено, информация о таком же, как у вас, задании будет отображаться только от членов группы",
         ["zhCN"] = "启用时，仅当共享任务信息来自队伍其他成员时才会显示。",
@@ -71,7 +71,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "NPC 툴팁에 (가능한/완료한) 퀘스트표시",
         ["ptBR"] = "Mostra missões (disponíveis/concluídas) nas dicas de ferramentas do NPC.",
         ["ruRU"] = "Показать/скрыть задания (доступные/выполненные) во всплывающих подсказках NPC",
-        ["zhCN"] = "启用时，在鼠标提示中显示NPC（可接/完成）任务。",
+        ["zhCN"] = "在鼠标提示中显示NPC（可接/完成）任务。",
         ["zhTW"] = "在 NPC 的浮動提示資訊中顯示任務 (可接/完成)。",
     },
     ["Show quest XP at max level"] = {

@@ -744,7 +744,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 1,
                                 width = 1.5,
                                 name = function() return l10n("Enable Tracker Header") end,
-                                desc = function() return l10n("When this is enabled the Tracker Header with the number of active quests and the Questie Icon will be permanently visible.\n\nWhen this is disabled the Questie Icon will fade in while your mouse is over the Tracker.") end,
+                                desc = function() return l10n("If checked, the Tracker Header with the number of active quests and the Questie Icon will be permanently visible.\n\nWhen this is disabled the Questie Icon will fade in while your mouse is over the Tracker.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.trackerHeaderEnabled end,
                                 set = function(_, value)
@@ -757,7 +757,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 2,
                                 width = 1.5,
                                 name = function() return l10n("Show Tracker Header At The Bottom") end,
-                                desc = function() return l10n("When this is enabled the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top.") end,
+                                desc = function() return l10n("If checked, the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top.") end,
                                 disabled = function() return (not Questie.db.profile.trackerEnabled) end,
                                 get = function() return Questie.db.profile.moveHeaderToBottom end,
                                 set = function(_, value)
@@ -770,7 +770,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 3,
                                 width = 1.5,
                                 name = function() return l10n("Show Header For Empty Tracker") end,
-                                desc = function() return l10n("When this is enabled the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely.") end,
+                                desc = function() return l10n("If checked, the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.alwaysShowTracker end,
                                 set = function(_, value)
