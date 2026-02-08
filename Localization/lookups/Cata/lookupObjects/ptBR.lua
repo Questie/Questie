@@ -261,6 +261,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [13874] = "Ofídea",
 [13891] = "Ofídea",
 [13949] = "Baú Coberto de Ferro",
+[15885] = "Santuário de Remulos",
 [16393] = "Chama Antiga",
 [16398] = "Canhão Défias",
 [17155] = "Pólvora Défias",

@@ -1168,6 +1168,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [13965] = "Puerta de la fábrica",
 [15068] = "Hoguera",
 [15069] = "Fogata",
+[15885] = "Santuario de Remulos",
 [16393] = "Llama antigua",
 [16394] = "Llama antigua",
 [16395] = "Seal Destroyed Flame",

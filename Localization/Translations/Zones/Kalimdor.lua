@@ -6,7 +6,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local kalimdorLocales = {
     ["Moonglade"] = {
         ["enUS"] = true,
-        ["deDE"] = "Mondlichtung",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Mondlichtung",
         ["esES"] = "Claro de la Luna",
         ["esMX"] = "Claro de la Luna",
         ["frFR"] = "Reflet-de-Lune",
@@ -42,7 +42,7 @@ local kalimdorLocales = {
     },
     ["Winterspring"] = {
         ["enUS"] = true,
-        ["deDE"] = "Winterquell",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Winterquell",
         ["esES"] = "Cuna del Invierno",
         ["esMX"] = "Cuna del Invierno",
         ["frFR"] = "Berceau-de-l'Hiver",
@@ -78,7 +78,7 @@ local kalimdorLocales = {
     },
     ["Un'Goro Crater"] = {
         ["enUS"] = true,
-        ["deDE"] = "Krater von Un'Goro",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Un'Goro-Krater") or "Krater von Un'Goro",
         ["esES"] = "Cráter de Un'Goro",
         ["esMX"] = "Cráter de Un'Goro",
         ["frFR"] = "Cratère d'Un'Goro",
@@ -102,7 +102,7 @@ local kalimdorLocales = {
     },
     ["Dustwallow Marsh"] = {
         ["enUS"] = true,
-        ["deDE"] = "Düstermarschen",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Marschen von Dustwallow") or "Düstermarschen",
         ["esES"] = "Marjal Revolcafango",
         ["esMX"] = "Marjal Revolcafango",
         ["frFR"] = "Marécage d'Âprefange",
@@ -150,9 +150,9 @@ local kalimdorLocales = {
     },
     ["Desolace"] = {
         ["enUS"] = true,
-        ["deDE"] = "Desolace",
-        ["esES"] = "Desolace",
-        ["esMX"] = "Desolace",
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
         ["frFR"] = "Désolace",
         ["koKR"] = "잊혀진 땅",
         ["ptBR"] = "Desolação",
@@ -198,7 +198,7 @@ local kalimdorLocales = {
     },
     ["The Barrens"] = {
         ["enUS"] = true,
-        ["deDE"] = "Das Brachland",
+        ["deDE"] = "Brachland",
         ["esES"] = "Los Baldíos",
         ["esMX"] = "Los Baldíos",
         ["frFR"] = "Les Tarides",
