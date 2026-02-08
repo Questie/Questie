@@ -386,6 +386,10 @@ function QuestieObjectFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local objectFixesHorde = {
+        [177525] = { -- Moonkin Stone
+            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{41.96,60.81}}},
+            [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
+        },
         [180743] = {
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.39,69.52}}},
         },
@@ -404,6 +408,10 @@ function QuestieObjectFixes:LoadFactionFixes()
     }
 
     local objectFixesAlliance = {
+        [177525] = { -- Moonkin Stone
+            [objectKeys.spawns] = {[zoneIDs.DARKSHORE]={{43.5,45.97}}},
+            [objectKeys.zoneID] = zoneIDs.DARKSHORE,
+        },
         [180743] = {
             [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{33.86,65.69}}},
         },

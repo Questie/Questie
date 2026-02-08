@@ -61,21 +61,21 @@ function QuestieQuestFixes:Load()
         [25] = {
             [questKeys.triggerEnd] = {"Scout the gazebo on Mystral Lake that overlooks the nearby Alliance outpost.",{[zoneIDs.ASHENVALE]={{48.92,69.56}}}},
         },
-        [26] = { -- Switch Alliance and Horde Druid quest IDs #948
+        [26] = { -- A Lesson to Learn
             [questKeys.startedBy] = {{4217}},
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
             [questKeys.nextQuestInChain] = 29,
         },
-        [27] = { -- Switch Alliance and Horde Druid quest IDs #948
+        [27] = { -- A Lesson to Learn
             [questKeys.startedBy] = {{3033}},
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.nextQuestInChain] = 28,
         },
         [28] = {
-            [questKeys.triggerEnd] = {"Complete the Trial of the Lake.", {[zoneIDs.MOONGLADE]={{36.17,41.67}}}},
+            [questKeys.objectives] = {nil,{{15885,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29] = {
-            [questKeys.triggerEnd] = {"Complete the Trial of the Lake.", {[zoneIDs.MOONGLADE]={{36.17,41.67}}}},
+            [questKeys.objectives] = {nil,{{15885,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [30] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.MOONGLADE]={{36.5,41.7}}}, Questie.ICON_TYPE_EVENT, l10n("Combine the Pendant halves at the Shrine of Remulos.")}},
@@ -1575,7 +1575,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 2518,
         },
         [2520] = {
-            [questKeys.triggerEnd] = {"Offer the sacrifice at the fountain", {[zoneIDs.DARNASSUS]={{38.63,85.99}}}},
+            [questKeys.objectives] = {nil,{{138498}}},
         },
         [2561] = {
             [questKeys.objectives] = {{{7318,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2889,15 +2889,17 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Redemption?", {[zoneIDs.WESTERN_PLAGUELANDS]={{53.86,24.32}}}},
         },
         [6001] = {
-            [questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {
-                [zoneIDs.DARKSHORE]={{43.3,45.82}},
-                [zoneIDs.THE_BARRENS]={{41.96,60.81}}},
+            [questKeys.objectives] = {{{12144,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Cenarion Moondust"), 0, {{"object", 177525}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Lunaclaw"), 0, {{"monster", 12138}}},
             },
         },
         [6002] = {
-            [questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {
-                [zoneIDs.DARKSHORE]={{43.3,45.82}},
-                [zoneIDs.THE_BARRENS]={{41.96,60.81}}},
+            [questKeys.objectives] = {{{12144,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Cenarion Lunardust"), 0, {{"object", 177525}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Lunaclaw"), 0, {{"monster", 12138}}},
             },
         },
         [6027] = {
@@ -3027,6 +3029,12 @@ function QuestieQuestFixes:Load()
         },
         [6132] = {
             [questKeys.triggerEnd] = {"Melizza Brimbuzzle escorted to safety", {[zoneIDs.DESOLACE]={{40.15,61.58}}}},
+        },
+        [6124] = { -- Curing the Sick
+            [questKeys.objectives] = {{{12298,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [6129] = { -- Curing the Sick
+            [questKeys.objectives] = {{{12296,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [6134] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DESOLACE]={{63.71,91.9}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Crate of Ghost Magnets"),}},

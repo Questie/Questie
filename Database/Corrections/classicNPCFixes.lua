@@ -2008,13 +2008,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{51.93,23.82}}},
         },
-        [12138] = { -- Lunaclaw
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-            [npcKeys.spawns] = {
-                [zoneIDs.DARKSHORE] = {{43.33,45.85}},
-                [zoneIDs.THE_BARRENS] = {{41.96,60.79}},
-            },
-        },
         [12196] = { -- Innkeeper Kaylisk <Innkeeper>
             [npcKeys.npcFlags] = 128,
         },
@@ -3292,6 +3285,14 @@ function QuestieNPCFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local npcFixesHorde = {
+        [12138] = { -- Lunaclaw
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{41.96,60.79}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
+        },
+        [12144] = { -- Lunaclaw Spirit
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{41.96,60.79}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
+        },
         [13778] = { -- PvP Tower Credit Marker
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{52.8,44},{50.8,30.8},{45.2,14.6},{44,18.1}}},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
@@ -3315,6 +3316,14 @@ function QuestieNPCFixes:LoadFactionFixes()
     }
 
     local npcFixesAlliance = {
+        [12138] = { -- Lunaclaw
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.33,45.85}}},
+            [npcKeys.zoneID] = zoneIDs.DARKSHORE,
+        },
+        [12144] = { -- Lunaclaw Spirit
+            [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.33,45.85}}},
+            [npcKeys.zoneID] = zoneIDs.DARKSHORE,
+        },
         [13778] = { -- PvP Tower Credit Marker
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{48.5,58.3},{50.2,65.3},{49.3,84.4},{48.3,84.3}}},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,

@@ -574,6 +574,9 @@ function QuestieTBCQuestFixes:Load()
         [6025] = {
             [questKeys.triggerEnd] = {"Overlook Hearthglen from a high vantage point", {[zoneIDs.WESTERN_PLAGUELANDS]={{45.7,18.5}}}},
         },
+        [6126] = { -- Lessons Anew
+            [questKeys.preQuestSingle] = {},
+        },
         [6185] = {
             [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS]={{27.4,75.14}}}},
         },
