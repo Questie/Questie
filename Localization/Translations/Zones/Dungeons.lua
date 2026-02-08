@@ -258,7 +258,7 @@ local dungeonLocales = {
     },
     ["Ragefire Chasm"] = {
         ["enUS"] = true,
-        ["deDE"] = "Flammenschlund",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Ragefireabgrund") or "Flammenschlund",
         ["esES"] = "Sima Ígnea",
         ["esMX"] = "Sima Ígnea",
         ["frFR"] = "Gouffre de Ragefeu",
@@ -282,7 +282,7 @@ local dungeonLocales = {
     },
     ["Blackfathom Deeps"] = {
         ["enUS"] = true,
-        ["deDE"] = "Tiefschwarze Grotte",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Blackfathom-Tiefe") or "Tiefschwarze Grotte",
         ["esES"] = "Cavernas de Brazanegra",
         ["esMX"] = "Cavernas de Brazanegra",
         ["frFR"] = "Profondeurs de Brassenoire",
@@ -342,7 +342,7 @@ local dungeonLocales = {
     },
     ["Shadowfang Keep"] = {
         ["enUS"] = true,
-        ["deDE"] = "Burg Shadowfang",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Burg Shadowfang") or "Burg Schattenfang",
         ["esES"] = "Castillo de Colmillo Oscuro",
         ["esMX"] = "Castillo de Colmillo Oscuro",
         ["frFR"] = "Donjon d'Ombrecroc",
