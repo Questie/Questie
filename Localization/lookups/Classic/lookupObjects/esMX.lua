@@ -1103,6 +1103,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [13949] = "Cofre de hierro",
 [15068] = "Hoguera",
 [15069] = "Fogata",
+[15885] = "Santuario de Remulos",
 [16393] = "Llama antigua",
 [16394] = "Llama antigua",
 [16396] = "Arroyo de la Luna",

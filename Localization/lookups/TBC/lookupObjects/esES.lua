@@ -263,6 +263,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [13873] = "Figura de un gato",
 [13891] = "Reptilia",
 [13949] = "Cofre de hierro",
+[15885] = "Santuario de Remulos",
 [16393] = "Llama antigua",
 [16398] = "Cañón de los Defias",
 [17155] = "Pólvora de los Defias",

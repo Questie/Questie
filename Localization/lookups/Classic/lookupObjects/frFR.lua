@@ -265,6 +265,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [13873] = "Figurine de chat",
 [13891] = "Fleur de serpent",
 [13949] = "Coffre de fer",
+[15885] = "Sanctuaire de Remulos",
 [16393] = "Flamme antique",
 [16398] = "Canon des Défias",
 [17155] = "Poudre à canon des Défias",

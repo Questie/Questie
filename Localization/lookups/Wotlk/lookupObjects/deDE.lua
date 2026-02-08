@@ -263,6 +263,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [13873] = "Katzenstatuette",
 [13891] = "Schlangenflaum",
 [13949] = "Eingedellte Eisentruhe",
+[15885] = "Der Schrein von Remulos",
 [16393] = "Uralte Flamme",
 [16398] = "Kanone der Defias",
 [17155] = "Schießpulver der Defias",
