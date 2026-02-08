@@ -258,7 +258,7 @@ local dungeonLocales = {
     },
     ["Ragefire Chasm"] = {
         ["enUS"] = true,
-        ["deDE"] = (Expansions.Current == Expansions.Era and "Ragefireabgrund") or "Flammenschlund",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Ragefireabgrund") or "Der Flammenschlund",
         ["esES"] = "Sima Ígnea",
         ["esMX"] = "Sima Ígnea",
         ["frFR"] = "Gouffre de Ragefeu",
