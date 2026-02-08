@@ -334,9 +334,6 @@ function CataNpcFixes.Load()
         [2038] = { -- Lord Melenas
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{52.95,43.95}}},
         },
-        [2039] = { -- Ursal the Mauler
-            [npcKeys.waypoints] = {},
-        },
         [2055] = { -- Master Apothecary Faranell
             [npcKeys.questStarts] = {515},
         },

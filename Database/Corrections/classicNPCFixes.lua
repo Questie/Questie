@@ -248,6 +248,9 @@ function QuestieNPCFixes:Load()
         [1983] = { -- Nightlash
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{44,21},{45,20},{45,21}}},
         },
+        [2039] = { -- Ursal the Mauler
+            [npcKeys.waypoints] = {},
+        },
         [2041] = { -- Ancient Protector
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
