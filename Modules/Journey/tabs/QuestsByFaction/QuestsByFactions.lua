@@ -460,6 +460,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     "requiredSpecialization",
                     "requiredMaxLevel",
                     "requiredSkill",
+                    "requiredLevel",
                 }
             ) or {}
 
@@ -502,6 +503,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 local requiredSpecialization = queryResult[9]
                 local requiredMaxLevel = queryResult[10]
                 local requiredSkill = queryResult[11]
+                local requiredLevel = queryResult[12]
 
                 if requiredSkill then
                     local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
@@ -548,6 +550,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif requiredLevel and requiredLevel > playerlevel then
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif QuestieDB.IsRepeatable(questId) then
