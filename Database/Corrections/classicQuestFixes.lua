@@ -750,6 +750,9 @@ function QuestieQuestFixes:Load()
         [1070] = {
             [questKeys.breadcrumbForQuestId] = 1085,
         },
+        [1076] = { -- Devils in Westfall
+            [questKeys.nextQuestInChain] = 1077,
+        },
         [1079] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1077,1074},
