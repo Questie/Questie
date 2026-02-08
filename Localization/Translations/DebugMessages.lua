@@ -120,7 +120,7 @@ local debugMessagesLocales = {
         ["ptBR"] = "Comando inválido. Para uma lista de opções, digite:",
         ["ruRU"] = "Неверная команда. Для отображения списка команд наберите:",
         ["zhCN"] = "无效命令，要查看指令列表请输入：",
-        ["zhTW"] = "無效的指令，要查看指令列表請輸入:",
+        ["zhTW"] = "無效的指令，要查看指令列表請輸入：",
     },
     ["An active target or search parameters are required."] = {
         ["enUS"] = true,

@@ -84,7 +84,7 @@ local tutorialLocals = {
         ["ptBR"] = "As localizações das runas são marcadas com o seguinte símbolo:",
         ["ruRU"] = "Местоположения рун отмечены следующим символом:",
         ["zhCN"] = "符文位置以以下符号标记：",
-        ["zhTW"] = "符文位置使用以下符號標記:",
+        ["zhTW"] = "符文位置使用以下符號標記：",
     },
     ["Please choose if you want to see them or not\n"] = {
         ["enUS"] = true,

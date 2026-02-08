@@ -49,7 +49,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "É o mesmo que \"Ativar rastreamento automático de missões\" nas opções da interface. Se marcado, o Questie Rastreador rastreia automaticamente todas as missões em seu registro. Isso evita o rastreamento manual com a tecla Shift pressionada.",
         ["ruRU"] = "Когда включено, трекер будет автоматически отслеживать все задания в вашем журнале (это то же самое, что и \"Отслеживание заданий\" в настройках интерфейса игры). Отключение данной настройки приведет к отмене отслеживания всех заданий в вашем журнале, вам придется вручную выбрать задания для отслеживания.\n\nПРИМЕЧАНИЕ: Настройка \"Выполненные задания\" будет отключена при отключении данной настройки",
         ["zhCN"] = "这与界面选项中的“启用自动任务跟踪”相同。 启用时，Questie 追踪将自动追踪日志中的所有任务。 关闭此选项可以取消所有追踪的任务，需要手动选择。\n\n注意：停用本选项也会停用“显示已完成的任务”",
-        ["zhTW"] = "和遊戲內建的選項 \"啟用自動追蹤任務\" 相同。啟用時，Questie 任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意: 停用此選項時也會停用 \"顯示已完成的任務\"。",
+        ["zhTW"] = "和遊戲內建的選項 \"啟用自動追蹤任務\" 相同。啟用時，Questie 任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意：停用此選項時也會停用 \"顯示已完成的任務\"。",
     },
     ---------------------------------------------------------
     ["Show Completed Quests"] = {
@@ -1158,7 +1158,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Isso determina a direção na qual o rastreador de Questie cresce quando você adiciona ou remove missões. Por exemplo, se você usar a opção \"Para Cima e Para a Direita\", então o local ideal para o rastreador deve ser no canto inferior esquerdo da tela. Isso permite que o \"Modo de medição: Automático\" empurre a Altura e a Largura do rastreador \"Para Cima e Para a Direita\" para que o rastreador não cubra inadvertidamente elementos da sua interface de usuário.",
         ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Например, при использовании значения \"Вверх и вправо\" идеальным расположением для трекера будет нижний левый угол вашего экрана. Это позволяет сайзеру (изменитель размера трекера) в режиме \"Авто\" выставлять высоту и ширину трекера \"Вверх и вправо\" так, чтобы трекер случайно не скрыл элементы вашего интерфейса.",
         ["zhCN"] = "新增或移除任务时，任务列表的增长方向。例如：列表在界面的左下方时，可以使用 \"上 & 右\"，让 \"调整大小模式：自动 \" 往 \"上 & 右\" 调整列表的高度和宽度，列表便不会挡住其他界面清。",
-        ["zhTW"] = "新增或移除任務時，任務清單的延伸方向。例如清單位置在畫面的左下方時，可以使用 \"上 & 右\"，讓 \"調整大小模式: 自動\" 往 \"上 & 右\" 調整清單的高度和寬度，清單便不會擋住其他介面。",
+        ["zhTW"] = "新增或移除任務時，任務清單的延伸方向。例如清單位置在畫面的左下方時，可以使用 \"上 & 右\"，讓 \"調整大小模式：自動\" 往 \"上 & 右\" 調整清單的高度和寬度，清單便不會擋住其他介面。",
     },
     ---------------------------------------------------------
     ["Up & Right"] = {
@@ -1432,7 +1432,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "A quantidade de espaço entre missões no rastreador.\n\nNOTA: Alterar esta configuração no modo manual de medição irá redefinir o medidor de volta para o modo automático.",
         ["ruRU"] = "Установка отступа между заданиями в трекере.\n\nПРИМЕЧАНИЕ: Если сайзер (изменитель размера трекера) в ручном режиме, то изменение этой настройки сбросит режим сайзера на автоматический",
         ["zhCN"] = "Questie Tracker 中任务之间的填充量。\n\n注意：在 Sizer 手动模式下更改此设置会将 Sizer 重置为自动模式",
-        ["zhTW"] = "清單中每個任務之間的距離。\n\n注意: 在手動調整大小的模式下更改此設定會重置為自動模式。",
+        ["zhTW"] = "清單中每個任務之間的距離。\n\n注意：在手動調整大小的模式下更改此設定會重置為自動模式。",
     },
     ---------------------------------------------------------
     ["Outline for Zones, Titles, and Objectives"] = {
@@ -1506,7 +1506,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "A altura do rastreador baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de mediçao: Automático.",
         ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
         ["zhCN"] = "列表高度依据可用的界面高度百分比，100%% 会让列表和界面一样高。\n\n注意：此设定只在调整大小模式为自动时有效。",
-        ["zhTW"] = "清單高度依據可用的畫面高度百分比，100%% 會讓清單和畫面一樣高。\n\n注意: 此設定只在調整大小模式為自動時有效。",
+        ["zhTW"] = "清單高度依據可用的畫面高度百分比，100%% 會讓清單和畫面一樣高。\n\n注意：此設定只在調整大小模式為自動時有效。",
     },
     ["Font Options"] = {
         ["enUS"] = true,

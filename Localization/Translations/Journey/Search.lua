@@ -156,7 +156,7 @@ local searchLocales = {
         ["ptBR"] = "Nenhum resultado encontrado para sua procura: %s",
         ["ruRU"] = "Нет совпадений для результатов поиска: %s",
         ["zhCN"] = "没有符合的结果：%s",
-        ["zhTW"] = "沒有符合的搜尋結果: %s",
+        ["zhTW"] = "沒有符合的搜尋結果：%s",
     },
     ["No Quests found"] = {
         ["enUS"] = true,
@@ -216,7 +216,7 @@ local searchLocales = {
         ["ptBR"] = "Este NPC também começa as seguintes missões:",
         ["ruRU"] = "Этот NPC также начинает следующие задания:",
         ["zhCN"] = "这个NPC同时是下列任务的起始者：",
-        ["zhTW"] = "這個 NPC 也會開始下列任務:",
+        ["zhTW"] = "這個 NPC 也會開始下列任務：",
     },
     ["This NPC Also Completes the following quests:"] = {
         ["enUS"] = true,
@@ -228,7 +228,7 @@ local searchLocales = {
         ["ptBR"] = "Este NPC também termina as seguintes missões:",
         ["ruRU"] = "Этот NPC также завершает следующие задания:",
         ["zhCN"] = "这个NPC同时是下列任务的提交者：",
-        ["zhTW"] = "這個 NPC 也會完成下列任務:",
+        ["zhTW"] = "這個 NPC 也會完成下列任務：",
     },
     ["Quest Start Object Information"] = {
         ["enUS"] = true,

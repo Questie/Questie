@@ -120,7 +120,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Passo 1: Obtenha o Cartão Perfurado Amarelo. Você precisa do Cartão Perfurado Branco.",
         ["ruRU"] = "Шаг 1: получите Желтую перфокарту. Вам нужна Белая перфокарта.",
         ["zhCN"] = "步骤 1：获取黄色穿孔卡片，需要白色穿孔卡片。",
-        ["zhTW"] = "步驟 1: 取得黃色穿孔卡片，需要白色穿孔卡片。",
+        ["zhTW"] = "步驟 1：取得黃色穿孔卡片，需要白色穿孔卡片。",
     },
     ["Step 2: obtain the Blue Punch Card. You need the Yellow Punch Card."] = { -- 2930
         ["enUS"] = true,
@@ -132,7 +132,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Passo 2: Obtenha o Cartão Perfurado Azul. Você precisa do Cartão Perfurado Amarelo.",
         ["ruRU"] = "Шаг 2: получите Синюю перфокарту. Вам нужна Желтая перфокарта.",
         ["zhCN"] = "步骤 2：获取蓝色穿孔卡片，需要黄色穿孔卡片。",
-        ["zhTW"] = "步驟 2: 取得藍色穿孔卡片，需要黃色穿孔卡片。",
+        ["zhTW"] = "步驟 2：取得藍色穿孔卡片，需要黃色穿孔卡片。",
     },
     ["Step 3: obtain the Red Punch Card. You need the Blue Punch Card."] = { -- 2930
         ["enUS"] = true,
@@ -144,7 +144,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Passo 3: Obtenha o Cartão Perfurado Vermelho. Você precisa do Cartão Perfurado Azul.",
         ["ruRU"] = "Шаг 3: получите Красную перфокарту. Вам нужна Синяя перфокарта.",
         ["zhCN"] = "步骤 3：获取红色穿孔卡片，需要蓝色穿孔卡片。",
-        ["zhTW"] = "步驟 3: 取得紅色穿孔卡片，需要藍色穿孔卡片。",
+        ["zhTW"] = "步驟 3：取得紅色穿孔卡片，需要藍色穿孔卡片。",
     },
     ["Step 4: obtain the Prismatic Punch Card. You need the Red Punch Card."] = { -- 2930
         ["enUS"] = true,
@@ -156,7 +156,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Passo 4: Obtenha o Cartão Perfurado Prismático. Você precisa do Cartão Perfurado Vermelho.",
         ["ruRU"] = "Шаг 4: получите Призматическую перфокарту. Вам нужна Красная перфокарта.",
         ["zhCN"] = "步骤 4：获取彩色穿孔卡片，需要红色穿孔卡片。",
-        ["zhTW"] = "步驟 4: 取得稜彩穿孔卡片，需要紅色穿孔卡片。",
+        ["zhTW"] = "步驟 4：取得稜彩穿孔卡片，需要紅色穿孔卡片。",
     },
     ["Slay Vale Screechers and use Yeh'kinya's Bramble on their corpse."] = { -- 3520
         ["enUS"] = true,

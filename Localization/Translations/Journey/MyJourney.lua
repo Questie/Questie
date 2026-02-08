@@ -228,7 +228,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Anotação criada: %s",
         ["ruRU"] = "Заметка добавлена: %s",
         ["zhCN"] = "创建：%s",
-        ["zhTW"] = "筆記建立於: %s",
+        ["zhTW"] = "筆記建立於：%s",
     },
     ["No Note was entered. You must enter a note before submitting."] = {
         ["enUS"] = true,
@@ -264,7 +264,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Nova anotação para: %s",
         ["ruRU"] = "Новая заметка: %s",
         ["zhCN"] = "新笔记：%s",
-        ["zhTW"] = "新筆記: %s",
+        ["zhTW"] = "新筆記：%s",
     },
     ["Note: %s"] = {
         ["enUS"] = true,
@@ -276,7 +276,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Anotação: %s",
         ["ruRU"] = "Заметка: %s",
         ["zhCN"] = "笔记：%s",
-        ["zhTW"] = "筆記: %s",
+        ["zhTW"] = "筆記：%s",
     },
     ["Add New Adventure Note"] = {
         ["enUS"] = true,
