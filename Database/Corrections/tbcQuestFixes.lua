@@ -101,6 +101,9 @@ function QuestieTBCQuestFixes:Load()
         [511] = {
             [questKeys.startedBy] = {nil,{1740,186420}}, -- in TBC, 1738 and 1739 are removed, but 186420 is added to a nearby camp
         },
+        [532] = { -- Battle of Hillsbrad
+            [questKeys.objectivesText] = {"Kill Magistrate Burnside and 4 Hillsbrad Councilmen. Destroy the Hillsbrad Proclamation. Steal the Hillsbrad Town Registry. Report back to Darthalia in Tarren Mill afterwards."},
+        },
         [558] = {
             [questKeys.questLevel] = -1,
         },
