@@ -604,7 +604,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{44.16,73.83}}},
         },
         [3535] = { -- Blackmoss the Fetid
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.955,29.557},{42.427,37.837}}},
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.955,29.557},{42.427,37.837},{43.26,27.02}}},
         },
         [3537] = { -- Zixil <Merchant Supreme>
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{55.38,34.71}}},
