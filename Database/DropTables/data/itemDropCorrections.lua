@@ -19,7 +19,16 @@ local QuestieItemDropCorrections = QuestieLoader:CreateModule("QuestieItemDropCo
   -- This is the same way our normal database corrections system behaves as well.
 
 QuestieItemDropCorrections.Era = {
-
+    [3297] = { -- Fel Moss
+        [1988] = 100,
+        [1989] = 100,
+    },
+    [5085] = { -- Bristleback Quilboar Tusk
+        [3258] = 100,
+        [3260] = 100,
+        [3261] = 100,
+        [3263] = 100,
+    },
 }
 
 QuestieItemDropCorrections.Tbc = {
