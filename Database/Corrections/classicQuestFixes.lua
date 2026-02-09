@@ -5446,7 +5446,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [1198] = {
             [questKeys.breadcrumbForQuestId] = 1200,
-            [questKeys.nextQuestInChain] = 1200,
         },
         [1718] = {
             [questKeys.startedBy] = {{5113,5479}},
