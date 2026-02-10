@@ -531,8 +531,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {860},
         },
         [854] = {
-            [questKeys.breadcrumbForQuestId] = 871, -- #2014
-            [questKeys.nextQuestInChain] = 871,
+            [questKeys.exclusiveTo] = {844},
         },
         [858] = {
             [questKeys.nextQuestInChain] = 863,
@@ -555,9 +554,6 @@ function QuestieQuestFixes:Load()
         },
         [870] = {
             [questKeys.breadcrumbs] = {886},
-        },
-        [871] = {
-            [questKeys.breadcrumbs] = {854}, -- #2014
         },
         [886] = {
             [questKeys.breadcrumbForQuestId] = 870,
