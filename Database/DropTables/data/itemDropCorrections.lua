@@ -29,6 +29,10 @@ QuestieItemDropCorrections.Era = {
         [3261] = 100,
         [3263] = 100,
     },
+    [15852] = { -- Kodo Horn
+        [3234] = 100,
+        [3236] = 100,
+    },
 }
 
 QuestieItemDropCorrections.Tbc = {
