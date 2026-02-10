@@ -34,6 +34,15 @@ local DropKeys = DropDB.correctionKeys
   -- regardless of whatever data exists in the MoP pserver DB.
 
 QuestieItemDropCorrections.Era = {
+    [2378] = { -- Skeleton Finger
+        [48] = DropKeys.WOWHEAD,
+        [202] = DropKeys.WOWHEAD,
+        [203] = DropKeys.WOWHEAD,
+        [531] = DropKeys.WOWHEAD,
+        [785] = DropKeys.WOWHEAD,
+        [787] = DropKeys.WOWHEAD,
+        [1110] = DropKeys.WOWHEAD,
+    },
     [3297] = { -- Fel Moss
         [1988] = 100,
         [1989] = 100,
