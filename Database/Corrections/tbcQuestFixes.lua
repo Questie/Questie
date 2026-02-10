@@ -1800,6 +1800,7 @@ function QuestieTBCQuestFixes:Load()
         [9738] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{17885,nil,Questie.ICON_TYPE_INTERACT},{17893,nil,Questie.ICON_TYPE_INTERACT},{17890,nil,Questie.ICON_TYPE_INTERACT},{17827,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
         },
         [9739] = {
             [questKeys.requiredMinRep] = {},
