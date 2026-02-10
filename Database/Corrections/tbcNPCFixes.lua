@@ -657,6 +657,10 @@ function QuestieTBCNpcFixes:Load()
         [17246] = {
             [npcKeys.waypoints] = {},
         },
+        [17249] = { -- Landro Longshot
+            [npcKeys.questStarts] = {63450,63768,65285,65562,93824},
+            [npcKeys.questEnds] = {63450,63768,65285,65562,93824},
+        },
         [17288] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
