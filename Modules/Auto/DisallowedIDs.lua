@@ -183,6 +183,9 @@ _AutoQuesting.disallowedQuests = {
         [29205] = true, -- The Forlorn Spire
         [29206] = true, -- Into the Fire
         [31152] = true, -- Peering Into the Past
+        -- Aldor/Scryer quests
+        [10551] = true, -- Allegiance to the Aldor
+        [10552] = true, -- Allegiance to the Scryers
     },
     turnIn = {
         [2199] = true, -- Lore for a Price (crafting material objectives)
