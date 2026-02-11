@@ -42,6 +42,14 @@ QuestieItemDropCorrections.Era = {
         [948] = DropKeys.WOWHEAD,
         [1270] = DropKeys.WOWHEAD,
     },
+    [1130] = { -- Vial of Spider Venom
+        [217] = DropKeys.WOWHEAD,
+        [539] = DropKeys.WOWHEAD,
+        [569] = DropKeys.WOWHEAD,
+        [574] = DropKeys.WOWHEAD,
+        [930] = DropKeys.WOWHEAD,
+        [949] = DropKeys.WOWHEAD,
+    },
     [2378] = { -- Skeleton Finger
         [48] = DropKeys.WOWHEAD,
         [202] = DropKeys.WOWHEAD,
