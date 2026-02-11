@@ -1790,8 +1790,9 @@ function QuestieTBCQuestFixes:Load()
         [9729] = {
             [questKeys.triggerEnd] = {"Ark of Ssslith safely returned to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.71,50.72}}}},
         },
-        [9731] = {
+        [9731] = { -- Drain Schematics
             [questKeys.triggerEnd] = {"Drain Located", {[zoneIDs.ZANGARMARSH]={{50.44,40.91}}}},
+            [questKeys.preQuestSingle] = {9718},
         },
         [9737] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17910,17911,17912,17913,17914},17910}}},

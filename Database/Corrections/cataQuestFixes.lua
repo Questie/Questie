@@ -1284,7 +1284,6 @@ function CataQuestFixes.Load()
         },
         [9731] = { -- Drain Schematics
             [questKeys.startedBy] = {nil,nil,{24330}},
-            [questKeys.preQuestSingle] = {9718},
         },
         [9751] = { -- The Bloodcurse Legacy
             [questKeys.exclusiveTo] = {9672},
