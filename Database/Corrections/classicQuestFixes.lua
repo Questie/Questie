@@ -4779,6 +4779,54 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
+        [8905] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8906] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8907] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8908] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8909] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8910] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8911] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8912] = {
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [8913] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
+        [8914] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
+        [8915] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
+        [8916] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
+        [8917] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
+        [8918] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
+        [8919] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
+        [8920] = {
+            [questKeys.nextQuestInChain] = 8923,
+        },
         [8966] = {
             [questKeys.exclusiveTo] = {8967,8968,8969},
             [questKeys.preQuestSingle] = {8962,8963,8964,8965},
@@ -5442,6 +5490,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8904] = {
             [questKeys.exclusiveTo] = {8900,8901,8902,8979},
         },
+        [8928] = {
+            [questKeys.nextQuestInChain] = 8978,
+        },
         [9388] = {
             [questKeys.startedBy] = {{16818}},
         },
@@ -5487,6 +5538,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8254] = {
             [questKeys.startedBy] = {{5489,11406}},
+        },
+        [8928] = {
+            [questKeys.nextQuestInChain] = 8977,
         },
         [9388] = {
             [questKeys.startedBy] = {{16817}},
