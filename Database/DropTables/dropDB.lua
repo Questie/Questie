@@ -29,7 +29,7 @@ DropDB.tablePserver = nil
 DropDB.tableCorrections = nil
 DropDB.sourcePserver = "" -- this tracks which pserv DB is loaded so we can display the correct icon in debug mode
 
-DropDB.correctionKeys = { -- all keys must be negative to di
+DropDB.correctionKeys = { -- all keys must be negative or they'll be parsed as real data
     WOWHEAD = -1,
     PSERVER = -2,
 }
