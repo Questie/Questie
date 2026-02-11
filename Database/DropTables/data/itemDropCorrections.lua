@@ -3,8 +3,12 @@ local QuestieItemDropCorrections = QuestieLoader:CreateModule("QuestieItemDropCo
 -------------------------
 --Import modules.
 -------------------------
+---@type DropDB
+local DropDB = QuestieLoader:ImportModule("DropDB")
 
-  -- These table contain manual drop corrections.
+local DropKeys = DropDB.correctionKeys
+
+  -- These tables contain manual drop corrections.
   --
   -- Use the following format:
   -- [itemID] = { -- Item Name
@@ -17,6 +21,17 @@ local QuestieItemDropCorrections = QuestieLoader:CreateModule("QuestieItemDropCo
   -- correction will be loaded in MoP unless an expansion after Era made a different correction for the same ID.
   --
   -- This is the same way our normal database corrections system behaves as well.
+  --
+  -- You can also use reference corrections. For instance:
+  --
+  -- [itemID] = { -- Item Name
+  --    [npcID] = DropDB.correctionKeys.WOWHEAD,
+  -- }
+  --
+  -- will point to the currently loaded Wowhead data for that item:NPC pair, if it exists.
+  -- Using a reference correction in an earlier expansion will propagate to later ones, pointing to their own DBs.
+  -- For instance, if you put the above example into Era corrections, but loaded up MoP, it would show MoP Wowhead data,
+  -- regardless of whatever data exists in the MoP pserver DB.
 
 QuestieItemDropCorrections.Era = {
     [3297] = { -- Fel Moss
