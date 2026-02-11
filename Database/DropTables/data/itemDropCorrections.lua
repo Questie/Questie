@@ -34,6 +34,13 @@ local DropKeys = DropDB.correctionKeys
   -- regardless of whatever data exists in the MoP pserver DB.
 
 QuestieItemDropCorrections.Era = {
+    [884] = { -- Ghoul Rib
+        [3] = DropKeys.WOWHEAD,
+        [210] = DropKeys.WOWHEAD,
+        [570] = DropKeys.WOWHEAD,
+        [604] = DropKeys.WOWHEAD,
+        [948] = DropKeys.WOWHEAD,
+    },
     [1129] = { -- Ghoul Fang
         [3] = DropKeys.WOWHEAD,
         [210] = DropKeys.WOWHEAD,
