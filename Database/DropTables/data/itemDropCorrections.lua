@@ -54,6 +54,9 @@ QuestieItemDropCorrections.Tbc = {
     [23614] = { -- Red Snapper
         [17102] = 100,
     },
+    [28668] = { -- Aged Clefthoof Blubber
+        [17133] = DropKeys.WOWHEAD,
+    }
 }
 
 QuestieItemDropCorrections.Wotlk = {
