@@ -484,6 +484,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 6383,
             [questKeys.nextQuestInChain] = 6383,
         },
+        [748] = {
+            [questKeys.nextQuestInChain] = 754,
+        },
         [752] = {
             [questKeys.breadcrumbForQuestId] = 753,
         },
@@ -493,9 +496,17 @@ function QuestieQuestFixes:Load()
         },
         [754] = {
             [questKeys.triggerEnd] = {"Cleanse the Winterhoof Water Well", {[zoneIDs.MULGORE]={{53.61, 66.2}}}},
+            [questKeys.nextQuestInChain] = 756,
+        },
+        [756] = {
+            [questKeys.nextQuestInChain] = 758,
         },
         [758] = {
             [questKeys.triggerEnd] = {"Cleanse the Thunderhorn Water Well", {[zoneIDs.MULGORE]={{44.52, 45.46}}}},
+            [questKeys.nextQuestInChain] = 759,
+        },
+        [759] = {
+            [questKeys.nextQuestInChain] = 760,
         },
         [760] = {
             [questKeys.triggerEnd] = {"Cleanse the Wildmane Well", {[zoneIDs.MULGORE]={{42.75, 14.16}}}},
