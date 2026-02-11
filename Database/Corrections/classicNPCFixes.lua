@@ -205,6 +205,9 @@ function QuestieNPCFixes:Load()
         [1516] = { -- Konda
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.06,60.85}}},
         },
+        [1667] = { -- Meven Korgal
+            [npcKeys.waypoints] = {},
+        },
         [1680] = { -- Matthew Hooper
             [npcKeys.waypoints] = {},
         },
