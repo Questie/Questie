@@ -234,7 +234,8 @@ function QuestieCorrections:Initialize(validationTables)
     QuestieQuestFixes:LoadMissingQuests()
 
     -- Classic Corrections
-    if Expansions.Current < Expansions.Cata then
+    if Questie.IsClassic then
+        -- This data is only correct for Era/SoX, for the other expansions we trust the base DB
         _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
     end
     _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
