@@ -50,6 +50,10 @@ QuestieItemDropCorrections.Era = {
         [930] = DropKeys.WOWHEAD,
         [949] = DropKeys.WOWHEAD,
     },
+    [1598] = { -- Rot Blossom
+        [202] = DropKeys.WOWHEAD,
+        [531] = DropKeys.WOWHEAD,
+    },
     [2378] = { -- Skeleton Finger
         [48] = DropKeys.WOWHEAD,
         [202] = DropKeys.WOWHEAD,
