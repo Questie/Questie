@@ -1065,6 +1065,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{63.41,77.12}}},
             [npcKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
         },
+        [19879] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{34.56,66.02}}},
+            [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
         [19909] = {
             [npcKeys.friendlyToFaction] = "H",
         },
