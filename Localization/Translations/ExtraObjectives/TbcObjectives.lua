@@ -59,7 +59,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "找到克伦·断脊者尸体的地方使用先祖狼魂图腾，并跟随先祖狼魂前进.",
+        ["zhCN"] = "找到克伦·断脊者尸体的地方使用先祖狼魂图腾，并跟随先祖狼魂前进",
         ["zhTW"] = false,
     },
     ["Take Avruu's Orb to the Haal'eshi Altar"] = { -- 9418
