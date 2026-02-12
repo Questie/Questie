@@ -97,6 +97,12 @@ QuestieItemDropCorrections.Era = {
         [20197] = DropKeys.WOWHEAD,
         [20198] = DropKeys.WOWHEAD,
     },
+    [24426] = { -- Sporebat Eye
+        [18128] = DropKeys.WOWHEAD,
+        [18129] = DropKeys.WOWHEAD,
+        [18280] = DropKeys.WOWHEAD,
+        [20387] = DropKeys.WOWHEAD,
+    },
     [29480] = { -- Parched Hydra Sample
         [20324] = DropKeys.WOWHEAD,
     },
