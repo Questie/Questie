@@ -90,6 +90,9 @@ QuestieItemDropCorrections.Era = {
         [3234] = 100,
         [3236] = 100,
     },
+    [29480] = { -- Parched Hydra Sample
+        [20324] = DropKeys.WOWHEAD,
+    },
 }
 
 QuestieItemDropCorrections.Tbc = {
