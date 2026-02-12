@@ -16,6 +16,9 @@ function QuestieTBCNpcFixes:Load()
     local phases = Phasing.phases
 
     return {
+        [279] = { -- Morgan Pestle
+            [npcKeys.questStarts] = {9025},
+        },
         [331] = {
             [npcKeys.questStarts] = {8250,64038},
         },
@@ -189,6 +192,9 @@ function QuestieTBCNpcFixes:Load()
         [5167] = { -- Fenthwick
             [npcKeys.questStarts] = {6681},
         },
+        [5204] = { -- Apothecary Zinge
+            [npcKeys.questStarts] = {232,243,1358,4133,4769,8980},
+        },
         [5480] = { -- Ilsa Corbin
             [npcKeys.questStarts] = {1638},
         },
@@ -264,11 +270,11 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {8357,63448,63767,65284,65561,93823},
         },
         [6740] = { -- Innkeeper Allison
-            [npcKeys.questStarts] = {3789,8356,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {3789,8356,9027,63448,63767,65284,65561,93823},
             [npcKeys.questEnds] = {8356,8860,9026,63448,63767,65284,65561,93823},
         },
         [6741] = { -- Innkeeper Norman
-            [npcKeys.questStarts] = {3784,8354,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {3784,8354,8983,63448,63767,65284,65561,93823},
             [npcKeys.questEnds] = {8354,8982,63448,63767,65284,65561,93823},
         },
         [6746] = { -- Innkeeper Pala
