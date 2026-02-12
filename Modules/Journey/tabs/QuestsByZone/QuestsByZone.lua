@@ -189,9 +189,9 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             children = {}
         },
         [3] = {
-            value = "p",
-            text = l10n('Missing Pre Quest'),
-            children = {}
+            value = "r",
+            text = l10n('Repeatable Quests'),
+            children = {},
         },
         [4] = {
             value = "c",
@@ -199,9 +199,9 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             children = {}
         },
         [5] = {
-            value = "r",
-            text = l10n('Repeatable Quests'),
-            children = {},
+            value = "p",
+            text = l10n('Missing Requirement'),
+            children = {}
         },
         [6] = {
             value = "u",
@@ -314,7 +314,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         unobtainableQuestIds[questId] = true
                         unobtainableCounter = unobtainableCounter + 1
                     else
-                        tinsert(zoneTree[3].children, temp)
+                        tinsert(zoneTree[5].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Multiple pre Quests are missing
@@ -331,7 +331,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     end
 
                     if not hasUnobtainablePreQuest then
-                        tinsert(zoneTree[3].children, temp)
+                        tinsert(zoneTree[5].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Quests which you have outleveled
@@ -340,8 +340,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Quests which you are too low level for
                 elseif requiredLevel and requiredLevel > playerlevel then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
                 -- Event quests where the event is not currently active
                 elseif QuestieEvent.IsEventQuest(questId) and not QuestieEvent.IsEventActiveForQuest(questId) then
                     tinsert(zoneTree[6].children, temp)
@@ -352,7 +352,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
                 elseif QuestieDB.IsRepeatable(questId) then
-                    tinsert(zoneTree[5].children, temp)
+                    tinsert(zoneTree[3].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
                 elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
@@ -372,7 +372,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
         end
     end
 
-    local totalCounter = availableCounter + completedCounter + prequestMissingCounter
+    local totalCounter = availableCounter + completedCounter + prequestMissingCounter + unobtainableCounter
 
 	if breadcrumbCounter and breadcrumbCounter >= 1 then
        zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCompleteCounter ..'/'.. breadcrumbCounter ..' ]'
@@ -381,12 +381,12 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     end
 
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[3].text = zoneTree[3].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
+    zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]'
     zoneTree[4].text = zoneTree[4].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[5].text = zoneTree[5].text .. ' [ '..  repeatableCounter ..' ]'
+    zoneTree[5].text = zoneTree[5].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
     zoneTree[6].text = zoneTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
 
-    zoneTree.numquests = totalCounter + repeatableCounter + unobtainableCounter
+    zoneTree.numquests = totalCounter + repeatableCounter + breadcrumbCounter
 
     return zoneTree
 end
