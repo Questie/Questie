@@ -103,6 +103,10 @@ QuestieItemDropCorrections.Era = {
         [18280] = DropKeys.WOWHEAD,
         [20387] = DropKeys.WOWHEAD,
     },
+    [24427] = { -- Fen Strider Tentacle
+        [18134] = DropKeys.WOWHEAD,
+        [18281] = DropKeys.WOWHEAD,
+    },
     [29480] = { -- Parched Hydra Sample
         [20324] = DropKeys.WOWHEAD,
     },
