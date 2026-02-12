@@ -4834,6 +4834,21 @@ function QuestieQuestFixes:Load()
         [8920] = {
             [questKeys.nextQuestInChain] = 8923,
         },
+        [8950] = {
+            [questKeys.nextQuestInChain] = 9015,
+        },
+        [8962] = {
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [8963] = {
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [8964] = {
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [8965] = {
+            [questKeys.nextQuestInChain] = 0,
+        },
         [8966] = {
             [questKeys.exclusiveTo] = {8967,8968,8969},
             [questKeys.preQuestSingle] = {8962,8963,8964,8965},
@@ -4860,22 +4875,22 @@ function QuestieQuestFixes:Load()
         [8985] = {
             [questKeys.preQuestSingle] = {8970},
             [questKeys.exclusiveTo] = {8986,8987,8988},
-            [questKeys.nextQuestInChain] = 8989,
+            [questKeys.nextQuestInChain] = 0,
         },
         [8986] = {
             [questKeys.preQuestSingle] = {8970},
             [questKeys.exclusiveTo] = {8985,8987,8988},
-            [questKeys.nextQuestInChain] = 8990,
+            [questKeys.nextQuestInChain] = 0,
         },
         [8987] = {
             [questKeys.preQuestSingle] = {8970},
             [questKeys.exclusiveTo] = {8986,8988,8989},
-            [questKeys.nextQuestInChain] = 8991,
+            [questKeys.nextQuestInChain] = 0,
         },
         [8988] = {
             [questKeys.preQuestSingle] = {8970},
             [questKeys.exclusiveTo] = {8986,8987,8989},
-            [questKeys.nextQuestInChain] = 8992,
+            [questKeys.nextQuestInChain] = 0,
         },
         [8989] = {
             [questKeys.preQuestSingle] = {8985,8986,8987,8988},
@@ -5504,6 +5519,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8928] = {
             [questKeys.nextQuestInChain] = 8978,
         },
+        [8996] = {
+            [questKeys.nextQuestInChain] = 8998,
+        },
         [9388] = {
             [questKeys.startedBy] = {{16818}},
         },
@@ -5552,6 +5570,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8928] = {
             [questKeys.nextQuestInChain] = 8977,
+        },
+        [8996] = {
+            [questKeys.nextQuestInChain] = 8997,
         },
         [9388] = {
             [questKeys.startedBy] = {{16817}},
