@@ -47,8 +47,8 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 공유 퀘스트 정보가 파티원의 정보인 경우에만 표시됩니다.",
         ["ptBR"] = "Se marcado, as informações compartilhadas das missões serão mostradas apenas se forem de membros do grupo.",
         ["ruRU"] = "Когда включено, информация о таком же, как у вас, задании будет отображаться только от членов группы",
-        ["zhCN"] = "启用时，仅当共享任务信息来自队伍其他成员时才会显示。",
-        ["zhTW"] = "啟用時，只會分享隊伍中玩家的任務資訊。",
+        ["zhCN"] = "启用时，仅当共享任务信息来自队伍其他成员时才会显示",
+        ["zhTW"] = "啟用時，只會分享隊伍中玩家的任務資訊",
     },
     ["Show quests in NPC tooltips"] = {
         ["enUS"] = true,
@@ -71,8 +71,8 @@ local tooltipOptionsLocales = {
         ["koKR"] = "NPC 툴팁에 (가능한/완료한) 퀘스트표시",
         ["ptBR"] = "Mostra missões (disponíveis/concluídas) nas dicas de ferramentas do NPC.",
         ["ruRU"] = "Показать/скрыть задания (доступные/выполненные) во всплывающих подсказках NPC",
-        ["zhCN"] = "在鼠标提示中显示NPC（可接/完成）任务。",
-        ["zhTW"] = "在 NPC 的浮動提示資訊中顯示任務 (可接/完成)。",
+        ["zhCN"] = "在鼠标提示中显示NPC（可接/完成）任务",
+        ["zhTW"] = "在 NPC 的浮動提示資訊中顯示任務 (可接/完成)",
     },
     ["Show quest XP at max level"] = {
         ["enUS"] = true,
@@ -95,8 +95,8 @@ local tooltipOptionsLocales = {
         ["koKR"] = "최대 레벨에서도 퀘스트 경험치 값을 표시합니다.",
         ["ptBR"] = "Mostra os valores de experiência da missão mesmo no nível máximo.",
         ["ruRU"] = "Показывать опыт за задания даже на максимальном уровне персонажа",
-        ["zhCN"] = "即使在最高等级,任务也会显示任务经验值。",
-        ["zhTW"] = "滿等後也要顯示任務的經驗值。",
+        ["zhCN"] = "即使在最高等级,任务也会显示任务经验值",
+        ["zhTW"] = "滿等後也要顯示任務的經驗值",
     },
     ["Next in chain"] = {
         ["enUS"] = true,
@@ -131,8 +131,8 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 연계 퀘스트가 확장된 지도 툴팁에 표시됩니다.",
         ["ptBR"] = "Se marcado, as próximas missões na série serão mostradas nas dicas de mapa expandidas.",
         ["ruRU"] = "Когда включено, следующие задания в цепочке будут отображаться в расширенной подсказке на карте",
-        ["zhCN"] = "启用时，下一个任务链中的任务会在悬浮窗中显示。",
-        ["zhTW"] = "啟用時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務。",
+        ["zhCN"] = "启用时，下一个任务链中的任务会在悬浮窗中显示",
+        ["zhTW"] = "啟用時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務",
     },
     ["Show item drop rates"] = {
         ["enUS"] = true,
@@ -155,8 +155,8 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 퀘스트 목표 아이템의 드롭률이 몬스터 툴팁 정보에 표시됩니다.",
         ["ptBR"] = "Se marcado, a chance de saque dos objetivos de missão será mostrada nas dicas dos inimigos.",
         ["ruRU"] = "Когда включено, шанс выпадения предметов для выполнения задания будет отображаться во всплывающей подсказке",
-        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息中。",
-        ["zhTW"] = "啟用時，任務目標的掉落率將顯示在怪物的提示資訊中。",
+        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息中",
+        ["zhTW"] = "啟用時，任務目標的掉落率將顯示在怪物的提示資訊中",
     },
 }
 

@@ -59,8 +59,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "아이콘의 종류 별로 표시할 개수를 제한합니다.",
         ["ptBR"] = "Ativa o limite de ícones desenhados por tipo.",
         ["ruRU"] = "Включает ограничение количества значков, отображаемых для каждого типа",
-        ["zhCN"] = "启用对每种类型图标的限制。",
-        ["zhTW"] = "啟用每種類型繪製圖示的限制。",
+        ["zhCN"] = "启用对每种类型图标的限制",
+        ["zhTW"] = "啟用每種類型繪製圖示的限制",
     },
     ["Limits the amount of icons drawn per type. (Default: %s)"] = {
         ["enUS"] = true,
@@ -95,8 +95,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "퀘스트를 시작하는 스폰이 같은 생물이나 오브젝트의 다른 스폰에 추가되기 전, 영역 내에서 얼마나 떨어져 있어야 하는지를 설정합니다.\n\n경고! 이 값을 너무 낮게 설정할 경우, 매우 많은 아이콘으로 인해 지도에 성능 저하가 발생할 수 있습니다.",
         ["ptBR"] = "Quão distante um inimigo ou objeto que inicia uma missão precisa estar dentro de uma zona antes que outro inimigo ou objeto do mesmo tipo seja adicionado.\n\nATENÇÃO! Definir um valor muito baixo pode resultar em muitos ícones sendo exibidos e pode afetar o desempenho do mapa.",
         ["ruRU"] = "Насколько далеко начинающий задание объект должен быть в зоне перед тем, как появится следующий такой же объект.\n\nВНИМАНИЕ! Установка пониженных значений может вызвать отображение большого числа значков, а также сильно повлиять на производительность карты!",
-        ["zhCN"] = "在同一地区内，用于控制触发任务的相同生物或物体之间显示刷新点的最小距离。\n\n警告！数值过低可能导致地图图标过多，影响性能。",
-        ["zhTW"] = "在同一地區內，用於控制觸發任務的相同生物或物體之間顯示刷新點的最小距離。\n\n警告！數值過低可能導致地圖圖標過多，影響效能。",
+        ["zhCN"] = "在同一地区内，用于控制触发任务的相同生物或物体之间显示刷新点的最小距离。\n\n警告！数值过低可能导致地图图标过多，影响性能",
+        ["zhTW"] = "在同一地區內，用於控制觸發任務的相同生物或物體之間顯示刷新點的最小距離。\n\n警告！數值過低可能導致地圖圖標過多，影響效能",
     },
     ["Available quest icon limit"] = {
         ["enUS"] = true,
@@ -143,8 +143,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 Questie가 기본 UI 버그를 수정합니다.",
         ["ptBR"] = "Se marcado, Questie corrigirá bugs da interface do usuário.",
         ["ruRU"] = "Когда включено, Questie будет исправлять ошибки классического интерфейса",
-        ["zhCN"] = "启用时，任务提示插件会热修经典的界面错误。",
-        ["zhTW"] = "啟用時，任務位置提示插件會熱修經典的介面錯誤。",
+        ["zhCN"] = "启用时，任务提示插件会热修经典的界面错误",
+        ["zhTW"] = "啟用時，任務位置提示插件會熱修經典的介面錯誤",
     },
     ["Developer Options"] = {
         ["enUS"] = true,
@@ -179,8 +179,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 퀘스트의 ID를 툴팁과 추적기에 표시합니다.",
         ["ptBR"] = "Se marcado, a ID de missões será mostrada nas dicas de ferramentas e no rastreador.",
         ["ruRU"] = "Когда включено, ID заданий будут отображаться во всплывающих подсказках и в трекере",
-        ["zhCN"] = "启用时，任务ID将显示在鼠标提示和跟踪器中。",
-        ["zhTW"] = "啟用時，會在浮動提示資訊和任務追蹤清單內顯示任務 ID。",
+        ["zhCN"] = "启用时，任务ID将显示在鼠标提示和跟踪器中",
+        ["zhTW"] = "啟用時，會在浮動提示資訊和任務追蹤清單內顯示任務 ID",
     },
     ["Enable Debug"] = {
         ["enUS"] = true,
@@ -204,7 +204,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Se marcado, o modo de depuração será ativado.",
         ["ruRU"] = "Включить/отключить режим отладки",
         ["zhCN"] = "启用或停用Debug功能",
-        ["zhTW"] = "啟用或停用除錯的功能。",
+        ["zhTW"] = "啟用或停用除錯的功能",
     },
     ["Debug level to print"] = {
         ["enUS"] = true,
@@ -227,7 +227,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 버튼을 누르면 모든 Questie 설정이 기본값으로 초기화됩니다. (언어 설정 제외)",
         ["ptBR"] = "Se clicar nesse botão redefinirá todas as configurações de Questie para seus valores padrão. (Não o idioma)",
         ["ruRU"] = "Нажатие этой кнопки приведет к сбросу всех настроек аддона (за исключением языка)",
-        ["zhCN"] = "点击这个按钮将会使Questie除了本地化以外的所有设置重置为默认值。",
+        ["zhCN"] = "点击这个按钮将会使Questie除了本地化以外的所有设置重置为默认值",
         ["zhTW"] = "按下這個按鈕會將任務位置提示插件的所有設定重置成預設值。(語言設定除外)",
     },
     ["Reset Questie"] = {
@@ -251,8 +251,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "모든 Questie 설정을 기본값으로 초기화합니다.",
         ["ptBR"] = "Redefine a Questie para valores para todas as configurações.",
         ["ruRU"] = "Сбросить настройки аддона к значениям по умолчанию",
-        ["zhCN"] = "将所有设置重置为默认值。",
-        ["zhTW"] = "重置任務位置提示插件，所有設定都恢復成預設值。",
+        ["zhCN"] = "将所有设置重置为默认值",
+        ["zhTW"] = "重置任務位置提示插件，所有設定都恢復成預設值",
     },
     ["Reset Questie Journey"] = {
         ["enUS"] = true,
@@ -300,7 +300,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Força uma recompilação do banco de dados de Questie. Isso também recarregará a interface do usuário.",
         ["ruRU"] = "Принудительная перекомпиляция базы данных Questie. При этом перезагрузится пользовательский интерфейс",
         ["zhCN"] = "强制重建任务数据库。这会重新加载插件",
-        ["zhTW"] = "強制重建任務位置提示插件的資料庫，同時也會重新載入介面。",
+        ["zhTW"] = "強制重建任務位置提示插件的資料庫，同時也會重新載入介面",
     },
     ["Open Profiler"] = {
         ["enUS"] = true,
@@ -324,7 +324,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Abre o perfilador Questie, isso é útil para rastrear a fonte de picos da latência.",
         ["ruRU"] = "Открывает профайлер Questie. Полезен для отслеживания источников лагов или падения FPS",
         ["zhCN"] = "打开 Questie 分析器, 这对于追踪延迟/帧数峰值的来源很有用",
-        ["zhTW"] = "打開任務位置提示插件的效能分析，對於追蹤延遲/掉幀的原因很有幫助。",
+        ["zhTW"] = "打開任務位置提示插件的效能分析，對於追蹤延遲/掉幀的原因很有幫助",
     },
     ["Localization Settings"] = {
         ["enUS"] = true,
@@ -396,7 +396,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Se marcado, a validação do banco de dados será omitida ao recompilar. A validação está presente apenas com a depuração ativada.",
         ["ruRU"] = "Пропустить валидацию БД после перекомпиляции. Валидация имеется только при включенном режиме отладки",
         ["zhCN"] = "重建数据库时跳过验证。只有将Debug模式开启的情况下才能进行验证",
-        ["zhTW"] = "重新編譯時跳過資料庫驗證。只有先啟用除錯的情況下才會進行驗證。",
+        ["zhTW"] = "重新編譯時跳過資料庫驗證。只有先啟用除錯的情況下才會進行驗證",
     },
     ["Quel'Danas Settings"] = {
         ["enUS"] = true,
@@ -443,8 +443,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 아이템 ID가 툴팁에 표시됩니다.",
         ["ptBR"] = "Se marcado, a ID dos itens será mostrada nas dicas.",
         ["ruRU"] = "Когда включено, в подсказках будут отображаться ID предметов",
-        ["zhCN"] = "启用时，物品ID会在悬浮窗中显示。",
-        ["zhTW"] = "啟用時，會在浮動提示資訊中顯示物品 ID。",
+        ["zhCN"] = "启用时，物品ID会在悬浮窗中显示",
+        ["zhTW"] = "啟用時，會在浮動提示資訊中顯示物品 ID",
     },
    ["Object ID"] = {
         ["enUS"] = true,
@@ -479,8 +479,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 오브젝트 ID가 툴팁에 표시됩니다. 이는 예측값이며 QuestieDB에서 첫 번째로 일치하는 ID만 표시됩니다.",
         ["ptBR"] = "Se marcado, a ID dos objetos será mostrada nas dicas de ferramentas. Esses são palpites e mostram apenas a primeira ID correspondente no QuestieDB.",
         ["ruRU"] = "Когда включено, в подсказках будут отображаться ID объектов. Эти данные являются предполагаемыми, отображается только первый совпадающий ID в БД Questie",
-        ["zhCN"] = "启用时，物体的 ID 会显示在提示中。这些仅为猜测，并且只显示 QuestieDB 中第一个匹配的 ID。",
-        ["zhTW"] = "啟用時，物體的 ID 將顯示在提示中。這些僅為猜測，且只會顯示 QuestieDB 中第一個符合的 ID。",
+        ["zhCN"] = "启用时，物体的 ID 会显示在提示中。这些仅为猜测，并且只显示 QuestieDB 中第一个匹配的 ID",
+        ["zhTW"] = "啟用時，物體的 ID 將顯示在提示中。這些僅為猜測，且只會顯示 QuestieDB 中第一個符合的 ID",
     },
     ["NPC ID"] = {
         ["enUS"] = true,
@@ -515,8 +515,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 NPC ID가 툴팁에 표시됩니다.",
         ["ptBR"] = "Se marcado, a ID dos NPCs será mostrada nas dicas de ferramentas.",
         ["ruRU"] = "Когда включено, в подсказках будут отображаться ID NPC",
-        ["zhCN"] = "启用时，NPC ID会在悬浮窗中显示。",
-        ["zhTW"] = "啟用時，會在浮動提示資訊中顯示 NPC ID。",
+        ["zhCN"] = "启用时，NPC ID会在悬浮窗中显示",
+        ["zhTW"] = "啟用時，會在浮動提示資訊中顯示 NPC ID",
     },
     ["Hide Startup Warnings"] = {
         ["enUS"] = true,
@@ -540,7 +540,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Desativa a mensagem \"Bem-vindo ao Cataclysm Classic\" na inicialização.",
         ["ruRU"] = "Отключает сообщение \"Добро пожаловать в Cataclysm Classic!\" при входе в игру",
         ["zhCN"] = "屏蔽进入游戏时的欢迎信息",
-        ["zhTW"] = "停用啟動時的 \"歡迎來到浩劫與重生\" 訊息。",
+        ["zhTW"] = "停用啟動時的 \"歡迎來到浩劫與重生\" 訊息",
     },
     ["Enable bug hints for all game versions"] = {
         ["enUS"] = true,
@@ -563,8 +563,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "모든 게임 버전에 대한 버그 힌트 창을 활성화합니다. 주로 SoD에서 버그 보고에 사용됩니다.",
         ["ptBR"] = "Se marcado, as janelas de dicas de bugs serão mostradas para todas as versões do jogo, geralmente usadas para relatórios de bugs no SoD.",
         ["ruRU"] = "Включает окна подсказок об ошибках, обычно используемые в SoD, для всех версий игры",
-        ["zhCN"] = "致能所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告。",
-        ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗。",
+        ["zhCN"] = "致能所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
+        ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗",
     },
 }
 

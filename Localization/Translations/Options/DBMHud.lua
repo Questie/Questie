@@ -35,8 +35,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "DBM 애드온의 HUD 오버레이 기능을 사용해서 지도상의 오브젝트를 화면에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa a sobreposição do DBM Heads Up Display (HUD) para mostrar objetos do mapa.",
         ["ruRU"] = "Включить/отключить DBM HUD - оверлей для отображения объектов карты",
-        ["zhCN"] = "启用或停用 DBM HUD 覆盖层，以显示地图物体。",
-        ["zhTW"] = "啟用或停用 DBM HUD 覆蓋層，以顯示地圖物體。",
+        ["zhCN"] = "启用或停用 DBM HUD 覆盖层，以显示地图物体",
+        ["zhTW"] = "啟用或停用 DBM HUD 覆蓋層，以顯示地圖物體",
     },
     ["Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"] = {
         ["enUS"] = true,
@@ -47,8 +47,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "Questie가 DBM HUD 오버레이를 활성화했습니다. 더 많은 옵션을 보려면 Questie 설정의 DBM HUD 탭을 방문하세요.",
         ["ptBR"] = "O Questie ativou a sobreposição do DBM HUD. Para mais opções, acesse a aba DBM HUD nas opções de Questie.",
         ["ruRU"] = "В Questie активировано наложение DBM HUD. Для расширенных настроек посетите вкладку DBM HUD в параметрах Questie",
-        ["zhCN"] = "Questie 已激活 DBM HUD 覆盖。更多选项，请前往 Questie 选项中的 DBM HUD 标签。",
-        ["zhTW"] = "Questie 已啟用 DBM 畫面中顯示 (HUD) 圖層，更多選項在 Questie 設定選項的 DBM HUD 標籤頁面中。",
+        ["zhCN"] = "Questie 已激活 DBM HUD 覆盖。更多选项，请前往 Questie 选项中的 DBM HUD 标签",
+        ["zhTW"] = "Questie 已啟用 DBM 畫面中顯示 (HUD) 圖層，更多選項在 Questie 設定選項的 DBM HUD 標籤頁面中",
     },
     ["Filter Options"] = {
         ["enUS"] = true,
@@ -83,8 +83,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "수행가능/완료 퀘스트 아이콘을 HUD에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de missões disponíveis/concluídas aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки доступных или выполненных заданий на HUD",
-        ["zhCN"] = "切换是否在HUD上显示可用/完成任务图标。",
-        ["zhTW"] = "切換 HUD 上是否要顯示可接/完成任務的圖示。",
+        ["zhCN"] = "切换是否在HUD上显示可用/完成任务图标",
+        ["zhTW"] = "切換 HUD 上是否要顯示可接/完成任務的圖示",
     },
     ["Show object interact icons"] = {
         ["enUS"] = true,
@@ -155,8 +155,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "HUD에 오브젝트(기어) 아이콘을 표시할지 여부를 전환합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de objetos (engrenagem) aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки объектов (шестерня) на HUD",
-        ["zhCN"] = "切换是否在 HUD 上显示物件（齿轮）图标。",
-        ["zhTW"] = "切換是否在 HUD 上顯示物件（齒輪）圖示。",
+        ["zhCN"] = "切换是否在 HUD 上显示物件（齿轮）图标",
+        ["zhTW"] = "切換是否在 HUD 上顯示物件（齒輪）圖示",
     },
     ["Size & Scale Options"] = {
         ["enUS"] = true,
@@ -191,8 +191,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "수집 아이콘을 HUD에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de saque aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки добычи на HUD",
-        ["zhCN"] = "切换是否在HUD上显示物品图标。",
-        ["zhTW"] = "切換 HUD 上是否要顯示撿東西的圖示。",
+        ["zhCN"] = "切换是否在HUD上显示物品图标",
+        ["zhTW"] = "切換 HUD 上是否要顯示撿東西的圖示",
     },
     ["Global zoom level for HUD Icons"] = {
         ["enUS"] = true,
@@ -215,8 +215,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "근처에 다가가면 HUD 아이콘을 빨간색으로 표시합니다.",
         ["ptBR"] = "Muda a cor de um ícone HUD para vermelho quando você está perto dele.",
         ["ruRU"] = "Изменяет цвет значка DBM HUD на красный, когда игрок находится рядом с ним",
-        ["zhCN"] = "靠近HUD图标时，将其颜色更改为红色。",
-        ["zhTW"] = "靠近時將 HUD 圖示變成紅色。",
+        ["zhCN"] = "靠近HUD图标时，将其颜色更改为红色",
+        ["zhTW"] = "靠近時將 HUD 圖示變成紅色",
     },
     ["Show slay icons"] = {
         ["enUS"] = true,
@@ -239,8 +239,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "처치 아이콘을 HUD에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de matança aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки убийств на HUD",
-        ["zhCN"] = "切换是否在HUD上显示击杀目标的图标。",
-        ["zhTW"] = "切換 HUD 上是否要顯示殺怪的圖示。",
+        ["zhCN"] = "切换是否在HUD上显示击杀目标的图标",
+        ["zhTW"] = "切換 HUD 上是否要顯示殺怪的圖示",
     },
     ["Global radius/size for HUD Icons"] = {
         ["enUS"] = true,
@@ -275,8 +275,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "DBM HUD는 애드온 DeadlyBossMods와 통합되어 전체 화면에 목표 아이콘의 레이더를 표시합니다. 이 기능을 활성화시키기 위해 /reload가 필요합니다.",
         ["ptBR"] = "O DBM HUD se integra ao addon DeadlyBossMods para mostrar um radar de ícones de objetivos em toda a tela. Ativar esse recurso geralmente requer recarregar a interface para ter efeito.",
         ["ruRU"] = "Оверлей DBM HUD интегрируется с аддоном DeadlyBossMods для отображения на вашем экране радара со значками целей. После включения настройки желательно перезагрузить интерфейс командой /reload",
-        ["zhCN"] = "DBM HUD 与 DeadlyBossMods 插件集成，可在整个屏幕上显示目标图标雷达。启用此功能通常需要 /reload 才能生效。",
-        ["zhTW"] = "DBM HUD 與 DeadlyBossMods 插件整合，可在整個螢幕上顯示目標圖示雷達。啟用此功能通常需要 /reload 才能生效。",
+        ["zhCN"] = "DBM HUD 与 DeadlyBossMods 插件集成，可在整个屏幕上显示目标图标雷达。启用此功能通常需要 /reload 才能生效",
+        ["zhTW"] = "DBM HUD 與 DeadlyBossMods 插件整合，可在整個螢幕上顯示目標圖示雷達。啟用此功能通常需要 /reload 才能生效",
     },
 }
 

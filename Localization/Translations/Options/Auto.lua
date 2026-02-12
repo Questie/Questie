@@ -23,8 +23,8 @@ local autoOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 Questie는 NPC와 대화할 때 완료된 퀘스트를 자동으로 제출합니다.",
         ["ptBR"] = "Se marcado, o Questie entregará automaticamente missões concluídas ao falar com NPCs.",
         ["ruRU"] = "Когда включено, задания будут завершаться автоматически при разговоре с NPC",
-        ["zhCN"] = "启用时，与NPC对话时自动交回任务。",
-        ["zhTW"] = "啟用時，和 NPC 對話會自動交回已完成的任務。",
+        ["zhCN"] = "启用时，与NPC对话时自动交回任务",
+        ["zhTW"] = "啟用時，和 NPC 對話會自動交回已完成的任務",
     },
     ["Auto Accept"] = {
         ["enUS"] = true,
@@ -47,8 +47,8 @@ local autoOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 Questie는 아래 규칙에 따라 퀘스트 대화 상자가 나타날 때 자동으로 수락합니다.",
         ["ptBR"] = "Se marcado, Questie aceitará automaticamente as missões quando aparecerem, dependendo das regras abaixo.",
         ["ruRU"] = "Когда включено, задания будут приниматься автоматически в зависимости от правил ниже",
-        ["zhCN"] = "启用时，会根据下列规则，在任务对话框出现时自动接任务。",
-        ["zhTW"] = "啟用時，會根據下方的規則，在任務對話框出現時自動接受任務。",
+        ["zhCN"] = "启用时，会根据下列规则，在任务对话框出现时自动接任务",
+        ["zhTW"] = "啟用時，會根據下方的規則，在任務對話框出現時自動接受任務",
     },
     ["Rules for NPCs"] = {
         ["enUS"] = true,
@@ -83,8 +83,8 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 일반 퀘스트를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões normais de NPCs.",
         ["ruRU"] = "Автопринятие обычных заданий от NPC.",
-        ["zhCN"] = "自动接受 NPC 提供的一般任务。",
-        ["zhTW"] = "自動接受 NPC 提供的一般任務。",
+        ["zhCN"] = "自动接受 NPC 提供的一般任务",
+        ["zhTW"] = "自動接受 NPC 提供的一般任務",
     },
     ["Automatically accept repeatable quests (including dailies) from NPCs."] = {
         ["enUS"] = true,
@@ -95,8 +95,8 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 반복 가능한 퀘스트(일일 퀘스트 포함)를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões repetíveis (incluindo diárias) de NPCs.",
         ["ruRU"] = "Автопринятие повторяемых (включая ежедневные) заданий от NPC.",
-        ["zhCN"] = "自动接受 NPC 提供的可重复任务（包括每日任务）。",
-        ["zhTW"] = "自動接受 NPC 提供的可重複任務（包括每日任務）。",
+        ["zhCN"] = "自动接受 NPC 提供的可重复任务（包括每日任务）",
+        ["zhTW"] = "自動接受 NPC 提供的可重複任務（包括每日任務）",
     },
     ["Automatically accept dungeon and raid quests from NPCs."] = {
         ["enUS"] = true,
@@ -107,8 +107,8 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 던전 및 레이드 퀘스트를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões de masmorras e raides de NPCs.",
         ["ruRU"] = "Автопринятие заданий подземелий и рейдов от NPC.",
-        ["zhCN"] = "自动接受 NPC 提供的地下城和团队副本任务。",
-        ["zhTW"] = "自動接受 NPC 提供的地下城與團隊任務。",
+        ["zhCN"] = "自动接受 NPC 提供的地下城和团队副本任务",
+        ["zhTW"] = "自動接受 NPC 提供的地下城與團隊任務",
     },
     ["Automatically accept PvP quests from NPCs."] = {
         ["enUS"] = true,
@@ -119,8 +119,8 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 PvP 퀘스트를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões de JxJ de NPCs.",
         ["ruRU"] = "Автопринятие PVP-заданий от NPC.",
-        ["zhCN"] = "自动接受 NPC 提供的 PvP 任务。",
-        ["zhTW"] = "自動接受 NPC 提供的 PvP 任務。",
+        ["zhCN"] = "自动接受 NPC 提供的 PvP 任务",
+        ["zhTW"] = "自動接受 NPC 提供的 PvP 任務",
     },
     ["Automatically accept event quests (including event dailies) from NPCs."] = {
         ["enUS"] = true,
@@ -131,8 +131,8 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 이벤트 퀘스트(이벤트 일일 퀘스트 포함)를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões de eventos (incluindo diárias de evento) de NPCs.",
         ["ruRU"] = "Автопринятие заданий игровых событий (включая ежедневные) от NPC.",
-        ["zhCN"] = "自动接受 NPC 提供的活动任务（包括活动每日任务）。",
-        ["zhTW"] = "自動接受 NPC 提供的活動任務（包括活動每日任務）。",
+        ["zhCN"] = "自动接受 NPC 提供的活动任务（包括活动每日任务）",
+        ["zhTW"] = "自動接受 NPC 提供的活動任務（包括活動每日任務）",
     },
     ["Automatically accept trivial (low-level) quests from NPCs."] = {
         ["enUS"] = true,
@@ -143,8 +143,8 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 저레벨 퀘스트를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões triviais (de baixo nível) de NPCs.",
         ["ruRU"] = "Автопринятие простых (низкоуровневых) заданий от NPC",
-        ["zhCN"] = "自动接受 NPC 提供的琐碎（低等级）任务。",
-        ["zhTW"] = "自動接受來自 NPC 的低等級任務。",
+        ["zhCN"] = "自动接受 NPC 提供的琐碎（低等级）任务",
+        ["zhTW"] = "自動接受來自 NPC 的低等級任務",
     },
     ["Automatically accept normal quests from players."] = {
         ["enUS"] = true,
@@ -156,7 +156,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceitar automaticamente missões normais dos jogadores",
         ["ruRU"] = "Автопринятие обычных заданий от игроков",
         ["zhCN"] = "自动接受来自玩家的普通任务",
-        ["zhTW"] = "自動接受來自玩家的一般任務。",
+        ["zhTW"] = "自動接受來自玩家的一般任務",
     },
     ["Automatically accept repeatable quests (including dailies) from players."] = {
         ["enUS"] = true,
@@ -168,7 +168,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceitar automaticamente missões repetíveis (incluindo diárias) dos jogadores",
         ["ruRU"] = "Автопринятие повторяемых заданий (включая ежедневные) от игроков",
         ["zhCN"] = "自动接受来自玩家的可重复任务（包括日常）",
-        ["zhTW"] = "自動接受來自玩家的可重覆任務 (包含每日)。",
+        ["zhTW"] = "自動接受來自玩家的可重覆任務 (包含每日)",
     },
     ["Automatically accept dungeon and raid quests from players."] = {
         ["enUS"] = true,
@@ -180,7 +180,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceita automaticamente missões de masmorra e raide dos jogadores.",
         ["ruRU"] = "Автопринятие заданий подземелий и рейдов от игроков",
         ["zhCN"] = "自动接受来自玩家的地下城和团队任务",
-        ["zhTW"] = "自動接受來自玩家的地下城和團隊任務。",
+        ["zhTW"] = "自動接受來自玩家的地下城和團隊任務",
     },
     ["Automatically accept PvP quests from players."] = {
         ["enUS"] = true,
@@ -192,7 +192,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceitar automaticamente missões JxJ dos jogadores",
         ["ruRU"] = "Автопринятие PVP-заданий от игроков",
         ["zhCN"] = "自动接受来自玩家的PVP任务",
-        ["zhTW"] = "自動接受來自玩家的 PvP 任務。",
+        ["zhTW"] = "自動接受來自玩家的 PvP 任務",
     },
     ["Automatically accept event quests (including event dailies) from players."] = {
         ["enUS"] = true,
@@ -204,7 +204,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceita automaticamente missões de evento (incluindo diárias de evento) dos jogadores.",
         ["ruRU"] = "Автопринятие заданий игровых событий (включая ежедневные) от игроков",
         ["zhCN"] = "自动接受来自玩家的节日任务（包括节日日常）",
-        ["zhTW"] = "自動接受來自玩家的節慶任務 (包括節慶每日)。",
+        ["zhTW"] = "自動接受來自玩家的節慶任務 (包括節慶每日)",
     },
     ["Automatically accept trivial (low-level) quests from players."] = {
         ["enUS"] = true,
@@ -216,7 +216,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceita automaticamente missões triviais (de baixo nível) dos jogadores.",
         ["ruRU"] = "Автопринятие простых (низкоуровневых) заданий от игроков",
         ["zhCN"] = "自动接受来自玩家的低等级任务",
-        ["zhTW"] = "自動接受來自玩家的低等級任務。",
+        ["zhTW"] = "自動接受來自玩家的低等級任務",
     },
     ["Dungeon/Raid Quests"] = {
         ["enUS"] = true,
@@ -275,8 +275,8 @@ local autoOptionsLocales = {
         ["koKR"] = "전장 인스턴스에서 플레이어가 공유한 퀘스트를 자동으로 거절합니다. 이 기능은 자동 수락 동작을 무시합니다.",
         ["ptBR"] = "Rejeita automaticamente missões compartilhadas por jogadores enquanto estiver em uma instância de campo de batalha. Esta funcionalidade substitui o comportamento de aceitação automática.",
         ["ruRU"] = "Автоматически отклонять задания, предлагаемые другими игроками, находясь на поле боя. Эта настройка отменяет поведение автопринятия",
-        ["zhCN"] = "在战场中，自动拒绝其他玩家分享的任务。此选项会覆盖自动接受行为。",
-        ["zhTW"] = "在戰場中時，自動拒絕其他玩家分享的任務。此選項會取代自動接受。",
+        ["zhCN"] = "在战场中，自动拒绝其他玩家分享的任务。此选项会覆盖自动接受行为",
+        ["zhTW"] = "在戰場中時，自動拒絕其他玩家分享的任務。此選項會取代自動接受",
     },
     ["Reject quests shared by non-friends"] = {
         ["enUS"] = true,
@@ -299,8 +299,8 @@ local autoOptionsLocales = {
         ["koKR"] = "친구 목록에 없는 플레이어가 공유한 퀘스트를 자동으로 거절합니다. 이 기능은 자동 수락 동작을 무시합니다.",
         ["ptBR"] = "Rejeita automaticamente missões compartilhadas por jogadores que não estão na sua lista de amigos. Esta funcionalidade substitui o comportamento de aceitação automática.",
         ["ruRU"] = "Автоматически отклонять задания, предлагаемые другими игроками, которые не в списке ваших друзей. Эта настройка отменяет поведение автопринятия",
-        ["zhCN"] = "自动拒绝非好友分享的任务。此选项会覆盖自动接受行为。",
-        ["zhTW"] = "自動拒絕由不在你的好友名單中的玩家所分享的任務。此選項會取代自動接受。",
+        ["zhCN"] = "自动拒绝非好友分享的任务。此选项会覆盖自动接受行为",
+        ["zhTW"] = "自動拒絕由不在你的好友名單中的玩家所分享的任務。此選項會取代自動接受",
     },
     ["Further Auto customization is coming in a future Questie update."] = {
         ["enUS"] = true,
@@ -312,7 +312,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Mais personalizações automáticas estão chegando em uma futura atualização de Questie.",
         ["ruRU"] = "Другие настройки автоматизации будут добавлены в будущих версиях Questie",
         ["zhCN"] = "未来版本会提供更多自定义功能",
-        ["zhTW"] = "未來的版本會提供更多自訂自動的功能。",
+        ["zhTW"] = "未來的版本會提供更多自訂自動的功能",
     },
 }
 

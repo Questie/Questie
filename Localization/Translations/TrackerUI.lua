@@ -410,8 +410,8 @@ local trackerUILocales = {
         ["koKR"] = "전투 중에는 퀘스트 목록을 열 수 없습니다. 수동으로 열어주세요.",
         ["ptBR"] = "Não é possível abrir o registro de missões durante o combate. Abra-o manualmente.",
         ["ruRU"] = "Невозможно автоматически открыть журнал заданий, находясь в бою. Откройте его вручную.",
-        ["zhCN"] = "战斗中无法打开任务日志，需要手动打开.",
-        ["zhTW"] = "戰鬥中無法打開任務日誌。",
+        ["zhCN"] = "战斗中无法打开任务日志，需要手动打开",
+        ["zhTW"] = "戰鬥中無法打開任務日誌",
     },
     ["Maximize Quest"] = {
         ["enUS"] = true,
