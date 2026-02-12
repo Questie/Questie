@@ -1180,6 +1180,84 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9394},
         },
+        [8897] = { -- Dearest Colara,
+            [questKeys.questLevel] = -1,
+        },
+        [8898] = { -- Dearest Colara,
+            [questKeys.questLevel] = -1,
+        },
+        [8899] = { -- Dearest Colara,
+            [questKeys.questLevel] = -1,
+        },
+        [8900] = { -- Dearest Elenia,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8901] = { -- Dearest Elenia,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8902] = { -- Dearest Elenia,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8903] = { -- Dangerous Love
+            [questKeys.questLevel] = -1,
+        },
+        [8904] = { -- Dangerous Love
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8979] = { -- Fenstad's Hunch
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {11558},
+        },
+        [8980] = { -- Zinge's Assessment
+            [questKeys.startedBy] = {{5204}},
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {8979},
+        },
+        [8981] = { -- Gift Giving
+            [questKeys.questLevel] = -1,
+        },
+        [8982] = { -- Tracing the Source
+            [questKeys.questLevel] = -1,
+        },
+        [8983] = { -- Tracing the Source
+            [questKeys.questLevel] = -1,
+            [questKeys.startedBy] = {{6741}},
+            [questKeys.preQuestSingle] = {8982},
+        },
+        [8984] = { -- The Source Revealed
+            [questKeys.questLevel] = -1,
+        },
+        [8993] = { -- Gift Giving
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9024] = { -- Aristan's Hunch
+            [questKeys.questLevel] = -1,
+        },
+        [9025] = { -- Morgan's Discovery
+            [questKeys.startedBy] = {{279}},
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {9024},
+        },
+        [9026] = { -- Tracing the Source
+            [questKeys.questLevel] = -1,
+        },
+        [9027] = { -- Tracing the Source
+            [questKeys.startedBy] = {{6740}},
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {9026},
+        },
+        [9028] = { -- The Source Revealed
+            [questKeys.questLevel] = -1,
+        },
+        [9029] = { -- A Bubbling Cauldron
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [9035] = { -- Roadside Ambush
             [questKeys.breadcrumbForQuestId] = 9062,
         },
@@ -4086,6 +4164,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11549] = { -- A Magnanimous Benefactor
             [questKeys.objectivesText] = {"Anchorite Kairthos wants you to donate 1000 gold to aid in Anchorite Ayuri's efforts. You will be known as <Name> of the Shattered Sun if you complete this quest."},
+        },
+        [11558] = { -- Dangerous Love
+            [questKeys.requiredSourceItems] = {21815,21829,22163},
         },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559}},

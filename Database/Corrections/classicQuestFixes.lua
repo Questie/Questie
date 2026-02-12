@@ -4756,33 +4756,37 @@ function QuestieQuestFixes:Load()
         [8883] = {
             [questKeys.requiredSourceItems] = {21711},
         },
-        [8897] = {
-            [questKeys.exclusiveTo] = {8898,8899,8903},
+        [8897] = { -- Dearest Colara,
+            [questKeys.nextQuestInChain] = 8903,
+            [questKeys.breadcrumbForQuestId] = 8903,
         },
-        [8898] = {
-            [questKeys.exclusiveTo] = {8897,8899,8903},
+        [8898] = { -- Dearest Colara,
+            [questKeys.nextQuestInChain] = 8903,
+            [questKeys.breadcrumbForQuestId] = 8903,
         },
-        [8899] = {
-            [questKeys.exclusiveTo] = {8897,8898,8903},
+        [8899] = { -- Dearest Colara,
+            [questKeys.nextQuestInChain] = 8903,
+            [questKeys.breadcrumbForQuestId] = 8903,
         },
-        [8900] = {
+        [8900] = { -- Dearest Elenia,
             [questKeys.exclusiveTo] = {8901,8902,8904},
             [questKeys.nextQuestInChain] = 8979,
         },
-        [8901] = {
+        [8901] = { -- Dearest Elenia,
             [questKeys.exclusiveTo] = {8900,8902,8904},
             [questKeys.nextQuestInChain] = 8979,
         },
-        [8902] = {
+        [8902] = { -- Dearest Elenia,
             [questKeys.exclusiveTo] = {8900,8901,8904},
             [questKeys.nextQuestInChain] = 8979,
         },
-        [8903] = { -- Quest 8903 becomes unavailable when 8897, 8898, or 8899 are in quest log, but available again once one of those are turned in
-            [questKeys.requiredSourceItems] = {11018},
+        [8903] = { -- Dangerous Love
+            [questKeys.requiredSourceItems] = {21815,21829,21833,22178},
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {8897,8898,8899},
         },
-        [8904] = {
-            [questKeys.requiredSourceItems] = {11018},
+        [8904] = { -- Dangerous Love
+            [questKeys.requiredSourceItems] = {21815,21829,22163},
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {8900,8901,8902},
         },
@@ -4865,11 +4869,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8966,8967,8968},
             [questKeys.preQuestSingle] = {8962,8963,8964,8965},
         },
-        [8979] = {
+        [8979] = { -- Fenstad's Hunch
             [questKeys.nextQuestInChain] = 8980,
             [questKeys.preQuestSingle] = {8900,8901,8902,8904},
         },
-        [8980] = { -- bad race data
+        [8980] = { -- Zinge's Assessment
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8985] = {
@@ -4914,7 +4918,7 @@ function QuestieQuestFixes:Load()
         [9024] = {
             [questKeys.nextQuestInChain] = 9025,
         },
-        [9026] = { -- bad race data
+        [9026] = { -- Tracing the Source
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9051] = {

@@ -1354,8 +1354,20 @@ function QuestieItemFixes:Load()
         [21711] = { -- Lunar Festival Invitation
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [21829] = { -- Perfume Bottle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [21833] = { -- Cologne Bottle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [22094] = { -- Bloodkelp
             [itemKeys.npcDrops] = {4364, 4366, 4368, 4370, 4371, 16072},
+        },
+        [22163] = { -- Pledge of Friendship: Undercity
+            [itemKeys.npcDrops] = {5624},
+        },
+        [22178] = { -- Pledge of Friendship: Stormwind
+            [itemKeys.npcDrops] = {68,1976},
         },
         [22229] = { -- Soul Ashes of the Banished (#2344)
             [itemKeys.npcDrops] = {7068, 7069, 7071, 7072, 7075},
