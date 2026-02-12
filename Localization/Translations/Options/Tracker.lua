@@ -1407,7 +1407,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "A fonte usada para objetivos.",
         ["ruRU"] = "Шрифт, используемый в наименовании целей",
         ["zhCN"] = "目标的字体",
-        ["zhTW"] = "目标的字体",
+        ["zhTW"] = "目標的字體",
     },
     ---------------------------------------------------------
     ["Padding Between Quests"] = {
