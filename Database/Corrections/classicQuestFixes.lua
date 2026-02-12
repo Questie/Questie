@@ -4767,20 +4767,24 @@ function QuestieQuestFixes:Load()
         },
         [8900] = {
             [questKeys.exclusiveTo] = {8901,8902,8904},
+            [questKeys.nextQuestInChain] = 8979,
         },
         [8901] = {
             [questKeys.exclusiveTo] = {8900,8902,8904},
+            [questKeys.nextQuestInChain] = 8979,
         },
         [8902] = {
             [questKeys.exclusiveTo] = {8900,8901,8904},
+            [questKeys.nextQuestInChain] = 8979,
         },
-        [8903] = {
+        [8903] = { -- Quest 8903 becomes unavailable when 8897, 8898, or 8899 are in quest log, but available again once one of those are turned in
             [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
         [8904] = {
             [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {8900,8901,8902},
         },
         [8905] = {
             [questKeys.nextQuestInChain] = 8922,
@@ -4846,6 +4850,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8966,8967,8968},
             [questKeys.preQuestSingle] = {8962,8963,8964,8965},
         },
+        [8979] = {
+            [questKeys.nextQuestInChain] = 8980,
+            [questKeys.preQuestSingle] = {8900,8901,8902,8904},
+        },
         [8980] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -4887,6 +4895,9 @@ function QuestieQuestFixes:Load()
         },
         [9015] = {
             [questKeys.objectives] = {{{16059,nil,Questie.ICON_TYPE_EVENT}},nil,{{22047}}}, -- #2408
+        },
+        [9024] = {
+            [questKeys.nextQuestInChain] = 9025,
         },
         [9026] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5489,9 +5500,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8254] = {
             [questKeys.startedBy] = {{6018}},
-        },
-        [8904] = {
-            [questKeys.exclusiveTo] = {8900,8901,8902,8979},
         },
         [8928] = {
             [questKeys.nextQuestInChain] = 8978,
