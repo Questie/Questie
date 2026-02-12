@@ -409,10 +409,6 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {3919, 3834},
             [itemKeys.objectDrops] = {},
         },
-        [5519] = { -- Iron Pommel
-            [itemKeys.npcDrops] = {3928},
-            [itemKeys.objectDrops] = {},
-        },
         [5535] = { -- Compendium of the Fallen
             [itemKeys.objectDrops] = {19283},
         },

@@ -718,6 +718,9 @@ function QuestieQuestFixes:Load()
         [1026] = {
             [questKeys.requiredSourceItems] = {5475},
         },
+        [1027] = { -- Raene's Cleansing
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay slimes until they leave behind a Rusty Chest"), 0, {{"monster", 3928}}}},
+        },
         [1033] = { -- Elune's Tear
             [questKeys.nextQuestInChain] = 1034
         },

@@ -698,6 +698,18 @@ local classicObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Slay slimes until they leave behind a Rusty Chest"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Töte Schleime, bis sie eine Rostige Truhe hinterlassen",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do
