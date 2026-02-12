@@ -4786,7 +4786,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {8897,8898,8899},
         },
         [8904] = { -- Dangerous Love
-            [questKeys.requiredSourceItems] = {21815,21829,22163},
+            [questKeys.requiredSourceItems] = {21815,21829,21833,22163},
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {8900,8901,8902},
         },
