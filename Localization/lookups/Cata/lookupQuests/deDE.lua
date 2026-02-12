@@ -3237,6 +3237,7 @@ l10n.questLookup["deDE"] = loadstring([[return {
 [9025] = {"Morgans Entdeckung", {"Kehrt zu Aristan Mottar zurück, er befindet sich vor der Bank im Handelsdistrikt von Sturmwind."}},
 [9027] = {"Verfolgung der Spur", {"Sprecht mit Evert Sorisam bei 'Das feinste Band' entlang der Kanäle Sturmwinds."}},
 [9028] = {"Lüftung des Geheimnisses", {"Findet Apotheker Staffron Lerent hinter dem Rabenholdtanwesen im Vorgebirge des Hügellands."}},
+[9029] = {"Ein blubbernder Kessel", nil},
 [9032] = {"Bodleys trauriges Schicksal", {"Reist zum Schwarzfels und benutzt den extradimensionalen Geisterdetektor, um Bodley nahe der Schwarzfelsspitze zu finden."}},
 [9033] = {"Echo des Krieges", {"Kommandant Eligor Morgenbringer bei der Kapelle des Hoffnungsvollen Lichts in den Östlichen Pestländern möchte, dass Ihr 5 lebende Monstrositäten, 5 Steinhautgargoyles, 8 Hauptmänner der Todesritter und 3 Giftpirscher tötet."}},
 [9034] = {"Brustplatte des Schreckenspanzers", {"Korfax bei der Kapelle des Hoffnungsvollen Lichts in den Östlichen Pestländern wird für Euch eine Brustplatte des Schreckenspanzers anfertigen, wenn Ihr ihm folgende Gegenstände bringt: 1 entweihte Brustplatte, 25 kampfzerschlissene Plattenstücke, 4 Arkanitbarren und 2 Nexuskristalle."}},

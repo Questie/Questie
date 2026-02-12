@@ -3227,6 +3227,7 @@ l10n.questLookup["frFR"] = loadstring([[return {
 [9025] = {"La découverte de Morgan", {"Retourner voir Aristan Mottar, à côté de la banque, dans le Quartier commerçant de Hurlevent."}},
 [9027] = {"Remonter à la source", {"Parler à Evert Sorisam, au Fil le plus fin, au bord des canaux de Hurlevent."}},
 [9028] = {"La source est découverte !", {"Trouver l'apothicaire Staffron Lerent dans les contreforts de Hautebrande, derrière le manoir de Ravenholdt."}},
+[9029] = {"Un chaudron bouillonnant", nil},
 [9032] = {"Le triste destin de Bodley", {"Rendez-vous au mont Rochenoire, près du pic Rochenoire, et utilisez le Révélateur de fantômes extradimensionnel pour trouver Bodley."}},
 [9033] = {"Les échos de la guerre", {"Le commandant Eligor Portelaube, de la chapelle de l'Espoir de Lumière dans les Maleterres de l'est, veut que vous tuiez 5 Monstruosités vivantes, 5 Gargouilles peau-de-pierre, 8 Capitaines des chevaliers de la mort et 3 Traque-venin."}},
 [9034] = {"Cuirasse de cuirassier", {"Korfax, à la chapelle de l'Espoir de Lumière dans les Maleterres de l'est, vous fabriquera une cuirasse de cuirassier si vous lui apportez les choses suivantes : 1 Cuirasse désacralisée, 25 Débris d'armure en plaques, 4 Barres d'arcanite et 2 Cristaux de nexus."}},

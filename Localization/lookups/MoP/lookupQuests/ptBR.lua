@@ -3081,6 +3081,7 @@ l10n.questLookup["ptBR"] = loadstring([[return {
 [9022] = {"As últimas palavras de Anthion", {"Fale novamente com Mokvar em Orgrimmar com um conjunto de Botas do Valor, Coxotes do Valor e Espaldares do Valor."}},
 [9023] = {"O veneno perfeito", {"Dirk Fortelenho no Forte Cenariano quer que você leve para ele uma Vesícula de Peçonha de Venoxis e uma Vesícula de Peçonha de Kurinnaxx."}},
 [9027] = {"Em busca da fonte", {"Fale com Everton Soniram no Empório das Linhas, que fica perto dos canais de Ventobravo."}},
+[9029] = {"Um caldeirão borbulhante", nil},
 [9033] = {"Ecos da Guerra", {"O Comandante Eligor Alvorada, na Capela Esperança da Luz, que fica nas Terras Pestilentas Orientais, quer que você mate 5 Monstruosidades Vivas, 5 Gárgulas Litopele, 8 Capitães Cavaleiros da Morte e 3 Espreitadoras Peçonhentas."}},
 [9034] = {"Peitoral Couraçado", {"Korfax, que está na Capela Esperança da Luz, nas Terras Pestilentas Orientais, fará para você um Peitoral Couraçado caso você leve para ele os seguintes itens: 1 Peitoral Profanado, 25 Restos de Placas, 4 Barras de Arcanita e 2 Cristais do Nexus.\r\n"}},
 [9035] = {"Emboscada de beira de estrada", {"Fale com o Aprendiz Meledor na Floresta do Canto Eterno na estrada que parte de Luaprata em direção ao sul."}},

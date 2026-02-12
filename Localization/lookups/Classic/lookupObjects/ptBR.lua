@@ -1114,6 +1114,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [180905] = "Caneca Festiva",
 [181068] = "Pequeno Estilhaço de Obsidiana",
 [181069] = "Grande Estilhaço de Obsidiana",
+[181073] = "Caldeirão Cheiroso",
 [181083] = "Relíquias de Soeiro e Jil",
 [181085] = "Caixote de Suprimentos de Stratholme",
 [181098] = "Cinza Vulcânica",

@@ -2955,6 +2955,7 @@ l10n.questLookup["esMX"] = loadstring([[return {
 [9022] = {"La despedida de Anthion", {"Lleva 1 par de botas, 1 par de quijotes y 1 par de bufas de valor a Mokvar a Orgrimmar."}},
 [9023] = {"El veneno perfecto", {"Dirk Truenedera quiere que le lleves glándulas de veneno de Venoxis y Kurinnaxx al Fuerte Cenarion."}},
 [9027] = {"Rastrear la fuente", {"Habla con Evert Sorisam en El Paño Fino, junto a los canales de Ventormenta."}},
+[9029] = {"Una caldera burbujeante", nil},
 [9033] = {"Ecos de Guerra", {"El comandante Eligor Albar de la Capilla de la Esperanza de la Luz, en las Tierras de la Peste del Este, quiere que mates 5 monstruosidades vivientes, 5 gárgolas piel de piedra, 8 capitanes caballero de la Muerte y 3 acechadores venenosos."}},
 [9034] = {"La coraza acorator", {"Korfax de la Capilla de la Esperanza de la Luz, en las Tierras de la Peste del Este, te hará una coraza acorator si le llevas lo siguiente: 1 coraza profanada, 25 restos de coraza, 4 barras de arcanita y 2 cristales nexo.|n"}},
 [9035] = {"Asaltantes de caminos", {"Habla con el aprendiz Meledor en el Bosque Canción Eterna en el camino hacia el sur desde Ciudad de Lunargenta."}},
