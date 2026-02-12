@@ -217,7 +217,7 @@ function MapIconTooltip:Show()
                 self:AddLine("             ")
             end
             if (firstLine and not shift) then
-                self:AddDoubleLine(npcOrObjectName, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                self:AddDoubleLine(npcOrObjectName, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
                 self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
@@ -235,12 +235,12 @@ function MapIconTooltip:Show()
                     if (quest and shift) then
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.profile.showQuestXpAtMaxLevel)
                         if xpReward > 0 then
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(" .. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(questData.questId), QuestieEvent.IsEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId))
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")") .. " ", QuestieDB.IsRepeatable(questData.questId), QuestieEvent.IsEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId))
                         end
 
                         local moneyReward = QuestXP.GetQuestRewardMoney(questData.questId)
                         if moneyReward > 0 then
-                            rewardString = rewardString .. Questie:Colorize("(" .. GetCoinTextureString(moneyReward) .. ") ", "white")
+                            rewardString = rewardString .. Questie:Colorize(l10n("(") .. GetCoinTextureString(moneyReward) .. l10n(")") .. " ", "white")
                         end
                     end
                     rewardString = rewardString .. questData.type
@@ -325,19 +325,19 @@ function MapIconTooltip:Show()
             if haveGiver then
                 if shift and xpReward then
                     self:AddLine(" ");
-                    self:AddDoubleLine(questTitle, "(" .. FormatLargeNumber(xpReward) .. xpString .. ") (" .. l10n("Active") .. ")", 0.2, 1, 0.2, 1, 1, 0);
+                    self:AddDoubleLine(questTitle, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. ") (" .. l10n("Active") .. l10n(")"), 0.2, 1, 0.2, 1, 1, 0);
                     haveGiver = false -- looks better when only the first one shows (active)
                 else
                     self:AddLine(" ");
-                    self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
+                    self:AddDoubleLine(questTitle, l10n("(") .. l10n("Active") .. l10n(")"), 1, 1, 1, 1, 1, 0);
                     haveGiver = false -- looks better when only the first one shows (active)
                 end
             else
                 if (quest and shift and xpReward > 0) then
-                    self:AddDoubleLine(questTitle, "(" .. FormatLargeNumber(xpReward) .. xpString .. ")", 0.2, 1, 0.2, r, g, b);
+                    self:AddDoubleLine(questTitle, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")"), 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
-                    self:AddDoubleLine(questTitle, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                    self:AddDoubleLine(questTitle, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
                     firstLine = false;
                 else
                     self:AddLine(questTitle);
@@ -450,48 +450,48 @@ end
 ---@return string tag
 local function _GetQuestTag(quest)
     if quest.Type == "complete" then
-        return "(" .. l10n("Complete") .. ")";
+        return l10n("(") .. l10n("Complete") .. l10n(")");
     else
         local questTagId, questTagName = QuestieDB.GetQuestTagInfo(quest.Id)
 
         if (QuestieEvent and QuestieEvent.activeQuests[quest.Id]) then
-            return "(" .. l10n("Event") .. ")";
+            return l10n("(") .. l10n("Event") .. l10n(")");
         elseif (questTagId == 41) then
             if QuestieDB.IsDailyQuest(quest.Id) then
-                return "(" .. l10n("Daily PvP") .. ")";
+                return l10n("(") .. l10n("Daily PvP") .. l10n(")");
             end
-            return "(" .. l10n("PvP") .. ")";
+            return l10n("(") .. l10n("PvP") .. l10n(")");
         elseif (questTagId == 102) then
             if QuestieDB.IsWeeklyQuest(quest.Id) then
-                return "(" .. l10n("Weekly Account") .. ")";
+                return l10n("(") .. l10n("Weekly Account") .. l10n(")");
             elseif QuestieDB.IsDailyQuest(quest.Id) then
-                return "(" .. l10n("Daily Account") .. ")";
+                return l10n("(") .. l10n("Daily Account") .. l10n(")");
             end
-            return "(" .. l10n("Account") .. ")";
+            return l10n("(") .. l10n("Account") .. l10n(")");
         elseif (QuestieDB.IsWeeklyQuest(quest.Id)) then
             -- These show as "Raid"
             if questTagId == 62 then
-                return "(" .. (RAID or l10n("Raid")) .. ")";
+                return l10n("(") .. (RAID or l10n("Raid")) .. l10n(")");
             end
-            return "(" .. (WEEKLY or l10n("Weekly")) .. ")";
+            return l10n("(") .. (WEEKLY or l10n("Weekly")) .. l10n(")");
         elseif (QuestieDB.IsDailyQuest(quest.Id)) then
             if questTagId == 81 then
-                return "(" .. l10n("Daily Dungeon") .. ")";
+                return l10n("(") .. l10n("Daily Dungeon") .. l10n(")");
             elseif questTagId == 85 then
-                return "(" .. l10n("Daily Heroic") .. ")";
+                return l10n("(") .. l10n("Daily Heroic") .. l10n(")");
             elseif questTagId == 294 then
-                return "(" .. l10n("Daily Celestial") .. ")";
+                return l10n("(") .. l10n("Daily Celestial") .. l10n(")");
             end
-            return "(" .. (DAILY or l10n("Daily")) .. ")";
+            return l10n("(") .. (DAILY or l10n("Daily")) .. l10n(")");
         elseif (QuestieDB.IsRepeatable(quest.Id)) then
-            return "(" .. l10n("Repeatable") .. ")";
+            return l10n("(") .. l10n("Repeatable") .. l10n(")");
             --  Group(Elite)       Class               Raid                Dungeon             Legendary           Escort              Heroic              Raid(10)            Raid(25)            Scenario            Celestial
         elseif (questTagId == 1 or questTagId == 21 or questTagId == 62 or questTagId == 81 or questTagId == 83 or questTagId == 84 or questTagId == 85 or questTagId == 88 or questTagId == 89 or questTagId == 98 or questTagId == 294) then
-            return "(" .. questTagName .. ")";
+            return l10n("(") .. questTagName .. l10n(")");
         elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id)) then
-            return "(" .. l10n("Rune") .. ")";
+            return l10n("(") .. l10n("Rune") .. l10n(")");
         else
-            return "(" .. l10n("Available") .. ")";
+            return l10n("(") .. l10n("Available") .. l10n(")");
         end
     end
 end
@@ -550,7 +550,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
-                        playerType = " (" .. l10n("Nearby") .. ")"
+                        playerType = " " .. l10n("(") .. l10n("Nearby") .. l10n(")")
                     end
                 end
                 if playerColor then
@@ -560,7 +560,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                         objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
                     end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
-                    local colorizedPlayerName = " (" .. playerColor .. playerName .. "|r" .. remoteColor .. ")|r" .. playerType
+                    local colorizedPlayerName = " " .. l10n("(") .. playerColor .. playerName .. "|r" .. remoteColor .. l10n(")") .. "|r" .. playerType
                     local remoteText = iconData.ObjectiveData.Description
 
                     if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
@@ -584,7 +584,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                 local name = UnitName("player");
                 local _, classFilename = UnitClass("player");
                 local _, _, _, argbHex = GetClassColor(classFilename)
-                name = " (|c" .. argbHex .. name .. "|r" .. color .. ")|r";
+                name = " " .. l10n("(") .. "|c" .. argbHex .. name .. "|r" .. color .. l10n(")") .. "|r";
                 text = text .. name;
             end
         end
@@ -637,16 +637,16 @@ function _MapIconTooltip.GetLevelString(creatureLevels, name)
         local maxLevel = creatureLevels[name][2]
         local rank = creatureLevels[name][3]
         if minLevel == maxLevel then
-            levelString = name .. " (" .. minLevel
+            levelString = name .. " " .. l10n("(") .. minLevel
         else
-            levelString = name .. " (" .. minLevel .. "-" .. maxLevel
+            levelString = name .. " " .. l10n("(") .. minLevel .. "-" .. maxLevel
         end
 
         if rank and rank == 1 then
             levelString = levelString .. "+"
         end
 
-        levelString = levelString .. ")"
+        levelString = levelString .. l10n(")")
     end
     return levelString
 end
@@ -660,13 +660,13 @@ function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel)
     local nextQuestXpRewardString = "";
     local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel)
     if xpReward > 0 then
-        nextQuestXpRewardString = QuestieLib:PrintDifficultyColor(questLevel, "(" .. FormatLargeNumber(xpReward) .. l10n('xp') .. ") ", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
+        nextQuestXpRewardString = QuestieLib:PrintDifficultyColor(questLevel, l10n("(") .. FormatLargeNumber(xpReward) .. l10n('xp') .. l10n(")") .. " ", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
     end
 
     local nextQuestMoneyRewardString = "";
     local moneyReward = QuestXP.GetQuestRewardMoney(questId)
     if moneyReward > 0 then
-        nextQuestMoneyRewardString = Questie:Colorize("(" .. GetCoinTextureString(moneyReward) .. ") ", "white")
+        nextQuestMoneyRewardString = Questie:Colorize(l10n("(") .. GetCoinTextureString(moneyReward) .. l10n(")") .. " ", "white")
     end
 
     return "      " .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString

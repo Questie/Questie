@@ -181,14 +181,14 @@ local function _CheckClassicDatabase()
     ---@type l10n
     local l10n = QuestieLoader:ImportModule("l10n")
 
-    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. l10n("..."))
 
     QuestieDB.npcData = loadstring(QuestieDB.npcData)()
     QuestieDB.objectData = loadstring(QuestieDB.objectData)()
     QuestieDB.questData = loadstring(QuestieDB.questData)()
     QuestieDB.itemData = loadstring(QuestieDB.itemData)()
 
-    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. l10n("..."))
 
     Questie:SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()

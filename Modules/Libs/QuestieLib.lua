@@ -138,20 +138,20 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
     end
 
     if Questie.db.profile.enableTooltipsQuestID then
-        name = name .. " (" .. questId .. ")"
+        name = name .. " " .. l10n("(") .. questId .. l10n(")")
     end
 
     if showState then
         local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
-            name = name .. " " .. Questie:Colorize("(" .. l10n("Failed") .. ")", "red")
+            name = name .. " " .. Questie:Colorize(l10n("(") .. l10n("Failed") .. l10n(")"), "red")
         elseif isComplete == 1 then
-            name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
+            name = name .. " " .. Questie:Colorize(l10n("(") .. l10n("Complete") .. l10n(")"), "green")
 
             -- Quests treated as complete - zero objectives or synthetic objectives
         elseif isComplete == 0 and QuestieDB.GetQuest(questId).isComplete == true then
-            name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
+            name = name .. " " .. Questie:Colorize(l10n("(") .. l10n("Complete") .. l10n(")"), "green")
         end
     end
 

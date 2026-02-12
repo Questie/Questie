@@ -579,7 +579,7 @@ _SetSizerTooltip = function()
     else
         GameTooltip:ClearLines()
         GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. l10n(": "), "white") .. trackerSizeMode)
-        GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("(") .. l10n("Hold Shift") .. l10n(")"), "gray"))
         GameTooltip:Show()
     end
 end
