@@ -35,7 +35,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "把受伤的船员带到德罗娜·莱因哈特那里。",
+        ["zhCN"] = "把受伤的船员带到德罗娜·莱因哈特那里",
         ["zhTW"] = false,
     },
     ["Take a ride"] = {
@@ -335,7 +335,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "跟风筝大师恩娜说一声，让他送你回山脚。",
+        ["zhCN"] = "跟风筝大师恩娜说一声，让他送你回山脚",
         ["zhTW"] = false,
     },
     ["Search through the book"] = {
@@ -635,7 +635,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "与风裘大师交谈。",
+        ["zhCN"] = "与风裘大师交谈",
         ["zhTW"] = false,
     },
     ["Give him a dagger"] = {
@@ -767,7 +767,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "在迷雾萨满放置火炬后杀死他们。",
+        ["zhCN"] = "在迷雾萨满放置火炬后杀死他们",
         ["zhTW"] = false,
     },
     ["Plant the torch"] = {

@@ -71,8 +71,8 @@ local questsByZoneLocales = {
         ["koKR"] = "이 퀘스트는 자동으로 완료되는 퀘스트라 표시할 퀘스트 목표가 없습니다.",
         ["ptBR"] = "Essa missão é uma missão de conclusão automática e não contém um objetivo.",
         ["ruRU"] = "Это задание выполняется автоматически и не содержит цели",
-        ["zhCN"] = "此任务为自动完成任务，且不包含任何目标。",
-        ["zhTW"] = "此任務為自動完成任務，且不包含任何目標。",
+        ["zhCN"] = "此任务为自动完成任务，且不包含任何目标",
+        ["zhTW"] = "此任務為自動完成任務，且不包含任何目標",
     },
     ["Zone Quests"] = {
         ["enUS"] = true,

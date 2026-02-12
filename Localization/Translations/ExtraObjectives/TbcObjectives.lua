@@ -251,7 +251,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "收集7枚徽记，摆放在战槌山的大地印记上。召唤出戈隆克。",
+        ["zhCN"] = "收集7枚徽记，摆放在战槌山的大地印记上。召唤出戈隆克",
         ["zhTW"] = false,
     },
     ["Make smoke signals"] = { -- 9932
@@ -347,7 +347,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "在奥金尼地穴中找到一面灵魂之镜，用它召唤纳格兰上古兽人先祖的黑暗之魂。",
+        ["zhCN"] = "在奥金尼地穴中找到一面灵魂之镜，用它召唤纳格兰上古兽人先祖的黑暗之魂",
         ["zhTW"] = false,
     },
     ["Use the Battery Recharging Blaster when it's weakened"] = { -- 10190
@@ -359,7 +359,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "当电池电量不足时，请使用电池充能器。",
+        ["zhCN"] = "当电池电量不足时，请使用电池充能器",
         ["zhTW"] = false,
     },
     ["Use the Elemental Power Extractor before killing it"] = { -- 10226
@@ -371,7 +371,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "在击杀它之前使用元素能量萃取器。",
+        ["zhCN"] = "在击杀它之前使用元素能量萃取器",
         ["zhTW"] = false,
     },
     ["Activate the rune"] = { -- 10240
@@ -887,7 +887,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "签署塔利的声明，然后与拉雷·萨普纳波谈一谈，并使用风动电容器。",
+        ["zhCN"] = "签署塔利的声明，然后与拉雷·萨普纳波谈一谈，并使用风动电容器",
         ["zhTW"] = false,
     },
     ["Speak with Rally Zapnabber to use the Zephyrium Capacitorium"] = { -- 10711
@@ -899,7 +899,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "与拉雷·萨普纳波谈一谈，并使用风动电容器。",
+        ["zhCN"] = "与拉雷·萨普纳波谈一谈，并使用风动电容器",
         ["zhTW"] = false,
     },
     ["Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying"] = { -- 10712
@@ -1115,7 +1115,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "帮助阿库诺回到泰罗卡森林的难民车队。",
+        ["zhCN"] = "帮助阿库诺回到泰罗卡森林的难民车队",
         ["zhTW"] = false,
     },
     ["Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mites"] = { -- 10896

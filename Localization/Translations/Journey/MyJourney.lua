@@ -240,7 +240,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Nenhuma anotação foi inserida. Você deve inserir uma anotação antes de submeter.",
         ["ruRU"] = "Вы не ввели описание заметки. Введите описание для добавления заметки.",
         ["zhCN"] = "内容不可为空",
-        ["zhTW"] = "沒有輸入筆記，送出前必須先輸入筆記內容。",
+        ["zhTW"] = "沒有輸入筆記，送出前必須先輸入筆記內容",
     },
     ["No Title was entered. You must enter a title before submitting your note."] = {
         ["enUS"] = true,
@@ -252,7 +252,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Nenhum título foi inserido. Você deve inserir um título antes de submeter sua anotação.",
         ["ruRU"] = "Вы не ввели название заметки. Введите название для добавления заметки.",
         ["zhCN"] = "标题不可为空",
-        ["zhTW"] = "沒有輸入標題，送出筆記前必須先輸入標題。",
+        ["zhTW"] = "沒有輸入標題，送出筆記前必須先輸入標題",
     },
     ["New Note For: %s"] = {
         ["enUS"] = true,
