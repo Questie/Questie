@@ -664,7 +664,7 @@ local classicObjectiveLocales = {
     },
     ["Use the Cenarion Moondust"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze den Mondstaub des Cenarius",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -676,7 +676,7 @@ local classicObjectiveLocales = {
     },
     ["Use the Cenarion Lunardust"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze den Lunarstaub des Cenarius",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -688,7 +688,7 @@ local classicObjectiveLocales = {
     },
     ["Defeat Lunaclaw"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Besiege Mondklaue",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
