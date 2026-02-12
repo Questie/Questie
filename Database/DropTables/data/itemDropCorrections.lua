@@ -90,6 +90,13 @@ QuestieItemDropCorrections.Era = {
         [3234] = 100,
         [3236] = 100,
     },
+    [24372] = { -- Diaphanous Wing
+        [18132] = DropKeys.WOWHEAD,
+        [18133] = DropKeys.WOWHEAD,
+        [18283] = DropKeys.WOWHEAD,
+        [20197] = DropKeys.WOWHEAD,
+        [20198] = DropKeys.WOWHEAD,
+    },
     [29480] = { -- Parched Hydra Sample
         [20324] = DropKeys.WOWHEAD,
     },
