@@ -2390,6 +2390,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73}}}},
             [questKeys.requiredSourceItems] = {28452},
         },
+        [10210] = {
+            [questKeys.nextQuestInChain] = 10211,
+        },
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93}}}},
         },
