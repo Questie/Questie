@@ -74,6 +74,13 @@ QuestieItemDropCorrections.Era = {
         [1988] = 100,
         [1989] = 100,
     },
+    [3918] = { -- Singing Crystal Shard
+        [688] = DropKeys.WOWHEAD,
+        [689] = DropKeys.WOWHEAD,
+        [690] = DropKeys.WOWHEAD,
+        [1550] = DropKeys.WOWHEAD,
+        [1551] = DropKeys.WOWHEAD,
+    },
     [5085] = { -- Bristleback Quilboar Tusk
         [3258] = 100,
         [3260] = 100,
