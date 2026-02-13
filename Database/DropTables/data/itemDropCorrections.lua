@@ -125,7 +125,13 @@ QuestieItemDropCorrections.Tbc = {
     },
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
-    }
+    },
+    [30327] = { -- Bonechewer Blood
+        [16876] = DropKeys.WOWHEAD,
+        [16925] = DropKeys.WOWHEAD,
+        [18952] = DropKeys.WOWHEAD,
+        [19701] = DropKeys.WOWHEAD,
+    },
 }
 
 QuestieItemDropCorrections.Wotlk = {
