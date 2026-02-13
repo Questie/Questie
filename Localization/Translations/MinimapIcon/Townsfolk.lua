@@ -119,7 +119,7 @@ local townsfolkLocales = {
         ["koKR"] = "여관주인",
         ["ptBR"] = "Estalajadeiro",
         ["ruRU"] = "Хозяин таверны",
-        ["zhCN"] = "旅馆老板",
+        ["zhCN"] = "旅店老板",
         ["zhTW"] = "旅店老闆",
     },
     ["Mailbox"] = {
