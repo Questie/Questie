@@ -107,6 +107,10 @@ QuestieItemDropCorrections.Era = {
         [18134] = DropKeys.WOWHEAD,
         [18281] = DropKeys.WOWHEAD,
     },
+    [24485] = { -- Marshlight Bleeder Venom
+        [18133] = DropKeys.WOWHEAD,
+        [20198] = DropKeys.WOWHEAD,
+    },
     [29480] = { -- Parched Hydra Sample
         [20324] = DropKeys.WOWHEAD,
     },
