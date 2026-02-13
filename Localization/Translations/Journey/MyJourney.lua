@@ -686,6 +686,18 @@ local myJourneyLocales = {
         ["zhCN"] = "等级过高",
         ["zhTW"] = "等級過高",
     },
+    ["Breadcrumb target active or finished"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(myJourneyLocales) do
