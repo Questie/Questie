@@ -1051,7 +1051,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
         -- Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
-        for _, breadcrumbId in ipairs(otherBreadcrumbs) do
+        for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do
             if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
                     return l10n("Ineligible")..l10n(": ")..l10n("Another breadcrumb is active")..l10n(": ").. breadcrumbId, true
