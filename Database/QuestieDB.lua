@@ -1041,12 +1041,12 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check if this quest is a breadcrumb
     local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
-        -- Check the target quest of this breadcrumb
+        -- Check the follow up quest of this breadcrumb
         if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
             if returnText and returnBrief then
-                return l10n("Ineligible")..l10n(": ")..l10n("Breadcrumb target active or finished"), true
+                return l10n("Ineligible")..l10n(": ")..l10n("Follow up quest active or completed"), true
             elseif returnText and not returnBrief then
-                return "Target of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId, true
+                return "Follow up of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId, true
             end
         end
         -- Check if the other breadcrumbs are active
