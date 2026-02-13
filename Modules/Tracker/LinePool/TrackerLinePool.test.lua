@@ -24,7 +24,6 @@ describe("TrackerLinePool", function()
                     Collected = 0,
                     Needed = 1,
                     Description = "Test Objective",
-                    Update = spy.new(function() end)
                 }
             }
             local secondLine = {
@@ -33,7 +32,6 @@ describe("TrackerLinePool", function()
                     Collected = 5,
                     Needed = 10,
                     Description = "Another Test Objective",
-                    Update = spy.new(function() end)
                 }
             }
 
@@ -42,9 +40,7 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(123)
 
-            assert.spy(firstLine.Objective.Update).was.called()
             assert.spy(firstLine.label.SetText).was.called_with(_, "|cFFEEEEEETest Objective: 0/1")
-            assert.spy(secondLine.Objective.Update).was.called()
             assert.spy(secondLine.label.SetText).was.called_with(_, "|cFFEEEEEEAnother Test Objective: 5/10")
         end)
 
@@ -55,7 +51,6 @@ describe("TrackerLinePool", function()
                     Collected = 0,
                     Needed = 1,
                     Description = "Test Objective",
-                    Update = spy.new(function() end)
                 }
             }
 
@@ -63,7 +58,6 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(456)
 
-            assert.spy(line.Objective.Update).was_not_called()
             assert.spy(line.label.SetText).was_not_called()
         end)
     end)
