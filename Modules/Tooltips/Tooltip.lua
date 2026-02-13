@@ -228,7 +228,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     end
 
     local isObjectTooltip = key:sub(1, 2) == "o_"
-    if isObjectTooltip then
+    if isObjectTooltip and (not IsInInstance()) then
+        -- Outside of dungeons we want to only show object tooltips for objects that are in the current zone.
+        -- Otherwise quests from Wanted! posters and Midsummer Bonfires will show up incorrectly.
         local objectIsInCurrentZone = false
         if playerZone == 0 then
             objectIsInCurrentZone = true
