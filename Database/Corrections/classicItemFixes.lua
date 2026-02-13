@@ -342,6 +342,9 @@ function QuestieItemFixes:Load()
         [5058] = { -- Silithid Egg
             [itemKeys.npcDrops] = {},
         },
+        [5060] = { -- Thieves' Tools
+            [itemKeys.vendors] = {1325,1326,1457,2622,3090,3135,3334,3490,3542,3551,3561,3969,4585,5139,5169,6779,7166,10364,15175},
+        },
         [5068] = { -- Dried Seeds
             [itemKeys.relatedQuests] = {877},
             [itemKeys.npcDrops] = {},
@@ -596,6 +599,13 @@ function QuestieItemFixes:Load()
         },
         [7923] = { -- Defias Tower Key
             [itemKeys.npcDrops] = {7051},
+        },
+        [7968] = { -- Southsea Treasure
+            [itemKeys.npcDrops] = {7168},
+        },
+        [7970] = { -- E.C.A.C.
+            [itemKeys.vendors] = {7166},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [7972] = { -- Ichor of Undeath
             [itemKeys.npcDrops] = {1488, 1489, 1783, 1784, 1785, 1787, 1788, 1789, 1791, 1793, 1794, 1795, 1796, 1802, 1804, 1805, 3094, 4472, 4474, 4475, 6116, 6117, 7370, 7523, 7524, 7864, 8523, 8524, 8525, 8526, 8527, 8528, 8529, 8530, 8531, 8532, 8538, 8539, 8540, 8541, 8542, 8543, 8545, 10500, 10580, 10816, 11873, 12262, 12263, 12377, 12378, 12379, 12380},

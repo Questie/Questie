@@ -1231,6 +1231,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{64.78,45.5}}},
         },
+        [7168] = { -- Polly
+            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{64.78,45.5}}},
+        },
         [7228] = { -- Ironaya
             [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{-1,-1}}},
         },

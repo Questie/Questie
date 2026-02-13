@@ -402,8 +402,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.name] = "Horns of Nez'ra",
             [questKeys.startedBy] = {{7009}},
         },
+        [2379] = { -- Zando'zan
+            [questKeys.exclusiveTo] = {9491},
+        },
         [2381] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [2382] = { -- Wrenix of Ratchet
+            [questKeys.preQuestSingle] = {2379,9491},
         },
         [2399] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1560,6 +1566,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [9491] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10372},
+            [questKeys.exclusiveTo] = {2379},
         },
         [9492] = { -- Turning the Tide
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
@@ -2590,6 +2598,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {1698},
             [questKeys.breadcrumbForQuestId] = 1699,
         },
+        [10372] = {
+            [questKeys.breadcrumbForQuestId] = 9491,
+        },
         [10373] = {
             [questKeys.startedBy] = {{20722}},
             [questKeys.exclusiveTo] = {5066,5090,5091},
@@ -2833,6 +2844,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10545] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [10548] = { -- The Sad Truth
+            [questKeys.preQuestSingle] = {2379,9491},
         },
         [10554] = {
             [questKeys.requiredMinRep]= {932,0},

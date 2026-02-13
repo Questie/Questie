@@ -300,7 +300,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {439},
         },
         [452] = {
-            [questKeys.triggerEnd] = {"Aid Faerleia in killing the Pyrewood Council", {[zoneIDs.SILVERPINE_FOREST]={{46.51,74.07}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2060,2061,2062,2063,2064,2065,2066,2067,2068},2060}}},
         },
         [455] = {
             [questKeys.preQuestSingle] = {}, -- #1858
@@ -1503,6 +1503,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1859},
         },
+        [1999] = {
+            [questKeys.requiredSourceItems] = {5060},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Estelle Gendry"), 0, {{"monster", 6566}}}},
+        },
         [2038] = {
             [questKeys.breadcrumbs] = {2039},
         },
@@ -1578,6 +1582,22 @@ function QuestieQuestFixes:Load()
         },
         [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [2378] = { -- Find the Shattered Hand
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [2379] = { -- Zando'zan
+            [questKeys.preQuestSingle] = {},
+        },
+        [2380] = { -- To Orgrimmar!
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [2381] = { -- Plundering the Plunderers
+            [questKeys.requiredSourceItems] = {7970,5060},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the chest"), 0, {{"object", 123462}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Use the E.C.A.C. to weaken it"), 0, {{"monster", 7167}}},
+            },
         },
         [2438] = {
             [questKeys.specialFlags] = 0,
