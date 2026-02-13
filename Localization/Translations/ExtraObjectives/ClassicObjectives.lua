@@ -671,8 +671,8 @@ local classicObjectiveLocales = {
         ["koKR"] = "세나리온 달가루를 사용하세요",
         ["ptBR"] = "Use a Poeira de Lua Cenariana",
         ["ruRU"] = "Используйте лунную пыль Кенария",
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "使用塞纳里奥月尘",
+        ["zhTW"] = "使用塞納里奧月塵。",
     },
     ["Use the Cenarion Lunardust"] = {
         ["enUS"] = true,
@@ -683,8 +683,8 @@ local classicObjectiveLocales = {
         ["koKR"] = "세나리온 달가루를 사용하세요",
         ["ptBR"] = "Use o Pó Lunar Cenariano",
         ["ruRU"] = "Используйте лунную пыль Кенария",
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "使用赛纳里奥银尘",
+        ["zhTW"] = "使用塞納里奧銀塵。",
     },
     ["Defeat Lunaclaw"] = {
         ["enUS"] = true,
