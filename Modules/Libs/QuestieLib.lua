@@ -285,7 +285,7 @@ function QuestieLib:GetRaceString(raceMask)
             l10n("Human"),
             l10n("Orc"),
             l10n("Dwarf"),
-            l10n("Nightelf"),
+            l10n("Night Elf"),
             l10n("Undead"),
             l10n("Tauren"),
             l10n("Gnome"),
@@ -294,6 +294,7 @@ function QuestieLib:GetRaceString(raceMask)
             l10n("Blood Elf"),
             l10n("Draenei"),
             l10n("Worgen"),
+            l10n("Pandaren"),
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
