@@ -2819,8 +2819,9 @@ function QuestieQuestFixes:Load()
         [5781] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the false grave for the Taelan's Hammer."), 0, {{"object", 177240}}}},
         },
-        [8519] = {
+        [8519] = { -- A Pawn on the Eternal Board
             [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
+            [questKeys.nextQuestInChain] = 8555,
         },
         [5821] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE]={{67.17,56.62}}}},
@@ -3897,8 +3898,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.breadcrumbs] = {8275,8276}, -- #1873
         },
-        [8286] = {
+        [8286] = { -- What Tomorrow Brings
             [questKeys.triggerEnd] = {"Discover the Brood of Nozdormu.",{[zoneIDs.TANARIS]={{63.43, 50.61}}}},
+            [questKeys.nextQuestInChain] = 8288,
         },
         [8289] = { -- #1435
             [questKeys.startedBy] = {{14733}},
@@ -4555,8 +4557,12 @@ function QuestieQuestFixes:Load()
         [8733] = {
             [questKeys.preQuestSingle] = {8555}, -- #2365
         },
-        [8736] = {
+        [8735] = { -- The Nightmare's Corruption
+            [questKeys.nextQuestInChain] = 8736,
+        },
+        [8736] = { -- The Nightmare Manifests
             [questKeys.triggerEnd] = {"The Redemption of Eranikus", {[zoneIDs.MOONGLADE]={{51.8,36.4}}}},
+            [questKeys.nextQuestInChain] = 8741,
         },
         [8737] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Templar using a full Twilight set."),0,{{"object", 180456},{"object", 180518},{"object", 180529},{"object", 180544},{"object", 180549},{"object", 180564},}}},
