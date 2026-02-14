@@ -514,6 +514,9 @@ function QuestieTBCNpcFixes:Load()
         [16659] = { -- Lotheolan
             [npcKeys.questStarts] = {},
         },
+        [16666] = { -- Feledis
+            [npcKeys.waypoints] = {},
+        },
         [16673] = { -- Oninath
             [npcKeys.questStarts] = {9617},
         },
