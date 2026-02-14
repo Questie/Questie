@@ -146,6 +146,10 @@ QuestieItemDropCorrections.Tbc = {
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
     },
+    [29161] = { -- Void Ridge Soul Shard
+        [17014] = 100,
+        [19527] = 100,
+    },
     [30327] = { -- Bonechewer Blood
         [16876] = DropKeys.WOWHEAD,
         [16925] = DropKeys.WOWHEAD,
