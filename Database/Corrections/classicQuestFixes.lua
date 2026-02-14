@@ -3911,6 +3911,9 @@ function QuestieQuestFixes:Load()
         [8296] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [8301] = { -- The Path of the Righteous
+            [questKeys.nextQuestInChain] = 8303,
+        },
         [8304] = {
             [questKeys.objectives] = {{{15171,nil,Questie.ICON_TYPE_TALK},{15170,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.requiredLevel] = 58, -- #2166
