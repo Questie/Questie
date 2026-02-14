@@ -156,6 +156,9 @@ QuestieItemDropCorrections.Tbc = {
         [18952] = DropKeys.WOWHEAD,
         [19701] = DropKeys.WOWHEAD,
     },
+    [23336] = { -- Helboar Blood Sample
+        [16880] = DropKeys.WOWHEAD,
+    },
 }
 
 QuestieItemDropCorrections.Wotlk = {
