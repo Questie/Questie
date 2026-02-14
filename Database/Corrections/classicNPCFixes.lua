@@ -511,6 +511,9 @@ function QuestieNPCFixes:Load()
         [3154] = { -- Jen'shan
             [npcKeys.questStarts] = {},
         },
+        [3203] = { -- Fizzle Darkstorm
+            [npcKeys.waypoints] = {},
+        },
         [3204] = { -- Gazz'uz
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.61,8.82}}},
         },
