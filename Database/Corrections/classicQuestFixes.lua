@@ -2819,10 +2819,6 @@ function QuestieQuestFixes:Load()
         [5781] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the false grave for the Taelan's Hammer."), 0, {{"object", 177240}}}},
         },
-        [8519] = { -- A Pawn on the Eternal Board
-            [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
-            [questKeys.nextQuestInChain] = 8555,
-        },
         [5821] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE]={{67.17,56.62}}}},
         },
@@ -4353,6 +4349,10 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [8519] = { -- A Pawn on the Eternal Board
+            [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
+            [questKeys.nextQuestInChain] = 8555,
         },
         [8520] = {
             [questKeys.requiredLevel] = 1,
