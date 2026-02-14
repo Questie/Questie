@@ -414,6 +414,9 @@ function QuestieTBCQuestFixes:Load()
         [2399] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2460] = {
+            [questKeys.breadcrumbs] = {10794},
+        },
         [2501] = {
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
         },
@@ -3162,6 +3165,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10793] = {
             [questKeys.startedBy] = {nil,nil,{31345}},
+        },
+        [10794] = {
+            [questKeys.breadcrumbForQuestId] = 2460,
         },
         [10797] = {
             [questKeys.startedBy] = {{20753}},

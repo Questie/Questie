@@ -1602,8 +1602,11 @@ function QuestieQuestFixes:Load()
         [2438] = {
             [questKeys.specialFlags] = 0,
         },
-        [2460] = {
-            [questKeys.triggerEnd] = {"Shattered Salute Performed", {[zoneIDs.ORGRIMMAR]={{43.11,53.48}}}},
+        [2460] = { -- The Shattered Salute
+            [questKeys.objectives] = {{{3401,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [2478] = { -- Mission: Possible But Not Probable
+            [questKeys.requiredSourceItems] = {8066},
         },
         [2480] = {
             [questKeys.triggerEnd] = {"Cure Completed",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.57, 19.21}}}},
