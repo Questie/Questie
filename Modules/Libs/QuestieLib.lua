@@ -104,7 +104,7 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 
     if not objective.Collected or type(objective.Collected) ~= "number" then
-        return FloatRGBToHex(0.8, 0.8, 0.8)
+        return FloatRGBToHex(0.937, 0.937, 0.937)
     end
 
     local float = objective.Collected / objective.Needed
@@ -114,15 +114,14 @@ function QuestieLib:GetRGBForObjective(objective)
         return "|cFFEEEEEE"
     elseif trackerColor == "whiteAndGreen" then
         -- White and Green
-        return objective.Collected == objective.Needed and RGBToHex(76, 255, 76) or FloatRGBToHex(0.8, 0.8, 0.8)
+        return objective.Collected == objective.Needed and RGBToHex(40, 255, 40) or FloatRGBToHex(0.937, 0.937, 0.937)
     elseif trackerColor == "whiteToGreen" then
         -- White to Green
-        return FloatRGBToHex(0.8 - float / 2, 0.8 + float / 3, 0.8 - float / 2)
+        return FloatRGBToHex(0.937 - float / 1.282, 0.937 + float / 15.873, 0.937 - float / 1.282)
     else
         -- Red to Green
-        if float < .50 then return FloatRGBToHex(1, 0 + float / .5, 0) end
-        if float == .50 then return FloatRGBToHex(1, 1, 0) end
-        if float > .50 then return FloatRGBToHex(1 - float / 2, 1, 0) end
+        if float <= .50 then return FloatRGBToHex(1, 0 + float*2, 0) end
+        if float > .50 then return FloatRGBToHex(1 - float / 1.186, 1, 0 + float / 6.369) end
     end
 end
 
