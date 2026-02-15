@@ -350,6 +350,20 @@ function QuestieTBCQuestFixes:Load()
         [1859] = { -- Therzok
             [questKeys.requiredRaces] = raceIDs.ORC,
         },
+        [1860] = { -- Speak with Jennea
+            [questKeys.exclusiveTo] = {1880,9595},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [1861] = { -- Mirror Lake
+            [questKeys.exclusiveTo] = {1880,9595},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [1879] = { -- Speak with Bink
+            [questKeys.exclusiveTo] = {1861,9595},
+        },
+        [1880] = { -- Mage-tastic Gizmonitor
+            [questKeys.exclusiveTo] = {1861,9595},
+        },
         [1885] = { -- Mennet Carkad
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
@@ -1730,6 +1744,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [9594] = {
             [questKeys.startedBy] = {nil,nil,{23900}},
+        },
+        [9595] = { -- Control
+            [questKeys.exclusiveTo] = {1861,1880},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9598] = { -- Redemption
             [questKeys.breadcrumbs] = {10366},

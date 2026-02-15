@@ -1407,7 +1407,7 @@ function QuestieQuestFixes:Load()
         },
         [1860] = { -- Speak with Jennea
             [questKeys.breadcrumbForQuestId] = 1861,
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {1880},
         },
         [1861] = { -- Mirror Lake
             [questKeys.preQuestSingle] = {},
@@ -1416,7 +1416,7 @@ function QuestieQuestFixes:Load()
         },
         [1879] = { -- Speak with Bink
             [questKeys.breadcrumbForQuestId] = 1880,
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {1861},
         },
         [1880] = { -- Mage-tastic Gizmonitor
             [questKeys.preQuestSingle] = {},
