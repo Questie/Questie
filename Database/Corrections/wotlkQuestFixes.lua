@@ -6262,7 +6262,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14420] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
-            [questKeys.breadcumbs] = {1885},
+            [questKeys.breadcrumbs] = {1885},
         },
         [14421] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
