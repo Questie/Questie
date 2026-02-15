@@ -695,7 +695,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "초승달발톱을 처치하세요",
         ["ptBR"] = "Derrote Lunagarra",
         ["ruRU"] = "Одолейте Лунокогтя",
-        ["zhCN"] = false,
+        ["zhCN"] = "击败月爪枭兽",
         ["zhTW"] = false,
     },
     ["Slay slimes until they leave behind a Rusty Chest"] = {
@@ -707,7 +707,7 @@ local classicObjectiveLocales = {
         ["koKR"] = "썩어가는 진흙괴물을 처치하여 녹슨 궤짝을 얻으세요",
         ["ptBR"] = "Mate Viscos até que deixem um Baú Enferrujado",
         ["ruRU"] = "Убивайте гниющую слизь до тех пор, пока они не оставят после себя ржавый сундук",
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀泥浆怪，直到它们留下一个生锈的箱子",
         ["zhTW"] = false,
     },
     ["Talk to Estelle Gendry"] = {
@@ -719,7 +719,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Converse com Estela Galina",
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与艾斯特蕾·根德瑞交谈",
         ["zhTW"] = false,
     },
     ["Open the chest"] = {
@@ -731,7 +731,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Abra o baú",
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打开箱子",
         ["zhTW"] = false,
     },
     ["Use the E.C.A.C. to weaken it"] = {
@@ -743,7 +743,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Use o B.E.C.A. para enfraquecê-lo",
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用大饼干来削弱它",
         ["zhTW"] = false,
     },
 }

@@ -323,7 +323,7 @@ local debugMessagesLocales = {
         ["koKR"] = "퀘스트 업데이트중",
         ["ptBR"] = "Atualizando missões",
         ["ruRU"] = "Обновление заданий",
-        ["zhCN"] = "正在更新 任务 数据",
+        ["zhCN"] = "正在更新任务数据",
         ["zhTW"] = "正在更新任務資料",
     },
     ["Loading database"] = {
