@@ -203,7 +203,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "找到在厕所附近的矿车。爬进矿车中",
+        ["zhCN"] = "爬进那辆不起眼的矿车里",
         ["zhTW"] = false,
     },
     ["Use the Scarlet Cannon"] = { -- 12701
