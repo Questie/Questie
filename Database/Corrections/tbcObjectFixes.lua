@@ -28,6 +28,9 @@ function QuestieTBCObjectFixes:Load()
         [142122] = {
             [objectKeys.questStarts] = {2781,2875},
         },
+        [156561] = { -- Wanted Poster
+            [objectKeys.questStarts] = {176},
+        },
         [177281] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{80.32,65.06}}},
         },
