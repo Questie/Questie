@@ -1170,6 +1170,7 @@ function QuestieQuestBlacklist:Load()
         -- [Not Used] quests
         [620] = true, -- UNUSED The Monogrammed Sash
         [1390] = true, -- BETA Oops, We Killed Them Again.
+        [2018] = true, -- Rokar's Test
         [2019] = true, -- Tools of the Trade
         [5383] = true, -- Krastinov's Bag of Horrors
         [8530] = true, -- The Alliance Needs Singed Corestones!
@@ -1216,7 +1217,9 @@ function QuestieQuestBlacklist:Load()
         [10933] = true, -- Level 0 Priest quest
         [10934] = true, -- Level 0 Priest quest
         [63448] = true, -- Boosted character quest
+        [63450] = true, -- Boosted character quest
         [63767] = true, -- Boosted character quest
+        [63768] = true, -- Boosted character quest
         [64028] = true, -- First quest for boosted characters. Blocked to not show for others
         [64031] = true, -- Boosted character quest
         [64034] = true, -- Boosted character quest
@@ -1244,7 +1247,9 @@ function QuestieQuestBlacklist:Load()
         [64217] = true, -- Boosted character quest
         [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
         [65284] = true, -- Boosted character quest
+        [65285] = true, -- Boosted character quest
         [65561] = true, -- Boosted character quest
+        [65562] = true, -- Boosted character quest
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
         [70396] = true, -- First quest for boosted characters. Blocked to not show for others
         [70397] = true, -- Boosted character quest
@@ -1281,6 +1286,7 @@ function QuestieQuestBlacklist:Load()
         [78224] = true, -- Boosted character quest
         [78225] = true, -- Boosted character quest
         [93823] = true, -- Boosted character quest
+        [93824] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
         [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
@@ -3059,9 +3065,9 @@ function QuestieQuestBlacklist:Load()
         [1883] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1884] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1885] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1886] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1898] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1899] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1886] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [1898] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [1899] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [1919] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1920] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -3091,6 +3097,7 @@ function QuestieQuestBlacklist:Load()
         [1961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1963] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1978] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [1998] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1999] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2020] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -7156,10 +7163,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         -- Kalimdor -> Silithus (1 -> 1377)
         [8340] = true, --* Twilight Signet Ring <NYI> <TXT> (https://www.wowhead.com/wotlk/quest=8340) (Retail Data)
 
-        -- Classes -> Rogue (4 -> -162)
-        [2018] = true, --* Rokar's Test (https://www.wowhead.com/wotlk/quest=2018) (Retail Data)
-        [2019] = true, --* Tools of the Trade (https://www.wowhead.com/wotlk/quest=2019) (Retail Data)
-
         -- Uncategorized ->  (-2 -> 0)
         [6843] = true, --* Da Foo (https://www.wowhead.com/wotlk/quest=6843) (Retail Data)
         [8230] = true, --* Collin's Test Quest (https://www.wowhead.com/wotlk/quest=8230) (Retail Data)
@@ -7235,9 +7238,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [1485] = true, --* Vile Familiars (https://www.wowhead.com/wotlk/quest=1485)
         [1598] = true, --* The Stolen Tome (https://www.wowhead.com/wotlk/quest=1598)
         [1599] = true, --* Beginnings (https://www.wowhead.com/wotlk/quest=1599)
-
-        -- Classes -> Rogue (4 -> -162)
-        [1978] = true, --* The Deathstalkers (https://www.wowhead.com/wotlk/quest=1978)
 
         -- Kalimdor -> Mulgore (1 -> 215)
         [781] = true, --* Attack on Camp Narache (https://www.wowhead.com/wotlk/quest=781)

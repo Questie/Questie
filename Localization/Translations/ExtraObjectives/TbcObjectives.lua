@@ -98,18 +98,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "在奈亚斯祭坛附近使用奈亚斯的礼物",
         ["zhTW"] = false,
     },
-    ["Pickpocket the Lacy Handkerchief from the Sentinel Leader"] = { -- 9460
-        ["enUS"] = true,
-        ["deDE"] = "Stehlt das Spitzentaschentuch der Anführerin der Schildwachen.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "从哨兵队长身上偷取一张花边手帕",
-        ["zhTW"] = false,
-    },
     ["Summon Hauteur using the Ritual Torch"] = { -- 9467
         ["enUS"] = true,
         ["deDE"] = false,

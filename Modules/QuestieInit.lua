@@ -109,27 +109,27 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 local coYield = coroutine.yield
 
 local function loadFullDatabase()
-    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. "...")
+    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. l10n("..."))
 
     QuestieInit:LoadBaseDB()
 
-    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. "...")
+    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. l10n("..."))
 
     coYield()
     QuestieCorrections:Initialize()
 
-    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. "...")
+    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. l10n("..."))
     coYield()
     Townsfolk.Initialize()
 
-    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. "...")
+    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. l10n("..."))
     coYield()
     l10n:Initialize()
 
     coYield()
     QuestieDB.private:DeleteGatheringNodes()
 
-    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. "...")
+    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. l10n("..."))
     coYield()
     QuestieCorrections:PreCompile()
 end

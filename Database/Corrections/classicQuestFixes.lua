@@ -300,7 +300,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {439},
         },
         [452] = {
-            [questKeys.triggerEnd] = {"Aid Faerleia in killing the Pyrewood Council", {[zoneIDs.SILVERPINE_FOREST]={{46.51,74.07}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2060,2061,2062,2063,2064,2065,2066,2067,2068},2060}}},
         },
         [455] = {
             [questKeys.preQuestSingle] = {}, -- #1858
@@ -717,6 +717,9 @@ function QuestieQuestFixes:Load()
         },
         [1026] = {
             [questKeys.requiredSourceItems] = {5475},
+        },
+        [1027] = { -- Raene's Cleansing
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay slimes until they leave behind a Rusty Chest"), 0, {{"monster", 3928}}}},
         },
         [1033] = { -- Elune's Tear
             [questKeys.nextQuestInChain] = 1034
@@ -1405,23 +1408,23 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1841},
             [questKeys.nextQuestInChain] = 1847,
         },
-        [1859] = {
+        [1859] = { -- Therzok
             [questKeys.breadcrumbForQuestId] = 1963,
         },
-        [1860] = { -- #1192
+        [1860] = { -- Speak with Jennea
             [questKeys.breadcrumbForQuestId] = 1861,
             [questKeys.exclusiveTo] = {},
         },
-        [1861] = { -- #1192
+        [1861] = { -- Mirror Lake
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1880},
             [questKeys.breadcrumbs] = {1860},
         },
-        [1879] = { -- #1192
+        [1879] = { -- Speak with Bink
             [questKeys.breadcrumbForQuestId] = 1880,
             [questKeys.exclusiveTo] = {},
         },
-        [1880] = { -- #1192
+        [1880] = { -- Mage-tastic Gizmonitor
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1861},
             [questKeys.breadcrumbs] = {1879},
@@ -1444,10 +1447,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1882},
             [questKeys.breadcrumbs] = {1883},
         },
-        [1885] = {
+        [1885] = { -- Mennet Carkad
             [questKeys.breadcrumbForQuestId] = 1886,
         },
-        [1886] = {
+        [1886] = { -- The Deathstalkers
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1885},
         },
@@ -1496,9 +1499,13 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1959},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
-        [1963] = {
+        [1963] = { -- The Shattered Hand
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1859},
+        },
+        [1999] = { -- Tools of the Trade
+            [questKeys.requiredSourceItems] = {5060},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Estelle Gendry"), 0, {{"monster", 6566}}}},
         },
         [2038] = {
             [questKeys.breadcrumbs] = {2039},
@@ -1576,11 +1583,31 @@ function QuestieQuestFixes:Load()
         [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2378] = { -- Find the Shattered Hand
+            [questKeys.nextQuestInChain] = 0, -- if needed to be removed, move this one to tbcQuestFixes.lua
+        },
+        [2379] = { -- Zando'zan
+            [questKeys.preQuestSingle] = {},
+        },
+        [2380] = { -- To Orgrimmar!
+            [questKeys.nextQuestInChain] = 0, -- if needed to be removed, move this one to tbcQuestFixes.lua
+        },
+        [2381] = { -- Plundering the Plunderers
+            [questKeys.objectivesText] = {"Bring the Southsea Treasure back to Wrenix the Wretched in Ratchet. Do not forget to get an E.C.A.C. and Thieves' Tools from Wrenix's Gizmotronic Apparatus. You will need both of these items to complete your mission.","","Should you be attacked by any unusually hostile parrots, use your E.C.A.C.!"},
+            [questKeys.requiredSourceItems] = {7970,5060},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the chest"), 0, {{"object", 123462}}},
+                {nil, Questie.ICON_TYPE_INTERACT, l10n("Use the E.C.A.C. to weaken it"), 0, {{"monster", 7167}}},
+            },
+        },
         [2438] = {
             [questKeys.specialFlags] = 0,
         },
-        [2460] = {
-            [questKeys.triggerEnd] = {"Shattered Salute Performed", {[zoneIDs.ORGRIMMAR]={{43.11,53.48}}}},
+        [2460] = { -- The Shattered Salute
+            [questKeys.objectives] = {{{3401,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [2478] = { -- Mission: Possible But Not Probable
+            [questKeys.requiredSourceItems] = {8066},
         },
         [2480] = {
             [questKeys.triggerEnd] = {"Cure Completed",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.57, 19.21}}}},
@@ -1601,7 +1628,7 @@ function QuestieQuestFixes:Load()
         [2561] = {
             [questKeys.objectives] = {{{7318,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [2608] = {
+        [2608] = { -- The Touch of Zanzil
             [questKeys.triggerEnd] = {"Diagnosis Complete", {[zoneIDs.STORMWIND_CITY]={{78.04,59}}}},
         },
         [2609] = { -- The Touch of Zanzil
@@ -2796,9 +2823,6 @@ function QuestieQuestFixes:Load()
         [5781] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the false grave for the Taelan's Hammer."), 0, {{"object", 177240}}}},
         },
-        [8519] = {
-            [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
-        },
         [5821] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE]={{67.17,56.62}}}},
         },
@@ -3202,7 +3226,7 @@ function QuestieQuestFixes:Load()
         [6661] = {
             [questKeys.objectives] = {{{13016,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},nil,{17126}}, -- #7244
         },
         [6721] = {
@@ -3874,8 +3898,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.breadcrumbs] = {8275,8276}, -- #1873
         },
-        [8286] = {
+        [8286] = { -- What Tomorrow Brings
             [questKeys.triggerEnd] = {"Discover the Brood of Nozdormu.",{[zoneIDs.TANARIS]={{63.43, 50.61}}}},
+            [questKeys.nextQuestInChain] = 8288,
         },
         [8289] = { -- #1435
             [questKeys.startedBy] = {{14733}},
@@ -3885,6 +3910,9 @@ function QuestieQuestFixes:Load()
         },
         [8296] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [8301] = { -- The Path of the Righteous
+            [questKeys.nextQuestInChain] = 8303,
         },
         [8304] = {
             [questKeys.objectives] = {{{15171,nil,Questie.ICON_TYPE_TALK},{15170,nil,Questie.ICON_TYPE_TALK}}},
@@ -4326,6 +4354,10 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8519] = { -- A Pawn on the Eternal Board
+            [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
+            [questKeys.nextQuestInChain] = 8555,
+        },
         [8520] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.preQuestSingle] = {},
@@ -4532,8 +4564,12 @@ function QuestieQuestFixes:Load()
         [8733] = {
             [questKeys.preQuestSingle] = {8555}, -- #2365
         },
-        [8736] = {
+        [8735] = { -- The Nightmare's Corruption
+            [questKeys.nextQuestInChain] = 8736,
+        },
+        [8736] = { -- The Nightmare Manifests
             [questKeys.triggerEnd] = {"The Redemption of Eranikus", {[zoneIDs.MOONGLADE]={{51.8,36.4}}}},
+            [questKeys.nextQuestInChain] = 8741,
         },
         [8737] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Templar using a full Twilight set."),0,{{"object", 180456},{"object", 180518},{"object", 180529},{"object", 180544},{"object", 180549},{"object", 180564},}}},
@@ -4756,33 +4792,37 @@ function QuestieQuestFixes:Load()
         [8883] = {
             [questKeys.requiredSourceItems] = {21711},
         },
-        [8897] = {
-            [questKeys.exclusiveTo] = {8898,8899,8903},
+        [8897] = { -- Dearest Colara,
+            [questKeys.nextQuestInChain] = 8903,
+            [questKeys.breadcrumbForQuestId] = 8903,
         },
-        [8898] = {
-            [questKeys.exclusiveTo] = {8897,8899,8903},
+        [8898] = { -- Dearest Colara,
+            [questKeys.nextQuestInChain] = 8903,
+            [questKeys.breadcrumbForQuestId] = 8903,
         },
-        [8899] = {
-            [questKeys.exclusiveTo] = {8897,8898,8903},
+        [8899] = { -- Dearest Colara,
+            [questKeys.nextQuestInChain] = 8903,
+            [questKeys.breadcrumbForQuestId] = 8903,
         },
-        [8900] = {
+        [8900] = { -- Dearest Elenia,
             [questKeys.exclusiveTo] = {8901,8902,8904},
             [questKeys.nextQuestInChain] = 8979,
         },
-        [8901] = {
+        [8901] = { -- Dearest Elenia,
             [questKeys.exclusiveTo] = {8900,8902,8904},
             [questKeys.nextQuestInChain] = 8979,
         },
-        [8902] = {
+        [8902] = { -- Dearest Elenia,
             [questKeys.exclusiveTo] = {8900,8901,8904},
             [questKeys.nextQuestInChain] = 8979,
         },
-        [8903] = { -- Quest 8903 becomes unavailable when 8897, 8898, or 8899 are in quest log, but available again once one of those are turned in
-            [questKeys.requiredSourceItems] = {11018},
+        [8903] = { -- Dangerous Love
+            [questKeys.requiredSourceItems] = {21815,21829,21833,22178},
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {8897,8898,8899},
         },
-        [8904] = {
-            [questKeys.requiredSourceItems] = {11018},
+        [8904] = { -- Dangerous Love
+            [questKeys.requiredSourceItems] = {21815,21829,21833,22163},
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {8900,8901,8902},
         },
@@ -4865,11 +4905,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8966,8967,8968},
             [questKeys.preQuestSingle] = {8962,8963,8964,8965},
         },
-        [8979] = {
+        [8979] = { -- Fenstad's Hunch
             [questKeys.nextQuestInChain] = 8980,
             [questKeys.preQuestSingle] = {8900,8901,8902,8904},
         },
-        [8980] = { -- bad race data
+        [8980] = { -- Zinge's Assessment
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8985] = {
@@ -4914,7 +4954,7 @@ function QuestieQuestFixes:Load()
         [9024] = {
             [questKeys.nextQuestInChain] = 9025,
         },
-        [9026] = { -- bad race data
+        [9026] = { -- Tracing the Source
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9051] = {
@@ -5503,7 +5543,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{8403}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}}, -- #7244
         },
         [6981] = {
@@ -5555,7 +5595,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{3520}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}}, -- #7244
         },
         [6981] = {

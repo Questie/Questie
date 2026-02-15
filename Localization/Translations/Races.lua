@@ -38,7 +38,7 @@ local raceLocales = {
         ["zhCN"] = "矮人",
         ["zhTW"] = "矮人",
     },
-    ["Nightelf"] = {
+    ["Night Elf"] = {
         ["enUS"] = true,
         ["deDE"] = "Nachtelf",
         ["esES"] = "Elfo de la Noche",
@@ -145,6 +145,18 @@ local raceLocales = {
         ["ruRU"] = "Ворген",
         ["zhCN"] = "狼人",
         ["zhTW"] = "狼人",
+    },
+    ["Pandaren"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = "판다렌",
+        ["ptBR"] = true,
+        ["ruRU"] = "Пандарен",
+        ["zhCN"] = "熊猫人",
+        ["zhTW"] = "熊貓人",
     },
 }
 

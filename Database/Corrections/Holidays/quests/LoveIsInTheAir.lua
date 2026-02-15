@@ -6,27 +6,30 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
 
-tinsert(eventQuests, {"Love is in the Air", 8897}) -- Dearest Colara
-tinsert(eventQuests, {"Love is in the Air", 8898}) -- Dearest Colara
-tinsert(eventQuests, {"Love is in the Air", 8899}) -- Dearest Colara
-tinsert(eventQuests, {"Love is in the Air", 8900}) -- Dearest Elenia
-tinsert(eventQuests, {"Love is in the Air", 8901}) -- Dearest Elenia
-tinsert(eventQuests, {"Love is in the Air", 8902}) -- Dearest Elenia
-tinsert(eventQuests, {"Love is in the Air", 8903}) -- Dangerous Love
-tinsert(eventQuests, {"Love is in the Air", 8904}) -- Dangerous Love
-tinsert(eventQuests, {"Love is in the Air", 8979}) -- Fenstad's Hunch
-tinsert(eventQuests, {"Love is in the Air", 8980}) -- Zinge's Assessment
+tinsert(eventQuests, {"Love is in the Air", 8897, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dearest Colara,
+tinsert(eventQuests, {"Love is in the Air", 8898, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dearest Colara,
+tinsert(eventQuests, {"Love is in the Air", 8899, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dearest Colara,
+tinsert(eventQuests, {"Love is in the Air", 8900, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dearest Elenia,
+tinsert(eventQuests, {"Love is in the Air", 8901, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dearest Elenia,
+tinsert(eventQuests, {"Love is in the Air", 8902, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dearest Elenia,
+tinsert(eventQuests, {"Love is in the Air", 8903, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dangerous Love
+tinsert(eventQuests, {"Love is in the Air", 8904, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dangerous Love
+tinsert(eventQuests, {"Love is in the Air", 8979, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Fenstad's Hunch
+tinsert(eventQuests, {"Love is in the Air", 8980, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Zinge's Assessment
 tinsert(eventQuests, {"Love is in the Air", 8981, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Gift Giving
-tinsert(eventQuests, {"Love is in the Air", 8982}) -- Tracing the Source
-tinsert(eventQuests, {"Love is in the Air", 8983}) -- Tracing the Source
-tinsert(eventQuests, {"Love is in the Air", 8984}) -- The Source Revealed
+tinsert(eventQuests, {"Love is in the Air", 8982, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Tracing the Source
+tinsert(eventQuests, {"Love is in the Air", 8983, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Tracing the Source
+tinsert(eventQuests, {"Love is in the Air", 8984, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- The Source Revealed
 tinsert(eventQuests, {"Love is in the Air", 8993, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Gift Giving
-tinsert(eventQuests, {"Love is in the Air", 9024}) -- Aristan's Hunch
-tinsert(eventQuests, {"Love is in the Air", 9025}) -- Morgan's Discovery
-tinsert(eventQuests, {"Love is in the Air", 9026}) -- Tracing the Source
-tinsert(eventQuests, {"Love is in the Air", 9027}) -- Tracing the Source
-tinsert(eventQuests, {"Love is in the Air", 9028}) -- The Source Revealed
-tinsert(eventQuests, {"Love is in the Air", 9029}) -- A Bubbling Cauldron
+tinsert(eventQuests, {"Love is in the Air", 9024, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Aristan's Hunch
+tinsert(eventQuests, {"Love is in the Air", 9025, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Morgan's Discovery
+tinsert(eventQuests, {"Love is in the Air", 9026, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Tracing the Source
+tinsert(eventQuests, {"Love is in the Air", 9027, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Tracing the Source
+tinsert(eventQuests, {"Love is in the Air", 9028, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- The Source Revealed
+tinsert(eventQuests, {"Love is in the Air", 9029, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- A Bubbling Cauldron
+
+-- TBC quests
+tinsert(eventQuests, {"Love is in the Air", 11558, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Dangerous Love
 
 -- WotLK quests
 tinsert(eventQuests, {"Love is in the Air", 14483}) -- Something is in the Air (and it Ain't Love)

@@ -4105,6 +4105,7 @@ l10n.questLookup["ptBR"] = loadstring([[return {
 [9026] = {"Em busca da fonte", {"Fale com a Estalajadeira Cristine na estalagem Rosa Dourada, que fica no Distrito Comercial de Ventobravo."}},
 [9027] = {"Em busca da fonte", {"Fale com Everton Soniram no Empório das Linhas, que fica perto dos canais de Ventobravo."}},
 [9028] = {"A verdade sobre as fragrâncias", {"Encontre o Boticário Adalberto Lorran no Contraforte de Eira dos Montes, atrás da Mansão de Corvoforte."}},
+[9029] = {"Um caldeirão borbulhante", nil},
 [9030] = {"As últimas palavras de Anthion", {"Fale com Deliana em Altaforja."}},
 [9032] = {"O infeliz destino de Bodley", {"Vá até a Montanha Rocha Negra e use o Revelador Extradimensional de Fantasmas para encontrar Bodley próximo ao Pico da Rocha Negra."}},
 [9033] = {"Ecos da Guerra", {"O Comandante Eligor Alvorada, na Capela Esperança da Luz, que fica nas Terras Pestilentas Orientais, quer que você mate 5 Monstruosidades Vivas, 5 Gárgulas Litopele, 8 Capitães Cavaleiros da Morte e 3 Espreitadoras Peçonhentas."}},

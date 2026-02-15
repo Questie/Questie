@@ -341,31 +341,34 @@ function QuestieTBCQuestFixes:Load()
         [1821] = { -- Agamand Heirlooms
             [questKeys.nextQuestInChain] = 1822,
         },
-        [1858] = {
+        [1858] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
-        [1859] = {
+        [1859] = { -- Therzok
+            [questKeys.requiredRaces] = raceIDs.ORC,
+        },
+        [1885] = { -- Mennet Carkad
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1886] = { -- The Deathstalkers
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1898] = { -- The Deathstalkers
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1899] = { -- The Deathstalkers
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1963] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
-        [1886] = {
+        [1978] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [1898] = {
+        [1998] = { -- Fenwick Thatros
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [1899] = {
-            [questKeys.requiredRaces] = raceIDs.UNDEAD,
-        },
-        [1963] = {
-            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
-        },
-        [1978] = {
-            [questKeys.requiredRaces] = raceIDs.UNDEAD,
-        },
-        [1998] = {
-            [questKeys.requiredRaces] = raceIDs.UNDEAD,
-        },
-        [1999] = {
+        [1999] = { -- Tools of the Trade
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [2205] = { -- Seek out SI: 7
@@ -402,11 +405,20 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.name] = "Horns of Nez'ra",
             [questKeys.startedBy] = {{7009}},
         },
-        [2381] = {
+        [2379] = { -- Zando'zan
+            [questKeys.exclusiveTo] = {9491},
+        },
+        [2381] = { -- Plundering the Plunderers
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [2382] = { -- Wrenix of Ratchet
+            [questKeys.preQuestSingle] = {2379,9491},
         },
         [2399] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [2460] = {
+            [questKeys.breadcrumbs] = {10794},
         },
         [2501] = {
             [questKeys.zoneOrSort] = sortKeys.ALCHEMY,
@@ -598,7 +610,7 @@ function QuestieTBCQuestFixes:Load()
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16}}}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167,6467,13283,16684,16685,16686},nil,{17126}},
         },
         [6761] = {
@@ -809,13 +821,13 @@ function QuestieTBCQuestFixes:Load()
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [8487] = {
+        [8487] = { -- Corrupted Soil
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9254},
             [questKeys.nextQuestInChain] = 8488,
         },
-        [8488] = {
-            [questKeys.objectives] = {{{15402,nil,Questie.ICON_TYPE_EVENT}}},
+        [8488] = { -- Unexpected Results
+            [questKeys.objectives] = {{{15958}}},
         },
         [8490] = {
             [questKeys.preQuestSingle] = {},
@@ -1180,6 +1192,84 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9394},
         },
+        [8897] = { -- Dearest Colara,
+            [questKeys.questLevel] = -1,
+        },
+        [8898] = { -- Dearest Colara,
+            [questKeys.questLevel] = -1,
+        },
+        [8899] = { -- Dearest Colara,
+            [questKeys.questLevel] = -1,
+        },
+        [8900] = { -- Dearest Elenia,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8901] = { -- Dearest Elenia,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8902] = { -- Dearest Elenia,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8903] = { -- Dangerous Love
+            [questKeys.questLevel] = -1,
+        },
+        [8904] = { -- Dangerous Love
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.nextQuestInChain] = 0, -- no followup in TBC
+        },
+        [8979] = { -- Fenstad's Hunch
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {11558},
+        },
+        [8980] = { -- Zinge's Assessment
+            [questKeys.startedBy] = {{5204}},
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {8979},
+        },
+        [8981] = { -- Gift Giving
+            [questKeys.questLevel] = -1,
+        },
+        [8982] = { -- Tracing the Source
+            [questKeys.questLevel] = -1,
+        },
+        [8983] = { -- Tracing the Source
+            [questKeys.questLevel] = -1,
+            [questKeys.startedBy] = {{6741}},
+            [questKeys.preQuestSingle] = {8982},
+        },
+        [8984] = { -- The Source Revealed
+            [questKeys.questLevel] = -1,
+        },
+        [8993] = { -- Gift Giving
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9024] = { -- Aristan's Hunch
+            [questKeys.questLevel] = -1,
+        },
+        [9025] = { -- Morgan's Discovery
+            [questKeys.startedBy] = {{279}},
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {9024},
+        },
+        [9026] = { -- Tracing the Source
+            [questKeys.questLevel] = -1,
+        },
+        [9027] = { -- Tracing the Source
+            [questKeys.startedBy] = {{6740}},
+            [questKeys.questLevel] = -1,
+            [questKeys.preQuestSingle] = {9026},
+        },
+        [9028] = { -- The Source Revealed
+            [questKeys.questLevel] = -1,
+        },
+        [9029] = { -- A Bubbling Cauldron
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [9035] = { -- Roadside Ambush
             [questKeys.breadcrumbForQuestId] = 9062,
         },
@@ -1452,9 +1542,8 @@ function QuestieTBCQuestFixes:Load()
         [9457] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Gift of Naias near the Altar of Naias"), 0, {{"object", 181636}}}},
         },
-        [9460] = {
-            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Pickpocket the Lacy Handkerchief from the Sentinel Leader"), 0, {{"monster", 17210}}}},
+        [9460] = { -- Combining Forces
+            [questKeys.objectives] = {nil,nil,{{23686,nil,Questie.ICON_TYPE_INTERACT}}}, -- has to be pickpocketed, using interact icon
         },
         [9467] = {
             [questKeys.requiredSourceItems] = {24335},
@@ -1480,8 +1569,10 @@ function QuestieTBCQuestFixes:Load()
         [9489] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [9491] = {
+        [9491] = { -- Greed
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10372},
+            [questKeys.exclusiveTo] = {2379},
         },
         [9492] = { -- Turning the Tide
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
@@ -1558,9 +1649,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9531] = {
             [questKeys.objectives] = {nil,{{181694}}},
-        },
-        [9532] = {
-            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9538] = {
             [questKeys.triggerEnd] = {"Stillpine Furbolg Language Primer Read", {[zoneIDs.AZUREMYST_ISLE]={{49.29,51.07}}}},
@@ -1664,9 +1752,6 @@ function QuestieTBCQuestFixes:Load()
         [9617] = { -- Seek the Farstriders
             [questKeys.startedBy] = {{3038,3171,3407,16673}},
             [questKeys.breadcrumbForQuestId] = 9484,
-        },
-        [9618] = {
-            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9619] = {
             [questKeys.requiredSourceItems] = {},
@@ -2312,6 +2397,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73}}}},
             [questKeys.requiredSourceItems] = {28452},
         },
+        [10210] = {
+            [questKeys.nextQuestInChain] = 10211,
+        },
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93}}}},
         },
@@ -2508,6 +2596,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {1698},
             [questKeys.breadcrumbForQuestId] = 1699,
+        },
+        [10372] = { -- A Discreet Inquiry
+            [questKeys.requiredLevel] = 16,
+            [questKeys.breadcrumbForQuestId] = 9491,
         },
         [10373] = {
             [questKeys.startedBy] = {{20722}},
@@ -2752,6 +2844,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10545] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [10548] = { -- The Sad Truth
+            [questKeys.preQuestSingle] = {2379,9491},
         },
         [10554] = {
             [questKeys.requiredMinRep]= {932,0},
@@ -3067,6 +3162,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10793] = {
             [questKeys.startedBy] = {nil,nil,{31345}},
+        },
+        [10794] = {
+            [questKeys.breadcrumbForQuestId] = 2460,
         },
         [10797] = {
             [questKeys.startedBy] = {{20753}},
@@ -4086,6 +4184,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11549] = { -- A Magnanimous Benefactor
             [questKeys.objectivesText] = {"Anchorite Kairthos wants you to donate 1000 gold to aid in Anchorite Ayuri's efforts. You will be known as <Name> of the Shattered Sun if you complete this quest."},
+        },
+        [11558] = { -- Dangerous Love
+            [questKeys.requiredSourceItems] = {21815,21829,22163},
         },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559}},

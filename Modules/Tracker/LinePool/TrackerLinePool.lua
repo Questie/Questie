@@ -358,7 +358,6 @@ function TrackerLinePool.UpdateQuestLines(questId)
         if line.Objective then
             ---@type QuestObjective
             local objective = line.Objective
-            objective:Update()
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
             local objDesc = objective.Description:gsub("%.", "")

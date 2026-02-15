@@ -57,6 +57,19 @@ QuestieItemDropCorrections.Era = {
         [930] = DropKeys.WOWHEAD,
         [949] = DropKeys.WOWHEAD,
     },
+    [1519] = { -- Bloodscalp Ear
+        [587] = DropKeys.WOWHEAD,
+        [588] = DropKeys.WOWHEAD,
+        [595] = DropKeys.WOWHEAD,
+        [597] = DropKeys.WOWHEAD,
+        [660] = DropKeys.WOWHEAD,
+        [671] = DropKeys.WOWHEAD,
+        [694] = DropKeys.WOWHEAD,
+        [697] = DropKeys.WOWHEAD,
+        [699] = DropKeys.WOWHEAD,
+        [701] = DropKeys.WOWHEAD,
+        [702] = DropKeys.WOWHEAD,
+    },
     [1598] = { -- Rot Blossom
         [202] = DropKeys.WOWHEAD,
         [531] = DropKeys.WOWHEAD,
@@ -74,6 +87,13 @@ QuestieItemDropCorrections.Era = {
         [1988] = 100,
         [1989] = 100,
     },
+    [3918] = { -- Singing Crystal Shard
+        [688] = DropKeys.WOWHEAD,
+        [689] = DropKeys.WOWHEAD,
+        [690] = DropKeys.WOWHEAD,
+        [1550] = DropKeys.WOWHEAD,
+        [1551] = DropKeys.WOWHEAD,
+    },
     [5085] = { -- Bristleback Quilboar Tusk
         [3258] = 100,
         [3260] = 100,
@@ -90,6 +110,33 @@ QuestieItemDropCorrections.Era = {
         [3234] = 100,
         [3236] = 100,
     },
+    [24372] = { -- Diaphanous Wing
+        [18132] = DropKeys.WOWHEAD,
+        [18133] = DropKeys.WOWHEAD,
+        [18283] = DropKeys.WOWHEAD,
+        [20197] = DropKeys.WOWHEAD,
+        [20198] = DropKeys.WOWHEAD,
+    },
+    [24426] = { -- Sporebat Eye
+        [18128] = DropKeys.WOWHEAD,
+        [18129] = DropKeys.WOWHEAD,
+        [18280] = DropKeys.WOWHEAD,
+        [20387] = DropKeys.WOWHEAD,
+    },
+    [24427] = { -- Fen Strider Tentacle
+        [18134] = DropKeys.WOWHEAD,
+        [18281] = DropKeys.WOWHEAD,
+    },
+    [24485] = { -- Marshlight Bleeder Venom
+        [18133] = DropKeys.WOWHEAD,
+        [20198] = DropKeys.WOWHEAD,
+    },
+    [29480] = { -- Parched Hydra Sample
+        [20324] = DropKeys.WOWHEAD,
+    },
+    [29481] = { -- Withered Bog Lord Sample
+        [19402] = DropKeys.WOWHEAD,
+    },
 }
 
 QuestieItemDropCorrections.Tbc = {
@@ -98,7 +145,20 @@ QuestieItemDropCorrections.Tbc = {
     },
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
-    }
+    },
+    [29161] = { -- Void Ridge Soul Shard
+        [17014] = 100,
+        [19527] = 100,
+    },
+    [30327] = { -- Bonechewer Blood
+        [16876] = DropKeys.WOWHEAD,
+        [16925] = DropKeys.WOWHEAD,
+        [18952] = DropKeys.WOWHEAD,
+        [19701] = DropKeys.WOWHEAD,
+    },
+    [23336] = { -- Helboar Blood Sample
+        [16880] = DropKeys.WOWHEAD,
+    },
 }
 
 QuestieItemDropCorrections.Wotlk = {

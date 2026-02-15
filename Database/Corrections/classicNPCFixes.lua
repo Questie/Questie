@@ -511,6 +511,9 @@ function QuestieNPCFixes:Load()
         [3154] = { -- Jen'shan
             [npcKeys.questStarts] = {},
         },
+        [3203] = { -- Fizzle Darkstorm
+            [npcKeys.waypoints] = {},
+        },
         [3204] = { -- Gazz'uz
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{52.61,8.82}}},
         },
@@ -1228,6 +1231,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{41.47,42.16},{43.69,39.06}}},
         },
         [7167] = { -- Polly
+            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{64.78,45.5}}},
+        },
+        [7168] = { -- Polly
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{64.78,45.5}}},
         },
@@ -3082,6 +3089,15 @@ function QuestieNPCFixes:Load()
         },
         [16102] = { -- Sothos
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
+        },
+        [16106] = { -- Evert Sorisam
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.83,46.97}}},
+        },
+        [16107] = { -- Apothecary Staffron Lerent
+            [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS] = {{89.37,74.94}}},
+        },
+        [16109] = { -- Mara Rennick
+            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{70.66,29.24}}},
         },
         [16118] = { -- Kormok
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},

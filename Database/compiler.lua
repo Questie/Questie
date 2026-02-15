@@ -1085,13 +1085,13 @@ function QuestieDBCompiler:Compile()
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
 
-    print("\124cFF4DDBFF [6/9] " .. l10n("Updating NPCs") .. "...")
+    print("\124cFF4DDBFF [6/9] " .. l10n("Updating NPCs") .. l10n("..."))
     QuestieDBCompiler:CompileNPCs()
-    print("\124cFF4DDBFF [7/9] " .. l10n("Updating objects") .. "...")
+    print("\124cFF4DDBFF [7/9] " .. l10n("Updating objects") .. l10n("..."))
     QuestieDBCompiler:CompileObjects()
-    print("\124cFF4DDBFF [8/9] " .. l10n("Updating quests") .. "...")
+    print("\124cFF4DDBFF [8/9] " .. l10n("Updating quests") .. l10n("..."))
     QuestieDBCompiler:CompileQuests()
-    print("\124cFF4DDBFF [9/9] " .. l10n("Updating items") .. "...")
+    print("\124cFF4DDBFF [9/9] " .. l10n("Updating items") .. l10n("..."))
     QuestieDBCompiler:CompileItems()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 

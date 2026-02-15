@@ -149,7 +149,7 @@ end
 -- It uses a similar system like here with i_ID etc as keys.
 local function _FetchTooltipsForGroupMembers(key, tooltipData)
     local anotherPlayer = false;
-    if QuestieComms and QuestieComms.data:KeyExists(key) then
+    if QuestieComms.data:KeyExists(key) then
         ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
         local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
         for questId, playerList in pairs(tooltipDataExternal) do
@@ -228,7 +228,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     end
 
     local isObjectTooltip = key:sub(1, 2) == "o_"
-    if isObjectTooltip then
+    if isObjectTooltip and (not IsInInstance()) then
+        -- Outside of dungeons we want to only show object tooltips for objects that are in the current zone.
+        -- Otherwise quests from Wanted! posters and Midsummer Bonfires will show up incorrectly.
         local objectIsInCurrentZone = false
         if playerZone == 0 then
             objectIsInCurrentZone = true

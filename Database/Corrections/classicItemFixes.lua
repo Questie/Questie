@@ -342,6 +342,9 @@ function QuestieItemFixes:Load()
         [5058] = { -- Silithid Egg
             [itemKeys.npcDrops] = {},
         },
+        [5060] = { -- Thieves' Tools
+            [itemKeys.vendors] = {1325,1326,1457,2622,3090,3135,3334,3490,3542,3551,3561,3969,4585,5139,5169,6779,7166,10364,15175},
+        },
         [5068] = { -- Dried Seeds
             [itemKeys.relatedQuests] = {877},
             [itemKeys.npcDrops] = {},
@@ -407,10 +410,6 @@ function QuestieItemFixes:Load()
         [5475] = { -- Wooden Key
             [itemKeys.relatedQuests] = {},
             [itemKeys.npcDrops] = {3919, 3834},
-            [itemKeys.objectDrops] = {},
-        },
-        [5519] = { -- Iron Pommel
-            [itemKeys.npcDrops] = {3928},
             [itemKeys.objectDrops] = {},
         },
         [5535] = { -- Compendium of the Fallen
@@ -600,6 +599,13 @@ function QuestieItemFixes:Load()
         },
         [7923] = { -- Defias Tower Key
             [itemKeys.npcDrops] = {7051},
+        },
+        [7968] = { -- Southsea Treasure
+            [itemKeys.npcDrops] = {7168},
+        },
+        [7970] = { -- E.C.A.C.
+            [itemKeys.vendors] = {7166},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [7972] = { -- Ichor of Undeath
             [itemKeys.npcDrops] = {1488, 1489, 1783, 1784, 1785, 1787, 1788, 1789, 1791, 1793, 1794, 1795, 1796, 1802, 1804, 1805, 3094, 4472, 4474, 4475, 6116, 6117, 7370, 7523, 7524, 7864, 8523, 8524, 8525, 8526, 8527, 8528, 8529, 8530, 8531, 8532, 8538, 8539, 8540, 8541, 8542, 8543, 8545, 10500, 10580, 10816, 11873, 12262, 12263, 12377, 12378, 12379, 12380},
@@ -1354,8 +1360,20 @@ function QuestieItemFixes:Load()
         [21711] = { -- Lunar Festival Invitation
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [21829] = { -- Perfume Bottle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [21833] = { -- Cologne Bottle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [22094] = { -- Bloodkelp
             [itemKeys.npcDrops] = {4364, 4366, 4368, 4370, 4371, 16072},
+        },
+        [22163] = { -- Pledge of Friendship: Undercity
+            [itemKeys.npcDrops] = {5624},
+        },
+        [22178] = { -- Pledge of Friendship: Stormwind
+            [itemKeys.npcDrops] = {68,1976},
         },
         [22229] = { -- Soul Ashes of the Banished (#2344)
             [itemKeys.npcDrops] = {7068, 7069, 7071, 7072, 7075},

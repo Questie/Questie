@@ -369,7 +369,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.Name = npc.name
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
-    local baseTitle = title or (npc.name .. " (" .. l10n("NPC") .. ")")
+    local baseTitle = title or (npc.name .. " " .. l10n("(") .. l10n("NPC") .. l10n(")"))
     data.ManualTooltipData.Title = WeaponMasterSkills.AppendSkillsToTitle(baseTitle, data.id)
     local level = tostring(npc.minLevel)
     local health = tostring(npc.minLevelHealth)
@@ -443,7 +443,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     data.Name = object.name
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
-    data.ManualTooltipData.Title = title or (object.name .. " (object)")
+    data.ManualTooltipData.Title = title or (object.name .. " " .. l10n("(") .. l10n("Object") .. l10n(")"))
     data.ManualTooltipData.Body = body or {
         { 'ID:', tostring(object.id) },
     }
