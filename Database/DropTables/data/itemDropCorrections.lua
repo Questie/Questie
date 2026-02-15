@@ -84,8 +84,8 @@ QuestieItemDropCorrections.Era = {
         [1110] = DropKeys.WOWHEAD,
     },
     [3297] = { -- Fel Moss
-        [1988] = 100,
-        [1989] = 100,
+        [1988] = DropKeys.WOWHEAD,
+        [1989] = DropKeys.WOWHEAD,
     },
     [3918] = { -- Singing Crystal Shard
         [688] = DropKeys.WOWHEAD,
