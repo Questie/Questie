@@ -383,12 +383,6 @@ function QuestieQuestFixes:Load()
         [576] = {
             [questKeys.preQuestSingle] = {597},
         },
-        [578] = {
-            [questKeys.childQuests] = {579},
-        },
-        [579] = {
-            [questKeys.parentQuest] = 578,
-        },
         [587] = {
             [questKeys.preQuestSingle] = {597},
         },
