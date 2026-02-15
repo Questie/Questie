@@ -47,8 +47,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "퀘스트 목표 이름표에 아이콘을 표시할지 설정합니다.",
         ["ptBR"] = "Ativa ou desativa os ícones dos objectivos de missão nas placas de nome das criaturas.",
         ["ruRU"] = "Показать/скрыть значки целей заданий на индикаторах здоровья",
-        ["zhCN"] = "启用或停用在生物姓名板上显示的任务目标图标。",
-        ["zhTW"] = "啟用或停用在生物名條上顯示的任務目標圖示。",
+        ["zhCN"] = "启用或停用在生物姓名板上显示的任务目标图标",
+        ["zhTW"] = "啟用或停用在生物名條上顯示的任務目標圖示",
     },
     ["Icon Position X"] = {
         ["enUS"] = true,
@@ -144,7 +144,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "Redefine as posições e a escala da placa de nome.",
         ["ruRU"] = "Сбросить настройки значков целей заданий на индикаторах здоровья к значениям по умолчанию",
         ["zhCN"] = "重设姓名板图标的位置和大小",
-        ["zhTW"] = "重置成預設的名條位置和縮放大小。",
+        ["zhTW"] = "重置成預設的名條位置和縮放大小",
     },
     ["Target Frame Icon Options"] = {
         ["enUS"] = true,
@@ -179,8 +179,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "퀘스트 목표 대상 프레임에 아이콘을 표시할지 설장합니다.",
         ["ptBR"] = "Ativa ou desativa o ícone de objetivo de missão no quadro de alvo da criatura.",
         ["ruRU"] = "Показать/скрыть значки целей заданий на рамке выбранной цели",
-        ["zhCN"] = "启用或停用在生物目标框体上显示的任务目标图标。",
-        ["zhTW"] = "啟用或停用在生物目標框架上顯示的任務目標圖示。",
+        ["zhCN"] = "启用或停用在生物目标框体上显示的任务目标图标",
+        ["zhTW"] = "啟用或停用在生物目標框架上顯示的任務目標圖示",
     },
     ["Reset Target Frame"] = {
         ["enUS"] = true,
@@ -204,7 +204,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "Redefine as posições e a escala do quadro de destino padrão.",
         ["ruRU"] = "Сбросить настройки значков целей заданий на рамке выбранной цели к значениям по умолчанию",
         ["zhCN"] = "重设目标头像的位置和大小",
-        ["zhTW"] = "重置成預設的目標頭像框架位置和縮放大小。",
+        ["zhTW"] = "重置成預設的目標頭像框架位置和縮放大小",
     },
 }
 

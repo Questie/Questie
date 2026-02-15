@@ -83,8 +83,8 @@ local minimapIconLocales = {
         ["koKR"] = "전투 종료 후 퀘스티가 열립니다",
         ["ptBR"] = "Questie será aberta após o término do combate.",
         ["ruRU"] = "Questie откроется по завершении боя.",
-        ["zhCN"] = "Questie 会在战斗结束后打开。",
-        ["zhTW"] = "Questie 會在戰鬥結束後開啟。",
+        ["zhCN"] = "Questie 会在战斗结束后打开",
+        ["zhTW"] = "Questie 會在戰鬥結束後開啟",
     },
 }
 

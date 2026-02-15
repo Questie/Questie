@@ -95,8 +95,8 @@ local searchLocales = {
         ["koKR"] = "출현 정보가 없습니다.",
         ["ptBR"] = "Não há dados de spawn disponíveis.",
         ["ruRU"] = "Нет данных о появлении",
-        ["zhCN"] = "没有可用的生成数据。",
-        ["zhTW"] = "沒有可用的重生資料。",
+        ["zhCN"] = "没有可用的生成数据",
+        ["zhTW"] = "沒有可用的重生資料",
     },
     ["Recommended Quest Level"] = {
         ["enUS"] = true,
@@ -347,8 +347,8 @@ local searchLocales = {
         ["koKR"] = "\n이 옵션을 선택하면 퀘스트를 지도에서 숨깁니다. \n\n 지도에서 Shift 클릭으로 퀘스트를 숨길 수도 있습니다.",
         ["ptBR"] = "\nSe marcado, oculta a missão do mapa, mesmo que esteja ativa.\n\nTambém é possível ocultar a missão utilizando Shift + Botão esquerdo nela no mapa.",
         ["ruRU"] = "\nКогда выбрано, скрывает задание с карты, даже если оно активно.\n\nСкрыть задание можно также через Shift-клик по нему на карте",
-        ["zhCN"] = "\n启用时，即使该任务处于活动状态也将其在地图中隐藏。\n\n也可以通过在地图上按住Shift+单击来隐藏该任务。 ",
-        ["zhTW"] = "\n啟用時，即使是正在進行中的任務，也會在地圖上隱藏。\n\n也可以按住 Shift 點擊地圖上的任務來隱藏。",
+        ["zhCN"] = "\n启用时，即使该任务处于活动状态也将其在地图中隐藏。\n\n也可以通过在地图上按住Shift+单击来隐藏该任务",
+        ["zhTW"] = "\n啟用時，即使是正在進行中的任務，也會在地圖上隱藏。\n\n也可以按住 Shift 點擊地圖上的任務來隱藏",
     },
     ["Hidden by Questie"] = {
         ["enUS"] = true,

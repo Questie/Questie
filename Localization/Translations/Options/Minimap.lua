@@ -48,7 +48,7 @@ local minimapOptionsLocales = {
         ["ptBR"] = "Ilumina os ícones mínimos no mapa, com cores exclusivas para cada missão.",
         ["ruRU"] = "Показать/скрыть цветной ореол вокруг значков на миникарте",
         ["zhCN"] = "替小地图标记显示一圈光晕，且不同任务有不同的颜色",
-        ["zhTW"] = "在小地圖圖示的後面繪製發光材質，每個任務都可以有不同的顏色。",
+        ["zhTW"] = "在小地圖圖示的後面繪製發光材質，每個任務都可以有不同的顏色",
     },
     ["Unique Minimap Icon Colors"] = {
         ["enUS"] = true,
@@ -71,8 +71,8 @@ local minimapOptionsLocales = {
         ["koKR"] = "미니맵에서 각 퀘스트별로 각각 다른 아이콘 색상을 사용할지 설정합니다.",
         ["ptBR"] = "Mostra ícones do minimapa com cores geradas de maneira aleatoriamente com base na ID da missão.",
         ["ruRU"] = "Для каждого задания генерируется свой цвет значков на миникарте",
-        ["zhCN"] = "在小地图上显示图标，图标颜色是根据任务 ID 随机生成的。",
-        ["zhTW"] = "依據任務 ID 隨機產生不同的顏色來顯示小地圖圖示。",
+        ["zhCN"] = "在小地图上显示图标，图标颜色是根据任务 ID 随机生成的",
+        ["zhTW"] = "依據任務 ID 隨機產生不同的顏色來顯示小地圖圖示",
     },
     ["Minimap Note Options"] = {
         ["enUS"] = true,
@@ -143,8 +143,8 @@ local minimapOptionsLocales = {
         ["koKR"] = "플레이어 주변의 퀘스트 아이콘을 흐릿하게 표시합니다.",
         ["ptBR"] = "Desvanece os ícones no minimapa quando o jogador passa por perto.",
         ["ruRU"] = "Значки на миникарте блекнут, если игрок находится рядом с ними",
-        ["zhCN"] = "当你靠近一个目标或与之重叠时，使标记淡出，避免遮住小地图上的玩家自身标记。",
-        ["zhTW"] = "當你靠近時淡出小地圖上的圖示。",
+        ["zhCN"] = "当你靠近一个目标或与之重叠时，使标记淡出，避免遮住小地图上的玩家自身标记",
+        ["zhTW"] = "當你靠近時淡出小地圖上的圖示",
     },
     ["Fade over Player Distance"] = {
         ["enUS"] = true,
@@ -227,8 +227,8 @@ local minimapOptionsLocales = {
         ["koKR"] = "미니맵 제목 영역에 플레이어의 좌표를 표시합니다.",
         ["ptBR"] = "Mostra as coordenadas do jogador no título do minimapa.",
         ["ruRU"] = "Показать/скрыть координаты игрока в заголовке миникарты",
-        ["zhCN"] = "在小地图标题上显示玩家座标。",
-        ["zhTW"] = "在小地圖的標題中顯示玩家坐標。",
+        ["zhCN"] = "在小地图标题上显示玩家座标",
+        ["zhTW"] = "在小地圖的標題中顯示玩家坐標",
     },
 }
 

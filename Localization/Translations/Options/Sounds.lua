@@ -35,8 +35,8 @@ local soundsOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 LibSharedMedia를 통해 추가된 사운드가 로드됩니다.",
         ["ptBR"] = "Se marcado, os sons adicionados através do LibSharedMedia são carregados.",
         ["ruRU"] = "Когда включено, загружаются звуки, добавленные через LibSharedMedia",
-        ["zhCN"] = "启用时，通过 LibSharedMedia 添加的声音将会被加载。",
-        ["zhTW"] = "啟用時，會載入透過 LibSharedMedia 加入的音效。",
+        ["zhCN"] = "启用时，通过 LibSharedMedia 添加的声音将会被加载",
+        ["zhTW"] = "啟用時，會載入透過 LibSharedMedia 加入的音效",
     },
     ["Play a short sound when completing a quest when it is ready to turn in."] = {
         ["enUS"] = true,
@@ -47,8 +47,8 @@ local soundsOptionsLocales = {
         ["koKR"] = "퀘스트가 완료되어 제출할 준비가 되었을 때 짧은 사운드를 재생합니다.",
         ["ptBR"] = "Reproduz um som curto ao concluir uma missão.",
         ["ruRU"] = "Воспроизводить короткий звук при выполнении задания, обозначая готовность его сдачи",
-        ["zhCN"] = "完成任务可以接回的时候播放音效。",
-        ["zhTW"] = "完成任務可以接回的時候播放音效。",
+        ["zhCN"] = "完成任务可以接回的时候播放音效",
+        ["zhTW"] = "完成任務可以接回的時候播放音效",
     },
     ["Quest objective completed"] = {
         ["enUS"] = true,
@@ -71,8 +71,8 @@ local soundsOptionsLocales = {
         ["koKR"] = "퀘스트 목표 완료 시 짧은 사운드를 재생합니다.",
         ["ptBR"] = "Reproduz um som curto ao concluir um objetivo de missão.",
         ["ruRU"] = "Воспроизводить короткий звук при выполнении цели задания",
-        ["zhCN"] = "完成任务目标时播放短音效。",
-        ["zhTW"] = "完成任務目標時播放短音效。",
+        ["zhCN"] = "完成任务目标时播放短音效",
+        ["zhTW"] = "完成任務目標時播放短音效",
     },
     ["Quest Complete Sound Selection"] = {
         ["enUS"] = true,
@@ -95,8 +95,8 @@ local soundsOptionsLocales = {
         ["koKR"] = "퀘스트가 완료되었을 때 재생되는 사운드",
         ["ptBR"] = "O som quando uma missão é concluída.",
         ["ruRU"] = "Звук при выполнении задания",
-        ["zhCN"] = "任务完成时听到的音效。",
-        ["zhTW"] = "任務完成時聽到的音效。",
+        ["zhCN"] = "任务完成时听到的音效",
+        ["zhTW"] = "任務完成時聽到的音效",
     },
     ["Objective Complete Sound Selection"] = {
         ["enUS"] = true,
@@ -143,8 +143,8 @@ local soundsOptionsLocales = {
         ["koKR"] = "퀘스트 목표 진행 시 짧은 사운드를 재생합니다.",
         ["ptBR"] = "Reproduz um som curto ao fazer progresso em um objetivo de missão.",
         ["ruRU"] = "Воспроизводить короткий звук при прогрессе цели задания",
-        ["zhCN"] = "当任务目标取得进展时播放短音效。",
-        ["zhTW"] = "當任務目標取得進展時播放短音效。",
+        ["zhCN"] = "当任务目标取得进展时播放短音效",
+        ["zhTW"] = "當任務目標取得進展時播放短音效",
     },
     ["Objective Progress Sound Selection"] = {
         ["enUS"] = true,
@@ -191,8 +191,8 @@ local soundsOptionsLocales = {
         ["koKR"] = "퀘스트 목표 진행 및 완료 사운드를 재생할 때의 지연(초 단위, 기본값: %s)이 발생합니다. 소리가 두 번 재생되는 경우 이 설정을 늘립니다.",
         ["ptBR"] = "Atraso (em segundos, padrão: %s) para reproduzir os sons de progresso e conclusão dos objetivos. Aumente isso se ouvir sons duplicados.",
         ["ruRU"] = "Задержка (в секундах, по умолчанию: %s) для воспроизведения звуков прогресса и выполнения целей. Увеличьте это значение, если вы слышите двойные звуки",
-        ["zhCN"] = "播放任务目标进度和完成音效的延迟（以秒为单位，默认：%s）。如果听到重复音效，请将此数值调高。",
-        ["zhTW"] = "播放任務目標進度及完成音效的延遲（以秒為單位，預設：%s）。如果聽到重複音效，請將此數值調高。",
+        ["zhCN"] = "播放任务目标进度和完成音效的延迟（以秒为单位，默认：%s）。如果听到重复音效，请将此数值调高",
+        ["zhTW"] = "播放任務目標進度及完成音效的延遲（以秒為單位，預設：%s）。如果聽到重複音效，請將此數值調高",
     },
 }
 

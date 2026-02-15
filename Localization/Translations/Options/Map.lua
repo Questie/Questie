@@ -48,7 +48,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Ativa ou desativa o botão de Questie no mapa (pode corrigir algumas interações com os addons de mapas).",
         ["ruRU"] = "Показать/скрыть кнопку Questie на карте (может исправить некоторые проблемы с аддонами карт)",
         ["zhCN"] = "启用或停用大地图上的Questie切换按钮（可以解决某些地图插件的冲突）",
-        ["zhTW"] = "啟用或停用大地圖上的顯示/隱藏任務圖示按鈕 (可以修正某些地圖插件的互動問題)。",
+        ["zhTW"] = "啟用或停用大地圖上的顯示/隱藏任務圖示按鈕 (可以修正某些地圖插件的互動問題)",
     },
     ["Map Icons Glow"] = {
         ["enUS"] = true,
@@ -72,7 +72,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Ilumina os ícones mínimos no mapa, com cores exclusivas para cada missão.",
         ["ruRU"] = "Показать/скрыть цветной ореол вокруг значков на карте",
         ["zhCN"] = "替大地图标记显示一圈光晕，且不同任务有不同的颜色",
-        ["zhTW"] = "在任務目標圖示的後面繪製發光材質，每個任務都可以有不同的顏色。",
+        ["zhTW"] = "在任務目標圖示的後面繪製發光材質，每個任務都可以有不同的顏色",
     },
     ["Unique Map Icon Colors"] = {
         ["enUS"] = true,
@@ -96,7 +96,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Mostra ícones do mapa com cores geradas de maneira aleatoriamente com base na ID da missão.",
         ["ruRU"] = "Для каждого задания генерируется свой цвет значков на карте",
         ["zhCN"] = "基于任务ID，为每个任务的大地图标记随机生成不同颜色的图标",
-        ["zhTW"] = "依據任務 ID 隨機產生不同的顏色來顯示地圖圖示。",
+        ["zhTW"] = "依據任務 ID 隨機產生不同的顏色來顯示地圖圖示",
     },
     ["Map Note Options"] = {
         ["enUS"] = true,
@@ -312,7 +312,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Mostra as coordenadas do jogador e do cursor no título do mapa.",
         ["ruRU"] = "Показать/скрыть координаты игрока и курсора в заголовке карты мира",
         ["zhCN"] = "在大地图标题上显示玩家与鼠标指向位置的座标",
-        ["zhTW"] = "在大地圖的標題中顯示玩家和滑鼠游標的坐標。",
+        ["zhTW"] = "在大地圖的標題中顯示玩家和滑鼠游標的坐標",
     },
     ["Map Coordinates Decimal Precision"] = {
         ["enUS"] = true,

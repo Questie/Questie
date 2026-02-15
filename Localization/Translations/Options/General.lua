@@ -48,7 +48,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "Ativa ou desativa o botão do minimapa da missão. Você ainda pode acessar o menu de opções com o comando /questie.",
         ["ruRU"] = "Показать/скрыть кнопку Questie у миникарты. Доступ к настройкам аддона также можно получить через команду '/questie'",
         ["zhCN"] = "启用小地图按钮；禁用后以 /questie 打开配置",
-        ["zhTW"] = "啟用或停用任務位置提示的小地圖按鈕，停用後仍可輸入 /questie 開啟設定選項。",
+        ["zhTW"] = "啟用或停用任務位置提示的小地圖按鈕，停用後仍可輸入 /questie 開啟設定選項",
     },
     ["Enable Instant Quest Text"] = {
         ["enUS"] = true,
@@ -72,7 +72,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "Ativa ou desativa a opção de texto de missão instantâneo.",
         ["ruRU"] = "Включает мгновенное отображение полного текста заданий. Это всего лишь ярлык для стандартной опции в настройках интерфейса игры",
         ["zhCN"] = "使任务直接显示完整文本，这其实是一个暴雪原生自带的功能",
-        ["zhTW"] = "啟用遊戲內建的立刻顯示任務內容選項，這只是方便調整魔獸介面設定中的選項的捷徑。",
+        ["zhTW"] = "啟用遊戲內建的立刻顯示任務內容選項，這只是方便調整魔獸介面設定中的選項的捷徑",
     },
     ["Auto Accept Quests"] = {
         ["enUS"] = true,
@@ -95,8 +95,8 @@ local generalOptionsLocales = {
         ["koKR"] = "퀘스티 자동 퀘스트 수락을 할지 말지 선택합니다.",
         ["ptBR"] = "Ativa ou desativa as missões de aceitação automática de Questie.",
         ["ruRU"] = "Включить/отключить автоматическое принятие заданий",
-        ["zhCN"] = "启用后和NPC对话，自动接受任务。",
-        ["zhTW"] = "啟用或停用自動接受任務。",
+        ["zhCN"] = "启用后和NPC对话，自动接受任务",
+        ["zhTW"] = "啟用或停用自動接受任務",
     },
     ["Auto Complete"] = {
         ["enUS"] = true,
@@ -119,8 +119,8 @@ local generalOptionsLocales = {
         ["koKR"] = "퀘스트 자동 퀘스트 완료를 할지 말지 선택합니다.",
         ["ptBR"] = "Ativa ou desativa a conclusão automática de missões.",
         ["ruRU"] = "Включить/отключить автоматическое завершение выполненных заданий",
-        ["zhCN"] = "启用后和NPC交谈，自动完成。",
-        ["zhTW"] = "啟用或停用完成任務並與指定任務 NPC 交談時，自動回報並完成任務。",
+        ["zhCN"] = "启用后和NPC交谈，自动完成",
+        ["zhTW"] = "啟用或停用完成任務並與指定任務 NPC 交談時，自動回報並完成任務",
     },
     ["Enable Automatic NPC Dialog"] = {
         ["enUS"] = true,
@@ -143,8 +143,8 @@ local generalOptionsLocales = {
         ["koKR"] = "NPC 대화 상자를 통해 자동으로 진행 중인 Questie를 활성화 또는 비활성화합니다.",
         ["ptBR"] = "Ativa ou desativa o Questie avançando automaticamente através da caixa de diálogo do NPC",
         ["ruRU"] = "Включить/отключить автоматическое ведение диалога с NPC",
-        ["zhCN"] = "启用或禁用Questie自动和NPC的对话框。",
-        ["zhTW"] = "啟用或停用任務位置提示插件的自動與 NPC 進行對話功能。",
+        ["zhCN"] = "启用或禁用Questie自动和NPC的对话框",
+        ["zhTW"] = "啟用或停用任務位置提示插件的自動與 NPC 進行對話功能",
     },
     ["Auto Modifier"] = {
         ["enUS"] = true,
@@ -168,7 +168,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "O modificador para NÃO aceitar ou concluir automaticamente missões quando uma das opções está ativada e você interage com um NPC de missões.",
         ["ruRU"] = "Клавиша, при зажатии которой автопринятие/автозавершение задания НЕ сработает при его принятии/завершении",
         ["zhCN"] = "当与NPC互动时，即便您已启用自动接受/自动完成，启用额外按键以触发对应功能.",
-        ["zhTW"] = "與 NPC 互動時按住輔助鍵則 '不會' 自動接受/完成任務。",
+        ["zhTW"] = "與 NPC 互動時按住輔助鍵則 '不會' 自動接受/完成任務",
     },
     ["Accept trivial (low level) quests"] = {
         ["enUS"] = true,
@@ -191,8 +191,8 @@ local generalOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 저레벨(회색) 퀘스트도 자동으로 수락됩니다.",
         ["ptBR"] = "Se marcado, missões triviais (cinza) também serão aceitas automaticamente.",
         ["ruRU"] = "Включить/отключить автоматическое принятие заданий низкого уровня (серых)",
-        ["zhCN"] = "启用时，低级（灰色）的任务也会被自动接受。",
-        ["zhTW"] = "啟用時，也會自動接受不重要的 (灰色) 任務。",
+        ["zhCN"] = "启用时，低级（灰色）的任务也会被自动接受",
+        ["zhTW"] = "啟用時，也會自動接受不重要的 (灰色) 任務",
     },
     ["Quest Level Options"] = {
         ["enUS"] = true,
@@ -311,8 +311,8 @@ local generalOptionsLocales = {
         ["koKR"] = "표시하는 최소 퀘스트 레벨",
         ["ptBR"] = "Nível mínimo de missão para mostrar.",
         ["ruRU"] = "Минимальный уровень заданий для отображения",
-        ["zhCN"] = "显示最低任务等级。",
-        ["zhTW"] = "要顯示的最低任務等級。",
+        ["zhCN"] = "显示最低任务等级",
+        ["zhTW"] = "要顯示的最低任務等級",
     },
     ["Level to"] = {
         ["enUS"] = true,
@@ -336,7 +336,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "Nível máximo de missões para mostrar.",
         ["ruRU"] = "Максимальный уровень заданий для отображения",
         ["zhCN"] = "显示最高任务等级",
-        ["zhTW"] = "要顯示的最高任務等級。",
+        ["zhTW"] = "要顯示的最高任務等級",
     },
     ["Objective icon cluster amount"] = {
         ["enUS"] = true,
@@ -359,8 +359,8 @@ local generalOptionsLocales = {
         ["koKR"] = "퀘스트 목표 아이콘을 몇개까지 합쳐서 보여줄지 설정합니다.",
         ["ptBR"] = "Quantos ícones de objetivos devem ser agrupados.",
         ["ruRU"] = "Установка количества значков целей, при котором значки будут группироваться",
-        ["zhCN"] = "应聚集多少个目标图标。",
-        ["zhTW"] = "應聚集多少個目標圖示。",
+        ["zhCN"] = "应聚集多少个目标图标",
+        ["zhTW"] = "應聚集多少個目標圖示",
     },
     ["Isle of Quel'Danas Phase"] = {
         ["enUS"] = true,
@@ -384,7 +384,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "Seleciona a fase correspondente ao progresso do seu reino na Ilha de Quel'Danas",
         ["ruRU"] = "Выбор фазы прогресса Острова Кель'Данас на вашем сервере",
         ["zhCN"] = "选择适合你在奎尔丹纳斯岛上阶段的任务进度",
-        ["zhTW"] = "選擇符合你的伺服器在奎爾達納斯島上的任務階段。",
+        ["zhTW"] = "選擇符合你的伺服器在奎爾達納斯島上的任務階段",
     },
     ["Disable Phase reminder"] = {
         ["enUS"] = true,
@@ -408,7 +408,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "Ativa ou desativa o lembrete ao conectar para definir a fase da Ilha de Quel'Danas",
         ["ruRU"] = "Включить/отключить напоминание выбора фазы Острова Кель'Данас при входе в игру",
         ["zhCN"] = "启用或禁用来设置登录时提醒奎尔丹纳斯岛的进度阶段",
-        ["zhTW"] = "啟用或停用登入時提醒奎爾達納斯島上的任務階段。",
+        ["zhTW"] = "啟用或停用登入時提醒奎爾達納斯島上的任務階段",
     },
     ["Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message."] = {
         ["enUS"] = true,
@@ -419,8 +419,8 @@ local generalOptionsLocales = {
         ["koKR"] = "현재 쿠엘다나스 섬의 활성 단계는 '%s'입니다. 일반 설정에서 단계를 변경하거나 이 메시지를 비활성화할 수 있습니다.",
         ["ptBR"] = "A fase ativa atual da Ilha de Quel'Danas é '%s'. Verifique as configurações gerais para alterar a fase ou desativar esta mensagem.",
         ["ruRU"] = "Текущая фаза Острова Кель'Данас: '%s'. Для изменения фазы или для отключения этого сообщения проверьте настройки (вкладка 'Общее').",
-        ["zhCN"] = "启用或禁用设置登录时提醒奎尔丹纳斯岛当前阶段是'%s'。检查常规设置来更改阶段或禁用此消息。",
-        ["zhTW"] = "奎爾達納斯島現在的進度是 '%s'，可以在一般設定中更改階段或是停用此訊息。",
+        ["zhCN"] = "启用或禁用设置登录时提醒奎尔丹纳斯岛当前阶段是'%s'。检查常规设置来更改阶段或禁用此消息",
+        ["zhTW"] = "奎爾達納斯島現在的進度是 '%s'，可以在一般設定中更改階段或是停用此訊息",
     },
     ["You picked up a quest from '%s'. Automatically switching to this phase..."] = {
         ["enUS"] = true,
@@ -575,8 +575,8 @@ local generalOptionsLocales = {
         ["koKR"] = "기본적으로 Questie는 레벨에 맞는 퀘스트만 표시합니다. 아래에서 이 동작을 변경할 수 있습니다.",
         ["ptBR"] = "Por padrão, o Questie só mostra missões relevantes para o seu nível. Você pode alterar esse comportamento abaixo.",
         ["ruRU"] = "По умолчанию Questie отображает задания, соответствующие вашему уровню. Это можно изменить ниже",
-        ["zhCN"] = "默认只显示与你当前等级相符的任务，可在下方更改。",
-        ["zhTW"] = "預設只會顯示與你等級相當的任務，可以在下方更改。",
+        ["zhCN"] = "默认只显示与你当前等级相符的任务，可在下方更改",
+        ["zhTW"] = "預設只會顯示與你等級相當的任務，可以在下方更改",
     },
     ["Show quest level in tooltips"] = {
         ["enUS"] = true,
@@ -599,8 +599,8 @@ local generalOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 툴팁에 퀘스트의 레벨을 표시합니다.",
         ["ptBR"] = "Se marcado, o nível das missões será mostrado nas dicas de ferramentas.",
         ["ruRU"] = "Показать/скрыть уровень заданий во всплывающих подсказках",
-        ["zhCN"] = "启用时，任务等级将显示在悬浮窗提示中。",
-        ["zhTW"] = "啟用時，浮動提示資訊中會顯示任務的等級。",
+        ["zhCN"] = "启用时，任务等级将显示在悬浮窗提示中",
+        ["zhTW"] = "啟用時，浮動提示資訊中會顯示任務的等級",
     },
     ["Enable World Tooltips"] = {
         ["enUS"] = true,
@@ -623,8 +623,8 @@ local generalOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 몬스터와 아이템의 툴팁에 관련된 퀘스트 정보를 표시합니다.",
         ["ptBR"] = "Se marcado, as informações da missão serão adicionadas às dicas relevantes de mob/item.",
         ["ruRU"] = "Показать/скрыть информацию о заданиях в соответствующих всплывающих подсказках",
-        ["zhCN"] = "启用时，任务信息将被添加到相关的怪物/物品工具提示中。",
-        ["zhTW"] = "啟用時，任務資訊將會加入到相關的怪物/物品工具提示中。",
+        ["zhCN"] = "启用时，任务信息将被添加到相关的怪物/物品工具提示中",
+        ["zhTW"] = "啟用時，任務資訊將會加入到相關的怪物/物品工具提示中",
     },
     ["Game Default"] = {
         ["enUS"] = true,

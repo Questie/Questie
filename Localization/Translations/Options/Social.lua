@@ -72,8 +72,8 @@ local socialOptionsLocales = {
         ["koKR"] = "다른 플레이어로부터 오는 모든 Questie 채팅 메시지를 제거하고 자신의 메시지 전송을 비활성화합니다.",
         ["ptBR"] = "Remove as mensagens de Questie.",
         ["ruRU"] = "Скрывает в чатах все сообщения Questie от других игроков и отключает отправку ваших",
-        ["zhCN"] = "屏蔽来自其他玩家的所有 Questie 聊天消息，并禁止发送您自己的消息。",
-        ["zhTW"] = "移除所有來自其他玩家的任務位置提示聊天訊息，你自己也停止發送訊息。",
+        ["zhCN"] = "屏蔽来自其他玩家的所有 Questie 聊天消息，并禁止发送您自己的消息",
+        ["zhTW"] = "移除所有來自其他玩家的任務位置提示聊天訊息，你自己也停止發送訊息",
     },
     ["Both"] = {
         ["enUS"] = true,
@@ -277,7 +277,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "O progresso de sua missão será enviado periodicamente a jogadores próximos.",
         ["ruRU"] = "Прогресс ваших заданий будет периодически отправляться игрокам, находящимся рядом",
         ["zhCN"] = "你的任务进度將定期的发送给身边玩家",
-        ["zhTW"] = "你的任務進度將會定期發送給附近的玩家。停用此選項不會影響與隊友分享任務進度。",
+        ["zhTW"] = "你的任務進度將會定期發送給附近的玩家。停用此選項不會影響與隊友分享任務進度",
     },
     ["Display announcements locally when outside of a group"] = {
         ["enUS"] = true,
@@ -300,8 +300,8 @@ local socialOptionsLocales = {
         ["koKR"] = "그룹에 속하지 않은 경우 Questie가 진행 메시지를 채팅에 출력합니다. 다른 플레이어는 이를 볼 수 없습니다.",
         ["ptBR"] = "Questie imprimirá suas mensagens de progresso no bate-papo quando você não estiver em um grupo. Outros jogadores NÃO serão capazes de ver isso.",
         ["ruRU"] = "Questie будет отображать в чате оповещения о прогрессе ваших заданий, когда вы вне группы. Другие игроки НЕ БУДУТ видеть эти оповещения",
-        ["zhCN"] = "不在队伍时会用系统白色显示你的任务进度信息，其他玩家无法看到。",
-        ["zhTW"] = "不在隊伍中時會用系統白字顯示你的任務進度訊息，其他玩家無法看到。",
+        ["zhCN"] = "不在队伍时会用系统白色显示你的任务进度信息，其他玩家无法看到",
+        ["zhTW"] = "不在隊伍中時會用系統白字顯示你的任務進度訊息，其他玩家無法看到",
     },
 }
 

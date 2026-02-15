@@ -23,8 +23,8 @@ local wotlkObjectiveLocales = {
         ["koKR"] = "최대 20미터 내에 불꽃탄을 던져 박쥐를 놀라게 합니다",
         ["ptBR"] = "Lança as Bombinhas a uma distância de até 20 metros abaixo de um Morcego Garrumbra para assustá-lo",
         ["ruRU"] = "Бросить хлопушки на расстояние до 20 м под темнолапую летучую мышь, чтобы напугать ее",
-        ["zhCN"] = "将爆竹扔在最远20码以外的暗爪蝙蝠下方以惊吓它。",
-        ["zhTW"] = "將爆竹扔在最遠20碼以外的暗爪蝙蝠下方以驚嚇它。",
+        ["zhCN"] = "将爆竹扔在最远20码以外的暗爪蝙蝠下方以惊吓它",
+        ["zhTW"] = "將爆竹扔在最遠20碼以外的暗爪蝙蝠下方以驚嚇它",
     },
     ["Use Feathered Charm on Steelfeather"] = { -- 11418
         ["enUS"] = true,
@@ -1763,7 +1763,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "在审判竞技场屠杀角斗士，直到残暴的沃鲁夫出现。",
+        ["zhCN"] = "在审判竞技场屠杀角斗士，直到残暴的沃鲁夫出现",
         ["zhTW"] = false,
     },
     ["Kill Oluf the Violent"] = { -- 11300
@@ -2423,7 +2423,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "与大德鲁伊莉琳德拉交谈，即可获得前往月光林地的交通工具。",
+        ["zhCN"] = "与大德鲁伊莉琳德拉交谈，即可获得前往月光林地的交通工具",
         ["zhTW"] = false,
     },
     ["Use Crusader Olakin's Remains at the Sanctum of Reanimation Slab"] = {
@@ -2747,7 +2747,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "使用工作台，然后在温多尔琳手推车附近的蓝色遗物旁施放“收集数据”法术。",
+        ["zhCN"] = "使用工作台，然后在温多尔琳手推车附近的蓝色遗物旁施放“收集数据”法术",
         ["zhTW"] = false,
     },
     ["Use the Work Bench then cast Bluff on Lebronski after you've walked on his rug"] = { -- 11491
@@ -2771,7 +2771,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "请山迪·格罗斯格林借你一件战袍。",
+        ["zhCN"] = "请山迪·格罗斯格林借你一件战袍",
         ["zhTW"] = false,
     },
     ["Put on the Golem suit"] = { -- 11494 11495
@@ -2999,7 +2999,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "趁它张开大嘴的时候扔炸药。",
+        ["zhCN"] = "趁它张开大嘴的时候扔炸药",
         ["zhTW"] = false,
     },
     ["Use the Sturdy Crates to capture the worm spawn"] = { -- 12078
@@ -3023,7 +3023,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "如果你有钥匙，就进入伐木机。",
+        ["zhCN"] = "如果你有钥匙，就进入伐木机",
         ["zhTW"] = false,
     },
     ["Ride the rocket!"] = { -- 12432 12437
@@ -3155,7 +3155,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "击败达库鲁后，使用这个传送门返回地面。",
+        ["zhCN"] = "击败达库鲁后，使用这个传送门返回地面",
         ["zhTW"] = false,
     },
     ["Defeat Drakuru"] = { -- 12713
@@ -3371,7 +3371,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "如果失去了他/她，就招募一个新的逃兵。",
+        ["zhCN"] = "如果失去了他/她，就招募一个新的逃兵",
         ["zhTW"] = false,
     },
     ["Drive a tank"] = { -- 11652
