@@ -71,6 +71,9 @@ function QuestieTBCItemFixes:Load()
         [23670] = {
             [itemKeys.objectDrops] = {181632},
         },
+        [23686] = { -- Lacy Handkerchief
+            [itemKeys.npcDrops] = {17210},
+        },
         [23750] = {
             [itemKeys.objectDrops] = {107047},
         },

@@ -1408,23 +1408,23 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1841},
             [questKeys.nextQuestInChain] = 1847,
         },
-        [1859] = {
+        [1859] = { -- Therzok
             [questKeys.breadcrumbForQuestId] = 1963,
         },
-        [1860] = { -- #1192
+        [1860] = { -- Speak with Jennea
             [questKeys.breadcrumbForQuestId] = 1861,
             [questKeys.exclusiveTo] = {},
         },
-        [1861] = { -- #1192
+        [1861] = { -- Mirror Lake
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1880},
             [questKeys.breadcrumbs] = {1860},
         },
-        [1879] = { -- #1192
+        [1879] = { -- Speak with Bink
             [questKeys.breadcrumbForQuestId] = 1880,
             [questKeys.exclusiveTo] = {},
         },
-        [1880] = { -- #1192
+        [1880] = { -- Mage-tastic Gizmonitor
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1861},
             [questKeys.breadcrumbs] = {1879},
@@ -1447,10 +1447,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1882},
             [questKeys.breadcrumbs] = {1883},
         },
-        [1885] = {
+        [1885] = { -- Mennet Carkad
             [questKeys.breadcrumbForQuestId] = 1886,
         },
-        [1886] = {
+        [1886] = { -- The Deathstalkers
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1885},
         },
@@ -1499,11 +1499,11 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1959},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
-        [1963] = {
+        [1963] = { -- The Shattered Hand
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1859},
         },
-        [1999] = {
+        [1999] = { -- Tools of the Trade
             [questKeys.requiredSourceItems] = {5060},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Estelle Gendry"), 0, {{"monster", 6566}}}},
         },
@@ -1584,15 +1584,16 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [2378] = { -- Find the Shattered Hand
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 0, -- if needed to be removed, move this one to tbcQuestFixes.lua
         },
         [2379] = { -- Zando'zan
             [questKeys.preQuestSingle] = {},
         },
         [2380] = { -- To Orgrimmar!
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 0, -- if needed to be removed, move this one to tbcQuestFixes.lua
         },
         [2381] = { -- Plundering the Plunderers
+            [questKeys.objectivesText] = {"Bring the Southsea Treasure back to Wrenix the Wretched in Ratchet. Do not forget to get an E.C.A.C. and Thieves' Tools from Wrenix's Gizmotronic Apparatus. You will need both of these items to complete your mission.","","Should you be attacked by any unusually hostile parrots, use your E.C.A.C.!"},
             [questKeys.requiredSourceItems] = {7970,5060},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the chest"), 0, {{"object", 123462}}},
@@ -1627,7 +1628,7 @@ function QuestieQuestFixes:Load()
         [2561] = {
             [questKeys.objectives] = {{{7318,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [2608] = {
+        [2608] = { -- The Touch of Zanzil
             [questKeys.triggerEnd] = {"Diagnosis Complete", {[zoneIDs.STORMWIND_CITY]={{78.04,59}}}},
         },
         [2609] = { -- The Touch of Zanzil
@@ -3225,7 +3226,7 @@ function QuestieQuestFixes:Load()
         [6661] = {
             [questKeys.objectives] = {{{13016,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},nil,{17126}}, -- #7244
         },
         [6721] = {
@@ -5542,7 +5543,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{8403}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}}, -- #7244
         },
         [6981] = {
@@ -5594,7 +5595,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{3520}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}}, -- #7244
         },
         [6981] = {

@@ -183,8 +183,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
-        [1885] = {
-            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        [1885] = { -- Mennet Carkad
+            [questKeys.nextQuestInChain] = 14420,
+            [questKeys.breadcrumbForQuestId] = 14420,
         },
         [2204] = {
             [questKeys.startedBy] = {nil,{112877}},
@@ -505,11 +506,23 @@ function QuestieWotlkQuestFixes:Load()
         [9361] = {
             [questKeys.requiredSourceItems] = {23270},
         },
-        [9425] = {
+        [9425] = { -- Report to Tarren Mill
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [9460] = { -- Combining Forces
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [9491] = { -- Greed
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [9532] = { -- Find Keltus Darkleaf
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9582] = { -- Strength of One
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9618] = { -- Return the Reports
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9644] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Nightbane"), 0, {{"object", 194092}}}},
@@ -585,6 +598,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10475] = {
             [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+        },
+        [10548] = { -- The Sad Truth
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [10651] = {
             [questKeys.requiredSourceItems] = {},
@@ -6238,16 +6254,17 @@ function QuestieWotlkQuestFixes:Load()
         [14349] = {
             [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136},
         },
-        [14418] = {
+        [14418] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [14419] = {
+        [14419] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [14420] = {
+        [14420] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
+            [questKeys.breadcumbs] = {1885},
         },
-        [14421] = {
+        [14421] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [14444] = {

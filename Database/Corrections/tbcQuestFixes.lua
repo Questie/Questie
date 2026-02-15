@@ -341,31 +341,34 @@ function QuestieTBCQuestFixes:Load()
         [1821] = { -- Agamand Heirlooms
             [questKeys.nextQuestInChain] = 1822,
         },
-        [1858] = {
+        [1858] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
-        [1859] = {
+        [1859] = { -- Therzok
             [questKeys.requiredRaces] = raceIDs.ORC,
         },
-        [1886] = {
+        [1885] = { -- Mennet Carkad
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [1898] = {
+        [1886] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [1899] = {
+        [1898] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [1963] = {
+        [1899] = { -- The Deathstalkers
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1963] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
-        [1978] = {
+        [1978] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [1998] = {
+        [1998] = { -- Fenwick Thatros
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
-        [1999] = {
+        [1999] = { -- Tools of the Trade
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [2205] = { -- Seek out SI: 7
@@ -405,7 +408,7 @@ function QuestieTBCQuestFixes:Load()
         [2379] = { -- Zando'zan
             [questKeys.exclusiveTo] = {9491},
         },
-        [2381] = {
+        [2381] = { -- Plundering the Plunderers
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [2382] = { -- Wrenix of Ratchet
@@ -607,7 +610,7 @@ function QuestieTBCQuestFixes:Load()
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16}}}},
         },
-        [6681] = {
+        [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167,6467,13283,16684,16685,16686},nil,{17126}},
         },
         [6761] = {
@@ -818,13 +821,13 @@ function QuestieTBCQuestFixes:Load()
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [8487] = {
+        [8487] = { -- Corrupted Soil
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9254},
             [questKeys.nextQuestInChain] = 8488,
         },
-        [8488] = {
-            [questKeys.objectives] = {{{15402,nil,Questie.ICON_TYPE_EVENT}}},
+        [8488] = { -- Unexpected Results
+            [questKeys.objectives] = {{{15958}}},
         },
         [8490] = {
             [questKeys.preQuestSingle] = {},
@@ -1539,9 +1542,8 @@ function QuestieTBCQuestFixes:Load()
         [9457] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Gift of Naias near the Altar of Naias"), 0, {{"object", 181636}}}},
         },
-        [9460] = {
-            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Pickpocket the Lacy Handkerchief from the Sentinel Leader"), 0, {{"monster", 17210}}}},
+        [9460] = { -- Combining Forces
+            [questKeys.objectives] = {nil,nil,{{23686,nil,Questie.ICON_TYPE_INTERACT}}}, -- has to be pickpocketed, using interact icon
         },
         [9467] = {
             [questKeys.requiredSourceItems] = {24335},
@@ -1567,7 +1569,7 @@ function QuestieTBCQuestFixes:Load()
         [9489] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [9491] = {
+        [9491] = { -- Greed
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10372},
             [questKeys.exclusiveTo] = {2379},
@@ -1647,9 +1649,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9531] = {
             [questKeys.objectives] = {nil,{{181694}}},
-        },
-        [9532] = {
-            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9538] = {
             [questKeys.triggerEnd] = {"Stillpine Furbolg Language Primer Read", {[zoneIDs.AZUREMYST_ISLE]={{49.29,51.07}}}},
@@ -1753,9 +1752,6 @@ function QuestieTBCQuestFixes:Load()
         [9617] = { -- Seek the Farstriders
             [questKeys.startedBy] = {{3038,3171,3407,16673}},
             [questKeys.breadcrumbForQuestId] = 9484,
-        },
-        [9618] = {
-            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9619] = {
             [questKeys.requiredSourceItems] = {},
@@ -2601,7 +2597,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {1698},
             [questKeys.breadcrumbForQuestId] = 1699,
         },
-        [10372] = {
+        [10372] = { -- A Discreet Inquiry
+            [questKeys.requiredLevel] = 16,
             [questKeys.breadcrumbForQuestId] = 9491,
         },
         [10373] = {
