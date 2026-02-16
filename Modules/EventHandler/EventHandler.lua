@@ -475,6 +475,11 @@ function _EventHandler:PlayerLevelUp(level)
     QuestiePlayer:SetPlayerLevel(level)
     QuestieJourney:PlayerLevelUp(level)
 
+    -- Quest difficulty colors might have changed with the new level
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
+
     AvailableQuests.ResetLevelRequirementCache()
     AvailableQuests.CalculateAndDrawAll()
 end
