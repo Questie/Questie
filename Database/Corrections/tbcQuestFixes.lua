@@ -3886,6 +3886,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.exclusiveTo] = {12133},
         },
+        [11133] = { -- Discrediting the Deserters
+            [questKeys.objectives] = {{{4979,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [11140] = {
             [questKeys.requiredSourceItems] = {33040},
         },
