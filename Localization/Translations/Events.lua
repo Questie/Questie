@@ -1,4 +1,5 @@
 ---@type l10n
+local Expansions = QuestieLoader:ImportModule("Expansions")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local eventsLocales = {
@@ -20,10 +21,10 @@ local eventsLocales = {
         ["esES"] = "Festival Lunar",
         ["esMX"] = "Festival Lunar",
         ["frFR"] = "Fête lunaire",
-        ["koKR"] = "달의 축제",
+        ["koKR"] = (Expansions.Current == Expansions.Era and "설날") or "달의 축제",
         ["ptBR"] = "Festival da Lua",
         ["ruRU"] = "Лунный фестиваль",
-        ["zhCN"] = "春节",
+        ["zhCN"] = (Expansions.Current == Expansions.Era and "新年") or "春节",
         ["zhTW"] = "新年慶典",
     },
     ["Love is in the Air"] = {
