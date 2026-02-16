@@ -1167,36 +1167,37 @@ function QuestieTBCQuestFixes:Load()
         },
         [8863] = {
             [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
         },
         [8866] = {
             [questKeys.questLevel] = -1,
         },
         [8867] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 70,
         },
         [8870] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 70,
         },
         [8871] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 70,
         },
         [8872] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 70,
         },
         [8873] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 70,
         },
         [8874] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 70,
         },
         [8875] = {
-            [questKeys.questLevel] = -1,
+            [questKeys.questLevel] = 70,
         },
         [8876] = {
             [questKeys.requiredLevel] = 25,
         },
-        [8883] = {
-            [questKeys.questLevel] = -1,
+        [8883] = { -- Valadar Starsong
+            [questKeys.questLevel] = 70,
         },
         [8887] = {
             [questKeys.startedBy] = {nil,nil,{21776}},

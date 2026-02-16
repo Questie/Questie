@@ -418,7 +418,12 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {8846,8847,8848,8849,8850,10501},
         },
         [15895] = {
-            [npcKeys.spawns] = {[1657]={{33.89,13.87}},[1497]={{65.62,36.0}},[1637]={{41.66,31.98}},[1638]={{71.12,28.2}},[1537]={{28.85,16.23}},[1519]={{23.22,53.24}}, -- original data
+            [npcKeys.spawns] = {[zoneIDs.DARNASSUS]={{33.89,13.87}}, -- original data
+                               [zoneIDs.UNDERCITY]={{65.62,36.0}},
+                               [zoneIDs.ORGRIMMAR]={{41.66,31.98}},
+                               [zoneIDs.THUNDER_BLUFF]={{71.12,28.2}},
+                               [zoneIDs.IRONFORGE]={{28.85,16.23}},
+                               [zoneIDs.STORMWIND_CITY]={{23.22,53.24}},
                                [zoneIDs.THE_EXODAR]={{74,57.5}}, -- correction
                                [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}},
                                [zoneIDs.SHATTRATH_CITY]={{53.29,33.1},{48.14,36.87}}},

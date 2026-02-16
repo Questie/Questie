@@ -1095,30 +1095,14 @@ function CataQuestFixes.Load()
         [8867] = { -- Lunar Fireworks
             [questKeys.preQuestSingle] = {},
         },
-        [8870] = { -- The Lunar Festival
-            [questKeys.nextQuestInChain] = 8867,
-            [questKeys.exclusiveTo] = {8871,8872},
-        },
         [8871] = { -- The Lunar Festival
-            [questKeys.nextQuestInChain] = 8867,
-            [questKeys.exclusiveTo] = {8870,8872},
-        },
-        [8872] = { -- The Lunar Festival
-            [questKeys.nextQuestInChain] = 8867,
-            [questKeys.exclusiveTo] = {8870,8871},
+            [questKeys.objectivesText] = {"Talk to the Lunar Festival Harbinger in the Park District in Stormwind. You can also talk to Lunar Festival Harbingers in other capital cities."},
         },
         [8873] = { -- The Lunar Festival
-            [questKeys.nextQuestInChain] = 8867,
-            [questKeys.exclusiveTo] = {8874,8875},
             [questKeys.startedBy] = {{15891}},
         },
-        [8874] = { -- The Lunar Festival
-            [questKeys.nextQuestInChain] = 8867,
-            [questKeys.exclusiveTo] = {8873,8875},
-        },
-        [8875] = { -- The Lunar Festival
-            [questKeys.nextQuestInChain] = 8867,
-            [questKeys.exclusiveTo] = {8873,8874},
+        [8883] = { -- Valadar Starsong
+            [questKeys.startedBy] = {{15895}},
         },
         [9062] = { -- Soaked Pages
             [questKeys.preQuestSingle] = {},

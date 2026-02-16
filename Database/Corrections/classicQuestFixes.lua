@@ -4725,69 +4725,77 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
         },
-        [8863] = {
+        [8863] = { -- Festival Dumplings
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questLevel] = 60,
+        },
+        [8864] = { -- Festive Lunar Dresses
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8864] = {
+        [8865] = { -- Festive Lunar Pant Suits
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8865] = {
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-        },
-        [8867] = {
-            [questKeys.breadcrumbs] = {8873,8874,8875},
+        [8867] = { -- Lunar Fireworks
+            [questKeys.breadcrumbs] = {8870,8871,8872,8873,8874,8875},
             [questKeys.requiredSourceItems] = {21557,21558,21559,21571,21574,21576},
             [questKeys.objectives] = {nil,{{180771},{180772}}},
         },
-        [8868] = {
+        [8868] = { -- Elune's Blessing
             [questKeys.triggerEnd] = {"Receive Elune's Blessing.", {[zoneIDs.MOONGLADE]={{63.89,62.5}}}},
         },
-        [8869] = {
+        [8869] = { -- Sweet Serenity
             [questKeys.exclusiveTo] = {5305},
         },
-        [8870] = {
-            [questKeys.exclusiveTo] = {8867,8871,8872},
+        [8870] = { -- The Lunar Festival
+            [questKeys.breadcrumbForQuestId] = 8867,
+            [questKeys.exclusiveTo] = {8871,8872},
         },
-        [8871] = {
-            [questKeys.exclusiveTo] = {8867,8870,8872},
+        [8871] = { -- The Lunar Festival
+            [questKeys.breadcrumbForQuestId] = 8867,
+            [questKeys.exclusiveTo] = {8870,8872},
+            [questKeys.startedBy] = {},
         },
-        [8872] = {
-            [questKeys.exclusiveTo] = {8867,8870,8871},
+        [8872] = { -- The Lunar Festival
+            [questKeys.breadcrumbForQuestId] = 8867,
+            [questKeys.exclusiveTo] = {8870,8871},
+            [questKeys.startedBy] = {},
         },
-        [8873] = {
+        [8873] = { -- The Lunar Festival
             [questKeys.breadcrumbForQuestId] = 8867,
             [questKeys.exclusiveTo] = {8874,8875},
         },
-        [8874] = {
+        [8874] = { -- The Lunar Festival
             [questKeys.breadcrumbForQuestId] = 8867,
             [questKeys.exclusiveTo] = {8873,8875},
+            [questKeys.startedBy] = {},
         },
-        [8875] = {
+        [8875] = { -- The Lunar Festival
             [questKeys.breadcrumbForQuestId] = 8867,
             [questKeys.exclusiveTo] = {8873,8874},
+            [questKeys.startedBy] = {},
         },
-        [8876] = {
+        [8876] = { -- Small Rockets
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8877] = {
+        [8877] = { -- Firework Launcher
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8878] = {
+        [8878] = { -- Festive Recipes
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8879] = {
+        [8879] = { -- Large Rockets
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8880] = {
+        [8880] = { -- Cluster Rockets
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8881] = {
+        [8881] = { -- Large Cluster Rockets
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8882] = {
+        [8882] = { -- Cluster Launcher
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8883] = {
+        [8883] = { -- Valadar Starsong
             [questKeys.requiredSourceItems] = {21711},
         },
         [8897] = { -- Dearest Colara,

@@ -437,18 +437,33 @@ function QuestieWotlkQuestFixes:Load()
         [8767] = {
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
         },
-        [8871] = {
-            [questKeys.startedBy] = {},
+        [8867] = { -- Lunar Fireworks
+            [questKeys.questLevel] = -1,
         },
-        [8872] = {
-            [questKeys.startedBy] = {},
+        [8868] = { -- Elune's Blessing
+            [questKeys.zoneOrSort] = sortKeys.LUNAR_FESTIVAL,
         },
-        [8874] = {
+        [8870] = { -- The Lunar Festival
+            [questKeys.questLevel] = -1,
+        },
+        [8871] = { -- The Lunar Festival
+            [questKeys.questLevel] = -1,
+        },
+        [8872] = { -- The Lunar Festival
+            [questKeys.questLevel] = -1,
+        },
+        [8873] = { -- The Lunar Festival
+            [questKeys.questLevel] = -1,
+        },
+        [8874] = { -- The Lunar Festival
+            [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.startedBy] = {},
         },
-        [8875] = {
-            [questKeys.startedBy] = {},
+        [8875] = { -- The Lunar Festival
+            [questKeys.questLevel] = -1,
+        },
+        [8883] = { -- Valadar Starsong
+            [questKeys.questLevel] = -1,
         },
         [8888] = {
             [questKeys.exclusiveTo] = {8889},
