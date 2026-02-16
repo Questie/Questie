@@ -2977,6 +2977,7 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.THUNDER_BLUFF]={{38.37,63.42}},
                 [zoneIDs.UNDERCITY]={{66.73,43.37}},
             },
+            [npcKeys.questStarts] = {8873},
         },
         [15892] = { -- Lunar Festival Emissary
             [npcKeys.spawns] = {
@@ -2984,6 +2985,7 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.IRONFORGE]={{30.93,61.59}},
                 [zoneIDs.DARNASSUS]={{42.16,43.97}},
             },
+            [npcKeys.questStarts] = {8870},
         },
         [15893] = { -- Lunar Firework Credit Marker
             [npcKeys.spawns] = {},
