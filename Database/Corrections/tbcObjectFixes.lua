@@ -25,6 +25,12 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.questStarts] = {926},
             [objectKeys.questEnds] = {926},
         },
+        [21015] = { -- Hoofprints
+            [objectKeys.questStarts] = {},
+        },
+        [21016] = { -- Hoofprints
+            [objectKeys.questStarts] = {},
+        },
         [142122] = {
             [objectKeys.questStarts] = {2781,2875},
         },
@@ -188,6 +194,9 @@ function QuestieTBCObjectFixes:Load()
         },
         [187078] = {
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{46.5,35.5},{48.63,35.37},{48.89,39.15},{49.14,29.53},{50.32,38.27},{50.34,42.36},{53.77,36.21},}},
+        },
+        [187273] = { -- Suspicious Hoofprint
+            [objectKeys.questStarts] = {1268,1284},
         },
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
