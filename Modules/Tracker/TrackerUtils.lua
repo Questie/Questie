@@ -408,7 +408,7 @@ function TrackerUtils:GetCategoryNameByID(catId)
     end
 
     if type(catId) == "number" and catId < 0 and type(l10n.questCategoryLookup[catId]) == "string" then
-        zoneCache[catId] = l10n.questCategoryLookup[catId]
+        zoneCache[catId] = l10n(l10n.questCategoryLookup[catId])
         return zoneCache[catId]
     end
 
