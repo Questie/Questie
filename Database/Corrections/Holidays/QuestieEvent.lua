@@ -112,9 +112,9 @@ function QuestieEvent:Load()
     local activeEvents = {}
 
     local eventCorrections
-    if Questie.IsTBC then
+    if Expansions.Current == Expansions.Tbc then
         eventCorrections = QuestieEvent.eventDateCorrections["TBC"]
-    elseif Questie.IsClassic then
+    elseif Expansions.Current == Expansions.Era then
         eventCorrections = QuestieEvent.eventDateCorrections["CLASSIC"]
     else
         eventCorrections = {}
@@ -402,10 +402,11 @@ QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
-        ["Love is in the Air"] = {startDate = "11/2", endDate = "16/2"},
+        ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"},
     },
     ["TBC"] = {
         ["Harvest Festival"] = false,
+        ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"},
     },
 }
 
