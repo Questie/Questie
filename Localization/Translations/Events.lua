@@ -1,5 +1,6 @@
----@type l10n
+---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local eventsLocales = {
