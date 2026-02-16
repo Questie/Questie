@@ -3875,6 +3875,9 @@ function QuestieTBCQuestFixes:Load()
         [11123] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11126] = { -- Traitors Among Us
+            [questKeys.objectives] = {{{23602,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
