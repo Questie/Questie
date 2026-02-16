@@ -361,6 +361,11 @@ function _ZoneDB.SplitSeasonalQuests()
                 updatedZoneMap[sortKeys.WINTER_VEIL] = {}
             end
             updatedZoneMap[sortKeys.WINTER_VEIL][questId] = true
+        elseif eventName == "Lunar Festival" then
+            if (not updatedZoneMap[sortKeys.LUNAR_FESTIVAL]) then
+                updatedZoneMap[sortKeys.LUNAR_FESTIVAL] = {}
+            end
+            updatedZoneMap[sortKeys.LUNAR_FESTIVAL][questId] = true
         end
     end
 
