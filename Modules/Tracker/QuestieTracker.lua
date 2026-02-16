@@ -1102,7 +1102,7 @@ function QuestieTracker:Update()
                                 end
                             else
                                 if complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true and completionText == nil and complete ~= -1) then
-                                    line.label:SetText(Questie:Colorize(l10n("Quest Complete!"), "|cFF28FF28"))
+                                    line.label:SetText(Questie:Colorize(l10n("Quest Complete!"), "28FF28"))
                                 elseif complete == -1 then
                                     line.label:SetText(Questie:Colorize(l10n("Quest Failed!"), "red"))
                                 end
