@@ -3889,6 +3889,9 @@ function QuestieTBCQuestFixes:Load()
         [11133] = { -- Discrediting the Deserters
             [questKeys.objectives] = {{{4979,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [11134] = { -- The End of the Deserters
+            [questKeys.nextQuestInChain] = 11136,
+        },
         [11140] = {
             [questKeys.requiredSourceItems] = {33040},
         },
