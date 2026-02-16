@@ -4735,6 +4735,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [8867] = {
+            [questKeys.breadcrumbs] = {8873,8874,8875},
             [questKeys.requiredSourceItems] = {21557,21558,21559,21571,21574,21576},
             [questKeys.objectives] = {nil,{{180771},{180772}}},
         },
@@ -4754,13 +4755,16 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8867,8870,8871},
         },
         [8873] = {
-            [questKeys.exclusiveTo] = {8867,8874,8875},
+            [questKeys.breadcrumbForQuestId] = 8867,
+            [questKeys.exclusiveTo] = {8874,8875},
         },
         [8874] = {
-            [questKeys.exclusiveTo] = {8867,8873,8875},
+            [questKeys.breadcrumbForQuestId] = 8867,
+            [questKeys.exclusiveTo] = {8873,8875},
         },
         [8875] = {
-            [questKeys.exclusiveTo] = {8867,8873,8874},
+            [questKeys.breadcrumbForQuestId] = 8867,
+            [questKeys.exclusiveTo] = {8873,8874},
         },
         [8876] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
