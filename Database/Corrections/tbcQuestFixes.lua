@@ -224,6 +224,12 @@ function QuestieTBCQuestFixes:Load()
         [1220] = {
             [questKeys.startedBy] = {{23951}},
         },
+        [1268] = { -- Suspicious Hoofprints
+            [questKeys.startedBy] = {nil,{187273}},
+        },
+        [1284] = { -- Suspicious Hoofprints
+            [questKeys.startedBy] = {nil,{187273}},
+        },
         [1322] = {
             [questKeys.objectivesText] = {"Acquire 5 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
         },
