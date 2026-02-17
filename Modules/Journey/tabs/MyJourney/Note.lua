@@ -80,7 +80,7 @@ _CreateContainer = function ()
         elseif locale == "zhCN" or locale == "zhTW" then
             today = date(month .. ' %d日 ' .. day, time());
         else
-            date(day ..', '.. month ..' %d', time())
+            today = date(day ..', '.. month ..' %d', time())
         end
 
     local container = AceGUI:Create("InlineGroup")
