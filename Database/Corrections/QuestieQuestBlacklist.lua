@@ -1183,14 +1183,6 @@ function QuestieQuestBlacklist:Load()
         [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
         [10090] = true, -- BETA The Legion's Plans
-        [10693] = true, -- One Commendation Signet
-        [10694] = true, -- Ten Commendation Signets
-        [10695] = true, -- One Commendation Signet
-        [10696] = true, -- Ten Commendation Signets
-        [10697] = true, -- One Commendation Signet
-        [10698] = true, -- Ten Commendation Signets
-        [10699] = true, -- One Commendation Signet
-        [10700] = true, -- Ten Commendation Signets
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
