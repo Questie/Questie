@@ -25,7 +25,7 @@ local eventsLocales = {
         ["koKR"] = (Expansions.Current == Expansions.Era and "설날") or "달의 축제",
         ["ptBR"] = "Festival da Lua",
         ["ruRU"] = "Лунный фестиваль",
-        ["zhCN"] = (Expansions.Current == Expansions.Era and "新年") or "春节",
+        ["zhCN"] = "新年",
         ["zhTW"] = "新年慶典",
     },
     ["Love is in the Air"] = {
