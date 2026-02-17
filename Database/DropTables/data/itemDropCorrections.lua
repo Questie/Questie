@@ -110,6 +110,22 @@ QuestieItemDropCorrections.Era = {
         [3234] = 100,
         [3236] = 100,
     },
+}
+
+QuestieItemDropCorrections.Tbc = {
+    [22934] = { -- Lasher Sample
+        [16517] = 76,
+    },
+    [23336] = { -- Helboar Blood Sample
+        [16880] = DropKeys.WOWHEAD,
+    },
+    [23614] = { -- Red Snapper
+        [17102] = 100,
+    },
+    [23676] = { -- Moongraze Stag Tenderloin
+        [17200] = 100,
+        [17201] = 100,
+    },
     [24372] = { -- Diaphanous Wing
         [18132] = DropKeys.WOWHEAD,
         [18133] = DropKeys.WOWHEAD,
@@ -131,18 +147,6 @@ QuestieItemDropCorrections.Era = {
         [18133] = DropKeys.WOWHEAD,
         [20198] = DropKeys.WOWHEAD,
     },
-    [29480] = { -- Parched Hydra Sample
-        [20324] = DropKeys.WOWHEAD,
-    },
-    [29481] = { -- Withered Bog Lord Sample
-        [19402] = DropKeys.WOWHEAD,
-    },
-}
-
-QuestieItemDropCorrections.Tbc = {
-    [23614] = { -- Red Snapper
-        [17102] = 100,
-    },
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
     },
@@ -150,14 +154,17 @@ QuestieItemDropCorrections.Tbc = {
         [17014] = 100,
         [19527] = 100,
     },
+    [29480] = { -- Parched Hydra Sample
+        [20324] = DropKeys.WOWHEAD,
+    },
+    [29481] = { -- Withered Bog Lord Sample
+        [19402] = DropKeys.WOWHEAD,
+    },
     [30327] = { -- Bonechewer Blood
         [16876] = DropKeys.WOWHEAD,
         [16925] = DropKeys.WOWHEAD,
         [18952] = DropKeys.WOWHEAD,
         [19701] = DropKeys.WOWHEAD,
-    },
-    [23336] = { -- Helboar Blood Sample
-        [16880] = DropKeys.WOWHEAD,
     },
 }
 
