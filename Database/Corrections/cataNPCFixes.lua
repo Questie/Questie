@@ -2324,6 +2324,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {8652},
         },
         [15569] = { -- Elder Goldwell
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{53.92,49.93}}},
             [npcKeys.questStarts] = {8653},
         },
         [15570] = { -- Elder Primestone

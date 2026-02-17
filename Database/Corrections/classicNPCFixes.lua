@@ -2907,6 +2907,9 @@ function QuestieNPCFixes:Load()
         [15565] = { -- Elder Stormbrow
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{39.79,63.67}}},
         },
+        [15569] = { -- Elder Goldwell
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{46.82,51.61}}},
+        },
         [15570] = { -- Elder Primestone
             [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{23.08,11.84}}},
         },
