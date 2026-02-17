@@ -65,7 +65,24 @@ _CreateContainer = function ()
     -- Setup Note Taking
     local day = CALENDAR_WEEKDAY_NAMES[tonumber(date('%w', time())) + 1]
     local month = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(date('%m', time()))]
-    local today = date(day ..', '.. month ..' %d', time())
+    local locale = GetLocale()
+    local today
+        if locale == "deDE" then
+            today = date(day .. ', %d. ' .. month, time());
+        elseif locale == "esES" or locale == "esMX" or locale == "ptBR" then
+            today = date(day .. ', %d de ' .. month, time());
+        elseif locale == "frFR" then
+            today = date(day .. ' %d ' .. month, time());
+        elseif locale == "koKR" then
+            today = date(month .. ' %d일 ' .. day, time());
+        elseif locale == "ruRU" then
+            today = date(day .. ', %d ' .. month, time());
+        elseif locale == "zhCN" or locale == "zhTW" then
+            today = date(month .. ' %d日 ' .. day, time());
+        else
+            date(day ..', '.. month ..' %d', time())
+        end
+
     local container = AceGUI:Create("InlineGroup")
     container:SetFullHeight(true)
     container:SetFullWidth(true)
