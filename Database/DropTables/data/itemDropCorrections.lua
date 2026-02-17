@@ -169,6 +169,10 @@ QuestieItemDropCorrections.Tbc = {
         [18952] = DropKeys.WOWHEAD,
         [19701] = DropKeys.WOWHEAD,
     },
+    [31812] = { -- Doom Skull
+        [21242] = DropKeys.WOWHEAD,
+        [21285] = DropKeys.WOWHEAD,
+    },
 }
 
 QuestieItemDropCorrections.Wotlk = {
