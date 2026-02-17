@@ -147,6 +147,9 @@ QuestieItemDropCorrections.Tbc = {
         [18133] = DropKeys.WOWHEAD,
         [20198] = DropKeys.WOWHEAD,
     },
+    [25891] = { -- Pristine Shimmerscale Eel
+        [18750] = DropKeys.WOWHEAD,
+    },
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
     },
