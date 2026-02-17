@@ -1183,14 +1183,6 @@ function QuestieQuestBlacklist:Load()
         [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
         [10090] = true, -- BETA The Legion's Plans
-        [10693] = Expansions.Current == Expansions.Era, -- One Commendation Signet (Silvermoon City Commendation Officer)
-        [10694] = Expansions.Current == Expansions.Era, -- Ten Commendation Signets (Silvermoon City Commendation Officer)
-        [10695] = Expansions.Current == Expansions.Era, -- One Commendation Signet (Exodar Commendation Officer)
-        [10696] = Expansions.Current == Expansions.Era, -- Ten Commendation Signets (Exodar Commendation Officer)
-        [10697] = Expansions.Current == Expansions.Era, -- One Commendation Signet (Officer Dawning)
-        [10698] = Expansions.Current == Expansions.Era, -- Ten Commendation Signets (Officer Dawning)
-        [10699] = Expansions.Current == Expansions.Era, -- One Commendation Signet (Officer Khaluun)
-        [10700] = Expansions.Current == Expansions.Era, -- Ten Commendation Signets (Officer Khaluun)
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
