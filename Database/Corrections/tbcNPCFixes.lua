@@ -426,7 +426,8 @@ function QuestieTBCNpcFixes:Load()
                                [zoneIDs.STORMWIND_CITY]={{23.22,53.24}},
                                -- [zoneIDs.THE_EXODAR]={{74,57.5}}, -- correction -- not present in tbc anniversary
                                -- [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}}, -- not present in tbc anniversary
-                               -- [zoneIDs.SHATTRATH_CITY]={{53.29,33.1},{48.14,36.87}}}, -- not present in tbc anniversary
+                               -- [zoneIDs.SHATTRATH_CITY]={{53.29,33.1},{48.14,36.87}}, -- not present in tbc anniversary
+            },
         },
         [15920] = {
             [npcKeys.waypoints] = {[zoneIDs.EVERSONG_WOODS]={{{30,58.6}}}},
