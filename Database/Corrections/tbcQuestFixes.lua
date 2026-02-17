@@ -1755,6 +1755,7 @@ function QuestieTBCQuestFixes:Load()
         [9595] = { -- Control
             [questKeys.exclusiveTo] = {1861,1880},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Siltfin Murlocs to summon a Quel'dorei Magewrath"), 0, {{"monster", 17190},{"monster", 17191},{"monster", 17192}}}},
         },
         [9598] = { -- Redemption
             [questKeys.breadcrumbs] = {10366},

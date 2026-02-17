@@ -1934,6 +1934,18 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "使用6个卢安利爪召唤乌鸦预言者",
         ["zhTW"] = false,
     },
+    ["Kill Siltfin Murlocs to summon a Quel'dorei Magewrath"] = { -- 9667
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(tbcObjectiveLocales) do
