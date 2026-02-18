@@ -1423,20 +1423,21 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1861},
             [questKeys.breadcrumbs] = {1879},
         },
-        [1881] = {
+        [1881] = { -- Speak with Anastasia
             [questKeys.breadcrumbForQuestId] = 1882,
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {1884},
         },
-        [1882] = {
+        [1882] = { -- The Balnir Farmstead
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1884},
             [questKeys.breadcrumbs] = {1881},
         },
-        [1883] = {
+        [1883] = { -- Speak with Un'thuwa
             [questKeys.breadcrumbForQuestId] = 1884,
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {1882},
+            [questKeys.startedBy] = {{3049,7311}},
         },
-        [1884] = {
+        [1884] = { -- Ju-Ju Heaps
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1882},
             [questKeys.breadcrumbs] = {1883},

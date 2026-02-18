@@ -481,7 +481,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [3049] = { -- Thurston Xane
-            [npcKeys.questStarts] = {1959},
+            [npcKeys.questStarts] = {1883,1959},
         },
         [3060] = { -- Gart Mistrunner
             [npcKeys.questStarts] = {},

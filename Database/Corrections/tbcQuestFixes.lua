@@ -370,6 +370,18 @@ function QuestieTBCQuestFixes:Load()
         [1880] = { -- Mage-tastic Gizmonitor
             [questKeys.exclusiveTo] = {1861,9595},
         },
+        [1881] = { -- Speak with Anastasia
+            [questKeys.exclusiveTo] = {1884,9402},
+        },
+        [1882] = { -- The Balnir Farmstead
+            [questKeys.exclusiveTo] = {1884,9402},
+        },
+        [1883] = { -- Speak with Un'thuwa
+            [questKeys.exclusiveTo] = {1882,9402},
+        },
+        [1884] = { -- Ju-Ju Heaps
+            [questKeys.exclusiveTo] = {1882,9402},
+        },
         [1885] = { -- Mennet Carkad
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
@@ -1519,6 +1531,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10124},
             [questKeys.triggerEnd] = nil,
             [questKeys.objectives] = {{{17062,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [9402] = { -- Fetch!
+            [questKeys.exclusiveTo] = {1882,1884},
         },
         [9410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
