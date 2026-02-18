@@ -155,7 +155,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 퀘스트 목표 아이템의 드롭률이 몬스터 툴팁 정보에 표시됩니다.",
         ["ptBR"] = "Se marcado, a chance de saque dos objetivos de missão será mostrada nas dicas dos inimigos.",
         ["ruRU"] = "Когда включено, шанс выпадения предметов для выполнения задания будет отображаться во всплывающей подсказке",
-        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息框中",
+        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物信息提示框中",
         ["zhTW"] = "啟用時，任務目標的掉落率將顯示在怪物的提示資訊中",
     },
 }

@@ -311,7 +311,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 지도나 미니맵에 반복 퀘스트를 표시할지 선택합니다.",
         ["ptBR"] = "Se marcado, a localização de missões repetíveis será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения повторяемых заданий на карте и миникарте",
-        ["zhCN"] = "启用时，重复任务的位置将显示在 世界地图/小地图上",
+        ["zhCN"] = "启用时，重复任务的位置将显示在世界地图/小地图上",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示可以重覆接取的任務",
     },
     ["Enable Raid Quest Icons"] = {
@@ -335,7 +335,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 레이드 퀘스트의 위치를 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se marcado, a localização de missões de raide será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения рейдовых заданий на карте и миникарте",
-        ["zhCN"] = "启用时，团队任务的位置将显示在 世界地图/小地图上",
+        ["zhCN"] = "启用时，团队任务的位置将显示在世界地图/小地图上",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示團隊任務",
     },
     ["Enable Dungeon Quest Icons"] = {
@@ -359,7 +359,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 던전 퀘스트의 위치를 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se marcado, a localização de missões de masmorra será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения заданий подземелий на карте и миникарте",
-        ["zhCN"] = "启用时，地下城任务的位置将显示在 世界地图/小地图上",
+        ["zhCN"] = "启用时，地下城任务的位置将显示在世界地图/小地图上",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示地下城任務",
     },
     ["Enable Completed Quest Icons"] = {
@@ -395,7 +395,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 PVP 퀘스트의 위치를 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se marcado, a localização de missões de JxJ será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения PvP-заданий на карте и миникарте",
-        ["zhCN"] = "启用时，PVP任务的位置将显示在 世界地图/小地图上",
+        ["zhCN"] = "启用时，PVP任务的位置将显示在世界地图/小地图上",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示 PvP 任務",
     },
     ["Available AQ War Effort Quests"] = {
@@ -803,7 +803,7 @@ local iconOptionsLocales = {
         ["koKR"] = "PvP 퀘스트",
         ["ptBR"] = "Missões JxJ",
         ["ruRU"] = "PvP-задания",
-        ["zhCN"] = "PVP 任务",
+        ["zhCN"] = "PVP任务",
         ["zhTW"] = "PvP 任務",
     },
     ["Available PvP quests"] = {
@@ -815,7 +815,7 @@ local iconOptionsLocales = {
         ["koKR"] = "실행 가능한 PvP 퀘스트",
         ["ptBR"] = "Missões JxJ disponíveis",
         ["ruRU"] = "Доступные",
-        ["zhCN"] = "可接的 PVP 任务",
+        ["zhCN"] = "可接的PVP任务",
         ["zhTW"] = "可接的 PvP 任務",
     },
     ["The icon that is displayed for available PvP quests"] = {
@@ -827,7 +827,7 @@ local iconOptionsLocales = {
         ["koKR"] = "실행 가능한 PvP 퀘스트에 표시되는 아이콘.",
         ["ptBR"] = "O ícone mostrado para as missões JxJ disponíveis.",
         ["ruRU"] = "Значок для доступных PVP-заданий",
-        ["zhCN"] = "可接取的 PVP 任务图标",
+        ["zhCN"] = "可接取的PVP任务图标",
         ["zhTW"] = "可取得的 PvP 任務圖示",
     },
     ["Complete PvP quests"] = {
@@ -839,7 +839,7 @@ local iconOptionsLocales = {
         ["koKR"] = "완료된 PvP 퀘스트",
         ["ptBR"] = "Missões JxJ concluídas",
         ["ruRU"] = "Выполненные",
-        ["zhCN"] = "完成的 PVP 任务",
+        ["zhCN"] = "完成的PVP任务",
         ["zhTW"] = "完成的 PvP 任務",
     },
     ["The icon that is displayed for PvP quests that can be handed in"] = {
@@ -851,7 +851,7 @@ local iconOptionsLocales = {
         ["koKR"] = "완료되어 제출할 수 있는 PvP 퀘스트에 표시되는 아이콘.",
         ["ptBR"] = "O ícone mostrado para missões JxJ concluídas que podem ser entregues.",
         ["ruRU"] = "Значок для выполненных PVP-заданий",
-        ["zhCN"] = "可以交回的 PVP 任务图标",
+        ["zhCN"] = "可以交回的PVP任务图标",
         ["zhTW"] = "可以交回的 PvP 任務圖示",
     },
     ["Icons"] = {
