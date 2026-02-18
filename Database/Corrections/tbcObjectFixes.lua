@@ -177,9 +177,6 @@ function QuestieTBCObjectFixes:Load()
         [186189] = {
             [objectKeys.name] = "Alcohol-Free Brewfest Sampler",
         },
-        [186273] = {
-            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
-        },
         [186420] = { -- Syndicate Documents
             [objectKeys.questStarts] = {510,511},
         },
