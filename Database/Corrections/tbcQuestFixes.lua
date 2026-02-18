@@ -1535,6 +1535,9 @@ function QuestieTBCQuestFixes:Load()
         [9402] = { -- Fetch!
             [questKeys.exclusiveTo] = {1882,1884},
         },
+        [9403] = { -- The Purest Water
+            [questKeys.preQuestSingle] = {1882,1884,9402},
+        },
         [9410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
         },
