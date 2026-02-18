@@ -2960,6 +2960,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10606] = { -- The Art of Fel Reaver Maintenance
             [questKeys.objectives] = {nil,nil,{{30713},{30712}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [10607] = {
             [questKeys.objectives] = {nil,{{184950},{184967},{184968},{184969}}},
@@ -2971,6 +2972,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10611] = { -- The Art of Fel Reaver Maintenance
             [questKeys.objectives] = {nil,nil,{{30713},{30712}}},
+            [questKeys.requiredSourceItems] = {},
         },
         [10612] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185057}}}},
