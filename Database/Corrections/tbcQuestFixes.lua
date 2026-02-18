@@ -3926,8 +3926,9 @@ function QuestieTBCQuestFixes:Load()
         [11134] = { -- The End of the Deserters
             [questKeys.nextQuestInChain] = 11136,
         },
-        [11140] = {
+        [11140] = { -- Recover the Cargo!
             [questKeys.requiredSourceItems] = {33040},
+            [questKeys.nextQuestInChain] = 11141,
         },
         [11142] = {
             [questKeys.objectives] = {{{23704,nil,Questie.ICON_TYPE_TALK}}},
