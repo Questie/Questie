@@ -11,7 +11,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "툴팁",
         ["ptBR"] = "Dicas de ferramentas",
         ["ruRU"] = "Подсказки",
-        ["zhCN"] = "悬浮窗提示",
+        ["zhCN"] = "工具提示框",
         ["zhTW"] = "浮動提示資訊",
     },
     ["Tooltip Options"] = {
@@ -23,7 +23,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "툴팁 옵션",
         ["ptBR"] = "Opções de dica de ferramenta",
         ["ruRU"] = "Настройки всплывающих подсказок",
-        ["zhCN"] = "悬浮窗提示选项",
+        ["zhCN"] = "工具提示框选项",
         ["zhTW"] = "浮動提示資訊選項",
     },
     ["Only show party members"] = {
@@ -59,7 +59,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "NPC 툴팁에 퀘스트 표시",
         ["ptBR"] = "Mostrar missões nas dicas",
         ["ruRU"] = "Задания в подсказках NPC",
-        ["zhCN"] = "显示NPC悬浮框中的任务",
+        ["zhCN"] = "显示NPC提示框中的任务",
         ["zhTW"] = "顯示 NPC 相關任務提示",
     },
     ["Show quests (available/complete) in the NPC tooltips."] = {
@@ -71,7 +71,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "NPC 툴팁에 (가능한/완료한) 퀘스트표시",
         ["ptBR"] = "Mostra missões (disponíveis/concluídas) nas dicas de ferramentas do NPC.",
         ["ruRU"] = "Показать/скрыть задания (доступные/выполненные) во всплывающих подсказках NPC",
-        ["zhCN"] = "在NPC悬浮框中显示任务（可接/完成）",
+        ["zhCN"] = "在NPC提示框中显示任务（可接/完成）",
         ["zhTW"] = "在 NPC 的浮動提示資訊中顯示任務 (可接/完成)",
     },
     ["Show quest XP at max level"] = {
@@ -131,7 +131,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 연계 퀘스트가 확장된 지도 툴팁에 표시됩니다.",
         ["ptBR"] = "Se marcado, as próximas missões na série serão mostradas nas dicas de mapa expandidas.",
         ["ruRU"] = "Когда включено, следующие задания в цепочке будут отображаться в расширенной подсказке на карте",
-        ["zhCN"] = "启用时，下一个任务链中的任务会在地图悬浮窗中显示",
+        ["zhCN"] = "启用时，任务链中的后续任务会在展开的地图提示框中显示",
         ["zhTW"] = "啟用時，會在展開的地圖浮動提示資訊中顯示任務串中的下一個任務",
     },
     ["Show item drop rates"] = {
@@ -155,7 +155,7 @@ local tooltipOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 퀘스트 목표 아이템의 드롭률이 몬스터 툴팁 정보에 표시됩니다.",
         ["ptBR"] = "Se marcado, a chance de saque dos objetivos de missão será mostrada nas dicas dos inimigos.",
         ["ruRU"] = "Когда включено, шанс выпадения предметов для выполнения задания будет отображаться во всплывающей подсказке",
-        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息中",
+        ["zhCN"] = "启用时，任务目标的掉率将显示在怪物提示信息框中",
         ["zhTW"] = "啟用時，任務目標的掉落率將顯示在怪物的提示資訊中",
     },
 }
