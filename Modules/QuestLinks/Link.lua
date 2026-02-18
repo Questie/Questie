@@ -349,27 +349,7 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
                 local timestamp
                 for i = 1, #Questie.db.char.journey do
                     if Questie.db.char.journey[i].Quest ~= nil and Questie.db.char.journey[i].Quest == quest.Id then
-                        local year = tonumber(date("%Y", Questie.db.char.journey[i].Timestamp))
-                        local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date("%w", Questie.db.char.journey[i].Timestamp)) + 1 ]
-                        local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date("%m", Questie.db.char.journey[i].Timestamp)) ]
-                        local locale = GetLocale()
-                        if locale == "deDE" then
-                            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d. ' .. month .. ' ' .. year .. ' um %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        elseif locale == "esES" or locale == "esMX" then
-                            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d de ' .. month .. ' de ' .. year .. ' a las %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        elseif locale == "frFR" then
-                            timestamp = Questie:Colorize(date( '[ ' .. day .. ' %d '.. month .. ' ' .. year .. ' à %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        elseif locale == "koKR" then
-                            timestamp = Questie:Colorize(date( '[ ' .. year .. '년 ' .. month .. ' %d일' .. ' ' .. day ..' %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        elseif locale == "ptBR" then
-                            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d de ' .. month .. ' de ' .. year .. ' às %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        elseif locale == "ruRU" then
-                            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d ' .. month .. ' ' .. year .. ' г., %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        elseif locale == "zhCN" or locale == "zhTW" then
-                            timestamp = Questie:Colorize(date( '[ ' .. year.. '年' .. month .. '%d日 ' .. day .. ' %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        else
-                            timestamp = Questie:Colorize(date( '[ ' ..day .. ', ' .. month .. ' %d, ' .. year.. ' @ %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-                        end
+                        timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", 'lightBlue')
                     end
                 end
                 if timestamp then

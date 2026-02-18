@@ -5,9 +5,11 @@ local _QuestieJourney = QuestieJourney.private
 --Import modules.
 -------------------------
 ---@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils");
+local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -35,29 +37,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
         recentEvents[i] = AceGUI:Create("Label");
         recentEvents[i]:SetFullWidth(true);
 
-        local day = CALENDAR_WEEKDAY_NAMES[tonumber(date('%w', Questie.db.char.journey[i].Timestamp)) + 1];
-        local month = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(date('%m', Questie.db.char.journey[i].Timestamp))];
-
-        local locale = GetLocale()
-
-        local timestamp
-        if locale == "deDE" then
-            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d. ' .. month .. ' um %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        elseif locale == "esES" or locale == "esMX" then
-            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d de ' .. month ..' a las %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        elseif locale == "frFR" then
-            timestamp = Questie:Colorize(date( '[ ' .. day .. ' %d ' .. month ..' à %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        elseif locale == "koKR" then
-            timestamp = Questie:Colorize(date( '[ ' .. month .. ' %d일' .. ' ' .. day .. ' %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        elseif locale == "ptBR" then
-            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d de '.. month ..' às %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        elseif locale == "ruRU" then
-            timestamp = Questie:Colorize(date( '[ ' .. day .. ', %d ' .. month .. ', %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        elseif locale == "zhCN" or locale == "zhTW" then
-            timestamp = Questie:Colorize(date( '[ ' .. month .. '%d日 ' .. day.. ' %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        else
-            timestamp = Questie:Colorize(date( '[ ' ..day .. ', ' .. month .. ' %d @ %H:%M ]  ' , Questie.db.char.journey[i].Timestamp), 'lightBlue');
-        end
+        local timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", 'lightBlue');
 
         -- if it's a quest event
         if Questie.db.char.journey[i].Event == "Quest" then

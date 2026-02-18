@@ -8,6 +8,8 @@ _QuestieJourney.notePopup = nil
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -55,28 +57,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 created:SetFullWidth(true);
 
                 local entry = Questie.db.char.journey[tonumber(e)];
-                local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date('%w', entry.Timestamp)) + 1 ];
-                local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date('%m', entry.Timestamp)) ];
-                local timestamp
-                local locale = GetLocale()
-
-                if locale == "deDE" then
-                    timestamp = Questie:Colorize(date( day .. ', %d. ' .. month .. ' um %H:%M' , entry.Timestamp), 'lightBlue');
-                elseif locale == "esES" or locale == "esMX" then
-                    timestamp = Questie:Colorize(date( day .. ', %d de ' .. month ..' a las %H:%M' , entry.Timestamp), 'lightBlue');
-                elseif locale == "frFR" then
-                    timestamp = Questie:Colorize(date( day .. ' %d ' .. month ..' à %H:%M' , entry.Timestamp), 'lightBlue');
-                elseif locale == "koKR" then
-                    timestamp = Questie:Colorize(date( month .. ' %d일' .. ' ' .. day .. ' %H:%M' , entry.Timestamp), 'lightBlue');
-                elseif locale == "ptBR" then
-                    timestamp = Questie:Colorize(date( day .. ', %d de '.. month ..' às %H:%M' , entry.Timestamp), 'lightBlue');
-                elseif locale == "ruRU" then
-                    timestamp = Questie:Colorize(date( day .. ', %d ' .. month .. ', %H:%M' , entry.Timestamp), 'lightBlue');
-                elseif locale == "zhCN" or locale == "zhTW" then
-                    timestamp = Questie:Colorize(date( month .. '%d日 ' .. day.. ' %H:%M' , entry.Timestamp), 'lightBlue');
-                else
-                    timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'lightBlue');
-                end
+                local timestamp = Questie:Colorize(QuestieLib.FormatDate(entry.Timestamp), 'lightBlue');
 
                 if entry.Event == "Note" then
                     header:SetText(l10n('Note: %s', entry.Title));
