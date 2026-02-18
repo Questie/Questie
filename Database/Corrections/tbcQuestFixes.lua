@@ -2958,6 +2958,9 @@ function QuestieTBCQuestFixes:Load()
         [10605] = {
             [questKeys.exclusiveTo] = {1472,1507},
         },
+        [10606] = { -- The Art of Fel Reaver Maintenance
+            [questKeys.objectives] = {nil,nil,{{30713},{30712}}},
+        },
         [10607] = {
             [questKeys.objectives] = {nil,{{184950},{184967},{184968},{184969}}},
         },
@@ -2965,6 +2968,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches"), 0, {{"object", 184867}}},
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Use the Temporal Phase Modulator"), 0, {{"monster", 20021}}},
             },
+        },
+        [10611] = { -- The Art of Fel Reaver Maintenance
+            [questKeys.objectives] = {nil,nil,{{30713},{30712}}},
         },
         [10612] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185057}}}},
