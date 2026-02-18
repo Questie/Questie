@@ -729,4 +729,31 @@ function QuestieLib.UpdateLastKnownDailyReset()
     Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + GetQuestResetTime()
 end
 
+---@param timeStamp number
+---@return string|osdate formattedDate The date formatted based on the player's locale
+function QuestieLib.FormatDate(timeStamp)
+    local langCode = l10n:GetUILocale()
+
+    local weekDay = CALENDAR_WEEKDAY_NAMES[tonumber(date("%w", timeStamp)) + 1]
+    local monthName = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(date("%m", timeStamp))]
+
+    if langCode == "deDE" then
+        return date(weekDay .. ", %d. " .. monthName .. " %Y um %H:%M", timeStamp)
+    elseif langCode == "esES" or langCode == "esMX" then
+        return date(weekDay .. ", %d de " .. monthName .. " de %Y a las %H:%M", timeStamp)
+    elseif langCode == "frFR" then
+        return date(weekDay .. " %d " .. monthName .. " %Y à %H:%M", timeStamp)
+    elseif langCode == "koKR" then
+        return date("%Y년 " .. monthName .. " %d일" .. " " .. weekDay .." %H:%M", timeStamp)
+    elseif langCode == "ptBR" then
+        return date(weekDay .. ", %d de " .. monthName .. " de %Y às %H:%M", timeStamp)
+    elseif langCode == "ruRU" then
+        return date(weekDay .. ", %d " .. monthName .. " %Y, %H:%M", timeStamp)
+    elseif langCode == "zhCN" or langCode == "zhTW" then
+        return date("%Y年" .. monthName .. "%d日 " .. weekDay .. " %H:%M", timeStamp)
+    end
+
+    return date(weekDay .. ", " .. monthName .. " %d, %Y at %H:%M", timeStamp)
+end
+
 return QuestieLib
