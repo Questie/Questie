@@ -782,7 +782,7 @@ end
 ---@param debugPrint boolean? -- if true, IsDoable will print conclusions to debug channel
 ---@param returnText boolean? -- if true, IsDoable will return plaintext explanation instead of true/false
 ---@param returnBrief boolean? -- if true and returnText is true, IsDoable will return a very brief explanation instead of a verbose one
----@return string boolean -- we use the boolean value to decide if we want to show the "Doable:" label
+---@return string, boolean -- the eligibility text; we use the boolean value to decide if we want to show the "Doable:" label
 function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     --!  Before changing any logic in QuestieDB.IsDoable, make sure
