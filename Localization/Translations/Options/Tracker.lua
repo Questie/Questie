@@ -111,7 +111,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "완료된 퀘스트 자동 최소화",
         ["ptBR"] = "Minimizar missões concluídas",
         ["ruRU"] = "Свернуть выполненные",
-        ["zhCN"] = "自动收起已完成的任务",
+        ["zhCN"] = "自动最小化已完成的任务",
         ["zhTW"] = "自動最小化已完成的任務",
     },
     ["If checked, completed Quests will automatically minimize."] = {
@@ -161,7 +161,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "블리자드 완료 텍스트 숨기기",
         ["ptBR"] = "Ocultar texto de conclusão",
         ["ruRU"] = "Скрыть текст Blizzard",
-        ["zhCN"] = "隐藏内建的完成信息",
+        ["zhCN"] = "隐藏暴雪完成文本",
         ["zhTW"] = "隱藏內建的完成訊息",
     },
     ["If checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: \"Quest Complete!\" or \"Quest Failed!\""] = {
@@ -237,7 +237,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 헤더 활성화",
         ["ptBR"] = "Ativar cabeçalho do rastreador",
         ["ruRU"] = "Вкл/выкл",
-        ["zhCN"] = "开启任务清单标题",
+        ["zhCN"] = "启用追踪器标题",
         ["zhTW"] = "啟用任務清單標題列",
     },
     ["If checked, the Tracker Header with the number of active quests and the Questie Icon will be permanently visible.\n\nWhen this is disabled the Questie Icon will fade in while your mouse is over the Tracker."] = {
@@ -262,7 +262,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 헤더 하단 표시",
         ["ptBR"] = "Mostrar na parte inferior",
         ["ruRU"] = "Заголовок трекера внизу",
-        ["zhCN"] = "标题在下方",
+        ["zhCN"] = "在底部显示追踪器标题",
         ["zhTW"] = "標題列在下方",
     },
     ["If checked, the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top."] = {
@@ -287,7 +287,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "달라붙는 프레임",
         ["ptBR"] = "Quadro de durabilidade aderente",
         ["ruRU"] = "Индикатор прочности",
-        ["zhCN"] = "锁定任务道具",
+        ["zhCN"] = "固定耐久度框架",
         ["zhTW"] = "耐久度貼齊清單",
     },
     ["If checked, the durability frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
@@ -437,7 +437,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "페이드 최소 / 최대 BTN",
         ["ptBR"] = "Desvanecer botões min/max",
         ["ruRU"] = "Скрыть '+' и '–'",
-        ["zhCN"] = "淡化按钮",
+        ["zhCN"] = "淡化最大化/最小化按钮",
         ["zhTW"] = "淡出最大化/最小化按鈕",
     },
     ["If checked, the Minimize and Maximize Buttons will fade and become transparent when not in use."] = {
@@ -612,8 +612,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "빈 추적기 헤더 표시",
         ["ptBR"] = "Mostrar cabeçalho para o rastreador vazio",
         ["ruRU"] = "Отображать при пустом трекере",
-        ["zhCN"] = "为空清单显示标题",
-        ["zhTW"] = "空的清單也要顯示標題列",
+        ["zhCN"] = "追踪器为空时显示标题",
+        ["zhTW"] = "空的追蹤器也要顯示標題列",
     },
     ["If checked, the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely."] = {
         ["enUS"] = true,
@@ -664,8 +664,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "음성 안내 고정 프레임",
         ["ptBR"] = "Quadro VoiceOver fixo",
         ["ruRU"] = "Клейкое окно VoiceOver",
-        ["zhCN"] = "语音贴齐清单",
-        ["zhTW"] = "語音貼齊清單",
+        ["zhCN"] = "语音贴齐框架",
+        ["zhTW"] = "語音貼齊框體",
     },
     ["If checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
         ["enUS"] = true,
@@ -689,7 +689,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 잠금",
         ["ptBR"] = "Bloquear rastreador",
         ["ruRU"] = "Заблокировать трекер",
-        ["zhCN"] = "锁定框体",
+        ["zhCN"] = "锁定追踪器",
         ["zhTW"] = "鎖定任務清單",
     },
     ["If checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it."] = {
@@ -1219,7 +1219,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "활성 퀘스트의 글꼴 크기",
         ["ptBR"] = "Tamanho da fonte para missões ativas",
         ["ruRU"] = "Размер шрифта заголовка",
-        ["zhCN"] = "当前任务字体大小",
+        ["zhCN"] = "当前任务标题字体大小",
         ["zhTW"] = "標題列文字大小",
     },
     ["The font size used for the Active Quests Header."] = {
@@ -1231,7 +1231,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "Active Quests에서 사용하는 글꼴 크기입니다.",
         ["ptBR"] = "O tamanho da fonte que o missões ativas usa.",
         ["ruRU"] = "Размер шрифта, используемого в заголовке 'Активные задания'",
-        ["zhCN"] = "当前任务使用的字体大小",
+        ["zhCN"] = "当前任务标题使用的字体大小",
         ["zhTW"] = "標題列文字的字體大小",
     },
     ---------------------------------------------------------
@@ -1244,7 +1244,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "활성 퀘스트를위한 글꼴",
         ["ptBR"] = "Fonte para missões ativas",
         ["ruRU"] = "Шрифт заголовка",
-        ["zhCN"] = "当前任务的字体",
+        ["zhCN"] = "当前任务标题的字体",
         ["zhTW"] = "標題列字體",
     },
     ["The font used for the Active Quests Header."] = {
@@ -1256,7 +1256,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "액티브 퀘스트 글꼴이 사용합니다.",
         ["ptBR"] = "A fonte usada para missões ativas.",
         ["ruRU"] = "Шрифт, используемый в заголовке 'Активные задания'",
-        ["zhCN"] = "当前任务使用的字体",
+        ["zhCN"] = "当前任务标题使用的字体",
         ["zhTW"] = "標題列文字的字體",
     },
     ---------------------------------------------------------

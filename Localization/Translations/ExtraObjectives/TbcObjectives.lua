@@ -1943,7 +1943,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀沙鳞鱼人以召唤奎尔多雷法师怨灵",
         ["zhTW"] = false,
     },
 }
