@@ -28,7 +28,7 @@ local stringsub = string.sub
 
 local AceGUI = LibStub("AceGUI-3.0");
 
-local _HandleOnGroupSelected
+local _HandleTreeItemClick
 local lastOpenSearch = "quest"
 local _selected = 0
 
@@ -628,7 +628,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultTree:SetFullHeight(true);
     resultTree.treeframe:SetWidth(415);
     resultTree:SetTree(results);
-    resultTree:SetCallback("OnGroupSelected", _HandleOnGroupSelected)
+    resultTree:SetCallback("OnClick", _HandleTreeItemClick)
 
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
@@ -638,9 +638,11 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     end
 end
 
-_HandleOnGroupSelected = function (resultType)
+_HandleTreeItemClick = function(group, ...)
+    local treePath = {...}
+
     -- This is either the questId, npcId, objectId or itemId
-    local selectedId = tonumber(resultType.localstatus.selected)
+    local selectedId = tonumber(treePath[2])
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
         local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
         local questLevel, _ = QuestieLib.GetTbcLevel(selectedId);
@@ -653,7 +655,7 @@ _HandleOnGroupSelected = function (resultType)
     end
 
     -- get master frame and create scroll frame inside
-    local master = resultType.frame.obj;
+    local master = group.frame.obj;
     master:ReleaseChildren();
     master:SetLayout("Fill");
     master:SetFullWidth(true);
