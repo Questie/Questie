@@ -518,7 +518,7 @@ local myJourneyLocales = {
         ["zhCN"] = "需要前置任务未完成组",
         ["zhTW"] = "需要前置任務未完成群",
     },
-    ["Inactive Parent"] = {
+    ["Inactive parent"] = {
         ["enUS"] = true,
         ["deDE"] = "Übergeordnete Quest inaktiv",
         ["esES"] = "Misión padre inactiva",
