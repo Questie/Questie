@@ -122,18 +122,6 @@ local myJourneyLocales = {
         ["zhCN"] = "你升到了%s级",
         ["zhTW"] = "你升到了%s級",
     },
-    ["Year %s"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Jahr %s",
-        ["esES"] = "Año %s",
-        ["esMX"] = "Año %s",
-        ["frFR"] = "Année %s",
-        ["koKR"] = "%s년",
-        ["ptBR"] = "Ano %s",
-        ["ruRU"] = "Год %s",
-        ["zhCN"] = "%s年",
-        ["zhTW"] = "%s 年",
-    },
     ["Accepted"] = {
         ["enUS"] = true,
         ["deDE"] = "Angenommen",

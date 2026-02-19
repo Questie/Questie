@@ -22,7 +22,7 @@ function _QuestieJourney:GetHistory()
     for _, year in pairs(years) do
         local yearTable = {
             value = year,
-            text = l10n('Year %s', year),
+            text = year,
             children = {},
         }
 
