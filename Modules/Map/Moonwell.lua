@@ -40,8 +40,9 @@ Moonwell.dataClassic = {
 
 ---@type table<number, boolean>
 Moonwell.dataTBC = {
-    [400021] = true, -- Cenarion Thicket moonwell
-    [400022] = true, -- Evergrove moonwell
+    [410021] = true, -- Cenarion Thicket moonwell
+    [410022] = true, -- Evergrove moonwell
+    [410023] = true, -- Ghostlands moonwell
 }
 
 local function _GetActiveMoonwellData()
