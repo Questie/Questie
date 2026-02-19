@@ -1093,7 +1093,7 @@ function QuestieDBCompiler:Compile()
     QuestieDBCompiler:CompileQuests()
     print("\124cFF4DDBFF [9/9] " .. l10n("Updating items") .. l10n("..."))
     QuestieDBCompiler:CompileItems()
-    print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
+    print("\124cFFAAEEFF"..l10n("Questie DB update complete"))
 
     Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
 

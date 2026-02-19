@@ -312,7 +312,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1858
             [questKeys.breadcrumbs] = {468},
         },
-        [456] = {
+        [456] = { -- The Balance of Nature
             [questKeys.nextQuestInChain] = 457,
         },
         [463] = {
