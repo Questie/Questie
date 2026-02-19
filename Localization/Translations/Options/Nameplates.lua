@@ -143,7 +143,7 @@ local nameplateOptionsLocales = {
         ["koKR"] = "이름표 아이콘 위치와 크기를 기본값으로 초기화합니다.",
         ["ptBR"] = "Redefine as posições e a escala da placa de nome.",
         ["ruRU"] = "Сбросить настройки значков целей заданий на индикаторах здоровья к значениям по умолчанию",
-        ["zhCN"] = "重置姓名板图标的位置和大小",
+        ["zhCN"] = "重置为默认姓名板图标的位置和大小",
         ["zhTW"] = "重置成預設的名條位置和縮放大小",
     },
     ["Target Frame Icon Options"] = {
@@ -167,8 +167,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "퀘스트 목표 대상 프레임에 아이콘 표시",
         ["ptBR"] = "Ativar objetivos de missão no quadro de alvo",
         ["ruRU"] = "Значки заданий на рамке цели",
-        ["zhCN"] = "启用任务目标目标框体",
-        ["zhTW"] = "啟用任務目標目標框架",
+        ["zhCN"] = "启用任务目标目标框架",
+        ["zhTW"] = "啟用任務目標目標框體",
     },
     ["Enable or disable the quest objective icons over creature target frame."] = {
         ["enUS"] = true,
@@ -179,8 +179,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "퀘스트 목표 대상 프레임에 아이콘을 표시할지 설장합니다.",
         ["ptBR"] = "Ativa ou desativa o ícone de objetivo de missão no quadro de alvo da criatura.",
         ["ruRU"] = "Показать/скрыть значки целей заданий на рамке выбранной цели",
-        ["zhCN"] = "启用或停用在生物目标框体上显示的任务目标图标",
-        ["zhTW"] = "啟用或停用在生物目標框架上顯示的任務目標圖示",
+        ["zhCN"] = "启用或停用在生物目标框架上显示的任务目标图标",
+        ["zhTW"] = "啟用或停用在生物目標框體上顯示的任務目標圖示",
     },
     ["Reset Target Frame"] = {
         ["enUS"] = true,
@@ -191,8 +191,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "대상 프레임 초기화",
         ["ptBR"] = "Redefinir quadro de alvo",
         ["ruRU"] = "Сброс настроек",
-        ["zhCN"] = "重设目标头像",
-        ["zhTW"] = "重置目標頭像",
+        ["zhCN"] = "重置目标框架",
+        ["zhTW"] = "重置目標框體",
     },
     ["Reset to default target frame position and scale."] = {
         ["enUS"] = true,
@@ -203,8 +203,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "대상 프레임 아이콘 위치와 크기를 기본값으로 초기화합니다.",
         ["ptBR"] = "Redefine as posições e a escala do quadro de destino padrão.",
         ["ruRU"] = "Сбросить настройки значков целей заданий на рамке выбранной цели к значениям по умолчанию",
-        ["zhCN"] = "重置为默认的目标头像的位置和大小",
-        ["zhTW"] = "重置成預設的目標頭像框架位置和縮放大小",
+        ["zhCN"] = "重置为默认的目标框架的位置和大小",
+        ["zhTW"] = "重置成預設的目標框體位置和縮放大小",
     },
 }
 
