@@ -446,7 +446,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "你拾取了 %s 自动接受任务 %s",
         ["zhTW"] = "你拾取 %s 自動接受任務 %s",
     },
-    ["The '%s' world event is active"] = {
+    ["The '%s' world event is active!"] = {
         ["enUS"] = true,
         ["deDE"] = "Das '%s' Feiertag-Event ist aktiv",
         ["esES"] = "El evento del mundo «%s» está activo",
