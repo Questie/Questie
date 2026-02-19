@@ -155,8 +155,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "대상 프레임 아이콘 설정",
         ["ptBR"] = "Opções de ícone do quadro de alvo",
         ["ruRU"] = "Настройки рамки цели",
-        ["zhCN"] = "目标图标选项",
-        ["zhTW"] = "目標頭像圖示選項",
+        ["zhCN"] = "目标框架图标选项",
+        ["zhTW"] = "目標框架圖示選項",
     },
     ["Enable Target Frame Quest Objectives"] = {
         ["enUS"] = true,
@@ -168,7 +168,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "Ativar objetivos de missão no quadro de alvo",
         ["ruRU"] = "Значки заданий на рамке цели",
         ["zhCN"] = "启用任务目标目标框架",
-        ["zhTW"] = "啟用任務目標目標框體",
+        ["zhTW"] = "啟用任務目標目標框架",
     },
     ["Enable or disable the quest objective icons over creature target frame."] = {
         ["enUS"] = true,
@@ -180,7 +180,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "Ativa ou desativa o ícone de objetivo de missão no quadro de alvo da criatura.",
         ["ruRU"] = "Показать/скрыть значки целей заданий на рамке выбранной цели",
         ["zhCN"] = "启用或停用在生物目标框架上显示的任务目标图标",
-        ["zhTW"] = "啟用或停用在生物目標框體上顯示的任務目標圖示",
+        ["zhTW"] = "啟用或停用在生物目標框架上顯示的任務目標圖示",
     },
     ["Reset Target Frame"] = {
         ["enUS"] = true,
@@ -192,7 +192,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "Redefinir quadro de alvo",
         ["ruRU"] = "Сброс настроек",
         ["zhCN"] = "重置目标框架",
-        ["zhTW"] = "重置目標框體",
+        ["zhTW"] = "重置目標框架",
     },
     ["Reset to default target frame position and scale."] = {
         ["enUS"] = true,
@@ -204,7 +204,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "Redefine as posições e a escala do quadro de destino padrão.",
         ["ruRU"] = "Сбросить настройки значков целей заданий на рамке выбранной цели к значениям по умолчанию",
         ["zhCN"] = "重置为默认的目标框架的位置和大小",
-        ["zhTW"] = "重置成預設的目標框體位置和縮放大小",
+        ["zhTW"] = "重置成預設的目標框架位置和縮放大小",
     },
 }
 
