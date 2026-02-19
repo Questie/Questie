@@ -8,6 +8,8 @@ _QuestieJourney.notePopup = nil
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -55,9 +57,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 created:SetFullWidth(true);
 
                 local entry = Questie.db.char.journey[tonumber(e)];
-                local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date('%w', entry.Timestamp)) + 1 ];
-                local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date('%m', entry.Timestamp)) ];
-                local timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'lightBlue');
+                local timestamp = Questie:Colorize(QuestieLib.FormatDate(entry.Timestamp), 'lightBlue');
 
                 if entry.Event == "Note" then
                     header:SetText(l10n('Note: %s', entry.Title));
