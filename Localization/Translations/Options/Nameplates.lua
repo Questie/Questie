@@ -72,7 +72,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone dos nomes da placa. (Padrão: %s)",
         ["ruRU"] = "Регулировка позиции значков по оси X (по умолчанию: %s)",
         ["zhCN"] = "姓名板图标在X轴的位置（默认：%s）",
-        ["zhTW"] = "名條圖示的水平方向位置。（預設值：%s）",
+        ["zhTW"] = "名條圖示的水平方向位置（預設值：%s）",
     },
     ["Icon Position Y"] = {
         ["enUS"] = true,
@@ -96,7 +96,7 @@ local nameplateOptionsLocales = {
         ["ptBR"] = "O ícone da placa de nome deve aparecer no ícone de ordenadas. (Padrão: %s)",
         ["ruRU"] = "Регулировка позиции значков по оси Y (по умолчанию: %s)",
         ["zhCN"] = "姓名板图标在Y轴的位置（默认：%s）",
-        ["zhTW"] = "名條圖示的垂直方向位置。（預設值：%s）",
+        ["zhTW"] = "名條圖示的垂直方向位置（預設值：%s）",
     },
     ["Nameplate Icon Scale"] = {
         ["enUS"] = true,
@@ -119,8 +119,8 @@ local nameplateOptionsLocales = {
         ["koKR"] = "퀘스트 목표 이름표에 표시할 아이콘의 크기를 설정합니다. (기본값: %s)",
         ["ptBR"] = "Mude o tamanho dos ícones da missão nas placas de nome das criaturas. (Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков на индикаторах здоровья (по умолчанию: %s)",
-        ["zhCN"] = "缩放生物姓名板上的任务图标大小。（默认：%s）",
-        ["zhTW"] = "怪物名條上任務圖示的縮放大小。（預設值：%s）",
+        ["zhCN"] = "缩放生物姓名板上的任务图标大小（默认：%s）",
+        ["zhTW"] = "怪物名條上任務圖示的縮放大小（預設值：%s）",
     },
     ["Reset Nameplates"] = {
         ["enUS"] = true,
