@@ -51,12 +51,18 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {163} -- #1198
         },
+        [7] = { -- Kobold Camp Cleanup
+            [questKeys.nextQuestInChain] = 15,
+        },
         [11] = {
             [questKeys.preQuestSingle] = {76}, -- #7364
             [questKeys.breadcrumbs] = {239},
         },
         [17] = {
             [questKeys.requiredLevel] = 38, -- #2437
+        },
+        [21] = { -- Skirmish at Echo Ridge
+            [questKeys.nextQuestInChain] = 54,
         },
         [25] = {
             [questKeys.triggerEnd] = {"Scout the gazebo on Mystral Lake that overlooks the nearby Alliance outpost.",{[zoneIDs.ASHENVALE]={{48.92,69.56}}}},
