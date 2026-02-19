@@ -28,9 +28,7 @@ function _QuestieJourney:GetHistory()
 
                 for month = 12, 1, -1 do -- Iterate the month from last to newest
                     if journeyEntries[year][month] then -- Only check month with events
-
                     local monthName = CALENDAR_FULLDATE_MONTH_NAMES[month]
-
                     local monthView = {
                         value = month,
                         text = monthName and (monthName:sub(1,1):upper() .. monthName:sub(2)) or "",
