@@ -1500,6 +1500,13 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1959},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
+        [1961] = { -- Gathering Materials
+            [questKeys.nextQuestInChain] = 1962,
+        },
+        [1962] = { -- Spellfire Robes
+            [questKeys.startedBy] = {{4576,11048,11049}},
+            [questKeys.finishedBy] = {{4576,11048,11049}},
+        },
         [1963] = { -- The Shattered Hand
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1859},

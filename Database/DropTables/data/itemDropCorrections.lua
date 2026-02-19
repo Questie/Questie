@@ -126,6 +126,9 @@ QuestieItemDropCorrections.Tbc = {
         [17200] = 100,
         [17201] = 100,
     },
+    [23706] = { -- Arcane Fragment
+        [16339] = 100,
+    },
     [24372] = { -- Diaphanous Wing
         [18132] = DropKeys.WOWHEAD,
         [18133] = DropKeys.WOWHEAD,

@@ -548,6 +548,9 @@ function QuestieItemFixes:Load()
         [7228] = { -- Tigule's Strawberry Ice Cream
             [itemKeys.name] = "Tigule\'s Strawberry Ice Cream",
         },
+        [7247] = { -- Chest of Containment Coffers
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [7268] = { -- Xavian Water Sample (#1097)
             [itemKeys.relatedQuests] = {1944},
             [itemKeys.npcDrops] = {},

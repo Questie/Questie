@@ -111,12 +111,6 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{52,50.8}}},
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
         },
-        [105174] = {
-            [objectKeys.spawns] = {
-                [zoneIDs.STORMWIND_CITY]={{38.7,79.1}},
-                [zoneIDs.UNDERCITY]={{85.5,10.2}},
-            },
-        },
         [112877] = {
             [objectKeys.spawns] = {[zoneIDs.ULDAMAN]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
@@ -416,6 +410,16 @@ function QuestieObjectFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local objectFixesHorde = {
+        [103574] = { -- Filled Containment Coffer
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{53.29,74.56},{53.67,76.81},{52.01,75.96},{53.2,71.44}}},
+            [objectKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
+        [105174] = { -- Chest of Containment Coffers
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{85.67,9.91},{85.53,10.03},{85.48,9.9},{85.58,9.95}}},
+        },
+        [105175] = { -- Cantation of Manifestation
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{85.78,10.05},{85.7,10.11},{85.65,10.18}}},
+        },
         [177525] = { -- Moonkin Stone
             [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{41.96,60.81}}},
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
@@ -438,6 +442,16 @@ function QuestieObjectFixes:LoadFactionFixes()
     }
 
     local objectFixesAlliance = {
+        [103574] = { -- Filled Containment Coffer
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{40.87,89.04},{40.75,92.13},{41.27,90.54},{40.26,88.13},{40.89,87.75},{40.47,91.94}}},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [105174] = { -- Chest of Containment Coffers
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{38.48,78.89},{38.55,79.04},{38.54,78.97},{38.62,79.02}}},
+        },
+        [105175] = { -- Cantation of Manifestation
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{38.68,78.73},{38.69,78.81},{38.73,78.84}}},
+        },
         [177525] = { -- Moonkin Stone
             [objectKeys.spawns] = {[zoneIDs.DARKSHORE]={{43.5,45.97}}},
             [objectKeys.zoneID] = zoneIDs.DARKSHORE,

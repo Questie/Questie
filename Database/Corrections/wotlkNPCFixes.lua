@@ -3738,6 +3738,10 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
     }
 
     local npcFixesAlliance = {
+        [6492] = { -- Rift Spawn
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{51.32,92.34},{50.83,92.63},{51.61,94.5},{51.21,95.73},{50.99,95.58},{51.3,93.34}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
         [15898] = {
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY]={{37.32,64.04}},

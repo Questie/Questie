@@ -1828,6 +1828,14 @@ function QuestieNPCFixes:Load()
         [11039] = { -- Duke Nicholas Zverenhoff
             [npcKeys.questStarts] = {5251,5263,5264,5405,5508,5509,5510},
         },
+        [11048] = { -- Victor Ward
+            [npcKeys.questStarts] = {1962},
+            [npcKeys.questEnds] = {1962},
+        },
+        [11049] = { -- Rhiannon Davis
+            [npcKeys.questStarts] = {1962},
+            [npcKeys.questEnds] = {1962},
+        },
         [11058] = { -- Ezra Grimm
             [npcKeys.name] = "Ezra Grimm",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
@@ -3309,6 +3317,10 @@ function QuestieNPCFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local npcFixesHorde = {
+        [6492] = { -- Rift Spawn
+            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{53.29,74.56},{53.67,76.81},{52.01,75.96},{53.2,71.44}}},
+            [npcKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
         [12138] = { -- Lunaclaw
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{41.96,60.79}}},
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
@@ -3340,6 +3352,10 @@ function QuestieNPCFixes:LoadFactionFixes()
     }
 
     local npcFixesAlliance = {
+        [6492] = { -- Rift Spawn
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{40.87,89.04},{40.75,92.13},{41.27,90.54},{40.26,88.13},{40.89,87.75},{40.47,91.94}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
         [12138] = { -- Lunaclaw
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.33,45.85}}},
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
