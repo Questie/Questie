@@ -167,7 +167,7 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "크기 & 비율 설정",
         ["ptBR"] = "Opções de tamanho e escala",
         ["ruRU"] = "Параметры масштабирования и размера значков",
-        ["zhCN"] = "打开大小 & 比例 选项",
+        ["zhCN"] = "大小 & 缩放选项",
         ["zhTW"] = "大小 & 縮放選項",
     },
     ["Show loot icons"] = {
@@ -227,7 +227,7 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "처치 아이콘 표시",
         ["ptBR"] = "Mostrar ícones de matança",
         ["ruRU"] = "Значки убийств",
-        ["zhCN"] = "显示任务需要击杀图标",
+        ["zhCN"] = "显示击杀图标",
         ["zhTW"] = "顯示殺怪圖示",
     },
     ["Toggles whether or not slay icons appear on the HUD."] = {

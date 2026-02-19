@@ -47,7 +47,7 @@ local soundsOptionsLocales = {
         ["koKR"] = "퀘스트가 완료되어 제출할 준비가 되었을 때 짧은 사운드를 재생합니다.",
         ["ptBR"] = "Reproduz um som curto ao concluir uma missão.",
         ["ruRU"] = "Воспроизводить короткий звук при выполнении задания, обозначая готовность его сдачи",
-        ["zhCN"] = "完成任务可以接回的时候播放音效",
+        ["zhCN"] = "完成任务可以交付的时候播放音效",
         ["zhTW"] = "完成任務可以接回的時候播放音效",
     },
     ["Quest objective completed"] = {

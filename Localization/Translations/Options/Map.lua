@@ -155,7 +155,7 @@ local mapOptionsLocales = {
         ["koKR"] = "이벤트 아이콘 크기",
         ["ptBR"] = "Escala de ícones de eventos",
         ["ruRU"] = "Размер значков событий",
-        ["zhCN"] = "事件图标大小",
+        ["zhCN"] = "缩放事件图标大小",
         ["zhTW"] = "事件圖示縮放大小",
     },
     ["How large the event icons are.\n(Default: %s)"] = {
@@ -179,7 +179,7 @@ local mapOptionsLocales = {
         ["koKR"] = "수집 아이콘 크기",
         ["ptBR"] = "Escala para ícones de saque",
         ["ruRU"] = "Размер значков добычи",
-        ["zhCN"] = "拾取道具图标大小",
+        ["zhCN"] = "缩放拾取物品图标大小",
         ["zhTW"] = "撿東西圖示縮放大小",
     },
     ["How large the loot icons are.\n(Default: %s)"] = {
@@ -191,7 +191,7 @@ local mapOptionsLocales = {
         ["koKR"] = "수집 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["ptBR"] = "Qual é o tamanho dos ícones de saque\n(Padrão: %s)",
         ["ruRU"] = "Регулировка размера значков добычи на карте и миникарте\n(по умолчанию: %s)",
-        ["zhCN"] = "调整拾取道具图标的缩放比例\n（默认：%s）",
+        ["zhCN"] = "拾取物品图标的缩放比例\n（默认：%s）",
         ["zhTW"] = "撿東西圖示的大小。\n（預設值：%s）",
     },
     ["Scale for Slay Icons"] = {
@@ -203,7 +203,7 @@ local mapOptionsLocales = {
         ["koKR"] = "처치 아이콘 크기",
         ["ptBR"] = "Escala para ícones de matança",
         ["ruRU"] = "Размер значков убийств",
-        ["zhCN"] = "击杀目标的图标大小",
+        ["zhCN"] = "缩放击杀图标大小",
         ["zhTW"] = "殺怪圖示縮放大小",
     },
     ["How large the slay icons are.\n(Default: %s)"] = {
@@ -299,7 +299,7 @@ local mapOptionsLocales = {
         ["koKR"] = "지도 및 커서 좌표",
         ["ptBR"] = "Coordenadas de mapa e cursor",
         ["ruRU"] = "Координаты",
-        ["zhCN"] = "大地图座标",
+        ["zhCN"] = "显示大地图坐标",
         ["zhTW"] = "大地圖和滑鼠坐標",
     },
     ["Place the Player's coordinates and Cursor's coordinates on the Map's title."] = {

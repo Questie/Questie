@@ -419,7 +419,7 @@ local northrendLocales = {
         ["koKR"] = "진화의 대지",
         ["ptBR"] = "Área em Desenvolvimento",
         ["ruRU"] = "Зона разработчика",
-        ["zhCN"] = "Development Land",
+        ["zhCN"] = "开发区",
         ["zhTW"] = "開發之地",
     },
     ["Mightstone Quarry"] = {
