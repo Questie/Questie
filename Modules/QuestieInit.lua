@@ -185,7 +185,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- Check if the DB needs to be recompiled
     if (not dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= dbCompiledOnVersion) or (l10n:GetUILocale() ~= dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         print("\124cFFAAEEFF" ..
-            l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
+            l10n("Questie DB is updating — ") .. "\124r\124cFFFF6F22" .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
         dbCompiled = true
