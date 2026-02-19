@@ -3370,7 +3370,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Place Suspicious Supplies on the bone piles"), 0, {{"object", 600000}}}},
         },
         [85480] = { -- Procrastimond's Gratitude
-            [questKeys.objectivesText] = {"You are a remarkable mortal, little one. The gift of foresight is not common among your kind.I must warn you, though. Such knowledge can influence events, even unintentionally. It is quite possible your future will take a different path than the one written in my library.I found this book which does not appear to belong in my collection. Please accept it, with my thanks.\n\nNOTE: You need to use \"Tarnished Bronze Scale\" in Tanaris, which is dropped by Chromaggus to get to Procrastimond."},
+            [questKeys.objectivesText] = {"You are a remarkable mortal, little one. The gift of foresight is not common among your kind.I must warn you, though. Such knowledge can influence events, even unintentionally. It is quite possible your future will take a different path than the one written in my library.I found this book which does not appear to belong in my collection. Please accept it, with my thanks.","","NOTE: You need to use \"Tarnished Bronze Scale\" in Tanaris, which is dropped by Chromaggus to get to Procrastimond."},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [85485] = { -- Soul of the Void
