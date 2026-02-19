@@ -276,7 +276,7 @@ local socialOptionsLocales = {
         ["koKR"] = "퀘스트 진행상황은 정기적으로 근처 플레이어로 전송됩니다. 이 기능을 사용하지 않도록 설정해도 파티원과의 진행률 공유에는 영향을 주지 않습니다.",
         ["ptBR"] = "O progresso de sua missão será enviado periodicamente a jogadores próximos.",
         ["ruRU"] = "Прогресс ваших заданий будет периодически отправляться игрокам, находящимся рядом",
-        ["zhCN"] = "你的任务进度会定期发送给附近的玩家。禁用此功能不会影响与队伍成员共享进度。",
+        ["zhCN"] = "你的任务进度会定期发送给附近的玩家。禁用此功能不会影响与队伍成员共享进度",
         ["zhTW"] = "你的任務進度將會定期發送給附近的玩家。停用此選項不會影響與隊友分享任務進度",
     },
     ["Display announcements locally when outside of a group"] = {

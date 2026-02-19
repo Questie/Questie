@@ -143,7 +143,7 @@ local minimapOptionsLocales = {
         ["koKR"] = "플레이어 주변의 퀘스트 아이콘을 흐릿하게 표시합니다.",
         ["ptBR"] = "Desvanece os ícones no minimapa quando o jogador passa por perto.",
         ["ruRU"] = "Значки на миникарте блекнут, если игрок находится рядом с ними",
-        ["zhCN"] = "当你靠近时，小地图上的图标会变淡。",
+        ["zhCN"] = "当你靠近时淡化小地图上的图标",
         ["zhTW"] = "當你靠近時淡出小地圖上的圖示",
     },
     ["Fade over Player Distance"] = {

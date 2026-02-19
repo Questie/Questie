@@ -167,8 +167,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "크기 & 비율 설정",
         ["ptBR"] = "Opções de tamanho e escala",
         ["ruRU"] = "Параметры масштабирования и размера значков",
-        ["zhCN"] = "大小 & 缩放选项",
-        ["zhTW"] = "大小 & 縮放選項",
+        ["zhCN"] = "大小和缩放选项",
+        ["zhTW"] = "大小和縮放選項",
     },
     ["Show loot icons"] = {
         ["enUS"] = true,
