@@ -87,6 +87,18 @@ QuestieItemDropCorrections.Era = {
         [1988] = DropKeys.WOWHEAD,
         [1989] = 100,
     },
+    [3476] = { -- Gray Bear Tongue
+        [2351] = DropKeys.WOWHEAD,
+        [2354] = DropKeys.WOWHEAD,
+        [2356] = DropKeys.WOWHEAD,
+        [14280] = DropKeys.WOWHEAD,
+    },
+    [3477] = { -- Creeper Ichor
+        [2348] = DropKeys.WOWHEAD,
+        [2349] = DropKeys.WOWHEAD,
+        [2350] = DropKeys.WOWHEAD,
+        [14279] = DropKeys.WOWHEAD,
+    },
     [3918] = { -- Singing Crystal Shard
         [688] = DropKeys.WOWHEAD,
         [689] = DropKeys.WOWHEAD,
