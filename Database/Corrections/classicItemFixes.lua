@@ -1334,31 +1334,37 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [21558] = { -- Small Blue Rocket
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [21559] = { -- Small Green Rocket
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [21571] = { -- Blue Rocket Cluster
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [21574] = { -- Green Rocket Cluster
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [21576] = { -- Red Rocket Cluster
             [itemKeys.relatedQuests] = {8867},
             [itemKeys.npcDrops] = {15898},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [21711] = { -- Lunar Festival Invitation
             [itemKeys.class] = itemClasses.QUEST,

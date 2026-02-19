@@ -316,7 +316,7 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.questStarts] = {8870},
         },
-        [15895] = {
+        [15895] = { -- Lunar Festival Harbinger
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS]={{32.59,12}},
                 [zoneIDs.UNDERCITY]={{65.62,36.0}},
