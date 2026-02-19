@@ -647,7 +647,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
             --This combines a trailing word to the previous line if it is the only word of the line
             --We check lastSpaceIndex here because the logic will be faulty (chinese client)
             if (row == numberOfRows - 1 and combineTrailing and lastSpaceIndex) then
-                --Get the last line, in it's full
+                --Get the last line, in its full
                 local lastLine = string.sub(useLine, endIndex - 2, strlen(useLine))
 
                 --Does the line not contain any space we combine it into the previous line
