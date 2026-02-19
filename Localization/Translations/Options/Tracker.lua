@@ -902,7 +902,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Por %% completo (invertido)",
         ["ruRU"] = "По %% выполнения (убыв.)",
         ["zhCN"] = "按完成度 %%（反向）",
-        ["zhTW"] = "依完成度 %% (反向)",
+        ["zhTW"] = "依完成度 %%（反向）",
     },
     ["By Level"] = {
         ["enUS"] = true,
@@ -926,7 +926,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Por nível (invertido)",
         ["ruRU"] = "По уровню (убыв.)",
         ["zhCN"] = "按等级（反向）",
-        ["zhTW"] = "依等級 (反向)",
+        ["zhTW"] = "依等級（反向）",
     },
     ["By Proximity"] = {
         ["enUS"] = true,
@@ -950,7 +950,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Por proximidade (invertido)",
         ["ruRU"] = "По близости (убыв.)",
         ["zhCN"] = "按远近（反向）",
-        ["zhTW"] = "依遠近 (反向)",
+        ["zhTW"] = "依遠近（反向）",
     },
     ["By Zone"] = {
         ["enUS"] = true,
@@ -986,7 +986,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Por proximidade de zona (invertido)",
         ["ruRU"] = "По дальности зоны (убыв.)",
         ["zhCN"] = "按区域远近（反向）",
-        ["zhTW"] = "依區域遠近 (反向)",
+        ["zhTW"] = "依區域遠近（反向）",
     },
     ---------------------------------------------------------
     ["Set |cFF54e33bTomTom|r Target"] = {
@@ -1157,8 +1157,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 설정은 퀘스트를 추가하거나 제거할 때 Questie 추적기가 성장하는 방향을 결정합니다. 예를 들어, \"위쪽 & 오른쪽\" 옵션을 사용하면 추적기의 이상적인 위치는 화면의 왼쪽 하단이어야 합니다. 이를 통해 \"크기 조정 모드: 자동\"이 추적기의 높이와 너비를 \"위쪽 & 오른쪽\"으로 밀어 UI 요소를 덮지 않도록 합니다.",
         ["ptBR"] = "Isso determina a direção na qual o rastreador de Questie cresce quando você adiciona ou remove missões. Por exemplo, se você usar a opção \"Para Cima e Para a Direita\", então o local ideal para o rastreador deve ser no canto inferior esquerdo da tela. Isso permite que o \"Modo de medição: Automático\" empurre a Altura e a Largura do rastreador \"Para Cima e Para a Direita\" para que o rastreador não cubra inadvertidamente elementos da sua interface de usuário.",
         ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Например, при использовании значения \"Вверх и вправо\" идеальным расположением для трекера будет нижний левый угол вашего экрана. Это позволяет сайзеру (изменитель размера трекера) в режиме \"Авто\" выставлять высоту и ширину трекера \"Вверх и вправо\" так, чтобы трекер случайно не скрыл элементы вашего интерфейса.",
-        ["zhCN"] = "新增或移除任务时，任务列表的增长方向。例如：列表在界面的左下方时，可以使用 \"上 & 右\"，让 \"调整大小模式：自动 \" 往 \"上 & 右\" 调整列表的高度和宽度，列表便不会挡住其他界面清",
-        ["zhTW"] = "新增或移除任務時，任務清單的延伸方向。例如清單位置在畫面的左下方時，可以使用 \"上 & 右\"，讓 \"調整大小模式：自動\" 往 \"上 & 右\" 調整清單的高度和寬度，清單便不會擋住其他介面",
+        ["zhCN"] = "新增或移除任务时，任务列表的增长方向。例如：列表在界面的左下方时，可以使用 \"上和右\"，让 \"调整大小模式：自动 \" 往 \"上和右\" 调整列表的高度和宽度，列表便不会挡住其他界面清",
+        ["zhTW"] = "新增或移除任務時，任務清單的延伸方向。例如清單位置在畫面的左下方時，可以使用 \"上和右\"，讓 \"調整大小模式：自動\" 往 \"上和右\" 調整清單的高度和寬度，清單便不會擋住其他介面",
     },
     ---------------------------------------------------------
     ["Up & Right"] = {
@@ -1170,8 +1170,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "위쪽 & 오른쪽",
         ["ptBR"] = "Para cima e para a direita",
         ["ruRU"] = "Вверх и вправо",
-        ["zhCN"] = "上 & 右",
-        ["zhTW"] = "上 & 右",
+        ["zhCN"] = "上和右",
+        ["zhTW"] = "上和右",
     },
     ["Up & Left"] = {
         ["enUS"] = true,
@@ -1182,8 +1182,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "위쪽 & 왼쪽",
         ["ptBR"] = "Para cima e para a esquerda",
         ["ruRU"] = "Вверх и влево",
-        ["zhCN"] = "上 & 左",
-        ["zhTW"] = "上 & 左",
+        ["zhCN"] = "上和左",
+        ["zhTW"] = "上和左",
     },
     ["Down & Right"] = {
         ["enUS"] = true,
@@ -1194,8 +1194,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "아래쪽 & 오른쪽",
         ["ptBR"] = "Para baixo e para a direita",
         ["ruRU"] = "Вниз и вправо",
-        ["zhCN"] = "下 & 右",
-        ["zhTW"] = "下 & 右",
+        ["zhCN"] = "下和右",
+        ["zhTW"] = "下和右",
     },
     ["Down & Left"] = {
         ["enUS"] = true,
@@ -1206,8 +1206,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "아래쪽 & 왼쪽",
         ["ptBR"] = "Para baixo e para a esquerda",
         ["ruRU"] = "Вниз и влево",
-        ["zhCN"] = "下 & 左",
-        ["zhTW"] = "下 & 左",
+        ["zhCN"] = "下和左",
+        ["zhTW"] = "下和左",
     },
     ---------------------------------------------------------
     ["Font Size for Active Quests Header"] = {
@@ -1502,11 +1502,11 @@ local trackerOptionsLocales = {
         ["esES"] = "La altura del rastreador se basa en el porcentaje de la altura utilizable de la pantalla. Una configuración de 100 por ciento haría que el rastreador llenará toda la altura de la pantalla del jugador.\n\nNOTA: Esta configuración solo se aplica en el Modo de medición: Automático.",
         ["esMX"] = "La altura del rastreador se basa en el porcentaje de la altura utilizable de la pantalla. Una configuración de 100 por ciento haría que el rastreador llenará toda la altura de la pantalla del jugador.\n\nNOTA: Esta configuración solo se aplica en el Modo de medición: Automático.",
         ["frFR"] = "La hauteur du suivi en pourcentage de la hauteur d'écran utilisable. Un réglage de 100 pour cent ferait remplir la hauteur de l'écran du joueur.\n\nREMARQUE : Ce réglage ne s'applique que lors du Mode de calibrage : Automatique.",
-        ["koKR"] = "Questie 추적기의 높이는 실행 가능한 화면 높이의 백분율을 기준으로 설정됩니다. 100%로 설정하면 추적기가 화면 전체 높이를 차지하게 됩니다.\n\n참고: 이 설정은 '크기 조정 모드: 자동'에서만 적용됩니다.",
+        ["koKR"] = "Questie 추적기의 높이는 실행 가능한 화면 높이의 백분율을 기준으로 설정됩니다. 100%%로 설정하면 추적기가 화면 전체 높이를 차지하게 됩니다.\n\n참고: 이 설정은 '크기 조정 모드: 자동'에서만 적용됩니다.",
         ["ptBR"] = "A altura do rastreador baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de mediçao: Automático.",
         ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
-        ["zhCN"] = "列表高度依据可用的界面高度百分比，100% 会让列表和界面一样高。\n\n注意：此设定只在调整大小模式为自动时有效",
-        ["zhTW"] = "清單高度依據可用的畫面高度百分比，100% 會讓清單和畫面一樣高。\n\n注意：此設定只在調整大小模式為自動時有效",
+        ["zhCN"] = "列表高度依据可用的界面高度百分比，100%% 会让列表和界面一样高。\n\n注意：此设定只在调整大小模式为自动时有效",
+        ["zhTW"] = "清單高度依據可用的畫面高度百分比，100%% 會讓清單和畫面一樣高。\n\n注意：此設定只在調整大小模式為自動時有效",
     },
     ["Font Options"] = {
         ["enUS"] = true,
