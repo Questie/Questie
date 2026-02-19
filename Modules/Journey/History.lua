@@ -26,13 +26,16 @@ function _QuestieJourney:GetHistory()
             children = {},
         }
 
-        for month=12, 1, -1 do -- Iterate the month from last to newest
-            if journeyEntries[year][month] then -- Only check month with events
-                local monthView = {
-                    value = month,
-                    text = CALENDAR_FULLDATE_MONTH_NAMES[month],
-                    children = {},
-                }
+                for month = 12, 1, -1 do -- Iterate the month from last to newest
+                    if journeyEntries[year][month] then -- Only check month with events
+
+                    local monthName = CALENDAR_FULLDATE_MONTH_NAMES[month]
+
+                    local monthView = {
+                        value = month,
+                        text = monthName and (monthName:sub(1,1):upper() .. monthName:sub(2)) or "",
+                        children = {},
+                        }
 
                 for entryIndex=#journeyEntries[year][month], 1, -1 do -- Iterate backwards to show newest first
 
