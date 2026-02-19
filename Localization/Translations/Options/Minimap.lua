@@ -96,7 +96,7 @@ local minimapOptionsLocales = {
         ["ptBR"] = "Qual é o tamanho dos ícones do minimapa.\n(Padrão: %s)",
         ["ruRU"] = "Одновременная регулировка размера всех значков на миникарте\n(по умолчанию: %s)",
         ["zhCN"] = "调整小地图图标的缩放比例\n（默认：%s）",
-        ["zhTW"] = "小地圖上圖示的大小。\n（預設值：%s）",
+        ["zhTW"] = "小地圖上圖示的大小\n（預設值：%s）",
     },
     ["Fade Icons over Player"] = {
         ["enUS"] = true,
@@ -192,7 +192,7 @@ local minimapOptionsLocales = {
         ["ptBR"] = "Quantos ícones ao redor do jogador devem desaparecer.\n(Padrão: %s)",
         ["ruRU"] = "Настройка степени блеклости значков на миникарте рядом с игроком\n(по умолчанию: %s)",
         ["zhCN"] = "靠近或与玩家重叠的标记，其淡出的透明度数值\n（默认：%s）",
-        ["zhTW"] = "玩家附近的圖示要多透明。\n（預設值：%s）",
+        ["zhTW"] = "玩家附近的圖示要多透明\n（預設值：%s）",
     },
     ["Show Minimap Coordinates"] = {
         ["enUS"] = true,
