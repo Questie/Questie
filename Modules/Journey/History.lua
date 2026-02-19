@@ -30,7 +30,7 @@ function _QuestieJourney:GetHistory()
             if journeyEntries[year][month] then -- Only check month with events
                 local monthView = {
                     value = month,
-                    text = CALENDAR_FULLDATE_MONTH_NAMES[month] .. ' '.. year,
+                    text = CALENDAR_FULLDATE_MONTH_NAMES[month],
                     children = {},
                 }
 
