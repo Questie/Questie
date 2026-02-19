@@ -266,7 +266,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "图标限制值设置为 %s：重新绘制中！",
         ["zhTW"] = "圖示數量限制為 %s：重新繪製中！",
     },
-    ["Questie DB is updating — "] = {
+    ["Questie DB updating — "] = {
         ["enUS"] = true,
         ["deDE"] = "Questie DB wird aktualisiert — ",
         ["esES"] = "La base de datos de Questie se está actualizando — ",
