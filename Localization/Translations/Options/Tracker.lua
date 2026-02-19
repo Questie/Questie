@@ -44,12 +44,12 @@ local trackerOptionsLocales = {
         ["deDE"] = "Dies ist dasselbe wie \"Automatische Questverfolgung aktivieren\" in den Schnittstellenoptionen. Wenn aktiviert, verfolgt der Questie-Tracker automatisch alle Quests im Questlog. Dies verhindert die manuelle Verfolgung durch \"Umschalten + Linksklick\".",
         ["esES"] = "Esto es lo mismo que \"Activar el seguimiento automático de misiones\" en las opciones de la interfaz. Si está seleccionado, el rastreador rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",
         ["esMX"] = "Esto es lo mismo que \"Activar el seguimiento automático de misiones\" en las opciones de la interfaz. Si está seleccionado, el rastreador rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",
-        ["frFR"] = "Cela revient à utiliser \"Activer le suivi automatique des quêtes\" dans les options d'interface. Le suivi des quêtes suivra alors automatiquement toutes les quêtes de votre journal et cela empêchera le suivi manuel Maj-clic.",
+        ["frFR"] = "Cela revient à utiliser « Activer le suivi automatique des quêtes » dans les options d'interface. Le suivi des quêtes suivra alors automatiquement toutes les quêtes de votre journal et cela empêchera le suivi manuel Maj-clic.",
         ["koKR"] = "인터페이스 옵션의 \"자동 퀘스트 추적 사용 \"과 동일합니다. 활성화하면 Questie Tracker가 로그의 모든 퀘스트를 자동으로 추적합니다. 이렇게하면 Shift- 클릭 수동 추적이 방지됩니다.",
         ["ptBR"] = "É o mesmo que \"Ativar rastreamento automático de missões\" nas opções da interface. Se marcado, o Questie Rastreador rastreia automaticamente todas as missões em seu registro. Isso evita o rastreamento manual com a tecla Shift pressionada.",
         ["ruRU"] = "Когда включено, трекер будет автоматически отслеживать все задания в вашем журнале (это то же самое, что и \"Отслеживание заданий\" в настройках интерфейса игры). Отключение данной настройки приведет к отмене отслеживания всех заданий в вашем журнале, вам придется вручную выбрать задания для отслеживания.\n\nПРИМЕЧАНИЕ: Настройка \"Выполненные задания\" будет отключена при отключении данной настройки",
-        ["zhCN"] = "这与界面选项中的“启用自动任务跟踪”相同。 启用时，Questie 追踪将自动追踪日志中的所有任务。 关闭此选项可以取消所有追踪的任务，需要手动选择。\n\n注意：停用本选项也会停用“显示已完成的任务”",
-        ["zhTW"] = "和遊戲內建的選項 \"啟用自動追蹤任務\" 相同。啟用時，Questie 任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意：停用此選項時也會停用 \"顯示已完成的任務\"",
+        ["zhCN"] = "这与界面选项中的\"启用自动任务跟踪\"相同。启用时，Questie追踪将自动追踪日志中的所有任务。关闭此选项可以取消所有追踪的任务，需要手动选择。\n\n注意：停用本选项也会停用\"显示已完成的任务\"",
+        ["zhTW"] = "和遊戲內建的選項 \"啟用自動追蹤任務\" 相同。啟用時，Questie任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意：停用此選項時也會停用 \"顯示已完成的任務\"",
     },
     ---------------------------------------------------------
     ["Show Completed Quests"] = {
@@ -69,12 +69,12 @@ local trackerOptionsLocales = {
         ["deDE"] = "Wenn diese Option aktiviert ist, werden abgeschlossene Quests im Questie-Tracker angezeigt.\n\nHINWEIS: Diese Einstellung funktioniert nur, wenn \"Quests automatisch verfolgen\" aktiviert ist.",
         ["esES"] = "Si está seleccionado, las misiones completadas se mostrarán en el rastreador.\n\nNOTA: Esta configuración solo funciona cuando el \"Rastrear misiones automáticamente\" está seleccionado.",
         ["esMX"] = "Si está seleccionado, las misiones completadas se mostrarán en el rastreador.\n\nNOTA: Esta configuración solo funciona cuando el \"Rastrear misiones automáticamente\" está seleccionado.",
-        ["frFR"] = "Si cette option est cochée, les quêtes terminées s'afficheront dans le suivi de quêtes de Questie.\n\nREMARQUE : Ce paramètre ne fonctionne que lorsque l'option \"Suivi automatique des quêtes\" est cochée.",
+        ["frFR"] = "Si cette option est cochée, les quêtes terminées s'afficheront dans le suivi de quêtes de Questie.\n\nREMARQUE : Ce paramètre ne fonctionne que lorsque l'option « Suivi automatique des quêtes » est cochée.",
         ["koKR"] = "이 옵션을 선택하면 완료된 퀘스트가 Questie 추적기에 표시됩니다.\n\n참고: 이 설정은 \"자동 퀘스트 추적\"이 활성화된 경우에만 작동합니다.",
         ["ptBR"] = "Se marcado, as missões concluída serão exibidas no rastreador de missões de Questie.\n\nNOTA: Esta configuração só funciona quando \"Rastrear missões automaticamente\" está marcado.",
         ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nПРИМЕЧАНИЕ: Эта настройка работает только при включенной настройке \"Автоотслеживание\"",
         ["zhCN"] = "启用时，任务列表中会显示已完成的任务\n\n注意: 必须先启用 \"自动追踪所有任务\"，此设置才有用",
-        ["zhTW"] = "啟用時，任務清單中會顯示已完成的任務。\n\n注意: 必須先啟用 \"自動追蹤所有任務\"，此設定才有效果",
+        ["zhTW"] = "啟用時，任務清單中會顯示已完成的任務\n\n注意: 必須先啟用 \"自動追蹤所有任務\"，此設定才有效果",
     },
     ---------------------------------------------------------
     ["Show Quest Level"] = {
@@ -169,12 +169,12 @@ local trackerOptionsLocales = {
         ["deDE"] = "Wenn diese Option aktiviert ist, wird der Blizzard Quest-Abgeschlossen-Text für abgeschlossene Quests ausgeblendet und stattdessen die alten Questie-Tags angezeigt: 'Quest abgeschlossen!' oder 'Quest fehlgeschlagen!'",
         ["esES"] = "Si está seleccionado, el texto de completación de Blizzard se ocultará para las misiones completadas y en su lugar mostrará las etiquetas de Questie antiguas: \"¡Misión completada!\" o \"¡Misión fracasada!\"",
         ["esMX"] = "Si está seleccionado, el texto de completación de Blizzard se ocultará para las misiones completadas y en su lugar mostrará las etiquetas de Questie antiguas: \"¡Misión completada!\" o \"¡Misión fracasada!\"",
-        ["frFR"] = "Si cette option est cochée, le texte de terminaison de Blizzard sera caché pour les quêtes terminées et à la place, les anciennes balises Questie seront affichées : \"Quête terminée !\" ou \"Quête échec !'\"",
+        ["frFR"] = "Si cette option est cochée, le texte de terminaison de Blizzard sera caché pour les quêtes terminées et à la place, les anciennes balises Questie seront affichées : « Quête terminée ! » ou « Quête échec ! »",
         ["koKR"] = "이 옵션을 선택하면 완료된 퀘스트에 대한 블리자드 완료 텍스트가 숨겨지고 이전 Questie 태그인 \"퀘스트 완료!\" 또는 \"퀘스트 실패!\"가 표시됩니다.",
         ["ptBR"] = "Se marcado, o texto de conclusão de Blizzard será ocultado para as missões concluídas e, em vez disso, mostrará as antigas etiquetas de Questie: \"Missão concluída!\" ou \"Missão fracassada!\"",
         ["ruRU"] = "Когда включено, Blizzard-ский текст об окончании задания будет скрыт, а вместо него будет отображен текст Questie: 'Задание выполнено!' или 'Задание провалено!'",
-        ["zhCN"] = "启用时，完成任务时不会显示游戏内建的完成信息，而会显示传统的信息：\"任务完成！\" 和 \"任务失败！\"",
-        ["zhTW"] = "啟用時，完成任務時不會顯示遊戲內建的完成訊息，而會顯示傳統的訊息： \"任務完成！\" 和 \"任務失敗！\"",
+        ["zhCN"] = "启用时，完成任务时不会显示游戏内建的完成信息，而会显示传统的信息：\"任务完成！\"和\"任务失败！\"",
+        ["zhTW"] = "啟用時，完成任務時不會顯示遊戲內建的完成訊息，而會顯示傳統的訊息：\"任務完成！\"和\"任務失敗！\"",
     },
     ---------------------------------------------------------
     -- Wrath of the Lich King only
@@ -199,8 +199,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 완료된 업적 목표가 자동으로 Questie 추적기에서 제거됩니다.",
         ["ptBR"] = "Se marcado, os objetivos de conquistas concluídos serão automaticamente removidos do rastreador de missões de Questie.",
         ["ruRU"] = "Когда включено, выполненные цели достижений будут автоматически изъяты из трекера",
-        ["zhCN"] = "启用时，已完成的成就目标将自动从 Questie 追踪器中移除",
-        ["zhTW"] = "啟用時，已完成的成就目標將自動從 Questie 追蹤器中移除",
+        ["zhCN"] = "启用时，已完成的成就目标将自动从Questie追踪器中移除",
+        ["zhTW"] = "啟用時，已完成的成就目標將自動從Questie追蹤器中移除",
     },
     ---------------------------------------------------------
     ["Show Blizzard Timer"] = {
@@ -249,8 +249,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 활성화된 퀘스트 수와 Questie 아이콘이 추적기 헤더에 지속적으로 표시됩니다\n\n이 옵션을 선택 해제하면 마우스가 추적기 위에 있을 때만 Questie 아이콘이 나타납니다",
         ["ptBR"] = "Se marcado, o cabeçalho do rastreador com o número de missões ativas e o ícone de Questie ficará permanentemente visível.\n\nSe desativado, o ícone de Questie desaparecerá enquanto o cursor do mouse estiver sobre o rastreador.",
         ["ruRU"] = "Когда включено, заголовок трекера с числом активных заданий и значком Questie будет всегда виден.\n\nКогда выключено, значок Questie будет появляться при наведении мышью на трекер",
-        ["zhCN"] = "启用时，会一直显示任务数量和 Questie 图标。 \n\n停用时，指标指向清单时才会显示 Questie 图标",
-        ["zhTW"] = "啟用時，會一直顯示任務數量和 Questie 圖示。\n\n停用時，滑鼠指向清單時才會顯示 Questie 圖示",
+        ["zhCN"] = "启用时，会一直显示任务数量和Questie图标\n\n停用时，指标指向清单时才会显示Questie图标",
+        ["zhTW"] = "啟用時，會一直顯示任務數量和Questie圖示\n\n停用時，滑鼠指向清單時才會顯示Questie圖示",
     },
     ---------------------------------------------------------
     ["Show Tracker Header At The Bottom"] = {
@@ -274,8 +274,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 추적기 헤더와 Questie 아이콘이 Questie 추적기 하단으로 이동하고 크기 조정기가 상단으로 이동합니다.",
         ["ptBR"] = "Se marcado, o cabeçalho do rastreador e/ou o ícone de Questie serão movidos para a parte inferior do rastreador de Questie e o medidor para o topo.",
         ["ruRU"] = "Когда включено, заголовок трекера и/или значок Questie будут перемещены в низ трекера, а сайзер будет перемещен наверх",
-        ["zhCN"] = "启用时，任务清单标题列和/或 Questie 图标会移动到清单的最下方，缩放大小的拖曳点会在最上方",
-        ["zhTW"] = "啟用時，任務清單標題列和 Questie 圖示會移動到清單的最下方，縮放大小的拖曳點會在最上方",
+        ["zhCN"] = "启用时，任务清单标题列和/或Questie图标会移动到清单的最下方，缩放大小的拖曳点会在最上方",
+        ["zhTW"] = "啟用時，任務清單標題列和Questie圖示會移動到清單的最下方，縮放大小的拖曳點會在最上方",
     },
     ---------------------------------------------------------
     ["Sticky Durability Frame"] = {
@@ -424,8 +424,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 펫 배틀을 시작할 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se marcado, o rastreador será automaticamente ocultado ao entrar em uma batalha de mascotes.",
         ["ruRU"] = "Когда включено, трекер Questie будет автоматически скрываться при входе в битву питомцев",
-        ["zhCN"] = "启用时，进入宠物对战时 Questie 追踪器会自动隐藏",
-        ["zhTW"] = "啟用時，進入寵物對戰時，Questie 追蹤器會自動隱藏",
+        ["zhCN"] = "启用时，进入宠物对战时Questie追踪器会自动隐藏",
+        ["zhTW"] = "啟用時，進入寵物對戰時，Questie追蹤器會自動隱藏",
     },
     ---------------------------------------------------------
     ["Fade Min/Max Buttons"] = {
@@ -550,7 +550,7 @@ local trackerOptionsLocales = {
         ["ptBR"] = "Se marcado, o Pano de fundo e a borda de Questie Rastreador (se ativado) desaparecerão e se tornarão transparentes quando não estiverem em uso.",
         ["ruRU"] = "Когда включено, фон и граница трекера исчезают и становятся прозрачными при неиспользовании",
         ["zhCN"] = "启用时，自动淡化背景及边框",
-        ["zhTW"] = "啟用時，滑鼠沒有指向任務清單時，背景和 (如果有啟用) 邊框會變成透明",
+        ["zhTW"] = "啟用時，滑鼠沒有指向任務清單時，背景和（如果有啟用）邊框會變成透明",
     },
     ---------------------------------------------------------
     ["Disable Quest Hover Fade"] = {
@@ -863,8 +863,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie 추적기에서 목표가 정렬되는 방식.",
         ["ptBR"] = "Como os objetivos são ordenados no rastreador.",
         ["ruRU"] = "Выбор типа сортировки целей заданий в трекере",
-        ["zhCN"] = "目标在 Questie 追踪器中的排序方式",
-        ["zhTW"] = "目標在 Questie 追蹤器中的排序方式",
+        ["zhCN"] = "目标在Questie追踪器中的排序方式",
+        ["zhTW"] = "目標在Questie追蹤器中的排序方式",
     },
     -- Wrath of the Lich King only --
     ["How Objectives are sorted in the Questie Tracker.\n\nNOTE: This will not sort Achievements."] = {
@@ -876,8 +876,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기에서 퀘스트 목표를 어떻게 정렬해서 보여줄지 설정합니다.",
         ["ptBR"] = "Como os objetivos são ordenados no rastreador.\n\nNOTA: Isso não ordenará as conquistas.",
         ["ruRU"] = "Выбор типа сортировки целей заданий в трекере.\n\nПРИМЕЧАНИЕ: Это не сортирует достижения",
-        ["zhCN"] = "目标在 Questie 追踪器中的排序方式。\n\n注意：此设置不会对成就进行排序",
-        ["zhTW"] = "目標在 Questie 追蹤器中的排序方式。\n\n注意：此設定不會對成就進行排序",
+        ["zhCN"] = "目标在Questie追踪器中的排序方式\n\n注意：此设置不会对成就进行排序",
+        ["zhTW"] = "目標在Questie追蹤器中的排序方式\n\n注意：此設定不會對成就進行排序",
     },
     ---------------------------------------------------------
     ["By %% Complete"] = {
@@ -1024,8 +1024,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기에서 TomTom 애드온을 여는 단축키를 설정합니다.",
         ["ptBR"] = "Atalho para abrir TomTom",
         ["ruRU"] = "Сочетание клавиш для установки точки TomTom либо на NPC, либо на первую невыполненную цель задания (если имеются координаты).\n\nПРИМЕЧАНИЕ: Это не работает с достижениями",
-        ["zhCN"] = "此捷径将会设置 TomTom 箭头指向 NPC 或第一个未完成的任务目标（如果位置数据可用）。\n\n注意：此功能不适用于成就",
-        ["zhTW"] = "此捷徑將會設定 TomTom 箭頭指向 NPC 或第一個未完成的任務目標（如果位置資料可用）。\n\n注意：此功能不適用於成就",
+        ["zhCN"] = "此捷径将会设置 TomTom 箭头指向 NPC 或第一个未完成的任务目标（如果位置数据可用）\n\n注意：此功能不适用于成就",
+        ["zhTW"] = "此捷徑將會設定 TomTom 箭頭指向 NPC 或第一個未完成的任務目標（如果位置資料可用）\n\n注意：此功能不適用於成就",
     },
     ---------------------------------------------------------
     -- Classic and TBC only --
@@ -1105,7 +1105,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 단축키는 채팅 입력창이 보이지 않을 때 Questie 추적기에서 퀘스트를 제거하며, 그렇지 않으면 퀘스트를 채팅에 링크합니다.",
         ["ptBR"] = "Este atalho remove uma missão do rastreador quando a caixa de entrada do bate-papo NÃO está visível; caso contrário, ele vinculará uma missão ao bate-papo.",
         ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание",
-        ["zhCN"] = "当聊天输入框不可见时，此快捷键会将任务从 Questie 追踪器中移除；否则，会将任务链接到聊天中",
+        ["zhCN"] = "当聊天输入框不可见时，此快捷键会将任务从Questie追踪器中移除；否则，会将任务链接到聊天中",
         ["zhTW"] = "正在聊天視窗打字時，此功能會產生可以貼到聊天視窗的任務連結。不是正在打字時會從任務清單中移除任務",
     },
     ---------------------------------------------------------
@@ -1252,7 +1252,7 @@ local trackerOptionsLocales = {
         ["deDE"] = "Die Schriftart die für aktive Quests verwendet wird.",
         ["esES"] = "La fuente utilizada para las misiones activas.",
         ["esMX"] = "La fuente utilizada para las misiones activas.",
-        ["frFR"] = "La police utilisée par Active Quests.",
+        ["frFR"] = "La police utilisée par les quêtes en cours.",
         ["koKR"] = "액티브 퀘스트 글꼴이 사용합니다.",
         ["ptBR"] = "A fonte usada para missões ativas.",
         ["ruRU"] = "Шрифт, используемый в заголовке 'Активные задания'",
@@ -1331,8 +1331,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "퀘스트 제목에 사용되는 글꼴 크기입니다.\n\n참고: 목표 글꼴 크기는 퀘스트 글꼴 크기보다 작거나 같게 자동 조정됩니다. 이는 텍스트 충돌 및 형식 오류를 방지하기 위해 필요합니다.",
         ["ptBR"] = "O tamanho da fonte usado para os títulos de missão.\n\nNOTA: O tamanho da fonte do objetivo será ajustado automaticamente para menos ou igual ao tamanho da fonte da missão. Isso é necessário para evitar colisões de texto e anormalidades de formatação.",
         ["ruRU"] = "Размер шрифта, используемого в названиях заданий.\n\nПРИМЕЧАНИЕ: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
-        ["zhCN"] = "任务标题所使用的字体大小。\n\n注意：任务目标的字体大小会自动调整为小于或等于任务标题的字体大小。这样可以避免文字重叠和格式异常",
-        ["zhTW"] = "任務標題所使用的字體大小。\n\n注意：任務目標的字體大小會自動調整為小於或等於任務標題的字體大小。這樣可以避免文字重疊和格式異常",
+        ["zhCN"] = "任务标题所使用的字体大小\n\n注意：任务目标的字体大小会自动调整为小于或等于任务标题的字体大小。这样可以避免文字重叠和格式异常",
+        ["zhTW"] = "任務標題所使用的字體大小\n\n注意：任務目標的字體大小會自動調整為小於或等於任務標題的字體大小。這樣可以避免文字重疊和格式異常",
     },
     ---------------------------------------------------------
     ["Font for Quest Titles"] = {
@@ -1381,8 +1381,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "목표에 사용되는 글꼴 크기입니다.",
         ["ptBR"] = "O tamanho da fonte usada para os objetivos.",
         ["ruRU"] = "Размер шрифта, используемого в наименованиях целей заданий.\n\nПРИМЕЧАНИЕ: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
-        ["zhCN"] = "用于任务目标的字体大小。\n\n注意：任务目标的字体大小会自动调整为小于或等于任务标题的字体大小。这样做可以避免文字重叠和格式异常",
-        ["zhTW"] = "用於任務目標的字體大小。\n\n注意：任務目標的字體大小會自動調整為小於或等於任務標題的字體大小。這樣做可以避免文字重疊和格式異常",
+        ["zhCN"] = "用于任务目标的字体大小\n\n注意：任务目标的字体大小会自动调整为小于或等于任务标题的字体大小。这样做可以避免文字重叠和格式异常",
+        ["zhTW"] = "用於任務目標的字體大小\n\n注意：任務目標的字體大小會自動調整為小於或等於任務標題的字體大小。這樣做可以避免文字重疊和格式異常",
     },
     ---------------------------------------------------------
     ["Font for Objectives"] = {
@@ -1431,8 +1431,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie Tracker에서 퀘스트 사이의 패딩 양입니다.\n\n참고: Sizer 수동 모드에서 이 설정을 변경하면 Sizer가 다시 자동 모드로 재설정됩니다.",
         ["ptBR"] = "A quantidade de espaço entre missões no rastreador.\n\nNOTA: Alterar esta configuração no modo manual de medição irá redefinir o medidor de volta para o modo automático.",
         ["ruRU"] = "Установка отступа между заданиями в трекере.\n\nПРИМЕЧАНИЕ: Если сайзер (изменитель размера трекера) в ручном режиме, то изменение этой настройки сбросит режим сайзера на автоматический",
-        ["zhCN"] = "Questie Tracker 中任务之间的填充量。\n\n注意：在 Sizer 手动模式下更改此设置会将 Sizer 重置为自动模式",
-        ["zhTW"] = "清單中每個任務之間的距離。\n\n注意：在手動調整大小的模式下更改此設定會重置為自動模式",
+        ["zhCN"] = "Questie Tracker 中任务之间的填充量\n\n注意：在 Sizer 手动模式下更改此设置会将 Sizer 重置为自动模式",
+        ["zhTW"] = "清單中每個任務之間的距離\n\n注意：在手動調整大小的模式下更改此設定會重置為自動模式",
     },
     ---------------------------------------------------------
     ["Outline for Zones, Titles, and Objectives"] = {
@@ -1456,8 +1456,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie 추적기에서 퀘스트 지역, 제목 및 목표에 사용되는 외곽선입니다.",
         ["ptBR"] = "O contorno usado para as zonas, títulos e objetivos no rastreador.",
         ["ruRU"] = "Обводка для шрифтов названий игровых зон, названий заданий и целей",
-        ["zhCN"] = "在 Questie 追踪器中，用于任务区域、标题与目标的文字外框样式",
-        ["zhTW"] = "在 Questie 追蹤器中，用於任務區域、標題與目標的文字外框樣式",
+        ["zhCN"] = "在Questie追踪器中，用于任务区域、标题与目标的文字外框样式",
+        ["zhTW"] = "在Questie追蹤器中，用於任務區域、標題與目標的文字外框樣式",
     },
     ["Background Color"] = {
         ["enUS"] = true,
@@ -1505,8 +1505,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie 추적기의 높이는 실행 가능한 화면 높이의 백분율을 기준으로 설정됩니다. 100%%로 설정하면 추적기가 화면 전체 높이를 차지하게 됩니다.\n\n참고: 이 설정은 '크기 조정 모드: 자동'에서만 적용됩니다.",
         ["ptBR"] = "A altura do rastreador baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de mediçao: Automático.",
         ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
-        ["zhCN"] = "列表高度依据可用的界面高度百分比，100%% 会让列表和界面一样高。\n\n注意：此设定只在调整大小模式为自动时有效",
-        ["zhTW"] = "清單高度依據可用的畫面高度百分比，100%% 會讓清單和畫面一樣高。\n\n注意：此設定只在調整大小模式為自動時有效",
+        ["zhCN"] = "列表高度依据可用的界面高度百分比，100%%会让列表和界面一样高\n\n注意：此设定只在调整大小模式为自动时有效",
+        ["zhTW"] = "清單高度依據可用的畫面高度百分比，100%%會讓清單和畫面一樣高\n\n注意：此設定只在調整大小模式為自動時有效",
     },
     ["Font Options"] = {
         ["enUS"] = true,
