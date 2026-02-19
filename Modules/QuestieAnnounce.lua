@@ -88,7 +88,7 @@ function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveTe
             objective = objectiveProgress.." "..objectiveText
         end
 
-        local message = _GetAnnounceMarker() .. l10n("%s for %s", objective, questLink)
+        local message = _GetAnnounceMarker() .. l10n("%s for %s!", objective, questLink)
         _QuestieAnnounce:AnnounceToChannel(message)
     end
 end
@@ -113,7 +113,7 @@ function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
         local questHyperLink = QuestieLink:GetQuestLinkStringById(questId);
         local itemLink = select(2, GetItemInfo(itemId))
 
-        local message = _GetAnnounceMarker() .. l10n("Picked up %s which starts %s", itemLink, questHyperLink)
+        local message = _GetAnnounceMarker() .. l10n("Picked up %s which starts %s!", itemLink, questHyperLink)
         _QuestieAnnounce:AnnounceToChannel(message)
         return true
     else
@@ -125,7 +125,7 @@ function _QuestieAnnounce:AnnounceSelf(questId, itemId)
     local questHyperLink = QuestieLink:GetQuestHyperLink(questId);
     local itemLink = select(2, GetItemInfo(itemId));
 
-    Questie:Print(l10n("You picked up %s which starts %s", itemLink, questHyperLink));
+    Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questHyperLink));
 end
 
 ---@return boolean
