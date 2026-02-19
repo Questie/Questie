@@ -612,7 +612,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "빈 추적기 헤더 표시",
         ["ptBR"] = "Mostrar cabeçalho para o rastreador vazio",
         ["ruRU"] = "Отображать при пустом трекере",
-        ["zhCN"] = "为空追踪器显示标题",
+        ["zhCN"] = "追踪器为空时显示标题",
         ["zhTW"] = "空的追蹤器也要顯示標題列",
     },
     ["If checked, the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely."] = {

@@ -311,7 +311,7 @@ local mapOptionsLocales = {
         ["koKR"] = "지도 제목 영역에 플레이어 및 커서의 좌표를 표시합니다.",
         ["ptBR"] = "Mostra as coordenadas do jogador e do cursor no título do mapa.",
         ["ruRU"] = "Показать/скрыть координаты игрока и курсора в заголовке карты мира",
-        ["zhCN"] = "在大地图标题上显示玩家与鼠标指向位置的座标",
+        ["zhCN"] = "在大地图标题上显示玩家与鼠标指向位置的坐标",
         ["zhTW"] = "在大地圖的標題中顯示玩家和滑鼠游標的坐標",
     },
     ["Map Coordinates Decimal Precision"] = {
@@ -323,7 +323,7 @@ local mapOptionsLocales = {
         ["koKR"] = "지도 좌표 소수점 표시 설정",
         ["ptBR"] = "Precisão de coordenadas no mapa",
         ["ruRU"] = "Количество знаков после запятой",
-        ["zhCN"] = "座标数值精确度",
+        ["zhCN"] = "坐标数值精确度",
         ["zhTW"] = "地圖坐標小數點精確度",
     },
     ["How many decimals to include in the precision on the Map for Player and Cursor coordinates.\n(Default: %s)"] = {
@@ -335,7 +335,7 @@ local mapOptionsLocales = {
         ["koKR"] = "지도 좌표에 소수점 몇자리까지 표시할지 설정합니다.\n(기본값: %s)",
         ["ptBR"] = "Número de casas decimais a serem incluídas na precisão do mapa para as coordenadas do jogador e do cursor.\n(Padrão: %s)",
         ["ruRU"] = "Допустимое количество знаков после запятой при отображении координат\n(по умолчанию: %s)",
-        ["zhCN"] = "大地图的座标要显示到小数点后几位\n（默认：%s）",
+        ["zhCN"] = "大地图的坐标要显示到小数点后几位\n（默认：%s）",
         ["zhTW"] = "大地圖的玩家和滑鼠游標坐標要顯示幾位小數。\n（預設值：%s）",
     },
     ["Setting clustering value, clusterLevelHotzone set to %s : Redrawing!"] = {
