@@ -3958,7 +3958,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11152] = {
             [questKeys.objectives] = {nil,{{186322,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the cannon"),0,{{"object",186432}}}},
         },
         [11159] = {
             [questKeys.preQuestSingle] = {11161},
@@ -3995,8 +3994,9 @@ function QuestieTBCQuestFixes:Load()
         [11186] = {
             [questKeys.startedBy] = {{23881}},
         },
-        [11198] = {
+        [11198] = { -- Take Down Tethyr!
             [questKeys.objectives] = {{{23899}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the cannon"), 0, {{"object",186432}}}},
         },
         [11203] = {
             [questKeys.preQuestSingle] = {},

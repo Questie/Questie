@@ -1497,6 +1497,9 @@ function QuestieTBCNpcFixes:Load()
         [23881] = { -- Apothecary Cylla
             [npcKeys.questStarts] = {11185,11186},
         },
+        [23899] = { -- Tethyr
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{70.14,52.79}}},
+        },
         [23904] = { -- Sir Thomas
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
