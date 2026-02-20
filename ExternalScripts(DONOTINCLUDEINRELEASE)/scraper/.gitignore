@@ -14,3 +14,5 @@ object_names_*.lua
 object/translations/lookups
 
 response.html
+
+quest/sod_translations/quest_data_*.lua
