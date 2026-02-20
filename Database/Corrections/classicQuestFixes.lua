@@ -4471,9 +4471,10 @@ function QuestieQuestFixes:Load()
         [8574] = {
             [questKeys.preQuestSingle] = {8800},
         },
-        [8575] = {
+        [8575] = { -- Azuregos's Magical Ledger
             [questKeys.startedBy] = {{15481}},
             [questKeys.preQuestSingle] = {8555}, -- #2365
+            [questKeys.nextQuestInChain] = 8576,
         },
         [8580] = {
             [questKeys.requiredLevel] = 1,
@@ -4565,6 +4566,10 @@ function QuestieQuestFixes:Load()
         },
         [8620] = {
             [questKeys.requiredSourceItems] = {21103,21104,21105,21106,21107,21108,21109,21110},
+        },
+        [8728] = { -- The Good News and The Bad News
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {8578,8587,8620},
         },
         [8729] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Arcanite Buoy"),0,{{"object", 180669}}}},
