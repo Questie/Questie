@@ -64,6 +64,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [8728] = { -- The Good News and The Bad News
             [questKeys.preQuestSingle] = {86444},
+            [questKeys.preQuestGroup] = {},
         },
         [8735] = { -- The Nightmare's Corruption
             [questKeys.preQuestSingle] = {86443},
