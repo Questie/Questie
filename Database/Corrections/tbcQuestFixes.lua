@@ -236,6 +236,9 @@ function QuestieTBCQuestFixes:Load()
         [1284] = { -- Suspicious Hoofprints
             [questKeys.startedBy] = {nil,{187273}},
         },
+        [1287] = { -- The Deserters
+            [questKeys.nextQuestInChain] = 11143,
+        },
         [1322] = {
             [questKeys.objectivesText] = {"Acquire 5 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
         },
