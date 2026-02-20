@@ -5060,6 +5060,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{3033,4217,5505,12042}},
             [questKeys.breadcrumbForQuestId] = 9052,
         },
+        [9068] = {
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [9069] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
