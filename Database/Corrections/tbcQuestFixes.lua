@@ -107,8 +107,14 @@ function QuestieTBCQuestFixes:Load()
         [532] = { -- Battle of Hillsbrad
             [questKeys.objectivesText] = {"Kill Magistrate Burnside and 4 Hillsbrad Councilmen. Destroy the Hillsbrad Proclamation. Steal the Hillsbrad Town Registry. Report back to Darthalia in Tarren Mill afterwards."},
         },
+        [549] = { -- WANTED: Syndicate Personnel
+            [questKeys.requiredLevel] = 17,
+        },
         [558] = {
             [questKeys.questLevel] = -1,
+        },
+        [566] = { -- WANTED: Baron Vardus
+            [questKeys.requiredLevel] = 17,
         },
         [578] = {
             [questKeys.triggerEnd] = {"Locate the haunted island", {[zoneIDs.STRANGLETHORN_VALE]={{21.56,21.98}}}},
