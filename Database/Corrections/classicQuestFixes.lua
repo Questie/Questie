@@ -1479,6 +1479,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #2253
             [questKeys.breadcrumbs] = {1943},
         },
+        [1945] = { -- Laughing Sisters
+            [questKeys.nextQuestInChain] = 1946,
+        },
         [1948] = {
             [questKeys.preQuestSingle] = {1947},
         },
