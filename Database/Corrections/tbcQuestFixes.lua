@@ -1701,6 +1701,9 @@ function QuestieTBCQuestFixes:Load()
         [9531] = {
             [questKeys.objectives] = {nil,{{181694}}},
         },
+        [9534] = { -- Destroy the Legion
+            [questKeys.requiredLevel] = 27,
+        },
         [9538] = {
             [questKeys.triggerEnd] = {"Stillpine Furbolg Language Primer Read", {[zoneIDs.AZUREMYST_ISLE]={{49.29,51.07}}}},
         },
