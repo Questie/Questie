@@ -966,7 +966,7 @@ function QuestieTracker:Update()
                                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                                     -- Set Objective based on states
-                                    local objDesc = objective.Description:gsub("%.", "")
+                                    local objDesc = objective.Description:gsub("%.$", "")
 
                                     -- Sometimes the API returns messy objective data (finished=false, but numRequired==numFulfilled)
                                     local questIsIncompleteButObjectiveIsComplete = ((not quest.isComplete) and objective.Completed == true and #quest.Objectives == 1)
@@ -1326,7 +1326,7 @@ function QuestieTracker:Update()
                                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
                                 -- Set Objective text
-                                local objDesc = achieve.Description:gsub("%.", "")
+                                local objDesc = achieve.Description:gsub("%.$", "")
                                 line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 0, Needed = 1 }) .. objDesc)
 
                                 -- If the line width is less than the minimum Tracker width then don't wrap text
@@ -1394,10 +1394,10 @@ function QuestieTracker:Update()
 
                                     -- Set Objective label based on state
                                     if (criteriaString == "") then
-                                        criteriaString = achieve.Description
+                                        criteriaString = achieve.Description:gsub("%.$", "")
                                     end
 
-                                    local objDesc = criteriaString:gsub("%.", "")
+                                    local objDesc = criteriaString:gsub("%.$", "")
 
                                     -- Set Objectives with more than one Objective number criteria
                                     if not (completed or quantityNeeded == 1 or quantityProgress == quantityNeeded) then
