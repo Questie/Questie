@@ -167,6 +167,12 @@ QuestieItemDropCorrections.Tbc = {
     [23706] = { -- Arcane Fragment
         [16339] = 100,
     },
+    [23849] = { -- Stillpine Grain
+        [17190] = DropKeys.WOWHEAD,
+        [17191] = DropKeys.WOWHEAD,
+        [17192] = DropKeys.WOWHEAD,
+        [17475] = DropKeys.WOWHEAD,
+    },
     [24372] = { -- Diaphanous Wing
         [18132] = DropKeys.WOWHEAD,
         [18133] = DropKeys.WOWHEAD,
