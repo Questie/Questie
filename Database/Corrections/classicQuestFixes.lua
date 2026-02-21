@@ -1464,11 +1464,11 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1919}, -- #1328
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
-        [1938] = {
+        [1938] = { -- Ur's Treatise on Shadow Magic
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1939},
         },
-        [1939] = {
+        [1939] = { -- High Sorcerer Andromath
             [questKeys.startedBy] = {{5144,5497}},
             [questKeys.breadcrumbForQuestId] = 1938,
         },
@@ -1493,6 +1493,9 @@ function QuestieQuestFixes:Load()
         },
         [1955] = {
             [questKeys.triggerEnd] = {"Kill the Demon of the Orb", {[zoneIDs.DUSTWALLOW_MARSH]={{45.6,57.2}}}},
+        },
+        [1957] = { -- Mana Surges
+            [questKeys.nextQuestInChain] = 1958,
         },
         [1959] = {
             [questKeys.startedBy] = {{2128,3049,5880,7311}},

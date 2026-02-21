@@ -1734,7 +1734,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9565] = {
             [questKeys.preQuestGroup] = {},
-            [questKeys.preQuestSingle] = {9560,9562},
+            [questKeys.preQuestSingle] = {9560,9562}, -- check if also 9564
         },
         [9570] = { -- The Kurken is Lurkin'
             [questKeys.preQuestSingle] = {9565,9573},
@@ -1743,7 +1743,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9573] = {
-            [questKeys.preQuestSingle] = {9560,9562},
+            [questKeys.preQuestSingle] = {9560,9562}, -- check if also 9564
         },
         [9575] = { -- Weaken the Ramparts
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
