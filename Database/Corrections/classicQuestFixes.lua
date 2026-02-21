@@ -3134,6 +3134,9 @@ function QuestieQuestFixes:Load()
         [6482] = {
             [questKeys.triggerEnd] = {"Escort Ruul from the Thistlefurs.", {[zoneIDs.ASHENVALE]={{38.53,37.32}}}},
         },
+        [6504] = { -- The Lost Pages
+            [questKeys.requiredSourceItems] = {16645,16646,16647,16648,16649,16650,16651,16652,16653,16654,16655,16656},
+        },
         [6523] = {
             [questKeys.triggerEnd] = {"Kaya Escorted to Camp Aparaje", {[zoneIDs.STONETALON_MOUNTAINS]={{77.1,90.85}}}},
         },

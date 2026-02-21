@@ -1054,6 +1054,57 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [16645] = { -- Shredder Operating Manual - Page 1
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16646] = { -- Shredder Operating Manual - Page 2
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16647] = { -- Shredder Operating Manual - Page 3
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16648] = { -- Shredder Operating Manual - Page 4
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16649] = { -- Shredder Operating Manual - Page 5
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16650] = { -- Shredder Operating Manual - Page 6
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16651] = { -- Shredder Operating Manual - Page 7
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16652] = { -- Shredder Operating Manual - Page 8
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16653] = { -- Shredder Operating Manual - Page 9
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16654] = { -- Shredder Operating Manual - Page 10
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16655] = { -- Shredder Operating Manual - Page 11
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16656] = { -- Shredder Operating Manual - Page 12
+            [itemKeys.npcDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [16742] = { -- Warsong Saw Blades
+            [itemKeys.npcDrops] = {12724},
+        },
         [16763] = { -- Warsong Runner Update
             [itemKeys.relatedQuests] = {6543, 6545},
             [itemKeys.npcDrops] = {},
