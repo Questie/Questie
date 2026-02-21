@@ -354,7 +354,7 @@ function TrackerUtils:GetCompletionText(quest)
     if completionText then
         return completionText
     elseif quest.Description and next(quest.Description) then
-        local descr = quest.Description[1]:gsub("%.", "")
+        local descr = quest.Description[1]
         return descr
     end
 end
