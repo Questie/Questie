@@ -54,7 +54,7 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
 local trackerLineWidth = 0
-local trackerMinLineWidth = 260
+local trackerMinLineWidth = 230
 local trackerMarginRight = 30
 local trackerMarginLeft = 14
 local lastAQW = GetTime()
@@ -976,24 +976,29 @@ function QuestieTracker:Update()
                                         -- Set Objective text
                                         line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
-                                        -- Check and measure Objective text and update tracker width
-                                        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
+                                        -- If the line width is less than the minimum Tracker width then don't wrap text
+                                        if line.label:GetUnboundedStringWidth() + objectiveMarginLeft < trackerMinLineWidth then
+                                            -- Check and measure Objective text width and update tracker width
+                                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
 
-                                        -- We add some additional margin for the objective text if the objective is large.
-                                        -- That way when updating the text in combat from 0/100 -> 10/100 the text is not cut off.
-                                        local additionalObjectiveMargin = 0
-                                        if line.Objective and line.Objective.Needed >= 100 then
-                                            additionalObjectiveMargin = 20
-                                        elseif line.Objective and line.Objective.Needed >= 10 then
-                                            additionalObjectiveMargin = 10
+                                            -- Set Objective Label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+
+                                            -- Compare largest text Label in the tracker with current Label, then save widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                        else
+                                            -- Set Label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                            line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+
+                                            -- TextWrap Objective and set height
+                                            line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
+                                            line:SetHeight(line.label:GetHeight())
+
+                                            -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
                                         end
-
-                                        -- Set Objective label and Line widths
-                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC + additionalObjectiveMargin)
-                                        line:SetWidth(line.label:GetWidth() + lineWidthQBC)
-
-                                        -- Compare current text label and the largest text label in the Tracker, then save the widest width
-                                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
 
                                         -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
                                     elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) and objectiveColor ~= "minimal" then
@@ -1852,39 +1857,39 @@ function QuestieTracker:UpdateFormatting()
 end
 
 function QuestieTracker:UpdateWidth(trackerVarsCombined)
+    local trackerWidthByRatio = 300
     local trackerWidthByManual = Questie.db.profile.TrackerWidth
     local trackerHeaderFrameWidth = (trackerHeaderFrame:GetWidth() + Questie.db.profile.trackerFontSizeHeader + 10)
     local trackerHeaderlessWidth = (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30)
 
-    if Questie.db.char.isTrackerExpanded then
-        if trackerWidthByManual > 0 then
-            -- Tracker Sizer is in Manual Mode
-            if (not TrackerBaseFrame.isSizing) then
-                -- Tracker is not being Sized | Manual width based on the width set by the Tracker Sizer
-                if trackerWidthByManual < trackerHeaderFrameWidth and (Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest())) then
-                    trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
-                elseif trackerWidthByManual < trackerHeaderlessWidth then
-                    trackerBaseFrame:SetWidth(trackerHeaderlessWidth)
-                else
-                    trackerBaseFrame:SetWidth(trackerWidthByManual)
-                end
-            else
-                -- Tracker is being Sized | This will update the Tracker width while the Sizer is being used
-                trackerBaseFrame:SetWidth(trackerWidthByManual)
-            end
+    local trackerWidthCheck
+
+    if trackerWidthByManual > 0 then
+        if TrackerBaseFrame.isSizing then
+            trackerWidthCheck = trackerWidthByManual
+        elseif trackerWidthByManual < trackerHeaderFrameWidth and (Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest())) then
+            trackerWidthCheck = trackerHeaderFrameWidth
+        elseif trackerWidthByManual < trackerHeaderlessWidth then
+            trackerWidthCheck = trackerHeaderlessWidth
         else
-            -- Tracker Sizer is in Auto Mode
-            if (trackerVarsCombined < trackerHeaderFrameWidth and (Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()))) then
-                -- Apply headerFrameWidth
-                trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
-            else
-                -- Apply trackerVarsCombined width based on the maximum size of the largest line in the Tracker
-                trackerBaseFrame:SetWidth(trackerVarsCombined)
-            end
+            trackerWidthCheck = trackerWidthByManual
+        end
+    else
+        if trackerVarsCombined < trackerHeaderFrameWidth and (Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest())) then
+            trackerWidthCheck = trackerHeaderFrameWidth
+        else
+            trackerWidthCheck = trackerVarsCombined
         end
 
-        trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
-        trackerQuestFrame.ScrollChildFrame:SetWidth(trackerBaseFrame:GetWidth())
+        if trackerWidthCheck > trackerWidthByRatio then
+            trackerWidthCheck = trackerWidthByRatio
+        end
+    end
+
+    if Questie.db.char.isTrackerExpanded then
+        trackerBaseFrame:SetWidth(trackerWidthCheck)
+        trackerQuestFrame:SetWidth(trackerWidthCheck)
+        trackerQuestFrame.ScrollChildFrame:SetWidth(trackerWidthCheck)
     else
         if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
             trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
