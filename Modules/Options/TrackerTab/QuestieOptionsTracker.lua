@@ -731,6 +731,34 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end
                     },
+                    trackerWidthRatio = {
+                        type = "range",
+                        order = 15.1,
+                        name = function() return l10n("Tracker Width Ratio") end,
+                        desc = function() return l10n("The width of the Questie Tracker based on percentage of usable screen width. A setting of 100 percent would make the Tracker fill the players entire screen width.\n\nNOTE: This setting only applies while in Sizer Mode: Auto") end,
+                        width = 3,
+                        min = 5,
+                        max = 100,
+                        step = 1,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerWidthRatio * 100 end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerWidthRatio = value / 100
+                            if IsMouseButtonDown("LeftButton") and Questie.db.profile.TrackerWidth == 0 then
+                                TrackerBaseFrame.isSizing = true
+                                Questie.db.profile.trackerBackdropEnabled = true
+                                Questie.db.profile.trackerBorderEnabled = true
+                                Questie.db.profile.trackerBackdropFader = false
+                                QuestieTracker:UpdateFormatting()
+                            else
+                                TrackerBaseFrame.isSizing = false
+                                Questie.db.profile.trackerBackdropEnabled = Questie.db.profile.currentBackdropEnabled
+                                Questie.db.profile.trackerBorderEnabled = Questie.db.profile.currentBorderEnabled
+                                Questie.db.profile.trackerBackdropFader = Questie.db.profile.currentBackdropFader
+                                QuestieTracker:UpdateFormatting()
+                            end
+                        end
+                    },
                     group_header = {
                         type = "group",
                         order = 16,
