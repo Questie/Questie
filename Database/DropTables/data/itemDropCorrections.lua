@@ -144,6 +144,9 @@ QuestieItemDropCorrections.Era = {
         [1022] = 1.5,
         [1023] = 1.5,
     },
+    [10639] = { -- Hyacinth Mushroom
+        [1988] = 80,
+    },
     [15852] = { -- Kodo Horn
         [3234] = 100,
         [3236] = 100,
