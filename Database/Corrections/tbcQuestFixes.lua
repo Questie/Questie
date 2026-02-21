@@ -4026,6 +4026,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.exclusiveTo] = {12155},
         },
+        [11222] = { -- Warn Bolvar!
+            [questKeys.nextQuestInChain] = 11223,
+        },
         [11242] = {
             [questKeys.startedBy] = {{23904}},
             [questKeys.finishedBy] = {{24519}},
