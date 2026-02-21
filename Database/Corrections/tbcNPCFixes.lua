@@ -402,6 +402,9 @@ function QuestieTBCNpcFixes:Load()
         [15513] = { -- Ranger Sallina
             [npcKeys.questStarts] = {10070},
         },
+        [15563] = { -- Elder Bellowrage
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{57.92,54.93}}},
+        },
         [15576] = { -- Elder Winterhoof
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.47,76.53}}},
         },
