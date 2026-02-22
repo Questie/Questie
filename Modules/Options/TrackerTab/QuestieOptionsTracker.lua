@@ -737,7 +737,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         name = function() return l10n("Tracker Width Ratio") end,
                         desc = function() return l10n("The width of the Questie Tracker based on percentage of usable screen width. A setting of 100 percent would make the Tracker fill the players entire screen width.\n\nNOTE: This setting only applies while in Sizer Mode: Auto") end,
                         width = 3,
-                        min = 5,
+                        min = 15,
                         max = 100,
                         step = 1,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
