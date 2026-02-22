@@ -714,6 +714,12 @@ function QuestieTBCNpcFixes:Load()
         [17318] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{18.48,84.35}}},
         },
+        [17334] = {
+            [npcKeys.waypoints] = {},
+        },
+        [17336] = {
+            [npcKeys.waypoints] = {},
+        },
         [17348] = { -- Elder Brown Bear
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{49.18,21.28},{49.17,24.86},{47.41,23.27},{42.06,25.67},{36.78,31.99},{43.09,27.37},{44.23,28.8},{46.93,33.32},{45.09,37.22},{37.77,43.63},{34.97,42.88},{31.78,44.42},{33.83,49.44},{35.04,45.77},{35.77,50.71},{38.4,49.44},{41.84,48.53},{42.46,41.46},{43.61,58.74},{40.72,56.17},{40.12,53.88},{35.02,54.81}}},
         },
@@ -734,11 +740,35 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
         },
+        [17511] = { -- Fallat
+            [npcKeys.questStarts] = {},
+        },
+        [17513] = { -- Harnan
+            [npcKeys.questStarts] = {},
+        },
         [17514] = { -- Bati
             [npcKeys.questStarts] = {2861},
         },
+        [17519] = { -- Hobahken
+            [npcKeys.questStarts] = {},
+        },
+        [17520] = { -- Gurrag
+            [npcKeys.questStarts] = {},
+        },
         [17527] = {
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{28.06,62.73},{24.3,63.8},{26.4,57.9},{36.25,55.46},{30.41,61.4},{25.73,60.87},{25.8,47.18},{31.96,59.48},{33.61,60.7},{31.77,52.59},{36.32,48.56},{27.22,48.75},{23.34,48.27},{27.8,43.92},{24.86,43.0},{25.45,45.19},{32.67,54.68},{29.72,55.59},{26.27,55.7},{24.23,46.11},{26.62,46.33},{27.43,47.8},{28.21,50.03},{34.67,57.85},{33.42,57.18},{30.91,54.27},{31.14,56.93},{34.8,52.67},{33.4,51.94},{32.37,64.86},{30.73,59.36},{28.96,61.8},{28.78,58.66},{27.69,58.03},{30.14,69.42},{29.3,69.88},{30.88,71.57}}},
+        },
+        [17536] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HELLFIRE_RAMPARTS,
+        },
+        [17537] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HELLFIRE_RAMPARTS,
+        },
+        [17544] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.5}}},
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
         [17550] = {
             [npcKeys.waypoints] = {},
@@ -746,8 +776,24 @@ function QuestieTBCNpcFixes:Load()
         [17587] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{42.86,57.14},{37.84,18.12},{39.6,37.8},{56.83,59.81},{40.27,71.21},{46.6,31.9},{55.2,28.6},{53.6,42.6},{58.6,41.6},{55.2,47.4}}},
         },
+        [17589] = {
+            [npcKeys.waypoints] = {},
+        },
+        [17591] = { -- Blood Elf Bandit
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{26.21,67.0},{28.45,78.55},{36.27,60.96},{53.17,61.63},{65.1,39.27},{53.88,40.83},{54.39,21.66},{59.13,18.55},{34.1,18.78},{33.82,26.22},{36.7,32.66},{36.83,20.96},{51.78,17.52},{50.49,29.18},{46.49,39.52},{43.08,63.46},{35.27,64.86},{33.92,70.78},{32.31,62.66},{27.6,52.19}}},
+        },
+        [17592] = {
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{72.81,20.83}}},
+            [npcKeys.waypoints] = {},
+        },
+        [17600] = {
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{61.25,48.38}}},
+        },
         [17610] = {
             [npcKeys.waypoints] = {},
+        },
+        [17612] = {
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{31.8,25.4},{34.0,25.4},{34.4,22.8},{34.0,20.8},{34.6,17.6},{34.2,14.6},{35.2,12.6},{35.6,11.6}}},
         },
         [17613] = {
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS]={{46.93,75.64}}},
@@ -755,6 +801,9 @@ function QuestieTBCNpcFixes:Load()
         [17630] = { -- Innkeeper Jovia
             [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
             [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+        },
+        [17663] = { -- Maatparm
+            [npcKeys.name] = "Maatparm",
         },
         [17671] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
@@ -776,52 +825,6 @@ function QuestieTBCNpcFixes:Load()
         [17717] = { -- Knight-Lord Bloodvalor
             [npcKeys.questStarts] = {9678,9681,9685,9690,9692,9707,9721,64139,64319},
             [npcKeys.questEnds] = {9677,9678,9684,9685,9691,9692,63866},
-        },
-        [17334] = {
-            [npcKeys.waypoints] = {},
-        },
-        [17336] = {
-            [npcKeys.waypoints] = {},
-        },
-        [17511] = { -- Fallat
-            [npcKeys.questStarts] = {},
-        },
-        [17513] = { -- Harnan
-            [npcKeys.questStarts] = {},
-        },
-        [17519] = { -- Hobahken
-            [npcKeys.questStarts] = {},
-        },
-        [17520] = { -- Gurrag
-            [npcKeys.questStarts] = {},
-        },
-        [17536] = {
-            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.HELLFIRE_RAMPARTS,
-        },
-        [17537] = {
-            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.HELLFIRE_RAMPARTS,
-        },
-        [17544] = {
-            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.5}}},
-            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
-        },
-        [17589] = {
-            [npcKeys.waypoints] = {},
-        },
-        [17591] = { -- Blood Elf Bandit
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{26.21,67.0},{28.45,78.55},{36.27,60.96},{53.17,61.63},{65.1,39.27},{53.88,40.83},{54.39,21.66},{59.13,18.55},{34.1,18.78},{33.82,26.22},{36.7,32.66},{36.83,20.96},{51.78,17.52},{50.49,29.18},{46.49,39.52},{43.08,63.46},{35.27,64.86},{33.92,70.78},{32.31,62.66},{27.6,52.19}}},
-        },
-        [17592] = {
-            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{72.81,20.83}}},
-            [npcKeys.waypoints] = {},
-        },
-        [17612] = {
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{31.8,25.4},{34.0,25.4},{34.4,22.8},{34.0,20.8},{34.6,17.6},{34.2,14.6},{35.2,12.6},{35.6,11.6}}},
-        },
-        [17663] = { -- Maatparm
-            [npcKeys.name] = "Maatparm",
         },
         [17767] = {
             [npcKeys.spawns] = {[zoneIDs.HYJAL_SUMMIT] = {{-1,-1}}},
