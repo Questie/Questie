@@ -568,14 +568,21 @@ function QuestieTracker:Show()
 end
 
 local function _UpdateLineWidth(line, objectiveMarginLeft)
-    -- If the line width is less than the minimum Tracker width then don't wrap text
-    if line.label:GetUnboundedStringWidth() + objectiveMarginLeft < trackerMinLineWidth then
-        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
+    local trackerMaxWidth = GetScreenWidth() * Questie.db.profile.trackerWidthRatio
+    local contentMaxWidth = trackerMaxWidth - objectiveMarginLeft - trackerMarginRight
 
+    local unboundedWidth = line.label:GetUnboundedStringWidth()
+    if unboundedWidth < contentMaxWidth then
+        -- If the text width is less than the max tracker width, we update the base frame width to fit the text
+        QuestieTracker:UpdateWidth(unboundedWidth + objectiveMarginLeft + trackerMarginRight)
+    end
+
+    -- If the line width is less than the minimum Tracker width then don't wrap text
+    if unboundedWidth + objectiveMarginLeft < trackerMinLineWidth then
         line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
         line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+        trackerLineWidth = math.max(trackerLineWidth, unboundedWidth + objectiveMarginLeft)
     else
         line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
         line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
@@ -1785,7 +1792,7 @@ function QuestieTracker:UpdateFormatting()
 end
 
 function QuestieTracker:UpdateWidth(trackerVarsCombined)
-    local trackerWidthByRatio = 300
+    local trackerWidthByRatio = GetScreenWidth() * Questie.db.profile.trackerWidthRatio
     local trackerWidthByManual = Questie.db.profile.TrackerWidth
     local trackerHeaderFrameWidth = (trackerHeaderFrame:GetWidth() + Questie.db.profile.trackerFontSizeHeader + 10)
     local trackerHeaderlessWidth = (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30)
