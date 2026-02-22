@@ -1464,6 +1464,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1919}, -- #1328
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
+        [1921] = { -- Gathering Materials
+            [questKeys.nextQuestInChain] = 1941,
+        },
         [1938] = { -- Ur's Treatise on Shadow Magic
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1939},
