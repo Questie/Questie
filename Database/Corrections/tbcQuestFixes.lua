@@ -3356,6 +3356,7 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [10872] = {
+            [questKeys.name] = "Zuluhed the Whacked",
             [questKeys.finishedBy] = {{22112}},
         },
         [10873] = {
