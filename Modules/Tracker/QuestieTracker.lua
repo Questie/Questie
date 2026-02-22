@@ -1790,12 +1790,15 @@ function QuestieTracker:UpdateWidth(trackerVarsCombined)
     local trackerHeaderFrameWidth = (trackerHeaderFrame:GetWidth() + Questie.db.profile.trackerFontSizeHeader + 10)
     local trackerHeaderlessWidth = (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30)
 
+    local headerShown = Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and (not TrackerUtils.HasQuest()))
     local trackerWidthCheck
 
-    if trackerWidthByManual > 0 then
+    if (not Questie.db.char.isTrackerExpanded) and headerShown then
+        trackerWidthCheck =  trackerHeaderFrameWidth
+    elseif trackerWidthByManual > 0 then
         if TrackerBaseFrame.isSizing then
             trackerWidthCheck = trackerWidthByManual
-        elseif trackerWidthByManual < trackerHeaderFrameWidth and (Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest())) then
+        elseif trackerWidthByManual < trackerHeaderFrameWidth and headerShown then
             trackerWidthCheck = trackerHeaderFrameWidth
         elseif trackerWidthByManual < trackerHeaderlessWidth then
             trackerWidthCheck = trackerHeaderlessWidth
@@ -1803,7 +1806,7 @@ function QuestieTracker:UpdateWidth(trackerVarsCombined)
             trackerWidthCheck = trackerWidthByManual
         end
     else
-        if trackerVarsCombined < trackerHeaderFrameWidth and (Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest())) then
+        if trackerVarsCombined < trackerHeaderFrameWidth and headerShown then
             trackerWidthCheck = trackerHeaderFrameWidth
         else
             trackerWidthCheck = trackerVarsCombined
@@ -1814,17 +1817,9 @@ function QuestieTracker:UpdateWidth(trackerVarsCombined)
         end
     end
 
-    if Questie.db.char.isTrackerExpanded then
-        trackerBaseFrame:SetWidth(trackerWidthCheck)
-        trackerQuestFrame:SetWidth(trackerWidthCheck)
-        trackerQuestFrame.ScrollChildFrame:SetWidth(trackerWidthCheck)
-    else
-        if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
-            trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
-            trackerQuestFrame:SetWidth(trackerHeaderFrameWidth)
-            trackerQuestFrame.ScrollChildFrame:SetWidth(trackerHeaderFrameWidth)
-        end
-    end
+    trackerBaseFrame:SetWidth(trackerWidthCheck)
+    trackerQuestFrame:SetWidth(trackerWidthCheck)
+    trackerQuestFrame.ScrollChildFrame:SetWidth(trackerWidthCheck)
 end
 
 function QuestieTracker:UpdateHeight()
