@@ -820,7 +820,6 @@ function QuestieTBCObjectFixes:Load()
         -- For TBC fixes 410001-419999
         [410001] = {
             [objectKeys.name] = "Mailbox",
-            [objectKeys.questStarts] = {9672},
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{55.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },

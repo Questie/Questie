@@ -1885,9 +1885,6 @@ function QuestieTBCQuestFixes:Load()
         [9671] = {
             [questKeys.requiredLevel] = 15,
         },
-        [9672] = {
-            [questKeys.startedBy] = {nil,{410001}},
-        },
         [9678] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the brazier"), 0, {{"object", 181956}}}},
         },
