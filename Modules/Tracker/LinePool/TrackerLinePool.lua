@@ -102,6 +102,15 @@ function TrackerLinePool.ResetButtonsForChange()
     buttonIndex = 0
 end
 
+---@param callback function
+function TrackerLinePool.UpdateObjectiveLines(callback)
+    for _, line in pairs(linePool) do
+        if line.mode == "objective" then
+            callback(line)
+        end
+    end
+end
+
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerMarginLeft = 14

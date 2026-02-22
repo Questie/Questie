@@ -569,25 +569,28 @@ end
 
 local function _UpdateLineWidth(line, objectiveMarginLeft)
     local trackerMaxWidth = GetScreenWidth() * Questie.db.profile.trackerWidthRatio
-    local contentMaxWidth = trackerMaxWidth - objectiveMarginLeft - trackerMarginRight
+    local margin = objectiveMarginLeft + trackerMarginRight
+    local contentMaxWidth = trackerMaxWidth - margin
 
     local unboundedWidth = line.label:GetUnboundedStringWidth()
     if unboundedWidth < contentMaxWidth then
         -- If the text width is less than the max tracker width, we update the base frame width to fit the text
-        QuestieTracker:UpdateWidth(unboundedWidth + objectiveMarginLeft + trackerMarginRight)
+        QuestieTracker:UpdateWidth(unboundedWidth + margin)
+    else
+        -- If the text width exceeds the max tracker width, we set the base frame width to the max and allow text to wrap
+        QuestieTracker:UpdateWidth(trackerMaxWidth)
     end
+
+    line.label:SetWidth(trackerBaseFrame:GetWidth() - margin)
+    line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
     -- If the line width is less than the minimum Tracker width then don't wrap text
     if unboundedWidth + objectiveMarginLeft < trackerMinLineWidth then
-        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
-
         trackerLineWidth = math.max(trackerLineWidth, unboundedWidth + objectiveMarginLeft)
     else
-        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-        line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
-
-        line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
+         -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent
+        local _, fontSize = line.label:GetFont()
+        line.label:SetHeight(fontSize * line.label:GetNumLines())
         line:SetHeight(line.label:GetHeight())
 
         trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
@@ -1774,6 +1777,12 @@ function QuestieTracker:UpdateFormatting()
     if TrackerLinePool.GetCurrentLine() and trackerLineWidth > 1 then
         local trackerVarsCombined = trackerLineWidth + trackerMarginRight
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
+        local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
+        local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
+        local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
+        TrackerLinePool.UpdateObjectiveLines(function(line)
+            _UpdateLineWidth(line, objectiveMarginLeft)
+        end)
         QuestieTracker:UpdateWidth(trackerVarsCombined)
         QuestieTracker:UpdateHeight()
         TrackerQuestFrame:Update()
