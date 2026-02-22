@@ -54,7 +54,6 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
 local trackerLineWidth = 0
-local trackerMinLineWidth = 230
 local trackerMarginRight = 30
 local trackerMarginLeft = 14
 local lastAQW = GetTime()
@@ -573,7 +572,7 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
     local contentMaxWidth = trackerMaxWidth - margin
 
     local unboundedWidth = line.label:GetUnboundedStringWidth()
-    if unboundedWidth < contentMaxWidth then
+    if (unboundedWidth + margin) < contentMaxWidth then
         -- If the text width is less than the max tracker width, we update the base frame width to fit the text
         QuestieTracker:UpdateWidth(unboundedWidth + margin)
     else
@@ -585,16 +584,16 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
     line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
     -- If the line width is less than the minimum Tracker width then don't wrap text
-    if unboundedWidth + objectiveMarginLeft < trackerMinLineWidth then
+    if unboundedWidth + objectiveMarginLeft < contentMaxWidth then
         trackerLineWidth = math.max(trackerLineWidth, unboundedWidth + objectiveMarginLeft)
     else
          -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent
         local _, fontSize = line.label:GetFont()
-        local lineHeight = fontSize * line.label:GetNumLines() + 1 -- add an extra pixel to make sure it really wraps
+        local lineHeight = (fontSize * line.label:GetNumLines()) + 1 -- add an extra pixel to make sure it really wraps
         line.label:SetHeight(lineHeight)
         line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
 
-        trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+        trackerLineWidth = math.max(trackerLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
     end
 end
 
