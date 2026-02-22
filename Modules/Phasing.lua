@@ -492,6 +492,7 @@ local phases = {
     SUNREAVER_ONSLAUGHT_CONQUERORS_TERRACE = 1420,
     SUNREAVER_ONSLAUGHT_THE_BEAST_PENS = 1421,
     LORD_TIRION_FORDRING_AT_TOWER = 1422,
+    BLOODMYST_ISLE_SAVED = 1423,
 }
 Phasing.phases = phases
 
@@ -2273,6 +2274,10 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.LORD_TIRION_FORDRING_AT_TOWER then
         return (questLog[5944] and questLog[5944].isComplete == 1) or false
+    end
+
+    if phase == phases.BLOODMYST_ISLE_SAVED then
+        return complete[9759] or false
     end
 
     return false

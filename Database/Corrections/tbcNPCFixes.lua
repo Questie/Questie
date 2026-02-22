@@ -881,6 +881,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [18024] = { -- Defender Sorli
             [npcKeys.questStarts] = {10066,10067},
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{55.56,52.32,phases.BLOODMYST_ISLE_SAVED}}},
         },
         [18096] = {
             [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{-1,-1}}},
