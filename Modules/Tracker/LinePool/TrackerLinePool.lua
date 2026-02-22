@@ -111,6 +111,15 @@ function TrackerLinePool.UpdateObjectiveLines(callback)
     end
 end
 
+---@param callback function
+function TrackerLinePool.UpdateQuestTitleLines(callback)
+    for _, line in pairs(linePool) do
+        if line.mode == "quest" then
+            callback(line)
+        end
+    end
+end
+
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerMarginLeft = 14

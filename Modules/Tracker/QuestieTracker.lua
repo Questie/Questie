@@ -1784,6 +1784,12 @@ function QuestieTracker:UpdateFormatting()
             _UpdateLineWidth(line, objectiveMarginLeft)
         end)
         QuestieTracker:UpdateWidth(trackerVarsCombined)
+        TrackerLinePool.UpdateQuestTitleLines(function(line)
+            line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
+            line:SetWidth(line.label:GetWidth() + questMarginLeft)
+
+            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+        end)
         QuestieTracker:UpdateHeight()
         TrackerQuestFrame:Update()
     end
