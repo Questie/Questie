@@ -772,7 +772,7 @@ function QuestieTracker:Update()
                     end
 
                     -- Set minimizable quest flag
-                    local isMinimizable = (complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true)) and completionText == nil
+                    local isMinimizable = ((complete == 1 or complete == -1) or (#quest.Objectives == 0 and quest.isComplete == true)) and completionText == nil
 
                     -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
                     if Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest then
