@@ -591,7 +591,7 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
          -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent
         local _, fontSize = line.label:GetFont()
         line.label:SetHeight(fontSize * line.label:GetNumLines())
-        line:SetHeight(line.label:GetHeight())
+        line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
 
         trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
     end
