@@ -144,6 +144,10 @@ QuestieItemDropCorrections.Era = {
         [1022] = 1.5,
         [1023] = 1.5,
     },
+    [7267] = { -- Pristine Spider Silk
+        [930] = 18,
+        [949] = 100,
+    },
     [10639] = { -- Hyacinth Mushroom
         [1988] = 80,
     },

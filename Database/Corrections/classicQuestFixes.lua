@@ -1478,6 +1478,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{5144,5497}},
             [questKeys.breadcrumbForQuestId] = 1938,
         },
+        [1940] = { -- Pristine Spider Silk
+            [questKeys.nextQuestInChain] = 1942,
+        },
         [1943] = {
             [questKeys.breadcrumbForQuestId] = 1944, -- #2253
         },

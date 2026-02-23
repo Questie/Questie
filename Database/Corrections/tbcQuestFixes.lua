@@ -403,6 +403,9 @@ function QuestieTBCQuestFixes:Load()
         [1899] = { -- The Deathstalkers
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [1939] = { -- High Sorcerer Andromath
+            [questKeys.startedBy] = {{5144,5497,17513}},
+        },
         [1963] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
