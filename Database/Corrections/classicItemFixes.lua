@@ -411,6 +411,7 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {},
             [itemKeys.npcDrops] = {3919, 3834},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [5535] = { -- Compendium of the Fallen
             [itemKeys.objectDrops] = {19283},
