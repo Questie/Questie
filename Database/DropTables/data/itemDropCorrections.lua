@@ -128,6 +128,14 @@ QuestieItemDropCorrections.Era = {
         [2451] = DropKeys.WOWHEAD,
         [2503] = DropKeys.WOWHEAD,
     },
+    [3917] = { -- Singing Blue Crystal
+        [674] = DropKeys.WOWHEAD,
+        [675] = DropKeys.WOWHEAD,
+        [676] = DropKeys.WOWHEAD,
+        [677] = DropKeys.WOWHEAD,
+        [4723] = DropKeys.WOWHEAD,
+        [14492] = DropKeys.WOWHEAD,
+    },
     [3918] = { -- Singing Crystal Shard
         [688] = DropKeys.WOWHEAD,
         [689] = DropKeys.WOWHEAD,
