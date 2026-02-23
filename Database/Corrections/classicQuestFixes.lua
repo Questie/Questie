@@ -402,6 +402,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {596,629},
         },
+        [602] = { -- Magical Analysis
+            [questKeys.nextQuestInChain] = 603,
+        },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
             [questKeys.requiredLevel] = 35,
