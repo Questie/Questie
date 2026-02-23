@@ -87,6 +87,9 @@ QuestieItemDropCorrections.Era = {
         [1988] = DropKeys.WOWHEAD,
         [1989] = 100,
     },
+    [3348] = { -- Giant Crocolisk Skin
+        [2089] = 100,
+    },
     [3476] = { -- Gray Bear Tongue
         [2351] = DropKeys.WOWHEAD,
         [2354] = DropKeys.WOWHEAD,
