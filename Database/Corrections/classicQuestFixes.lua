@@ -691,13 +691,13 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1000,1018},
         },
         [1007] = { -- The Ancient Statuette
-            [questKeys.nextQuestInChain] = 1009
+            [questKeys.nextQuestInChain] = 1009,
         },
         [1008] = { -- The Zoram Strand
-            [questKeys.nextQuestInChain] = 1134
+            [questKeys.nextQuestInChain] = 1134,
         },
         [1010] = { -- Bathran's Hair
-            [questKeys.nextQuestInChain] = 1020
+            [questKeys.nextQuestInChain] = 1020,
         },
         [1011] = {
             [questKeys.preQuestSingle] = {},
@@ -713,7 +713,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1015,1047},
         },
         [1020] = { -- Orendil's Cure
-            [questKeys.nextQuestInChain] = 1033
+            [questKeys.nextQuestInChain] = 1033,
+        },
+        [1023] = { -- Raene's Cleansing
+            [questKeys.nextQuestInChain] = 1024,
         },
         [1026] = {
             [questKeys.requiredSourceItems] = {5475},
@@ -722,10 +725,10 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay slimes until they leave behind a Rusty Chest"), 0, {{"monster", 3928}}}},
         },
         [1033] = { -- Elune's Tear
-            [questKeys.nextQuestInChain] = 1034
+            [questKeys.nextQuestInChain] = 1034,
         },
         [1034] = { -- The Ruins of Stardust
-            [questKeys.nextQuestInChain] = 1035
+            [questKeys.nextQuestInChain] = 1035,
         },
         [1036] = {
             [questKeys.requiredMinRep] = {87,3000},
@@ -791,7 +794,7 @@ function QuestieQuestFixes:Load()
         },
         [1107] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {1104,1105} -- #2444
+            [questKeys.preQuestGroup] = {1104,1105}, -- #2444
         },
         [1118] = {
             [questKeys.inGroupWith] = {}, -- #886

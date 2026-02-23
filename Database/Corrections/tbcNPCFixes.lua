@@ -408,6 +408,9 @@ function QuestieTBCNpcFixes:Load()
         [15576] = { -- Elder Winterhoof
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.47,76.53}}},
         },
+        [15605] = { -- Elder Riversong
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.54,48.91}}},
+        },
         [15658] = {
             [npcKeys.waypoints] = {},
         },
