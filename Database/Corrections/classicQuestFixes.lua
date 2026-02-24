@@ -1497,6 +1497,9 @@ function QuestieQuestFixes:Load()
         [1945] = { -- Laughing Sisters
             [questKeys.nextQuestInChain] = 1946,
         },
+        [1947] = { -- Journey to the Marsh
+            [questKeys.startedBy] = {{3048,4568,5885,5144,5497}}, -- further split in faction fixes below
+        },
         [1948] = {
             [questKeys.preQuestSingle] = {1947},
         },

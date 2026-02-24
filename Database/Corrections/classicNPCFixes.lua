@@ -868,7 +868,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [4568] = { -- Anastasia Hartwell
-            [npcKeys.questStarts] = {1947},
+            [npcKeys.questStarts] = {1882,1943,1947,1953,1960,1961,2861},
         },
         [4582] = { -- Carolyn Ward
             [npcKeys.questStarts] = {6681},
