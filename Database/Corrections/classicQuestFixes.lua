@@ -442,11 +442,12 @@ function QuestieQuestFixes:Load()
         [667] = {
             [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{31.93,81.82}}}},
         },
-        [676] = {
-            [questKeys.exclusiveTo] = {677},
+        [676] = { -- The Hammer May Fall
+            [questKeys.breadcrumbForQuestId] = 677,
         },
-        [677] = {
+        [677] = { -- Call to Arms
             [questKeys.preQuestSingle] = {}, -- #1162
+            [questKeys.breadcrumbs] = {676},
         },
         [680] = {
             [questKeys.preQuestSingle] = {678}, -- #1062
