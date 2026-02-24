@@ -125,6 +125,7 @@ function CataQuestFixes.Load()
         },
         [384] = { -- Beer Basted Boar Ribs
             [questKeys.requiredSkill] = {},
+            [questKeys.zoneOrSort] = zoneIDs.DUN_MOROGH,
         },
         [412] = { -- Operation Recombobulation
             [questKeys.preQuestSingle] = {313},
