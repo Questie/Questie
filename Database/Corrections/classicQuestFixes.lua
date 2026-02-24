@@ -213,7 +213,6 @@ function QuestieQuestFixes:Load()
              [questKeys.breadcrumbs] = {436}, -- #2492
         },
         [308] = {
-            [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
             [questKeys.parentQuest] = 310
@@ -261,7 +260,6 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.COOKING,
         },
         [403] = {
-            [questKeys.exclusiveTo] = {311}, -- #6998
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 310,
         },
