@@ -4012,6 +4012,9 @@ function QuestieTBCQuestFixes:Load()
         [11211] = {
             [questKeys.exclusiveTo] = {11158,11214,11215},
         },
+        [11213] = { -- Check Up on Tabetha
+            [questKeys.requiredLevel] = 37,
+        },
         [11214] = {
             [questKeys.exclusiveTo] = {11158,11211,11215},
         },
