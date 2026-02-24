@@ -6604,7 +6604,7 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
 
     local questFixesAlliance = {
         [1947] = { -- Journey to the Marsh
-            [questKeys.startedBy] = {{5144,5497,17514}},
+            [questKeys.startedBy] = {{5144,5497}}, -- TODO: check Exodar
         },
         [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{5144,5497,17514}}
