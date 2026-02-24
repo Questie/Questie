@@ -2443,8 +2443,8 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.breadcrumbForQuestId] = 1799,
         },
-        [4966] = {
-            [questKeys.triggerEnd] = {"Protect Kanati Greycloud", {[zoneIDs.THOUSAND_NEEDLES]={{21.38,31.98}}}},
+        [4966] = { -- Protect Kanati Greycloud
+            [questKeys.objectives] = {{{10720}}},
         },
         [4967] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

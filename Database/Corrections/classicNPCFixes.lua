@@ -1738,6 +1738,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{45.15,62.28},{45.21,62.83},{46.38,62.33},{46.69,62.08},{47.03,61.96},{47.21,65.86},{47.76,66.51},{47.83,63.45},{47.92,65.91},{48.23,64.39},{48.26,65.77},{48.45,62.81},{48.57,63.98},{49.02,69.3},{49.1,68.86},{49.4,68.84},{49.95,66.1},{50.15,66.77},{50.2,66.34},{50.31,67.23}}},
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
         },
+        [10720] = { -- Galak Assassin
+            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{21.06,31.7},{21.22,31.54},{21.26,31.81}}},
+            [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
+        },
         [10737] = { -- Shy-Rotam
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.81,9.8}}},
