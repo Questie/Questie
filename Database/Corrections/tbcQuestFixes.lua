@@ -6588,13 +6588,19 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
     local raceIDs = QuestieDB.raceKeys
 
     local questFixesHorde = {
-        [2861] = {
+        [1947] = { -- Journey to the Marsh
+            [questKeys.startedBy] = {{3048,4568,5885,16652}},
+        },
+        [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{4568,5885,16651}}
         },
     }
 
     local questFixesAlliance = {
-        [2861] = {
+        [1947] = { -- Journey to the Marsh
+            [questKeys.startedBy] = {{5144,5497,17514}},
+        },
+        [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{5144,5497,17514}}
         },
     }

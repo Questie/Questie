@@ -5580,7 +5580,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595}},
         },
-        [1947] = {
+        [1947] = { -- Journey to the Marsh
             [questKeys.startedBy] = {{3048,4568,5885}},
         },
         [1953] = {
@@ -5635,7 +5635,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [1718] = {
             [questKeys.startedBy] = {{5113,5479}},
         },
-        [1947] = {
+        [1947] = { -- Journey to the Marsh
             [questKeys.startedBy] = {{5144,5497}},
         },
         [1953] = {
