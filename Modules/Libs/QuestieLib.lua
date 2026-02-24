@@ -232,7 +232,7 @@ function QuestieLib:GetQuestTypeSuffix(questId)
 
     if questTagId == questTagIds.ELITE then
         return "+"
-    elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS then
+    elseif questTagId == questTagIds.PVP or questTagId == questTagIds.CLASS or questTagId == questTagIds.ESCORT then
         return ""
     elseif questTagId == questTagIds.LEGENDARY then
         return "++"

@@ -59,6 +59,7 @@ QuestieDB.questTagIds = {
     RAID = 62,
     DUNGEON = 81,
     LEGENDARY = 83,
+    ESCORT = 84,
     HEROIC = 85,
     RAID_10 = 88,
     RAID_25 = 89,
