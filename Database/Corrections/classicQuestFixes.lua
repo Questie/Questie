@@ -257,6 +257,9 @@ function QuestieQuestFixes:Load()
         [374] = {
             [questKeys.preQuestSingle] = {427}, -- proof of demise requires at war with the scarlet crusade
         },
+        [384] = { -- Beer Basted Boar Ribs
+            [questKeys.zoneOrSort] = sortKeys.COOKING,
+        },
         [403] = {
             [questKeys.exclusiveTo] = {311}, -- #6998
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
