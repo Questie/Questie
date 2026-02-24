@@ -481,7 +481,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {8250},
         },
         [3048] = { -- Ursyn Ghull
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {1947},
         },
         [3049] = { -- Thurston Xane
             [npcKeys.questStarts] = {1883,1959},
@@ -867,6 +867,9 @@ function QuestieNPCFixes:Load()
         [4565] = { -- Richard Kerwin
             [npcKeys.questStarts] = {},
         },
+        [4568] = { -- Anastasia Hartwell
+            [npcKeys.questStarts] = {1947},
+        },
         [4582] = { -- Carolyn Ward
             [npcKeys.questStarts] = {6681},
         },
@@ -988,7 +991,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [5144] = { -- Bink
-            [npcKeys.questStarts] = {1880,1939,1953,2861},
+            [npcKeys.questStarts] = {1880,1939,1947,1953,2861},
         },
         [5145] = { -- Juli Stormkettle
             [npcKeys.questStarts] = {},
