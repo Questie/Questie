@@ -4033,6 +4033,9 @@ function QuestieTBCQuestFixes:Load()
         [11222] = { -- Warn Bolvar!
             [questKeys.nextQuestInChain] = 11223,
         },
+        [11225] = { -- The Hermit of Witch Hill
+            [questKeys.requiredLevel] = 32,
+        },
         [11242] = {
             [questKeys.startedBy] = {{23904}},
             [questKeys.finishedBy] = {{24519}},
