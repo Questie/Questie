@@ -1199,6 +1199,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{59.47,48.28}}},
         },
+        [6546] = { -- Tabetha
+            [npcKeys.waypoints] = {},
+        },
         [6549] = { -- Demon of the Orb
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{45.79,56.97}}},
