@@ -750,7 +750,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {1939},
         },
         [17514] = { -- Bati
-            [npcKeys.questStarts] = {1947,2861},
+            [npcKeys.questStarts] = {2861},
         },
         [17519] = { -- Hobahken
             [npcKeys.questStarts] = {},

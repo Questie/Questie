@@ -406,6 +406,9 @@ function QuestieTBCQuestFixes:Load()
         [1939] = { -- High Sorcerer Andromath
             [questKeys.startedBy] = {{5144,5497,17513}},
         },
+        [1947] = { -- Journey to the Marsh
+            [questKeys.startedBy] = {{3048,4568,5885,16652,5144,5497}}, -- further split in faction fixes below
+        },
         [1963] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
