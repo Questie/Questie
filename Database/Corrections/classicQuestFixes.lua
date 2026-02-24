@@ -1501,11 +1501,15 @@ function QuestieQuestFixes:Load()
         [1947] = { -- Journey to the Marsh
             [questKeys.startedBy] = {{3048,4568,5885,5144,5497}}, -- further split in faction fixes below
         },
-        [1948] = {
+        [1948] = { -- Items of Power
             [questKeys.preQuestSingle] = {1947},
         },
-        [1950] = {
+        [1950] = { -- Get the Scoop
             [questKeys.objectives] = {{{6626,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [1952] = { -- Mage's Wand
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1948,1951},
         },
         [1954] = {
             [questKeys.preQuestSingle] = {},
