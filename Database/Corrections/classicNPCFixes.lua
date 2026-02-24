@@ -184,6 +184,9 @@ function QuestieNPCFixes:Load()
         [1364] = { -- Balgaras the Foul
             [npcKeys.spawns] = {[zoneIDs.WETLANDS]={{47,17},{49,15},{60,26},{61.6,29.8},{61.6,31.6},{62.49,28.42}}},
         },
+        [1373] = { -- Jarven Thunderbrew
+            [npcKeys.waypoints] = {},
+        },
         [1416] = { -- Grimand Elmore
             [npcKeys.waypoints] = {},
         },
