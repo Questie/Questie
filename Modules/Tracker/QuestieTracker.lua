@@ -674,6 +674,8 @@ function QuestieTracker:Update()
         for _, questId in pairs(sortedQuestIds) do
             if not questId then break end
 
+            objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest -- reset objectiveMarginLeft for each quest, it can be increased if there are quest items
+
             ---@type Quest
             local quest = questDetails[questId].quest
             local complete = quest:IsComplete()
@@ -901,6 +903,7 @@ function QuestieTracker:Update()
                         lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
                         lineLabelBaseFrameQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
                         lineWidthQBC = objectiveMarginLeft + questItemButtonSize
+                        objectiveMarginLeft = objectiveMarginLeft + questItemButtonSize
                     else
                         lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight
                         lineLabelBaseFrameQBC = objectiveMarginLeft + trackerMarginRight
@@ -990,6 +993,7 @@ function QuestieTracker:Update()
                                     line.expandQuest:Hide()
                                     line.criteriaMark:Hide()
                                     line.playButton:Hide()
+                                    line.questHasSecondaryQIB = secondaryButton
 
                                     -- Setup Objective Label based on states.
                                     line.label:ClearAllPoints()
@@ -1780,8 +1784,14 @@ function QuestieTracker:UpdateFormatting()
         local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
         local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
         local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
+        local questItemButtonSize = 12 + trackerFontSizeQuest
         TrackerLinePool.UpdateObjectiveLines(function(line)
-            _UpdateLineWidth(line, objectiveMarginLeft)
+            if line.questHasSecondaryQIB then
+                -- The objective line belongs to a quest with two quest items, so we need to add extra padding to account for the second QIB
+                _UpdateLineWidth(line, objectiveMarginLeft + questItemButtonSize)
+            else
+                _UpdateLineWidth(line, objectiveMarginLeft)
+            end
         end)
         QuestieTracker:UpdateWidth(trackerVarsCombined)
         TrackerLinePool.UpdateQuestTitleLines(function(line)
