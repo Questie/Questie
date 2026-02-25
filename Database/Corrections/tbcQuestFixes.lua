@@ -3968,6 +3968,9 @@ function QuestieTBCQuestFixes:Load()
         [11146] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [11150] = { -- Raze Direhorn Post!
+            [questKeys.objectives] = {{{23751,nil,Questie.ICON_TYPE_INTERACT},{23752,nil,Questie.ICON_TYPE_INTERACT},{23753,nil,Questie.ICON_TYPE_INTERACT}}}
+        },
         [11152] = {
             [questKeys.objectives] = {nil,{{186322,nil,Questie.ICON_TYPE_EVENT}}},
         },
