@@ -481,7 +481,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {8250},
         },
         [3048] = { -- Ursyn Ghull
-            [npcKeys.questStarts] = {1947},
+            [npcKeys.questStarts] = {1947,1953},
         },
         [3049] = { -- Thurston Xane
             [npcKeys.questStarts] = {1883,1959},
@@ -1110,6 +1110,9 @@ function QuestieNPCFixes:Load()
         [5883] = { -- Enyo
             [npcKeys.questStarts] = {},
         },
+        [5885] = { -- Deino
+            [npcKeys.questStarts] = {1944,1945,1947,1953,2861},
+        },
         [5895] = { -- Minor Manifestation of Water
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{38.65,44.58}}},
@@ -1267,7 +1270,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1}}},
         },
         [7311] = { -- Uthel'nay <Mage Trainer>
-            [npcKeys.questStarts] = {1883,1953,1959,7068,8250},
+            [npcKeys.questStarts] = {1883,1959,7068,8250},
         },
         [7312] = { -- Dink <Mage Trainer>
             [npcKeys.questStarts] = {1919,8250},

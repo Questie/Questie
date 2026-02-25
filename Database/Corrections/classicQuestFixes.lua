@@ -1515,6 +1515,7 @@ function QuestieQuestFixes:Load()
         },
         [1953] = { -- Return to the Marsh
             [questKeys.breadcrumbForQuestId] = 1954,
+            [questKeys.startedBy] = {{3048,4568,5885,5144,5497}}, -- further split in faction fixes below
         },
         [1954] = { -- The Infernal Orb
             [questKeys.preQuestSingle] = {},
