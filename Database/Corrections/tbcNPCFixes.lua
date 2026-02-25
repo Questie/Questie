@@ -232,7 +232,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {1501,1504,1506,1512,1513,10790,65604,65610},
         },
         [5885] = { -- Deino
-            [npcKeys.questStarts] = {1944,1945,1947,2861,64048,64050,64052,64063,64064},
+            [npcKeys.questStarts] = {1944,1945,1947,1953,2861,64048,64050,64052,64063,64064},
             [npcKeys.questEnds] = {1943,1944,64046,64048,64050,64052},
         },
         [5901] = { -- Islen Waterseer
