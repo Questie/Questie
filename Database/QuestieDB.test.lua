@@ -139,6 +139,33 @@ describe("QuestieDB", function()
             assert.are.same("Dungeon", questTagName2)
             assert.spy(_G.GetQuestTagInfo).was.called(1)
         end)
+
+        it("should update cache", function()
+            local callback
+            _G.C_Timer = {
+                After = function(_, cb) callback = cb end
+            }
+            local isFirstCall = true
+            _G.GetQuestTagInfo = spy.new(function()
+                if isFirstCall then
+                    isFirstCall = false
+                    return nil, nil
+                end
+                return 81, "Dungeon"
+            end)
+
+            local questTagId, questTagName = QuestieDB.GetQuestTagInfo(700)
+            assert.is_nil(questTagId)
+            assert.is_nil(questTagName)
+
+            callback()
+
+            local questTagId2, questTagName2 = QuestieDB.GetQuestTagInfo(700)
+            assert.are.same(81, questTagId2)
+            assert.are.same("Dungeon", questTagName2)
+
+            assert.spy(_G.GetQuestTagInfo).was.called(2)
+        end)
     end)
 
     describe("IsTrivial", function()
