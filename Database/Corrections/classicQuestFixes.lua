@@ -14,6 +14,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+QuestieCorrections.itemObjectiveFirst[503] = true
 QuestieCorrections.itemObjectiveFirst[5088] = true
 
 -- Further information on how to use this can be found at the wiki
@@ -349,6 +350,9 @@ function QuestieQuestFixes:Load()
         },
         [495] = {
             [questKeys.breadcrumbForQuestId] = 518,
+        },
+        [503] = { -- Gol'dir
+            [questKeys.objectives] = {{{2316,nil,Questie.ICON_TYPE_EVENT}},nil,{{3704}}},
         },
         [504] = {
             [questKeys.objectivesText] = {"Slay 15 Crushridge Warmongers, then return to Marshal Redpath in Southshore."},
@@ -1509,8 +1513,12 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1948,1951},
         },
-        [1954] = {
+        [1953] = { -- Return to the Marsh
+            [questKeys.breadcrumbForQuestId] = 1954,
+        },
+        [1954] = { -- The Infernal Orb
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1953},
         },
         [1955] = {
             [questKeys.triggerEnd] = {"Kill the Demon of the Orb", {[zoneIDs.DUSTWALLOW_MARSH]={{45.6,57.2}}}},

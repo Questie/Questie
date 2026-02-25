@@ -159,6 +159,9 @@ QuestieItemDropCorrections.Era = {
         [930] = 18,
         [949] = 100,
     },
+    [7291] = { -- Infernal Orb
+        [4668] = 100,
+    },
     [10639] = { -- Hyacinth Mushroom
         [1988] = 80,
     },

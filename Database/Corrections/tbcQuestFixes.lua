@@ -14,9 +14,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-QuestieCorrections.killCreditObjectiveFirst = {
-    [10503] = true, -- The Bladespire Threat
-}
+QuestieCorrections.killCreditObjectiveFirst[10503] = true -- The Bladespire Threat
+
 
 function QuestieTBCQuestFixes:Load()
     _QuestieTBCQuestFixes:InsertMissingQuestIds()
@@ -409,6 +408,9 @@ function QuestieTBCQuestFixes:Load()
         [1947] = { -- Journey to the Marsh
             [questKeys.startedBy] = {{3048,4568,5885,16652,5144,5497}}, -- further split in faction fixes below
         },
+        [1953] = { -- Return to the Marsh
+            [questKeys.startedBy] = {{5144,5497,3048,4568,5885,16652}}, -- further split in faction fixes below
+        },
         [1963] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
         },
@@ -613,6 +615,9 @@ function QuestieTBCQuestFixes:Load()
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
         },
+        [5386] = { -- Catch of the Day
+            [questKeys.childQuests] = {},
+        },
         [5401] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {5405,5503},
@@ -620,6 +625,9 @@ function QuestieTBCQuestFixes:Load()
         [5405] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {5401,5503},
+        },
+        [5421] = { -- Fish in a Bucket
+            [questKeys.parentQuest] = 0,
         },
         [5502] = {
             [questKeys.questLevel] = -1,
@@ -3976,11 +3984,13 @@ function QuestieTBCQuestFixes:Load()
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11172] = {
+        [11172] = { -- The Zeppelin Crash
             [questKeys.nextQuestInChain] = 11174,
+            [questKeys.breadcrumbForQuestId] = 11174,
         },
-        [11174] = {
+        [11174] = { -- Corrosion Prevention
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {11172},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4392,4393,4394},4392,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [11177] = {
@@ -6600,6 +6610,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [1947] = { -- Journey to the Marsh
             [questKeys.startedBy] = {{3048,4568,5885,16652}},
         },
+        [1953] = { -- Return to the Marsh
+            [questKeys.startedBy] = {{3048,4568,5885,16652}},
+        },
         [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{4568,5885,16651}}
         },
@@ -6607,6 +6620,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
 
     local questFixesAlliance = {
         [1947] = { -- Journey to the Marsh
+            [questKeys.startedBy] = {{5144,5497}}, -- TODO: check Exodar
+        },
+        [1953] = { -- Return to the Marsh
             [questKeys.startedBy] = {{5144,5497}}, -- TODO: check Exodar
         },
         [2861] = { -- Tabetha's Task

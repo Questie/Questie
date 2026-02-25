@@ -522,7 +522,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {2861},
         },
         [16652] = { -- Quithas
-            [npcKeys.questStarts] = {1947},
+            [npcKeys.questStarts] = {1947,1953},
         },
         [16655] = { -- Harene Plainwalker
             [npcKeys.questStarts] = {},
