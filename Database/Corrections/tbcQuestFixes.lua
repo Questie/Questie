@@ -406,10 +406,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{5144,5497,17513}},
         },
         [1947] = { -- Journey to the Marsh
-            [questKeys.startedBy] = {{3048,4568,5885,16652,5144,5497}}, -- further split in faction fixes below
+            [questKeys.startedBy] = {{3048,4568,5885,16652,5144,5497,17513}}, -- further split in faction fixes below
         },
         [1953] = { -- Return to the Marsh
-            [questKeys.startedBy] = {{5144,5497,3048,4568,5885,16652}}, -- further split in faction fixes below
+            [questKeys.startedBy] = {{5144,5497,3048,4568,5885,16652,17513}}, -- further split in faction fixes below
         },
         [1963] = { -- The Shattered Hand
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
@@ -6620,10 +6620,10 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
 
     local questFixesAlliance = {
         [1947] = { -- Journey to the Marsh
-            [questKeys.startedBy] = {{5144,5497}}, -- TODO: check Exodar
+            [questKeys.startedBy] = {{5144,5497,17513}},
         },
         [1953] = { -- Return to the Marsh
-            [questKeys.startedBy] = {{5144,5497}}, -- TODO: check Exodar
+            [questKeys.startedBy] = {{5144,5497,17513}},
         },
         [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{5144,5497,17514}}
