@@ -32,7 +32,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     treegroup = AceGUI:Create("SimpleGroup")
 
     local header = AceGUI:Create("Heading")
-    header:SetText(l10n('Select Continent and Zone'))
+    header:SetText(l10n('Select Category'))
     header:SetFullWidth(true)
     container:AddChild(header)
 
@@ -47,7 +47,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     QuestieJourneyUtils:Spacer(container)
 
     header = AceGUI:Create("Heading")
-    header:SetText(l10n('Zone Quests'))
+    header:SetText(l10n('Quests'))
     header:SetFullWidth(true)
     container:AddChild(header)
 
