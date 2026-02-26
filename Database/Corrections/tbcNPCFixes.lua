@@ -1258,6 +1258,9 @@ function QuestieTBCNpcFixes:Load()
         [21685] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{42.8,44.95}}},
         },
+        [21700] = { -- Akama
+            [npcKeys.questStarts] = {10705,10707,10708,10946,10947,10948,11052},
+        },
         [21725] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{35.19,40.18}}},
         },
