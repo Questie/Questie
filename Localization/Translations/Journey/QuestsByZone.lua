@@ -26,18 +26,6 @@ local questsByZoneLocales = {
         ["zhCN"] = "选择分类",
         ["zhTW"] = "選擇分類",
     },
-    ["Select Continent"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Kontinent wählen",
-        ["esES"] = "Seleccionar continente",
-        ["esMX"] = "Seleccionar continente",
-        ["frFR"] = "Sélectionner le continent",
-        ["koKR"] = "대륙 선택",
-        ["ptBR"] = "Selecionar continente",
-        ["ruRU"] = "Выберите континент",
-        ["zhCN"] = "选择大陆",
-        ["zhTW"] = "選擇大陸",
-    },
     ["Select Zone"] = {
         ["enUS"] = true,
         ["deDE"] = "Zone wählen",
