@@ -77,16 +77,8 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     end
 
     function line:SetQuest(quest)
-        if type(quest) == "number" then
-            quest = {
-                Id = quest
-            }
-            self.Quest = quest
-            self.expandQuest.questId = quest.Id
-        else
-            self.Quest = quest
-            self.expandQuest.questId = quest.Id
-        end
+        self.Quest = quest
+        self.expandQuest.questId = quest.Id
 
         OnQuestAdded(quest.Id, self)
 

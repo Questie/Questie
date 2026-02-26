@@ -162,6 +162,120 @@ function TrackerLinePool.GetNextLine()
     return linePool[lineIndex]
 end
 
+---@param zoneName string
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetZoneLine(zoneName)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("zone")
+    line:SetZone(zoneName)
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+
+    return line
+end
+
+---@param quest Quest
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetQuestTitleLine(quest, lineWidth)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("quest")
+    line:SetOnClick("quest")
+    line:SetQuest(quest)
+    line:SetObjective(nil)
+    line.expandZone:Hide()
+    line.criteriaMark:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param quest Quest
+---@param objective QuestObjective|nil
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
+   local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("objective")
+    line:SetOnClick("quest")
+    line:SetQuest(quest)
+    line:SetObjective(objective)
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param achieve Achievement
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
+   local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("achieve")
+    line:SetOnClick("achieve")
+    line:SetQuest(achieve)
+    line:SetObjective(nil)
+    line.expandZone:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param achieve Achievement
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
+   local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("objective")
+    line:SetOnClick("achieve")
+    line:SetQuest(achieve)
+    line:SetObjective("objective")
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
 ---@return table|nil buttonIndex buttonPool[buttonIndex]
 function TrackerLinePool.GetNextItemButton()
     buttonIndex = buttonIndex + 1
