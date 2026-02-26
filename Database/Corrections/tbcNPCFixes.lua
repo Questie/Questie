@@ -501,6 +501,7 @@ function QuestieTBCNpcFixes:Load()
         [16502] = { -- Zalduun
             [npcKeys.questStarts] = {9283,9291},
             [npcKeys.questEnds] = {9283,9291,9409},
+            [npcKeys.waypoints] = {},
         },
         [16576] = { -- Overlord Hun Maimfist
             [npcKeys.questStarts] = {10388},
