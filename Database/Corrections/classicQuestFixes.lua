@@ -2637,6 +2637,9 @@ function QuestieQuestFixes:Load()
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91}}}},
         },
+        [5386] = { -- Catch of the Day
+            [questKeys.childQuests] = {},
+        },
         [5402] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2665,7 +2668,8 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5421] = {
+        [5421] = { -- Fish in a Bucket
+            [questKeys.parentQuest] = 0,
             [questKeys.questLevel] = 25,
         },
         [5441] = { -- Lazy Peons
