@@ -3654,6 +3654,9 @@ function QuestieTBCQuestFixes:Load()
         [11007] = {
             [questKeys.startedBy] = {nil,nil,{32405}},
         },
+        [11009] = { -- Ogre Heaven
+            [questKeys.breadcrumbs] = {11022},
+        },
         [11010] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN,
@@ -3692,6 +3695,9 @@ function QuestieTBCQuestFixes:Load()
         [11021] = {
             [questKeys.preQuestSingle] = {11004},
             [questKeys.startedBy] = {nil,nil,{32523}},
+        },
+        [11022] = { -- Speak with Mog'dorg
+            [questKeys.breadcrumbForQuestId] = 11009,
         },
         [11023] = {
             [questKeys.requiredLevel] = 70,

@@ -1826,14 +1826,8 @@ function CataQuestFixes.Load()
         [11008] = { -- Fires Over Skettis
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
         },
-        [11009] = { -- Ogre Heaven
-            [questKeys.breadcrumbs] = {11022},
-        },
         [11021] = { -- Ishaal's Almanac
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
-        },
-        [11022] = { -- Speak with Mog'dorg
-            [questKeys.breadcrumbForQuestId] = 11009,
         },
         [11025] = { -- The Crystals
             [questKeys.preQuestSingle] = {},
