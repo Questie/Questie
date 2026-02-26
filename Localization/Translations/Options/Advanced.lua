@@ -71,8 +71,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "아이콘의 종류 별로 표시를 제한할 개수를 설정합니다. (기본값: %s)",
         ["ptBR"] = "Limita a quantidade de ícones desenhados por tipo. (Padrão: %s)",
         ["ruRU"] = "Регулировка ограничения количества значков, отображаемых для каждого типа (по умолчанию: %s)",
-        ["zhCN"] = "限制每种类型图标数量。（默认：%s）",
-        ["zhTW"] = "限制每種類型繪製的圖示數量。（預設值：%s）",
+        ["zhCN"] = "限制每种类型图标数量（默认：%s）",
+        ["zhTW"] = "限制每種類型繪製的圖示數量（預設值：%s）",
     },
     ["Available quest filter distance"] = {
         ["enUS"] = true,
@@ -191,7 +191,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "디버그 활성화",
         ["ptBR"] = "Ativar depuração",
         ["ruRU"] = "Режим отладки",
-        ["zhCN"] = "启用Debug",
+        ["zhCN"] = "启用调试",
         ["zhTW"] = "啟用除錯",
     },
     ["Enable or disable debug functionality."] = {
@@ -203,7 +203,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "디버그 기능을 사용합니다.",
         ["ptBR"] = "Se marcado, o modo de depuração será ativado.",
         ["ruRU"] = "Включить/отключить режим отладки",
-        ["zhCN"] = "启用或停用Debug功能",
+        ["zhCN"] = "启用或停用调试功能",
         ["zhTW"] = "啟用或停用除錯的功能",
     },
     ["Debug level to print"] = {
@@ -215,7 +215,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "디버그 레벨 출력",
         ["ptBR"] = "Nível de depuração a ser mostrado",
         ["ruRU"] = "Уровень отладки для вывода в чат",
-        ["zhCN"] = "Debug等级",
+        ["zhCN"] = "调试等级",
         ["zhTW"] = "除錯訊息等級",
     },
     ["Hitting this button will reset all of the Questie configuration settings back to their default values. (Excluding Localization)"] = {
