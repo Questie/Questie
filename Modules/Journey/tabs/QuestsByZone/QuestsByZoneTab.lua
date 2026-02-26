@@ -121,7 +121,7 @@ end
 
 _CreateZoneDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
-
+    dropdown:SetWidth(205)
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
     if _QuestieJourney.lastZoneSelection[2] then
         currentZoneId = _QuestieJourney.lastZoneSelection[2]
