@@ -629,6 +629,27 @@ function QuestieTBCQuestFixes:Load()
         [5503] = {
             [questKeys.exclusiveTo] = {5401,5405},
         },
+        [5634] = { -- Desperate Prayer (Stormwind City)
+            [questKeys.questLevel] = -1,
+        },
+        [5635] = { -- Desperate Prayer (Elwynn Forest)
+            [questKeys.questLevel] = -1,
+        },
+        [5636] = { -- Desperate Prayer (Teldrassil)
+            [questKeys.questLevel] = -1,
+        },
+        [5637] = { -- Desperate Prayer (Dun Morogh)
+            [questKeys.questLevel] = -1,
+        },
+        [5638] = { -- Desperate Prayer (Stormwind City)
+            [questKeys.questLevel] = -1,
+        },
+        [5639] = { -- Desperate Prayer (Ironforge)
+            [questKeys.questLevel] = -1,
+        },
+        [5640] = { -- Desperate Prayer (Darnassus)
+            [questKeys.questLevel] = -1,
+        },
         [5649] = {
             [questKeys.requiredLevel] = 5,
         },
@@ -1767,6 +1788,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
             [questKeys.exclusiveTo] = {1678,1683,1639},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 181849}}}},
+        },
+        [9586] = { -- Help Tavara
+            [questKeys.objectives] = {{{17551,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9587] = {
             [questKeys.startedBy] = {nil,nil,{23890}},

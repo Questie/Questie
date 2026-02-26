@@ -2710,10 +2710,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5622},
         },
-        [5622] = {
+        [5622] = { -- In Favor of Elune
             [questKeys.breadcrumbForQuestId] = 5621,
         },
-        [5623] = {
+        [5623] = { -- In Favor of the Light
             [questKeys.breadcrumbForQuestId] = 5624,
         },
         [5624] = { -- Garments of the Light
@@ -2726,32 +2726,32 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5626},
         },
-        [5626] = {
+        [5626] = { -- In Favor of the Light
             [questKeys.breadcrumbForQuestId] = 5625,
         },
-        [5634] = {
+        [5634] = { -- Desperate Prayer (Stormwind City)
             [questKeys.startedBy] = {{376}},
             [questKeys.objectivesText] = {},
             [questKeys.exclusiveTo] = {5635,5636,5637,5638,5639,5640},
         },
-        [5635] = {
+        [5635] = { -- Desperate Prayer (Elwynn Forest)
             [questKeys.startedBy] = {{377}},
             [questKeys.exclusiveTo] = {5634,5636,5637,5638,5639,5640},
         },
-        [5636] = {
+        [5636] = { -- Desperate Prayer (Teldrassil)
             [questKeys.exclusiveTo] = {5634,5635,5637,5638,5639,5640},
         },
-        [5637] = {
+        [5637] = { -- Desperate Prayer (Dun Morogh)
             [questKeys.startedBy] = {{1226}},
             [questKeys.exclusiveTo] = {5634,5635,5636,5638,5639,5640},
         },
-        [5638] = {
+        [5638] = { -- Desperate Prayer (Stormwind City)
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5639,5640},
         },
         [5639] = { -- Desperate Prayer (Ironforge)
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5640},
         },
-        [5640] = {
+        [5640] = { -- Desperate Prayer (Darnassus)
             [questKeys.name] = "Desperate Prayer",
             [questKeys.startedBy] = {{11401}},
             [questKeys.finishedBy] = {{376}},
