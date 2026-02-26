@@ -546,6 +546,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21}}}},
         },
         [3631] = {
+            [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{3326}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
@@ -566,19 +567,23 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
         },
         [4487] = {
+            [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{5172}},
             [questKeys.finishedBy] = {{6251}},
         },
         [4488] = {
+            [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{461}},
             [questKeys.finishedBy] = {{6251}},
         },
         [4489] = {
+            [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{4563}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
         [4490] = {
+            [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{6251}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -864,6 +869,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8410] = {
             [questKeys.startedBy] = {{3032,13417,20407,23127,},nil,nil,},
+        },
+        [8411] = { -- Mastering the Elements
+            [questKeys.name] = "Mastering the Elements",
         },
         [8412] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -3778,7 +3786,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
         },
         [11052] = {
+            [questKeys.name] = "Akama's Promise",
             [questKeys.exclusiveTo] = {10708},
+            [questKeys.startedBy] = {{21700}},
             [questKeys.finishedBy] = {{18481}},
         },
         [11057] = {
@@ -3829,6 +3839,9 @@ function QuestieTBCQuestFixes:Load()
         [11071] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{23348,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [11072] = { -- Adversarial Blood
+            [questKeys.name] = "Adversarial Blood",
         },
         [11073] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Time-Lost offering to summon Terokk"), 0, {{"object", 185928}}}},
