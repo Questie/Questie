@@ -11,7 +11,7 @@ local autoOptionsLocales = {
         ["koKR"] = "퀘스트 자동 완료",
         ["ptBR"] = "Entregar missões",
         ["ruRU"] = "Вкл/выкл",
-        ["zhCN"] = "自动交回任务",
+        ["zhCN"] = "自动交任务",
         ["zhTW"] = "自動回任務",
     },
     ["If checked, Questie will automatically hand in finished quests when talking to NPCs."] = {
@@ -23,7 +23,7 @@ local autoOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 Questie는 NPC와 대화할 때 완료된 퀘스트를 자동으로 제출합니다.",
         ["ptBR"] = "Se marcado, o Questie entregará automaticamente missões concluídas ao falar com NPCs.",
         ["ruRU"] = "Когда включено, задания будут завершаться автоматически при разговоре с NPC",
-        ["zhCN"] = "启用时，与NPC对话时自动交回任务",
+        ["zhCN"] = "启用时，与NPC对话时会自动提交已完成的任务",
         ["zhTW"] = "啟用時，和 NPC 對話會自動交回已完成的任務",
     },
     ["Auto Accept"] = {
@@ -83,7 +83,7 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 일반 퀘스트를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões normais de NPCs.",
         ["ruRU"] = "Автопринятие обычных заданий от NPC.",
-        ["zhCN"] = "自动接受 NPC 提供的一般任务",
+        ["zhCN"] = "自动接受 NPC 提供的普通任务",
         ["zhTW"] = "自動接受 NPC 提供的一般任務",
     },
     ["Automatically accept repeatable quests (including dailies) from NPCs."] = {
