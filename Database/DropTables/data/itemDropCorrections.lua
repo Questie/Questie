@@ -85,7 +85,6 @@ QuestieItemDropCorrections.Era = {
     },
     [3297] = { -- Fel Moss
         [1988] = DropKeys.WOWHEAD,
-        [1989] = 100,
     },
     [3348] = { -- Giant Crocolisk Skin
         [2089] = 100,
