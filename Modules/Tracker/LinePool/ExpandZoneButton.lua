@@ -9,7 +9,7 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 ---@param index number
----@param parent LineFrame
+---@param parent TrackerLineFrame
 ---@param OnEnter function @Callback function for OnEnter
 ---@param OnLeave function @Callback function for OnLeave
 ---@return LineFrame

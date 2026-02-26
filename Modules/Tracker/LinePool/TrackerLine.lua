@@ -41,14 +41,15 @@ local lineMarginLeft = 10
 
 ---@param index number
 ---@param parent ScrollFrame
----@param previousLine LineFrame?
+---@param previousLine TrackerLineFrame?
 ---@param OnEnter function @Callback function for OnEnter
 ---@param OnLeave function @Callback function for OnLeave
 ---@param OnQuestAdded function @Callback function for SetQuest
 ---@param OnScenarioCriteriaAdded function @Callback function for SetScenarioCriteria
----@return LineFrame
+---@return TrackerLineFrame
 function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded, OnScenarioCriteriaAdded)
     local timeElapsed = 0
+    ---@class TrackerLineFrame : Button
     local line = CreateFrame("Button", "linePool" .. index, parent)
     line:SetWidth(1)
     line:SetHeight(1)

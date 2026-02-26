@@ -19,13 +19,14 @@ local linePoolSize = 250
 local lineIndex = 0
 local buttonPoolSize = 25
 local buttonIndex = 0
+---@type table<number, TrackerLineFrame>
 local linePool = {}
 local buttonPool = {}
 
----@type table<QuestId, table<Frame>>
+---@type table<QuestId, table<TrackerLineFrame>>
 local linesByQuest = {}
 
----@type table<number, table<Frame>>
+---@type table<number, table<TrackerLineFrame>>
 local linesByScenarioIndex = {}
 
 ---@param questFrame Frame
@@ -151,7 +152,7 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     end
 end
 
----@return table|nil lineIndex linePool[lineIndex + 1]
+---@return TrackerLineFrame|nil
 function TrackerLinePool.GetNextLine()
     lineIndex = lineIndex + 1
     if not linePool[lineIndex] then
@@ -177,12 +178,12 @@ function TrackerLinePool.IsFirstLine()
 end
 
 ---@param index number
----@return table index linePool[index]
+---@return TrackerLineFrame
 function TrackerLinePool.GetLine(index)
     return linePool[index]
 end
 
----@return table lineIndex linePool[lineIndex]
+---@return TrackerLineFrame
 function TrackerLinePool.GetCurrentLine()
     return linePool[lineIndex]
 end
@@ -192,7 +193,7 @@ function TrackerLinePool.GetCurrentButton()
     return buttonPool[buttonIndex]
 end
 
----@return table|nil lineIndex linePool[lineIndex - 1]
+---@return TrackerLineFrame|nil
 function TrackerLinePool.GetPreviousLine()
     lineIndex = lineIndex - 1
     if not linePool[lineIndex] then
@@ -202,12 +203,12 @@ function TrackerLinePool.GetPreviousLine()
     return linePool[lineIndex]
 end
 
----@return table linePool linePool[1]
+---@return TrackerLineFrame
 function TrackerLinePool.GetFirstLine()
     return linePool[1]
 end
 
----@return table linePool linePool[linePoolSize]
+---@return TrackerLineFrame
 function TrackerLinePool.GetLastLine()
     return linePool[linePoolSize]
 end
@@ -355,7 +356,7 @@ TrackerLinePool.OnHighlightLeave = function()
 end
 
 ---@param questId QuestId
----@param line LineFrame
+---@param line TrackerLineFrame
 function TrackerLinePool.AddQuestLine(questId, line)
     if (not linesByQuest[questId]) then
         linesByQuest[questId] = {}
@@ -386,7 +387,7 @@ function TrackerLinePool.UpdateQuestLines(questId)
 end
 
 ---@param criteriaIndex number
----@param line LineFrame
+---@param line TrackerLineFrame
 function TrackerLinePool.AddScenarioLine(criteriaIndex, line)
     if (not linesByScenarioIndex[criteriaIndex]) then
         linesByScenarioIndex[criteriaIndex] = {}
