@@ -518,7 +518,7 @@ local myJourneyLocales = {
         ["zhCN"] = "需要前置任务未完成组",
         ["zhTW"] = "需要前置任務未完成群",
     },
-    ["Inactive Parent"] = {
+    ["Inactive parent"] = {
         ["enUS"] = true,
         ["deDE"] = "Übergeordnete Quest inaktiv",
         ["esES"] = "Misión padre inactiva",
@@ -686,15 +686,15 @@ local myJourneyLocales = {
         ["zhCN"] = "等级过高",
         ["zhTW"] = "等級過高",
     },
-    ["Breadcrumb target active or finished"] = {
+    ["Follow up quest active or completed"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["deDE"] = "Folge-Quest aktiv oder abgeschlossen",
+        ["esES"] = "La siguiente misión está activa o completada",
+        ["esMX"] = "La siguiente misión está activa o completada",
+        ["frFR"] = "La quête suivante est active ou terminée",
+        ["koKR"] = "후속 퀘스트 진행 중 또는 완료됨",
+        ["ptBR"] = "A próxima missão está ativa ou concluída",
+        ["ruRU"] = "Следующее задание активно или выполнено",
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
