@@ -4018,6 +4018,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11161},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Redeem Remains"), 0, {{"object", 186332}}}},
         },
+        [11161] = { -- The Essence of Enmity
+            [questKeys.nextQuestInChain] = 11159,
+        },
         [11162] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Stonemaul Banner"), 0, {{"object", 186336}}}},
         },
