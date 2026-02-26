@@ -115,7 +115,7 @@ end
 
 _CreateFactionDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
-
+    dropdown:SetWidth(205)
     if not selectedExpansionKey then
         selectedExpansionKey = _GetDefaultExpansion()
     end
