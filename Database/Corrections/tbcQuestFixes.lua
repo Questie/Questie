@@ -1791,6 +1791,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9586] = { -- Help Tavara
             [questKeys.objectives] = {{{17551,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9587] = {
             [questKeys.startedBy] = {nil,nil,{23890}},
