@@ -66,6 +66,7 @@ function TrackerLinePool.ResetLinesForChange()
     for _, line in pairs(linePool) do
         line.mode = nil
         line.trackTimedQuest = nil
+        line.questHasSecondaryQIB = false
         if line.expandQuest then
             line.expandQuest.mode = nil
             line.expandQuest.questId = nil
