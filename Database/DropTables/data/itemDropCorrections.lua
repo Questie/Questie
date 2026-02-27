@@ -148,6 +148,11 @@ QuestieItemDropCorrections.Era = {
         [3261] = 100,
         [3263] = 100,
     },
+    [5170] = { -- Mossy Tumor
+        [2027] = DropKeys.WOWHEAD,
+        [2029] = DropKeys.WOWHEAD,
+        [2030] = DropKeys.WOWHEAD,
+    },
     [5233] = { -- Stone of Relu
         [1020] = 1.5,
         [1021] = 1.5,

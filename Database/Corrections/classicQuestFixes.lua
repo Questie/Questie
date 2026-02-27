@@ -621,6 +621,9 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 924, -- #806
             [questKeys.preQuestSingle] = {809}, -- #606
         },
+        [927] = { -- The Moss-twined Heart
+            [questKeys.nextQuestInChain] = 941,
+        },
         [930] = {
             [questKeys.preQuestSingle] = {918}, -- #971
         },
