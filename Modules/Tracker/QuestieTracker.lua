@@ -1189,6 +1189,7 @@ function QuestieTracker:Update()
                                     local achievementCopy = achieve
                                     if refId and select(2, GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB.GetQuest(refId)))) then
                                         -- Sometimes stand alone trackable Achievements are part of a group of Achievements under a parent Achievement.
+                                        -- E.g. "Champion of the Horde" from the Argent Tournament
                                         achievementCopy = {
                                             Id = refId
                                         }
