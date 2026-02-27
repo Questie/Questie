@@ -1186,14 +1186,15 @@ function QuestieTracker:Update()
                             for objCriteria = 1, numCriteria do
                                 local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(achieve.Id, objCriteria)
                                 if ((Questie.db.profile.hideCompletedAchieveObjectives) and (not completed)) or (not Questie.db.profile.hideCompletedAchieveObjectives) then
+                                    local achievementCopy = achieve
                                     if refId and select(2, GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB.GetQuest(refId)))) then
                                         -- Sometimes stand alone trackable Achievements are part of a group of Achievements under a parent Achievement.
-                                        achieve = {
+                                        achievementCopy = {
                                             Id = refId
                                         }
                                     end
 
-                                    line = TrackerLinePool.GetAchievementObjectiveLine(achieve, objectiveMarginLeft)
+                                    line = TrackerLinePool.GetAchievementObjectiveLine(achievementCopy, objectiveMarginLeft)
                                     if not line then break end
 
                                     -- Set Objective label based on state
