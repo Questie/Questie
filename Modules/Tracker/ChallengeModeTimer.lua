@@ -28,19 +28,23 @@ function ChallengeModeTimer.GetTimerString()
     if instanceType ~= "none" and difficultyName == "Challenge Mode" then
         local mapTimes = C_ChallengeMode.GetChallengeModeMapTimes(mapID)
 
+        local platinumTime = mapTimes[4]
         local goldTime = mapTimes[3]
         local silverTime = mapTimes[2]
         local bronzeTime = mapTimes[1]
 
         local thresholdColor, thresholdTime
-        if elapsed <= goldTime then
+        if elapsed <= platinumTime then
+            thresholdColor = "D9D9D9"
+            thresholdTime = platinumTime
+        elseif elapsed <= goldTime then
             thresholdColor = "F1E156"
             thresholdTime = goldTime
         elseif elapsed <= silverTime then
-            thresholdColor = "C7B8BD"
+            thresholdColor = "C4C4C4"
             thresholdTime = silverTime
         elseif elapsed <= bronzeTime then
-            thresholdColor = "DB8B34"
+            thresholdColor = "CE8946"
             thresholdTime = bronzeTime
         else
             thresholdColor = "845321"
