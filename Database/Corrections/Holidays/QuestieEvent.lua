@@ -104,11 +104,26 @@ function QuestieEvent.Initialize()
     C_Calendar.SetMonth(0)
 end
 
+local function GetLunarFestivalDates(year)
+    local region = GetCurrentRegion()
+
+    if region == 5 and QuestieEvent.lunarFestival.CN then
+        return QuestieEvent.lunarFestival.CN[year] or QuestieEvent.lunarFestival.DEFAULT[year]
+    end
+
+    return QuestieEvent.lunarFestival.DEFAULT[year]
+end
+
 function QuestieEvent:Load()
     local year = date("%y")
-
+    local lunarData = GetLunarFestivalDates(year)
     -- We want to replace the Lunar Festival date with the date that we estimate
-    QuestieEvent.eventDates["Lunar Festival"] = QuestieEvent.lunarFestival[year]
+    -- QuestieEvent.eventDates["Lunar Festival"] = QuestieEvent.lunarFestival[year]
+
+    if lunarData then
+        QuestieEvent.eventDates["Lunar Festival"] = lunarData
+    end
+
     local activeEvents = {}
 
     local eventCorrections
@@ -411,17 +426,24 @@ QuestieEvent.eventDateCorrections = {
 }
 
 QuestieEvent.lunarFestival = {
-    ["19"] = {startDate = "5/2", endDate = "19/2"},
-    ["20"] = {startDate = "23/1", endDate = "10/2"},
-    ["21"] = {startDate = "5/2", endDate = "19/2"}, --when this was for real?
-    ["22"] = {startDate = "30/1", endDate = "18/2"},
-    -- Below are estimates
-    ["23"] = {startDate = "20/1", endDate = "10/2"},
-    ["24"] = {startDate = "3/2", endDate = "23/2"},
-    ["25"] = {startDate = "28/1", endDate = "17/2"},
-    ["26"] = {startDate = "16/2", endDate = "9/3"},
-    ["27"] = {startDate = "7/2", endDate = "21/2"},
-    ["28"] = {startDate = "27/1", endDate = "10/2"}
+    DEFAULT = { -- Global default (US/EU, etc.)
+        ["19"] = {startDate = "5/2", endDate = "19/2"},
+        ["20"] = {startDate = "23/1", endDate = "10/2"},
+        ["21"] = {startDate = "5/2", endDate = "19/2"},
+        ["22"] = {startDate = "30/1", endDate = "18/2"},
+        ["23"] = {startDate = "20/1", endDate = "10/2"},
+        ["24"] = {startDate = "3/2", endDate = "23/2"},
+        ["25"] = {startDate = "28/1", endDate = "17/2"},
+        ["26"] = {startDate = "29/1", endDate = "25/2"},
+        ["27"] = {startDate = "7/2", endDate = "21/2"},
+        ["28"] = {startDate = "27/1", endDate = "10/2"},
+    },
+
+    CN = { -- Chinese server exclusive time
+        ["26"] = {startDate = "25/1", endDate = "20/2"},
+        ["27"] = {startDate = "5/2", endDate = "19/2"},
+        ["28"] = {startDate = "24/1", endDate = "14/2"},
+    }
 }
 
 return QuestieEvent
