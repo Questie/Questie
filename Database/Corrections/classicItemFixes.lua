@@ -270,7 +270,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [4589] = { -- Long Elegant Feather
-            [itemKeys.npcDrops] = {2347, 2651, 2657, 2658, 2659},
+            [itemKeys.npcDrops] = {2347, 2473, 2474, 2651, 2657, 2658, 2659, 5300, 6375},
         },
         [4611] = { -- Blue Pearl
             [itemKeys.npcDrops] = {},
