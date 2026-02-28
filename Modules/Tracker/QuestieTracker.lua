@@ -1353,7 +1353,7 @@ function QuestieTracker:Update()
             return
         end
 
-        local timerFontSize = trackerFontSizeQuest + 5
+        local timerFontSize = trackerFontSizeQuest + 10
         line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), timerFontSize, Questie.db.profile.trackerFontOutline)
         line.label:SetHeight(timerFontSize)
         line.expandZone:Hide()
