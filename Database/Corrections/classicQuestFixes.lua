@@ -1191,11 +1191,11 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{6090}}},
             [questKeys.preQuestSingle] = {1639,1678,1683},
         },
-        [1641] = { -- This is repeatable giving an item starting 1642
-            [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
+        [1641] = { -- The Tome of Divininty (Stormwind)
+            [questKeys.exclusiveTo] = {1642},
         },
-        [1642] = {
-            [questKeys.exclusiveTo] = {1646,2997,2998,2999,3000,3681},
+        [1642] = { -- The Tome of Divinity (Stormwind)
+            [questKeys.preQuestSingle] = {},
         },
         [1645] = { -- The Tome of Divinity (Ironforge)
             [questKeys.exclusiveTo] = {1646},
@@ -1335,10 +1335,11 @@ function QuestieQuestFixes:Load()
         },
         [1789] = { -- The Symbol of Life (Ironforge)
             [questKeys.exclusiveTo] = {1784},
-            [questKeys.preQuestSingle] = {1779}, -- might be 1778, check
+            [questKeys.preQuestSingle] = {1779},
         },
-        [1790] = {
-            [questKeys.exclusiveTo] = {1788},
+        [1790] = { -- The Symbol of Life (Stormwind)
+            [questKeys.exclusiveTo] = {1787},
+            [questKeys.preQuestSingle] = {1781},
         },
         [1793] = {
             [questKeys.exclusiveTo] = {1649},
@@ -1886,8 +1887,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1646,2999,3000},
             [questKeys.nextQuestInChain] = 0,
         },
-        [2998] = {
-            [questKeys.exclusiveTo] = {1642,1646,2997,2998,3000,3681},
+        [2998] = { -- Tome of Divinity (Elwynn Forest)
+            [questKeys.exclusiveTo] = {1642,3681},
+            [questKeys.nextQuestInChain] = 0,
         },
         [2999] = { -- Tome of Divinity (Ironforge)
             [questKeys.exclusiveTo] = {1646,2997,3000},
@@ -2027,8 +2029,9 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{7944}},
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
         },
-        [3681] = {
-            [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
+        [3681] = { -- Tome of Divinity (Ironforge)
+            [questKeys.exclusiveTo] = {1642,2998},
+            [questKeys.nextQuestInChain] = 0,
         },
         [3702] = {
             [questKeys.objectives] = {{{8879,nil,Questie.ICON_TYPE_TALK}}},
