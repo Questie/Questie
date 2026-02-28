@@ -103,8 +103,8 @@ function QuestieEvent.Initialize()
     C_Calendar.OpenCalendar()
     C_Calendar.SetMonth(0)
 end
---@param year string
---@return { startDate: string, endDate: string }?
+---@param year string
+---@return { startDate: string, endDate: string }?
 local function GetLunarFestivalDates(year)
     local region = GetCurrentRegion()
 
@@ -426,15 +426,15 @@ QuestieEvent.eventDateCorrections = {
     },
 }
 
---@class QuestieEventDateRange
---@field startDate string
---@field endDate string
+---@class QuestieEventDateRange
+---@field startDate string
+---@field endDate string
 
---@class QuestieLunarFestivalTable
---@field DEFAULT table<string, QuestieEventDateRange>
---@field CN table<string, QuestieEventDateRange>
+---@class QuestieLunarFestivalTable
+---@field DEFAULT table<string, QuestieEventDateRange>
+---@field CN table<string, QuestieEventDateRange>
 
---@type QuestieLunarFestivalTable
+---@type QuestieLunarFestivalTable
 QuestieEvent.lunarFestival = {
     DEFAULT = { -- Global default (US/EU, etc.)
         ["19"] = {startDate = "5/2", endDate = "19/2"},
