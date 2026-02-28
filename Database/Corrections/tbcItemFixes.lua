@@ -535,10 +535,10 @@ function QuestieTBCItemFixes:LoadFactionFixes()
         [25912] = { -- Salvaged Metal
             [itemKeys.objectDrops] = {182937, 182938},
         },
-        [30712] = {
+        [30712] = { -- The Doctor's Key
             [itemKeys.npcDrops] = {21779},
         },
-        [30713] = {
+        [30713] = { -- The Art of Fel Reaver Maintenance
             [itemKeys.objectDrops] = {185233},
         },
     }
@@ -550,10 +550,10 @@ function QuestieTBCItemFixes:LoadFactionFixes()
         [25912] = { -- Salvaged Metal
             [itemKeys.objectDrops] = {182798, 182797},
         },
-        [30712] = {
+        [30712] = { -- The Doctor's Key
             [itemKeys.npcDrops] = {21778},
         },
-        [30713] = {
+        [30713] = { -- The Art of Fel Reaver Maintenance
             [itemKeys.objectDrops] = {184947},
         },
     }

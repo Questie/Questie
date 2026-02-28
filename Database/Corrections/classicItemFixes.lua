@@ -1521,16 +1521,16 @@ function QuestieItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
+        [3713] = { -- Soothing Spices
+            [itemKeys.relatedQuests] = {7321, 1218},
+            [itemKeys.npcDrops] = {2397, 8307},
+            [itemKeys.objectDrops] = {},
+        },
         [15882] = { -- Half Pendant of Aquatic Endurance
             [itemKeys.objectDrops] = {177790},
         },
         [15883] = { -- Half Pendant of Aquatic Agility
             [itemKeys.objectDrops] = {177794},
-        },
-        [3713] = { -- Soothing Spices
-            [itemKeys.relatedQuests] = {7321, 1218},
-            [itemKeys.npcDrops] = {2397, 8307},
-            [itemKeys.objectDrops] = {},
         },
         [20810] = { -- Signed Field Duty Papers
             [itemKeys.npcDrops] = {15612},
@@ -1538,17 +1538,17 @@ function QuestieItemFixes:LoadFactionFixes()
     }
 
     local itemFixesAlliance = {
-        [15882] = { -- Half Pendant of Aquatic Endurance
-            [itemKeys.objectDrops] = {177844},
-        },
-        [15883] = { -- Half Pendant of Aquatic Agility
-            [itemKeys.objectDrops] = {177792},
-        },
         [3713] = { -- Soothing Spices
             [itemKeys.name] = "Soothing Spices",
             [itemKeys.relatedQuests] = {555, 1218},
             [itemKeys.npcDrops] = {2381, 4897},
             [itemKeys.objectDrops] = {},
+        },
+        [15882] = { -- Half Pendant of Aquatic Endurance
+            [itemKeys.objectDrops] = {177844},
+        },
+        [15883] = { -- Half Pendant of Aquatic Agility
+            [itemKeys.objectDrops] = {177792},
         },
         [20810] = { -- Signed Field Duty Papers
             [itemKeys.npcDrops] = {15440},

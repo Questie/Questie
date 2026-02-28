@@ -2770,7 +2770,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [5641] = { -- Fear Ward (Ironforge)
+        [5641] = { -- A Lack of Fear (Ironforge)
             [questKeys.startedBy] = {{11406}},
             [questKeys.objectivesText] = {},
         },
@@ -2780,13 +2780,13 @@ function QuestieQuestFixes:Load()
         [5644] = { -- Devouring Plague (Thunder Bluff)
             [questKeys.startedBy] = {{3044}},
         },
-        [5645] = { -- Fear Ward (Stormwind)
+        [5645] = { -- A Lack of Fear (Stormwind)
             [questKeys.startedBy] = {{376}},
         },
         [5646] = { -- Devouring Plague (Orgrimmar)
             [questKeys.startedBy] = {{6018}},
         },
-        [5647] = {
+        [5647] = { -- A Lack of Fear
             [questKeys.startedBy] = {{11401}}, -- #2424
         },
         [5648] = { -- Garments of Spirituality
@@ -2794,7 +2794,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5649},
         },
-        [5649] = {
+        [5649] = { -- In Favor of Spirituality
             [questKeys.breadcrumbForQuestId] = 5648,
         },
         [5650] = { -- Garments of Darkness
@@ -2802,7 +2802,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5651},
         },
-        [5651] = {
+        [5651] = { -- In Favor of Darkness
             [questKeys.breadcrumbForQuestId] = 5650,
         },
         [5652] = { -- Hex of Weakness (Orgrimmar)
@@ -2820,29 +2820,29 @@ function QuestieQuestFixes:Load()
         [5657] = { -- Hex of Weakness (Undercity)
             [questKeys.startedBy] = {{4606}},
         },
-        [5658] = { -- #7083 and #1603 Touch of Weakness (Undercity)
+        [5658] = { -- Touch of Weakness (Undercity)
             [questKeys.startedBy] = {{4606}},
             [questKeys.objectivesText] = {},
         },
-        [5661] = { -- #7083 and #1603 Touch of Weakness (Mulgore)
+        [5661] = { -- Touch of Weakness (Mulgore)
             [questKeys.startedBy] = {{11407}},
         },
-        [5663] = { -- #7083 and #1603 Touch of Weakness (Thunder Bluff)
+        [5663] = { -- Touch of Weakness (Thunder Bluff)
             [questKeys.startedBy] = {{3044}},
         },
         [5672] = { -- Elune's Grace (Darnassus)
             [questKeys.startedBy] = {{11401}},
             [questKeys.objectivesText] = {},
         },
-        [5676] = { -- Feedback (Stormwind)
+        [5676] = { -- Arcane Feedback (Stormwind)
             [questKeys.startedBy] = {{376}},
             [questKeys.exclusiveTo] = {5677,5678},
             [questKeys.objectivesText] = {},
         },
-        [5677] = { -- Feedback (Ironforge)
+        [5677] = { -- Arcane Feedback (Ironforge)
             [questKeys.exclusiveTo] = {5676,5678},
         },
-        [5678] = { -- Feedback (Darnassus)
+        [5678] = { -- Arcane Feedback (Darnassus)
             [questKeys.name] = "Arcane Feedback",
             [questKeys.startedBy] = {{11401}},
             [questKeys.finishedBy] = {{376}},
