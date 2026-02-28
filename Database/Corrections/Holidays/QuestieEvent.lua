@@ -434,13 +434,13 @@ QuestieEvent.lunarFestival = {
         ["23"] = {startDate = "20/1", endDate = "10/2"},
         ["24"] = {startDate = "3/2", endDate = "23/2"},
         ["25"] = {startDate = "28/1", endDate = "17/2"},
-        ["26"] = {startDate = "29/1", endDate = "25/2"},
+        ["26"] = {startDate = "16/2", endDate = "9/3"},
         ["27"] = {startDate = "7/2", endDate = "21/2"},
         ["28"] = {startDate = "27/1", endDate = "10/2"},
     },
 
     CN = { -- Chinese server exclusive time
-        ["26"] = {startDate = "25/1", endDate = "20/2"},
+        ["26"] = {startDate = "29/1", endDate = "25/2"},
         ["27"] = {startDate = "5/2", endDate = "19/2"},
         ["28"] = {startDate = "24/1", endDate = "14/2"},
     }
