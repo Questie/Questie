@@ -751,7 +751,7 @@ function QuestieTracker:Update()
 
                 -- Add quest
                 if (not Questie.db.char.collapsedZones[zoneName]) then
-                    line = TrackerLinePool.GetQuestTitleLine(quest, objectiveMarginLeft)
+                    line = TrackerLinePool.GetQuestTitleLine(quest, questMarginLeft)
                     if not line then break end
 
                     -- Set Min/Max Button and default states
