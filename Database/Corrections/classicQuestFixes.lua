@@ -1197,11 +1197,11 @@ function QuestieQuestFixes:Load()
         [1642] = {
             [questKeys.exclusiveTo] = {1646,2997,2998,2999,3000,3681},
         },
-        [1645] = { -- This is repeatable giving an item starting 1646
-            [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
+        [1645] = { -- The Tome of Divinity (Ironforge)
+            [questKeys.exclusiveTo] = {1646},
         },
-        [1646] = {
-            [questKeys.exclusiveTo] = {1642,2997,2998,2999,3000,3681},
+        [1646] = { -- The Tome of Divinity (Ironforge)
+            [questKeys.preQuestSingle] = {},
         },
         [1651] = {
             [questKeys.triggerEnd] = {"Protect Daphne Stilwell", {[zoneIDs.WESTFALL]={{42.15,88.44}}}},
@@ -1333,8 +1333,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1798},
         },
-        [1789] = {
-            [questKeys.exclusiveTo] = {1785},
+        [1789] = { -- The Symbol of Life (Ironforge)
+            [questKeys.exclusiveTo] = {1784},
+            [questKeys.preQuestSingle] = {1779}, -- might be 1778, check
         },
         [1790] = {
             [questKeys.exclusiveTo] = {1788},
@@ -1881,17 +1882,20 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 1801,
             [questKeys.breadcrumbForQuestId] = 1801,
         },
-        [2997] = {
-            [questKeys.exclusiveTo] = {1642,1646,2998,2999,3000,3681},
+        [2997] = { -- Tome of Divinity (Dun Morogh)
+            [questKeys.exclusiveTo] = {1646,2999,3000},
+            [questKeys.nextQuestInChain] = 0,
         },
         [2998] = {
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,3000,3681},
         },
-        [2999] = {
-            [questKeys.exclusiveTo] = {1642,1646,2997,2998,3000,3681},
+        [2999] = { -- Tome of Divinity (Ironforge)
+            [questKeys.exclusiveTo] = {1646,2997,3000},
+            [questKeys.nextQuestInChain] = 0,
         },
-        [3000] = {
-            [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
+        [3000] = { -- Tome of Divinity (Stormwind)
+            [questKeys.exclusiveTo] = {1646,2997,2999},
+            [questKeys.nextQuestInChain] = 0,
         },
         [3001] = {
             [questKeys.nextQuestInChain] = 1801,
