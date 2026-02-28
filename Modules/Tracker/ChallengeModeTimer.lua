@@ -33,19 +33,23 @@ function ChallengeModeTimer.GetTimerString()
         local silverTime = mapTimes[2]
         local bronzeTime = mapTimes[1]
 
-        local thresholdColor, thresholdTime
+        local thresholdColor, thresholdTime, medalIcon
         if elapsed <= platinumTime then
             thresholdColor = "D9D9D9"
             thresholdTime = platinumTime
+            medalIcon = "Interface\\Challenges\\challenges-plat"
         elseif elapsed <= goldTime then
             thresholdColor = "F1E156"
             thresholdTime = goldTime
+            medalIcon = "Interface\\Challenges\\challenges-gold"
         elseif elapsed <= silverTime then
             thresholdColor = "C4C4C4"
             thresholdTime = silverTime
+            medalIcon = "Interface\\Challenges\\challenges-silver"
         elseif elapsed <= bronzeTime then
             thresholdColor = "CE8946"
             thresholdTime = bronzeTime
+            medalIcon = "Interface\\Challenges\\challenges-bronze"
         else
             thresholdColor = "845321"
             thresholdTime = 0
@@ -58,7 +62,11 @@ function ChallengeModeTimer.GetTimerString()
         local currentTime = string.format("%02d:%02d / ", currentMinutes, currentSeconds)
         local targetTime = string.format("%02d:%02d", targetMinutes, targetSeconds)
 
-        return Questie:Colorize(currentTime, "white") .. Questie:Colorize(targetTime, thresholdColor)
+        local timerString = Questie:Colorize(currentTime, "white") .. Questie:Colorize(targetTime, thresholdColor)
+        if medalIcon then
+            timerString = timerString .. " |T" .. medalIcon .. ":0|t"
+        end
+        return timerString
     end
 
     return Questie:Colorize("00:00 / 00:00", "white")
