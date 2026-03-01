@@ -2755,6 +2755,7 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 0,
         },
         [5631] = { -- Returning Home (Stormwind City)
+            [questKeys.startedBy] = {{376}},
             [questKeys.exclusiveTo] = {5627,5628,5629,5630,5632,5633},
             [questKeys.nextQuestInChain] = 0,
         },
@@ -2763,6 +2764,7 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 0,
         },
         [5633] = { -- Returning Home (Ironforge)
+            [questKeys.startedBy] = {{11406}},
             [questKeys.exclusiveTo] = {5627,5628,5629,5630,5631,5632},
             [questKeys.nextQuestInChain] = 0,
         },

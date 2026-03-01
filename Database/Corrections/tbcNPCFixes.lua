@@ -428,7 +428,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {8846,8847,8848,8849,8850,10501},
         },
         [15895] = { -- Lunar Festival Harbinger
-            [npcKeys.spawns] = {[zoneIDs.DARNASSUS]={{32.59,12.01}}, -- original data
+            [npcKeys.spawns] = {[zoneIDs.DARNASSUS]={{32.59,12.01}},
                                [zoneIDs.UNDERCITY]={{65.62,36.0}},
                                [zoneIDs.ORGRIMMAR]={{41.66,31.98}},
                                [zoneIDs.THUNDER_BLUFF]={{71.12,28.2}},
