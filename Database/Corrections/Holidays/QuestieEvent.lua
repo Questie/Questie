@@ -386,8 +386,6 @@ function QuestieEvent.IsEventActiveForQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
 end
 
-local isChinaRegion = GetCurrentRegion() == 5
-
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
     ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
@@ -399,7 +397,7 @@ QuestieEvent.eventDates = {
         endDate = "26/4"
     },
     ["Children's Week"] = {startDate = "28/4", endDate = "12/5"}, -- TODO: Usually it is only a week long
-    ["Midsummer"] = (isChinaRegion and Questie.IsWotlk) and {startDate = "21/6", endDate = "28/7"} or {startDate = "21/6", endDate = "4/7"},
+    ["Midsummer"] = (Questie.IsChinaRegion and Questie.IsWotlk) and {startDate = "21/6", endDate = "28/7"} or {startDate = "21/6", endDate = "4/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "2/10",
