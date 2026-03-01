@@ -114,7 +114,9 @@ local function GetLunarFestivalDates(year)
     end
 
     if activeSeason == TITAN_SEASON_ID and QuestieEvent.lunarFestival.TITAN then
-        return QuestieEvent.lunarFestival.TITAN[year] or QuestieEvent.lunarFestival.DEFAULT[year]
+        return QuestieEvent.lunarFestival.TITAN[year]
+               or (region == 5 and QuestieEvent.lunarFestival.CN and QuestieEvent.lunarFestival.CN[year])
+               or QuestieEvent.lunarFestival.DEFAULT[year]
     end
 
     if region == 5 and QuestieEvent.lunarFestival.CN then
@@ -441,8 +443,8 @@ QuestieEvent.eventDateCorrections = {
 
 ---@class QuestieLunarFestivalTable
 ---@field DEFAULT table<string, QuestieEventDateRange>
----@field CN table<string, QuestieEventDateRange>
----@field TITAN table<string, QuestieEventDateRange>
+---@field CN table<string, QuestieEventDateRange>?
+---@field TITAN table<string, QuestieEventDateRange>?
 
 ---@type QuestieLunarFestivalTable
 QuestieEvent.lunarFestival = {
