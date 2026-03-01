@@ -1663,14 +1663,14 @@ function QuestieQuestBlacklist:Load()
         --[26013] = true, -- Assault on the Sanctum
 
         --- Chinese servers wotlk only
-        [78752] = (locale == "zhCN" or locale == "zhTW") and Expansions.Current >= Expansions.Cata, -- Proof of Demise: Titan Rune Protocol Gamma
-        [78753] = (locale == "zhCN" or locale == "zhTW") and Expansions.Current >= Expansions.Cata, -- Proof of Demise: Threats to Azeroth
+        [78752] = Questie.IsTitanReforged, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
+        [78753] = Questie.IsTitanReforged, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
         [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
-        [93975] = Expansions.Current >= Expansions.Wotlk, -- Ragnaros Must Die!
-        [94577] = Expansions.Current >= Expansions.Wotlk, -- Kael'thas Must Die!
+        [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
+        [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
