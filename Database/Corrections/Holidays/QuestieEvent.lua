@@ -208,8 +208,6 @@ end
 _GetLunarFestivalDates = function(year)
     if Questie.IsTitanReforged and QuestieEvent.lunarFestival.TITAN[year] then
         return QuestieEvent.lunarFestival.TITAN[year]
-    elseif GetCurrentRegion() == 5 and QuestieEvent.lunarFestival.CN[year] then
-        return QuestieEvent.lunarFestival.CN[year]
     end
 
     return QuestieEvent.lunarFestival.DEFAULT[year]
@@ -429,7 +427,6 @@ QuestieEvent.eventDateCorrections = {
 
 ---@class QuestieLunarFestivalTable
 ---@field DEFAULT table<string, QuestieEventDateRange>
----@field CN table<string, QuestieEventDateRange>
 ---@field TITAN table<string, QuestieEventDateRange>
 QuestieEvent.lunarFestival = {
     DEFAULT = { -- Global default (US/EU, etc.)
@@ -440,11 +437,6 @@ QuestieEvent.lunarFestival = {
         ["23"] = {startDate = "20/1", endDate = "10/2"},
         ["24"] = {startDate = "3/2", endDate = "23/2"},
         ["25"] = {startDate = "28/1", endDate = "17/2"},
-        ["26"] = {startDate = "16/2", endDate = "9/3"},
-        ["27"] = {startDate = "7/2", endDate = "21/2"},
-        ["28"] = {startDate = "27/1", endDate = "10/2"},
-    },
-    CN = { -- Chinese server exclusive time
         ["26"] = {startDate = "16/2", endDate = "9/3"},
         ["27"] = {startDate = "5/2", endDate = "19/2"},
         ["28"] = {startDate = "24/1", endDate = "14/2"},
