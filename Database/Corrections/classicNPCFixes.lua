@@ -984,9 +984,6 @@ function QuestieNPCFixes:Load()
         [5141] = { -- Theodrus Frostbeard
             [npcKeys.questStarts] = {},
         },
-        [5142] = { -- Braenna Flintcrag
-            [npcKeys.questStarts] = {5633},
-        },
         [5143] = { -- Toldren Deepiron
             [npcKeys.questStarts] = {},
         },
@@ -1029,7 +1026,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.SWAMP_OF_SORROWS]={{{54.9,34.1},{55.7,36.1},{55.7,37.7},{54.5,38.7},{52.9,38.7},{51.3,38.5},{49.7,38.5},{48.3,38.5},{47,38.5},{45.3,37.7},{43.9,36},{43.1,34},{42.9,32.1},{41.5,31.9},{40,33},{39.1,35.0},{38.3,36.9},{37.7,38.7},{37.7,40.8},{37.6,42.8},{37.2,44.5},{36.1,45.5},{34.7,45.1},{33.7,43.1},{33.2,40.6},{32.9,38.7},{32.3,36.1}}}},
         },
         [5489] = { -- Brother Joshua
-            [npcKeys.questStarts] = {5631,8254},
+            [npcKeys.questStarts] = {8254},
         },
         [5491] = { -- Arthur the Faithful
             [npcKeys.questStarts] = {},
