@@ -984,6 +984,9 @@ function QuestieNPCFixes:Load()
         [5141] = { -- Theodrus Frostbeard
             [npcKeys.questStarts] = {},
         },
+        [5142] = { -- Braenna Flintcrag
+            [npcKeys.questStarts] = {},
+        },
         [5143] = { -- Toldren Deepiron
             [npcKeys.questStarts] = {},
         },
