@@ -84,6 +84,10 @@ Questie.IsSoM = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons
 ---@type boolean
 Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery)
 
+--- Addon is running on Classic "WotLK" client and on a Titan Forged realm specifically
+---@type boolean
+Questie.IsTitanReforged = Questie.IsWotlk and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 109) -- There is no entry in Enum.SeasonID for this
+
 --- Addon is running on Classic "Vanilla" client and on Classic Anniversary realm ( )
 ---@type boolean
 Questie.IsAnniversaryEra = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Fresh)
