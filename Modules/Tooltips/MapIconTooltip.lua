@@ -7,6 +7,8 @@ local tinsert = table.insert;
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieEvent
@@ -285,10 +287,10 @@ function MapIconTooltip:Show()
 
                 if Questie.db.profile.enableTooltipsNextInChain then
                     local nextQuestInChain = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
-                    if shift and nextQuestInChain > 0 and (not Questie.db.char.hidden[nextQuestInChain]) then
+                    if shift and nextQuestInChain > 0 and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) then
                         local nextQuest = QuestieDB.GetQuest(nextQuestInChain)
                         local firstInChain = true;
-                        while nextQuest ~= nil and (not Questie.db.char.hidden[nextQuest.Id]) do
+                        while nextQuest ~= nil and (not QuestieCorrections.hiddenQuests[nextQuest.Id]) do
                             if firstInChain then
                                 self:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                                 firstInChain = false
