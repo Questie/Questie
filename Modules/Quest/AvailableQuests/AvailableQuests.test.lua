@@ -27,6 +27,7 @@ describe("AvailableQuests", function()
         QuestieDB.GetNPC = function() return nil end
         QuestieDB.GetQuest = function() return nil end
         QuestieDB.IsDailyQuest = function() return false end
+        QuestieDB.IsWeeklyQuest = function() return false end
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
         QuestieMap = require("Modules.Map.QuestieMap")
         Comms = require("Modules.Network.Comms")
@@ -115,9 +116,35 @@ describe("AvailableQuests", function()
     end)
 
     describe("ValidateAvailableQuestsFromGossipShow", function()
-        it("should hide quests that are not available", function()
+        it("should hide daily quests that are not available", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.IsDailyQuest = function() return true end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            _G.QuestieCompat = {
+                GetAvailableQuests = spy.new(function() return {} end),
+                GetActiveQuests = spy.new(function() return {} end),
+            }
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
+            assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
+            assert.is_nil(AvailableQuests.__availableQuests[QUEST_ID])
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+            assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
+
+            assert.spy(Comms.BroadcastUnavailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
+        end)
+
+        it("should hide weekly quests that are not available", function()
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.IsWeeklyQuest = function() return true end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
                 GetAvailableQuests = spy.new(function() return {} end),
@@ -303,12 +330,43 @@ describe("AvailableQuests", function()
     end)
 
     describe("ValidateAvailableQuestsFromQuestDetail", function()
-        it("should hide quests that are not available", function()
+        it("should hide daily quests that are not available", function()
             local availableQuest = QUEST_ID
             QUEST_ID = QUEST_ID + 1
             local unavailableQuest = QUEST_ID
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.IsDailyQuest = function() return true end
+            _G.GetQuestID = function() return availableQuest end
+            Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            AvailableQuests.__availableQuests[availableQuest] = true
+            AvailableQuests.__availableQuests[unavailableQuest] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuest] = true, [unavailableQuest] = true}
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuest)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
+            assert.is_nil(AvailableQuests.__availableQuests[unavailableQuest])
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuest])
+            assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuest])
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuest)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, availableQuest)
+            assert.is_true(AvailableQuests.__availableQuests[availableQuest])
+            assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuest])
+            assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[availableQuest])
+
+            assert.spy(Comms.BroadcastUnavailableDailyQuests).was.called_with(NPC_ID, {unavailableQuest})
+        end)
+
+        it("should hide weekly quests that are not available", function()
+            local availableQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local unavailableQuest = QUEST_ID
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.IsWeeklyQuest = function() return true end
             _G.GetQuestID = function() return availableQuest end
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
@@ -400,7 +458,7 @@ describe("AvailableQuests", function()
     end)
 
     describe("ValidateAvailableQuestsFromQuestGreeting", function()
-        it("should hide quests that are not available", function()
+        it("should hide daily quests that are not available", function()
             local availableQuestId = QUEST_ID
             QUEST_ID = QUEST_ID + 1
             local unavailableQuestId = QUEST_ID
@@ -414,6 +472,45 @@ describe("AvailableQuests", function()
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             _G.GetAvailableTitle = spy.new(function() return "Available Quest" end)
             QuestieDB.IsDailyQuest = function() return true end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            AvailableQuests.__availableQuests[availableQuestId] = true
+            AvailableQuests.__availableQuests[unavailableQuestId] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [unavailableQuestId] = true}
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
+
+            assert.spy(_G.GetAvailableTitle).was.called_with(1)
+            assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Available Quest", "Creature-0-0-0-0-" .. NPC_ID .. "-0", true)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuestId)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, availableQuestId)
+            assert.is_true(AvailableQuests.__availableQuests[availableQuestId])
+            assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuestId])
+            assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[availableQuestId])
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuestId)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuestId)
+            assert.is_nil(AvailableQuests.__availableQuests[unavailableQuestId])
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuestId])
+            assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuestId])
+
+            assert.spy(Comms.BroadcastUnavailableDailyQuests).was.called_with(NPC_ID, {unavailableQuestId})
+        end)
+
+        it("should hide weekly quests that are not available", function()
+            local availableQuestId = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local unavailableQuestId = QUEST_ID
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetQuestIDFromName = spy.new(function() return availableQuestId end)
+            _G.QuestTitleButton1 = {
+                IsVisible = function() return true end,
+                isActive = 0,
+                GetID = function() return 1 end,
+            }
+            Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            _G.GetAvailableTitle = spy.new(function() return "Available Quest" end)
+            QuestieDB.IsWeeklyQuest = function() return true end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
             AvailableQuests.__availableQuests[availableQuestId] = true
