@@ -108,11 +108,12 @@ end
 local function GetLunarFestivalDates(year)
     local region = GetCurrentRegion()
     local activeSeason
+    local TITAN_SEASON_ID = 109
     if C_Seasons and C_Seasons.GetActiveSeason then
         activeSeason = C_Seasons.GetActiveSeason()
     end
 
-    if activeSeason == 109 and QuestieEvent.lunarFestival.TITAN then
+    if activeSeason == TITAN_SEASON_ID and QuestieEvent.lunarFestival.TITAN then
         return QuestieEvent.lunarFestival.TITAN[year] or QuestieEvent.lunarFestival.DEFAULT[year]
     end
 
