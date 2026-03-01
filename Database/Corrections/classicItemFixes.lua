@@ -601,9 +601,6 @@ function QuestieItemFixes:Load()
         [7910] = { -- Star Ruby
             [itemKeys.npcDrops] = {},
         },
-        [7923] = { -- Defias Tower Key
-            [itemKeys.npcDrops] = {7051},
-        },
         [7968] = { -- Southsea Treasure
             [itemKeys.npcDrops] = {7168},
         },

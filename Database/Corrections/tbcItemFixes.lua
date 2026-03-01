@@ -23,6 +23,9 @@ function QuestieTBCItemFixes:Load()
         [6083] = {
             [itemKeys.npcDrops] = {},
         },
+        [7923] = { -- Defias Tower Key
+            [itemKeys.npcDrops] = {7051},
+        },
         [8073] = {
             [itemKeys.npcDrops] = {},
         },
@@ -91,9 +94,6 @@ function QuestieTBCItemFixes:Load()
         },
         [23848] = {
             [itemKeys.npcDrops] = {3546},
-        },
-        [23849] = {
-            [itemKeys.npcDrops] = {17190,17191,17192},
         },
         [23878] = {
             [itemKeys.objectDrops] = {181779},
