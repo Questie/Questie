@@ -2739,6 +2739,33 @@ function QuestieQuestFixes:Load()
         [5626] = { -- In Favor of the Light
             [questKeys.breadcrumbForQuestId] = 5625,
         },
+        [5627] = { -- Stars of Elune (Darnassus)
+            [questKeys.exclusiveTo] = {5628,5629,5630,5631,5632,5633},
+        },
+        [5628] = { -- Returning Home (Elwynn Forest)
+            [questKeys.exclusiveTo] = {5627,5629,5630,5631,5632,5633},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [5629] = { -- Returning Home (Teldrassil)
+            [questKeys.exclusiveTo] = {5627,5628,5630,5631,5632,5633},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [5630] = { -- Returning Home (Dun Morogh)
+            [questKeys.exclusiveTo] = {5627,5628,5629,5631,5632,5633},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [5631] = { -- Returning Home (Stormwind City)
+            [questKeys.exclusiveTo] = {5627,5628,5629,5630,5632,5633},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [5632] = { -- Returning Home (Stormwind City)
+            [questKeys.exclusiveTo] = {5627,5628,5629,5630,5631,5633},
+            [questKeys.nextQuestInChain] = 0,
+        },
+        [5633] = { -- Returning Home (Ironforge)
+            [questKeys.exclusiveTo] = {5627,5628,5629,5630,5631,5632},
+            [questKeys.nextQuestInChain] = 0,
+        },
         [5634] = { -- Desperate Prayer (Stormwind City)
             [questKeys.startedBy] = {{376}},
             [questKeys.objectivesText] = {},

@@ -640,6 +640,31 @@ function QuestieTBCQuestFixes:Load()
         [5622] = { -- In Favor of Elune
             [questKeys.requiredLevel] = 5,
         },
+        [5627] = { -- Stars of Elune (Darnassus)
+            [questKeys.name] = "Stars of Elune",
+            [questKeys.startedBy] = {{11401}},
+            [questKeys.finishedBy] = {{11401}},
+        },
+        [5628] = { -- Returning Home (Elwynn Forest)
+            [questKeys.questLevel] = -1,
+        },
+        [5629] = { -- Returning Home (Teldrassil)
+            [questKeys.questLevel] = -1,
+        },
+        [5630] = { -- Returning Home (Dun Morogh)
+            [questKeys.questLevel] = -1,
+        },
+        [5631] = { -- Returning Home (Stormwind City)
+            [questKeys.questLevel] = -1,
+        },
+        [5632] = { -- Returning Home (Stormwind City)
+            [questKeys.questLevel] = -1,
+            [questKeys.finishedBy] = {{11401}},
+        },
+        [5633] = { -- Returning Home (Ironforge)
+            [questKeys.questLevel] = -1,
+            [questKeys.finishedBy] = {{11401}},
+        },
         [5634] = { -- Desperate Prayer (Stormwind City)
             [questKeys.questLevel] = -1,
         },

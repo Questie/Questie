@@ -331,7 +331,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {5632,5638},
         },
         [11401] = { -- Priestess Alathea
-            [npcKeys.questEnds] = {5630,5631,5672,5673,5628,5629,5675},
+            [npcKeys.questStarts] = {5627,8254},
+            [npcKeys.questEnds] = {5627,5628,5629,5630,5631,5632,5633,5672,5673,5675},
         },
         [11943] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{51,41}}},
