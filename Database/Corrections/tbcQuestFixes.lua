@@ -1859,6 +1859,10 @@ function QuestieTBCQuestFixes:Load()
         [9619] = {
             [questKeys.requiredSourceItems] = {},
         },
+        [9622] = { -- Warn Your People
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {9566,9570},
+        },
         [9625] = { -- Elekks Are Serious Business
             [questKeys.nextQuestInChain] = 0,
         },
@@ -1895,6 +1899,9 @@ function QuestieTBCQuestFixes:Load()
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[3457]={{-1,-1}}}},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+        },
+        [9647] = { -- Culling the Flutterers
+            [questKeys.preQuestSingle] = {9580,9643}, -- check if 9643 is correct
         },
         [9648] = { -- Mac'Aree Mushroom Menagerie
             [questKeys.name] = "Maatparm Mushroom Menagerie",
