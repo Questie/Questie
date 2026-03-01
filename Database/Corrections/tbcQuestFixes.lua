@@ -634,6 +634,12 @@ function QuestieTBCQuestFixes:Load()
         [5503] = {
             [questKeys.exclusiveTo] = {5401,5405},
         },
+        [5621] = { -- Garments of the Moon
+            [questKeys.requiredLevel] = 5,
+        },
+        [5622] = { -- In Favor of Elune
+            [questKeys.requiredLevel] = 5,
+        },
         [5634] = { -- Desperate Prayer (Stormwind City)
             [questKeys.questLevel] = -1,
         },
