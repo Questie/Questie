@@ -92,6 +92,9 @@ function QuestieTBCItemFixes:Load()
         [23818] = {
             [itemKeys.class] = 12,
         },
+        [23837] = { -- Weathered Treasure Map
+            [itemKeys.npcDrops] = {17421},
+        },
         [23848] = {
             [itemKeys.npcDrops] = {3546},
         },
