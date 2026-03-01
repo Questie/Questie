@@ -1733,6 +1733,20 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {63866},
             [npcKeys.questEnds] = {64319},
         },
+        [21968] = { -- Silvermoon City Commendation Officer
+            [npcKeys.questEnds] = {10693,10694},
+        },
+        [21969] = { -- Exodar Commendation Officer
+            [npcKeys.zoneID] = zoneIDs.THE_EXODAR,
+            [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{61.63,78.37}}},
+            [npcKeys.questEnds] = {10695,10696},
+        },
+        [21970] = { -- Officer Dawning
+            [npcKeys.questEnds] = {10697,10698},
+        },
+        [21971] = { -- Officer Khaluun
+            [npcKeys.questEnds] = {10699,10700},
+        },
     }
 end
 

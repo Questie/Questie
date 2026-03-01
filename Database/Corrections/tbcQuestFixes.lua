@@ -3135,6 +3135,46 @@ function QuestieTBCQuestFixes:Load()
         [10687] = {
             [questKeys.preQuestSingle] = {10552},
         },
+        [10693] = { -- One Commendation Signet (Silvermoon City Commendation Officer)
+            [questKeys.finishedBy] = {{21968}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.reputationReward] = {{factionIDs.SILVERMOON_CITY,5}},
+        },
+        [10694] = { -- Ten Commendation Signets (Silvermoon City Commendation Officer)
+            [questKeys.finishedBy] = {{21968}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.reputationReward] = {{factionIDs.SILVERMOON_CITY,150}},
+        },
+        [10695] = { -- One Commendation Signet (Exodar Commendation Officer)
+            [questKeys.finishedBy] = {{21969}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,5}},
+        },
+        [10696] = { -- Ten Commendation Signets (Exodar Commendation Officer)
+            [questKeys.finishedBy] = {{21969}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,150}},
+        },
+        [10697] = { -- One Commendation Signet (Officer Dawning)
+            [questKeys.finishedBy] = {{21970}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.reputationReward] = {{factionIDs.SILVERMOON_CITY,5}},
+        },
+        [10698] = { -- Ten Commendation Signets (Officer Dawning)
+            [questKeys.finishedBy] = {{21970}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.reputationReward] = {{factionIDs.SILVERMOON_CITY,150}},
+        },
+        [10699] = { -- One Commendation Signet (Officer Khaluun)
+            [questKeys.finishedBy] = {{21971}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,5}},
+        },
+        [10700] = { -- Ten Commendation Signets (Officer Khaluun)
+            [questKeys.finishedBy] = {{21971}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.reputationReward] = {{factionIDs.EXODAR,150}},
+        },
         [10707] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"), 0, {{"object", 185125}}}},
         },
