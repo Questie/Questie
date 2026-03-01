@@ -72,7 +72,7 @@ local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD
+local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetLunarFestivalDates
 
 local DMF_LOCATIONS = {
     NONE = 0,
@@ -103,34 +103,10 @@ function QuestieEvent.Initialize()
     C_Calendar.OpenCalendar()
     C_Calendar.SetMonth(0)
 end
----@param year string
----@return { startDate: string, endDate: string }?
-local function GetLunarFestivalDates(year)
-    local region = GetCurrentRegion()
-    local activeSeason
-    local TITAN_SEASON_ID = 109
-    if C_Seasons and C_Seasons.GetActiveSeason then
-        activeSeason = C_Seasons.GetActiveSeason()
-    end
-
-    if activeSeason == TITAN_SEASON_ID and QuestieEvent.lunarFestival.TITAN then
-        return QuestieEvent.lunarFestival.TITAN[year]
-               or (region == 5 and QuestieEvent.lunarFestival.CN and QuestieEvent.lunarFestival.CN[year])
-               or QuestieEvent.lunarFestival.DEFAULT[year]
-    end
-
-    if region == 5 and QuestieEvent.lunarFestival.CN then
-        return QuestieEvent.lunarFestival.CN[year] or QuestieEvent.lunarFestival.DEFAULT[year]
-    end
-
-    return QuestieEvent.lunarFestival.DEFAULT[year]
-end
 
 function QuestieEvent:Load()
     local year = date("%y")
-    local lunarData = GetLunarFestivalDates(year)
-    -- We want to replace the Lunar Festival date with the date that we estimate
-    -- QuestieEvent.eventDates["Lunar Festival"] = QuestieEvent.lunarFestival[year]
+    local lunarData = _GetLunarFestivalDates(year)
 
     if lunarData then
         QuestieEvent.eventDates["Lunar Festival"] = lunarData
@@ -225,6 +201,18 @@ function QuestieEvent:Load()
 
     -- Clear the quests to save memory
     QuestieEvent.eventQuests = nil
+end
+
+---@param year string
+---@return QuestieEventDateRange|nil
+_GetLunarFestivalDates = function(year)
+    if Questie.IsTitanReforged and QuestieEvent.lunarFestival.TITAN[year] then
+        return QuestieEvent.lunarFestival.TITAN[year]
+    elseif GetCurrentRegion() == 5 and QuestieEvent.lunarFestival.CN[year] then
+        return QuestieEvent.lunarFestival.CN[year]
+    end
+
+    return QuestieEvent.lunarFestival.DEFAULT[year]
 end
 
 ---@return boolean
@@ -443,10 +431,8 @@ QuestieEvent.eventDateCorrections = {
 
 ---@class QuestieLunarFestivalTable
 ---@field DEFAULT table<string, QuestieEventDateRange>
----@field CN table<string, QuestieEventDateRange>?
----@field TITAN table<string, QuestieEventDateRange>?
-
----@type QuestieLunarFestivalTable
+---@field CN table<string, QuestieEventDateRange>
+---@field TITAN table<string, QuestieEventDateRange>
 QuestieEvent.lunarFestival = {
     DEFAULT = { -- Global default (US/EU, etc.)
         ["19"] = {startDate = "5/2", endDate = "19/2"},
@@ -460,13 +446,12 @@ QuestieEvent.lunarFestival = {
         ["27"] = {startDate = "7/2", endDate = "21/2"},
         ["28"] = {startDate = "27/1", endDate = "10/2"},
     },
-
     CN = { -- Chinese server exclusive time
         ["26"] = {startDate = "16/2", endDate = "9/3"},
         ["27"] = {startDate = "5/2", endDate = "19/2"},
         ["28"] = {startDate = "24/1", endDate = "14/2"},
     },
-        TITAN = { -- Chinese Titan Reforged 
+    TITAN = { -- Chinese Titan Reforged
         ["26"] = {startDate = "29/1", endDate = "25/2"},
         ["27"] = {startDate = "5/2", endDate = "19/2"},
         ["28"] = {startDate = "24/1", endDate = "14/2"},
