@@ -3166,7 +3166,8 @@ function QuestieTBCQuestFixes:Load()
         [10687] = {
             [questKeys.preQuestSingle] = {10552},
         },
-        [10707] = {
+        [10707] = { -- The Ata'mal Terrace
+            [questKeys.objectivesText] = {"Go to the top of the Ata'mal Terrace in Shadowmoon Valley and obtain the Heart of Fury. Return to Akama at the Warden's Cage in Shadowmoon Valley when you've completed this task."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"), 0, {{"object", 185125}}}},
         },
         [10708] = {
