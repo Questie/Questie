@@ -11,7 +11,6 @@ QuestieQuestBlacklist.HIDE_ON_MAP = HIDE_ON_MAP
 
 ---@return table<QuestId, boolean|string>
 function QuestieQuestBlacklist:Load()
-    local locale = GetLocale()
     local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
         [2358] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Wotlk, -- available in TBC anniversary (!)
