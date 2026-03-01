@@ -107,6 +107,14 @@ end
 ---@return { startDate: string, endDate: string }?
 local function GetLunarFestivalDates(year)
     local region = GetCurrentRegion()
+    local activeSeason
+    if C_Seasons and C_Seasons.GetActiveSeason then
+        activeSeason = C_Seasons.GetActiveSeason()
+    end
+
+    if activeSeason == 109 and QuestieEvent.lunarFestival.TITAN then
+        return QuestieEvent.lunarFestival.TITAN[year] or QuestieEvent.lunarFestival.DEFAULT[year]
+    end
 
     if region == 5 and QuestieEvent.lunarFestival.CN then
         return QuestieEvent.lunarFestival.CN[year] or QuestieEvent.lunarFestival.DEFAULT[year]
@@ -433,6 +441,7 @@ QuestieEvent.eventDateCorrections = {
 ---@class QuestieLunarFestivalTable
 ---@field DEFAULT table<string, QuestieEventDateRange>
 ---@field CN table<string, QuestieEventDateRange>
+---@field TITAN table<string, QuestieEventDateRange>
 
 ---@type QuestieLunarFestivalTable
 QuestieEvent.lunarFestival = {
@@ -450,6 +459,11 @@ QuestieEvent.lunarFestival = {
     },
 
     CN = { -- Chinese server exclusive time
+        ["26"] = {startDate = "16/2", endDate = "9/3"},
+        ["27"] = {startDate = "5/2", endDate = "19/2"},
+        ["28"] = {startDate = "24/1", endDate = "14/2"},
+    },
+        TITAN = { -- Chinese Titan Reforged 
         ["26"] = {startDate = "29/1", endDate = "25/2"},
         ["27"] = {startDate = "5/2", endDate = "19/2"},
         ["28"] = {startDate = "24/1", endDate = "14/2"},
