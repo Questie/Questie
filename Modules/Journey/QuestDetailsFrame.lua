@@ -81,6 +81,12 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(completedLabel)
     end
 
+    local eligibilityText, shouldShowDoableLabel = QuestieDB.IsDoableVerbose(quest.Id, false, true, true)
+    if shouldShowDoableLabel then
+        local eligibilityTextLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Doable") .. l10n(": "), 'yellow') .. eligibilityText, true)
+        container:AddChild(eligibilityTextLabel)
+    end
+
     QuestieJourneyUtils:Spacer(container)
 
     local preQuestCounter, preQuestInlineGroup = _QuestieJourney:CreatePreQuestGroup(quest)

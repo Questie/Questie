@@ -674,6 +674,18 @@ local myJourneyLocales = {
         ["zhCN"] = "等级过高",
         ["zhTW"] = "等級過高",
     },
+    ["Follow up quest active or completed"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Folge-Quest aktiv oder abgeschlossen",
+        ["esES"] = "La siguiente misión está activa o completada",
+        ["esMX"] = "La siguiente misión está activa o completada",
+        ["frFR"] = "La quête suivante est active ou terminée",
+        ["koKR"] = "후속 퀘스트 진행 중 또는 완료됨",
+        ["ptBR"] = "A próxima missão está ativa ou concluída",
+        ["ruRU"] = "Следующее задание активно или выполнено",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(myJourneyLocales) do
