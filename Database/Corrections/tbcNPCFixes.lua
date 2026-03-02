@@ -327,9 +327,6 @@ function QuestieTBCNpcFixes:Load()
         [11036] = { -- Leonid Barthalomew the Revered
             [npcKeys.questEnds] = {5243,5462,5464,5522,64037,64064,64128},
         },
-        [11397] = { -- Nara Meideros
-            [npcKeys.questStarts] = {5632,5638},
-        },
         [11401] = { -- Priestess Alathea
             [npcKeys.questStarts] = {5627,5640,5647,5672,5678},
             [npcKeys.questEnds] = {5627,5628,5629,5630,5631,5632,5633,5672,5673,5675},
