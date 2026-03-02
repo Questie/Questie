@@ -247,6 +247,10 @@ function QuestieObjectFixes:Load()
                 [zoneIDs.FERALAS]={{32.56,43.91},{57.97,44.49}},
             },
         },
+        [177624] = { -- Xabraxxis' Demon Bag
+            [objectKeys.spawns] = {[zoneIDs.DARKSHORE] = {{52.48,33.39}}},
+            [objectKeys.zoneID] = zoneIDs.DARKSHORE,
+        },
         [177673] = { -- Desolace for quest 6027
             [objectKeys.name] = "Serpent Statue",
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{28.24,6.67}}},
