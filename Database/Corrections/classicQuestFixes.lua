@@ -2416,7 +2416,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47}}}},
         },
         [4811] = {
-            [questKeys.triggerEnd] = {"Locate the large, red crystal on Darkshore's eastern mountain range",{[zoneIDs.DARKSHORE]={{47.24,48.68}}}}, -- #1373
+            [questKeys.objectives] = {nil,{{175524,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [4841] = {
             [questKeys.preQuestSingle] = {},
