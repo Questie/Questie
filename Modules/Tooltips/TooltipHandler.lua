@@ -36,11 +36,11 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         end
 
         local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
-        if tooltipData then
-            for _, v in pairs (tooltipData) do
-                GameTooltip:AddLine(v)
+            if tooltipData then
+                for _, v in pairs (tooltipData) do
+                    GameTooltip:AddLine(v, nil, nil, nil, true)
+                end
             end
-        end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     elseif (type == "Player") then
         local _, serverid, playerid = strsplit("-", guid or "");
@@ -91,11 +91,11 @@ function _QuestieTooltips:AddItemDataToTooltip()
         end
 
         local tooltipData = QuestieTooltips.GetTooltip("i_" .. (itemId or 0));
-        if tooltipData then
-            for _, v in pairs (tooltipData) do
-                self:AddLine(v)
+            if tooltipData then
+                for _, v in pairs (tooltipData) do
+                    self:AddLine(v, nil, nil, nil, true)
+                end
             end
-        end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     end
     lastItemId = itemId;
@@ -127,20 +127,19 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
     local alreadyAddedObjectiveLines = {}
     for _, gameObjectId in pairs(lookup) do
         if count > 10 and addedObjects >= 10 then
-            -- only show 10 tooltips
             break
         end
 
         local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone);
-        if tooltipData then
-            for _, line in pairs (tooltipData) do
-                if (not alreadyAddedObjectiveLines[line]) then
-                    alreadyAddedObjectiveLines[line] = true
-                    GameTooltip:AddLine(line)
+            if tooltipData then
+                for _, line in pairs (tooltipData) do
+                    if (not alreadyAddedObjectiveLines[line]) then
+                        alreadyAddedObjectiveLines[line] = true
+                        GameTooltip:AddLine(line, nil, nil, nil, true)
+                    end
                 end
+                addedObjects = addedObjects + 1
             end
-            addedObjects = addedObjects + 1
-        end
     end
     GameTooltip:Show()
     QuestieTooltips.lastGametooltipType = "object";
