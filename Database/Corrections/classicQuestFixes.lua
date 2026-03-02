@@ -2866,6 +2866,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{11401}},
             [questKeys.objectivesText] = {},
         },
+        [5674] = { -- Elune's Grace (Stormwind City)
+            [questKeys.startedBy] = {{11397}},
+        },
         [5676] = { -- Arcane Feedback (Stormwind)
             [questKeys.startedBy] = {{376}},
             [questKeys.exclusiveTo] = {5677,5678},

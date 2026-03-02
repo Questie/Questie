@@ -689,6 +689,23 @@ function QuestieTBCQuestFixes:Load()
         [5649] = {
             [questKeys.requiredLevel] = 5,
         },
+        [5672] = { -- Elune's Grace (Darnassus)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5673,5674,5675},
+        },
+        [5673] = { -- Elune's Grace (Stormwind City)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5672,5674,5675},
+        },
+        [5674] = { -- Elune's Grace (Stormwind City)
+            [questKeys.finishedBy] = {{11401}},
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5672,5673,5675},
+        },
+        [5675] = { -- Elune's Grace (Ironforge)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5672,5673,5674},
+        },
         [5726] = { -- Hidden Enemies
             [questKeys.nextQuestInChain] = 5727,
         },
