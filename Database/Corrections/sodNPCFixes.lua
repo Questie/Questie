@@ -1122,7 +1122,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {5307,85700},
         },
         [11397] = { -- Nara Meideros
-            [npcKeys.questStarts] = {5632,5638,78194,78195},
+            [npcKeys.questStarts] = {5632,5638,5674,78194,78195},
             [npcKeys.questEnds] = {78194},
         },
         [11406] = { -- High Priest Rohan
