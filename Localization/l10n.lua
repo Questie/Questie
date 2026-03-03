@@ -107,13 +107,10 @@ end
 _InitializeLocaleOverride = function()
     local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
     supportedLocals[overridingLocale] = true
-    l10n.itemLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.itemLookup end
-    l10n.questLookup[overridingLocale] = function()
-        -- We don't want to break compatibility with the override addons, so we simply ignore [2] which was the unused quest description
-        return {QUESTIE_LOCALES_OVERRIDE.questLookup[1], QUESTIE_LOCALES_OVERRIDE.questLookup[3]}
-    end
-    l10n.npcNameLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.npcNameLookup end
-    l10n.objectLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.objectLookup end
+    l10n.itemLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.itemLookup
+    l10n.questLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.questLookup
+    l10n.npcNameLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.npcNameLookup
+    l10n.objectLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.objectLookup
 
     for id, _ in pairs(l10n.translations) do
         if QUESTIE_LOCALES_OVERRIDE.translations[id] ~= nil then
