@@ -90,7 +90,6 @@ local function updateGreetingFrame()
     Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Greeting frame.")
     local titleLines = {}
     local questIconTextures = {}
-    local questgiver = UnitGUID("npc")
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         if titleLine then
@@ -98,7 +97,7 @@ local function updateGreetingFrame()
             tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
         else
             Questie:Error("Frame error! Could not obtain Greeting's QuestTitleButton object. Please report this on Github or Discord!")
-            Questie:Error("Questgiver is: " .. questgiver)
+            Questie:Error("Questgiver is: " .. UnitGUID("npc"))
             Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
             return
         end
@@ -111,13 +110,13 @@ local function updateGreetingFrame()
             if (titleLine.isActive == 1) then
                 lineIcon:SetTexture(Questie.icons["incomplete"]) -- fallback icon in case any of the logic below fails
                 local title = GetActiveTitle(titleLine:GetID()) -- obtain plaintext name of quest
-                local questID = QuestieDB.GetQuestIDFromName(title, questgiver, false)
+                local questID = QuestieDB.GetQuestIDFromName(title, UnitGUID("npc"), false)
                 local icon = determineAppropriateQuestIcon(questID, true)
                 lineIcon:SetTexture(icon)
             else
                 lineIcon:SetTexture(Questie.icons["available"]) -- fallback icon in case any of the logic below fails
                 local title = GetAvailableTitle(titleLine:GetID())
-                local questID = QuestieDB.GetQuestIDFromName(title, questgiver, true)
+                local questID = QuestieDB.GetQuestIDFromName(title, UnitGUID("npc"), true)
                 local icon = determineAppropriateQuestIcon(questID, false)
                 lineIcon:SetTexture(icon)
             end
