@@ -1511,6 +1511,11 @@ function QuestieTBCQuestFixes:Load()
         [9258] = { -- The Scorched Grove
             [questKeys.breadcrumbForQuestId] = 8473,
         },
+        [9267] = { -- Mending Old Wounds
+            [questKeys.requiredLevel] = 15,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [9279] = { -- You Survived!
             [questKeys.breadcrumbForQuestId] = 9280,
         },
