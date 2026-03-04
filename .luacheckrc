@@ -2836,6 +2836,7 @@ globals = {
     "EXPANSION_NAME3",
     "EXPANSION_NAME4",
     "FACTION_STANDING_CHANGED",
+    "RESET",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
     "Krowi_WorldMapButtons1",
