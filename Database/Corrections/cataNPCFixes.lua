@@ -1123,9 +1123,6 @@ function CataNpcFixes.Load()
         [6566] = { -- Estelle Gendry
             [npcKeys.questEnds] = {},
         },
-        [6577] = { -- Bingles Blastenheimer
-            [npcKeys.waypoints] = {},
-        },
         [6735] = { -- Innkeeper Saelienne
             [npcKeys.questStarts] = {3763,8357},
         },

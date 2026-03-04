@@ -1220,6 +1220,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
         },
+        [6577] = { -- Bingles Blastenheimer
+            [npcKeys.waypoints] = {},
+        },
         [6746] = { -- Innkeeper Pala
             [npcKeys.questStarts] = {3762,5926,8360},
         },
