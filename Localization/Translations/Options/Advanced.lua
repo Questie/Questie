@@ -299,8 +299,8 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 캐릭터의 Questie 여정을 초기화하시겠습니까?",
         ["ptBR"] = "Tem certeza de que deseja redefinir a jornada para este personagem?",
         ["ruRU"] = "Вы уверены, что хотите сбросить Путешествие для этого персонажа?",
-        ["zhCN"] = "确定要重置此角色的旅程吗？",
-        ["zhTW"] = "確定要重置此角色的旅程嗎？",
+        ["zhCN"] = "确定要重置此角色的任务历程吗？",
+        ["zhTW"] = "確定要重置此角色的冒險日記嗎？",
     },
     ["Recompile Database"] = {
         ["enUS"] = true,
