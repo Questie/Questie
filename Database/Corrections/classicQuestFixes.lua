@@ -2812,13 +2812,13 @@ function QuestieQuestFixes:Load()
         [5644] = { -- Devouring Plague (Thunder Bluff)
             [questKeys.startedBy] = {{3044}},
         },
-        [5645] = { -- A Lack of Fear (Stormwind)
+        [5645] = { -- A Lack of Fear (Stormwind City)
             [questKeys.startedBy] = {{376}},
         },
         [5646] = { -- Devouring Plague (Orgrimmar)
             [questKeys.startedBy] = {{6018}},
         },
-        [5647] = { -- A Lack of Fear
+        [5647] = { -- A Lack of Fear (Darnassus)
             [questKeys.startedBy] = {{11401}}, -- #2424
         },
         [5648] = { -- Garments of Spirituality
