@@ -3318,6 +3318,7 @@ function QuestieQuestFixes:Load()
         },
         [6661] = {
             [questKeys.objectives] = {{{13016,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.nextQuestInChain] = 6662,
         },
         [6681] = { -- The Manor, Ravenholdt
             [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},nil,{17126}}, -- #7244
