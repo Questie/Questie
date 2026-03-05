@@ -554,12 +554,8 @@ end
 
 function Townsfolk:UpdatePlayerVendors() -- call on levelup
     _UpdateFoodDrink()
-    if playerClass == "HUNTER" then
-        _UpdatePetFood()
-        _UpdateAmmoVendors()
-    elseif playerClass == "ROGUE" or playerClass == "WARRIOR" then
-        _UpdateAmmoVendors()
-    end
+    _UpdatePetFood()
+    _UpdateAmmoVendors()
 end
 
 function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
