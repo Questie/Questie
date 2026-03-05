@@ -126,18 +126,21 @@ end
 
 ---@param quest Quest
 _AddQuestTitle = function(quest)
-    local questLevel = QuestieLib:GetLevelString(quest.Id, quest.level)
+    local questId = quest.Id
+    local questName = quest.name
+    local questLevel = QuestieLib.GetTbcLevel(questId)
 
-    local titleColor = string.sub(QuestieLib:PrintDifficultyColor(quest.level, "", QuestieDB.IsRepeatable(quest.Id), QuestieEvent.IsEventQuest(quest.Id), QuestieDB.IsPvPQuest(quest.Id)),5,10)
+    local questLevelString = QuestieLib:GetLevelString(questId, questLevel)
+    local titleColor = string.sub(QuestieLib:PrintDifficultyColor(questLevel, "", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)), 5, 10)
 
     if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
-        _AddColoredTooltipLine(questLevel .. quest.name .. " (" .. quest.Id .. ")", titleColor)
+        _AddColoredTooltipLine(questLevelString .. questName .. " (" .. questId .. ")", titleColor)
     elseif Questie.db.profile.trackerShowQuestLevel and (not Questie.db.profile.enableTooltipsQuestID) then
-        _AddColoredTooltipLine(questLevel .. quest.name, titleColor)
+        _AddColoredTooltipLine(questLevelString .. questName, titleColor)
     elseif Questie.db.profile.enableTooltipsQuestID and (not Questie.db.profile.trackerShowQuestLevel) then
-        _AddColoredTooltipLine(quest.name .. " (" .. quest.Id .. ")", titleColor)
+        _AddColoredTooltipLine(questName .. " (" .. questId .. ")", titleColor)
     else
-        _AddColoredTooltipLine(quest.name, titleColor)
+        _AddColoredTooltipLine(questName, titleColor)
     end
 end
 
