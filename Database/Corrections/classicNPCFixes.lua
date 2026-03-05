@@ -1076,6 +1076,9 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.ORGRIMMAR] = {{49.73,50.14}},
             },
         },
+        [5688] = { -- Innkeeper Renee
+            [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{61.72,52.05}}},
+        },
         [5693] = { -- Godrick Farsan
             [npcKeys.questStarts] = {1476,65593},
         },
