@@ -523,8 +523,13 @@ function QuestieQuestFixes:Load()
         [760] = {
             [questKeys.triggerEnd] = {"Cleanse the Wildmane Well", {[zoneIDs.MULGORE]={{42.75, 14.16}}}},
         },
-        [763] = {
+        [763] = { -- Rites of the Earthmother
+            [questKeys.breadcrumbForQuestId] = 767,
             [questKeys.nextQuestInChain] = 767,
+        },
+        [767] = { -- Rite of Vision
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {763},
         },
         [769] = {
             [questKeys.preQuestSingle] = {},
