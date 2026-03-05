@@ -83,6 +83,9 @@ QuestieItemDropCorrections.Era = {
         [787] = DropKeys.WOWHEAD,
         [1110] = DropKeys.WOWHEAD,
     },
+    [2676] = { -- Shimmerweed
+        [1397] = DropKeys.WOWHEAD,
+    },
     [3297] = { -- Fel Moss
         [1988] = DropKeys.WOWHEAD,
     },
