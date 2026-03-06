@@ -283,6 +283,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
         },
         [1678] = { -- Vejrek
+            [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {1639,1683,9582},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- TBC+
         },
@@ -530,7 +531,7 @@ function QuestieTBCQuestFixes:Load()
         [3116] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
-        [3117] = {
+        [3117] = { -- Etched Sigil
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
         [3118] = {
@@ -818,6 +819,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [6126] = { -- Lessons Anew
             [questKeys.preQuestSingle] = {},
+            [questKeys.questLevel] = -1,
         },
         [6185] = {
             [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS]={{27.4,75.14}}}},
@@ -926,6 +928,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8122] = {
             [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
+        },
+        [8233] = { -- A Simple Request
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8249] = { -- Junkboxes Needed
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -1633,18 +1638,18 @@ function QuestieTBCQuestFixes:Load()
         [9283] = { -- Rescue the Survivors!
             [questKeys.objectives] = {{{16483,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9287] = {
+        [9287] = { -- Paladin Training
             [questKeys.preQuestSingle] = {9280},
         },
-        [9288] = {
+        [9288] = { -- Hunter Training
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
             [questKeys.preQuestSingle] = {9280},
         },
-        [9289] = {
+        [9289] = { -- Warrior Training
             [questKeys.preQuestSingle] = {9280},
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
-        [9290] = {
+        [9290] = { -- Mage Training
             [questKeys.startedBy] = {{16500}},
             [questKeys.finishedBy] = {{16500}},
             [questKeys.preQuestSingle] = {9280},
@@ -1718,7 +1723,10 @@ function QuestieTBCQuestFixes:Load()
         [9383] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use the Sanctified Crystal against a wounded Uncontrolled Voidwalker"), 0, {{"monster", 16975}}}},
         },
-        [9392] = {
+        [9392] = { -- Rogue Training
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [9393] = { -- Hunter Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9394] = { -- Where's Wyllithen?
@@ -1790,9 +1798,26 @@ function QuestieTBCQuestFixes:Load()
         [9460] = { -- Combining Forces
             [questKeys.objectives] = {nil,nil,{{23686,nil,Questie.ICON_TYPE_INTERACT}}}, -- has to be pickpocketed, using interact icon
         },
-        [9467] = {
+        [9462] = { -- Call of Fire
+            [questKeys.startedBy] = {{17219,23127}},
+            [questKeys.breadcrumbForQuestId] = 9464,
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
+        [9464] = { -- Call of Fire
+            [questKeys.breadcrumbs] = {9462},
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
+        [9465] = { -- Call of Fire
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
+        [9467] = { -- Call of Fire
             [questKeys.requiredSourceItems] = {24335},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Hauteur using the Ritual Torch"), 0, {{"object", 181672}}}},
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+            [questKeys.nextQuestInChain] = 9468,
+        },
+        [9468] = { -- Call of Fire
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},
@@ -1917,6 +1942,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10063},
         },
+        [9555] = { -- Call of Fire
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
         [9558] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
@@ -1970,14 +1998,14 @@ function QuestieTBCQuestFixes:Load()
         [9590] = { -- The Blood is Life
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
-        [9591] = {
+        [9591] = { -- Taming the Beast
             [questKeys.breadcrumbs] = {9757},
             [questKeys.objectives] = {{{17217,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9592] = {
+        [9592] = { -- Taming the Beast
             [questKeys.objectives] = {{{17374,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9593] = {
+        [9593] = { -- Taming the Beast
             [questKeys.objectives] = {{{17203,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9594] = {
@@ -2172,7 +2200,7 @@ function QuestieTBCQuestFixes:Load()
         [9756] = {
             [questKeys.objectives] = {{{17824,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [9757] = {
+        [9757] = { -- Seek Huntress Kella Nightbow
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
             [questKeys.breadcrumbForQuestId] = 9591,
         },

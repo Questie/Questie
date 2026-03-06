@@ -1481,7 +1481,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{328,1228,7312}},
             [questKeys.breadcrumbForQuestId] = 1920, -- #1328
         },
-        [1920] = {
+        [1920] = { -- Investigate the Blue Recluse
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1919}, -- #1328
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
@@ -3167,14 +3167,14 @@ function QuestieQuestFixes:Load()
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
         },
-        [6132] = {
-            [questKeys.triggerEnd] = {"Melizza Brimbuzzle escorted to safety", {[zoneIDs.DESOLACE]={{40.15,61.58}}}},
-        },
         [6124] = { -- Curing the Sick
             [questKeys.objectives] = {{{12298,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [6129] = { -- Curing the Sick
             [questKeys.objectives] = {{{12296,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [6132] = {
+            [questKeys.triggerEnd] = {"Melizza Brimbuzzle escorted to safety", {[zoneIDs.DESOLACE]={{40.15,61.58}}}},
         },
         [6134] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DESOLACE]={{63.71,91.9}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Crate of Ghost Magnets"),}},

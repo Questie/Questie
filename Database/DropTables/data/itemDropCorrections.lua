@@ -200,6 +200,9 @@ QuestieItemDropCorrections.Tbc = {
     [23706] = { -- Arcane Fragment
         [16339] = 100,
     },
+    [23733] = { -- Ritual Torch
+        [17189] = 80,
+    },
     [23849] = { -- Stillpine Grain
         [17190] = DropKeys.WOWHEAD,
         [17191] = DropKeys.WOWHEAD,

@@ -657,9 +657,9 @@ function QuestieTBCNpcFixes:Load()
         [17120] = { -- Behomat
             [npcKeys.questStarts] = {},
         },
-        [17204] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{29.8,32.8}}},
-            [npcKeys.waypoints] = {[zoneIDs.THE_EXODAR] = {{{29.8,32.8},{30.3,33.2},{31,32.4},{31,28.9},{31.3,27.7},{31,28.9},{31,32.4},{30.3,33.2},{29.8,32.8}}}},
+        [17204] = { -- Farseer Nobundo
+            [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{29.78,33.26}}},
+            [npcKeys.waypoints] = {},
             [npcKeys.zoneID] = zoneIDs.THE_EXODAR,
         },
         [17206] = {
@@ -677,6 +677,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [17219] = { -- Sulaa
             [npcKeys.questStarts] = {9462,9502,9551},
+            [npcKeys.waypoints] = {},
         },
         [17240] = {
             [npcKeys.waypoints] = {},
@@ -756,9 +757,11 @@ function QuestieTBCNpcFixes:Load()
         },
         [17519] = { -- Hobahken
             [npcKeys.questStarts] = {},
+            [npcKeys.waypoints] = {},
         },
         [17520] = { -- Gurrag
             [npcKeys.questStarts] = {},
+            [npcKeys.waypoints] = {},
         },
         [17527] = {
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{28.06,62.73},{24.3,63.8},{26.4,57.9},{36.25,55.46},{30.41,61.4},{25.73,60.87},{25.8,47.18},{31.96,59.48},{33.61,60.7},{31.77,52.59},{36.32,48.56},{27.22,48.75},{23.34,48.27},{27.8,43.92},{24.86,43.0},{25.45,45.19},{32.67,54.68},{29.72,55.59},{26.27,55.7},{24.23,46.11},{26.62,46.33},{27.43,47.8},{28.21,50.03},{34.67,57.85},{33.42,57.18},{30.91,54.27},{31.14,56.93},{34.8,52.67},{33.4,51.94},{32.37,64.86},{30.73,59.36},{28.96,61.8},{28.78,58.66},{27.69,58.03},{30.14,69.42},{29.3,69.88},{30.88,71.57}}},
