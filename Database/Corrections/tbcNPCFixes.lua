@@ -243,7 +243,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
         [6018] = { -- Ur'kyo
-            [npcKeys.questEnds] = {5642,5643,5680,5652,5654,5656,5657},
+            [npcKeys.questEnds] = {5642,5643,5680,5652,5654,5655,5656,5657},
         },
         [6072] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.95,84.67},{78.8,82.4},{77.8,83.6},{78.6,85.6}}},
