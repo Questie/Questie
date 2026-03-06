@@ -692,11 +692,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.DWARF,
             [questKeys.exclusiveTo] = {5645,5647},
         },
+        [5644] = { -- Devouring Plague (Thunder Bluff)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5646,5679},
+        },
         [5645] = { -- A Lack of Fear (Stormwind City)
             [questKeys.name] = "A Lack of Fear",
             [questKeys.finishedBy] = {{11406}},
             [questKeys.requiredRaces] = raceIDs.DWARF,
             [questKeys.exclusiveTo] = {5641,5647},
+        },
+        [5646] = { -- Devouring Plague (Orgrimmar)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5644,5679},
         },
         [5647] = { -- A Lack of Fear (Darnassus)
             [questKeys.name] = "A Lack of Fear",
@@ -752,6 +760,10 @@ function QuestieTBCQuestFixes:Load()
         [5675] = { -- Elune's Grace (Ironforge)
             [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {5672,5673,5674},
+        },
+        [5679] = { -- Devouring Plague (Undercity)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5644,5646},
         },
         [5726] = { -- Hidden Enemies
             [questKeys.nextQuestInChain] = 5727,
