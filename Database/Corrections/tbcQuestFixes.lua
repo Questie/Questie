@@ -692,6 +692,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.DWARF,
             [questKeys.exclusiveTo] = {5645,5647},
         },
+        [5642] = { -- Shadowguard (Thunder Bluff)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5643,5680},
+        },
+        [5643] = { -- Shadowguard (Undercity)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5642,5680},
+        },
         [5644] = { -- Devouring Plague (Thunder Bluff)
             [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {5646,5679},
@@ -723,6 +731,27 @@ function QuestieTBCQuestFixes:Load()
         },
         [5651] = { -- In Favor of Darkness
             [questKeys.requiredLevel] = 5,
+        },
+        [5652] = { -- Hex of Weakness (Orgrimmar)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5654,5655,5656,5657},
+        },
+        [5654] = { -- Hex of Weakness (Durotar)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5652,5655,5656,5657},
+        },
+        [5655] = { -- Hex of Weakness (Mulgore)
+            [questKeys.finishedBy] = {{6018}},
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5652,5654,5656,5657},
+        },
+        [5656] = { -- Hex of Weakness (Thunder Bluff)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5652,5654,5655,5657},
+        },
+        [5657] = { -- Hex of Weakness (Undercity)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5652,5654,5655,5656},
         },
         [5658] = { -- Touch of Weakness (Undercity)
             [questKeys.questLevel] = -1,
@@ -761,9 +790,22 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {5672,5673,5674},
         },
+        [5676] = { -- Arcane Feedback (Stormwind City)
+            [questKeys.questLevel] = -1,
+        },
+        [5677] = { -- Arcane Feedback (Ironforge)
+            [questKeys.questLevel] = -1,
+        },
+        [5678] = { -- Arcane Feedback (Darnassus)
+            [questKeys.questLevel] = -1,
+        },
         [5679] = { -- Devouring Plague (Undercity)
             [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {5644,5646},
+        },
+        [5680] = { -- Shadowguard (Orgrimmar)
+            [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {5642,5643},
         },
         [5726] = { -- Hidden Enemies
             [questKeys.nextQuestInChain] = 5727,
@@ -1608,7 +1650,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9280},
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
-        [9291] = {
+        [9291] = { -- Priest Training
             [questKeys.startedBy] = {{16502}},
             [questKeys.finishedBy] = {{16502}},
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
@@ -1774,6 +1816,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9489] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.objectives] = {{{15938,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9491] = { -- Greed
             [questKeys.preQuestSingle] = {},

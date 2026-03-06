@@ -2827,7 +2827,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{11401}}, -- #2424
         },
         [5648] = { -- Garments of Spirituality
-            [questKeys.objectives] = {{{12427,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{12430,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5649},
         },
@@ -2874,7 +2874,7 @@ function QuestieQuestFixes:Load()
         [5674] = { -- Elune's Grace (Stormwind City)
             [questKeys.startedBy] = {{11397}},
         },
-        [5676] = { -- Arcane Feedback (Stormwind)
+        [5676] = { -- Arcane Feedback (Stormwind City)
             [questKeys.startedBy] = {{376}},
             [questKeys.exclusiveTo] = {5677,5678},
             [questKeys.objectivesText] = {},
@@ -3970,7 +3970,7 @@ function QuestieQuestFixes:Load()
         [8251] = {
             [questKeys.preQuestSingle] = {},
         },
-        [8254] = {
+        [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,6018,11406}},
         },
         [8258] = {
@@ -5672,7 +5672,7 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5753,5815}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [8254] = {
+        [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{6018}},
         },
         [8928] = {
@@ -5724,7 +5724,7 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5520,6382}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [8254] = {
+        [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406}},
         },
         [8928] = {
