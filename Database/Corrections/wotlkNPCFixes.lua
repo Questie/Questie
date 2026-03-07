@@ -43,7 +43,10 @@ function QuestieWotlkNpcFixes:Load()
         [1748] = { -- Highlord Bolvar Fordragon
             [npcKeys.questStarts] = {6182,6501,7496,7782},
         },
-        [1755] = {
+        [1754] = { -- Lord Gregor Lescovar
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{72.3,35.11}}},
+        },
+        [1755] = { -- Marzon the Silent Blade
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{71.97,35.39}}},
         },
         [2079] = {

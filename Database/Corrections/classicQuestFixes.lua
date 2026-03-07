@@ -1694,6 +1694,9 @@ function QuestieQuestFixes:Load()
         [2744] = {
             [questKeys.objectives] = {{{7783,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [2746] = { -- Items of Some Consequence
+            [questKeys.nextQuestInChain] = 434,
+        },
         [2755] = {
             [questKeys.objectives] = {{{7790,nil,Questie.ICON_TYPE_EVENT}}},
         },
