@@ -33,6 +33,9 @@ function QuestieItemFixes:Load()
         [1013] = { -- Iron Rivet
             [itemKeys.npcDrops] = {426, 430, 446, 580}, -- Remove rare mob #903
         },
+        [1081] = { -- Crisp Spider Meat
+            [itemKeys.npcDrops] = {217,442,505,539,569,574,616,930,949,1111,1112,1184,1185,1195,2348,2349,2350,2563,2565,3819,3820,3821,4005,4006,4007,4040,4263,4264,11921,14266,14279},
+        },
         [1206] = { -- Moss Agate
             [itemKeys.npcDrops] = {},
         },
