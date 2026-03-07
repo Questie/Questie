@@ -483,9 +483,11 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
         Questie.db.char.vendorList["Reagents"] = _reformatVendors(Townsfolk:PopulateVendors(reagents))
     end
 
-    -- Beginning with WotLK, all poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
-    local poisons = Expansions.Current >= Expansions.Wotlk and {2892} or {5140,2928,8924,5173,2930,8923}
-    Questie.db.char.vendorList["Poisons"] = _reformatVendors(Townsfolk:PopulateVendors(poisons))
+    if Expansions.Current < Expansions.MoP then
+        -- Beginning with WotLK, all poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
+        local poisons = Expansions.Current >= Expansions.Wotlk and {2892} or {5140,2928,8924,5173,2930,8923}
+        Questie.db.char.vendorList["Poisons"] = _reformatVendors(Townsfolk:PopulateVendors(poisons))
+    end
 
     Questie.db.char.vendorList["Trade Goods"] = _reformatVendors(Townsfolk:PopulateVendors({
         14256,12810,13463,8845,8846,4234,3713,8170,14341,4389,3357,2453,13464,
