@@ -350,6 +350,18 @@ local townsfolkLocales = {
         ["zhCN"] = "战斗宠物训练师",
         ["zhTW"] = "戰寵訓練師",
     },
+    ["Poisons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Gifte",
+        ["esES"] = "Venenos",
+        ["esMX"] = "Venenos",
+        ["frFR"] = true,
+        ["koKR"] = "독",
+        ["ptBR"] = "Venenos",
+        ["ruRU"] = "Яды",
+        ["zhCN"] = "毒药",
+        ["zhTW"] = "毒藥",
+    },
 }
 
 for k, v in pairs(townsfolkLocales) do

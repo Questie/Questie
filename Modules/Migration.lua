@@ -161,6 +161,15 @@ local migrationFunctions = {
     [24] = function()
         Questie.db.profile.trackerWidthRatio = 0.20
     end,
+    [25] = function()
+        local _, playerClass = UnitClass("player")
+        if playerClass == "ROGUE" and Questie.db.profile.townsfolkConfig["Reagents"] then
+            Questie.db.profile.townsfolkConfig["Reagents"] = false
+            Questie.db.profile.townsfolkConfig["Poisons"] = true
+        else
+            Questie.db.profile.townsfolkConfig["Poisons"] = false
+        end
+    end,
 }
 
 function Migration:Migrate()
