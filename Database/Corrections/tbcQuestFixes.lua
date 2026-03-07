@@ -1875,12 +1875,17 @@ function QuestieTBCQuestFixes:Load()
         [9500] = { -- Call of Water
             [questKeys.startedBy] = {{17212}},
             [questKeys.questLevel] = -1,
+            [questKeys.exclusiveTo] = {9502,10490},
+            [questKeys.breadcrumbForQuestId] = 9501,
         },
         [9501] = { -- Call of Water
             [questKeys.questLevel] = -1,
+            [questKeys.breadcrumbs] = {9500,9502,10490},
         },
         [9502] = { -- Call of Water
-            [questKeys.startedBy] = {{17219}},
+            [questKeys.startedBy] = {{17219,23127}},
+            [questKeys.exclusiveTo] = {9500,10490},
+            [questKeys.breadcrumbForQuestId] = 9501,
         },
         [9503] = { -- Call of Water
             [questKeys.questLevel] = -1,
@@ -3092,6 +3097,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10488] = {
             [questKeys.objectives] = {{{20748,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [10490] = { -- Call of Water
+            [questKeys.exclusiveTo] = {9500,9502},
+            [questKeys.breadcrumbForQuestId] = 9501,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,nil,Questie.ICON_TYPE_INTERACT}}},

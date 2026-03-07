@@ -530,6 +530,9 @@ function QuestieWotlkQuestFixes:Load()
         [9491] = { -- Greed
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [9502] = { -- Call of Water
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
         [9532] = { -- Find Keltus Darkleaf
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
