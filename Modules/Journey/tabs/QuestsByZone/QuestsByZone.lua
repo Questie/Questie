@@ -117,7 +117,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         end
         -- if they clicked on a header, don't do anything
         local sel, questId = strsplit("\001", treePath[2]) -- treePath[2] looks like "a?1234" for an available quest with ID 1234
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b") and (not questId) then
+        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b" or sel == "h") and (not questId) then
             return
         end
 
@@ -208,6 +208,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             text = l10n('Unobtainable Quests'),
             children = {},
         },
+        [7] = {
+            value = "h",
+            text = l10n('Hidden Quests'),
+            children = {},
+        },
     }
     local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests)
 
@@ -218,6 +223,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     local repeatableCounter = 0
     local breadcrumbCompleteCounter = 0
     local breadcrumbCounter = 0
+    local hiddenCounter = 0
 
     local unobtainableQuestIds = {}
     local temp = {}
@@ -372,7 +378,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
         end
     end
 
-    local totalCounter = availableCounter + completedCounter + prequestMissingCounter + unobtainableCounter
+    local totalCounter = availableCounter + completedCounter + prequestMissingCounter + unobtainableCounter + hiddenCounter
 
 	if breadcrumbCounter and breadcrumbCounter >= 1 then
        zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCompleteCounter ..'/'.. breadcrumbCounter ..' ]'
@@ -385,6 +391,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     zoneTree[4].text = zoneTree[4].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
     zoneTree[5].text = zoneTree[5].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
     zoneTree[6].text = zoneTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
+    zoneTree[7].text = zoneTree[7].text .. ' [ '..  hiddenCounter ..' ]'
 
     zoneTree.numquests = totalCounter + repeatableCounter + breadcrumbCounter
 
