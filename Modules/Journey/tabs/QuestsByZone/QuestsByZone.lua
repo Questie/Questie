@@ -338,6 +338,16 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     prequestMissingCounter = prequestMissingCounter + 1
                 end
             end
+
+            -- show event quests outside event dates
+            if QuestieEvent.IsEventQuest(questId) and not QuestieEvent.IsEventActiveForQuest(questId) then
+                tinsert(zoneTree[6].children, temp)
+                unobtainableCounter = unobtainableCounter + 1
+            -- AQ War Effort quests (one-time world event that has ended for all realms)
+            elseif (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
+                tinsert(zoneTree[6].children, temp)
+                unobtainableCounter = unobtainableCounter + 1
+            end
             temp = {}
         end
     end
