@@ -95,6 +95,11 @@ QuestieItemDropCorrections.Era = {
         [202] = DropKeys.WOWHEAD,
         [531] = DropKeys.WOWHEAD,
     },
+    [1894] = { -- Miners' Union Card
+        [623] = DropKeys.WOWHEAD,
+        [624] = DropKeys.WOWHEAD,
+        [625] = DropKeys.WOWHEAD,
+    },
     [2378] = { -- Skeleton Finger
         [48] = DropKeys.WOWHEAD,
         [202] = DropKeys.WOWHEAD,
