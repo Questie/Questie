@@ -225,7 +225,6 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     local breadcrumbCounter = 0
     local hiddenCounter = 0
 
-    local unobtainableQuestIds = {}
     local temp = {}
 
     local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
