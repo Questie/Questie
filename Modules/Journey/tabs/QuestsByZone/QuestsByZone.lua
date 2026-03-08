@@ -300,8 +300,21 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == 14 or returnReason == 15 then -- exclusive quest completed or in quest log
-                    tinsert(zoneTree[4].children, temp)
-                    completedCounter = completedCounter + 1
+                    -- checking for some weird cases where you completed an exclusiveTo of the nextQuestInChain
+                    local nextQuest = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
+                    if nextQuest and nextQuest ~= 0 then
+                        local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuest, "exclusiveTo")
+                        for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
+                            if Questie.db.char.complete[exclusiveFollowupId] then
+                                tinsert(zoneTree[6].children, temp)
+                                unobtainableCounter = unobtainableCounter + 1
+                                break
+                            end
+                        end
+                    else
+                        tinsert(zoneTree[4].children, temp)
+                        completedCounter = completedCounter + 1
+                    end
                 elseif returnReason == 16 then -- not today's daily quest hub
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
