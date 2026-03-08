@@ -241,6 +241,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
+            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
 
             -- Breadcrumb quests
             if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
@@ -248,130 +249,93 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 breadcrumbCounter = breadcrumbCounter + 1
             end
 
-            -- Completed quests
-            if Questie.db.char.complete[questId] then
-                tinsert(zoneTree[4].children, temp)
-                completedCounter = completedCounter + 1
-                if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
-                    breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
-                end
-            else
-                local queryResult = QuestieDB.QueryQuest(
-                        questId,
-                        {
-                        "exclusiveTo",
-                        "nextQuestInChain",
-                        "parentQuest",
-                        "preQuestSingle",
-                        "preQuestGroup",
-                        "requiredMinRep",
-                        "requiredMaxRep",
-                        "requiredSpell",
-                        "requiredSpecialization",
-                        "requiredMaxLevel",
-                        "requiredSkill",
-                        "requiredLevel"
-                        }
-                ) or {}
-                local exclusiveTo = queryResult[1]
-                local nextQuestInChain = queryResult[2]
-                local parentQuest = queryResult[3]
-                local preQuestSingle = queryResult[4]
-                local preQuestGroup = queryResult[5]
-                local requiredMinRep = queryResult[6]
-                local requiredMaxRep = queryResult[7]
-                local requiredSpell = queryResult[8]
-                local requiredSpecialization = queryResult[9]
-                local requiredMaxLevel = queryResult[10]
-                local requiredSkill = queryResult[11]
-                local requiredLevel = queryResult[12]
-
-                -- Exclusive quests will never be available since another quests permanently blocks them.
-                -- Marking them as complete should be the most satisfying solution for user
-                if (nextQuestInChain ~= 0 and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
-                    tinsert(zoneTree[4].children, temp)
-                    completedCounter = completedCounter + 1
-                -- The parent quest has been completed
-                elseif parentQuest and Questie.db.char.complete[parentQuest] then
-                    tinsert(zoneTree[4].children, temp)
-                    completedCounter = completedCounter + 1
-                -- Unobtainable reputation quests
-                elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableQuestIds[questId] = true
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Profession specialization
-                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Required profession not learned or skill level not reached
-                elseif requiredSkill and (function()
-                    local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
-                    return not hasProfession or not hasSkillLevel
-                end)() then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableQuestIds[questId] = true
-                    unobtainableCounter = unobtainableCounter + 1
-                -- A single pre Quest is missing
-                elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
-                    -- The pre Quest is unobtainable therefore this quest is it as well
-                    if unobtainableQuestIds[preQuestSingle] ~= nil then
-                        tinsert(zoneTree[6].children, temp)
-                        unobtainableQuestIds[questId] = true
-                        unobtainableCounter = unobtainableCounter + 1
+            if returnReason then
+                if returnReason == 0 then -- available quests
+                    if QuestieDB.IsRepeatable(questId) then
+                        tinsert(zoneTree[3].children, temp)
+                        repeatableCounter = repeatableCounter + 1
                     else
-                        tinsert(zoneTree[5].children, temp)
-                        prequestMissingCounter = prequestMissingCounter + 1
+                        tinsert(zoneTree[2].children, temp)
+                        availableCounter = availableCounter + 1
                     end
-                -- Multiple pre Quests are missing
-                elseif not QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup) then
-                    local hasUnobtainablePreQuest = false
-                    for _, preQuestId in pairs(preQuestGroup) do
-                        if unobtainableQuestIds[preQuestId] ~= nil then
-                            tinsert(zoneTree[6].children, temp)
-                            unobtainableQuestIds[questId] = true
-                            unobtainableCounter = unobtainableCounter + 1
-                            hasUnobtainablePreQuest = true
-                            break
-                        end
+                elseif returnReason == 1 then -- completed quests
+                    tinsert(zoneTree[4].children, temp)
+                    completedCounter = completedCounter + 1
+                    if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                        breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
                     end
-
-                    if not hasUnobtainablePreQuest then
-                        tinsert(zoneTree[5].children, temp)
-                        prequestMissingCounter = prequestMissingCounter + 1
-                    end
-                -- Quests which you have outleveled
-                elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Quests which you are too low level for
-                elseif requiredLevel and requiredLevel > playerlevel then
-                    tinsert(zoneTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
-                -- Event quests where the event is not currently active
-                elseif QuestieEvent.IsEventQuest(questId) and not QuestieEvent.IsEventActiveForQuest(questId) then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- AQ War Effort quests (one-time world event that has ended for all realms)
-                elseif (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Repeatable quests
-                elseif QuestieDB.IsRepeatable(questId) then
-                    tinsert(zoneTree[3].children, temp)
-                    repeatableCounter = repeatableCounter + 1
-                -- Quests which require you to NOT have learned a spell (most likely a fake quest for SoD runes)
-                elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Quests which require you to HAVE learned a spell
-                elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                -- Available quests
-                else
+                elseif returnReason == 2 then -- player is on quest
                     tinsert(zoneTree[2].children, temp)
                     availableCounter = availableCounter + 1
+                -- elseif returnReason == 3 then -- blacklisted quests -- already filtered earlier
+                elseif returnReason == 4 then -- manually hidden quests
+                    tinsert(zoneTree[7].children, temp)
+                    hiddenCounter = hiddenCounter + 1
+                elseif returnReason == 5 then -- parent quest active
+                    if QuestieDB.IsRepeatable(questId) then
+                        tinsert(zoneTree[3].children, temp)
+                        repeatableCounter = repeatableCounter + 1
+                    else
+                        tinsert(zoneTree[2].children, temp)
+                        availableCounter = availableCounter + 1
+                    end
+                -- elseif returnReason == 6 then -- wrong race -- not shown at all
+                elseif returnReason == 7 then -- no preQuestSingle completed
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                -- elseif returnReason == 8 then -- wrong class -- not shown at all
+                elseif returnReason == 9 then -- no reputation
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == 10 then -- wrong profession
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 11 then -- no preQuestGroup completed
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == 12 then -- inactive parent
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == 13 then -- nextQuestInChain completed or in quest log
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 14 or returnReason == 15 then -- exclusive quest completed or in quest log
+                    tinsert(zoneTree[4].children, temp)
+                    completedCounter = completedCounter + 1
+                elseif returnReason == 16 then -- not today's daily quest hub
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 17 then -- wrong profession specialization
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 18 then -- missing spell, so quest unavailable
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == 19 then -- learned spell, so quest unavailable
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 20 then -- missing achievement
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == 22 then -- another breadcrumb active
+                    tinsert(zoneTree[4].children, temp)
+                    completedCounter = completedCounter + 1
+                elseif returnReason == 23 then -- quest not available because breadcrumb in quest log
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                -- changing order here so we get desired outcome after the other 2 breadcrumb conditions above
+                elseif returnReason == 21 then -- breadcrumb's follow up active or completed
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 24 then -- daily quests detected not present today
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 25 then -- player is higher level than quest bracket
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == 26 then -- player is too low
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
                 end
             end
             temp = {}
