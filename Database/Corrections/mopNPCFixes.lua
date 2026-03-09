@@ -4643,10 +4643,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
         [67660] = { -- Archmage Aethas Sunreaver
+            [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
                     {46.87,66.91,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
                 },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [67662] = { -- High Arcanist Savor
@@ -5969,17 +5971,21 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69425] = { -- Sunwalker Dezco
+            [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
                     {46.72,66.75,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
                 },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69433] = { -- Magistrix Saia
+            [npcKeys.spawns] = {
                 [zoneIDs.ISLE_OF_THUNDER] = {
                     {33,52.8,phases.IOT_HORDE_BOAT}, -- needs better coords
                     {46.92,66.89,phases.IOT_HORDE_DAWNSEEKER_PROMONTORY},
                 },
+            },
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
         },
         [69617] = { -- Lor'themar Theron
@@ -6222,8 +6228,9 @@ function MopNpcFixes.Load()
         [70059] = { -- Stunted Direhorn
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_GIANTS,
             [npcKeys.spawns] = {
-                [zoneIDs.ISLE_OF_GIANTS] = {{67,75.2},{69.6,71.4},{69.8,71.6}}},
+                [zoneIDs.ISLE_OF_GIANTS] = {{67,75.2},{69.6,71.4},{69.8,71.6}},
                 [zoneIDs.ISLE_OF_THUNDER] = {{50.4,42.8},{50.8,43.4},{51,43.6}},
+            },
         },
         [70100] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
