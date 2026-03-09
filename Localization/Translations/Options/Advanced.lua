@@ -23,7 +23,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "고급 설정",
         ["ptBR"] = "Configurações avançadas",
         ["ruRU"] = "Расширенные настройки",
-        ["zhCN"] = "高级选项",
+        ["zhCN"] = "高级设置",
         ["zhTW"] = "進階設定",
     },
     ["Enable Icon Limit"] = {
@@ -167,7 +167,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "퀘스트 ID 표시",
         ["ptBR"] = "Mostrar ID de missão",
         ["ruRU"] = "Показать ID заданий",
-        ["zhCN"] = "显示任务ID",
+        ["zhCN"] = "显示任务 ID",
         ["zhTW"] = "顯示任務 ID",
     },
     ["If checked, the ID of quests will show in tooltips and the tracker."] = {
@@ -323,7 +323,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "퀘스트 데이터베이스를 강제로 재설정합니다. UI는 Reload됩니다.",
         ["ptBR"] = "Força uma recompilação do banco de dados de Questie. Isso também recarregará a interface do usuário.",
         ["ruRU"] = "Принудительная перекомпиляция базы данных Questie. При этом перезагрузится пользовательский интерфейс",
-        ["zhCN"] = "强制重建任务数据库。这会重新加载插件",
+        ["zhCN"] = "强制重建Questie数据库，这将会重载界面",
         ["zhTW"] = "強制重建任務位置提示插件的資料庫，同時也會重新載入介面",
     },
     ["Open Profiler"] = {
@@ -575,7 +575,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "모든 게임 버전에 대한 버그 힌트 활성화",
         ["ptBR"] = "Ativar dicas de bugs para todas as versões do jogo",
         ["ruRU"] = "Подсказки об ошибках для всех версий",
-        ["zhCN"] = "为所有游戏版本致能错误提示",
+        ["zhCN"] = "为所有游戏版本启用错误提示",
         ["zhTW"] = "啟用錯誤提示 (所有遊戲版本)",
     },
     ["Enables the bug hint windows for all game versions, usually used for bug reports in SoD."] = {
@@ -587,7 +587,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "모든 게임 버전에 대한 버그 힌트 창을 활성화합니다. 주로 SoD에서 버그 보고에 사용됩니다.",
         ["ptBR"] = "Se marcado, as janelas de dicas de bugs serão mostradas para todas as versões do jogo, geralmente usadas para relatórios de bugs no SoD.",
         ["ruRU"] = "Включает окна подсказок об ошибках, обычно используемые в SoD, для всех версий игры",
-        ["zhCN"] = "致能所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
+        ["zhCN"] = "启用所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
         ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗",
     },
 }
