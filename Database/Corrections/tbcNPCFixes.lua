@@ -667,7 +667,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
         },
         [17212] = { -- Tuluun
-            [npcKeys.questStarts] = {9461,9464,9500},
+            [npcKeys.questStarts] = {9461,9464,9500,9547},
         },
         [17214] = {
             [npcKeys.waypoints] = {},
@@ -1439,7 +1439,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{44.2,41.0},},},
         },
         [23127] = { -- Farseer Javad
-            [npcKeys.questStarts] = {8410,9462,9502,9547},
+            [npcKeys.questStarts] = {8410,9462,9502,9547,9551},
         },
         [23161] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{70.23,83.35},{70.06,79.45},{73.5,80.7},{69.67,74.72},{75.24,81.2},{72.23,88.18},{74.79,87.51},{61.99,74.66},{61.38,78.07}}},

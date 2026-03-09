@@ -1943,9 +1943,20 @@ function QuestieTBCQuestFixes:Load()
         [9545] = {
             [questKeys.objectives] = {{{16852,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [9547] = { -- Call of Air
+            [questKeys.startedBy] = {{17212}},
+            [questKeys.breadcrumbForQuestId] = 9552,
+        },
         [9549] = { -- Artifacts of the Blacksilt
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10063},
+        },
+        [9551] = { -- Call of Air
+            [questKeys.startedBy] = {{17219,23127}},
+            [questKeys.breadcrumbForQuestId] = 9552,
+        },
+        [9552] = { -- Call of Air
+            [questKeys.breadcrumbs] = {9547,9551,10491},
         },
         [9555] = { -- Call of Fire
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
@@ -3101,6 +3112,9 @@ function QuestieTBCQuestFixes:Load()
         [10490] = { -- Call of Water
             [questKeys.exclusiveTo] = {9500,9502},
             [questKeys.breadcrumbForQuestId] = 9501,
+        },
+        [10491] = { -- Call of Air
+            [questKeys.breadcrumbForQuestId] = 9552,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,nil,Questie.ICON_TYPE_INTERACT}}},
