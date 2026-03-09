@@ -245,37 +245,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.2,
                 name = function() return l10n("Reset Questie"); end,
                 desc = function() return l10n("Reset Questie to the default values for all settings."); end,
-                func = function (_, _)
-                    -- update all values to default
-                    for k,v in pairs(optionsDefaults.profile) do
-                       Questie.db.profile[k] = v
-                    end
-
-                    -- only toggle questie if it"s off (must be called before resetting the value)
-                    if (not Questie.db.profile.enabled) then
-                        Questie.db.profile.enabled = true
-                        --QuestieQuest:ToggleNotes(true);
-                    end
-
-                    Questie.db.profile.enabled = optionsDefaults.profile.enabled;
-                    Questie.db.profile.lowLevelStyle = optionsDefaults.profile.lowLevelStyle;
-
-                    Questie.db.profile.migrationVersion = nil
-
-                    Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
-
-                    if Questie.IsSoD then
-                        Questie.db.global.sod.dbIsCompiled = false
-                    else
-                        Questie.db.global.dbIsCompiled = false
-                    end
-
-                    Questie.db.char.hidden = nil
-                    Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies;
-
-                    Questie.db.global.unavailableQuestsDeterminedByTalking = {}
-
-                    ReloadUI()
+                func = function()
+                    StaticPopup_Show("QUESTIE_RESET_CONFIRM")
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
@@ -285,9 +256,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Reset Questie Journey"); end,
                 desc = function() return l10n("Clear the Journey of the current character"); end,
                 func = function(_,_)
-                    Questie.db.char.journey = nil
-
-                    ReloadUI()
+                    StaticPopup_Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
@@ -471,6 +440,68 @@ function QuestieOptions.tabs.advanced:Initialize()
         },
     }
 end
+
+StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
+    text = "",
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        for k,v in pairs(optionsDefaults.profile) do
+            Questie.db.profile[k] = v
+        end
+
+        if (not Questie.db.profile.enabled) then
+            Questie.db.profile.enabled = true
+        end
+
+        Questie.db.profile.enabled = optionsDefaults.profile.enabled
+        Questie.db.profile.lowLevelStyle = optionsDefaults.profile.lowLevelStyle
+        Questie.db.profile.migrationVersion = nil
+        Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
+
+        if Questie.IsSoD then
+            Questie.db.global.sod.dbIsCompiled = false
+        else
+            Questie.db.global.dbIsCompiled = false
+        end
+
+        Questie.db.char.hidden = nil
+        Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
+        Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+
+        ReloadUI()
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("Are you sure you want to reset Questie to default settings?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
+StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
+    text = "", -- we set it in OnShow
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        Questie.db.char.journey = nil
+        ReloadUI()
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("Are you sure you want to reset the Questie Journey for this character?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
 
 _GetLanguages = function()
     local languages = {
