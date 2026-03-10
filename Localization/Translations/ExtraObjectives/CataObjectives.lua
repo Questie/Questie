@@ -1511,7 +1511,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "如果你没有伐木机，那就赶紧加入吧！",
+        ["zhCN"] = "如果你没有伐木机那就进去",
         ["zhTW"] = false,
     },
     ["Deliver the Stonified Miner here"] = {
