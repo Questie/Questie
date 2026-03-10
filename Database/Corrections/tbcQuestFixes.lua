@@ -265,6 +265,21 @@ function QuestieTBCQuestFixes:Load()
         [1508] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [1516] = { -- Call of Earth
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [1517] = { -- Call of Earth
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [1518] = { -- Call of Earth
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [1520] = { -- Call of Earth
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [1521] = { -- Call of Earth
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [1558] = {
             [questKeys.questLevel] = -1,
         },
