@@ -2099,7 +2099,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "走私者的伤疤侦察兵",
+        ["zhCN"] = "侦察走私者洞穴",
         ["zhTW"] = false,
     },
     ["Talk to Erunak"] = {
@@ -2459,7 +2459,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "艾帕克萨尔！",
+        ["zhCN"] = "削弱艾帕克萨尔！",
         ["zhTW"] = false,
     },
     ["Debilitate Aetharon!"] = {
@@ -3035,7 +3035,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "搭车前​​往风暴之羽哨站",
+        ["zhCN"] = "搭车前往风暴之羽哨站",
         ["zhTW"] = false,
     },
     ["Get a ride to Western Plaguelands"] = {
@@ -3383,7 +3383,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "搭车前​​往探险者协会挖掘场",
+        ["zhCN"] = "搭车前往探险者协会挖掘场",
         ["zhTW"] = false,
     },
     ["Grab a mop"] = {
