@@ -2327,7 +2327,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死深渊腐蚀者",
         ["zhTW"] = false,
     },
     ["Start the fight"] = {
@@ -2339,7 +2339,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "开始战斗",
         ["zhTW"] = false,
     },
     ["Summon Abyssion"] = {
@@ -2351,7 +2351,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤艾比希昂",
         ["zhTW"] = false,
     },
     ["Defeat Abyssion"] = {
@@ -2363,7 +2363,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败艾比希昂",
         ["zhTW"] = false,
     },
     ["Bring the Opalescent Guardians here"] = {
@@ -2375,7 +2375,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把乳石守护者们带到这里",
         ["zhTW"] = false,
     },
     ["Talk to Salhet"] = {
@@ -2387,7 +2387,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和萨赫特谈谈",
         ["zhTW"] = false,
     },
     ["Start the event"] = {
@@ -2399,7 +2399,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "开始事件",
         ["zhTW"] = false,
     },
     ["Talk to Commander Schnottz"] = {
@@ -2411,7 +2411,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与元首司克诺兹交谈",
         ["zhTW"] = false,
     },
     ["Defeat the defenses"] = {
@@ -2423,7 +2423,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "突破防御",
         ["zhTW"] = false,
     },
     ["Follow the trail of gore"] = {
@@ -2435,7 +2435,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "循着血腥的痕迹",
         ["zhTW"] = false,
     },
     ["Start the wedding!"] = {
@@ -2447,7 +2447,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "婚礼开始！",
         ["zhTW"] = false,
     },
     ["Debilitate Apexar!"] = {
@@ -2459,7 +2459,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "艾帕克萨尔！",
         ["zhTW"] = false,
     },
     ["Debilitate Aetharon!"] = {
@@ -2471,7 +2471,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "削弱阿瑟隆！",
         ["zhTW"] = false,
     },
     ["Debilitate Edemantus!"] = {
@@ -2483,7 +2483,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "削弱埃德曼图斯！",
         ["zhTW"] = false,
     },
     ["The High Seat"] = {
@@ -2495,7 +2495,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "高位",
         ["zhTW"] = false,
     },
     ["Stop Smoot"] = {
@@ -2507,7 +2507,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "阻止斯姆特",
         ["zhTW"] = false,
     },
     ["Go to the shore"] = {
@@ -2519,7 +2519,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "去海边",
         ["zhTW"] = false,
     },
     ["Go back to the ship"] = {
@@ -2531,7 +2531,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "返回船上",
         ["zhTW"] = false,
     },
     ["Throw the Barbed Fleshhook at them"] = {
@@ -2543,7 +2543,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把尖利的肉钩扔向他们",
         ["zhTW"] = false,
     },
     ["Place the bait near it"] = {
@@ -2555,7 +2555,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把诱饵放在它附近",
         ["zhTW"] = false,
     },
     ["Throw Bottle of Leeches"] = {
@@ -2567,7 +2567,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "投掷一瓶水蛭",
         ["zhTW"] = false,
     },
     ["Use the imbued blood"] = {
@@ -2579,7 +2579,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用灌魔之血",
         ["zhTW"] = false,
     },
     ["Speak to Gorka"] = {
@@ -2591,7 +2591,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与戈尔卡交谈",
         ["zhTW"] = false,
     },
     ["Speak to Kadrak"] = {
@@ -2603,7 +2603,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与卡德拉克交谈",
         ["zhTW"] = false,
     },
     ["Speak with Karthog to lure out General Hawthorne"] = {
@@ -2615,7 +2615,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与卡索格交谈引出霍索恩将军",
         ["zhTW"] = false,
     },
     ["Talk to Tahet"] = {
@@ -2627,7 +2627,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与塔赫特交谈",
         ["zhTW"] = false,
     },
     ["Summon Galenges"] = {
@@ -2639,7 +2639,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤盖伦格斯",
         ["zhTW"] = false,
     },
     ["Speak with Torga"] = {
@@ -2651,7 +2651,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与托尔迦交谈",
         ["zhTW"] = false,
     },
     ["Defeat Raging Invader"] = {
@@ -2663,7 +2663,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败狂怒的入侵者",
         ["zhTW"] = false,
     },
     ["Speak with Mazzer Stripscrew to get on your boat"] = {
@@ -2675,7 +2675,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与玛兹尔·螺钉交谈即可登上你的船",
         ["zhTW"] = false,
     },
     ["Speak with Griznak to get on your boat"] = {
@@ -2687,7 +2687,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与格里兹纳克交谈即可登上你的船",
         ["zhTW"] = false,
     },
     ["Speak with Thraka to begin the assault"] = {
@@ -2699,7 +2699,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与萨拉卡交谈即可开始进攻",
         ["zhTW"] = false,
     },
     ["Use the Phaseblood Potion at the Sigil of Tichondrius"] = {
@@ -2711,7 +2711,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在提克迪奥斯的魔印处使用相位血气药水",
         ["zhTW"] = false,
     },
     ["Get in Krom'gar Demolisher"] = {
@@ -2723,7 +2723,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入克罗姆加攻城车",
         ["zhTW"] = false,
     },
     ["Get in the balloon"] = {
@@ -2735,7 +2735,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入气球",
         ["zhTW"] = false,
     },
     ["Capture a Hazzali Swarmer"] = {
@@ -2747,7 +2747,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "捕获一只哈扎里群居蝎",
         ["zhTW"] = false,
     },
     ["Talk to Narain to mount your bug"] = {
@@ -2759,7 +2759,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与纳瑞安交谈以安装你的虫子",
         ["zhTW"] = false,
     },
     ["Make it rain"] = {
@@ -2771,7 +2771,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "让雨下起来",
         ["zhTW"] = false,
     },
     ["Kill them to spawn the chips"] = {
@@ -2783,7 +2783,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死它们即可生成芯片",
         ["zhTW"] = false,
     },
     ["Engage it to create Ember Pools"] = {
@@ -2795,7 +2795,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "启用它以创建灰烬之池",
         ["zhTW"] = false,
     },
     ["Start the bombing run"] = {
@@ -2807,7 +2807,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "开始轰炸",
         ["zhTW"] = false,
     },
     ["Control the Canyon Ettin"] = {
@@ -2819,7 +2819,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "控制峡谷双头魔",
         ["zhTW"] = false,
     },
     ["Use the Ettin to lift the boulder"] = {
@@ -2831,7 +2831,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用双头魔举起巨石",
         ["zhTW"] = false,
     },
     ["Free Danforth"] = {
@@ -2843,7 +2843,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "释放丹弗斯",
         ["zhTW"] = false,
     },
     ["Unlock the ward"] = {
@@ -2855,7 +2855,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "解锁结界",
         ["zhTW"] = false,
     },
     ["Summon Darkblaze"] = {
@@ -2867,7 +2867,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤黑暗烈焰",
         ["zhTW"] = false,
     },
     ["Summon Myzrael"] = {
@@ -2879,7 +2879,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤密斯莱尔",
         ["zhTW"] = false,
     },
     ["Talk to Korrah"] = {
@@ -2891,7 +2891,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与库拉交谈",
         ["zhTW"] = false,
     },
     ["Talk to Lord Hydronis"] = {
@@ -2903,7 +2903,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与元素勋爵海卓尼斯交谈",
         ["zhTW"] = false,
     },
     ["Talk to Aggra"] = {
@@ -2915,7 +2915,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与阿格娜交谈",
         ["zhTW"] = false,
     },
     ["Speak to Khan Leh'prah"] = {
@@ -2927,7 +2927,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与力普拉可汗交谈",
         ["zhTW"] = false,
     },
     ["Use the Raging Vortex Gem"] = {
@@ -2939,7 +2939,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用盛怒漩涡宝石",
         ["zhTW"] = false,
     },
     ["Talk to Cyclonas"] = {
@@ -2951,7 +2951,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与塞克隆纳斯交谈",
         ["zhTW"] = false,
     },
     ["Speak to Narimar"] = {
@@ -2963,7 +2963,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与纳里玛交谈",
         ["zhTW"] = false,
     },
     ["Talk to the Un'Goro Examinant"] = {
@@ -2975,7 +2975,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与安戈洛测试者交谈",
         ["zhTW"] = false,
     },
     ["Pull the lever"] = {
@@ -2987,7 +2987,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "拉动拉杆",
         ["zhTW"] = false,
     },
     ["Speak to Maximillian"] = {
@@ -2999,7 +2999,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与玛克西米利安交谈",
         ["zhTW"] = false,
     },
     ["Slay Disciple of Elune"] = {
@@ -3011,7 +3011,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "斩杀艾露恩的信徒",
         ["zhTW"] = false,
     },
     ["Summon Lycanthoth"] = {
@@ -3023,7 +3023,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤莱坎索斯",
         ["zhTW"] = false,
     },
     ["Get a ride to Stormfeather Outpost"] = {
@@ -3035,7 +3035,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车前​​往风暴之羽哨站",
         ["zhTW"] = false,
     },
     ["Get a ride to Western Plaguelands"] = {
@@ -3047,7 +3047,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车去西瘟疫之地",
         ["zhTW"] = false,
     },
     ["Get a portal to Western Plaguelands"] = {
@@ -3059,7 +3059,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "获取通往西瘟疫之地的传送门",
         ["zhTW"] = false,
     },
     ["Speak with the Deathly Usher north of the Rise of the Defiler."] = {
@@ -3071,7 +3071,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与位于亵渎者之巅北面的乌舍尔交谈",
         ["zhTW"] = false,
     },
     ["Speak to Orkus"] = {
@@ -3083,7 +3083,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与奥尔库斯交谈",
         ["zhTW"] = false,
     },
     ["Kill Araj"] = {
@@ -3095,7 +3095,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死阿拉基",
         ["zhTW"] = false,
     },
     ["Take a ride to Chillwind Camp"] = {
@@ -3107,7 +3107,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车前往冰风岗",
         ["zhTW"] = false,
     },
     ["Use Zen'Kiki to engage the Diseased Hawks"] = {
@@ -3119,7 +3119,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用赞吉吉来对抗生病的鹰",
         ["zhTW"] = false,
     },
     ["Lure the spiders to the Recruits"] = {
@@ -3131,7 +3131,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "引诱蜘蛛到新兵身边",
         ["zhTW"] = false,
     },
     ["Talk to Kalecgos"] = {
@@ -3143,7 +3143,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与卡雷苟斯交谈",
         ["zhTW"] = false,
     },
     ["Kill Dark Iron Dwarves to lure Dig-Boss Dinwhisker"] = {
@@ -3155,7 +3155,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀黑铁矮人引诱挖掘头目锡须",
         ["zhTW"] = false,
     },
     ["Kill Dig-Boss Dinwhisker"] = {
@@ -3167,7 +3167,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀挖掘头目锡须",
         ["zhTW"] = false,
     },
     ["Talk to the Flight Master"] = {
@@ -3179,7 +3179,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与飞行大师交谈",
         ["zhTW"] = false,
     },
     ["Summon Lathoric the Black"] = {
@@ -3191,7 +3191,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤黑衣拉索里克",
         ["zhTW"] = false,
     },
     ["Help Hansel Heavyhands"] = {
@@ -3203,7 +3203,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "帮助汉瑟尔·重拳",
         ["zhTW"] = false,
     },
     ["Take a horse ride to Guard Thomas"] = {
@@ -3215,7 +3215,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑马前往托卫兵托马斯",
         ["zhTW"] = false,
     },
     ["2 Hides, 4 Mud, 2 Thread"] = {
@@ -3227,7 +3227,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "2张兽皮，4块泥巴，2根线",
         ["zhTW"] = false,
     },
     ["4 Hides, 1 Mud, 3 Thread"] = {
@@ -3239,7 +3239,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "4张兽皮，1块泥巴，3根线",
         ["zhTW"] = false,
     },
     ["1 Hide, 3 Mud, 4 Thread"] = {
@@ -3251,7 +3251,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "1张兽皮，3块泥巴，4根线",
         ["zhTW"] = false,
     },
     ["3 Hides, 2 Mud, 1 Thread"] = {
@@ -3263,7 +3263,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "3张兽皮，2块泥巴，1根线",
         ["zhTW"] = false,
     },
     ["Destroy the War Reaver"] = {
@@ -3275,7 +3275,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "摧毁战争掠夺者",
         ["zhTW"] = false,
     },
     ["Release the Magma Lord"] = {
@@ -3287,7 +3287,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "释放熔岩领主",
         ["zhTW"] = false,
     },
     ["Get a ride to Swamp of Sorrows"] = {
@@ -3299,7 +3299,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车去悲伤沼泽",
         ["zhTW"] = false,
     },
     ["Talk to Lil' Crazy Jerry"] = {
@@ -3311,7 +3311,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和小狂人杰瑞聊聊",
         ["zhTW"] = false,
     },
     ["Talk to Lil' Crazy Daisy"] = {
@@ -3323,7 +3323,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和小狂人黛西聊聊",
         ["zhTW"] = false,
     },
     ["Go back to the mainland"] = {
@@ -3335,7 +3335,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "返回大陆",
         ["zhTW"] = false,
     },
     ["Summon Grol"] = {
@@ -3347,7 +3347,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤戈洛尔",
         ["zhTW"] = false,
     },
     ["Start the ritual"] = {
@@ -3359,7 +3359,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "开始仪式",
         ["zhTW"] = false,
     },
     ["Summon Naias"] = {
@@ -3371,7 +3371,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤奈亚斯",
         ["zhTW"] = false,
     },
     ["Get a ride to Explorers' League Digsite"] = {
@@ -3383,7 +3383,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车前​​往探险者协会挖掘场",
         ["zhTW"] = false,
     },
     ["Grab a mop"] = {
@@ -3395,7 +3395,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "拿个拖把",
         ["zhTW"] = false,
     },
     ["You can also pay \"Pretty Boy\" Duncan to clean the deck for you"] = {
@@ -3407,7 +3407,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "你也可以付钱给帅小伙子邓肯让他帮你清理露台。",
         ["zhTW"] = false,
     },
     ["Board Damsel's Luck"] = {
@@ -3419,7 +3419,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "登上少女之运号",
         ["zhTW"] = false,
     },
     ["Disembark Damsel's Luck"] = {
@@ -3431,7 +3431,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "下船少女之运号",
         ["zhTW"] = false,
     },
     ["Talk to Kebok"] = {
@@ -3443,7 +3443,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和科博克谈谈",
         ["zhTW"] = false,
     },
     ["Get a ride to Forest Song"] = {
@@ -3455,7 +3455,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车前往林歌神殿",
         ["zhTW"] = false,
     },
     ["Get a ride to Dustwallow Marsh"] = {
@@ -3467,7 +3467,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车去尘泥沼泽",
         ["zhTW"] = false,
     },
     ["Drop off the Druids here"] = {
@@ -3479,7 +3479,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把德鲁伊放在这里",
         ["zhTW"] = false,
     },
     ["Kill the general"] = {
@@ -3491,7 +3491,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死将军",
         ["zhTW"] = false,
     },
     ["Plant the spear"] = {
@@ -3503,7 +3503,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "插上长矛",
         ["zhTW"] = false,
     },
     ["Control Lord Azrethoc"] = {
@@ -3515,7 +3515,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "控制魔王阿兹雷索克",
         ["zhTW"] = false,
     },
     ["Shatter the rubble"] = {
@@ -3527,7 +3527,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击碎瓦砾",
         ["zhTW"] = false,
     },
     ["Get a ride to the Blackpool"] = {
@@ -3539,7 +3539,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车去黑弹珠号",
         ["zhTW"] = false,
     },
     ["Break the restraints"] = {
@@ -3551,7 +3551,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "挣脱束缚",
         ["zhTW"] = false,
     },
     ["Close the portal"] = {
@@ -3563,7 +3563,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "关闭传送门",
         ["zhTW"] = "關閉傳送門",
     },
     ["Talk to Jaina"] = {
@@ -3575,7 +3575,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与吉安娜交谈",
         ["zhTW"] = false,
     },
     ["Talk to Archmage Malin"] = {
@@ -3587,7 +3587,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与大法师马林交谈",
         ["zhTW"] = false,
     },
     ["Summon Edana Hatetalon"] = {
@@ -3599,7 +3599,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤艾丹娜·邪爪",
         ["zhTW"] = false,
     },
     ["Fill the vial"] = {
@@ -3611,7 +3611,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将小瓶装满",
         ["zhTW"] = false,
     },
     ["Fly to Talonbranch Glade"] = {
@@ -3623,7 +3623,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞往刺枝林地",
         ["zhTW"] = false,
     },
     ["Step on the disc"] = {
@@ -3635,7 +3635,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "踩上圆盘",
         ["zhTW"] = false,
     },
     ["Inspect it"] = {
@@ -3647,7 +3647,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "检查一下",
         ["zhTW"] = false,
     },
     ["Break open the coconut"] = {
@@ -3659,7 +3659,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "敲开椰子",
         ["zhTW"] = false,
     },
     ["Place the meat"] = {
@@ -3671,7 +3671,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "放置肉",
         ["zhTW"] = false,
     },
     ["Apply the pheromones"] = {
@@ -3683,7 +3683,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "施用信息素",
         ["zhTW"] = false,
     },
     ["Use Bite"] = {
@@ -3695,7 +3695,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用撕咬",
         ["zhTW"] = false,
     },
     ["Fly above the canopy"] = {
@@ -3707,7 +3707,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "飞越树冠",
         ["zhTW"] = false,
     },
     ["Defeat another Bloodpetal"] = {
@@ -3719,7 +3719,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败另一株血瓣花",
         ["zhTW"] = false,
     },
     ["Speak with Gorilla, Stomper and Thunderer"] = {
@@ -3731,7 +3731,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与猩猩、践踏者和雷霆者交谈",
         ["zhTW"] = false,
     },
     ["Search the basket"] = {
@@ -3743,7 +3743,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "翻找篮子",
         ["zhTW"] = false,
     },
     ["Use it"] = {
@@ -3755,7 +3755,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用它",
         ["zhTW"] = false,
     },
     ["Open it"] = {
@@ -3767,7 +3767,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打开它",
         ["zhTW"] = false,
     },
     ["Summon Kirtonos"] = {
@@ -3779,7 +3779,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤基尔图诺斯",
         ["zhTW"] = false,
     },
     ["Get a ride to Astranaar"] = {
@@ -3791,7 +3791,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车去阿斯特兰纳",
         ["zhTW"] = false,
     },
     ["Kill Xandivious"] = {
@@ -3803,7 +3803,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀沙迪维尔斯",
         ["zhTW"] = false,
     },
     ["Break the 3 barrels"] = {
@@ -3815,7 +3815,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打破3个木桶",
         ["zhTW"] = false,
     },
     ["Open the box"] = {
@@ -3827,7 +3827,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打开盒子",
         ["zhTW"] = false,
     },
     ["Loot the Plans"] = {
@@ -3839,7 +3839,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "拾取图纸",
         ["zhTW"] = false,
     },
     ["Deliver the Razormane Prisoner"] = {
@@ -3851,7 +3851,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "押送钢鬃囚犯",
         ["zhTW"] = false,
     },
     ["Kill Wyneth"] = {
@@ -3863,7 +3863,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀维内斯",
         ["zhTW"] = false,
     },
     ["Trap the raptor"] = {
@@ -3875,7 +3875,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "诱捕迅猛龙",
         ["zhTW"] = false,
     },
     ["Take a ride to Zoram'gar Outpost"] = {
@@ -3887,7 +3887,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车前往佐拉姆加前哨站",
         ["zhTW"] = false,
     },
     ["Throw the Secret Signal Powder"] = {
@@ -3899,7 +3899,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "投掷秘密信号粉末",
         ["zhTW"] = false,
     },
     ["Kill Chief Murgut"] = {
@@ -3911,7 +3911,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死穆戈特酋长",
         ["zhTW"] = false,
     },
     ["Take a ride to the Mor'shan Ramparts"] = {
@@ -3923,7 +3923,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车前往莫尔杉壁垒",
         ["zhTW"] = false,
     },
     ["Use the ropes to go up and down the hill"] = {
@@ -3935,7 +3935,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "利用绳索上下山",
         ["zhTW"] = false,
     },
     ["Take a ride to Desolation Hold"] = {
@@ -3947,7 +3947,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车前往凄凉要塞",
         ["zhTW"] = false,
     },
     ["Use Calder's Bonesaw on its remains"] = {
@@ -3959,7 +3959,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用卡尔德的锯子处理它的残骸",
         ["zhTW"] = false,
     },
     ["Use the Box to avoid enemies"] = {
@@ -3971,7 +3971,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "利用箱子躲避敌人",
         ["zhTW"] = false,
     },
     ["Take a ride"] = {
@@ -3983,7 +3983,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑乘",
         ["zhTW"] = false,
     },
 }
