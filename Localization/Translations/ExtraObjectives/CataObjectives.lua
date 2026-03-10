@@ -602,7 +602,7 @@ local cataObjectiveLocales = {
         ["zhCN"] = "钓取巨鲶鱼",
         ["zhTW"] = false,
     },
-    ["Fish for Fish for Kaldorei Herring"] = {
+    ["Fish for Kaldorei Herring"] = {
         ["enUS"] = true,
         ["deDE"] = "Fische nach Kaldoreihering",
         ["esES"] = false,
@@ -2256,18 +2256,6 @@ local cataObjectiveLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = "烹制10份香料面包",
-        ["zhTW"] = false,
-    },
-    ["Fish for Kaldorei Herring"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "钓取卡多雷鲱鱼",
         ["zhTW"] = false,
     },
     ["Fish for Great Sea Herring"] = {
