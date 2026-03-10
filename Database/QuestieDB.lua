@@ -852,6 +852,29 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Check if the character is higher than the quest allows
+    local requiredMaxLevel = QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel")
+    if (requiredMaxLevel and requiredMaxLevel ~= 0 and (UnitLevel("player") > requiredMaxLevel)) then
+        local msg = "Player level is too high for quest " .. questId
+        if returnText and returnBrief then
+            return l10n("Ineligible")..l10n(": ")..l10n("Level too high"), true, 25
+        elseif returnText and not returnBrief then
+            return msg, true, 25
+        end
+    end
+
+    -- only present in verbose.
+    -- IsDoable has its own logic that varies based on player settings for quest visibility
+    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
+    if (requiredLevel and (UnitLevel("player") < requiredLevel)) then
+        local msg = "Player level is too low for quest " .. questId
+        if returnText and returnBrief then
+            return l10n("Ineligible")..l10n(": ")..l10n("Level too low"), true, 26
+        elseif returnText and not returnBrief then
+            return msg, true, 26
+        end
+    end
+
     -- We keep this here, even though it is removed from QuestieDB.IsDoable because AvailableQuests.CalculateAndDrawAll
     -- checks child quests differently and before IsDoable
     if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
@@ -1104,29 +1127,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return l10n("Ineligible")..l10n(": ")..l10n("Daily quest not active"), true, 24
         elseif returnText then
             return "Daily quest " .. questId .. " is not active", true, 24
-        end
-    end
-
-    -- Check if the character is higher than the quest allows
-    local requiredMaxLevel = QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel")
-    if (requiredMaxLevel and requiredMaxLevel ~= 0 and (UnitLevel("player") > requiredMaxLevel)) then
-        local msg = "Player level is too high for quest " .. questId
-        if returnText and returnBrief then
-            return l10n("Ineligible")..l10n(": ")..l10n("Level too high"), true, 25
-        elseif returnText and not returnBrief then
-            return msg, true, 25
-        end
-    end
-
-    -- only present in verbose.
-    -- IsDoable has its own logic that varies based on player settings for quest visibility
-    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
-    if (requiredLevel and (UnitLevel("player") < requiredLevel)) then
-        local msg = "Player level is too low for quest " .. questId
-        if returnText and returnBrief then
-            return l10n("Ineligible")..l10n(": ")..l10n("Level too low"), true, 26
-        elseif returnText and not returnBrief then
-            return msg, true, 26
         end
     end
 
