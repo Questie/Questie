@@ -874,6 +874,29 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Check if a quest which is exclusive to the current has already been completed or accepted
+    -- If yes the current quest can't be accepted
+    local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
+    if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
+        for _, v in pairs(ExclusiveQuestGroup) do
+            if completedQuests[v] then
+                local msg = "Player has completed exclusive quest " .. v
+                if returnText and returnBrief then
+                    return l10n("Ineligible")..l10n(": ")..l10n("Exclusive quest completed"), true, 14
+                elseif returnText and not returnBrief then
+                    return msg, true, 14
+                end
+            elseif currentQuestlog[v] then
+                local msg = "Player has exclusive quest " .. v .. " in their quest log"
+                if returnText and returnBrief then
+                    return l10n("Ineligible")..l10n(": ")..l10n("Exclusive quest in quest log"), true, 15
+                elseif returnText and not returnBrief then
+                    return msg, true, 15
+                end
+            end
+        end
+    end
+
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
     if preQuestSingle then
@@ -977,29 +1000,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 return l10n("Ineligible")..l10n(": ")..l10n("Later quest completed or active")..l10n(": ").. nextQuestInChain, true, 13
             elseif returnText and not returnBrief then
                 return msg, true, 13
-            end
-        end
-    end
-
-    -- Check if a quest which is exclusive to the current has already been completed or accepted
-    -- If yes the current quest can't be accepted
-    local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
-    if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
-        for _, v in pairs(ExclusiveQuestGroup) do
-            if completedQuests[v] then
-                local msg = "Player has completed exclusive quest " .. v
-                if returnText and returnBrief then
-                    return l10n("Ineligible")..l10n(": ")..l10n("Exclusive quest completed"), true, 14
-                elseif returnText and not returnBrief then
-                    return msg, true, 14
-                end
-            elseif currentQuestlog[v] then
-                local msg = "Player has exclusive quest " .. v .. " in their quest log"
-                if returnText and returnBrief then
-                    return l10n("Ineligible")..l10n(": ")..l10n("Exclusive quest in quest log"), true, 15
-                elseif returnText and not returnBrief then
-                    return msg, true, 15
-                end
             end
         end
     end
