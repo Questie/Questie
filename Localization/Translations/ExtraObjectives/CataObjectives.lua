@@ -59,7 +59,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "三瓶锤头鲨鱼油和两瓶鮣鱼油",
+        ["zhCN"] = "三瓶锤头鲨鱼油和两瓶䲟鱼油",
         ["zhTW"] = false,
     },
     ["Get on Aronus"] = {
