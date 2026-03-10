@@ -59,7 +59,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "三瓶锤头鲨鱼油和两瓶鮣魚油",
+        ["zhCN"] = "三瓶锤头鲨鱼油和两瓶鮣鱼油",
         ["zhTW"] = false,
     },
     ["Get on Aronus"] = {
@@ -947,7 +947,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "进入碎纸机",
+        ["zhCN"] = "进入伐木机",
         ["zhTW"] = false,
     },
     ["Shoot the wyvern"] = {
@@ -1511,7 +1511,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "如果你没有碎纸机，那就赶紧加入吧！",
+        ["zhCN"] = "如果你没有伐木机，那就赶紧加入吧！",
         ["zhTW"] = false,
     },
     ["Deliver the Stonified Miner here"] = {
@@ -1655,7 +1655,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "开始试用",
+        ["zhCN"] = "开始挑战",
         ["zhTW"] = false,
     },
     ["Take the portal to Xylem's Tower"] = {
@@ -1715,7 +1715,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "对活着的荒芜巨浪或瘟疫破坏者使用贝蒂娜的药剂瓶",
         ["zhTW"] = false,
     },
     ["Get a ride to Brill"] = {
@@ -1727,7 +1727,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭车去布瑞尔",
         ["zhTW"] = false,
     },
     ["Talk to Slate Quicksand"] = {
@@ -1739,7 +1739,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与斯雷特·流沙交谈",
         ["zhTW"] = false,
     },
     ["Talk to Peak Grindstone"] = {
@@ -1751,7 +1751,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与皮克·磨石交谈",
         ["zhTW"] = false,
     },
     ["Take control of a catapult"] = {
@@ -1763,7 +1763,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "控制弹射器",
         ["zhTW"] = false,
     },
     ["Summon one of Ahune's lieutenants"] = {
@@ -1775,7 +1775,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召集埃霍恩的一名副官",
         ["zhTW"] = false,
     },
     ["Summon one of Ahune's templars"] = {
@@ -1787,7 +1787,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤一名埃霍恩的圣殿骑士",
         ["zhTW"] = false,
     },
     ["Start the chase"] = {
@@ -1799,7 +1799,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "开始追逐",
         ["zhTW"] = false,
     },
     ["Talk to Coridormi"] = {
@@ -1811,7 +1811,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与克里多尔米交谈",
         ["zhTW"] = false,
     },
     ["Talk to Ziradormi"] = {
@@ -1823,7 +1823,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与齐拉多尔米交谈",
         ["zhTW"] = false,
     },
     ["Fill the balloon"] = {
@@ -1835,7 +1835,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "给气球充气",
         ["zhTW"] = false,
     },
     ["Defend The Immortal Coil"] = {
@@ -1847,7 +1847,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "捍卫不朽之环",
         ["zhTW"] = false,
     },
     ["Use the Blade to become a naga"] = {
@@ -1859,7 +1859,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用利刃化身为娜迦",
         ["zhTW"] = false,
     },
     ["Kill all three Tentacle Horrors"] = {
@@ -1871,7 +1871,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "消灭所有三个恐怖触须",
         ["zhTW"] = false,
     },
     ["Control the Bound Torrent"] = {
@@ -1883,7 +1883,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "控制束缚奔流",
         ["zhTW"] = false,
     },
     ["Summon Ick'thys the Unfathomable"] = {
@@ -1895,7 +1895,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤不可估量者埃库塞斯",
         ["zhTW"] = false,
     },
     ["Release the termites"] = {
@@ -1907,7 +1907,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "释放白蚁",
         ["zhTW"] = false,
     },
     ["Place the Skyreach Crystal Clusters"] = {
@@ -1919,7 +1919,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "放置通天水晶簇",
         ["zhTW"] = false,
     },
     ["Talk to Injured Rainspeaker Oracle"] = {
