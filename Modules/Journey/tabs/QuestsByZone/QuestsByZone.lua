@@ -208,11 +208,6 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             text = l10n('Unobtainable Quests'),
             children = {},
         },
-        [7] = {
-            value = "h",
-            text = l10n('Hidden Quests'),
-            children = {},
-        },
     }
     local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests)
 
@@ -267,9 +262,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[2].children, temp)
                     availableCounter = availableCounter + 1
                 -- elseif returnReason == 3 then -- blacklisted quests -- already filtered earlier
-                elseif returnReason == 4 then -- manually hidden quests
-                    tinsert(zoneTree[7].children, temp)
-                    hiddenCounter = hiddenCounter + 1
+                -- elseif returnReason == 4 then -- manually hidden quests -- no longer applicable
                 elseif returnReason == 5 then -- parent quest active
                     -- this will most likely need further checks
                     if QuestieDB.IsRepeatable(questId) then
@@ -383,6 +376,19 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 tinsert(zoneTree[6].children, temp)
                 unobtainableCounter = unobtainableCounter + 1
             end
+
+            -- show hidden quests 
+            if Questie.db.char.hidden[questId] then
+                if not zoneTree[7] then
+                    zoneTree[7] = {
+                        value = "h",
+                        text = l10n('Hidden Quests'),
+                        children = {},
+                    }
+                end
+                tinsert(zoneTree[7].children, temp)
+                hiddenCounter = hiddenCounter + 1
+            end
             temp = {}
         end
     end
@@ -400,9 +406,12 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     zoneTree[4].text = zoneTree[4].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
     zoneTree[5].text = zoneTree[5].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
     zoneTree[6].text = zoneTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
-    zoneTree[7].text = zoneTree[7].text .. ' [ '..  hiddenCounter ..' ]'
 
-    zoneTree.numquests = totalCounter + repeatableCounter + breadcrumbCounter
+    if zoneTree[7] then
+        zoneTree[7].text = zoneTree[7].text .. ' [ '..  hiddenCounter ..' ]'
+    end
+
+    zoneTree.numquests = totalCounter + repeatableCounter + breadcrumbCounter + unobtainableCounter + hiddenCounter
 
     return zoneTree
 end
