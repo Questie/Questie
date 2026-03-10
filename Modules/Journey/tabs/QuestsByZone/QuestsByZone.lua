@@ -399,7 +399,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
         end
     end
 
-    local totalCounter = availableCounter + completedCounter + prequestMissingCounter + unobtainableCounter + hiddenCounter
+    local totalCounter = availableCounter + completedCounter + prequestMissingCounter
 
     if breadcrumbCounter and breadcrumbCounter >= 1 then
        zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCompleteCounter ..'/'.. breadcrumbCounter ..' ]'
