@@ -1931,7 +1931,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与受伤的雨声神谕者交谈",
         ["zhTW"] = false,
     },
     ["Defeat Volgur"] = {
@@ -1943,7 +1943,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败沃尔格",
         ["zhTW"] = false,
     },
     ["Defeat Brita"] = {
@@ -1955,7 +1955,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败布莉塔",
         ["zhTW"] = false,
     },
     ["Grab the package"] = {
@@ -1967,7 +1967,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "拿起包裹",
         ["zhTW"] = false,
     },
     ["Board the Flying Machine"] = {
@@ -1979,7 +1979,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "登上飞行器",
         ["zhTW"] = false,
     },
     ["Summon the Shade of Shadumbra"] = {
@@ -1991,7 +1991,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤猎影之影",
         ["zhTW"] = false,
     },
     ["Go to your trial"] = {
@@ -2003,7 +2003,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "开始你的挑战",
         ["zhTW"] = false,
     },
     ["Go back"] = {
@@ -2015,7 +2015,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "返回",
         ["zhTW"] = false,
     },
     ["Use the Reactor Control Console"] = {
@@ -2027,7 +2027,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用反应堆控制台",
         ["zhTW"] = false,
     },
     ["Take out the Forsaken Machinist"] = {
@@ -2039,7 +2039,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "干掉被遗忘者机械师",
         ["zhTW"] = false,
     },
     ["Get on a Rocketway Rat after you got shrunk"] = {
@@ -2051,7 +2051,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "缩小之后坐上火箭老鼠",
         ["zhTW"] = false,
     },
     ["Take the portal"] = {
@@ -2063,7 +2063,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入传送门",
         ["zhTW"] = false,
     },
     ["Bring the raptors to The Velocistar"] = {
@@ -2075,7 +2075,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "把迅猛龙带到群星旅途号",
         ["zhTW"] = false,
     },
     ["Talk to Lord Hewell for a horse"] = {
@@ -2087,7 +2087,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "去找赫维尔勋爵要一匹马。",
         ["zhTW"] = false,
     },
     ["Smuggler's Scar Scouted"] = {
@@ -2099,7 +2099,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "走私者的伤疤侦察兵",
         ["zhTW"] = false,
     },
     ["Talk to Erunak"] = {
@@ -2111,7 +2111,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与埃鲁纳克交谈",
         ["zhTW"] = false,
     },
     ["Head to the top of Nespirah"] = {
@@ -2123,7 +2123,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "前往奈瑟匹拉顶部",
         ["zhTW"] = false,
     },
     ["Climb into the balloon"] = {
@@ -2135,7 +2135,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "爬进热气球",
         ["zhTW"] = false,
     },
     ["Adarrah Signaled"] = {
@@ -2147,7 +2147,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "埃达尔拉信号",
         ["zhTW"] = false,
     },
     ["Wait for the Zeppelin"] = {
@@ -2159,7 +2159,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "等待飞艇",
         ["zhTW"] = false,
     },
     ["Summon Negolash"] = {
@@ -2171,7 +2171,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤奈古拉什",
         ["zhTW"] = false,
     },
     ["Talk to Pebble"] = {
@@ -2183,7 +2183,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与佩波交谈",
         ["zhTW"] = false,
     },
     ["Place Trapped Basilisk Meat to spawn Stonescale Matriarch"] = {
@@ -2195,7 +2195,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "放置诱捕蜥蜴肉以生成石鳞龙母",
         ["zhTW"] = false,
     },
     ["Place Ricket's Tickers next to the white rocks"] = {
@@ -2207,7 +2207,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将莉吉特的炸弹安放器放在白色岩石旁边",
         ["zhTW"] = false,
     },
     ["Place Ricket's Tickers next to the blue rocks"] = {
@@ -2219,7 +2219,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将莉吉特的炸弹安放器放在蓝色岩石旁边",
         ["zhTW"] = false,
     },
     ["Place Ricket's Tickers next to the purple rocks"] = {
@@ -2231,7 +2231,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将莉吉特的炸弹安放器放在紫色岩石旁边",
         ["zhTW"] = false,
     },
     ["Place Ricket's Tickers next to the red rocks"] = {
@@ -2243,7 +2243,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将莉吉特的炸弹安放器放在红色岩石旁边",
         ["zhTW"] = false,
     },
     ["Cook 10 Spice Bread"] = {
@@ -2255,7 +2255,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "烹制10份香料面包",
         ["zhTW"] = false,
     },
     ["Fish for Kaldorei Herring"] = {
@@ -2267,7 +2267,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取卡多雷鲱鱼",
         ["zhTW"] = false,
     },
     ["Fish for Great Sea Herring"] = {
@@ -2279,7 +2279,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取大海鲱",
         ["zhTW"] = false,
     },
     ["Extinguish the fire"] = {
@@ -2291,7 +2291,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "扑灭火焰",
         ["zhTW"] = false,
     },
     ["Disable the Shadow Cloak Generator"] = {
@@ -2303,7 +2303,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "禁用暗影遮罩发生器",
         ["zhTW"] = false,
     },
     ["Disable the Rod of Subjugation"] = {
@@ -2315,7 +2315,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "禁用征服之杖",
         ["zhTW"] = false,
     },
     ["Kill the Deep Corruptor"] = {
