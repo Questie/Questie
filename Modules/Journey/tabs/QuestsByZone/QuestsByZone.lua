@@ -287,8 +287,14 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
                 elseif returnReason == 12 then -- inactive parent
-                    tinsert(zoneTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
+                    if Questie.db.char.complete[parentQuest] then
+                        tinsert(zoneTree[4].children, temp)
+                        completedCounter = completedCounter + 1
+                    else
+                        tinsert(zoneTree[5].children, temp)
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == 13 then -- nextQuestInChain completed or in quest log
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
