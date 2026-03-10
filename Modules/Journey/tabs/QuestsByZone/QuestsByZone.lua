@@ -271,6 +271,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[7].children, temp)
                     hiddenCounter = hiddenCounter + 1
                 elseif returnReason == 5 then -- parent quest active
+                    -- this will most likely need further checks
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(zoneTree[3].children, temp)
                         repeatableCounter = repeatableCounter + 1
@@ -299,18 +300,41 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == 14 or returnReason == 15 then -- exclusive quest completed or in quest log
-                    -- checking for some weird cases where you completed an exclusiveTo of the nextQuestInChain
                     local nextQuest = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
-                    if nextQuest and nextQuest ~= 0 then
-                        local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuest, "exclusiveTo")
-                        for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
-                            if Questie.db.char.complete[exclusiveFollowupId] then
-                                tinsert(zoneTree[6].children, temp)
-                                unobtainableCounter = unobtainableCounter + 1
-                                break
+                    local preQuestS = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+                    local questDecidedCategory = false
+                    -- checking for some weird cases where the exclusiveTo is on the same level as other preQuestSingle values
+                    if preQuestS then
+                        for i = 1,#preQuestS do
+                            local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestS[i], "exclusiveTo")
+                            if exclusivePreQuests then
+                                for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
+                                    if Questie.db.char.complete[exclusivePreQuestId] then
+                                        tinsert(zoneTree[6].children, temp)
+                                        unobtainableCounter = unobtainableCounter + 1
+                                        questDecidedCategory = true
+                                        break
+                                    end
+                                end
                             end
                         end
-                    else
+                    end
+                    -- checking for some weird cases where the exclusiveTo is on the same level as other nextQuestInChain values
+                    if nextQuest and nextQuest ~= 0 and not questDecidedCategory then
+                        local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuest, "exclusiveTo")
+                        if exclusiveFollowups then
+                            for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
+                                if Questie.db.char.complete[exclusiveFollowupId] then
+                                    tinsert(zoneTree[6].children, temp)
+                                    unobtainableCounter = unobtainableCounter + 1
+                                    questDecidedCategory = true
+                                    break
+                                end
+                            end
+                        end
+                    end
+                    -- "Regular" exclusives
+                    if not questDecidedCategory then
                         tinsert(zoneTree[4].children, temp)
                         completedCounter = completedCounter + 1
                     end
@@ -329,16 +353,15 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 elseif returnReason == 20 then -- missing achievement
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == 21 then -- breadcrumb's follow up active or completed
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == 22 then -- another breadcrumb active
                     tinsert(zoneTree[4].children, temp)
                     completedCounter = completedCounter + 1
                 elseif returnReason == 23 then -- quest not available because breadcrumb in quest log
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                -- changing order here so we get desired outcome after the other 2 breadcrumb conditions above
-                elseif returnReason == 21 then -- breadcrumb's follow up active or completed
-                    tinsert(zoneTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == 24 then -- daily quests detected not present today
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
@@ -366,7 +389,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
 
     local totalCounter = availableCounter + completedCounter + prequestMissingCounter + unobtainableCounter + hiddenCounter
 
-	if breadcrumbCounter and breadcrumbCounter >= 1 then
+    if breadcrumbCounter and breadcrumbCounter >= 1 then
        zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCompleteCounter ..'/'.. breadcrumbCounter ..' ]'
     else
        zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCounter ..' ]'
