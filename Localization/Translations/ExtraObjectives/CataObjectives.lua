@@ -11,7 +11,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Converse com Toninho Despachante",
         ["ruRU"] = "Поговорите с Торбен Взрывошок",
-        ["zhCN"] = false,
+        ["zhCN"] = "与托尔本·光爆交谈",
         ["zhTW"] = false,
     },
     ["Take the Swift Seahorse to Nespirah"] = {
@@ -23,7 +23,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘坐迅捷的海马前往奈瑟匹拉",
         ["zhTW"] = false,
     },
     ["Hide behind Neferset Frond"] = {
@@ -35,7 +35,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "躲在尼斐塞特之叶后面",
         ["zhTW"] = false,
     },
     ["Talk to Uchek"] = {
@@ -47,7 +47,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Converse com Uchek",
         ["ruRU"] = "Поговорите с Учеком",
-        ["zhCN"] = false,
+        ["zhCN"] = "和尤彻克谈谈",
         ["zhTW"] = false,
     },
     ["Three Hammerhead Oil and two Remora Oil"] = {
@@ -59,7 +59,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "三瓶锤头鲨鱼油和两瓶鮣魚油",
         ["zhTW"] = false,
     },
     ["Get on Aronus"] = {
@@ -71,7 +71,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "搭乘阿隆努斯",
         ["zhTW"] = false,
     },
     ["Place a totem on the ground and defend it"] = {
@@ -83,7 +83,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在地上放置图腾并守卫它",
         ["zhTW"] = false,
     },
     ["Man the Siege Tank"] = {
@@ -95,7 +95,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "驾驶攻城坦克",
         ["zhTW"] = false,
     },
     ["Talk to Sassy Hardwrench"] = {
@@ -107,7 +107,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Converse com Espoleta Chaveforte",
         ["ruRU"] = "Поговорите с Хамми Кофельнагель",
-        ["zhCN"] = false,
+        ["zhCN"] = "与莎希·硬钳交谈",
         ["zhTW"] = false,
     },
     ["Use the Heth'Jatari Conch"] = {
@@ -119,7 +119,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用赫司加塔贝壳",
         ["zhTW"] = false,
     },
     ["Wait for the Mercenary Ship to arrive"] = {
@@ -131,7 +131,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "等待雇佣兵船抵达",
         ["zhTW"] = false,
     },
     ["Mount Crowley's Horse"] = {
@@ -143,7 +143,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑乘克罗雷的马",
         ["zhTW"] = false,
     },
     ["Get in a cannon"] = {
@@ -155,7 +155,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "坐进大炮里",
         ["zhTW"] = false,
     },
     ["Use the catapult to board the ship"] = {
@@ -167,7 +167,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用弹射器登上船",
         ["zhTW"] = false,
     },
     ["Board the carriage"] = {
@@ -179,7 +179,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "登上马车",
         ["zhTW"] = false,
     },
     ["Talk to Krennan Aranas to join the battle"] = {
@@ -191,7 +191,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与克雷南·阿朗纳斯交谈以加入战斗",
         ["zhTW"] = false,
     },
     ["Get on the Captured Riding Bat"] = {
@@ -203,7 +203,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑上被俘的骑乘蝙蝠",
         ["zhTW"] = false,
     },
     ["Get in a Glaive Thrower"] = {
@@ -215,7 +215,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入投刃车",
         ["zhTW"] = false,
     },
     ["Get on a Hippogryph"] = {
@@ -227,7 +227,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑上角鹰兽",
         ["zhTW"] = false,
     },
     ["Subdue a Famished Great Shark"] = {
@@ -239,7 +239,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "制服一条饥饿的巨鲨",
         ["zhTW"] = false,
     },
     ["Use Grimnur's Bait on yourself"] = {
@@ -251,7 +251,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "对自己使用格瑞诺尔的饵料",
         ["zhTW"] = false,
     },
     ["Fish for Giant Furious Pike"] = {
@@ -263,7 +263,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取巨型狂怒之刺",
         ["zhTW"] = false,
     },
     ["Fish for Randy Smallfish and Amorous Mud Snapper"] = {
@@ -275,7 +275,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取产卵期小鱼和交配期泥鳅",
         ["zhTW"] = false,
     },
     ["Mount the Skeletal Steed"] = {
@@ -287,7 +287,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑上骸骨战马",
         ["zhTW"] = false,
     },
     ["Fish for Crystal Bass"] = {
@@ -299,7 +299,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取水晶鲈鱼",
         ["zhTW"] = false,
     },
     ["Use Budd's Chain"] = {
