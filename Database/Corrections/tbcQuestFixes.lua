@@ -3395,18 +3395,22 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{22268,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10725] = {
+            [questKeys.exclusiveTo] = {10726,10727,10728},
             [questKeys.nextQuestInChain] = 11031,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10726] = {
+            [questKeys.exclusiveTo] = {10725,10727,10728},
             [questKeys.nextQuestInChain] = 11034,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10727] = {
+            [questKeys.exclusiveTo] = {10725,10726,10728},
             [questKeys.nextQuestInChain] = 11033,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10728] = {
+            [questKeys.exclusiveTo] = {10725,10726,10727},
             [questKeys.nextQuestInChain] = 11032,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
@@ -3423,27 +3427,35 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10733] = {
+            [questKeys.exclusiveTo] = {10734,10735,10736},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10734] = {
+            [questKeys.exclusiveTo] = {10733,10735,10736},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10735] = {
+            [questKeys.exclusiveTo] = {10733,10734,10736},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10736] = {
+            [questKeys.exclusiveTo] = {10733,10734,10735},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10738] = {
+            [questKeys.exclusiveTo] = {10739,10740,10741},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10739] = {
+            [questKeys.exclusiveTo] = {10738,10740,10741},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10740] = {
+            [questKeys.exclusiveTo] = {10738,10739,10741},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10741] = {
+            [questKeys.exclusiveTo] = {10738,10739,10740},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [10742] = {
@@ -3930,18 +3942,22 @@ function QuestieTBCQuestFixes:Load()
         },
         [11031] = {
             [questKeys.preQuestSingle] = {10725},
+            [questKeys.exclusiveTo] = {10726,10727,10728},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11032] = {
             [questKeys.preQuestSingle] = {10728},
+            [questKeys.exclusiveTo] = {10725,10726,10727},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11033] = {
             [questKeys.preQuestSingle] = {10727},
+            [questKeys.exclusiveTo] = {10725,10726,10728},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11034] = {
             [questKeys.preQuestSingle] = {10726},
+            [questKeys.exclusiveTo] = {10725,10727,10728},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11035] = {
