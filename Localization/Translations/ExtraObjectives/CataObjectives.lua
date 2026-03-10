@@ -2759,7 +2759,7 @@ local cataObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "与纳瑞安交谈以安装你的虫子",
+        ["zhCN"] = "与纳瑞安交谈以骑上你的虫子",
         ["zhTW"] = false,
     },
     ["Make it rain"] = {
