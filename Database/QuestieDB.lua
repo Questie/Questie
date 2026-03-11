@@ -1127,7 +1127,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     -- Available quests
     if returnText then
-        return l10n("Eligible"), false, 0
+        return "Quest " .. questId .. " is doable", false, 0
     else
         return "", false, 0
     end
