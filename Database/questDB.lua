@@ -47,6 +47,7 @@ QuestieDB.questKeys = {
     ['requiredSpell'] = 30, -- int: quest is only available if character has this spellID
     ['requiredSpecialization'] = 31, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
     ['requiredMaxLevel'] = 32, -- int: quest is only available up to a certain level
+    ['availableUntilCompleted'] = 33, -- int: the current quest is available until this quest is turned in
 }
 
 QuestieDB.questKeysReversed = {}
@@ -86,14 +87,15 @@ QuestieDB.questCompilerTypes = {
     ['extraObjectives'] = "extraobjectives",
     ['requiredSpell'] = "s24",
     ['requiredSpecialization'] = "u24",
-    ['requiredMaxLevel'] = "u8",
+    ['requiredMaxLevel'] = "u8", -- int, the maximum level at which the quest is still available
+    ['availableUntilCompleted'] = "u24", -- int, the ID of the quest that needs to not be turned in for the current one to be available.
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
     'requiredLevel', 'questLevel', 'requiredRaces', 'requiredClasses', 'sourceItemId', 'zoneOrSort', 'requiredSkill',
     'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest', 'requiredSpell',
-    'requiredSpecialization', 'requiredMaxLevel', 'breadcrumbForQuestId',
+    'requiredSpecialization', 'requiredMaxLevel', 'breadcrumbForQuestId', 'availableUntilCompleted',
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',
