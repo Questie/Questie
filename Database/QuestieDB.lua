@@ -785,6 +785,15 @@ function QuestieDB.IsDoable(questId, debugPrint)
         return false
     end
 
+    -- Check if this quest is visible until you turn in a certain quest
+    local availableUntilCompleted = QuestieDB.QueryQuestSingle(questId, "availableUntilCompleted")
+    if availableUntilCompleted and availableUntilCompleted ~= 0 then
+        if completedQuests[availableUntilCompleted] then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is not doable because " .. availableUntilCompleted .. " has been turned in!") end
+            return false
+        end
+    end
+
     return true
 end
 
