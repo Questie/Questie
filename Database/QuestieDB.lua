@@ -615,6 +615,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         return false
     end
 
+    -- Blacklisted quests
     if QuestieCorrectionshiddenQuests[questId] then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is hidden automatically!") end
         return false
@@ -783,9 +784,19 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
     end
 
+    -- Check if this quest is not detected as active from the NPC/object itself
     if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Daily quest " .. questId .. " is not active") end
         return false
+    end
+
+    -- Check if this quest is visible until you turn in a certain quest
+    local availableUntilCompleted = QuestieDB.QueryQuestSingle(questId, "availableUntilCompleted")
+    if availableUntilCompleted and availableUntilCompleted ~= 0 then
+        if completedQuests[availableUntilCompleted] then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is not doable because " .. availableUntilCompleted .. " has been turned in!") end
+            return false
+        end
     end
 
     return true
@@ -1125,9 +1136,21 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Check if this quest is visible until you turn in a certain quest
+    local availableUntilCompleted = QuestieDB.QueryQuestSingle(questId, "availableUntilCompleted")
+    if availableUntilCompleted and availableUntilCompleted ~= 0 then
+        if completedQuests[availableUntilCompleted] then
+            if returnText and returnBrief then
+                return l10n("Ineligible")..l10n(": ")..l10n("Disabling quest turned in"), true, 27
+            elseif returnText and not returnBrief then
+                return "Quest " .. questId .. " is not doable because " .. availableUntilCompleted .. " has been turned in!", true, 27
+            end
+        end
+    end
+
     -- Available quests
     if returnText then
-        return "Quest " .. questId .. " is doable", false, 0
+        return "Quest " .. questId .. " is available", false, 0
     else
         return "", false, 0
     end
@@ -1234,6 +1257,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public Color Color
     ---@field public breacrumbForQuestId number
     ---@field public breacrumbs QuestId[]
+    ---@field public availableUntilCompleted QuestId
     local QO = {
         Id = questId
     }
