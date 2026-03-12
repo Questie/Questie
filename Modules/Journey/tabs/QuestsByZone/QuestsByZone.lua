@@ -370,6 +370,16 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 elseif returnReason == 26 then -- player is too low
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == 27 then -- quest that hides it already turned in
+                    -- Repeatables are considered complete
+                    if QuestieDB.IsRepeatable(questId) then
+                        tinsert(zoneTree[4].children, temp)
+                        completedCounter = completedCounter + 1
+                    -- The others are considered unobtainable
+                    else
+                        tinsert(zoneTree[6].children, temp)
+                        unobtainableCounter = unobtainableCounter + 1
+                    end
                 end
             end
 
@@ -413,6 +423,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     zoneTree[5].text = zoneTree[5].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
     zoneTree[6].text = zoneTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
 
+    -- only show hidden quests when there are some
     if zoneTree[7] then
         zoneTree[7].text = zoneTree[7].text .. ' [ '..  hiddenCounter ..' ]'
     end
