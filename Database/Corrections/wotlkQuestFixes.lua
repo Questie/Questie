@@ -199,6 +199,9 @@ function QuestieWotlkQuestFixes:Load()
         [2879] = {
             [questKeys.requiredSourceItems] = {9255,9256,9257,9258},
         },
+        [2986] = { -- Call of Water
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [3161] = {
             [questKeys.requiredSourceItems] = {},
         },

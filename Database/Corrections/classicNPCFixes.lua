@@ -568,6 +568,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {65610},
             [npcKeys.questEnds] = {65601},
         },
+        [3394] = { -- Barak Kodobane
+            [npcKeys.waypoints] = {},
+        },
         [3395] = { -- Verog the Dervish
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{53.06,41.74}}},
@@ -1055,7 +1058,7 @@ function QuestieNPCFixes:Load()
         },
         [5543] = { -- Clarice Foster
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{27.2,24.4}}},
-            [npcKeys.waypoints] = {[zoneIDs.THUNDER_BLUFF]={{{27.2,24.4},{27.4,24.6},{28,25.2},{28.4,25.6},{28.4,26.8},{28.6,25.8},{28.6,26.6}}}},
+            [npcKeys.waypoints] = {},
         },
         [5600] = { -- Khan Dez'hepah
             [npcKeys.spawns] = {[zoneIDs.DESOLACE]={{73.2,41.8},{73.4,43},{74,43.6},{74.4,44.8},{73.6,46.6},{73,47.8},{74.6,48.8}}},
@@ -2116,6 +2119,9 @@ function QuestieNPCFixes:Load()
         [12860] = { -- Duriel Moonfire
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{64.63,75.34}}},
+        },
+        [12862] = { -- Warsong Scout
+            [npcKeys.waypoints] = {},
         },
         [12865] = { -- Ambassador Malcin
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46.2,90.2},{47.8,90.6},{48,92.4},{48.2,92.6},{48.4,95.4},{48.4,95.6},{48.6,95.4},{48.6,95.6}}},

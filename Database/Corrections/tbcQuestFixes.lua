@@ -208,10 +208,6 @@ function QuestieTBCQuestFixes:Load()
         [1093] = { -- Super Reaper 6000
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [1103] = {
-            [questKeys.preQuestSingle] = {100},
-            [questKeys.parentQuest] = 0,
-        },
         [1109] = {
             [questKeys.requiredLevel] = 22,
             [questKeys.questLevel] = 26,
@@ -279,6 +275,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [1521] = { -- Call of Earth
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [1528] = { -- Call of Water
+            [questKeys.exclusiveTo] = {1529,2985,2986},
+        },
+        [1529] = { -- Call of Water
+            [questKeys.exclusiveTo] = {1528,2985,2986},
         },
         [1558] = {
             [questKeys.questLevel] = -1,
@@ -500,6 +502,12 @@ function QuestieTBCQuestFixes:Load()
         [2881] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [2985] = { -- Call of Water
+            [questKeys.exclusiveTo] = {1528,1529,2986},
+        },
+        [2986] = { -- Call of Water
+            [questKeys.exclusiveTo] = {1528,1529,2985},
         },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42}}}},

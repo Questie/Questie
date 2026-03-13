@@ -105,8 +105,8 @@ function QuestieQuestFixes:Load()
         [95] = {
             [questKeys.breadcrumbs] = {164},
         },
-        [100] = {
-            [questKeys.childQuests] = {1103}, -- #1658
+        [96] = {
+            [questKeys.exclusiveTo] = {},
         },
         [109] = {
             [questKeys.startedBy] = {{233,237,240,261,294,963}}, -- #2158
@@ -267,7 +267,7 @@ function QuestieQuestFixes:Load()
         [409] = {
             [questKeys.requiredSourceItems] = {3080},
         },
-        [410] = { -- the dormant shade
+        [410] = { -- The Dormant Shade
             [questKeys.preQuestSingle] = {366}, -- #638
             [questKeys.exclusiveTo] = {411}, -- #752
         },
@@ -288,7 +288,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1843
             [questKeys.breadcrumbs] = {428},
         },
-        [431] = { -- candles of beckoning
+        [431] = { -- Candles Of Beckoning
             [questKeys.preQuestSingle] = {366}, -- #638
             [questKeys.exclusiveTo] = {411}, -- #752
         },
@@ -673,10 +673,13 @@ function QuestieQuestFixes:Load()
         },
         [961] = {
             [questKeys.finishedBy] = {{3616}},
-            [questKeys.preQuestSingle] = nil,
-            [questKeys.exclusiveTo] = nil,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.exclusiveTo] = {},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 950, -- workaround, can't mimic ingame 100%
+        },
+        [972] = { -- Water Sapta
+            [questKeys.preQuestSingle] = {220},
         },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
@@ -801,8 +804,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 353, -- #2364
         },
         [1103] = {
-            [questKeys.preQuestSingle] = {}, -- #1658
-            [questKeys.parentQuest] = 100, -- #1658
+            [questKeys.preQuestSingle] = {63},
+            [questKeys.parentQuest] = 0,
         },
         [1106] = {
             [questKeys.preQuestSingle] = {},
@@ -1026,13 +1029,15 @@ function QuestieQuestFixes:Load()
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{70.2,45.2},{66.6,48.1},{73.6,48.1},{64.9,53.3},{75.4,53.3},{66.6,58.4},{73.6,58.4},{70.2,60.5}}}},
         },
-        [1462] = {
-            [questKeys.parentQuest] = 1521, -- #6723
+        [1462] = { -- Earth Sapta
+            [questKeys.preQuestSingle] = {1520},
             [questKeys.objectivesText] = {},
+            [questKeys.parentQuest] = 0,
         },
-        [1463] = {
-            [questKeys.parentQuest] = 1518, -- #6723
+        [1463] = { -- Earth Sapta
+            [questKeys.preQuestSingle] = {1517},
             [questKeys.objectivesText] = {},
+            [questKeys.parentQuest] = 0,
         },
         [1464] = {
             [questKeys.objectivesText] = {},
@@ -1118,7 +1123,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {}, -- #6723
         },
         [1518] = {
-            [questKeys.childQuests] = {1463}, -- #6723
+            [questKeys.requiredSourceItems] = {6635},
         },
         [1519] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #6723
@@ -1130,6 +1135,7 @@ function QuestieQuestFixes:Load()
         },
         [1521] = {
             [questKeys.childQuests] = {1462}, -- #6723
+            [questKeys.requiredSourceItems] = {6635},
         },
         [1522] = {
             [questKeys.breadcrumbForQuestId] = 1524,
@@ -1141,6 +1147,9 @@ function QuestieQuestFixes:Load()
         [1524] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1522,1523,2983,2984},
+        },
+        [1526] = {
+            [questKeys.requiredSourceItems] = {6636},
         },
         [1528] = {
             [questKeys.breadcrumbForQuestId] = 1530,

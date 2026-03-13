@@ -504,6 +504,18 @@ function QuestieItemFixes:Load()
         [6522] = { -- Deviate Fish
             [itemKeys.objectDrops] = {},
         },
+        [6635] = { -- Earth Sapta
+            [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.vendors] = {5887,5888},
+        },
+        [6636] = { -- Fire Sapta
+            [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.vendors] = {5900},
+        },
+        [6637] = { -- Water Sapta
+            [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.vendors] = {5901},
+        },
         [6912] = { -- Heartswood
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {93192},
@@ -1108,18 +1120,15 @@ function QuestieItemFixes:Load()
         },
         [16763] = { -- Warsong Runner Update
             [itemKeys.relatedQuests] = {6543, 6545},
-            [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {},
+            [itemKeys.vendors] = {12863},
         },
         [16764] = { -- Warsong Scout Update
             [itemKeys.relatedQuests] = {6543, 6547},
-            [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {},
+            [itemKeys.vendors] = {12862},
         },
         [16765] = { -- Warsong Outrider Update
             [itemKeys.relatedQuests] = {6543, 6546},
-            [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {},
+            [itemKeys.vendors] = {12864},
         },
         [16882] = { -- Battered Junkbox
             [itemKeys.itemDrops] = {},
