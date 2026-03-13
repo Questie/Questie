@@ -182,6 +182,18 @@ local zoneSectionLocales = {
         ["zhCN"] = "战斗宠物",
         ["zhTW"] = "戰寵",
     },
+    ["Instance"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Instanz",
+        ["esES"] = "Estancia",
+        ["esMX"] = "Estancia",
+        ["frFR"] = true,
+        ["koKR"] = "인스턴스",
+        ["ptBR"] = "Instância",
+        ["ruRU"] = "Подземелье",
+        ["zhCN"] = "副本",
+        ["zhTW"] = "副本",
+    },
 }
 
 for k, v in pairs(zoneSectionLocales) do

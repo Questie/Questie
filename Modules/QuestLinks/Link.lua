@@ -195,7 +195,7 @@ _AddDungeonInfo = function(quest)
         local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
         if localizedDungeonName then
             _AddTooltipLine(" ")
-            _AddColoredTooltipLine(l10n("Dungeon") .. l10n(": ") .. localizedDungeonName, "gray")
+            _AddColoredTooltipLine(l10n("Instance") .. l10n(": ") .. localizedDungeonName, "gray")
         end
     end
 end
