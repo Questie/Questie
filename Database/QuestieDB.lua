@@ -799,6 +799,16 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
     end
 
+    -- Check if this quest is visible if you have a certain quest in log or turned in (slightly different to preQuestSingle)
+    -- In order to not mess with the existing logic for preQuestSingle, this field must be accompanied by preQuestSingle
+    local availableStartingWith = QuestieDB.QueryQuestSingle(questId, "availableStartingWith")
+    if availableStartingWith and availableStartingWith ~= 0 then
+        if not completedQuests[availableStartingWith] and not currentQuestlog[availableStartingWith] then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in!") end
+            return false
+        end
+    end
+
     return true
 end
 
@@ -1143,7 +1153,21 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             if returnText and returnBrief then
                 return l10n("Ineligible")..l10n(": ")..l10n("Disabling quest turned in"), true, 27
             elseif returnText and not returnBrief then
-                return "Quest " .. questId .. " is not doable because " .. availableUntilCompleted .. " has been turned in!", true, 27
+                return "Quest " .. questId .. " is not available because " .. availableUntilCompleted .. " has been turned in", true, 27
+            end
+        end
+    end
+
+    -- Check if this quest is visible if you have a certain quest in log or turned in (slightly different to preQuestSingle)
+    -- In order to not mess with the existing logic for preQuestSingle/preQuestGroup in all the many other places,
+    -- this field must be accompanied by preQuestSingle/preQuestGroup
+    local availableStartingWith = QuestieDB.QueryQuestSingle(questId, "availableStartingWith")
+    if availableStartingWith and availableStartingWith ~= 0 then
+        if not completedQuests[availableStartingWith] and not currentQuestlog[availableStartingWith] then
+            if returnText and returnBrief then
+                return l10n("Ineligible")..l10n(": ")..l10n("Enabling quest not active nor turned in"), true, 28
+            elseif returnText and not returnBrief then
+                return "Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in", true, 28
             end
         end
     end
