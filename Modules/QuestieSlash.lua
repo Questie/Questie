@@ -258,7 +258,7 @@ function QuestieSlash.HandleCommands(input)
             return
         end
 
-        Questie:Print("[Eligibility] " .. tostring(QuestieDB.IsDoableVerbose(tonumber(subCommand), false, true, false)))
+        Questie:Print("[Availability] " .. tostring(QuestieDB.IsDoableVerbose(tonumber(subCommand), false, true, false, false)))
 
         return
     end
