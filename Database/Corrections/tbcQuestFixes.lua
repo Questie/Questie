@@ -1995,6 +1995,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9564] = {
             [questKeys.preQuestSingle] = {9559},
+            [questKeys.availableStartingWith] = 9562,
         },
         [9565] = {
             [questKeys.preQuestGroup] = {},
