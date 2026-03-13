@@ -683,6 +683,7 @@ function QuestieQuestFixes:Load()
         },
         [972] = { -- Water Sapta
             [questKeys.preQuestSingle] = {220},
+            [questKeys.availableUntilCompleted] = 96,
         },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
@@ -809,6 +810,7 @@ function QuestieQuestFixes:Load()
         [1103] = {
             [questKeys.preQuestSingle] = {63},
             [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 96,
         },
         [1106] = {
             [questKeys.preQuestSingle] = {},
@@ -1036,11 +1038,13 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1520},
             [questKeys.objectivesText] = {},
             [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 1521,
         },
         [1463] = { -- Earth Sapta
             [questKeys.preQuestSingle] = {1517},
             [questKeys.objectivesText] = {},
             [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 1518,
         },
         [1464] = {
             [questKeys.objectivesText] = {},
