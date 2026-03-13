@@ -380,6 +380,9 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[6].children, temp)
                         unobtainableCounter = unobtainableCounter + 1
                     end
+                elseif returnReason == 28 then -- quest that enables this quest is not picked up or turned in
+                    tinsert(zoneTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
                 end
             end
 
