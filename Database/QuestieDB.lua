@@ -831,13 +831,44 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     local completedQuests = Questie.db.char.complete
     local currentQuestlog = QuestiePlayer.currentQuestlog
+    local DoableStates = {
+    AVAILABLE = 0,
+    COMPLETED = 1,
+    QUEST_LOG = 2,
+    BLACKLISTED = 3,
+    HIDDEN = 4, -- no longer used, but left here for info
+    PARENT_ACTIVE = 5,
+    WRONG_RACE = 6,
+    NO_PREQUESTSINGLE = 7,
+    WRONG_CLASS = 8,
+    MISSING_REPUTATION = 9,
+    PROFESSION_SKILL = 10,
+    NO_PREQUESTGROUP = 11,
+    PARENT_INACTIVE = 12,
+    NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED = 13,
+    EXCLUSIVE_COMPLETED = 14,
+    EXCLUSIVE_IN_QUEST_LOG = 15,
+    MISSING_DAILY = 16,  -- no longer used, REUSE
+    PROFESSION_SPECIALIZATION = 17,
+    SPELL_MISSING = 18,
+    SPELL_KNOWN = 19,
+    MISSING_ACHIEVEMENT = 20,
+    BREADCRUMB_FOLLOWUP = 21,
+    EXCLUSIVE_BREADCRUMB = 22,
+    BREADCRUMB_ACTIVE = 23,
+    INACTIVE_DAILY = 24,
+    LEVEL_TOO_HIGH = 25,
+    LEVEL_TOO_LOW = 26,
+    DISABLING_QUEST_COMPLETED = 27,
+    ENABLING_QUEST_MISSING = 28,
+    }
 
     -- Completed quests
     if completedQuests[questId] then
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Already complete"), false, 1 -- we return false here as we don't want to show it as label when completed in QBZ/QBF
+            return l10n("Unavailable")..l10n(": ")..l10n("Already complete"), false, DoableStates.COMPLETED -- we return false here as we don't want to show it as label when completed in QBZ/QBF
         elseif returnText then
-            return "Player has already completed quest " .. questId .. "!", false, 1
+            return "Player has already completed quest " .. questId .. "!", false, DoableStates.COMPLETED
         end
     end
 
@@ -845,9 +876,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if C_QuestLog.IsOnQuest(questId) == true then
         local msg = "Quest " .. questId .. " is active"
         if returnText and returnBrief then
-            return l10n("Available")..l10n(": ")..l10n("Player is on quest"), false, 2
+            return l10n("Available")..l10n(": ")..l10n("Player is on quest"), false, DoableStates.QUEST_LOG
         elseif returnText and not returnBrief then
-            return msg, false, 2
+            return msg, false, DoableStates.QUEST_LOG
         end
     end
 
@@ -855,9 +886,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if QuestieCorrectionshiddenQuests[questId] then
         local msg = "Quest " .. questId .. " is hidden automatically"
         if returnText and returnBrief then
-            return l10n("Unknown")..l10n(": ")..l10n("Automatically blacklisted"), true, 3
+            return l10n("Unknown")..l10n(": ")..l10n("Automatically blacklisted"), true, DoableStates.BLACKLISTED
         elseif returnText and not returnBrief then
-            return msg, true, 3
+            return msg, true, DoableStates.BLACKLISTED
         end
     end
 
@@ -866,9 +897,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
         local msg = "Quest " .. questId .. " is available because it's a child quest and the parent is active"
         if returnText and returnBrief then
-            return l10n("Available")..l10n(": ")..l10n("Parent active"), false, 5
+            return l10n("Available")..l10n(": ")..l10n("Parent active"), false, DoableStates.PARENT_ACTIVE
         elseif returnText and not returnBrief then
-            return msg, false, 5
+            return msg, false, DoableStates.PARENT_ACTIVE
         end
     end
 
@@ -877,9 +908,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if (requiredRaces and not checkRace[requiredRaces]) then
         local msg = "Race requirement not fulfilled for quest " .. questId
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Race requirement"), true, 6
+            return l10n("Unavailable")..l10n(": ")..l10n("Race requirement"), true, DoableStates.WRONG_RACE
         elseif returnText and not returnBrief then
-            return msg, true, 6
+            return msg, true, DoableStates.WRONG_RACE
         end
     end
 
@@ -891,16 +922,16 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             if completedQuests[v] then
                 local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. v .. " is completed"
                 if returnText and returnBrief then
-                    return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest completed"), true, 14
+                    return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest completed"), true, DoableStates.EXCLUSIVE_COMPLETED
                 elseif returnText and not returnBrief then
-                    return msg, true, 14
+                    return msg, true, DoableStates.EXCLUSIVE_COMPLETED
                 end
             elseif currentQuestlog[v] then
                 local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. v .. " is in the quest log"
                 if returnText and returnBrief then
-                    return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest in quest log"), true, 15
+                    return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest in quest log"), true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
                 elseif returnText and not returnBrief then
-                    return msg, true, 15
+                    return msg, true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
                 end
             end
         end
@@ -911,9 +942,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if (requiredMaxLevel and requiredMaxLevel ~= 0 and (UnitLevel("player") > requiredMaxLevel)) then
         local msg = "Player level is too high for quest " .. questId
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Level too high"), true, 25
+            return l10n("Unavailable")..l10n(": ")..l10n("Level too high"), true, DoableStates.LEVEL_TOO_HIGH
         elseif returnText and not returnBrief then
-            return msg, true, 25
+            return msg, true, DoableStates.LEVEL_TOO_HIGH
         end
     end
 
@@ -923,9 +954,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if (requiredLevel and (UnitLevel("player") < requiredLevel)) then
         local msg = "Player level is too low for quest " .. questId
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Level too low"), true, 26
+            return l10n("Unavailable")..l10n(": ")..l10n("Level too low"), true, DoableStates.LEVEL_TOO_LOW
         elseif returnText and not returnBrief then
-            return msg, true, 26
+            return msg, true, DoableStates.LEVEL_TOO_LOW
         end
     end
 
@@ -936,9 +967,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if not isPreQuestSingleFulfilled then
             local msg = "Pre-quest requirement not fulfilled for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest"), true, 7
+                return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest"), true, DoableStates.NO_PREQUESTSINGLE
             elseif returnText and not returnBrief then
-                return msg, true, 7
+                return msg, true, DoableStates.NO_PREQUESTSINGLE
             end
         end
     end
@@ -949,9 +980,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         QuestieDB.autoBlacklist[questId] = "class"
         local msg = "Class requirement not fulfilled for quest " .. questId
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Class requirement"), true, 8
+            return l10n("Unavailable")..l10n(": ")..l10n("Class requirement"), true, DoableStates.WRONG_CLASS
         elseif returnText and not returnBrief then
-            return msg, true, 8
+            return msg, true, DoableStates.WRONG_CLASS
         end
     end
 
@@ -968,9 +999,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
             local msg = "Player does not meet reputation requirements for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Reputation requirement"), true, 9
+                return l10n("Unavailable")..l10n(": ")..l10n("Reputation requirement"), true, DoableStates.MISSING_REPUTATION
             elseif returnText and not returnBrief then
-                return msg, true, 9
+                return msg, true, DoableStates.MISSING_REPUTATION
             end
         end
     end
@@ -987,9 +1018,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
             local msg = "Player does not meet profession requirements for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Profession requirement"), true, 10
+                return l10n("Unavailable")..l10n(": ")..l10n("Profession requirement"), true, DoableStates.PROFESSION_SKILL
             elseif returnText and not returnBrief then
-                return msg, true, 10
+                return msg, true, DoableStates.PROFESSION_SKILL
             end
         end
     end
@@ -1004,9 +1035,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             if not isPreQuestGroupFulfilled then
                 local msg = "Group pre-quest requirement not fulfilled for quest " .. questId
                 if returnText and returnBrief then
-                    return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest group"), true, 11
+                    return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest group"), true, DoableStates.NO_PREQUESTGROUP
                 elseif returnText and not returnBrief then
-                    return msg, true, 11
+                    return msg, true, DoableStates.NO_PREQUESTGROUP
                 end
             end
         end
@@ -1018,9 +1049,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if not currentQuestlog[parentQuest] then
             local msg = "Quest " .. questId .. " has an inactive parent quest: " .. parentQuest
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Inactive parent"), true, 12
+                return l10n("Unavailable")..l10n(": ")..l10n("Inactive parent"), true, DoableStates.PARENT_INACTIVE
             elseif returnText and not returnBrief then
-                return msg, true, 12
+                return msg, true, DoableStates.PARENT_INACTIVE
             end
         end
     end
@@ -1031,9 +1062,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if completedQuests[nextQuestInChain] or currentQuestlog[nextQuestInChain] then
             local msg = "Follow up quest " .. nextQuestInChain .. " already completed or in the quest log for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Later quest completed or active"), true, 13
+                return l10n("Unavailable")..l10n(": ")..l10n("Later quest completed or active"), true, DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED
             elseif returnText and not returnBrief then
-                return msg, true, 13
+                return msg, true, DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED
             end
         end
     end
@@ -1045,9 +1076,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if (not hasSpecialization) then
             local msg = "Player does not meet profession specialization requirements for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Profession specialization requirement"), true, 17
+                return l10n("Unavailable")..l10n(": ")..l10n("Profession specialization requirement"), true, DoableStates.PROFESSION_SPECIALIZATION
             elseif returnText and not returnBrief then
-                return msg, true, 17
+                return msg, true, DoableStates.PROFESSION_SPECIALIZATION
             end
         end
     end
@@ -1060,16 +1091,16 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if (requiredSpell > 0) and (not hasSpell) and (not hasProfSpell) then --if requiredSpell is positive, we make the quest unavailable if the player does NOT have the spell
             local msg = "Player does not know spell ID: " .. math.abs(requiredSpell) .. " for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Spell not yet learned"), true, 18
+                return l10n("Unavailable")..l10n(": ")..l10n("Spell not yet learned"), true, DoableStates.SPELL_MISSING
             elseif returnText and not returnBrief then
-                return msg, true, 18
+                return msg, true, DoableStates.SPELL_MISSING
             end
         elseif (requiredSpell < 0) and (hasSpell or hasProfSpell) then --if requiredSpell is negative, we make the quest unavailable if the player DOES have the spell
             local msg = "Player knows spell ID: " .. math.abs(requiredSpell) .. " for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Already learned spell"), true, 19
+                return l10n("Unavailable")..l10n(": ")..l10n("Already learned spell"), true, DoableStates.SPELL_KNOWN
             elseif returnText and not returnBrief then
-                return msg, true, 19
+                return msg, true, DoableStates.SPELL_KNOWN
             end
         end
     end
@@ -1078,9 +1109,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if _QuestieDB:CheckAchievementRequirements(questId) == false then
         local msg = "Player does not meet achievement requirements for quest " .. questId
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Achievement requirement"), true, 20
+            return l10n("Unavailable")..l10n(": ")..l10n("Achievement requirement"), true, DoableStates.MISSING_ACHIEVEMENT
         elseif returnText and not returnBrief then
-            return msg, true, 20
+            return msg, true, DoableStates.MISSING_ACHIEVEMENT
         end
     end
 
@@ -1090,9 +1121,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         -- Check the follow up quest of this breadcrumb
         if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Follow up quest active or completed"), true, 21
+                return l10n("Unavailable")..l10n(": ")..l10n("Follow up quest active or completed"), true, DoableStates.BREADCRUMB_FOLLOWUP
             elseif returnText and not returnBrief then
-                return "Follow up of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId, true, 21
+                return "Follow up of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId, true, DoableStates.BREADCRUMB_FOLLOWUP
             end
         end
         -- Check if the other breadcrumbs are active
@@ -1100,9 +1131,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do
             if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
-                    return l10n("Unavailable")..l10n(": ")..l10n("Another breadcrumb is active"), true, 22
+                    return l10n("Unavailable")..l10n(": ")..l10n("Another breadcrumb is active"), true, DoableStates.EXCLUSIVE_BREADCRUMB
                 elseif returnText and not returnBrief then
-                    return "Alternative breadcrumb quest " .. breadcrumbId .." in the quest log for quest " .. questId, true, 22
+                    return "Alternative breadcrumb quest " .. breadcrumbId .." in the quest log for quest " .. questId, true, DoableStates.EXCLUSIVE_BREADCRUMB
                 end
             end
         end
@@ -1114,20 +1145,20 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         for _, breadcrumbId in ipairs(breadcrumbs) do
             if currentQuestlog[breadcrumbId] then
                 if returnText and returnBrief then
-                    return l10n("Unavailable")..l10n(": ")..l10n("A breadcrumb is active"), true, 23
+                    return l10n("Unavailable")..l10n(": ")..l10n("A breadcrumb is active"), true, DoableStates.BREADCRUMB_ACTIVE
                 elseif returnText and not returnBrief then
-                    return "A breadcrumb quest " .. breadcrumbId .." is in the quest log for quest " .. questId, true, 23
+                    return "A breadcrumb quest " .. breadcrumbId .." is in the quest log for quest " .. questId, true, DoableStates.BREADCRUMB_ACTIVE
                 end
             end
         end
     end
 
-    -- Daily quests not active in the respective day (based on ShouldBeHidden)
+    -- Daily quest not active (based on ShouldBeHidden)
     if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Daily quest not active"), true, 24
+            return l10n("Unavailable")..l10n(": ")..l10n("Daily quest not active"), true, DoableStates.INACTIVE_DAILY
         elseif returnText then
-            return "Daily quest " .. questId .. " is not active", true, 24
+            return "Daily quest " .. questId .. " is not active", true, DoableStates.INACTIVE_DAILY
         end
     end
 
@@ -1136,9 +1167,9 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if availableUntilCompleted and availableUntilCompleted ~= 0 then
         if completedQuests[availableUntilCompleted] then
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest already turned in"), true, 27
+                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest already turned in"), true, DoableStates.DISABLING_QUEST_COMPLETED
             elseif returnText and not returnBrief then
-                return "Quest " .. questId .. " is not available because " .. availableUntilCompleted .. " has been turned in", true, 27
+                return "Quest " .. questId .. " is not available because " .. availableUntilCompleted .. " has been turned in", true, DoableStates.DISABLING_QUEST_COMPLETED
             end
         end
     end
@@ -1150,20 +1181,20 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if availableStartingWith and availableStartingWith ~= 0 then
         if not completedQuests[availableStartingWith] and not currentQuestlog[availableStartingWith] then
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Enabling quest not active nor turned in"), true, 28
+                return l10n("Unavailable")..l10n(": ")..l10n("Enabling quest not active nor turned in"), true, DoableStates.ENABLING_QUEST_MISSING
             elseif returnText and not returnBrief then
-                return "Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in", true, 28
+                return "Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in", true, DoableStates.ENABLING_QUEST_MISSING
             end
         end
     end
 
     -- Available quests
     if returnText and returnBrief then
-        return l10n("Available"), false, 0
+        return l10n("Available"), false, DoableStates.AVAILABLE
     elseif returnText and not returnBrief then
-        return "Quest " .. questId .. " is available", false, 0
+        return "Quest " .. questId .. " is available", false, DoableStates.AVAILABLE
     else
-        return "", false, 0
+        return "", false, DoableStates.AVAILABLE
     end
 end
 
