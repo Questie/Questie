@@ -1025,20 +1025,16 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    --? preQuestGroup and preQuestSingle are mutualy exclusive to eachother and preQuestSingle is more prevalent
-    --? Only try group if single does not exist.
-    if not preQuestSingle then
-        -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-        local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
-        if preQuestGroup then
-            local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-            if not isPreQuestGroupFulfilled then
-                local msg = "Group pre-quest requirement not fulfilled for quest " .. questId
-                if returnText and returnBrief then
-                    return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest group"), true, DoableStates.NO_PREQUESTGROUP
-                elseif returnText and not returnBrief then
-                    return msg, true, DoableStates.NO_PREQUESTGROUP
-                end
+    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
+    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+    if preQuestGroup then
+        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+        if not isPreQuestGroupFulfilled then
+            local msg = "Group pre-quest requirement not fulfilled for quest " .. questId
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest group"), true, DoableStates.NO_PREQUESTGROUP
+            elseif returnText and not returnBrief then
+                return msg, true, DoableStates.NO_PREQUESTGROUP
             end
         end
     end
