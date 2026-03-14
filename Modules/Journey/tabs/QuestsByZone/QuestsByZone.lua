@@ -299,13 +299,13 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == 14 or returnReason == 15 then -- exclusive quest completed or in quest log
-                    local nextQuest = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
-                    local preQuestS = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+                    local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
+                    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
                     local questDecidedCategory = false
                     -- checking for some weird cases where the exclusiveTo is on the same level as other preQuestSingle values
-                    if preQuestS then
-                        for i = 1,#preQuestS do
-                            local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestS[i], "exclusiveTo")
+                    if preQuestSingle then
+                        for i = 1,#preQuestSingle do
+                            local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
                             if exclusivePreQuests then
                                 for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
                                     if Questie.db.char.complete[exclusivePreQuestId] then
@@ -319,8 +319,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         end
                     end
                     -- checking for some weird cases where the exclusiveTo is on the same level as other nextQuestInChain values
-                    if nextQuest and nextQuest ~= 0 and not questDecidedCategory then
-                        local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuest, "exclusiveTo")
+                    if nextQuestInChain and nextQuestInChain ~= 0 and not questDecidedCategory then
+                        local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
                         if exclusiveFollowups then
                             for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
                                 if Questie.db.char.complete[exclusiveFollowupId] then
@@ -396,7 +396,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 unobtainableCounter = unobtainableCounter + 1
             end
 
-            -- show hidden quests 
+            -- show manually hidden quests 
             if Questie.db.char.hidden[questId] then
                 if not zoneTree[7] then
                     zoneTree[7] = {
