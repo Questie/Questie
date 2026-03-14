@@ -722,11 +722,6 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
     end
 
-    if (not DailyQuests:IsActiveDailyQuest(questId)) then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is a daily quest which isn't active today!") end
-        return false
-    end
-
     local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
     if (requiredSpecialization) and (requiredSpecialization > 0) then
         local hasSpecialization = QuestieProfessions.HasSpecialization(requiredSpecialization)
@@ -1040,16 +1035,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             elseif returnText and not returnBrief then
                 return msg, true, 13
             end
-        end
-    end
-
-    -- Check if the daily is part of a quest hub not active this day
-    if (not DailyQuests:IsActiveDailyQuest(questId)) then
-        local msg = "Quest " .. questId .. " is a daily quest which isn't active today"
-        if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Inactive daily"), true, 16
-        elseif returnText and not returnBrief then
-            return msg, true, 16
         end
     end
 
