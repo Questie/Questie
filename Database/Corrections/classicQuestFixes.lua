@@ -1046,8 +1046,11 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 0,
             [questKeys.availableUntilCompleted] = 1518,
         },
-        [1464] = {
+        [1464] = { -- Fire Sapta
+            [questKeys.preQuestSingle] = {1525},
             [questKeys.objectivesText] = {},
+            [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 1526,
         },
         [1470] = {
             [questKeys.exclusiveTo] = {1485}, -- #999
@@ -1157,6 +1160,7 @@ function QuestieQuestFixes:Load()
         },
         [1526] = {
             [questKeys.requiredSourceItems] = {6636},
+            [questKeys.childQuests] = {},
         },
         [1528] = {
             [questKeys.breadcrumbForQuestId] = 1530,
