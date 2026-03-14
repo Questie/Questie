@@ -171,6 +171,12 @@ QuestieItemDropCorrections.Era = {
         [1550] = DropKeys.WOWHEAD,
         [1551] = DropKeys.WOWHEAD,
     },
+    [5026] = { -- Fire Tar
+        [3267] = 75,
+        [3268] = 75,
+        [3269] = 75,
+        [3271] = 75,
+    },
     [5085] = { -- Bristleback Quilboar Tusk
         [3258] = 100,
         [3260] = 100,
@@ -210,6 +216,9 @@ QuestieItemDropCorrections.Era = {
         [5775] = DropKeys.WOWHEAD,
         [5912] = DropKeys.WOWHEAD,
         [8886] = DropKeys.WOWHEAD,
+    },
+    [6652] = { -- Reagent Pouch
+        [3199] = 75,
     },
     [7267] = { -- Pristine Spider Silk
         [930] = 18,
