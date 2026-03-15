@@ -67,6 +67,38 @@ QuestieDB.questTagIds = {
     ACCOUNT = 102,
     CELESTIAL = 294,
 }
+---@enum DoableStates
+QuestieDB.DoableStates = {
+    AVAILABLE = 0,
+    COMPLETED = 1,
+    QUEST_LOG = 2,
+    BLACKLISTED = 3,
+    HIDDEN = 4, -- no longer used, but left here for info
+    PARENT_ACTIVE = 5,
+    WRONG_RACE = 6,
+    NO_PREQUESTSINGLE = 7,
+    WRONG_CLASS = 8,
+    MISSING_REPUTATION = 9,
+    PROFESSION_SKILL = 10,
+    NO_PREQUESTGROUP = 11,
+    PARENT_INACTIVE = 12,
+    NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED = 13,
+    EXCLUSIVE_COMPLETED = 14,
+    EXCLUSIVE_IN_QUEST_LOG = 15,
+    MISSING_DAILY = 16,  -- no longer used, REUSE
+    PROFESSION_SPECIALIZATION = 17,
+    SPELL_MISSING = 18,
+    SPELL_KNOWN = 19,
+    MISSING_ACHIEVEMENT = 20,
+    BREADCRUMB_FOLLOWUP = 21,
+    EXCLUSIVE_BREADCRUMB = 22,
+    BREADCRUMB_ACTIVE = 23,
+    INACTIVE_DAILY = 24,
+    LEVEL_TOO_HIGH = 25,
+    LEVEL_TOO_LOW = 26,
+    DISABLING_QUEST_COMPLETED = 27,
+    ENABLING_QUEST_MISSING = 28,
+}
 
 -- * race bitmask data, for easy access
 -- ? The PlayableRaceBit can be found in ChrRaces.dbc
@@ -831,37 +863,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
 
     local completedQuests = Questie.db.char.complete
     local currentQuestlog = QuestiePlayer.currentQuestlog
-    local DoableStates = {
-    AVAILABLE = 0,
-    COMPLETED = 1,
-    QUEST_LOG = 2,
-    BLACKLISTED = 3,
-    HIDDEN = 4, -- no longer used, but left here for info
-    PARENT_ACTIVE = 5,
-    WRONG_RACE = 6,
-    NO_PREQUESTSINGLE = 7,
-    WRONG_CLASS = 8,
-    MISSING_REPUTATION = 9,
-    PROFESSION_SKILL = 10,
-    NO_PREQUESTGROUP = 11,
-    PARENT_INACTIVE = 12,
-    NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED = 13,
-    EXCLUSIVE_COMPLETED = 14,
-    EXCLUSIVE_IN_QUEST_LOG = 15,
-    MISSING_DAILY = 16,  -- no longer used, REUSE
-    PROFESSION_SPECIALIZATION = 17,
-    SPELL_MISSING = 18,
-    SPELL_KNOWN = 19,
-    MISSING_ACHIEVEMENT = 20,
-    BREADCRUMB_FOLLOWUP = 21,
-    EXCLUSIVE_BREADCRUMB = 22,
-    BREADCRUMB_ACTIVE = 23,
-    INACTIVE_DAILY = 24,
-    LEVEL_TOO_HIGH = 25,
-    LEVEL_TOO_LOW = 26,
-    DISABLING_QUEST_COMPLETED = 27,
-    ENABLING_QUEST_MISSING = 28,
-    }
+    local DoableStates = QuestieDB.DoableStates
 
     -- Completed quests
     if completedQuests[questId] then
