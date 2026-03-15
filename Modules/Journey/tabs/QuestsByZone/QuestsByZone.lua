@@ -180,32 +180,32 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     local zoneTree = {
         [1] = {
             value = "b",
-            text = l10n('Breadcrumb Quests'),
+            text = l10n("Breadcrumb Quests"),
             children = {},
         },
         [2] = {
             value = "a",
-            text = l10n('Available Quests'),
+            text = l10n("Available Quests"),
             children = {}
         },
         [3] = {
             value = "r",
-            text = l10n('Repeatable Quests'),
+            text = l10n("Repeatable Quests"),
             children = {},
         },
         [4] = {
             value = "c",
-            text = l10n('Completed Quests'),
+            text = l10n("Completed Quests"),
             children = {}
         },
         [5] = {
             value = "p",
-            text = l10n('Missing Requirement'),
+            text = l10n("Missing Requirement"),
             children = {}
         },
         [6] = {
             value = "u",
-            text = l10n('Unobtainable Quests'),
+            text = l10n("Unobtainable Quests"),
             children = {},
         },
     }
@@ -402,7 +402,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 if not zoneTree[7] then
                     zoneTree[7] = {
                         value = "h",
-                        text = l10n('Hidden Quests'),
+                        text = l10n("Hidden Quests"),
                         children = {},
                     }
                 end
