@@ -225,6 +225,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
     local hiddenQuests = QuestieCorrections.hiddenQuests
     local playerlevel = UnitLevel("player")
+    local DoableStates = QuestieDB.DoableStates
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type number
@@ -244,7 +245,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             end
 
             if returnReason then
-                if returnReason == 0 then -- available quests
+                if returnReason == DoableStates.AVAILABLE then -- available quests
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(zoneTree[3].children, temp)
                         repeatableCounter = repeatableCounter + 1
@@ -252,18 +253,18 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[2].children, temp)
                         availableCounter = availableCounter + 1
                     end
-                elseif returnReason == 1 then -- completed quests
+                elseif returnReason == DoableStates.COMPLETED then -- completed quests
                     tinsert(zoneTree[4].children, temp)
                     completedCounter = completedCounter + 1
                     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
                         breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
                     end
-                elseif returnReason == 2 then -- player is on quest
+                elseif returnReason == DoableStates.QUEST_LOG then -- player is on quest
                     tinsert(zoneTree[2].children, temp)
                     availableCounter = availableCounter + 1
-                -- elseif returnReason == 3 then -- blacklisted quests -- already filtered earlier
-                -- elseif returnReason == 4 then -- manually hidden quests -- no longer applicable
-                elseif returnReason == 5 then -- parent quest active
+                -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
+                -- elseif returnReason == DoableStates.HIDDEN then -- manually hidden quests -- no longer applicable
+                elseif returnReason == DoableStates.PARENT_ACTIVE then -- parent quest active
                     -- this will most likely need further checks
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(zoneTree[3].children, temp)
@@ -272,21 +273,21 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[2].children, temp)
                         availableCounter = availableCounter + 1
                     end
-                -- elseif returnReason == 6 then -- wrong race -- not shown at all
-                elseif returnReason == 7 then -- no preQuestSingle completed
+                -- elseif returnReason == DoableStates.WRONG_RACE then -- wrong race -- not shown at all
+                elseif returnReason == DoableStates.NO_PREQUESTSINGLE then -- no preQuestSingle completed
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                -- elseif returnReason == 8 then -- wrong class -- not shown at all
-                elseif returnReason == 9 then -- no reputation
+                -- elseif returnReason == DoableStates.WRONG_CLASS then -- wrong class -- not shown at all
+                elseif returnReason == DoableStates.MISSING_REPUTATION then -- no reputation
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                elseif returnReason == 10 then -- wrong profession
+                elseif returnReason == DoableStates.PROFESSION_SKILL then -- no profession and skill
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 11 then -- no preQuestGroup completed
+                elseif returnReason == DoableStates.NO_PREQUESTGROUP then -- no preQuestGroup completed
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                elseif returnReason == 12 then -- inactive parent
+                elseif returnReason == DoableStates.PARENT_INACTIVE then -- inactive parent
                     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
                     if Questie.db.char.complete[parentQuest] then
                         tinsert(zoneTree[4].children, temp)
@@ -295,10 +296,10 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[5].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
-                elseif returnReason == 13 then -- nextQuestInChain completed or in quest log
+                elseif returnReason == DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED then -- nextQuestInChain completed or in quest log
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 14 or returnReason == 15 then -- exclusive quest completed or in quest log
+                elseif returnReason == DoableStates.EXCLUSIVE_COMPLETED or returnReason == DoableStates.EXCLUSIVE_IN_QUEST_LOG then -- exclusive quest completed or in quest log
                     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
                     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
                     local questDecidedCategory = false
@@ -337,40 +338,40 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[4].children, temp)
                         completedCounter = completedCounter + 1
                     end
-                elseif returnReason == 16 then -- not today's daily quest hub
+                elseif returnReason == DoableStates.MISSING_DAILY then -- not today's daily quest hub
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 17 then -- wrong profession specialization
+                elseif returnReason == DoableStates.PROFESSION_SPECIALIZATION then -- wrong profession specialization
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 18 then -- missing spell, so quest unavailable
+                elseif returnReason == DoableStates.SPELL_MISSING then -- missing spell, so quest unavailable
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                elseif returnReason == 19 then -- learned spell, so quest unavailable
+                elseif returnReason == DoableStates.SPELL_KNOWN then -- learned spell, so quest unavailable
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 20 then -- missing achievement
+                elseif returnReason == DoableStates.MISSING_ACHIEVEMENT then -- missing achievement
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                elseif returnReason == 21 then -- breadcrumb's follow up active or completed
+                elseif returnReason == DoableStates.BREADCRUMB_FOLLOWUP then -- breadcrumb's follow up active or completed
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 22 then -- another breadcrumb active
+                elseif returnReason == DoableStates.EXCLUSIVE_BREADCRUMB then -- another breadcrumb active
                     tinsert(zoneTree[4].children, temp)
                     completedCounter = completedCounter + 1
-                elseif returnReason == 23 then -- quest not available because breadcrumb in quest log
+                elseif returnReason == DoableStates.BREADCRUMB_ACTIVE then -- quest not available because breadcrumb in quest log
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                elseif returnReason == 24 then -- daily quests detected not present today
+                elseif returnReason == DoableStates.INACTIVE_DAILY then -- daily quests detected not present today
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 25 then -- player is higher level than quest bracket
+                elseif returnReason == DoableStates.LEVEL_TOO_HIGH then -- player is higher level than quest bracket
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == 26 then -- player is too low
+                elseif returnReason == DoableStates.LEVEL_TOO_LOW then -- player is too low
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                elseif returnReason == 27 then -- quest that hides it already turned in
+                elseif returnReason == DoableStates.DISABLING_QUEST_COMPLETED then -- quest that hides it already turned in
                     -- Repeatables are considered complete
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(zoneTree[4].children, temp)
@@ -380,7 +381,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[6].children, temp)
                         unobtainableCounter = unobtainableCounter + 1
                     end
-                elseif returnReason == 28 then -- quest that enables this quest is not picked up or turned in
+                elseif returnReason == DoableStates.ENABLING_QUEST_MISSING then -- quest that enables this quest is not picked up or turned in
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
                 end
