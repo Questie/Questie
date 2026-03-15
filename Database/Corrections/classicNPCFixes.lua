@@ -1127,6 +1127,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{38.65,44.58}}},
         },
+        [5901] = { -- Islen Waterseer
+            [npcKeys.waypoints] = {},
+        },
         [5906] = { -- Xanis Flameweaver
             [npcKeys.questStarts] = {1523,1529,1532},
         },

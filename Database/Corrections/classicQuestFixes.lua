@@ -96,6 +96,9 @@ function QuestieQuestFixes:Load()
         [46] = {
             [questKeys.preQuestSingle] = {39},
         },
+        [63] = {
+            [questKeys.requiredSourceItems] = {6637},
+        },
         [76] = {
             [questKeys.nextQuestInChain] = 239,
         },
@@ -679,7 +682,9 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 950, -- workaround, can't mimic ingame 100%
         },
         [972] = { -- Water Sapta
+            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {220},
+            [questKeys.availableUntilCompleted] = 96,
         },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
@@ -806,6 +811,8 @@ function QuestieQuestFixes:Load()
         [1103] = {
             [questKeys.preQuestSingle] = {63},
             [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 96,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [1106] = {
             [questKeys.preQuestSingle] = {},
@@ -1033,14 +1040,19 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1520},
             [questKeys.objectivesText] = {},
             [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 1521,
         },
         [1463] = { -- Earth Sapta
             [questKeys.preQuestSingle] = {1517},
             [questKeys.objectivesText] = {},
             [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 1518,
         },
-        [1464] = {
+        [1464] = { -- Fire Sapta
+            [questKeys.preQuestSingle] = {1525},
             [questKeys.objectivesText] = {},
+            [questKeys.parentQuest] = 0,
+            [questKeys.availableUntilCompleted] = 1526,
         },
         [1470] = {
             [questKeys.exclusiveTo] = {1485}, -- #999
@@ -1150,6 +1162,7 @@ function QuestieQuestFixes:Load()
         },
         [1526] = {
             [questKeys.requiredSourceItems] = {6636},
+            [questKeys.childQuests] = {},
         },
         [1528] = {
             [questKeys.breadcrumbForQuestId] = 1530,
