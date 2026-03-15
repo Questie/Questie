@@ -96,6 +96,9 @@ function QuestieQuestFixes:Load()
         [46] = {
             [questKeys.preQuestSingle] = {39},
         },
+        [63] = {
+            [questKeys.requiredSourceItems] = {6637},
+        },
         [76] = {
             [questKeys.nextQuestInChain] = 239,
         },
@@ -682,6 +685,7 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 950, -- workaround, can't mimic ingame 100%
         },
         [972] = { -- Water Sapta
+            [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {220},
             [questKeys.availableUntilCompleted] = 96,
         },
@@ -811,6 +815,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {63},
             [questKeys.parentQuest] = 0,
             [questKeys.availableUntilCompleted] = 96,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [1106] = {
             [questKeys.preQuestSingle] = {},
