@@ -582,7 +582,7 @@ function QuestieQuest:AbandonedQuest(questId)
             local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
             if childQuests then
                 for _, childQuestId in pairs(childQuests) do
-                    Questie.db.char.complete[childQuestId] = nil
+                    Questie.db.char.complete[childQuestId] = C_QuestLog.IsQuestFlaggedCompleted(childQuestId)
                 end
             end
         end
