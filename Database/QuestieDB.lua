@@ -894,17 +894,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    -- We keep this here, even though it is removed from QuestieDB.IsDoable because AvailableQuests.CalculateAndDrawAll
-    -- checks child quests differently and before IsDoable
-    if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
-        local msg = "Quest " .. questId .. " is available because it's a child quest and the parent is active"
-        if returnText and returnBrief then
-            return l10n("Available")..l10n(": ")..l10n("Parent active"), false, DoableStates.PARENT_ACTIVE
-        elseif returnText and not returnBrief then
-            return msg, false, DoableStates.PARENT_ACTIVE
-        end
-    end
-
     -- Check character race
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
@@ -913,6 +902,29 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return l10n("Unavailable")..l10n(": ")..l10n("Race requirement"), true, DoableStates.WRONG_RACE
         elseif returnText and not returnBrief then
             return msg, true, DoableStates.WRONG_RACE
+        end
+    end
+
+    -- Check character class
+    local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
+    if (requiredClasses and not checkClass[requiredClasses]) then
+        QuestieDB.autoBlacklist[questId] = "class"
+        local msg = "Class requirement not fulfilled for quest " .. questId
+        if returnText and returnBrief then
+            return l10n("Unavailable")..l10n(": ")..l10n("Class requirement"), true, DoableStates.WRONG_CLASS
+        elseif returnText and not returnBrief then
+            return msg, true, DoableStates.WRONG_CLASS
+        end
+    end
+
+    -- We keep this here, even though it is removed from QuestieDB.IsDoable because AvailableQuests.CalculateAndDrawAll
+    -- checks child quests differently and before IsDoable
+    if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
+        local msg = "Quest " .. questId .. " is available because it's a child quest and the parent is active"
+        if returnText and returnBrief then
+            return l10n("Available")..l10n(": ")..l10n("Parent active"), false, DoableStates.PARENT_ACTIVE
+        elseif returnText and not returnBrief then
+            return msg, false, DoableStates.PARENT_ACTIVE
         end
     end
 
@@ -973,18 +985,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             elseif returnText and not returnBrief then
                 return msg, true, DoableStates.NO_PREQUESTSINGLE
             end
-        end
-    end
-
-    -- Check character class
-    local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
-    if (requiredClasses and not checkClass[requiredClasses]) then
-        QuestieDB.autoBlacklist[questId] = "class"
-        local msg = "Class requirement not fulfilled for quest " .. questId
-        if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Class requirement"), true, DoableStates.WRONG_CLASS
-        elseif returnText and not returnBrief then
-            return msg, true, DoableStates.WRONG_CLASS
         end
     end
 
