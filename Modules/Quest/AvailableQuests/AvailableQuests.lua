@@ -492,7 +492,8 @@ _DrawChildQuests = function(questId, currentQuestlog, completedQuests, hiddenQue
     end
 
     for _, childQuestId in pairs(childQuests) do
-        if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) and (not hiddenQuests[childQuestId]) then
+        local requiredRaces = QuestieDB.QueryQuestSingle(childQuestId, "requiredRaces")
+        if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) and (not hiddenQuests[childQuestId]) and (QuestiePlayer.HasRequiredRace(requiredRaces)) then
             local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
             local blockedByExclusiveTo = false
             for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
