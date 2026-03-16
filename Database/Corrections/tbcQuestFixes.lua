@@ -6192,7 +6192,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {12513},
             [questKeys.startedBy] = {{28126}},
             [questKeys.finishedBy] = {{28126}},
-            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE + raceIDs.ALL_ALLIANCE - raceIDs.GNOME - raceIDs.HUMAN - raceIDs.DWARF, -- future proof
         },
 
         -- Below are quests that were not originally in TBC or in a different form

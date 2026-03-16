@@ -306,9 +306,6 @@ function MopQuestFixes.Load()
         [10277] = { -- The Caverns of Time
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.CAVERNS_OF_TIME]={{44.31,38.73}}}},
         },
-        [12515] = { -- Nice Hat...
-            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF + raceIDs.GOBLIN + raceIDs.WORGEN + raceIDs.PANDAREN,
-        },
         [13408] = { -- Hellfire Fortifications
             [questKeys.requiredClasses] = 2015, -- all classes except DK
         },

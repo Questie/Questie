@@ -2308,9 +2308,6 @@ function CataQuestFixes.Load()
         [12492] = { -- Direbrew's Dire Brew
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [12515] = { -- Nice Hat...
-            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF + raceIDs.GOBLIN + raceIDs.WORGEN,
-        },
         [12517] = { -- Rogues Deck
             [questKeys.requiredSkill] = {},
         },
