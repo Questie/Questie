@@ -582,6 +582,8 @@ function QuestieQuest:AbandonedQuest(questId)
             local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
             if childQuests then
                 for _, childQuestId in pairs(childQuests) do
+                    -- Make sure all childQuests are unloaded, all exclusives, chains etc
+                    AvailableQuests.RemoveQuest(childQuestId)
                     Questie.db.char.complete[childQuestId] = C_QuestLog.IsQuestFlaggedCompleted(childQuestId) or nil
                 end
             end
