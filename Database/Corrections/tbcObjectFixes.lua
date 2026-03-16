@@ -813,7 +813,12 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
             [objectKeys.questStarts] = {12409},
             [objectKeys.questEnds] = {12409},
-
+        },
+        [190483] = { -- Document Chest
+            [objectKeys.name] = "Document Chest",
+        },
+        [190484] = { -- Document Chest
+            [objectKeys.name] = "Document Chest",
         },
 
         -- Below are fake objects

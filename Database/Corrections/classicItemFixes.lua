@@ -946,10 +946,10 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {176344},
         },
         [12766] = { -- Secret Note #2
-            [itemKeys.objectDrops] = {176344},
+            [itemKeys.objectDrops] = {190483},
         },
         [12768] = { -- Secret Note #3
-            [itemKeys.objectDrops] = {176344},
+            [itemKeys.objectDrops] = {190484},
         },
         [12813] = { -- Flask of Mystery Goo (#1313)
             [itemKeys.relatedQuests] = {5085},

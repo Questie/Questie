@@ -157,6 +157,12 @@ function QuestieWotlkObjectFixes:Load()
         [190354] = {
             [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{54.45,31.44}}},
         },
+        [190483] = { -- Document Chest
+            [objectKeys.name] = "Document Chest #2",
+        },
+        [190484] = { -- Document Chest
+            [objectKeys.name] = "Document Chest #3",
+        },
         [190510] = {
             [objectKeys.spawns] = {[65]={{55.39,10.45},{55.01,10.65},{51.22,20.0},{51.56,19.98},{50.01,16.49},{50.0,17.04},{53.1,17.57},{52.68,17.74},{50.9,15.47},{50.66,15.91},{51.34,15.14},{51.61,15.13},{54.63,12.28},{54.43,12.06},{53.61,10.84}}},
             [objectKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
