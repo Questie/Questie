@@ -281,24 +281,25 @@ function QuestieLib:GetRaceString(raceMask)
         local raceString = ""
         local raceTable = QuestieLib:UnpackBinary(raceMask)
         local langCode = l10n:GetUILocale()
+        local spaceString = ((langCode == "zhCN" or langCode == "zhTW") and "") or " " -- no spaces for chinese strings
         local stringTable = {
-            l10n("Human"),                                  -- 2^0
-            l10n("Orc"),                                    -- 2^1
-            l10n("Dwarf"),                                  -- 2^2
-            l10n("Night Elf"),                              -- 2^3
-            l10n("Undead"),                                 -- 2^4
-            l10n("Tauren"),                                 -- 2^5
-            l10n("Gnome"),                                  -- 2^6
-            l10n("Troll"),                                  -- 2^7
-            l10n("Goblin"),                                 -- 2^8
-            l10n("Blood Elf"),                              -- 2^9
-            l10n("Draenei"),                                -- 2^10
-            nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,        -- 2^11 -> 2^20
-            l10n("Worgen"),                                 -- 2^21
-            nil,                                            -- 2^22
-            l10n("Pandaren"),                               -- 2^23
-            l10n("Pandaren") .. ((langCode == "zhCN" or langCode == "zhTW") and "") or " " .. l10n("Alliance"),    -- 2^24
-            l10n("Pandaren") .. ((langCode == "zhCN" or langCode == "zhTW") and "") or " " .. l10n("Horde"),       -- 2^25
+            l10n("Human"),                                          -- 2^0
+            l10n("Orc"),                                            -- 2^1
+            l10n("Dwarf"),                                          -- 2^2
+            l10n("Night Elf"),                                      -- 2^3
+            l10n("Undead"),                                         -- 2^4
+            l10n("Tauren"),                                         -- 2^5
+            l10n("Gnome"),                                          -- 2^6
+            l10n("Troll"),                                          -- 2^7
+            l10n("Goblin"),                                         -- 2^8
+            l10n("Blood Elf"),                                      -- 2^9
+            l10n("Draenei"),                                        -- 2^10
+            nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,                -- 2^11 -> 2^20
+            l10n("Worgen"),                                         -- 2^21
+            nil,                                                    -- 2^22
+            l10n("Pandaren"),                                       -- 2^23
+            l10n("Pandaren") .. spaceString .. l10n("Alliance"),    -- 2^24
+            l10n("Pandaren") .. spaceString .. l10n("Horde"),       -- 2^25
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
