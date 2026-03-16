@@ -482,6 +482,8 @@ _CalculateAndDrawAvailableQuests = function()
 end
 
 --- Mark all child quests as active when the parent quest is in the quest log
+--- Reused this logic in QuestsByZone.lua/QuestsByFaction.lua -- TO DO: copy logic to QBF
+--- if this is modified, also make sure the changes are reflected in the other file
 ---@param questId number
 ---@param currentQuestlog table<number, boolean>
 ---@param completedQuests table<number, boolean>
