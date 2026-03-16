@@ -281,19 +281,23 @@ function QuestieLib:GetRaceString(raceMask)
         local raceString = ""
         local raceTable = QuestieLib:UnpackBinary(raceMask)
         local stringTable = {
-            l10n("Human"),
-            l10n("Orc"),
-            l10n("Dwarf"),
-            l10n("Night Elf"),
-            l10n("Undead"),
-            l10n("Tauren"),
-            l10n("Gnome"),
-            l10n("Troll"),
-            l10n("Goblin"),
-            l10n("Blood Elf"),
-            l10n("Draenei"),
-            l10n("Worgen"),
-            l10n("Pandaren"),
+            l10n("Human"),                                  -- 2^0
+            l10n("Orc"),                                    -- 2^1
+            l10n("Dwarf"),                                  -- 2^2
+            l10n("Night Elf"),                              -- 2^3
+            l10n("Undead"),                                 -- 2^4
+            l10n("Tauren"),                                 -- 2^5
+            l10n("Gnome"),                                  -- 2^6
+            l10n("Troll"),                                  -- 2^7
+            l10n("Goblin"),                                 -- 2^8
+            l10n("Blood Elf"),                              -- 2^9
+            l10n("Draenei"),                                -- 2^10
+            nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,        -- 2^11 -> 2^20
+            l10n("Worgen"),                                 -- 2^21
+            nil,                                            -- 2^22
+            l10n("Pandaren"),                               -- 2^23
+            l10n("Pandaren"),                               -- 2^24
+            l10n("Pandaren"),                               -- 2^25
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
@@ -443,7 +447,7 @@ end
 
 function QuestieLib:UnpackBinary(val)
     local ret = {}
-    for q = 0, 16 do
+    for q = 0, 25 do
         if bit.band(bit.rshift(val, q), 1) == 1 then
             tinsert(ret, true)
         else
