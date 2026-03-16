@@ -260,18 +260,54 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
                     end
                 elseif returnReason == DoableStates.QUEST_LOG then -- player is on quest
-                    tinsert(zoneTree[2].children, temp)
-                    availableCounter = availableCounter + 1
-                -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
-                -- elseif returnReason == DoableStates.HIDDEN then -- manually hidden quests -- no longer applicable
-                elseif returnReason == DoableStates.PARENT_ACTIVE then -- parent quest active
-                    -- this will most likely need further checks
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(zoneTree[3].children, temp)
                         repeatableCounter = repeatableCounter + 1
                     else
                         tinsert(zoneTree[2].children, temp)
                         availableCounter = availableCounter + 1
+                    end
+                -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
+                -- elseif returnReason == DoableStates.HIDDEN then -- manually hidden quests -- no longer applicable
+                elseif returnReason == DoableStates.PARENT_ACTIVE then -- parent quest active
+                -- reused the logic from AvailableQuests.lua _DrawChildQuests
+                -- if this is modified, also make sure the changes are reflected in the other file(s)
+                    local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
+                    if (not Questie.db.char.complete[questId]) and (not hiddenQuests[questId]) and (QuestiePlayer.HasRequiredRace(requiredRaces)) then
+                        -- some childQuest remain completed after abandoning and retaking parentQuest
+                        -- here we are checking against 
+                        local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
+                        local blockedByExclusiveTo = false
+                        for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
+                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                                tinsert(zoneTree[4].children, temp)
+                                completedCounter = completedCounter + 1
+                            end
+                        end
+                        if (not blockedByExclusiveTo) then
+                            local isPreQuestSingleFulfilled = true
+                            local isPreQuestGroupFulfilled = true
+
+                            local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+                            if preQuestSingle then
+                               isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+                            else
+                               local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+                                if preQuestGroup then
+                                    isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+                                end
+                            end
+
+                            if isPreQuestSingleFulfilled and isPreQuestGroupFulfilled then
+                                if QuestieDB.IsRepeatable(questId) then
+                                    tinsert(zoneTree[3].children, temp)
+                                    repeatableCounter = repeatableCounter + 1
+                                else
+                                    tinsert(zoneTree[2].children, temp)
+                                    availableCounter = availableCounter + 1
+                                end
+                            end
+                        end
                     end
                 -- elseif returnReason == DoableStates.WRONG_RACE then -- wrong race -- not shown at all
                 elseif returnReason == DoableStates.NO_PREQUESTSINGLE then -- no preQuestSingle completed
