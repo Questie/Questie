@@ -1764,7 +1764,7 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 0,
         },
         [2843] = {
-            [questKeys.triggerEnd] = {"Goblin Transponder", {[zoneIDs.STRANGLETHORN_VALE]={{27.56,77.42}}}},
+            [questKeys.objectives] = {{{7853,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [2845] = {
             [questKeys.triggerEnd] = {"Take Shay Leafrunner to Rockbiter's camp", {[zoneIDs.FERALAS]={{42.33,21.85}}}},
