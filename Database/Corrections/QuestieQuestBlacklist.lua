@@ -1150,6 +1150,7 @@ function QuestieQuestBlacklist:Load()
         [10454] = true, -- FLAG - OFF THE RAILS
         [10610] = true, -- Prospecting Basics
         [10716] = true, -- Test Flight: Raven's Wood <needs reward>
+        [10737] = true, -- The Master's Touch
         [10815] = true, -- The Journal of Val'zareq: Portends of War
         [10841] = true, -- The Vengeful Harbringer
         [10844] = true, -- Forge Camp: Anger
