@@ -6335,6 +6335,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [96254] = { -- An Unexpected Delivery
+            [questKeys.name] = "An Unexpected Delivery",
+            [questKeys.startedBy] = {{17249}},
+            [questKeys.finishedBy] = {{17249}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {},
+            [questKeys.objectives] = {},
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
         -- Alliance only BG encouragement quest
         [64845] = {
             [questKeys.name] = "Alliance War Effort",
