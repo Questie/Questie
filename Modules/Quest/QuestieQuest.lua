@@ -554,6 +554,16 @@ function QuestieQuest:CompleteQuest(questId)
         end
     end
 
+    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+    if childQuests then
+        for _, childQuestId in pairs(childQuests) do
+            if not QuestiePlayer.currentQuestlog[childQuestId] then
+                -- Make sure all other childQuests are unloaded: all exclusives, chains etc
+                AvailableQuests.RemoveQuest(childQuestId)
+            end
+        end
+    end
+
     AvailableQuests.RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
