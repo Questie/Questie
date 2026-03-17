@@ -936,7 +936,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- We keep this here, even though it is removed from QuestieDB.IsDoable because AvailableQuests.CalculateAndDrawAll
     -- checks child quests differently and before IsDoable
     if QuestieDB.activeChildQuests[questId] then -- The parent quest is active, so this quest is doable
-        local msg = "Quest " .. questId .. " is available because it's a child quest and the parent is active"
+        local msg = "Quest " .. questId .. " is available because it's a child quest, the parent is active and conditions are met"
         if returnText and returnBrief then
             return l10n("Available")..l10n(": ")..l10n("Parent active"), false, DoableStates.PARENT_ACTIVE
         elseif returnText and not returnBrief then
