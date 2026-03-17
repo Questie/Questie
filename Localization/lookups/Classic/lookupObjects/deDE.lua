@@ -482,6 +482,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [138492] = "Splitter von Myzrael",
 [138496] = "Hornabdeckung",
 [138497] = "Halterung des Mundstücks",
+[138498] = "Brunnen des Tempels des Mondes",
 [139852] = "Ehrenmal von Sully Balloo",
 [140911] = "Spule des Lichts Chartreuse Seidenfaden",
 [140971] = "Gahz’ridian",

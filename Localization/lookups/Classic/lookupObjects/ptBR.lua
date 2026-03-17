@@ -466,6 +466,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [138492] = "Estilhaços de Myzrael",
 [138496] = "CapaTrompa",
 [138497] = "Encaixe de bocal",
+[138498] = "Fonte do Templo da Lua",
 [139852] = "Memorial de Floriano Caxias",
 [140911] = "Bobina de Seda Chartreuse Leve",
 [140971] = "Gahz'ridian",

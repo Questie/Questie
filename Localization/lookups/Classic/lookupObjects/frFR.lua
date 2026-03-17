@@ -481,6 +481,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [138492] = "Fragments de Myzrael",
 [138496] = "HornCover",
 [138497] = "Support d'embouchure",
+[138498] = "Fontaine du temple de la Lune",
 [139852] = "Mémorial de Sully Balloo",
 [140911] = "Bobine de fil de soie chartreuse",
 [140971] = "Gahz'ridian",
