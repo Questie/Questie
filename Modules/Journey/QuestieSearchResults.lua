@@ -169,8 +169,8 @@ local function recurseTable(theTable, theKeys)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle"}) or {}
-    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8]
+    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "requiredClasses", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle"}) or {}
+    local name, requiredLevel, requiredRaces, requiredClasses, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8], ret[9]
 
     local questLevel, _ = QuestieLib.GetTbcLevel(id);
 
@@ -245,6 +245,10 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     local reqRaces = QuestieLib:GetRaceString(requiredRaces)
     if (reqRaces ~= "") then
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race")) .. l10n(": ") .. reqRaces)
+    end
+    local reqClasses = QuestieLib:GetClassString(requiredClasses)
+    if (reqClasses ~= "") then
+        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Class")) .. l10n(": ") .. reqClasses)
     end
     QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable")) .. l10n(": ") .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
 

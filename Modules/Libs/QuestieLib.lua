@@ -316,6 +316,40 @@ function QuestieLib:GetRaceString(raceMask)
     end
 end
 
+function QuestieLib:GetClassString(classMask)
+    if not classMask or classMask == QuestieDB.classKeys.NONE or classMask == QuestieDB.classKeys.ALL_CLASSES then
+        return ""
+    else
+        local classString = ""
+        local classTable = QuestieLib:UnpackBinary(classMask)
+        local stringTable = {
+            l10n("Warrior"),                 -- 1
+            l10n("Paladin"),                 -- 2
+            l10n("Hunter"),                  -- 4
+            l10n("Rogue"),                   -- 8
+            l10n("Priest"),                  -- 16
+            l10n("Death Knight"),            -- 32
+            l10n("Shaman"),                  -- 64
+            l10n("Mage"),                    -- 128
+            l10n("Warlock"),                 -- 256
+            l10n("Monk"),                    -- 512
+            l10n("Druid"),                   -- 1024
+        }
+        local firstRun = true
+        for k, v in pairs(classTable) do
+            if v then
+                if firstRun then
+                    firstRun = false
+                else
+                    classString = classString .. ", "
+                end
+                classString = classString .. stringTable[k]
+            end
+        end
+        return classString
+    end
+end
+
 function QuestieLib:CacheItemNames(questId)
     local quest = QuestieDB.GetQuest(questId)
     if (quest and quest.ObjectiveData) then
