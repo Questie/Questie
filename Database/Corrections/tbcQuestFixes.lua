@@ -133,6 +133,9 @@ function QuestieTBCQuestFixes:Load()
         [759] = {
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },
+        [794] = { -- Burning Blade Medallion
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56}}}},
         },
@@ -246,11 +249,20 @@ function QuestieTBCQuestFixes:Load()
         [1468] = {
             [questKeys.questLevel] = -1,
         },
+        [1470] = { -- Piercing the Veil
+            [questKeys.exclusiveTo] = {1485,8344},
+        },
         [1479] = {
             [questKeys.questLevel] = -1,
         },
+        [1485] = { -- Vile Familiars
+            [questKeys.exclusiveTo] = {1470,8344},
+        },
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [1499] = { -- Vile Familiars
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [1506] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -999,8 +1011,9 @@ function QuestieTBCQuestFixes:Load()
         [8338] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [8344] = {
+        [8344] = { -- Windows to the Source
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.exclusiveTo] = {1470,1485},
         },
         [8345] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -1114,6 +1127,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8562] = { -- Conqueror's Breastplate
             [questKeys.preQuestSingle] = {8579},
+        },
+        [8563] = { -- Warlock Training
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8564] = { -- Priest Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,

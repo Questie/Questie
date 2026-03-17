@@ -237,6 +237,12 @@ QuestieItemDropCorrections.Era = {
 }
 
 QuestieItemDropCorrections.Tbc = {
+    [6487] = { -- Vile Familiar Head
+        [3101] = 100,
+    },
+    [20934] = { -- Wraith Essence
+        [15273] = 100,
+    },
     [22934] = { -- Lasher Sample
         [16517] = 76,
     },
