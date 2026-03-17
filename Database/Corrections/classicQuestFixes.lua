@@ -120,6 +120,9 @@ function QuestieQuestFixes:Load()
         [121] = { -- Messenger to Stormwind
             [questKeys.nextQuestInChain] = 143,
         },
+        [125] = { -- The Lost Tools
+            [questKeys.nextQuestInChain] = 89,
+        },
         [142] = {
             [questKeys.nextQuestInChain] = 155,
         },
