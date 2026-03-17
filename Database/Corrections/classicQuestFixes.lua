@@ -1101,6 +1101,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1505},
             [questKeys.exclusiveTo] = {1819},
         },
+        [1499] = { -- Vile Familiars
+            [questKeys.preQuestSingle] = {1470,1485},
+        },
         [1501] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {1473},

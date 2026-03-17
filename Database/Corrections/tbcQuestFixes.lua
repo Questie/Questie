@@ -263,6 +263,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [1499] = { -- Vile Familiars
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {1470,1485,8344},
         },
         [1506] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
