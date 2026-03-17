@@ -478,7 +478,9 @@ function QuestieQuest:AcceptQuest(questId)
         if childQuests then
             for _, childQuestId in pairs(childQuests) do
                 -- Daily quest status is reset after parent accept
-                Questie.db.char.complete[childQuestId] = C_QuestLog.IsQuestFlaggedCompleted(childQuestId) or nil
+                if QuestieDB.IsDailyQuest(childQuestId) then
+                    Questie.db.char.complete[childQuestId] = nil
+                end
             end
         end
 
