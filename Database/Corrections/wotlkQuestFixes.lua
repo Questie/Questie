@@ -2348,6 +2348,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12509] = {
             [questKeys.parentQuest] = 12501,
+            [questKeys.objectives] = {{{28090,nil,Questie.ICON_TYPE_TALK}}},
         },
         [12512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28133,28136},28133},{{28141,28142},28141},{{28143,28148},28143}}},
