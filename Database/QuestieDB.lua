@@ -50,6 +50,7 @@ local QUEST_FLAGS_WEEKLY = 32768
 -- Pre calculated 2 * QUEST_FLAGS, for testing a bit flag
 local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 local QUEST_FLAGS_WEEKLY_X2 = 2 * QUEST_FLAGS_WEEKLY
+local playerFaction = UnitFactionGroup("Player")
 
 ---@enum QuestTagIds
 QuestieDB.questTagIds = {
@@ -121,7 +122,7 @@ QuestieDB.raceKeys = {
             return 77
         end
     end)(),
-    -- ALlow all horde races
+    -- Allow all horde races
     ALL_HORDE = (function()
         if Questie.IsClassic then
             return 178
@@ -160,8 +161,23 @@ QuestieDB.raceKeys = {
 -- Combining these with "and" makes the order matter
 -- 1 and 2 ~= 2 and 1
 QuestieDB.classKeys = {
-    NONE = 0,
+    -- Allow all classes
+    ALL_CLASSES = (function()
+        if Questie.IsClassic then -- alliance 1439, horde 1501
+            return playerFaction == "Alliance" and 1439 or 1501
+        elseif Questie.IsTBC then
+            return 1503
+        elseif Questie.IsWotlk or Questie.IsCata then
+            return 1535
+        elseif Questie.IsMoP then
+            return 2047
+        else
+            print("Unknown expansion for ALL_CLASSES")
+            return playerFaction == "Alliance" and 1439 or 1501
+        end
+    end)(),
 
+    NONE = 0,
     WARRIOR = 1,
     PALADIN = 2,
     HUNTER = 4,
