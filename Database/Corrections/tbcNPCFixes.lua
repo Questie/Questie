@@ -1239,6 +1239,10 @@ function QuestieTBCNpcFixes:Load()
         [21118] = {
             [npcKeys.waypoints] = {},
         },
+        [21209] = { -- Dumphry
+            [npcKeys.waypoints] = {},
+            [npcKeys.npcFlags] = npcFlags.TRAINER + npcFlags.QUEST_GIVER,
+        },
         [21319] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{39.75,85.53}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
