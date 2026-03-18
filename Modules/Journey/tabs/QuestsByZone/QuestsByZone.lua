@@ -394,9 +394,10 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 elseif returnReason == DoableStates.BREADCRUMB_FOLLOWUP then -- breadcrumb's follow up active or completed
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif returnReason == DoableStates.EXCLUSIVE_BREADCRUMB then -- another breadcrumb active
+                -- The next case is commented out since it's not a valid check to have. Breadcrumbs to the same quest are not always exclusive to eachother
+                --[[elseif returnReason == DoableStates.EXCLUSIVE_BREADCRUMB then -- another breadcrumb active
                     tinsert(zoneTree[4].children, temp)
-                    completedCounter = completedCounter + 1
+                    completedCounter = completedCounter + 1]]
                 elseif returnReason == DoableStates.BREADCRUMB_ACTIVE then -- quest not available because breadcrumb in quest log
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1

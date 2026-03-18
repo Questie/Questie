@@ -86,13 +86,13 @@ QuestieDB.DoableStates = {
     NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED = 13,
     EXCLUSIVE_COMPLETED = 14,
     EXCLUSIVE_IN_QUEST_LOG = 15,
-    MISSING_DAILY = 16,  -- no longer used, REUSE
+    MISSING_DAILY = 16, -- no longer used, REUSE
     PROFESSION_SPECIALIZATION = 17,
     SPELL_MISSING = 18,
     SPELL_KNOWN = 19,
     MISSING_ACHIEVEMENT = 20,
     BREADCRUMB_FOLLOWUP = 21,
-    EXCLUSIVE_BREADCRUMB = 22,
+    EXCLUSIVE_BREADCRUMB = 22, -- no longer used, REUSE
     BREADCRUMB_ACTIVE = 23,
     INACTIVE_DAILY = 24,
     LEVEL_TOO_HIGH = 25,
@@ -806,14 +806,15 @@ function QuestieDB.IsDoable(questId, debugPrint)
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Target of breadcrumb quest already completed or in the quest log for quest " .. questId) end
             return false
         end
-        -- Check if the other breadcrumbs are active
+        -- The next case is commented out since it's not a valid check to have. Breadcrumbs to the same quest are not always exclusive to eachother
+        --[[ Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
         for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do -- TODO: Remove `or {}` when we have a validation for the breadcrumb data
             if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
                 if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Alternative breadcrumb quest in the quest log for quest " .. questId) end
                 return false
             end
-        end
+        end]]
     end
 
     -- Check if this quest has active breadcrumbs
@@ -1140,7 +1141,8 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 return "Follow up of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId, true, DoableStates.BREADCRUMB_FOLLOWUP
             end
         end
-        -- Check if the other breadcrumbs are active
+        -- The next case is commented out since it's not a valid check to have. Breadcrumbs to the same quest are not always exclusive to eachother
+        --[[ Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
         for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do
             if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
@@ -1150,7 +1152,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                     return "Alternative breadcrumb quest " .. breadcrumbId .." in the quest log for quest " .. questId, true, DoableStates.EXCLUSIVE_BREADCRUMB
                 end
             end
-        end
+        end]]
     end
 
     -- Check if this quest has active breadcrumbs
