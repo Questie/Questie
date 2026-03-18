@@ -347,7 +347,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                             local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
                             if exclusivePreQuests then
                                 for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
-                                    if Questie.db.char.complete[exclusivePreQuestId] then
+                                    if Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId] then
                                         tinsert(zoneTree[6].children, temp)
                                         unobtainableCounter = unobtainableCounter + 1
                                         questDecidedCategory = true
@@ -362,7 +362,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
                         if exclusiveFollowups then
                             for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
-                                if Questie.db.char.complete[exclusiveFollowupId] then
+                                if Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId] then
                                     tinsert(zoneTree[6].children, temp)
                                     unobtainableCounter = unobtainableCounter + 1
                                     questDecidedCategory = true
