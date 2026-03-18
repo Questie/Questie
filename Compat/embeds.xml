@@ -1,0 +1,37 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+    <Script file="..\Libs\LibStub\LibStub.lua"/>
+    <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
+    <Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>
+    <Include file="..\Libs\AceEvent-3.0\AceEvent-3.0.xml"/>
+    <Include file="Libs\AceTimer-3.0\AceTimer-3.0.xml"/>
+    <Include file="Libs\AceBucket-3.0\AceBucket-3.0.xml"/>
+    <!--Include file="Libs\AceHook-3.0\AceHook-3.0.xml"/-->
+    <Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
+    <Include file="..\Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml"/>
+    <!--<Include file="Libs\AceLocale-3.0\AceLocale-3.0.xml"/-->
+    <Include file="..\Libs\AceConsole-3.0\AceConsole-3.0.xml"/>
+    <Include file="Libs\AceGUI-3.0\AceGUI-3.0.xml"/>
+    <!--Include file="Libs\AceConfig-3.0\AceConfig-3.0.xml"/-->
+	<Include file="..\Libs\AceConfig-3.0\AceConfigRegistry-3.0\AceConfigRegistry-3.0.xml"/>
+	<Include file="..\Libs\AceConfig-3.0\AceConfigCmd-3.0\AceConfigCmd-3.0.xml"/>
+	<Include file="Libs\AceConfigDialog-3.0\AceConfigDialog-3.0.xml"/>
+	<Script file="..\Libs\AceConfig-3.0\AceConfig-3.0.lua"/>
+    <Include file="Libs\AceComm-3.0\AceComm-3.0.xml"/>
+    <!--Include file="AceTab-3.0\AceTab-3.0.xml"/-->
+    <!--Include file="Libs\AceSerializer-3.0\AceSerializer-3.0.xml"/-->
+    <!-- Ace3 frame work end -->
+    <Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
+    <Include file="..\Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml"/>
+    <Script file="..\Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+    <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
+
+    <!--Script file="Libs\Krowi_WorldMapButtons\Krowi_WorldMapButtons-1.4.lua"/-->
+
+    <Script file="Compat.lua"/>
+    <Script file="Corrections.lua"/>
+    <Script file="FactionId.lua"/>
+    <Script file="QuestTag.lua"/>
+    <Script file="QuestReward.lua"/>
+    <Script file="UiMapData.lua"/>
+    <Script file="HBD.lua"/>
+</Ui>

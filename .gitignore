@@ -1,37 +1,38 @@
-#We don't want the zip file in the repo
-*.zip
-*.7z
-#Don't push temp files...
-*.zip.tmp*
-#Don't push the bash script lock file.
-*.lock
+```
+# Dependencies
+node_modules/
 
-#Used for the "local history" plugin
-.history/
-
-## IntelliJ settings
+# Editor/IDE files
+.vscode/
 .idea/
+*.swp
+*.swo
+*.tmp
 
-## Files for the upload scripts
-CHANGELOG.md
-response.txt
+# System files
+.DS_Store
+Thumbs.db
 
-#This is used for the atom build package, enables the build to happen on each save.
-.atom-build.yml
-
-#Used by the buildscript in batch
-*.temporary
-
-#Macos stuff
-*.DS_Store
-
-releases/
-*__pycache__/
-
-#Log files
+# Logs
 *.log
-*.bak
 
-cli/output
-
-WoW-API
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+```
