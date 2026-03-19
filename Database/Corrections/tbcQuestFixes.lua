@@ -252,6 +252,13 @@ function QuestieTBCQuestFixes:Load()
         [1470] = { -- Piercing the Veil
             [questKeys.exclusiveTo] = {1485,8344},
         },
+        [1473] = { -- Creature of the Void
+            [questKeys.breadcrumbs] = {1478,10789},
+        },
+        [1478] = { -- Halgar's Summons
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.exclusiveTo] = {},
+        },
         [1479] = {
             [questKeys.questLevel] = -1,
         },
@@ -265,7 +272,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {1470,1485,8344},
         },
-        [1506] = {
+        [1501] = { -- Creature of the Void
+            [questKeys.breadcrumbs] = {1506,10790},
+        },
+        [1506] = { -- Gan'rul's Summons
+            [questKeys.exclusiveTo] = {},
+            [questKeys.breadcrumbForQuestId] = 1501,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [1507] = {
@@ -1966,6 +1978,9 @@ function QuestieTBCQuestFixes:Load()
         [9528] = {
             [questKeys.triggerEnd] = {"Magwin Escorted to Safety", {[zoneIDs.AZUREMYST_ISLE]={{16.38,94.14}}}},
         },
+        [9529] = { -- The Stone
+            [questKeys.breadcrumbs] = {10788},
+        },
         [9531] = {
             [questKeys.objectives] = {nil,{{181694}}},
         },
@@ -2098,8 +2113,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{3038,3171,3407,16673}},
             [questKeys.breadcrumbForQuestId] = 9484,
         },
-        [9619] = {
+        [9619] = { -- The Rune of Summoning
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Voidwalker"), 0, {{"object", 181670}}}},
         },
         [9622] = { -- Warn Your People
             [questKeys.preQuestSingle] = {},
@@ -3526,8 +3542,17 @@ function QuestieTBCQuestFixes:Load()
         [10782] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Equip the Unfinished Headpiece, travel to the Altar of Damnation, and use it while standing near Gul'dan."), 0, {{"monster", 17008}}}},
         },
-        [10788] = {
+        [10788] = { -- Return to Talionia
             [questKeys.startedBy] = {{5675,5875}},
+            [questKeys.breadcrumbForQuestId] = 9529,
+        },
+        [10789] = { -- Return to Carendin Halgar
+            [questKeys.startedBy] = {{5875,16647}},
+            [questKeys.breadcrumbForQuestId] = 1473,
+        },
+        [10790] = { -- Return to Gan'rul Bloodeye
+            [questKeys.startedBy] = {{5675,16647}},
+            [questKeys.breadcrumbForQuestId] = 1501,
         },
         [10791] = {
             [questKeys.objectives] = {{{18384,nil,Questie.ICON_TYPE_INTERACT}}},

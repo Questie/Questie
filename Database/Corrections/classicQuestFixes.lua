@@ -630,7 +630,6 @@ function QuestieQuestFixes:Load()
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
-            [questKeys.preQuestSingle] = {809}, -- #606
         },
         [927] = { -- The Moss-twined Heart
             [questKeys.nextQuestInChain] = 941,
@@ -1060,17 +1059,16 @@ function QuestieQuestFixes:Load()
         [1470] = {
             [questKeys.exclusiveTo] = {1485}, -- #999
         },
-        [1471] = {
-            [questKeys.exclusiveTo] = {1504}, -- #1542
+        [1471] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Voidwalker"), 0, {{"object", 37097}}}},
         },
         [1472] = {
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
         },
-        [1473] = {
+        [1473] = { -- Creature of the Void
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {1501},
             [questKeys.breadcrumbs] = {1478},
         },
         [1474] = {
@@ -1080,8 +1078,7 @@ function QuestieQuestFixes:Load()
         [1477] = {
             [questKeys.breadcrumbForQuestId] = 1395, -- #1727
         },
-        [1478] = {
-            [questKeys.exclusiveTo] = {1506}, -- #1427
+        [1478] = { -- Halgar's Summons
             [questKeys.breadcrumbForQuestId] = 1473,
         },
         [1479] = {
@@ -1104,25 +1101,25 @@ function QuestieQuestFixes:Load()
         [1499] = { -- Vile Familiars
             [questKeys.preQuestSingle] = {1470,1485},
         },
-        [1501] = {
+        [1501] = { -- Creature of the Void
             [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {1473},
             [questKeys.breadcrumbs] = {1506},
+            [questKeys.requiredRaces] = raceIDs.ORC,
         },
         [1502] = { -- Thun'grim Firegaze
             [questKeys.preQuestSingle] = {1498,1819},
         },
-        [1504] = {
-            [questKeys.exclusiveTo] = {1471}, -- #1542
+        [1504] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Voidwalker"), 0, {{"object", 105576}}}},
+            [questKeys.requiredRaces] = raceIDs.ORC,
         },
         [1505] = { -- Veteran Uzzek
             [questKeys.startedBy] = {{3041,3063,3169,3354}},
             [questKeys.breadcrumbForQuestId] = 1498,
             [questKeys.exclusiveTo] = {1819},
         },
-        [1506] = {
-            [questKeys.exclusiveTo] = {1478}, -- #1427
+        [1506] = { -- Gan'rul's Summons
             [questKeys.breadcrumbForQuestId] = 1501,
         },
         [1507] = {

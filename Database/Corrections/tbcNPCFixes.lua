@@ -515,7 +515,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {10605},
         },
         [16647] = { -- Talionia
-            [npcKeys.questStarts] = {9529},
+            [npcKeys.questStarts] = {9529,10789,10790},
         },
         [16648] = { -- Zanien
             [npcKeys.questStarts] = {},
