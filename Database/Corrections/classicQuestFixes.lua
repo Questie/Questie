@@ -50,7 +50,7 @@ function QuestieQuestFixes:Load()
     return {
         [5] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {163} -- #1198
+            [questKeys.breadcrumbs] = {163}, -- #1198
         },
         [7] = { -- Kobold Camp Cleanup
             [questKeys.nextQuestInChain] = 15,
@@ -134,7 +134,7 @@ function QuestieQuestFixes:Load()
         },
         [148] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {165} -- #1173
+            [questKeys.breadcrumbs] = {165}, -- #1173
         },
         [155] = {
             [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
@@ -892,7 +892,7 @@ function QuestieQuestFixes:Load()
         },
         [1204] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {1260} -- #938
+            [questKeys.breadcrumbs] = {1260}, -- #938
         },
         [1206] = {
             [questKeys.objectivesText] = {"Bring 40 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
@@ -3557,7 +3557,7 @@ function QuestieQuestFixes:Load()
         },
         [7488] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {7494} -- #1740
+            [questKeys.breadcrumbs] = {7494}, -- #1740
         },
         [7489] = {
             [questKeys.preQuestSingle] = {},

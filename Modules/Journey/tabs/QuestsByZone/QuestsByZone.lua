@@ -376,7 +376,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[4].children, temp)
                         completedCounter = completedCounter + 1
                     end
-                elseif returnReason == DoableStates.MISSING_DAILY then -- not today's daily quest hub
+                elseif returnReason == DoableStates.MISSING_DAILY then -- not today's daily quest
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.PROFESSION_SPECIALIZATION then -- wrong profession specialization

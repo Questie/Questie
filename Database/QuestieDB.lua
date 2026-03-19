@@ -51,6 +51,7 @@ local QUEST_FLAGS_WEEKLY = 32768
 local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 local QUEST_FLAGS_WEEKLY_X2 = 2 * QUEST_FLAGS_WEEKLY
 local playerFaction = UnitFactionGroup("Player")
+local serverName = GetRealmName()
 
 ---@enum QuestTagIds
 QuestieDB.questTagIds = {
@@ -86,7 +87,7 @@ QuestieDB.DoableStates = {
     NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED = 13,
     EXCLUSIVE_COMPLETED = 14,
     EXCLUSIVE_IN_QUEST_LOG = 15,
-    MISSING_DAILY = 16, -- no longer used, REUSE
+    MISSING_DAILY = 16,
     PROFESSION_SPECIALIZATION = 17,
     SPELL_MISSING = 18,
     SPELL_KNOWN = 19,
@@ -1200,6 +1201,22 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 return l10n("Unavailable")..l10n(": ")..l10n("Enabling quest not active nor turned in"), true, DoableStates.ENABLING_QUEST_MISSING
             elseif returnText and not returnBrief then
                 return "Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in", true, DoableStates.ENABLING_QUEST_MISSING
+            end
+        end
+    end
+
+    -- Check if daily quests not available via npcInteraction and/or comms
+    if (not Questie.db.global.unavailableQuestsDeterminedByTalking[serverName]) then
+    -- if (not Questie.db.global.unavailableQuestsDeterminedByTalking[serverName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
+        Questie.db.global.unavailableQuestsDeterminedByTalking[serverName] = {}
+    end
+    local unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[serverName]
+    for i, _ in pairs(unavailableQuestsDeterminedByTalking) do
+        if i == questId then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Daily quest not active"), true, DoableStates.MISSING_DAILY
+            elseif returnText then
+                return "Daily quest " .. questId .. " is not active", true, DoableStates.MISSING_DAILY
             end
         end
     end
