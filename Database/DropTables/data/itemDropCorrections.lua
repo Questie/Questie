@@ -207,6 +207,7 @@ QuestieItemDropCorrections.Era = {
         [5756] = DropKeys.WOWHEAD,
         [5761] = DropKeys.WOWHEAD,
         [5762] = DropKeys.WOWHEAD,
+        [5775] = DropKeys.WOWHEAD,
         [5912] = DropKeys.WOWHEAD,
         [8886] = DropKeys.WOWHEAD,
     },
