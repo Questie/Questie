@@ -1206,8 +1206,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     end
 
     -- Check if daily quests not available via npcInteraction and/or comms
-    if (not Questie.db.global.unavailableQuestsDeterminedByTalking[serverName]) then
-    -- if (not Questie.db.global.unavailableQuestsDeterminedByTalking[serverName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
+    if (not Questie.db.global.unavailableQuestsDeterminedByTalking[serverName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
         Questie.db.global.unavailableQuestsDeterminedByTalking[serverName] = {}
     end
     local unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[serverName]
