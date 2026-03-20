@@ -1255,6 +1255,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
             [npcKeys.npcFlags] = npcFlags.TRAINER + npcFlags.QUEST_GIVER,
         },
+        [21283] = { -- Megzeg Nukklebust
+            [npcKeys.npcFlags] = npcFlags.QUEST_GIVER,
+        },
         [21319] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{39.75,85.53}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
