@@ -9,6 +9,7 @@ local questsToBlacklistByPhase = {
     [2] = { -- Phase 2 - T5 (SSC, TK)
         [10944] = true,
         [10946] = true,
+        [10984] = true,
         [11007] = true,
 
         -- Druid Swift Flight Form
