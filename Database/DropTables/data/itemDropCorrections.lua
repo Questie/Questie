@@ -302,6 +302,9 @@ QuestieItemDropCorrections.Tbc = {
         [18952] = DropKeys.WOWHEAD,
         [19701] = DropKeys.WOWHEAD,
     },
+    [30798] = { -- Extra Sharp Daggermaw Tooth
+        [20751] = DropKeys.WOWHEAD,
+    },
     [31812] = { -- Doom Skull
         [21242] = DropKeys.WOWHEAD,
         [21285] = DropKeys.WOWHEAD,
