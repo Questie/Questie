@@ -3277,8 +3277,8 @@ function QuestieTBCQuestFixes:Load()
         [10598] = {
             [questKeys.objectives] = {{{21512,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [10605] = {
-            [questKeys.exclusiveTo] = {1472,1507},
+        [10605] = { -- Carendin Summons
+            [questKeys.nextQuestInChain] = 0,
         },
         [10606] = { -- The Art of Fel Reaver Maintenance
             [questKeys.objectives] = {nil,nil,{{30713},{30712}}},
