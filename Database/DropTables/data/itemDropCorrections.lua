@@ -253,6 +253,9 @@ QuestieItemDropCorrections.Tbc = {
         [17192] = DropKeys.WOWHEAD,
         [17475] = DropKeys.WOWHEAD,
     },
+    [24279] = { -- Vicious Teromoth Sample
+        [18437] = DropKeys.WOWHEAD,
+    },
     [24372] = { -- Diaphanous Wing
         [18132] = DropKeys.WOWHEAD,
         [18133] = DropKeys.WOWHEAD,
