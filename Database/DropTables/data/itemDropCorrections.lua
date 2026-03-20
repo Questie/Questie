@@ -276,6 +276,9 @@ QuestieItemDropCorrections.Tbc = {
         [18134] = DropKeys.WOWHEAD,
         [18281] = DropKeys.WOWHEAD,
     },
+    [24473] = { -- Enraged Crusher Core
+        [18062] = 100,
+    },
     [24485] = { -- Marshlight Bleeder Venom
         [18133] = DropKeys.WOWHEAD,
         [20198] = DropKeys.WOWHEAD,
