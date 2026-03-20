@@ -230,6 +230,18 @@ local questsByZoneLocales = {
         ["zhCN"] = "条件不满足",
         ["zhTW"] = "未滿足需求",
     },
+    ["Hidden Quests"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(questsByZoneLocales) do

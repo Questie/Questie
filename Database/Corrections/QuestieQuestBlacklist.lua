@@ -1150,6 +1150,7 @@ function QuestieQuestBlacklist:Load()
         [10454] = true, -- FLAG - OFF THE RAILS
         [10610] = true, -- Prospecting Basics
         [10716] = true, -- Test Flight: Raven's Wood <needs reward>
+        [10737] = true, -- The Master's Touch
         [10815] = true, -- The Journal of Val'zareq: Portends of War
         [10841] = true, -- The Vengeful Harbringer
         [10844] = true, -- Forge Camp: Anger
@@ -1286,6 +1287,7 @@ function QuestieQuestBlacklist:Load()
         [78225] = true, -- Boosted character quest
         [93823] = true, -- Boosted character quest
         [93824] = true, -- Boosted character quest
+        [96254] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
         [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
@@ -5952,10 +5954,6 @@ function QuestieQuestBlacklist:Load()
         [29028] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29029] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29033] = true, -- Not in the game
-        [29035] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29052
-        [29037] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29039
-        [29038] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29053
-        [29040] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29051
         [29049] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29067] = true, -- Not in the game
         [29068] = true, -- Not in the game

@@ -133,6 +133,9 @@ function QuestieTBCQuestFixes:Load()
         [759] = {
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },
+        [794] = { -- Burning Blade Medallion
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56}}}},
         },
@@ -246,13 +249,35 @@ function QuestieTBCQuestFixes:Load()
         [1468] = {
             [questKeys.questLevel] = -1,
         },
+        [1470] = { -- Piercing the Veil
+            [questKeys.exclusiveTo] = {1485,8344},
+        },
+        [1473] = { -- Creature of the Void
+            [questKeys.breadcrumbs] = {1478,10789},
+        },
+        [1478] = { -- Halgar's Summons
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.exclusiveTo] = {},
+        },
         [1479] = {
             [questKeys.questLevel] = -1,
+        },
+        [1485] = { -- Vile Familiars
+            [questKeys.exclusiveTo] = {1470,8344},
         },
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [1506] = {
+        [1499] = { -- Vile Familiars
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {1470,1485,8344},
+        },
+        [1501] = { -- Creature of the Void
+            [questKeys.breadcrumbs] = {1506,10790},
+        },
+        [1506] = { -- Gan'rul's Summons
+            [questKeys.exclusiveTo] = {},
+            [questKeys.breadcrumbForQuestId] = 1501,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [1507] = {
@@ -999,8 +1024,9 @@ function QuestieTBCQuestFixes:Load()
         [8338] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
-        [8344] = {
+        [8344] = { -- Windows to the Source
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.exclusiveTo] = {1470,1485},
         },
         [8345] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -1114,6 +1140,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8562] = { -- Conqueror's Breastplate
             [questKeys.preQuestSingle] = {8579},
+        },
+        [8563] = { -- Warlock Training
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8564] = { -- Priest Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -1949,6 +1978,9 @@ function QuestieTBCQuestFixes:Load()
         [9528] = {
             [questKeys.triggerEnd] = {"Magwin Escorted to Safety", {[zoneIDs.AZUREMYST_ISLE]={{16.38,94.14}}}},
         },
+        [9529] = { -- The Stone
+            [questKeys.breadcrumbs] = {10788},
+        },
         [9531] = {
             [questKeys.objectives] = {nil,{{181694}}},
         },
@@ -1995,6 +2027,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9564] = {
             [questKeys.preQuestSingle] = {9559},
+            [questKeys.availableStartingWith] = 9562,
         },
         [9565] = {
             [questKeys.preQuestGroup] = {},
@@ -2080,8 +2113,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{3038,3171,3407,16673}},
             [questKeys.breadcrumbForQuestId] = 9484,
         },
-        [9619] = {
+        [9619] = { -- The Rune of Summoning
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Voidwalker"), 0, {{"object", 181670}}}},
         },
         [9622] = { -- Warn Your People
             [questKeys.preQuestSingle] = {},
@@ -3508,8 +3542,17 @@ function QuestieTBCQuestFixes:Load()
         [10782] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Equip the Unfinished Headpiece, travel to the Altar of Damnation, and use it while standing near Gul'dan."), 0, {{"monster", 17008}}}},
         },
-        [10788] = {
+        [10788] = { -- Return to Talionia
             [questKeys.startedBy] = {{5675,5875}},
+            [questKeys.breadcrumbForQuestId] = 9529,
+        },
+        [10789] = { -- Return to Carendin Halgar
+            [questKeys.startedBy] = {{5875,16647}},
+            [questKeys.breadcrumbForQuestId] = 1473,
+        },
+        [10790] = { -- Return to Gan'rul Bloodeye
+            [questKeys.startedBy] = {{5675,16647}},
+            [questKeys.breadcrumbForQuestId] = 1501,
         },
         [10791] = {
             [questKeys.objectives] = {{{18384,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -6191,7 +6234,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {12513},
             [questKeys.startedBy] = {{28126}},
             [questKeys.finishedBy] = {{28126}},
-            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE + raceIDs.ALL_ALLIANCE - raceIDs.GNOME - raceIDs.HUMAN - raceIDs.DWARF, -- future proof
         },
 
         -- Below are quests that were not originally in TBC or in a different form
@@ -6307,6 +6350,18 @@ function QuestieTBCQuestFixes:Load()
         },
         [93824] = {
             [questKeys.name] = "A Grand Delivery",
+            [questKeys.startedBy] = {{17249}},
+            [questKeys.finishedBy] = {{17249}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {},
+            [questKeys.objectives] = {},
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
+        [96254] = { -- An Unexpected Delivery
+            [questKeys.name] = "An Unexpected Delivery",
             [questKeys.startedBy] = {{17249}},
             [questKeys.finishedBy] = {{17249}},
             [questKeys.requiredLevel] = 1,

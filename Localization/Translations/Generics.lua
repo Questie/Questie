@@ -290,6 +290,18 @@ local genericsLocales = {
         ["zhCN"] = "需要种族",
         ["zhTW"] = "需要種族",
     },
+    ["Required Class"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Benötigte Klasse",
+        ["esES"] = "Clase requerida",
+        ["esMX"] = "Clase requerida",
+        ["frFR"] = "Classe requise",
+        ["koKR"] = "필요 직업",
+        ["ptBR"] = "Classe necessária",
+        ["ruRU"] = "Требуемый класс",
+        ["zhCN"] = "需要职业",
+        ["zhTW"] = "需要職業",
+    },
     ["Treasure Map"] = {
         ["enUS"] = true,
         ["deDE"] = "Schatzkarte",

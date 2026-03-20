@@ -85,6 +85,9 @@ function QuestieWotlkQuestFixes:Load()
         [768] = {
             [questKeys.requiredSkill] = {393,1},
         },
+        [792] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [836] = {
             [questKeys.triggerEnd] = {"Escort OOX-09/HL to safety", {[zoneIDs.THE_HINTERLANDS]={{57.81,50.2}}}},
         },
@@ -2348,6 +2351,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12509] = {
             [questKeys.parentQuest] = 12501,
+            [questKeys.objectives] = {{{28090,nil,Questie.ICON_TYPE_TALK}}},
         },
         [12512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28133,28136},28133},{{28141,28142},28141},{{28143,28148},28143}}},

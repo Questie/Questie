@@ -280,20 +280,26 @@ function QuestieLib:GetRaceString(raceMask)
     else
         local raceString = ""
         local raceTable = QuestieLib:UnpackBinary(raceMask)
+        local langCode = l10n:GetUILocale()
+        local spaceString = ((langCode == "zhCN" or langCode == "zhTW") and "") or " " -- no spaces for chinese strings
         local stringTable = {
-            l10n("Human"),
-            l10n("Orc"),
-            l10n("Dwarf"),
-            l10n("Night Elf"),
-            l10n("Undead"),
-            l10n("Tauren"),
-            l10n("Gnome"),
-            l10n("Troll"),
-            l10n("Goblin"),
-            l10n("Blood Elf"),
-            l10n("Draenei"),
-            l10n("Worgen"),
-            l10n("Pandaren"),
+            l10n("Human"),                                          -- 1
+            l10n("Orc"),                                            -- 2
+            l10n("Dwarf"),                                          -- 4
+            l10n("Night Elf"),                                      -- 8
+            l10n("Undead"),                                         -- 16
+            l10n("Tauren"),                                         -- 32
+            l10n("Gnome"),                                          -- 64
+            l10n("Troll"),                                          -- 128
+            l10n("Goblin"),                                         -- 256
+            l10n("Blood Elf"),                                      -- 512
+            l10n("Draenei"),                                        -- 1024
+            nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,                -- 2^11 -> 2^20
+            l10n("Worgen"),                                         -- 2097152
+            nil,                                                    -- 2^22
+            l10n("Pandaren"),                                       -- 8388608
+            l10n("Pandaren") .. spaceString .. l10n("Alliance"),    -- 16777216
+            l10n("Pandaren") .. spaceString .. l10n("Horde"),       -- 33554432
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
@@ -307,6 +313,40 @@ function QuestieLib:GetRaceString(raceMask)
             end
         end
         return raceString
+    end
+end
+
+function QuestieLib:GetClassString(classMask)
+    if not classMask or classMask == QuestieDB.classKeys.NONE or classMask == QuestieDB.classKeys.ALL_CLASSES then
+        return ""
+    else
+        local classString = ""
+        local classTable = QuestieLib:UnpackBinary(classMask)
+        local stringTable = {
+            l10n("Warrior"),                 -- 1
+            l10n("Paladin"),                 -- 2
+            l10n("Hunter"),                  -- 4
+            l10n("Rogue"),                   -- 8
+            l10n("Priest"),                  -- 16
+            l10n("Death Knight"),            -- 32
+            l10n("Shaman"),                  -- 64
+            l10n("Mage"),                    -- 128
+            l10n("Warlock"),                 -- 256
+            l10n("Monk"),                    -- 512
+            l10n("Druid"),                   -- 1024
+        }
+        local firstRun = true
+        for k, v in pairs(classTable) do
+            if v then
+                if firstRun then
+                    firstRun = false
+                else
+                    classString = classString .. ", "
+                end
+                classString = classString .. stringTable[k]
+            end
+        end
+        return classString
     end
 end
 
@@ -443,7 +483,7 @@ end
 
 function QuestieLib:UnpackBinary(val)
     local ret = {}
-    for q = 0, 16 do
+    for q = 0, 25 do
         if bit.band(bit.rshift(val, q), 1) == 1 then
             tinsert(ret, true)
         else

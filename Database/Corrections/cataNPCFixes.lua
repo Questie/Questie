@@ -162,6 +162,9 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[33] = {{35.51,19.86},{35.64,18.93},{35.47,20.26},{34.97,18.84},{34.52,19.13},{33.76,20.08},{33.38,20.35},{33.31,20.52},{33.40,20.79},{33.87,21.11},{34.98,22.08},{34.98,22.08},{36.57,23.31},{34.34,21.95},{32.79,23.87},{32.51,25.43},{32.66,26.37},{32.66,26.37},{32.70,27.43},{32.85,27.75},{32.86,29.12},{32.60,30.31}}},
             [npcKeys.questStarts] = {},
         },
+        [773] = { -- Krazek
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{43.6,23.13}}},
+        },
         [821] = { -- Captain Danuvin
             [npcKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {
@@ -3172,7 +3175,6 @@ function CataNpcFixes.Load()
         [21209] = { -- Dumphry
             [npcKeys.questStarts] = {10055,10078,10763,10764},
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{51.29,60.31}}},
-            [npcKeys.waypoints] = {},
         },
         [21212] = { -- Lady Vashj
             [npcKeys.spawns] = {[zoneIDs.SERPENTSHRINE_CAVERN] = {{72.08,58.97},{-1,-1}}},

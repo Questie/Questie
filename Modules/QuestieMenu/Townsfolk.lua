@@ -413,10 +413,7 @@ function Townsfolk.Initialize()
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
             if QuestieDB.npcData[trainer] then
-                local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
-                if subName and string.len(subName) > 0 then
-                    tinsert(newTrainers, trainer)
-                end
+                tinsert(newTrainers, trainer)
             end
         end
         classSpecificTownsfolk[class] = {}

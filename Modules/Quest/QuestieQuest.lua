@@ -474,6 +474,16 @@ function QuestieQuest:AcceptQuest(questId)
             QuestieTooltips:RemoveQuest(questId)
         end
 
+        local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+        if childQuests then
+            for _, childQuestId in pairs(childQuests) do
+                -- Daily quest status is reset after parent accept
+                if QuestieDB.IsDailyQuest(childQuestId) then
+                    Questie.db.char.complete[childQuestId] = nil
+                end
+            end
+        end
+
         if not QuestiePlayer.currentQuestlog[questId] then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
@@ -546,6 +556,16 @@ function QuestieQuest:CompleteQuest(questId)
         end
     end
 
+    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+    if childQuests then
+        for _, childQuestId in pairs(childQuests) do
+            if not QuestiePlayer.currentQuestlog[childQuestId] then
+                -- Make sure all other childQuests are unloaded: all exclusives, chains etc
+                AvailableQuests.RemoveQuest(childQuestId)
+            end
+        end
+    end
+
     AvailableQuests.RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
@@ -582,7 +602,10 @@ function QuestieQuest:AbandonedQuest(questId)
             local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
             if childQuests then
                 for _, childQuestId in pairs(childQuests) do
-                    Questie.db.char.complete[childQuestId] = nil
+                    if not QuestiePlayer.currentQuestlog[childQuestId] then
+                        -- Make sure all other childQuests are unloaded: all exclusives, chains etc
+                        AvailableQuests.RemoveQuest(childQuestId)
+                    end
                 end
             end
         end
