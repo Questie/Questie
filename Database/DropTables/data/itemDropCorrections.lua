@@ -260,6 +260,9 @@ QuestieItemDropCorrections.Tbc = {
         [20197] = DropKeys.WOWHEAD,
         [20198] = DropKeys.WOWHEAD,
     },
+    [24374] = { -- Eel Filet
+        [18138] = DropKeys.WOWHEAD,
+    },
     [24426] = { -- Sporebat Eye
         [18128] = DropKeys.WOWHEAD,
         [18129] = DropKeys.WOWHEAD,
