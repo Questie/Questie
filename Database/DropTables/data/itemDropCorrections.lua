@@ -311,6 +311,12 @@ QuestieItemDropCorrections.Tbc = {
     [31119] = { -- Wyrmcult Net
         [21809] = DropKeys.WOWHEAD,
     },
+    [31132] = { -- Crust Burster Venom Gland
+        [21380] = DropKeys.WOWHEAD,
+        [21381] = DropKeys.WOWHEAD,
+        [21849] = DropKeys.WOWHEAD,
+        [22466] = DropKeys.WOWHEAD,
+    },
     [31812] = { -- Doom Skull
         [21242] = DropKeys.WOWHEAD,
         [21285] = DropKeys.WOWHEAD,
