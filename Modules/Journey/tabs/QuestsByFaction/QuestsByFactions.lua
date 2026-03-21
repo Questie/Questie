@@ -352,7 +352,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         end
 
         local sel, questId = strsplit("\001", treePath[2])
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b") and (not questId) then
+        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b" or sel == "h") and (not questId) then
             return
         end
 
@@ -397,32 +397,32 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     local factionTree = {
         [1] = {
             value = "b",
-            text = l10n('Breadcrumb Quests'),
+            text = l10n("Breadcrumb Quests"),
             children = {},
         },
         [2] = {
             value = "a",
-            text = l10n('Available Quests'),
+            text = l10n("Available Quests"),
             children = {}
         },
         [3] = {
-            value = "p",
-            text = l10n('Missing Pre Quest'),
-            children = {}
+            value = "r",
+            text = l10n("Repeatable Quests"),
+            children = {},
         },
         [4] = {
             value = "c",
-            text = l10n('Completed Quests'),
+            text = l10n("Completed Quests"),
             children = {}
         },
         [5] = {
-            value = "r",
-            text = l10n('Repeatable Quests'),
-            children = {},
+            value = "p",
+            text = l10n("Missing Requirement"),
+            children = {}
         },
         [6] = {
             value = "u",
-            text = l10n('Unobtainable Quests'),
+            text = l10n("Unobtainable Quests"),
             children = {},
         },
     }
@@ -436,11 +436,14 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     local repeatableCounter = 0
     local breadcrumbCompleteCounter = 0
     local breadcrumbCounter = 0
+    local hiddenCounter = 0
 
-    local unobtainableQuestIds = {}
     local temp = {}
 
     local playerlevel = UnitLevel("player")
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+    local playerlevel = UnitLevel("player")
+    local DoableStates = QuestieDB.DoableStates
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         local questId = levelAndQuest[2]
@@ -478,6 +481,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
             temp.text = questName
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
+            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
 
             -- Breadcrumb quests
             if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
@@ -485,89 +489,204 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 breadcrumbCounter = breadcrumbCounter + 1
             end
 
-            if Questie.db.char.complete[questId] then
-                tinsert(factionTree[4].children, temp)
-                completedCounter = completedCounter + 1
-                if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
-                    breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
-                end
-            else
-                local exclusiveTo = queryResult[1]
-                local nextQuestInChain = queryResult[2]
-                local parentQuest = queryResult[3]
-                local preQuestSingle = queryResult[4]
-                local preQuestGroup = queryResult[5]
-                local requiredMinRep = queryResult[6]
-                local requiredMaxRep = queryResult[7]
-                local requiredSpell = queryResult[8]
-                local requiredSpecialization = queryResult[9]
-                local requiredMaxLevel = queryResult[10]
-                local requiredSkill = queryResult[11]
-                local requiredLevel = queryResult[12]
-
-                if requiredSkill then
-                    local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
-                    if (not (hasProfession and hasSkillLevel)) then
-                        tinsert(factionTree[6].children, temp)
-                        unobtainableCounter = unobtainableCounter + 1
-                    end
-                elseif (nextQuestInChain ~= 0 and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
-                    tinsert(factionTree[4].children, temp)
-                    completedCounter = completedCounter + 1
-                elseif parentQuest and Questie.db.char.complete[parentQuest] then
-                    tinsert(factionTree[4].children, temp)
-                    completedCounter = completedCounter + 1
-                elseif not QuestieReputation.HasReputation(requiredMinRep, requiredMaxRep) then
-                    tinsert(factionTree[6].children, temp)
-                    unobtainableQuestIds[questId] = true
-                    unobtainableCounter = unobtainableCounter + 1
-                elseif (not QuestieProfessions.HasSpecialization(requiredSpecialization)) then
-                    tinsert(factionTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
-                elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
-                    if unobtainableQuestIds[preQuestSingle] ~= nil then
-                        tinsert(factionTree[6].children, temp)
-                        unobtainableQuestIds[questId] = true
-                        unobtainableCounter = unobtainableCounter + 1
-                    else
+            -- Filtering logic. If changing anything here, also change in QuestsByZone.lua
+            if returnReason then
+                if returnReason == DoableStates.AVAILABLE then -- available quests
+                    if QuestieDB.IsRepeatable(questId) then
                         tinsert(factionTree[3].children, temp)
-                        prequestMissingCounter = prequestMissingCounter + 1
+                        repeatableCounter = repeatableCounter + 1
+                    else
+                        tinsert(factionTree[2].children, temp)
+                        availableCounter = availableCounter + 1
                     end
-                elseif not QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup) then
-                    local hasUnobtainablePreQuest = false
-                    for _, preQuestId in pairs(preQuestGroup) do
-                        if unobtainableQuestIds[preQuestId] ~= nil then
-                            tinsert(factionTree[6].children, temp)
-                            unobtainableQuestIds[questId] = true
-                            unobtainableCounter = unobtainableCounter + 1
-                            hasUnobtainablePreQuest = true
-                            break
+                elseif returnReason == DoableStates.COMPLETED then -- completed quests
+                    tinsert(factionTree[4].children, temp)
+                    completedCounter = completedCounter + 1
+                    if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                        breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
+                    end
+                elseif returnReason == DoableStates.QUEST_LOG then -- player is on quest
+                    if QuestieDB.IsRepeatable(questId) then
+                        tinsert(factionTree[3].children, temp)
+                        repeatableCounter = repeatableCounter + 1
+                    else
+                        tinsert(factionTree[2].children, temp)
+                        availableCounter = availableCounter + 1
+                    end
+                -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
+                -- elseif returnReason == DoableStates.HIDDEN then -- manually hidden quests -- no longer applicable
+                elseif returnReason == DoableStates.PARENT_ACTIVE then -- parent quest active
+                -- reused the logic from AvailableQuests.lua _DrawChildQuests
+                -- if this is modified, also make sure the changes are reflected in the other file(s)
+                    local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
+                    if (not Questie.db.char.complete[questId]) and (not hiddenQuests[questId]) and (QuestiePlayer.HasRequiredRace(requiredRaces)) then
+                        -- some childQuest remain completed after abandoning and retaking parentQuest
+                        -- here we are checking against 
+                        local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
+                        local blockedByExclusiveTo = false
+                        for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
+                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                                tinsert(factionTree[4].children, temp)
+                                completedCounter = completedCounter + 1
+                            end
+                        end
+                        if (not blockedByExclusiveTo) then
+                            local isPreQuestSingleFulfilled = true
+                            local isPreQuestGroupFulfilled = true
+
+                            local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+                            if preQuestSingle then
+                               isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+                            else
+                               local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+                                if preQuestGroup then
+                                    isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+                                end
+                            end
+
+                            if isPreQuestSingleFulfilled and isPreQuestGroupFulfilled then
+                                if QuestieDB.IsRepeatable(questId) then
+                                    tinsert(factionTree[3].children, temp)
+                                    repeatableCounter = repeatableCounter + 1
+                                else
+                                    tinsert(factionTree[2].children, temp)
+                                    availableCounter = availableCounter + 1
+                                end
+                            end
                         end
                     end
-
-                    if not hasUnobtainablePreQuest then
-                        tinsert(factionTree[3].children, temp)
+                -- elseif returnReason == DoableStates.WRONG_RACE then -- wrong race -- not shown at all
+                elseif returnReason == DoableStates.NO_PREQUESTSINGLE then -- no preQuestSingle completed
+                    tinsert(factionTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                -- elseif returnReason == DoableStates.WRONG_CLASS then -- wrong class -- not shown at all
+                elseif returnReason == DoableStates.MISSING_REPUTATION then -- no reputation
+                    tinsert(factionTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == DoableStates.PROFESSION_SKILL then -- no profession and skill
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == DoableStates.NO_PREQUESTGROUP then -- no preQuestGroup completed
+                    tinsert(factionTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == DoableStates.PARENT_INACTIVE then -- inactive parent
+                    local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
+                    if Questie.db.char.complete[parentQuest] then
+                        tinsert(factionTree[4].children, temp)
+                        completedCounter = completedCounter + 1
+                    else
+                        tinsert(factionTree[5].children, temp)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
-                elseif requiredMaxLevel and requiredMaxLevel ~= 0 and playerlevel > requiredMaxLevel then
+                elseif returnReason == DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED then -- nextQuestInChain completed or in quest log
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif requiredLevel and requiredLevel > playerlevel then
+                elseif returnReason == DoableStates.EXCLUSIVE_COMPLETED or returnReason == DoableStates.EXCLUSIVE_IN_QUEST_LOG then -- exclusive quest completed or in quest log
+                    local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
+                    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+                    local questDecidedCategory = false
+                    -- checking for some weird cases where the exclusiveTo is on the same level as other preQuestSingle values
+                    if preQuestSingle then
+                        for i = 1,#preQuestSingle do
+                            local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
+                            if exclusivePreQuests then
+                                for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
+                                    if Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId] then
+                                        tinsert(factionTree[6].children, temp)
+                                        unobtainableCounter = unobtainableCounter + 1
+                                        questDecidedCategory = true
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    -- checking for some weird cases where the exclusiveTo is on the same level as other nextQuestInChain values
+                    if nextQuestInChain and nextQuestInChain ~= 0 and not questDecidedCategory then
+                        local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
+                        if exclusiveFollowups then
+                            for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
+                                if Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId] then
+                                    tinsert(factionTree[6].children, temp)
+                                    unobtainableCounter = unobtainableCounter + 1
+                                    questDecidedCategory = true
+                                    break
+                                end
+                            end
+                        end
+                    end
+                    -- "Regular" exclusives
+                    if not questDecidedCategory then
+                        tinsert(factionTree[4].children, temp)
+                        completedCounter = completedCounter + 1
+                    end
+                elseif returnReason == DoableStates.MISSING_DAILY then -- not today's daily quest
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif QuestieDB.IsRepeatable(questId) then
+                elseif returnReason == DoableStates.PROFESSION_SPECIALIZATION then -- wrong profession specialization
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == DoableStates.SPELL_MISSING then -- missing spell, so quest unavailable
                     tinsert(factionTree[5].children, temp)
-                    repeatableCounter = repeatableCounter + 1
-                elseif requiredSpell and requiredSpell < 0 and (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == DoableStates.SPELL_KNOWN then -- learned spell, so quest unavailable
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                elseif requiredSpell and requiredSpell > 0 and not (IsSpellKnownOrOverridesKnown(math.abs(requiredSpell)) or IsPlayerSpell(math.abs(requiredSpell))) then
+                elseif returnReason == DoableStates.MISSING_ACHIEVEMENT then -- missing achievement
+                    tinsert(factionTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == DoableStates.BREADCRUMB_FOLLOWUP then -- breadcrumb's follow up active or completed
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                else
-                    tinsert(factionTree[2].children, temp)
-                    availableCounter = availableCounter + 1
+                -- show event quests outside event dates
+                elseif returnReason == DoableStates.EVENT_INACTIVE then -- event inactive
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == DoableStates.BREADCRUMB_ACTIVE then -- quest not available because breadcrumb in quest log
+                    tinsert(factionTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == DoableStates.INACTIVE_DAILY then -- daily quests detected not present today
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == DoableStates.LEVEL_TOO_HIGH then -- player is higher level than quest bracket
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == DoableStates.LEVEL_TOO_LOW then -- player is too low
+                    tinsert(factionTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                elseif returnReason == DoableStates.DISABLING_QUEST_COMPLETED then -- quest that hides it already turned in
+                    -- Repeatables are considered complete
+                    if QuestieDB.IsRepeatable(questId) then
+                        tinsert(factionTree[4].children, temp)
+                        completedCounter = completedCounter + 1
+                    -- The others are considered unobtainable
+                    else
+                        tinsert(factionTree[6].children, temp)
+                        unobtainableCounter = unobtainableCounter + 1
+                    end
+                elseif returnReason == DoableStates.ENABLING_QUEST_MISSING then -- quest that enables this quest is not picked up or turned in
+                    tinsert(factionTree[5].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
                 end
+            end
+
+            -- AQ War Effort quests (one-time world event that has ended for all realms)
+            if (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
+                tinsert(factionTree[6].children, temp)
+                unobtainableCounter = unobtainableCounter + 1
+            end
+
+            -- show manually hidden quests 
+            if Questie.db.char.hidden[questId] then
+                if not factionTree[7] then
+                    factionTree[7] = {
+                        value = "h",
+                        text = l10n("Hidden Quests"),
+                        children = {},
+                    }
+                end
+                tinsert(factionTree[7].children, temp)
+                hiddenCounter = hiddenCounter + 1
             end
             temp = {}
         end
@@ -582,10 +701,15 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     end
 
     factionTree[2].text = factionTree[2].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
-    factionTree[3].text = factionTree[3].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
+    factionTree[3].text = factionTree[3].text .. ' [ '..  repeatableCounter ..' ]'
     factionTree[4].text = factionTree[4].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
-    factionTree[5].text = factionTree[5].text .. ' [ '..  repeatableCounter ..' ]'
+    factionTree[5].text = factionTree[5].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
     factionTree[6].text = factionTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
+
+    -- only show hidden quests when there are some
+    if factionTree[7] then
+        factionTree[7].text = factionTree[7].text .. ' [ '..  hiddenCounter ..' ]'
+    end
 
     factionTree.numquests = totalCounter + repeatableCounter + unobtainableCounter
 
