@@ -3579,6 +3579,7 @@ function QuestieQuestFixes:Load()
         },
         [7507] = {
             [questKeys.name] = "Nostro's Compendium",
+            [questKeys.objectivesText] = "Return Nostro's Compendium of Dragon Slaying to the Athenaeum.",
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.nextQuestInChain] = 7508,
         },
