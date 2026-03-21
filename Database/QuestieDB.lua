@@ -93,7 +93,7 @@ QuestieDB.DoableStates = {
     SPELL_KNOWN = 19,
     MISSING_ACHIEVEMENT = 20,
     BREADCRUMB_FOLLOWUP = 21,
-    EXCLUSIVE_BREADCRUMB = 22, -- no longer used, REUSE
+    EVENT_INACTIVE = 22,
     BREADCRUMB_ACTIVE = 23,
     INACTIVE_DAILY = 24,
     LEVEL_TOO_HIGH = 25,
@@ -905,6 +905,14 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Automatically blacklisted quests by Questie. These are localized in the init function
     if QuestieCorrectionshiddenQuests[questId] then
         local msg = "Quest " .. questId .. " is hidden automatically"
+        local msgevent = "Quest " .. questId .. " is unavailable because the world event is inactive"
+        if QuestieEvent.IsEventQuest(questId) and not QuestieEvent.IsEventActiveForQuest(questId) then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Event inactive"), true, DoableStates.EVENT_INACTIVE
+            elseif returnText and not returnBrief then
+                return msgevent, true, DoableStates.EVENT_INACTIVE
+            end
+        end
         if returnText and returnBrief then
             return l10n("Unknown")..l10n(": ")..l10n("Automatically blacklisted"), true, DoableStates.BLACKLISTED
         elseif returnText and not returnBrief then

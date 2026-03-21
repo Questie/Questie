@@ -246,6 +246,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 breadcrumbCounter = breadcrumbCounter + 1
             end
 
+            -- Filtering logic. If changing anything here, also change in QuestsByFaction.lua
             if returnReason then
                 if returnReason == DoableStates.AVAILABLE then -- available quests
                     if QuestieDB.IsRepeatable(questId) then
@@ -394,10 +395,10 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 elseif returnReason == DoableStates.BREADCRUMB_FOLLOWUP then -- breadcrumb's follow up active or completed
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                -- The next case is commented out since it's not a valid check to have. Breadcrumbs to the same quest are not always exclusive to eachother
-                --[[elseif returnReason == DoableStates.EXCLUSIVE_BREADCRUMB then -- another breadcrumb active
-                    tinsert(zoneTree[4].children, temp)
-                    completedCounter = completedCounter + 1]]
+                -- show event quests outside event dates
+                elseif returnReason == DoableStates.EVENT_INACTIVE then -- event inactive
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.BREADCRUMB_ACTIVE then -- quest not available because breadcrumb in quest log
                     tinsert(zoneTree[5].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
@@ -426,12 +427,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 end
             end
 
-            -- show event quests outside event dates
-            if QuestieEvent.IsEventQuest(questId) and not QuestieEvent.IsEventActiveForQuest(questId) then
-                tinsert(zoneTree[6].children, temp)
-                unobtainableCounter = unobtainableCounter + 1
             -- AQ War Effort quests (one-time world event that has ended for all realms)
-            elseif (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
+            if (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
                 tinsert(zoneTree[6].children, temp)
                 unobtainableCounter = unobtainableCounter + 1
             end
