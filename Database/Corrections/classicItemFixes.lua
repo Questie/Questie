@@ -1218,6 +1218,7 @@ function QuestieItemFixes:Load()
         },
         [18401] = { -- Nostro's Compendium of Dragon Slaying
             [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
+            [itemKeys.startQuest] = 7507,
         },
         [18605] = { -- Imprisoned Doomguard (#7583)
             [itemKeys.npcDrops] = {12396},
