@@ -1243,6 +1243,9 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 1654,
         },
+        [1658] = { -- Crashing the Wickerman Festival
+            [questKeys.name] = "Crashing the Wickerman Festival",
+        },
         [1661] = {
             [questKeys.exclusiveTo] = {4485,4486},
         },
