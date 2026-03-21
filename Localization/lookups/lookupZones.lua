@@ -2893,6 +2893,7 @@ l10n.zoneCategoryLookup = {
     },
     [12] = {
         [-1] = "Epic",
+        [-21] = "Hallow's End",
         [-22] = "Seasonal",
         [-41] = "Day of the Dead",
         [-221] = "Treasure Map",
