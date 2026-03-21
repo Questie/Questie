@@ -177,8 +177,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WETLANDS] = {{8.4,61.8}}}, -- New position in TBC
         },
         [5111] = { -- Innkeeper Firebrew
-            [npcKeys.questStarts] = {3790,8353,63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {8353,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {3790,8353,63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {8353,63448,63767,65284,65561,93823,96253},
         },
         [5149] = { -- Brandur Ironhammer
             [npcKeys.questStarts] = {2999,3681,7670,8415},
@@ -266,24 +266,24 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {1886,1898,1978,1998,1999,2019,2378,6681},
         },
         [6735] = { -- Innkeeper Saelienne
-            [npcKeys.questStarts] = {3763,8357,63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {8357,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {3763,8357,63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {8357,63448,63767,65284,65561,93823,96253},
         },
         [6740] = { -- Innkeeper Allison
-            [npcKeys.questStarts] = {3789,8356,9027,63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {8356,8860,9026,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {3789,8356,9027,63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {8356,8860,9026,63448,63767,65284,65561,93823,96253},
         },
         [6741] = { -- Innkeeper Norman
-            [npcKeys.questStarts] = {3784,8354,8983,63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {8354,8982,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {3784,8354,8983,63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {8354,8982,63448,63767,65284,65561,93823,96253},
         },
         [6746] = { -- Innkeeper Pala
-            [npcKeys.questStarts] = {3762,5926,8360,63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {8360,8861,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {3762,5926,8360,63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {8360,8861,63448,63767,65284,65561,93823,96253},
         },
         [6929] = { -- Innkeeper Gryshka
-            [npcKeys.questStarts] = {936,5927,6385,8359,63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {6384,8359,63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {936,5927,6385,8359,63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {6384,8359,63448,63767,65284,65561,93823,96253},
         },
         [7009] = { -- Arantir
             [npcKeys.questStarts] = {2358},
@@ -508,8 +508,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {10388},
         },
         [16618] = { -- Innkeeper Velandra
-            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [16646] = { -- Alamma
             [npcKeys.questStarts] = {10605},
@@ -564,8 +564,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [16739] = { -- Caregiver Breel
-            [npcKeys.questStarts] = {10520,63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {10520,63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [16756] = { -- Caedmos
             [npcKeys.questStarts] = {},
@@ -816,8 +816,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS]={{46.93,75.64}}},
         },
         [17630] = { -- Innkeeper Jovia
-            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [17663] = { -- Maatparm
             [npcKeys.name] = "Maatparm",
@@ -998,8 +998,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{54.79,53.33}}},
         },
         [19046] = { -- Minalei
-            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [19148] = { -- Dwarf Commoner
             [npcKeys.questStarts] = {11356,11441,11970},
@@ -1033,8 +1033,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {11875,64997,64998,64999},
         },
         [19232] = { -- Innkeeper Haelthol
-            [npcKeys.questStarts] = {63448,63767,65284,65561,93823},
-            [npcKeys.questEnds] = {63448,63767,65284,65561,93823},
+            [npcKeys.questStarts] = {63448,63767,65284,65561,93823,96253},
+            [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [19254] = { -- Warlord Dar'toon
             [npcKeys.questEnds] = {64063,64217},

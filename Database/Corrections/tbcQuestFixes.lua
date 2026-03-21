@@ -6357,6 +6357,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [96253] = { -- An Unexpected Delivery
+            [questKeys.name] = "An Unexpected Delivery",
+            [questKeys.startedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
+            [questKeys.finishedBy] = {{5111,6735,6740,6741,6746,6929,16618,16739,17630,19046,19232}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {},
+            [questKeys.objectives] = {},
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
         [96254] = { -- An Unexpected Delivery
             [questKeys.name] = "An Unexpected Delivery",
             [questKeys.startedBy] = {{17249}},
