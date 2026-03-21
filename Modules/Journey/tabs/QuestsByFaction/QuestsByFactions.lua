@@ -442,7 +442,6 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
     local playerlevel = UnitLevel("player")
     local hiddenQuests = QuestieCorrections.hiddenQuests
-    local playerlevel = UnitLevel("player")
     local DoableStates = QuestieDB.DoableStates
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
