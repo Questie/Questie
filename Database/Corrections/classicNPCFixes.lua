@@ -3097,9 +3097,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
         [16033] = { -- Bodley
-            [npcKeys.spawns] = {
-                [zoneIDs.EASTERN_KINGDOMS] = {{48.896,63.93},},
-            },
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{48.896,63.93}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
         },
         [16042] = { -- Lord Valthalak
