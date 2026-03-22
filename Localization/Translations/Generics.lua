@@ -95,7 +95,7 @@ local genericsLocales = {
         ["koKR"] = "다시 보이지 않기",
         ["ptBR"] = "Não mostrar novamente",
         ["ruRU"] = "Не отображать снова",
-        ["zhCN"] = "不在显示",
+        ["zhCN"] = "不再显示",
         ["zhTW"] = "不再顯示",
     },
     ["Auto"] = {

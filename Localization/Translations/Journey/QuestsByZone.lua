@@ -239,7 +239,7 @@ local questsByZoneLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "隐藏任务",
         ["zhTW"] = false,
     },
 }
