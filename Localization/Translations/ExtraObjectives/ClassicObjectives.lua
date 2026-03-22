@@ -767,7 +767,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤夜魔",
         ["zhTW"] = false,
     },
     ["Summon the Succubus"] = {
@@ -779,7 +779,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤魅魔",
         ["zhTW"] = false,
     },
 }
