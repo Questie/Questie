@@ -1287,6 +1287,7 @@ function QuestieQuestBlacklist:Load()
         [78225] = true, -- Boosted character quest
         [93823] = true, -- Boosted character quest
         [93824] = true, -- Boosted character quest
+        [96253] = true, -- Boosted character quest
         [96254] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
