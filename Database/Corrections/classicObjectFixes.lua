@@ -128,6 +128,10 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.TANARIS]={{54,93}}},
             [objectKeys.zoneID] = zoneIDs.TANARIS,
         },
+        [142345] = { -- Matrix Punchograph 3005-A
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{42.83,59.191},{42.854,59.193},{42.838,59.386},{42.798,59.381}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+        },
         [144052] = {
             [objectKeys.spawns] = {[zoneIDs.TANARIS]={{39,29}}},
             [objectKeys.zoneID] = zoneIDs.TANARIS,
