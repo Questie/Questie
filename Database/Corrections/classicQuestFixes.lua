@@ -1063,17 +1063,13 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Voidwalker"), 0, {{"object", 37097}}}},
         },
-        [1472] = {
-            [questKeys.exclusiveTo] = {},
-            [questKeys.nextQuestInChain] = 0,
-        },
         [1473] = { -- Creature of the Void
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1478},
         },
-        [1474] = {
-            [questKeys.exclusiveTo] = {1513},
+        [1474] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Succubus"), 0, {{"object", 37097}}}},
         },
         [1477] = {
             [questKeys.breadcrumbForQuestId] = 1395, -- #1727
@@ -1122,13 +1118,9 @@ function QuestieQuestFixes:Load()
         [1506] = { -- Gan'rul's Summons
             [questKeys.breadcrumbForQuestId] = 1501,
         },
-        [1507] = {
-            [questKeys.exclusiveTo] = {},
-            [questKeys.nextQuestInChain] = 0,
-        },
-        [1513] = {
-            [questKeys.exclusiveTo] = {1474},
+        [1513] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Succubus"), 0, {{"object", 105576}}}},
         },
         [1516] = {
             [questKeys.exclusiveTo] = {1519}, -- #6723
@@ -1297,8 +1289,9 @@ function QuestieQuestFixes:Load()
         [1688] = {
             [questKeys.breadcrumbs] = {1685,1715}, -- #7095
         },
-        [1689] = {
+        [1689] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Voidwalker"), 0, {{"object", 92015}}}},
         },
         [1692] = { -- Smith Mathiel
             [questKeys.preQuestSingle] = {1686},
@@ -1359,8 +1352,9 @@ function QuestieQuestFixes:Load()
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595,5113,5479}}, -- #1034
         },
-        [1739] = {
+        [1739] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Succubus"), 0, {{"object", 92015}}}},
         },
         [1758] = {
             [questKeys.preQuestSingle] = {},
@@ -5548,7 +5542,7 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
         ----- Warlock Incubus quest chain -----
-        [65593] = {
+        [65593] = { -- Hearts of the Lovers
             [questKeys.name] = "Hearts of the Lovers",
             [questKeys.startedBy] = {{5693}},
             [questKeys.finishedBy] = {{5675}},
@@ -5560,10 +5554,10 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
             [questKeys.objectives] = {nil,nil,{{190179},{190180}}},
             [questKeys.preQuestSingle] = {1472},
-            [questKeys.exclusiveTo] = {65610},
+            [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [65597] = {
+        [65597] = { -- The Binding
             [questKeys.name] = "The Binding",
             [questKeys.startedBy] = {{5675}},
             [questKeys.finishedBy] = {{5675}},
@@ -5575,11 +5569,11 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{185335}}},
             [questKeys.preQuestSingle] = {65593},
             [questKeys.requiredSourceItems] = {190181},
-            [questKeys.exclusiveTo] = {65604},
+            [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Lovers' Hearts to summon an Incubus and slay it."),}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Incubus"), 0, {{"object", 37097}}}},
         },
-        [65601] = {
+        [65601] = { -- Love Hurts
             [questKeys.name] = "Love Hurts",
             [questKeys.startedBy] = {{5909}},
             [questKeys.finishedBy] = {{3363}},
@@ -5590,10 +5584,10 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
             [questKeys.preQuestSingle] = {1507},
-            [questKeys.exclusiveTo] = {65593,65610},
+            [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [65602] = {
+        [65602] = { -- What Is Love?
             [questKeys.name] = "What Is Love?",
             [questKeys.startedBy] = {{6244}},
             [questKeys.finishedBy] = {{6122}},
@@ -5605,11 +5599,12 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
             [questKeys.preQuestSingle] = {1716},
             [questKeys.objectives] = {nil,nil,{{190309}}},
+            [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.requiredSourceItems] = {190307},
             [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, Questie.ICON_TYPE_EVENT, l10n("Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeologist's Cart on fire."),}},
         },
-        [65603] = {
+        [65603] = { -- The Binding
             [questKeys.name] = "The Binding",
             [questKeys.startedBy] = {{6122}},
             [questKeys.finishedBy] = {{6122}},
@@ -5621,10 +5616,11 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{185335}}},
             [questKeys.preQuestSingle] = {65602},
             [questKeys.requiredSourceItems] = {190186},
+            [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Wooden Figurine to summon an Incubus and slay it."),}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Incubus"), 0, {{"object", 92015}}}},
         },
-        [65604] = {
+        [65604] = { -- The Binding
             [questKeys.name] = "The Binding",
             [questKeys.startedBy] = {{5875}},
             [questKeys.finishedBy] = {{5875}},
@@ -5636,11 +5632,11 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{185335}}},
             [questKeys.preQuestSingle] = {65610},
             [questKeys.requiredSourceItems] = {190187},
-            [questKeys.exclusiveTo] = {65597},
+            [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Withered Scarf to summon an Incubus and slay it."),}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Incubus"), 0, {{"object", 105576}}}},
         },
-        [65610] = {
+        [65610] = { -- Wish You Were Here
             [questKeys.name] = "Wish You Were Here",
             [questKeys.startedBy] = {{3363}},
             [questKeys.finishedBy] = {{5875}},
@@ -5652,7 +5648,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
             [questKeys.preQuestSingle] = {65601},
             [questKeys.objectives] = {nil,nil,{{190232}}},
-            [questKeys.exclusiveTo] = {65593},
+            [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
     }

@@ -8699,6 +8699,18 @@ function CataNpcFixes:LoadFactionFixes()
     local phases = Phasing.phases
 
     local npcFixesHorde = {
+        [5676] = { -- Summoned Voidwalker
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.62,27.05}},
+                [zoneIDs.ORGRIMMAR] = {{49.89,58.73}},
+            },
+        },
+        [5677] = { -- Summoned Succubus
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.62,27.05}},
+                [zoneIDs.ORGRIMMAR] = {{49.89,58.73}},
+            },
+        },
         [7783] = { -- Loramus Thalipedes
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{39.36,35.78}}},
         },
@@ -8866,9 +8878,21 @@ function CataNpcFixes:LoadFactionFixes()
         [54114] = { -- Unleashed Void
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{65.77,74.8}}},
         },
+        [185335] = { -- Summoned Incubus
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.62,27.05}},
+                [zoneIDs.ORGRIMMAR] = {{49.89,58.73}},
+            },
+        },
     }
 
     local npcFixesAlliance = {
+        [5676] = { -- Summoned Voidwalker
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.12,84.34}}},
+        },
+        [5677] = { -- Summoned Succubus
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.12,84.34}}},
+        },
         [7783] = { -- Loramus Thalipedes
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{62.31,26.09}}},
         },
@@ -9039,6 +9063,9 @@ function CataNpcFixes:LoadFactionFixes()
         },
         [54114] = { -- Unleashed Void
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{55.39,43.41}}},
+        },
+        [185335] = { -- Summoned Incubus
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.12,84.34}}},
         },
     }
 

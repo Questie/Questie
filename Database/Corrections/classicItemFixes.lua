@@ -1489,14 +1489,17 @@ function QuestieItemFixes:Load()
         [190181] = { -- Lovers' Hearts
             [itemKeys.name] = "Lovers' Hearts",
             [itemKeys.relatedQuests] = {65597},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [190186] = { -- Wooden Figurine
             [itemKeys.name] = "Wooden Figurine",
             [itemKeys.relatedQuests] = {65603},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [190187] = { -- Withered Scarf
             [itemKeys.name] = "Withered Scarf",
             [itemKeys.relatedQuests] = {65604},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [190232] = { -- Withered Scarf
             [itemKeys.name] = "Withered Scarf",

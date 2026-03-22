@@ -1070,22 +1070,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1471,1472,1473,1474,3001,65597},
             [npcKeys.questEnds] = {1471,1473,1474,1476,1478,65593,65597},
         },
-        [5676] = { -- Summoned Voidwalker
-            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
-            [npcKeys.spawns] = {
-                [zoneIDs.UNDERCITY] = {{86.51,26.94}},
-                [zoneIDs.STORMWIND_CITY] = {{25.16,77.49}},
-                [zoneIDs.ORGRIMMAR] = {{49.66,50.14}},
-            },
-        },
-        [5677] = { -- Summoned Succubus
-            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
-            [npcKeys.spawns] = {
-                [zoneIDs.UNDERCITY] = {{86.36,26.73}},
-                [zoneIDs.STORMWIND_CITY] = {{25.2,77.52}},
-                [zoneIDs.ORGRIMMAR] = {{49.73,50.14}},
-            },
-        },
         [5688] = { -- Innkeeper Renee
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{61.72,52.05}}},
         },
@@ -3359,6 +3343,20 @@ function QuestieNPCFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local npcFixesHorde = {
+        [5676] = { -- Summoned Voidwalker
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.62,27.05}},
+                [zoneIDs.ORGRIMMAR] = {{49.43,50.04}},
+            },
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [5677] = { -- Summoned Succubus
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.62,27.05}},
+                [zoneIDs.ORGRIMMAR] = {{49.43,50.04}},
+            },
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
         [6492] = { -- Rift Spawn
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{53.29,74.56},{53.67,76.81},{52.01,75.96},{53.2,71.44}}},
             [npcKeys.zoneID] = zoneIDs.UNDERCITY,
@@ -3391,9 +3389,24 @@ function QuestieNPCFixes:LoadFactionFixes()
             },
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
+        [185335] = { -- Summoned Incubus
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.62,27.05}},
+                [zoneIDs.ORGRIMMAR] = {{49.43,50.04}},
+            },
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
     }
 
     local npcFixesAlliance = {
+        [5676] = { -- Summoned Voidwalker
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{25.09,77.45}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [5677] = { -- Summoned Succubus
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{25.09,77.45}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
         [6492] = { -- Rift Spawn
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{40.87,89.04},{40.75,92.13},{41.27,90.54},{40.26,88.13},{40.89,87.75},{40.47,91.94}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
@@ -3426,6 +3439,10 @@ function QuestieNPCFixes:LoadFactionFixes()
                 [zoneIDs.IRONFORGE]={{63.54,24.67}},
             },
             [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
+        },
+        [185335] = { -- Summoned Incubus
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{25.09,77.45}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
     }
 

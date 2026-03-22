@@ -326,7 +326,7 @@ local classicObjectiveLocales = {
         ["zhCN"] = "放置幽灵磁铁箱",
         ["zhTW"] = "放置鬼魂磁鐵木箱",
     },
-    ["Use the Lovers' Hearts to summon an Incubus and slay it."] = { -- 65597
+    ["Use the Lovers' Hearts to summon an Incubus and slay it."] = { -- 65597 -- NLU
         ["enUS"] = true,
         ["deDE"] = "Benutzt die Herzen der Liebenden um den Inkubus zu beschwören und zu erschlagen",
         ["esES"] = "Usa los Corazones de amantes a invocar un íncubo y mátalo",
@@ -350,7 +350,7 @@ local classicObjectiveLocales = {
         ["zhCN"] = "在火堆附近点燃未点燃的火把，然后用燃烧的火把点燃考古学家的推车",
         ["zhTW"] = "靠近火源以點燃未點燃的火炬，然後使用燃燒的火炬來點燃考古學家的推車",
     },
-    ["Use the Wooden Figurine to summon an Incubus and slay it."] = { -- 65603
+    ["Use the Wooden Figurine to summon an Incubus and slay it."] = { -- 65603 -- NLU
         ["enUS"] = true,
         ["deDE"] = "Benutzt die Holzstatuette um den Inkubus zu beschwören und erschlagt ihn",
         ["esES"] = "Usa la Figurilla de madera para invocar a un íncubo y mátalo",
@@ -747,6 +747,30 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
     },
     ["Summon the Voidwalker"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Summon the Incubus"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Summon the Succubus"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
