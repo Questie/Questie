@@ -227,7 +227,7 @@ local myJourneyLocales = {
         ["koKR"] = "내용이 입력되지 않았습니다. 메모를 추가하려면 내용을 입력해주세요.",
         ["ptBR"] = "Nenhuma anotação foi inserida. Você deve inserir uma anotação antes de submeter.",
         ["ruRU"] = "Вы не ввели описание заметки. Введите описание для добавления заметки.",
-        ["zhCN"] = "未输入备注，提交前你必须输入备注",
+        ["zhCN"] = "未输入备注，在提交前你必须输入一个备注",
         ["zhTW"] = "沒有輸入筆記，送出前必須先輸入筆記內容",
     },
     ["No Title was entered. You must enter a title before submitting your note."] = {
