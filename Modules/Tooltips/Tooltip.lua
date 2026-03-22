@@ -518,7 +518,7 @@ function QuestieTooltips:Initialize()
                     (not QuestieTooltips.lastGametooltipCount) or
                     _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                     or QuestieTooltips.lastGametooltipType ~= "object"
-                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds it's own tooltip
+                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds its own tooltip
                 local playerZone = QuestiePlayer:GetCurrentZoneId()
                 _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText(), playerZone)
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
