@@ -755,7 +755,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "召唤虚空行者",
         ["zhTW"] = false,
     },
 }

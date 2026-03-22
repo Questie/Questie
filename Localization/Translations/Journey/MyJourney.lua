@@ -227,7 +227,7 @@ local myJourneyLocales = {
         ["koKR"] = "내용이 입력되지 않았습니다. 메모를 추가하려면 내용을 입력해주세요.",
         ["ptBR"] = "Nenhuma anotação foi inserida. Você deve inserir uma anotação antes de submeter.",
         ["ruRU"] = "Вы не ввели описание заметки. Введите описание для добавления заметки.",
-        ["zhCN"] = "内容不可为空",
+        ["zhCN"] = "未输入备注，提交前你必须输入备注",
         ["zhTW"] = "沒有輸入筆記，送出前必須先輸入筆記內容",
     },
     ["No Title was entered. You must enter a title before submitting your note."] = {
@@ -239,7 +239,7 @@ local myJourneyLocales = {
         ["koKR"] = "제목이 입력되지 않았습니다. 메모를 추가하려면 제목을 입력해주세요.",
         ["ptBR"] = "Nenhum título foi inserido. Você deve inserir um título antes de submeter sua anotação.",
         ["ruRU"] = "Вы не ввели название заметки. Введите название для добавления заметки.",
-        ["zhCN"] = "标题不可为空",
+        ["zhCN"] = "未输入标题，在提交前你必须输入一个标题",
         ["zhTW"] = "沒有輸入標題，送出筆記前必須先輸入標題",
     },
     ["New Note"] = {
@@ -683,7 +683,7 @@ local myJourneyLocales = {
         ["koKR"] = "후속 퀘스트 진행 중 또는 완료됨",
         ["ptBR"] = "A próxima missão está ativa ou concluída",
         ["ruRU"] = "Следующее задание активно или выполнено",
-        ["zhCN"] = false,
+        ["zhCN"] = "后续任务处于进行中或已完成",
         ["zhTW"] = false,
     },
     ["Disabling quest already turned in"] = {
@@ -695,7 +695,7 @@ local myJourneyLocales = {
         ["koKR"] = "이미 완료한 퀘스트 비활성화",
         ["ptBR"] = "Desativando missão já entregue",
         ["ruRU"] = "Отключение уже сданного задания",
-        ["zhCN"] = false,
+        ["zhCN"] = "禁用已提交的任务",
         ["zhTW"] = false,
     },
     ["Enabling quest not active nor turned in"] = {
@@ -707,7 +707,7 @@ local myJourneyLocales = {
         ["koKR"] = "활성화되지 않았거나 완료하지 않은 퀘스트 활성화",
         ["ptBR"] = "Ativando missão não ativa nem entregue",
         ["ruRU"] = "Включение неактивного и несданного задания",
-        ["zhCN"] = false,
+        ["zhCN"] = "启用既未激活也未提交的任务",
         ["zhTW"] = false,
     },
     ["Unavailable"] = {
@@ -719,7 +719,7 @@ local myJourneyLocales = {
         ["koKR"] = "사용 불가",
         ["ptBR"] = "Indisponível",
         ["ruRU"] = "Недоступно",
-        ["zhCN"] = false,
+        ["zhCN"] = "不可用",
         ["zhTW"] = false,
     },
     ["Event inactive"] = {
@@ -731,7 +731,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "活动未开启",
         ["zhTW"] = false,
     },
 }
