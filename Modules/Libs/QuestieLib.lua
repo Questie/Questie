@@ -323,17 +323,18 @@ function QuestieLib:GetClassString(classMask)
         local classString = ""
         local classTable = QuestieLib:UnpackBinary(classMask)
         local stringTable = {
-            l10n("Warrior"),                 -- 1
-            l10n("Paladin"),                 -- 2
-            l10n("Hunter"),                  -- 4
-            l10n("Rogue"),                   -- 8
-            l10n("Priest"),                  -- 16
-            l10n("Death Knight"),            -- 32
-            l10n("Shaman"),                  -- 64
-            l10n("Mage"),                    -- 128
-            l10n("Warlock"),                 -- 256
-            l10n("Monk"),                    -- 512
-            l10n("Druid"),                   -- 1024
+            -- ingame color codes via RAID_CLASS_COLORS["WARRIOR"] etc
+            "|cFFC79C6E" .. l10n("Warrior") .. "|r",                 -- 1
+            "|cFFF58CBA" .. l10n("Paladin") .. "|r",                 -- 2
+            "|cFFABD473" .. l10n("Hunter") .. "|r",                  -- 4
+            "|cFFFFF569" .. l10n("Rogue") .. "|r",                   -- 8
+            "|cFFFFFFFF" .. l10n("Priest") .. "|r",                  -- 16
+            "|cFFC41F3B" .. l10n("Death Knight") .. "|r",            -- 32
+            "|cFF0070DE" .. l10n("Shaman") .. "|r",                  -- 64
+            "|cFF40C7EB" .. l10n("Mage") .. "|r",                    -- 128
+            "|cFF8787ED" .. l10n("Warlock") .. "|r",                 -- 256
+            "|cFF00FF96" .. l10n("Monk") .. "|r",                    -- 512
+            "|cFFFF7D0A" .. l10n("Druid") .. "|r",                   -- 1024
         }
         local firstRun = true
         for k, v in pairs(classTable) do
