@@ -1140,6 +1140,7 @@ function QuestieQuestFixes:Load()
         [1513] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Succubus"), 0, {{"object", 105576}}}},
+            [questKeys.exclusiveTo] = {1472},
         },
         [1515] = { -- Dogran's Captivity
             [questKeys.exclusiveTo] = {1472},
