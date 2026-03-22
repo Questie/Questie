@@ -1070,6 +1070,10 @@ function QuestieQuestFixes:Load()
         [1474] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Succubus"), 0, {{"object", 37097}}}},
+            [questKeys.exclusiveTo] = {1507},
+        },
+        [1476] = { -- Hearts of the Pure
+            [questKeys.exclusiveTo] = {1507},
         },
         [1477] = {
             [questKeys.breadcrumbForQuestId] = 1395, -- #1727
@@ -1118,9 +1122,27 @@ function QuestieQuestFixes:Load()
         [1506] = { -- Gan'rul's Summons
             [questKeys.breadcrumbForQuestId] = 1501,
         },
+        [1508] = { -- Blind Cazul
+            [questKeys.exclusiveTo] = {1472},
+        },
+        [1509] = { -- News of Dogran
+            [questKeys.exclusiveTo] = {1472},
+        },
+        [1510] = { -- News of Dogran
+            [questKeys.exclusiveTo] = {1472},
+        },
+        [1511] = { -- Ken'zigla's Draught
+            [questKeys.exclusiveTo] = {1472},
+        },
+        [1512] = { -- Love's Gift
+            [questKeys.exclusiveTo] = {1472},
+        },
         [1513] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Succubus"), 0, {{"object", 105576}}}},
+        },
+        [1515] = { -- Dogran's Captivity
+            [questKeys.exclusiveTo] = {1472},
         },
         [1516] = {
             [questKeys.exclusiveTo] = {1519}, -- #6723
