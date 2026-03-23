@@ -1400,6 +1400,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1649},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [1795] = { -- The Binding
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Felhunter"), 0, {{"object", 92388}}}},
+        },
         [1796] = {
             [questKeys.breadcrumbs] = {4736,4737,4738,4739},
         },

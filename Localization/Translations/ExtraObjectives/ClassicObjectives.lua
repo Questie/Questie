@@ -782,6 +782,18 @@ local classicObjectiveLocales = {
         ["zhCN"] = "召唤魅魔",
         ["zhTW"] = false,
     },
+    ["Summon the Felhunter"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do

@@ -537,7 +537,8 @@ function QuestieTBCQuestFixes:Load()
         [2996] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
-        [3001] = {
+        [3001] = { -- Seeking Strahad
+            [questKeys.startedBy] = {{5675,16646}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
         [3088] = {
