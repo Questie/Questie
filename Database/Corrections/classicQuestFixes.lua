@@ -1254,7 +1254,6 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {1442,1655},
         },
         [1655] = { -- Bailor's Ore Shipment
-            [questKeys.preQuestSingle] = {1653},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 1654,
         },
