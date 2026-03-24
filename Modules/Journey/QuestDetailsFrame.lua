@@ -385,6 +385,94 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         container.content:SetHeight(10000)
     end
+
+    -- TODO: There can be multiple finishers
+    if quest.Finisher.GameObject then
+        local endObjectGroup = AceGUI:Create("InlineGroup")
+        endObjectGroup:SetLayout("Flow")
+        endObjectGroup:SetTitle(l10n('Quest Turn-in Object Information'))
+        endObjectGroup:SetFullWidth(true)
+        container:AddChild(endObjectGroup)
+        QuestieJourneyUtils:Spacer(endObjectGroup)
+
+        local endObject = QuestieDB:GetObject(quest.Finisher.GameObject[1])
+
+        local endObjectNameLabel = AceGUI:Create("Label")
+        endObjectNameLabel:SetText(endObject.name)
+        endObjectNameLabel:SetFontObject(GameFontHighlight)
+        endObjectNameLabel:SetColor(255, 165, 0)
+        endObjectNameLabel:SetFullWidth(true)
+        endObjectGroup:AddChild(endObjectNameLabel)
+
+        local endObjectZoneLabel = AceGUI:Create("Label")
+        local endindex = 0
+        if (not endObject.spawns) then
+            return
+        end
+        for i in pairs(endObject.spawns) do
+            endindex = i
+        end
+
+        local continent = QuestieJourneyUtils:GetZoneName(endindex)
+
+        endObjectZoneLabel:SetText(l10n(continent))
+        endObjectZoneLabel:SetFullWidth(true)
+        endObjectGroup:AddChild(endObjectZoneLabel)
+
+        if (next(endObject.spawns)) then
+            local endx = endObject.spawns[endindex][1][1]
+            local endy = endObject.spawns[endindex][1][2]
+            if (endx ~= -1 or endy ~= -1) then
+                local endObjectLocLabel = AceGUI:Create("Label")
+                endObjectLocLabel:SetText("X" .. l10n(": ") .. endx .." || Y" .. l10n(": ") .. endy)
+                endObjectLocLabel:SetFullWidth(true)
+                endObjectGroup:AddChild(endObjectLocLabel)
+            end
+        end
+
+        local endObjectIdLabel = AceGUI:Create("Label")
+        endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
+        endObjectIdLabel:SetFullWidth(true)
+        endObjectGroup:AddChild(endObjectIdLabel)
+
+        QuestieJourneyUtils:Spacer(endObjectGroup)
+
+        -- Also ends
+        if endObject.questEnds then
+            local alsoEndsLabel = AceGUI:Create("Label")
+            alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
+            alsoEndsLabel:SetFontObject(GameFontHighlight)
+            alsoEndsLabel:SetColor(255, 165, 0)
+            alsoEndsLabel:SetFullWidth(true)
+            endObjectGroup:AddChild(alsoEndsLabel)
+
+            local endQuests = {}
+            local counter = 1
+            for _, v in ipairs(endObject.questEnds) do
+                if v ~= quest.Id then
+                    endQuests[counter] = {}
+                    local endQuest = QuestieDB.GetQuest(v)
+                    local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
+                    endQuests[counter].frame = label
+                    endQuests[counter].quest = endQuest
+                    endObjectGroup:AddChild(label)
+                    counter = counter + 1
+                end
+            end
+
+            if #endQuests == 0 then
+                local noQuestLabel = AceGUI:Create("Label")
+                noQuestLabel:SetText(l10n('No Quests to List'))
+                noQuestLabel:SetFullWidth(true)
+                endObjectGroup:AddChild(noQuestLabel)
+            end
+
+            QuestieJourneyUtils:Spacer(endObjectGroup)
+        end
+
+        -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+        container.content:SetHeight(10000)
+    end
 end
 
 ---@param text string
