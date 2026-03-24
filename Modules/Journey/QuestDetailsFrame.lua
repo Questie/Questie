@@ -322,7 +322,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
         -- Also ends
-        if endNPC.endQuests then
+        if endNPC.questEnds then
             local alsoEndsLabel = AceGUI:Create("Label")
             alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
             alsoEndsLabel:SetFontObject(GameFontHighlight)
@@ -332,7 +332,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             local endQuests = {}
             local counter = 1
-            for _, v in ipairs(endNPC.endQuests) do
+            for _, v in ipairs(endNPC.questEnds) do
                 if v ~= quest.Id then
                     endQuests[counter] = {}
                     local endQuest = QuestieDB.GetQuest(v)
