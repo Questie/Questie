@@ -148,7 +148,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         QuestieJourneyUtils:Spacer(startNPCGroup)
 
         -- Also Starts
-        if startNpc.questStarts then
+        if startNpc.questStarts and #startNpc.questStarts >= 2 then
 
             local alsoStartsLabel = AceGUI:Create("Label")
             alsoStartsLabel:SetText(l10n('This NPC Also Starts the following quests:'))
@@ -169,13 +169,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                     startNPCGroup:AddChild(label)
                     counter = counter + 1
                 end
-            end
-
-            if #startQuests == 0 then
-                local noQuestLabel = AceGUI:Create("Label")
-                noQuestLabel:SetText(l10n('No Quests to List'))
-                noQuestLabel:SetFullWidth(true)
-                startNPCGroup:AddChild(noQuestLabel)
             end
         end
 
@@ -232,7 +225,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             QuestieJourneyUtils:Spacer(startObjectGroup)
 
             -- Also Starts
-            if startObj.questStarts then
+            if startObj.questStarts and #startObj.questStarts >= 2 then
 
                 local alsoStartsLabel = AceGUI:Create("Label")
                 alsoStartsLabel:SetText(l10n('This Object Also Starts the following quests:'))
@@ -253,13 +246,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                         startObjectGroup:AddChild(label)
                         counter = counter + 1
                     end
-                end
-
-                if #startQuests == 0 then
-                    local noQuestLabel = AceGUI:Create("Label")
-                    noQuestLabel:SetText(l10n('No Quests to List'))
-                    noQuestLabel:SetFullWidth(true)
-                    startObjectGroup:AddChild(noQuestLabel)
                 end
             end
 
@@ -350,7 +336,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
         -- Also ends
-        if endNPC.questEnds then
+        if endNPC.questEnds and #endNPC.questEnds >= 2 then
             local alsoEndsLabel = AceGUI:Create("Label")
             alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
             alsoEndsLabel:SetFontObject(GameFontHighlight)
@@ -370,13 +356,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                     endNPCGroup:AddChild(label)
                     counter = counter + 1
                 end
-            end
-
-            if #endQuests == 0 then
-                local noQuestLabel = AceGUI:Create("Label")
-                noQuestLabel:SetText(l10n('No Quests to List'))
-                noQuestLabel:SetFullWidth(true)
-                endNPCGroup:AddChild(noQuestLabel)
             end
 
             QuestieJourneyUtils:Spacer(endNPCGroup)
@@ -438,7 +417,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         QuestieJourneyUtils:Spacer(endObjectGroup)
 
         -- Also ends
-        if endObject.questEnds then
+        if endObject.questEnds and #endObject.questEnds >= 2 then
             local alsoEndsLabel = AceGUI:Create("Label")
             alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
             alsoEndsLabel:SetFontObject(GameFontHighlight)
@@ -458,13 +437,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                     endObjectGroup:AddChild(label)
                     counter = counter + 1
                 end
-            end
-
-            if #endQuests == 0 then
-                local noQuestLabel = AceGUI:Create("Label")
-                noQuestLabel:SetText(l10n('No Quests to List'))
-                noQuestLabel:SetFullWidth(true)
-                endObjectGroup:AddChild(noQuestLabel)
             end
 
             QuestieJourneyUtils:Spacer(endObjectGroup)
