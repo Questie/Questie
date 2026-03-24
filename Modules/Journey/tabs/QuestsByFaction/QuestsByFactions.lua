@@ -500,7 +500,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     end
                 elseif returnReason == DoableStates.COMPLETED then -- completed quests
                     tinsert(factionTree[4].children, temp)
-                    completedCounter = completedCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        completedCounter = completedCounter + 1
+                    end
                     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
                         breadcrumbCompleteCounter = breadcrumbCompleteCounter + 1
                     end
@@ -557,17 +559,23 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 -- elseif returnReason == DoableStates.WRONG_RACE then -- wrong race -- not shown at all
                 elseif returnReason == DoableStates.NO_PREQUESTSINGLE then -- no preQuestSingle completed
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 -- elseif returnReason == DoableStates.WRONG_CLASS then -- wrong class -- not shown at all
                 elseif returnReason == DoableStates.MISSING_REPUTATION then -- no reputation
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.PROFESSION_SKILL then -- no profession and skill
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.NO_PREQUESTGROUP then -- no preQuestGroup completed
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.PARENT_INACTIVE then -- inactive parent
                     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
                     if Questie.db.char.complete[parentQuest] then
@@ -575,7 +583,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         completedCounter = completedCounter + 1
                     else
                         tinsert(factionTree[5].children, temp)
-                        prequestMissingCounter = prequestMissingCounter + 1
+                        if not QuestieDB.IsRepeatable(questId) then
+                            prequestMissingCounter = prequestMissingCounter + 1
+                        end
                     end
                 elseif returnReason == DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED then -- nextQuestInChain completed or in quest log
                     tinsert(factionTree[6].children, temp)
@@ -617,7 +627,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     -- "Regular" exclusives
                     if not questDecidedCategory then
                         tinsert(factionTree[4].children, temp)
-                        completedCounter = completedCounter + 1
+                        if not QuestieDB.IsRepeatable(questId) then
+                            completedCounter = completedCounter + 1
+                        end
                     end
                 elseif returnReason == DoableStates.MISSING_DAILY then -- not today's daily quest
                     tinsert(factionTree[6].children, temp)
@@ -627,13 +639,17 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.SPELL_MISSING then -- missing spell, so quest unavailable
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.SPELL_KNOWN then -- learned spell, so quest unavailable
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.MISSING_ACHIEVEMENT then -- missing achievement
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.BREADCRUMB_FOLLOWUP then -- breadcrumb's follow up active or completed
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
@@ -643,7 +659,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.BREADCRUMB_ACTIVE then -- quest not available because breadcrumb in quest log
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.INACTIVE_DAILY then -- daily quests detected not present today
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
@@ -652,20 +670,17 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.LEVEL_TOO_LOW then -- player is too low
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
-                elseif returnReason == DoableStates.DISABLING_QUEST_COMPLETED then -- quest that hides it already turned in
-                    -- Repeatables are considered complete
-                    if QuestieDB.IsRepeatable(questId) then
-                        tinsert(factionTree[4].children, temp)
-                        completedCounter = completedCounter + 1
-                    -- The others are considered unobtainable
-                    else
-                        tinsert(factionTree[6].children, temp)
-                        unobtainableCounter = unobtainableCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
                     end
+                elseif returnReason == DoableStates.DISABLING_QUEST_COMPLETED then -- quest that hides it already turned in
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.ENABLING_QUEST_MISSING then -- quest that enables this quest is not picked up or turned in
                     tinsert(factionTree[5].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 end
             end
 
