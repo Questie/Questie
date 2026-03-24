@@ -71,7 +71,7 @@ local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
                 text = QuestieLib:GetColoredQuestName(id,  true, true)
             elseif linkType == 'npc' then
                 local lvl = query(id, 'maxLevel')
-                text = QuestieLib:PrintDifficultyColor(lvl, '['..lvl..'] '..name..' ('..id..')')
+                text = '['..lvl..'] '..name..' ('..id..')'
             else
                 text = name.." ("..id..")"
             end
