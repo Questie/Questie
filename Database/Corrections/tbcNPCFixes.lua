@@ -370,7 +370,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [15350] = { -- Horde Warbringer
             [npcKeys.spawns] = {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51}},
+                [zoneIDs.ORGRIMMAR]={{79.77,30.36}},
                 [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
                 [zoneIDs.UNDERCITY]={{60.66,87.68}},
                 [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
