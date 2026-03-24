@@ -1414,7 +1414,7 @@ function QuestieQuestFixes:Load()
         [1800] = {
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
         },
-        [1801] = {
+        [1801] = { -- Tome of the Cabal
             [questKeys.breadcrumbs] = {2996,3001},
         },
         [1818] = { -- Speak with Dillinger
@@ -1934,7 +1934,7 @@ function QuestieQuestFixes:Load()
         [2994] = {
             [questKeys.questLevel] = 51, -- #1129
         },
-        [2996] = {
+        [2996] = { -- Seeking Strahad
             [questKeys.nextQuestInChain] = 1801,
             [questKeys.breadcrumbForQuestId] = 1801,
         },
@@ -1954,7 +1954,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1646,2997,2999},
             [questKeys.nextQuestInChain] = 0,
         },
-        [3001] = {
+        [3001] = { -- Seeking Strahad
             [questKeys.nextQuestInChain] = 1801,
             [questKeys.breadcrumbForQuestId] = 1801,
         },
@@ -2400,19 +2400,19 @@ function QuestieQuestFixes:Load()
         [4735] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect eggs using the Collectronic Module."), 0, {{"object", 175124}}}},
         },
-        [4736] = {
+        [4736] = { -- In Search of Menara Voidrender
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.breadcrumbForQuestId] = 1796,
         },
-        [4737] = {
+        [4737] = { -- In Search of Menara Voidrender
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.breadcrumbForQuestId] = 1796,
         },
-        [4738] = {
+        [4738] = { -- In Search of Menara Voidrender
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.breadcrumbForQuestId] = 1796,
         },
-        [4739] = {
+        [4739] = { -- In Search of Menara Voidrender
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.breadcrumbForQuestId] = 1796,
         },
@@ -2455,16 +2455,12 @@ function QuestieQuestFixes:Load()
         [4771] = {
             [questKeys.triggerEnd] = {"Place Dawn's Gambit",{[zoneIDs.SCHOLOMANCE]={{-1,-1}}}},
         },
-        [4784] = {
-            [questKeys.childQuests] = {4785}, -- #1367
-        },
-        [4785] = {
-            [questKeys.preQuestSingle] = {}, -- #1367
-            [questKeys.parentQuest] = 4784, -- #1367
+        [4785] = { -- Fine Gold Thread
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1367
+            [questKeys.availableUntilCompleted] = 4784,
         },
-        [4786] = {
-            [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47}}}},
+        [4786] = { -- The Completed Robe
+            [questKeys.objectives] = {{{6266,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [4811] = {
             [questKeys.objectives] = {nil,{{175524,nil,Questie.ICON_TYPE_EVENT}}},

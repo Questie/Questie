@@ -890,6 +890,9 @@ function QuestieItemFixes:Load()
         [12291] = { -- Merged Ooze Sample
             [itemKeys.npcDrops] = {6557, 9621},
         },
+        [12293] = { -- Fine Gold Thread
+            [itemKeys.npcDrops] = {2670},
+        },
         [12347] = { -- Filled Cleansing Bowl
             [itemKeys.relatedQuests] = {4763},
             [itemKeys.npcDrops] = {},

@@ -386,13 +386,13 @@ function QuestieTBCQuestFixes:Load()
         [1800] = {
             [questKeys.questLevel] = -1,
         },
-        [1801] = {
+        [1801] = { -- Tome of the Cabal
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
-        [1803] = {
+        [1803] = { -- Tome of the Cabal
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
-        [1805] = {
+        [1805] = { -- Tome of the Cabal
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
         [1821] = { -- Agamand Heirlooms
@@ -534,7 +534,7 @@ function QuestieTBCQuestFixes:Load()
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42}}}},
         },
-        [2996] = {
+        [2996] = { -- Seeking Strahad
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
         [3001] = { -- Seeking Strahad
@@ -613,27 +613,31 @@ function QuestieTBCQuestFixes:Load()
         [4486] = {
             [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
         },
-        [4487] = {
+        [4487] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{5172}},
             [questKeys.finishedBy] = {{6251}},
         },
-        [4488] = {
+        [4488] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{461}},
             [questKeys.finishedBy] = {{6251}},
         },
-        [4489] = {
+        [4489] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{4563}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
-        [4490] = {
+        [4490] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{6251}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [4738] = { -- In Search of Menara Voidrender
+            [questKeys.startedBy] = {{461,16646}},
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.BLOOD_ELF,
         },
         [4740] = {
             [questKeys.requiredLevel] = 9,
@@ -6982,6 +6986,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{4568,5885,16651}}
         },
+        [4738] = { -- In Search of Menara Voidrender
+            [questKeys.startedBy] = {{16646}},
+        },
     }
 
     local questFixesAlliance = {
@@ -6993,6 +7000,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{5144,5497,17514}}
+        },
+        [4738] = { -- In Search of Menara Voidrender
+            [questKeys.startedBy] = {{461}},
         },
     }
 
