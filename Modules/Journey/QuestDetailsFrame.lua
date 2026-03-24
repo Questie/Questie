@@ -267,10 +267,38 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         end
     end
 
+    -- Get Quest Start Item
+    if quest.Starts and quest.Starts.Item then
+        local startItemGroup = AceGUI:Create("InlineGroup")
+        startItemGroup:SetLayout("List")
+        startItemGroup:SetTitle(l10n('Quest Start Item Information'))
+        startItemGroup:SetFullWidth(true)
+        container:AddChild(startItemGroup)
+
+        QuestieJourneyUtils:Spacer(startItemGroup)
+
+        for _, iid in pairs(quest.Starts.Item) do
+            local startItem = QuestieDB:GetItem(iid)
+
+            local startItemNameLabel = AceGUI:Create("Label")
+            startItemNameLabel:SetText(startItem.name)
+            startItemNameLabel:SetFontObject(GameFontHighlight)
+            startItemNameLabel:SetColor(255, 165, 0)
+            startItemNameLabel:SetFullWidth(true)
+            startItemGroup:AddChild(startItemNameLabel)
+
+            local startItemIdLabel = AceGUI:Create("Label")
+            startItemIdLabel:SetText(l10n("Item ID") .. l10n(": ") .. startItem.Id)
+            startItemIdLabel:SetFullWidth(true)
+            startItemGroup:AddChild(startItemIdLabel)
+
+            QuestieJourneyUtils:Spacer(startItemGroup)
+        end
+    end
+
     QuestieJourneyUtils:Spacer(container)
 
     -- TODO: There can be multiple finishers
-    -- TODO: There can be object finishers
     if quest.Finisher.NPC then
         local endNPCGroup = AceGUI:Create("InlineGroup")
         endNPCGroup:SetLayout("Flow")
