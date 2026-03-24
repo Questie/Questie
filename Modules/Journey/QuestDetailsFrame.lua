@@ -135,7 +135,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         local starty = startNpc.spawns[startindex][1][2]
         if (startx ~= -1 or starty ~= -1) then
             local startNPCLocLabel = AceGUI:Create("Label")
-            startNPCLocLabel:SetText("X" .. l10n(": ") .. startx .." || Y" .. l10n(": ") .. starty)
+            startNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty))
             startNPCLocLabel:SetFullWidth(true)
             startNPCGroup:AddChild(startNPCLocLabel)
         end
@@ -219,7 +219,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local starty = startObj.spawns[startindex][1][2]
             if (startx ~= -1 or starty ~= -1) then
                 local startObjectLocLabel = AceGUI:Create("Label")
-                startObjectLocLabel:SetText("X" .. l10n(": ") .. startx .." || Y" .. l10n(": ") .. starty)
+                startObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty))
                 startObjectLocLabel:SetFullWidth(true)
                 startObjectGroup:AddChild(startObjectLocLabel)
             end
@@ -336,7 +336,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local endy = endNPC.spawns[endindex][1][2]
             if (endx ~= -1 or endy ~= -1) then
                 local endNPCLocLabel = AceGUI:Create("Label")
-                endNPCLocLabel:SetText("X" .. l10n(": ") .. endx .." || Y" .. l10n(": ") .. endy)
+                endNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
                 endNPCLocLabel:SetFullWidth(true)
                 endNPCGroup:AddChild(endNPCLocLabel)
             end
@@ -424,7 +424,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local endy = endObject.spawns[endindex][1][2]
             if (endx ~= -1 or endy ~= -1) then
                 local endObjectLocLabel = AceGUI:Create("Label")
-                endObjectLocLabel:SetText("X" .. l10n(": ") .. endx .." || Y" .. l10n(": ") .. endy)
+                endObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
                 endObjectLocLabel:SetFullWidth(true)
                 endObjectGroup:AddChild(endObjectLocLabel)
             end
