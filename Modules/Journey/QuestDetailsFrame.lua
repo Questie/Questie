@@ -157,17 +157,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             alsoStartsLabel:SetFullWidth(true)
             startNPCGroup:AddChild(alsoStartsLabel)
 
-            local startQuests = {}
-            local counter = 1
             for _, v in pairs(startNpc.questStarts) do
                 if v ~= quest.Id then
-                    startQuests[counter] = {}
                     local startQuest = QuestieDB.GetQuest(v)
                     local label = QuestieJourneyUtils.GetInteractiveQuestLabel(startQuest)
-                    startQuests[counter].frame = label
-                    startQuests[counter].quest = startQuest
                     startNPCGroup:AddChild(label)
-                    counter = counter + 1
                 end
             end
         end
@@ -234,17 +228,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 alsoStartsLabel:SetFullWidth(true)
                 startObjectGroup:AddChild(alsoStartsLabel)
 
-                local startQuests = {}
-                local counter = 1
                 for _, v in pairs(startObj.questStarts) do
                     if v ~= quest.Id then
-                        startQuests[counter] = {}
                         local startQuest = QuestieDB.GetQuest(v)
                         local label = QuestieJourneyUtils.GetInteractiveQuestLabel(startQuest)
-                        startQuests[counter].frame = label
-                        startQuests[counter].quest = startQuest
                         startObjectGroup:AddChild(label)
-                        counter = counter + 1
                     end
                 end
             end
@@ -344,17 +332,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             alsoEndsLabel:SetFullWidth(true)
             endNPCGroup:AddChild(alsoEndsLabel)
 
-            local endQuests = {}
-            local counter = 1
             for _, v in ipairs(endNPC.questEnds) do
                 if v ~= quest.Id then
-                    endQuests[counter] = {}
                     local endQuest = QuestieDB.GetQuest(v)
                     local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
-                    endQuests[counter].frame = label
-                    endQuests[counter].quest = endQuest
                     endNPCGroup:AddChild(label)
-                    counter = counter + 1
                 end
             end
 
@@ -425,17 +407,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             alsoEndsLabel:SetFullWidth(true)
             endObjectGroup:AddChild(alsoEndsLabel)
 
-            local endQuests = {}
-            local counter = 1
             for _, v in ipairs(endObject.questEnds) do
                 if v ~= quest.Id then
-                    endQuests[counter] = {}
                     local endQuest = QuestieDB.GetQuest(v)
                     local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
-                    endQuests[counter].frame = label
-                    endQuests[counter].quest = endQuest
                     endObjectGroup:AddChild(label)
-                    counter = counter + 1
                 end
             end
 
