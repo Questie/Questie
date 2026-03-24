@@ -274,9 +274,9 @@ function QuestieLib:GetRaceString(raceMask)
     end
 
     if raceMask == QuestieDB.raceKeys.ALL_ALLIANCE then
-        return l10n("Alliance")
+        return "|cFF1E90FF" .. l10n("Alliance") .. "|r"
     elseif raceMask == QuestieDB.raceKeys.ALL_HORDE then
-        return l10n("Horde")
+        return "|cFFDA252C" .. l10n("Horde") .. "|r"
     else
         local raceString = ""
         local raceTable = QuestieLib:UnpackBinary(raceMask)
