@@ -977,9 +977,13 @@ function QuestieQuestFixes:Load()
         },
         [1362] = {
             [questKeys.breadcrumbs] = {1361},
+            [questKeys.breadcrumbForQuestId] = 1365,
         },
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
+        },
+        [1365] = { -- Khan Dez'hepah
+            [questKeys.breadcrumbs] = {1362},
         },
         [1367] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Gelkis centaur to increase your reputation with the Magram Clan"), 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}},
