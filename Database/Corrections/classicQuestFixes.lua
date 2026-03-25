@@ -1412,7 +1412,8 @@ function QuestieQuestFixes:Load()
         [1798] = {
             [questKeys.breadcrumbForQuestId] = 1758,
         },
-        [1799] = {
+        [1799] = { -- Fragments of the Orb of Orahil
+            [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4965,4967,4968,4969},
         },
         [1800] = {
@@ -2509,30 +2510,46 @@ function QuestieQuestFixes:Load()
         [4941] = {
             [questKeys.triggerEnd] = {"Council with Eitrigg.", {[zoneIDs.ORGRIMMAR]={{34.14,39.26}}}},
         },
-        [4964] = {
-            [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47}}}},
+        [4961] = { -- Cleansing of the Orb of Orahil
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1799,4962}, -- 4962+4963
         },
-        [4965] = {
+        [4962] = { -- Shard of an Infernal
+            [questKeys.parentQuest] = 0,
+        },
+        [4963] = { -- Shard of an Infernal
+            [questKeys.parentQuest] = 0,
+        },
+        [4964] = { -- The Completed Orb of Dar'Orahil
+            [questKeys.objectives] = {{{6266,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {4976,-4962},
+            [questKeys.exclusiveTo] = {4963},
+        },
+        [4965] = { -- Knowledge of the Orb of Orahil
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.breadcrumbForQuestId] = 1799,
         },
         [4966] = { -- Protect Kanati Greycloud
             [questKeys.objectives] = {{{10720}}},
         },
-        [4967] = {
+        [4967] = { -- Knowledge of the Orb of Orahil
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.breadcrumbForQuestId] = 1799,
         },
-        [4968] = {
+        [4968] = { -- Knowledge of the Orb of Orahil
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.breadcrumbForQuestId] = 1799,
         },
-        [4969] = {
+        [4969] = { -- Knowledge of the Orb of Orahil
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.breadcrumbForQuestId] = 1799,
         },
-        [4975] = {
-            [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47}}}},
+        [4975] = { -- The Completed Orb of Noh'Orahil
+            [questKeys.objectives] = {{{6266,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {4976,-4963},
+            [questKeys.exclusiveTo] = {4962},
         },
         [5041] = {
             [questKeys.preQuestSingle] = {},

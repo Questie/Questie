@@ -512,7 +512,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [16646] = { -- Alamma
-            [npcKeys.questStarts] = {3001,4738,10605},
+            [npcKeys.questStarts] = {3001,4738,4968,10605},
         },
         [16647] = { -- Talionia
             [npcKeys.questStarts] = {9529,10789,10790},
