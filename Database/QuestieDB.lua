@@ -75,7 +75,7 @@ QuestieDB.DoableStates = {
     COMPLETED = 1,
     QUEST_LOG = 2,
     BLACKLISTED = 3,
-    HIDDEN = 4, -- no longer used, but left here for info
+    EXCEED_REPUTATION = 4,
     PARENT_ACTIVE = 5,
     WRONG_RACE = 6,
     NO_PREQUESTSINGLE = 7,
@@ -1019,17 +1019,24 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
     if (requiredMinRep or requiredMaxRep) then
         local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
-        if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
-            --- If we haven't got the faction for min or max we blacklist it
-            if not hasMinFaction or not hasMaxFaction then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
-                QuestieDB.autoBlacklist[questId] = "rep"
-            end
+        -- Below reputation requirement
+        if not (aboveMinRep and hasMinFaction) then
 
-            local msg = "Player does not meet reputation requirements for quest " .. questId
+            local msg = "Reputation too low for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Reputation requirement"), true, DoableStates.MISSING_REPUTATION
+                return l10n("Unavailable")..l10n(": ")..l10n("Reputation too low"), true, DoableStates.MISSING_REPUTATION
             elseif returnText and not returnBrief then
                 return msg, true, DoableStates.MISSING_REPUTATION
+            end
+        end
+        -- Above reputation requirement
+        if not (belowMaxRep and hasMaxFaction) then
+
+            local msg = "Reputation too high for quest " .. questId
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Reputation too high"), true, DoableStates.EXCEED_REPUTATION
+            elseif returnText and not returnBrief then
+                return msg, true, DoableStates.EXCEED_REPUTATION
             end
         end
     end

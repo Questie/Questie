@@ -515,7 +515,6 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         availableCounter = availableCounter + 1
                     end
                 -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
-                -- elseif returnReason == DoableStates.HIDDEN then -- manually hidden quests -- no longer applicable
                 elseif returnReason == DoableStates.PARENT_ACTIVE then -- parent quest active
                 -- reused the logic from AvailableQuests.lua _DrawChildQuests
                 -- if this is modified, also make sure the changes are reflected in the other file(s)
@@ -563,10 +562,20 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- elseif returnReason == DoableStates.WRONG_CLASS then -- wrong class -- not shown at all
-                elseif returnReason == DoableStates.MISSING_REPUTATION then -- no reputation
+                elseif returnReason == DoableStates.MISSING_REPUTATION then -- too low reputation
                     tinsert(factionTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
+                    end
+                elseif returnReason == DoableStates.EXCEED_REPUTATION then -- too high reputation
+                    if not questsOnlyAvailableUntilReputationValue[questId] then
+                        tinsert(factionTree[5].children, temp)
+                        if not QuestieDB.IsRepeatable(questId) then
+                            prequestMissingCounter = prequestMissingCounter + 1
+                        end
+                    else
+                        tinsert(factionTree[6].children, temp)
+                        unobtainableCounter = unobtainableCounter + 1
                     end
                 elseif returnReason == DoableStates.PROFESSION_SKILL then -- no profession and skill
                     tinsert(factionTree[6].children, temp)

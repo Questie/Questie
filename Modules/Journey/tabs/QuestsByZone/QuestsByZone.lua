@@ -229,6 +229,57 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     local playerlevel = UnitLevel("player")
     local DoableStates = QuestieDB.DoableStates
 
+    -- Quests where the reputation only goes in one direction (ex. Thorium Brotherhood)
+    local questsOnlyAvailableUntilReputationValue = {
+        -- Thorium Brotherhood
+        [7736] = true, -- Restoring Fiery Flux Supplies via Kingsblood
+        [7737] = true, -- Gaining Acceptance
+        [8241] = true, -- Restoring Fiery Flux Supplies via Iron
+        [8242] = true, -- Restoring Fiery Flux Supplies via Heavy Leather
+
+        -- Brood of Nozdormu
+        [8302] = true, -- The Hand of the Righteous
+
+        -- Argent Dawn
+        [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
+        [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn
+        [9223] = true, -- Superior Armaments of Battle - Honored Amongst the Dawn
+        [9224] = true, -- Epic Armaments of Battle - Honored Amongst the Dawn
+        [9225] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
+        [9226] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
+        [28755] = true, -- Annals of the Silver Hand
+        [28756] = true, -- Aberrations of Bone
+
+        -- Consortium
+        [9882] = true, -- Stealing from Thieves
+        [9883] = true, -- More Crystal Fragments
+        [9884] = true, -- Membership Benefits
+        [9885] = true, -- Membership Benefits
+        [9886] = true, -- Membership Benefits
+        [9914] = true, -- A Head Full of Ivory
+        [9915] = true, -- More Heads Full of Ivory
+
+        -- Cenarion Expedition
+        [9784] = true, -- Identify Plant Parts
+        --[9802] = true, -- Plants of Zangarmarsh -- TO DO CHECK THIS
+        [9875] = true, -- Uncatalogued Species
+
+        -- Sporregar
+        --[9739] = true, -- The Sporelings' Plight -- TO DO CHECK THIS
+        [9742] = true, -- More Spore Sacs
+        --[9743] = true, -- Natural Enemies -- TO DO CHECK THIS
+        [9744] = true, -- More Tendrils!
+        --[9808] = true, -- Glowcap Mushrooms -- TO DO CHECK THIS
+        [9809] = true, -- More Glowcaps
+
+        -- Lower City
+        --[10917] = true, -- The Outcast's Plight -- TO DO CHECK THIS
+        [10918] = true, -- More Feathers
+
+        -- Order of the Cloud Serpent
+        [31784] = true, -- Onyx To Goodness
+    }
+
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type number
         local questId = levelAndQuest[2]
@@ -273,7 +324,6 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         availableCounter = availableCounter + 1
                     end
                 -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
-                -- elseif returnReason == DoableStates.HIDDEN then -- manually hidden quests -- no longer applicable
                 elseif returnReason == DoableStates.PARENT_ACTIVE then -- parent quest active
                 -- reused the logic from AvailableQuests.lua _DrawChildQuests
                 -- if this is modified, also make sure the changes are reflected in the other file(s)
@@ -321,10 +371,20 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- elseif returnReason == DoableStates.WRONG_CLASS then -- wrong class -- not shown at all
-                elseif returnReason == DoableStates.MISSING_REPUTATION then -- no reputation
+                elseif returnReason == DoableStates.MISSING_REPUTATION then -- too low reputation
                     tinsert(zoneTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
+                    end
+                elseif returnReason == DoableStates.EXCEED_REPUTATION then -- too high reputation
+                    if not questsOnlyAvailableUntilReputationValue[questId] then
+                        tinsert(zoneTree[5].children, temp)
+                        if not QuestieDB.IsRepeatable(questId) then
+                            prequestMissingCounter = prequestMissingCounter + 1
+                        end
+                    else
+                        tinsert(zoneTree[6].children, temp)
+                        unobtainableCounter = unobtainableCounter + 1
                     end
                 elseif returnReason == DoableStates.PROFESSION_SKILL then -- no profession and skill
                     tinsert(zoneTree[6].children, temp)
