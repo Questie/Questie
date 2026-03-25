@@ -734,6 +734,30 @@ local myJourneyLocales = {
         ["zhCN"] = "活动未开启",
         ["zhTW"] = false,
     },
+    ["Reputation too low"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = "Reputación demasiado baja",
+        ["esMX"] = "Reputación demasiado baja",
+        ["frFR"] = "Réputation trop basse",
+        ["koKR"] = false,
+        ["ptBR"] = "Reputação muito baixa",
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Reputation too high"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = "Reputación demasiado alta",
+        ["esMX"] = "Reputación demasiado alta",
+        ["frFR"] = "Réputation trop élevée",
+        ["koKR"] = false,
+        ["ptBR"] = "Reputação muito alta",
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(myJourneyLocales) do
