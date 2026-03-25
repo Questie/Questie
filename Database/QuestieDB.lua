@@ -1797,6 +1797,57 @@ local questsRequiringAllGrownsUpAchievement = {
     [32863] = true, -- What We've Been Training For
 }
 
+-- Quests where the reputation only goes in one direction (ex. Thorium Brotherhood)
+QuestieDB.questsOnlyAvailableUntilReputationValue = {
+    -- Thorium Brotherhood
+    [7736] = true, -- Restoring Fiery Flux Supplies via Kingsblood
+    [7737] = true, -- Gaining Acceptance
+    [8241] = true, -- Restoring Fiery Flux Supplies via Iron
+    [8242] = true, -- Restoring Fiery Flux Supplies via Heavy Leather
+
+    -- Brood of Nozdormu
+    [8302] = true, -- The Hand of the Righteous
+
+    -- Argent Dawn
+    [9221] = true, -- Superior Armaments of Battle - Friend of the Dawn
+    [9222] = true, -- Epic Armaments of Battle - Friend of the Dawn
+    [9223] = true, -- Superior Armaments of Battle - Honored Amongst the Dawn
+    [9224] = true, -- Epic Armaments of Battle - Honored Amongst the Dawn
+    [9225] = true, -- Epic Armaments of Battle - Revered Amongst the Dawn
+    [9226] = true, -- Superior Armaments of Battle - Revered Amongst the Dawn
+    [28755] = true, -- Annals of the Silver Hand
+    [28756] = true, -- Aberrations of Bone
+
+    -- Consortium
+    [9882] = true, -- Stealing from Thieves
+    [9883] = true, -- More Crystal Fragments
+    [9884] = true, -- Membership Benefits
+    [9885] = true, -- Membership Benefits
+    [9886] = true, -- Membership Benefits
+    [9914] = true, -- A Head Full of Ivory
+    [9915] = true, -- More Heads Full of Ivory
+
+    -- Cenarion Expedition
+    [9784] = true, -- Identify Plant Parts
+    --[9802] = true, -- Plants of Zangarmarsh -- TO DO CHECK THIS
+    [9875] = true, -- Uncatalogued Species
+
+    -- Sporregar
+    --[9739] = true, -- The Sporelings' Plight -- TO DO CHECK THIS
+    [9742] = true, -- More Spore Sacs
+    --[9743] = true, -- Natural Enemies -- TO DO CHECK THIS
+    [9744] = true, -- More Tendrils!
+    --[9808] = true, -- Glowcap Mushrooms -- TO DO CHECK THIS
+    [9809] = true, -- More Glowcaps
+
+    -- Lower City
+    --[10917] = true, -- The Outcast's Plight -- TO DO CHECK THIS
+    [10918] = true, -- More Feathers
+
+    -- Order of the Cloud Serpent
+    [31784] = true, -- Onyx To Goodness
+}
+
 function _QuestieDB:CheckAchievementRequirements(questId)
     -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
     -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn

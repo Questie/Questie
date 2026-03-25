@@ -568,7 +568,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 elseif returnReason == DoableStates.EXCEED_REPUTATION then -- too high reputation
-                    if not questsOnlyAvailableUntilReputationValue[questId] then
+                    if not QuestieDB.questsOnlyAvailableUntilReputationValue[questId] then
                         tinsert(factionTree[5].children, temp)
                         if not QuestieDB.IsRepeatable(questId) then
                             prequestMissingCounter = prequestMissingCounter + 1
