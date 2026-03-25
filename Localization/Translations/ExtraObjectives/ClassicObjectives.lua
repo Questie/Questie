@@ -756,7 +756,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Evoca o Emissário do Caos",
         ["ruRU"] = false,
         ["zhCN"] = "召唤虚空行者",
-        ["zhTW"] = false,
+        ["zhTW"] = "召喚虛無行者",
     },
     ["Summon the Incubus"] = {
         ["enUS"] = true,
@@ -768,7 +768,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Evoca o Íncubo",
         ["ruRU"] = false,
         ["zhCN"] = "召唤夜魔",
-        ["zhTW"] = false,
+        ["zhTW"] = "召喚夢魔",
     },
     ["Summon the Succubus"] = {
         ["enUS"] = true,
@@ -780,7 +780,7 @@ local classicObjectiveLocales = {
         ["ptBR"] = "Evoca o Súcubo",
         ["ruRU"] = false,
         ["zhCN"] = "召唤魅魔",
-        ["zhTW"] = false,
+        ["zhTW"] = "召喚魅魔",
     },
     ["Summon the Felhunter"] = {
         ["enUS"] = true,
@@ -791,8 +791,8 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Evoca o Caçador Vil",
         ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "召唤地狱猎犬",
+        ["zhTW"] = "召喚地獄獵犬",
     },
 }
 
