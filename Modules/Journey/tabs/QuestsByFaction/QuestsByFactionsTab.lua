@@ -62,7 +62,7 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
     QuestieJourneyUtils:Spacer(container)
 
     header = AceGUI:Create("Heading")
-    header:SetText(l10n('Faction Quests'))
+    header:SetText(l10n('Quests'))
     header:SetFullWidth(true)
     container:AddChild(header)
 
