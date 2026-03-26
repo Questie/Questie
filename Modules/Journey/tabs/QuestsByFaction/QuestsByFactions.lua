@@ -577,9 +577,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         tinsert(factionTree[6].children, temp)
                         unobtainableCounter = unobtainableCounter + 1
                     end
-                elseif returnReason == DoableStates.PROFESSION_SKILL then -- no profession and skill
-                    tinsert(factionTree[6].children, temp)
-                    unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == DoableStates.PROFESSION_SKILL then -- no profession skill
+                    tinsert(factionTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.NO_PREQUESTGROUP then -- no preQuestGroup completed
                     tinsert(factionTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
@@ -690,6 +692,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                elseif returnReason == DoableStates.PROFESSION_MISSING then -- profession missing completely
+                    tinsert(factionTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 end
             end
 
