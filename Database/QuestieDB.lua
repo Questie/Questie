@@ -102,6 +102,7 @@ QuestieDB.DoableStates = {
     LEVEL_TOO_LOW = 26,
     DISABLING_QUEST_COMPLETED = 27,
     ENABLING_QUEST_MISSING = 28,
+    PROFESSION_MISSING = 29,
 }
 
 -- * race bitmask data, for easy access
@@ -921,6 +922,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return msg, true, DoableStates.BLACKLISTED
         end
     end
+
     -- AQ War Effort quests (one-time world event that has ended for all realms)
     if (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
         if returnText and returnBrief then
@@ -929,6 +931,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return "AQ event quest " .. questId .. " is not active", true, DoableStates.EVENT_INACTIVE
         end
     end
+
     -- Check character race
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
@@ -1040,15 +1043,17 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
     if (requiredSkill) then
         local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
-        if (not (hasProfession and hasSkillLevel)) then
-            --? We haven't got the profession so we blacklist it.
-            if(not hasProfession) then
-                QuestieDB.autoBlacklist[questId] = "skill"
+        if not hasProfession then
+            local msg = "Profession not learned for quest " .. questId
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Profession missing"), true, DoableStates.PROFESSION_MISSING
+            elseif returnText and not returnBrief then
+                return msg, true, DoableStates.PROFESSION_MISSING
             end
-
+        elseif not hasSkillLevel then
             local msg = "Player does not meet profession requirements for quest " .. questId
             if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Profession requirement"), true, DoableStates.PROFESSION_SKILL
+                return l10n("Unavailable")..l10n(": ")..l10n("Profession skill"), true, DoableStates.PROFESSION_SKILL
             elseif returnText and not returnBrief then
                 return msg, true, DoableStates.PROFESSION_SKILL
             end
