@@ -544,6 +544,9 @@ function QuestieQuestFixes:Load()
         [771] = {
             [questKeys.nextQuestInChain] = 772,
         },
+        [779] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [788] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4641}, -- #1956
@@ -685,6 +688,7 @@ function QuestieQuestFixes:Load()
         },
         [972] = { -- Water Sapta
             [questKeys.exclusiveTo] = {},
+            [questKeys.parentQuest] = 0,
             [questKeys.preQuestSingle] = {220},
             [questKeys.availableUntilCompleted] = 96,
         },
@@ -813,6 +817,7 @@ function QuestieQuestFixes:Load()
         [1103] = {
             [questKeys.preQuestSingle] = {63},
             [questKeys.parentQuest] = 0,
+            [questKeys.childQuests] = {},
             [questKeys.availableUntilCompleted] = 96,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

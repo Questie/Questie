@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type DailyQuests
@@ -919,7 +921,14 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return msg, true, DoableStates.BLACKLISTED
         end
     end
-
+    -- AQ War Effort quests (one-time world event that has ended for all realms)
+    if (not Questie.IsSoD) and QuestieQuestBlacklist.AQWarEffortQuests[questId] then
+        if returnText and returnBrief then
+            return l10n("Unavailable")..l10n(": ")..l10n("Event inactive"), true, DoableStates.EVENT_INACTIVE
+        elseif returnText then
+            return "AQ event quest " .. questId .. " is not active", true, DoableStates.EVENT_INACTIVE
+        end
+    end
     -- Check character race
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
@@ -1027,20 +1036,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-    if preQuestSingle then
-        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-        if not isPreQuestSingleFulfilled then
-            local msg = "Pre-quest requirement not fulfilled for quest " .. questId
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest"), true, DoableStates.NO_PREQUESTSINGLE
-            elseif returnText and not returnBrief then
-                return msg, true, DoableStates.NO_PREQUESTSINGLE
-            end
-        end
-    end
-
     -- Check profession requirements
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
     if (requiredSkill) then
@@ -1056,6 +1051,20 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 return l10n("Unavailable")..l10n(": ")..l10n("Profession requirement"), true, DoableStates.PROFESSION_SKILL
             elseif returnText and not returnBrief then
                 return msg, true, DoableStates.PROFESSION_SKILL
+            end
+        end
+    end
+
+    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
+    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+    if preQuestSingle then
+        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+        if not isPreQuestSingleFulfilled then
+            local msg = "Pre-quest requirement not fulfilled for quest " .. questId
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest"), true, DoableStates.NO_PREQUESTSINGLE
+            elseif returnText and not returnBrief then
+                return msg, true, DoableStates.NO_PREQUESTSINGLE
             end
         end
     end
