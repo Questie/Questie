@@ -1000,20 +1000,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-    if preQuestSingle then
-        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-        if not isPreQuestSingleFulfilled then
-            local msg = "Pre-quest requirement not fulfilled for quest " .. questId
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest"), true, DoableStates.NO_PREQUESTSINGLE
-            elseif returnText and not returnBrief then
-                return msg, true, DoableStates.NO_PREQUESTSINGLE
-            end
-        end
-    end
-
     -- Check reputation requirements
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
@@ -1037,6 +1023,20 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 return l10n("Unavailable")..l10n(": ")..l10n("Reputation too high"), true, DoableStates.EXCEED_REPUTATION
             elseif returnText and not returnBrief then
                 return msg, true, DoableStates.EXCEED_REPUTATION
+            end
+        end
+    end
+
+    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
+    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+    if preQuestSingle then
+        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+        if not isPreQuestSingleFulfilled then
+            local msg = "Pre-quest requirement not fulfilled for quest " .. questId
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Incomplete pre-quest"), true, DoableStates.NO_PREQUESTSINGLE
+            elseif returnText and not returnBrief then
+                return msg, true, DoableStates.NO_PREQUESTSINGLE
             end
         end
     end
