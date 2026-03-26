@@ -487,6 +487,9 @@ function QuestieTBCQuestFixes:Load()
         [2280] = {
             [questKeys.requiredLevel] = 40,
         },
+        [2284] = { -- Necklace Recovery, Take 2
+            [questKeys.requiredLevel] = 37,
+        },
         [2298] = { -- Kingly Shakedown
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
