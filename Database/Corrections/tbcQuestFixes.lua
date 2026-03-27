@@ -595,11 +595,12 @@ function QuestieTBCQuestFixes:Load()
         [3505] = {
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21}}}},
         },
-        [3631] = {
+        [3631] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{3326}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+            [questKeys.exclusiveTo] = {4487,4488,4489},
         },
         [3741] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -620,17 +621,20 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{5172}},
             [questKeys.finishedBy] = {{6251}},
+            [questKeys.exclusiveTo] = {3631,4488,4489},
         },
         [4488] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{461}},
             [questKeys.finishedBy] = {{6251}},
+            [questKeys.exclusiveTo] = {3631,4487,4489},
         },
         [4489] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
             [questKeys.startedBy] = {{4563}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+            [questKeys.exclusiveTo] = {3631,4487,4488},
         },
         [4490] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
