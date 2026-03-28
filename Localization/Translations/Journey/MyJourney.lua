@@ -736,7 +736,7 @@ local myJourneyLocales = {
     },
     ["Reputation too low"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Ruf zu gering",
         ["esES"] = "Reputación demasiado baja",
         ["esMX"] = "Reputación demasiado baja",
         ["frFR"] = "Réputation trop basse",
@@ -748,7 +748,7 @@ local myJourneyLocales = {
     },
     ["Reputation too high"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Ruf zu hoch",
         ["esES"] = "Reputación demasiado alta",
         ["esMX"] = "Reputación demasiado alta",
         ["frFR"] = "Réputation trop élevée",
