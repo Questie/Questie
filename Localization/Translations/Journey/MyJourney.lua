@@ -684,7 +684,7 @@ local myJourneyLocales = {
         ["ptBR"] = "A próxima missão está ativa ou concluída",
         ["ruRU"] = "Следующее задание активно или выполнено",
         ["zhCN"] = "后续任务处于进行中或已完成",
-        ["zhTW"] = false,
+        ["zhTW"] = "後續任務處於進行中或已完成",
     },
     ["Disabling quest already turned in"] = {
         ["enUS"] = true,
@@ -696,7 +696,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Desativando missão já entregue",
         ["ruRU"] = "Отключение уже сданного задания",
         ["zhCN"] = "禁用已提交的任务",
-        ["zhTW"] = false,
+        ["zhTW"] = "禁用已提交的任務",
     },
     ["Enabling quest not active nor turned in"] = {
         ["enUS"] = true,
@@ -708,7 +708,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Ativando missão não ativa nem entregue",
         ["ruRU"] = "Включение неактивного и несданного задания",
         ["zhCN"] = "启用既未激活也未提交的任务",
-        ["zhTW"] = false,
+        ["zhTW"] = "啟用既未啟動也未提交的任務",
     },
     ["Unavailable"] = {
         ["enUS"] = true,
@@ -744,7 +744,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Reputação muito baixa",
         ["ruRU"] = "Репутация слишком низкая",
         ["zhCN"] = "声望太低",
-        ["zhTW"] = false,
+        ["zhTW"] = "聲望太低",
     },
     ["Reputation too high"] = {
         ["enUS"] = true,
@@ -756,7 +756,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Reputação muito alta",
         ["ruRU"] = "Репутация слишком высокая",
         ["zhCN"] = "声望太高",
-        ["zhTW"] = false,
+        ["zhTW"] = "聲望太高",
     },
 }
 
