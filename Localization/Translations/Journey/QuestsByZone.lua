@@ -71,7 +71,7 @@ local questsByZoneLocales = {
         ["koKR"] = "이벤트 선택",
         ["ptBR"] = "Selecionar evento",
         ["ruRU"] = "Выберите событие",
-        ["zhCN"] = "选择事件",
+        ["zhCN"] = "选择节日",
         ["zhTW"] = "選擇節慶",
     },
     ["Select Scenario"] = {
@@ -95,8 +95,8 @@ local questsByZoneLocales = {
         ["koKR"] = "전문 기술 선택",
         ["ptBR"] = "Selecionar profissão",
         ["ruRU"] = "Выберите профессию",
-        ["zhCN"] = "选择职业",
-        ["zhTW"] = "選擇職業",
+        ["zhCN"] = "选择专业",
+        ["zhTW"] = "選擇專業",
     },
     ["This quest is an automatic completion quest and does not contain an objective."] = {
         ["enUS"] = true,
@@ -119,7 +119,7 @@ local questsByZoneLocales = {
         ["koKR"] = "수행 가능한 퀘스트",
         ["ptBR"] = "Missões disponíveis",
         ["ruRU"] = "Доступные задания",
-        ["zhCN"] = "可接受",
+        ["zhCN"] = "可接的任务",
         ["zhTW"] = "可接的任務",
     },
     ["Completed Quests"] = {
@@ -131,7 +131,7 @@ local questsByZoneLocales = {
         ["koKR"] = "완료한 퀘스트",
         ["ptBR"] = "Missões concluídas",
         ["ruRU"] = "Выполненные задания",
-        ["zhCN"] = "已完成",
+        ["zhCN"] = "已完成的任务",
         ["zhTW"] = "完成的任務",
     },
     ["Completed"] = {
@@ -143,7 +143,7 @@ local questsByZoneLocales = {
         ["koKR"] = "완료",
         ["ptBR"] = "Concluída",
         ["ruRU"] = "выполнено",
-        ["zhCN"] = "完成",
+        ["zhCN"] = "已完成",
         ["zhTW"] = "已完成",
     },
     ["Repeatable Quests"] = {
@@ -179,7 +179,7 @@ local questsByZoneLocales = {
         ["koKR"] = "수행이 불가능한 퀘스트",
         ["ptBR"] = "Missões inalcançáveis",
         ["ruRU"] = "Недоступные задания",
-        ["zhCN"] = "未完成的任务",
+        ["zhCN"] = "无法获得的任务",
         ["zhTW"] = "無法取得的任務",
     },
     ["Pre Quests"] = {

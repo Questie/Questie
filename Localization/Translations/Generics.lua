@@ -455,7 +455,7 @@ local genericsLocales = {
         ["koKR"] = "수행 가능",
         ["ptBR"] = "Fazível",
         ["ruRU"] = "Выполнимые",
-        ["zhCN"] = "可行",
+        ["zhCN"] = "可完成",
         ["zhTW"] = "可行",
     },
     ["Challenge Mode"] = {

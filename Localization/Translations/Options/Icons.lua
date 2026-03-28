@@ -251,7 +251,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이벤트 퀘스트 아이콘 활성화",
         ["ptBR"] = "Ativar ícones da missão de evento",
         ["ruRU"] = "Значки заданий игровых событий",
-        ["zhCN"] = "启用事件任务图标",
+        ["zhCN"] = "启用节日任务图标",
         ["zhTW"] = "啟用事件任務圖示",
     },
     ["If checked, the locations of active event quests will be shown on the map/minimap."] = {
@@ -263,7 +263,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 이벤트 퀘스트의 위치를 지도와 미니맵에 표시합니다.",
         ["ptBR"] = "Se marcado, a localização de missões de evento será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения заданий игровых событий на карте и миникарте",
-        ["zhCN"] = "启用时，事件任务的位置将显示在世界地图/小地图上",
+        ["zhCN"] = "启用时，节日任务的位置将显示在世界地图/小地图上",
         ["zhTW"] = "啟用時，大地圖/小地圖上會顯示可取得事件任務的位置",
     },
     ["Enable Objective Icons"] = {
@@ -299,7 +299,7 @@ local iconOptionsLocales = {
         ["koKR"] = "지도에 반복 퀘스트를 표시",
         ["ptBR"] = "Mostrar missões repetíveis no mapa",
         ["ruRU"] = "Значки повторяемых заданий",
-        ["zhCN"] = "启用重复的任务图标",
+        ["zhCN"] = "启用可重复的任务图标",
         ["zhTW"] = "顯示可重覆接取的任務圖示",
     },
     ["If checked, the locations of repeatable quests will be shown on the map/minimap."] = {
@@ -311,7 +311,7 @@ local iconOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 지도나 미니맵에 반복 퀘스트를 표시할지 선택합니다.",
         ["ptBR"] = "Se marcado, a localização de missões repetíveis será exibida no mapa e minimapa.",
         ["ruRU"] = "Показать/скрыть местоположения повторяемых заданий на карте и миникарте",
-        ["zhCN"] = "启用时，重复任务的位置将显示在世界地图/小地图上",
+        ["zhCN"] = "启用时，可重复任务的位置将显示在世界地图/小地图上",
         ["zhTW"] = "啟用時，會在大地圖和小地圖上顯示可以重覆接取的任務",
     },
     ["Enable Raid Quest Icons"] = {
@@ -371,7 +371,7 @@ local iconOptionsLocales = {
         ["koKR"] = "퀘스트 완료 아이콘 활성화",
         ["ptBR"] = "Ativar ícones de missões concluídas",
         ["ruRU"] = "Значки выполненных заданий",
-        ["zhCN"] = "启用提交任务标记",
+        ["zhCN"] = "启用已完成任务图标",
         ["zhTW"] = "啟用已完成的任務圖示",
     },
     ["Enable PvP Quest Icons"] = {
@@ -551,8 +551,8 @@ local iconOptionsLocales = {
         ["koKR"] = "이벤트 목표",
         ["ptBR"] = "Objetivos de evento",
         ["ruRU"] = "Событие",
-        ["zhCN"] = "事件目标",
-        ["zhTW"] = "事件目標",
+        ["zhCN"] = "节日目标",
+        ["zhTW"] = "節慶目標",
     },
     ["The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there"] = {
         ["enUS"] = true,
@@ -719,7 +719,7 @@ local iconOptionsLocales = {
         ["koKR"] = "완료된 반복 가능한 퀘스트",
         ["ptBR"] = "Missões repetíveis completadas",
         ["ruRU"] = "Выполненные",
-        ["zhCN"] = "完成重复性任务",
+        ["zhCN"] = "完成的重复性任务",
         ["zhTW"] = "完成重覆性任務",
     },
     ["The icon that is displayed for repeatable quests that can be handed in"] = {
@@ -1355,7 +1355,7 @@ local iconOptionsLocales = {
         ["koKR"] = "반복 완료",
         ["ptBR"] = "Repetível concluído",
         ["ruRU"] = "Повторяемое выполнено",
-        ["zhCN"] = "重复完成",
+        ["zhCN"] = "可重复完成",
         ["zhTW"] = "重複完成",
     },
     ["Event Quest"] = {
@@ -1367,8 +1367,8 @@ local iconOptionsLocales = {
         ["koKR"] = "이벤트 퀘스트",
         ["ptBR"] = "Missão de evento",
         ["ruRU"] = "Событие-задание",
-        ["zhCN"] = "事件任务",
-        ["zhTW"] = "事件任務",
+        ["zhCN"] = "节日任务",
+        ["zhTW"] = "節慶任務",
     },
     ["Event Quest Complete"] = {
         ["enUS"] = true,
@@ -1379,8 +1379,8 @@ local iconOptionsLocales = {
         ["koKR"] = "이벤트 퀘스트 완료",
         ["ptBR"] = "Missão de evento concluída",
         ["ruRU"] = "Событие-задание выполнено",
-        ["zhCN"] = "事件任务完成",
-        ["zhTW"] = "事件任務完成",
+        ["zhCN"] = "节日任务完成",
+        ["zhTW"] = "節慶任務完成",
     },
     ["PvP Quest"] = {
         ["enUS"] = true,

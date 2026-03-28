@@ -35,7 +35,7 @@ local zoneSectionLocales = {
         ["koKR"] = "이벤트들",
         ["ptBR"] = "Eventos",
         ["ruRU"] = "События",
-        ["zhCN"] = "事件",
+        ["zhCN"] = "节日",
         ["zhTW"] = "節慶",
     },
     ["Outland"] = {

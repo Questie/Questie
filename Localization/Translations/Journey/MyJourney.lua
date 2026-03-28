@@ -719,7 +719,7 @@ local myJourneyLocales = {
         ["koKR"] = "사용 불가",
         ["ptBR"] = "Indisponível",
         ["ruRU"] = "Недоступно",
-        ["zhCN"] = "不可用",
+        ["zhCN"] = "无法完成",
         ["zhTW"] = false,
     },
     ["Event inactive"] = {
@@ -731,7 +731,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Evento inativo",
         ["ruRU"] = false,
-        ["zhCN"] = "活动未开启",
+        ["zhCN"] = "节日未开启",
         ["zhTW"] = false,
     },
     ["Reputation too low"] = {
