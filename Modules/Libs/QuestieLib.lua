@@ -9,8 +9,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -326,17 +324,17 @@ function QuestieLib:GetClassString(classMask)
         local classTable = QuestieLib:UnpackBinary(classMask)
         local classColors = {
             -- Class colors taken from RAID_CLASS_COLORS["WARRIOR"] etc
-            WARRIOR      = "|c" .. RAID_CLASS_COLORS["WARRIOR"].colorStr or "|cFFC79C6E",
-            PALADIN      = "|c" .. RAID_CLASS_COLORS["PALADIN"].colorStr or "|cFFF58CBA",
-            HUNTER       = "|c" .. RAID_CLASS_COLORS["HUNTER"].colorStr or "|cFFABD473",
-            ROGUE        = "|c" .. RAID_CLASS_COLORS["ROGUE"].colorStr or "|cFFFFF569",
-            PRIEST       = "|c" .. RAID_CLASS_COLORS["PRIEST"].colorStr or "|cFFFFFFFF",
-            DEATH_KNIGHT = "|c" .. RAID_CLASS_COLORS["DEATHKNIGHT"].colorStr or "|cFFC41F3B",
-            SHAMAN       = "|c" .. RAID_CLASS_COLORS["SHAMAN"].colorStr or (Expansions.Current >= Expansions.Tbc and "|cFF0070DE") or "|cFFF58CBA",
-            MAGE         = "|c" .. RAID_CLASS_COLORS["MAGE"].colorStr or "|cFF40C7EB",
-            WARLOCK      = "|c" .. RAID_CLASS_COLORS["WARLOCK"].colorStr or "|cFF8787ED",
-            MONK         = "|c" .. RAID_CLASS_COLORS["MONK"].colorStr or "|cFF00FF96",
-            DRUID        = "|c" .. RAID_CLASS_COLORS["DRUID"].colorStr or "|cFFFF7D0A",
+            WARRIOR      = "|c" .. RAID_CLASS_COLORS["WARRIOR"].colorStr,
+            PALADIN      = "|c" .. RAID_CLASS_COLORS["PALADIN"].colorStr,
+            HUNTER       = "|c" .. RAID_CLASS_COLORS["HUNTER"].colorStr,
+            ROGUE        = "|c" .. RAID_CLASS_COLORS["ROGUE"].colorStr,
+            PRIEST       = "|c" .. RAID_CLASS_COLORS["PRIEST"].colorStr,
+            DEATH_KNIGHT = "|c" .. RAID_CLASS_COLORS["DEATHKNIGHT"].colorStr,
+            SHAMAN       = "|c" .. RAID_CLASS_COLORS["SHAMAN"].colorStr,
+            MAGE         = "|c" .. RAID_CLASS_COLORS["MAGE"].colorStr,
+            WARLOCK      = "|c" .. RAID_CLASS_COLORS["WARLOCK"].colorStr,
+            MONK         = "|c" .. RAID_CLASS_COLORS["MONK"].colorStr,
+            DRUID        = "|c" .. RAID_CLASS_COLORS["DRUID"].colorStr,
         }
         local stringTable = {
             classColors.WARRIOR .. l10n("Warrior") .. "|r",                 -- 1
