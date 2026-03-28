@@ -157,7 +157,7 @@ local questStateLocales = {
         ["koKR"] = "매주 계정",
         ["ptBR"] = "Semanal Conta",
         ["ruRU"] = "Раз в неделю Учетная запись",
-        ["zhCN"] = "周常 账号",
+        ["zhCN"] = "每周 账号",
         ["zhTW"] = "每周 帳號",
     },
     ["Daily Heroic"] = {
