@@ -719,7 +719,7 @@ local myJourneyLocales = {
         ["koKR"] = "사용 불가",
         ["ptBR"] = "Indisponível",
         ["ruRU"] = "Недоступно",
-        ["zhCN"] = "不可用",
+        ["zhCN"] = "不可接取",
         ["zhTW"] = false,
     },
     ["Event inactive"] = {
