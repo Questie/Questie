@@ -552,7 +552,7 @@ local iconOptionsLocales = {
         ["ptBR"] = "Objetivos de evento",
         ["ruRU"] = "Событие",
         ["zhCN"] = "节日目标",
-        ["zhTW"] = "事件目標",
+        ["zhTW"] = "節慶目標",
     },
     ["The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there"] = {
         ["enUS"] = true,
@@ -1368,7 +1368,7 @@ local iconOptionsLocales = {
         ["ptBR"] = "Missão de evento",
         ["ruRU"] = "Событие-задание",
         ["zhCN"] = "节日任务",
-        ["zhTW"] = "事件任務",
+        ["zhTW"] = "節慶任務",
     },
     ["Event Quest Complete"] = {
         ["enUS"] = true,
@@ -1380,7 +1380,7 @@ local iconOptionsLocales = {
         ["ptBR"] = "Missão de evento concluída",
         ["ruRU"] = "Событие-задание выполнено",
         ["zhCN"] = "节日任务完成",
-        ["zhTW"] = "事件任務完成",
+        ["zhTW"] = "節慶任務完成",
     },
     ["PvP Quest"] = {
         ["enUS"] = true,
