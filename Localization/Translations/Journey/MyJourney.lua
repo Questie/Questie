@@ -743,7 +743,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Reputação muito baixa",
         ["ruRU"] = "Репутация слишком низкая",
-        ["zhCN"] = false,
+        ["zhCN"] = "声望太低",
         ["zhTW"] = false,
     },
     ["Reputation too high"] = {
@@ -755,7 +755,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Reputação muito alta",
         ["ruRU"] = "Репутация слишком высокая",
-        ["zhCN"] = false,
+        ["zhCN"] = "声望太高",
         ["zhTW"] = false,
     },
 }
