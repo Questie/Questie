@@ -1902,6 +1902,7 @@ globals = {
     "Quit",
     "QuestTimerFrame_Update",
     "RAID",
+    "RAID_CLASS_COLORS",
     "RaidProfileExists",
     "RaidProfileHasUnsavedChanges",
     "RandomRoll",
