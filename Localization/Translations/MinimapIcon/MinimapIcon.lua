@@ -59,7 +59,7 @@ local minimapIconLocales = {
         ["koKR"] = "수행 가능한 퀘스트",
         ["ptBR"] = "Missões disponiveis",
         ["ruRU"] = "Доступные задания",
-        ["zhCN"] = "可用任务",
+        ["zhCN"] = "可接的任务",
         ["zhTW"] = "可接的任務",
     },
     ["Trivial Quest"] = {

@@ -731,7 +731,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Evento inativo",
         ["ruRU"] = false,
-        ["zhCN"] = "活动未开启",
+        ["zhCN"] = "节日未开启",
         ["zhTW"] = false,
     },
     ["Reputation too low"] = {
