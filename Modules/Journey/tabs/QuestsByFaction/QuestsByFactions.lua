@@ -582,6 +582,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                elseif returnReason == DoableStates.PROFESSION_RANK then -- no profession rank
+                    tinsert(factionTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.NO_PREQUESTGROUP then -- no preQuestGroup completed
                     tinsert(factionTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then

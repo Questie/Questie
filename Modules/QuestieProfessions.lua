@@ -118,6 +118,10 @@ local function _HasSkillLevel(profession, skillLevel)
     return (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
 end
 
+local function _HasRankevel(profession, rankLevel)
+    return (not rankLevel) or (QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel))
+end
+
 ---@param requiredSkill { [1]: number, [2]: number } [1] = professionId, [2] = skillLevel
 ---@return boolean HasProfession
 ---@return boolean HasSkillLevel
@@ -130,6 +134,29 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     local profession = requiredSkill[1]
     local skillLevel = requiredSkill[2]
     return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
+end
+
+---@param requiredRanks { [1]: number, [2]: number } [1] = professionId, [2] = rankLevel
+---@return boolean HasProfession
+---@return boolean HasRankLevel
+function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
+    if not requiredRanks then
+        --? We return true here because otherwise we would have to check for nil everywhere
+        return true, true
+    end
+
+    local hasProfession = false
+    for i=1,#requiredRanks do
+        local profession = requiredRanks[i][1]
+        local rankLevel = requiredRanks[i][2]
+        if _HasProfession(profession) then
+            if _HasRankevel(profession, rankLevel) then
+                return true, true
+            end
+        hasProfession = true
+        end
+    end
+    return hasProfession, false
 end
 
 ---@param requiredSpecialization { [1]: number } [1] = professionId
@@ -180,6 +207,24 @@ function QuestieProfessions.HasSpecialization(requiredSpecialization)
     return true
 end
 
+---@param HasProfessionAndRankOrHigher { [1]: number, [2]: number } [1] = professionId, [2] = rankLevel
+---@return boolean HasSpecialization
+function QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel)
+    if not rankLevel then
+        --? We return true here because otherwise we would have to check for nil everywhere
+        return true
+    end
+    local professionKeys = QuestieProfessions.professionKeys
+    local rankKeys = QuestieProfessions.rankKeys
+    for rankIndex = rankLevel, #rankKeys[profession] do
+        local spellId = rankKeys[profession][rankIndex]
+        if IsPlayerSpell(spellId) then -- not using IsSpellKnown here since Mining got changed in wotlk and returns false while this returns true
+            return true
+        end
+    end
+    return false
+end
+
 ---@enum ProfessionEnum
 QuestieProfessions.professionKeys = {
     FIRST_AID = 129,
@@ -198,6 +243,18 @@ QuestieProfessions.professionKeys = {
     INSCRIPTION = 773,
     RIDING = 762,
     ARCHAEOLOGY = 794,
+}
+
+---@enum RankEnum
+QuestieProfessions.rankNames = {
+    APPRENTICE = 1,
+    JOURNEYMAN = 2,
+    EXPERT = 3,
+    ARTISAN = 4,
+    MASTER = 5,
+    GRAND_MASTER = 6,
+    ILLUSTRIOUS_GRAND_MASTER = 7,
+    ZEN_MASTER = 8,
 }
 
 professionNames = {
@@ -344,6 +401,160 @@ alternativeProfessionNames = {
     ["Weaponsmith"] = 164,
     ["Surgeon"] = 129,
     ["Trauma Surgeon"] = 129,
+}
+
+---@class ProfessionMetaDB
+QuestieProfessions.rankKeys = {
+    [129] = { -- First Aid
+      [1] = 3273, -- 1-75
+      [2] = 3274, -- 75-150
+      [3] = 7924, -- 150-225
+      [4] = 10846, -- 225-300
+      [5] = 27028, -- 300-375
+      [6] = 45542, -- 375-450
+      [7] = 74559, -- 450-525
+      [8] = 110406, -- 525-600
+    },
+    [164] = { -- Blacksmithing
+      [1] = 2018, -- 1-75
+      [2] = 3100, -- 75-150
+      [3] = 3538, -- 150-225
+      [4] = 9785, -- 225-300
+      [5] = 29844, -- 300-375
+      [6] = 51300, -- 375-450
+      [7] = 76666, -- 450-525
+      [8] = 110396, -- 525-600
+    },
+    [165] = { -- Leatherworking
+      [1] = 2108, -- 1-75
+      [2] = 3104, -- 75-150
+      [3] = 3811, -- 150-225
+      [4] = 10662, -- 225-300
+      [5] = 32549, -- 300-375
+      [6] = 51302, -- 375-450
+      [7] = 81199, -- 450-525
+      [8] = 110423, -- 525-600
+    },
+    [171] = { -- Alchemy
+      [1] = 2259, -- 1-75
+      [2] = 3101, -- 75-150
+      [3] = 3464, -- 150-225
+      [4] = 11611, -- 225-300
+      [5] = 28596, -- 300-375
+      [6] = 51304, -- 375-450
+      [7] = 80731, -- 450-525
+      [8] = 105206, -- 525-600
+    },
+    [182] = { -- Herbalism
+      [1] = 2366, -- 1-75
+      [2] = 2368, -- 75-150
+      [3] = 3570, -- 150-225
+      [4] = 11993, -- 225-300
+      [5] = 28695, -- 300-375
+      [6] = 50300, -- 375-450
+      [7] = 74519, -- 450-525
+      [8] = 110413, -- 525-600
+    },
+    [185] = { -- Cooking
+      [1] = 2550, -- 1-75
+      [2] = 3102, -- 75-150
+      [3] = 3413, -- 150-225
+      [4] = 18260, -- 225-300
+      [5] = 33359, -- 300-375
+      [6] = 51296, -- 375-450
+      [7] = 88053, -- 450-525
+      [8] = 104381, -- 525-600
+    },
+    [186] = { -- Mining
+      [1] = 2575, -- 1-75
+      [2] = 2576, -- 75-150
+      [3] = 3564, -- 150-225
+      [4] = 10248, -- 225-300
+      [5] = 29354, -- 300-375
+      [6] = 50310, -- 375-450
+      [7] = 74517, -- 450-525
+      [8] = 102161, -- 525-600
+    },
+    [197] = { -- Tailoring
+      [1] = 3908, -- 1-75
+      [2] = 3909, -- 75-150
+      [3] = 3910, -- 150-225
+      [4] = 12180, -- 225-300
+      [5] = 26790, -- 300-375
+      [6] = 51309, -- 375-450
+      [7] = 75156, -- 450-525
+      [8] = 110426, -- 525-600
+    },
+    [202] = { -- Engineering
+      [1] = 4036, -- 1-75
+      [2] = 4037, -- 75-150
+      [3] = 4038, -- 150-225
+      [4] = 12656, -- 225-300
+      [5] = 30350, -- 300-375
+      [6] = 51306, -- 375-450
+      [7] = 82774, -- 450-525
+      [8] = 110403, -- 525-600
+    },
+    [333] = { -- Enchanting
+      [1] = 7411, -- 1-75
+      [2] = 7412, -- 75-150
+      [3] = 7413, -- 150-225
+      [4] = 13920, -- 225-300
+      [5] = 28029, -- 300-375
+      [6] = 51313, -- 375-450
+      [7] = 74258, -- 450-525
+      [8] = 110400, -- 525-600
+    },
+    [356] = { -- Fishing
+      [1] = 7620, -- 1-75
+      [2] = 7731, -- 75-150
+      [3] = 7732, -- 150-225
+      [4] = 18248, -- 225-300
+      [5] = 33095, -- 300-375
+      [6] = 51294, -- 375-450
+      [7] = 88868, -- 450-525
+      [8] = 110410, -- 525-600
+    },
+    [393] = { -- Skinning
+      [1] = 8613, -- 1-75
+      [2] = 8617, -- 75-150
+      [3] = 8618, -- 150-225
+      [4] = 10768, -- 225-300
+      [5] = 32678, -- 300-375
+      [6] = 50305, -- 375-450
+      [7] = 74522, -- 450-525
+      [8] = 102216, -- 525-600
+    },
+    [755] = { -- Jewelcrafting
+      [1] = 25229, -- 1-75
+      [2] = 25230, -- 75-150
+      [3] = 28894, -- 150-225
+      [4] = 28895, -- 225-300
+      [5] = 28897, -- 300-375
+      [6] = 51311, -- 375-450
+      [7] = 73318, -- 450-525
+      [8] = 110420, -- 525-600
+    },
+    [773] = { -- Inscription
+      [1] = 45357, -- 1-75
+      [2] = 45358, -- 75-150
+      [3] = 45359, -- 150-225
+      [4] = 45360, -- 225-300
+      [5] = 45361, -- 300-375
+      [6] = 45363, -- 375-450
+      [7] = 86008, -- 450-525
+      [8] = 110417, -- 525-600
+    },
+    [794] = { -- Archaeology
+      [1] = 78670, -- 1-75
+      [2] = 88961, -- 75-150
+      [3] = 89718, -- 150-225
+      [4] = 89719, -- 225-300
+      [5] = 89720, -- 300-375
+      [6] = 89721, -- 375-450
+      [7] = 89722, -- 450-525
+      [8] = 110393, -- 525-600
+    },
 }
 
 return QuestieProfessions
