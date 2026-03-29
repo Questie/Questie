@@ -39,7 +39,7 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local _QuestieQuest = QuestieQuest.private
 
 --- A list of quests that will never be available, used to quickly skip quests.
----@alias AutoBlacklistString "rep"|"skill"|"race"|"class"
+---@alias AutoBlacklistString "rep"|"skill"|"race"|"class"|"rank"
 ---@type table<number, AutoBlacklistString>
 QuestieDB.autoBlacklist = {}
 
