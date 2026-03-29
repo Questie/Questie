@@ -118,7 +118,7 @@ local function _HasSkillLevel(profession, skillLevel)
     return (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
 end
 
-local function _HasRankevel(profession, rankLevel)
+local function _HasRankLevel(profession, rankLevel)
     return (not rankLevel) or (QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel))
 end
 
@@ -150,7 +150,7 @@ function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
         local profession = requiredRanks[i][1]
         local rankLevel = requiredRanks[i][2]
         if _HasProfession(profession) then
-            if _HasRankevel(profession, rankLevel) then
+            if _HasRankLevel(profession, rankLevel) then
                 return true, true
             end
         hasProfession = true
@@ -207,8 +207,9 @@ function QuestieProfessions.HasSpecialization(requiredSpecialization)
     return true
 end
 
----@param HasProfessionAndRankOrHigher { [1]: number, [2]: number } [1] = professionId, [2] = rankLevel
----@return boolean HasSpecialization
+---@param profession number The profession ID from professionKeys
+---@param rankLevel number? The minimum rank level from rankNames (nil returns true)
+---@return boolean HasRankOrHigher Whether player has the profession at rankLevel or higher
 function QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel)
     if not rankLevel then
         --? We return true here because otherwise we would have to check for nil everywhere
