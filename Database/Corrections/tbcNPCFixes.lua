@@ -1028,10 +1028,6 @@ function QuestieTBCNpcFixes:Load()
         [19178] = { -- Forsaken Commoner
             [npcKeys.questStarts] = {11357,11446,11971},
         },
-        [19202] = { -- Emissary Mordin
-            [npcKeys.questStarts] = {64997,64998,64999},
-            [npcKeys.questEnds] = {11875,64997,64998,64999},
-        },
         [19232] = { -- Innkeeper Haelthol
             [npcKeys.questStarts] = {63448,63767,65284,65561,93823,96253},
             [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
