@@ -136,7 +136,7 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
 end
 
----@param requiredRanks { [1]: number, [2]: number } [1] = professionId, [2] = rankLevel
+---@param requiredRanks { [1]: number, [2]: number }[]? List of {professionId, rankLevel} pairs (nil returns true, true)
 ---@return boolean HasProfession
 ---@return boolean HasRankLevel
 function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
