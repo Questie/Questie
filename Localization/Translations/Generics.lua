@@ -166,7 +166,7 @@ local genericsLocales = {
         ["frFR"] = "exp",
         ["koKR"] = "경험치",
         ["ptBR"] = "exp",
-        ["ruRU"] = " опыта",
+        ["ruRU"] = "опыта",
         ["zhCN"] = "经验",
         ["zhTW"] = "經驗值",
     },
