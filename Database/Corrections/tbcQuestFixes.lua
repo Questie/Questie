@@ -29,6 +29,7 @@ function QuestieTBCQuestFixes:Load()
     local questFlags = QuestieDB.questFlags
     local specialFlags = QuestieDB.specialFlags
     local profKeys = QuestieProfessions.professionKeys
+    local rankNames = QuestieProfessions.rankNames
 
     return {
         [62] = {
@@ -5245,8 +5246,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.startedBy] = {}, -- we use fake quests, so we don't show the real quest -- this needs proper fix
-            [questKeys.exclusiveTo] = {64997,64998,64999},
+            [questKeys.requiredRanks] = {{profKeys.HERBALISM,rankNames.ARTISAN},{profKeys.SKINNING,rankNames.ARTISAN},{profKeys.MINING,rankNames.ARTISAN}},
         },
         [11877] = {
             [questKeys.preQuestSingle] = {},
@@ -6778,60 +6778,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = zoneIDs.BLASTED_LANDS,
-        },
-        [64997] = {
-            [questKeys.name] = "Gaining the Advantage",
-            [questKeys.startedBy] = {{19202}},
-            [questKeys.finishedBy] = {{19202}},
-            [questKeys.requiredLevel] = 70,
-            [questKeys.questLevel] = 70,
-            [questKeys.requiredRaces] = 0,
-            [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
-            [questKeys.objectives] = {nil,nil,{{35229}}},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {11875,64998,64999},
-            [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.HERBALISM,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
-            [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.reputationReward] = {{1077,250}},
-        },
-        [64998] = {
-            [questKeys.name] = "Gaining the Advantage",
-            [questKeys.startedBy] = {{19202}},
-            [questKeys.finishedBy] = {{19202}},
-            [questKeys.requiredLevel] = 70,
-            [questKeys.questLevel] = 70,
-            [questKeys.requiredRaces] = 0,
-            [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
-            [questKeys.objectives] = {nil,nil,{{35229}}},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {11875,64997,64999},
-            [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.MINING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
-            [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.reputationReward] = {{1077,250}},
-        },
-        [64999] = {
-            [questKeys.name] = "Gaining the Advantage",
-            [questKeys.startedBy] = {{19202}},
-            [questKeys.finishedBy] = {{19202}},
-            [questKeys.requiredLevel] = 70,
-            [questKeys.questLevel] = 70,
-            [questKeys.requiredRaces] = 0,
-            [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"Bring 8 Nether Residue to Emissary Mordin in Shattrath City."},
-            [questKeys.objectives] = {nil,nil,{{35229}}},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.exclusiveTo] = {11875,64997,64998},
-            [questKeys.zoneOrSort] = 3703,
-            [questKeys.requiredSkill] = {profKeys.SKINNING,275}, -- this needs proper fix, you need master or higher mining, skinning OR herbalism
-            [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.reputationReward] = {{1077,250}},
         },
         ----- TBC Anniversary quests -----
         [95455] = { -- Concerted Efforts
