@@ -242,6 +242,10 @@ QuestieItemDropCorrections.Era = {
         [3234] = 100,
         [3236] = 100,
     },
+    [190232] = { -- Withered Scarf
+        [3782] = 5, -- super bad drop rate, wowhead shows 3%. it's somewhere between 5-10%
+        [3784] = 5, -- super bad drop rate, wowhead shows 3%. it's somewhere between 5-10%
+    },
 }
 
 QuestieItemDropCorrections.Tbc = {
