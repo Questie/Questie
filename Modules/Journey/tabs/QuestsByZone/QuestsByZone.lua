@@ -340,6 +340,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                elseif returnReason == DoableStates.PROFESSION_RANK then -- no profession rank
+                    tinsert(zoneTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 elseif returnReason == DoableStates.NO_PREQUESTGROUP then -- no preQuestGroup completed
                     tinsert(zoneTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
