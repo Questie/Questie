@@ -219,7 +219,7 @@ function QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel)
     local professionRanks = QuestieProfessions.rankKeys[profession]
     for rankIndex = rankLevel, #professionRanks do
         local spellId = professionRanks[rankIndex]
-        if IsPlayerSpell(spellId) then -- not using IsSpellKnown here since Mining got changed in wotlk and returns false while this returns true
+        if C_SpellBook.IsSpellKnown(spellId) then
             return true
         end
     end
