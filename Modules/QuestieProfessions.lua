@@ -153,7 +153,7 @@ function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
             if _HasRankLevel(profession, rankLevel) then
                 return true, true
             end
-        hasProfession = true
+            hasProfession = true
         end
     end
     return hasProfession, false
