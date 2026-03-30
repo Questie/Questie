@@ -114,14 +114,6 @@ local function _HasProfession(profession)
     return (not profession) or playerProfessions[profession] ~= nil
 end
 
-local function _HasSkillLevel(profession, skillLevel)
-    return (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
-end
-
-local function _HasRankLevel(profession, rankLevel)
-    return (not rankLevel) or (QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel))
-end
-
 ---@param requiredSkill { [1]: number, [2]: number } [1] = professionId, [2] = skillLevel
 ---@return boolean HasProfession
 ---@return boolean HasSkillLevel
@@ -133,7 +125,8 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
 
     local profession = requiredSkill[1]
     local skillLevel = requiredSkill[2]
-    return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
+    local _HasSkillLevel = (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
+    return _HasProfession(profession), _HasSkillLevel
 end
 
 ---@param requiredRanks { [1]: number, [2]: number }[]? List of {professionId, rankLevel} pairs (nil returns true, true)
@@ -150,7 +143,8 @@ function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
         local profession = requiredRanks[i][1]
         local rankLevel = requiredRanks[i][2]
         if _HasProfession(profession) then
-            if _HasRankLevel(profession, rankLevel) then
+            local _HasRankLevel = (not rankLevel) or (QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel))
+            if _HasRankLevel then
                 return true, true
             end
             hasProfession = true
