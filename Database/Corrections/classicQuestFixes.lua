@@ -586,8 +586,8 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 860,
             [questKeys.exclusiveTo] = {844}, -- #1109
         },
-        [862] = {
-            [questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest -- this needs proper fix
+        [862] = { -- Dig Rat Stew
+            [questKeys.requiredSkill] = {profKeys.COOKING,15},
         },
         [863] = {
             [questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[zoneIDs.THE_BARRENS]={{55.36,7.68}}}},
