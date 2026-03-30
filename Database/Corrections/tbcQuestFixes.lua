@@ -29,7 +29,7 @@ function QuestieTBCQuestFixes:Load()
     local questFlags = QuestieDB.questFlags
     local specialFlags = QuestieDB.specialFlags
     local profKeys = QuestieProfessions.professionKeys
-    local rankNames = QuestieProfessions.rankNames
+    local rankKeys = QuestieProfessions.rankNames
 
     return {
         [62] = {
@@ -5246,7 +5246,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.requiredRanks] = {{profKeys.HERBALISM,rankNames.ARTISAN},{profKeys.SKINNING,rankNames.ARTISAN},{profKeys.MINING,rankNames.ARTISAN}},
+            [questKeys.requiredRanks] = {{profKeys.HERBALISM,rankKeys.ARTISAN},{profKeys.SKINNING,rankKeys.ARTISAN},{profKeys.MINING,rankKeys.ARTISAN}},
         },
         [11877] = {
             [questKeys.preQuestSingle] = {},
