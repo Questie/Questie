@@ -123,7 +123,6 @@ local function _HasRankLevel(profession, rankLevel)
         --? We return true here because otherwise we would have to check for nil everywhere
         return true
     end
-    local professionKeys = QuestieProfessions.professionKeys
     local professionRanks = QuestieProfessions.rankKeys[profession]
     local HasProfessionAndRankOrHigher = false
     for rankIndex = rankLevel, #professionRanks do
