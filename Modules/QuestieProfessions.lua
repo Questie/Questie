@@ -146,7 +146,7 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
 
     local profession = requiredSkill[1]
     local skillLevel = requiredSkill[2]
-    return _HasProfession(profession), _HasSkillLevel(profession, rankLevel)
+    return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
 end
 
 ---@param requiredRanks { [1]: number, [2]: number }[]? List of {professionId, rankLevel} pairs (nil returns true, true)
