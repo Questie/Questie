@@ -114,6 +114,27 @@ local function _HasProfession(profession)
     return (not profession) or playerProfessions[profession] ~= nil
 end
 
+local function _HasSkillLevel(profession, skillLevel)
+    return (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
+end
+
+local function _HasRankLevel(profession, rankLevel)
+    if not rankLevel then
+        --? We return true here because otherwise we would have to check for nil everywhere
+        return true
+    end
+    local professionKeys = QuestieProfessions.professionKeys
+    local professionRanks = QuestieProfessions.rankKeys[profession]
+    local HasProfessionAndRankOrHigher = false
+    for rankIndex = rankLevel, #professionRanks do
+        local spellId = professionRanks[rankIndex]
+        if C_SpellBook.IsSpellKnown(spellId) then
+            HasProfessionAndRankOrHigher = true
+        end
+    end
+    return (not rankLevel) or HasProfessionAndRankOrHigher
+end
+
 ---@param requiredSkill { [1]: number, [2]: number } [1] = professionId, [2] = skillLevel
 ---@return boolean HasProfession
 ---@return boolean HasSkillLevel
@@ -125,8 +146,7 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
 
     local profession = requiredSkill[1]
     local skillLevel = requiredSkill[2]
-    local _HasSkillLevel = (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
-    return _HasProfession(profession), _HasSkillLevel
+    return _HasProfession(profession), _HasSkillLevel(profession, rankLevel)
 end
 
 ---@param requiredRanks { [1]: number, [2]: number }[]? List of {professionId, rankLevel} pairs (nil returns true, true)
@@ -143,8 +163,7 @@ function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
         local profession = requiredRanks[i][1]
         local rankLevel = requiredRanks[i][2]
         if _HasProfession(profession) then
-            local _HasRankLevel = (not rankLevel) or (QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel))
-            if _HasRankLevel then
+            if _HasRankLevel(profession, rankLevel) then
                 return true, true
             end
             hasProfession = true
@@ -199,25 +218,6 @@ function QuestieProfessions.HasSpecialization(requiredSpecialization)
         end
     end
     return true
-end
-
----@param profession number The profession ID from professionKeys
----@param rankLevel number? The minimum rank level from rankNames (nil returns true)
----@return boolean HasRankOrHigher Whether player has the profession at rankLevel or higher
-function QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel)
-    if not rankLevel then
-        --? We return true here because otherwise we would have to check for nil everywhere
-        return true
-    end
-    local professionKeys = QuestieProfessions.professionKeys
-    local professionRanks = QuestieProfessions.rankKeys[profession]
-    for rankIndex = rankLevel, #professionRanks do
-        local spellId = professionRanks[rankIndex]
-        if C_SpellBook.IsSpellKnown(spellId) then
-            return true
-        end
-    end
-    return false
 end
 
 ---@enum ProfessionEnum
