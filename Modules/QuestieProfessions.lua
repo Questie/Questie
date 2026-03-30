@@ -216,9 +216,9 @@ function QuestieProfessions:HasProfessionAndRankOrHigher(profession, rankLevel)
         return true
     end
     local professionKeys = QuestieProfessions.professionKeys
-    local rankKeys = QuestieProfessions.rankKeys
-    for rankIndex = rankLevel, #rankKeys[profession] do
-        local spellId = rankKeys[profession][rankIndex]
+    local professionRanks = QuestieProfessions.rankKeys[profession]
+    for rankIndex = rankLevel, #professionRanks do
+        local spellId = professionRanks[rankIndex]
         if IsPlayerSpell(spellId) then -- not using IsSpellKnown here since Mining got changed in wotlk and returns false while this returns true
             return true
         end
