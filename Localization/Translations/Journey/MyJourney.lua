@@ -767,7 +767,7 @@ local myJourneyLocales = {
         ["koKR"] = "전문화를 찾을 수 없습니다",
         ["ptBR"] = "Profissão ausente",
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "缺少专业",
         ["zhTW"] = false,
     },
     ["Profession skill"] = {
@@ -779,7 +779,7 @@ local myJourneyLocales = {
         ["koKR"] = "전문화 스킬",
         ["ptBR"] = "Habilidade de profissão",
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "专业技能",
         ["zhTW"] = false,
     },
     ["Profession rank"] = {
@@ -791,7 +791,7 @@ local myJourneyLocales = {
         ["koKR"] = "전문화 랭크",
         ["ptBR"] = "Grau da profissão",
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "专业级别",
         ["zhTW"] = false,
     },
 }
