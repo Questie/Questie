@@ -133,6 +133,10 @@ _CreateZoneDropdown = function()
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
         dropdown:SetList(zones, sortedZones)
     elseif currentZoneId and zones then
+        -- Replace fake IDs with manual corrections
+        local subZoneToParentZoneOverride = loadstring(ZoneDB.private.subZoneToParentZoneOverride)()
+        currentZoneId = subZoneToParentZoneOverride[currentZoneId] or currentZoneId
+
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
         dropdown:SetList(zones, sortedZones)
         dropdown:SetValue(currentZoneId)
