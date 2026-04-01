@@ -9727,6 +9727,10 @@ function MopQuestFixes.Load()
         [32805] = { -- Celestial Blessings
             [questKeys.objectives] = {{{61093,nil,Questie.ICON_TYPE_TALK},{59653,nil,Questie.ICON_TYPE_TALK},{64528,nil,Questie.ICON_TYPE_TALK},{71954,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61093,59653,64528,71954},61093,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [32806] = { -- The King and the Council
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {32892},
+        },
         [32863] = { -- What We've Been Training For
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{110001}}},
@@ -9738,6 +9742,9 @@ function MopQuestFixes.Load()
         [32869] = { -- Beasts of Fable Book III
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [32892] = { -- War is Coming
+            [questKeys.breadcrumbForQuestId] = {32806},
         },
         [32942] = { -- Work Order: Sunreaver Onslaught I
             [questKeys.preQuestGroup] = {32680,32682},

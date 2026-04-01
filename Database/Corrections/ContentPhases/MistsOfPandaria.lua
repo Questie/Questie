@@ -493,13 +493,13 @@ local questsToBlacklistByPhase = {
         [32755] = true, -- Empyreal Queens Dead
         [32756] = true, -- Lei Shen Dead
         [32758] = true, -- Reader for the Dead Tongue
-        [32892] = true, -- War is Coming
         [32942] = true, -- Work Order: Sunreaver Onslaught I
         [32943] = true, -- Work Order: Sunreaver Onslaught II
         [32944] = true, -- Work Order: Kirin Tor Offensive I
         [32945] = true, -- Work Order: Kirin Tor Offensive II
     },
     [4] = { -- Phase 4 (Patch 5.3 Escalation (Deepwind Gorge, New Scenarios, Heroic Scenarios))
+        [32892] = true, -- War is Coming
         [32805] = true, -- Celestial Blessings
         [32806] = true, -- The King and the Council
         [32807] = true, -- The Warchief and the Darkness
