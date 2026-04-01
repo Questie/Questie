@@ -1103,7 +1103,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "拉动坚固的藤蔓以显露果实",
+        ["zhCN"] = "拉动坚韧的藤蔓以显露果实",
         ["zhTW"] = false,
     },
     ["Use Freya's Horn atop of the Glimmering Pillar"] = { -- 12620
