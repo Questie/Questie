@@ -9760,6 +9760,7 @@ function MopQuestFixes.Load()
         },
         [32816] = { -- Path of the Last Emperor
             [questKeys.preQuestSingle] = {32815},
+            [questKeys.objectives] = {{{70981,nil,Questie.ICON_TYPE_OBJECT},{71162,nil,Questie.ICON_TYPE_OBJECT},{71171,nil,Questie.ICON_TYPE_OBJECT},{71194,nil,Questie.ICON_TYPE_OBJECT},{71196,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [32819] = { -- Battlefield: Barrens
             [questKeys.objectivesText] = {"Collect 15 Kor'kron Lumber, 15 Kor'kron Oil, 15 Kor'kron Meat, and 15 Kor'kron Stone."},

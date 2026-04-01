@@ -493,6 +493,8 @@ local phases = {
     SUNREAVER_ONSLAUGHT_THE_BEAST_PENS = 1421,
     LORD_TIRION_FORDRING_AT_TOWER = 1422,
     BLOODMYST_ISLE_SAVED = 1423,
+    SEER_HAO_DOWN = 1424,
+    SEER_HAO_UP = 1425,
 }
 Phasing.phases = phases
 
@@ -2278,6 +2280,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.BLOODMYST_ISLE_SAVED then
         return complete[9759] or false
+    end
+
+    if phase == phases.SEER_HAO_DOWN then
+        return not (complete[32816] or (questLog[32816] and questLog[32816].isComplete == 1)) or false
+    end
+
+    if phase == phases.SEER_HAO_UP then
+        return complete[32816] or (questLog[32816] and questLog[32816].isComplete == 1) or false
     end
 
     return false

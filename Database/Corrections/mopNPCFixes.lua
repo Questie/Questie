@@ -6471,11 +6471,17 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "Seer Hao Pham Roo",
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
-            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{44.97,47.84}}},
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{44.97,47.84,phases.SEER_HAO_DOWN},{43.76,51.11,phases.SEER_HAO_UP}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questStarts] = {32816},
             [npcKeys.questEnds] = {32815,32816},
+        },
+        [70981] = { -- Rope Anchor
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{44.86,49.12}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [70986] = { -- Kor'kron Lieutenant
             [npcKeys.minLevel] = 90,
@@ -6607,6 +6613,12 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = 0,
             [npcKeys.friendlyToFaction] = "H",
         },
+        [71162] = { -- Rope Anchor
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{44,47.86}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
         [71165] = { -- Wrathion
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
@@ -6618,6 +6630,24 @@ function MopNpcFixes.Load()
             [npcKeys.maxLevel] = 1,
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{40.02,53.61}}},
             [npcKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [71171] = { -- Rope Anchor
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{43.33,49.55}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [71194] = { -- Rope Anchor
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{42.47,50.59}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [71196] = { -- Rope Anchor
+            [npcKeys.minLevel] = 1,
+            [npcKeys.maxLevel] = 1,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{43.29,51.87}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [71271] = { -- Kor'kron Command Posts
             [npcKeys.minLevel] = 1,
