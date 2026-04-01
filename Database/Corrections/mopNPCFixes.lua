@@ -3691,6 +3691,10 @@ function MopNpcFixes.Load()
         [64097] = { -- Bero
             [npcKeys.npcFlags] = npcFlags.VENDOR + npcFlags.REPAIR,
         },
+        [64101] = { -- Taijing the Cyclone
+            [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS] = {{44.92,41.34}}},
+            [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS,
+        },
         [64183] = { -- Enormous Stone Quilen
             [npcKeys.name] = "Enormous Stone Quilen",
             [npcKeys.spawns] = {[zoneIDs.MOGUSHAN_VAULTS] = {{48.1,63},{55.2,66.1},{-1,-1}}},
@@ -6411,6 +6415,9 @@ function MopNpcFixes.Load()
         [70535] = { -- Teng of the Flying Daggers
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{51.72,46.53}}},
             [npcKeys.npcFlags] = npcFlags.REPAIR,
+        },
+        [70544] = { -- Hekima the Wise
+            [npcKeys.spawns] = {[zoneIDs.BLOOD_IN_THE_SNOW_SCENARIO] = {{47.9,48.4}}},
         },
         [70551] = { -- Scout Captain Elsia
             [npcKeys.name] = "Scout Captain Elsia",
