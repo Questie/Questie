@@ -3203,7 +3203,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "寻求水果",
+        ["zhCN"] = "索求水果",
         ["zhTW"] = false,
     },
     ["Begin the distillation process"] = { -- 12644
