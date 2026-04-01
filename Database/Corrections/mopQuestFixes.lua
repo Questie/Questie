@@ -9744,7 +9744,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [32892] = { -- War is Coming
-            [questKeys.breadcrumbForQuestId] = {32806},
+            [questKeys.breadcrumbForQuestId] = 32806,
         },
         [32942] = { -- Work Order: Sunreaver Onslaught I
             [questKeys.preQuestGroup] = {32680,32682},
