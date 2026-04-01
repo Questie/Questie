@@ -397,11 +397,19 @@ function CataNpcFixes.Load()
         [2249] = { -- Ferocious Yeti
             [npcKeys.name] = "Ferocious Yeti",
         },
+        [2306] = { -- Baron Vardus
+            [npcKeys.spawns] = {},
+            [npcKeys.zoneID] = 0,
+        },
         [2373] = { -- Mudsnout Shaman
             [npcKeys.questStarts] = {28355},
         },
         [2425] = { -- Varimathras
             [npcKeys.questEnds] = {1048,1978,5725},
+        },
+        [2431] = { -- Jailor Borhuin
+            [npcKeys.spawns] = {},
+            [npcKeys.zoneID] = 0,
         },
         [2487] = { -- Fleet Master Seahorn
             [npcKeys.spawns] = {
@@ -868,6 +876,10 @@ function CataNpcFixes.Load()
         [4484] = { -- Feero Ironhand
             [npcKeys.questStarts] = {976},
         },
+        [4504] = { -- Frostmaw
+            [npcKeys.spawns] = {},
+            [npcKeys.zoneID] = 0,
+        },
         [4508] = { -- Willix the Importer
             [npcKeys.spawns] = {
                 [zoneIDs.RAZORFEN_KRAUL] = {
@@ -1110,6 +1122,10 @@ function CataNpcFixes.Load()
         },
         [6235] = { -- Electrocutioner 6000
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{24.58,67.92}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
+        },
+        [6239] = { -- Cyclonian
+            [npcKeys.spawns] = {},
+            [npcKeys.zoneID] = 0,
         },
         [6243] = { -- Gelihast
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{52.25,55.1},{-1,-1}}},
