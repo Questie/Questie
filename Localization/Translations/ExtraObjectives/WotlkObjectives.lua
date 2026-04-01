@@ -851,7 +851,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "护送巴德前往德拉克辛废墟",
+        ["zhCN"] = "护送巴德前往达克辛废墟",
         ["zhTW"] = false,
     },
     ["Use Budd's Tag Troll spell to stun Drakkari trolls"] = { -- 11984
