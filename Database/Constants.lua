@@ -49,6 +49,7 @@ QuestieDB.sortKeys = {
     THE_ZANDALARI = -380,
     ELEMENTAL_BONDS = -381,
     PANDAREN_BREWMASTERS = -391,
+    SCENARIO = -392,
     PET_BATTLE = -394,
     MONK = -395,
     LANDFALL = -396,
