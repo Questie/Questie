@@ -394,6 +394,8 @@ function CataObjectFixes.Load()
         },
         [181073] = { -- Fragrant Cauldron
             [objectKeys.questStarts] = {9029},
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{73.42,42.6}}},
+            [objectKeys.zoneIDs] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [181085] = { -- Stratholme Supply Crate
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{39.86,28.07},{50.01,23.34},{37.81,14.14},{-1,-1}}},

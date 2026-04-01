@@ -2517,6 +2517,10 @@ function CataNpcFixes.Load()
         [16089] = { -- Omar the Test Dragon
             [npcKeys.questEnds] = {9583},
         },
+        [16107] = { -- Apothecary Staffron Lerent
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{73.38,42.49}}},
+            [npcKeys.zoneIDs] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
         [16112] = { -- Crusade Commander Korfax
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {
                 {72.53,74.78,phases.SCARLET_ENCLAVE_ENTRACE},
