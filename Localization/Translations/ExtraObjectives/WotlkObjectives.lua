@@ -851,7 +851,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "护送巴德前往德拉克辛废墟",
+        ["zhCN"] = "护送巴德前往达克辛废墟",
         ["zhTW"] = false,
     },
     ["Use Budd's Tag Troll spell to stun Drakkari trolls"] = { -- 11984
@@ -1103,7 +1103,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "拉动坚固的藤蔓以显露果实",
+        ["zhCN"] = "拉动坚韧的藤蔓以显露果实",
         ["zhTW"] = false,
     },
     ["Use Freya's Horn atop of the Glimmering Pillar"] = { -- 12620
@@ -3203,7 +3203,7 @@ local wotlkObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "寻求水果",
+        ["zhCN"] = "索求水果",
         ["zhTW"] = false,
     },
     ["Begin the distillation process"] = { -- 12644
