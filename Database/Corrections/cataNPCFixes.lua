@@ -2519,7 +2519,7 @@ function CataNpcFixes.Load()
         },
         [16107] = { -- Apothecary Staffron Lerent
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{73.38,42.49}}},
-            [npcKeys.zoneIDs] = zoneIDs.HILLSBRAD_FOOTHILLS,
+            [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [16112] = { -- Crusade Commander Korfax
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {
