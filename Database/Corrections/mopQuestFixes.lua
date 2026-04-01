@@ -133,6 +133,7 @@ QuestieCorrections.killCreditObjectiveFirst[32648] = true
 QuestieCorrections.killCreditObjectiveFirst[32650] = true
 QuestieCorrections.killCreditObjectiveFirst[32657] = true
 QuestieCorrections.killCreditObjectiveFirst[32659] = true
+QuestieCorrections.itemObjectiveFirst[32809] = true
 QuestieCorrections.killCreditObjectiveFirst[32943] = true
 QuestieCorrections.killCreditObjectiveFirst[32945] = true
 
@@ -9725,11 +9726,53 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [32805] = { -- Celestial Blessings
-            [questKeys.objectives] = {{{61093,nil,Questie.ICON_TYPE_TALK},{59653,nil,Questie.ICON_TYPE_TALK},{64528,nil,Questie.ICON_TYPE_TALK},{71954,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{61093,59653,64528,71954},61093,nil,Questie.ICON_TYPE_TALK}}},
+            -- TODO: turn gongs into extraobjectives, figure out ids for NPCs you need to kill in each challenge
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.preQuestSingle] = {32598},
+            [questKeys.objectives] = {{{70921,nil,Questie.ICON_TYPE_TALK},{71165,nil,Questie.ICON_TYPE_TALK},{71108,nil,Questie.ICON_TYPE_TALK},{71139,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{71029,71170,71109,71146},71029,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.finishedBy] = {{71424}},
         },
         [32806] = { -- The King and the Council
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {32892},
+        },
+        [32808] = { -- A Little Field Work
+            [questKeys.startedBy] = {{61962}},
+            [questKeys.preQuestSingle] = {32807},
+            [questKeys.objectives] = {{{71336,nil,Questie.ICON_TYPE_TALK},{71058,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [32809] = { -- Gathering Intelligence
+            [questKeys.startedBy] = {{71027}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use the controller"),0,{{"monster",71389}}}},
+            [questKeys.objectives] = {{{71355,nil,Questie.ICON_TYPE_TALK}},nil,{{98004},{98003},{98002}}},
+        },
+        [32810] = { -- The Darkspear Rebellion
+            [questKeys.startedBy] = {{71027}},
+            [questKeys.objectives] = {{{71320,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [32811] = { -- Battlefield: Barrens
+            [questKeys.startedBy] = {{70978}},
+            [questKeys.preQuestSingle] = {32871},
+            [questKeys.objectivesText] = {"Collect 15 Kor'kron Lumber, 15 Kor'kron Oil, 15 Kor'kron Meat, and 15 Kor'kron Stone."},
+        },
+        [32815] = { -- The Old Seer
+            [questKeys.startedBy] = {{61962}},
+        },
+        [32816] = { -- Path of the Last Emperor
+            [questKeys.preQuestSingle] = {32815},
+        },
+        [32819] = { -- Battlefield: Barrens
+            [questKeys.objectivesText] = {"Collect 15 Kor'kron Lumber, 15 Kor'kron Oil, 15 Kor'kron Meat, and 15 Kor'kron Stone."},
+        },
+        [32861] = { -- Cloak of Virtue
+            [questKeys.startedBy] = {{69782,71424}},
+            [questKeys.preQuestSingle] = {32805},
+            [questKeys.objectives] = {{{71424,nil,Questie.ICON_TYPE_EVENT},{71426,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [32862] = { -- Battlefield: Barrens
+            [questKeys.startedBy] = {{71333}},
+            [questKeys.preQuestSingle] = {32819},
+            [questKeys.objectivesText] = {"Collect 150 Kor'kron Lumber, 150 Kor'kron Oil, 150 Kor'kron Meat, and 150 Kor'kron Stone."},
         },
         [32863] = { -- What We've Been Training For
             [questKeys.requiredSpell] = 119467,
@@ -9742,6 +9785,14 @@ function MopQuestFixes.Load()
         [32869] = { -- Beasts of Fable Book III
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [32871] = { -- Vol'jin of the Darkspear
+            [questKeys.startedBy] = {{71320}},
+        },
+        [32872] = { -- Battlefield: Barrens
+            [questKeys.startedBy] = {{71333}},
+            [questKeys.preQuestSingle] = {32811},
+            [questKeys.objectivesText] = {"Collect 150 Kor'kron Lumber, 150 Kor'kron Oil, 150 Kor'kron Meat, and 150 Kor'kron Stone."},
         },
         [32892] = { -- War is Coming
             [questKeys.breadcrumbForQuestId] = 32806,
@@ -9769,6 +9820,23 @@ function MopQuestFixes.Load()
         [32945] = { -- Work Order: Kirin Tor Offensive II
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,nil,{{74841}},nil,{{{63154,63156,63158},63154,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [33098] = { -- Secrets of the Timeless Isle
+            [questKeys.objectivesText] = {"Collect 5000 Timeless Coins from creatures and events on the Timeless Isle."},
+        },
+        [33133] = { -- Warforged Seals
+            [questKeys.objectives] = {nil,{{440004}}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
+        },
+        [33134] = { -- Warforged Seals
+            [questKeys.objectives] = {nil,{{440004}}},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.objectivesText] = {"Collect 50 Lesser Charms of Good Fortune."},
+            [questKeys.requiredLevel] = 90,
+            [questKeys.questLevel] = 90,
         },
         [33136] = { -- The Rainy Day is Here
             [questKeys.preQuestSingle] = {33137},

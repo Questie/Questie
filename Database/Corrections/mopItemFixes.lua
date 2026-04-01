@@ -1321,6 +1321,18 @@ function MopItemFixes.Load()
         [95433] = { -- Tempered Lightning Lance
             [itemKeys.npcDrops] = {69739},
         },
+        [97530] = { -- Kor'kron Lumber
+            [itemKeys.npcDrops] = {70997,70998,70999,71001},
+        },
+        [97543] = { -- Kor'kron Stone
+            [itemKeys.npcDrops] = {71007,71009,71187,71188},
+        },
+        [97544] = { -- Kor'kron Oil
+            [itemKeys.npcDrops] = {71000,71002,71005,71006},
+        },
+        [97545] = { -- Kor'kron Meat
+            [itemKeys.npcDrops] = {71010,71011,71012,73590},
+        },
         [97978] = { -- Knockoff Grumplefloot
             [itemKeys.startQuest] = 32836,
         },
@@ -1356,6 +1368,15 @@ function MopItemFixes.Load()
         },
         [97990] = { -- Raptorhide Boxing Gloves
             [itemKeys.startQuest] = 32858,
+        },
+        [98002] = { -- Kor'kron Supply Lines
+            [itemKeys.npcDrops] = {71274},
+        },
+        [98003] = { -- Operation: Darkspear Destruction
+            [itemKeys.npcDrops] = {71273},
+        },
+        [98004] = { -- Kor'kron Command Posts
+            [itemKeys.npcDrops] = {71271},
         },
         [105891] = { -- Moonfang's Pelt
             [itemKeys.startQuest] = 33354,

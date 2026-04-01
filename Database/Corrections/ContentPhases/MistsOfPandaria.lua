@@ -538,8 +538,10 @@ local questsToBlacklistByPhase = {
         [32858] = true, -- Raptorhide Boxing Gloves
         [32859] = true, -- Ty'thar
         [32861] = true, -- Cloak of Virtue
+        [32862] = true, -- Battlefield: Barrens
         [32870] = true, -- Preparing to Strike
         [32871] = true, -- Vol'jin of the Darkspear
+        [32872] = true, -- Battlefield: Barrens
         [32900] = true, -- Heroic Deeds
         [32901] = true, -- Heroic Deeds
     },
