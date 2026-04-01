@@ -868,7 +868,7 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{35.71,44.68}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Darkshore Groupers"),}},
         },
         [1144] = {
-            [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.THE_BARRENS]={{42.27,89.88}}}},
+            [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.RAZORFEN_KRAUL]={{-1,-1}}}},
         },
         [1148] = {
             [questKeys.preQuestSingle] = {1146},
