@@ -4464,6 +4464,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13350] = {
             [questKeys.preQuestSingle] = {13346},
+            [questKeys.objectives] = {{{32300}}},
             [questKeys.requiredSourceItems] = {44476,44477,44478,44479,44480},
         },
         [13351] = {
