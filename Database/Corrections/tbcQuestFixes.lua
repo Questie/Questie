@@ -2065,7 +2065,7 @@ function QuestieTBCQuestFixes:Load()
         [9582] = { -- Strength of One
             [questKeys.requiredSourceItems] = {},
             [questKeys.exclusiveTo] = {1678,1683,1639},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 181849}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 181849}}}},
         },
         [9586] = { -- Help Tavara
             [questKeys.objectives] = {{{17551,nil,Questie.ICON_TYPE_INTERACT}}},
