@@ -308,6 +308,12 @@ function QuestieTBCQuestFixes:Load()
         [1558] = {
             [questKeys.questLevel] = -1,
         },
+        [1598] = { -- The Stolen Tome
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME,
+        },
+        [1599] = { -- Beginnings
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME,
+        },
         [1638] = { -- A Warrior's Training
             [questKeys.startedBy] = {{913,5480}},
             [questKeys.exclusiveTo] = {
