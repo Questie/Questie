@@ -258,3 +258,17 @@ function QuestieCompat.GetCurrentCalendarTime()
     end
     error(errorMsg, 2)
 end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsSpellKnown)
+---Returns whether the player (or pet) knows the given spell. 
+---@param spellID number The spell ID.
+---@return boolean isKnown True if the player knows the spell/profession spell, false otherwise
+function QuestieCompat.IsSpellKnown(spellID)
+    if C_SpellBook and C_SpellBook.IsSpellKnown then
+        return C_SpellBook.IsSpellKnown(spellID)
+    else
+        -- If there is no C_SpellBook we need to call this function instead because passive spells
+        -- would return wrong values and feed wrong data to our logic
+        return IsPlayerSpell(spellID)
+    end
+end

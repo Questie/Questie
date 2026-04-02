@@ -251,8 +251,8 @@ function QuestieReputation.GetReputationReward(questId)
 end
 
 _GetRewardMultiplier = function()
-    local knowsMrPopularityRank1 = IsSpellKnown(78634)
-    local knowsMrPopularityRank2 = IsSpellKnown(78635)
+    local knowsMrPopularityRank1 = QuestieCompat.IsSpellKnown(78634)
+    local knowsMrPopularityRank2 = QuestieCompat.IsSpellKnown(78635)
     local buffMultiplier = _GetBuffMultiplier()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
     local multiplier = 1 + buffMultiplier

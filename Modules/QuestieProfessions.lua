@@ -15,7 +15,7 @@ local specializationNames
 local alternativeProfessionNames = {}
 
 -- Fast local references
-local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown
+local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
 
 hooksecurefunc("AbandonSkill", function(skillIndex)
     local skillName = GetSkillLineInfo(skillIndex)
@@ -127,7 +127,7 @@ local function _HasRankLevel(profession, rankLevel)
     local HasProfessionAndRankOrHigher = false
     for rankIndex = rankLevel, #professionRanks do
         local spellId = professionRanks[rankIndex]
-        if C_SpellBook.IsSpellKnown(spellId) then
+        if IsSpellKnown(spellId) then
             HasProfessionAndRankOrHigher = true
         end
     end
