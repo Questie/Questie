@@ -3,6 +3,7 @@ Questie = {
     TBC = false
 }
 dofile("Modules/Libs/QuestieLoader.lua")
+dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 
 dofile("Database/itemDB.lua")

@@ -22,7 +22,7 @@ describe("QuestieReputation", function()
         _G.GetFactionInfoByID = spy.new(function()
             return "Wintersaber Trainer", "They are a faction in Winterspring", 5, nil, nil, 4500, nil, nil, false, nil, nil, nil, nil, 589, false, nil
         end)
-        _G.IsSpellKnown = spy.new(function()
+        _G.IsPlayerSpell = spy.new(function()
             return false
         end)
         _G.UnitAura = spy.new(function()
@@ -338,14 +338,14 @@ describe("QuestieReputation", function()
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)
-            _G.IsSpellKnown = spy.new(function(spellId)
+            _G.IsPlayerSpell = spy.new(function(spellId)
                 return spellId == 78634
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 78.75}}, reputationReward)
-            assert.spy(_G.IsSpellKnown).was_called_with(78634)
+            assert.spy(_G.IsPlayerSpell).was_called_with(78634)
         end)
 
         it("should respect Mr. Popularity rank 2 guild perk", function()
@@ -354,14 +354,14 @@ describe("QuestieReputation", function()
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)
-            _G.IsSpellKnown = spy.new(function(spellId)
+            _G.IsPlayerSpell = spy.new(function(spellId)
                 return spellId == 78635
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
-            assert.spy(_G.IsSpellKnown).was_called_with(78635)
+            assert.spy(_G.IsPlayerSpell).was_called_with(78635)
         end)
 
         it("should respect DMF buff bonus", function()
