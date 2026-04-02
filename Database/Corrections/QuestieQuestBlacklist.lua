@@ -1663,7 +1663,7 @@ function QuestieQuestBlacklist:Load()
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
         [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
         [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
-        [94579] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
+        [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
