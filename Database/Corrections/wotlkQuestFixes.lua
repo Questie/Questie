@@ -7964,4 +7964,8 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     -- P4 quests
     QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma
     QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth
+
+    -- Titan reforged P3 weekly quests
+    QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
+
 end
