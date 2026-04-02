@@ -644,7 +644,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461,16646}},
-            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF, -- was available for orc + blood elf, safe to assume also available for undead
         },
         [4740] = {
             [questKeys.requiredLevel] = 9,
@@ -662,7 +662,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [4968] = { -- Knowledge of the Orb of Orahil
             [questKeys.startedBy] = {{461,16646}},
-            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF, -- was available for orc + blood elf, safe to assume also available for undead
         },
         [4983] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
