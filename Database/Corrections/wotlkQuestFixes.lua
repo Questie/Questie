@@ -7874,13 +7874,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [93975] = {
-            [questKeys.name] = "拉格纳罗斯必须死！", -- "Ragnaros Must Die!", only present on chinese servers
+            [questKeys.name] = "拉格纳罗斯必须死！", -- "Ragnaros Must Die!", only present on titan reforged
             [questKeys.startedBy] = {},
             [questKeys.finishedBy] = {},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"团队消灭拉格纳罗斯。"}, -- "Kill Ragnaros.", only present on chinese servers
+            [questKeys.objectivesText] = {"团队消灭拉格纳罗斯。"}, -- "Kill Ragnaros.", only present on titan reforged
             [questKeys.objectives] = {{{11502}}},
             [questKeys.zoneOrSort] = zoneIDs.MOLTEN_CORE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -7888,15 +7888,29 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [94577] = {
-            [questKeys.name] = "凯尔萨斯必须死！", -- "Kael'thas Must Die!", only present on chinese servers
+            [questKeys.name] = "凯尔萨斯必须死！", -- "Kael'thas Must Die!", only present on titan reforged
             [questKeys.startedBy] = {},
             [questKeys.finishedBy] = {},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"消灭风暴要塞的凯尔萨斯逐日者。"}, -- "Kill Kael'thas Sunstrider in Tempest Keep." only present on chinese servers
+            [questKeys.objectivesText] = {"消灭风暴要塞的凯尔萨斯逐日者。"}, -- "Kill Kael'thas Sunstrider in Tempest Keep." only present on titan reforged
             [questKeys.objectives] = {{{19622}}},
             [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
+        },
+        [94579] = {
+            [questKeys.name] = "消灭帕奇维克！", -- "Patchwerk Must Die!", only present on titan reforged
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"消灭帕奇维克。"}, -- "Kill Patchwerk." only present on titan reforged
+            [questKeys.objectives] = {{{16028}}},
+            [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
