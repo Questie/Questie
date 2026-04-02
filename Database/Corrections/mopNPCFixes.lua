@@ -3653,7 +3653,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_TWO_MOONS_TOP_FLOOR,
             [npcKeys.friendlyToFaction] = "H", -- let's just show these for Horde only and viceversa
         },
-        [64045] = { -- Warpweaver Ramahesh
+        [64045] = { -- Thaumaturge Faraket
             [npcKeys.spawns] = {[zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR] = {{53.06,89.16}}},
             [npcKeys.zoneID] = zoneIDs.SHRINE_OF_SEVEN_STARS_TOP_FLOOR,
             [npcKeys.friendlyToFaction] = "A", -- let's just show these for Alliance only and viceversa
