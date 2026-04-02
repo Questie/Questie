@@ -7875,8 +7875,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [93975] = {
             [questKeys.name] = "拉格纳罗斯必须死！", -- "Ragnaros Must Die!", only present on titan reforged
-            [questKeys.startedBy] = {},
-            [questKeys.finishedBy] = {},
+            [questKeys.startedBy] = {(20735)},
+            [questKeys.finishedBy] = {(20735)},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -7889,8 +7889,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [94577] = {
             [questKeys.name] = "凯尔萨斯必须死！", -- "Kael'thas Must Die!", only present on titan reforged
-            [questKeys.startedBy] = {},
-            [questKeys.finishedBy] = {},
+            [questKeys.startedBy] = {(20735)},
+            [questKeys.finishedBy] = {(20735)},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -7903,8 +7903,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [94579] = {
             [questKeys.name] = "消灭帕奇维克！", -- "Patchwerk Must Die!", only present on titan reforged
-            [questKeys.startedBy] = {},
-            [questKeys.finishedBy] = {},
+            [questKeys.startedBy] = {(20735)},
+            [questKeys.finishedBy] = {(20735)},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
