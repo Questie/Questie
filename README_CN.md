@@ -9,7 +9,7 @@
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
 ## 语言版本
-- [中文版本](README_zh.md)
+- [中文版本](README_CN.md)
 - [English version](README.md)
 
 ## 下载
