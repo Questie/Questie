@@ -1307,7 +1307,7 @@ function QuestieQuestFixes:Load()
             },
             [questKeys.nextQuestInChain] = 0,
         },
-        [1685] = {
+        [1685] = { -- Gakin's Summons
             [questKeys.breadcrumbForQuestId] = 1688, -- #7095
             [questKeys.exclusiveTo] = {},
         },
@@ -1317,8 +1317,8 @@ function QuestieQuestFixes:Load()
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
         },
-        [1688] = {
-            [questKeys.breadcrumbs] = {1685,1715}, -- #7095
+        [1688] = { -- Surena Caledon
+            [questKeys.breadcrumbs] = {1685}, -- #7095
         },
         [1689] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
@@ -1367,10 +1367,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1703}, -- #1857
             [questKeys.nextQuestInChain] = 1711,
         },
-        [1715] = {
-            [questKeys.nextQuestInChain] = 1688,
-            [questKeys.breadcrumbForQuestId] = 1688, -- #7095
-            [questKeys.exclusiveTo] = {},
+        [1715] = { -- The Slaughtered Lamb
+            [questKeys.exclusiveTo] = {1688},
         },
         [1716] = {
             [questKeys.questLevel] = -1,
