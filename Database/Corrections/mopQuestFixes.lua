@@ -9728,6 +9728,7 @@ function MopQuestFixes.Load()
         [32805] = { -- Celestial Blessings
             -- TODO: turn gongs into extraobjectives, figure out ids for NPCs you need to kill in each challenge
             [questKeys.startedBy] = {{69782}},
+            [questKeys.finishedBy] = {{71424}},
             [questKeys.preQuestSingle] = {32598},
             [questKeys.objectives] = {{{70921,nil,Questie.ICON_TYPE_TALK},{71165,nil,Questie.ICON_TYPE_TALK},{71108,nil,Questie.ICON_TYPE_TALK},{71139,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{71029,71170,71109,71146},71029,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.finishedBy] = {{71424}},
