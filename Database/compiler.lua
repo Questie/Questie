@@ -564,6 +564,8 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         elseif "H" == value then
             stream:WriteByte(1)
+        elseif "" == value then
+            stream:WriteByte(3)
         else
             stream:WriteByte(2)
         end
