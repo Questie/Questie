@@ -8,6 +8,9 @@
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
+## Language version
+- [中文版本](README_CN.md)
+- [English version](README.md)
 
 ## Download
 We suggest you use the [CurseForge Client](https://curseforge.overwolf.com/) to manage your WoW addons in general. You will find Questie [here on CurseForge](https://www.curseforge.com/wow/addons/questie).
