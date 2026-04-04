@@ -6510,8 +6510,8 @@ function MopNpcFixes.Load()
         [71005] = { -- Kor'kron Demolisher
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{53.97,34.25}}}, -- there are more, but here's one!
-            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{53.97,34.25}}}, -- there are more, but here's one!
+            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [71006] = { -- Kor'kron Overseer
             [npcKeys.minLevel] = 90,
@@ -6583,6 +6583,13 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{68.54,42.97}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [71131] = { -- High Overseer Bloodmane
+            [npcKeys.minLevel] = 92,
+            [npcKeys.maxLevel] = 92,
+            [npcKeys.rank] = 1,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{54.07,42.48}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
         [71139] = { -- Wrathion
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
@@ -6608,9 +6615,11 @@ function MopNpcFixes.Load()
         },
         [71148] = { -- Vol'jin
             [npcKeys.name] = "Vol'jin",
-            [npcKeys.minLevel] = 0,
-            [npcKeys.maxLevel] = 0,
-            [npcKeys.zoneID] = 0,
+            [npcKeys.minLevel] = 93,
+            [npcKeys.maxLevel] = 93,
+            [npcKeys.rank] = 1,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{56.39,73.4}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
             [npcKeys.friendlyToFaction] = "H",
         },
         [71162] = { -- Rope Anchor
@@ -6649,6 +6658,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{43.29,51.87}}},
             [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
+        [71263] = { -- Darkspear Captive
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{53.09,43.59}}}, -- has more spawns
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
         [71271] = { -- Kor'kron Command Posts
             [npcKeys.minLevel] = 1,
             [npcKeys.maxLevel] = 1,
@@ -6667,6 +6682,20 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{49.86,15.5}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
+        [71292] = { -- Augur Narali
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.rank] = 1,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{51.41,41.34}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [71293] = { -- Deadeye Kail
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.rank] = 1,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{51.93,43.54}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
         [71320] = { -- Zen'tabra
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
@@ -6678,7 +6707,7 @@ function MopNpcFixes.Load()
             [npcKeys.name] = "Ki'ta Arrowtusk",
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{49.8,40.1}}},
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{49.8,40.1,phases.KITA_RAZOR_HILL},{55.03,73.29,phases.KITA_SENJIN_VILLAGE}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.questStarts] = {32872},

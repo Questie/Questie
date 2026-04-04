@@ -495,6 +495,8 @@ local phases = {
     BLOODMYST_ISLE_SAVED = 1423,
     SEER_HAO_DOWN = 1424,
     SEER_HAO_UP = 1425,
+    KITA_RAZOR_HILL = 1426,
+    KITA_SENJIN_VILLAGE = 1427,
 }
 Phasing.phases = phases
 
@@ -2288,6 +2290,14 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.SEER_HAO_UP then
         return complete[32816] or (questLog[32816] and questLog[32816].isComplete == 1) or false
+    end
+
+    if phase == phases.KITA_RAZOR_HILL then
+        return complete[32811] or complete[32814] or false
+    end
+
+    if phase == phases.KITA_SENJIN_VILLAGE then
+        return (not complete[32867] and playerFaction == "Horde") or false
     end
 
     return false

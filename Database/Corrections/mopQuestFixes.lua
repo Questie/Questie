@@ -9755,6 +9755,19 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32871},
             [questKeys.objectivesText] = {"Collect 15 Kor'kron Lumber, 15 Kor'kron Oil, 15 Kor'kron Meat, and 15 Kor'kron Stone."},
         },
+        [32812] = { -- The Darkspear Rebellion
+            [questKeys.startedBy] = {{61962}},
+            [questKeys.preQuestSingle] = {32807},
+        },
+        [32813] = { -- Battle of Sen'jin Village
+            [questKeys.startedBy] = {{71148}},
+            [questKeys.objectives] = {{{70986},{71043}},nil,nil,nil,{{{70986,71008,71028,71113,71114,71202,71288,71346,70968},70968}}},
+        },
+        [32814] = { -- Battle of Razor Hill
+            [questKeys.startedBy] = {{71148}},
+            [questKeys.objectives] = {{{71131},{71292},{71293}},nil,nil,nil,{{{3169,3706,71263},71263,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",220092}}}},
+        },
         [32815] = { -- The Old Seer
             [questKeys.startedBy] = {{61962}},
         },
@@ -9763,6 +9776,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{70981,nil,Questie.ICON_TYPE_OBJECT},{71162,nil,Questie.ICON_TYPE_OBJECT},{71171,nil,Questie.ICON_TYPE_OBJECT},{71194,nil,Questie.ICON_TYPE_OBJECT},{71196,nil,Questie.ICON_TYPE_OBJECT}}},
         },
         [32819] = { -- Battlefield: Barrens
+            [questKeys.startedBy] = {{71148}},
             [questKeys.objectivesText] = {"Collect 15 Kor'kron Lumber, 15 Kor'kron Oil, 15 Kor'kron Meat, and 15 Kor'kron Stone."},
         },
         [32861] = { -- Cloak of Virtue
@@ -9772,12 +9786,15 @@ function MopQuestFixes.Load()
         },
         [32862] = { -- Battlefield: Barrens
             [questKeys.startedBy] = {{71333}},
-            [questKeys.preQuestSingle] = {32819},
+            [questKeys.preQuestSingle] = {32814},
             [questKeys.objectivesText] = {"Collect 150 Kor'kron Lumber, 150 Kor'kron Oil, 150 Kor'kron Meat, and 150 Kor'kron Stone."},
         },
         [32863] = { -- What We've Been Training For
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{110001}}},
+        },
+        [32867] = { -- Vol'jin of the Darkspear
+            [questKeys.startedBy] = {{71333}},
         },
         [32868] = { -- Beasts of Fable Book II
             [questKeys.requiredSpell] = 119467,
