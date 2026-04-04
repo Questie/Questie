@@ -6452,6 +6452,12 @@ function MopNpcFixes.Load()
             [npcKeys.friendlyToFaction] = "AH",
             [npcKeys.npcFlags] = npcFlags.INNKEEPER,
         },
+        [70751] = { -- Card Trader Ami
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{60.42,77.44},{-1,-1}}},
+        },
+        [70752] = { -- Card Trader Leila
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{52.33,25.3},{-1,-1}}},
+        },
         [70921] = { -- Wrathion
             [npcKeys.minLevel] = 90,
             [npcKeys.maxLevel] = 90,
@@ -7165,6 +7171,48 @@ function MopNpcFixes:LoadFactionFixes()
         [70297] = { -- Taoshi
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{32.8, 32.6}}},
         },
+        [70616] = { -- Mingus Diggs
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70647] = { -- Dippy
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70648] = { -- Doopy
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70666] = { -- Ty'thar
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70677] = { -- Master Boom Boom
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70678] = { -- Grandpa Grumplefloot
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70736] = { -- Splat
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70737] = { -- Splat
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70740] = { -- Blingtron 3000
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70748] = { -- Argh
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70749] = { -- Ro-Shambo
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [70794] = { -- Blind Hero
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [71081] = { -- Mecha-Bruce
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
+        [71085] = { -- Razorgrin
+            [npcKeys.spawns] = {[zoneIDs.BRAWLGAR_ARENA] = {{51.7,49.8},{-1,-1}}},
+        },
     }
 
     local npcFixesAlliance = {
@@ -7193,6 +7241,48 @@ function MopNpcFixes:LoadFactionFixes()
         },
         [70297] = { -- Taoshi
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{63.2, 73.8}}},
+        },
+        [70616] = { -- Mingus Diggs
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70647] = { -- Dippy
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70648] = { -- Doopy
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70666] = { -- Ty'thar
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70677] = { -- Master Boom Boom
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70678] = { -- Grandpa Grumplefloot
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70736] = { -- Splat
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70737] = { -- Splat
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70740] = { -- Blingtron 3000
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70748] = { -- Argh
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70749] = { -- Ro-Shambo
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [70794] = { -- Blind Hero
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [71081] = { -- Mecha-Bruce
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
+        },
+        [71085] = { -- Razorgrin
+            [npcKeys.spawns] = {[zoneIDs.BIZMOS_BRAWLPUB] = {{50.7,57.2},{-1,-1}}},
         },
     }
 

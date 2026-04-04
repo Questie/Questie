@@ -9779,6 +9779,78 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{71148}},
             [questKeys.objectivesText] = {"Collect 15 Kor'kron Lumber, 15 Kor'kron Oil, 15 Kor'kron Meat, and 15 Kor'kron Stone."},
         },
+        [32836] = { -- A Knockoff Grumplefloot
+            [questKeys.objectives] = {nil,nil,{{97978}}},
+        },
+        [32837] = { -- Grandpa Grumplefloot
+            [questKeys.objectives] = {{{70678}}},
+        },
+        [32838] = { -- A Tale of Romance and Chivalry
+            [questKeys.objectives] = {nil,nil,{{97979}}},
+        },
+        [32839] = { -- The Bear and the Lady Fair
+            [questKeys.objectives] = {{{70748}}},
+        },
+        [32840] = { -- Boom Boom's Fuse
+            [questKeys.objectives] = {nil,nil,{{97980}}},
+        },
+        [32841] = { -- Master Boom Boom
+            [questKeys.objectives] = {{{70677}}},
+        },
+        [32842] = { -- Teeth Like Swords
+            [questKeys.objectives] = {nil,nil,{{97981}}},
+        },
+        [32843] = { -- Razorgrin
+            [questKeys.objectives] = {{{71085}}},
+        },
+        [32844] = { -- Secret of the Ooze
+            [questKeys.objectives] = {nil,nil,{{97982}}},
+        },
+        [32845] = { -- Splat
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{70736,70737},70736}}}, -- not sure which one it is, so i put both
+        },
+        [32846] = { -- Modified Chomping Apparatus
+            [questKeys.objectives] = {nil,nil,{{97983}}},
+        },
+        [32847] = { -- Mecha-Bruce
+            [questKeys.objectives] = {{{71081}}},
+        },
+        [32848] = { -- Frost-Tipped Eggshell
+            [questKeys.objectives] = {nil,nil,{{97984}}},
+        },
+        [32849] = { -- Dippy and Doopy
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{70647,70648},70647}}},
+        },
+        [32850] = { -- Frost-Tipped Eggshell
+            [questKeys.objectives] = {nil,nil,{{97985}}},
+        },
+        [32851] = { -- Blingtron 3000
+            [questKeys.objectives] = {{{70740}}},
+        },
+        [32852] = { -- The Digmaster's Earthblade
+            [questKeys.objectives] = {nil,nil,{{97986}}},
+        },
+        [32853] = { -- Mingus Diggs
+            [questKeys.objectives] = {{{70616}}},
+        },
+        [32854] = { -- Well-Worn Blindfold
+            [questKeys.objectives] = {nil,nil,{{97987}}},
+        },
+        [32855] = { -- The Blind Hero
+            [questKeys.objectives] = {{{70794}}},
+        },
+        [32856] = { -- Paper-Covered Rock
+            [questKeys.objectives] = {nil,nil,{{97988}}},
+        },
+        [32857] = { -- Ro-Shambo
+            [questKeys.objectives] = {{{70749}}},
+        },
+        [32858] = { -- Raptorhide Boxing Gloves
+            [questKeys.objectives] = {nil,nil,{{97990}}},
+        },
+        [32859] = { -- Ty'thar
+            [questKeys.objectives] = {{{70666}}},
+        },
         [32861] = { -- Cloak of Virtue
             [questKeys.startedBy] = {{69782,71424}},
             [questKeys.preQuestSingle] = {32805},
@@ -10262,6 +10334,90 @@ function MopQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{64582}},
             [questKeys.finishedBy] = {{64582}},
         },
+        [32836] = { -- A Knockoff Grumplefloot
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32837] = { -- Grandpa Grumplefloot
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32838] = { -- A Tale of Romance and Chivalry
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32839] = { -- The Bear and the Lady Fair
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32840] = { -- Boom Boom's Fuse
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32841] = { -- Master Boom Boom
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32842] = { -- Teeth Like Swords
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32843] = { -- Razorgrin
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32844] = { -- Secret of the Ooze
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32845] = { -- Splat
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32846] = { -- Modified Chomping Apparatus
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32847] = { -- Mecha-Bruce
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32848] = { -- Frost-Tipped Eggshell
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32849] = { -- Dippy and Doopy
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32850] = { -- Last Year's Model
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32851] = { -- Blingtron 3000
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32852] = { -- The Digmaster's Earthblade
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32853] = { -- Mingus Diggs
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32854] = { -- Well-Worn Blindfold
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32855] = { -- The Blind Hero
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32856] = { -- Paper-Covered Rock
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32857] = { -- Ro-Shambo
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32858] = { -- Raptorhide Boxing Gloves
+            [questKeys.finishedBy] = {{70751}},
+        },
+        [32859] = { -- Ty'thar
+            [questKeys.startedBy] = {{70751}},
+            [questKeys.finishedBy] = {{70751}},
+        },
         [32863] = { -- What We've Been Training For
             [questKeys.startedBy] = {{63626,64582}},
             [questKeys.finishedBy] = {{63626,64582}},
@@ -10300,6 +10456,90 @@ function MopQuestFixes:LoadFactionFixes()
         [32604] = { -- Beasts of Fable Book I
             [questKeys.startedBy] = {{64572}},
             [questKeys.finishedBy] = {{64572}},
+        },
+        [32836] = { -- A Knockoff Grumplefloot
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32837] = { -- Grandpa Grumplefloot
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32838] = { -- A Tale of Romance and Chivalry
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32839] = { -- The Bear and the Lady Fair
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32840] = { -- Boom Boom's Fuse
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32841] = { -- Master Boom Boom
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32842] = { -- Teeth Like Swords
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32843] = { -- Razorgrin
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32844] = { -- Secret of the Ooze
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32845] = { -- Splat
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32846] = { -- Modified Chomping Apparatus
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32847] = { -- Mecha-Bruce
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32848] = { -- Frost-Tipped Eggshell
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32849] = { -- Dippy and Doopy
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32850] = { -- Last Year's Model
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32851] = { -- Blingtron 3000
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32852] = { -- The Digmaster's Earthblade
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32853] = { -- Mingus Diggs
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32854] = { -- Well-Worn Blindfold
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32855] = { -- The Blind Hero
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32856] = { -- Paper-Covered Rock
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32857] = { -- Ro-Shambo
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32858] = { -- Raptorhide Boxing Gloves
+            [questKeys.finishedBy] = {{70752}},
+        },
+        [32859] = { -- Ty'thar
+            [questKeys.startedBy] = {{70752}},
+            [questKeys.finishedBy] = {{70752}},
         },
         [32863] = { -- What We've Been Training For
             [questKeys.startedBy] = {{63596,64572}},
