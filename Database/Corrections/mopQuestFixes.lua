@@ -9787,6 +9787,11 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{68558,nil,Questie.ICON_TYPE_PET_BATTLE},{68559,nil,Questie.ICON_TYPE_PET_BATTLE},{68562,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [32870] = { -- Preparing to Strike
+            [questKeys.startedBy] = {{71426}},
+            [questKeys.preQuestSingle] = {32861},
+            [questKeys.objectives] = {{{69782,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [32871] = { -- Vol'jin of the Darkspear
             [questKeys.startedBy] = {{71320}},
         },
