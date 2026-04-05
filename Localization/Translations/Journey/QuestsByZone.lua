@@ -238,7 +238,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes cachées",
         ["koKR"] = false,
         ["ptBR"] = "Missões ocultas",
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрытые задания",
         ["zhCN"] = "隐藏任务",
         ["zhTW"] = false,
     },

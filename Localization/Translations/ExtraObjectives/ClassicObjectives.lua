@@ -748,7 +748,7 @@ local classicObjectiveLocales = {
     },
     ["Summon the Voidwalker"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre den Leerenwandler",
         ["esES"] = "Invoca el abisario",
         ["esMX"] = "Invoca el abisario",
         ["frFR"] = "Invoquez un marcheur du Vide",
@@ -760,7 +760,7 @@ local classicObjectiveLocales = {
     },
     ["Summon the Incubus"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre den Inkubus",
         ["esES"] = "Invoca el íncubo",
         ["esMX"] = "Invoca el íncubo",
         ["frFR"] = "Invoquez un incube",
@@ -772,7 +772,7 @@ local classicObjectiveLocales = {
     },
     ["Summon the Succubus"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre die Sukkubus",
         ["esES"] = "Invoca el súcubo",
         ["esMX"] = "Invoca el súcubo",
         ["frFR"] = "Invoquez une succube",
@@ -784,7 +784,7 @@ local classicObjectiveLocales = {
     },
     ["Summon the Felhunter"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre den Teufelsjäger",
         ["esES"] = "Invoca el manáfago",
         ["esMX"] = "Invoca el manáfago",
         ["frFR"] = "Invoquez un chasseur corrompu",

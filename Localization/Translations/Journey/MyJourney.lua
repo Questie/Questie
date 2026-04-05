@@ -730,7 +730,7 @@ local myJourneyLocales = {
         ["frFR"] = "Événement inactif",
         ["koKR"] = false,
         ["ptBR"] = "Evento inativo",
-        ["ruRU"] = false,
+        ["ruRU"] = "Событие неактивно",
         ["zhCN"] = "节日未开启",
         ["zhTW"] = false,
     },
@@ -760,7 +760,7 @@ local myJourneyLocales = {
     },
     ["Profession missing"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beruf fehlt",
         ["esES"] = "Profesión faltante",
         ["esMX"] = "Profesión faltante",
         ["frFR"] = "Profession manquante",
@@ -772,7 +772,7 @@ local myJourneyLocales = {
     },
     ["Profession skill"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beruffähigkeit",
         ["esES"] = "Habilidad de profesión",
         ["esMX"] = "Habilidad de profesión",
         ["frFR"] = "Compétence de profession",
@@ -784,7 +784,7 @@ local myJourneyLocales = {
     },
     ["Profession rank"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Berufrang",
         ["esES"] = "Rango de profesión",
         ["esMX"] = "Rango de profesión",
         ["frFR"] = "Rang de profession",
