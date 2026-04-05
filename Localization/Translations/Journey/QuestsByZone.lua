@@ -236,11 +236,11 @@ local questsByZoneLocales = {
         ["esES"] = "Misiones ocultas",
         ["esMX"] = "Misiones ocultas",
         ["frFR"] = "Quêtes cachées",
-        ["koKR"] = false,
+        ["koKR"] = "숨겨진 퀘스트",
         ["ptBR"] = "Missões ocultas",
         ["ruRU"] = "Скрытые задания",
         ["zhCN"] = "隐藏任务",
-        ["zhTW"] = false,
+        ["zhTW"] = "隱藏任務",
     },
 }
 

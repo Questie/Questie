@@ -720,7 +720,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Indisponível",
         ["ruRU"] = "Недоступно",
         ["zhCN"] = "无法完成",
-        ["zhTW"] = false,
+        ["zhTW"] = "無法完成",
     },
     ["Event inactive"] = {
         ["enUS"] = true,
@@ -728,11 +728,11 @@ local myJourneyLocales = {
         ["esES"] = "Evento inactivo",
         ["esMX"] = "Evento inactivo",
         ["frFR"] = "Événement inactif",
-        ["koKR"] = false,
+        ["koKR"] = "이벤트 비활성",
         ["ptBR"] = "Evento inativo",
         ["ruRU"] = "Событие неактивно",
         ["zhCN"] = "节日未开启",
-        ["zhTW"] = false,
+        ["zhTW"] = "節慶未開啟",
     },
     ["Reputation too low"] = {
         ["enUS"] = true,
@@ -768,7 +768,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Profissão ausente",
         ["ruRU"] = "Профессия отсутствует",
         ["zhCN"] = "缺少专业",
-        ["zhTW"] = false,
+        ["zhTW"] = "缺少專業技能",
     },
     ["Profession skill"] = {
         ["enUS"] = true,
@@ -780,7 +780,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Habilidade de profissão",
         ["ruRU"] = "Навык профессии",
         ["zhCN"] = "专业技能",
-        ["zhTW"] = false,
+        ["zhTW"] = "專業技能",
     },
     ["Profession rank"] = {
         ["enUS"] = true,
@@ -792,7 +792,7 @@ local myJourneyLocales = {
         ["ptBR"] = "Grau da profissão",
         ["ruRU"] = "Уровень профессии",
         ["zhCN"] = "专业级别",
-        ["zhTW"] = false,
+        ["zhTW"] = "專業等級",
     },
 }
 
