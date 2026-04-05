@@ -232,7 +232,7 @@ local questsByZoneLocales = {
     },
     ["Hidden Quests"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Versteckte Quests",
         ["esES"] = "Misiones ocultas",
         ["esMX"] = "Misiones ocultas",
         ["frFR"] = "Quêtes cachées",

@@ -724,7 +724,7 @@ local myJourneyLocales = {
     },
     ["Event inactive"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Event inaktiv",
         ["esES"] = "Evento inactivo",
         ["esMX"] = "Evento inactivo",
         ["frFR"] = "Événement inactif",
