@@ -5386,6 +5386,9 @@ function QuestieQuestFixes:Load()
         [9118] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [9120] = { -- The Fall of Kel'Thuzad
+            [questKeys.preQuestSingle] = {9121,9122,9123},
+        },
         [9121] = {
             [questKeys.requiredMinRep] = {529,0},
         },
@@ -5430,6 +5433,10 @@ function QuestieQuestFixes:Load()
         },
         [9232] = {
             [questKeys.preQuestSingle] = {9033},
+        },
+        [9233] = { -- Omarion's Handbook
+            [questKeys.preQuestSingle] = {9121,9122,9123},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,21000},
         },
         [9234] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
