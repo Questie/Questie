@@ -381,6 +381,9 @@ function QuestieTBCQuestFixes:Load()
         [1704] = { -- Klockmort Spannerspan
             [questKeys.requiredRaces] = raceIDs.GNOME + raceIDs.DWARF,
         },
+        [1716] = { -- Devourer of Souls
+            [questKeys.preQuestSingle] = {},
+        },
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
         },

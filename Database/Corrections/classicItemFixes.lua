@@ -1514,6 +1514,13 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {400001},
             [itemKeys.flags] = 2, -- Conjured
             [itemKeys.relatedQuests] = {65602},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [190308] = { -- Burning Torch
+            [itemKeys.name] = "Burning Torch",
+            [itemKeys.flags] = 2, -- Conjured
+            [itemKeys.relatedQuests] = {65602},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [190309] = { -- Wooden Figurine
             [itemKeys.name] = "Wooden Figurine",

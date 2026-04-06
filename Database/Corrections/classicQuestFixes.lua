@@ -46,6 +46,7 @@ function QuestieQuestFixes:Load()
     local specialFlags = QuestieDB.specialFlags
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
+    local factionIDs = QuestieDB.factionIDs
 
     return {
         [5] = {
@@ -1072,6 +1073,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon the Voidwalker"), 0, {{"object", 37097}}}},
         },
+        [1472] = { -- Devourer of Souls
+            [questKeys.questLevel] = -1,
+        },
         [1473] = { -- Creature of the Void
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1478},
@@ -1083,6 +1087,7 @@ function QuestieQuestFixes:Load()
         },
         [1476] = { -- Hearts of the Pure
             [questKeys.exclusiveTo] = {1507},
+            [questKeys.questLevel] = -1,
         },
         [1477] = {
             [questKeys.breadcrumbForQuestId] = 1395, -- #1727
@@ -1131,8 +1136,12 @@ function QuestieQuestFixes:Load()
         [1506] = { -- Gan'rul's Summons
             [questKeys.breadcrumbForQuestId] = 1501,
         },
+        [1507] = { -- Devourer of Souls
+            [questKeys.questLevel] = -1,
+        },
         [1508] = { -- Blind Cazul
             [questKeys.exclusiveTo] = {1472},
+            [questKeys.questLevel] = -1,
         },
         [1509] = { -- News of Dogran
             [questKeys.exclusiveTo] = {1472},
@@ -1370,11 +1379,10 @@ function QuestieQuestFixes:Load()
         [1715] = { -- The Slaughtered Lamb
             [questKeys.exclusiveTo] = {1688},
         },
-        [1716] = {
+        [1716] = { -- Devourer of Souls
             [questKeys.questLevel] = -1,
-            [questKeys.nextQuestInChain] = 0,
         },
-        [1717] = {
+        [1717] = { -- Gakin's Summons
             [questKeys.exclusiveTo] = {1716},
             [questKeys.nextQuestInChain] = 0,
         },
@@ -5651,8 +5659,8 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{190309}}},
             [questKeys.exclusiveTo] = {},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.requiredSourceItems] = {190307},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, Questie.ICON_TYPE_EVENT, l10n("Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeologist's Cart on fire."),}},
+            [questKeys.requiredSourceItems] = {190307,190308},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeologist's Cart on fire."), 0, {{"object", 400002}}}},
         },
         [65603] = { -- The Binding
             [questKeys.name] = "The Binding",
