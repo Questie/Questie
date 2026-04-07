@@ -487,8 +487,8 @@ local function _GetQuestTag(quest)
             return l10n("(") .. (DAILY or l10n("Daily")) .. l10n(")");
         elseif (QuestieDB.IsRepeatable(quest.Id)) then
             return l10n("(") .. l10n("Repeatable") .. l10n(")");
-            --  Group(Elite)       Class               Raid                Dungeon             Legendary           Escort              Heroic              Raid(10)            Raid(25)            Scenario            Celestial
-        elseif (questTagId == 1 or questTagId == 21 or questTagId == 62 or questTagId == 81 or questTagId == 83 or questTagId == 84 or questTagId == 85 or questTagId == 88 or questTagId == 89 or questTagId == 98 or questTagId == 294) then
+            --  Group(Elite)       Class               Raid                Dungeon             World Event         Legendary           Escort              Heroic              Raid(10)            Raid(25)            Scenario            Celestial
+        elseif (questTagId == 1 or questTagId == 21 or questTagId == 62 or questTagId == 81 or questTagId == 82 or questTagId == 83 or questTagId == 84 or questTagId == 85 or questTagId == 88 or questTagId == 89 or questTagId == 98 or questTagId == 294) then
             return l10n("(") .. questTagName .. l10n(")");
         elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id)) then
             return l10n("(") .. l10n("Rune") .. l10n(")");

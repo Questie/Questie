@@ -249,6 +249,8 @@ function QuestieLib:GetQuestTypeSuffix(questId)
             return "A"
         elseif questTagId == questTagIds.CELESTIAL then
             return "C"
+        elseif questTagId == questTagIds.WORLD_EVENT then
+            return "W"
         else
             return ""
         end

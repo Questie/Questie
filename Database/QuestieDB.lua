@@ -62,6 +62,7 @@ QuestieDB.questTagIds = {
     PVP = 41,
     RAID = 62,
     DUNGEON = 81,
+    WORLD_EVENT = 82,
     LEGENDARY = 83,
     ESCORT = 84,
     HEROIC = 85,
