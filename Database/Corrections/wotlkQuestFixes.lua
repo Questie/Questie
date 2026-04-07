@@ -359,9 +359,6 @@ function QuestieWotlkQuestFixes:Load()
         [6963] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [6983] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        },
         [7023] = {
             [questKeys.startedBy] = {{13435,23010}},
         },
