@@ -919,8 +919,14 @@ function QuestieTBCQuestFixes:Load()
         [6983] = { -- You're a Mean One...
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [7484] = {
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        [7483] = { -- Libram of Rapidity
+            [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
+        },
+        [7484] = { -- Libram of Focus
+            [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
+        },
+        [7485] = { -- Libram of Protection
+            [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
         },
         [7583] = {
             [questKeys.preQuestGroup] = {7581,7582},

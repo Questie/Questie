@@ -3600,14 +3600,15 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {nil,{{179544}}},
             [questKeys.objectivesText] = {"Search Dire Maul for Telmius Dreamseeker. Report back to Scholar Runethorn at Feathermoon with whatever information that you may find."},
         },
-        [7483] = {
+        [7483] = { -- Libram of Rapidity
             [questKeys.preQuestSingle] = {7481,7482},
+            [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,200}},
         },
-        [7484] = {
+        [7484] = { -- Libram of Focus
             [questKeys.preQuestSingle] = {7481,7482},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [7485] = {
+        [7485] = { -- Libram of Protection
             [questKeys.preQuestSingle] = {7481,7482},
         },
         [7488] = {
