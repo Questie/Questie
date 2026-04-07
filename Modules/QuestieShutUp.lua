@@ -43,6 +43,7 @@ end
 
 local stringFind = string.find
 local pattern
+local patternRU
 local pattern_logo
 
 function QuestieShutUp.FilterFunc(self, event, msg, author, ...)
