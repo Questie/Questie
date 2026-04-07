@@ -52,9 +52,9 @@ function QuestieAnnounce.LogoFilter(self, event, msg, author, ...)
 end
 
 function QuestieAnnounce:InitializeLogoFilter()
-    pattern = "{rt1}".." Questie%s?:"
+    pattern = "{rt1}" .. " Questie%s?:"
      -- ruRU clients don't have {rt1} so we also want to filter these
-    patternRU = "{звезда}".." Questie%s?:"
+    patternRU = "{звезда}" .. " Questie%s?:"
     SafeAddMessageEventFilter("CHAT_MSG_PARTY", QuestieAnnounce.LogoFilter)
     SafeAddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieAnnounce.LogoFilter)
     SafeAddMessageEventFilter("CHAT_MSG_RAID", QuestieAnnounce.LogoFilter)

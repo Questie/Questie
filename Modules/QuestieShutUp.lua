@@ -55,9 +55,9 @@ end
 function QuestieShutUp:ToggleFilters(value)
     if value then
         -- In French a blank is added before the colon, so we need to account for that (%s?)
-        pattern = "^".."{rt1}".." Questie%s?: "
+        pattern = "^" .. "{rt1}" .. " Questie%s?: "
         -- ruRU clients don't have {rt1} so we also want to filter these
-        patternRU = "^".."{звезда}" .." Questie%s?: "
+        patternRU = "^" .. "{звезда}" .. " Questie%s?: "
         pattern_logo = "^|TInterface\\Addons\\Questie\\Icons\\questie.png:0|t "
         Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle on. Pattern:", pattern)
         SafeAddMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
