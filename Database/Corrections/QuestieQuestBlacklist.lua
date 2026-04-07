@@ -13,6 +13,8 @@ QuestieQuestBlacklist.HIDE_ON_MAP = HIDE_ON_MAP
 function QuestieQuestBlacklist:Load()
     local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
+        [7487] = true, -- Duplicate of 7848
+        [7908] = true, -- Duplicate of 7810
         [2358] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Wotlk, -- available in TBC anniversary (!)
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
@@ -246,8 +248,7 @@ function QuestieQuestBlacklist:Load()
         [8857] = true,
         [8858] = true,
         [8859] = true,
-        --Rocknot's Ale instance quest shown in SG/BS at lvl 1
-        --[4295] = true,
+        [9030] = true,
         --mount exchange/replacement
         [7678] = true,
         [7677] = true,
@@ -4494,7 +4495,6 @@ function QuestieQuestBlacklist:Load()
         [7869] = true, -- Not in the game
         [7870] = true, -- Not in the game
         [7877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [7908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8042] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4873,7 +4873,6 @@ function QuestieQuestBlacklist:Load()
         [9021] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [9030] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9031] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9032] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9033] = Expansions.Current >= Expansions.Cata, -- Removed with cata
