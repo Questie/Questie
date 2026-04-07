@@ -38,15 +38,23 @@ local function SafeAddMessageEventFilter(event, filter)
 end
 
 local pattern = ""
+local patternRU = ""
 
 function QuestieAnnounce.LogoFilter(self, event, msg, author, ...)
     if msg:find(pattern) then
         return false, gsub(msg, pattern, "|TInterface\\Addons\\Questie\\Icons\\questie.png:0|t"), author, ...
     end
+    -- Adding this check for messages sent by ruRU clients where {rt1} doesnt work (thanks Blizz)
+    -- We want those to also be replaced with our Questie icon
+    if msg:find(patternRU) then
+        return false, gsub(msg, patternRU, "|TInterface\\Addons\\Questie\\Icons\\questie.png:0|t"), author, ...
+    end
 end
 
 function QuestieAnnounce:InitializeLogoFilter()
-    pattern = (l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}").." Questie%s?:"
+    pattern = "{rt1}".." Questie%s?:"
+     -- ruRU clients don't have {rt1} so we also want to filter these
+    patternRU = "{звезда}".." Questie%s?:"
     SafeAddMessageEventFilter("CHAT_MSG_PARTY", QuestieAnnounce.LogoFilter)
     SafeAddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieAnnounce.LogoFilter)
     SafeAddMessageEventFilter("CHAT_MSG_RAID", QuestieAnnounce.LogoFilter)
@@ -64,6 +72,7 @@ _GetAnnounceMarker = function()
     local locale = l10n:GetUILocale()
     if IsInRaid() or IsInGroup() then
         if locale == "ruRU" then
+            -- ruRU clients don't have {rt1} so we also want to filter these
             return "{звезда} Questie: ";
         elseif locale == "frFR" then
             return "{rt1} Questie : ";
