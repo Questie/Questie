@@ -1310,11 +1310,13 @@ function QuestieQuestBlacklist:Load()
 
         -- [OLD] quests. Classic quests deprecated in TBC
         [708] = true,
+        [908] = true,
         [909] = true,
         [1288] = true,
         [1661] = Expansions.Current >= Expansions.Tbc,
         [3366] = true,
         [3381] = true,
+        [3911] = true,
         [6131] = true,
         [6221] = true,
         [6241] = true,
@@ -2463,7 +2465,6 @@ function QuestieQuestBlacklist:Load()
         [904] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [906] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [907] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [908] = Expansions.Current >= Expansions.Cata, -- Removed with cata (replaced with 26891)
         [912] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [913] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [914] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -3544,7 +3545,6 @@ function QuestieQuestBlacklist:Load()
         [3908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3909] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3910] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3911] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3912] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3913] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3914] = Expansions.Current >= Expansions.Cata, -- Removed with cata

@@ -12,12 +12,140 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
 
     ---@type table<number, {[1]: QuestTagIds, [2]: string}>
     _QuestieDB.questTagCorrections = {
-        [208] = Expansions.Current < Expansions.Cata and {1, l10n("Elite")} or nil,
-        [373] = {81, l10n("Dungeon")},
-        [644] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil,
-        [645] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil,
-        [646] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil,
-        [4146] = {81, l10n("Dungeon")},
+        [17] = Expansions.Current == Expansions.Era and {81, l10n("Dungeon")} or nil, -- Uldaman Reagent Run
+        [19] = {1, l10n("Elite")}, -- Tharil'zun
+        [55] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Morbent Fel
+        [99] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Arugal's Folly
+        [105] = {1, l10n("Elite")}, -- Alas, Andorhal
+        [115] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Shadow Magic
+        [155] = Expansions.Current >= Expansions.Tbc and {1, l10n("Elite")} or nil, -- The Defias Brotherhood
+        [166] = {81, l10n("Dungeon")}, -- The Defias Brotherhood
+        [169] = {1, l10n("Elite")}, -- Wanted: Gath'Ilzogg
+        [176] = {1, l10n("Elite")}, -- Wanted: "Hogger"
+        [193] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Panther Mastery
+        [197] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Raptor Mastery
+        [202] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Colonel Kurzen
+        [206] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Mai'Zoth
+        [208] = Expansions.Current < Expansions.Cata and {1, l10n("Elite")} or nil, -- Big Game Hunter
+        [211] = {1, l10n("Elite")}, -- Alas, Andorhal
+        [214] = {81, l10n("Dungeon")}, -- Red Silk Bandanas
+        [228] = {1, l10n("Elite")}, -- Mor'Ladim
+        [236] = {41, l10n("PvP")}, -- Fueling the Demolishers
+        [248] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Looking Further
+        [249] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Morganth
+        [253] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Bride of the Embalmer
+        [255] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Mercenaries
+        [256] = {1, l10n("Elite")}, -- WANTED: Chok'sul
+        [271] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Vyrin's Revenge
+        [278] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- A Dark Threat Looms
+        [303] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Dark Iron War
+        [304] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- A Grim Task
+        [314] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Protecting the Herd
+        [377] = {81, l10n("Dungeon")}, -- Crime and Punishment
+        [378] = {81, l10n("Dungeon")}, -- The Fury Runs Deep
+        [386] = {81, l10n("Dungeon")}, -- What Comes Around...
+        [387] = {81, l10n("Dungeon")}, -- Quell The Uprising
+        [388] = {81, l10n("Dungeon")}, -- The Color of Blood
+        [391] = {81, l10n("Dungeon")}, -- The Stockade Riots
+        [442] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Assault on Fenris Isle
+        [450] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- A Recipe For Death
+        [452] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Pyrewood Ambush
+        [474] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Defeat Nek'rosh
+        [504] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Crushridge Warmongers
+        [517] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Elixir of Agony
+        [518] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Crown of Will
+        [519] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Crown of Will
+        [520] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Crown of Will
+        [531] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Vyrin's Revenge
+        [540] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Preserving Knowledge
+        [541] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Battle of Hillsbrad
+        [543] = {1, l10n("Elite")}, -- The Perenolde Tiara
+        [547] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Humbert's Sword
+        [591] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Mind's Eye
+        [611] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Curse of the Tides
+        [613] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Cracking Maury's Foot
+        [628] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Excelsior
+        [629] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Vile Reef
+        [630] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Message in a Bottle
+        [631] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Thandol Span
+        [639] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Sigil of Strom
+        [640] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Broken Sigil
+        [643] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Sigil of Arathor
+        [644] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Sigil of Trollbane
+        [645] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Trol'kalar
+        [646] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Trol'kalar
+        [652] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Breaking the Keystone
+        [656] = {1, l10n("Elite")}, -- Summoning the Princess
+        [673] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Foul Magics
+        [679] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Call to Arms
+        [680] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Real Threat
+        [682] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Stromgarde Badges
+        [684] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Wanted! Marez Cowl
+        [685] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Wanted! Otto and Falconcrest
+        [694] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Trelane's Defenses
+        [695] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- An Apprentice's Enchantment
+        [696] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Attack on the Tower
+        [697] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Malin's Request
+        [704] = Expansions.Current == Expansions.Era and {81, l10n("Dungeon")} or nil, -- Agmond's Fate
+        [705] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Pearl Diving
+        [706] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Fiery Blaze Enchantments
+        [709] = Expansions.Current == Expansions.Era and {81, l10n("Dungeon")} or nil, -- Solution to Doom
+        [717] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Tremors of the Earth
+        [721] = {81, l10n("Dungeon")}, -- A Sign of Hope
+        [722] = {81, l10n("Dungeon")}, -- Amulet of Secrets
+        [731] = Expansions.Current >= Expansions.Tbc and {1, l10n("Elite")} or nil, -- The Absent Minded Prospector
+        [735] = {1, l10n("Elite")}, -- The Star, the Hand and the Heart
+        [736] = {1, l10n("Elite")}, -- The Star, the Hand and the Heart
+        [762] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- An Ambassador of Evil
+        [793] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Broken Alliances
+        [914] = {81, l10n("Dungeon")}, -- Leaders of the Fang
+        [969] = {1, l10n("Elite")}, -- Luck Be With You
+        [971] = {81, l10n("Dungeon")}, -- Knowledge in the Deeps
+        [1013] = {81, l10n("Dungeon")}, -- The Book of Ur
+        [1014] = {81, l10n("Dungeon")}, -- Arugal Must Die
+        [1048] = {81, l10n("Dungeon")}, -- Into The Scarlet Monastery
+        [1049] = {81, l10n("Dungeon")}, -- Compendium of the Fallen
+        [1050] = {81, l10n("Dungeon")}, -- Mythology of the Titans
+        [1051] = {1, l10n("Elite")}, -- Vorrel's Revenge
+        [1053] = {81, l10n("Dungeon")}, -- In the Name of the Light
+        [1089] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Den
+        [1098] = {81, l10n("Dungeon")}, -- Deathstalkers in Shadowfang
+        [1100] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Lonebrow's Journal
+        [1101] = {81, l10n("Dungeon")}, -- The Crone of the Kraul
+        [1102] = {81, l10n("Dungeon")}, -- A Vengeful Fate
+        [1107] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Encrusted Tail Fins
+        [1109] = {81, l10n("Dungeon")}, -- Going, Going, Guano!
+        [1139] = {81, l10n("Dungeon")}, -- The Lost Tablets of Will
+        [1142] = {81, l10n("Dungeon")}, -- Mortality Wanes
+        [1144] = {81, l10n("Dungeon")}, -- Willix the Importer
+        [1151] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Test of Strength
+        [1160] = {81, l10n("Dungeon")}, -- Test of Lore
+        [1166] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Overlord Mok'Morokk's Concern
+        [1172] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- The Brood of Onyxia
+        [1173] = {1, l10n("Elite")}, -- Challenge Overlord Mok'Morokk
+        [1193] = {81, l10n("Dungeon")}, -- A Broken Trap
+        [1198] = {81, l10n("Dungeon")}, -- In Search of Thaelrid
+        [1199] = {81, l10n("Dungeon")}, -- Twilight Falls
+        [1200] = {81, l10n("Dungeon")}, -- Blackfathom Villainy
+        [1221] = {81, l10n("Dungeon")}, -- Blueleaf Tubers
+        [1222] = Expansions.Current >= Expansions.Tbc and {84, l10n("Escort")} or nil, -- Stinky's Escape
+        [1270] = Expansions.Current >= Expansions.Tbc and {84, l10n("Escort")} or nil, -- Stinky's Escape
+        [1275] = {81, l10n("Dungeon")}, -- Researching the Corruption
+        [1360] = Expansions.Current == Expansions.Era and {81, l10n("Dungeon")} or nil, -- Reclaimed Treasures
+        [1380] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Khan Hratha
+        [1381] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Khan Hratha
+        [1383] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Nothing But The Truth
+        [1424] = Expansions.Current == Expansions.Era and {1, l10n("Elite")} or nil, -- Pool of Tears
+        [1442] = {81, l10n("Dungeon")}, -- Seeking the Kor Gem
+        [1445] = {81, l10n("Dungeon")}, -- The Temple of Atal'Hakkar
+        [1446] = {81, l10n("Dungeon")}, -- Jammal'an the Prophet
+        [1448] = {1, l10n("Elite")}, -- In Search of The Temple
+        [1475] = {81, l10n("Dungeon")}, -- Into The Temple of Atal'Hakkar
+        [1486] = {81, l10n("Dungeon")}, -- Deviate Hides
+        [1487] = {81, l10n("Dungeon")}, -- Deviate Eradication
+        [1488] = {1, l10n("Elite")}, -- The Corrupter
+        [1491] = {81, l10n("Dungeon")}, -- Smart Drinks
+        [4146] = Expansions.Current >= Expansions.Tbc and {81, l10n("Dungeon")} or {1, l10n("Elite")}, -- Zapper Fuel
         [4601] = {81, l10n("Dungeon")},
         [4602] = {81, l10n("Dungeon")},
         [4603] = {81, l10n("Dungeon")},
@@ -162,7 +290,6 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [90353] = {1, l10n("Elite")},
 
         -- PvP quest manual overwrite for Anniversary servers
-        [236] = {41, l10n("PvP")},
         [1657] = {41, l10n("PvP")},
         [5892] = {41, l10n("PvP")},
         [5893] = {41, l10n("PvP")},
