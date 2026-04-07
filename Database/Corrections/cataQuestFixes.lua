@@ -41,6 +41,7 @@ function CataQuestFixes.Load()
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
     local specialFlags = QuestieDB.specialFlags
+    local questFlags = QuestieDB.questFlags
 
     return {
         [2] = { -- Sharptalon's Claw
