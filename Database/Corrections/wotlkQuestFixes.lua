@@ -5106,6 +5106,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {7722},
             [questKeys.requiredMinRep] = {59,3000},
             [questKeys.requiredMaxRep] = {59,9000},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [13663] = {
             [questKeys.objectives] = {{{33513,nil,Questie.ICON_TYPE_INTERACT}},nil,{{45121},{45122}}},
