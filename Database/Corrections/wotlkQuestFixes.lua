@@ -4936,11 +4936,25 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{194081}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [13479] = { -- The Great Egg Hunt
+            [questKeys.breadcrumbs] = {13483},
+        },
+        [13480] = { -- The Great Egg Hunt
+            [questKeys.breadcrumbs] = {13484},
+        },
         [13481] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
         },
         [13482] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+        },
+        [13483] = { -- Spring Collectors
+            [questKeys.breadcrumbForQuestId] = 13479,
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
+        },
+        [13484] = { -- Spring Collectors
+            [questKeys.breadcrumbForQuestId] = 13480,
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
         },
         [13485] = {
             [questKeys.startedBy] = {{32801}},
