@@ -416,6 +416,7 @@ QuestieEvent.eventDateCorrections = {
         ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"}, -- WARNING THIS DATE VARIES!!!!
     },
     ["TBC"] = {
+        ["Noblegarden"] = false,
         ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"}, -- WARNING THIS DATE VARIES!!!!
     },
 }
