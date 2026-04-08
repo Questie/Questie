@@ -679,6 +679,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {144063},
         },
+        [9316] = { -- Prismatic Punch Card
+            [itemKeys.objectDrops] = {142696},
+        },
         [9330] = { -- Snapshot of Gammerita
             [itemKeys.relatedQuests] = {2944},
             [itemKeys.npcDrops] = {7977},
