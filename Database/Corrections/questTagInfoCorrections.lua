@@ -1132,9 +1132,12 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [9116] = {62, l10n("Raid")}, -- Gloves of Faith
         [9117] = {62, l10n("Raid")}, -- Belt of Faith
         [9118] = {62, l10n("Raid")}, -- Bindings of Faith
+        [9156] = {1, l10n("Elite")}, -- Wanted: Knucklerot and Luzran
+        [9167] = {1, l10n("Elite")}, -- The Traitor's Destruction
         [9208] = {62, l10n("Raid")}, -- The Savage Guard - Arcanum of Protection
         [9209] = {62, l10n("Raid")}, -- The Savage Guard - Arcanum of Rapidity
         [9210] = {62, l10n("Raid")}, -- The Savage Guard - Arcanum of Focus
+        [9215] = {1, l10n("Elite")}, -- Bring Me Kel'gash's Head!
         [9229] = {62, l10n("Raid")}, -- The Fate of Ramaladni
         [9230] = {62, l10n("Raid")}, -- Ramaladni's Icy Grasp
         [9232] = {62, l10n("Raid")}, -- The Only Song I Know...
