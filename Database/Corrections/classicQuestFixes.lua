@@ -1420,7 +1420,8 @@ function QuestieQuestFixes:Load()
         [1796] = {
             [questKeys.breadcrumbs] = {4736,4737,4738,4739},
         },
-        [1798] = {
+        [1798] = { -- Seeking Strahad
+            [questKeys.startedBy] = {{6120,6122}},
             [questKeys.breadcrumbForQuestId] = 1758,
         },
         [1799] = { -- Fragments of the Orb of Orahil
