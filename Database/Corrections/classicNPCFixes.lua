@@ -1174,6 +1174,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.48,81.61}}},
         },
+        [6120] = { -- Lago Blackwrench
+            [npcKeys.questStarts] = {1715,1717,1798},
+        },
         [6122] = { -- Gakin the Darkbinder
             [npcKeys.questStarts] = {1688,1689,1716,1739,1798,65603},
             [npcKeys.questEnds] = {1685,1688,1689,1715,1717,1738,1739,65602,65603},
