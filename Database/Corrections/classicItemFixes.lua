@@ -1465,7 +1465,8 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {6520, 6521, 7031, 7032, 7132, 8519, 8520, 8521, 8522, 8909, 8910, 8911, 9017, 9025, 9026, 9816, 9878, 9879, 11480, 11483, 11484, 11744, 11745, 11746, 11747, 13279, 13280, 14399, 14400, 14455, 14458, 14460, 14462},
         },
         [22719] = { -- Omarion's Handbook
-            [itemKeys.npcDrops] = {16365},
+            --[itemKeys.npcDrops] = {16365}, -- hiding until logic is fixed
+            [itemKeys.npcDrops] = {},
             [itemKeys.startQuest] = 9233,
         },
         [23179] = { -- Flame of Orgrimmar
