@@ -1663,10 +1663,9 @@ function QuestieQuestBlacklist:Load()
         --- Phase 5 Ruby Sanctum
         --[26012] = true, -- Trouble at Wyrmrest
         --[26013] = true, -- Assault on the Sanctum
+        --[26034] = true, -- The Twilight Destroyer
 
         --- Chinese servers wotlk only
-        [78752] = Questie.IsTitanReforged, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
-        [78753] = Questie.IsTitanReforged, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
         [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
@@ -7030,7 +7029,7 @@ function QuestieQuestBlacklist:Load()
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for TBC...")
         questsToBlacklist = ContentPhases.BlacklistTbcQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.TBC)
     elseif Questie.IsAnniversaryEra or Questie.IsAnniversaryHardcore then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary...")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary Era/Hardcore...")
         questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
@@ -7158,6 +7157,7 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [10501] = true,
 }
 
+---@return table<QuestId, boolean>
 function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
     return {
         --! 1.11.1
@@ -7505,9 +7505,9 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 --         [13864] = true, --* Battle Before The Citadel (https://www.wowhead.com/wotlk/quest=13864) (Retail Data)
 --         [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
 --         [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
---        [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
---        [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
---        [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
+--         [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
+--         [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
+--         [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
 --         [14095] = true, --* Identifying the Remains (https://www.wowhead.com/wotlk/quest=14095) (Retail Data)
 --         [14101] = true, --* Drottinn Hrothgar (https://www.wowhead.com/wotlk/quest=14101) (Retail Data)
 --         [14102] = true, --* Mistcaller Yngvar (https://www.wowhead.com/wotlk/quest=14102) (Retail Data)
@@ -7819,6 +7819,398 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [13256] = true, --* Proof of Demise: Cyanigosa (https://www.wowhead.com/wotlk/quest=13256) (Retail Data)
         [14199] = true, --* Proof of Demise: The Black Knight (https://www.wowhead.com/wotlk/quest=14199) (Retail Data)
 
+    }
+end
+
+---@return table<QuestId, boolean>
+function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
+    return {
+        -- Professions
+        [14103] = true, -- Titanium Powder
+        [14151] = true, -- Cardinal Ruby
+
+        -- Onyxia
+        [24428] = true, -- A Most Puzzling Circumstance
+        [24429] = true, -- A Most Puzzling Circumstance
+
+        -- Black Knight
+        [13633] = true, -- The Black Knight of Westfall?
+        [13634] = true, -- The Black Knight of Silverpine?
+        [13641] = true, -- The Seer's Crystal
+        [13643] = true, -- The Stories Dead Men Tell
+        [13654] = true, -- There's Something About the Squire
+        [13663] = true, -- The Black Knight's Orders
+        [13664] = true, -- The Black Knight's Fall
+        [13667] = true, -- The Argent Tournament
+        [13668] = true, -- The Argent Tournament
+
+        -- Argent Tournament
+        [13627] = true, -- Jack Me Some Lumber
+        [13681] = true, -- A Chip Off the Ulduar Block
+        [13820] = true, -- The Blastbolt Brothers
+        [13846] = true, -- Contributin' To The Cause
+        [14095] = true, -- Identifying the Remains
+        [14076] = true, -- Breakfast Of Champions
+        [14092] = true, -- Breakfast Of Champions
+        [14090] = true, -- Gormok Wants His Snobolds
+        [14141] = true, -- Gormok Wants His Snobolds
+        [14112] = true, -- What Do You Feed a Yeti, Anyway?
+        [14145] = true, -- What Do You Feed a Yeti, Anyway?
+        [14199] = true, -- Proof of Demise: The Black Knight
+        [14016] = true, -- The Black Knight's Curse
+        [14017] = true, -- The Black Knight's Fate
+        [14142] = true, -- You've Really Done It This Time, Kul
+        [14096] = true, -- You've Really Done It This Time, Kul
+        [14074] = true, -- A Leg Up
+        [14143] = true, -- A Leg Up
+        [14136] = true, -- Rescue at Sea
+        [14152] = true, -- Rescue at Sea
+        [14077] = true, -- The Light's Mercy
+        [14144] = true, -- The Light's Mercy
+        [14080] = true, -- Stop The Aggressors
+        [14140] = true, -- Stop The Aggressors
+        [14101] = true, -- Drottinn Hrothgar
+        [14102] = true, -- Mistcaller Yngvar
+        [14104] = true, -- Ornolf The Scarred
+        [14105] = true, -- Deathspeaker Kharos
+        [14107] = true, -- The Fate Of The Fallen
+        [14108] = true, -- Get Kraken!
+
+        -- Quel'Delar
+        [24506] = true, -- Inside the Frozen Citadel (H)
+        [24510] = true, -- Inside the Frozen Citadel (A)
+        [24554] = true, -- The Battered Hilt (H)
+        [14443] = true, -- The Battered Hilt (A)
+        [24555] = true, -- What The Dragons Know (H)
+        [14444] = true, -- What The Dragons Know (A)
+        [24557] = true, -- The Silver Covenant's Scheme (H)
+        [14457] = true, -- The Sunreaver Plan (A)
+        [24556] = true, -- A Suitable Disguise (H)
+        [20438] = true, -- A Suitable Disguise (A)
+        [24451] = true, -- An Audience With The Arcanist (H)
+        [20439] = true, -- A Meeting With The Magister (A)
+        [24558] = true, -- Return To Myralion Sunblaze (H)
+        [24454] = true, -- Return To Caladis Brightspear (A)
+        [24559] = true, -- Reforging The Sword (H)
+        [24461] = true, -- Reforging The Sword (A)
+        [24560] = true, -- Tempering The Blade (H)
+        [24476] = true, -- Tempering The Blade (A)
+        [24561] = true, -- The Halls Of Reflection (H)
+        [24480] = true, -- The Halls Of Reflection (A)
+        [24562] = true, -- Journey To The Sunwell (H)
+        [24522] = true, -- Journey To The Sunwell (A)
+        [24563] = true, -- Thalorien Dawnseeker (H)
+        [24535] = true, -- Thalorien Dawnseeker (A)
+        [24564] = true, -- The Purification of Quel'Delar (H)
+        [24553] = true, -- The Purification of Quel'Delar (A)
+        [24594] = true, -- The Purification of Quel'Delar (H Belf)
+        [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        [24598] = true, -- The Purification of Quel'Delar (H ?)
+        [24795] = true, -- A Victory For The Silver Covenant (A)
+        [24796] = true, -- A Victory For The Silver Covenant (A)
+        [24798] = true, -- A Victory For The Sunreavers (H)
+        [24799] = true, -- A Victory For The Sunreavers (H)
+        [24800] = true, -- A Victory For The Sunreavers (H)
+        [24801] = true, -- A Victory For The Sunreavers (H)
+
+        -- Ulduar
+        [13604] = true,
+        [13606] = true,
+        [13607] = true,
+        [13609] = true,
+        [13610] = true,
+        [13611] = true,
+        [13614] = true,
+        [13622] = true,
+        [13629] = true,
+        [13631] = true,
+        [13816] = true,
+        [13817] = true,
+        [13818] = true,
+        [13819] = true,
+        [13821] = true,
+        [13822] = true,
+        [13823] = true,
+        [13824] = true,
+
+        -- Aspirant
+        [13828] = true,
+        [13829] = true,
+        [13837] = true,
+        [13839] = true,
+        [13835] = true,
+        [13838] = true,
+        [13672] = true,
+        [13678] = true,
+        [13625] = true,
+        [13677] = true,
+        [13671] = true,
+        [13676] = true,
+        [13666] = true,
+        [13673] = true,
+        [13669] = true,
+        [13674] = true,
+        [13670] = true,
+        [13675] = true,
+        [13679] = true,
+        [13680] = true,
+
+        -- Valiant
+        [13684] = true,
+        [13685] = true,
+        [13688] = true,
+        [13689] = true,
+        [13690] = true,
+        [13691] = true,
+        [13693] = true,
+        [13694] = true,
+        [13695] = true,
+        [13696] = true,
+        [13718] = true,
+        [13714] = true,
+        [13715] = true,
+        [13717] = true,
+        [13716] = true,
+        [13697] = true,
+        [13719] = true,
+        [13720] = true,
+        [13721] = true,
+        [13722] = true,
+        [13592] = true,
+        [13744] = true,
+        [13749] = true,
+        [13760] = true,
+        [13755] = true,
+        [13765] = true,
+        [13771] = true,
+        [13776] = true,
+        [13781] = true,
+        [13786] = true,
+        [13665] = true,
+        [13745] = true,
+        [13750] = true,
+        [13761] = true,
+        [13756] = true,
+        [13767] = true,
+        [13772] = true,
+        [13777] = true,
+        [13782] = true,
+        [13787] = true,
+        [13847] = true,
+        [13851] = true,
+        [13852] = true,
+        [13855] = true,
+        [13854] = true,
+        [13856] = true,
+        [13857] = true,
+        [13858] = true,
+        [13860] = true,
+        [13859] = true,
+        [13603] = true,
+        [13741] = true,
+        [13746] = true,
+        [13757] = true,
+        [13752] = true,
+        [13762] = true,
+        [13768] = true,
+        [13773] = true,
+        [13778] = true,
+        [13783] = true,
+        [13600] = true,
+        [13742] = true,
+        [13747] = true,
+        [13758] = true,
+        [13753] = true,
+        [13763] = true,
+        [13769] = true,
+        [13774] = true,
+        [13779] = true,
+        [13784] = true,
+        [13616] = true,
+        [13743] = true,
+        [13748] = true,
+        [13759] = true,
+        [13754] = true,
+        [13764] = true,
+        [13770] = true,
+        [13775] = true,
+        [13780] = true,
+        [13785] = true,
+        [13699] = true,
+        [13713] = true,
+        [13723] = true,
+        [13725] = true,
+        [13724] = true,
+        [13726] = true,
+        [13727] = true,
+        [13728] = true,
+        [13729] = true,
+        [13731] = true,
+        [13593] = true,
+        [13703] = true,
+        [13704] = true,
+        [13706] = true,
+        [13705] = true,
+        [13707] = true,
+        [13708] = true,
+        [13709] = true,
+        [13710] = true,
+        [13711] = true,
+
+        -- Champion
+        [13702] = true,
+        [13732] = true,
+        [13733] = true,
+        [13735] = true,
+        [13734] = true,
+        [13736] = true,
+        [13737] = true,
+        [13738] = true,
+        [13739] = true,
+        [13740] = true,
+        [13794] = true,
+        [13795] = true,
+        [13682] = true,
+        [13809] = true,
+        [13788] = true,
+        [13812] = true,
+        [13789] = true,
+        [13810] = true,
+        [13791] = true,
+        [13813] = true,
+        [13861] = true,
+        [13862] = true,
+        [13864] = true,
+        [13863] = true,
+        [13790] = true,
+        [13811] = true,
+        [13793] = true,
+        [13814] = true,
+        [13686] = true,
+        [13687] = true,
+        [13700] = true,
+        [13701] = true,
+
+        -- ICC weekly quests
+        [24869] = true, -- Removed with cata
+        [24870] = true, -- Removed with cata
+        [24871] = true, -- Removed with cata
+        [24872] = true, -- Removed with cata
+        [24873] = true, -- Removed with cata
+        [24874] = true, -- Removed with cata
+        [24875] = true, -- Removed with cata
+        [24876] = true, -- Removed with cata
+        [24877] = true, -- Removed with cata
+        [24878] = true, -- Removed with cata
+        [24879] = true, -- Removed with cata
+        [24880] = true, -- Removed with cata
+
+        -- New raid weekly quests
+        [24579] = true,
+        [24580] = true,
+        [24581] = true,
+        [24582] = true,
+        [24583] = true,
+        [24584] = true,
+        [24585] = true,
+        [24586] = true,
+        [24587] = true,
+        [24588] = true,
+        [24589] = true,
+        [24590] = true,
+
+        -- Shadowmourne
+        [24545] = true, -- The Sacred and the Corrupt
+        [24547] = true, -- A Feast of Souls
+        [24548] = true, -- The Splintered Throne
+        [24549] = true, -- Shadowmourne...
+        [24743] = true, -- Shadow's Edge
+        [24748] = true, -- The Lich King's Last Stand
+        [24749] = true, -- Unholy Infusion
+        [24756] = true, -- Blood Infusion
+        [24757] = true, -- Frost Infusion
+        [24912] = true, -- Empowerment
+        [24914] = true, -- Personal Property
+        [24915] = true, -- Mograine's Reunion
+        [24916] = true, -- Jaina's Locket
+        [24917] = true, -- Muradin's Lament
+        [24918] = true, -- Sylvanas' Vengeance
+        [24919] = true, -- The Lightbringer's Redemption
+
+        -- ICC
+        [24815] = true, -- Choose Your Path
+        [24827] = true, -- "Path of Courage"
+        [24834] = true, -- "Path of Courage"
+        [24835] = true, -- "Path of Courage"
+        [24828] = true, -- "Path of Destruction"
+        [24823] = true, -- "Path of Destruction"
+        [24829] = true, -- "Path of Destruction"
+        [25239] = true, -- "Path of Might"
+        [25240] = true, -- "Path of Might"
+        [25242] = true, -- "Path of Might"
+        [24826] = true, -- "Path of Vengeance"
+        [24832] = true, -- "Path of Vengeance"
+        [24833] = true, -- "Path of Vengeance"
+        [24825] = true, -- "Path of Wisdom"
+        [24830] = true, -- "Path of Wisdom"
+        [24831] = true, -- "Path of Wisdom"
+        [24819] = true, -- "A Change of Heart"
+        [24820] = true, -- "A Change of Heart"
+        [24821] = true, -- "A Change of Heart"
+        [24822] = true, -- "A Change of Heart"
+        [24836] = true, -- "A Change of Heart"
+        [24837] = true, -- "A Change of Heart"
+        [24838] = true, -- "A Change of Heart"
+        [24839] = true, -- "A Change of Heart"
+        [24840] = true, -- "A Change of Heart"
+        [24841] = true, -- "A Change of Heart"
+        [24842] = true, -- "A Change of Heart"
+        [24843] = true, -- "A Change of Heart"
+        [24844] = true, -- "A Change of Heart"
+        [24845] = true, -- "A Change of Heart"
+        [24846] = true, -- "A Change of Heart"
+        [24847] = true, -- "A Change of Heart"
+        [25246] = true, -- "A Change of Heart"
+        [25247] = true, -- "A Change of Heart"
+        [25248] = true, -- "A Change of Heart"
+        [25249] = true, -- "A Change of Heart"
+
+        -- Wintergrasp Quests
+        [236] = true, -- Fueling the Demolishers
+        [13153] = true, -- Warding the Warriors
+        [13154] = true, -- Bones and Arrows
+        [13156] = true, -- A Rare Herb
+        [13177] = true, -- No Mercy for the Merciless
+        [13178] = true, -- Slay them all!
+        [13179] = true, -- No Mercy for the Merciless
+        [13180] = true, -- Slay them all!
+        [13185] = true, -- Stop the Siege
+        [13186] = true, -- Stop the Siege
+        [13191] = true, -- Fueling the Demolishers
+        [13192] = true, -- Warding the Walls
+        [13193] = true, -- Bones and Arrows
+        [13194] = true, -- Healing with Roses
+        [13195] = true, -- A Rare Herb
+        [13196] = true, -- Bones and Arrows
+        [13197] = true, -- Fueling the Demolishers
+        [13198] = true, -- Warding the Warriors
+        [13199] = true, -- Bones and Arrows
+        [13200] = true, -- Fueling the Demolishers
+        [13201] = true, -- Healing with Roses
+        [13202] = true, -- Jinxing the Walls
+        [13222] = true, -- Defend the Siege
+        [13223] = true, -- Defend the Siege
+        [13538] = true, -- Southern Sabotage
+        [13539] = true, -- Toppling the Towers
+
+        --- Phase 5 Ruby Sanctum
+        [26012] = true, -- Trouble at Wyrmrest
+        [26013] = true, -- Assault on the Sanctum
+        [26034] = true, -- The Twilight Destroyer
+
+        [78752] = true, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
+        [78753] = true, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
     }
 end
 
