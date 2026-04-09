@@ -7829,6 +7829,10 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [14103] = true, -- Titanium Powder
         [14151] = true, -- Cardinal Ruby
 
+        -- Onyxia
+        [24428] = true, -- A Most Puzzling Circumstance
+        [24429] = true, -- A Most Puzzling Circumstance
+
         -- Black Knight
         [13633] = true, -- The Black Knight of Westfall?
         [13634] = true, -- The Black Knight of Silverpine?
