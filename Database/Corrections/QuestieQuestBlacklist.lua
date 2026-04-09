@@ -1664,6 +1664,32 @@ function QuestieQuestBlacklist:Load()
         [26013] = Questie.IsTitanReforged, -- Assault on the Sanctum
 
         --- Chinese servers wotlk only
+        [13817] = Questie.IsTitanReforged,
+        [13604] = Questie.IsTitanReforged,
+        [13819] = Questie.IsTitanReforged,
+        [13631] = Questie.IsTitanReforged,
+        [13667] = Questie.IsTitanReforged,
+        [13668] = Questie.IsTitanReforged,
+        [13828] = Questie.IsTitanReforged,
+        [13829] = Questie.IsTitanReforged,
+        [13837] = Questie.IsTitanReforged,
+        [13839] = Questie.IsTitanReforged,
+        [13835] = Questie.IsTitanReforged,
+        [13838] = Questie.IsTitanReforged,
+        [13672] = Questie.IsTitanReforged,
+        [13678] = Questie.IsTitanReforged,
+        [13625] = Questie.IsTitanReforged,
+        [13677] = Questie.IsTitanReforged,
+        [13671] = Questie.IsTitanReforged,
+        [13676] = Questie.IsTitanReforged,
+        [13666] = Questie.IsTitanReforged,
+        [13673] = Questie.IsTitanReforged,
+        [13669] = Questie.IsTitanReforged,
+        [13674] = Questie.IsTitanReforged,
+        [13670] = Questie.IsTitanReforged,
+        [13675] = Questie.IsTitanReforged,
+        [13679] = Questie.IsTitanReforged,
+        [13680] = Questie.IsTitanReforged,
         [78752] = Questie.IsTitanReforged, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
         [78753] = Questie.IsTitanReforged, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
         [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
@@ -6495,18 +6521,18 @@ function QuestieQuestBlacklist:Load()
         [30177] = true, -- Daily Heroic Random (1st) (Cataclysm)
 
         -- ICC weekly quests
-        [24869] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24870] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24871] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24872] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24873] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24874] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24875] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24876] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24878] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [24880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24869] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24870] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24871] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24872] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24873] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24874] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24875] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24876] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24877] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24878] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24879] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24880] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
 
         -- First Pre-Event
         [25444] = true, -- Da Perfect Spies
@@ -7504,9 +7530,9 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 --         [13864] = true, --* Battle Before The Citadel (https://www.wowhead.com/wotlk/quest=13864) (Retail Data)
 --         [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
 --         [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
---        [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
---        [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
---        [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
+--         [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
+--         [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
+--         [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
 --         [14095] = true, --* Identifying the Remains (https://www.wowhead.com/wotlk/quest=14095) (Retail Data)
 --         [14101] = true, --* Drottinn Hrothgar (https://www.wowhead.com/wotlk/quest=14101) (Retail Data)
 --         [14102] = true, --* Mistcaller Yngvar (https://www.wowhead.com/wotlk/quest=14102) (Retail Data)
