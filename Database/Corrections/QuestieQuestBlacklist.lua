@@ -8092,8 +8092,26 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24589] = true,
         [24590] = true,
 
+        -- Shadowmourne
+        [24545] = true, -- The Sacred and the Corrupt
+        [24547] = true, -- A Feast of Souls
+        [24548] = true, -- The Splintered Throne
+        [24549] = true, -- Shadowmourne...
+        [24743] = true, -- Shadow's Edge
+        [24748] = true, -- The Lich King's Last Stand
+        [24749] = true, -- Unholy Infusion
+        [24756] = true, -- Blood Infusion
+        [24757] = true, -- Frost Infusion
+        [24912] = true, -- Empowerment
+        [24914] = true, -- Personal Property
+        [24915] = true, -- Mograine's Reunion
+        [24916] = true, -- Jaina's Locket
+        [24917] = true, -- Muradin's Lament
+        [24918] = true, -- Sylvanas' Vengeance
+        [24919] = true, -- The Lightbringer's Redemption
+
         -- ICC
-        [24815] = true,
+        [24815] = true, -- Choose Your Path
         [24827] = true, -- "Path of Courage"
         [24834] = true, -- "Path of Courage"
         [24835] = true, -- "Path of Courage"
