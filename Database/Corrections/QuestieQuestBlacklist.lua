@@ -7825,27 +7825,52 @@ end
 function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
     Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
     return {
+        -- Professions
+        [14103] = true, -- Titanium Powder
+        [14151] = true, -- Cardinal Ruby
+
+        -- Black Knight
+        [13633] = true, -- The Black Knight of Westfall?
+        [13634] = true, -- The Black Knight of Silverpine?
+        [13641] = true, -- The Seer's Crystal
+        [13643] = true, -- The Stories Dead Men Tell
+        [13654] = true, -- There's Something About the Squire
+        [13663] = true, -- The Black Knight's Orders
+        [13664] = true, -- The Black Knight's Fall
+        [13667] = true, -- The Argent Tournament
+        [13668] = true, -- The Argent Tournament
+
         -- Argent Tournament
+        [13627] = true, -- Jack Me Some Lumber
+        [13681] = true, -- A Chip Off the Ulduar Block
+        [13820] = true, -- The Blastbolt Brothers
+        [13846] = true, -- Contributin' To The Cause
+        [14095] = true, -- Identifying the Remains
         [14076] = true, -- Breakfast Of Champions
         [14092] = true, -- Breakfast Of Champions
         [14090] = true, -- Gormok Wants His Snobolds
         [14141] = true, -- Gormok Wants His Snobolds
         [14112] = true, -- What Do You Feed a Yeti, Anyway?
         [14145] = true, -- What Do You Feed a Yeti, Anyway?
-        [14151] = true, -- Cardinal Ruby (Alchemy)
-        [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
-        [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
-        [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
-        [14142] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14142) (Retail Data)
-        [14096] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14096) (Retail Data)
-        [14074] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14074) (Retail Data)
-        [14143] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14143) (Retail Data)
-        [14136] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14136) (Retail Data)
-        [14152] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14152) (Retail Data)
-        [14077] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14077) (Retail Data)
-        [14144] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14144) (Retail Data)
-        [14080] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14080) (Retail Data)
-        [14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
+        [14199] = true, -- Proof of Demise: The Black Knight
+        [14016] = true, -- The Black Knight's Curse
+        [14017] = true, -- The Black Knight's Fate
+        [14142] = true, -- You've Really Done It This Time, Kul
+        [14096] = true, -- You've Really Done It This Time, Kul
+        [14074] = true, -- A Leg Up
+        [14143] = true, -- A Leg Up
+        [14136] = true, -- Rescue at Sea
+        [14152] = true, -- Rescue at Sea
+        [14077] = true, -- The Light's Mercy
+        [14144] = true, -- The Light's Mercy
+        [14080] = true, -- Stop The Aggressors
+        [14140] = true, -- Stop The Aggressors
+        [14101] = true, -- Drottinn Hrothgar
+        [14102] = true, -- Mistcaller Yngvar
+        [14104] = true, -- Ornolf The Scarred
+        [14105] = true, -- Deathspeaker Kharos
+        [14107] = true, -- The Fate Of The Fallen
+        [14108] = true, -- Get Kraken!
 
         -- Quel'Delar
         [24506] = true, -- Inside the Frozen Citadel (H)
@@ -7905,8 +7930,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13824] = true,
 
         -- Aspirant
-        [13667] = true,
-        [13668] = true,
         [13828] = true,
         [13829] = true,
         [13837] = true,
