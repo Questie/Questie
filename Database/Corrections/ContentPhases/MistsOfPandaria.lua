@@ -542,6 +542,8 @@ local questsToBlacklistByPhase = {
         [32870] = true, -- Preparing to Strike
         [32871] = true, -- Vol'jin of the Darkspear
         [32872] = true, -- Battlefield: Barrens
+        [32895] = true, -- The Road to War
+        [32896] = true, -- The Road to War
         [32900] = true, -- Heroic Deeds
         [32901] = true, -- Heroic Deeds
     },

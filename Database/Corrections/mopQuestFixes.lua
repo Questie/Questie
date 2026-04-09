@@ -9874,6 +9874,7 @@ function MopQuestFixes.Load()
         [32862] = { -- Battlefield: Barrens
             [questKeys.startedBy] = {{71333}},
             [questKeys.preQuestSingle] = {32814},
+            [questKeys.breadcrumbs] = {32896},
             [questKeys.objectivesText] = {"Collect 150 Kor'kron Lumber, 150 Kor'kron Oil, 150 Kor'kron Meat, and 150 Kor'kron Stone."},
         },
         [32863] = { -- What We've Been Training For
@@ -9902,10 +9903,21 @@ function MopQuestFixes.Load()
         [32872] = { -- Battlefield: Barrens
             [questKeys.startedBy] = {{71333}},
             [questKeys.preQuestSingle] = {32811},
+            [questKeys.breadcrumbs] = {32895},
             [questKeys.objectivesText] = {"Collect 150 Kor'kron Lumber, 150 Kor'kron Oil, 150 Kor'kron Meat, and 150 Kor'kron Stone."},
         },
         [32892] = { -- War is Coming
             [questKeys.breadcrumbForQuestId] = 32806,
+        },
+        [32895] = { -- The Road to War
+            [questKeys.startedBy] = {{71336}},
+            [questKeys.preQuestSingle] = {32811},
+            [questKeys.breadcrumbForQuestId] = 32872,
+        },
+        [32896] = { -- The Road to War
+            [questKeys.startedBy] = {{71483}},
+            [questKeys.preQuestSingle] = {32814},
+            [questKeys.breadcrumbForQuestId] = 32862,
         },
         [32942] = { -- Work Order: Sunreaver Onslaught I
             [questKeys.preQuestGroup] = {32680,32682},
