@@ -5103,6 +5103,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13629] = {
             [questKeys.requiredSourceItems] = {},
+            [questKeys.zoneOrSort] = zoneIDs.ULDUAR,
         },
         [13631] = {
             [questKeys.startedBy] = {nil,nil,{46052}},
