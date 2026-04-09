@@ -7932,33 +7932,29 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [95706] = {
-            [questKeys.name] = "“哥布”的每周贪婪交易", --  only present on titan reforged
+        [95706] = { -- Gobb's Weekly Greed Deal
+            [questKeys.name] = "“哥布”的每周贪婪交易", -- only present on titan reforged
             [questKeys.startedBy] = {{262258}},
             [questKeys.finishedBy] = {{262258}},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"从老板“哥布”金痕的限量库存中购买每周贪婪宝箱。货源每周重置。如果错过了，那就自认倒霉吧！"}, --  only present on titan reforged
-            [questKeys.objectives] = {{{16028}}},
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
-            -- [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [95844] = {
-            [questKeys.name] = "“哥布”的至尊坦克诱惑", -- "Patchwerk Must Die!", only present on titan reforged
+        [95844] = { -- Gobb's Grand Tank Temptation
+            [questKeys.name] = "“哥布”的至尊坦克诱惑", -- only present on titan reforged
             [questKeys.startedBy] = {{262258}},
             [questKeys.finishedBy] = {{262258}},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"从老板“哥布”金痕的限量库存中购买每周黑色其拉宝箱。货源每周重置。如果错过了，那就自认倒霉吧！"}, --  only present on titan reforged
-            [questKeys.objectives] = {{{16028}}},
             [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
-            -- [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
     }
 end

@@ -3117,6 +3117,14 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
         },
+        [262258] = { -- Boss Gobb Goldnick
+            [npcKeys.name] = "Boss Gobb Goldnick"
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,,
+            [npcKeys.questStarts] = {95706,95844},
+            [npcKeys.questEnds] = {95706,95844},
+            [npcKeys.friendlyToFaction] = "AH",
+        },
     }
 end
 
@@ -3741,6 +3749,10 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
         },
+        [262258] = { -- Boss Gobb Goldnick
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.01,12.61}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
     }
 
     local npcFixesAlliance = {
@@ -3861,10 +3873,9 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [185335] = { -- Summoned Incubus
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.09,84.36}}},
         },
-        [262258] = {
-            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{32.12,50.75}}},
-            [npcKeys.questStarts] = {95706,95844},
-            [npcKeys.questEnds] = {95706,95844},
+        [262258] = { -- Boss Gobb Goldnick
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.12,50.75}}},
+            [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
     }
 
