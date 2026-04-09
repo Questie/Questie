@@ -7827,8 +7827,11 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
     return {
         -- Comment here
         [14076] = true, -- Breakfast Of Champions
+        [14092] = true, -- Breakfast Of Champions
         [14090] = true, -- Gormok Wants His Snobolds
+        [14141] = true, -- Gormok Wants His Snobolds
         [14112] = true, -- What Do You Feed a Yeti, Anyway?
+        [14145] = true, -- What Do You Feed a Yeti, Anyway?
         [14151] = true, -- Cardinal Ruby (Alchemy)
         [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
         [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
