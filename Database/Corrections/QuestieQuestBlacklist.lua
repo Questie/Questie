@@ -1690,6 +1690,10 @@ function QuestieQuestBlacklist:Load()
         [13675] = Questie.IsTitanReforged,
         [13679] = Questie.IsTitanReforged,
         [13680] = Questie.IsTitanReforged,
+        [24795] = Questie.IsTitanReforged, --* A Victory For The Silver Covenant (https://www.wowhead.com/wotlk/quest=24795) (Retail Data)
+        [24798] = Questie.IsTitanReforged, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24798) (Retail Data)
+        [24799] = Questie.IsTitanReforged, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24799) (Retail Data)
+        [24800] = Questie.IsTitanReforged, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24800) (Retail Data)
         [78752] = Questie.IsTitanReforged, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
         [78753] = Questie.IsTitanReforged, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
         [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
