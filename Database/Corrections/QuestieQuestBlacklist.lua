@@ -7028,7 +7028,7 @@ function QuestieQuestBlacklist:Load()
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for TBC...")
         questsToBlacklist = ContentPhases.BlacklistTbcQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.TBC)
     elseif Questie.IsAnniversaryEra or Questie.IsAnniversaryHardcore then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary...")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary Era/Hardcore...")
         questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
@@ -7825,7 +7825,7 @@ end
 function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
     Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
     return {
-        -- Comment here
+        -- Argent Tournament
         [14076] = true, -- Breakfast Of Champions
         [14092] = true, -- Breakfast Of Champions
         [14090] = true, -- Gormok Wants His Snobolds
@@ -7846,6 +7846,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [14144] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14144) (Retail Data)
         [14080] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14080) (Retail Data)
         [14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
+
+        -- Quel'Delar
         [24506] = true, -- Inside the Frozen Citadel (H)
         [24510] = true, -- Inside the Frozen Citadel (A)
         [24554] = true, -- The Battered Hilt (H)
@@ -7875,14 +7877,14 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24594] = true, -- The Purification of Quel'Delar (H Belf)
         [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
         [24598] = true, -- The Purification of Quel'Delar (H ?)
-        [24801] = true, -- A Victory For The Sunreavers (H)
+        [24795] = true, -- A Victory For The Silver Covenant (A)
         [24796] = true, -- A Victory For The Silver Covenant (A)
-        [24795] = true, --* A Victory For The Silver Covenant (https://www.wowhead.com/wotlk/quest=24795) (Retail Data)
-        [24798] = true, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24798) (Retail Data)
-        [24799] = true, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24799) (Retail Data)
-        [24800] = true, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24800) (Retail Data)
+        [24798] = true, -- A Victory For The Sunreavers (H)
+        [24799] = true, -- A Victory For The Sunreavers (H)
+        [24800] = true, -- A Victory For The Sunreavers (H)
+        [24801] = true, -- A Victory For The Sunreavers (H)
 
-        --ulduar
+        -- Ulduar
         [13604] = true,
         [13606] = true,
         [13607] = true,
@@ -7902,7 +7904,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13824] = true,
         [13629] = true,
 
-        -- aspirant
+        -- Aspirant
         [13667] = true,
         [13668] = true,
         [13828] = true,
@@ -7926,7 +7928,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13679] = true,
         [13680] = true,
 
-        -- valiant
+        -- Valiant
         [13684] = true,
         [13685] = true,
         [13688] = true,
@@ -8028,7 +8030,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13710] = true,
         [13711] = true,
 
-        -- champion
+        -- Champion
         [13702] = true,
         [13732] = true,
         [13733] = true,
@@ -8076,7 +8078,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24879] = true, -- Removed with cata
         [24880] = true, -- Removed with cata
 
-        --- new raid weekly quests
+        -- New raid weekly quests
         [24579] = true,
         [24580] = true,
         [24581] = true,
@@ -8090,7 +8092,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24589] = true,
         [24590] = true,
 
-        -- icc
+        -- ICC
         [24815] = true,
         [24827] = true, -- "Path of Courage"
         [24834] = true, -- "Path of Courage"
