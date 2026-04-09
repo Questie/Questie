@@ -2087,11 +2087,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17551,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [9587] = {
-            [questKeys.startedBy] = {nil,nil,{23890}},
+        [9587] = { -- Dark Tidings
+            [questKeys.nextQuestInChain] = 9589,
         },
-        [9588] = {
-            [questKeys.startedBy] = {nil,nil,{23892}},
+        [9588] = { -- Dark Tidings
+            [questKeys.nextQuestInChain] = 9590,
         },
         [9589] = { -- The Blood is Life
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
@@ -3201,6 +3201,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10491] = { -- Call of Air
             [questKeys.breadcrumbForQuestId] = 9552,
+        },
+        [10492] = { -- An Earnest Proposition
+            [questKeys.nextQuestInChain] = 8922,
+        },
+        [10493] = { -- An Earnest Proposition
+            [questKeys.nextQuestInChain] = 8922,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,nil,Questie.ICON_TYPE_INTERACT}}},
