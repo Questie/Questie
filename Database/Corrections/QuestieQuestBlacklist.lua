@@ -7893,6 +7893,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13611] = true,
         [13614] = true,
         [13622] = true,
+        [13629] = true,
         [13631] = true,
         [13816] = true,
         [13817] = true,
@@ -7902,7 +7903,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13822] = true,
         [13823] = true,
         [13824] = true,
-        [13629] = true,
 
         -- Aspirant
         [13667] = true,
