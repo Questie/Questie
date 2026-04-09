@@ -1559,144 +1559,112 @@ function QuestieQuestBlacklist:Load()
         [13384] = true, -- 10man EoE keys become unavailable with P2
 
         --- Phase 3 Trial of the Crusader
-        [14076] = Questie.IsTitanReforged, -- Breakfast Of Champions
-        [14090] = Questie.IsTitanReforged, -- Gormok Wants His Snobolds
-        [14112] = Questie.IsTitanReforged, -- What Do You Feed a Yeti, Anyway?
-        [14151] = Questie.IsTitanReforged, -- Cardinal Ruby (Alchemy)
-        [14199] = Questie.IsTitanReforged, -- Proof of Demise: The Black Knight (Daily heroic)
-        [14016] = Questie.IsTitanReforged, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
-        [14017] = Questie.IsTitanReforged, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
-        [14142] = Questie.IsTitanReforged, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14142) (Retail Data)
-        [14096] = Questie.IsTitanReforged, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14096) (Retail Data)
-        [14074] = Questie.IsTitanReforged, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14074) (Retail Data)
-        [14143] = Questie.IsTitanReforged, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14143) (Retail Data)
-        [14136] = Questie.IsTitanReforged, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14136) (Retail Data)
-        [14152] = Questie.IsTitanReforged, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14152) (Retail Data)
-        [14077] = Questie.IsTitanReforged, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14077) (Retail Data)
-        [14144] = Questie.IsTitanReforged, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14144) (Retail Data)
-        [14080] = Questie.IsTitanReforged, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14080) (Retail Data)
-        [14140] = Questie.IsTitanReforged, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
+        --[14076] = true, -- Breakfast Of Champions
+        --[14090] = true, -- Gormok Wants His Snobolds
+        --[14112] = true, -- What Do You Feed a Yeti, Anyway?
+        --[14151] = true, -- Cardinal Ruby (Alchemy)
+        --[14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
+        --[14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
+        --[14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
+        --[14142] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14142) (Retail Data)
+        --[14096] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14096) (Retail Data)
+        --[14074] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14074) (Retail Data)
+        --[14143] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14143) (Retail Data)
+        --[14136] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14136) (Retail Data)
+        --[14152] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14152) (Retail Data)
+        --[14077] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14077) (Retail Data)
+        --[14144] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14144) (Retail Data)
+        --[14080] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14080) (Retail Data)
+        --[14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
 
         --- Phase 4 Icecrown Citadel
-        [24827] = Questie.IsTitanReforged, -- "Path of Courage"
-        [24834] = Questie.IsTitanReforged, -- "Path of Courage"
-        [24835] = Questie.IsTitanReforged, -- "Path of Courage"
-        [24828] = Questie.IsTitanReforged, -- "Path of Destruction"
-        [24823] = Questie.IsTitanReforged, -- "Path of Destruction"
-        [24829] = Questie.IsTitanReforged, -- "Path of Destruction"
-        [25239] = Questie.IsTitanReforged, -- "Path of Might"
-        [25240] = Questie.IsTitanReforged, -- "Path of Might"
-        [25242] = Questie.IsTitanReforged, -- "Path of Might"
-        [24826] = Questie.IsTitanReforged, -- "Path of Vengeance"
-        [24832] = Questie.IsTitanReforged, -- "Path of Vengeance"
-        [24833] = Questie.IsTitanReforged, -- "Path of Vengeance"
-        [24825] = Questie.IsTitanReforged, -- "Path of Wisdom"
-        [24830] = Questie.IsTitanReforged, -- "Path of Wisdom"
-        [24831] = Questie.IsTitanReforged, -- "Path of Wisdom"
-        [24819] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24820] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24821] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24822] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24836] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24837] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24838] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24839] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24840] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24841] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24842] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24843] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24844] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24845] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24846] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24847] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [25246] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [25247] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [25248] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [25249] = Questie.IsTitanReforged, -- "A Change of Heart"
-        [24506] = Questie.IsTitanReforged, -- Inside the Frozen Citadel (H)
-        [24510] = Questie.IsTitanReforged, -- Inside the Frozen Citadel (A)
-        [24554] = Questie.IsTitanReforged, -- The Battered Hilt (H)
-        [14443] = Questie.IsTitanReforged, -- The Battered Hilt (A)
-        [24555] = Questie.IsTitanReforged, -- What The Dragons Know (H)
-        [14444] = Questie.IsTitanReforged, -- What The Dragons Know (A)
-        [24557] = Questie.IsTitanReforged, -- The Silver Covenant's Scheme (H)
-        [14457] = Questie.IsTitanReforged, -- The Sunreaver Plan (A)
-        [24556] = Questie.IsTitanReforged, -- A Suitable Disguise (H)
-        [20438] = Questie.IsTitanReforged, -- A Suitable Disguise (A)
-        [24451] = Questie.IsTitanReforged, -- An Audience With The Arcanist (H)
-        [20439] = Questie.IsTitanReforged, -- A Meeting With The Magister (A)
-        [24558] = Questie.IsTitanReforged, -- Return To Myralion Sunblaze (H)
-        [24454] = Questie.IsTitanReforged, -- Return To Caladis Brightspear (A)
-        [24559] = Questie.IsTitanReforged, -- Reforging The Sword (H)
-        [24461] = Questie.IsTitanReforged, -- Reforging The Sword (A)
-        [24560] = Questie.IsTitanReforged, -- Tempering The Blade (H)
-        [24476] = Questie.IsTitanReforged, -- Tempering The Blade (A)
-        [24561] = Questie.IsTitanReforged, -- The Halls Of Reflection (H)
-        [24480] = Questie.IsTitanReforged, -- The Halls Of Reflection (A)
-        [24562] = Questie.IsTitanReforged, -- Journey To The Sunwell (H)
-        [24522] = Questie.IsTitanReforged, -- Journey To The Sunwell (A)
-        [24563] = Questie.IsTitanReforged, -- Thalorien Dawnseeker (H)
-        [24535] = Questie.IsTitanReforged, -- Thalorien Dawnseeker (A)
-        [24564] = Questie.IsTitanReforged, -- The Purification of Quel'Delar (H)
-        [24553] = Questie.IsTitanReforged, -- The Purification of Quel'Delar (A)
-        [24594] = Questie.IsTitanReforged, -- The Purification of Quel'Delar (H Belf)
-        [24595] = Questie.IsTitanReforged, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
-        [24598] = Questie.IsTitanReforged, -- The Purification of Quel'Delar (H ?)
-        [24801] = Questie.IsTitanReforged, -- A Victory For The Sunreavers (H)
-        [24796] = Questie.IsTitanReforged, -- A Victory For The Silver Covenant (A)
+        --[24827] = true, -- "Path of Courage"
+        --[24834] = true, -- "Path of Courage"
+        --[24835] = true, -- "Path of Courage"
+        --[24828] = true, -- "Path of Destruction"
+        --[24823] = true, -- "Path of Destruction"
+        --[24829] = true, -- "Path of Destruction"
+        --[25239] = true, -- "Path of Might"
+        --[25240] = true, -- "Path of Might"
+        --[25242] = true, -- "Path of Might"
+        --[24826] = true, -- "Path of Vengeance"
+        --[24832] = true, -- "Path of Vengeance"
+        --[24833] = true, -- "Path of Vengeance"
+        --[24825] = true, -- "Path of Wisdom"
+        --[24830] = true, -- "Path of Wisdom"
+        --[24831] = true, -- "Path of Wisdom"
+        --[24819] = true, -- "A Change of Heart"
+        --[24820] = true, -- "A Change of Heart"
+        --[24821] = true, -- "A Change of Heart"
+        --[24822] = true, -- "A Change of Heart"
+        --[24836] = true, -- "A Change of Heart"
+        --[24837] = true, -- "A Change of Heart"
+        --[24838] = true, -- "A Change of Heart"
+        --[24839] = true, -- "A Change of Heart"
+        --[24840] = true, -- "A Change of Heart"
+        --[24841] = true, -- "A Change of Heart"
+        --[24842] = true, -- "A Change of Heart"
+        --[24843] = true, -- "A Change of Heart"
+        --[24844] = true, -- "A Change of Heart"
+        --[24845] = true, -- "A Change of Heart"
+        --[24846] = true, -- "A Change of Heart"
+        --[24847] = true, -- "A Change of Heart"
+        --[25246] = true, -- "A Change of Heart"
+        --[25247] = true, -- "A Change of Heart"
+        --[25248] = true, -- "A Change of Heart"
+        --[25249] = true, -- "A Change of Heart"
+        --[24506] = true, -- Inside the Frozen Citadel (H)
+        --[24510] = true, -- Inside the Frozen Citadel (A)
+        --[24554] = true, -- The Battered Hilt (H)
+        --[14443] = true, -- The Battered Hilt (A)
+        --[24555] = true, -- What The Dragons Know (H)
+        --[14444] = true, -- What The Dragons Know (A)
+        --[24557] = true, -- The Silver Covenant's Scheme (H)
+        --[14457] = true, -- The Sunreaver Plan (A)
+        --[24556] = true, -- A Suitable Disguise (H)
+        --[20438] = true, -- A Suitable Disguise (A)
+        --[24451] = true, -- An Audience With The Arcanist (H)
+        --[20439] = true, -- A Meeting With The Magister (A)
+        --[24558] = true, -- Return To Myralion Sunblaze (H)
+        --[24454] = true, -- Return To Caladis Brightspear (A)
+        --[24559] = true, -- Reforging The Sword (H)
+        --[24461] = true, -- Reforging The Sword (A)
+        --[24560] = true, -- Tempering The Blade (H)
+        --[24476] = true, -- Tempering The Blade (A)
+        --[24561] = true, -- The Halls Of Reflection (H)
+        --[24480] = true, -- The Halls Of Reflection (A)
+        --[24562] = true, -- Journey To The Sunwell (H)
+        --[24522] = true, -- Journey To The Sunwell (A)
+        --[24563] = true, -- Thalorien Dawnseeker (H)
+        --[24535] = true, -- Thalorien Dawnseeker (A)
+        --[24564] = true, -- The Purification of Quel'Delar (H)
+        --[24553] = true, -- The Purification of Quel'Delar (A)
+        --[24594] = true, -- The Purification of Quel'Delar (H Belf)
+        --[24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        --[24598] = true, -- The Purification of Quel'Delar (H ?)
+        --[24801] = true, -- A Victory For The Sunreavers (H)
+        --[24796] = true, -- A Victory For The Silver Covenant (A)
 
         --- new raid weekly quests
-        [24579] = Questie.IsTitanReforged,
-        [24580] = Questie.IsTitanReforged,
-        [24581] = Questie.IsTitanReforged,
-        [24582] = Questie.IsTitanReforged,
-        [24583] = Questie.IsTitanReforged,
-        [24584] = Questie.IsTitanReforged,
-        [24585] = Questie.IsTitanReforged,
-        [24586] = Questie.IsTitanReforged,
-        [24587] = Questie.IsTitanReforged,
-        [24588] = Questie.IsTitanReforged,
-        [24589] = Questie.IsTitanReforged,
-        [24590] = Questie.IsTitanReforged,
+        --[24579] = true,
+        --[24580] = true,
+        --[24581] = true,
+        --[24582] = true,
+        --[24583] = true,
+        --[24584] = true,
+        --[24585] = true,
+        --[24586] = true,
+        --[24587] = true,
+        --[24588] = true,
+        --[24589] = true,
+        --[24590] = true,
 
         --- Phase 5 Ruby Sanctum
-        [26012] = Questie.IsTitanReforged, -- Trouble at Wyrmrest
-        [26013] = Questie.IsTitanReforged, -- Assault on the Sanctum
+        --[26012] = true, -- Trouble at Wyrmrest
+        --[26013] = true, -- Assault on the Sanctum
         --[26034] = true, -- The Twilight Destroyer
 
         --- Chinese servers wotlk only
-        [13817] = Questie.IsTitanReforged,
-        [13604] = Questie.IsTitanReforged,
-        [13819] = Questie.IsTitanReforged,
-        [13631] = Questie.IsTitanReforged,
-        [13667] = Questie.IsTitanReforged,
-        [13668] = Questie.IsTitanReforged,
-        [13828] = Questie.IsTitanReforged,
-        [13829] = Questie.IsTitanReforged,
-        [13837] = Questie.IsTitanReforged,
-        [13839] = Questie.IsTitanReforged,
-        [13835] = Questie.IsTitanReforged,
-        [13838] = Questie.IsTitanReforged,
-        [13672] = Questie.IsTitanReforged,
-        [13678] = Questie.IsTitanReforged,
-        [13625] = Questie.IsTitanReforged,
-        [13677] = Questie.IsTitanReforged,
-        [13671] = Questie.IsTitanReforged,
-        [13676] = Questie.IsTitanReforged,
-        [13666] = Questie.IsTitanReforged,
-        [13673] = Questie.IsTitanReforged,
-        [13669] = Questie.IsTitanReforged,
-        [13674] = Questie.IsTitanReforged,
-        [13670] = Questie.IsTitanReforged,
-        [13675] = Questie.IsTitanReforged,
-        [13679] = Questie.IsTitanReforged,
-        [13680] = Questie.IsTitanReforged,
-        [24795] = Questie.IsTitanReforged, --* A Victory For The Silver Covenant (https://www.wowhead.com/wotlk/quest=24795) (Retail Data)
-        [24798] = Questie.IsTitanReforged, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24798) (Retail Data)
-        [24799] = Questie.IsTitanReforged, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24799) (Retail Data)
-        [24800] = Questie.IsTitanReforged, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24800) (Retail Data)
-        [78752] = Questie.IsTitanReforged, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
-        [78753] = Questie.IsTitanReforged, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
         [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
@@ -6526,18 +6494,18 @@ function QuestieQuestBlacklist:Load()
         [30177] = true, -- Daily Heroic Random (1st) (Cataclysm)
 
         -- ICC weekly quests
-        [24869] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24870] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24871] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24872] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24873] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24874] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24875] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24876] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24877] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24878] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24879] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
-        [24880] = (Expansions.Current >= Expansions.Cata) or Questie.IsTitanReforged, -- Removed with cata
+        [24869] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24870] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24871] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24872] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24873] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24874] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24875] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24876] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24878] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [24880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
 
         -- First Pre-Event
         [25444] = true, -- Da Perfect Spies
@@ -7856,7 +7824,154 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
     Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
     return {
         -- Comment here
-        [12345] = true, -- Quest Name
+        [14076] = true, -- Breakfast Of Champions
+        [14090] = true, -- Gormok Wants His Snobolds
+        [14112] = true, -- What Do You Feed a Yeti, Anyway?
+        [14151] = true, -- Cardinal Ruby (Alchemy)
+        [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
+        [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
+        [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
+        [14142] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14142) (Retail Data)
+        [14096] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14096) (Retail Data)
+        [14074] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14074) (Retail Data)
+        [14143] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14143) (Retail Data)
+        [14136] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14136) (Retail Data)
+        [14152] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14152) (Retail Data)
+        [14077] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14077) (Retail Data)
+        [14144] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14144) (Retail Data)
+        [14080] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14080) (Retail Data)
+        [14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
+        [24827] = true, -- "Path of Courage"
+        [24834] = true, -- "Path of Courage"
+        [24835] = true, -- "Path of Courage"
+        [24828] = true, -- "Path of Destruction"
+        [24823] = true, -- "Path of Destruction"
+        [24829] = true, -- "Path of Destruction"
+        [25239] = true, -- "Path of Might"
+        [25240] = true, -- "Path of Might"
+        [25242] = true, -- "Path of Might"
+        [24826] = true, -- "Path of Vengeance"
+        [24832] = true, -- "Path of Vengeance"
+        [24833] = true, -- "Path of Vengeance"
+        [24825] = true, -- "Path of Wisdom"
+        [24830] = true, -- "Path of Wisdom"
+        [24831] = true, -- "Path of Wisdom"
+        [24819] = true, -- "A Change of Heart"
+        [24820] = true, -- "A Change of Heart"
+        [24821] = true, -- "A Change of Heart"
+        [24822] = true, -- "A Change of Heart"
+        [24836] = true, -- "A Change of Heart"
+        [24837] = true, -- "A Change of Heart"
+        [24838] = true, -- "A Change of Heart"
+        [24839] = true, -- "A Change of Heart"
+        [24840] = true, -- "A Change of Heart"
+        [24841] = true, -- "A Change of Heart"
+        [24842] = true, -- "A Change of Heart"
+        [24843] = true, -- "A Change of Heart"
+        [24844] = true, -- "A Change of Heart"
+        [24845] = true, -- "A Change of Heart"
+        [24846] = true, -- "A Change of Heart"
+        [24847] = true, -- "A Change of Heart"
+        [25246] = true, -- "A Change of Heart"
+        [25247] = true, -- "A Change of Heart"
+        [25248] = true, -- "A Change of Heart"
+        [25249] = true, -- "A Change of Heart"
+        [24506] = true, -- Inside the Frozen Citadel (H)
+        [24510] = true, -- Inside the Frozen Citadel (A)
+        [24554] = true, -- The Battered Hilt (H)
+        [14443] = true, -- The Battered Hilt (A)
+        [24555] = true, -- What The Dragons Know (H)
+        [14444] = true, -- What The Dragons Know (A)
+        [24557] = true, -- The Silver Covenant's Scheme (H)
+        [14457] = true, -- The Sunreaver Plan (A)
+        [24556] = true, -- A Suitable Disguise (H)
+        [20438] = true, -- A Suitable Disguise (A)
+        [24451] = true, -- An Audience With The Arcanist (H)
+        [20439] = true, -- A Meeting With The Magister (A)
+        [24558] = true, -- Return To Myralion Sunblaze (H)
+        [24454] = true, -- Return To Caladis Brightspear (A)
+        [24559] = true, -- Reforging The Sword (H)
+        [24461] = true, -- Reforging The Sword (A)
+        [24560] = true, -- Tempering The Blade (H)
+        [24476] = true, -- Tempering The Blade (A)
+        [24561] = true, -- The Halls Of Reflection (H)
+        [24480] = true, -- The Halls Of Reflection (A)
+        [24562] = true, -- Journey To The Sunwell (H)
+        [24522] = true, -- Journey To The Sunwell (A)
+        [24563] = true, -- Thalorien Dawnseeker (H)
+        [24535] = true, -- Thalorien Dawnseeker (A)
+        [24564] = true, -- The Purification of Quel'Delar (H)
+        [24553] = true, -- The Purification of Quel'Delar (A)
+        [24594] = true, -- The Purification of Quel'Delar (H Belf)
+        [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        [24598] = true, -- The Purification of Quel'Delar (H ?)
+        [24801] = true, -- A Victory For The Sunreavers (H)
+        [24796] = true, -- A Victory For The Silver Covenant (A)
+
+        [13817] = true,
+        [13604] = true,
+        [13819] = true,
+        [13631] = true,
+        [13667] = true,
+        [13668] = true,
+        [13828] = true,
+        [13829] = true,
+        [13837] = true,
+        [13839] = true,
+        [13835] = true,
+        [13838] = true,
+        [13672] = true,
+        [13678] = true,
+        [13625] = true,
+        [13677] = true,
+        [13671] = true,
+        [13676] = true,
+        [13666] = true,
+        [13673] = true,
+        [13669] = true,
+        [13674] = true,
+        [13670] = true,
+        [13675] = true,
+        [13679] = true,
+        [13680] = true,
+        [24795] = true, --* A Victory For The Silver Covenant (https://www.wowhead.com/wotlk/quest=24795) (Retail Data)
+        [24798] = true, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24798) (Retail Data)
+        [24799] = true, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24799) (Retail Data)
+        [24800] = true, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24800) (Retail Data)
+        -- ICC weekly quests
+        [24869] = true, -- Removed with cata
+        [24870] = true, -- Removed with cata
+        [24871] = true, -- Removed with cata
+        [24872] = true, -- Removed with cata
+        [24873] = true, -- Removed with cata
+        [24874] = true, -- Removed with cata
+        [24875] = true, -- Removed with cata
+        [24876] = true, -- Removed with cata
+        [24877] = true, -- Removed with cata
+        [24878] = true, -- Removed with cata
+        [24879] = true, -- Removed with cata
+        [24880] = true, -- Removed with cata
+        --- new raid weekly quests
+        [24579] = true,
+        [24580] = true,
+        [24581] = true,
+        [24582] = true,
+        [24583] = true,
+        [24584] = true,
+        [24585] = true,
+        [24586] = true,
+        [24587] = true,
+        [24588] = true,
+        [24589] = true,
+        [24590] = true,
+
+        --- Phase 5 Ruby Sanctum
+        [26012] = true, -- Trouble at Wyrmrest
+        [26013] = true, -- Assault on the Sanctum
+        [26034] = true, -- The Twilight Destroyer
+
+        [78752] = true, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
+        [78753] = true, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
     }
 end
 
