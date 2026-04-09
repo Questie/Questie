@@ -7156,6 +7156,7 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [10501] = true,
 }
 
+---@return table<QuestId, boolean>
 function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
     return {
         --! 1.11.1
@@ -7820,6 +7821,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
     }
 end
 
+---@return table<QuestId, boolean>
 function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
     Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
     return {
