@@ -3118,9 +3118,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
         },
         [262258] = { -- Boss Gobb Goldnick
-            [npcKeys.name] = "Boss Gobb Goldnick"
+            [npcKeys.name] = "Boss Gobb Goldnick",
             [npcKeys.minLevel] = 80,
-            [npcKeys.maxLevel] = 80,,
+            [npcKeys.maxLevel] = 80,
             [npcKeys.questStarts] = {95706,95844},
             [npcKeys.questEnds] = {95706,95844},
             [npcKeys.friendlyToFaction] = "AH",
