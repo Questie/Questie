@@ -314,6 +314,7 @@ function QuestieQuestBlacklist:Load()
         [10966] = true,
         [10967] = true,
         [10968] = true,
+        [11116] = true,
         [11117] = true,
         [11431] = true,
         [11118] = true,
@@ -1209,7 +1210,12 @@ function QuestieQuestBlacklist:Load()
         [10259] = true, -- Into the Breach (TBC Pre patch event)
         [10364] = true, -- Caedmos (Unavailable Priest quest)
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
+        [10531] = true, -- The Battle for Arathi Basin!
+        [10532] = true, -- Cut Arathor Supply Lines
+        [10533] = true, -- More Resource Crates
         [10534] = true, -- Returning Home (Unavailable Priest quest)
+        [10535] = true, -- Arathi Basin Resources!
+        [10536] = true, -- More Resource Crates
         [10539] = true, -- Returning Home (Unavailable Priest quest)
         [10638] = true, -- NOT A QUEST (Unavailable Priest quest)
         [10779] = true, -- The Hunter's Path (Unused)
@@ -5318,7 +5324,6 @@ function QuestieQuestBlacklist:Load()
         [11087] = true, -- Not in the game
         [11088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11115] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [11116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11121] = true, -- Not in the game
         [11123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
