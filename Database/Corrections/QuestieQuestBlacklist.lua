@@ -7883,10 +7883,23 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24800] = true, --* A Victory For The Sunreavers (https://www.wowhead.com/wotlk/quest=24800) (Retail Data)
 
         --ulduar
-        [13817] = true,
         [13604] = true,
-        [13819] = true,
+        [13606] = true,
+        [13607] = true,
+        [13609] = true,
+        [13610] = true,
+        [13611] = true,
+        [13614] = true,
+        [13622] = true,
         [13631] = true,
+        [13816] = true,
+        [13817] = true,
+        [13818] = true,
+        [13819] = true,
+        [13821] = true,
+        [13822] = true,
+        [13823] = true,
+        [13824] = true,
 
         -- aspirant
         [13667] = true,
