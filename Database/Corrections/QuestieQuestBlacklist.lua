@@ -8171,6 +8171,33 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [25248] = true, -- "A Change of Heart"
         [25249] = true, -- "A Change of Heart"
 
+        -- Wintergrasp Quests
+        [13222] = true,
+        [13195] = true,
+        [13538] = true,
+        [13513] = true,
+        [13539] = true,
+        [13178] = true,
+        [13185] = true,
+        [13194] = true,
+        [13186] = true,
+        [13223] = true,
+        [13197] = true,
+        [13192] = true,
+        [13196] = true,
+        [13193] = true,
+        [13201] = true,
+        [13199] = true,
+        [13177] = true,
+        [13156] = true,
+        [13200] = true,
+        [13191] = true,
+        [13198] = true,
+        [13202] = true,
+        [13180] = true,
+        [13154] = true,
+        [13179] = true,
+
         --- Phase 5 Ruby Sanctum
         [26012] = true, -- Trouble at Wyrmrest
         [26013] = true, -- Assault on the Sanctum
