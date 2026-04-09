@@ -1674,6 +1674,8 @@ function QuestieQuestBlacklist:Load()
         [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
         [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
         [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers
+        [95706] = not Questie.IsTitanReforged,
+        [95844] = not Questie.IsTitanReforged,
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
