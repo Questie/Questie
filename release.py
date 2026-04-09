@@ -27,12 +27,14 @@ for toc in tocs:
             else:
                 print(line, end='')
 
-with fileinput.FileInput('README.md', inplace=True) as file:
-    for line in file:
-        if line[:20] == '[![Downloads Latest]':
-            print('[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v' + version + '/total.svg)](https://github.com/Questie/Questie/releases/latest)')
-        else:
-            print(line, end='')
+readmes = ['README.md', 'README_CN.md']
+for readme in readmes:
+    with fileinput.FileInput(readme, inplace=True) as file:
+        for line in file:
+            if line[:20] == '[![Downloads Latest]':
+                print('[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v' + version + '/total.svg)](https://github.com/Questie/Questie/releases/latest)')
+            else:
+                print(line, end='')
 
 changelogString = changelog.get_commit_changelog(True)
 
@@ -40,7 +42,7 @@ print('######### START CHANGELOG')
 print('# Questie v' + version + '\n\n' + changelogString)
 print('######### END CHANGELOG')
 
-subprocess.run(['git', 'add', 'README.md'])
-subprocess.run(['git', 'add', '*.toc'])
-subprocess.run(['git', 'commit', '-mBump version to v' + version])
-subprocess.run(['git', 'tag', 'v' + version])
+# subprocess.run(['git', 'add', 'README.md', 'README_CN.md'])
+# subprocess.run(['git', 'add', '*.toc'])
+# subprocess.run(['git', 'commit', '-mBump version to v' + version])
+# subprocess.run(['git', 'tag', 'v' + version])
