@@ -1366,14 +1366,104 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [10834] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Grillok "Darkeye"
         [10838] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Demoniac Scryer
         [10842] = Expansions.Current == Expansions.Tbc and {1, l10n("Elite")} or nil, -- The Vengeful Harbinger/Vengeful Souls
-        [11335] = {41, l10n("PvP")}, -- 
-        [11336] = {41, l10n("PvP")}, -- 
-        [11337] = {41, l10n("PvP")}, -- 
-        [11338] = {41, l10n("PvP")}, -- 
-        [11339] = {41, l10n("PvP")}, -- 
-        [11340] = {41, l10n("PvP")}, -- 
-        [11341] = {41, l10n("PvP")}, -- 
-        [11342] = {41, l10n("PvP")}, -- 
+        [10858] = {1, l10n("Elite")}, -- Karynaku
+        [10866] = {1, l10n("Elite")}, -- Zuluhed the Whacked
+        [10872] = {1, l10n("Elite")}, -- Zuluhed the Whacked
+        [10876] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Foot of the Citadel
+        [10879] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Skettis Offensive
+        [10882] = {81, l10n("Dungeon")}, -- Harbinger of Doom
+        [10884] = {85, l10n("Heroic")}, -- Trial of the Naaru: Mercy
+        [10885] = {85, l10n("Heroic")}, -- Trial of the Naaru: Strength
+        [10886] = {85, l10n("Heroic")}, -- Trial of the Naaru: Tenacity
+        [10888] = {62, l10n("Raid")}, -- Trial of the Naaru: Magtheridon
+        [10897] = {81, l10n("Dungeon")}, -- Master of Potions
+        [10898] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Skywing
+        [10900] = {62, l10n("Raid")}, -- The Mark of Vashj
+        [10901] = {62, l10n("Raid")}, -- The Cudgel of Kar'desh
+        [10902] = {81, l10n("Dungeon")}, -- Master of Elixirs
+        [10921] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Terokkarantula
+        [10922] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Digging Through Bones
+        [10923] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Evil Draws Near
+        [10929] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Fumping
+        [10930] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Big Bone Worm
+        [10937] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Drill the Drillmaster
+        [10946] = {62, l10n("Raid")}, -- Ruse of the Ashtongue
+        [10947] = {62, l10n("Raid")}, -- An Artifact From the Past
+        [10957] = {62, l10n("Raid")}, -- Redemption of the Ashtongue
+        [10958] = {62, l10n("Raid")}, -- Seek Out the Ashtongue
+        [10959] = {62, l10n("Raid")}, -- The Fall of the Betrayer
+        [10974] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Stasis Chambers of Bash'ir
+        [10975] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Purging the Chambers of Bash'ir
+        [10976] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Mark of the Nexus-King
+        [10977] = {85, l10n("Heroic")}, -- Stasis Chambers of the Mana-Tombs
+        [10981] = {85, l10n("Heroic")}, -- Nexus-Prince Shaffar's Personal Chamber
+        [10995] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Grulloc Has Two Skulls
+        [10996] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Maggoc's Treasure Chest
+        [10997] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Even Gronn Have Standards
+        [10998] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Grim(oire) Business
+        [11000] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Into the Soulgrinder
+        [11001] = {85, l10n("Heroic")}, -- Vanquish the Raven God
+        [11041] = {1, l10n("Elite")}, -- A Job Unfinished...
+        [11059] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Guardian of the Monument
+        [11073] = {1, l10n("Elite")}, -- Terokk's Downfall
+        [11078] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- To Rule The Skies
+        [11079] = Expansions.Current <= Expansions.Wotlk and {1, l10n("Elite")} or nil, -- A Fel Whip For Gahk
+        [11097] = {1, l10n("Elite")}, -- The Deadliest Trap Ever Laid
+        [11101] = {1, l10n("Elite")}, -- The Deadliest Trap Ever Laid
+        [11130] = {62, l10n("Raid")}, -- Oooh, Shinies!
+        [11132] = {62, l10n("Raid")}, -- Promises, Promises...
+        [11164] = {62, l10n("Raid")}, -- Tuskin' Raiders
+        [11165] = {62, l10n("Raid")}, -- A Troll Among Trolls
+        [11166] = {62, l10n("Raid")}, -- X Marks... Your Doom!
+        [11171] = {62, l10n("Raid")}, -- Hex Lord? Hah!
+        [11178] = {62, l10n("Raid")}, -- Blood of the Warlord
+        [11195] = {62, l10n("Raid")}, -- Playin' With Dolls
+        [11196] = Expansions.Current <= Expansions.Wotlk and {62, l10n("Raid")} or {81, l10n("Dungeon")}, -- Warlord of the Amani
+        [11335] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [11336] = {41, l10n("PvP")}, -- Call to Arms: Alterac Valley
+        [11337] = {41, l10n("PvP")}, -- Call to Arms: Eye of the Storm
+        [11338] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [11339] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [11340] = {41, l10n("PvP")}, -- Call to Arms: Alterac Valley
+        [11341] = {41, l10n("PvP")}, -- Call to Arms: Eye of the Storm
+        [11342] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [11354] = {85, l10n("Heroic")}, -- Wanted: Nazan's Riding Crop
+        [11362] = {85, l10n("Heroic")}, -- Wanted: Keli'dan's Feathered Stave
+        [11363] = {85, l10n("Heroic")}, -- Wanted: Bladefist's Seal
+        [11364] = {81, l10n("Dungeon")}, -- Wanted: Wanted: Shattered Hand Centurions
+        [11368] = {85, l10n("Heroic")}, -- Wanted: The Heart of Quagmirran
+        [11369] = {85, l10n("Heroic")}, -- Wanted: A Black Stalker Egg
+        [11370] = {85, l10n("Heroic")}, -- Wanted: The Warlord's Treatise
+        [11371] = {81, l10n("Dungeon")}, -- Wanted: Coilfang Myrmidons
+        [11372] = {85, l10n("Heroic")}, -- Wanted: The Headfeathers of Ikiss
+        [11373] = {85, l10n("Heroic")}, -- Wanted: Shaffar's Wondrous Pendant
+        [11374] = {85, l10n("Heroic")}, -- Wanted: The Exarch's Soul Gem
+        [11375] = {85, l10n("Heroic")}, -- Wanted: Murmur's Whisper
+        [11376] = {81, l10n("Dungeon")}, -- Wanted: Malicious Instructors
+        [11378] = {85, l10n("Heroic")}, -- Wanted: The Epoch Hunter's Head
+        [11382] = {85, l10n("Heroic")}, -- Wanted: Aeonus's Hourglass
+        [11383] = {81, l10n("Dungeon")}, -- Wanted: Rift Lords
+        [11384] = {85, l10n("Heroic")}, -- Wanted: A Warp Splinter Clipping
+        [11385] = {81, l10n("Dungeon")}, -- Wanted: Sunseeker Channelers
+        [11386] = {85, l10n("Heroic")}, -- Wanted: Pathaleon's Projector
+        [11387] = {81, l10n("Dungeon")}, -- Wanted: Tempest-Forge Destroyers
+        [11388] = {85, l10n("Heroic")}, -- Wanted: The Scroll of Skyriss
+        [11389] = {81, l10n("Dungeon")}, -- Wanted: Arcatraz Sentinels
+        [11401] = {81, l10n("Dungeon")}, -- Call the Headless Horseman
+        [11405] = {81, l10n("Dungeon")}, -- Call the Headless Horseman
+        [11488] = {81, l10n("Dungeon")}, -- Magisters' Terrace
+        [11490] = {81, l10n("Dungeon")}, -- The Scryer's Scryer
+        [11492] = {81, l10n("Dungeon")}, -- Hard to Kill
+        [11499] = {85, l10n("Heroic")}, -- Wanted: The Signet Ring of Prince Kael'thas
+        [11500] = {81, l10n("Dungeon")}, -- Wanted: Sisters of Torment
+        [11502] = {41, l10n("PvP")}, -- In Defense of Halaa
+        [11503] = {41, l10n("PvP")}, -- Enemies, Old and New
+        [11505] = {41, l10n("PvP")}, -- Spirits of Auchindoun
+        [11506] = {41, l10n("PvP")}, -- Spirits of Auchindoun
+        [11691] = {81, l10n("Dungeon")}, -- Summon Ahune
+        [11885] = {1, l10n("Elite")}, -- Adversarial Blood
+        [11955] = {81, l10n("Dungeon")}, -- Ahune, the Frost Lord
+        [12062] = {81, l10n("Dungeon")}, -- Insult Coren Direbrew
         [12170] = {41, l10n("PvP")}, -- 
         [12244] = {41, l10n("PvP")}, -- 
         [12268] = {41, l10n("PvP")}, -- 
@@ -1395,7 +1485,9 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [12437] = {41, l10n("PvP")}, -- 
         [12443] = {41, l10n("PvP")}, -- 
         [12446] = {41, l10n("PvP")}, -- 
-        [13129] = {81, l10n("Dungeon")}, -- 
+        [12513] = {81, l10n("Dungeon")}, -- Nice Hat...
+        [12515] = {81, l10n("Dungeon")}, -- Nice Hat...
+        [13129] = {81, l10n("Dungeon")}, -- Head Games
         [13199] = {41, l10n("PvP")}, -- 
         [13662] = {81, l10n("Dungeon")}, -- Gaining Acceptance
         [26452] = {41, l10n("PvP")}, -- 

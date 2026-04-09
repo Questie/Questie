@@ -15,6 +15,7 @@ function QuestieQuestBlacklist:Load()
         [7462] = true, -- Duplicate of 7877. See #1583
         [7487] = true, -- Duplicate of 7848
         [7908] = true, -- Duplicate of 7810
+        [11072] = true, -- Duplicate of 11885
         [2358] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Wotlk, -- available in TBC anniversary (!)
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
