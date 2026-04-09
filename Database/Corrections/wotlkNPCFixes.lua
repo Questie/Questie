@@ -3861,6 +3861,11 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [185335] = { -- Summoned Incubus
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.09,84.36}}},
         },
+        [262258] = {
+             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{33.19,51.53},}},
+            [npcKeys.questStarts] = {95706,95844},
+            [npcKeys.questEnds] = {95706,95844},
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
