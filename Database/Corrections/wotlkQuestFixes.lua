@@ -7940,7 +7940,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"从老板“哥布”金痕的限量库存中购买每周贪婪宝箱。货源每周重置。如果错过了，那就自认倒霉吧！"}, --  only present on titan reforged
-            [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
         },
@@ -7952,7 +7952,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"从老板“哥布”金痕的限量库存中购买每周黑色其拉宝箱。货源每周重置。如果错过了，那就自认倒霉吧！"}, --  only present on titan reforged
-            [questKeys.zoneOrSort] = zoneIDs.ELWYNN_FOREST,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
         },
