@@ -8184,8 +8184,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13178] = true, -- Slay them all!
         [13179] = true, -- No Mercy for the Merciless
         [13180] = true, -- Slay them all!
-        [13181] = true, -- Victory in Wintergrasp
-        [13183] = true, -- Victory in Wintergrasp
         [13185] = true, -- Stop the Siege
         [13186] = true, -- Stop the Siege
         [13191] = true, -- Fueling the Demolishers
