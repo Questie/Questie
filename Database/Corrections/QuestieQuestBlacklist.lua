@@ -1662,6 +1662,7 @@ function QuestieQuestBlacklist:Load()
         --- Phase 5 Ruby Sanctum
         [26012] = Questie.IsTitanReforged, -- Trouble at Wyrmrest
         [26013] = Questie.IsTitanReforged, -- Assault on the Sanctum
+        --[26034] = true, -- The Twilight Destroyer
 
         --- Chinese servers wotlk only
         [13817] = Questie.IsTitanReforged,
@@ -7848,6 +7849,14 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [13256] = true, --* Proof of Demise: Cyanigosa (https://www.wowhead.com/wotlk/quest=13256) (Retail Data)
         [14199] = true, --* Proof of Demise: The Black Knight (https://www.wowhead.com/wotlk/quest=14199) (Retail Data)
 
+    }
+end
+
+function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
+    return {
+        -- Comment here
+        [12345] = true, -- Quest Name
     }
 end
 

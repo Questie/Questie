@@ -187,6 +187,15 @@ do
                     QuestieCorrections.hiddenQuests[id] = hide
                 end
             end
+            -- Also do TitanReforged blacklists
+            if Questie.IsTitanReforged then
+                for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()) do
+                    -- This has to be a nil-check, because the value could be false
+                    if (QuestieCorrections.hiddenQuests[id] == nil) then
+                        QuestieCorrections.hiddenQuests[id] = hide
+                    end
+                end
+            end
         end
 
         -- Hardcore Blacklist
