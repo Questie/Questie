@@ -276,6 +276,21 @@ function MopQuestFixes.Load()
         [9676] = { -- Paladin Training
             [questKeys.requiredLevel] = 2,
         },
+        [9753] = { -- What We Know...
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9756] = { -- What We Don't Know...
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9759] = { -- Ending Their World
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9760] = { -- Vindicator's Rest
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [9761] = { -- Clearing the Way
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [10068] = { -- Frost Nova
             [questKeys.requiredLevel] = 2,
             [questKeys.objectives] = {{{44937}},nil,nil,nil,nil,{{122}}},
