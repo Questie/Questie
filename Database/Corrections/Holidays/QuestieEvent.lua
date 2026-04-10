@@ -413,7 +413,7 @@ QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
-        ["Noblegarden"] = false,
+        ["Noblegarden"] = {startDate = "5/4", endDate = "5/4"}, -- One day event on Era, on the actual day of Easter
         ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"}, -- WARNING THIS DATE VARIES!!!!
     },
     ["TBC"] = {
