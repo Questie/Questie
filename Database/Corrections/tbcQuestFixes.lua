@@ -226,6 +226,9 @@ function QuestieTBCQuestFixes:Load()
         [1177] = {
             [questKeys.objectivesText] = {"Mudcrush Durtfeet in northern Dustwallow wants 8 Mirefin Heads."},
         },
+        [1206] = { -- Jarl Needs Eyes
+            [questKeys.objectivesText] = {"Bring 20 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
+        },
         [1220] = {
             [questKeys.startedBy] = {{23951}},
         },
