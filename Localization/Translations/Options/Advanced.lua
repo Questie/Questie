@@ -590,6 +590,18 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
         ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗",
     },
+    ["Are you sure you want to recompile the Questie database?"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = true,
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "你确定要重建Questie数据库吗？",
+        ["zhTW"] = true,
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do

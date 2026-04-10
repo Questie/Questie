@@ -266,12 +266,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Recompile Database"); end,
                 desc = function() return l10n("Forces a recompile of the Questie database. This will also reload the UI."); end,
                 func = function (_, _)
-                    if Questie.IsSoD then
-                        Questie.db.global.sod.dbIsCompiled = false
-                    else
-                        Questie.db.global.dbIsCompiled = false
-                    end
-                    ReloadUI()
+                    StaticPopup_Show("QUESTIE_RECOMPILE_DATABASE_CONFIRM")
                 end,
             },
             Spacer_G = QuestieOptionsUtils:Spacer(4.7),
@@ -493,6 +488,30 @@ StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     end,
     OnShow = function(self)
         local confirmText = l10n("Are you sure you want to reset the Questie Journey for this character?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
+StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
+    text = "", -- we set it in OnShow
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+            if Questie.IsSoD then
+                Questie.db.global.sod.dbIsCompiled = false
+            else
+                Questie.db.global.dbIsCompiled = false
+            end
+            ReloadUI()
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("Are you sure you want to recompile the Questie database?")
         self.Text:SetText(confirmText)
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()

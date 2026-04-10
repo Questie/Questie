@@ -7880,8 +7880,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [14108] = true, -- Get Kraken!
 
         -- Quel'Delar
-        [24506] = true, -- Inside the Frozen Citadel (H)
-        [24510] = true, -- Inside the Frozen Citadel (A)
         [24554] = true, -- The Battered Hilt (H)
         [14443] = true, -- The Battered Hilt (A)
         [24555] = true, -- What The Dragons Know (H)
@@ -8210,6 +8208,20 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [26012] = true, -- Trouble at Wyrmrest
         [26013] = true, -- Assault on the Sanctum
         [26034] = true, -- The Twilight Destroyer
+
+        -- Frozen Citadel quest chain
+        [24510] = true, -- Inside the Frozen Citadel (A)
+        [24499] = true, -- Echoes of Tortured Souls
+        [24683] = true, -- The Pit of Saron
+        [24498] = true, -- The Path to the Citadel
+        [24710] = true, -- Deliverance from the Pit
+        [24711] = true, -- Frostmourne
+        [24506] = true, -- Inside the Frozen Citadel (H)
+        [24511] = true, -- Echoes of Tortured Souls
+        [24682] = true, -- The Pit of Saron
+        [24507] = true, -- The Path to the Citadel
+        [24712] = true, -- Deliverance from the Pit
+        [24713] = true, -- Frostmourne
 
         [78752] = true, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
         [78753] = true, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
