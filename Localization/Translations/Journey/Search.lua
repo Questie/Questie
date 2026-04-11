@@ -395,7 +395,7 @@ local searchLocales = {
         ["koKR"] = "퀘스티로 숨겨짐",
         ["ptBR"] = "Oculto por Questie",
         ["ruRU"] = "Скрыто аддоном",
-        ["zhCN"] = "被 Questie 隐藏",
+        ["zhCN"] = "被Questie隐藏",
         ["zhTW"] = "被任務位置提示插件隱藏",
     },
     ["NPCs starting this quest"] = {
