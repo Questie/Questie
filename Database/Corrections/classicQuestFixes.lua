@@ -1048,6 +1048,9 @@ function QuestieQuestFixes:Load()
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{70.2,45.2},{66.6,48.1},{73.6,48.1},{64.9,53.3},{75.4,53.3},{66.6,58.4},{73.6,58.4},{70.2,60.5}}}},
         },
+        [1452] = { -- Rhapsody's Kalimdor Kocktail
+            [questKeys.nextQuestInChain] = 1469,
+        },
         [1462] = { -- Earth Sapta
             [questKeys.preQuestSingle] = {1520},
             [questKeys.objectivesText] = {},
