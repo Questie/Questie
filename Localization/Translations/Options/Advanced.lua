@@ -590,17 +590,17 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
         ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗",
     },
-    ["Are you sure you want to recompile the Questie database?"] = {
+    ["Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?"] = {
         ["enUS"] = true,
-        ["deDE"] = true,
-        ["esES"] = true,
-        ["esMX"] = true,
-        ["frFR"] = true,
-        ["koKR"] = true,
-        ["ptBR"] = true,
-        ["ruRU"] = true,
-        ["zhCN"] = "你确定要重建Questie数据库吗？",
-        ["zhTW"] = true,
+        ["deDE"] = "Questie-Datenbank neu kompilieren\n\nDies wird die WoW-Benutzeroberfläche neu laden und anschließend einige Zeit in Anspruch nehmen. Du erhältst eine Nachricht im Chat, sobald der Vorgang abgeschlossen ist.\n\nDas Neukompilieren sollte außerhalb des Kampfes durchgeführt werden, da Questie sonst möglicherweise nicht korrekt funktioniert!\n\nBist du sicher, dass du die Questie-Datenbank neu kompilieren möchtest?",
+        ["esES"] = "Recompilación de la base de datos de Questie\n\nEsto recargará la interfaz y tardará algún tiempo en completarse. Verás un mensaje en el chat cuando el proceso haya finalizado.\n\nEl proceso de recompilación debe hacerse fuera de combate, o Questie podría funcionar incorrectamente!\n\n¿Estás seguro de que quieres recompilar la base de datos de Questie?",
+        ["esMX"] = "Recompilación de la base de datos de Questie\n\nEsto recargará la interfaz y tardará algún tiempo en completarse. Verás un mensaje en el chat cuando el proceso haya finalizado.\n\nEl proceso de recompilación debe hacerse fuera de combate, o Questie podría funcionar incorrectamente!\n\n¿Estás seguro de que quieres recompilar la base de datos de Questie?",
+        ["frFR"] = "Recompilation de la base de données Questie\n\nCela va recharger l’interface et prendre un certain temps. Vous verrez un message dans le chat une fois le processus terminé.\n\nLe processus de recompilation doit être effectué hors combat, sinon Questie peut mal fonctionner !\n\nÊtes-vous sûr de vouloir recompiler la base de données Questie?",
+        ["koKR"] = false,
+        ["ptBR"] = "Recompilação do banco de dados do Questie\n\nIsso irá recarregar a interface e levará algum tempo para ser concluído. Você verá uma mensagem no chat quando o processo terminar.\n\nO processo de recompilação deve ser feito fora de combate, ou o Questie pode funcionar incorretamente!\n\nTem certeza de que deseja recompilar o banco de dados do Questie?",
+        ["ruRU"] = false,
+        ["zhCN"] = "重新编译Questie数据库\n\n此操作将重载魔兽世界界面，且需要一定时间完成。进程完成后，你会在聊天框中看到提示信息。\n\n重新编译过程需在非战斗状态下进行，否则Questie可能出现故障！\n\n你确定要重新编译Questie数据库吗？",
+        ["zhTW"] = false,
     },
 }
 

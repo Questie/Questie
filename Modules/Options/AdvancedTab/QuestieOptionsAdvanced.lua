@@ -511,7 +511,7 @@ StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
             ReloadUI()
     end,
     OnShow = function(self)
-        local confirmText = l10n("Are you sure you want to recompile the Questie database?")
+        local confirmText = l10n("Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
         self.Text:SetText(confirmText)
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()
