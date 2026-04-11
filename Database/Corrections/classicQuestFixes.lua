@@ -2008,7 +2008,10 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[zoneIDs.AZSHARA]={{52.86,87.77}}}},
         },
         [3385] = {
-            [questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest -- this needs proper fix
+            [questKeys.requiredSkill] = {197,230},
+        },
+        [3402] = {
+            [questKeys.requiredSkill] = {197,230},
         },
         [3441] = {
             [questKeys.objectives] = {{{8479,nil,Questie.ICON_TYPE_TALK}}},
