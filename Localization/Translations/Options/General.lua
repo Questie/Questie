@@ -167,7 +167,7 @@ local generalOptionsLocales = {
         ["koKR"] = "두 옵션 중 하나를 사용하고 사용자가 퀘스트 NPC와 상호 작용할 때 퀘스트를 자동 수락/완성하지 않음.",
         ["ptBR"] = "O modificador para NÃO aceitar ou concluir automaticamente missões quando uma das opções está ativada e você interage com um NPC de missões.",
         ["ruRU"] = "Клавиша, при зажатии которой автопринятие/автозавершение задания НЕ сработает при его принятии/завершении",
-        ["zhCN"] = "当自动接受/完成任务选项启用，且你与任务NPC互动时，不进行自动操作的修饰键。 ",
+        ["zhCN"] = "当自动接受/完成任务选项启用，且你与任务NPC互动时，不进行自动操作的修饰键。",
         ["zhTW"] = "與 NPC 互動時按住輔助鍵則 '不會' 自動接受/完成任務",
     },
     ["Accept trivial (low level) quests"] = {
