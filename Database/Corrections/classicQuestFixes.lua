@@ -1644,7 +1644,6 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 2139,
         },
         [2201] = {
-            [questKeys.childQuests] = {3375},
             [questKeys.requiredLevel] = 37, -- #2447
         },
         [2205] = { -- Seek out SI: 7
@@ -1998,8 +1997,9 @@ function QuestieQuestFixes:Load()
         [3367] = {
             [questKeys.triggerEnd] = {"Dorius Escort", {[zoneIDs.SEARING_GORGE]={{74.47,19.44}}}},
         },
-        [3375] = {
-            [questKeys.parentQuest] = 2201,
+        [3375] = { -- Replacement Phial
+            [questKeys.availableStartingWith] = 2201,
+            [questKeys.availableUntilCompleted] = 2204,
         },
         [3377] = {
             [questKeys.objectives] = {{{8436,nil,Questie.ICON_TYPE_TALK}}},
