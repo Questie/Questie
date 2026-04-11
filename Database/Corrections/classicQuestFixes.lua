@@ -1658,7 +1658,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1466
         },
         [2240] = {
-            [questKeys.triggerEnd] = { "Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
+            [questKeys.triggerEnd] = { "Explore the Hidden Chamber", {[zoneIDs.ULDAMAN]={{-1,-1}}}},
         },
         [2241] = { -- The Apple Falls
             [questKeys.exclusiveTo] = {}, -- #1466
