@@ -393,9 +393,6 @@ function QuestieTBCQuestFixes:Load()
         [1782] = { -- Furen's Armor
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [1799] = {
-            [questKeys.preQuestSingle] = {4967,4969},
-        },
         [1800] = {
             [questKeys.questLevel] = -1,
         },
