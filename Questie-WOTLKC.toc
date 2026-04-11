@@ -1,4 +1,4 @@
-## Interface: 38000
+## Interface: 38000, 38001
 ## Title: Questie|cFF00FF00 v11.24.3|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
