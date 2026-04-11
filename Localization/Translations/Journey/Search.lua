@@ -11,7 +11,7 @@ local searchLocales = {
         ["koKR"] = "고급 검색",
         ["ptBR"] = "Procura avançada",
         ["ruRU"] = "Расширенный поиск",
-        ["zhCN"] = "进阶搜索",
+        ["zhCN"] = "高级搜索",
         ["zhTW"] = "進階搜尋",
     },
     ["Search"] = {
@@ -107,7 +107,7 @@ local searchLocales = {
         ["koKR"] = "추천 퀘스트 레벨",
         ["ptBR"] = "Nível recomendado para a missão",
         ["ruRU"] = "Рекомендуемый уровень для выполнения задания",
-        ["zhCN"] = "建议等级",
+        ["zhCN"] = "推荐任务等级",
         ["zhTW"] = "任務推薦等級",
     },
     ["Ends the following quests"] = {
@@ -131,7 +131,7 @@ local searchLocales = {
         ["koKR"] = "지도에서 제거",
         ["ptBR"] = "Remover do mapa",
         ["ruRU"] = "Удалить с карты",
-        ["zhCN"] = "地图上移除",
+        ["zhCN"] = "从地图上移除",
         ["zhTW"] = "從地圖上移除",
     },
     ["Found in"] = {
@@ -143,7 +143,7 @@ local searchLocales = {
         ["koKR"] = "발견할 수 있음",
         ["ptBR"] = "Encontrado em",
         ["ruRU"] = "Местонахождение",
-        ["zhCN"] = "任务可被发现",
+        ["zhCN"] = "发现于",
         ["zhTW"] = "任務地點",
     },
     ["No Match for Search Results: %s"] = {
@@ -155,7 +155,7 @@ local searchLocales = {
         ["koKR"] = "검색 결과가 없습니다: %s",
         ["ptBR"] = "Nenhum resultado encontrado para sua procura: %s",
         ["ruRU"] = "Нет совпадений для результатов поиска: %s",
-        ["zhCN"] = "没有符合的结果：%s",
+        ["zhCN"] = "没有符合的搜索结果：%s",
         ["zhTW"] = "沒有符合的搜尋結果：%s",
     },
     ["No Quests found"] = {
@@ -215,7 +215,7 @@ local searchLocales = {
         ["koKR"] = "해당 NPC에게 다음 퀘스트도 시작할 수 있습니다:",
         ["ptBR"] = "Este NPC também começa as seguintes missões:",
         ["ruRU"] = "Этот NPC также начинает следующие задания:",
-        ["zhCN"] = "这个NPC同时是下列任务的起始者：",
+        ["zhCN"] = "此 NPC 也可开启以下任务：",
         ["zhTW"] = "這個 NPC 也會開始下列任務：",
     },
     ["This NPC Also Completes the following quests:"] = {
@@ -227,7 +227,7 @@ local searchLocales = {
         ["koKR"] = "해당 NPC에게 다음 퀘스트도 완료할 수 있습니다:",
         ["ptBR"] = "Este NPC também termina as seguintes missões:",
         ["ruRU"] = "Этот NPC также завершает следующие задания:",
-        ["zhCN"] = "这个NPC同时是下列任务的提交者：",
+        ["zhCN"] = "此 NPC 也可完成以下任务：",
         ["zhTW"] = "這個 NPC 也會完成下列任務：",
     },
     ["This Object Also Completes the following quests:"] = {
@@ -239,7 +239,7 @@ local searchLocales = {
         ["koKR"] = "해당 오브젝트로 다음 퀘스트도 완료할 수 있습니다:",
         ["ptBR"] = "Este objeto também termina as seguintes missões:",
         ["ruRU"] = "Этот объект также завершает следующие задания:",
-        ["zhCN"] = "这个物体同时是下列任务的提交者：",
+        ["zhCN"] = "此物体也可完成以下任务：",
         ["zhTW"] = "這個物體也會完成下列任務：",
     },
     ["Quest Start Object Information"] = {
@@ -275,7 +275,7 @@ local searchLocales = {
         ["koKR"] = "해당 오브젝트에게 다음 퀘스트도 시작할 수 있습니다:",
         ["ptBR"] = "Esse objeto também começa as seguintes missões:",
         ["ruRU"] = "Этот объект также начинает следующие задания:",
-        ["zhCN"] = "此物体亦会启动下列任务：",
+        ["zhCN"] = "此物体也可启动以下任务：",
         ["zhTW"] = "此物體亦會啟動下列任務：",
     },
     ["Quest Start NPC Information"] = {
@@ -335,7 +335,7 @@ local searchLocales = {
         ["koKR"] = "수행가능한 최소 레벨",
         ["ptBR"] = "Nível mínimo necessário para a missão",
         ["ruRU"] = "Минимальный уровень для принятия задания",
-        ["zhCN"] = "最低等级",
+        ["zhCN"] = "任务所需最低等级",
         ["zhTW"] = "最低需求等級",
     },
     ["Difficulty Range: %s"] = {
@@ -407,7 +407,7 @@ local searchLocales = {
         ["koKR"] = "해당 NPC가 퀘스트를 시작합니다",
         ["ptBR"] = "NPCs que começam esta missão",
         ["ruRU"] = "NPC, начинающие это задание",
-        ["zhCN"] = "开始这个任务的NPC",
+        ["zhCN"] = "开始这个任务的 NPC",
         ["zhTW"] = "開始這個任務的 NPC",
     },
     ["NPCs finishing this quest"] = {
@@ -419,7 +419,7 @@ local searchLocales = {
         ["koKR"] = "해당 NPC가 퀘스트를 끝냅니다",
         ["ptBR"] = "NPCs que terminam esta missão",
         ["ruRU"] = "NPC, завершающие это задание",
-        ["zhCN"] = "完成此任务的NPC",
+        ["zhCN"] = "完成此任务的 NPC",
         ["zhTW"] = "完成這個任務的 NPC",
     },
     ["Objects starting this quest"] = {
@@ -491,7 +491,7 @@ local searchLocales = {
         ["koKR"] = "어떠한 오브젝트도 해당 아이템을 드롭하지 않습니다",
         ["ptBR"] = "Nenhum objeto contém este item",
         ["ruRU"] = "Ни с одного объекта не добывается этот предмет",
-        ["zhCN"] = "没有对象掉落这个物品",
+        ["zhCN"] = "没有物体掉落这个物品",
         ["zhTW"] = "沒有物體掉落這個物品",
     },
     ["No Vendor sells this item"] = {
@@ -503,7 +503,7 @@ local searchLocales = {
         ["koKR"] = "해당 아이템을 파는 상인이 없습니다",
         ["ptBR"] = "Nenhum comerciante vende este item",
         ["ruRU"] = "Ни один продавец не продает этот предмет",
-        ["zhCN"] = "没有商人贩售此物品",
+        ["zhCN"] = "没有商人出售此物品",
         ["zhTW"] = "沒有商人販售此物品",
     },
     ["%d NPCs drop this item"] = {
@@ -539,7 +539,7 @@ local searchLocales = {
         ["koKR"] = "%d 상인이 해당 아이템을 판매합니다",
         ["ptBR"] = "%d comerciantes vendem este item",
         ["ruRU"] = "Продавцов, у которых продается этот предмет - %d",
-        ["zhCN"] = "有 %d 位商人贩售此物品",
+        ["zhCN"] = "有 %d 位商人出售此物品",
         ["zhTW"] = "有 %d 位商人販售此物品",
     },
     ["Requires all of these quests to be finished"] = {

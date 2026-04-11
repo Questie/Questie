@@ -624,7 +624,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 퀘스트가 추적되지 않을 때와 추적기가 완전히 숨겨져 있을 때에도 추적기 헤더가 표시됩니다.",
         ["ptBR"] = "Se marcado, o cabeçalho do rastreador será visível mesmo quando nenhuma missão estiver sendo rastreada, ao contrário do rastreador sendo completamente oculto.",
         ["ruRU"] = "Когда включено, заголовок трекера будет виден, даже если в трекере нет отслеживаемых заданий",
-        ["zhCN"] = "启用时，就算没有追踪任何任务，也会显示任务清单的标题列，而不是完全隐藏清单",
+        ["zhCN"] = "启用时，就算没有追踪任何任务，也会显示任务追踪器的标题列，而不是完全隐藏清单",
         ["zhTW"] = "啟用時，就算沒有追蹤任何任務，也會顯示任務清單的標題列，而不是完全隱藏清單",
     },
     ---------------------------------------------------------
@@ -1145,7 +1145,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 성장 방향",
         ["ptBR"] = "Direção de crescimento",
         ["ruRU"] = "Изменение размера трекера",
-        ["zhCN"] = "列表增长方向",
+        ["zhCN"] = "任务追踪器增长方向",
         ["zhTW"] = "清單增長方向",
     },
     ["This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the \"Up & Right\" option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the \"Sizer Mode: Auto\" to push the Tracker Height and Width \"Up & Right\" so the Tracker doesn't inadvertently cover up elements of your UI."] = {
@@ -1157,7 +1157,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 설정은 퀘스트를 추가하거나 제거할 때 Questie 추적기가 성장하는 방향을 결정합니다. 예를 들어, \"위쪽 & 오른쪽\" 옵션을 사용하면 추적기의 이상적인 위치는 화면의 왼쪽 하단이어야 합니다. 이를 통해 \"크기 조정 모드: 자동\"이 추적기의 높이와 너비를 \"위쪽 & 오른쪽\"으로 밀어 UI 요소를 덮지 않도록 합니다.",
         ["ptBR"] = "Isso determina a direção na qual o rastreador cresce quando você adiciona ou remove missões. Por exemplo, se você usar a opção \"Para Cima e Para a Direita\", então o local ideal para o rastreador deve ser no canto inferior esquerdo da tela. Isso permite que o \"Modo de medição: Automático\" empurre a Altura e a Largura do rastreador \"Para Cima e Para a Direita\" para que o rastreador não cubra inadvertidamente elementos da sua interface de usuário.",
         ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Например, при использовании значения \"Вверх и вправо\" идеальным расположением для трекера будет нижний левый угол вашего экрана. Это позволяет сайзеру (изменитель размера трекера) в режиме \"Авто\" выставлять высоту и ширину трекера \"Вверх и вправо\" так, чтобы трекер случайно не скрыл элементы вашего интерфейса.",
-        ["zhCN"] = "新增或移除任务时，任务列表的增长方向。例如：列表在界面的左下方时，可以使用 \"上和右\"，让 \"调整大小模式：自动 \" 往 \"上和右\" 调整列表的高度和宽度，列表便不会挡住其他界面清",
+        ["zhCN"] = "新增或移除任务时，Questie任务追踪器列表的增长方向。例如：列表在界面的左下方时，可以使用 \"上和右\"，让 \"调整大小模式：自动 \" 往 \"上和右\" 调整列表的高度和宽度，列表便不会挡住其他界面元素",
         ["zhTW"] = "新增或移除任務時，任務清單的延伸方向。例如清單位置在畫面的左下方時，可以使用 \"上和右\"，讓 \"調整大小模式：自動\" 往 \"上和右\" 調整清單的高度和寬度，清單便不會擋住其他介面",
     },
     ---------------------------------------------------------
@@ -1431,7 +1431,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie Tracker에서 퀘스트 사이의 패딩 양입니다.\n\n참고: Sizer 수동 모드에서 이 설정을 변경하면 Sizer가 다시 자동 모드로 재설정됩니다.",
         ["ptBR"] = "A quantidade de espaço entre missões no rastreador.\n\nNOTA: Alterar esta configuração no modo manual de medição irá redefinir o medidor de volta para o modo automático.",
         ["ruRU"] = "Установка отступа между заданиями в трекере.\n\nПРИМЕЧАНИЕ: Если сайзер (изменитель размера трекера) в ручном режиме, то изменение этой настройки сбросит режим сайзера на автоматический",
-        ["zhCN"] = "Questie Tracker 中任务之间的填充量\n\n注意：在 Sizer 手动模式下更改此设置会将 Sizer 重置为自动模式",
+        ["zhCN"] = "Questie任务追踪器中任务之间的填充量\n\n注意：在 Sizer 手动模式下更改此设置会将 Sizer 重置为自动模式",
         ["zhTW"] = "清單中每個任務之間的距離\n\n注意：在手動調整大小的模式下更改此設定會重置為自動模式",
     },
     ---------------------------------------------------------
@@ -1493,7 +1493,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 높이 비율",
         ["ptBR"] = "Proporção de altura do rastreador",
         ["ruRU"] = "Соотношение высоты трекера",
-        ["zhCN"] = "列表高度比例",
+        ["zhCN"] = "任务追踪器高度比例",
         ["zhTW"] = "清單高度比例",
     },
     ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto"] = {
@@ -1505,7 +1505,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie 추적기의 높이는 실행 가능한 화면 높이의 백분율을 기준으로 설정됩니다. 100%%로 설정하면 추적기가 화면 전체 높이를 차지하게 됩니다.\n\n참고: 이 설정은 '크기 조정 모드: 자동'에서만 적용됩니다.",
         ["ptBR"] = "A altura do rastreador baseada em percentagem da altura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de mediçao: Automático.",
         ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
-        ["zhCN"] = "列表高度依据可用的界面高度百分比，100%%会让列表和界面一样高\n\n注意：此设定只在调整大小模式为自动时有效",
+        ["zhCN"] = "Questie任务追踪器高度依据可用的界面高度百分比，100%%会让列表和界面一样高\n\n注意：此设定只在调整大小模式为自动时有效",
         ["zhTW"] = "清單高度依據可用的畫面高度百分比，100%%會讓清單和畫面一樣高\n\n注意：此設定只在調整大小模式為自動時有效",
     },
     ["Tracker Width Ratio"] = {
@@ -1517,7 +1517,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 너비 비율",
         ["ptBR"] = "Proporção de largura do rastreador",
         ["ruRU"] = "Соотношение ширины трекера",
-        ["zhCN"] = "列表宽度比例",
+        ["zhCN"] = "任务追踪器宽度比例",
         ["zhTW"] = "清單寬度比例",
     },
     ["The width of the Questie Tracker based on percentage of usable screen width. A setting of 100 percent would make the Tracker fill the players entire screen width.\n\nNOTE: This setting only applies while in Sizer Mode: Auto"] = {
@@ -1529,7 +1529,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie 추적기의 너비는 실행 가능한 화면 너비의 백분율을 기준으로 설정됩니다. 100%%로 설정하면 추적기가 화면 전체 너비를 차지하게 됩니다.\n\n참고: 이 설정은 '크기 조정 모드: 자동'에서만 적용됩니다.",
         ["ptBR"] = "A largura do rastreador baseada em percentagem da largura de tela utilizável. Uma configuração de 100 por cento faria com que o rastreador preenchesse toda a largura da tela do jogador.\n\nNOTA: Esta configuração só se aplica enquanto estiver no Modo de mediçao: Automático.",
         ["ruRU"] = "Ширина трекера, основанная на процентах от ширины экрана. Значение 100 заставит трекер заполнять всю ширину экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
-        ["zhCN"] = "列表宽度依据可用的界面宽度百分比，100%% 会让列表和界面一样宽。\n\n注意：此设定只在调整大小模式为自动时有效",
+        ["zhCN"] = "Questie任务追踪器宽度依据可用的界面宽度百分比，100%% 会让列表和界面一样宽。\n\n注意：此设定只在调整大小模式为自动时有效",
         ["zhTW"] = "清單寬度依據可用的畫面寬度百分比，100%% 會讓清單和畫面一樣寬。\n\n注意：此設定只在調整大小模式為自動時有效",
     },
     ["Font Options"] = {
@@ -1577,7 +1577,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 창 옵션",
         ["ptBR"] = "Opções da janela do rastreador",
         ["ruRU"] = "Настройки окна трекера",
-        ["zhCN"] = "任务清单窗口选项",
+        ["zhCN"] = "任务追踪器窗口选项",
         ["zhTW"] = "任務清單視窗選項",
     },
     ["Tracker Background"] = {
@@ -1589,7 +1589,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 배경",
         ["ptBR"] = "Fundo do rastreador",
         ["ruRU"] = "Фон трекера",
-        ["zhCN"] = "任务清单背景",
+        ["zhCN"] = "任务追踪器背景",
         ["zhTW"] = "任務清單背景",
     },
     ["Tracker Header"] = {
@@ -1601,7 +1601,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기 헤더",
         ["ptBR"] = "Cabeçalho do rastreador",
         ["ruRU"] = "Заголовок трекера",
-        ["zhCN"] = "任务清单标题",
+        ["zhCN"] = "任务追踪器标题",
         ["zhTW"] = "任務清單標題列",
     },
 }

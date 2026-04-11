@@ -59,7 +59,7 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC에 대한 규칙",
         ["ptBR"] = "Regras para NPCs",
         ["ruRU"] = "Правила для NPC",
-        ["zhCN"] = "NPC接任务规则",
+        ["zhCN"] = "NPC 相关规则",
         ["zhTW"] = "NPC 相關規則",
     },
     ["Rules for players"] = {
@@ -71,7 +71,7 @@ local autoOptionsLocales = {
         ["koKR"] = "플레이어에 대한 규칙",
         ["ptBR"] = "Regras para jogadores",
         ["ruRU"] = "Правила для игроков",
-        ["zhCN"] = "玩家共享任务规则",
+        ["zhCN"] = "玩家相关规则",
         ["zhTW"] = "玩家相關規則",
     },
     ["Automatically accept normal quests from NPCs."] = {
@@ -131,8 +131,8 @@ local autoOptionsLocales = {
         ["koKR"] = "NPC로부터 이벤트 퀘스트(이벤트 일일 퀘스트 포함)를 자동으로 수락합니다.",
         ["ptBR"] = "Aceita automaticamente missões de eventos (incluindo diárias de evento) de NPCs.",
         ["ruRU"] = "Автопринятие заданий игровых событий (включая ежедневные) от NPC.",
-        ["zhCN"] = "自动接受 NPC 提供的活动任务（包括活动每日任务）",
-        ["zhTW"] = "自動接受 NPC 提供的活動任務（包括活動每日任務）",
+        ["zhCN"] = "自动接受 NPC 提供的活动任务（包括节日日常）",
+        ["zhTW"] = "自動接受 NPC 提供的活動任務（包括活動日常）",
     },
     ["Automatically accept trivial (low-level) quests from NPCs."] = {
         ["enUS"] = true,
@@ -168,7 +168,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceitar automaticamente missões repetíveis (incluindo diárias) dos jogadores",
         ["ruRU"] = "Автопринятие повторяемых заданий (включая ежедневные) от игроков",
         ["zhCN"] = "自动接受来自玩家的可重复任务（包括日常）",
-        ["zhTW"] = "自動接受來自玩家的可重覆任務 (包含每日)",
+        ["zhTW"] = "自動接受來自玩家的可重覆任務（包含日常）",
     },
     ["Automatically accept dungeon and raid quests from players."] = {
         ["enUS"] = true,
@@ -191,7 +191,7 @@ local autoOptionsLocales = {
         ["koKR"] = "플레이어로부터 PvP 퀘스트를 자동으로 수락합니다.",
         ["ptBR"] = "Aceitar automaticamente missões JxJ dos jogadores",
         ["ruRU"] = "Автопринятие PVP-заданий от игроков",
-        ["zhCN"] = "自动接受来自玩家的PVP任务",
+        ["zhCN"] = "自动接受来自玩家的 PvP 任务",
         ["zhTW"] = "自動接受來自玩家的 PvP 任務",
     },
     ["Automatically accept event quests (including event dailies) from players."] = {
@@ -204,7 +204,7 @@ local autoOptionsLocales = {
         ["ptBR"] = "Aceita automaticamente missões de evento (incluindo diárias de evento) dos jogadores.",
         ["ruRU"] = "Автопринятие заданий игровых событий (включая ежедневные) от игроков",
         ["zhCN"] = "自动接受来自玩家的节日任务（包括节日日常）",
-        ["zhTW"] = "自動接受來自玩家的節慶任務 (包括節慶每日)",
+        ["zhTW"] = "自動接受來自玩家的節慶任務（包括節慶日常）",
     },
     ["Automatically accept trivial (low-level) quests from players."] = {
         ["enUS"] = true,
@@ -227,7 +227,7 @@ local autoOptionsLocales = {
         ["koKR"] = "던전/레이드 퀘스트",
         ["ptBR"] = "Missões de masmorra/raide",
         ["ruRU"] = "Подземелья/рейды",
-        ["zhCN"] = "副本任务",
+        ["zhCN"] = "地下城/团队任务",
         ["zhTW"] = "地下城/團隊任務",
     },
     ["Trivial Quests"] = {

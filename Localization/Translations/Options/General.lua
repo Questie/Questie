@@ -23,7 +23,7 @@ local generalOptionsLocales = {
         ["koKR"] = "일반 설정",
         ["ptBR"] = "Opções generais",
         ["ruRU"] = "Общие настройки",
-        ["zhCN"] = "Questie选项",
+        ["zhCN"] = "一般选项",
         ["zhTW"] = "一般選項",
     },
     ["Enable Minimap Button"] = {
@@ -35,7 +35,7 @@ local generalOptionsLocales = {
         ["koKR"] = "미니맵 버튼 활성화",
         ["ptBR"] = "Ativar botão do minimapa",
         ["ruRU"] = "Кнопка у миникарты",
-        ["zhCN"] = "启用Questie的小地图按钮",
+        ["zhCN"] = "启用小地图按钮",
         ["zhTW"] = "啟用小地圖按鈕",
     },
     ["Enable or disable the Questie minimap button. You can still access the options menu with /questie."] = {
@@ -47,7 +47,7 @@ local generalOptionsLocales = {
         ["koKR"] = "Questie 미니맵 버튼을 사용합니다. /questie 명령어로도 설정 메뉴를 열 수 있습니다.",
         ["ptBR"] = "Ativa ou desativa o botão do minimapa da missão. Você ainda pode acessar o menu de opções com o comando /questie.",
         ["ruRU"] = "Показать/скрыть кнопку Questie у миникарты. Доступ к настройкам аддона также можно получить через команду '/questie'",
-        ["zhCN"] = "启用小地图按钮；禁用后以 /questie 打开配置",
+        ["zhCN"] = "启用或禁用Questie小地图按钮，你仍然可以使用“/questie”命令访问选项菜单",
         ["zhTW"] = "啟用或停用任務位置提示的小地圖按鈕，停用後仍可輸入 /questie 開啟設定選項",
     },
     ["Enable Instant Quest Text"] = {
@@ -59,7 +59,7 @@ local generalOptionsLocales = {
         ["koKR"] = "퀘스트 내용 바로 표시",
         ["ptBR"] = "Ativar texto de missão instantâneo",
         ["ruRU"] = "Мгновенное отображение текста",
-        ["zhCN"] = "立即显示任务文本",
+        ["zhCN"] = "启用立即显示任务文本",
         ["zhTW"] = "啟用立即顯示任務內容",
     },
     ["Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface."] = {
@@ -71,7 +71,7 @@ local generalOptionsLocales = {
         ["koKR"] = "퀘스트 지문이 한번에 표시됩니다. 이 설정은 게임설정의 '퀘스트 내용 바로 표시'와 동일합니다.",
         ["ptBR"] = "Ativa ou desativa a opção de texto de missão instantâneo.",
         ["ruRU"] = "Включает мгновенное отображение полного текста заданий. Это всего лишь ярлык для стандартной опции в настройках интерфейса игры",
-        ["zhCN"] = "使任务直接显示完整文本，这其实是一个暴雪原生自带的功能",
+        ["zhCN"] = "切换默认的即时任务文本选项，这其实是《魔兽世界》界面选项中的一个快捷方式",
         ["zhTW"] = "啟用遊戲內建的立刻顯示任務內容選項，這只是方便調整魔獸介面設定中的選項的捷徑",
     },
     ["Auto Accept Quests"] = {
@@ -95,7 +95,7 @@ local generalOptionsLocales = {
         ["koKR"] = "퀘스티 자동 퀘스트 수락을 할지 말지 선택합니다.",
         ["ptBR"] = "Ativa ou desativa as missões de aceitação automática de Questie.",
         ["ruRU"] = "Включить/отключить автоматическое принятие заданий",
-        ["zhCN"] = "启用后和NPC对话，自动接受任务",
+        ["zhCN"] = "启用或禁用Questie自动接受任务",
         ["zhTW"] = "啟用或停用自動接受任務",
     },
     ["Auto Complete"] = {
@@ -107,7 +107,7 @@ local generalOptionsLocales = {
         ["koKR"] = "자동 완료",
         ["ptBR"] = "Conclusão automática",
         ["ruRU"] = "Автозавершение",
-        ["zhCN"] = "自动完成",
+        ["zhCN"] = "自动完成任务",
         ["zhTW"] = "自動交回任務",
     },
     ["Enable or disable Questie auto-completing quests."] = {
@@ -119,7 +119,7 @@ local generalOptionsLocales = {
         ["koKR"] = "퀘스트 자동 퀘스트 완료를 할지 말지 선택합니다.",
         ["ptBR"] = "Ativa ou desativa a conclusão automática de missões.",
         ["ruRU"] = "Включить/отключить автоматическое завершение выполненных заданий",
-        ["zhCN"] = "启用后和NPC交谈，自动完成",
+        ["zhCN"] = "启用或禁用Questie自动完成任务",
         ["zhTW"] = "啟用或停用完成任務並與指定任務 NPC 交談時，自動回報並完成任務",
     },
     ["Enable Automatic NPC Dialog"] = {
@@ -131,7 +131,7 @@ local generalOptionsLocales = {
         ["koKR"] = "자동 NPC 대화 활성화",
         ["ptBR"] = "Ativar diálogo do NPC automática",
         ["ruRU"] = "Автодиалог с NPC",
-        ["zhCN"] = "自动执行NPC对话",
+        ["zhCN"] = "启用 NPC 自动对话",
         ["zhTW"] = "啟用自動進行 NPC 對話",
     },
     ["Enable or disable Questie automatically advancing through NPC dialog."] = {
@@ -143,7 +143,7 @@ local generalOptionsLocales = {
         ["koKR"] = "NPC 대화 상자를 통해 자동으로 진행 중인 Questie를 활성화 또는 비활성화합니다.",
         ["ptBR"] = "Ativa ou desativa o Questie avançando automaticamente através da caixa de diálogo do NPC",
         ["ruRU"] = "Включить/отключить автоматическое ведение диалога с NPC",
-        ["zhCN"] = "启用或禁用Questie自动和NPC的对话框",
+        ["zhCN"] = "启用或禁用Questie自动和 NPC 的对话功能",
         ["zhTW"] = "啟用或停用任務位置提示插件的自動與 NPC 進行對話功能",
     },
     ["Auto Modifier"] = {
@@ -167,7 +167,7 @@ local generalOptionsLocales = {
         ["koKR"] = "두 옵션 중 하나를 사용하고 사용자가 퀘스트 NPC와 상호 작용할 때 퀘스트를 자동 수락/완성하지 않음.",
         ["ptBR"] = "O modificador para NÃO aceitar ou concluir automaticamente missões quando uma das opções está ativada e você interage com um NPC de missões.",
         ["ruRU"] = "Клавиша, при зажатии которой автопринятие/автозавершение задания НЕ сработает при его принятии/завершении",
-        ["zhCN"] = "当与NPC互动时，即便您已启用自动接受/自动完成，启用额外按键以触发对应功能.",
+        ["zhCN"] = "当自动接受/完成任务选项启用，且你与任务NPC互动时，不进行自动操作的修饰键。",
         ["zhTW"] = "與 NPC 互動時按住輔助鍵則 '不會' 自動接受/完成任務",
     },
     ["Accept trivial (low level) quests"] = {
@@ -311,7 +311,7 @@ local generalOptionsLocales = {
         ["koKR"] = "표시하는 최소 퀘스트 레벨",
         ["ptBR"] = "Nível mínimo de missão para mostrar.",
         ["ruRU"] = "Минимальный уровень заданий для отображения",
-        ["zhCN"] = "显示最低任务等级",
+        ["zhCN"] = "要显示的最低任务等级",
         ["zhTW"] = "要顯示的最低任務等級",
     },
     ["Level to"] = {
@@ -335,7 +335,7 @@ local generalOptionsLocales = {
         ["koKR"] = "표시하는 최고 퀘스트 레벨",
         ["ptBR"] = "Nível máximo de missões para mostrar.",
         ["ruRU"] = "Максимальный уровень заданий для отображения",
-        ["zhCN"] = "显示最高任务等级",
+        ["zhCN"] = "要显示的最高任务等级",
         ["zhTW"] = "要顯示的最高任務等級",
     },
     ["Objective icon cluster amount"] = {

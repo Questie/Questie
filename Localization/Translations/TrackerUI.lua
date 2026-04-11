@@ -11,7 +11,7 @@ local trackerUILocales = {
         ["koKR"] = "활성 퀘스트",
         ["ptBR"] = "Rastreador de Questie",
         ["ruRU"] = "Активные задания",
-        ["zhCN"] = "当前任务",
+        ["zhCN"] = "Questie任务追踪器",
         ["zhTW"] = "任務",
     },
     ---------------------------------------------------------
@@ -25,7 +25,7 @@ local trackerUILocales = {
         ["koKR"] = "사이저 모드",
         ["ptBR"] = "Modo de medição",
         ["ruRU"] = "Режим сайзера",
-        ["zhCN"] = "分级器模式",
+        ["zhCN"] = "缩放模式",
         ["zhTW"] = "調整模式",
     },
     ["Resize Tracker"] = {
@@ -37,7 +37,7 @@ local trackerUILocales = {
         ["koKR"] = "트래커 크기 조정",
         ["ptBR"] = "Redimensionar rastreador",
         ["ruRU"] = "Изменить размера трекера",
-        ["zhCN"] = "调整跟踪器",
+        ["zhCN"] = "调整追踪器",
         ["zhTW"] = "調整任務清單大小",
     },
     ["Reset Sizer"] = {
@@ -61,8 +61,8 @@ local trackerUILocales = {
         ["koKR"] = "메모",
         ["ptBR"] = "NOTA",
         ["ruRU"] = "ПРИМЕЧАНИЕ",
-        ["zhCN"] = "笔记",
-        ["zhTW"] = "筆記",
+        ["zhCN"] = "注意",
+        ["zhTW"] = "注意",
     },
     ["The Tracker Height Ratio\nis ignored while in Manual mode"] = {
         ["enUS"] = true,
@@ -73,7 +73,7 @@ local trackerUILocales = {
         ["koKR"] = "수동 모드에서는 추적기 높이 비율이 무시됩니다.",
         ["ptBR"] = "A relação de altura do\nrastreador é ignorada no modo manual",
         ["ruRU"] = "Соотношение высоты трекера игнорируется в ручном режиме",
-        ["zhCN"] = "在手動模式下忽略跟踪器高度比",
+        ["zhCN"] = "在手動模式下忽略追踪器高度比",
         ["zhTW"] = "手動模式下忽略任務清單的高度比例",
     },
     ---------------------------------------------------------
@@ -261,7 +261,7 @@ local trackerUILocales = {
         ["koKR"] = "지도에 표시",
         ["ptBR"] = "Mostrar no mapa",
         ["ruRU"] = "Показать на карте",
-        ["zhCN"] = "地图上显示",
+        ["zhCN"] = "在地图上显示",
         ["zhTW"] = "在地圖上顯示",
     },
     ["Show in Quest Log"] = {
@@ -309,7 +309,7 @@ local trackerUILocales = {
         ["koKR"] = "업적을 채팅에 연결",
         ["ptBR"] = "Conquista de link para bate-papo",
         ["ruRU"] = "Ссылка на достижение в чат",
-        ["zhCN"] = "将成就链接到聊天",
+        ["zhCN"] = "将成就链接到聊天框",
         ["zhTW"] = "將成就貼到對話視窗",
     },
     ["Untrack Quest"] = {
@@ -321,7 +321,7 @@ local trackerUILocales = {
         ["koKR"] = "퀘스트 추적해제",
         ["ptBR"] = "Não rastrear a missão",
         ["ruRU"] = "Не отслеживать задание",
-        ["zhCN"] = "停止追踪",
+        ["zhCN"] = "停止追踪任务",
         ["zhTW"] = "取消追蹤任務",
     },
     ["Untrack Achievement"] = {
@@ -372,7 +372,7 @@ local trackerUILocales = {
         ["koKR"] = "추적기 잠금해제",
         ["ptBR"] = "Desbloquear rastreador",
         ["ruRU"] = "Разблокировать трекер",
-        ["zhCN"] = "解锁框体",
+        ["zhCN"] = "解锁追踪器框体",
         ["zhTW"] = "解鎖任務清單",
     },
     ---------------------------------------------------------

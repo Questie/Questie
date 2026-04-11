@@ -11,7 +11,7 @@ local mapLocales = {
         ["koKR"] = "정말 '%s' 퀘스트를 숨길까요?\n만약 해당 퀘스트가 수행할 수 없는 퀘스트라면, 저희에게 알려주세요!",
         ["ptBR"] = "Você tem certeza que deseja ocultar a missão '%s'?\nSe essa missão não estiver disponível, por favor informe-nos!",
         ["ruRU"] = "Вы уверены, что хотите скрыть задание '%s'?\nЕсли это задание на самом деле недоступно, то сообщите нам об этом, пожалуйста!",
-        ["zhCN"] = "你确定要隐藏任务： %s吗？",
+        ["zhCN"] = "你确定要隐藏任务 %s 吗？\n如果此任务实际上并不存在，请向开发团队报告！",
         ["zhTW"] = "是否確定要隱藏任務 '%s'? \n如果實際上這個任務並不存在，請回報給開發團隊!",
     },
     ["Unknown Zone"] = {

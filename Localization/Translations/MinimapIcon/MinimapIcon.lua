@@ -11,7 +11,7 @@ local minimapIconLocales = {
         ["koKR"] = "메뉴 표시",
         ["ptBR"] = "Mostrar menu",
         ["ruRU"] = "Открыть меню",
-        ["zhCN"] = "打开主菜单",
+        ["zhCN"] = "切换主菜单",
         ["zhTW"] = "顯示/隱藏選單",
     },
     ["Toggle My Journey"] = {
@@ -23,7 +23,7 @@ local minimapIconLocales = {
         ["koKR"] = "나의 여정 창 열기",
         ["ptBR"] = "Mostrar minha jornada",
         ["ruRU"] = "Открыть 'Путешествие'",
-        ["zhCN"] = "打开我的日志",
+        ["zhCN"] = "显示/隐藏我的旅程",
         ["zhTW"] = "顯示/隱藏我的冒險日記",
     },
     ["Hide Minimap Button"] = {

@@ -215,7 +215,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "디버그 레벨 출력",
         ["ptBR"] = "Nível de depuração a ser mostrado",
         ["ruRU"] = "Уровень отладки для вывода в чат",
-        ["zhCN"] = "调试等级",
+        ["zhCN"] = "调试信息等级",
         ["zhTW"] = "除錯訊息等級",
     },
     ["Hitting this button will reset all of the Questie configuration settings back to their default values. (Excluding Localization)"] = {
