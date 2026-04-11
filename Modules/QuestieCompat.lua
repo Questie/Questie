@@ -8,6 +8,8 @@ local INDIZES_ACTIVE = 6
 
 local tinsert = table.insert
 
+local WatchFrame = QuestWatchFrame or WatchFrame
+
 ------------------------------------------
 -- Older client compatibility (pre 1.14.1)
 ------------------------------------------
@@ -271,4 +273,28 @@ function QuestieCompat.IsSpellKnown(spellID)
         -- would return wrong values and feed wrong data to our logic
         return IsPlayerSpell(spellID)
     end
+end
+
+function QuestieCompat.HideWatchFrame()
+    if Questie.IsTitanReforged then
+        -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
+        -- details: https://github.com/Questie/Questie/issues/7497
+        WatchFrame:SetAlpha(0)
+    else
+        WatchFrame:Hide()
+    end
+end
+
+function QuestieCompat.ShowWatchFrame()
+    if Questie.IsTitanReforged then
+        -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
+        -- details: https://github.com/Questie/Questie/issues/7497
+        WatchFrame:SetAlpha(1)
+    else
+        WatchFrame:Show()
+    end
+end
+
+function QuestieCompat.GetWatchFramePoint()
+    return WatchFrame:GetPoint()
 end

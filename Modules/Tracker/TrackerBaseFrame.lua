@@ -136,7 +136,7 @@ function TrackerBaseFrame.Initialize()
             Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
             if WatchFrame then
-                local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
+                local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
                 Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
                 if (not result2) then
@@ -149,7 +149,7 @@ function TrackerBaseFrame.Initialize()
         end
     else
         if WatchFrame then
-            local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
+            local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
             Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
             if not result then
