@@ -17,7 +17,6 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local WatchFrame = QuestWatchFrame or WatchFrame
 local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
 local updateTimer
 
@@ -135,30 +134,22 @@ function TrackerBaseFrame.Initialize()
             Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
             Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
-            if WatchFrame then
-                local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
-                Questie.db.profile.trackerSetpoint = "TOPLEFT"
+            local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
+            Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
-                if (not result2) then
-                    Questie.db.profile.TrackerLocation = nil
-                    TrackerBaseFrame:SetSafePoint()
-                end
-            else
+            if (not result2) then
+                Questie.db.profile.TrackerLocation = nil
                 TrackerBaseFrame:SetSafePoint()
             end
         end
     else
-        if WatchFrame then
-            local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
-            Questie.db.profile.trackerSetpoint = "TOPLEFT"
+        local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
+        Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
-            if not result then
-                Questie.db.profile.TrackerLocation = nil
-                Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
-                Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
-                TrackerBaseFrame:SetSafePoint()
-            end
-        else
+        if not result then
+            Questie.db.profile.TrackerLocation = nil
+            Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
             TrackerBaseFrame:SetSafePoint()
         end
     end
