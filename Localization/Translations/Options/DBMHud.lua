@@ -95,7 +95,7 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "오브젝트 상호작용 아이콘 표시",
         ["ptBR"] = "Mostrar ícones de interação com objetos",
         ["ruRU"] = "Значки объектов",
-        ["zhCN"] = "显示物件互动图标",
+        ["zhCN"] = "显示物体互动图标",
         ["zhTW"] = "顯示物件互動圖示",
     },
     ["Refresh rate for HUD (Requires turning HUD off/on)"] = {
@@ -179,7 +179,7 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "수집 아이콘 표시",
         ["ptBR"] = "Mostrar ícones de saque",
         ["ruRU"] = "Значки добычи",
-        ["zhCN"] = "显示任务物品图标",
+        ["zhCN"] = "显示拾取图标",
         ["zhTW"] = "顯示撿東西圖示",
     },
     ["Toggles whether or not loot icons appear on the HUD."] = {

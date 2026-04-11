@@ -47,8 +47,8 @@ local questsByFactionLocales = {
         ["koKR"] = "관계 보상",
         ["ptBR"] = "Recompensa de reputação",
         ["ruRU"] = "Награда за репутацию",
-        ["zhCN"] = "关系奖励",
-        ["zhTW"] = "關係獎勵",
+        ["zhCN"] = "声望奖励",
+        ["zhTW"] = "聲譽獎勵",
     },
 }
 

@@ -155,7 +155,7 @@ local iconOptionsLocales = {
         ["koKR"] = "미탐험 지역 아이콘 가리기",
         ["ptBR"] = "Ocultar ícones em áreas inexploradas",
         ["ruRU"] = "Значки неисследованных зон",
-        ["zhCN"] = "隐藏未探测区域图标",
+        ["zhCN"] = "隐藏未探索区域图标",
         ["zhTW"] = "隱藏未探索區域的圖示",
     },
     ["Hide icons in unexplored map regions."] = {
@@ -167,7 +167,7 @@ local iconOptionsLocales = {
         ["koKR"] = "미탐험 지역의 아이콘을 가립니다.",
         ["ptBR"] = "Oculta ícones em áreas inexploradas.",
         ["ruRU"] = "Показать/скрыть значки в неисследованных областях карты",
-        ["zhCN"] = "隐藏未探测区域中的图标",
+        ["zhCN"] = "隐藏未探索区域中的图标",
         ["zhTW"] = "隱藏在尚未探索的區域內的圖示",
     },
     ["Hide icons of untracked quests"] = {

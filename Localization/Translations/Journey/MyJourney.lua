@@ -47,7 +47,7 @@ local myJourneyLocales = {
         ["koKR"] = "최근 기록",
         ["ptBR"] = "Seu histórico recente",
         ["ruRU"] = "Недавняя история",
-        ["zhCN"] = "近期纪录",
+        ["zhCN"] = "你的近期纪录",
         ["zhTW"] = "最近的歷史記錄",
     },
     ["It's about time you embark on your first Journey!"] = {
@@ -59,7 +59,7 @@ local myJourneyLocales = {
         ["koKR"] = "당신은 이제 막 첫번째 여정을 시작했습니다!",
         ["ptBR"] = "É hora de embarcar em sua primeira jornada!",
         ["ruRU"] = "Пора начинать свое первое путешествие!",
-        ["zhCN"] = "是时候踏上旅程了！",
+        ["zhCN"] = "是时候开启你的首次旅程了！",
         ["zhTW"] = "該是你踏上第一次旅程的時候了！",
     },
     ["Congratulations! You reached %s !"] = {
@@ -215,7 +215,7 @@ local myJourneyLocales = {
         ["koKR"] = "메모 추가: %s",
         ["ptBR"] = "Anotação criada: %s",
         ["ruRU"] = "Заметка добавлена: %s",
-        ["zhCN"] = "创建：%s",
+        ["zhCN"] = "笔记创建于：%s",
         ["zhTW"] = "筆記建立於：%s",
     },
     ["No Note was entered. You must enter a note before submitting."] = {
@@ -455,7 +455,7 @@ local myJourneyLocales = {
         ["koKR"] = "선행 퀘스트 미수행",
         ["ptBR"] = "Faltando missão requisita",
         ["ruRU"] = "Не выполнено предзадание",
-        ["zhCN"] = "需要前置任务未完成",
+        ["zhCN"] = "前置任务未完成",
         ["zhTW"] = "需要前置任務未完成",
     },
     ["Class requirement"] = {
@@ -503,7 +503,7 @@ local myJourneyLocales = {
         ["koKR"] = "선행 퀘스트 미수행 그룹",
         ["ptBR"] = "Faltando missões requisitas",
         ["ruRU"] = "Не выполнены предзадания",
-        ["zhCN"] = "需要前置任务未完成组",
+        ["zhCN"] = "前置任务组未完成",
         ["zhTW"] = "需要前置任務未完成群",
     },
     ["Inactive parent"] = {

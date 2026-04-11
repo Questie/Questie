@@ -11,7 +11,7 @@ local townsfolkLocales = {
         ["koKR"] = "무기상인",
         ["ptBR"] = "Munição",
         ["ruRU"] = "Боеприпасы",
-        ["zhCN"] = "枪械和弹药商",
+        ["zhCN"] = "弹药", -- the official translate
         ["zhTW"] = "武器商人",
     },
     ["Auctioneer"] = {
@@ -251,7 +251,7 @@ local townsfolkLocales = {
         ["koKR"] = "물약",
         ["ptBR"] = "Poções",
         ["ruRU"] = "Зелья",
-        ["zhCN"] = "药剂商人",
+        ["zhCN"] = "药水商人",
         ["zhTW"] = "藥水商人",
     },
     ["Trade Goods"] = {
