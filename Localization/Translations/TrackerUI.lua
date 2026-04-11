@@ -37,7 +37,7 @@ local trackerUILocales = {
         ["koKR"] = "트래커 크기 조정",
         ["ptBR"] = "Redimensionar rastreador",
         ["ruRU"] = "Изменить размера трекера",
-        ["zhCN"] = "调整跟踪器",
+        ["zhCN"] = "调整追踪器",
         ["zhTW"] = "調整任務清單大小",
     },
     ["Reset Sizer"] = {
@@ -61,8 +61,8 @@ local trackerUILocales = {
         ["koKR"] = "메모",
         ["ptBR"] = "NOTA",
         ["ruRU"] = "ПРИМЕЧАНИЕ",
-        ["zhCN"] = "笔记",
-        ["zhTW"] = "筆記",
+        ["zhCN"] = "注意",
+        ["zhTW"] = "注意",
     },
     ["The Tracker Height Ratio\nis ignored while in Manual mode"] = {
         ["enUS"] = true,
@@ -73,7 +73,7 @@ local trackerUILocales = {
         ["koKR"] = "수동 모드에서는 추적기 높이 비율이 무시됩니다.",
         ["ptBR"] = "A relação de altura do\nrastreador é ignorada no modo manual",
         ["ruRU"] = "Соотношение высоты трекера игнорируется в ручном режиме",
-        ["zhCN"] = "在手動模式下忽略跟踪器高度比",
+        ["zhCN"] = "在手動模式下忽略追踪器高度比",
         ["zhTW"] = "手動模式下忽略任務清單的高度比例",
     },
     ---------------------------------------------------------
