@@ -23,7 +23,7 @@ local minimapIconLocales = {
         ["koKR"] = "나의 여정 창 열기",
         ["ptBR"] = "Mostrar minha jornada",
         ["ruRU"] = "Открыть 'Путешествие'",
-        ["zhCN"] = "打开我的旅程",
+        ["zhCN"] = "显示/隐藏我的旅程",
         ["zhTW"] = "顯示/隱藏我的冒險日記",
     },
     ["Hide Minimap Button"] = {

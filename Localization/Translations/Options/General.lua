@@ -143,7 +143,7 @@ local generalOptionsLocales = {
         ["koKR"] = "NPC 대화 상자를 통해 자동으로 진행 중인 Questie를 활성화 또는 비활성화합니다.",
         ["ptBR"] = "Ativa ou desativa o Questie avançando automaticamente através da caixa de diálogo do NPC",
         ["ruRU"] = "Включить/отключить автоматическое ведение диалога с NPC",
-        ["zhCN"] = "启用或禁用Questie自动和 NPC 的对话",
+        ["zhCN"] = "启用或禁用Questie自动和 NPC 的对话功能",
         ["zhTW"] = "啟用或停用任務位置提示插件的自動與 NPC 進行對話功能",
     },
     ["Auto Modifier"] = {
@@ -167,7 +167,7 @@ local generalOptionsLocales = {
         ["koKR"] = "두 옵션 중 하나를 사용하고 사용자가 퀘스트 NPC와 상호 작용할 때 퀘스트를 자동 수락/완성하지 않음.",
         ["ptBR"] = "O modificador para NÃO aceitar ou concluir automaticamente missões quando uma das opções está ativada e você interage com um NPC de missões.",
         ["ruRU"] = "Клавиша, при зажатии которой автопринятие/автозавершение задания НЕ сработает при его принятии/завершении",
-        ["zhCN"] = "当自动接受/完成任务选项启用，且你与任务NPC互动时，不进行自动操作的的修饰键。 ",
+        ["zhCN"] = "当自动接受/完成任务选项启用，且你与任务NPC互动时，不进行自动操作的修饰键。 ",
         ["zhTW"] = "與 NPC 互動時按住輔助鍵則 '不會' 自動接受/完成任務",
     },
     ["Accept trivial (low level) quests"] = {
