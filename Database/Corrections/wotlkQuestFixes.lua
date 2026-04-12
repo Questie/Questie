@@ -7932,7 +7932,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [95705] = { -- Gobb's black market is now open!
+        [95705] = { -- Gobb's Black Market Is Now Open!
             [questKeys.name] = "“哥布”的黑市盛大开业！", -- only present on titan reforged
             [questKeys.startedBy] = {{262258}},
             [questKeys.finishedBy] = {{262258}},
