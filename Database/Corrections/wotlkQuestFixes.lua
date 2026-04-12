@@ -7978,6 +7978,7 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
         [6805] = { -- Stormers and Rumblers
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
+            [questKeys.objectivesText] = {"Kill 15 Greater Dust Stormers and 15 Greater Desert Rumblers and then return to Duke Hydraxis in Azshara."},
             [questKeys.objectives] = {{{256887},{256889}}},
             [questKeys.nextQuestInChain] = 6822,
         },
