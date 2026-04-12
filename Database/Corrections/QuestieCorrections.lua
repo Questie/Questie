@@ -142,6 +142,10 @@ do
             addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
+            -- TitanReforged Corrections
+            if Questie.IsTitanReforged then
+                addOverride(QuestieDB.questDataOverrides, QuestieWotlkQuestFixes:LoadTitanReforgedFixes())
+            end
         end
 
         -- CATA Corrections

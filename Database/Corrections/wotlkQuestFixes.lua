@@ -356,23 +356,6 @@ function QuestieWotlkQuestFixes:Load()
         [6624] = { -- Triage
             [questKeys.requiredSourceItems] = {},
         },
-        [6805] = {
-            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 57,
-            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
-            [questKeys.objectives] = Questie.IsTitanReforged and {{{256887},{256889}}} or {{{11744}},{{11746}}},
-        },
-        [6822] = {
-            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
-            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
-        },
-        [6823] = {
-            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
-            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
-        },
-        [6824] = {
-            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
-            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
-        },
         [6963] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -381,10 +364,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [7042] = {
             [questKeys.startedBy] = {{13433}},
-        },
-        [7486] = {
-            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
-            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
         },
         [7641] = {
             [questKeys.preQuestSingle] = {7638,7670},
@@ -710,10 +689,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10985] = {
             [questKeys.exclusiveTo] = {13429},
-        },
-        [11007] = {
-            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 70,
-            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 70,
         },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
@@ -7996,6 +7971,40 @@ function QuestieWotlkQuestFixes:Load()
     }
 end
 
+function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
+    local questKeys = QuestieDB.questKeys
+
+    return {
+        [6805] = { -- Stormers and Rumblers
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {{{256887},{256889}}},
+            [questKeys.nextQuestInChain] = 6822,
+        },
+        [6822] = { -- The Molten Core
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.preQuestSingle] = {6805},
+        },
+        [6823] = { -- Agent of Hydraxis
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [6824] = { -- Hands of the Enemy
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [7486] = { -- A Hero's Reward
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11007] = { -- Kael'thas and the Verdant Sphere
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+    }
+end
+
 function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Alliance boosted quests
@@ -8045,7 +8054,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Titan reforged P3 weekly quests
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
-    QuestieDB.questData[95705] = {} -- “Gobb's black market is now open!
+    QuestieDB.questData[95705] = {} -- Gobb's Black Market Is Now Open!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
     QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
 
