@@ -8333,6 +8333,110 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [11165] = true, -- A Troll Among Trolls
         [11196] = true, -- TEMP X
 
+        -- Isle of Quel'Danas
+        [11526] = true, -- The Missing Magistrix
+        [11549] = true, -- A Magnanimous Benefactor
+        [11481] = true, -- Crisis at the Sunwell
+        [11482] = true, -- Duty Calls
+        [11524] = true, -- Erratic Behavior
+        [11536] = true, -- Don't Stop Now....
+        [11525] = true, -- Further Conversions
+        [11496] = true, -- The Sanctum Wards
+        [11557] = true, -- Exalted Among All Combatants
+        [11556] = true, -- Revered in the Field of Battle
+        [11555] = true, -- Honored by Your Allies
+        [11550] = true, -- Enter, the Deceiver...
+        [11548] = true, -- Your Continued Support
+        [11535] = true, -- Making Ready
+        [11554] = true, -- A Friend in the Frontlines
+        [11542] = true, -- Intercept the Reinforcements
+        [11546] = true, -- Open for Business
+        [11532] = true, -- Distraction at the Dead Scar
+        [11541] = true, -- Disrupt the Greengill Coast
+        [11543] = true, -- Keeping the Enemy at Bay
+        [11523] = true, -- Arm the Wards!
+        [11545] = true, -- A Charitable Donation
+        [11540] = true, -- Crush the Dawnblade
+        [11538] = true, -- The Battle for the Sun's Reach Armory
+        [11537] = true, -- The Battle Must Go On
+
+        -- Magtheridon's Lair
+        [10888] = true, -- Trial of the Naaru: Magtheridon
+        [13430] = true, -- Trial of the Naaru: Magtheridon
+
+        -- Seer Kanai quest chain
+        [10946] = true, -- Ruse of the Ashtongue
+        [10947] = true, -- An Artifact From the Past
+        [10948] = true, -- The Hostage Soul
+        [10949] = true, -- Entry Into the Black Temple
+        [10985] = true, -- A Distraction for Akama
+        [13429] = true, -- A Distraction for Akama
+        [10958] = true, -- Seek Out the Ashtongue
+        [10957] = true, -- Redemption of the Ashtongue
+        [10959] = true, -- The Fall of the Betrayer
+
+        -- Blackwing Lair
+        [8730] = true, -- Nefarius's Corruption
+        [8288] = true, -- Only One May Rise
+
+        -- Karazhan
+        -- [9824] = true, -- Arcane Disturbances
+        -- [9644] = true, -- Nightbane
+        -- [9645] = true, -- The Master's Terrace
+        -- [9637] = true, -- Kalynna's Request
+        -- [9630] = true, -- Medivh's Journal
+        -- [9843] = true, -- Keanna's Log
+        -- [9844] = true, -- A Demonic Presence
+        -- [9640] = true, -- The Shade of Aran
+        -- [9639] = true, -- Kamsis
+        -- [9825] = true, -- Restless Activity
+        -- [9840] = true, -- Assessing the Situation
+        -- [9638] = true, -- In Good Hands
+        -- [10732] = true, -- Path of the Violet Protector
+        -- [12616] = true, -- Chamber of Secrets
+        -- [11216] = true, -- Archmage Alturus
+        -- [11031] = true, -- Archmage No More
+        -- [10731] = true, -- Path of the Violet Assassin
+        -- [10735] = true, -- Down the Violet Path
+        -- [10733] = true, -- Down the Violet Path
+        -- [9613] = true, -- Deprecated: Keanna's Will
+        -- [10738] = true, -- Distinguished Service
+        -- [10734] = true, -- Down the Violet Path
+        -- [9838] = true, -- The Violet Eye
+        -- [10729] = true, -- Path of the Violet Mage
+        -- [10726] = true, -- Eminence Among the Violet Eye
+        -- [10739] = true, -- Distinguished Service
+        -- [10741] = true, -- Distinguished Service
+        -- [10725] = true, -- Eminence Among the Violet Eye
+        -- [11034] = true, -- Restorer No More
+        -- [10727] = true, -- Eminence Among the Violet Eye
+        -- [10730] = true, -- Path of the Violet Restorer
+        -- [10736] = true, -- Down the Violet Path
+        -- [10740] = true, -- Distinguished Service
+        -- [11032] = true, -- Protector No More
+        -- [11033] = true, -- Assassin No More
+        -- [10728] = true, -- Eminence Among the Violet Eye
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
+        -- [8784] = true,
         -- [8784] = true,
         -- [8784] = true,
         -- [8784] = true,
