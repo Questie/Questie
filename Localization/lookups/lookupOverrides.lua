@@ -54,3 +54,9 @@ elseif GetLocale() == "zhTW" then
         [78753] = {"死亡證明：艾澤拉斯的威脅",{"大法師朗達拉克要你帶回從任一地城中的最後首領身上取得的神秘的古器。","","這個任務只能在任一英雄難度地城中完成。"}},
     }]])
 end
+
+if Questie.IsTitanReforged and GetLocale() == "zhCN" then
+    l10n.questLookupOverrides = loadstring([[return {
+        [6805] = {"大雷暴和巨磐石",{"消灭15个大型灰尘风暴和15个大型沙漠奔行者，然后回到艾萨拉的海达克西斯公爵那儿。"}},
+    }]])
+end
