@@ -148,6 +148,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         startNPCGroup:AddChild(startNPCIdLabel)
 
         if TomTom and TomTom.AddWaypoint and (startx ~= -1 or starty ~= -1) then
+            QuestieJourneyUtils:Spacer(startNPCGroup)
             local tomTomButton = AceGUI:Create("Button")
             tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
             tomTomButton:SetCallback("OnClick", function()
@@ -228,6 +229,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startObjectGroup:AddChild(startObjectIdLabel)
 
             if TomTom and TomTom.AddWaypoint and (startx ~= -1 or starty ~= -1) then
+                QuestieJourneyUtils:Spacer(startObjectGroup)
                 local tomTomButton = AceGUI:Create("Button")
                 tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
                 tomTomButton:SetCallback("OnClick", function()
