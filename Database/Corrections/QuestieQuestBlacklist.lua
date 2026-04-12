@@ -8329,6 +8329,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [11130] = true, -- Oooh, Shinies!
         [11178] = true, -- Blood of the Warlord
         [11132] = true, -- Promises, Promises...
+        [11163] = true, -- Undercover Sister
         [11164] = true, -- Tuskin' Raiders
         [11165] = true, -- A Troll Among Trolls
         [11196] = true, -- TEMP X

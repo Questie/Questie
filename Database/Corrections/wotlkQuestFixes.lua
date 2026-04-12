@@ -356,6 +356,19 @@ function QuestieWotlkQuestFixes:Load()
         [6624] = { -- Triage
             [questKeys.requiredSourceItems] = {},
         },
+        [6805] = {
+            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 57,
+            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
+            [questKeys.objectives] = Questie.IsTitanReforged and {{{256887}},{{256889}}} or {{{11744}},{{11746}}}
+        },
+        [6822] = {
+            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
+            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
+        },
+        [6824] = {
+            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
+            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
+        },
         [6963] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
@@ -364,6 +377,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [7042] = {
             [questKeys.startedBy] = {{13433}},
+        },
+        [7486] = {
+            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
+            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
         },
         [7641] = {
             [questKeys.preQuestSingle] = {7638,7670},
@@ -7936,8 +7953,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [95705] = { -- “哥布”的黑市盛大开业！
-            [questKeys.name] = "““哥布”的黑市盛大开业！", -- only present on titan reforged
+        [95705] = { -- Gobb's black market is now open!
+            [questKeys.name] = "“哥布”的黑市盛大开业！", -- only present on titan reforged
             [questKeys.startedBy] = {{262258}},
             [questKeys.finishedBy] = {{262258}},
             [questKeys.requiredLevel] = 80,
@@ -8024,7 +8041,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Titan reforged P3 weekly quests
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
-    QuestieDB.questData[95705] = {} -- “哥布”的黑市盛大开业！
+    QuestieDB.questData[95705] = {} -- “Gobb's black market is now open!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
     QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
 
