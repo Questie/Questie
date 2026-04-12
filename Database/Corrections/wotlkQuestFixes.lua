@@ -365,6 +365,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
             [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
         },
+        [6823] = {
+            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
+            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
+        },
         [6824] = {
             [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 60,
             [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 55,
