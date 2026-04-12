@@ -263,11 +263,11 @@ function QuestieQuestBlacklist:Load()
         [7672] = true,
         [7676] = true,
         --fishing tournament
+        [8193] = HIDE_ON_MAP,
         [8194] = HIDE_ON_MAP,
         [8221] = HIDE_ON_MAP,
         [8224] = HIDE_ON_MAP,
         [8225] = HIDE_ON_MAP,
-        [8193] = HIDE_ON_MAP,
         [8228] = HIDE_ON_MAP,
         [8229] = HIDE_ON_MAP,
         --love is in the air
@@ -8108,14 +8108,14 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
 
         -- New raid weekly quests
         [24579] = true, -- Sartharion Must Die!
-        [24580] = true,-- Anub'Rekhan Must Die!
-        [24581] = true,-- Noth the Plaguebringer Must Die!
-        [24582] = true,-- Instructor Razuvious Must Die!
+        [24580] = true, -- Anub'Rekhan Must Die!
+        [24581] = true, -- Noth the Plaguebringer Must Die!
+        [24582] = true, -- Instructor Razuvious Must Die!
         [24583] = true, -- Patchwerk Must Die!
-        [24584] = true,-- Malygos Must Die!
-        [24585] = true,-- Flame Leviathan Must Die!
+        [24584] = true, -- Malygos Must Die!
+        [24585] = true, -- Flame Leviathan Must Die!
         [24586] = true, -- Razorscale Must Die!
-        [24587] = true,-- Ignis the Furnace Master Must Die!
+        [24587] = true, -- Ignis the Furnace Master Must Die!
         [24588] = true, -- XT-002 Deconstructor Must Die!
         [24589] = true, -- Lord Jaraxxus Must Die!
         [24590] = true, -- Lord Marrowgar Must Die!
@@ -8223,8 +8223,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24712] = true, -- Deliverance from the Pit
         [24713] = true, -- Frostmourne
 
-        --The Temple of Ahn'Qiraj and the Ruins of Ahn'Qiraj
-        [8784] = true, -- secrets-of-the-qiraji
+        -- The Temple of Ahn'Qiraj and the Ruins of Ahn'Qiraj
+        [8784] = true, -- Secrets of the Qiraji
         [8791] = true, -- The Fall of Ossirian
         [8579] = true, -- Mortal Champions
         [8790] = true, -- Imperial Qiraji Regalia
