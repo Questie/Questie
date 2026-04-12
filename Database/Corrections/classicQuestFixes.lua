@@ -2002,7 +2002,7 @@ function QuestieQuestFixes:Load()
         },
         [3375] = { -- Replacement Phial
             [questKeys.availableStartingWith] = 2201,
-            [questKeys.availableUntilCompleted] = 2204,
+            [questKeys.availableUntilCompleted] = 2361,
         },
         [3377] = {
             [questKeys.objectives] = {{{8436,nil,Questie.ICON_TYPE_TALK}}},
