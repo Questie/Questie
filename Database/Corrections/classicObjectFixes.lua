@@ -112,6 +112,18 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ULDAMAN]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
+        [124388] = {
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS]={{51.795,63.997}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+        },
+        [124389] = {
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS]={{51.878,64.295}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+        },
+        [126049] = {
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS]={{52.039,63.9}},[38]={{33.27,88.68},{37.57,91.57},{39.79,85.71},{35.74,87.49},{40.08,89.74},{36.98,89.97},{37.19,85.58},{37.19,85.58},{36.98,89.97},{37.57,91.57}},[3]={{34.04,24.42}},[1337]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+        },
         [140911] = { -- Spool of Light Chartreuse Silk Thread
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.94,46.14}}},
         },
