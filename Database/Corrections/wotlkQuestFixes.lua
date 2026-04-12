@@ -690,6 +690,10 @@ function QuestieWotlkQuestFixes:Load()
         [10985] = {
             [questKeys.exclusiveTo] = {13429},
         },
+        [11007] = {
+            [questKeys.questLevel] = Questie.IsTitanReforged and 80 or 70,
+            [questKeys.requiredLevel] = Questie.IsTitanReforged and 80 or 70,
+        },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
         },
@@ -7932,6 +7936,18 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
+        [95705] = { -- “哥布”的黑市盛大开业！
+            [questKeys.name] = "““哥布”的黑市盛大开业！", -- only present on titan reforged
+            [questKeys.startedBy] = {{262258}},
+            [questKeys.finishedBy] = {{262258}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"老板“哥布”金痕想让你从他的黑市库存里买一个贪婪宝箱，证明你是一个值得坑——呃。值得服务的付费客户。"}, --  only present on titan reforged
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.questFlags] = questFlags.NONE,
+        },
         [95706] = { -- Gobb's Weekly Greed Deal
             [questKeys.name] = "“哥布”的每周贪婪交易", -- only present on titan reforged
             [questKeys.startedBy] = {{262258}},
@@ -8008,5 +8024,8 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Titan reforged P3 weekly quests
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
+    QuestieDB.questData[95705] = {} -- “哥布”的黑市盛大开业！
+    QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
+    QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
 
 end

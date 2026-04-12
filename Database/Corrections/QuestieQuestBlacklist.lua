@@ -8093,32 +8093,32 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13701] = true,
 
         -- ICC weekly quests
-        [24869] = true, -- Removed with cata
-        [24870] = true, -- Removed with cata
-        [24871] = true, -- Removed with cata
-        [24872] = true, -- Removed with cata
-        [24873] = true, -- Removed with cata
-        [24874] = true, -- Removed with cata
-        [24875] = true, -- Removed with cata
-        [24876] = true, -- Removed with cata
-        [24877] = true, -- Removed with cata
-        [24878] = true, -- Removed with cata
-        [24879] = true, -- Removed with cata
-        [24880] = true, -- Removed with cata
+        [24869] = true, -- Deprogramming
+        [24870] = true, -- Securing the Ramparts
+        [24871] = true, -- Securing the Ramparts
+        [24872] = true, -- Respite for a Tormented Soul
+        [24873] = true, -- Residue Rendezvous
+        [24874] = true, -- Blood Quickening
+        [24875] = true, -- Deprogramming
+        [24876] = true, -- Securing the Ramparts
+        [24877] = true, -- Securing the Ramparts
+        [24878] = true, -- Residue Rendezvous
+        [24879] = true, -- Blood Quickening
+        [24880] = true, -- Respite for a Tormented Soul
 
         -- New raid weekly quests
-        [24579] = true,
-        [24580] = true,
-        [24581] = true,
-        [24582] = true,
-        [24583] = true,
-        [24584] = true,
-        [24585] = true,
-        [24586] = true,
-        [24587] = true,
-        [24588] = true,
-        [24589] = true,
-        [24590] = true,
+        [24579] = true, -- Sartharion Must Die!
+        [24580] = true,-- Anub'Rekhan Must Die!
+        [24581] = true,-- Noth the Plaguebringer Must Die!
+        [24582] = true,-- Instructor Razuvious Must Die!
+        [24583] = true, -- Patchwerk Must Die!
+        [24584] = true,-- Malygos Must Die!
+        [24585] = true,-- Flame Leviathan Must Die!
+        [24586] = true, -- Razorscale Must Die!
+        [24587] = true,-- Ignis the Furnace Master Must Die!
+        [24588] = true, -- XT-002 Deconstructor Must Die!
+        [24589] = true, -- Lord Jaraxxus Must Die!
+        [24590] = true, -- Lord Marrowgar Must Die!
 
         -- Shadowmourne
         [24545] = true, -- The Sacred and the Corrupt
@@ -8359,12 +8359,23 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [11540] = true, -- Crush the Dawnblade
         [11538] = true, -- The Battle for the Sun's Reach Armory
         [11537] = true, -- The Battle Must Go On
+        [11521] = true, -- Rediscovering Your Roots
+        [11533] = true, -- The Air Strikes Must Continue
+        [11547] = true, -- Know Your Ley Lines
+        [11544] = true, -- Ata'mal Armaments
+
+        -- Magisters' Terrace
+        [11492] = true, -- Hard to Kill
+        [11500] = true, -- Wanted: Sisters of Torment
+        [11499] = true, -- Wanted: The Signet Ring of Prince Kael'thas
+        [11490] = true, -- The Scryer's Scryer
+        [11488] = true, -- Magisters' Terrace
 
         -- Magtheridon's Lair
         [10888] = true, -- Trial of the Naaru: Magtheridon
         [13430] = true, -- Trial of the Naaru: Magtheridon
 
-        -- Seer Kanai quest chain
+        -- Seer Kanai quest chain include Black Temple
         [10946] = true, -- Ruse of the Ashtongue
         [10947] = true, -- An Artifact From the Past
         [10948] = true, -- The Hostage Soul
@@ -8416,63 +8427,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [11032] = true, -- Protector No More
         [11033] = true, -- Assassin No More
         [10728] = true, -- Eminence Among the Violet Eye
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
-        -- [8784] = true,
 
         [78752] = true, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
         [78753] = true, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
