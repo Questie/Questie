@@ -8227,7 +8227,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8784] = true, -- secrets-of-the-qiraji
         [8791] = true, -- The Fall of Ossirian
         [8579] = true, -- Mortal Champions
-        [8495] = true, -- Mortal Champions
+        [8595] = true, -- Mortal Champions
         [8790] = true, -- Imperial Qiraji Regalia
         [8789] = true, -- Imperial Qiraji Armaments
         [8801] = true, -- C'Thun's Legacy
