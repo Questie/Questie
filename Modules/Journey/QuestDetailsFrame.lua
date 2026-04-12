@@ -10,6 +10,8 @@ local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
@@ -145,6 +147,15 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         startNPCIdLabel:SetFullWidth(true)
         startNPCGroup:AddChild(startNPCIdLabel)
 
+        if TomTom and TomTom.AddWaypoint and (startx ~= -1 or starty ~= -1) then
+            local tomTomButton = AceGUI:Create("Button")
+            tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
+            tomTomButton:SetCallback("OnClick", function()
+                TrackerUtils:SetTomTomTarget(startNpc.name, startindex, startx, starty)
+            end)
+            startNPCGroup:AddChild(tomTomButton)
+        end
+
         QuestieJourneyUtils:Spacer(startNPCGroup)
 
         -- Also Starts
@@ -215,6 +226,15 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. startObj.id)
             startObjectIdLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectIdLabel)
+
+            if TomTom and TomTom.AddWaypoint and (startx ~= -1 or starty ~= -1) then
+                local tomTomButton = AceGUI:Create("Button")
+                tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
+                tomTomButton:SetCallback("OnClick", function()
+                    TrackerUtils:SetTomTomTarget(startObj.name, startindex, startx, starty)
+                end)
+                startObjectGroup:AddChild(tomTomButton)
+            end
 
             QuestieJourneyUtils:Spacer(startObjectGroup)
 
