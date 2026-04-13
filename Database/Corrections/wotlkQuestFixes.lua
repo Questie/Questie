@@ -8085,7 +8085,8 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma
     QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth
 
-    -- Titan reforged P3 weekly quests
+    -- Titan reforged quests
+    QuestieDB.questData[93590] = {} -- A Message From The Stars
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
     QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
