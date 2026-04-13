@@ -7902,7 +7902,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.questFlags] = questFlags.NONE,
         },
-        -- [94376] = { -- this quest need an NPC id,but i can see him agian,to do
+        -- [94376] = { -- this quest need an NPC id,but i can't see him agian,to do
         --     [questKeys.name] = "Titannic Power", --  only present on titan reforged
         --     [questKeys.sourceItemId] = {{20735}},
         --     [questKeys.finishedBy] = {{20735}},
