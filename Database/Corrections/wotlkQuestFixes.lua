@@ -7932,7 +7932,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [95705] = { -- Gobb's Black Market Is Now Open!
+        [95705] = { -- Gobb's Grand Opening!
             [questKeys.name] = "“哥布”的黑市盛大开业！", -- only present on titan reforged
             [questKeys.startedBy] = {{262258}},
             [questKeys.finishedBy] = {{262258}},
@@ -7976,6 +7976,7 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
 
     return {
         [6805] = { -- Stormers and Rumblers
+            [questKeys.name] = "Greater Stormers and Rumblers",
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
             [questKeys.objectivesText] = {"Kill 15 Greater Dust Stormers and 15 Greater Desert Rumblers and then return to Duke Hydraxis in Azshara."},
@@ -8055,7 +8056,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Titan reforged P3 weekly quests
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
-    QuestieDB.questData[95705] = {} -- Gobb's Black Market Is Now Open!
+    QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
     QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
 
