@@ -7987,18 +7987,24 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
             [questKeys.preQuestSingle] = {6805},
+            [questKeys.nextQuestInChain] = 6823,
         },
         [6823] = { -- Agent of Hydraxis
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
+            [questKeys.preQuestSingle] = {6822},
+            [questKeys.nextQuestInChain] = 6824,
         },
         [6824] = { -- Hands of the Enemy
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
+            [questKeys.preQuestSingle] = {6823},
+            [questKeys.nextQuestInChain] = 7486,
         },
         [7486] = { -- A Hero's Reward
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
+            [questKeys.preQuestSingle] = {6824},
         },
         [11007] = { -- Kael'thas and the Verdant Sphere
             [questKeys.questLevel] = 80,
