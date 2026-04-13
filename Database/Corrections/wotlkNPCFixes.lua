@@ -3143,7 +3143,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.maxLevelHealth] = 8367000,
             [npcKeys.questStarts] = {93590},
             [npcKeys.questEnds] = {93590},
-            [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{83.23,43.38}},[zoneIDs.MULGORE] = {{45.28,77.47}},[zoneIDs.EVERSONG_WOODS] = {{38.1,19.99}},[zoneIDs.DUROTAR] = {{44.15,67.51}},[zoneIDs.TIRISFAL_GLADES] = {{31.38,70.3}},[zoneIDs.ELWYNN_FOREST] = {{47.82,42.34}},[zoneIDs.DUN_MOROGH] = {{28.85,71.35}},[zoneIDs.TELDRASSIL] = {{58.38,41.76}}},
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{83.23,43.38}},[zoneIDs.MULGORE] = {{45.28,77.47}},[zoneIDs.EVERSONG_WOODS] = {{38.1,19.99}},[zoneIDs.DUROTAR] = {{44.15,67.51}},[zoneIDs.TIRISFAL_GLADES] = {{31.38,70.3}},[zoneIDs.ELWYNN_FOREST] = {{47.82,42.34}},[zoneIDs.DUN_MOROGH] = {{28.85,71.35}},[zoneIDs.TELDRASSIL] = {{58.38,41.76}}},
             [npcKeys.friendlyToFaction] = "AH",
         },
         [262258] = { -- Boss Gobb Goldnick
