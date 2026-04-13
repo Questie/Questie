@@ -7964,7 +7964,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Boss Gobb Goldmark wants you to buy a Greedy Chest from his black market inventory to prove you're a worthwhile—well, worthwhile—paying customer."},
+            [questKeys.objectivesText] = {"Boss Gobb Goldnick wants you to purchase one Greedy Chest from his black-market stash to prove you're a paying customer worth fleec-- err, serving."},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.questFlags] = questFlags.NONE,
@@ -7976,7 +7976,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Purchase weekly Greedy Chests from Boss Gobb Goldmark's limited stock. Stock resets weekly. If you miss it, well, bad luck!"},
+            [questKeys.objectivesText] = {"Purchase a weekly Greedy Chest from Boss Gobb Goldnick's limited stock. Supplies reset every week. If you miss out, tough luck!"},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
@@ -7988,7 +7988,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"Purchase weekly Black Qiraji Chests from Boss Gobb Goldmark's limited inventory. Supply resets weekly. If you miss it, well, bad luck!"},
+            [questKeys.objectivesText] = {"Purchase a weekly Black Qiraji Chest from Boss Gobb Goldnick's limited stock. Supplies reset every week. If you miss out, tough luck!"},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
@@ -8000,7 +8000,7 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
     local questKeys = QuestieDB.questKeys
 
     return {
-        [6805] = { -- Stormers and Rumblers
+        [6805] = { -- Greater Stormers and Rumblers
             [questKeys.name] = "Greater Stormers and Rumblers",
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
