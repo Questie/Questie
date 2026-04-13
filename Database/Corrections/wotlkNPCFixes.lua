@@ -3135,10 +3135,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{27.0,15.53},{18.73,17.13},{22.63,19.54},{25.45,15.16},{26.91,10.98},{28.31,14.1},{25.53,12.26},{26.48,14.24},{22.04,11.62},{24.61,11.32},{25.25,9.65},{24.58,13.77},{23.45,15.51},{23.65,9.9},{21.83,15.84},{20.68,16.6},{20.82,14.0},{21.62,10.01},{21.06,10.57},{22.18,8.63},{21.82,12.73},{22.7,14.46},{19.97,15.7},{23.49,17.91},{22.72,17.4},{21.48,17.76}}},
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
         },
-        [257012] = {
+        [257012] = { -- Algalon the Observer
             [npcKeys.name] = "Algalon the Observer",
             [npcKeys.minLevel] = 83,
             [npcKeys.maxLevel] = 83,
+            [npcKeys.rank] = 3,
             [npcKeys.minLevelHealth] = 8367000,
             [npcKeys.maxLevelHealth] = 8367000,
             [npcKeys.questStarts] = {93590},
@@ -3778,6 +3779,9 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
         },
+        [257012] = { -- Algalon the Observer
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
         [262258] = { -- Boss Gobb Goldnick
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.01,12.61}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
@@ -3901,6 +3905,9 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         },
         [185335] = { -- Summoned Incubus
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.09,84.36}}},
+        },
+        [257012] = { -- Algalon the Observer
+            [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [262258] = { -- Boss Gobb Goldnick
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.12,50.75}}},

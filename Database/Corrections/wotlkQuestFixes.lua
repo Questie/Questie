@@ -7890,16 +7890,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [93590] = {
+        [93590] = { -- A Message From The Stars
             [questKeys.name] = "A Message From The Stars", --  only present on titan reforged
             [questKeys.startedBy] = {{257012}},
             [questKeys.finishedBy] = {{257012}},
             [questKeys.requiredLevel] = 1,
-            [questKeys.questLevel] = 1,
+            [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectivesText] = {"Accept Algalon's Gift."}, -- only present on titan reforged
-            -- [questKeys.zoneOrSort] = "泰坦重铸服务器", -- Titan-Reforged Realm,keep it for furture
-            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.zoneOrSort] = sortKeys.TITAN_REFORGED_REALM,
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.questFlags] = questFlags.NONE,
         },
@@ -7916,7 +7915,7 @@ function QuestieWotlkQuestFixes:Load()
         --     [questKeys.specialFlags] = specialFlags.NONE,
         --     [questKeys.questFlags] = questFlags.NONE,
         -- },
-        [93975] = {
+        [93975] = { -- Ragnaros Must Die!
             [questKeys.name] = "拉格纳罗斯必须死！", -- "Ragnaros Must Die!", only present on titan reforged
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
@@ -7930,7 +7929,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [94577] = {
+        [94577] = { -- Kael'thas Must Die!
             [questKeys.name] = "凯尔萨斯必须死！", -- "Kael'thas Must Die!", only present on titan reforged
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
@@ -7944,7 +7943,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [94579] = {
+        [94579] = { -- Patchwerk Must Die!
             [questKeys.name] = "消灭帕奇维克！", -- "Patchwerk Must Die!", only present on titan reforged
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
@@ -8013,24 +8012,18 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
             [questKeys.preQuestSingle] = {6805},
-            [questKeys.nextQuestInChain] = 6823,
         },
         [6823] = { -- Agent of Hydraxis
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
-            [questKeys.preQuestSingle] = {6822},
-            [questKeys.nextQuestInChain] = 6824,
         },
         [6824] = { -- Hands of the Enemy
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
-            [questKeys.preQuestSingle] = {6823},
-            [questKeys.nextQuestInChain] = 7486,
         },
         [7486] = { -- A Hero's Reward
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
-            [questKeys.preQuestSingle] = {6824},
         },
         [11007] = { -- Kael'thas and the Verdant Sphere
             [questKeys.questLevel] = 80,
