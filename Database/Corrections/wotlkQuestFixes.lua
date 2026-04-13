@@ -7890,6 +7890,31 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
+        [93590] = {
+            [questKeys.name] = "A Message From The Stars", --  only present on titan reforged
+            [questKeys.sourceItemId] = {{257012}},
+            [questKeys.finishedBy] = {{257012}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Accept Algalon's Gift."}, -- only present on titan reforged
+            [questKeys.zoneOrSort] = "泰坦重铸服务器", -- Titan-Reforged Realm
+            [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.questFlags] = questFlags.NONE,
+        },
+        -- [94376] = { -- this quest need an NPC id,but i can see him agian,to do
+        --     [questKeys.name] = "Titannic Power", --  only present on titan reforged
+        --     [questKeys.sourceItemId] = {{20735}},
+        --     [questKeys.finishedBy] = {{20735}},
+        --     [questKeys.requiredLevel] = 69,
+        --     [questKeys.questLevel] = 80,
+        --     [questKeys.requiredRaces] = raceIDs.NONE,
+        --     [questKeys.objectivesText] = {"Speak to Algalon and learn about Titanic Embers."}, -- only present on titan reforged
+        --     [questKeys.objectives] = {{{11502}}},
+        --     [questKeys.zoneOrSort] = zoneIDs.STORM_PEAKS,
+        --     [questKeys.specialFlags] = specialFlags.NONE,
+        --     [questKeys.questFlags] = questFlags.NONE,
+        -- },
         [93975] = {
             [questKeys.name] = "拉格纳罗斯必须死！", -- "Ragnaros Must Die!", only present on titan reforged
             [questKeys.startedBy] = {{20735}},

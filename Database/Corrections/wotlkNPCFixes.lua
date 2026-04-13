@@ -3135,6 +3135,17 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{27.0,15.53},{18.73,17.13},{22.63,19.54},{25.45,15.16},{26.91,10.98},{28.31,14.1},{25.53,12.26},{26.48,14.24},{22.04,11.62},{24.61,11.32},{25.25,9.65},{24.58,13.77},{23.45,15.51},{23.65,9.9},{21.83,15.84},{20.68,16.6},{20.82,14.0},{21.62,10.01},{21.06,10.57},{22.18,8.63},{21.82,12.73},{22.7,14.46},{19.97,15.7},{23.49,17.91},{22.72,17.4},{21.48,17.76}}},
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
         },
+        [257012] = {
+            [npcKeys.name] = "Algalon the Observer",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 8367000,
+            [npcKeys.maxLevelHealth] = 8367000,
+            [npcKeys.questStarts] = {93590},
+            [npcKeys.questEnds] = {93590},
+            [npcKeys.spawns] = {[zoneIDs.AMMEN_VALE] = {{83.23,43.38}},[zoneIDs.MULGORE] = {{45.28,77.47}},[zoneIDs.EVERSONG_WOODS] = {{38.1,19.99}},[zoneIDs.DUROTAR] = {{44.15,67.51}},[zoneIDs.TIRISFAL_GLADES] = {{31.38,70.3}},[zoneIDs.ELWYNN_FOREST] = {{47.82,42.34}},[zoneIDs.DUN_MOROGH] = {{28.85,71.35}},[zoneIDs.TELDRASSIL] = {{58.38,41.76}}},
+            [npcKeys.friendlyToFaction] = "AH",
+        },
         [262258] = { -- Boss Gobb Goldnick
             [npcKeys.name] = "Boss Gobb Goldnick",
             [npcKeys.minLevel] = 80,
