@@ -8035,6 +8035,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [13432] = { -- The Vials of Eternity
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
     }
 end
 
