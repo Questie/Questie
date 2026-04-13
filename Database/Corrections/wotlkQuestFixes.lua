@@ -7898,7 +7898,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectivesText] = {"Accept Algalon's Gift."}, -- only present on titan reforged
-            [questKeys.zoneOrSort] = "泰坦重铸服务器", -- Titan-Reforged Realm
+            -- [questKeys.zoneOrSort] = "泰坦重铸服务器", -- Titan-Reforged Realm,keep it for furture
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.questFlags] = questFlags.NONE,
         },
