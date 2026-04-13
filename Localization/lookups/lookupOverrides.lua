@@ -1,3 +1,5 @@
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -58,9 +60,12 @@ end
 -- Some existing quests have been changed for the Titan Reforged servers
 ---@return table<QuestId, table<string,table<string>>>
 function Questie.LoadTitanQuestLookupOverrides()
-    if GetLocale() == "zhCN" then
-        l10n.questLookupOverrides = loadstring([[return {
-            [6805] = {"大雷暴和巨磐石",{"消灭15个大型灰尘风暴和15个大型沙漠奔行者，然后回到艾萨拉的海达克西斯公爵那儿。"}},
-        }]])
-    end
+    local questKeys = QuestieDB.questKeys
+
+    return {
+        [6805] = { -- Greater Stormers and Rumblers
+            [questKeys.name] = "大雷暴和巨磐石",
+            [questKeys.objectivesText] = {"消灭15个大型灰尘风暴和15个大型沙漠奔行者，然后回到艾萨拉的海达克西斯公爵那儿。"},
+        },
+    }
 end

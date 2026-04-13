@@ -145,7 +145,11 @@ do
             -- TitanReforged Corrections
             if Questie.IsTitanReforged then
                 addOverride(QuestieDB.questDataOverrides, QuestieWotlkQuestFixes:LoadTitanReforgedFixes())
-                Questie.LoadTitanQuestLookupOverrides()
+                -- TO DO: improve this
+                -- this must be behind locale check to prevent empty table return error
+                if GetLocale() == "zhCN" then
+                    addOverride(QuestieDB.questDataOverrides, Questie.LoadTitanQuestLookupOverrides())
+                end
             end
         end
 
