@@ -3137,8 +3137,8 @@ function QuestieWotlkNpcFixes:Load()
         },
         [257012] = {
             [npcKeys.name] = "Algalon the Observer",
-            [npcKeys.minLevel] = 80,
-            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevel] = 83,
+            [npcKeys.maxLevel] = 83,
             [npcKeys.minLevelHealth] = 8367000,
             [npcKeys.maxLevelHealth] = 8367000,
             [npcKeys.questStarts] = {93590},
