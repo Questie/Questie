@@ -7892,7 +7892,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [93590] = {
             [questKeys.name] = "A Message From The Stars", --  only present on titan reforged
-            [questKeys.sourceItemId] = {{257012}},
+            [questKeys.startedBy] = {{257012}},
             [questKeys.finishedBy] = {{257012}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 1,
