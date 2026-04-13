@@ -145,6 +145,7 @@ do
             -- TitanReforged Corrections
             if Questie.IsTitanReforged then
                 addOverride(QuestieDB.questDataOverrides, QuestieWotlkQuestFixes:LoadTitanReforgedFixes())
+                Questie.LoadTitanQuestLookupOverrides()
             end
         end
 
