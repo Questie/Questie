@@ -4417,7 +4417,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{3041,3354,4593,5113,5479,7315}},
             [questKeys.breadcrumbForQuestId] = 8423,
         },
-        [8419] = {
+        [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,3326,4563,5172}},
         },
         [8423] = {

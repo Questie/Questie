@@ -1131,6 +1131,9 @@ function QuestieTBCQuestFixes:Load()
         [8413] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{461,3326,4563,5172,16646}},
+        },
         [8423] = {
             [questKeys.preQuestSingle] = {},
         },
