@@ -1003,6 +1003,29 @@ function QuestieTBCQuestFixes:Load()
         [8122] = {
             [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
         },
+        [8193] = { -- Master Angler
+            [questKeys.questLevel] = -1,
+        },
+        [8194] = { -- Apprentice Angler
+            [questKeys.questLevel] = -1,
+        },
+        [8221] = { -- Rare Fish - Keefer's Angelfish
+            [questKeys.questLevel] = -1,
+        },
+        [8224] = { -- Rare Fish - Dezian Queenfish
+            [questKeys.questLevel] = -1,
+        },
+        [8225] = { -- Rare Fish - Brownell's Blue Striped Racer
+            [questKeys.questLevel] = -1,
+        },
+        [8228] = { -- Could I get a Fishing Flier?
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.FISHING,
+        },
+        [8229] = { -- Could I get a Fishing Flier?
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.FISHING,
+        },
         [8233] = { -- A Simple Request
             [questKeys.requiredRaces] = raceIDs.NONE,
         },

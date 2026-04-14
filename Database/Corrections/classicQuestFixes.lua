@@ -4048,10 +4048,12 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {},
         },
-        [8193] = {
+        [8193] = { -- Master Angler
+            [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
         },
-        [8194] = {
+        [8194] = { -- Apprentice Angler
+            [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
         },
         [8195] = {
@@ -4063,25 +4065,27 @@ function QuestieQuestFixes:Load()
         [8201] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
-        [8221] = {
+        [8221] = { -- Rare Fish - Keefer's Angelfish
             [questKeys.questLevel] = 60,
         },
-        [8224] = {
+        [8224] = { -- Rare Fish - Dezian Queenfish
             [questKeys.questLevel] = 60,
         },
-        [8225] = {
+        [8225] = { -- Rare Fish - Brownell's Blue Striped Racer
             [questKeys.questLevel] = 60,
         },
         [8227] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
-        [8228] = {
+        [8228] = { -- Could I get a Fishing Flier?
             [questKeys.startedBy] = {{15116}},
             [questKeys.finishedBy] = {{15116}},
+            [questKeys.requiredLevel] = 35,
         },
-        [8229] = {
+        [8229] = { -- Could I get a Fishing Flier?
             [questKeys.startedBy] = {{15119}},
             [questKeys.finishedBy] = {{15119}},
+            [questKeys.requiredLevel] = 35,
         },
         [8233] = {
             [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
