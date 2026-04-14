@@ -3912,7 +3912,7 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [262258] = { -- Boss Gobb Goldnick
-            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.12,50.75}}},
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.12,50.75}},[zoneIDs.DUN_MOROGH] = {{52.46,35.32}},[zoneIDs.TELDRASSIL] = {{56.29,90.01}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
     }
