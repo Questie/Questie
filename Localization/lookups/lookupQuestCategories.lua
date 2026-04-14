@@ -60,4 +60,5 @@ l10n.questCategoryLookup = {
     [-400] = "Proving Grounds",
     [-641] = "Nightmare Incursions",
     [-644] = "Blackrock Eruption",
+    [-662] = "Titan-Reforged Realm", -- Chinese region
 };

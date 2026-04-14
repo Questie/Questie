@@ -304,6 +304,18 @@ local eventsLocales = {
         ["zhCN"] = "搏击俱乐部",
         ["zhTW"] = "鬥陣俱樂部",
     },
+    ["Titan-Reforged Realm"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = true,
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "泰坦重铸服务器",
+        ["zhTW"] = true,
+    },
 }
 
 for k, v in pairs(eventsLocales) do

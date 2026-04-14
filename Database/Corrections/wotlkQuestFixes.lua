@@ -7890,71 +7890,150 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [93975] = {
-            [questKeys.name] = "拉格纳罗斯必须死！", -- "Ragnaros Must Die!", only present on titan reforged
+        [93950] = { -- A Message From The Stars -- only present on titan reforged
+            [questKeys.name] = "A Message From The Stars",
+            [questKeys.startedBy] = {{257012}},
+            [questKeys.finishedBy] = {{257012}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Accept Algalon's Gift."},
+            [questKeys.zoneOrSort] = sortKeys.TITAN_REFORGED_REALM,
+            [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.questFlags] = questFlags.NONE,
+        },
+        [93975] = { -- Ragnaros Must Die! -- only present on titan reforged
+            [questKeys.name] = "Ragnaros Must Die!",
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"团队消灭拉格纳罗斯。"}, -- "Kill Ragnaros.", only present on titan reforged
+            [questKeys.objectivesText] = {"Kill Ragnaros."},
             [questKeys.objectives] = {{{11502}}},
             [questKeys.zoneOrSort] = zoneIDs.MOLTEN_CORE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [94577] = {
-            [questKeys.name] = "凯尔萨斯必须死！", -- "Kael'thas Must Die!", only present on titan reforged
+        -- [94376] = { -- Titanic Power -- only present on titan reforged
+        --     [questKeys.name] = "Titanic Power",
+        --     [questKeys.sourceItemId] = {{20735}},
+        --     [questKeys.finishedBy] = {{20735}}, -- needs info
+        --     [questKeys.requiredLevel] = 69,
+        --     [questKeys.questLevel] = 80,
+        --     [questKeys.requiredRaces] = raceIDs.NONE,
+        --     [questKeys.objectivesText] = {"Speak to Algalon and learn about Titanic Embers."},
+        --     [questKeys.objectives] = {{{11502}}}, -- needs info
+        --     [questKeys.zoneOrSort] = zoneIDs.STORM_PEAKS,
+        --     [questKeys.specialFlags] = specialFlags.NONE,
+        --     [questKeys.questFlags] = questFlags.NONE,
+        -- },
+        [94577] = { -- Kael'thas Must Die! -- only present on titan reforged
+            [questKeys.name] = "Kael'thas Must Die!",
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"消灭风暴要塞的凯尔萨斯逐日者。"}, -- "Kill Kael'thas Sunstrider in Tempest Keep." only present on titan reforged
+            [questKeys.objectivesText] = {"Kill Kael'thas Sunstrider in Tempest Keep."},
             [questKeys.objectives] = {{{19622}}},
             [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [94579] = {
-            [questKeys.name] = "消灭帕奇维克！", -- "Patchwerk Must Die!", only present on titan reforged
+        [94579] = { -- Patchwerk Must Die! -- only present on titan reforged
+            [questKeys.name] = "Patchwerk Must Die!",
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"消灭帕奇维克。"}, -- "Kill Patchwerk." only present on titan reforged
+            [questKeys.objectivesText] = {"Kill Patchwerk."},
             [questKeys.objectives] = {{{16028}}},
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [95706] = { -- Gobb's Weekly Greed Deal
-            [questKeys.name] = "“哥布”的每周贪婪交易", -- only present on titan reforged
+        [95705] = { -- Gobb's Grand Opening! -- only present on titan reforged
+            [questKeys.name] = "Gobb's Grand Opening!",
             [questKeys.startedBy] = {{262258}},
             [questKeys.finishedBy] = {{262258}},
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"从老板“哥布”金痕的限量库存中购买每周贪婪宝箱。货源每周重置。如果错过了，那就自认倒霉吧！"}, --  only present on titan reforged
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Boss Gobb Goldnick wants you to purchase one Greedy Chest from his black-market stash to prove you're a paying customer worth fleec-- err, serving."},
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.nextQuestInChain] = 95706,
+        },
+        [95706] = { -- Gobb's Weekly Greed Deal -- only present on titan reforged
+            [questKeys.name] = "Gobb's Weekly Greed Deal",
+            [questKeys.startedBy] = {{262258}},
+            [questKeys.finishedBy] = {{262258}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Purchase a weekly Greedy Chest from Boss Gobb Goldnick's limited stock. Supplies reset every week. If you miss out, tough luck!"},
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.preQuestSingle] = {95705},
+        },
+        [95844] = { -- Gobb's Grand Tank Temptation -- only present on titan reforged
+            [questKeys.name] = "Gobb's Grand Tank Temptation",
+            [questKeys.startedBy] = {{262258}},
+            [questKeys.finishedBy] = {{262258}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Purchase a weekly Black Qiraji Chest from Boss Gobb Goldnick's limited stock. Supplies reset every week. If you miss out, tough luck!"},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
         },
-        [95844] = { -- Gobb's Grand Tank Temptation
-            [questKeys.name] = "“哥布”的至尊坦克诱惑", -- only present on titan reforged
-            [questKeys.startedBy] = {{262258}},
-            [questKeys.finishedBy] = {{262258}},
-            [questKeys.requiredLevel] = 80,
+    }
+end
+
+function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
+    local questKeys = QuestieDB.questKeys
+
+    return {
+        [6805] = { -- Greater Stormers and Rumblers
+            [questKeys.name] = "Greater Stormers and Rumblers",
             [questKeys.questLevel] = 80,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.objectivesText] = {"从老板“哥布”金痕的限量库存中购买每周黑色其拉宝箱。货源每周重置。如果错过了，那就自认倒霉吧！"}, --  only present on titan reforged
-            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
-            [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectivesText] = {"Kill 15 Greater Dust Stormers and 15 Greater Desert Rumblers and then return to Duke Hydraxis in Azshara."},
+            [questKeys.objectives] = {{{256887},{256889}}},
+            [questKeys.nextQuestInChain] = 6822,
+        },
+        [6822] = { -- The Molten Core
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.preQuestSingle] = {6805},
+        },
+        [6823] = { -- Agent of Hydraxis
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [6824] = { -- Hands of the Enemy
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [7486] = { -- A Hero's Reward
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11007] = { -- Kael'thas and the Verdant Sphere
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [13432] = { -- The Vials of Eternity
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
         },
     }
 end
@@ -8006,7 +8085,11 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma
     QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth
 
-    -- Titan reforged P3 weekly quests
+    -- Titan reforged quests
+    QuestieDB.questData[93590] = {} -- A Message From The Stars
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
+    QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
+    QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
+    QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
 
 end

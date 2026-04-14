@@ -1,3 +1,5 @@
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -53,4 +55,17 @@ elseif GetLocale() == "zhTW" then
         [78752] = {"死亡證明：泰坦符文伽瑪系統",{"大法師朗達拉克要你帶回從任一地城中的最後首領身上取得的褻瀆者勳章。","","這個任務只能在任一泰坦符文伽瑪系統難度地城中完成。"}},
         [78753] = {"死亡證明：艾澤拉斯的威脅",{"大法師朗達拉克要你帶回從任一地城中的最後首領身上取得的神秘的古器。","","這個任務只能在任一英雄難度地城中完成。"}},
     }]])
+end
+
+-- Some existing quests have been changed for the Titan Reforged servers
+---@return table<QuestId, table<string,table<string>>>
+function Questie.LoadTitanQuestLookupOverrides()
+    local questKeys = QuestieDB.questKeys
+
+    return {
+        [6805] = { -- Greater Stormers and Rumblers
+            [questKeys.name] = "大雷暴和巨磐石",
+            [questKeys.objectivesText] = {"消灭15个大型灰尘风暴和15个大型沙漠奔行者，然后回到艾萨拉的海达克西斯公爵那儿。"},
+        },
+    }
 end
