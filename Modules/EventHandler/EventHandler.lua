@@ -478,10 +478,9 @@ function _EventHandler:PlayerLevelUp(level)
     -- Quest difficulty colors might have changed with the new level
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
+        AvailableQuests.ResetLevelRequirementCache()
+        AvailableQuests.CalculateAndDrawAll()
     end)
-
-    AvailableQuests.ResetLevelRequirementCache()
-    AvailableQuests.CalculateAndDrawAll()
 end
 
 --- Fires when a modifier key changed
