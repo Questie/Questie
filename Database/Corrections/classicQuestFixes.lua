@@ -1797,6 +1797,9 @@ function QuestieQuestFixes:Load()
         [2609] = { -- The Touch of Zanzil
             [questKeys.objectivesText] = {"Bring Doc Mixilpixil one bundle of Simple Wildflowers, one Leaded Vial, one Bronze Tube, and one Spool of Light Chartreuse Silk Thread. The 'itis' doesn't cure itself, young <fella/lady>."},
         },
+        [2641] = { -- Sprinkle's Secret Ingredient
+            [questKeys.nextQuestInChain] = 2661,
+        },
         [2742] = {
             [questKeys.triggerEnd] = {"Escort Rin'ji to safety", {[zoneIDs.THE_HINTERLANDS]={{34.58,56.33}}}},
         },
@@ -1904,6 +1907,9 @@ function QuestieQuestFixes:Load()
         },
         [2875] = {
             [questKeys.startedBy] = {nil,{142122,150075}},
+        },
+        [2880] = { -- Troll Necklace Bounty
+            [questKeys.nextQuestInChain] = 2881,
         },
         [2882] = {
             [questKeys.zoneOrSort] = 440, -- #1780
@@ -2158,6 +2164,9 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{7944}},
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
         },
+        [3661] = { -- Favored of Elune?
+            [questKeys.nextQuestInChain] = 978,
+        },
         [3681] = { -- Tome of Divinity (Ironforge)
             [questKeys.exclusiveTo] = {1642,2998},
             [questKeys.nextQuestInChain] = 0,
@@ -2165,8 +2174,9 @@ function QuestieQuestFixes:Load()
         [3702] = {
             [questKeys.objectives] = {{{8879,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [3761] = {
+        [3761] = { -- Un'Goro Soil
             [questKeys.breadcrumbs] = {936,3762,3784},
+            [questKeys.nextQuestInChain] = 3782,
         },
         [3762] = {
             [questKeys.breadcrumbForQuestId] = 3761,
@@ -2176,6 +2186,7 @@ function QuestieQuestFixes:Load()
         },
         [3764] = {
             [questKeys.breadcrumbs] = {3763,3789,3790},
+            [questKeys.nextQuestInChain] = 3781,
         },
         [3765] = {
             [questKeys.breadcrumbForQuestId] = 1275, -- #745
@@ -2184,10 +2195,12 @@ function QuestieQuestFixes:Load()
         [3784] = {
             [questKeys.breadcrumbForQuestId] = 3761,
         },
-        [3785] = {
+        [3785] = { -- Morrowgrain Research
+            [questKeys.nextQuestInChain] = 3803,
             [questKeys.requiredSourceItems] = {11018,11022},
         },
-        [3786] = {
+        [3786] = { -- Morrowgrain Research
+            [questKeys.nextQuestInChain] = 3804,
             [questKeys.requiredSourceItems] = {11018,11022},
         },
         [3787] = {
@@ -2421,10 +2434,11 @@ function QuestieQuestFixes:Load()
         [4507] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Gorishi Queen Lure."), 0, {{"object", 174792}}}},
         },
-        [4512] = {
+        [4512] = { -- A Little Slime Goes a Long Way
             [questKeys.requiredSourceItems] = {11914,11948},
+            [questKeys.nextQuestInChain] = 4513,
         },
-        [4513] = {
+        [4513] = { -- A Little Slime Goes a Long Way
             [questKeys.requiredSourceItems] = {11953},
         },
         [4542] = {
@@ -2566,6 +2580,7 @@ function QuestieQuestFixes:Load()
         },
         [4901] = {
             [questKeys.triggerEnd] = {"Discover the secret of the Altar of Elune", {[zoneIDs.WINTERSPRING]={{64.85,63.73}}}},
+            [questKeys.nextQuestInChain] = 4902,
         },
         [4904] = {
             [questKeys.triggerEnd] = {"Escort Lakota Windsong from the Darkcloud Pinnacle.", {[zoneIDs.THOUSAND_NEEDLES]={{30.93,37.12}}}},
