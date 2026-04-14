@@ -900,6 +900,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local completedQuests = Questie.db.char.complete
     local currentQuestlog = QuestiePlayer.currentQuestlog
     local DoableStates = QuestieDB.DoableStates
+    local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
 
     -- Completed quests
     if completedQuests[questId] then
@@ -921,7 +922,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     end
 
     -- Automatically blacklisted quests by Questie. These are localized in the init function
-    if QuestieCorrectionshiddenQuests[questId] then
+    if QuestieCorrectionshiddenQuests[questId] and QuestieCorrectionshiddenQuests[questId] ~= HIDE_ON_MAP then
         local msg = "Quest " .. questId .. " is hidden automatically"
         local msgevent = "Quest " .. questId .. " is unavailable because the world event is inactive"
         if QuestieEvent.IsEventQuest(questId) and not QuestieEvent.IsEventActiveForQuest(questId) then

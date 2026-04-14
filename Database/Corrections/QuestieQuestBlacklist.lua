@@ -838,36 +838,36 @@ function QuestieQuestBlacklist:Load()
         -----------------------------------------------
 
         -- corrupted windblossom
-        [2523] = true,
-        [2878] = true,
-        [3363] = true,
-        [4113] = true,
-        [4114] = true,
-        [4116] = true,
-        [4118] = true,
-        [4401] = true,
-        [4464] = true,
-        [4465] = true,
-        [996] = true,
-        [998] = true,
-        [1514] = true,
-        [4115] = true,
-        [4221] = true,
-        [4222] = true,
-        [4343] = true,
-        [4403] = true,
-        [4466] = true,
-        [4467] = true,
-        [4117] = true,
-        [4443] = true,
-        [4444] = true,
-        [4445] = true,
-        [4446] = true,
-        [4461] = true,
-        [4119] = true,
-        [4447] = true,
-        [4448] = true,
-        [4462] = true,
+        [996] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [998] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [1514] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [2523] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [2878] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [3363] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4113] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4114] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4115] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4116] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4117] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4118] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4119] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4221] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4222] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4343] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4401] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4403] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4443] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4444] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4445] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4446] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4447] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4448] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4461] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4462] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4464] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4465] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4466] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4467] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
 
         -- Darkmoon Faire
         [7905] = true,
