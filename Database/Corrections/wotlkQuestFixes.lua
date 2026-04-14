@@ -7992,8 +7992,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectivesText] = {"Purchase a weekly Black Qiraji Chest from Boss Gobb Goldnick's limited stock. Supplies reset every week. If you miss out, tough luck!"},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.nextQuestInChain] = 95845,
+        },
+        [95845] = { -- Another Shot at the Scarab -- only present on titan reforged
+            [questKeys.name] = "Another Shot at the Scarab",
+            [questKeys.startedBy] = {{262258}},
+            [questKeys.finishedBy] = {{262258}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Purchase a weekly Black Qiraji Chest from Boss Gobb Goldnik's limited stock. Supplies reset every week. If you miss out, tough luck!"},
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.preQuestSingle] = {95844},
         },
     }
 end
@@ -8086,10 +8100,11 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth
 
     -- Titan reforged quests
-    QuestieDB.questData[93590] = {} -- A Message From The Stars
+    QuestieDB.questData[93950] = {} -- A Message From The Stars
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
     QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
     QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
+    QuestieDB.questData[95845] = {} -- Gobb's Grand Tank Temptation
 
 end
