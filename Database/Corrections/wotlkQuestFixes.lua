@@ -8003,7 +8003,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"Purchase a weekly Black Qiraji Chest from Boss Gobb Goldnik's limited stock. Supplies reset every week. If you miss out, tough luck!"},
+            [questKeys.objectivesText] = {"Purchase a weekly Black Qiraji Chest from Boss Gobb Goldnick's limited stock. Supplies reset every week. If you miss out, tough luck!"},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
