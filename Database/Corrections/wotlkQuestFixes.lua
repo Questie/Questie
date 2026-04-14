@@ -7890,7 +7890,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = 1,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        [93590] = { -- A Message From The Stars -- only present on titan reforged
+        [93950] = { -- A Message From The Stars -- only present on titan reforged
             [questKeys.name] = "A Message From The Stars",
             [questKeys.startedBy] = {{257012}},
             [questKeys.finishedBy] = {{257012}},
