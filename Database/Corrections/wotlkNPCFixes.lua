@@ -3151,6 +3151,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.name] = "Boss Gobb Goldnick",
             [npcKeys.minLevel] = 80,
             [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 12600,
+            [npcKeys.maxLevelHealth] = 12600,
             [npcKeys.questStarts] = {95705,95706,95844},
             [npcKeys.questEnds] = {95705,95706,95844},
             [npcKeys.friendlyToFaction] = "AH",

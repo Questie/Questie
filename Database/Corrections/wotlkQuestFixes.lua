@@ -7968,6 +7968,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.nextQuestInChain] = 95706,
         },
         [95706] = { -- Gobb's Weekly Greed Deal -- only present on titan reforged
             [questKeys.name] = "Gobb's Weekly Greed Deal",
@@ -7980,6 +7981,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.preQuestSingle] = {95705},
         },
         [95844] = { -- Gobb's Grand Tank Temptation -- only present on titan reforged
             [questKeys.name] = "Gobb's Grand Tank Temptation",
