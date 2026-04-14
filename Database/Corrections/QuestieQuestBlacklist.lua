@@ -1671,7 +1671,7 @@ function QuestieQuestBlacklist:Load()
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
-        [93590] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
+        [93950] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
         [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
         --[94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers
         [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
@@ -1679,6 +1679,7 @@ function QuestieQuestBlacklist:Load()
         [95705] = not Questie.IsTitanReforged, -- Gobb's Grand Opening! -- only present on Titan servers
         [95706] = not Questie.IsTitanReforged, -- Gobb's Weekly Greed Deal -- only present on Titan servers
         [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
+        [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)

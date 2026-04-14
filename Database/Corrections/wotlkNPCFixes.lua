@@ -3153,8 +3153,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.maxLevel] = 80,
             [npcKeys.minLevelHealth] = 12600,
             [npcKeys.maxLevelHealth] = 12600,
-            [npcKeys.questStarts] = {95705,95706,95844},
-            [npcKeys.questEnds] = {95705,95706,95844},
+            [npcKeys.questStarts] = {95705,95706,95844,95845},
+            [npcKeys.questEnds] = {95705,95706,95844,95845},
             [npcKeys.friendlyToFaction] = "AH",
         },
     }
