@@ -8105,6 +8105,6 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
     QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
-    QuestieDB.questData[95845] = {} -- Gobb's Grand Tank Temptation
+    QuestieDB.questData[95845] = {} -- Another Shot at the Scarab
 
 end
