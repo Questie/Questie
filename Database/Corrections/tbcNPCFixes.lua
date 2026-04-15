@@ -328,6 +328,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [10857] = { -- Argent Quartermaster Lightspark
             [npcKeys.questStarts] = {5507,5521},
+            [npcKeys.questEnds] = {5507,5521},
         },
         [11036] = { -- Leonid Barthalomew the Revered
             [npcKeys.questEnds] = {5243,5462,5464,5522,64037,64064,64128},
