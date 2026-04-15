@@ -3785,7 +3785,7 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [262258] = { -- Boss Gobb Goldnick
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.01,12.61}}},
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.01,12.61}},[zoneIDs.UNDERCITY] = {{65.99,21.77}},[zoneIDs.THUNDER_BLUFF] = {{29.61,65.38}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
     }
