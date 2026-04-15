@@ -2817,31 +2817,33 @@ function QuestieQuestFixes:Load()
         [5386] = { -- Catch of the Day
             [questKeys.childQuests] = {},
         },
-        [5402] = {
+        [5401] = { -- Argent Dawn Commission
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [5402] = { -- Minion's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5403] = {
+        [5403] = { -- Invader's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5404] = {
+        [5404] = { -- Corruptor's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5405] = {
-            [questKeys.startedBy] = {{11039}},
+        [5405] = { -- Argent Dawn Commission
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5406] = {
+        [5406] = { -- Corruptor's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5407] = {
+        [5407] = { -- Invader's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [5408] = {
+        [5408] = { -- Minion's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
@@ -2852,17 +2854,13 @@ function QuestieQuestFixes:Load()
         [5441] = { -- Lazy Peons
             [questKeys.objectives] = {{{10556,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [5503] = {
-            [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.startedBy] = {{10839}},
-        },
-        [5508] = {
+        [5508] = { -- Corruptor's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
         },
-        [5509] = {
+        [5509] = { -- Invader's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
         },
-        [5510] = {
+        [5510] = { -- Minion's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
         },
         [5526] = {

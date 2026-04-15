@@ -725,18 +725,36 @@ function QuestieTBCQuestFixes:Load()
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
         },
-        [5401] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        [5401] = { -- Argent Dawn Commission
             [questKeys.exclusiveTo] = {5405,5503},
         },
-        [5405] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        [5402] = { -- Minion's Scourgestones
+            [questKeys.startedBy] = {{10840}},
+            [questKeys.finishedBy] = {{10840}},
+        },
+        [5403] = { -- Invader's Scourgestones
+            [questKeys.startedBy] = {{10840}},
+            [questKeys.finishedBy] = {{10840}},
+        },
+        [5405] = { -- Argent Dawn Commission
+            [questKeys.startedBy] = {{10839}},
+            [questKeys.finishedBy] = {{10839}},
             [questKeys.exclusiveTo] = {5401,5503},
+        },
+        [5407] = { -- Invader's Scourgestones
+            [questKeys.startedBy] = {{10839}},
+            [questKeys.finishedBy] = {{10839}},
+        },
+        [5408] = { -- Minion's Scourgestones
+            [questKeys.startedBy] = {{10839}},
+            [questKeys.finishedBy] = {{10839}},
         },
         [5502] = {
             [questKeys.questLevel] = -1,
         },
-        [5503] = {
+        [5503] = { -- Argent Dawn Commission
+            [questKeys.startedBy] = {{11039}},
+            [questKeys.finishedBy] = {{11039}},
             [questKeys.exclusiveTo] = {5401,5405},
         },
         [5621] = { -- Garments of the Moon
