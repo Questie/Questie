@@ -1807,9 +1807,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {211,5092,5097,5215,5237,5533,8414,8418},
             [npcKeys.questEnds] = {211,5066,5090,5091,5092,5097,5237,8415,8416,8418},
         },
-        [10839] = { -- Argent Officer Garush
-            [npcKeys.questStarts] = {5406,5407,5408,5503},
-        },
         [10877] = { -- Courier Hammerfall
             [npcKeys.questStarts] = {1019,5090,7494},
         },
@@ -1849,9 +1846,6 @@ function QuestieNPCFixes:Load()
         },
         [11018] = { -- Arko'narin
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{36.88,54.9}}},
-        },
-        [11039] = { -- Duke Nicholas Zverenhoff
-            [npcKeys.questStarts] = {5251,5263,5264,5405,5508,5509,5510},
         },
         [11048] = { -- Victor Ward
             [npcKeys.questStarts] = {1962},
