@@ -667,7 +667,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {918},
             [questKeys.nextQuestInChain] = 2399,
         },
-        [936] = {
+        [936] = { -- Assisting Arch Druid Runetotem
             [questKeys.breadcrumbForQuestId] = 3761,
         },
         [937] = {
@@ -2181,13 +2181,13 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {936,3762,3784},
             [questKeys.nextQuestInChain] = 3782,
         },
-        [3762] = {
+        [3762] = { -- Assisting Arch Druid Runetotem
             [questKeys.breadcrumbForQuestId] = 3761,
         },
-        [3763] = {
+        [3763] = { -- Assisting Arch Druid Staghelm
             [questKeys.breadcrumbForQuestId] = 3764,
         },
-        [3764] = {
+        [3764] = { -- Un'Goro Soil
             [questKeys.breadcrumbs] = {3763,3789,3790},
             [questKeys.nextQuestInChain] = 3781,
         },
@@ -2195,7 +2195,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1275, -- #745
             [questKeys.requiredLevel] = 18,
         },
-        [3784] = {
+        [3784] = { -- Assisting Arch Druid Runetotem
             [questKeys.breadcrumbForQuestId] = 3761,
         },
         [3785] = { -- Morrowgrain Research
@@ -2214,10 +2214,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {3781},
             [questKeys.breadcrumbForQuestId] = 3791,
         },
-        [3789] = {
+        [3789] = { -- Assisting Arch Druid Staghelm
             [questKeys.breadcrumbForQuestId] = 3764,
         },
-        [3790] = {
+        [3790] = { -- Assisting Arch Druid Staghelm
             [questKeys.breadcrumbForQuestId] = 3764,
         },
         [3791] = {
@@ -2665,7 +2665,7 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
         },
-        [5066] = {
+        [5066] = { -- A Call to Arms: The Plaguelands!
             [questKeys.breadcrumbForQuestId] = 5092,
         },
         [5068] = {
@@ -2678,26 +2678,26 @@ function QuestieQuestFixes:Load()
         [5088] = {
             [questKeys.objectives] = {nil,{{175944}},{{12925}}},
         },
-        [5090] = {
+        [5090] = { -- A Call to Arms: The Plaguelands!
             [questKeys.breadcrumbForQuestId] = 5092,
         },
-        [5091] = {
+        [5091] = { -- A Call to Arms: The Plaguelands!
             [questKeys.breadcrumbForQuestId] = 5092,
         },
-        [5092] = {
+        [5092] = { -- Clear the Way
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5066,5090,5091},
         },
-        [5093] = {
+        [5093] = { -- A Call to Arms: The Plaguelands!
             [questKeys.breadcrumbForQuestId] = 5096,
         },
-        [5094] = {
+        [5094] = { -- A Call to Arms: The Plaguelands!
             [questKeys.breadcrumbForQuestId] = 5096,
         },
-        [5095] = {
+        [5095] = { -- A Call to Arms: The Plaguelands!
             [questKeys.breadcrumbForQuestId] = 5096,
         },
-        [5096] = {
+        [5096] = { -- Scarlet Diversions
             [questKeys.triggerEnd] = {"Destroy the command tent and plant the Scourge banner in the camp", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.72,52.04}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {5093,5094,5095},

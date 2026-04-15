@@ -612,6 +612,18 @@ function QuestieTBCQuestFixes:Load()
         [3741] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [3763] = { -- Assisting Arch Druid Staghelm
+            [questKeys.exclusiveTo] = {3789,3790,10520},
+        },
+        [3764] = { -- Un'Goro Soil
+            [questKeys.breadcrumbs] = {3763,3789,3790,10520},
+        },
+        [3789] = { -- Assisting Arch Druid Staghelm
+            [questKeys.exclusiveTo] = {3763,3790,10520},
+        },
+        [3790] = { -- Assisting Arch Druid Staghelm
+            [questKeys.exclusiveTo] = {3763,3789,10520},
+        },
         [3803] = { -- Morrowgrain to Darnassus
             [questKeys.startedBy] = {{4217}},
         },
@@ -685,6 +697,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [5056] = { -- Shy-Rotam
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [5066] = { -- A Call to Arms: The Plaguelands!
+            [questKeys.exclusiveTo] = {5090,5091,10373},
+        },
+        [5090] = { -- A Call to Arms: The Plaguelands!
+            [questKeys.exclusiveTo] = {5066,5091,10373},
+        },
+        [5091] = { -- A Call to Arms: The Plaguelands!
+            [questKeys.exclusiveTo] = {5066,5090,10373},
+        },
+        [5092] = { -- Clear the Way
+            [questKeys.breadcrumbs] = {5066,5090,5091,10373},
+        },
+        [5093] = { -- A Call to Arms: The Plaguelands!
+            [questKeys.exclusiveTo] = {5094,5095,10374},
+        },
+        [5094] = { -- A Call to Arms: The Plaguelands!
+            [questKeys.exclusiveTo] = {5093,5095,10374},
+        },
+        [5095] = { -- A Call to Arms: The Plaguelands!
+            [questKeys.exclusiveTo] = {5093,5094,10374},
+        },
+        [5096] = { -- Scarlet Diversions
+            [questKeys.breadcrumbs] = {5093,5094,5095,10374},
         },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
@@ -3018,13 +3054,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 16,
             [questKeys.breadcrumbForQuestId] = 9491,
         },
-        [10373] = {
-            [questKeys.startedBy] = {{20722}},
+        [10373] = { -- A Call to Arms: The Plaguelands!
             [questKeys.exclusiveTo] = {5066,5090,5091},
+            [questKeys.breadcrumbForQuestId] = 5092,
         },
-        [10374] = {
-            [questKeys.startedBy] = {{20724}},
+        [10374] = { -- A Call to Arms: The Plaguelands!
             [questKeys.exclusiveTo] = {5093,5094,5095},
+            [questKeys.breadcrumbForQuestId] = 5096,
         },
         [10382] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
@@ -3253,9 +3289,10 @@ function QuestieTBCQuestFixes:Load()
         [10519] = {
             [questKeys.objectives] = {{{21183,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [10520] = {
-            [questKeys.startedBy] = {{16739}},
-            [questKeys.exclusiveTo] = {3516,3789,3790},
+        [10520] = { -- Assisting Arch Druid Staghelm
+            [questKeys.requiredLevel] = 47,
+            [questKeys.exclusiveTo] = {3763,3789,3790},
+            [questKeys.breadcrumbForQuestId] = 3764,
         },
         [10522] = {
             [questKeys.requiredSourceItems] = {30426},
