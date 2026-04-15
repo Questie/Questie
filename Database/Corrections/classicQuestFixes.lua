@@ -2061,6 +2061,9 @@ function QuestieQuestFixes:Load()
         [3367] = {
             [questKeys.triggerEnd] = {"Dorius Escort", {[zoneIDs.SEARING_GORGE]={{74.47,19.44}}}},
         },
+        [3374] = { -- The Essence of Eranikus
+            [questKeys.nextQuestInChain] = 3512,
+        },
         [3375] = { -- Replacement Phial
             [questKeys.preQuestSingle] = {2201},
             [questKeys.availableUntilCompleted] = 2361,
@@ -2079,6 +2082,7 @@ function QuestieQuestFixes:Load()
         },
         [3441] = {
             [questKeys.objectives] = {{{8479,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.nextQuestInChain] = 3442,
         },
         [3449] = {
             [questKeys.childQuests] = {3483}, -- #1008
@@ -2088,6 +2092,12 @@ function QuestieQuestFixes:Load()
         },
         [3454] = { -- The Torch of Retribution
             [questKeys.nextQuestInChain] = 3462,
+        },
+        [3463] = { -- Set Them Ablaze!
+            [questKeys.nextQuestInChain] = 3481,
+        },
+        [3481] = { -- Trinkets...
+            [questKeys.nextQuestInChain] = 4022,
         },
         [3483] = {
             [questKeys.parentQuest] = 3449, -- #1008
@@ -2183,7 +2193,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1642,2998},
             [questKeys.nextQuestInChain] = 0,
         },
-        [3702] = {
+        [3701] = { -- The Smoldering Ruins of Thaurissan
+            [questKeys.nextQuestInChain] = 4341,
+        },
+        [3702] = { -- The Smoldering Ruins of Thaurissan
             [questKeys.objectives] = {{{8879,nil,Questie.ICON_TYPE_TALK}}},
         },
         [3761] = { -- Un'Goro Soil
@@ -2274,7 +2287,6 @@ function QuestieQuestFixes:Load()
         [4084] = {
             [questKeys.questLevel] = 54, -- #1495
         },
-        -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting repeatable quests
         -- Alliance
         [4103] = { -- Salve via Hunting
             [questKeys.preQuestSingle] = {5882},
@@ -2327,7 +2339,6 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5891},
         },
-        -----------------------
         [4121] = {
             [questKeys.triggerEnd] = {"Prisoner Transport", {[zoneIDs.BURNING_STEPPES]={{25.73,27.1}}}},
         },
@@ -2371,8 +2382,14 @@ function QuestieQuestFixes:Load()
         [4224] = {
             [questKeys.objectives] = {{{9563,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [4245] = {
-            [questKeys.triggerEnd] = {"Protect A-Me 01 until you reach Karna Remtravel",{[zoneIDs.UN_GORO_CRATER]={{46.43, 13.78}}}},
+        [4242] = { -- Abandoned Hope
+            [questKeys.nextQuestInChain] = 4264,
+        },
+        [4244] = { -- Chasing A-Me 01
+            [questKeys.nextQuestInChain] = 4245,
+        },
+        [4245] = { -- Chasing A-Me 01
+            [questKeys.triggerEnd] = {"Protect A-Me 01 until you reach Karna Remtravel",{[zoneIDs.UN_GORO_CRATER]={{46.43,13.78}}}},
         },
         [4261] = {
             [questKeys.triggerEnd] = {"Help Arei get to Safety", {[zoneIDs.FELWOOD]={{49.42,14.54}}}},
@@ -2383,6 +2400,9 @@ function QuestieQuestFixes:Load()
         [4267] = { -- Rise of the Silithid
             [questKeys.nextQuestInChain] = 4493,
         },
+        [4282] = { -- A Shred of Hope
+            [questKeys.nextQuestInChain] = 4322,
+        },
         [4285] = {
             [questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{56,12}}}},
         },
@@ -2392,6 +2412,9 @@ function QuestieQuestFixes:Load()
         [4288] = {
             [questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{23,59}}}},
         },
+        [4289] = { -- The Apes of Un'Goro
+            [questKeys.nextQuestInChain] = 4301,
+        },
         [4295] = {
             [questKeys.requiredLevel] = 42,
         },
@@ -2400,6 +2423,9 @@ function QuestieQuestFixes:Load()
         },
         [4324] = {
             [questKeys.breadcrumbForQuestId] = 4136, -- #4459
+        },
+        [4341] = { -- Kharan Mighthammer
+            [questKeys.nextQuestInChain] = 4342,
         },
         [4342] = {
             [questKeys.objectives] = {{{9021,nil,Questie.ICON_TYPE_TALK}}},
@@ -5843,6 +5869,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [3741] = {
             [questKeys.reputationReward] = {}, -- doable as horde, but no SW reputation for horde side
         },
+        [5021] = { -- Better Late Than Never
+            [questKeys.nextQuestInChain] = 5023,
+        },
         [5050] = {
             [questKeys.startedBy] = {{8403}},
         },
@@ -5897,6 +5926,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [2954] = { -- The Stone Watcher
             [questKeys.nextQuestInChain] = 2977,
+        },
+        [5021] = { -- Better Late Than Never
+            [questKeys.nextQuestInChain] = 5022,
         },
         [5050] = {
             [questKeys.startedBy] = {{3520}},

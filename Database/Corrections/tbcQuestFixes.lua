@@ -722,6 +722,9 @@ function QuestieTBCQuestFixes:Load()
         [5096] = { -- Scarlet Diversions
             [questKeys.breadcrumbs] = {5093,5094,5095,10374},
         },
+        [5149] = { -- Pamela's Doll
+            [questKeys.reputationReward] = {},
+        },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
         },
