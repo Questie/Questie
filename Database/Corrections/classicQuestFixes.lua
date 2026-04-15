@@ -479,6 +479,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {690},
             [questKeys.nextQuestInChain] = 693,
         },
+        [692] = { -- The Lost Fragments
+            [questKeys.nextQuestInChain] = 656,
+        },
         [693] = { -- Trelane's Defenses
             [questKeys.nextQuestInChain] = 694,
         },
