@@ -1803,6 +1803,9 @@ function QuestieQuestFixes:Load()
         [2641] = { -- Sprinkle's Secret Ingredient
             [questKeys.nextQuestInChain] = 2661,
         },
+        [2701] = { -- Heroes of Old
+            [questKeys.nextQuestInChain] = 2721,
+        },
         [2742] = {
             [questKeys.triggerEnd] = {"Escort Rin'ji to safety", {[zoneIDs.THE_HINTERLANDS]={{34.58,56.33}}}},
         },
@@ -2100,6 +2103,12 @@ function QuestieQuestFixes:Load()
         [3526] = { -- Goblin Engineering (Undercity)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
             [questKeys.exclusiveTo] = {3633,3642},
+        },
+        [3601] = { -- Kim'jael Indeed!
+            [questKeys.nextQuestInChain] = 5534,
+        },
+        [3602] = { -- Azsharite
+            [questKeys.nextQuestInChain] = 3621,
         },
         [3625] = {
             [questKeys.objectives] = {{{7802,nil,Questie.ICON_TYPE_EVENT}}},
