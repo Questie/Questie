@@ -2807,6 +2807,9 @@ function QuestieTBCQuestFixes:Load()
         [10114] = {
             [questKeys.exclusiveTo] = {9854,9857,9789},
         },
+        [10119] = { -- Through the Dark Portal
+            [questKeys.breadcrumbForQuestId] = 10288,
+        },
         [10120] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -2820,6 +2823,9 @@ function QuestieTBCQuestFixes:Load()
         [10146] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
             [questKeys.objectives] = {nil,{{183350},{183351}}},
+        },
+        [10160] = { -- Know your Enemy
+            [questKeys.breadcrumbForQuestId] = 10482,
         },
         [10162] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
@@ -2948,9 +2954,9 @@ function QuestieTBCQuestFixes:Load()
         [10283] = {
             [questKeys.objectives] = {nil,{{182589}}},
         },
-        [10288] = {
+        [10288] = { -- Arrival in Outland
             [questKeys.preQuestSingle] = {},
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.breadcrumbs] = {10119},
         },
         [10291] = {
             [questKeys.preQuestSingle] = {},
@@ -3275,6 +3281,12 @@ function QuestieTBCQuestFixes:Load()
         [10481] = {
             [questKeys.objectives] = {{{21060,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Air Spirits"), 0, {{"monster", 21060}}}},
+        },
+        [10482] = { -- Fel Orc Scavengers
+            [questKeys.breadcrumbs] = {10160},
+        },
+        [10483] = { -- Ill Omens
+            [questKeys.nextQuestInChain] = 10484,
         },
         [10488] = {
             [questKeys.objectives] = {{{20748,nil,Questie.ICON_TYPE_INTERACT}}},
