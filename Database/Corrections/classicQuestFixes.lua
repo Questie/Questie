@@ -2857,6 +2857,9 @@ function QuestieQuestFixes:Load()
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91}}}},
         },
+        [5384] = { -- Kirtonos the Herald
+            [questKeys.nextQuestInChain] = 5461,
+        },
         [5386] = { -- Catch of the Day
             [questKeys.childQuests] = {},
         },
