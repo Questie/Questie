@@ -3045,11 +3045,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{14725}},
             [questKeys.reputationReward] = {{factionIDs.DARNASSUS,350}},
         },
-        [10357] = {
+        [10357] = { -- A Donation of Runecloth
             [questKeys.preQuestGroup] = {7792,7798,10356},
+            [questKeys.nextQuestInChain] = 10358,
         },
-        [10362] = {
+        [10362] = { -- A Donation of Runecloth
             [questKeys.preQuestGroup] = {10359,10360,10361},
+            [questKeys.nextQuestInChain] = 10363,
         },
         [10365] = {
             [questKeys.objectives] = {nil,{{184312}},{{29411}}},
