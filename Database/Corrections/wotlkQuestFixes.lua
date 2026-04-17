@@ -561,6 +561,12 @@ function QuestieWotlkQuestFixes:Load()
         [9876] = {
             [questKeys.nextQuestInChain] = 9738,
         },
+        [10106] = { -- Hellfire Fortifications
+            [questKeys.preQuestSingle] = {13408,13410},
+        },
+        [10110] = { -- Hellfire Fortifications
+            [questKeys.preQuestSingle] = {13409,13411},
+        },
         [10137] = {
             [questKeys.requiredSourceItems] = {},
         },
