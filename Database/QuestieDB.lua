@@ -1047,6 +1047,20 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Check profession specialization requirements
+    local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
+    if (requiredSpecialization) and (requiredSpecialization > 0) then
+        local hasSpecialization = QuestieProfessions.HasSpecialization(requiredSpecialization)
+        if (not hasSpecialization) then
+            local msg = "Player does not meet profession specialization requirements for quest " .. questId
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Profession specialization requirement"), true, DoableStates.PROFESSION_SPECIALIZATION
+            elseif returnText and not returnBrief then
+                return msg, true, DoableStates.PROFESSION_SPECIALIZATION
+            end
+        end
+    end
+
     -- Check if the character is higher than the quest allows
     local requiredMaxLevel = QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel")
     if (requiredMaxLevel and requiredMaxLevel ~= 0 and (UnitLevel("player") > requiredMaxLevel)) then
@@ -1147,20 +1161,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 return l10n("Unavailable")..l10n(": ")..l10n("Later quest completed or active"), true, DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED
             elseif returnText and not returnBrief then
                 return msg, true, DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED
-            end
-        end
-    end
-
-    -- Check profession specialization requirements
-    local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
-    if (requiredSpecialization) and (requiredSpecialization > 0) then
-        local hasSpecialization = QuestieProfessions.HasSpecialization(requiredSpecialization)
-        if (not hasSpecialization) then
-            local msg = "Player does not meet profession specialization requirements for quest " .. questId
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Profession specialization requirement"), true, DoableStates.PROFESSION_SPECIALIZATION
-            elseif returnText and not returnBrief then
-                return msg, true, DoableStates.PROFESSION_SPECIALIZATION
             end
         end
     end
