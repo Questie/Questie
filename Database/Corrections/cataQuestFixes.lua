@@ -4742,6 +4742,9 @@ function CataQuestFixes.Load()
         [24794] = { -- Speak With Spraggle
             [questKeys.nextQuestInChain] = 24736,
         },
+        [24806] = { -- Better Luck Next Time
+            [questKeys.specialFlags] = 1,
+        },
         [24807] = { -- Winnoa Pineforest
             [questKeys.preQuestSingle] = {24601},
         },

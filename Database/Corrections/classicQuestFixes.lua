@@ -4149,10 +4149,12 @@ function QuestieQuestFixes:Load()
         [8193] = { -- Master Angler
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
+            [questKeys.requiredSkill] = {},
         },
         [8194] = { -- Apprentice Angler
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = 60,
+            [questKeys.requiredSkill] = {},
         },
         [8195] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -4165,12 +4167,15 @@ function QuestieQuestFixes:Load()
         },
         [8221] = { -- Rare Fish - Keefer's Angelfish
             [questKeys.questLevel] = 60,
+            [questKeys.requiredSkill] = {},
         },
         [8224] = { -- Rare Fish - Dezian Queenfish
             [questKeys.questLevel] = 60,
+            [questKeys.requiredSkill] = {},
         },
         [8225] = { -- Rare Fish - Brownell's Blue Striped Racer
             [questKeys.questLevel] = 60,
+            [questKeys.requiredSkill] = {},
         },
         [8227] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -4179,11 +4184,13 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{15116}},
             [questKeys.finishedBy] = {{15116}},
             [questKeys.requiredLevel] = 35,
+            [questKeys.requiredSkill] = {}, -- might have a skill requirement. need to check Saturdays
         },
         [8229] = { -- Could I get a Fishing Flier?
             [questKeys.startedBy] = {{15119}},
             [questKeys.finishedBy] = {{15119}},
             [questKeys.requiredLevel] = 35,
+            [questKeys.requiredSkill] = {}, -- might have a skill requirement. need to check Saturdays
         },
         [8233] = {
             [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
