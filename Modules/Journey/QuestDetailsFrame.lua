@@ -54,7 +54,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     -- Generic Quest Information
 
-    local levelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Recommended Quest Level") .. l10n(": "), 'yellow') .. quest.level, true)
+    local levelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Quest Level") .. l10n(": "), 'yellow') .. quest.level, true)
     container:AddChild(levelLabel)
 
     local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Minimum Required Level for Quest") .. l10n(": "), 'yellow') .. quest.requiredLevel, true)

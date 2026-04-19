@@ -98,18 +98,6 @@ local searchLocales = {
         ["zhCN"] = "没有可用的生成数据",
         ["zhTW"] = "沒有可用的重生資料",
     },
-    ["Recommended Quest Level"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Empfohlenes Questlevel",
-        ["esES"] = "Nivel recomendado para la misión",
-        ["esMX"] = "Nivel recomendado para la misión",
-        ["frFR"] = "Niveau recommandé",
-        ["koKR"] = "추천 퀘스트 레벨",
-        ["ptBR"] = "Nível recomendado para a missão",
-        ["ruRU"] = "Рекомендуемый уровень для выполнения задания",
-        ["zhCN"] = "推荐任务等级",
-        ["zhTW"] = "任務推薦等級",
-    },
     ["Ends the following quests"] = {
         ["enUS"] = true,
         ["deDE"] = "Beendet die folgenden Quests",
