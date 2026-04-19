@@ -3932,6 +3932,9 @@ function QuestieQuestFixes:Load()
         [7868] = {
             [questKeys.zoneOrSort] = zoneIDs.WARSONG_GULCH,
         },
+        [7877] = { -- The Treasure of the Shen'dralar
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [7886] = { -- #1435
             [questKeys.startedBy] = {{14733}},
             [questKeys.finishedBy] = {{14733}},
