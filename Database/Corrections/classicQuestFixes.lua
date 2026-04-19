@@ -237,6 +237,9 @@ function QuestieQuestFixes:Load()
         [315] = {
             [questKeys.nextQuestInChain] = 413,
         },
+        [336] = { -- A Noble Brew
+            [questKeys.nextQuestInChain] = 397,
+        },
         [349] = {
             [questKeys.objectivesText] = {},
         },
@@ -3778,13 +3781,26 @@ function QuestieQuestFixes:Load()
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320
         },
+        [7562] = { -- Mor'zul Bloodbringer
+            [questKeys.breadcrumbForQuestId] = 7563,
+        },
+        [7563] = { -- Rage of Blood
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {7562},
+        },
         [7604] = {
             [questKeys.specialFlags] = 0,
         },
         [7622] = {
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
         },
-        [7631] = {
+        [7629] = { -- Imp Delivery
+            [questKeys.preQuestSingle] = {7625},
+            [questKeys.preQuestGroup] = {},
+        },
+        [7631] = { -- Dreadsteed of Xoroth
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {7629,7630},
             [questKeys.requiredSourceItems] = {18663,18629,18670},
         },
         [7632] = {
@@ -5969,7 +5985,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [6981] = {
             [questKeys.nextQuestInChain] = 3369,
         },
-        [7562] = {
+        [7562] = { -- Mor'zul Bloodbringer
             [questKeys.startedBy] = {{5753,5815}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
@@ -6027,7 +6043,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [6981] = {
             [questKeys.nextQuestInChain] = 3370,
         },
-        [7562] = {
+        [7562] = { -- Mor'zul Bloodbringer
             [questKeys.startedBy] = {{5520,6382}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },

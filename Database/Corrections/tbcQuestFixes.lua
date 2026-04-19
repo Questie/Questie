@@ -985,7 +985,7 @@ function QuestieTBCQuestFixes:Load()
         [7583] = {
             [questKeys.preQuestGroup] = {7581,7582},
         },
-        [7623] = {
+        [7623] = { -- Lord Banehollow
             [questKeys.preQuestSingle] = {},
         },
         [7792] = {
@@ -1857,7 +1857,7 @@ function QuestieTBCQuestFixes:Load()
         [9339] = {
             [questKeys.objectivesText] = {},
         },
-        [9355] = {
+        [9355] = { -- A Job for an Intelligent Man
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [9358] = { -- Ranger Sareyn
@@ -2125,7 +2125,7 @@ function QuestieTBCQuestFixes:Load()
         [9555] = { -- Call of Fire
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
-        [9558] = {
+        [9558] = { -- The Longbeards
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [9560] = {
@@ -2680,10 +2680,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {9934,9868,10011},
             [questKeys.preQuestSingle] = {},
         },
-        [10047] = {
+        [10047] = { -- The Path of Glory
             [questKeys.preQuestSingle] = {10143,10483},
         },
-        [10050] = {
+        [10050] = { -- Unyielding Souls
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [10051] = {
@@ -2692,7 +2692,7 @@ function QuestieTBCQuestFixes:Load()
         [10052] = {
             [questKeys.triggerEnd] = {"Escort Isla Starmane to safety", {[zoneIDs.TEROKKAR_FOREST]={{67.51,37.28}}}},
         },
-        [10058] = {
+        [10058] = { -- An Old Gift
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [10063] = {
@@ -2755,7 +2755,7 @@ function QuestieTBCQuestFixes:Load()
         [10077] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [10079] = {
+        [10079] = { -- When This Mine's a-Rockin'
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [10085] = {
