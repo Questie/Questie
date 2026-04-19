@@ -290,12 +290,28 @@ function QuestieObjectFixes:Load()
         [178907] = {
             [objectKeys.name] = "Maraudon Orange Crystal Pool", -- Desolace for quest 7041
         },
-        [179544] = {
+        [179485] = { -- Broken Trap
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [179499] = { -- Ogre Tannin Basket
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [179517] = { -- Treasure of the Shen'dralar
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
+        },
+        [179544] = { -- Skeletal Remains of Telmius Dreamseeker
             [objectKeys.name] = "Skeletal Remains of Telmius Dreamseeker",
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
         },
         [179547] = { -- A Dusty Tome
-            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL]={{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.DIRE_MAUL,
+        },
+        [179548] = { -- A Dusty Tome
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
+        },
+        [179559] = { -- Felvine Shard
+            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
         },
         [179703] = { -- Cache of the Firelord
             [objectKeys.questStarts] = {7632},

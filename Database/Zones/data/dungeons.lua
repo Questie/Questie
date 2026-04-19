@@ -128,9 +128,9 @@ local dungeons = {
     [7307] = {"Upper Blackrock Spire",nil,51,{{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
     [10001] = {"Stratholme",nil,139,{{139, 43.5, 19.4}}}, -- The Gauntlet
     [10022] = {"Dire Maul",nil,357,{{357, 62.5,24.9}}}, -- North
-    [10023] = {"Dire Maul",nil,357,{{357, 60.3,31.3}}}, -- West
-    [10024] = {"Dire Maul",nil,357,{{357, 60.3,31.3}}}, -- West
-    [10025] = {"Dire Maul",nil,357,{{357, 60.3,31.3}}}, -- West
+    [10023] = {"Dire Maul",nil,357,{{357, 60.3,30.2}}}, -- West
+    [10024] = {"Dire Maul",nil,357,{{357, 60.3,30.2}}}, -- West
+    [10025] = {"Dire Maul",nil,357,{{357, 60.3,30.2}}}, -- West
     [10026] = {"Dire Maul",nil,357,{{357, 64.8,30.2}}}, -- East
     [10027] = {"Dire Maul",nil,357,{{357, 64.8,30.2}}}, -- East
     [15475] = {"Demon Fall Canyon",nil,331,{{331, 84.7, 74.4}}},
@@ -178,6 +178,9 @@ if Expansions.Current >= Expansions.Cata then
     dungeons[3606][4] = {{440, 64.8, 50}} -- Hyjal Summit
     dungeons[4100][4] = {{440, 64.8, 50}} -- The Culling of Stratholme
     dungeons[7307][4] = {{51, 34.9, 83.9}, {46, 21, 37.9}} -- Upper Blackrock Spire
+    dungeons[10023][4] = {{357, 60.3,31.3}} -- West
+    dungeons[10024][4] = {{357, 60.3,31.3}} -- West
+    dungeons[10025][4] = {{357, 60.3,31.3}} -- West
 end
 
 ZoneDB.private.dungeons = dungeons

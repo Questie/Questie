@@ -1714,7 +1714,7 @@ function CataNpcFixes.Load()
         [11486] = { -- Prince Tortheldrin
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{59.83,23.43},{-1,-1}}},
         },
-        [11487] = { -- Tendris Warpwood
+        [11487] = { -- Magister Kalendris
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_COURT_OF_THE_HIGHBORNE] = {{30.24,45.47},{-1,-1}}},
         },
         [11488] = { -- Illyanna Ravenoak

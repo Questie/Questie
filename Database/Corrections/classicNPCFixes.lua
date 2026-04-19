@@ -1923,12 +1923,60 @@ function QuestieNPCFixes:Load()
         [11407] = { -- Var'jun
             [npcKeys.questStarts] = {5655,5661},
         },
+        [11451] = { -- Wildspawn Satyr
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11452] = { -- Wildspawn Rogue
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11453] = { -- Wildspawn Trickster
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11454] = { -- Wildspawn Betrayer
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11455] = { -- Wildspawn Felsworn
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11456] = { -- Wildspawn Shadowstalker
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11457] = { -- Wildspawn Hellcaller
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
         [11460] = { -- Alzzin's Minion
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
+        },
+        [11467] = { -- Tsu'zee
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_COURT_OF_THE_HIGHBORNE] = {{-1,-1}}},
+        },
+        [11486] = { -- Prince Tortheldrin
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
+        },
+        [11487] = { -- Magister Kalendris
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_COURT_OF_THE_HIGHBORNE] = {{-1,-1}}},
+        },
+        [11488] = { -- Illyanna Ravenoak
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{-1,-1}}},
+        },
+        [11489] = { -- Tendris Warpwood
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{-1,-1}}},
+        },
+        [11490] = { -- Zevrim Thornhoof
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11492] = { -- Alzzin the Wildshaper
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
+        [11496] = { -- Immol'thar
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
         },
         [11498] = { -- Skarr the Unbreakable
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{62.5,30.37}}},
+        },
+        [11501] = { -- King Gordok
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
         },
         [11502] = { -- Ragnaros
             [npcKeys.zoneID] = zoneIDs.MOLTEN_CORE,
@@ -2198,6 +2246,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{71.43,34.56},{51.02,48.94}}},
         },
+        [13280] = { -- Hydrospawn
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
+        },
         [13283] = { -- Lord Tony Romano
             [npcKeys.questStarts] = {},
         },
@@ -2442,13 +2493,46 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY, -- default zone where you start the chain
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{47.32,38.58}}}, -- only SW for consistency
         },
+        [14321] = { -- Guard Fengus
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [14322] = { -- Stomper Kreeg
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [14323] = { -- Guard Slip'kik
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [14324] = { -- Cho'Rush the Observer
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [14325] = { -- Captain Kromcrush
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [14326] = { -- Guard Mol'dar
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [14327] = { -- Lethtendris
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{-1,-1}}},
+        },
+        [14338] = { -- Knot Thimblejack
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
+        },
+        [14349] = { -- Pimgib
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{-1,-1}}},
+        },
         [14351] = { -- Gordok Bushwacker
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
         },
         [14353] = { -- Mizzle the Crafty
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
+        },
+        [14354] = { -- Pusillin
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_WARPWOOD_QUARTER] = {{-1,-1}}},
+        },
+        [14358] = { -- Shen'dralar Ancient
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{-1,-1}}},
         },
         [14373] = { -- Sage Korolusk
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
@@ -2478,16 +2562,16 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE, -- #1506
         },
         [14502] = { -- Xorothian Dreadsteed
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
         },
         [14504] = { -- Dreadsteed Spirit
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
         },
         [14506] = { -- Lord Hel'nurath
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
         },
         [14515] = { -- High Priestess Arlokk
             [npcKeys.zoneID] = zoneIDs.ZUL_GURUB,
@@ -2533,8 +2617,8 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{13.96,29.34},{15.34,29.29},{14.38,26.46},{19.03,27.43},{15.25,31.1},{14.65,26.3},{14.46,27.27},{16.42,31.75},{14.97,27.85},{15.17,29.91},{18.04,32.68},{18.85,31.22},{11.62,27.37},{14.66,27.74},{14.52,26.2},{13.47,25.62},{14.26,26.42},{18.62,27.22},{14.99,29.43},{18.32,29.66},{13.2,21.86},{14.31,27.63},{18.34,27.91},{13.45,26.07},{10.84,27.36},{11.48,26.2},{11.32,28.17},{12.31,26.94},{12.22,28.61},{11.99,29.29},{13.35,26.19},{16.3,27.37},{14.18,23.53},{14.88,24.34},{17.18,28.38}}},
         },
         [14566] = { -- Ancient Equine Spirit
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_COURT_OF_THE_HIGHBORNE] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
         },
         [14568] = { -- Darkreaver's Fallen Charger
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
@@ -3119,7 +3203,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [16097] = { -- Isalien
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
         },
         [16101] = { -- Jarien
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
