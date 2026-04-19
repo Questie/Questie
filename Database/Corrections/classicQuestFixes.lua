@@ -3797,6 +3797,7 @@ function QuestieQuestFixes:Load()
         [7629] = { -- Imp Delivery
             [questKeys.preQuestSingle] = {7625},
             [questKeys.preQuestGroup] = {},
+            [questKeys.objectives] = {{{14500,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [7631] = { -- Dreadsteed of Xoroth
             [questKeys.preQuestSingle] = {},
