@@ -2779,9 +2779,9 @@ function QuestieTBCQuestFixes:Load()
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
         },
-        [10106] = { -- Hellfire Fortifications
+        [10106] = { -- Hellfire Fortifications A
             [questKeys.questLevel] = -1,
-            [questKeys.preQuestSingle] = {10483}, -- if there are others, put them in addition to existing
+            [questKeys.preQuestSingle] = {10143,10483}, -- double check 10143
             [questKeys.requiredMaxRep] = {},
             [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -2791,7 +2791,7 @@ function QuestieTBCQuestFixes:Load()
         [10108] = {
             [questKeys.objectives] = {{{18261,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [10110] = { -- Hellfire Fortifications
+        [10110] = { -- Hellfire Fortifications H
             [questKeys.questLevel] = -1,
             [questKeys.preQuestSingle] = {10124}, -- double check. if there are others, put them in addition to existing
             [questKeys.requiredMaxRep] = {},

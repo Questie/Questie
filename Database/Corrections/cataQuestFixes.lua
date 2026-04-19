@@ -2430,19 +2430,11 @@ function CataQuestFixes.Load()
         [13337] = { -- The Ironwall Rampart
             [questKeys.preQuestSingle] = {},
         },
-        [13408] = { -- Hellfire Fortifications
-            [questKeys.requiredClasses] = 1503, -- all classes except DK
-            [questKeys.nextQuestInChain] = 10106,
+        [13408] = { -- Hellfire Fortifications A
+            [questKeys.requiredClasses] = classIDs.ALL_CLASSES - classIDs.DEATH_KNIGHT,
         },
-        [13409] = { -- Hellfire Fortifications
-            [questKeys.requiredClasses] = 1503, -- all classes except DK
-            [questKeys.nextQuestInChain] = 10110,
-        },
-        [13410] = { -- Hellfire Fortifications
-            [questKeys.nextQuestInChain] = 10106,
-        },
-        [13411] = { -- Hellfire Fortifications
-            [questKeys.nextQuestInChain] = 10110,
+        [13409] = { -- Hellfire Fortifications H
+            [questKeys.requiredClasses] = classIDs.ALL_CLASSES - classIDs.DEATH_KNIGHT,
         },
         [13427] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
