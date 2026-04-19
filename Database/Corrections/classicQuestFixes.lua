@@ -5638,16 +5638,16 @@ function QuestieQuestFixes:Load()
         [9154] = {
             [questKeys.questLevel] = 60,
         },
-        [9165] = {
+        [9165] = { -- Writ of Safe Passage
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [9211] = {
-            [questKeys.requiredMinRep] = {529,3000},
+        [9211] = { -- The Ice Guard
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,9000},
         },
-        [9213] = {
-            [questKeys.requiredMinRep] = {529,3000},
+        [9213] = { -- The Shadow Guard
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,9000},
         },
-        [9223] = {
+        [9223] = { -- Superior Armaments of Battle - Honored Amongst the Dawn
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9229] = { -- The Fate of Ramaladni
