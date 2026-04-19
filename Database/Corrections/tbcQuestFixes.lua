@@ -982,7 +982,7 @@ function QuestieTBCQuestFixes:Load()
         [7485] = { -- Libram of Protection
             [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
         },
-        [7583] = {
+        [7583] = { -- Suppression
             [questKeys.preQuestGroup] = {7581,7582},
         },
         [7623] = { -- Lord Banehollow
