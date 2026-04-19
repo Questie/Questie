@@ -2557,7 +2557,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{70.92,25.62}}}, -- only OG for consistency
         },
         [14500] = { -- J'eevee
-            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1, -1}}}, -- #1506
+            [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1,-1}}}, -- #1506
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE, -- #1506
         },
         [14502] = { -- Xorothian Dreadsteed
