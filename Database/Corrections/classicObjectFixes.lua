@@ -310,6 +310,9 @@ function QuestieObjectFixes:Load()
         [179548] = { -- A Dusty Tome
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
         },
+        [179553] = { -- Core Fragment
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+        },
         [179559] = { -- Felvine Shard
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
         },
