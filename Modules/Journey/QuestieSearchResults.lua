@@ -30,7 +30,7 @@ local stringsub = string.sub
 
 local AceGUI = LibStub("AceGUI-3.0");
 
-local _HandleTreeItemClick
+local _HandleTreeItemClick, _FindFirstSpawn
 local lastOpenSearch = "quest"
 local _selected = 0
 
@@ -73,6 +73,27 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
             link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
             link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
             group:AddChild(link);
+        end
+
+        if TomTom and TomTom.AddWaypoint then
+            for _, id in pairs(lookup) do
+                id = abs(id)
+                local spawns = query(id, "spawns")
+                if spawns then
+                    local zone, x, y = _FindFirstSpawn(spawns)
+                    if zone then
+                        local name = query(id, "name")
+                        QuestieJourneyUtils:Spacer(group)
+                        local button = AceGUI:Create("Button")
+                        button:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
+                        button:SetCallback("OnClick", function()
+                            TrackerUtils:SetTomTomTarget(name, zone, x, y)
+                        end)
+                        group:AddChild(button)
+                        break
+                    end
+                end
+            end
         end
     end
 end
@@ -129,7 +150,7 @@ end
 ---@return AreaId|nil zone
 ---@return number|nil x
 ---@return number|nil y
-local function FindFirstSpawn(spawns)
+_FindFirstSpawn = function(spawns)
     for zoneId, coords in pairs(spawns) do
         if coords and coords[1] then
             local x = coords[1][1]
@@ -140,49 +161,6 @@ local function FindFirstSpawn(spawns)
         end
     end
     return nil, nil, nil
-end
-
--- Create a button for setting TomTom waypoint to a quest's starting NPC or object
----@param startedBy StartedBy
----@return AceGUIWidget|nil
-local function CreateTomTomButton(startedBy)
-    if not (TomTom and TomTom.AddWaypoint) then
-        return nil
-    end
-
-    local starterName, zone, x, y
-
-    -- Try NPCs first
-    if startedBy[1] and startedBy[1][1] then
-        local npcId = startedBy[1][1]
-        local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
-        if spawns then
-            zone, x, y = FindFirstSpawn(spawns)
-            if zone then
-                starterName = QuestieDB.QueryNPCSingle(npcId, "name")
-            end
-        end
-    elseif startedBy[2] and startedBy[2][1] then
-        local objectId = startedBy[2][1]
-        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
-        if spawns then
-            zone, x, y = FindFirstSpawn(spawns)
-            if zone then
-                starterName = QuestieDB.QueryObjectSingle(objectId, "name")
-            end
-        end
-    end
-
-    if (not zone) or (not x) or (not y) then
-        return nil
-    end
-
-    local button = AceGUI:Create("Button")
-    button:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
-    button:SetCallback("OnClick", function()
-        TrackerUtils:SetTomTomTarget(starterName, zone, x, y)
-    end)
-    return button
 end
 
 local function rec(theTable, ret, indent)
@@ -319,12 +297,6 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         AddLinkedParagraph(details, "object", startedBy[2], l10n("Objects starting this quest"), QuestieDB.QueryObjectSingle)
         -- TODO change to linked paragraph once item details page exists
         AddLinkedParagraph(details, "item", startedBy[3], l10n("Items starting this quest"), QuestieDB.QueryItemSingle)
-
-        -- TomTom waypoint button for quest starters
-        local tomTomButton = CreateTomTomButton(startedBy)
-        if tomTomButton then
-            details:AddChild(tomTomButton)
-        end
     end
 
     if finishedBy then
