@@ -53,18 +53,18 @@ end
 ---Takes a frame and adds a paragraph with a header text and a list of links to other search results
 ---@param frame AceGUIWidget The frame to work on
 ---@param linkType string The type of result to link to (npc|object|quest|item)
----@param lookupObject table Table of IDs (npc|object|quest|item)
+---@param lookup table Table of IDs (npc|object|quest|item)
 ---@param header string The text header to show above the links
 ---@param query function The function used to get link name from
-local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
-    if lookupObject and #lookupObject > 0 then
+local function AddLinkedParagraph(frame, linkType, lookup, header, query)
+    if lookup and #lookup > 0 then
         local group = AceGUI:Create("InlineGroup");
         group:SetFullWidth(true);
         group:SetLayout("flow");
         group:SetTitle(header);
         frame:AddChild(group);
 
-        for _,id in pairs(lookupObject) do
+        for _,id in pairs(lookup) do
             id = abs(id)
             local link = AceGUI:Create("InteractiveLabel")
             local name = query(id, "name")
