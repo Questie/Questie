@@ -38,18 +38,6 @@ local BY_NAME = 1
 local BY_ID = 2
 
 
-local function AddParagraph(frame, lookupObject, secondKey, header, query)
-    if lookupObject[secondKey] then
-        QuestieJourneyUtils:AddLine(frame,  Questie:Colorize(header))
-        for _,id in pairs(lookupObject[secondKey]) do
-            local name = query(id, "name")
-            if name then
-                QuestieJourneyUtils:AddLine(frame, name.." ("..id..")")
-            end
-        end
-    end
-end
-
 ---Takes a frame and adds a paragraph with a header text and a list of links to other search results
 ---@param frame AceGUIWidget The frame to work on
 ---@param linkType string The type of result to link to (npc|object|quest|item)
