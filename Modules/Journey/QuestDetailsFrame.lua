@@ -133,6 +133,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         startNPCNameLabel:SetColor(255, 165, 0)
         startNPCGroup:AddChild(startNPCNameLabel)
 
+        local startNPCIdLabel = AceGUI:Create("Label")
+        startNPCIdLabel:SetText(l10n("NPC ID").. l10n(": ") .. startNpc.id)
+        startNPCIdLabel:SetFullWidth(true)
+        startNPCGroup:AddChild(startNPCIdLabel)
+
         local startNPCZoneLabel = AceGUI:Create("Label")
         local startindex = 0
         if (not startNpc.spawns) then
@@ -160,11 +165,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startNPCLocLabel:SetFullWidth(true)
             startNPCGroup:AddChild(startNPCLocLabel)
         end
-
-        local startNPCIdLabel = AceGUI:Create("Label")
-        startNPCIdLabel:SetText(l10n("NPC ID").. l10n(": ") .. startNpc.id)
-        startNPCIdLabel:SetFullWidth(true)
-        startNPCGroup:AddChild(startNPCIdLabel)
 
         local tomTomButton = CreateTomTomButton(startNpc.name, startindex, startx, starty)
         if tomTomButton then
@@ -217,6 +217,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startObjectNameLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectNameLabel)
 
+            local startObjectIdLabel = AceGUI:Create("Label")
+            startObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. startObj.id)
+            startObjectIdLabel:SetFullWidth(true)
+            startObjectGroup:AddChild(startObjectIdLabel)
+
             local startObjectZoneLabel = AceGUI:Create("Label")
             local startindex = 0
             for i in pairs(startObj.spawns) do
@@ -237,11 +242,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 startObjectLocLabel:SetFullWidth(true)
                 startObjectGroup:AddChild(startObjectLocLabel)
             end
-
-            local startObjectIdLabel = AceGUI:Create("Label")
-            startObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. startObj.id)
-            startObjectIdLabel:SetFullWidth(true)
-            startObjectGroup:AddChild(startObjectIdLabel)
 
             local tomTomButton = CreateTomTomButton(startObj.name, startindex, startx, starty)
             if tomTomButton then
@@ -323,6 +323,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         endNPCNameLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCNameLabel)
 
+        local endNPCIdLabel = AceGUI:Create("Label")
+        endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
+        endNPCIdLabel:SetFullWidth(true)
+        endNPCGroup:AddChild(endNPCIdLabel)
+
         local endNPCZoneLabel = AceGUI:Create("Label")
         local endindex = 0
         if (not endNPC.spawns) then
@@ -347,16 +352,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 endNPCLocLabel:SetFullWidth(true)
                 endNPCGroup:AddChild(endNPCLocLabel)
             end
-        end
 
-        local endNPCIdLabel = AceGUI:Create("Label")
-        endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
-        endNPCIdLabel:SetFullWidth(true)
-        endNPCGroup:AddChild(endNPCIdLabel)
-
-        if next(endNPC.spawns) then
-            local endx = endNPC.spawns[endindex][1][1]
-            local endy = endNPC.spawns[endindex][1][2]
             local tomTomButton = CreateTomTomButton(endNPC.name, endindex, endx, endy)
             if tomTomButton then
                 QuestieJourneyUtils:Spacer(endNPCGroup)
@@ -408,6 +404,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         endObjectNameLabel:SetFullWidth(true)
         endObjectGroup:AddChild(endObjectNameLabel)
 
+        local endObjectIdLabel = AceGUI:Create("Label")
+        endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
+        endObjectIdLabel:SetFullWidth(true)
+        endObjectGroup:AddChild(endObjectIdLabel)
+
         local endObjectZoneLabel = AceGUI:Create("Label")
         local endindex = 0
         if (not endObject.spawns) then
@@ -432,16 +433,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 endObjectLocLabel:SetFullWidth(true)
                 endObjectGroup:AddChild(endObjectLocLabel)
             end
-        end
 
-        local endObjectIdLabel = AceGUI:Create("Label")
-        endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
-        endObjectIdLabel:SetFullWidth(true)
-        endObjectGroup:AddChild(endObjectIdLabel)
-
-        if next(endObject.spawns) then
-            local endx = endObject.spawns[endindex][1][1]
-            local endy = endObject.spawns[endindex][1][2]
             local tomTomButton = CreateTomTomButton(endObject.name, endindex, endx, endy)
             if tomTomButton then
                 QuestieJourneyUtils:Spacer(endObjectGroup)
