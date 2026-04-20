@@ -1990,8 +1990,15 @@ function QuestieQuestFixes:Load()
         [2966] = { -- Seeing What Happens
             [questKeys.nextQuestInChain] = 2954,
         },
-        [2969] = {
+        [2969] = { -- Freedom for All Creatures
             [questKeys.triggerEnd] = {"Save at least 6 Sprite Darters from capture", {[zoneIDs.FERALAS]={{67.27,46.67}}}},
+            [questKeys.nextQuestInChain] = 2970,
+        },
+        [2970] = { -- Doling Justice
+            [questKeys.nextQuestInChain] = 2972,
+        },
+        [2972] = { -- Doling Justice
+            [questKeys.nextQuestInChain] = 3841,
         },
         [2975] = {
             [questKeys.breadcrumbs] = {2981},
@@ -2249,6 +2256,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {11018,11022},
             [questKeys.preQuestSingle] = {3781}, -- #7241
             [questKeys.breadcrumbs] = {3787,3788}, -- #885
+        },
+        [3842] = { -- A Short Incubation
+            [questKeys.nextQuestInChain] = 3843,
         },
         [3903] = {
             [questKeys.preQuestSingle] = {18},
