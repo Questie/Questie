@@ -297,7 +297,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     -- TODO: There can be multiple finishers
     if quest.Finisher.NPC then
         local endNPCGroup = AceGUI:Create("InlineGroup")
-        endNPCGroup:SetLayout("Flow")
+        endNPCGroup:SetLayout("List")
         endNPCGroup:SetTitle(l10n('Quest Turn-in NPC Information'))
         endNPCGroup:SetFullWidth(true)
         container:AddChild(endNPCGroup)
@@ -372,7 +372,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     -- TODO: There can be multiple finishers
     if quest.Finisher.GameObject then
         local endObjectGroup = AceGUI:Create("InlineGroup")
-        endObjectGroup:SetLayout("Flow")
+        endObjectGroup:SetLayout("List")
         endObjectGroup:SetTitle(l10n('Quest Turn-in Object Information'))
         endObjectGroup:SetFullWidth(true)
         container:AddChild(endObjectGroup)
