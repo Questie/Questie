@@ -19,6 +19,25 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
+---Creates a TomTom waypoint button if TomTom is available and coordinates are valid, otherwise returns nil.
+---@param name string
+---@param zone AreaId
+---@param x number
+---@param y number
+---@return AceGUIWidget|nil
+local function CreateTomTomButton(name, zone, x, y)
+    if (not (TomTom and TomTom.AddWaypoint)) or (x == -1 and y == -1) then
+        return nil
+    end
+
+    local tomTomButton = AceGUI:Create("Button")
+    tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
+    tomTomButton:SetCallback("OnClick", function()
+        TrackerUtils:SetTomTomTarget(name, zone, x, y)
+    end)
+    return tomTomButton
+end
+
 ---@param questId QuestId
 ---@return string|nil
 function _QuestieJourney:GetReputationRewardString(questId)
@@ -147,13 +166,9 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         startNPCIdLabel:SetFullWidth(true)
         startNPCGroup:AddChild(startNPCIdLabel)
 
-        if TomTom and TomTom.AddWaypoint and (startx ~= -1 or starty ~= -1) then
+        local tomTomButton = CreateTomTomButton(startNpc.name, startindex, startx, starty)
+        if tomTomButton then
             QuestieJourneyUtils:Spacer(startNPCGroup)
-            local tomTomButton = AceGUI:Create("Button")
-            tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
-            tomTomButton:SetCallback("OnClick", function()
-                TrackerUtils:SetTomTomTarget(startNpc.name, startindex, startx, starty)
-            end)
             startNPCGroup:AddChild(tomTomButton)
         end
 
@@ -228,13 +243,9 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startObjectIdLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectIdLabel)
 
-            if TomTom and TomTom.AddWaypoint and (startx ~= -1 or starty ~= -1) then
+            local tomTomButton = CreateTomTomButton(startObj.name, startindex, startx, starty)
+            if tomTomButton then
                 QuestieJourneyUtils:Spacer(startObjectGroup)
-                local tomTomButton = AceGUI:Create("Button")
-                tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
-                tomTomButton:SetCallback("OnClick", function()
-                    TrackerUtils:SetTomTomTarget(startObj.name, startindex, startx, starty)
-                end)
                 startObjectGroup:AddChild(tomTomButton)
             end
 
@@ -343,16 +354,12 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         endNPCIdLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCIdLabel)
 
-        if TomTom and TomTom.AddWaypoint and next(endNPC.spawns) then
+        if next(endNPC.spawns) then
             local endx = endNPC.spawns[endindex][1][1]
             local endy = endNPC.spawns[endindex][1][2]
-            if endx ~= -1 or endy ~= -1 then
+            local tomTomButton = CreateTomTomButton(endNPC.name, endindex, endx, endy)
+            if tomTomButton then
                 QuestieJourneyUtils:Spacer(endNPCGroup)
-                local tomTomButton = AceGUI:Create("Button")
-                tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
-                tomTomButton:SetCallback("OnClick", function()
-                    TrackerUtils:SetTomTomTarget(endNPC.name, endindex, endx, endy)
-                end)
                 endNPCGroup:AddChild(tomTomButton)
             end
         end
@@ -432,16 +439,12 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         endObjectIdLabel:SetFullWidth(true)
         endObjectGroup:AddChild(endObjectIdLabel)
 
-        if TomTom and TomTom.AddWaypoint and next(endObject.spawns) then
+        if next(endObject.spawns) then
             local endx = endObject.spawns[endindex][1][1]
             local endy = endObject.spawns[endindex][1][2]
-            if endx ~= -1 or endy ~= -1 then
+            local tomTomButton = CreateTomTomButton(endObject.name, endindex, endx, endy)
+            if tomTomButton then
                 QuestieJourneyUtils:Spacer(endObjectGroup)
-                local tomTomButton = AceGUI:Create("Button")
-                tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
-                tomTomButton:SetCallback("OnClick", function()
-                    TrackerUtils:SetTomTomTarget(endObject.name, endindex, endx, endy)
-                end)
                 endObjectGroup:AddChild(tomTomButton)
             end
         end
