@@ -382,7 +382,9 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         AddLinkedParagraph(f, "quest", spawnObject.questEnds, l10n("Ends the following quests"), QuestieDB.QueryQuestSingle, false)
     end
 
-    local spawnZone = AceGUI:Create("Label");
+    local spawnZone = AceGUI:Create("Label")
+    spawnZone:SetFontObject(GameFontNormal)
+    spawnZone:SetFullWidth(true)
     local spawns = spawnObject.spawns
 
     if spawns then
@@ -411,7 +413,6 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local zoneName = QuestieJourneyUtils:GetZoneName(startindex)
 
         spawnZone:SetText(l10n(zoneName));
-        spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
 
         if spawns[startindex] and spawns[startindex][1] then
@@ -421,13 +422,13 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             if (startx ~= -1 or starty ~= -1) then
                 local spawnLoc = AceGUI:Create("Label");
                 spawnLoc:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty));
+                spawnLoc:SetFontObject(GameFontNormal)
                 spawnLoc:SetFullWidth(true);
                 f:AddChild(spawnLoc);
             end
         end
     else
         spawnZone:SetText(l10n("No spawn data available."))
-        spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
     end
 
