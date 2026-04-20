@@ -3777,7 +3777,7 @@ function QuestieQuestFixes:Load()
         },
         [7509] = { -- The Forging of Quel'Serrar
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
-            [questKeys.requiredSourceItems] = {18488,18489},
+            [questKeys.requiredSourceItems] = {18488},
         },
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320
