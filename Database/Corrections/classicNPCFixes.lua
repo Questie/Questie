@@ -2017,7 +2017,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
         },
         [11486] = { -- Prince Tortheldrin
-            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
         },
         [11487] = { -- Magister Kalendris
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_COURT_OF_THE_HIGHBORNE] = {{-1,-1}}},
