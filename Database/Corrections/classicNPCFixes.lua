@@ -2626,6 +2626,9 @@ function QuestieNPCFixes:Load()
         [14358] = { -- Shen'dralar Ancient
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_CAPITAL_GARDENS] = {{-1,-1}}},
         },
+        [14368] = { -- Lorekeeper Lydros
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
+        },
         [14373] = { -- Sage Korolusk
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
         },
@@ -2637,6 +2640,12 @@ function QuestieNPCFixes:Load()
         },
         [14377] = { -- Scout Tharr
             [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [14381] = { -- Lorekeeper Javon
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
+        },
+        [14383] = { -- Lorekeeper Kildrath
+            [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
         },
         [14387] = { -- Lothos Riftwaker
             [npcKeys.spawns] = {

@@ -1236,6 +1236,9 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
             [itemKeys.startQuest] = 7507,
         },
+        [18513] = { -- A Dull and Flat Elven Blade
+            [itemKeys.startQuest] = 7508,
+        },
         [18605] = { -- Imprisoned Doomguard (#7583)
             [itemKeys.npcDrops] = {12396},
         },

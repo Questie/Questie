@@ -3766,17 +3766,18 @@ function QuestieQuestFixes:Load()
         [7495] = { -- Victory for the Alliance
             [questKeys.requiredLevel] = 60,
         },
-        [7507] = {
+        [7507] = { -- Nostro's Compendium
             [questKeys.name] = "Nostro's Compendium",
             [questKeys.objectivesText] = {"Return Nostro's Compendium of Dragon Slaying to the Athenaeum."},
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
             [questKeys.nextQuestInChain] = 7508,
         },
-        [7508] = {
+        [7508] = { -- The Forging of Quel'Serrar
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
-        [7509] = {
+        [7509] = { -- The Forging of Quel'Serrar
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
+            [questKeys.requiredSourceItems] = {18488,18489},
         },
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320

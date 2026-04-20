@@ -982,6 +982,9 @@ function QuestieTBCQuestFixes:Load()
         [7485] = { -- Libram of Protection
             [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
         },
+        [7508] = { -- The Forging of Quel'Serrar
+            [questKeys.requiredLevel] = 60,
+        },
         [7583] = { -- Suppression
             [questKeys.preQuestGroup] = {7581,7582},
         },
