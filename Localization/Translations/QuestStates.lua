@@ -280,6 +280,30 @@ local questStateLocales = {
         ["zhCN"] = "世界事件",
         ["zhTW"] = "世界事件",
     },
+    ["Raid (10)"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Schlachtzug (10)",
+        ["esES"] = "Banda (10)",
+        ["esMX"] = "Banda (10)",
+        ["frFR"] = true,
+        ["koKR"] = "레이드 (10)",
+        ["ptBR"] = "Raide (10)",
+        ["ruRU"] = "Рейд (10)",
+        ["zhCN"] = "团队（10）",
+        ["zhTW"] = "團隊（10）",
+    },
+    ["Raid (25)"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Schlachtzug (25)",
+        ["esES"] = "Banda (25)",
+        ["esMX"] = "Banda (25)",
+        ["frFR"] = true,
+        ["koKR"] = "레이드 (25)",
+        ["ptBR"] = "Raide (25)",
+        ["ruRU"] = "Рейд (25)",
+        ["zhCN"] = "团队（25）",
+        ["zhTW"] = "團隊（25）",
+    },
 }
 
 for k, v in pairs(questStateLocales) do

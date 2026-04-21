@@ -1419,6 +1419,11 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [11178] = {62, l10n("Raid")}, -- Blood of the Warlord
         [11195] = {62, l10n("Raid")}, -- Playin' With Dolls
         [11196] = Expansions.Current <= Expansions.Wotlk and {62, l10n("Raid")} or {81, l10n("Dungeon")}, -- Warlord of the Amani
+        [11238] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Frost Wyrm and its Master
+        [11252] = {81, l10n("Dungeon")}, -- Into Utgarde!
+        [11262] = {81, l10n("Dungeon")}, -- Ingvar Must Die!
+        [11267] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Frost Wyrm and its Master
+        [11272] = {81, l10n("Dungeon")}, -- A Score to Settle
         [11335] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
         [11336] = {41, l10n("PvP")}, -- Call to Arms: Alterac Valley
         [11337] = {41, l10n("PvP")}, -- Call to Arms: Eye of the Storm
@@ -1428,9 +1433,15 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [11341] = {41, l10n("PvP")}, -- Call to Arms: Eye of the Storm
         [11342] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
         [11354] = {85, l10n("Heroic")}, -- Wanted: Nazan's Riding Crop
+        [11355] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- March of the Giants
+        [11358] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Lodestone
+        [11359] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Demolishing Megalith
         [11362] = {85, l10n("Heroic")}, -- Wanted: Keli'dan's Feathered Stave
         [11363] = {85, l10n("Heroic")}, -- Wanted: Bladefist's Seal
         [11364] = {81, l10n("Dungeon")}, -- Wanted: Wanted: Shattered Hand Centurions
+        [11365] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- March of the Giants
+        [11366] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Lodestone
+        [11367] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Demolishing Megalith
         [11368] = {85, l10n("Heroic")}, -- Wanted: The Heart of Quagmirran
         [11369] = {85, l10n("Heroic")}, -- Wanted: A Black Stalker Egg
         [11370] = {85, l10n("Heroic")}, -- Wanted: The Warlord's Treatise
@@ -1451,6 +1462,7 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [11389] = {81, l10n("Dungeon")}, -- Wanted: Arcatraz Sentinels
         [11401] = {81, l10n("Dungeon")}, -- Call the Headless Horseman
         [11405] = {81, l10n("Dungeon")}, -- Call the Headless Horseman
+        [11471] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Jig is Up
         [11488] = {81, l10n("Dungeon")}, -- Magisters' Terrace
         [11490] = {81, l10n("Dungeon")}, -- The Scryer's Scryer
         [11492] = {81, l10n("Dungeon")}, -- Hard to Kill
@@ -1460,36 +1472,324 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [11503] = {41, l10n("PvP")}, -- Enemies, Old and New
         [11505] = {41, l10n("PvP")}, -- Spirits of Auchindoun
         [11506] = {41, l10n("PvP")}, -- Spirits of Auchindoun
+        [11551] = {62, l10n("Raid")}, -- Agamath, the First Gate
+        [11552] = {62, l10n("Raid")}, -- Rohendor, the Second Gate
+        [11553] = {62, l10n("Raid")}, -- Archonisus, the Final Gate
         [11691] = {81, l10n("Dungeon")}, -- Summon Ahune
+        [11868] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Culler Cometh
+        [11884] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Nedar, Lord of Rhinos...
         [11885] = {1, l10n("Elite")}, -- Adversarial Blood
+        [11892] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Assassination of Harold Lane
+        [11898] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Breaking Through
+        [11905] = {81, l10n("Dungeon")}, -- Postponing the Inevitable
+        [11911] = {81, l10n("Dungeon")}, -- Quickening
         [11955] = {81, l10n("Dungeon")}, -- Ahune, the Frost Lord
+        [11973] = {81, l10n("Dungeon")}, -- Prisoner of War
+        [12019] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Last Rites
+        [12037] = {81, l10n("Dungeon")}, -- Search and Rescue
         [12062] = {81, l10n("Dungeon")}, -- Insult Coren Direbrew
-        [12170] = {41, l10n("PvP")}, -- 
-        [12244] = {41, l10n("PvP")}, -- 
-        [12268] = {41, l10n("PvP")}, -- 
-        [12270] = {41, l10n("PvP")}, -- 
-        [12280] = {41, l10n("PvP")}, -- 
-        [12284] = {41, l10n("PvP")}, -- 
-        [12288] = {41, l10n("PvP")}, -- 
-        [12289] = {41, l10n("PvP")}, -- 
-        [12296] = {41, l10n("PvP")}, -- 
-        [12314] = {41, l10n("PvP")}, -- 
-        [12315] = {41, l10n("PvP")}, -- 
-        [12316] = {41, l10n("PvP")}, -- 
-        [12317] = {41, l10n("PvP")}, -- 
-        [12323] = {41, l10n("PvP")}, -- 
-        [12324] = {41, l10n("PvP")}, -- 
-        [12432] = {41, l10n("PvP")}, -- 
-        [12433] = {41, l10n("PvP")}, -- 
-        [12434] = {41, l10n("PvP")}, -- 
-        [12437] = {41, l10n("PvP")}, -- 
-        [12443] = {41, l10n("PvP")}, -- 
-        [12446] = {41, l10n("PvP")}, -- 
+        [12080] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Really Big Worm
+        [12089] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanted: Magister Keldonus
+        [12090] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanted: Gigantaur
+        [12091] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanted: Dreadtalon
+        [12095] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- To Dragon's Fall
+        [12097] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Sarathstra, Scourge of the North
+        [12148] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- One of a Kind
+        [12149] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Mighty Magnataur
+        [12150] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Reclusive Runemaster
+        [12151] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanton Warlord
+        [12164] = {1, l10n("Elite")}, -- Hour of the Worg
+        [12170] = {41, l10n("PvP")}, -- Blackriver Brawl
+        [12236] = {1, l10n("Elite")}, -- Ursoc, the Bear God
+        [12238] = {81, l10n("Dungeon")}, -- Cleansing Drak'Tharon
+        [12249] = {1, l10n("Elite")}, -- Ursoc, the Bear God
+        [12244] = {41, l10n("PvP")}, -- Shredder Repair
+        [12268] = {41, l10n("PvP")}, -- Pieces Parts
+        [12270] = {41, l10n("PvP")}, -- Shred the Alliance
+        [12280] = {41, l10n("PvP")}, -- Making Repairs
+        [12284] = {41, l10n("PvP")}, -- Keep 'Em on Their Heels
+        [12285] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Do Unto Others
+        [12288] = {41, l10n("PvP")}, -- Overwhelmed!
+        [12289] = {41, l10n("PvP")}, -- Kick 'Em While They're Down
+        [12296] = {41, l10n("PvP")}, -- Life or Death
+        [12314] = {41, l10n("PvP")}, -- Down With Captain Zorna!
+        [12315] = {41, l10n("PvP")}, -- Crush Captain Brightwater!
+        [12316] = {41, l10n("PvP")}, -- Keep Them at Bay!
+        [12317] = {41, l10n("PvP")}, -- Keep Them at Bay
+        [12323] = {41, l10n("PvP")}, -- Smoke 'Em Out
+        [12324] = {41, l10n("PvP")}, -- Smoke 'Em Out
+        [12427] = {1, l10n("Elite")}, -- The Conquest Pit: Bear Wrestling!
+        [12428] = {1, l10n("Elite")}, -- The Conquest Pit: Mad Furbolg Fighting
+        [12429] = {1, l10n("Elite")}, -- The Conquest Pit: Blood and Metal
+        [12430] = {1, l10n("Elite")}, -- The Conquest Pit: Death Is Likely
+        [12431] = {1, l10n("Elite")}, -- The Conquest Pit: Final Showdown
+        [12432] = {41, l10n("PvP")}, -- Riding the Red Rocket
+        [12433] = {41, l10n("PvP")}, -- Seeking Solvent
+        [12434] = {41, l10n("PvP")}, -- Always Seeking Solvent
+        [12437] = {41, l10n("PvP")}, -- Riding the Red Rocket
+        [12438] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanted: Kreug Oathbreaker
+        [12441] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanted: High Shaman Bloodpaw
+        [12442] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanted: Onslaught Commander Iustus
+        [12443] = {41, l10n("PvP")}, -- Seeking Solvent
+        [12444] = {41, l10n("PvP")}, -- Blackriver Skirmish
+        [12446] = {41, l10n("PvP")}, -- Always Seeking Solvent
+        [12456] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Plume of Alystros
+        [12464] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- My Old Enemy
         [12513] = {81, l10n("Dungeon")}, -- Nice Hat...
         [12515] = {81, l10n("Dungeon")}, -- Nice Hat...
+        [12554] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Malas the Corrupter
+        [12581] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- A Hero's Burden
+        [12616] = {62, l10n("Raid")}, -- Chamber of Secrets
+        [12729] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- The Gods Have Spoken
+        [12730] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Convocation at Zol'Heb
+        [12847] = {1, l10n("Elite")}, -- Second Chances
+        [12852] = {1, l10n("Elite")}, -- The Admiral Revealed
+        [12857] = Expansions.Current == Expansions.Wotlk and {1, l10n("Elite")} or nil, -- Wanted: Ragemane's Flipper
+        [12868] = {1, l10n("Elite")}, -- Sirana Iceshriek
+        [12932] = {1, l10n("Elite")}, -- The Amphitheater of Anguish: Yggdras!
+        [12933] = {1, l10n("Elite")}, -- The Amphitheater of Anguish: Magnataur!
+        [12934] = {1, l10n("Elite")}, -- The Amphitheater of Anguish: From Beyond!
+        [12935] = {1, l10n("Elite")}, -- The Amphitheater of Anguish: Tuskarrmageddon!
+        [12936] = {1, l10n("Elite")}, -- The Amphitheater of Anguish: Korrak the Bloodrager!
+        [12948] = {1, l10n("Elite")}, -- The Champion of Anguish
+        [12954] = {1, l10n("Elite")}, -- The Amphitheater of Anguish: Yggdras!
+        [12974] = {1, l10n("Elite")}, -- The Champion's Call!
+        [13094] = {81, l10n("Dungeon")}, -- Have They No Shame?
+        [13095] = {81, l10n("Dungeon")}, -- Have They No Shame?
+        [13096] = {81, l10n("Dungeon")}, -- Gal'darah Must Pay
+        [13098] = {81, l10n("Dungeon")}, -- For Posterity
+        [13108] = {81, l10n("Dungeon")}, -- Whatever it Takes!
+        [13109] = {81, l10n("Dungeon")}, -- Diametrically Opposed
+        [13111] = {81, l10n("Dungeon")}, -- One of a Kind
+        [13124] = {81, l10n("Dungeon")}, -- The Struggle Persists
+        [13126] = {81, l10n("Dungeon")}, -- A Unified Front
+        [13127] = {81, l10n("Dungeon")}, -- Mage-Lord Urom
+        [13128] = {81, l10n("Dungeon")}, -- A Wing and a Prayer
         [13129] = {81, l10n("Dungeon")}, -- Head Games
-        [13199] = {41, l10n("PvP")}, -- 
+        [13131] = {81, l10n("Dungeon")}, -- Junk in My Trunk
+        [13132] = {81, l10n("Dungeon")}, -- Vengeance Be Mine!
+        [13137] = {1, l10n("Elite")}, -- Not-So-Honorable Combat
+        [13142] = {1, l10n("Elite")}, -- Banshee's Revenge
+        [13149] = {81, l10n("Dungeon")}, -- Dispelling Illusions
+        [13151] = {81, l10n("Dungeon")}, -- A Royal Escort
+        [13153] = {41, l10n("PvP")}, -- Warding the Warriors
+        [13154] = {41, l10n("PvP")}, -- Bones and Arrows
+        [13156] = {41, l10n("PvP")}, -- A Rare Herb
+        [13158] = {81, l10n("Dungeon")}, -- Discretion is Key
+        [13159] = {81, l10n("Dungeon")}, -- Containment
+        [13161] = {1, l10n("Elite")}, -- The Rider of the Unholy
+        [13162] = {1, l10n("Elite")}, -- The Rider of Frost
+        [13163] = {1, l10n("Elite")}, -- The Rider of Blood
+        [13164] = {1, l10n("Elite")}, -- The Fate of Bloodbane
+        [13167] = {81, l10n("Dungeon")}, -- Death to the Traitor King
+        [13177] = {41, l10n("PvP")}, -- No Mercy for the Merciless
+        [13178] = {41, l10n("PvP")}, -- Slay them all!
+        [13179] = {41, l10n("PvP")}, -- No Mercy for the Merciless
+        [13180] = {41, l10n("PvP")}, -- Slay them all!
+        [13181] = {41, l10n("PvP")}, -- Victory in Wintergrasp
+        [13182] = {81, l10n("Dungeon")}, -- Don't Forget the Eggs!
+        [13183] = {41, l10n("PvP")}, -- Victory in Wintergrasp
+        [13185] = {41, l10n("PvP")}, -- Stop the Siege
+        [13186] = {41, l10n("PvP")}, -- Stop the Siege
+        [13187] = {81, l10n("Dungeon")}, -- The Faceless Ones
+        [13190] = {85, l10n("Heroic")}, -- All Things in Good Time
+        [13191] = {41, l10n("PvP")}, -- Fueling the Demolishers
+        [13192] = {41, l10n("PvP")}, -- Warding the Walls
+        [13193] = {41, l10n("PvP")}, -- Bones and Arrows
+        [13194] = {41, l10n("PvP")}, -- Healing with Roses
+        [13195] = {41, l10n("PvP")}, -- A Rare Herb
+        [13196] = {41, l10n("PvP")}, -- Bones and Arrows
+        [13197] = {41, l10n("PvP")}, -- Fueling the Demolishers
+        [13198] = {41, l10n("PvP")}, -- Warding the Warriors
+        [13199] = {41, l10n("PvP")}, -- Bones and Arrows
+        [13200] = {41, l10n("PvP")}, -- Fueling the Demolishers
+        [13201] = {41, l10n("PvP")}, -- Healing with Roses
+        [13202] = {41, l10n("PvP")}, -- Jinxing the Walls
+        [13204] = {81, l10n("Dungeon")}, -- Funky Fungi
+        [13205] = {81, l10n("Dungeon")}, -- Disarmament
+        [13206] = {81, l10n("Dungeon")}, -- Disarmament
+        [13207] = {81, l10n("Dungeon")}, -- Halls of Stone
+        [13214] = {1, l10n("Elite")}, -- Battle at Valhalas: Fallen Heroes
+        [13215] = {1, l10n("Elite")}, -- Battle at Valhalas: Khit'rix the Dark Master
+        [13216] = {1, l10n("Elite")}, -- Battle at Valhalas: The Return of Sigrid Iceborn
+        [13217] = {1, l10n("Elite")}, -- Battle at Valhalas: Carnage!
+        [13218] = {1, l10n("Elite")}, -- Battle at Valhalas: Thane Deathblow
+        [13219] = {1, l10n("Elite")}, -- Battle at Valhalas: Final Challenge
+        [13222] = {41, l10n("PvP")}, -- Defend the Siege
+        [13223] = {41, l10n("PvP")}, -- Defend the Siege
+        [13233] = {41, l10n("PvP")}, -- No Mercy!
+        [13234] = {41, l10n("PvP")}, -- Make Them Pay!
+        [13240] = {81, l10n("Dungeon")}, -- Timear Foresees Centrifuge Constructs in your Future!
+        [13241] = {81, l10n("Dungeon")}, -- Timear Foresees Ymirjar Berserkers in your Future!
+        [13243] = {81, l10n("Dungeon")}, -- Timear Foresees Infinite Agents in your Future!
+        [13244] = {81, l10n("Dungeon")}, -- Timear Foresees Titanium Vanguards in your Future!
+        [13245] = {85, l10n("Heroic")}, -- Proof of Demise: Ingvar the Plunderer
+        [13246] = {85, l10n("Heroic")}, -- Proof of Demise: Keristrasza
+        [13247] = {85, l10n("Heroic")}, -- Proof of Demise: Ley-Guardian Eregos
+        [13248] = {85, l10n("Heroic")}, -- Proof of Demise: King Ymiron
+        [13249] = {85, l10n("Heroic")}, -- Proof of Demise: The Prophet Tharon'ja
+        [13250] = {85, l10n("Heroic")}, -- Proof of Demise: Gal'darah
+        [13251] = {85, l10n("Heroic")}, -- Proof of Demise: Mal'Ganis
+        [13252] = {85, l10n("Heroic")}, -- Proof of Demise: Sjonnir The Ironshaper
+        [13253] = {85, l10n("Heroic")}, -- Proof of Demise: Loken
+        [13254] = {85, l10n("Heroic")}, -- Proof of Demise: Anub'arak
+        [13255] = {85, l10n("Heroic")}, -- Proof of Demise: Herald Volazj
+        [13256] = {85, l10n("Heroic")}, -- Proof of Demise: Cyanigosa
+        [13277] = {1, l10n("Elite")}, -- Against the Giants
+        [13278] = {1, l10n("Elite")}, -- Coprous the Defiled
+        [13279] = {1, l10n("Elite")}, -- Basic Chemistry
+        [13280] = {41, l10n("PvP")}, -- King of the Mountain
+        [13281] = {1, l10n("Elite")}, -- Neutralizing the Plague
+        [13283] = {41, l10n("PvP")}, -- King of the Mountain
+        [13294] = {1, l10n("Elite")}, -- Against the Giants
+        [13295] = {1, l10n("Elite")}, -- Basic Chemistry
+        [13297] = {1, l10n("Elite")}, -- Neutralizing the Plague
+        [13298] = {1, l10n("Elite")}, -- Coprous the Defiled
+        [13308] = {1, l10n("Elite")}, -- Mind Tricks
+        [13312] = {1, l10n("Elite")}, -- The Ironwall Rampart
+        [13316] = {1, l10n("Elite")}, -- The Guardians of Corp'rethar
+        [13328] = {1, l10n("Elite")}, -- Shatter the Shards
+        [13329] = {1, l10n("Elite")}, -- Before the Gate of Horror
+        [13335] = {1, l10n("Elite")}, -- Before the Gate of Horror
+        [13337] = {1, l10n("Elite")}, -- The Ironwall Rampart
+        [13338] = {1, l10n("Elite")}, -- The Guardians of Corp'rethar
+        [13339] = {1, l10n("Elite")}, -- Shatter the Shards
+        [13345] = {1, l10n("Elite")}, -- Need More Info
+        [13346] = {1, l10n("Elite")}, -- No Rest For The Wicked
+        [13350] = {1, l10n("Elite")}, -- No Rest For The Wicked
+        [13366] = {1, l10n("Elite")}, -- Need More Info
+        [13367] = {1, l10n("Elite")}, -- No Rest For The Wicked
+        [13368] = {1, l10n("Elite")}, -- No Rest For The Wicked
+        [13384] = {88, l10n("Raid (10)")}, -- Judgment at the Eye of Eternity
+        [13385] = {89, l10n("Raid (25)")}, -- Heroic Judgment at the Eye of Eternity
+        [13405] = {41, l10n("PvP")}, -- Call to Arms: Strand of the Ancients
+        [13407] = {41, l10n("PvP")}, -- Call to Arms: Strand of the Ancients
+        [13408] = {41, l10n("PvP")}, -- Hellfire Fortifications
+        [13409] = {41, l10n("PvP")}, -- Hellfire Fortifications
+        [13410] = {41, l10n("PvP")}, -- Hellfire Fortifications
+        [13411] = {41, l10n("PvP")}, -- Hellfire Fortifications
+        [13427] = {41, l10n("PvP")}, -- Call to Arms: Alterac Valley
+        [13428] = {41, l10n("PvP")}, -- Call to Arms: Alterac Valley
+        [13430] = {62, l10n("Raid")}, -- Trial of the Naaru: Magtheridon
+        [13431] = {62, l10n("Raid")}, -- The Cudgel of Kar'desh
+        [13432] = {62, l10n("Raid")}, -- The Vials of Eternity
+        [13475] = {41, l10n("PvP")}, -- For Great Honor
+        [13476] = {41, l10n("PvP")}, -- For Great Honor
+        [13477] = {41, l10n("PvP")}, -- Concerted Efforts
+        [13478] = {41, l10n("PvP")}, -- Concerted Efforts
+        [13538] = {41, l10n("PvP")}, -- Southern Sabotage
+        [13539] = {41, l10n("PvP")}, -- Southern Sabotage
+        [13604] = {88, l10n("Raid (10)")}, -- Archivum Data Disc
+        [13606] = {88, l10n("Raid (10)")}, -- Freya's Sigil
+        [13607] = {88, l10n("Raid (10)")}, -- The Celestial Planetarium
+        [13609] = {88, l10n("Raid (10)")}, -- Hodir's Sigil
+        [13610] = {88, l10n("Raid (10)")}, -- Thorim's Sigil
+        [13611] = {88, l10n("Raid (10)")}, -- Mimiron's Sigil
+        [13614] = {88, l10n("Raid (10)")}, -- Algalon
+        [13622] = {89, l10n("Raid (25)")}, -- Ancient History
+        [13629] = {89, l10n("Raid (25)")}, -- Val'anyr, Hammer of Ancient Kings
+        [13631] = {88, l10n("Raid (10)")}, -- All Is Well That Ends Well
         [13662] = {81, l10n("Dungeon")}, -- Gaining Acceptance
+        [13682] = {1, l10n("Elite")}, -- Threat From Above
+        [13788] = {1, l10n("Elite")}, -- Threat From Above
+        [13809] = {1, l10n("Elite")}, -- Threat From Above
+        [13812] = {1, l10n("Elite")}, -- Threat From Above
+        [13816] = {89, l10n("Raid (25)")}, -- Heroic: The Celestial Planetarium
+        [13817] = {89, l10n("Raid (25)")}, -- Heroic: Archivum Data Disc
+        [13818] = {89, l10n("Raid (25)")}, -- Heroic: Algalon
+        [13819] = {89, l10n("Raid (25)")}, -- Heroic: All Is Well That Ends Well
+        [13821] = {89, l10n("Raid (25)")}, -- Heroic: Freya's Sigil
+        [13822] = {89, l10n("Raid (25)")}, -- Heroic: Hodir's Sigil
+        [13823] = {89, l10n("Raid (25)")}, -- Heroic: Thorim's Sigil
+        [13824] = {89, l10n("Raid (25)")}, -- Heroic: Mimiron's Sigil
+        [14163] = {41, l10n("PvP")}, -- Call to Arms: Isle of Conquest
+        [14164] = {41, l10n("PvP")}, -- Call to Arms: Isle of Conquest
+        [14178] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [14179] = {41, l10n("PvP")}, -- Call to Arms: Eye of the Storm
+        [14180] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [14181] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [14182] = {41, l10n("PvP")}, -- Call to Arms: Eye of the Storm
+        [14183] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [14199] = {85, l10n("Heroic")}, -- Proof of Demise: The Black Knight
+        [14350] = {1, l10n("Elite")}, -- The Crimson Courier
+        [14352] = {81, l10n("Dungeon")}, -- An Unholy Alliance
+        [14353] = {81, l10n("Dungeon")}, -- An Unholy Alliance
+        [14355] = {81, l10n("Dungeon")}, -- Into The Scarlet Monastery
+        [14356] = {81, l10n("Dungeon")}, -- The Power to Destroy...
+        [14488] = {81, l10n("Dungeon")}, -- You've Been Served
+        [24216] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [24217] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [24218] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [24219] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [24220] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [24221] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [24223] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [24224] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [24225] = {41, l10n("PvP")}, -- Call to Arms: Warsong Gulch
+        [24226] = {41, l10n("PvP")}, -- Call to Arms: Arathi Basin
+        [24426] = {41, l10n("PvP")}, -- Call to Arms: Alterac Valley
+        [24427] = {41, l10n("PvP")}, -- Call to Arms: Alterac Valley
+        [24461] = {81, l10n("Dungeon")}, -- Reforging The Sword
+        [24476] = {81, l10n("Dungeon")}, -- Tempering The Blade
+        [24480] = {81, l10n("Dungeon")}, -- The Halls Of Reflection
+        [24498] = {81, l10n("Dungeon")}, -- The Path to the Citadel
+        [24499] = {81, l10n("Dungeon")}, -- Echoes of Tortured Souls
+        [24500] = {81, l10n("Dungeon")}, -- Wrath of the Lich King
+        [24506] = {81, l10n("Dungeon")}, -- Inside the Frozen Citadel
+        [24507] = {81, l10n("Dungeon")}, -- The Path to the Citadel
+        [24510] = {81, l10n("Dungeon")}, -- Inside the Frozen Citadel
+        [24511] = {81, l10n("Dungeon")}, -- Echoes of Tortured Souls
+        [24545] = {89, l10n("Raid (25)")}, -- The Sacred and the Corrupt
+        [24547] = {62, l10n("Raid")}, -- A Feast of Souls
+        [24548] = {89, l10n("Raid (25)")}, -- The Splintered Throne
+        [24549] = {89, l10n("Raid (25)")}, -- Shadowmourne...
+        [24559] = {81, l10n("Dungeon")}, -- Reforging The Sword
+        [24560] = {81, l10n("Dungeon")}, -- Tempering The Blade
+        [24561] = {81, l10n("Dungeon")}, -- The Halls Of Reflection
+        [24579] = {62, l10n("Raid")}, -- Sartharion Must Die!
+        [24580] = {62, l10n("Raid")}, -- Anub'Rekhan Must Die!
+        [24581] = {62, l10n("Raid")}, -- Noth the Plaguebringer Must Die!
+        [24582] = {62, l10n("Raid")}, -- Instructor Razuvious Must Die!
+        [24583] = {62, l10n("Raid")}, -- Patchwerk Must Die!
+        [24584] = {62, l10n("Raid")}, -- Malygos Must Die!
+        [24585] = {62, l10n("Raid")}, -- Flame Leviathan Must Die!
+        [24586] = {62, l10n("Raid")}, -- Razorscale Must Die!
+        [24587] = {62, l10n("Raid")}, -- Ignis the Furnace Master Must Die!
+        [24588] = {62, l10n("Raid")}, -- XT-002 Deconstructor Must Die!
+        [24589] = {62, l10n("Raid")}, -- Lord Jaraxxus Must Die!
+        [24590] = {62, l10n("Raid")}, -- Lord Marrowgar Must Die!
+        [24682] = {81, l10n("Dungeon")}, -- The Pit of Saron
+        [24683] = {81, l10n("Dungeon")}, -- The Pit of Saron
+        [24710] = {81, l10n("Dungeon")}, -- Deliverance from the Pit
+        [24711] = {81, l10n("Dungeon")}, -- Frostmourne
+        [24712] = {81, l10n("Dungeon")}, -- Deliverance from the Pit
+        [24713] = {81, l10n("Dungeon")}, -- Frostmourne
+        [24748] = {89, l10n("Raid (25)")}, -- The Lich King's Last Stand
+        [24749] = {89, l10n("Raid (25)")}, -- Unholy Infusion
+        [24756] = {89, l10n("Raid (25)")}, -- Blood Infusion
+        [24757] = {89, l10n("Raid (25)")}, -- Frost Infusion
+        [24802] = {81, l10n("Dungeon")}, -- Wrath of the Lich King
+        [24869] = {88, l10n("Raid (10)")}, -- Deprogramming
+        [24870] = {88, l10n("Raid (10)")}, -- Securing the Ramparts
+        [24871] = {88, l10n("Raid (10)")}, -- Securing the Ramparts
+        [24872] = {88, l10n("Raid (10)")}, -- Respite for a Tormented Soul
+        [24873] = {88, l10n("Raid (10)")}, -- Residue Rendezvous
+        [24874] = {88, l10n("Raid (10)")}, -- Blood Quickening
+        [24875] = {89, l10n("Raid (25)")}, -- Deprogramming
+        [24876] = {89, l10n("Raid (25)")}, -- Securing the Ramparts
+        [24877] = {89, l10n("Raid (25)")}, -- Securing the Ramparts
+        [24878] = {89, l10n("Raid (25)")}, -- Residue Rendezvous
+        [24879] = {89, l10n("Raid (25)")}, -- Blood Quickening
+        [24880] = {89, l10n("Raid (25)")}, -- Respite for a Tormented Soul
+        [24912] = {89, l10n("Raid (25)")}, -- Empowerment
+        [24915] = {89, l10n("Raid (25)")}, -- Mograine's Reunion
+        [24916] = {89, l10n("Raid (25)")}, -- Jaina's Locket
+        [24917] = {89, l10n("Raid (25)")}, -- Muradin's Lament
+        [24918] = {89, l10n("Raid (25)")}, -- Sylvanas' Vengeance
+        [24919] = {89, l10n("Raid (25)")}, -- The Lightbringer's Redemption
+        [26012] = {62, l10n("Raid")}, -- Trouble at Wyrmrest
+        [26013] = {62, l10n("Raid")}, -- Assault on the Sanctum
+        [26034] = {62, l10n("Raid")}, -- The Twilight Destroyer
         [26452] = {41, l10n("PvP")}, -- 
         [26856] = {81, l10n("Dungeon")}, -- 
         [26858] = {81, l10n("Dungeon")}, -- 
@@ -1520,6 +1820,8 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [29760] = {41, l10n("PvP")}, -- 
         [29761] = {41, l10n("PvP")}, -- 
         [64845] = {41, l10n("PvP")}, -- 
+        [78752] = {85, l10n("Heroic")}, -- Proof of Demise: Titan Rune Protocol Gamma
+        [78753] = {85, l10n("Heroic")}, -- Proof of Demise: Threats to Azeroth
         [78680] = {1, l10n("Elite")}, -- 
         [78681] = {1, l10n("Elite")}, -- 
         [78684] = {1, l10n("Elite")}, -- 
@@ -1530,6 +1832,10 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [80150] = {1, l10n("Elite")}, -- 
         [80151] = {1, l10n("Elite")}, -- 
         [80152] = {1, l10n("Elite")}, -- 
+        [83713] = {85, l10n("Heroic")}, -- Proof of Demise: Titan Rune Protocol Alpha
+        [83714] = {85, l10n("Heroic")}, -- Proof of Demise: Threats to Azeroth
+        [83717] = {85, l10n("Heroic")}, -- Proof of Demise: Titan Rune Protocol Beta
+        [87379] = {85, l10n("Heroic")}, -- Proof of Demise: Threats to Azeroth
         [90014] = {1, l10n("Elite")}, -- 
         [90054] = {1, l10n("Elite")}, -- 
         [90070] = {1, l10n("Elite")}, -- 
@@ -1568,6 +1874,13 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [90343] = {1, l10n("Elite")}, -- 
         [90344] = {1, l10n("Elite")}, -- 
         [90353] = {1, l10n("Elite")}, -- 
+        [93975] = {62, l10n("Raid")}, -- Ragnaros Must Die!
+        [94577] = {62, l10n("Raid")}, -- Kael'thas Must Die!
+        [94579] = {62, l10n("Raid")}, -- Patchwerk Must Die!
+        [95455] = {41, l10n("PvP")}, -- Concerted Efforts
+        --[95456] = {41, l10n("PvP")}, -- Concerted Efforts
+        [95457] = {41, l10n("PvP")}, -- For Great Honor
+        --[95458] = {41, l10n("PvP")}, -- For Great Honor
 
         -- MoP quests
         [30567] = {98, l10n("Scenario")}, -- 
@@ -1628,9 +1941,5 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [91717] = {294, l10n("Celestial")}, -- 
         [91718] = {294, l10n("Celestial")}, -- 
         [91786] = {294, l10n("Celestial")}, -- 
-
-        -- TBC Anniversary quests
-        [95455] = {41, l10n("PvP")}, -- 
-        [95457] = {41, l10n("PvP")}, -- 
     }
 end
