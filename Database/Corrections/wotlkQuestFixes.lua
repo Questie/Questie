@@ -2217,24 +2217,24 @@ function QuestieWotlkQuestFixes:Load()
         [12423] = {
             [questKeys.startedBy] = {nil,nil,{37830}},
         },
-        [12427] = {
+        [12427] = { -- The Conquest Pit: Bear Wrestling!
             [questKeys.preQuestSingle] = {12413},
-            [questKeys.triggerEnd] = {"Ironhide defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.2,64.68}}}},
             [questKeys.objectives] = {{{27715}}},
+            [questKeys.nextQuestInChain] = 12428,
         },
-        [12428] = {
-            [questKeys.triggerEnd] = {"Torgg Thundertotem defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.05,64.55}}}},
+        [12428] = { -- The Conquest Pit: Mad Furbolg Fighting
             [questKeys.objectives] = {{{27716}}},
+            [questKeys.nextQuestInChain] = 12429,
         },
-        [12429] = {
-            [questKeys.triggerEnd] = {"Rustblood defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.12,64.62}}}},
+        [12429] = { -- The Conquest Pit: Blood and Metal
             [questKeys.objectives] = {{{27717}}},
+            [questKeys.nextQuestInChain] = 12430,
         },
-        [12430] = {
-            [questKeys.triggerEnd] = {"Horgrenn Hellcleave defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.11,64.6}}}},
+        [12430] = { -- The Conquest Pit: Death Is Likely
             [questKeys.objectives] = {{{27718}}},
+            [questKeys.nextQuestInChain] = 12431,
         },
-        [12431] = {
+        [12431] = { -- The Conquest Pit: Final Showdown
             [questKeys.objectives] = {{{27727}}},
         },
         [12432] = { -- Riding the Red Rocket
@@ -3327,23 +3327,27 @@ function QuestieWotlkQuestFixes:Load()
         [12930] = {
             [questKeys.requiredSourceItems] = {},
         },
-        [12932] = { -- This is the version of the quest you get if you have NOT completed 9977
+        [12932] = { -- The Amphitheater of Anguish: Yggdras!
             [questKeys.objectives] = {{{30014}}},
-            [questKeys.exclusiveTo] = {12954,9977},
+            [questKeys.exclusiveTo] = {12954,9977}, -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.nextQuestInChain] = 12933,
         },
-        [12933] = {
+        [12933] = { -- The Amphitheater of Anguish: Magnataur!
             [questKeys.objectives] = {{{30017}}},
             [questKeys.preQuestSingle] = {12932,12954},
+            [questKeys.nextQuestInChain] = 12934,
         },
-        [12934] = {
+        [12934] = { -- The Amphitheater of Anguish: From Beyond!
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30019,30024,30025,30026},30019}}},
+            [questKeys.nextQuestInChain] = 12935,
         },
-        [12935] = {
+        [12935] = { -- The Amphitheater of Anguish: Tuskarrmageddon!
             [questKeys.objectives] = {{{30020}}},
+            [questKeys.nextQuestInChain] = 12936,
         },
-        [12936] = {
+        [12936] = { -- The Amphitheater of Anguish: Korrak the Bloodrager!
             [questKeys.objectives] = {{{30023}}},
+            [questKeys.nextQuestInChain] = 12948,
         },
         [12937] = {
             [questKeys.requiredSourceItems] = {},
@@ -3389,7 +3393,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{191881}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [12948] = {
+        [12948] = { -- The Champion of Anguish
             [questKeys.objectives] = {{{30022}}},
         },
         [12950] = {
@@ -3430,8 +3434,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Get in Brann's Flying Machine"), 0, {{"monster", 30134}}}},
             [questKeys.preQuestSingle] = {12880},
         },
-        [12974] = {
-            [questKeys.exclusiveTo] = {12932,12954},
+        [12974] = { -- The Champion's Call!
+            [questKeys.exclusiveTo] = {12954},
+            [questKeys.nextQuestInChain] = 12932,
         },
         [12975] = {
             [questKeys.preQuestSingle] = {12924},
