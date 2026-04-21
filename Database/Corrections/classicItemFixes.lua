@@ -1239,9 +1239,6 @@ function QuestieItemFixes:Load()
         [18513] = { -- A Dull and Flat Elven Blade
             [itemKeys.startQuest] = 7508,
         },
-        [18605] = { -- Imprisoned Doomguard (#7583)
-            [itemKeys.npcDrops] = {12396},
-        },
         [18642] = { -- Jaina's Autograph
             [itemKeys.npcDrops] = {4968},
         },

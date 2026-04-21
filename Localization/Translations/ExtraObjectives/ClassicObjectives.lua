@@ -794,6 +794,18 @@ local classicObjectiveLocales = {
         ["zhCN"] = "召唤地狱猎犬",
         ["zhTW"] = "召喚地獄獵犬",
     },
+    ["Imprison the Doomguard Commander"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do

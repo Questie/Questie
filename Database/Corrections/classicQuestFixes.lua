@@ -3799,6 +3799,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {7562},
         },
+        [7583] = { -- Suppression
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Imprison the Doomguard Commander"), 0, {{"monster", 12396}}}},
+        },
         [7604] = {
             [questKeys.specialFlags] = 0,
         },

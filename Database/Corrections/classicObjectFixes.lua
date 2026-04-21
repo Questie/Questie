@@ -323,6 +323,10 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ONYXIAS_LAIR] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ONYXIAS_LAIR,
         },
+        [179644] = { -- Imprisoned Doomguard
+            [objectKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{37.95,69.18},{44.27,75.29},{34.55,63.73},{45.08,73.43},{40.09,63.33},{42.87,74.12},{41.75,78.48},{34.93,63.73},{39.96,78.68},{40.13,66.54},{44.86,73.24},{44.77,72.97},{43.12,77.19},{59.44,55.4},{56.97,55.22}}},
+            [objectKeys.zoneID] = zoneIDs.BLASTED_LANDS,
+        },
         [179703] = { -- Cache of the Firelord
             [objectKeys.questStarts] = {7632},
         },
