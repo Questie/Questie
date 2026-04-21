@@ -5401,7 +5401,7 @@ function QuestieTBCQuestFixes:Load()
         [11917] = {
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 28,
         },
         [11922] = {
@@ -5419,7 +5419,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.preQuestSingle] = {11657},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.triggerEnd] = {"Hit 20 braziers.", {
                 [zoneIDs.ORGRIMMAR]={{46.67,38.13}},
                 [zoneIDs.THUNDER_BLUFF]={{20.99,26.46}},
@@ -5443,7 +5443,7 @@ function QuestieTBCQuestFixes:Load()
         [11924] = {
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.preQuestSingle] = {11657},
             [questKeys.triggerEnd] = {"Catch 10 torches in a row.", {
                 [zoneIDs.ORGRIMMAR]={{47.11,36.69}},
@@ -5456,7 +5456,7 @@ function QuestieTBCQuestFixes:Load()
         [11925] = {
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.preQuestSingle] = {11923},
             [questKeys.triggerEnd] = {"Catch 10 torches in a row.", {
                 [zoneIDs.ORGRIMMAR]={{47.11,36.69}},
@@ -5469,7 +5469,7 @@ function QuestieTBCQuestFixes:Load()
         [11926] = {
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.preQuestSingle] = {11923},
             [questKeys.triggerEnd] = {"Hit 20 braziers.", {
                 [zoneIDs.ORGRIMMAR]={{46.67,38.13}},
@@ -5488,25 +5488,25 @@ function QuestieTBCQuestFixes:Load()
         [11947] = {
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 38,
         },
         [11948] = {
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 48,
         },
         [11952] = {
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 55,
         },
         [11953] = {
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 63,
         },
         [11954] = {
@@ -5514,7 +5514,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.requiredLevel] = 64,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [11955] = {
             [questKeys.startedBy] = {{26221}},

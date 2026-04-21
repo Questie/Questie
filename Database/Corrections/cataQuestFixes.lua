@@ -301,7 +301,7 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ORC,
         },
         [2438] = { -- The Emerald Dreamcatcher
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.nextQuestInChain] = 0,-- there are some weird things happening if you completed these quests before prepatch
         },
         [2499] = { -- Oakenscowl
@@ -1842,16 +1842,16 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,
         },
         [11031] = { -- Archmage No More
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11032] = { -- Protector No More
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11033] = { -- Assassin No More
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11034] = { -- Restorer No More
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11036] = { -- Out of This World Produce!
             [questKeys.breadcrumbForQuestId] = 10186,
@@ -1916,22 +1916,22 @@ function CataQuestFixes.Load()
         [11103] = { -- Sage No More
             [questKeys.startedBy] = {{19935}},
             [questKeys.finishedBy] = {{19935}},
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11104] = { -- Restorer No More
             [questKeys.startedBy] = {{19935}},
             [questKeys.finishedBy] = {{19935}},
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11105] = { -- Champion No More
             [questKeys.startedBy] = {{19935}},
             [questKeys.finishedBy] = {{19935}},
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11106] = { -- Defender No More
             [questKeys.startedBy] = {{19935}},
             [questKeys.finishedBy] = {{19935}},
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [11131] = { -- Stop the Fires!
             [questKeys.exclusiveTo] = {12135},
@@ -4735,7 +4735,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 24736,
         },
         [24806] = { -- Better Luck Next Time
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [24807] = { -- Winnoa Pineforest
             [questKeys.preQuestSingle] = {24601},
@@ -10569,16 +10569,16 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {27587},
         },
         [27664] = { -- Darkmoon Volcanic Deck
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27665] = { -- Darkmoon Hurricane Deck
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27666] = { -- Darkmoon Earthquake Deck
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27667] = { -- Darkmoon Earthquake Deck
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [27668] = { -- Pay Attention!
             [questKeys.preQuestSingle] = {25944},
@@ -15049,7 +15049,7 @@ function CataQuestFixes.Load()
             [questKeys.nextQuestInChain] = 29415,
         },
         [29433] = { -- Test Your Strength
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29434] = { -- Tonk Commander
             [questKeys.objectives] = {{{33081}}},
@@ -15075,19 +15075,19 @@ function CataQuestFixes.Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [29443] = { -- A Curious Crystal
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29444] = { -- An Exotic Egg
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29445] = { -- An Intriguing Grimoire
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29446] = { -- A Wondrous Weapon
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29451] = { -- The Master Strategist
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29452] = { -- Your Time Has Come
             [questKeys.nextQuestInChain] = 29129,
@@ -15106,20 +15106,20 @@ function CataQuestFixes.Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Jessica Rogers to start the game"),0,{{"monster",54485}}}},
         },
         [29456] = { -- A Captured Banner
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29457] = { -- The Enemy's Insignia
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29458] = { -- The Captured Journal
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29463] = { -- It's Hammer Time
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Talk to Mola to start the game"),0,{{"monster",54601}}}},
         },
         [29464] = { -- Tools of Divination
             [questKeys.startedBy] = {nil,nil,{71716}},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29475] = { -- Goblin Engineering
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,200},
@@ -15143,79 +15143,79 @@ function CataQuestFixes.Load()
         },
         [29506] = { -- A Fizzy Fusion
             [questKeys.requiredSkill] = {profKeys.ALCHEMY,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredSourceItems] = {1645,19299},
         },
         [29507] = { -- Fun for the Little Ones
             [questKeys.startedBy] = {{14847}},
             [questKeys.objectives] = {nil,{{430002}}},
             [questKeys.requiredSkill] = {profKeys.ARCHAEOLOGY,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29508] = { -- Baby Needs Two Pair of Shoes
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,75},
             [questKeys.requiredSourceItems] = {71967},
             [questKeys.objectives] = {{{54510,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29509] = { -- Putting the Crunch in the Frog
             [questKeys.requiredSkill] = {profKeys.COOKING,75},
             [questKeys.requiredSourceItems] = {30817,72057},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.objectives] = {{{54551,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [29510] = { -- Putting Trash to Good Use
             [questKeys.requiredSourceItems] = {72018},
             [questKeys.requiredSkill] = {profKeys.ENCHANTING,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29511] = { -- Talkin' Tonks
             [questKeys.objectives] = {{{54504,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29512] = { -- Putting the Carnies Back Together Again
             [questKeys.objectives] = {{{54518,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.requiredSkill] = {profKeys.FIRST_AID,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29513] = { -- Spoilin' for Salty Sea Dogs
             [questKeys.requiredSkill] = {profKeys.FISHING,75},
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKMOON_FAIRE_ISLAND]={{53.2,89.5}}},Questie.ICON_TYPE_NODE_FISH,l10n("Fish for Great Sea Herring")}},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29514] = { -- Herbs for Healing
             [questKeys.requiredSkill] = {profKeys.HERBALISM,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29515] = { -- Writing the Future
             [questKeys.requiredSkill] = {profKeys.INSCRIPTION,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredSourceItems] = {39354,71972},
         },
         [29516] = { -- Keeping the Faire Sparkling
             [questKeys.requiredSourceItems] = {72052},
             [questKeys.requiredSkill] = {profKeys.JEWELCRAFTING,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29517] = { -- Eyes on the Prizes
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.requiredSourceItems] = {6260,2320,6529},
         },
         [29518] = { -- Rearm, Reuse, Recycle
             [questKeys.requiredSkill] = {profKeys.MINING,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29519] = { -- Tan My Hide
             [questKeys.requiredSkill] = {profKeys.SKINNING,75},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29520] = { -- Banners, Banners Everywhere!
             [questKeys.requiredSkill] = {profKeys.TAILORING,75},
             [questKeys.requiredSourceItems] = {2320,2604,6260,72049},
             [questKeys.objectives] = {nil,{{209288}}},
-            [questKeys.specialFlags] = 17,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [29536] = { -- Heart of Rage
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.THE_BLOOD_FURNACE]={{64.9,41.5}}}},

@@ -1752,7 +1752,7 @@ function QuestieQuestFixes:Load()
             },
         },
         [2438] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [2460] = { -- The Shattered Salute
             [questKeys.objectives] = {{{3401,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3178,23 +3178,23 @@ function QuestieQuestFixes:Load()
         -- Horde
         [5887] = { -- Salve via Hunting
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [5888] = { -- Salve via Mining
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [5889] = { -- Salve via Gathering
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [5890] = { -- Salve via Skinning
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [5891] = { -- Salve via Disenchanting
             [questKeys.preQuestSingle] = {4102},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [5892] = {
             [questKeys.questLevel] = 55,
@@ -3273,25 +3273,25 @@ function QuestieQuestFixes:Load()
         [6061] = {
             [questKeys.objectives] = {{{2956,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.breadcrumbs] = {6065,6066,6067},
         },
         [6062] = {
             [questKeys.objectives] = {{{3099,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.breadcrumbs] = {6068,6069,6070},
         },
         [6063] = {
             [questKeys.objectives] = {{{1998,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.breadcrumbs] = {6071,6072,6073,6721,6722},
         },
         [6064] = {
             [questKeys.objectives] = {{{1126,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.breadcrumbs] = {6074,6075,6076},
         },
         [6065] = {
@@ -3352,42 +3352,42 @@ function QuestieQuestFixes:Load()
         [6082] = {
             [questKeys.objectives] = {{{3126,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6083] = {
             [questKeys.objectives] = {{{3107,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6084] = {
             [questKeys.objectives] = {{{1201,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6085] = {
             [questKeys.objectives] = {{{1196,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6087] = {
             [questKeys.objectives] = {{{2959,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6088] = {
             [questKeys.objectives] = {{{2970,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6101] = {
             [questKeys.objectives] = {{{2043,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6102] = {
             [questKeys.objectives] = {{{1996,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.questFlags] = 0,
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [6124] = { -- Curing the Sick
             [questKeys.objectives] = {{{12298,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3659,10 +3659,10 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 39,
         },
         [7081] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [7082] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [7121] = {
             [questKeys.exclusiveTo] = {5892,6892},
@@ -3803,7 +3803,7 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Imprison the Doomguard Commander"), 0, {{"monster", 12396}}}},
         },
         [7604] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [7622] = {
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}}, -- #2332
@@ -3829,7 +3829,7 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Exorcise the spirits"), 0, {{"object", 179747}}}},
         },
         [7651] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [7668] = { -- #1344
             [questKeys.name] = "The Darkreaver Menace",
@@ -4069,7 +4069,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
         [8105] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [8114] = {
             [questKeys.requiredMinRep] = {509,3000},
@@ -4080,7 +4080,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {509,42000},
         },
         [8120] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [8121] = {
             [questKeys.requiredMinRep] = {510,3000},
@@ -4115,27 +4115,27 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{3039,3352,4205,5116,5516}},
         },
         [8166] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 49,
         },
         [8167] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 39,
         },
         [8168] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 29,
         },
         [8169] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 49,
         },
         [8170] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 39,
         },
         [8171] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 29,
         },
         [8181] = {
@@ -4304,7 +4304,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Commander Mar'alith at Cenarion Hold in Silithus wants you to find his beloved Natalia. The information that you gathered points to Hive'Regal in the south as being the area in which you may find Mistress Natalia Mar'alith.","","Do not forget to visit the dwarves at Bronzebeard's camp before venturing into the hive. They might have some additional work and advice for you.","","And <Name>, remember the Commander's words: \"Do what you must...\""},
         },
         [8314] = {
-            [questKeys.specialFlags] = 0, -- #1870
+            [questKeys.specialFlags] = specialFlags.NONE, -- #1870
         },
         [8315] = { -- The Calling
             [questKeys.extraObjectives] = {{{[zoneIDs.SILITHUS]={{47.50,54.50}}}, Questie.ICON_TYPE_EVENT, l10n("Draw the glyphs into the sand to summon the Qiraji Emissary."),}},

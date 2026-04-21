@@ -49,7 +49,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{1200}}},
         },
         [75] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [171] = {
             [questKeys.startedBy] = {{14305}},
@@ -227,7 +227,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{164909,186419}},
         },
         [4144] = {
-            [questKeys.specialFlags] = nil,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [4362] = {
             [questKeys.preQuestSingle] = {4361},
@@ -417,7 +417,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8552] = {
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [8553] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -487,34 +487,34 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9211] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9213] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9221] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9222] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9223] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9224] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9225] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9226] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9227] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9228] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9247] = {
             [questKeys.finishedBy] = {{16281}},
@@ -2240,8 +2240,8 @@ function QuestieWotlkQuestFixes:Load()
         [12432] = { -- Riding the Red Rocket
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
         },
-        [12434] = {
-            [questKeys.specialFlags] = 1,
+        [12434] = { -- Always Seeking Solvent
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {12433},
             [questKeys.startedBy] = {{27565}},
             [questKeys.finishedBy] = {{27565}},
@@ -2258,8 +2258,8 @@ function QuestieWotlkQuestFixes:Load()
         [12439] = {
             [questKeys.exclusiveTo] = {11995,12000},
         },
-        [12446] = {
-            [questKeys.specialFlags] = 1,
+        [12446] = { -- Always Seeking Solvent
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {12443},
             [questKeys.startedBy] = {{27495}},
             [questKeys.finishedBy] = {{27495}},
@@ -3748,7 +3748,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13092] = {
             [questKeys.preQuestSingle] = {12999},
-            [questKeys.specialFlags] = 0,
+            [questKeys.specialFlags] = specialFlags.NONE,
         },
         [13093] = {
             [questKeys.preQuestSingle] = {13092},
@@ -6135,7 +6135,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [14103] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.startedBy] = {{28701}},
             [questKeys.finishedBy] = {{28701}},
         },
@@ -6528,7 +6528,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,nil,{49643}},
         },
         [24431] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [24442] = { -- Battle Plans Of The Kvaldir
             [questKeys.startedBy] = {nil,nil,{49676}},
@@ -6992,7 +6992,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{37554,nil,Questie.ICON_TYPE_EVENT},{36954,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [24803] = {
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [24815] = {
             [questKeys.requiredMinRep] = {1156,3000},
@@ -7827,7 +7827,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{211206}}},
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [78753] = {
@@ -7841,7 +7842,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{211207}}},
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [83713] = {
@@ -7855,7 +7857,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{211206}}},
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [83714] = {
@@ -7869,7 +7872,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{211207}}},
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [83717] = {
@@ -7883,7 +7887,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{211206}}},
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [87379] = {
@@ -7897,7 +7902,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{211207}}},
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
-            [questKeys.specialFlags] = 1,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [93950] = { -- A Message From The Stars -- only present on titan reforged
