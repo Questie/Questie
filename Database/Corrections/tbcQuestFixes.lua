@@ -6913,6 +6913,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUNDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        --[[[95456] = { -- Concerted Efforts
+            [questKeys.name] = "Concerted Efforts",
+            [questKeys.startedBy] = {{15351}},
+            [questKeys.finishedBy] = {{15351}},
+            [questKeys.requiredLevel] = 51,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{20560},{20559},{20558}}},
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUNDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },]]
         [95457] = { -- For Great Honor
             [questKeys.name] = "For Great Honor",
             [questKeys.startedBy] = {{15350}},
@@ -6925,6 +6937,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.BATTLEGROUNDS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        --[[[95458] = { -- For Great Honor
+            [questKeys.name] = "For Great Honor",
+            [questKeys.startedBy] = {{15350}},
+            [questKeys.finishedBy] = {{15350}},
+            [questKeys.requiredLevel] = 51,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = nil,
+            [questKeys.objectives] = {nil,nil,{{20560},{20559},{20558}}},
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUNDS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },]]
     }
 end
 

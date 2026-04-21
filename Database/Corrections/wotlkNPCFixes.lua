@@ -1193,23 +1193,23 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{14.83,86.63}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27715] = {
+        [27715] = { -- Ironhide
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27716] = {
+        [27716] = { -- Torgg Thundertotem
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27717] = {
+        [27717] = { -- Rustblood
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27718] = {
+        [27718] = { -- Horgrenn Hellcleave
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27727] = {
+        [27727] = { -- Conqueror Krenna
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },

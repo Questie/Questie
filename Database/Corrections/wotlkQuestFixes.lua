@@ -2237,7 +2237,7 @@ function QuestieWotlkQuestFixes:Load()
         [12431] = {
             [questKeys.objectives] = {{{27727}}},
         },
-        [12432] = {
+        [12432] = { -- Riding the Red Rocket
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
         },
         [12434] = {
@@ -2247,12 +2247,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{27565}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [12435] = { -- #4675
+        [12435] = { -- Report to Lord Devrestrasz
             [questKeys.name] = "Report to Lord Devrestrasz",
             [questKeys.objectivesText] = {"Speak with Lord Devrestrasz at Wyrmrest Temple."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a drake to the middle of the temple"), 0, {{"monster", 26949}}}},
         },
-        [12437] = {
+        [12437] = { -- Riding the Red Rocket
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride the rocket!"), 0, {{"monster", 27593}}}},
         },
         [12439] = {
