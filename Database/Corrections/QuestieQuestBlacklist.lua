@@ -52,10 +52,10 @@ function QuestieQuestBlacklist:Load()
         [5843] = true,
         [5844] = true,
         [5847] = true,
-        --Stray quests
-        [3861] = true, --CLUCK!
-        --World event quests
-        --Fetched from https://classic.wowhead.com/world-event-quests
+        -- Special quests
+        [3861] = HIDE_ON_MAP, -- CLUCK!
+        -- World event quests
+        -- Fetched from https://classic.wowhead.com/world-event-quests
         [7904] = true,
         [8571] = true,
         [7930] = true,

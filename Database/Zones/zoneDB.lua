@@ -366,6 +366,13 @@ function _ZoneDB.SplitSeasonalQuests()
                 updatedZoneMap[sortKeys.LUNAR_FESTIVAL] = {}
             end
             updatedZoneMap[sortKeys.LUNAR_FESTIVAL][questId] = true
+        else
+            -- here for actual "Special" quests that are not part of events
+            -- E.g. CLUCK!
+            if (not updatedZoneMap[sortKeys.SPECIALTEMP]) then
+                updatedZoneMap[sortKeys.SPECIALTEMP] = {}
+            end
+            updatedZoneMap[sortKeys.SPECIALTEMP][questId] = true
         end
     end
 

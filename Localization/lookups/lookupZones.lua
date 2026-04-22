@@ -3095,6 +3095,7 @@ l10n.zoneCategoryLookup = {
         [-400] = "Proving Grounds",
         [-402] = "Harvest Festival",
         [-404] = "Winter Veil",
+        [-1000] = "Special", -- for actual "Special" quests that are not part of events
     },
     [13] = {
         [-394] = "Battle Pets",

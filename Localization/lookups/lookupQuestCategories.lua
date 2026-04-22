@@ -61,4 +61,5 @@ l10n.questCategoryLookup = {
     [-641] = "Nightmare Incursions",
     [-644] = "Blackrock Eruption",
     [-662] = "Titan-Reforged Realm", -- Chinese region
+    [-1000] = "Special", -- for actual "Special" quests that are not part of events
 };
