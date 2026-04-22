@@ -45,6 +45,7 @@ function QuestieQuestBlacklist:Load()
         [936] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Cata,
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
+        [5101] = true,
         [5805] = true,
         [5841] = true,
         [5842] = true,
@@ -495,6 +496,7 @@ function QuestieQuestBlacklist:Load()
         [11926] = true,
         [11933] = true,
         [11935] = true,
+        [11937] = true,
         [11947] = true,
         [11948] = true,
         [11952] = true,
