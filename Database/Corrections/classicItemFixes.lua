@@ -1000,6 +1000,9 @@ function QuestieItemFixes:Load()
         [13172] = { -- Grimm's Premium Tobacco
             [itemKeys.name] = "Grimm's Premium Tobacco",
         },
+        [13250] = { -- Head of Balnazzar
+            [itemKeys.npcDrops] = {10812},
+        },
         [13422] = { -- Stonescale Eel
             [itemKeys.objectDrops] = {},
         },

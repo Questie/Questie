@@ -2802,8 +2802,9 @@ function QuestieQuestFixes:Load()
         [5203] = {
             [questKeys.triggerEnd] = {"Protect Arko'narin out of Shadow Hold", {[zoneIDs.FELWOOD]={{35.45,59.06}}}},
         },
-        [5211] = {
-            [questKeys.preQuestSingle] = {}, -- #983
+        [5211] = { -- Defenders of Darrowshire
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {5241},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay ghouls to free Darrowshire spirits"), 0, {{"monster", 8530}, {"monster", 8531}, {"monster", 8532}}}},
             [questKeys.objectives] = {{{11064,nil,Questie.ICON_TYPE_TALK}}},
         },
@@ -2845,6 +2846,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
             [questKeys.preQuestSingle] = {5236},
+        },
+        [5241] = { -- Brother Carlin
+            [questKeys.breadcrumbForQuestId] = 5211,
         },
         [5244] = {
             [questKeys.breadcrumbs] = {5249,5250},
@@ -5600,56 +5604,58 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {9121,9122,9123},
         },
         [9121] = { -- The Dread Citadel - Naxxramas
-            [questKeys.requiredMinRep] = {529,0}, -- uh?
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,0},
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,21000},
             [questKeys.nextQuestInChain] = 9033,
         },
         [9122] = { -- The Dread Citadel - Naxxramas
             [questKeys.nextQuestInChain] = 9033,
+            [questKeys.requiredMaxRep] = {factionIDs.ARGENT_DAWN,42000},
         },
         [9123] = { -- The Dread Citadel - Naxxramas
             [questKeys.nextQuestInChain] = 9033,
         },
         [9124] = { -- Cryptstalker Armor Doesn't Make Itself...
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
             [questKeys.nextQuestInChain] = 9125,
         },
         [9125] = { -- Crypt Fiend Parts
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
         },
         [9126] = { -- Bonescythe Digs
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
             [questKeys.nextQuestInChain] = 9127,
         },
         [9127] = { -- Bone Fragments
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
         },
         [9128] = { -- The Elemental Equation
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
             [questKeys.nextQuestInChain] = 9129,
         },
         [9129] = { -- Core of Elements
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
         },
         [9131] = { -- Binding the Dreadnaught
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
             [questKeys.nextQuestInChain] = 9132,
         },
         [9132] = { -- Dark Iron Scraps
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
         },
         [9136] = { -- Savage Flora
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
             [questKeys.nextQuestInChain] = 9137,
         },
         [9137] = { -- Savage Fronds
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
         },
         [9141] = { -- They Call Me "The Rooster"
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
             [questKeys.nextQuestInChain] = 9142,
         },
         [9142] = { -- Craftsman's Writ
-            [questKeys.requiredMinRep] = {529,3000},
+            [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
         },
         [9153] = {
             [questKeys.requiredLevel] = 50,
