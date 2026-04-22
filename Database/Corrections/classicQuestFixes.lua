@@ -2260,6 +2260,9 @@ function QuestieQuestFixes:Load()
         [3842] = { -- A Short Incubation
             [questKeys.nextQuestInChain] = 3843,
         },
+        [3861] = { -- CLUCK!
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [3903] = {
             [questKeys.preQuestSingle] = {18},
             [questKeys.breadcrumbForQuestId] = 3904,
