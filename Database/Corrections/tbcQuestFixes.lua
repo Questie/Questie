@@ -3911,6 +3911,12 @@ function QuestieTBCQuestFixes:Load()
         [10935] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Perform the exorcism"), 0, {{"monster", 22431}}}},
         },
+        [10938] = { -- Darkmoon Blessings Deck
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [10939] = { -- Darkmoon Storms Deck
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [10942] = {
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
