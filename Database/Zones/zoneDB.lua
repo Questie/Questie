@@ -366,6 +366,11 @@ function _ZoneDB.SplitSeasonalQuests()
                 updatedZoneMap[sortKeys.LUNAR_FESTIVAL] = {}
             end
             updatedZoneMap[sortKeys.LUNAR_FESTIVAL][questId] = true
+        elseif eventName == "Midsummer" then
+            if (not updatedZoneMap[sortKeys.MIDSUMMER]) then
+                updatedZoneMap[sortKeys.MIDSUMMER] = {}
+            end
+            updatedZoneMap[sortKeys.MIDSUMMER][questId] = true
         else
             -- here for actual "Special" quests that are not part of events
             -- E.g. CLUCK!
