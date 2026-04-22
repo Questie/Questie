@@ -242,6 +242,9 @@ function QuestieObjectFixes:Load()
                 [zoneIDs.TIRISFAL_GLADES]={{82.8,72.7},{83,71.4},{83,71.5}},
             },
         },
+        [176248] = { -- Premium Grimm Tobacco
+            [objectKeys.name] = "Premium Grimm Tobacco",
+        },
         [176344] = { -- Document Chest
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{31.79,32.58}}},
         },

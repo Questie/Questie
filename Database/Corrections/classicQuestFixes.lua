@@ -2807,8 +2807,9 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay ghouls to free Darrowshire spirits"), 0, {{"monster", 8530}, {"monster", 8531}, {"monster", 8532}}}},
             [questKeys.objectives] = {{{11064,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [5214] = {
+        [5214] = { -- The Great Ezra Grimm
             [questKeys.name] = "The Great Ezra Grimm",
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the box"), 0, {{"object", 176248}}}},
         },
         [5218] = {
             [questKeys.preQuestSingle] = {5217,5230},
