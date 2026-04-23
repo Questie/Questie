@@ -200,8 +200,8 @@ function QuestieTBCQuestFixes:Load()
         [1048] = {
             [questKeys.requiredLevel] = 30,
         },
-        [1049] = { -- Not available to UNDEAD
-            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL + raceIDs.BLOOD_ELF,
+        [1049] = { -- Compendium of the Fallen
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.UNDEAD,
         },
         [1090] = { -- Gerenzo's Orders
             [questKeys.requiredRaces] = raceIDs.NONE,
