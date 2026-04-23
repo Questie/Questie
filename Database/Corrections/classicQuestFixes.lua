@@ -1711,12 +1711,12 @@ function QuestieQuestFixes:Load()
         [2259] = { -- Erion Shadewhisper
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 2260, -- #2476
-            [questKeys.exclusiveTo] = {2281}, -- #1825 -- not available after TURNING IN 2281. available until then
+            [questKeys.availableUntilCompleted] = 2281,
         },
         [2260] = { -- Erion's Behest
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2259}, -- #2476
-            [questKeys.exclusiveTo] = {2281}, -- #1825 -- not available after TURNING IN 2281. available until then
+            [questKeys.availableUntilCompleted] = 2281,
         },
         [2278] = {
             [questKeys.objectives] = {{{7172,nil,Questie.ICON_TYPE_TALK}}},
@@ -1724,16 +1724,16 @@ function QuestieQuestFixes:Load()
         [2298] = { -- Kingly Shakedown
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2299}, -- #2476
-            [questKeys.exclusiveTo] = {2281}, -- #1817 -- not available after TURNING IN 2281. available until then
+            [questKeys.availableUntilCompleted] = 2281,
         },
         [2299] = { -- To Hulfdan!
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbForQuestId] = 2298, -- #2476
-            [questKeys.exclusiveTo] = {2281}, -- #1817 -- not available after TURNING IN 2281. available until then
+            [questKeys.availableUntilCompleted] = 2281,
         },
         [2300] = { -- SI:7
             [questKeys.preQuestSingle] = {}, -- #1825
-            [questKeys.exclusiveTo] = {2281}, -- #1817 -- not available after TURNING IN 2281. available until then
+            [questKeys.availableUntilCompleted] = 2281,
             [questKeys.nextQuestInChain] = 0,
         },
         [2318] = {
