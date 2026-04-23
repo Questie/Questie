@@ -32,6 +32,9 @@ function QuestieTBCQuestFixes:Load()
     local rankKeys = QuestieProfessions.rankNames
 
     return {
+        [54] = { -- Report to Goldshire
+            [questKeys.requiredLevel] = 1,
+        },
         [62] = {
             [questKeys.triggerEnd] = {"Scout through the Fargodeep Mine", {[zoneIDs.ELWYNN_FOREST]={{40.01,81.42}}}},
         },
