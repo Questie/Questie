@@ -1344,6 +1344,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {10866,10870,10871,10872},
             [npcKeys.questEnds] = {10858,10866,10872},
         },
+        [22113] = { -- Mordenai
+            [npcKeys.questEnds] = {10804,10870,10871,11012},
+        },
         [22258] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{44.07,51.04}}},
         },
