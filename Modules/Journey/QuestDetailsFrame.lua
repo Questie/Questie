@@ -83,10 +83,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     -- We need to query this so we don't get wrong results for -1 type quests
     local requiredLevel = QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel")
+    local questLevel = QuestieDB.QueryQuestSingle(quest.Id, "questLevel")
     local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Required Level") .. l10n(": "), 'yellow') .. requiredLevel, true)
     container:AddChild(minLevelLabel)
 
-    local levelDiffString = _QuestieJourney:GetDifficultyString(quest.level, requiredLevel)
+    local levelDiffString = _QuestieJourney:GetDifficultyString(questLevel, requiredLevel)
     local levelDiffLabel = _QuestieJourney:CreateLabel(levelDiffString, true)
     container:AddChild(levelDiffLabel)
 
@@ -510,8 +511,14 @@ function _QuestieJourney:GetDifficultyString(questLevel, questMinLevel)
     end
 
     diffStr = diffStr .. "|cFFFFFF00[".. yellow .."]|r "
-    diffStr = diffStr .. "|cFF40C040[".. green .."]|r "
-    diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
+
+    if green then
+        diffStr = diffStr .. "|cFF40C040[".. green .."]|r "
+    end
+
+    if gray then
+        diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
+    end
 
     return Questie:Colorize(l10n('Difficulty Range: %s', diffStr), 'yellow')
 end

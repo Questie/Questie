@@ -42,41 +42,60 @@ function _QuestieJourney:HandleTabChange(container, group)
 end
 
 function _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
-
+    local charLevel = UnitLevel("player")
     local red, orange, yellow, green, gray
 
-    -- Calculate Base Values
-    red = questMinLevel
-    orange = questLevel - 4
-    yellow = questLevel - 2
-    green = questLevel + 3
-
     -- Gray Level based on level range.
-    if (questLevel <= 5) then
-        gray =  questLevel + 5
-    elseif (questLevel <= 39) then
-        gray = (questLevel + math.ceil(questLevel / 10) + 5)
+    if (questLevel ~= -1) then
+        if (questLevel <= 5) then
+            gray =  questLevel + 5
+        elseif (questLevel <= 39) then
+            gray = (questLevel + math.ceil(questLevel / 10) + 5)
+        else
+            gray = (questLevel + math.ceil(questLevel / 5) + 1)
+        end
+    end
+
+    -- Calculate Base Values
+    if questLevel == -1 then
+        questLevel = (questLevel < 0 and ((questMinLevel <= charLevel and charLevel) or (questMinLevel > charLevel and questMinLevel))) or questLevel
+        if questMinLevel == questLevel then
+            yellow = questLevel
+        elseif questMinLevel ~= questLevel then
+            yellow = questMinLevel .. "-" .. questLevel
+        end
     else
-        gray = (questLevel + math.ceil(questLevel / 5) + 1)
-    end
+        red = questMinLevel
+        orange = questLevel - 4
+        yellow = questLevel - 2
+        green = questLevel + 3
 
-    -- Double check for negative values
-    if yellow <= 0 or yellow <= questMinLevel then
-        yellow = questMinLevel
-    end
+        -- Double check for negative values
+        if yellow <= 0 or yellow <= questMinLevel then
+            yellow = questMinLevel
+        end
 
-    if orange < questMinLevel then
-        orange = questMinLevel
-    end
+        if orange and orange < questMinLevel then
+            orange = questMinLevel
+        end
 
-    if orange == yellow then
-        orange = nil
-    end
+        if orange == yellow then
+            orange = nil
+        end
 
-    if red == orange or not orange then
-        red = nil
-    end
+        if red and (red == orange or not orange) then
+            red = nil
+        end
 
+        if green and green < questMinLevel then
+            green = questMinLevel
+        end
+
+        if gray and gray < questMinLevel then
+            gray = questMinLevel
+        end
+
+    end
 
     return red, orange, yellow, green, gray
 end
