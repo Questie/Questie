@@ -3822,17 +3822,36 @@ function QuestieTBCQuestFixes:Load()
         [10863] = {
             [questKeys.exclusiveTo] = {10908},
         },
-        [10866] = {
+        [10866] = { -- Zuluhed the Whacked
             [questKeys.objectives] = {nil,{{185156}},nil,nil,{{{11980},11980}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE + raceIDs.ALL_ALLIANCE - raceIDs.HUMAN,
         },
         [10867] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Razaani ethereals to lure Nexus-Prince Razaan out"), 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}},
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Nexus-Prince Razaan to spawn the Collection of Souls"), 0, {{"monster", 21057}}},
             },
         },
-        [10872] = {
+        [10870] = { -- Ally of the Netherwing
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE + raceIDs.ALL_ALLIANCE - raceIDs.HUMAN,
+            [questKeys.nextQuestInChain] = 11012,
+        },
+        [10871] = { -- Ally of the Netherwing
+            [questKeys.name] = "Ally of the Netherwing",
+            [questKeys.startedBy] = {{22112}},
+            [questKeys.finishedBy] = {{22113}},
+            [questKeys.preQuestSingle] = {10872},
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.reputationReward] = {{factionIDs.NETHERWING,42000}},
+            [questKeys.nextQuestInChain] = 11012,
+        },
+        [10872] = { -- Zuluhed the Whacked
             [questKeys.name] = "Zuluhed the Whacked",
+            [questKeys.startedBy] = {{22112}},
             [questKeys.finishedBy] = {{22112}},
+            [questKeys.preQuestSingle] = {10858},
+            [questKeys.objectives] = {nil,{{185156}},nil,nil,{{{11980},11980}}},
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.requiredSourceItems] = {31664},
         },
         [10873] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{22459,22355},22459,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4101,6 +4120,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 70,
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
+        },
+        [11012] = { -- Blood Oath of the Netherwing
+            [questKeys.preQuestSingle] = {10870,10871},
         },
         [11013] = {
             [questKeys.requiredRaces] = raceIDs.NONE,

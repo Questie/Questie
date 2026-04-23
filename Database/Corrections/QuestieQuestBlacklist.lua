@@ -1160,8 +1160,6 @@ function QuestieQuestBlacklist:Load()
         [10815] = true, -- The Journal of Val'zareq: Portends of War
         [10841] = true, -- The Vengeful Harbringer
         [10844] = true, -- Forge Camp: Anger
-        [10871] = true, -- Ally of the Netherwing
-        [10872] = true, -- Zuluhed the Whacked
         [10925] = true, -- Evil Draws Near
         [11518] = true, -- Sunwell Daily Portal Flag
         [11577] = true, -- WoW Collector's Edition: - DEM - E - FLAG
