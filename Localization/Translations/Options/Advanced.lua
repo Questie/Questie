@@ -600,7 +600,7 @@ local advancedOptionsLocales = {
         ["ptBR"] = "Recompilação do banco de dados do Questie\n\nIsso irá recarregar a interface e levará algum tempo para ser concluído. Você verá uma mensagem no bate-papo quando o processo terminar.\n\nO processo de recompilação deve ser feito fora de combate, ou o Questie pode funcionar incorretamente!\n\nTem certeza de que deseja recompilar o banco de dados do Questie?",
         ["ruRU"] = "Перекомпиляция базы данных Questie\n\nОперация займет какое-то время, а интерфейс будет перезагружен после завершения. Вы увидите сообщение в чате об этом.\n\nПроцесс перекомпиляции следует выполнять вне боя, иначе Questie может работать некорректно!\n\nВы уверены, что хотите перекомпилировать базу данных Questie?",
         ["zhCN"] = "重新编译Questie数据库\n\n此操作将重载魔兽世界界面，且需要一定时间完成。进程完成后，你会在聊天框中看到提示信息。\n\n重新编译过程需在非战斗状态下进行，否则Questie可能出现故障！\n\n你确定要重新编译Questie数据库吗？",
-        ["zhTW"] = false,
+        ["zhTW"] = "重新編譯Questie資料庫\n\n此操作會重新載入《魔獸世界》介面，並需要一些時間完成。完成後，你會在聊天視窗中看到提示訊息。\n\n重新編譯過程必須在非戰鬥狀態下進行，否則Questie可能會發生錯誤！\n\n你確定要重新編譯Questie資料庫嗎？",
     },
 }
 
