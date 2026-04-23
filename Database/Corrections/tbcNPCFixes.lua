@@ -1341,6 +1341,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{51.23,62.75},{52.45,59.19}}},
         },
         [22112] = { -- Karynaku
+            [npcKeys.questStarts] = {10866,10870,10871,10872},
             [npcKeys.questEnds] = {10858,10866,10872},
         },
         [22258] = {
