@@ -52,8 +52,8 @@ function _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
     green = questLevel + 3
 
     -- Gray Level based on level range.
-    if (questLevel <= 13) then
-        gray =  questLevel + 6
+    if (questLevel <= 5) then
+        gray =  questLevel + 5
     elseif (questLevel <= 39) then
         gray = (questLevel + math.ceil(questLevel / 10) + 5)
     else
@@ -61,7 +61,7 @@ function _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
     end
 
     -- Double check for negative values
-    if yellow <= 0 then
+    if yellow <= 0 or yellow <= questMinLevel then
         yellow = questMinLevel
     end
 
