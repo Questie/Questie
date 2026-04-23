@@ -55,6 +55,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [176] = { -- Wanted:  "Hogger"
             [questKeys.startedBy] = {nil,{68,156561}},
+            [questKeys.requiredLevel] = 5,
         },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.73,10.82}}}},

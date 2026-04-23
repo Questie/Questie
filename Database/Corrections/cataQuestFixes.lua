@@ -79,6 +79,9 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = sortKeys.CHILDRENS_WEEK,
             [questKeys.startedBy] = {{51989}},
         },
+        [176] = { -- Wanted:  "Hogger"
+            [questKeys.requiredLevel] = 7,
+        },
         [184] = { -- Furlbrow's Deed
             [questKeys.startedBy] = {nil,{203734}},
         },
