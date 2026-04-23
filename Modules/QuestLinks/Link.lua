@@ -146,6 +146,7 @@ end
 
 ---@param quest Quest
 _AddQuestStatus = function(quest)
+    local DoableStates = QuestieDB.DoableStates
     local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(quest.Id, false, true, true)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         local onQuestText = l10n("You are on this quest")

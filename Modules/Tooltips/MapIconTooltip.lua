@@ -286,6 +286,7 @@ function MapIconTooltip:Show()
                 end
 
                 if Questie.db.profile.enableTooltipsNextInChain then
+                    local DoableStates = QuestieDB.DoableStates
                     local nextQuestInChain = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
                     if shift and nextQuestInChain > 0 and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) then
                         local nextQuest = QuestieDB.GetQuest(nextQuestInChain)
