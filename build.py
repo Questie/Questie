@@ -111,43 +111,33 @@ def main():
     zip_name = "%s-%s" % (addonDir, release_dir)
     zip_release_folder(zip_name, release_dir, addonDir)
 
-    interface_classic = get_interface_version()
-    interface_bcc = get_interface_version("BCC")
-    interface_wotlk = get_interface_version("WOTLKC")
-    interface_cata = get_interface_version("Cata")
-    interface_mop = get_interface_version("Mists")
+    interface_classic = get_interface_versions()
+    interface_bcc = get_interface_versions("BCC")
+    interface_wotlk = get_interface_versions("WOTLKC")
+    interface_cata = get_interface_versions("Cata")
+    interface_mop = get_interface_versions("Mists")
+
+    def flavor_entries(flavor, versions):
+        result = ""
+        for v in versions:
+            result += """
+                {
+                    "flavor": "%s",
+                    "interface": %s
+                },""" % (flavor, v)
+        return result
 
     flavorString = ""
     if 1 in includedExpansions:
-        flavorString += """
-                {
-                    "flavor": "classic",
-                    "interface": %s
-                },""" % interface_classic
+        flavorString += flavor_entries("classic", interface_classic)
     if 2 in includedExpansions:
-        flavorString += """
-                {
-                    "flavor": "bcc",
-                    "interface": %s
-                },""" % interface_bcc
+        flavorString += flavor_entries("bcc", interface_bcc)
     if 3 in includedExpansions:
-        flavorString += """
-                {
-                    "flavor": "wrath",
-                    "interface": %s
-                },""" % interface_wotlk
+        flavorString += flavor_entries("wrath", interface_wotlk)
     if 4 in includedExpansions:
-        flavorString += """
-                {
-                    "flavor": "cata",
-                    "interface": %s
-                },""" % interface_cata
+        flavorString += flavor_entries("cata", interface_cata)
     if 5 in includedExpansions:
-        flavorString += """
-                {
-                    "flavor": "mists",
-                    "interface": %s
-                },""" % interface_mop
+        flavorString += flavor_entries("mists", interface_mop)
 
     with open(release_folder_path + "/release.json", "w") as rf:
         rf.write("""{
@@ -238,9 +228,10 @@ def get_branch():
         return branch
 
 
-def get_interface_version(expansion="Classic"):
+def get_interface_versions(expansion="Classic"):
     with open("Questie-%s.toc" % expansion, "r") as toc:
-        return re.match("## Interface: (.*?)\n", toc.read(), re.DOTALL).group(1)
+        match = re.match("## Interface: (.*?)\n", toc.read(), re.DOTALL)
+        return [v.strip() for v in match.group(1).split(",")]
 
 
 def is_tool(name):
