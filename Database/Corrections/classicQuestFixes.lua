@@ -1288,16 +1288,18 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1639,1678,1683},
         },
         [1641] = { -- The Tome of Divininty (Stormwind)
-            [questKeys.exclusiveTo] = {1642},
+            [questKeys.nextQuestInChain] = 1642,
         },
         [1642] = { -- The Tome of Divinity (Stormwind)
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {2998,3681},
         },
         [1645] = { -- The Tome of Divinity (Ironforge)
-            [questKeys.exclusiveTo] = {1646},
+            [questKeys.nextQuestInChain] = 1646,
         },
         [1646] = { -- The Tome of Divinity (Ironforge)
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {2997,2999,3000},
         },
         [1651] = {
             [questKeys.triggerEnd] = {"Protect Daphne Stilwell", {[zoneIDs.WESTFALL]={{42.15,88.44}}}},
@@ -1430,6 +1432,12 @@ function QuestieQuestFixes:Load()
         [1758] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1798},
+        },
+        [1783] = { -- The Tome of Divinity
+            [questKeys.requiredSourceItems] = {6866},
+        },
+        [1786] = { -- The Tome of Divinity
+            [questKeys.requiredSourceItems] = {6866},
         },
         [1789] = { -- The Symbol of Life (Ironforge)
             [questKeys.exclusiveTo] = {1784},
@@ -2030,20 +2038,20 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
         },
         [2997] = { -- Tome of Divinity (Dun Morogh)
-            [questKeys.exclusiveTo] = {1646,2999,3000},
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 1646,
+            [questKeys.breadcrumbForQuestId] = 1646,
         },
         [2998] = { -- Tome of Divinity (Elwynn Forest)
-            [questKeys.exclusiveTo] = {1642,3681},
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 1642,
+            [questKeys.breadcrumbForQuestId] = 1642,
         },
         [2999] = { -- Tome of Divinity (Ironforge)
-            [questKeys.exclusiveTo] = {1646,2997,3000},
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 1646,
+            [questKeys.breadcrumbForQuestId] = 1646,
         },
         [3000] = { -- Tome of Divinity (Stormwind)
-            [questKeys.exclusiveTo] = {1646,2997,2999},
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 1646,
+            [questKeys.breadcrumbForQuestId] = 1646,
         },
         [3001] = { -- Seeking Strahad
             [questKeys.nextQuestInChain] = 1801,
@@ -2200,8 +2208,8 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 978,
         },
         [3681] = { -- Tome of Divinity (Ironforge)
-            [questKeys.exclusiveTo] = {1642,2998},
-            [questKeys.nextQuestInChain] = 0,
+            [questKeys.nextQuestInChain] = 1642,
+            [questKeys.breadcrumbForQuestId] = 1642,
         },
         [3701] = { -- The Smoldering Ruins of Thaurissan
             [questKeys.nextQuestInChain] = 4341,
