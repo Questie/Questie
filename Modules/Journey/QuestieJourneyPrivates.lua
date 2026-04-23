@@ -71,7 +71,7 @@ function _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
         green = questLevel + 3
 
         -- Double check for negative values
-        if yellow <= 0 or yellow <= questMinLevel then
+        if yellow <= 0 or yellow < questMinLevel then
             yellow = questMinLevel
         end
 
