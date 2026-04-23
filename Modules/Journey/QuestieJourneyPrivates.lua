@@ -58,7 +58,7 @@ function _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
 
     -- Calculate Base Values
     if questLevel == -1 then
-        questLevel = (questLevel < 0 and ((questMinLevel <= charLevel and charLevel) or (questMinLevel > charLevel and questMinLevel))) or questLevel
+        questLevel = (questMinLevel <= charLevel and charLevel) or (questMinLevel > charLevel and questMinLevel)
         if questMinLevel == questLevel then
             yellow = questLevel
         elseif questMinLevel ~= questLevel then
