@@ -3069,6 +3069,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10366] = { -- Jol
             [questKeys.breadcrumbForQuestId] = 9598,
+            [questKeys.requiredRaces] = raceIDs.DRAENEI + raceIDs.HUMAN + raceIDs.DWARF,
         },
         [10367] = {
             [questKeys.preQuestSingle] = {},
