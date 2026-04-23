@@ -75,18 +75,20 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     -- Generic Quest Information
 
+    local questIdLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Quest ID") .. l10n(": "), 'yellow') .. quest.Id, true)
+    container:AddChild(questIdLabel)
+
     local levelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Quest Level") .. l10n(": "), 'yellow') .. quest.level, true)
     container:AddChild(levelLabel)
 
-    local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Required Level") .. l10n(": "), 'yellow') .. quest.requiredLevel, true)
+    -- We need to query this so we don't get wrong results for -1 type quests
+    local requiredLevel = QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel")
+    local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Required Level") .. l10n(": "), 'yellow') .. requiredLevel, true)
     container:AddChild(minLevelLabel)
 
-    local levelDiffString = _QuestieJourney:GetDifficultyString(quest.level, quest.requiredLevel)
+    local levelDiffString = _QuestieJourney:GetDifficultyString(quest.level, requiredLevel)
     local levelDiffLabel = _QuestieJourney:CreateLabel(levelDiffString, true)
     container:AddChild(levelDiffLabel)
-
-    local questIdLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Quest ID") .. l10n(": "), 'yellow') .. quest.Id, true)
-    container:AddChild(questIdLabel)
 
     local reputationRewardString = _QuestieJourney:GetReputationRewardString(quest.Id)
     if reputationRewardString then
