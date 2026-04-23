@@ -400,8 +400,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     end
                     -- "Regular" exclusives
                     if not questDecidedCategory then
-                        tinsert(zoneTree[4].children, temp)
-                        if not QuestieDB.IsRepeatable(questId) then
+                        if QuestieDB.IsRepeatable(questId) then
+                            tinsert(zoneTree[6].children, temp)
+                            unobtainableCounter = unobtainableCounter + 1
+                        else
+                            tinsert(zoneTree[4].children, temp)
                             completedCounter = completedCounter + 1
                         end
                     end

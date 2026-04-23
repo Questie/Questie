@@ -642,8 +642,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     end
                     -- "Regular" exclusives
                     if not questDecidedCategory then
-                        tinsert(factionTree[4].children, temp)
-                        if not QuestieDB.IsRepeatable(questId) then
+                        if QuestieDB.IsRepeatable(questId) then
+                            tinsert(factionTree[6].children, temp)
+                            unobtainableCounter = unobtainableCounter + 1
+                        else
+                            tinsert(factionTree[4].children, temp)
                             completedCounter = completedCounter + 1
                         end
                     end
