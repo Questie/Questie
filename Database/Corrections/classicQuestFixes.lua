@@ -4235,13 +4235,13 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{15116}},
             [questKeys.finishedBy] = {{15116}},
             [questKeys.requiredLevel] = 35,
-            [questKeys.requiredSkill] = {}, -- might have a skill requirement. need to check Saturdays
+            [questKeys.requiredSkill] = {profKeys.FISHING,175},
         },
         [8229] = { -- Could I get a Fishing Flier?
             [questKeys.startedBy] = {{15119}},
             [questKeys.finishedBy] = {{15119}},
             [questKeys.requiredLevel] = 35,
-            [questKeys.requiredSkill] = {}, -- might have a skill requirement. need to check Saturdays
+            [questKeys.requiredSkill] = {profKeys.FISHING,175},
         },
         [8233] = {
             [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
