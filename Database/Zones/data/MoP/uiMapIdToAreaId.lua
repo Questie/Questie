@@ -23,7 +23,6 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
 
     [281] = 10000, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [318] = 10001, -- Stratholme - The Gauntlet (fake ID for Stratholme)
-    [243] = 10002, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
     [250] = 10003, -- Blackrock Spire - Tazz'Alor (fake ID for Blackrock Spire)
     [251] = 10004, -- Blackrock Spire - Skitterweb Tunnels (fake ID for Blackrock Spire)
     [252] = 10005, -- Blackrock Spire - Hordemar City (fake ID for Blackrock Spire)
@@ -361,7 +360,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [240] = 2557, -- Dire Maul - (Dungeon/Raid)
     [241] = 4922, -- Twilight Highlands
     [242] = 1584, -- Blackrock Depths - (Dungeon/Raid)
-    [243] = 1584, -- Blackrock Depths - (Dungeon/Raid)
+    [243] = 1585, -- Blackrock Depths - (Dungeon/Raid)
     [244] = 5095, -- Tol Barad
     [245] = 5389, -- Tol Barad Peninsula
     [246] = 3714, -- The Shattered Halls - (Dungeon/Raid)

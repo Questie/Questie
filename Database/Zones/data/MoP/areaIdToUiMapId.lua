@@ -21,7 +21,6 @@ ZoneDB.private.areaIdToUiMapIdOverride = [[return {
 
     [10000] = 281, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [10001] = 318, -- Stratholme - The Gauntlet (fake ID for Stratholme)
-    [10002] = 243, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
     [10003] = 250, -- Blackrock Spire - Tazz'Alor (fake ID for Blackrock Spire)
     [10004] = 251, -- Blackrock Spire - Skitterweb Tunnels (fake ID for Blackrock Spire)
     [10005] = 252, -- Blackrock Spire - Hordemar City (fake ID for Blackrock Spire)
@@ -236,6 +235,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [1581] = 55, -- The Deadmines
     [1583] = 250, -- Blackrock Spire - (Dungeon/Raid)
     [1584] = 242, -- Blackrock Depths - (Dungeon/Raid)
+    [1585] = 243, -- Blackrock Depths - (Dungeon/Raid)
     [1637] = 85, -- Orgrimmar
     [1638] = 88, -- Thunder Bluff
     [1657] = 89, -- Darnassus
