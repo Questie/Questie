@@ -1066,7 +1066,8 @@ function QuestieQuestFixes:Load()
         [1440] = {
             [questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[zoneIDs.DESOLACE]={{58.27,30.91}}}},
         },
-        [1442] = {
+        [1442] = { -- Seeking the Kor Gem
+            [questKeys.preQuestSingle] = {},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 1654,
         },
@@ -1298,10 +1299,13 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2997,2999,3000},
         },
-        [1651] = {
+        [1650] = { -- The Tome of Valor
+            [questKeys.nextQuestInChain] = 1651,
+        },
+        [1651] = { -- The Tome of Valor
             [questKeys.triggerEnd] = {"Protect Daphne Stilwell", {[zoneIDs.WESTFALL]={{42.15,88.44}}}},
         },
-        [1654] = {
+        [1654] = { -- The Test of Righteousness
             [questKeys.childQuests] = {1442,1655},
         },
         [1655] = { -- Bailor's Ore Shipment
@@ -1444,13 +1448,16 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1787},
             [questKeys.preQuestSingle] = {1781},
         },
-        [1793] = {
-            [questKeys.exclusiveTo] = {1649},
+        [1793] = { -- The Tome of Valor
+            [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 1649,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [1794] = {
+        [1794] = { -- The Tome of Valor
             [questKeys.startedBy] = {{6179}},
-            [questKeys.exclusiveTo] = {1649},
+            [questKeys.finishedBy] = {{6179}},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 1649,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [1795] = { -- The Binding
