@@ -168,6 +168,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [291]  = 1581, -- The Deadmines - Dungeon -- The Deadmines
     [253]  = 1583, -- Blackrock Spire - Dungeon -- Hall of Blackhand
     [242]  = 1584, -- Blackrock Depths - Dungeon -- Detention Block
+    [243]  = 1585, -- Blackrock Depths - Dungeon -- Shadowforge City
     [1454] = 1637, -- Orgrimmar
     [1456] = 1638, -- Thunder Bluff
     [1457] = 1657, -- Darnassus
