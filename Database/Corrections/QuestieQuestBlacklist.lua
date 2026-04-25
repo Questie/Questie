@@ -1161,6 +1161,7 @@ function QuestieQuestBlacklist:Load()
         [10841] = true, -- The Vengeful Harbringer
         [10844] = true, -- Forge Camp: Anger
         [10925] = true, -- Evil Draws Near
+        [11425] = true, -- Test Quest - Craig
         [11518] = true, -- Sunwell Daily Portal Flag
         [11577] = true, -- WoW Collector's Edition: - DEM - E - FLAG
         [11874] = true, -- Upper Deck Promo - Rocket Mount
