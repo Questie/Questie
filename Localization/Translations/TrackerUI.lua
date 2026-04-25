@@ -446,7 +446,7 @@ local trackerUILocales = {
         ["koKR"] = "퀘스트 (%% 완료 기준 역순)",
         ["ptBR"] = "Missões (Por %% completo invertido)",
         ["ruRU"] = "Задания (По %% выполнения убыв.)",
-        ["zhCN"] = "任务 (按完成度 %% 反向）",
+        ["zhCN"] = "任务（按完成度 %% 反向）",
         ["zhTW"] = "任務 (依完成度 %% 反向)",
     },
     ["Quests (By Level)"] = {
