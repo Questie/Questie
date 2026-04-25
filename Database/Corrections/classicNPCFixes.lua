@@ -1011,6 +1011,7 @@ function QuestieNPCFixes:Load()
         },
         [5149] = { -- Brandur Ironhammer <Paladin Trainer>
             [npcKeys.questStarts] = {2999,3681,4486,7670,8415},
+            [npcKeys.questEnds] = {},
         },
         [5165] = { -- Hulfdan Blackbeard
             [npcKeys.questStarts] = {2238,2298,6681,8233},
@@ -1183,10 +1184,14 @@ function QuestieNPCFixes:Load()
         },
         [6179] = { -- Tiza Battleforge
             [npcKeys.questStarts] = {1645,1647,1779,1789,1794,4485},
+            [npcKeys.questEnds] = {1645,1646,1778,1785,1789,1794,2997,2999,3000},
         },
         [6180] = { -- Defias Raider
             [npcKeys.zoneID] = zoneIDs.WESTFALL,
             [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{42.15,88.43}}},
+        },
+        [6182] = { -- Daphne Stilwell
+            [npcKeys.waypoints] = {},
         },
         [6215] = { -- Chomper
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
