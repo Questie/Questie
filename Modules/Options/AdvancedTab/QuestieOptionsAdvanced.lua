@@ -83,21 +83,20 @@ function QuestieOptions.tabs.advanced:Initialize()
                 width = 0.3,
                 func = function() end,
             },
-            clusterLevelHotzone = {
+            objectiveFilterDistance = {
                 type = "range",
                 order = 1.4,
-                name = function() return l10n("Objective icon cluster amount"); end,
-                desc = function() return l10n("How much objective icons should cluster."); end,
+                name = function() return l10n("Objective icon filter distance"); end,
+                desc = function() return l10n("Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter.\n\nWARNING! Setting this too low may result in a lot of icons being drawn and can impact map performance!"); end,
                 width = 1.5,
                 disabled = function() return (not Questie.db.profile.enabled); end,
-                min = 1,
-                max = 300,
+                min = 0,
+                max = 5,
                 step = 1,
                 get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function(info, value)
-                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", value))
                     QuestieOptions:SetProfileValue(info, value)
-                    QuestieOptionsUtils.DetermineTheme()
+                    QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting objective filter distance to %s : Redrawing!", value))
                 end,
             },
             spawnFilterDistance = {

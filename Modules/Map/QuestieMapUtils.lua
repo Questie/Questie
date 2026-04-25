@@ -3,9 +3,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@class QuestieMapUtils
 QuestieMap.utils = QuestieMap.utils or {}
 
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
-
 local ZOOM_MODIFIER = 1;
 
 -- All the speed we can get is worth it.
@@ -61,87 +58,6 @@ function QuestieMap.utils:SetDrawOrder(frame)
     else
         frame.texture:SetDrawLayer("OVERLAY", 0)
     end
-end
-
----@param points table<number, Point> @{{x=0, y=0}, ...}
----@return number x, number y @Center coordinates
-function QuestieMap.utils.CenterPoint(points)
-    local x, y = 0, 0
-    local count = #points
-    for i=1, count do
-        local point = points[i]
-        x = x + point.x
-        y = y + point.y
-    end
-    x = x / count
-    y = y / count
-    return x, y
-end
-
----@param points table<number, Point> @A pointlist with {worldX=0, worldY=0, UiMapID=0, distance=0}
----@param rangeR number @Range of the hotzones.
----@param count number @Optional, used to allow more notes if far away from the quest giver.
----@return table<number, table<number, Point>> @A table of hotzones
-function QuestieMap.utils:CalcHotzones(points, rangeR, count)
---    if(points == nil) then return nil; end
-
-    local hotzones = {}
-    local pointsCount = #points
-    if rangeR <= 1 then
-        for j=1, pointsCount do
-            hotzones[j] = { points[j] }
-        end
-        return hotzones
-    end
-
-    if pointsCount == 1 then
-        -- This is execution shortcut to skip loop in case table size == 1
-
-        hotzones = { { points[1] } }
-        return hotzones
-    end
-
-    --If count isn't set we want to distance clustering to still work,
-    --to simplify the logic we just use a big number.
-    if not count then
-        count = 99999;
-    end
-
-    local useMovingRange = (count > 100)
-
-    local range = rangeR or 100;
-
-    for j=1, pointsCount do
-        local point = points[j]
-        if not point.touched then
-            point.touched = true
-            local notes = { point }
-
-            --We want things further away to be clustered more
-            local movingRange = range
-            if useMovingRange and (point.distance > 1000) then
-                movingRange = movingRange * (point.distance/1000);
-            end
-
-            local aX, aY, aUiMapID = point.worldX, point.worldY, point.UiMapID
-
-            for i=j+1, pointsCount do
-                local point2 = points[i]
-                --We only want to cluster icons that are on the same map.
-                if (not point2.touched) and (aUiMapID == point2.UiMapID)
-                    -- Do not cluster icons if they have no coordinates
-                    and aX ~= 0 and aY ~= 0 and point2.worldX ~= 0 and point2.worldY ~= 0 then
-                    local distance = QuestieLib.Euclid(aX, aY, point2.worldX, point2.worldY)
-                    if (distance < movingRange) then
-                        point2.touched = true
-                        notes[#notes+1] = point2
-                    end
-                end
-            end
-            hotzones[#hotzones+1] = notes
-        end
-    end
-    return hotzones
 end
 
 function QuestieMap.utils:IsExplored(uiMapId, x, y)

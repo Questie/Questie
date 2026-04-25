@@ -338,7 +338,7 @@ local mapOptionsLocales = {
         ["zhCN"] = "大地图的坐标要显示到小数点后几位\n（默认：%s）",
         ["zhTW"] = "大地圖的玩家和滑鼠游標坐標要顯示幾位小數。\n（預設值：%s）",
     },
-    ["Setting clustering value, clusterLevelHotzone set to %s : Redrawing!"] = {
+    ["Setting objective filter distance to %s : Redrawing!"] = {
         ["enUS"] = true,
         ["deDE"] = "Clusterlevel geändert auf %s : Zeichne neu!",
         ["esES"] = "Estableciendo valor de agrupamiento, clusterLevelHotzone establecido a %s: ¡Rediseñando!",
