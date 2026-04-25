@@ -172,7 +172,7 @@ local migrationFunctions = {
     end,
     [26] = function()
         Questie.db.profile.clusterLevelHotzone = nil
-        Questie.db.profile.objectiveFilterDistance = 0
+        Questie.db.profile.objectiveFilterDistance = 2
     end,
 }
 
