@@ -100,12 +100,6 @@ function QuestieOptions:SetProfileValue(info, value)
     Questie.db.profile[info[#info]] = value
 end
 
-function QuestieOptions:ClusterRedraw()
-    Questie:Debug(Questie.DEBUG_INFO, "Clustering changed, redrawing!")
-    --Redraw clusters here
-    QuestieQuest:SmoothReset();
-end
-
 ---@return table
 _CreateOptionsTable = function()
     local general_tab = QuestieOptions.tabs.general:Initialize()

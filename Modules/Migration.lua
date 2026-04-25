@@ -170,6 +170,10 @@ local migrationFunctions = {
             Questie.db.profile.townsfolkConfig["Poisons"] = false
         end
     end,
+    [26] = function()
+        Questie.db.profile.clusterLevelHotzone = nil
+        Questie.db.profile.objectiveFilterDistance = 0
+    end,
 }
 
 function Migration:Migrate()
