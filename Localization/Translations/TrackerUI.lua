@@ -333,7 +333,7 @@ local trackerUILocales = {
         ["koKR"] = "업적 추적 해제",
         ["ptBR"] = "Descompactar conquista",
         ["ruRU"] = "Не отслеживать достижение",
-        ["zhCN"] = "取消跟踪成就",
+        ["zhCN"] = "取消追踪成就",
         ["zhTW"] = "取消追蹤成就",
     },
     ["Abandon Quest"] = {
