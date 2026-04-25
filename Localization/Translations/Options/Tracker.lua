@@ -726,7 +726,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.\n\n참고: 이 설정을 변경하면 UI가 다시 로드됩니다.",
         ["ptBR"] = "Ativar o rastreador substituirá o rastreador de missões padrão de Blizzard pelo rastreador de Questie.\n\nNOTA: Alterar essa configuração recarregará a IU.",
         ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка перезапускает пользовательский интерфейс",
-        ["zhCN"] = "启用追踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。 \n\n注意：更改后会重新载入界面",
+        ["zhCN"] = "启用追踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。\n\n注意：更改后会重新载入界面",
         ["zhTW"] = "啟用任務位置提示插件的任務清單來取代遊戲內建的。\n\n更改後會重新載入介面",
     },
     ---------------------------------------------------------
