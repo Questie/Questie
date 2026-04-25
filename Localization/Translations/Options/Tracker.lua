@@ -399,7 +399,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 던전에 들어갈 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se marcado, o rastreador será automaticamente ocultado ao entrar em uma masmorra.",
         ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически скрыт",
-        ["zhCN"] = "启用时，进入地下城时跟踪器将自动隐藏",
+        ["zhCN"] = "启用时，进入地下城时追踪器将自动隐藏",
         ["zhTW"] = "啟用時，進入地下城後會自動將任務清單隱藏",
     },
     ---------------------------------------------------------
@@ -714,7 +714,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "트래커 활성화",
         ["ptBR"] = "Ativar rastreador",
         ["ruRU"] = "Включить трекер",
-        ["zhCN"] = "启用跟踪器",
+        ["zhCN"] = "启用追踪器",
         ["zhTW"] = "啟用任務清單",
     },
     ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: Changing this setting will reload the UI."] = {
@@ -726,7 +726,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.\n\n참고: 이 설정을 변경하면 UI가 다시 로드됩니다.",
         ["ptBR"] = "Ativar o rastreador substituirá o rastreador de missões padrão de Blizzard pelo rastreador de Questie.\n\nNOTA: Alterar essa configuração recarregará a IU.",
         ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка перезапускает пользовательский интерфейс",
-        ["zhCN"] = "启用跟踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。 \n\n注意：更改后会重新载入介面",
+        ["zhCN"] = "启用追踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。 \n\n注意：更改后会重新载入介面",
         ["zhTW"] = "啟用任務位置提示插件的任務清單來取代遊戲內建的。\n\n更改後會重新載入介面",
     },
     ---------------------------------------------------------
