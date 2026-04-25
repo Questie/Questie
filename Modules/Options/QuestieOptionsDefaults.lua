@@ -4,7 +4,7 @@ local QuestieOptionsDefaults = QuestieLoader:CreateModule("QuestieOptionsDefault
 function QuestieOptionsDefaults:Load()
     return {
         profile = {
-            objectiveFilterDistance = 0,
+            objectiveFilterDistance = 2,
             spawnFilterDistance = 28,
             availableIconLimit = 30,
             enableIconLimit = false,
