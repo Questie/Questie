@@ -17,7 +17,6 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
 
     [281] = 10000, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [318] = 10001, -- Stratholme - The Gauntlet (fake ID for Stratholme)
-    [243] = 10002, -- Blackrock Depths - Shadowforge City (fake ID for Blackrock Depths)
     [250] = 10003, -- Blackrock Spire - Tazz'Alor (fake ID for Blackrock Spire)
     [251] = 10004, -- Blackrock Spire - Skitterweb Tunnels (fake ID for Blackrock Spire)
     [252] = 10005, -- Blackrock Spire - Hordemar City (fake ID for Blackrock Spire)

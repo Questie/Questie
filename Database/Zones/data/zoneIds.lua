@@ -83,6 +83,7 @@ ZoneDB.zoneIDs = {
     THE_DEADMINES = 1581, -- this is also The Deadmines map for The Deadmines
     LOWER_BLACKROCK_SPIRE = 1583, -- this is also Hall of Blackhand map for Blackrock Spire
     BLACKROCK_DEPTHS = 1584, -- this is also Detention Block map for Blackrock Depths
+    BLACKROCK_DEPTHS_SHADOWFORGE_CITY = 1585, -- Shadowforge City map for Blackrock Depths
     ORGRIMMAR = 1637,
     THUNDER_BLUFF = 1638,
     DARNASSUS = 1657,
@@ -293,7 +294,6 @@ ZoneDB.zoneIDs = {
     -- Fake IDs for dungeons
     MARAUDON_ZAETARS_GRAVE = 10000, -- 281
     STRATHOLME_THE_GAUNTLET = 10001, -- 318
-    BLACKROCK_DEPTHS_SHADOWFORGE_CITY = 10002, -- 243
     BLACKROCK_SPIRE_TAZZ_ALOR = 10003, -- 250
     BLACKROCK_SPIRE_SKITTERWEB_TUNNELS = 10004, -- 251
     BLACKROCK_SPIRE_HORDEMAR_CITY = 10005, -- 252
