@@ -118,14 +118,16 @@ local function _HasSkillLevel(profession, skillLevel)
     return (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
 end
 
-local function _HasRankLevel(profession, rankLevel)
+local function _HasRankLevel(profession, rankLevel, exactRank)
     if not rankLevel then
         --? We return true here because otherwise we would have to check for nil everywhere
         return true
     end
     local professionRanks = QuestieProfessions.rankKeys[profession]
     local HasProfessionAndRankOrHigher = false
-    for rankIndex = rankLevel, #professionRanks do
+    -- If we have exactRank then we check only for the respective rank
+    local MaxRankToCheck = exactRank and rankLevel or #professionRanks
+    for rankIndex = rankLevel, MaxRankToCheck do
         local spellId = professionRanks[rankIndex]
         if IsSpellKnown(spellId) then
             HasProfessionAndRankOrHigher = true
@@ -148,27 +150,44 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
 end
 
----@param requiredRanks { [1]: number, [2]: number }[]? List of {professionId, rankLevel} pairs (nil returns true, true)
----@return boolean HasProfession
----@return boolean HasRankLevel
+---@param requiredRanks { [1]: number, [2]: number }[]? List of {professionId, rankLevel} pairs (nil returns true, true, false)
+---@return boolean hasProfession
+---@return boolean hasRankLevel
+---@return boolean hasNegativeRanks
 function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
     if not requiredRanks then
         --? We return true here because otherwise we would have to check for nil everywhere
-        return true, true
+        return true, true, false
     end
 
     local hasProfession = false
+    local hasRankLevel = false
+    local hasNegativeRanks = false
     for i=1,#requiredRanks do
         local profession = requiredRanks[i][1]
         local rankLevel = requiredRanks[i][2]
-        if _HasProfession(profession) then
-            if _HasRankLevel(profession, rankLevel) then
-                return true, true
+        if rankLevel > 0 then
+            if _HasProfession(profession) then
+                hasProfession = true
+                if _HasRankLevel(profession, rankLevel) then
+                    hasRankLevel = true
+                    return hasProfession, hasRankLevel, hasNegativeRanks
+                end
             end
-            hasProfession = true
+        else
+            -- if rankLevel is negative, then you must not have the rank for the quest to be available
+            local rankLevel = math.abs(rankLevel)
+            hasNegativeRanks = true
+            if _HasProfession(profession) then
+                hasProfession = true
+                if not _HasRankLevel(profession, rankLevel, hasNegativeRanks) then
+                    hasRankLevel = true
+                    return hasProfession, hasRankLevel, hasNegativeRanks
+                end
+            end
         end
     end
-    return hasProfession, false
+    return hasProfession, hasRankLevel, hasNegativeRanks
 end
 
 ---@param requiredSpecialization { [1]: number } [1] = professionId

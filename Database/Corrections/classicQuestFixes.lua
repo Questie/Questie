@@ -47,6 +47,7 @@ function QuestieQuestFixes:Load()
     local profKeys = QuestieProfessions.professionKeys
     local specKeys = QuestieProfessions.specializationKeys
     local factionIDs = QuestieDB.factionIDs
+    local rankKeys = QuestieProfessions.rankNames
 
     return {
         [5] = {
@@ -5696,6 +5697,7 @@ function QuestieQuestFixes:Load()
         [9233] = { -- Omarion's Handbook
             [questKeys.preQuestSingle] = {9121,9122,9123},
             [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,21000},
+            [questKeys.requiredRanks] = {{profKeys.TAILORING,-rankKeys.ARTISAN},{profKeys.BLACKSMITHING,-rankKeys.ARTISAN},{profKeys.LEATHERWORKING,-rankKeys.ARTISAN}},
         },
         [9234] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,

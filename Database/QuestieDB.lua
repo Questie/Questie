@@ -736,15 +736,25 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local requiredRanks = QuestieDB.QueryQuestSingle(questId, "requiredRanks")
     if (requiredRanks) then
-        local hasProfession, hasRankLevel = QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
-        if (not (hasProfession and hasRankLevel)) then
-            --? We haven't got the profession so we blacklist it.
-            if(not hasProfession) then
-                QuestieDB.autoBlacklist[questId] = "rank"
-            end
+        local hasProfession, hasRankLevel, hasNegativeRanks = QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
+        if (not hasNegativeRanks) then
+            if (not (hasProfession and hasRankLevel)) then
+                --? We haven't got the profession so we blacklist it.
+                if (not hasProfession) then
+                    QuestieDB.autoBlacklist[questId] = "rank"
+                end
 
-            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not have profession rank for quest " .. questId) end
-            return false
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not have profession rank for quest " .. questId) end
+                return false
+            end
+        else
+            if hasProfession and not hasRankLevel then
+                -- We have the exact profession and rank so we blacklist it.
+                QuestieDB.autoBlacklist[questId] = "rank"
+
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player has the wrong profession rank for quest " .. questId) end
+                return false
+            end
         end
     end
 
@@ -1029,20 +1039,31 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
     if (requiredRanks) then
-        local hasProfession, hasRankLevel = QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
-        if not hasProfession then
-            local msg = "Profession missing for quest " .. questId
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Profession missing"), true, DoableStates.PROFESSION_MISSING
-            elseif returnText and not returnBrief then
-                return msg, true, DoableStates.PROFESSION_MISSING
+        local hasProfession, hasRankLevel, hasNegativeRanks = QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
+        if not hasNegativeRanks then
+            if not hasProfession then
+                local msg = "Profession missing for quest " .. questId
+                if returnText and returnBrief then
+                    return l10n("Unavailable")..l10n(": ")..l10n("Profession missing"), true, DoableStates.PROFESSION_MISSING
+                elseif returnText and not returnBrief then
+                    return msg, true, DoableStates.PROFESSION_MISSING
+                end
+            elseif not hasRankLevel then
+                local msg = "Player does not have required profession rank for quest " .. questId
+                if returnText and returnBrief then
+                    return l10n("Unavailable")..l10n(": ")..l10n("Profession rank"), true, DoableStates.PROFESSION_RANK
+                elseif returnText and not returnBrief then
+                    return msg, true, DoableStates.PROFESSION_RANK
+                end
             end
-        elseif not hasRankLevel then
-            local msg = "Player does not have required profession rank for quest " .. questId
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Profession rank"), true, DoableStates.PROFESSION_RANK
-            elseif returnText and not returnBrief then
-                return msg, true, DoableStates.PROFESSION_RANK
+        else
+            if hasProfession and not hasRankLevel then
+                local msg = "Player has the wrong profession rank for quest " .. questId
+                if returnText and returnBrief then
+                    return l10n("Unavailable")..l10n(": ")..l10n("Profession rank"), true, DoableStates.PROFESSION_RANK
+                elseif returnText and not returnBrief then
+                    return msg, true, DoableStates.PROFESSION_RANK
+                end
             end
         end
     end
