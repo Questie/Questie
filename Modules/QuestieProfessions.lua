@@ -176,7 +176,7 @@ function QuestieProfessions:HasProfessionAndRankLevel(requiredRanks)
             end
         else
             -- if rankLevel is negative, then you must not have the rank for the quest to be available
-            local rankLevel = math.abs(rankLevel)
+            rankLevel = math.abs(rankLevel)
             hasNegativeRanks = true
             if _HasProfession(profession) then
                 hasProfession = true
