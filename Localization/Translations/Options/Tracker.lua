@@ -48,7 +48,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "인터페이스 옵션의 \"자동 퀘스트 추적 사용 \"과 동일합니다. 활성화하면 Questie Tracker가 로그의 모든 퀘스트를 자동으로 추적합니다. 이렇게하면 Shift- 클릭 수동 추적이 방지됩니다.",
         ["ptBR"] = "É o mesmo que \"Ativar rastreamento automático de missões\" nas opções da interface. Se marcado, o rastreador rastreia automaticamente todas as missões em seu registro. Isso evita o rastreamento manual com a tecla Shift pressionada.",
         ["ruRU"] = "Когда включено, трекер будет автоматически отслеживать все задания в вашем журнале (это то же самое, что и \"Отслеживание заданий\" в настройках интерфейса игры). Отключение данной настройки приведет к отмене отслеживания всех заданий в вашем журнале, вам придется вручную выбрать задания для отслеживания.\n\nПРИМЕЧАНИЕ: Настройка \"Выполненные задания\" будет отключена при отключении данной настройки",
-        ["zhCN"] = "这与界面选项中的\"启用自动任务跟踪\"相同。启用时，Questie追踪将自动追踪日志中的所有任务。关闭此选项可以取消所有追踪的任务，需要手动选择。\n\n注意：停用本选项也会停用\"显示已完成的任务\"",
+        ["zhCN"] = "这与暴雪界面选项中的\"启用自动任务追踪\"相同。启用时，Questie追踪器将自动追踪日志中的所有任务。关闭此选项可以取消所有追踪的任务，需要手动选择。\n\n注意：停用本选项也会停用\"显示已完成的任务\"",
         ["zhTW"] = "和遊戲內建的選項 \"啟用自動追蹤任務\" 相同。啟用時，Questie任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意：停用此選項時也會停用 \"顯示已完成的任務\"",
     },
     ---------------------------------------------------------
@@ -148,7 +148,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 완료된 퀘스트 목표가 자동으로 Questie 추적기에서 제거됩니다.",
         ["ptBR"] = "Se marcado, os objetivos de missões concluídos serão automaticamente removidos do rastreador.",
         ["ruRU"] = "Когда включено, выполненные цели заданий будут автоматически изъяты из трекера",
-        ["zhCN"] = "启用时，已完成的任务目标将自动从 Questie 追踪器中移除",
+        ["zhCN"] = "启用时，已完成的任务目标将自动从Questie追踪器中移除",
         ["zhTW"] = "啟用時，已完成的任務目標將自動從 Questie 追蹤器中移除",
     },
     ---------------------------------------------------------
@@ -324,7 +324,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 전투에 들어가는 동안 트래커가 자동으로 최소화됩니다.",
         ["ptBR"] = "Se marcado, o Rastreador será automaticamente minimizado ao entrar em combate.",
         ["ruRU"] = "Когда включено, при входе в бой трекер будет автоматически свернут",
-        ["zhCN"] = "启用时，在进入战斗状态时，追踪器将自动最小化",
+        ["zhCN"] = "启用时，进入战斗时追踪器将自动最小化",
         ["zhTW"] = "啟用時，進入戰鬥後會自動將任務清單最小化",
     },
     ---------------------------------------------------------
@@ -349,7 +349,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 던전으로 들어갈 때 Questie 추적기가 자동으로 최소화됩니다.",
         ["ptBR"] = "Se marcado, o rastreador será minimizado automaticamente ao entrar em uma masmorra.",
         ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически свернут",
-        ["zhCN"] = "启用时，进入地下城时跟踪器将自动最小化",
+        ["zhCN"] = "启用时，进入地下城时追踪器将自动最小化",
         ["zhTW"] = "啟用時，進入地下城後會自動將任務清單最小化",
     },
     ---------------------------------------------------------
@@ -374,7 +374,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 전투에 들어갈 때 트래커가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se marcado, o Rastreador será automaticamente ocultado ao entrar em combate.",
         ["ruRU"] = "Когда включено, при входе в бой трекер будет автоматически скрыт",
-        ["zhCN"] = "启用时，在进入战斗状态时，追踪器将自动隐藏",
+        ["zhCN"] = "启用时，进入战斗时追踪器将自动隐藏",
         ["zhTW"] = "啟用時，進入戰鬥後會自動將任務清單隱藏",
     },
     ---------------------------------------------------------
@@ -399,7 +399,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 던전에 들어갈 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se marcado, o rastreador será automaticamente ocultado ao entrar em uma masmorra.",
         ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически скрыт",
-        ["zhCN"] = "启用时，进入地下城时跟踪器将自动隐藏",
+        ["zhCN"] = "启用时，进入地下城时追踪器将自动隐藏",
         ["zhTW"] = "啟用時，進入地下城後會自動將任務清單隱藏",
     },
     ---------------------------------------------------------
@@ -664,8 +664,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "음성 안내 고정 프레임",
         ["ptBR"] = "Quadro VoiceOver fixo",
         ["ruRU"] = "Клейкое окно VoiceOver",
-        ["zhCN"] = "语音贴齐框架",
-        ["zhTW"] = "語音貼齊框體",
+        ["zhCN"] = "贴齐旁白框架",
+        ["zhTW"] = "貼齊旁白框體",
     },
     ["If checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
         ["enUS"] = true,
@@ -676,8 +676,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 화면에서 트래커가 배치된 위치에 따라 VoiceOver 토킹 헤드 / 음향 대기열 프레임이 Questie 트래커의 왼쪽 또는 오른쪽에 배치됩니다.",
         ["ptBR"] = "Se marcado, o quadro de cabeça falante / fila de som do VoiceOver será colocado no lado esquerdo ou direito do rastreador, dependendo de onde o rastreador estiver localizado na tela.",
         ["ruRU"] = "Когда включено, говорящая голова или окно очереди звука VoiceOver будет отображено слева или справа от трекера Questie в зависимости от того, где он расположен на вашем экране",
-        ["zhCN"] = "启用时，语音框会放在任务列表的左侧或右侧，根据任务列表在界面上的位置而定",
-        ["zhTW"] = "啟用時，語音框架會放在任務清單的左側或右側，依據任務清單在畫面上的位置而定",
+        ["zhCN"] = "启用时，旁白框会放在任务列表的左侧或右侧，根据任务列表在界面上的位置而定",
+        ["zhTW"] = "啟用時，旁白框架會放在任務清單的左側或右側，依據任務清單在畫面上的位置而定",
     },
     ---------------------------------------------------------
     ["Lock Tracker"] = {
@@ -714,7 +714,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "트래커 활성화",
         ["ptBR"] = "Ativar rastreador",
         ["ruRU"] = "Включить трекер",
-        ["zhCN"] = "启用跟踪器",
+        ["zhCN"] = "启用追踪器",
         ["zhTW"] = "啟用任務清單",
     },
     ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: Changing this setting will reload the UI."] = {
@@ -726,7 +726,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.\n\n참고: 이 설정을 변경하면 UI가 다시 로드됩니다.",
         ["ptBR"] = "Ativar o rastreador substituirá o rastreador de missões padrão de Blizzard pelo rastreador de Questie.\n\nNOTA: Alterar essa configuração recarregará a IU.",
         ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка перезапускает пользовательский интерфейс",
-        ["zhCN"] = "启用跟踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。 \n\n注意：更改后会重新载入介面",
+        ["zhCN"] = "启用追踪器会将默认的暴雪自带任务追踪器替换为Questie追踪器。\n\n注意：更改后会重新载入界面",
         ["zhTW"] = "啟用任務位置提示插件的任務清單來取代遊戲內建的。\n\n更改後會重新載入介面",
     },
     ---------------------------------------------------------
@@ -776,7 +776,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie 추적기에서 목표의 색을 완료도에 따라 변경합니다.\n\n참고: Minimalistic 옵션은 \"블리자드 완료 텍스트\"를 표시하지 않고 퀘스트를 \"퀘스트 완료!\" 또는 \"퀘스트 실패!\"로 표시합니다.",
         ["ptBR"] = "Mude a cor dos objetivos no rastreador conforme estiverem completos.\n\nNOTA: A opção Minimalista não mostrará o \"Texto de conclusão de Blizzard\" e apenas mostrará a missão como \"Missão concluída!\" ou \"Missão fracassada!\".",
         ["ruRU"] = "Изменение цвета целей заданий в трекере в зависимости от прогресса выполнения.\n\nПРИМЕЧАНИЕ: Настройка 'Минимализм' не будет отображать Blizzard-ский текст об окончании задания, вместо этого будут отображаться или 'Задание выполнено!', или 'Задание провалено!'",
-        ["zhCN"] = "根据目标完成度更改 Questie 追踪器中目标的颜色。\n\n注意：极简选项将不会显示“暴雪完成文字”，只会将任务标记为“任务完成！”或“任务失败！”",
+        ["zhCN"] = "根据目标完成度更改Questie追踪器中目标的颜色。\n\n注意：极简选项将不会显示“暴雪完成文字”，只会将任务标记为“任务完成！”或“任务失败！”",
         ["zhTW"] = "依據目標完成度變更 Questie 追蹤器中目標的顏色。\n\n注意：極簡選項將不會顯示「暴雪完成文字」，僅將任務標記為「任務完成！」或「任務失敗！」",
     },
     ---------------------------------------------------------
@@ -1431,7 +1431,7 @@ local trackerOptionsLocales = {
         ["koKR"] = "Questie Tracker에서 퀘스트 사이의 패딩 양입니다.\n\n참고: Sizer 수동 모드에서 이 설정을 변경하면 Sizer가 다시 자동 모드로 재설정됩니다.",
         ["ptBR"] = "A quantidade de espaço entre missões no rastreador.\n\nNOTA: Alterar esta configuração no modo manual de medição irá redefinir o medidor de volta para o modo automático.",
         ["ruRU"] = "Установка отступа между заданиями в трекере.\n\nПРИМЕЧАНИЕ: Если сайзер (изменитель размера трекера) в ручном режиме, то изменение этой настройки сбросит режим сайзера на автоматический",
-        ["zhCN"] = "Questie任务追踪器中任务之间的填充量\n\n注意：在 Sizer 手动模式下更改此设置会将 Sizer 重置为自动模式",
+        ["zhCN"] = "Questie任务追踪器中任务之间的填充量\n\n注意：在手动缩放模式下更改此设置会将缩放重置为自动模式",
         ["zhTW"] = "清單中每個任務之間的距離\n\n注意：在手動調整大小的模式下更改此設定會重置為自動模式",
     },
     ---------------------------------------------------------
