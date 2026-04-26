@@ -179,7 +179,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 퀘스트의 ID를 툴팁과 추적기에 표시합니다.",
         ["ptBR"] = "Se marcado, a ID de missões será mostrada nas dicas de ferramentas e no rastreador.",
         ["ruRU"] = "Когда включено, ID заданий будут отображаться во всплывающих подсказках и в трекере",
-        ["zhCN"] = "启用时，任务ID将显示在鼠标提示和跟踪器中",
+        ["zhCN"] = "启用时，任务ID将显示在鼠标提示和追踪器中",
         ["zhTW"] = "啟用時，會在浮動提示資訊和任務追蹤清單內顯示任務 ID",
     },
     ["Enable Debug"] = {
