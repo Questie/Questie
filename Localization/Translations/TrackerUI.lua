@@ -137,8 +137,8 @@ local trackerUILocales = {
         ["koKR"] = true,
         ["ptBR"] = true,
         ["ruRU"] = true,
-        ["zhCN"] = "旁白",
-        ["zhTW"] = "旁白",
+        ["zhCN"] = true,
+        ["zhTW"] = true,
     },
     ["Hold shift to see PlayButtons"] = {
         ["enUS"] = true,
