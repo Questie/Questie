@@ -676,8 +676,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 화면에서 트래커가 배치된 위치에 따라 VoiceOver 토킹 헤드 / 음향 대기열 프레임이 Questie 트래커의 왼쪽 또는 오른쪽에 배치됩니다.",
         ["ptBR"] = "Se marcado, o quadro de cabeça falante / fila de som do VoiceOver será colocado no lado esquerdo ou direito do rastreador, dependendo de onde o rastreador estiver localizado na tela.",
         ["ruRU"] = "Когда включено, говорящая голова или окно очереди звука VoiceOver будет отображено слева или справа от трекера Questie в зависимости от того, где он расположен на вашем экране",
-        ["zhCN"] = "启用时，语音框会放在任务列表的左侧或右侧，根据任务列表在界面上的位置而定",
-        ["zhTW"] = "啟用時，語音框架會放在任務清單的左側或右側，依據任務清單在畫面上的位置而定",
+        ["zhCN"] = "启用时，旁白框会放在任务列表的左侧或右侧，根据任务列表在界面上的位置而定",
+        ["zhTW"] = "啟用時，旁白框架會放在任務清單的左側或右側，依據任務清單在畫面上的位置而定",
     },
     ---------------------------------------------------------
     ["Lock Tracker"] = {
