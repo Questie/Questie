@@ -1248,6 +1248,8 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                 if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
                     local secondDungeonLocation = dungeonLocation[2]
                     icon.zone = secondDungeonLocation[1]
+                    icon.UiMapID = ZoneDB:GetUiMapIdByAreaId(icon.zone)
+                    zoneKey = icon.UiMapID
                     local dX, dY = secondDungeonLocation[2], secondDungeonLocation[3]
 
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, dX, dY)
@@ -1256,13 +1258,20 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                         spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
                         spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
                     end
+                    if (not alreadyPlacedByZone[zoneKey]) then
+                        alreadyPlacedByZone[zoneKey] = {}
+                    end
+                    tinsert(alreadyPlacedByZone[zoneKey], {dX, dY})
                     spawnedIconCount = spawnedIconCount + 1
                 end
 
                 local firstDungeonLocation = dungeonLocation[1]
                 icon.zone = firstDungeonLocation[1]
+                icon.UiMapID = ZoneDB:GetUiMapIdByAreaId(icon.zone)
+                zoneKey = icon.UiMapID
                 x = firstDungeonLocation[2]
                 y = firstDungeonLocation[3]
+                coords = {x, y}
             end
 
             local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, x, y)
