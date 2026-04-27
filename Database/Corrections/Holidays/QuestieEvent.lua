@@ -394,8 +394,8 @@ QuestieEvent.eventDates = {
         startDate = "5/4",
         endDate = "11/4"
     },
-    ["Children's Week"] = (Questie.IsTitanReforged or (Questie.IsChinaRegion and Questie.IsMoP)) and {startDate = "27/4", endDate = "4/5"} or {startDate = "28/4", endDate = "12/5"}, -- TODO: Usually it is only a week long
-    ["Midsummer"] = (Questie.IsTitanReforged) and  {startDate = "21/6", endDate = "12/7"} or (Questie.IsChinaRegion and Questie.IsMoP) and {startDate = "21/6", endDate = "5/7"} or {startDate = "21/6", endDate = "4/7"},
+    ["Children's Week"] = {startDate = "27/4", endDate = "4/5"}, -- TODO: Usually it is only a week long
+    ["Midsummer"] = (Questie.IsTitanReforged) and {startDate = "21/6", endDate = "12/7"} or {startDate = "21/6", endDate = "5/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "2/10",
