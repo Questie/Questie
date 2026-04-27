@@ -83,7 +83,12 @@ end
 ---@param areaId AreaId
 ---@return UiMapId
 function ZoneDB:GetUiMapIdByAreaId(areaId)
-    return areaIdToUiMapId[areaId]
+    local uiMapId = areaIdToUiMapId[areaId]
+    if (not uiMapId) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "No UiMapId found for AreaId: " .. areaId)
+    end
+
+    return uiMapId
 end
 
 --- Use with care, kind of slow.
