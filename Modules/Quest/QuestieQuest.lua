@@ -1281,6 +1281,9 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                 spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
             end
 
+            if (not alreadyPlacedByZone[zoneKey]) then
+                alreadyPlacedByZone[zoneKey] = {}
+            end
             tinsert(alreadyPlacedByZone[zoneKey], coords)
             spawnedIconCount = spawnedIconCount + 1
         end
