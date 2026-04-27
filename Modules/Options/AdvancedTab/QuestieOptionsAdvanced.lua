@@ -87,7 +87,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "range",
                 order = 1.4,
                 name = function() return l10n("Objective icon filter distance"); end,
-                desc = function() return l10n("Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter.\n\nWARNING! Setting this too low may result in a lot of icons being drawn and can impact map performance!"); end,
+                desc = function() return l10n("Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter."); end,
                 width = 1.5,
                 disabled = function() return (not Questie.db.profile.enabled); end,
                 min = 0,
