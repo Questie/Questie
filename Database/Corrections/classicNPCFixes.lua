@@ -1658,22 +1658,22 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
         },
         [10258] = { -- Rookery Guardian
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10263] = { -- Burning Felguard
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10264] = { -- Solakar Flamewreath
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10268] = { -- Gizrul the Slavener
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10296] = { -- Vaelan
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1, -1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE]={{-1,-1}}},
             [npcKeys.questStarts] = {},
             [npcKeys.questEnds] = {},
         },
@@ -1686,7 +1686,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{36.44,76.51}}},
         },
         [10339] = { -- Gyth <Rend Blackhand's Mount>
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10373] = { -- Xabraxxis
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
@@ -1704,8 +1704,8 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
         [10429] = { -- Warchief Rend Blackhand
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10439] = { -- Ramstein the Gorger
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
@@ -1715,8 +1715,8 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1}}},
         },
         [10447] = { -- Chromatic Dragonspawn
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10506] = { -- Kirtonos the Herald
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
@@ -1726,26 +1726,26 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{49,45}}}, -- #2055
         },
         [10584] = { -- Urok Doomhowl
-            [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10665] = { -- Junior Apothecary Holland <Royal Apothecary Society>
             [npcKeys.waypoints] = {[zoneIDs.TIRISFAL_GLADES]={{{57.4,48.8},{57.6,49},{57.8,49.6},{58.4,47.8},{58.6,47.6},{59,47.2}}}},
         },
         [10680] = { -- Summoned Blackhand Dreadweaver <Blackhand Legion>
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10681] = { -- Summoned Blackhand Veteran <Blackhand Legion>
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10682] = { -- Raider Kerr
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [10683] = { -- Rookery Hatcher
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10717] = { -- Temporal Parasite
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{45.15,62.28},{45.21,62.83},{46.38,62.33},{46.69,62.08},{47.03,61.96},{47.21,65.86},{47.76,66.51},{47.83,63.45},{47.92,65.91},{48.23,64.39},{48.26,65.77},{48.45,62.81},{48.57,63.98},{49.02,69.3},{49.1,68.86},{49.4,68.84},{49.95,66.1},{50.15,66.77},{50.2,66.34},{50.31,67.23}}},
@@ -1760,24 +1760,24 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.81,9.8}}},
         },
         [10740] = { -- Awbee
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE]={{-1,-1}}},
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
         },
         [10741] = { -- Sian-Rotam
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.85,9.8}}},
         },
         [10742] = { -- Blackhand Dragon Handler <Blackhand Legion>
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10776] = { -- Pip Quickwit
             [npcKeys.name] = "Pip Quickwit",
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10800] = { -- Warosh the Redeemed
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10801] = { -- Jabbering Ghoul
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{36.2,56.6},{36.6,57.6},{37,57.2},{37.2,55.4},{37.4,55.6},{37.8,57.6},{38,56.4},{38,56.6},{38.4,55.4},{38.6,55.2},{38.6,56.2}}},
@@ -3300,7 +3300,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
         },
         [16042] = { -- Lord Valthalak
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [16059] = { -- Theldren
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
@@ -3311,11 +3311,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [16073] = { -- Spirit of Lord Valthalak
-            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [16080] = { -- Mor Grayhoof
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [16097] = { -- Isalien
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},

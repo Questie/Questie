@@ -1349,7 +1349,6 @@ l10n.zoneLookup = {
     [229]={
         [1583]="Blackrock Spire",
         [4628]="Halls of Binding",
-        [7307]="Upper Blackrock Spire",
         [10003]="Blackrock Spire",
         [10004]="Blackrock Spire",
         [10005]="Blackrock Spire",
@@ -1813,7 +1812,6 @@ l10n.zoneLookup = {
     },
     [532]={
         [3457]="Karazhan",
-        [10102]="Karazhan",
         [10103]="Karazhan",
         [10104]="Karazhan",
         [10105]="Karazhan",
@@ -2841,7 +2839,7 @@ l10n.zoneLookup = {
         [10076]="Scarlet Halls",
     },
     [1004]={
-        [6384]="Scarlet Monastery",
+        [6109]="Scarlet Monastery",
         [6386]="Scarlet Monastery",
     },
     [1005]={

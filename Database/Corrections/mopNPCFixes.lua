@@ -1264,7 +1264,7 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{34.06,38.11}}},
         },
         [58545] = { -- Stonebark Trickster
-            [npcKeys.spawns] = {}, -- Remove invalid spawns
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.4,20.2},{26.4,20.6},{26.6,18.4},{26.6,20.2},{26.6,20.8},{26.6,21.6},{26.8,19.4},{27.8,18.2},{27.8,18.6},{28.4,20.4},{28.4,20.6},{28.4,27.4},{28.4,27.6},{28.6,18.2},{28.6,20},{28.6,20.6},{28.6,27.4},{28.6,27.6},{28.8,19.2},{28.8,33.2},{29.2,17},{29.2,24.2},{29.2,32},{29.4,24.8},{29.4,25.6},{29.4,29.2},{29.4,29.8},{29.4,31.4},{29.4,34.2},{29.6,24.4},{29.6,30.4},{29.8,19.2},{29.8,28.2},{29.8,28.8},{30,25},{30,25.6},{30,31.8},{30,32.8},{30.4,16.4},{30.4,16.6},{30.4,17.8},{30.4,19.8},{30.4,21.4},{30.4,21.6},{30.4,31},{30.4,33.8},{30.6,16.4},{30.6,21.2},{30.6,21.6},{30.6,28.2},{30.8,19.2},{30.8,20.2},{30.8,25.4},{30.8,29.4},{30.8,33.8},{31,16.8},{31,30.2},{31.2,31},{31.2,33.4},{31.4,31.6},{31.6,17.6},{31.6,18.8},{31.6,30.4},{31.6,31},{31.6,31.8},{31.8,17.2},{31.8,33.2},{31.8,33.6},{31.8,34.8},{32,26.8},{32,27.8},{32.2,19.6},{32.2,26.2},{32.4,21.2},{32.4,22.4},{32.4,22.6},{32.4,24.2},{32.4,25.4},{32.4,28.6},{32.6,21.4},{32.6,22.4},{32.6,22.6},{32.6,25.8},{32.6,27.6},{32.6,29.4},{32.6,31.4},{32.6,33.8},{32.8,29.8},{33,24.4},{33,24.6},{33.2,26.6},{33.4,33.4},{33.4,34.6},{33.6,23},{33.6,28.8},{33.6,33.4},{33.6,33.8},{33.6,34.6},{34.2,26.4},{35,24.6},{35.2,23.6},{35.4,27.4},{35.8,23.8},{35.8,30.2},{36,23.4},{36,28.2},{36.4,29},{36.6,23.4},{36.6,23.8}}},
         },
         [58547] = { -- Koro Mistwalker
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{44.2,42.89}}},
@@ -1809,7 +1809,7 @@ function MopNpcFixes.Load()
         },
         [59789] = { -- Thalnos the Soulrender
             [npcKeys.spawns] = {
-                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{26.2,45.6}},
+                [zoneIDs.SCARLET_MONASTERY_MOP] = {{26.2,45.6}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
         },
@@ -3887,13 +3887,13 @@ function MopNpcFixes.Load()
         },
         [64827] = { -- Hooded Crusader
             [npcKeys.spawns] = {
-                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{72.66,46.91}},
+                [zoneIDs.SCARLET_MONASTERY_MOP] = {{72.66,46.91}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
         },
         [64838] = { -- Hooded Crusader
             [npcKeys.spawns] = {
-                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{72.66,46.91}},
+                [zoneIDs.SCARLET_MONASTERY_MOP] = {{72.66,46.91}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
         },
@@ -4069,6 +4069,7 @@ function MopNpcFixes.Load()
         },
         [65978] = { -- Shao-Tien Soul-Render
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{55.4,92.6}}},
+            [npcKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [65983] = { -- Soraka
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{45.53,85.83}}},
@@ -6232,6 +6233,10 @@ function MopNpcFixes.Load()
                 [zoneIDs.ISLE_OF_THUNDER] = {{50.4,42.8},{50.8,43.4},{51,43.6}},
             },
         },
+        [70082] = { -- Pierre
+            [npcKeys.spawns] = {},
+            [npcKeys.zoneID] = 0,
+        },
         [70100] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
             [npcKeys.minLevel] = 0,
@@ -6746,6 +6751,10 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{75.3,76.27}}},
             [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
             [npcKeys.friendlyToFaction] = "AH",
+        },
+        [71693] = { -- Rascal-Bot
+            [npcKeys.spawns] = {},
+            [npcKeys.zoneID] = 0,
         },
         [71920] = { -- Cursed Hozen Swabby
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
