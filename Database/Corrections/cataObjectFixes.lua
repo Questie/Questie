@@ -346,7 +346,7 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.54}}},
         },
         [179880] = { -- Drakkisath's Brand
-            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{32.6,43.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{32.6,43.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
         },
         [180366] = { -- Battered Tackle Box
             [objectKeys.questStarts] = {8227},

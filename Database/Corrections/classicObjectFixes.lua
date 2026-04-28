@@ -201,8 +201,8 @@ function QuestieObjectFixes:Load()
         },
         [175124] = {
             [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
-            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
         },
         [175265] = {
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{47.74,73.57}}}, -- #1520
@@ -217,8 +217,8 @@ function QuestieObjectFixes:Load()
         },
         [175584] = {
             [objectKeys.name] = "Challenge to Urok",
-            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
         },
         [175964] = {
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1,-1}}},
@@ -424,13 +424,13 @@ function QuestieObjectFixes:Load()
         },]]
         --[[[400004] = { -- REUSE
             [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
-            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
         },]]
         --[[[400005] = { -- REUSE
             [objectKeys.name] = "Challenge to Urok",
-            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
         },]]
         [400006] = { -- Feralas Ahi Fishing Location
             [objectKeys.name] = "Feralas Ahi Fishing Location",

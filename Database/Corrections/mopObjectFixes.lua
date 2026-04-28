@@ -738,7 +738,7 @@ function MopObjectFixes.Load()
         },
         [214284] = { -- Blade of the Anointed
             [objectKeys.spawns] = {
-                [zoneIDs.SCARLET_MONASTERY_MOP_FORLORN_CLOISTER] = {{20.55,45.65}},
+                [zoneIDs.SCARLET_MONASTERY_MOP] = {{20.55,45.65}},
                 [zoneIDs.SCARLET_MONASTERY] = {{-1,-1}},
             },
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
