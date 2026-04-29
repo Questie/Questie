@@ -1316,7 +1316,7 @@ function QuestieQuestFixes:Load()
         [1658] = { -- Crashing the Wickerman Festival
             [questKeys.name] = "Crashing the Wickerman Festival",
         },
-        [1661] = {
+        [1661] = { -- The Tome of Nobility
             [questKeys.exclusiveTo] = {4485,4486},
         },
         [1665] = { -- Bartleby's Mug
@@ -2460,11 +2460,11 @@ function QuestieQuestFixes:Load()
         [4361] = {
             [questKeys.preQuestSingle] = {4342},
         },
-        [4485] = {
+        [4485] = { -- The Tome of Nobility
             [questKeys.startedBy] = {{6179}},
             [questKeys.exclusiveTo] = {1661,4486},
         },
-        [4486] = {
+        [4486] = { -- The Tome of Nobility
             [questKeys.exclusiveTo] = {1661,4485},
         },
         [4490] = { -- Summon Felsteed
@@ -4548,7 +4548,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {8414},
         },
-        [8415] = {
+        [8415] = { -- Chillwind Camp
             [questKeys.startedBy] = {{928,5149}},
             [questKeys.breadcrumbForQuestId] = 8414,
         },

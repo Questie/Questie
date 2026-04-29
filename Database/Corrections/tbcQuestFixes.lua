@@ -335,6 +335,12 @@ function QuestieTBCQuestFixes:Load()
         [1640] = { -- Beat Bartleby
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
         },
+        [1661] = { -- The Tome of Nobility
+            [questKeys.name] = "The Tome of Nobility",
+            [questKeys.startedBy] = {{6171}},
+            [questKeys.finishedBy] = {{6171}},
+            [questKeys.preQuestSingle] = {4485,4486},
+        },
         [1678] = { -- Vejrek
             [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {1639,1683,9582},
@@ -640,11 +646,11 @@ function QuestieTBCQuestFixes:Load()
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
         },
-        [4485] = {
-            [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
+        [4485] = { -- The Tome of Nobility
+            [questKeys.nextQuestInChain] = 1661,
         },
-        [4486] = {
-            [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
+        [4486] = { -- The Tome of Nobility
+            [questKeys.nextQuestInChain] = 1661,
         },
         [4487] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
@@ -2240,9 +2246,10 @@ function QuestieTBCQuestFixes:Load()
         [9600] = { -- Redemption
             [questKeys.objectives] = {{{17542,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9601] = {
+        [9601] = { -- To The Bulwark
             [questKeys.requiredLevel] = 50,
             [questKeys.startedBy] = {{16681,20406}},
+            [questKeys.breadcrumbForQuestId] = 10590,
         },
         [9607] = { -- Heart of Rage
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
@@ -2252,7 +2259,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
         },
-        [9616] = {
+        [9616] = { -- Bandits!
             [questKeys.startedBy] = {nil,nil,{23910}},
         },
         [9617] = { -- Seek the Farstriders
@@ -3440,6 +3447,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use The Cipher of Damnation at Altar of Damnation"), 0, {{"object", 184907}}},
                                            {nil, Questie.ICON_TYPE_TALK, l10n("Let him know when you are ready for Cyrukh"), 0, {{"monster", 21685}}},
             },
+        },
+        [10590] = { -- Prove Your Hatred
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9601},
         },
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83}}}},
