@@ -1247,13 +1247,13 @@ function QuestieQuestBlacklist:Load()
         [64063] = true, -- Boosted character quest
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
-        [64139] = true, -- Horde pala mount quest chain
+        --[[[64139] = true, -- Horde pala mount quest chain -- TODO: figure out a way to blacklist these by content phase
         [64140] = true, -- Horde pala mount quest chain
         [64141] = true, -- Horde pala mount quest chain
         [64142] = true, -- Horde pala mount quest chain
         [64143] = true, -- Horde pala mount quest chain
         [64144] = true, -- Horde pala mount quest chain
-        [64145] = true, -- Horde pala mount quest chain
+        [64145] = true, -- Horde pala mount quest chain]]
         [64217] = true, -- Boosted character quest
         [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
         [65284] = true, -- Boosted character quest

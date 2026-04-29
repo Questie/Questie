@@ -3864,8 +3864,8 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
             [questKeys.preQuestSingle] = {7667},
         },
-        [7669] = { -- #1449
-            [questKeys.name] = "Again Into the Great Ossuary",
+        [7669] = { -- Again Into the Great Ossuary
+            [questKeys.name] = "Again Into the Great Ossuary", -- #1449
             [questKeys.startedBy] = {{13417}},
             [questKeys.finishedBy] = {{13417}},
             [questKeys.requiredLevel] = 58,
@@ -3876,8 +3876,8 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {7668,8258},
         },
-        [7670] = { -- #1432
-            [questKeys.name] = "Lord Grayson Shadowbreaker",
+        [7670] = { -- Lord Grayson Shadowbreaker
+            [questKeys.name] = "Lord Grayson Shadowbreaker", -- #1432
             [questKeys.startedBy] = {{5149}},
             [questKeys.finishedBy] = {{928}},
             [questKeys.requiredLevel] = 60,
@@ -4129,7 +4129,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Grom's Monument"),0,{{"object", 21004},}}},
         },
-        [8151] = {
+        [8151] = { -- The Hunter's Charm
             [questKeys.startedBy] = {{3039,3352,4205,5116,5516}},
         },
         [8166] = {
@@ -6055,7 +6055,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         [1198] = {
             [questKeys.breadcrumbForQuestId] = 1200,
         },
-        [1718] = {
+        [1718] = { -- The Islander
             [questKeys.startedBy] = {{5113,5479}},
         },
         [1947] = { -- Journey to the Marsh

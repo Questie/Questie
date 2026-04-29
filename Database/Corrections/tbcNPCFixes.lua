@@ -522,10 +522,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [16646] = { -- Alamma
-            [npcKeys.questStarts] = {3001,4738,4968,8419,10605},
+            [npcKeys.questStarts] = {3001,4738,4968,10605},
         },
         [16647] = { -- Talionia
-            [npcKeys.questStarts] = {9529,10789,10790},
+            [npcKeys.questStarts] = {8419,9529,10789,10790}, -- on ptr 8419 started by this npc
         },
         [16648] = { -- Zanien
             [npcKeys.questStarts] = {},
@@ -534,13 +534,13 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {2861},
         },
         [16652] = { -- Quithas
-            [npcKeys.questStarts] = {1947,1953},
+            [npcKeys.questStarts] = {1943,1947,1953,8250},
         },
         [16655] = { -- Harene Plainwalker
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {9063},
         },
         [16658] = { -- Aldrae
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {8254},
         },
         [16659] = { -- Lotheolan
             [npcKeys.questStarts] = {},
@@ -549,7 +549,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [16673] = { -- Oninath
-            [npcKeys.questStarts] = {9617},
+            [npcKeys.questStarts] = {8151,9617},
         },
         [16681] = { -- Champion Bachi
             [npcKeys.questStarts] = {9601},
@@ -568,7 +568,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
         },
         [16721] = { -- Shalannius
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {5924,9063},
         },
         [16738] = { -- Deremiis
             [npcKeys.questStarts] = {},
@@ -578,10 +578,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
         },
         [16756] = { -- Caedmos
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {8254},
         },
         [16771] = { -- Ahonan
-            [npcKeys.questStarts] = {10371},
+            [npcKeys.questStarts] = {1718,10371},
         },
         [16807] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
@@ -764,6 +764,12 @@ function QuestieTBCNpcFixes:Load()
         [17465] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
+        },
+        [17505] = { -- Killac
+            [npcKeys.questStarts] = {8151},
+        },
+        [17509] = { -- Jol
+            [npcKeys.questStarts] = {7670,9598,9600},
         },
         [17511] = { -- Fallat
             [npcKeys.questStarts] = {},
