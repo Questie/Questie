@@ -7158,6 +7158,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{16646}},
         },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{3047,4567,7311,16652}},
+        },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,6018,16658}},
         },
@@ -7178,6 +7181,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461}},
+        },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{331,7312,17513}},
         },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406,16756}},

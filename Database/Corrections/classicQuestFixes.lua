@@ -4265,7 +4265,7 @@ function QuestieQuestFixes:Load()
         [8249] = {
             [questKeys.requiredClasses] = classIDs.NONE,
         },
-        [8250] = {
+        [8250] = { -- Magecraft
             [questKeys.startedBy] = {{331,3047,4567,7311,7312}},
         },
         [8251] = {
@@ -6028,6 +6028,9 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5753,5815}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{3047,4567,7311}},
+        },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,6018}},
         },
@@ -6085,6 +6088,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [7562] = { -- Mor'zul Bloodbringer
             [questKeys.startedBy] = {{5520,6382}},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{331,7312}},
         },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406}},
