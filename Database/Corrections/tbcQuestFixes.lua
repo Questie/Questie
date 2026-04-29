@@ -7183,6 +7183,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [8410] = { -- Elemental Mastery
             [questKeys.startedBy] = {{3032,13417}},
         },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{3041,3354,4593}},
+        },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{3326,4563,16647}},
         },
@@ -7218,6 +7221,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [8410] = { -- Elemental Mastery
             [questKeys.startedBy] = {{17219,20407,23127}},
+        },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{5113,5479,7315,17120}},
         },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,5172}},

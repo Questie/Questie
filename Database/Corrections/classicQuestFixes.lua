@@ -4552,7 +4552,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{928,5149}},
             [questKeys.breadcrumbForQuestId] = 8414,
         },
-        [8417] = {
+        [8417] = { -- A Troubled Spirit
             [questKeys.startedBy] = {{3041,3354,4593,5113,5479,7315}},
             [questKeys.breadcrumbForQuestId] = 8423,
         },
@@ -6034,6 +6034,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,6018}},
         },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{3041,3354,4593}},
+        },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{3326,4563}},
         },
@@ -6103,6 +6106,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406}},
+        },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{5113,5479,7315}},
         },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,5172}},

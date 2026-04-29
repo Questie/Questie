@@ -678,7 +678,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [17120] = { -- Behomat
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {8417},
         },
         [17204] = { -- Farseer Nobundo
             [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{29.78,33.26}}},
