@@ -7950,8 +7950,8 @@ function QuestieWotlkQuestFixes:Load()
         --     [questKeys.specialFlags] = specialFlags.NONE,
         --     [questKeys.questFlags] = questFlags.NONE,
         -- },
-        [94576] = { -- find a new way -- only present on titan reforged
-            [questKeys.name] = "find a new way",
+        [94576] = { -- Find a New Way -- only present on titan reforged
+            [questKeys.name] = "Find a New Way",
             [questKeys.startedBy] = {{31136}},
             [questKeys.finishedBy] = {{31136}},
             [questKeys.requiredLevel] = 1,
@@ -8058,7 +8058,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {95844},
         },
         [96312] = { -- Brutallus Must Die! -- only present on titan reforged
-            [questKeys.name] = "Kill Brutallus.",
+            [questKeys.name] = "Brutallus Must Die!",
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
             [questKeys.requiredLevel] = 80,
@@ -8072,7 +8072,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [96315] = { -- XT-002 Deconstructor Must Die! -- only present on titan reforged
-            [questKeys.name] = "Kill XT-002 Deconstructor.",
+            [questKeys.name] = "XT-002 Deconstructor Must Die!",
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
             [questKeys.requiredLevel] = 80,
@@ -8086,7 +8086,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [96318] = { -- Shade of Aran Must Die!-- only present on titan reforged
-            [questKeys.name] = "Kill Shade of Aran.",
+            [questKeys.name] = "Shade of Aran Must Die!",
             [questKeys.startedBy] = {{20735}},
             [questKeys.finishedBy] = {{20735}},
             [questKeys.requiredLevel] = 80,
