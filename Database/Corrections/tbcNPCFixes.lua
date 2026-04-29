@@ -253,6 +253,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [6171] = { -- Duthorian Rall
             [npcKeys.questStarts] = {1641,1643,1650,1653,1661,1781,1790,1793,7638},
+            [npcKeys.questEnds] = {1641,1642,1649,1652,1661,1780,1788,1790,1793,2998,3681,4485,4486},
         },
         [6176] = { -- Bath'rah the Windwatcher
             [npcKeys.questStarts] = {1712,1713,1792,8411,8412,8413},
