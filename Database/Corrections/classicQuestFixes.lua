@@ -4241,8 +4241,8 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 35,
             [questKeys.requiredSkill] = {profKeys.FISHING,175},
         },
-        [8233] = {
-            [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{918,3328,4163,4583,5165,5167}},
         },
         [8238] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -6022,6 +6022,9 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5753,5815}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{3328,4583}},
+        },
         [8250] = { -- Magecraft
             [questKeys.startedBy] = {{3047,4567,7311}},
         },
@@ -6082,6 +6085,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [7562] = { -- Mor'zul Bloodbringer
             [questKeys.startedBy] = {{5520,6382}},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{918,4163,5165,5167}},
         },
         [8250] = { -- Magecraft
             [questKeys.startedBy] = {{331,7312}},

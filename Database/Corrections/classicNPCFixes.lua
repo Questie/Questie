@@ -1017,7 +1017,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [5167] = { -- Fenthwick
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {8233},
         },
         [5171] = { -- Thistleheart
             [npcKeys.questStarts] = {},

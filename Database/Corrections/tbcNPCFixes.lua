@@ -190,7 +190,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [5167] = { -- Fenthwick
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {8233},
         },
         [5204] = { -- Apothecary Zinge
             [npcKeys.questStarts] = {232,243,1358,4133,4769,8980},
@@ -555,7 +555,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {9601},
         },
         [16684] = { -- Zelanis
-            [npcKeys.questStarts] = {9532,10372,10794},
+            [npcKeys.questStarts] = {8233,9532,10372,10794},
         },
         [16685] = { -- Elara
             [npcKeys.questStarts] = {},

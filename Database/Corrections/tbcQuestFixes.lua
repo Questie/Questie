@@ -1103,6 +1103,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.FISHING,
         },
         [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{918,3328,4163,4583,5165,5167,16684}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8249] = { -- Junkboxes Needed
@@ -7154,6 +7155,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{16646}},
+        },
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{3328,4583,16684}},
         },
         [8250] = { -- Magecraft
             [questKeys.startedBy] = {{3047,4567,7311,16652}},
