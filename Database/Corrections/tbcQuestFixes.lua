@@ -7156,6 +7156,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{16646}},
         },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{3039,3352,16673}},
+        },
         [8233] = { -- A Simple Request
             [questKeys.startedBy] = {{3328,4583,16684}},
         },
@@ -7188,6 +7191,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461}},
+        },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{4205,5116,5516,17505}},
         },
         [8250] = { -- Magecraft
             [questKeys.startedBy] = {{331,7312,17513}},

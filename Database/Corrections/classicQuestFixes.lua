@@ -6022,6 +6022,9 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5753,5815}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{3039,3352}},
+        },
         [8233] = { -- A Simple Request
             [questKeys.startedBy] = {{3328,4583}},
         },
@@ -6088,6 +6091,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [7562] = { -- Mor'zul Bloodbringer
             [questKeys.startedBy] = {{5520,6382}},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{4205,5116,5516}},
         },
         [8233] = { -- A Simple Request
             [questKeys.startedBy] = {{918,4163,5165,5167}},
