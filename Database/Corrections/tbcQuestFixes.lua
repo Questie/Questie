@@ -1203,11 +1203,12 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
-        [8410] = {
-            [questKeys.startedBy] = {{3032,13417,20407,23127,},nil,nil,},
+        [8410] = { -- Elemental Mastery
+            [questKeys.startedBy] = {{3032,13417,17219,20407,23127}},
         },
         [8411] = { -- Mastering the Elements
             [questKeys.name] = "Mastering the Elements",
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8412] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -7168,6 +7169,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,6018,16658}},
         },
+        [8410] = { -- Elemental Mastery
+            [questKeys.startedBy] = {{3032,13417}},
+        },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{3326,4563,16647}},
         },
@@ -7200,6 +7204,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406,16756}},
+        },
+        [8410] = { -- Elemental Mastery
+            [questKeys.startedBy] = {{17219,20407,23127}},
         },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,5172}},

@@ -4534,15 +4534,15 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {8372,8399,8400,8401,8402,8403},
             [questKeys.objectivesText] = {},
         },
-        [8410] = {
-            [questKeys.exclusiveTo] = {8411}, -- other preQuestSingle
+        [8410] = { -- Elemental Mastery
+            [questKeys.exclusiveTo] = {8411},
             [questKeys.startedBy] = {{3032,13417}},
         },
-        [8411] = {
-            [questKeys.exclusiveTo] = {8410}, -- other preQuestSingle
+        [8411] = { -- Mastering the Elements
+            [questKeys.exclusiveTo] = {8410},
         },
-        [8412] = {
-            [questKeys.preQuestSingle] = {8410,8411}, -- 8411 was missing
+        [8412] = { -- Spirit Totem
+            [questKeys.preQuestSingle] = {8410,8411},
         },
         [8414] = {
             [questKeys.preQuestSingle] = {},
