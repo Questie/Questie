@@ -7954,7 +7954,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Find a New Way",
             [questKeys.startedBy] = {{31136}},
             [questKeys.finishedBy] = {{31136}},
-            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectivesText] = {"Find a way to power the Wind - Kissed Blade, then return to High Warlord Uro in the sewers of Dalaran."},
