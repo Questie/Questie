@@ -1197,7 +1197,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [17126] = { -- Elegant Letter
-            [itemKeys.npcDrops] = {332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},
+            [itemKeys.npcDrops] = {332,918,3327,3328,3401,4163,4214,4215,4582,4583,4584,5165,5166,5167},
         },
         [17309] = { -- Discordant Bracers
             [itemKeys.npcDrops] = {8519, 8520, 8521, 8522},
@@ -1603,7 +1603,7 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.objectDrops] = {177792},
         },
         [17126] = { -- Elegant Letter
-            [itemKeys.npcDrops] = {332,918,4214,4215,4163,5165,5166,5167},
+            [itemKeys.npcDrops] = {332,918,4163,4214,4215,5165,5166,5167},
         },
         [20810] = { -- Signed Field Duty Papers
             [itemKeys.npcDrops] = {15440},
