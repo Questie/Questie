@@ -3565,9 +3565,6 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{13016,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.nextQuestInChain] = 6662,
         },
-        [6681] = { -- The Manor, Ravenholdt
-            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},nil,{17126}}, -- #7244
-        },
         [6721] = {
             [questKeys.startedBy] = {{5116}},
             [questKeys.exclusiveTo] = {6071,6072,6073,6722},
@@ -6018,9 +6015,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{8403}},
         },
-        [6681] = { -- The Manor, Ravenholdt
-            [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}}, -- #7244
-        },
         [6981] = {
             [questKeys.nextQuestInChain] = 3369,
         },
@@ -6081,9 +6075,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [5050] = {
             [questKeys.startedBy] = {{3520}},
-        },
-        [6681] = { -- The Manor, Ravenholdt
-            [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}}, -- #7244
         },
         [6981] = {
             [questKeys.nextQuestInChain] = 3370,

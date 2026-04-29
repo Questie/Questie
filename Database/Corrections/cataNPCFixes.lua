@@ -69,7 +69,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {8250,27354,28398,64038},
         },
         [332] = { -- Master Mathias Shaw
-            [npcKeys.questStarts] = {2206,6681,27072},
+            [npcKeys.questStarts] = {2206,27072},
         },
         [334] = { -- Gath'Ilzogg
             [npcKeys.spawns] = {[zoneIDs.REDRIDGE_MOUNTAINS] = {{57.76,56.3}}},
@@ -582,7 +582,7 @@ function CataNpcFixes.Load()
             [npcKeys.questEnds] = {27282,28299,28459},
         },
         [3328] = { -- Ormok
-            [npcKeys.questStarts] = {6681,8233,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168,82949,88782,88785,88789,88800},
+            [npcKeys.questStarts] = {8233,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168,82949,88782,88785,88789,88800},
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167,88778,88782,88785,88789},
         },
         [3338] = { -- Sergra Darkthorn
@@ -817,7 +817,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {8151},
         },
         [4214] = { -- Erion Shadewhisper
-            [npcKeys.questStarts] = {6681,27267,28262},
+            [npcKeys.questStarts] = {27267,28262},
         },
         [4217] = { -- Mathrengyl Bearwalker
             [npcKeys.questStarts] = {26,3803,9063,27273,28289},
@@ -915,7 +915,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {2861},
         },
         [4584] = { -- Gregory Charles
-            [npcKeys.questStarts] = {6681,27279,28298},
+            [npcKeys.questStarts] = {27279,28298},
         },
         [4586] = { -- Graham Van Talen
             [npcKeys.questStarts] = {3637},
@@ -1026,7 +1026,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {},
         },
         [5165] = { -- Hulfdan Blackbeard
-            [npcKeys.questStarts] = {6681,8233,27267,28262},
+            [npcKeys.questStarts] = {8233,27267,28262},
         },
         [5173] = { -- Alexander Calder
             [npcKeys.questStarts] = {27272,28259},
@@ -1893,7 +1893,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {},
         },
         [13283] = { -- Lord Tony Romano
-            [npcKeys.questStarts] = {6681,27351,28406,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
+            [npcKeys.questStarts] = {27351,28406,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166,82948,88780,88783,88786,88790,88796},
             [npcKeys.questEnds] = {28262,28406,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164,88776,88780,88783,88786,88790},
         },
         [13319] = { -- Commander Duffy
@@ -2639,7 +2639,7 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {9601,27298,27304,28302,28303},
         },
         [16684] = { -- Zelanis
-            [npcKeys.questStarts] = {6681,10372,27279,28298},
+            [npcKeys.questStarts] = {10372,27279,28298},
         },
         [16700] = { -- Shattered Hand Legionnaire
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS] = {{44.28,14.01},{37.96,13.22},{34.5,77.17},{40.95,77.22},{43.04,77.21},{46.54,77.19},{52.4,75.73},{59.05,79.2},{-1,-1}}},
