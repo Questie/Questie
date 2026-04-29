@@ -181,7 +181,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {8353,63448,63767,65284,65561,93823,96253},
         },
         [5149] = { -- Brandur Ironhammer
-            [npcKeys.questStarts] = {2999,3681,7670,8415},
+            [npcKeys.questStarts] = {2999,3681,4486,7670,8415},
         },
         [5165] = { -- Hulfdan Blackbeard
             [npcKeys.questStarts] = {2238,2298,8233},
@@ -251,12 +251,15 @@ function QuestieTBCNpcFixes:Load()
         [6166] = { -- Yorus Barleybrew
             [npcKeys.questEnds] = {1698,1699,10371},
         },
+        [6171] = { -- Duthorian Rall
+            [npcKeys.questStarts] = {1641,1643,1650,1653,1661,1781,1790,1793,7638},
+        },
         [6176] = { -- Bath'rah the Windwatcher
             [npcKeys.questStarts] = {1712,1713,1792,8411,8412,8413},
             [npcKeys.questEnds] = {1712,1713,1791,1792,8410,8411,8412,8413},
         },
         [6179] = { -- Tiza Battleforge
-            [npcKeys.questStarts] = {1645,1647,1779,1789,1794},
+            [npcKeys.questStarts] = {1645,1647,1779,1789,1794,4485},
         },
         [6251] = { -- Strahad Farsan
             [npcKeys.questStarts] = {1758,1795,1801,4490},
