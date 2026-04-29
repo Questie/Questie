@@ -6034,6 +6034,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,6018}},
         },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{3326,4563}},
+        },
         [8928] = {
             [questKeys.nextQuestInChain] = 8978,
         },
@@ -6094,6 +6097,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406}},
+        },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{461,5172}},
         },
         [8928] = {
             [questKeys.nextQuestInChain] = 8977,

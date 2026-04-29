@@ -7164,6 +7164,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,6018,16658}},
         },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{3326,4563,16647}},
+        },
     }
 
     local questFixesAlliance = {
@@ -7187,6 +7190,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406,16756}},
+        },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{461,5172}},
         },
     }
 
