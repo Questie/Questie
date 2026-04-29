@@ -481,9 +481,6 @@ function QuestieNPCFixes:Load()
         [3044] = { -- Miles Welsh
             [npcKeys.questStarts] = {5642,5644,5656,5663},
         },
-        [3045] = { -- Malakai Cross
-            [npcKeys.questStarts] = {},
-        },
         [3046] = { -- Father Cobb
             [npcKeys.questStarts] = {},
         },

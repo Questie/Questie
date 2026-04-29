@@ -4272,7 +4272,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8254] = { -- Cenarion Aid
-            [questKeys.startedBy] = {{5489,6018,11406}},
+            [questKeys.startedBy] = {{3045,5489,6018,11406}},
         },
         [8258] = {
             [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
@@ -6029,7 +6029,7 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8254] = { -- Cenarion Aid
-            [questKeys.startedBy] = {{6018}},
+            [questKeys.startedBy] = {{3045,6018}},
         },
         [8928] = {
             [questKeys.nextQuestInChain] = 8978,
