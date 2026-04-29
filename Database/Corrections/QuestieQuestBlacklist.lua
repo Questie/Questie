@@ -1681,6 +1681,10 @@ function QuestieQuestBlacklist:Load()
         [95706] = not Questie.IsTitanReforged, -- Gobb's Weekly Greed Deal -- only present on Titan servers
         [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
         [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
+        [95037] = true, -- Lord Jaraxxus Must Die! not open now
+        [96312] = true, -- Brutallus Must Die! not open now
+        [96315] = true, -- XT-002 Deconstructor Must Die! not open now
+        [96318] = true, -- Shade of Aran Must Die! not open now
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -8508,6 +8512,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
 
         [78752] = true, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
         [78753] = true, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
+
     }
 end
 
