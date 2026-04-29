@@ -1114,6 +1114,9 @@ function QuestieTBCQuestFixes:Load()
         [8250] = { -- Magecraft
             [questKeys.startedBy] = {{331,3047,4567,7311,7312,16652,17513}},
         },
+        [8254] = { -- Cenarion Aid
+            [questKeys.startedBy] = {{5489,6018,11406,16658,16756}},
+        },
         [8259] = { -- A More Fitting Reward
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {8258},
