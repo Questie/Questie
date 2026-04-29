@@ -5456,7 +5456,7 @@ function QuestieQuestFixes:Load()
         [9061] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [9063] = {
+        [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{3033,4217,5505,12042}},
             [questKeys.breadcrumbForQuestId] = 9052,
         },
@@ -6040,6 +6040,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8996] = {
             [questKeys.nextQuestInChain] = 8998,
         },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{3033,12042}},
+        },
         [9388] = {
             [questKeys.startedBy] = {{16818}},
         },
@@ -6103,6 +6106,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8996] = {
             [questKeys.nextQuestInChain] = 8997,
+        },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{4217,5505,12042}},
         },
         [9388] = {
             [questKeys.startedBy] = {{16817}},

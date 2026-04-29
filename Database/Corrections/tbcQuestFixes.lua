@@ -7168,6 +7168,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{3326,4563,16647}},
         },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{3033,12042,16655}},
+        },
     }
 
     local questFixesAlliance = {
@@ -7194,6 +7197,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,5172}},
+        },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{4217,5505,12042,16721}},
         },
     }
 

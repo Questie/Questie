@@ -538,6 +538,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [16655] = { -- Harene Plainwalker
             [npcKeys.questStarts] = {9063},
+            [npcKeys.waypoints] = {},
         },
         [16658] = { -- Aldrae
             [npcKeys.questStarts] = {8254},
