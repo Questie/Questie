@@ -1316,7 +1316,7 @@ function QuestieQuestFixes:Load()
         [1658] = { -- Crashing the Wickerman Festival
             [questKeys.name] = "Crashing the Wickerman Festival",
         },
-        [1661] = {
+        [1661] = { -- The Tome of Nobility
             [questKeys.exclusiveTo] = {4485,4486},
         },
         [1665] = { -- Bartleby's Mug
@@ -2460,11 +2460,11 @@ function QuestieQuestFixes:Load()
         [4361] = {
             [questKeys.preQuestSingle] = {4342},
         },
-        [4485] = {
+        [4485] = { -- The Tome of Nobility
             [questKeys.startedBy] = {{6179}},
             [questKeys.exclusiveTo] = {1661,4486},
         },
-        [4486] = {
+        [4486] = { -- The Tome of Nobility
             [questKeys.exclusiveTo] = {1661,4485},
         },
         [4490] = { -- Summon Felsteed
@@ -3565,9 +3565,6 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{13016,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.nextQuestInChain] = 6662,
         },
-        [6681] = { -- The Manor, Ravenholdt
-            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167},nil,{17126}}, -- #7244
-        },
         [6721] = {
             [questKeys.startedBy] = {{5116}},
             [questKeys.exclusiveTo] = {6071,6072,6073,6722},
@@ -4244,8 +4241,8 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 35,
             [questKeys.requiredSkill] = {profKeys.FISHING,175},
         },
-        [8233] = {
-            [questKeys.startedBy] = {{918,3328,4163,4583,5165}},
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{918,3328,4163,4583,5165,5167}},
         },
         [8238] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -4265,14 +4262,14 @@ function QuestieQuestFixes:Load()
         [8249] = {
             [questKeys.requiredClasses] = classIDs.NONE,
         },
-        [8250] = {
+        [8250] = { -- Magecraft
             [questKeys.startedBy] = {{331,3047,4567,7311,7312}},
         },
         [8251] = {
             [questKeys.preQuestSingle] = {},
         },
         [8254] = { -- Cenarion Aid
-            [questKeys.startedBy] = {{5489,6018,11406}},
+            [questKeys.startedBy] = {{3045,5489,6018,11406}},
         },
         [8258] = {
             [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
@@ -4537,25 +4534,25 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {8372,8399,8400,8401,8402,8403},
             [questKeys.objectivesText] = {},
         },
-        [8410] = {
-            [questKeys.exclusiveTo] = {8411}, -- other preQuestSingle
+        [8410] = { -- Elemental Mastery
+            [questKeys.exclusiveTo] = {8411},
             [questKeys.startedBy] = {{3032,13417}},
         },
-        [8411] = {
-            [questKeys.exclusiveTo] = {8410}, -- other preQuestSingle
+        [8411] = { -- Mastering the Elements
+            [questKeys.exclusiveTo] = {8410},
         },
-        [8412] = {
-            [questKeys.preQuestSingle] = {8410,8411}, -- 8411 was missing
+        [8412] = { -- Spirit Totem
+            [questKeys.preQuestSingle] = {8410,8411},
         },
         [8414] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {8414},
         },
-        [8415] = {
+        [8415] = { -- Chillwind Camp
             [questKeys.startedBy] = {{928,5149}},
             [questKeys.breadcrumbForQuestId] = 8414,
         },
-        [8417] = {
+        [8417] = { -- A Troubled Spirit
             [questKeys.startedBy] = {{3041,3354,4593,5113,5479,7315}},
             [questKeys.breadcrumbForQuestId] = 8423,
         },
@@ -5459,7 +5456,7 @@ function QuestieQuestFixes:Load()
         [9061] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [9063] = {
+        [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{3033,4217,5505,12042}},
             [questKeys.breadcrumbForQuestId] = 9052,
         },
@@ -6018,9 +6015,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{8403}},
         },
-        [6681] = { -- The Manor, Ravenholdt
-            [questKeys.startedBy] = {{3327,3328,3401,4582,4583,4584},nil,{17126}}, -- #7244
-        },
         [6981] = {
             [questKeys.nextQuestInChain] = 3369,
         },
@@ -6028,14 +6022,32 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5753,5815}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{3039,3352}},
+        },
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{3328,4583}},
+        },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{3047,4567,7311}},
+        },
         [8254] = { -- Cenarion Aid
-            [questKeys.startedBy] = {{6018}},
+            [questKeys.startedBy] = {{3045,6018}},
+        },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{3041,3354,4593}},
+        },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{3326,4563}},
         },
         [8928] = {
             [questKeys.nextQuestInChain] = 8978,
         },
         [8996] = {
             [questKeys.nextQuestInChain] = 8998,
+        },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{3033,12042}},
         },
         [9388] = {
             [questKeys.startedBy] = {{16818}},
@@ -6076,9 +6088,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{3520}},
         },
-        [6681] = { -- The Manor, Ravenholdt
-            [questKeys.startedBy] = {{332,918,4214,4215,4163,5165,5166,5167},nil,{17126}}, -- #7244
-        },
         [6981] = {
             [questKeys.nextQuestInChain] = 3370,
         },
@@ -6086,14 +6095,32 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5520,6382}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{4205,5116,5516}},
+        },
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{918,4163,5165,5167}},
+        },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{331,7312}},
+        },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406}},
+        },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{5113,5479,7315}},
+        },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{461,5172}},
         },
         [8928] = {
             [questKeys.nextQuestInChain] = 8977,
         },
         [8996] = {
             [questKeys.nextQuestInChain] = 8997,
+        },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{4217,5505,12042}},
         },
         [9388] = {
             [questKeys.startedBy] = {{16817}},

@@ -83,7 +83,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
         [3328] = { -- Ormok
-            [npcKeys.questStarts] = {6681,8233,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
+            [npcKeys.questStarts] = {8233,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
         [3344] = { -- Kardris Dreamseeker
@@ -153,7 +153,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {1645,1647,1779,1789,1794,4485},
         },
         [6467] = { -- Mennet Carkad
-            [npcKeys.questStarts] = {1998,1999,2019,2378,6681,14418,14419,14420},
+            [npcKeys.questStarts] = {1998,1999,2019,2378,14418,14419,14420},
         },
         [6826] = { -- Talvash del Kissel
             [npcKeys.questStarts] = {2199,2200,2361,2948,3375,8355},
@@ -222,7 +222,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {6607,6608,6609,8227,11194,11209,13826},
         },
         [13283] = { -- Lord Tony Romano
-            [npcKeys.questStarts] = {6681,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
+            [npcKeys.questStarts] = {64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
             [npcKeys.questEnds] = {64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164},
         },
         [13434] = { -- Macey Jinglepocket
@@ -404,7 +404,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {10960,64139,64140,64141,64142,64143,64144,64145},
         },
         [17219] = { -- Sulaa
-            [npcKeys.questStarts] = {9462,9502,9551,14111},
+            [npcKeys.questStarts] = {8410,9462,9502,9551,14111},
         },
         [17718] = {
             [npcKeys.questStarts] = {9684,9681},

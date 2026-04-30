@@ -35,6 +35,9 @@ function QuestieTBCItemFixes:Load()
         [12366] = {
             [itemKeys.npcDrops] = {7457,7458,7459,7460},
         },
+        [17126] = { -- Elegant Letter
+            [itemKeys.npcDrops] = {332,918,3327,3328,3401,4163,4214,4215,4582,4583,4584,5165,5166,5167,15285,16279,16684,16685,16686},
+        },
         [20023] = {
             [itemKeys.npcDrops] = {6375,6377,6378,6379,6380,8759,8761,8762,8763,8764,8766,},
         },
@@ -535,6 +538,9 @@ function QuestieTBCItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
+        [17126] = { -- Elegant Letter
+            [itemKeys.npcDrops] = {3327,3328,3401,4582,4583,4584,15285,16279,16684,16685,16686},
+        },
         [25911] = { -- Salvaged Wood
             [itemKeys.objectDrops] = {182936},
         },
@@ -550,6 +556,9 @@ function QuestieTBCItemFixes:LoadFactionFixes()
     }
 
     local itemFixesAlliance = {
+        [17126] = { -- Elegant Letter
+            [itemKeys.npcDrops] = {332,918,4163,4214,4215,5165,5166,5167},
+        },
         [25911] = { -- Salvaged Wood
             [itemKeys.objectDrops] = {182799},
         },

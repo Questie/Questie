@@ -335,6 +335,12 @@ function QuestieTBCQuestFixes:Load()
         [1640] = { -- Beat Bartleby
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
         },
+        [1661] = { -- The Tome of Nobility
+            [questKeys.name] = "The Tome of Nobility",
+            [questKeys.startedBy] = {{6171}},
+            [questKeys.finishedBy] = {{6171}},
+            [questKeys.preQuestSingle] = {4485,4486},
+        },
         [1678] = { -- Vejrek
             [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {1639,1683,9582},
@@ -640,11 +646,11 @@ function QuestieTBCQuestFixes:Load()
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
         },
-        [4485] = {
-            [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
+        [4485] = { -- The Tome of Nobility
+            [questKeys.nextQuestInChain] = 1661,
         },
-        [4486] = {
-            [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
+        [4486] = { -- The Tome of Nobility
+            [questKeys.nextQuestInChain] = 1661,
         },
         [4487] = { -- Summon Felsteed
             [questKeys.name] = "Summon Felsteed",
@@ -977,9 +983,6 @@ function QuestieTBCQuestFixes:Load()
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16}}}},
         },
-        [6681] = { -- The Manor, Ravenholdt
-            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167,6467,13283,16684,16685,16686},nil,{17126}},
-        },
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047},
         },
@@ -1106,6 +1109,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.FISHING,
         },
         [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{918,3328,4163,4583,5165,5167,16684}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8249] = { -- Junkboxes Needed
@@ -1113,6 +1117,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8250] = { -- Magecraft
             [questKeys.startedBy] = {{331,3047,4567,7311,7312,16652,17513}},
+        },
+        [8254] = { -- Cenarion Aid
+            [questKeys.startedBy] = {{3045,5489,6018,11406,16658,16756}},
         },
         [8259] = { -- A More Fitting Reward
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1202,11 +1209,12 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
-        [8410] = {
-            [questKeys.startedBy] = {{3032,13417,20407,23127,},nil,nil,},
+        [8410] = { -- Elemental Mastery
+            [questKeys.startedBy] = {{3032,13417,17219,20407,23127}},
         },
         [8411] = { -- Mastering the Elements
             [questKeys.name] = "Mastering the Elements",
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8412] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -2238,9 +2246,10 @@ function QuestieTBCQuestFixes:Load()
         [9600] = { -- Redemption
             [questKeys.objectives] = {{{17542,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9601] = {
+        [9601] = { -- To The Bulwark
             [questKeys.requiredLevel] = 50,
             [questKeys.startedBy] = {{16681,20406}},
+            [questKeys.breadcrumbForQuestId] = 10590,
         },
         [9607] = { -- Heart of Rage
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
@@ -2250,7 +2259,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
         },
-        [9616] = {
+        [9616] = { -- Bandits!
             [questKeys.startedBy] = {nil,nil,{23910}},
         },
         [9617] = { -- Seek the Farstriders
@@ -3438,6 +3447,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use The Cipher of Damnation at Altar of Damnation"), 0, {{"object", 184907}}},
                                            {nil, Questie.ICON_TYPE_TALK, l10n("Let him know when you are ready for Cyrukh"), 0, {{"monster", 21685}}},
             },
+        },
+        [10590] = { -- Prove Your Hatred
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9601},
         },
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83}}}},
@@ -7155,8 +7168,29 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{16646}},
         },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{3039,3352,16673}},
+        },
+        [8233] = { -- A Simple Request
+            [questKeys.startedBy] = {{3328,4583,16684}},
+        },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{3047,4567,7311,16652}},
+        },
         [8254] = { -- Cenarion Aid
-            [questKeys.startedBy] = {{6018,16658}},
+            [questKeys.startedBy] = {{3045,6018,16658}},
+        },
+        [8410] = { -- Elemental Mastery
+            [questKeys.startedBy] = {{3032,13417}},
+        },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{3041,3354,4593}},
+        },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{3326,4563,16647}},
+        },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{3033,12042,16655}},
         },
     }
 
@@ -7176,8 +7210,26 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461}},
         },
+        [8151] = { -- The Hunter's Charm
+            [questKeys.startedBy] = {{4205,5116,5516,17505}},
+        },
+        [8250] = { -- Magecraft
+            [questKeys.startedBy] = {{331,7312,17513}},
+        },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406,16756}},
+        },
+        [8410] = { -- Elemental Mastery
+            [questKeys.startedBy] = {{17219,20407,23127}},
+        },
+        [8417] = { -- A Troubled Spirit
+            [questKeys.startedBy] = {{5113,5479,7315,17120}},
+        },
+        [8419] = { -- An Imp's Request
+            [questKeys.startedBy] = {{461,5172}},
+        },
+        [9063] = { -- Torwa Pathfinder
+            [questKeys.startedBy] = {{4217,5505,12042,16721}},
         },
     }
 

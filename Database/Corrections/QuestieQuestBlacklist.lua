@@ -1323,7 +1323,7 @@ function QuestieQuestBlacklist:Load()
         [908] = true,
         [909] = true,
         [1288] = true,
-        [1661] = Expansions.Current >= Expansions.Tbc,
+        [1661] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3366] = true,
         [3381] = true,
         [3911] = true,

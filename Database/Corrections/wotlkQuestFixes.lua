@@ -1133,6 +1133,9 @@ function QuestieWotlkQuestFixes:Load()
         [11448] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ask McGoyver for a ride to the Explorers' League Outpost"),0,{{"monster",24040}}}},
         },
+        [11451] = { -- Alicia's Poem
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [11452] = {
             [questKeys.startedBy] = {nil,nil,{34090}},
             [questKeys.requiredSourceItems] = {},

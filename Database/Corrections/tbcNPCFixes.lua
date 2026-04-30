@@ -23,7 +23,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {8250,64038},
         },
         [332] = { -- Master Mathias Shaw
-            [npcKeys.questStarts] = {141,350,395,2206,2360,2607,6183,6184,6681},
+            [npcKeys.questStarts] = {141,350,395,2206,2360,2607,6183,6184},
         },
         [376] = { -- High Priestess Laurena
             [npcKeys.questStarts] = {5631,5634,5645,5673,5676,64031,64034,64035,64037,64038},
@@ -37,7 +37,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {64028,64031,64034,64035},
         },
         [918] = { -- Osborne the Night Man
-            [npcKeys.questStarts] = {6681,8233},
+            [npcKeys.questStarts] = {8233},
         },
         [928] = { -- Lord Grayson Shadowbreaker
             [npcKeys.questStarts] = {3000,7637,7640,7641,7643,7646,7647,7666,8415,64031,64034,64035,64037,64038},
@@ -91,10 +91,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {3631,4737,4967,8419},
         },
         [3327] = { -- Gest
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [3328] = { -- Ormok
-            [npcKeys.questStarts] = {6681,8233,64048,64050,64052,64063,64064},
+            [npcKeys.questStarts] = {8233,64048,64050,64052,64063,64064},
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
         [3344] = { -- Kardris Dreamseeker
@@ -106,7 +106,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {64046,64048,64050,64052},
         },
         [3401] = { -- Shenthul
-            [npcKeys.questStarts] = {2379,2458,2460,2479,6681},
+            [npcKeys.questStarts] = {2379,2458,2460,2479},
         },
         [3406] = { -- Xor'juul
             [npcKeys.questStarts] = {64048,64050,64052,64063,64064},
@@ -119,13 +119,13 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {952,3764,3781,6761},
         },
         [4163] = { -- Syurna
-            [npcKeys.questStarts] = {2242,6681,8233},
+            [npcKeys.questStarts] = {2242,8233},
         },
         [4214] = { -- Erion Shadewhisper
-            [npcKeys.questStarts] = {2260,6681},
+            [npcKeys.questStarts] = {2260},
         },
         [4215] = { -- Anishar
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [4323] = {
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{41.87,80.76},{41.38,77.81},{42.77,81.06},{43.25,81.46},{42.14,76.6},{44.81,76.61},{45.68,84.1},{55.1,73.11},{51.06,74.15},{46.55,84.9},{51.74,67.65},{47.74,70.1},{44.76,73.97},{45.06,78.74},{54.38,70.54},{44.6,81.58},{46.67,82.35},{47.27,82.46},{43.57,70.0},{45.76,72.13},{45.51,73.14},{46.82,71.51},{50.51,71.97},{48.94,70.24},{50.01,69.05},{46.2,65.05},{48.18,80.52},{44.11,66.44},{44.93,64.48},{46.71,65.42},{47.21,67.19},{43.08,69.23},{43.71,64.4},{45.79,65.18},{45.95,67.21},},},
@@ -155,13 +155,13 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {4489,4739,4969,8419},
         },
         [4582] = { -- Carolyn Ward
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [4583] = { -- Miles Dexter
-            [npcKeys.questStarts] = {6681,8233},
+            [npcKeys.questStarts] = {8233},
         },
         [4584] = { -- Gregory Charles
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [4606] = { -- Aelthalyste
             [npcKeys.questStarts] = {5643,5657,5658,5679,10379},
@@ -181,16 +181,16 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questEnds] = {8353,63448,63767,65284,65561,93823,96253},
         },
         [5149] = { -- Brandur Ironhammer
-            [npcKeys.questStarts] = {2999,3681,7670,8415},
+            [npcKeys.questStarts] = {2999,3681,4486,7670,8415},
         },
         [5165] = { -- Hulfdan Blackbeard
-            [npcKeys.questStarts] = {2238,2298,6681,8233},
+            [npcKeys.questStarts] = {2238,2298,8233},
         },
         [5166] = { -- Ormyr Flinteye
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [5167] = { -- Fenthwick
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {8233},
         },
         [5204] = { -- Apothecary Zinge
             [npcKeys.questStarts] = {232,243,1358,4133,4769,8980},
@@ -251,19 +251,23 @@ function QuestieTBCNpcFixes:Load()
         [6166] = { -- Yorus Barleybrew
             [npcKeys.questEnds] = {1698,1699,10371},
         },
+        [6171] = { -- Duthorian Rall
+            [npcKeys.questStarts] = {1641,1643,1650,1653,1661,1781,1790,1793,7638},
+            [npcKeys.questEnds] = {1641,1642,1649,1652,1661,1780,1788,1790,1793,2998,3681,4485,4486},
+        },
         [6176] = { -- Bath'rah the Windwatcher
             [npcKeys.questStarts] = {1712,1713,1792,8411,8412,8413},
             [npcKeys.questEnds] = {1712,1713,1791,1792,8410,8411,8412,8413},
         },
         [6179] = { -- Tiza Battleforge
-            [npcKeys.questStarts] = {1645,1647,1779,1789,1794},
+            [npcKeys.questStarts] = {1645,1647,1779,1789,1794,4485},
         },
         [6251] = { -- Strahad Farsan
             [npcKeys.questStarts] = {1758,1795,1801,4490},
             [npcKeys.questEnds] = {1795,1798,1804,1805,2996,3001,3631,4487,4488,4489,4490},
         },
         [6467] = { -- Mennet Carkad
-            [npcKeys.questStarts] = {1886,1898,1978,1998,1999,2019,2378,6681},
+            [npcKeys.questStarts] = {1886,1898,1978,1998,1999,2019,2378},
         },
         [6735] = { -- Innkeeper Saelienne
             [npcKeys.questStarts] = {3763,8357,63448,63767,65284,65561,93823,96253},
@@ -352,7 +356,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [13283] = { -- Lord Tony Romano
-            [npcKeys.questStarts] = {6681,64031,64034,64035,64037,64038},
+            [npcKeys.questStarts] = {64031,64034,64035,64037,64038},
             [npcKeys.questEnds] = {64028,64031,64034,64035},
         },
         [13417] = { -- Sagorne Creststrider
@@ -538,6 +542,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [16655] = { -- Harene Plainwalker
             [npcKeys.questStarts] = {9063},
+            [npcKeys.waypoints] = {},
         },
         [16658] = { -- Aldrae
             [npcKeys.questStarts] = {8254},
@@ -555,13 +560,13 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {9601},
         },
         [16684] = { -- Zelanis
-            [npcKeys.questStarts] = {6681,9532,10372,10794},
+            [npcKeys.questStarts] = {8233,9532,10372,10794},
         },
         [16685] = { -- Elara
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [16686] = { -- Nerisen
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [16700] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
@@ -674,7 +679,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [17120] = { -- Behomat
-            [npcKeys.questStarts] = {},
+            [npcKeys.questStarts] = {8417},
         },
         [17204] = { -- Farseer Nobundo
             [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{29.78,33.26}}},
@@ -695,7 +700,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [17219] = { -- Sulaa
-            [npcKeys.questStarts] = {9462,9502,9551},
+            [npcKeys.questStarts] = {8410,9462,9502,9551},
             [npcKeys.waypoints] = {},
         },
         [17240] = {
@@ -775,7 +780,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [17513] = { -- Harnan
-            [npcKeys.questStarts] = {1939,1947,1953},
+            [npcKeys.questStarts] = {1939,1947,1953,8250},
         },
         [17514] = { -- Bati
             [npcKeys.questStarts] = {2861},

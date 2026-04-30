@@ -49,7 +49,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {8250},
         },
         [332] = { -- Master Mathias Shaw
-            [npcKeys.questStarts] = {141,350,395,2206,2360,2607,6183,6184,6681},
+            [npcKeys.questStarts] = {141,350,395,2206,2360,2607,6183,6184},
         },
         [376] = { -- High Priestess Laurena
             [npcKeys.questStarts] = {5631,5634,5645,5673,5676},
@@ -145,7 +145,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [918] = { -- Osborne the Night Man
-            [npcKeys.questStarts] = {6681,8233},
+            [npcKeys.questStarts] = {8233},
         },
         [928] = { -- Lord Grayson Shadowbreaker
             [npcKeys.questEnds] = {7638,7639,7640,7644,7646,7648,7666,7670},
@@ -481,9 +481,6 @@ function QuestieNPCFixes:Load()
         [3044] = { -- Miles Welsh
             [npcKeys.questStarts] = {5642,5644,5656,5663},
         },
-        [3045] = { -- Malakai Cross
-            [npcKeys.questStarts] = {},
-        },
         [3046] = { -- Father Cobb
             [npcKeys.questStarts] = {},
         },
@@ -556,10 +553,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {},
         },
         [3327] = { -- Gest
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [3328] = { -- Ormok
-            [npcKeys.questStarts] = {6681,8233},
+            [npcKeys.questStarts] = {8233},
         },
         [3344] = { -- Kardris Dreamseeker
             [npcKeys.questStarts] = {},
@@ -582,7 +579,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{53.06,41.74}}},
         },
         [3401] = { -- Shenthul
-            [npcKeys.questStarts] = {2379,2458,2460,2479,6681},
+            [npcKeys.questStarts] = {2379,2458,2460,2479},
         },
         [3403] = { -- Sian'tsu
             [npcKeys.questStarts] = {},
@@ -760,16 +757,16 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{70.03,86.22},{68.38,82.32},{67.26,86.1}}},
         },
         [4163] = { -- Syurna
-            [npcKeys.questStarts] = {2242,6681,8233},
+            [npcKeys.questStarts] = {2242,8233},
         },
         [4205] = { -- Dorion
             [npcKeys.questStarts] = {8151},
         },
         [4214] = { -- Erion Shadewhisper
-            [npcKeys.questStarts] = {2260,6681},
+            [npcKeys.questStarts] = {2260},
         },
         [4215] = { -- Anishar
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [4217] = { -- Mathrengyl Bearwalker
             [npcKeys.questStarts] = {26,3785,3803,5921,6001,6121,6762,9063},
@@ -884,13 +881,13 @@ function QuestieNPCFixes:Load()
             [npcKeys.questStarts] = {1882,1943,1947,1953,1960,1961,2861},
         },
         [4582] = { -- Carolyn Ward
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [4583] = { -- Miles Dexter
-            [npcKeys.questStarts] = {6681,8233},
+            [npcKeys.questStarts] = {8233},
         },
         [4584] = { -- Gregory Charles
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [4595] = { -- Baltus Fowler
             [npcKeys.questStarts] = {1718,1818,1823},
@@ -1014,13 +1011,13 @@ function QuestieNPCFixes:Load()
             [npcKeys.questEnds] = {},
         },
         [5165] = { -- Hulfdan Blackbeard
-            [npcKeys.questStarts] = {2238,2298,6681,8233},
+            [npcKeys.questStarts] = {2238,2298,8233},
         },
         [5166] = { -- Ormyr Flinteye
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {},
         },
         [5167] = { -- Fenthwick
-            [npcKeys.questStarts] = {6681},
+            [npcKeys.questStarts] = {8233},
         },
         [5171] = { -- Thistleheart
             [npcKeys.questStarts] = {},
