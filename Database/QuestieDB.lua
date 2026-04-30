@@ -958,6 +958,15 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Invasion quests (one-time world event that has ended for all realms)
+    if (not Questie.IsSoD) and QuestieQuestBlacklist.InvasionQuests[questId] then
+        if returnText and returnBrief then
+            return l10n("Unavailable")..l10n(": ")..l10n("Event inactive"), true, DoableStates.EVENT_INACTIVE
+        elseif returnText then
+            return "Invasion event quest " .. questId .. " is not active", true, DoableStates.EVENT_INACTIVE
+        end
+    end
+
     -- Check character race
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
