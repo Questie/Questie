@@ -2035,6 +2035,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.VIOLET_HOLD] = {{45.9,56.5},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.VIOLET_HOLD,
         },
+        [31136] = {
+            [npcKeys.questStarts] = {94576},
+            [npcKeys.questEnds] = {94576},
+        },
         [31191] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
