@@ -1675,6 +1675,7 @@ function QuestieQuestBlacklist:Load()
         [93950] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
         [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
         --[94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers
+        [95476] = not Questie.IsTitanReforged, -- Find a New Way -- only present on Titan servers
         [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
         [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers
         [95705] = not Questie.IsTitanReforged, -- Gobb's Grand Opening! -- only present on Titan servers
