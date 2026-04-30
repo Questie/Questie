@@ -32,6 +32,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type DropDB
 local DropDB = QuestieLoader:ImportModule("DropDB")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -882,6 +884,12 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
     end
 
+    -- Invasion quests (Naxxramas launch on Era and Wotlk prepatch)
+    if not ContentPhases.IsInvasionActive[Expansions.Current] and QuestieQuestBlacklist.InvasionQuests[questId] then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Invasion event quest " .. questId .. " is not active") end
+        return false
+    end
+
     return true
 end
 
@@ -955,6 +963,15 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return l10n("Unavailable")..l10n(": ")..l10n("Event inactive"), true, DoableStates.EVENT_INACTIVE
         elseif returnText then
             return "AQ event quest " .. questId .. " is not active", true, DoableStates.EVENT_INACTIVE
+        end
+    end
+
+    -- Invasion quests (Naxxramas launch on Era and Wotlk prepatch)
+    if not ContentPhases.IsInvasionActive[Expansions.Current] and QuestieQuestBlacklist.InvasionQuests[questId] then
+        if returnText and returnBrief then
+            return l10n("Unavailable")..l10n(": ")..l10n("Event inactive"), true, DoableStates.EVENT_INACTIVE
+        elseif returnText then
+            return "Invasion event quest " .. questId .. " is not active", true, DoableStates.EVENT_INACTIVE
         end
     end
 
