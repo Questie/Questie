@@ -8107,6 +8107,7 @@ end
 
 function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
     local questKeys = QuestieDB.questKeys
+    local classIDs = QuestieDB.classKeys
 
     return {
         [6805] = { -- Greater Stormers and Rumblers
@@ -8142,6 +8143,16 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.objectivesText] = {"Look for someone who has knowledge about the Dormant Blade."},
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 94576,
+        },
+        [9250] = { -- Frame of Atiesh
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.MAGE + classIDs.WARLOCK + classIDs.PRIEST + classIDs.DRUID,
+        },
+        [9251] = { -- Atiesh, the Befouled Greatstaff
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.MAGE + classIDs.WARLOCK + classIDs.PRIEST + classIDs.DRUID,
         },
         [11007] = { -- Kael'thas and the Verdant Sphere
             [questKeys.questLevel] = 80,
