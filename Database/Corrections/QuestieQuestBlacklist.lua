@@ -25,6 +25,7 @@ function QuestieQuestBlacklist:Load()
         [618] = true, -- Duplicate of 8554
         [934] = true, -- Duplicate of 7383. See #2386
         [236] = Expansions.Current < Expansions.Wotlk,
+        --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = Expansions.Current ~= Expansions.Wotlk, -- Only implemented in Wrath
@@ -990,36 +991,36 @@ function QuestieQuestBlacklist:Load()
         [10501] = Expansions.Current >= Expansions.Tbc,
 
         -- Classic Phase 6 Invasion quests
-        [9085] = Expansions.Current >= Expansions.Tbc, -- Shadows of Doom
-        [9094] = Expansions.Current >= Expansions.Tbc, -- Argent Dawn Gloves
-        [9153] = Expansions.Current >= Expansions.Tbc, -- Under the Shadow
-        [9154] = Expansions.Current >= Expansions.Tbc, -- Light's Hope Chapel
+        [9085] = true, -- Shadows of Doom
+        [9094] = true, -- Argent Dawn Gloves
+        [9153] = true, -- Under the Shadow
+        [9154] = true, -- Light's Hope Chapel
         [9247] = true, -- The Keeper's Call (Blizzard forgot to implement in Era and Anniversary)
-        [9260] = Expansions.Current >= Expansions.Tbc, -- Investigate the Scourge of Stormwind
-        [9261] = Expansions.Current >= Expansions.Tbc, -- Investigate the Scourge of Ironforge
-        [9262] = Expansions.Current >= Expansions.Tbc, -- Investigate the Scourge of Darnassus
-        [9263] = Expansions.Current >= Expansions.Tbc, -- Investigate the Scourge of Orgrimmar
-        [9264] = Expansions.Current >= Expansions.Tbc, -- Investigate the Scourge of Thunder Bluff
-        [9265] = Expansions.Current >= Expansions.Tbc, -- Investigate the Scourge of the Undercity
-        [9292] = Expansions.Current >= Expansions.Tbc, -- Cracked Necrotic Crystal
-        [9295] = Expansions.Current >= Expansions.Tbc, -- Letter from the Front
-        [9299] = Expansions.Current >= Expansions.Tbc, -- Note from the Front
-        [9300] = Expansions.Current >= Expansions.Tbc, -- Page from the Front
-        [9301] = Expansions.Current >= Expansions.Tbc, -- Envelope from the Front
-        [9302] = Expansions.Current >= Expansions.Tbc, -- Missive from the Front
-        [9304] = Expansions.Current >= Expansions.Tbc, -- Document from the Front
-        [9310] = Expansions.Current >= Expansions.Tbc, -- Faint Necrotic Crystal
-        [9317] = Expansions.Current >= Expansions.Tbc, -- Consecrated Sharpening Stones
-        [9318] = Expansions.Current >= Expansions.Tbc, -- Blessed Wizard Oil
-        [9320] = Expansions.Current >= Expansions.Tbc, -- Major Mana Potion
-        [9321] = Expansions.Current >= Expansions.Tbc, -- Major Healing Potion
-        [9333] = Expansions.Current >= Expansions.Tbc, -- Argent Dawn Gloves
-        [9334] = Expansions.Current >= Expansions.Tbc, -- Blessed Wizard Oil
-        [9335] = Expansions.Current >= Expansions.Tbc, -- Consecrated Sharpening Stones
-        [9336] = Expansions.Current >= Expansions.Tbc, -- Major Healing Potion
-        [9337] = Expansions.Current >= Expansions.Tbc, -- Major Mana Potion
-        [9341] = Expansions.Current >= Expansions.Tbc, -- Tabard of the Argent Dawn
-        [9343] = Expansions.Current >= Expansions.Tbc, -- Tabard of the Argent Dawn
+        [9260] = true, -- Investigate the Scourge of Stormwind
+        [9261] = true, -- Investigate the Scourge of Ironforge
+        [9262] = true, -- Investigate the Scourge of Darnassus
+        [9263] = true, -- Investigate the Scourge of Orgrimmar
+        [9264] = true, -- Investigate the Scourge of Thunder Bluff
+        [9265] = true, -- Investigate the Scourge of the Undercity
+        [9292] = true, -- Cracked Necrotic Crystal
+        [9295] = true, -- Letter from the Front
+        [9299] = true, -- Note from the Front
+        [9300] = true, -- Page from the Front
+        [9301] = true, -- Envelope from the Front
+        [9302] = true, -- Missive from the Front
+        [9304] = true, -- Document from the Front
+        [9310] = true, -- Faint Necrotic Crystal
+        [9317] = true, -- Consecrated Sharpening Stones
+        [9318] = true, -- Blessed Wizard Oil
+        [9320] = true, -- Major Mana Potion
+        [9321] = true, -- Major Healing Potion
+        [9333] = true, -- Argent Dawn Gloves
+        [9334] = true, -- Blessed Wizard Oil
+        [9335] = true, -- Consecrated Sharpening Stones
+        [9336] = true, -- Major Healing Potion
+        [9337] = true, -- Major Mana Potion
+        [9341] = true, -- Tabard of the Argent Dawn
+        [9343] = true, -- Tabard of the Argent Dawn
 
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
@@ -7167,38 +7168,6 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [8797] = true,
     [10500] = true,
     [10501] = true,
-}
-
-QuestieQuestBlacklist.InvasionQuests = {
-    [9085] = true, -- Shadows of Doom
-    [9094] = true, -- Argent Dawn Gloves
-    [9153] = true, -- Under the Shadow
-    [9154] = true, -- Light's Hope Chapel
-    [9260] = true, -- Investigate the Scourge of Stormwind
-    [9261] = true, -- Investigate the Scourge of Ironforge
-    [9262] = true, -- Investigate the Scourge of Darnassus
-    [9263] = true, -- Investigate the Scourge of Orgrimmar
-    [9264] = true, -- Investigate the Scourge of Thunder Bluff
-    [9265] = true, -- Investigate the Scourge of the Undercity
-    [9292] = true, -- Cracked Necrotic Crystal
-    [9295] = true, -- Letter from the Front
-    [9299] = true, -- Note from the Front
-    [9300] = true, -- Page from the Front
-    [9301] = true, -- Envelope from the Front
-    [9302] = true, -- Missive from the Front
-    [9304] = true, -- Document from the Front
-    [9310] = true, -- Faint Necrotic Crystal
-    [9317] = true, -- Consecrated Sharpening Stones
-    [9318] = true, -- Blessed Wizard Oil
-    [9320] = true, -- Major Mana Potion
-    [9321] = true, -- Major Healing Potion
-    [9333] = true, -- Argent Dawn Gloves
-    [9334] = true, -- Blessed Wizard Oil
-    [9335] = true, -- Consecrated Sharpening Stones
-    [9336] = true, -- Major Healing Potion
-    [9337] = true, -- Major Mana Potion
-    [9341] = true, -- Tabard of the Argent Dawn
-    [9343] = true, -- Tabard of the Argent Dawn
 }
 
 ---@return table<QuestId, boolean>
