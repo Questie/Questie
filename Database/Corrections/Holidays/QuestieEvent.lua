@@ -417,7 +417,7 @@ QuestieEvent.eventDateCorrections = {
         ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"}, -- WARNING THIS DATE VARIES!!!!
     },
     ["TBC"] = {
-        ["Noblegarden"] = false,
+        ["Noblegarden"] = {startDate = "28/3", endDate = "28/3"}, -- One day event on TBC, on the actual day of Easter. Date is set for 2027. Please update this every year.
         ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"}, -- WARNING THIS DATE VARIES!!!!
     },
 }
