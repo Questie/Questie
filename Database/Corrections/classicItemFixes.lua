@@ -1248,6 +1248,9 @@ function QuestieItemFixes:Load()
         [18513] = { -- A Dull and Flat Elven Blade
             [itemKeys.startQuest] = 7508,
         },
+        [18628] = { -- Thorium Brotherhood Contract
+            [itemKeys.npcDrops] = {12944},
+        },
         [18642] = { -- Jaina's Autograph
             [itemKeys.npcDrops] = {4968},
         },
