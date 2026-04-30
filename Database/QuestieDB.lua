@@ -34,6 +34,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local DropDB = QuestieLoader:ImportModule("DropDB")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
