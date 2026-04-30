@@ -707,10 +707,10 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
             end
 
             -- AQ War Effort quests (one-time world event that has ended for all realms)
-            if (not Questie.IsSoD) and (QuestieQuestBlacklist.AQWarEffortQuests[questId] or QuestieQuestBlacklist.InvasionQuests[questId]) then
-                tinsert(factionTree[6].children, temp)
-                unobtainableCounter = unobtainableCounter + 1
-            end
+            --if (not Questie.IsSoD) and (QuestieQuestBlacklist.AQWarEffortQuests[questId] or QuestieQuestBlacklist.InvasionQuests[questId]) then
+                --tinsert(factionTree[6].children, temp)
+                --unobtainableCounter = unobtainableCounter + 1
+            --end
 
             -- show manually hidden quests
             if Questie.db.char.hidden[questId] then
