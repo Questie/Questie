@@ -1223,6 +1223,17 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
 
     local alreadyPlacedByZone = {}
+    ---@param zoneKey number?
+    ---@param coords CoordPair
+    local function _MarkCoordsAsAlready(zoneKey, coords)
+        if (not zoneKey) then
+            return
+        end
+        if (not alreadyPlacedByZone[zoneKey]) then
+            alreadyPlacedByZone[zoneKey] = {}
+        end
+        tinsert(alreadyPlacedByZone[zoneKey], coords)
+    end
 
     for i = 1, iconCount do
         icon = orderedList[i]
@@ -1258,10 +1269,8 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                         spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
                         spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
                     end
-                    if (not alreadyPlacedByZone[zoneKey]) then
-                        alreadyPlacedByZone[zoneKey] = {}
-                    end
-                    tinsert(alreadyPlacedByZone[zoneKey], {dX, dY})
+
+                    _MarkCoordsAsAlready(zoneKey, {dX, dY})
                     spawnedIconCount = spawnedIconCount + 1
                 end
 
@@ -1281,10 +1290,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                 spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
             end
 
-            if (not alreadyPlacedByZone[zoneKey]) then
-                alreadyPlacedByZone[zoneKey] = {}
-            end
-            tinsert(alreadyPlacedByZone[zoneKey], coords)
+            _MarkCoordsAsAlready(zoneKey, coords)
             spawnedIconCount = spawnedIconCount + 1
         end
     end
