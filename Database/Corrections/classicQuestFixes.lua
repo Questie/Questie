@@ -3901,15 +3901,6 @@ function QuestieQuestFixes:Load()
         [7784] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{4949}},
         },
-        [7785] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
-        },
-        [7786] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
-        },
-        [7787] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
-        },
         [7795] = { -- A Donation of Runecloth
             [questKeys.nextQuestInChain] = 7796,
         },
