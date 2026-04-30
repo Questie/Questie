@@ -67,5 +67,9 @@ function Questie.LoadTitanQuestLookupOverrides()
             [questKeys.name] = "大雷暴和巨磐石",
             [questKeys.objectivesText] = {"消灭15个大型灰尘风暴和15个大型沙漠奔行者，然后回到艾萨拉的海达克西斯公爵那儿。"},
         },
+        [7787] = { -- Legend of the Past
+            [questKeys.name] = "昔日的传奇",
+            [questKeys.objectivesText] = {"寻找对休眠之刃有所了解的人。"},
+        },
     }
 end

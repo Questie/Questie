@@ -1877,10 +1877,14 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [93975] = {62, l10n("Raid")}, -- Ragnaros Must Die!
         [94577] = {62, l10n("Raid")}, -- Kael'thas Must Die!
         [94579] = {62, l10n("Raid")}, -- Patchwerk Must Die!
+        [95037] = {62, l10n("Raid")}, -- Lord Jaraxxus Must Die!
         [95455] = {41, l10n("PvP")}, -- Concerted Efforts
         --[95456] = {41, l10n("PvP")}, -- Concerted Efforts
         [95457] = {41, l10n("PvP")}, -- For Great Honor
         --[95458] = {41, l10n("PvP")}, -- For Great Honor
+        [96312] = {62, l10n("Raid")}, -- Brutallus Must Die!
+        [96315] = {62, l10n("Raid")}, -- XT-002 Deconstructor Must Die!
+        [96318] = {62, l10n("Raid")}, -- Shade of Aran Must Die!
 
         -- MoP quests
         [30567] = {98, l10n("Scenario")}, -- 

@@ -1675,12 +1675,17 @@ function QuestieQuestBlacklist:Load()
         [93950] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
         [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
         --[94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers
+        [94576] = not Questie.IsTitanReforged, -- Find a New Way -- only present on Titan servers
         [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
         [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers
         [95705] = not Questie.IsTitanReforged, -- Gobb's Grand Opening! -- only present on Titan servers
         [95706] = not Questie.IsTitanReforged, -- Gobb's Weekly Greed Deal -- only present on Titan servers
         [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
         [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
+        [95037] = true, -- Lord Jaraxxus Must Die! not open now
+        [96312] = true, -- Brutallus Must Die! not open now
+        [96315] = true, -- XT-002 Deconstructor Must Die! not open now
+        [96318] = true, -- Shade of Aran Must Die! not open now
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -8508,6 +8513,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
 
         [78752] = true, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
         [78753] = true, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
+
     }
 end
 
