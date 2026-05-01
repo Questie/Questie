@@ -4363,8 +4363,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13332},
             [questKeys.requiredSourceItems] = {},
         },
-        [13315] = {
+        [13315] = { -- Sneak Preview
             [questKeys.preQuestSingle] = {13288},
+            [questKeys.objectives] = {{{32195,nil,Questie.ICON_TYPE_EVENT},{32196,nil,Questie.ICON_TYPE_EVENT},{32197,nil,Questie.ICON_TYPE_EVENT},{32199,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13316] = {
             [questKeys.preQuestSingle] = {13329},
@@ -4473,8 +4474,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{32300}}},
             [questKeys.requiredSourceItems] = {44476,44477,44478,44479,44480},
         },
-        [13351] = {
+        [13351] = { -- Sneak Preview
             [questKeys.preQuestSingle] = {13264},
+            [questKeys.objectives] = {{{32195,nil,Questie.ICON_TYPE_EVENT},{32196,nil,Questie.ICON_TYPE_EVENT},{32197,nil,Questie.ICON_TYPE_EVENT},{32199,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [13352] = {
             [questKeys.objectives] = {{{32236,nil,Questie.ICON_TYPE_INTERACT}}},
