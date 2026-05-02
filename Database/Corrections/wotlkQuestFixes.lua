@@ -1938,9 +1938,10 @@ function QuestieWotlkQuestFixes:Load()
             },
             [questKeys.requiredSourceItems] = {},
         },
-        [12204] = {
+        [12204] = { -- In the Name of Loken
             [questKeys.preQuestSingle] = {12099,12058},
             [questKeys.preQuestGroup] = {},
+            [questKeys.objectives] = {{{26484,nil,Questie.ICON_TYPE_TALK},{26420,nil,Questie.ICON_TYPE_TALK}}},
         },
         [12206] = {
             [questKeys.objectives] = {{{27349,nil,Questie.ICON_TYPE_INTERACT}}},
