@@ -1007,12 +1007,15 @@ function QuestieTBCNpcFixes:Load()
         [18817] = {
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{41.2,44.2}}},
         },
-        [18927] = { -- Human Commoner
-            [npcKeys.questStarts] = {11441,11970},
-        },
         [18849] = {
             [npcKeys.name] = "Eastern Cannon",
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{60.7,51.78}}},
+        },
+        [18927] = { -- Human Commoner
+            [npcKeys.questStarts] = {11441,11970},
+        },
+        [18976] = { -- Urga'zz
+            [npcKeys.waypoints] = {},
         },
         [19008] = {
             [npcKeys.name] = "Western Cannon",

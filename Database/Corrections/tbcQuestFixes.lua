@@ -1921,6 +1921,9 @@ function QuestieTBCQuestFixes:Load()
         [9371] = { -- Botanist Taerix
             [questKeys.breadcrumbForQuestId] = 10302,
         },
+        [9372] = { -- Demonic Contamination
+            [questKeys.breadcrumbs] = {10442,10443},
+        },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92}}}},
         },
@@ -1962,8 +1965,9 @@ function QuestieTBCQuestFixes:Load()
         [9416] = { -- Report to General Kirika
             [questKeys.nextQuestInChain] = 9422,
         },
-        [9417] = {
+        [9417] = { -- The Arakkoa Threat
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9558},
         },
         [9418] = {
             [questKeys.startedBy] = {nil,nil,{23580}},
@@ -1971,6 +1975,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [9421] = {
             [questKeys.preQuestSingle] = {9280,9369},
+        },
+        [9423] = { -- Return to Obadei
+            [questKeys.nextQuestInChain] = 9424,
+        },
+        [9424] = { -- Makuru's Vengeance
+            [questKeys.nextQuestInChain] = 9543,
         },
         [9425] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -2170,6 +2180,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9558] = { -- The Longbeards
             [questKeys.preQuestSingle] = {10143,10483},
+            [questKeys.breadcrumbForQuestId] = 9417,
         },
         [9560] = {
             [questKeys.preQuestSingle] = {9544},
@@ -2356,19 +2367,27 @@ function QuestieTBCQuestFixes:Load()
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7}}}},
         },
+        [9688] = { -- Into the Dream
+            [questKeys.nextQuestInChain] = 9689,
+        },
         [9689] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Bundle of Dragon Bones at the Ever-burning Pyre"), 0, {{"object", 181988}}}},
         },
-        [9697] = {
+        [9697] = { -- Watcher Leesa'oh
             [questKeys.requiredMinRep] = {942,3000},
+            [questKeys.breadcrumbForQuestId] = 9701,
         },
         [9700] = {
             [questKeys.triggerEnd] = {"Sun Portal Site Confirmed", {[zoneIDs.BLOODMYST_ISLE]={{52.92,22.32}}}},
         },
-        [9701] = {
+        [9701] = { -- Observing the Sporelings
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21}}}},
             [questKeys.requiredLevel] = 61,
+            [questKeys.breadcrumbs] = {9697},
+        },
+        [9703] = { -- The Cryo-Core
+            [questKeys.nextQuestInChain] = 9748,
         },
         [9704] = { -- Slain by the Wretched
             [questKeys.breadcrumbs] = {8347},
@@ -2387,8 +2406,9 @@ function QuestieTBCQuestFixes:Load()
         [9720] = {
             [questKeys.objectives] = {{{17998,nil,Questie.ICON_TYPE_EVENT},{18002,nil,Questie.ICON_TYPE_EVENT},{18000,nil,Questie.ICON_TYPE_EVENT},{17999,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [9728] = {
+        [9728] = { -- A Warm Welcome
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9778},
         },
         [9729] = {
             [questKeys.triggerEnd] = {"Ark of Ssslith safely returned to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.71,50.72}}}},
@@ -2396,15 +2416,17 @@ function QuestieTBCQuestFixes:Load()
         [9731] = { -- Drain Schematics
             [questKeys.triggerEnd] = {"Drain Located", {[zoneIDs.ZANGARMARSH]={{50.44,40.91}}}},
             [questKeys.preQuestSingle] = {9718},
+            [questKeys.nextQuestInChain] = 9724,
         },
         [9737] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17910,17911,17912,17913,17914},17910}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Extinguishing Mixture near the eternal flame"), 0, {{"object", 182068}}}},
         },
-        [9738] = {
+        [9738] = { -- Lost in Action
             [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{17885,nil,Questie.ICON_TYPE_INTERACT},{17893,nil,Questie.ICON_TYPE_INTERACT},{17890,nil,Questie.ICON_TYPE_INTERACT},{17827,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
+            [questKeys.breadcrumbs] = {9876},
         },
         [9739] = {
             [questKeys.requiredMinRep] = {},
@@ -2436,6 +2458,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
+        },
+        [9778] = { -- Warden Hamoot
+            [questKeys.breadcrumbForQuestId] = 9728,
         },
         [9785] = {
             [questKeys.objectives] = {{{17900,nil,Questie.ICON_TYPE_TALK},{17901,nil,Questie.ICON_TYPE_TALK}}},
@@ -2539,6 +2564,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [9874] = {
             [questKeys.requiredMinRep] = {978,0},
+        },
+        [9876] = { -- Failed Incursion
+            [questKeys.breadcrumbForQuestId] = 9738,
+            [questKeys.nextQuestInChain] = 9738,
         },
         [9878] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -2799,6 +2828,9 @@ function QuestieTBCQuestFixes:Load()
         [10077] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [10078] = { -- Laying Waste to the Unwanted
+            [questKeys.objectives] = {{{18818,nil,Questie.ICON_TYPE_EVENT},{21237,nil,Questie.ICON_TYPE_EVENT},{19009,nil,Questie.ICON_TYPE_EVENT},{21236,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [10079] = { -- When This Mine's a-Rockin'
             [questKeys.preQuestSingle] = {10143,10483},
         },
@@ -2860,11 +2892,15 @@ function QuestieTBCQuestFixes:Load()
         [10121] = {
             [questKeys.preQuestSingle] = {},
         },
-        [10129] = {
+        [10129] = { -- Mission: Gateways Murketh and Shaadraz
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
             [questKeys.objectives] = {nil,{{183350},{183351}}},
         },
-        [10146] = {
+        [10144] = { -- Disrupt Their Reinforcements
+            [questKeys.nextQuestInChain] = 10146,
+            [questKeys.objectives] = {nil,{{184414},{184415}}},
+        },
+        [10146] = { -- Mission: The Murketh and Shaadraz Gateways
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
             [questKeys.objectives] = {nil,{{183350},{183351}}},
         },
@@ -2874,9 +2910,11 @@ function QuestieTBCQuestFixes:Load()
         [10162] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
         },
-        [10163] = {
+        [10163] = { -- Mission: The Abyssal Shelf
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
             [questKeys.preQuestSingle] = {10146},
+            [questKeys.breadcrumbs] = {10344},
+            [questKeys.nextQuestInChain] = 10382,
         },
         [10168] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits."), 0, {{"monster", 18688}}}},
@@ -3081,8 +3119,9 @@ function QuestieTBCQuestFixes:Load()
         [10340] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
         },
-        [10344] = {
-            [questKeys.exclusiveTo] = {10163},
+        [10344] = { -- Wing Commander Gryphongar
+            [questKeys.breadcrumbForQuestId] = 10163,
+            [questKeys.nextQuestInChain] = 10163,
         },
         [10350] = { -- Behomat
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
@@ -3112,8 +3151,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 9598,
             [questKeys.requiredRaces] = raceIDs.DRAENEI + raceIDs.HUMAN + raceIDs.DWARF,
         },
-        [10367] = {
+        [10367] = { -- A Traitor Among Us
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10403},
         },
         [10368] = {
             [questKeys.objectives] = {{{20677,nil,Questie.ICON_TYPE_TALK},{20678,nil,Questie.ICON_TYPE_TALK},{20679,nil,Questie.ICON_TYPE_TALK}}},
@@ -3154,8 +3194,9 @@ function QuestieTBCQuestFixes:Load()
         [10389] = {
             [questKeys.preQuestSingle] = {10392},
         },
-        [10403] = {
+        [10403] = { -- Naladu
             [questKeys.startedBy] = {{20677,20678,20679}},
+            [questKeys.breadcrumbForQuestId] = 10367,
         },
         [10405] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
@@ -3220,6 +3261,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10439] = {
             [questKeys.objectives] = {{{19554},{20985,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [10442] = { -- Helping the Cenarion Post
+            [questKeys.breadcrumbForQuestId] = 9372,
+        },
+        [10443] = { -- Helping the Cenarion Post
+            [questKeys.breadcrumbForQuestId] = 9372,
         },
         [10446] = {
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3944,10 +3991,11 @@ function QuestieTBCQuestFixes:Load()
         [10908] = {
             [questKeys.exclusiveTo] = {10862,10863},
         },
-        [10909] = {
+        [10909] = { -- Fel Spirits
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Achorite Relic")},
                                            {nil, Questie.ICON_TYPE_OBJECT, l10n("Slay Shattered Hand Berserkers near it"), 0, {{"object", 185298}}},
             },
+            [questKeys.nextQuestInChain] = 10935,
         },
         [10911] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Naturalized Ammunition to take control of the Death's Door Fel Cannon"), 0, {{"object", 185306}}}},
@@ -3973,8 +4021,10 @@ function QuestieTBCQuestFixes:Load()
         [10930] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Decrepit Clefthoofs and use the Fumper on their corpses"), 0, {{"monster", 22105}}}},
         },
-        [10935] = {
+        [10935] = { -- The Exorcism of Colonel Jules
+            [questKeys.objectives] = {{{22432,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Perform the exorcism"), 0, {{"monster", 22431}}}},
+            [questKeys.nextQuestInChain] = 10936,
         },
         [10938] = { -- Darkmoon Blessings Deck
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
