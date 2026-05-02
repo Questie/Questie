@@ -6233,10 +6233,6 @@ function MopNpcFixes.Load()
                 [zoneIDs.ISLE_OF_THUNDER] = {{50.4,42.8},{50.8,43.4},{51,43.6}},
             },
         },
-        [70082] = { -- Pierre
-            [npcKeys.spawns] = {},
-            [npcKeys.zoneID] = 0,
-        },
         [70100] = { -- Wrathion
             [npcKeys.name] = "Wrathion",
             [npcKeys.minLevel] = 0,
@@ -6751,10 +6747,6 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{75.3,76.27}}},
             [npcKeys.zoneID] = zoneIDs.THE_VEILED_STAIR,
             [npcKeys.friendlyToFaction] = "AH",
-        },
-        [71693] = { -- Rascal-Bot
-            [npcKeys.spawns] = {},
-            [npcKeys.zoneID] = 0,
         },
         [71920] = { -- Cursed Hozen Swabby
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
