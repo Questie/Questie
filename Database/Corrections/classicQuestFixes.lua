@@ -3846,8 +3846,8 @@ function QuestieQuestFixes:Load()
         [7651] = {
             [questKeys.specialFlags] = specialFlags.NONE,
         },
-        [7668] = { -- #1344
-            [questKeys.name] = "The Darkreaver Menace",
+        [7668] = { -- The Darkreaver Menace
+            [questKeys.name] = "The Darkreaver Menace", -- #1344
             [questKeys.startedBy] = {{13417}},
             [questKeys.finishedBy] = {{13417}},
             [questKeys.requiredLevel] = 58,
