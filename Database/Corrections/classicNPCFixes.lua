@@ -2666,6 +2666,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR, -- default zone where you start the chain
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{70.92,25.62}}}, -- only OG for consistency
         },
+        [14480] = { -- Alowicious Czervik
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR, -- default zone where you start the chain
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.24,69.06}}},
+        },
         [14500] = { -- J'eevee
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1,-1}}}, -- #1506
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE, -- #1506
