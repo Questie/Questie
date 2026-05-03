@@ -265,7 +265,7 @@ local questStateLocales = {
         ["koKR"] = (Expansions.Current == Expansions.Era and "정예") or "파티",
         ["ptBR"] = (Expansions.Current == Expansions.Era and true) or "Grupo",
         ["ruRU"] = (Expansions.Current == Expansions.Era and "Элитный") or "Группа",
-        ["zhCN"] = "精英",
+        ["zhCN"] = (Expansions.Current <= Expansions.Tbc and "精英") or "组队",
         ["zhTW"] = (Expansions.Current == Expansions.Era and "精英") or "團體",
     },
     ["Escort"] = {
