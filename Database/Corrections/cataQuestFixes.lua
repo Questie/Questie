@@ -1458,14 +1458,11 @@ function CataQuestFixes.Load()
         },
         [10277] = { -- The Caverns of Time
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {10279},
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.56,54.14}}}},
         },
         [10279] = { -- To The Master's Lair
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.breadcrumbForQuestId] = 10277,
         },
         [10282] = { -- Old Hillsbrad
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,

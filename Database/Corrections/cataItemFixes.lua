@@ -190,12 +190,6 @@ function CataItemFixes.Load()
             [itemKeys.objectDrops] = {179499},
             [itemKeys.npcDrops] = {},
         },
-        [18597] = { -- Orcish Orphan Whistle
-            [itemKeys.class] = itemClasses.QUEST,
-        },
-        [18598] = { -- Human Orphan Whistle
-            [itemKeys.class] = itemClasses.QUEST,
-        },
         [18943] = { -- Dark Iron Pillow
             [itemKeys.npcDrops] = {},
         },
@@ -327,12 +321,6 @@ function CataItemFixes.Load()
         },
         [31697] = { -- Dread Relic
             [itemKeys.npcDrops] = {},
-        },
-        [31880] = { -- Blood Elf Orphan Whistle
-            [itemKeys.class] = itemClasses.QUEST,
-        },
-        [31881] = { -- Draenei Orphan Whistle
-            [itemKeys.class] = itemClasses.QUEST,
         },
         [32358] = { -- Vim'gol's Vile Grimoire
             [itemKeys.npcDrops] = {},

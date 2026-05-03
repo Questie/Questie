@@ -396,11 +396,13 @@ function QuestieQuestFixes:Load()
         [549] = {
             [questKeys.nextQuestInChain] = 566, -- #1134
         },
-        [558] = {
+        [558] = { -- Jaina's Autograph
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {1687,1479,1558},
+            [questKeys.objectives] = {nil,nil,{{18642,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.inGroupWith] = nil,
             [questKeys.childQuests] = {},
+            [questKeys.requiredSourceItems] = {18598},
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
@@ -628,18 +630,21 @@ function QuestieQuestFixes:Load()
         [898] = {
             [questKeys.triggerEnd] = {"Escort Gilthares Firebough back to Ratchet", {[zoneIDs.THE_BARRENS]={{62.27,39.09}}}},
         },
-        [910] = {
+        [910] = { -- Down at the Docks
             [questKeys.triggerEnd] = {"Go to the docks of Ratchet in the Barrens.", {[zoneIDs.THE_BARRENS]={{62.96,38.04}}}},
+            [questKeys.requiredSourceItems] = {18597},
         },
-        [911] = {
+        [911] = { -- Gateway to the Frontier
             [questKeys.triggerEnd] = {"Go to the Mor'shan Rampart in the Barrens.", {[zoneIDs.THE_BARRENS]={{47.9,5.36}}}},
+            [questKeys.requiredSourceItems] = {18597},
         },
-        [915] = {
+        [915] = { -- You Scream, I Scream...
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- orc orphan
             [questKeys.preQuestGroup] = {1800,910,911},
             [questKeys.inGroupWith] = nil,
             [questKeys.childQuests] = {},
             [questKeys.parentQuest] = 0,
+            [questKeys.requiredSourceItems] = {18597},
         },
         [918] = {
             [questKeys.preQuestSingle] = {},
@@ -650,10 +655,12 @@ function QuestieQuestFixes:Load()
         [924] = {
             [questKeys.requiredSourceItems] = {4986},
         },
-        [925] = {
+        [925] = { -- Cairne's Hoofprint
             [questKeys.preQuestGroup] = {1800,910,911},
+            [questKeys.objectives] = {nil,nil,{{18643,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.inGroupWith] = nil,
             [questKeys.parentQuest] = 0,
+            [questKeys.requiredSourceItems] = {18597},
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
@@ -1128,8 +1135,9 @@ function QuestieQuestFixes:Load()
         [1478] = { -- Halgar's Summons
             [questKeys.breadcrumbForQuestId] = 1473,
         },
-        [1479] = {
+        [1479] = { -- The Bough of the Eternals
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
+            [questKeys.requiredSourceItems] = {18598},
         },
         [1480] = {
             [questKeys.startedBy] = {nil,nil,{20310}},
@@ -1243,8 +1251,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1528,1529,2985,2986},
         },
-        [1558] = {
+        [1558] = { -- The Stonewrought Dam
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33}}}},
+            [questKeys.requiredSourceItems] = {18598},
         },
         [1559] = {
             [questKeys.preQuestSingle] = {705},
@@ -1361,8 +1370,9 @@ function QuestieQuestFixes:Load()
         [1686] = { -- The Shade of Elura
             [questKeys.preQuestSingle] = {1683,1678,1639},
         },
-        [1687] = {
+        [1687] = { -- Spooky Lighthouse
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
+            [questKeys.requiredSourceItems] = {18598},
         },
         [1688] = { -- Surena Caledon
             [questKeys.breadcrumbs] = {1685}, -- #7095
@@ -1475,8 +1485,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4965,4967,4968,4969},
         },
-        [1800] = {
+        [1800] = { -- Lordaeron Throne Room
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
+            [questKeys.requiredSourceItems] = {18597},
         },
         [1801] = { -- Tome of the Cabal
             [questKeys.breadcrumbs] = {2996,3001},
@@ -2621,11 +2632,12 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4542},
         },
-        [4822] = {
+        [4822] = { -- You Scream, I Scream...
             [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- human orphan
             [questKeys.inGroupWith] = nil,
             [questKeys.preQuestGroup] = {1479,1558,1687},
             [questKeys.childQuests] = {},
+            [questKeys.requiredSourceItems] = {18598},
         },
         [4861] = {
             [questKeys.breadcrumbs] = {6604},

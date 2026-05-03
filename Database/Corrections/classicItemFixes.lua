@@ -1248,6 +1248,12 @@ function QuestieItemFixes:Load()
         [18513] = { -- A Dull and Flat Elven Blade
             [itemKeys.startQuest] = 7508,
         },
+        [18597] = { -- Orcish Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [18598] = { -- Human Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [18628] = { -- Thorium Brotherhood Contract
             [itemKeys.npcDrops] = {12944},
         },

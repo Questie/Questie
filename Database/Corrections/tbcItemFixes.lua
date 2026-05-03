@@ -6,6 +6,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 function QuestieTBCItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
+    local itemClasses = QuestieDB.itemClasses
 
     return {
         [4503] = {
@@ -378,6 +379,12 @@ function QuestieTBCItemFixes:Load()
         },
         [31813] = {
             [itemKeys.npcDrops] = {18884},
+        },
+        [31880] = { -- Blood Elf Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [31881] = { -- Draenei Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [31951] = {
             [itemKeys.vendors] = {21643},

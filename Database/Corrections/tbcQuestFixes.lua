@@ -50,10 +50,10 @@ function QuestieTBCQuestFixes:Load()
         [123] = { -- The Collector
             [questKeys.nextQuestInChain] = 147,
         },
-        [171] = {
+        [171] = { -- A Warden of the Alliance
             [questKeys.questLevel] = -1,
         },
-        [172] = {
+        [172] = { -- Children's Week
             [questKeys.questLevel] = -1,
         },
         [176] = { -- Wanted:  "Hogger"
@@ -3057,8 +3057,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Second triangulation point discovered", {[zoneIDs.NETHERSTORM]={{28.92,41.25}}}},
         },
         [10277] = {
+        },
+        [10277] = { -- The Caverns of Time
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10279},
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.87,54.3}}}},
             [questKeys.nextQuestInChain] = 10282,
+        },
+        [10279] = { -- To The Master's Lair
+            [questKeys.breadcrumbForQuestId] = 10277,
         },
         [10283] = {
             [questKeys.objectives] = {nil,{{182589}}},
@@ -4071,52 +4078,59 @@ function QuestieTBCQuestFixes:Load()
         [10939] = { -- Darkmoon Storms Deck
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [10942] = {
+        [10942] = { -- Children's Week
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
-            [questKeys.finishedBy] = {{22817}}, -- removed Draenei Orphan as turn in NPC
+            [questKeys.finishedBy] = {{22817}},
         },
-        [10943] = {
+        [10943] = { -- Children's Week
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
-        [10945] = {
+        [10945] = { -- Hch'uu and the Mushroom People
+            [questKeys.finishedBy] = {{22823}},
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.22,51.23}}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {10942},
+            [questKeys.requiredSourceItems] = {31880},
         },
         [10946] = {
             [questKeys.objectives] = {{{19514}}},
         },
-        [10950] = {
+        [10950] = { -- Auchindoun and the Ring of Observance
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Ring of Observance", {[zoneIDs.TEROKKAR_FOREST]={{39.71,64.6}}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {10943},
+            [questKeys.requiredSourceItems] = {31881},
         },
-        [10951] = {
+        [10951] = { -- A Trip to the Dark Portal
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.33,50.19}}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {10942},
+            [questKeys.requiredSourceItems] = {31880},
         },
-        [10952] = {
+        [10952] = { -- A Trip to the Dark Portal
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.26,50.32}}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {10943},
+            [questKeys.requiredSourceItems] = {31881},
         },
-        [10953] = {
+        [10953] = { -- Visit the Throne of the Elements
+            [questKeys.finishedBy] = {{18072}},
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Throne of the Elements", {[zoneIDs.NAGRAND]={{60.5,22.7}}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {10942},
+            [questKeys.requiredSourceItems] = {31880},
         },
         [10954] = { -- Jheel is at Aeris Landing!
             [questKeys.finishedBy] = {{22836}},
@@ -4125,53 +4139,63 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {10943},
+            [questKeys.requiredSourceItems] = {31881},
         },
-        [10956] = {
+        [10956] = { -- The Seat of the Naaru
+            [questKeys.finishedBy] = {{17538}},
             [questKeys.questLevel] = -1,
             [questKeys.preQuestGroup] = {10950,10952,10954},
             [questKeys.triggerEnd] = {"Dornaa taken to the Seat of the Naaru", {[zoneIDs.THE_EXODAR]={{56.65,40.73}}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSourceItems] = {31881},
+            [questKeys.nextQuestInChain] = 10968,
         },
-        [10960] = {
+        [10960] = { -- When I Grow Up...
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {31880},
         },
-        [10962] = {
+        [10962] = { -- Time to Visit the Caverns
             [questKeys.questLevel] = -1,
             [questKeys.preQuestGroup] = {10950,10952,10954},
             [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.52,57.74}}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredSourceItems] = {31881},
         },
-        [10963] = {
+        [10963] = { -- Time to Visit the Caverns
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.53,57.72}}}},
             [questKeys.preQuestGroup] = {10945,10951,10953},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {31880},
         },
-        [10966] = {
+        [10966] = { -- Back to the Orphanage
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {10962,10968},
             [questKeys.preQuestSingle] = {},
         },
-        [10967] = {
+        [10967] = { -- Back to the Orphanage
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestGroup] = {10963,11975},
         },
-        [10968] = {
+        [10968] = { -- Call on the Farseer
+            [questKeys.startedBy] = {{17538}},
+            [questKeys.finishedBy] = {{17204}},
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {{{17204,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {},
             [questKeys.preQuestSingle] = {10956},
+            [questKeys.requiredSourceItems] = {31881},
         },
         [10971] = {
             [questKeys.requiredSourceItems] = {29460},
@@ -5721,12 +5745,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {nil,{187892},{35723}},
             [questKeys.finishedBy] = {{25697}},
         },
-        [11975] = {
+        [11975] = { -- Now, When I Grow Up...
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Take Salandria to visit the Elite Tauren Chieftain in Silvermoon City.", {[zoneIDs.SILVERMOON_CITY]={{76.6,81.2}}}},
             [questKeys.preQuestGroup] = {10945,10951,10953},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredSourceItems] = {31880},
         },
         [12012] = {
             [questKeys.startedBy] = {{25324}},
