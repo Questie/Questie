@@ -61,8 +61,8 @@ local questStateLocales = {
         ["koKR"] = "이벤트",
         ["ptBR"] = "Evento",
         ["ruRU"] = "Игровое событие",
-        ["zhCN"] = "节日",
-        ["zhTW"] = "節慶",
+        ["zhCN"] = "事件",
+        ["zhTW"] = "事件",
     },
     ["Repeatable"] = {
         ["enUS"] = true,
