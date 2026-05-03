@@ -1440,6 +1440,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
+        [22836] = { -- Jheel
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{31.49,57.61}}},
+            [npcKeys.zoneID] = zoneIDs.NAGRAND,
+        },
         [22890] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.SHADOW_LABYRINTH,
