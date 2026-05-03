@@ -131,7 +131,7 @@ describe("QuestieReputation", function()
 
             assert.is_false(aboveMinRep)
             assert.is_true(hasMinFaction)
-            assert.is_false(belowMaxRep)
+            assert.is_true(belowMaxRep)
             assert.is_true(hasMaxFaction)
         end)
 

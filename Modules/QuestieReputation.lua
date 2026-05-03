@@ -121,8 +121,8 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
             hasMinFaction = true
             aboveMinRep = playerReputations[minFactionID][2] >= reqMinValue
         -- Consider undiscovered factions to be at 0 reputation in this check unless they start below neutral
-        elseif not QuestieReputation.factionsStartingBelowNeutral[maxFactionID] then
-            hasMaxFaction = true
+        elseif not QuestieReputation.factionsStartingBelowNeutral[minFactionID] then
+            hasMinFaction = true
             aboveMinRep = 0 >= reqMinValue
         end
     else
