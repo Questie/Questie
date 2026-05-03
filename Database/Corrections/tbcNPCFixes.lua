@@ -1514,6 +1514,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{35.05,32.39}}},
             [npcKeys.questStarts] = {11038},
         },
+        [23272] = { -- Arcanist Savan
+            [npcKeys.questStarts] = {11039},
+        },
         [23281] = {
             [npcKeys.waypoints] = {},
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{62.75,7.33}}},
