@@ -1314,8 +1314,8 @@ function QuestieQuestBlacklist:Load()
         [10560] = true,
         [10561] = true,
 
-        [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
-        [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
+        [11497] = Expansions.Current >= Expansions.Cata, -- Removed with cata (according to wowhead comments)
+        [11498] = Expansions.Current >= Expansions.Cata, -- Removed with cata (according to wowhead comments)
 
         -- [OLD] quests. Classic quests deprecated in TBC
         [708] = true,

@@ -1166,7 +1166,6 @@ function CataQuestFixes.Load()
         [9303] = { -- Inoculation
             [questKeys.startedBy] = {{16535}},
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {10304},
         },
         [9305] = { -- Spare Parts
             [questKeys.preQuestSingle] = {},
@@ -1190,7 +1189,6 @@ function CataQuestFixes.Load()
         },
         [9340] = { -- The Great Fissure
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {9498,9499},
         },
         [9365] = { -- A Thief's Reward
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1211,12 +1209,6 @@ function CataQuestFixes.Load()
         },
         [9455] = { -- Strange Findings
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        },
-        [9498] = { -- Falcon Watch
-            [questKeys.breadcrumbForQuestId] = 9340,
-        },
-        [9499] = { -- Falcon Watch
-            [questKeys.breadcrumbForQuestId] = 9340,
         },
         [9514] = { -- Rune Covered Tablet
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1346,18 +1338,8 @@ function CataQuestFixes.Load()
         [9945] = { -- War on the Warmaul
             [questKeys.breadcrumbs] = {9944},
         },
-        [9957] = { -- What's Wrong at Cenarion Thicket?
-            [questKeys.breadcrumbForQuestId] = 9968,
-        },
-        [9960] = { -- What's Wrong at Cenarion Thicket?
-            [questKeys.breadcrumbForQuestId] = 9968,
-        },
-        [9961] = { -- What's Wrong at Cenarion Thicket?
-            [questKeys.breadcrumbForQuestId] = 9968,
-        },
         [9968] = { -- Strange Energy
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {9957,9960,9961},
         },
         [9978] = { -- By Any Means Necessary
             [questKeys.preQuestSingle] = {},
@@ -1440,21 +1422,11 @@ function CataQuestFixes.Load()
         [10120] = { -- Arrival in Outland
             [questKeys.breadcrumbs] = {9407,28705},
         },
-        [10160] = { -- Know your Enemy
-            [questKeys.breadcrumbForQuestId] = 10482,
-        },
         [10182] = { -- Battle-Mage Dathric
             [questKeys.startedBy] = {nil,nil,{29233}},
         },
-        [10183] = { -- Off To Area 52
-            [questKeys.breadcrumbForQuestId] = 10186,
-        },
         [10186] = { -- You're Hired!
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {10183,11036,11037,11040,11042},
-        },
-        [10189] = { -- Manaforge B'naar
-            [questKeys.breadcrumbs] = {11039},
         },
         [10227] = { -- I See Dead Draenei
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN,
@@ -1471,9 +1443,6 @@ function CataQuestFixes.Load()
         [10234] = { -- One Demon's Trash...
             [questKeys.breadcrumbs] = {10333},
             [questKeys.preQuestSingle] = {},
-        },
-        [10241] = { -- Distraction at Manaforge B'naar
-            [questKeys.breadcrumbs] = {11038},
         },
         [10251] = { -- The Master's Grand Design?
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
@@ -1632,7 +1601,6 @@ function CataQuestFixes.Load()
         },
         [10482] = { -- Fel Orc Scavengers
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {10160},
         },
         [10567] = { -- Creating the Pendant
             [questKeys.breadcrumbs] = {10615},
@@ -1800,17 +1768,10 @@ function CataQuestFixes.Load()
         },
         [10983] = { -- Mog'dorg the Wizened
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {10984},
             [questKeys.exclusiveTo] = {10989,11057},
-            [questKeys.nextQuestInChain] = 10995,
-        },
-        [10984] = { -- Speak with the Ogre
-            [questKeys.nextQuestInChain] = 10983,
-            [questKeys.breadcrumbForQuestId] = 10983,
         },
         [10989] = { -- Mog'dorg the Wizened
             [questKeys.exclusiveTo] = {10983,11057},
-            [questKeys.nextQuestInChain] = 10995,
         },
         [10998] = { -- Grim(oire) Business
             [questKeys.preQuestSingle] = {},
@@ -1856,24 +1817,8 @@ function CataQuestFixes.Load()
         [11034] = { -- Restorer No More
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [11036] = { -- Out of This World Produce!
-            [questKeys.breadcrumbForQuestId] = 10186,
-        },
         [11037] = { -- A Strange Vision
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
-            [questKeys.breadcrumbForQuestId] = 10186,
-        },
-        [11038] = { -- Assist Exarch Orelis
-            [questKeys.breadcrumbForQuestId] = 10241,
-        },
-        [11039] = { -- Report to Spymaster Thalodien
-            [questKeys.breadcrumbForQuestId] = 10189,
-        },
-        [11040] = { -- Parts for the Rocket-Chief
-            [questKeys.breadcrumbForQuestId] = 10186,
-        },
-        [11042] = { -- A Mystifying Vision
-            [questKeys.breadcrumbForQuestId] = 10186,
         },
         [11046] = { -- Chief Apothecary Hildagard
             [questKeys.breadcrumbForQuestId] = 10624,
@@ -1890,7 +1835,6 @@ function CataQuestFixes.Load()
         },
         [11057] = { -- The Trouble Below
             [questKeys.exclusiveTo] = {10983,10989},
-            [questKeys.nextQuestInChain] = 10995,
         },
         [11059] = { -- Guardian of the Monument
             [questKeys.preQuestSingle] = {11062},

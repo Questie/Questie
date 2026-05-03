@@ -1900,6 +1900,9 @@ function QuestieTBCQuestFixes:Load()
         [9339] = {
             [questKeys.objectivesText] = {},
         },
+        [9340] = { -- The Great Fissure
+            [questKeys.breadcrumbs] = {9498,9499},
+        },
         [9355] = { -- A Job for an Intelligent Man
             [questKeys.preQuestSingle] = {10143,10483},
         },
@@ -2078,13 +2081,15 @@ function QuestieTBCQuestFixes:Load()
         [9496] = { -- Pride of the Fel Horde
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
-        [9498] = {
+        [9498] = { -- Falcon Watch
             [questKeys.preQuestSingle] = {10123},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF,
+            [questKeys.breadcrumbForQuestId] = 9340,
         },
-        [9499] = {
+        [9499] = { -- Falcon Watch
             [questKeys.preQuestSingle] = {10123},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.breadcrumbForQuestId] = 9340,
         },
         [9500] = { -- Call of Water
             [questKeys.startedBy] = {{17212}},
@@ -2661,14 +2666,24 @@ function QuestieTBCQuestFixes:Load()
         [9956] = {
             [questKeys.requiredMinRep] = {978,0},
         },
-        [9957] = {
+        [9957] = { -- What's Wrong at Cenarion Thicket?
             [questKeys.requiredMinRep] = {942,3000},
+            [questKeys.breadcrumbForQuestId] = 9968,
+        },
+        [9960] = { -- What's Wrong at Cenarion Thicket?
+            [questKeys.breadcrumbForQuestId] = 9968, -- TODO check if it has minimum reputation required like 9957
+        },
+        [9961] = { -- What's Wrong at Cenarion Thicket?
+            [questKeys.breadcrumbForQuestId] = 9968, -- TODO check if it has minimum reputation required like 9957
         },
         [9962] = {
             [questKeys.nextQuestInChain] = 9967,
         },
         [9967] = {
             [questKeys.nextQuestInChain] = 9970,
+        },
+        [9968] = { -- Strange Energy
+            [questKeys.breadcrumbs] = {9957,9960,9961},
         },
         [9970] = {
             [questKeys.nextQuestInChain] = 9972,
@@ -2708,28 +2723,28 @@ function QuestieTBCQuestFixes:Load()
         },
         [10017] = {
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep] = {932,0},
         },
         [10019] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,10017},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep] = {932,0},
         },
         [10020] = {
             [questKeys.preQuestSingle] = {10551},
         },
         [10021] = {
             [questKeys.preQuestSingle] = {10551},
-            [questKeys.requiredMinRep]= {932,0},
+            [questKeys.requiredMinRep] = {932,0},
         },
         [10024] = {
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep] = {934,0},
         },
         [10025] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,10024},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep] = {934,0},
         },
         [10035] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the carcass"), 0, {{"object", 184842}}}},
@@ -2848,6 +2863,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10097] = { -- Brother Against Brother
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+            [questKeys.breadcrumbs] = {10180},
         },
         [10098] = { -- Terokk's Legacy
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
@@ -2928,18 +2944,26 @@ function QuestieTBCQuestFixes:Load()
         [10178] = { -- Find Spy To'gun
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
         },
+        [10180] = { -- Can't Stay Away
+            [questKeys.breadcrumbForQuestId] = 10097,
+        },
         [10182] = {
             [questKeys.objectives] = {nil,{{183269}}},
         },
-        [10183] = {
+        [10183] = { -- Off To Area 52
+            [questKeys.breadcrumbForQuestId] = 10186,
             [questKeys.exclusiveTo] = {11036,11037,11038,11039,11040,11042},
         },
         [10184] = {
             [questKeys.preQuestSingle] = {10300},
         },
-        [10189] = {
+        [10186] = { -- You're Hired!
+            [questKeys.breadcrumbs] = {10183,11036,11037,11040,11042},
+        },
+        [10189] = { -- Manaforge B'naar
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.requiredMinRep] = {934,3000},
+            [questKeys.breadcrumbs] = {11039},
         },
         [10190] = {
             [questKeys.objectives] = {{{18879}}},
@@ -2982,6 +3006,9 @@ function QuestieTBCQuestFixes:Load()
         [10240] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the rune"), 0, {{"object", 183947}}}},
             [questKeys.objectives] = {{{19866,nil, Questie.ICON_TYPE_EVENT},{19867,nil, Questie.ICON_TYPE_EVENT},{19868,nil, Questie.ICON_TYPE_EVENT}}},
+        },
+        [10241] = { -- Distraction at Manaforge B'naar
+            [questKeys.breadcrumbs] = {11038},
         },
         [10242] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Spinebreaker Post"), 0, {{"monster", 19401}}}},
@@ -3444,8 +3471,14 @@ function QuestieTBCQuestFixes:Load()
         [10548] = { -- The Sad Truth
             [questKeys.preQuestSingle] = {2379,9491},
         },
+        [10551] = { -- Allegiance to the Aldor
+            [questKeys.nextQuestInChain] = 10554,
+        },
+        [10552] = { -- Allegiance to the Scryers
+            [questKeys.nextQuestInChain] = 10553,
+        },
         [10554] = {
-            [questKeys.requiredMinRep]= {932,0},
+            [questKeys.requiredMinRep] = {932,0},
         },
         [10556] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Fistful of Feathers on the Lashh'an Spell Circle and get back to Daranelle"), 0, {{"object", 184826}, {"monster", 21469}}}},
@@ -3882,6 +3915,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10915,10852},
             [questKeys.objectives] = {{{21638}}},
         },
+        [10847] = { -- The Eyes of Skettis
+            [questKeys.breadcrumbs] = {10862,10863,10908},
+        },
         [10852] = {
             [questKeys.objectives] = {{{22314,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",185202}}}},
@@ -3904,11 +3940,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,{{185210}},nil,nil,{{{22337},22337}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect Cursed Eggs to spawn a Hatchling"), 0, {{"object", 185210}}}},
         },
-        [10862] = {
-            [questKeys.exclusiveTo] = {10908},
+        [10862] = { -- Surrender to the Horde
+            [questKeys.exclusiveTo] = {10863},
+            [questKeys.breadcrumbForQuestId] = 10847,
         },
-        [10863] = {
-            [questKeys.exclusiveTo] = {10908},
+        [10863] = { -- Secrets of the Arakkoa
+            [questKeys.exclusiveTo] = {10862},
+            [questKeys.breadcrumbForQuestId] = 10847,
         },
         [10866] = { -- Zuluhed the Whacked
             [questKeys.objectives] = {nil,{{185156}},nil,nil,{{{11980},11980}}},
@@ -3988,8 +4026,9 @@ function QuestieTBCQuestFixes:Load()
         [10907] = {
             [questKeys.exclusiveTo] = {10897,10902,10905,10906},
         },
-        [10908] = {
-            [questKeys.exclusiveTo] = {10862,10863},
+        [10908] = { -- Speak with Rilak the Redeemed
+            [questKeys.exclusiveTo] = {},
+            [questKeys.breadcrumbForQuestId] = 10847,
         },
         [10909] = { -- Fel Spirits
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Achorite Relic")},
@@ -4155,8 +4194,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep] = {},
             [questKeys.exclusiveTo] = {10982},
         },
-        [10984] = {
-            [questKeys.exclusiveTo] = {10983,10989,11057},
+        [10983] = { -- Mog'dorg the Wizened
+            [questKeys.breadcrumbs] = {10984},
+            [questKeys.nextQuestInChain] = 10995,
+        },
+        [10984] = { -- Speak with the Ogre
+            [questKeys.nextQuestInChain] = 10983,
+            [questKeys.breadcrumbForQuestId] = 10983,
         },
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06}}}},
@@ -4164,6 +4208,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10987] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use the Sparrowhawk Net to capture a Wild Sparrowhawk"), 0, {{"monster", 22979}}}},
+        },
+        [10989] = { -- Mog'dorg the Wizened
+            [questKeys.nextQuestInChain] = 10995,
         },
         [10990] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat the Guardian of the Eagle and obtain the Essence of the Eagle"), 0, {{"object", 185547}}}},
@@ -4288,35 +4335,42 @@ function QuestieTBCQuestFixes:Load()
         [11035] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [11036] = {
+        [11036] = { -- Out of This World Produce!
+            [questKeys.breadcrumbForQuestId] = 10186,
             [questKeys.exclusiveTo] = {10183,11037,11038,11039,11040,11042},
         },
-        [11037] = {
+        [11037] = { -- A Strange Vision
+            [questKeys.breadcrumbForQuestId] = 10186,
             [questKeys.exclusiveTo] = {10183,11036,11038,11039,11040,11042},
             [questKeys.requiredMinRep] = {941,0},
         },
-        [11038] = {
+        [11038] = { -- Assist Exarch Orelis
             [questKeys.startedBy] = {{23270,23271}},
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042},
             [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.breadcrumbForQuestId] = 10241,
         },
-        [11039] = {
+        [11039] = { -- Report to Spymaster Thalodien
+            [questKeys.startedBy] = {{23272,23273}},
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11040,11042},
             [questKeys.requiredMinRep] = {934,3000},
+            [questKeys.breadcrumbForQuestId] = 10189,
         },
-        [11040] = {
+        [11040] = { -- Parts for the Rocket-Chief
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11042},
+            [questKeys.breadcrumbForQuestId] = 10186,
         },
         [11041] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.startedBy] = {nil,nil,{32621}},
         },
-        [11042] = {
+        [11042] = { -- A Mystifying Vision
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11040},
             [questKeys.requiredMinRep] = {978,0},
+            [questKeys.breadcrumbForQuestId] = 10186,
         },
         [11043] = {
             [questKeys.requiredLevel] = 67,
@@ -4355,8 +4409,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{21700}},
             [questKeys.finishedBy] = {{18481}},
         },
-        [11057] = {
+        [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
+            [questKeys.nextQuestInChain] = 10995,
         },
         [11058] = {
             [questKeys.objectives] = {nil,{{185890}}},
@@ -4460,38 +4515,38 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11092},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep] = {932,0},
         },
         [11095] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11094},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep] = {932,0},
         },
         [11097] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11095},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep] = {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11099] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11092},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep] = {934,0},
         },
         [11100] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11099},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep] = {934,0},
         },
         [11101] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11100},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep] = {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11102] = {
@@ -4792,6 +4847,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [11496] = {
             [questKeys.objectives] = {nil,{{187078}}},
+        },
+        [11497] = { -- Learning to Fly
+            [questKeys.requiredRanks] = {{profKeys.RIDING,-rankKeys.EXPERT},{profKeys.RIDING,-rankKeys.ARTISAN},{profKeys.RIDING,-rankKeys.MASTER}}, -- TODO not sure about artisan or master
+        },
+        [11498] = { -- Learning to Fly
+            [questKeys.requiredRanks] = {{profKeys.RIDING,-rankKeys.EXPERT},{profKeys.RIDING,-rankKeys.ARTISAN},{profKeys.RIDING,-rankKeys.MASTER}}, -- TODO not sure about artisan or master
         },
         [11502] = {
             [questKeys.requiredMinRep] = {978,0},
