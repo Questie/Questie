@@ -3056,8 +3056,6 @@ function QuestieTBCQuestFixes:Load()
         [10275] = {
             [questKeys.triggerEnd] = {"Second triangulation point discovered", {[zoneIDs.NETHERSTORM]={{28.92,41.25}}}},
         },
-        [10277] = {
-        },
         [10277] = { -- The Caverns of Time
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10279},
