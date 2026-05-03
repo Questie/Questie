@@ -73,6 +73,7 @@ function QuestieReputation:Update(isInit)
 end
 
 QuestieReputation.factionsStartingBelowNeutral = {
+    [87] = true, -- Bloodsail Buccaneeers
     [576] = true, -- Timbermaw Hold
     [910] = true, -- Brood of Nozdormu
     [941] = true, -- The Maghar
