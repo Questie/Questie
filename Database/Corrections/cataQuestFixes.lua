@@ -8284,6 +8284,7 @@ function CataQuestFixes.Load()
         },
         [26693] = { -- The Dark Tower
             [questKeys.preQuestSingle] = {26668},
+            [questKeys.questFlags] = questFlags.NONE,
         },
         [26694] = { -- The Grand Magus Doane
             [questKeys.startedBy] = {{43611}},

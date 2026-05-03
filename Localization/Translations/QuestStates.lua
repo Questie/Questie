@@ -124,6 +124,18 @@ local questStateLocales = {
         ["zhCN"] = "每周",
         ["zhTW"] = "每周",
     },
+    ["Monthly"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Monatlich",
+        ["esES"] = "Mensual",
+        ["esMX"] = "Mensual",
+        ["frFR"] = "Mensuel",
+        ["koKR"] = "월간 간행물",
+        ["ptBR"] = "Mensal",
+        ["ruRU"] = "Ежемесячно",
+        ["zhCN"] = "每月",
+        ["zhTW"] = "每月",
+    },
     ["Daily Celestial"] = {
         ["enUS"] = true,
         ["deDE"] = "Täglich Himmlisch",

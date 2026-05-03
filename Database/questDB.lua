@@ -121,6 +121,7 @@ QuestieDB.questFlags = {
     AUTO_REWARDED = 1024,
     DAILY = 4096,
     WEEKLY = 32768,
+    MONTHLY = 65536,
 }
 
 QuestieDB.factionIDs = {

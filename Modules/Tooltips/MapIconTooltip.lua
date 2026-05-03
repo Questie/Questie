@@ -478,6 +478,8 @@ local function _GetQuestTag(quest)
                 return l10n("(") .. (RAID or l10n("Raid")) .. l10n(")");
             end
             return l10n("(") .. (WEEKLY or l10n("Weekly")) .. l10n(")");
+        elseif (QuestieDB.IsMonthlyQuest(quest.Id)) then
+            return l10n("(") .. (l10n("Monthly")) .. l10n(")");
         elseif (QuestieDB.IsDailyQuest(quest.Id)) then
             if questTagId == 81 then
                 return l10n("(") .. l10n("Daily Dungeon") .. l10n(")");

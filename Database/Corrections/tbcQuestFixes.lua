@@ -2581,6 +2581,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.triggerEnd] = {"Free the Kurenai Captive", {[zoneIDs.NAGRAND]={{31.57,38.78}}}},
         },
+        [9884] = { -- Membership Benefits
+            [questKeys.questFlags] = questFlags.MONTHLY,
+        },
+        [9885] = { -- Membership Benefits
+            [questKeys.questFlags] = questFlags.MONTHLY,
+        },
+        [9886] = { -- Membership Benefits
+            [questKeys.questFlags] = questFlags.MONTHLY,
+        },
+        [9887] = { -- Membership Benefits
+            [questKeys.questFlags] = questFlags.MONTHLY,
+        },
         [9889] = {
             [questKeys.objectives] = {{{18260},{18262}}},
         },
