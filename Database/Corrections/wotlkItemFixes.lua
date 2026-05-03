@@ -755,6 +755,16 @@ function QuestieWotlkItemFixes:Load()
     }
 end
 
+function QuestieWotlkItemFixes:LoadTitanReforgedFixes()
+    local itemKeys = QuestieDB.itemKeys
+
+    return {
+        [22734] = { -- Base of Atiesh
+            [itemKeys.npcDrops] = {15172},
+        },
+    }
+end
+
 function _QuestieWotlkItemFixes:InsertMissingItemIds()
     -- Boost quest items
     QuestieDB.itemData[199335] = {} -- Teleport Scroll: Menethil Harbor
