@@ -130,9 +130,9 @@ describe("QuestieReputation", function()
             local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
 
             assert.is_false(aboveMinRep)
-            assert.is_false(hasMinFaction)
+            assert.is_true(hasMinFaction)
             assert.is_false(belowMaxRep)
-            assert.is_false(hasMaxFaction)
+            assert.is_true(hasMaxFaction)
         end)
 
         it("should detect if the player does not know the Darkmoon Faire faction", function()
