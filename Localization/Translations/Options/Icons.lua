@@ -551,8 +551,8 @@ local iconOptionsLocales = {
         ["koKR"] = "이벤트 목표",
         ["ptBR"] = "Objetivos de evento",
         ["ruRU"] = "Событие",
-        ["zhCN"] = "节日目标",
-        ["zhTW"] = "節慶目標",
+        ["zhCN"] = "事件目标",
+        ["zhTW"] = "事件目標",
     },
     ["The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there"] = {
         ["enUS"] = true,
