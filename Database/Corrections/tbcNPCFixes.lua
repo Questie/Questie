@@ -1416,13 +1416,12 @@ function QuestieTBCNpcFixes:Load()
         [22817] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
-            [npcKeys.questStarts] = {10945,10951,10953,10963,10967,11975}, -- removed the SWP quest
+            [npcKeys.questStarts] = {10945,10951,10953,10963,10967,11975},
         },
         [22818] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
-            [npcKeys.questEnds] = {10943,10950,10952,10962}, -- removed the horde starting quest
-            [npcKeys.questEnds] = {10943,10950,10952,10954,10956,10962},
+            [npcKeys.questEnds] = {10943,10950,10952,10962},
         },
         [22825] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
@@ -1443,6 +1442,7 @@ function QuestieTBCNpcFixes:Load()
         [22836] = { -- Jheel
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{31.49,57.61}}},
             [npcKeys.zoneID] = zoneIDs.NAGRAND,
+            [npcKeys.questEnds] = {10954},
         },
         [22890] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{-1,-1}}},
