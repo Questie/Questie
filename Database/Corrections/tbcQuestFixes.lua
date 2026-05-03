@@ -3512,6 +3512,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber and use the Zephyrium Capacitorium"), 0, {{"monster", 21461}}}},
         },
+        [10562] = { -- Besieged!
+            [questKeys.breadcrumbs] = {11044},
+        },
         [10563] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
         },
@@ -3614,6 +3617,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10641] = {
             [questKeys.preQuestSingle] = {10640,10689},
+        },
+        [10642] = { -- A Ghost in the Machine
+            [questKeys.breadcrumbs] = {11045},
         },
         [10645] = {
             [questKeys.preQuestGroup] = {10634,10635,10636},
@@ -4425,7 +4431,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 10562,
         },
         [11045] = { -- Zorus the Judicator
-            [questKeys.exclusiveTo] = {11043,11044,10642},
+            [questKeys.exclusiveTo] = {11043,11044},
+            [questKeys.breadcrumbForQuestId] = 10642,
         },
         [11046] = {
             [questKeys.exclusiveTo] = {11047,11048},
