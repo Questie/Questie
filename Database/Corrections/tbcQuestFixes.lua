@@ -2493,11 +2493,12 @@ function QuestieTBCQuestFixes:Load()
         [9816] = {
             [questKeys.objectives] = {nil,{{182164,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [9824] = {
+        [9824] = { -- Arcane Disturbances
             [questKeys.objectives] = {{{18161,nil,Questie.ICON_TYPE_EVENT},{18162,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+            [questKeys.breadcrumbs] = {11216},
         },
-        [9825] = {
+        [9825] = { -- Restless Activity
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [9830] = {
@@ -2872,6 +2873,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10094] = { -- The Codex of Blood
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+            [questKeys.breadcrumbs] = {10177},
         },
         [10095] = { -- Into the Heart of the Labyrinth
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
@@ -2958,6 +2960,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{18141,nil,Questie.ICON_TYPE_TALK}}},
         },
         [10177] = { -- Trouble at Auchindoun
+            [questKeys.breadcrumbForQuestId] = 10094,
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
         },
         [10178] = { -- Find Spy To'gun
@@ -3022,6 +3025,10 @@ function QuestieTBCQuestFixes:Load()
         [10231] = {
             [questKeys.objectives] = {{{19720}}},
         },
+        [10234] = { -- One Demon's Trash...
+            [questKeys.breadcrumbs] = {10333},
+            [questKeys.preQuestSingle] = {10206},
+        },
         [10240] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the rune"), 0, {{"object", 183947}}}},
             [questKeys.objectives] = {{{19866,nil, Questie.ICON_TYPE_EVENT},{19867,nil, Questie.ICON_TYPE_EVENT},{19868,nil, Questie.ICON_TYPE_EVENT}}},
@@ -3052,16 +3059,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{19938,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Apex's Crystal Focus near Archmage Vargoth's Orb"), 0, {{"object", 183507}}}},
         },
-        [10263] = {
+        [10263] = { -- Assisting the Consortium
             [questKeys.preQuestGroup] = {10551,10186},
             [questKeys.requiredMinRep] = {932,3000},
+            [questKeys.breadcrumbForQuestId] = 10265,
         },
-        [10264] = {
+        [10264] = { -- Assisting the Consortium
             [questKeys.preQuestGroup] = {10552,10186},
             [questKeys.requiredMinRep] = {934,3000},
+            [questKeys.breadcrumbForQuestId] = 10265,
         },
-        [10265] = {
+        [10265] = { -- Consortium Crystal Collection
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10263,10264},
         },
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85}}}},
@@ -3122,9 +3132,13 @@ function QuestieTBCQuestFixes:Load()
         [10308] = {
             [questKeys.requiredMinRep] = {933,0},
         },
-        [10310] = {
+        [10310] = { -- Sabotage the Warp-Gate!
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38}}}},
+            [questKeys.breadcrumbs] = {10311},
+        },
+        [10311] = { -- Drijya Needs Your Help
+            [questKeys.breadcrumbForQuestId] = 10310,
         },
         [10321] = {
             [questKeys.objectives] = {nil,{{183956}},{{29396}}},
@@ -3154,6 +3168,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10330] = {
             [questKeys.objectives] = {nil,{{183956}},{{29396}}},
+        },
+        [10333] = { -- Help Mama Wheeler
+            [questKeys.breadcrumbForQuestId] = 10234,
         },
         [10335] = {
             [questKeys.objectives] = {{{20473,nil,Questie.ICON_TYPE_EVENT},{20475,nil,Questie.ICON_TYPE_EVENT},{20476,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3328,8 +3345,9 @@ function QuestieTBCQuestFixes:Load()
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.17}}}},
         },
-        [10458] = {
+        [10458] = { -- Enraged Spirits of Fire and Earth
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10680,10681},
             [questKeys.objectives] = {{{21050,nil,Questie.ICON_TYPE_INTERACT},{21061,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Earth and Fiery Spirits"), 0, {{"monster", 21050}, {"monster", 21061}}}},
         },
@@ -3535,14 +3553,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{20563,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Blood Elf Disguise before talking to him"), 0, {{"monster", 20563}}}},
         },
-        [10580] = {
+        [10580] = { -- Where Did Those Darn Gnomes Go?
             [questKeys.exclusiveTo] = {10584},
         },
-        [10581] = {
-            [questKeys.exclusiveTo] = {10584},
-        },
-        [10584] = {
-            [questKeys.objectives] = {{{21729,nil,Questie.ICON_TYPE_INTERACT},{21731,nil,Questie.ICON_TYPE_INTERACT}}},
+        [10584] = { -- Picking Up Some Power Converters
+            [questKeys.objectives] = {{{21729,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the Power Converters and encase what is inside with the Protovoltaic Magneto Collector"), 0, {{"object", 184906}}}},
         },
@@ -3682,6 +3697,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Razaani ethereals to lure Nexus-Prince Razaan out"), 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}},
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Nexus-Prince Razaan to spawn the Collection of Souls"), 0, {{"monster", 21057}}},
             },
+        },
+        [10680] = { -- The Hand of Gul'dan
+            [questKeys.breadcrumbForQuestId] = 10458,
+        },
+        [10681] = { -- The Hand of Gul'dan
+            [questKeys.breadcrumbForQuestId] = 10458,
         },
         [10682] = {
             [questKeys.objectives] = {{{21981,nil,Questie.ICON_TYPE_TALK}}},
@@ -4220,6 +4241,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10956},
             [questKeys.requiredSourceItems] = {31881},
         },
+        [10969] = { -- Seek Out Ameer
+            [questKeys.breadcrumbForQuestId] = 10970,
+        },
+        [10970] = { -- A Mission of Mercy
+            [questKeys.breadcrumbs] = {10969},
+        },
         [10971] = {
             [questKeys.requiredSourceItems] = {29460},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184998}}}},
@@ -4742,8 +4769,9 @@ function QuestieTBCQuestFixes:Load()
         [11215] = {
             [questKeys.exclusiveTo] = {11158,11214,11211},
         },
-        [11216] = {
+        [11216] = { -- Archmage Alturus
             [questKeys.nextQuestInChain] = 9824,
+            [questKeys.breadcrumbForQuestId] = 9824,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11219] = {

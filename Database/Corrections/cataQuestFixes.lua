@@ -1431,10 +1431,6 @@ function CataQuestFixes.Load()
         [10231] = { -- What Book? I Don't See Any Book.
             [questKeys.zoneOrSort] = zoneIDs.SHATTRATH_CITY,
         },
-        [10234] = { -- One Demon's Trash...
-            [questKeys.breadcrumbs] = {10333},
-            [questKeys.preQuestSingle] = {},
-        },
         [10251] = { -- The Master's Grand Design?
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
         },
@@ -1488,17 +1484,8 @@ function CataQuestFixes.Load()
         [10307] = { -- Cohlien Frostweaver
             [questKeys.startedBy] = {nil,nil,{29236}},
         },
-        [10310] = { -- Sabotage the Warp-Gate!
-            [questKeys.breadcrumbs] = {10311},
-        },
-        [10311] = { -- Sabotage the Warp-Gate!
-            [questKeys.breadcrumbForQuestId] = 10310,
-        },
         [10328] = { -- Sunfury Briefings
             [questKeys.preQuestSingle] = {},
-        },
-        [10333] = { -- Help Mama Wheeler
-            [questKeys.breadcrumbForQuestId] = 10234,
         },
         [10346] = { -- Return to the Abyssal Shelf
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -1746,13 +1733,8 @@ function CataQuestFixes.Load()
         [10968] = { -- Call on the Farseer
             [questKeys.zoneOrSort] = sortKeys.CHILDRENS_WEEK,
         },
-        [10969] = { -- Seek Out Ameer
-            [questKeys.nextQuestInChain] = 10970,
-            [questKeys.breadcrumbForQuestId] = 10970,
-        },
         [10970] = { -- A Mission of Mercy
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {10969},
         },
         [10983] = { -- Mog'dorg the Wizened
             [questKeys.preQuestSingle] = {},

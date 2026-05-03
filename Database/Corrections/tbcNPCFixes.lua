@@ -1318,6 +1318,10 @@ function QuestieTBCNpcFixes:Load()
         [21725] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{35.19,40.18}}},
         },
+        [21729] = { -- Electromental
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{57.7,60.03},{57.74,57.19},{57.94,60.39},{56.82,58.11},{56.96,55.01},{56.71,56.37},{56.72,56.98},{58.24,59.08},{56.45,59.73},{57.61,58.57},{57.31,54.37},{57.51,55.83},{58.14,55.18},{58.48,54.22},{59.25,54.52},{59.75,54.58},{59.0,55.83},{57.47,60.75},{58.54,57.48},{56.84,58.71}}},
+            [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
         [21735] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{37.80,38.73}}},
         },

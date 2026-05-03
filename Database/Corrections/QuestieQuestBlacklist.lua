@@ -1673,7 +1673,7 @@ function QuestieQuestBlacklist:Load()
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
         [93950] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
         [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
-        --[94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers ,need more information
+        --[94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers, need more information
         [94576] = not Questie.IsTitanReforged, -- Find a New Way -- only present on Titan servers
         [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
         [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers

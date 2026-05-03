@@ -1714,8 +1714,10 @@ function QuestieQuestFixes:Load()
         [2218] = { -- Road to Salvation
             [questKeys.exclusiveTo] = {}, -- #1466
         },
-        [2240] = {
+        [2240] = { -- The Hidden Chamber
             [questKeys.triggerEnd] = { "Explore the Hidden Chamber", {[zoneIDs.ULDAMAN]={{-1,-1}}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {2398},
         },
         [2241] = { -- The Apple Falls
             [questKeys.exclusiveTo] = {}, -- #1466
@@ -1774,6 +1776,9 @@ function QuestieQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the chest"), 0, {{"object", 123462}}},
                 {nil, Questie.ICON_TYPE_INTERACT, l10n("Use the E.C.A.C. to weaken it"), 0, {{"monster", 7167}}},
             },
+        },
+        [2398] = { -- The Lost Dwarves
+            [questKeys.breadcrumbForQuestId] = 2240,
         },
         [2438] = {
             [questKeys.specialFlags] = specialFlags.NONE,
