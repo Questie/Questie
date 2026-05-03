@@ -685,6 +685,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{29.78,33.26}}},
             [npcKeys.waypoints] = {},
             [npcKeys.zoneID] = zoneIDs.THE_EXODAR,
+            [npcKeys.questEnds] = {9500,9502,9509,9547,9551,9554,9555,10490,10491,10968},
         },
         [17206] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{11.36,82.34}}},
@@ -924,6 +925,9 @@ function QuestieTBCNpcFixes:Load()
         [18024] = { -- Defender Sorli
             [npcKeys.questStarts] = {10066,10067},
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{55.56,52.32,phases.BLOODMYST_ISLE_SAVED}}},
+        },
+        [18072] = { -- Elementalist Sharvak
+            [npcKeys.questEnds] = {9869,9870,10953},
         },
         [18096] = {
             [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{-1,-1}}},
@@ -1417,15 +1421,19 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{31.9,76.3}}},
             [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
         },
-        [22817] = {
+        [22817] = { -- Blood Elf Orphan
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
             [npcKeys.questStarts] = {10945,10951,10953,10963,10967,11975},
+            [npcKeys.questEnds] = {10942,10951,10963,11975},
         },
-        [22818] = {
+        [22818] = { -- Draenei Orphan
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
             [npcKeys.questEnds] = {10943,10950,10952,10962},
+        },
+        [22823] = { -- Hch'uu
+            [npcKeys.questEnds] = {10945},
         },
         [22825] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
