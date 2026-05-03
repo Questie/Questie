@@ -2555,7 +2555,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Free the Mag'har Captive", {[zoneIDs.NAGRAND]={{31.77,38.78}}}},
             [questKeys.requiredMinRep] = {941,0},
         },
-        [9869] = {
+        [9869] = { -- The Throne of the Elements
             [questKeys.requiredMinRep] = {978,0},
         },
         [9870] = {
@@ -2706,15 +2706,18 @@ function QuestieTBCQuestFixes:Load()
         [9973] = {
             [questKeys.nextQuestInChain] = 9977,
         },
-        [9982] = {
+        [9982] = { -- He Called Himself Altruis...
             [questKeys.requiredMinRep] = {978,0},
-            [questKeys.exclusiveTo] = {9991},
+            [questKeys.nextQuestInChain] = 9991,
+            [questKeys.breadcrumbForQuestId] = 9991,
         },
-        [9983] = {
-            [questKeys.exclusiveTo] = {9991},
+        [9983] = { -- He Called Himself Altruis...
             [questKeys.requiredMinRep] = {941,0},
+            [questKeys.nextQuestInChain] = 9991,
+            [questKeys.breadcrumbForQuestId] = 9991,
         },
-        [9991] = {
+        [9991] = { -- Survey the Land
+            [questKeys.breadcrumbs] = {9982,9983},
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05}}}},
             [questKeys.preQuestSingle] = {},
         },
@@ -2904,12 +2907,16 @@ function QuestieTBCQuestFixes:Load()
         [10111] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Jump!"), 0, {{"object", 183146}}}},
         },
-        [10113] = {
-            [questKeys.exclusiveTo] = {9854,9857,9789},
+        [10113] = { -- The Nesingwary Safari
+            [questKeys.breadcrumbForQuestId] = 9789,
+            [questKeys.nextQuestInChain] = 9789,
             [questKeys.requiredLevel] = 64,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [10114] = {
-            [questKeys.exclusiveTo] = {9854,9857,9789},
+        [10114] = { -- The Nesingwary Safari
+            [questKeys.breadcrumbForQuestId] = 9789,
+            [questKeys.nextQuestInChain] = 9789,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [10119] = { -- Through the Dark Portal
             [questKeys.breadcrumbForQuestId] = 10288,
@@ -4407,16 +4414,17 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.breadcrumbForQuestId] = 10186,
         },
-        [11043] = {
+        [11043] = { -- Building a Better Gryphon
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {11044,11045},
         },
-        [11044] = {
+        [11044] = { -- Visions of Destruction
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {11043,11045},
             [questKeys.requiredMinRep] = {978,0},
+            [questKeys.breadcrumbForQuestId] = 10562,
         },
-        [11045] = {
+        [11045] = { -- Zorus the Judicator
             [questKeys.exclusiveTo] = {11043,11044,10642},
         },
         [11046] = {

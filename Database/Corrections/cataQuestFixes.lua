@@ -1344,15 +1344,6 @@ function CataQuestFixes.Load()
         [9978] = { -- By Any Means Necessary
             [questKeys.preQuestSingle] = {},
         },
-        [9982] = { -- He Called Himself Altruis...
-            [questKeys.breadcrumbForQuestId] = 9991,
-        },
-        [9983] = { -- He Called Himself Altruis...
-            [questKeys.breadcrumbForQuestId] = 9991,
-        },
-        [9991] = { -- Survey the Land
-            [questKeys.breadcrumbs] = {9982,9983},
-        },
         [10009] = { -- Crackin' Some Skulls
             [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
         },
