@@ -102,15 +102,15 @@ function QuestieQuest:ToggleNotes(showIcons)
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
     if showIcons then
-        _QuestieQuest:ShowQuestIcons()
+        QuestieQuest:ShowQuestIcons()
         _QuestieQuest:ShowManualIcons()
     else
-        _QuestieQuest:HideQuestIcons()
+        QuestieQuest:HideQuestIcons()
         _QuestieQuest:HideManualIcons()
     end
 end
 
-function _QuestieQuest:ShowQuestIcons()
+function QuestieQuest:ShowQuestIcons()
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
         if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
@@ -156,7 +156,7 @@ function _QuestieQuest:ShowManualIcons()
     end
 end
 
-function _QuestieQuest:HideQuestIcons()
+function QuestieQuest:HideQuestIcons()
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];

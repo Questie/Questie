@@ -117,7 +117,11 @@ function QuestieOptions.tabs.icons:Initialize()
                 get = function() return Questie.db.profile.hideUntrackedQuestsMapIcons; end,
                 set = function(info, value)
                     Questie.db.profile.hideUntrackedQuestsMapIcons = value
-                    QuestieQuest:ToggleNotes(not value)
+                    if value then
+                       QuestieQuest:HideQuestIcons()
+                    else
+                       QuestieQuest:ShowQuestIcons()
+                    end
 
                     -- Hides tooltips for untracked quests
                     if value == true then

@@ -1952,8 +1952,8 @@ function QuestieTracker:UntrackQuestId(questId)
     end
 
     if Questie.db.profile.hideUntrackedQuestsMapIcons then
-        -- Hides objective icons for untracked quests.
-        QuestieQuest:ToggleNotes(false)
+        -- Hides objective icons for untracked quests. We don't want to hide townsfolk icons.
+        QuestieQuest:HideQuestIcons()
 
         -- Removes objective tooltips for untracked quests.
         QuestieTooltips:RemoveQuest(questId)
@@ -2032,7 +2032,7 @@ function QuestieTracker:AQW_Insert(index, expire)
             -- Unhide quest icons when retracking quests.
             if Questie.db.profile.hideUntrackedQuestsMapIcons then
                 -- Shows objective icons for tracked quests.
-                QuestieQuest:ToggleNotes(true)
+                QuestieQuest:ShowQuestIcons()
 
                 -- Read objective tooltips for tracked quests.
                 QuestieQuest:PopulateObjectiveNotes(quest)
