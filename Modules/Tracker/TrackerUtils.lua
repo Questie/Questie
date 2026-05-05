@@ -117,13 +117,24 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
+-- On some server builds (e.g. TBC Anniversary), WorldMapFrame:OnShow always resets
+-- the map to the player's current zone via MapUtil.GetDisplayableMapForPlayer().
+-- C_Timer.After(0) defers SetMapID to the next frame, after OnShow completes.
+-- When the frame is already visible, Show() is skipped and SetMapID runs directly.
+
 ---@param objective QuestObjective
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local spawn, zone = DistanceUtils.GetNearestObjective(objective.spawnList)
     if spawn then
-        WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-        WorldMapFrame:SetMapID(uiMapId)
+        if WorldMapFrame:IsShown() then
+            if uiMapId then WorldMapFrame:SetMapID(uiMapId) end
+        else
+            WorldMapFrame:Show()
+            if uiMapId then
+                C_Timer.After(0, function() WorldMapFrame:SetMapID(uiMapId) end)
+            end
+        end
         TrackerUtils:FlashObjective(objective)
     end
 end
@@ -132,9 +143,15 @@ end
 function TrackerUtils:ShowFinisherOnMap(quest)
     local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     if spawn then
-        WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
-        WorldMapFrame:SetMapID(uiMapId)
+        if WorldMapFrame:IsShown() then
+            if uiMapId then WorldMapFrame:SetMapID(uiMapId) end
+        else
+            WorldMapFrame:Show()
+            if uiMapId then
+                C_Timer.After(0, function() WorldMapFrame:SetMapID(uiMapId) end)
+            end
+        end
         TrackerUtils:FlashFinisher(quest)
     end
 end
