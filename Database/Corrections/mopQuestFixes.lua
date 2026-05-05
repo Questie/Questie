@@ -322,12 +322,6 @@ function MopQuestFixes.Load()
         [10277] = { -- The Caverns of Time
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.CAVERNS_OF_TIME]={{44.31,38.73}}}},
         },
-        [13408] = { -- Hellfire Fortifications
-            [questKeys.requiredClasses] = 2015, -- all classes except DK
-        },
-        [13409] = { -- Hellfire Fortifications
-            [questKeys.requiredClasses] = 2015, -- all classes except DK
-        },
         [14007] = { -- Steady Shot
             [questKeys.requiredLevel] = 2,
             [questKeys.extraObjectives] = {},

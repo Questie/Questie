@@ -1945,11 +1945,11 @@ function QuestieTBCQuestFixes:Load()
         [9395] = { -- Saltheril's Haven
             [questKeys.breadcrumbForQuestId] = 9067,
         },
-        [9397] = {
+        [9397] = { -- Birds of a Feather
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Disturb the nest"), 0, {{"object", 181582}}}},
         },
-        [9400] = {
-            [questKeys.preQuestSingle] = {10124},
+        [9400] = { -- The Assassin
+            [questKeys.preQuestSingle] = {10124,10449},
             [questKeys.triggerEnd] = nil,
             [questKeys.objectives] = {{{17062,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -1958,6 +1958,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9403] = { -- The Purest Water
             [questKeys.preQuestSingle] = {1882,1884,9402},
+        },
+        [9407] = { -- Through the Dark Portal
+            [questKeys.breadcrumbForQuestId] = 10120,
         },
         [9410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
@@ -2082,12 +2085,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
         },
         [9498] = { -- Falcon Watch
-            [questKeys.preQuestSingle] = {10123},
+            [questKeys.preQuestSingle] = {10124,10449},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF,
             [questKeys.breadcrumbForQuestId] = 9340,
         },
         [9499] = { -- Falcon Watch
-            [questKeys.preQuestSingle] = {10123},
+            [questKeys.preQuestSingle] = {10124,10449},
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.breadcrumbForQuestId] = 9340,
         },
@@ -2206,6 +2209,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9572] = { -- Weaken the Ramparts
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.preQuestSingle] = {10124,10449},
         },
         [9573] = {
             [questKeys.preQuestSingle] = {9560,9562}, -- without 9564
@@ -2559,7 +2563,7 @@ function QuestieTBCQuestFixes:Load()
         [9869] = { -- The Throne of the Elements
             [questKeys.requiredMinRep] = {978,0},
         },
-        [9870] = {
+        [9870] = { -- The Throne of the Elements
             [questKeys.requiredMinRep] = {941,0},
         },
         [9871] = {
@@ -2581,6 +2585,9 @@ function QuestieTBCQuestFixes:Load()
         [9879] = {
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.triggerEnd] = {"Free the Kurenai Captive", {[zoneIDs.NAGRAND]={{31.57,38.78}}}},
+        },
+        [9882] = { -- Stealing from Thieves
+            [questKeys.breadcrumbs] = {9913},
         },
         [9884] = { -- Membership Benefits
             [questKeys.questFlags] = questFlags.MONTHLY,
@@ -2612,8 +2619,9 @@ function QuestieTBCQuestFixes:Load()
         [9911] = {
             [questKeys.startedBy] = {nil,nil,{25459}},
         },
-        [9913] = {
-            [questKeys.exclusiveTo] = {9882},
+        [9913] = { -- The Consortium Needs You!
+            [questKeys.breadcrumbForQuestId] = 9882,
+            [questKeys.nextQuestInChain] = 9882,
         },
         [9918] = {
             [questKeys.objectives] = {{{18351,nil,Questie.ICON_TYPE_TALK}}},
@@ -2661,12 +2669,14 @@ function QuestieTBCQuestFixes:Load()
         [9940] = {
             [questKeys.requiredMinRep] = {978,0},
         },
-        [9944] = {
+        [9944] = { -- Missing Mag'hari Procession
             [questKeys.requiredMinRep] = {941,0},
+            [questKeys.breadcrumbForQuestId] = 9945,
         },
-        [9945] = {
+        [9945] = { -- War on the Warmaul
             [questKeys.requiredMinRep] = {941,0},
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9944},
         },
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
@@ -2902,7 +2912,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10110] = { -- Hellfire Fortifications H
             [questKeys.questLevel] = -1,
-            [questKeys.preQuestSingle] = {10124}, -- double check. if there are others, put them in addition to existing
+            [questKeys.preQuestSingle] = {10124,10449},
             [questKeys.requiredMaxRep] = {},
             [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -2923,10 +2933,11 @@ function QuestieTBCQuestFixes:Load()
         [10119] = { -- Through the Dark Portal
             [questKeys.breadcrumbForQuestId] = 10288,
         },
-        [10120] = {
+        [10120] = { -- Arrival in Outland
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {9407},
         },
-        [10121] = {
+        [10121] = { -- Eradicate the Burning Legion
             [questKeys.preQuestSingle] = {},
         },
         [10129] = { -- Mission: Gateways Murketh and Shaadraz
@@ -3101,8 +3112,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10119},
         },
-        [10291] = {
+        [10289] = { -- Journey to Thrallmar
+            [questKeys.breadcrumbForQuestId] = 10291,
+        },
+        [10291] = { -- Report to Nazgrel
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {10289},
+            [questKeys.nextQuestInChain] = 0,
         },
         [10296] = {
             [questKeys.startedBy] = {{20130}},
@@ -3255,7 +3271,7 @@ function QuestieTBCQuestFixes:Load()
         [10385] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Communicate with Commander Ameer"), 0, {{"object", 410018}}}},
         },
-        [10388] = {
+        [10388] = { -- Return to Thrallmar
             [questKeys.startedBy] = {{16576,19273}},
             [questKeys.preQuestSingle] = {10129},
         },
@@ -3577,6 +3593,9 @@ function QuestieTBCQuestFixes:Load()
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83}}}},
         },
+        [10595] = { -- Besieged!
+            [questKeys.breadcrumbs] = {11048},
+        },
         [10596] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
         },
@@ -3609,6 +3628,9 @@ function QuestieTBCQuestFixes:Load()
         [10613] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185059}}}},
             [questKeys.objectives] = {nil,{{184979}}},
+        },
+        [10624] = { -- A Haunted History
+            [questKeys.breadcrumbs] = {11046},
         },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill some Deranged Helboars"), 0, {{"monster", 16863}}},
@@ -3953,7 +3975,8 @@ function QuestieTBCQuestFixes:Load()
         [10833] = {
             [questKeys.requiredSkill] = {197,350},
         },
-        [10838] = {
+        [10838] = { -- The Demoniac Scryer
+            [questKeys.objectives] = {nil,nil,{{31607,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{{[3483]={{44,51}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Demoniac Scryer")}},
         },
         [10839] = {
@@ -4461,14 +4484,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11043,11044},
             [questKeys.breadcrumbForQuestId] = 10642,
         },
-        [11046] = {
+        [11046] = { -- Chief Apothecary Hildagard
             [questKeys.exclusiveTo] = {11047,11048},
+            [questKeys.breadcrumbForQuestId] = 10624,
         },
-        [11047] = {
+        [11047] = { -- The Apprentice's Request
             [questKeys.exclusiveTo] = {11046,11048},
         },
-        [11048] = {
+        [11048] = { -- Kroghan's Report
             [questKeys.exclusiveTo] = {11046,11047},
+            [questKeys.breadcrumbForQuestId] = 10595,
         },
         [11049] = {
             [questKeys.requiredRaces] = raceIDs.NONE,

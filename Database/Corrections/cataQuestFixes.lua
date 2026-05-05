@@ -1308,9 +1308,6 @@ function CataQuestFixes.Load()
             [questKeys.startedBy] = {nil,nil,{24558}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [9882] = { -- Stealing from Thieves
-            [questKeys.breadcrumbs] = {9913},
-        },
         [9888] = { -- The Impotent Leader
             [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
         },
@@ -1320,9 +1317,6 @@ function CataQuestFixes.Load()
         [9890] = { -- Success!
             [questKeys.zoneOrSort] = zoneIDs.TEROKKAR_FOREST,
         },
-        [9913] = { -- The Consortium Needs You!
-            [questKeys.breadcrumbForQuestId] = 9882,
-        },
         [9931] = { -- Returning the Favor
             [questKeys.preQuestSingle] = {},
         },
@@ -1331,12 +1325,6 @@ function CataQuestFixes.Load()
         },
         [9934] = { -- Message to Garadar
             [questKeys.preQuestSingle] = {},
-        },
-        [9944] = { -- Missing Mag'hari Procession
-            [questKeys.breadcrumbForQuestId] = 9945,
-        },
-        [9945] = { -- War on the Warmaul
-            [questKeys.breadcrumbs] = {9944},
         },
         [9968] = { -- Strange Energy
             [questKeys.preQuestSingle] = {},
@@ -1455,13 +1443,8 @@ function CataQuestFixes.Load()
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
             [questKeys.nextQuestInChain] = 0,
         },
-        [10289] = { -- Journey to Thrallmar
-            [questKeys.breadcrumbForQuestId] = 10291,
-        },
         [10291] = { -- Report to Nazgrel
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.breadcrumbs] = {10289},
-            [questKeys.nextQuestInChain] = 0,
         },
         [10296] = { -- The Black Morass
             [questKeys.zoneOrSort] = zoneIDs.CAVERNS_OF_TIME,
@@ -1581,14 +1564,12 @@ function CataQuestFixes.Load()
             [questKeys.breadcrumbs] = {10615},
         },
         [10595] = { -- Besieged!
-            [questKeys.breadcrumbs] = {11048},
             [questKeys.preQuestSingle] = {},
         },
         [10615] = { -- Ruuan Weald
             [questKeys.breadcrumbForQuestId] = 10567,
         },
         [10624] = { -- A Haunted History
-            [questKeys.breadcrumbs] = {11046},
             [questKeys.preQuestSingle] = {},
         },
         [10639] = { -- Teron Gorefiend, I am...
@@ -1790,15 +1771,11 @@ function CataQuestFixes.Load()
         [11037] = { -- A Strange Vision
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
         },
-        [11046] = { -- Chief Apothecary Hildagard
-            [questKeys.breadcrumbForQuestId] = 10624,
-        },
         [11047] = { -- The Apprentice's Request
             [questKeys.zoneOrSort] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [11048] = { -- Kroghan's Report
             [questKeys.zoneOrSort] = zoneIDs.NAGRAND,
-            [questKeys.breadcrumbForQuestId] = 10595,
         },
         [11056] = { -- Hazzik's Bargain
             [questKeys.zoneOrSort] = zoneIDs.SKETTIS,

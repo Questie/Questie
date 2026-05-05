@@ -4643,7 +4643,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 10106,
         },
         [13409] = { -- Hellfire Fortifications H
-            [questKeys.preQuestSingle] = {10124},
+            [questKeys.preQuestSingle] = {10124,10449},
             [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 10110,
         },
@@ -4653,7 +4653,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 10106,
         },
         [13411] = { -- Hellfire Fortifications H
-            [questKeys.preQuestSingle] = {10124},
+            [questKeys.preQuestSingle] = {10124,10449},
             [questKeys.objectives] = {{{19028,nil,Questie.ICON_TYPE_EVENT},{19029,nil,Questie.ICON_TYPE_EVENT},{19032,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 10110,
         },
