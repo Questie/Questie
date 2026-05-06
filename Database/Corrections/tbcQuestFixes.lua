@@ -2747,9 +2747,10 @@ function QuestieTBCQuestFixes:Load()
         [10013] = {
             [questKeys.preQuestSingle] = {9998,10000},
         },
-        [10017] = {
+        [10017] = { -- Strained Supplies
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep] = {932,0},
+            [questKeys.nextQuestInChain] = 10019,
         },
         [10019] = {
             [questKeys.preQuestSingle] = {},
@@ -2763,9 +2764,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10551},
             [questKeys.requiredMinRep] = {932,0},
         },
-        [10024] = {
+        [10024] = { -- Voren'thal's Visions
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep] = {934,0},
+            [questKeys.nextQuestInChain] = 10025,
         },
         [10025] = {
             [questKeys.preQuestSingle] = {},
@@ -3320,6 +3322,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10412,10552},
             [questKeys.preQuestSingle] = {},
         },
+        [10416] = { -- Synthesis of Power
+            [questKeys.nextQuestInChain] = 10419,
+        },
+        [10420] = { -- A Cleansing Light
+            [questKeys.nextQuestInChain] = 10421,
+        },
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184588}}}},
@@ -3352,11 +3360,13 @@ function QuestieTBCQuestFixes:Load()
         [10443] = { -- Helping the Cenarion Post
             [questKeys.breadcrumbForQuestId] = 9372,
         },
-        [10446] = {
+        [10446] = { -- The Final Code
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 10005,
         },
-        [10447] = {
+        [10447] = { -- The Final Code
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 10006,
         },
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.17}}}},
@@ -4119,8 +4129,9 @@ function QuestieTBCQuestFixes:Load()
         [10915] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the coffin and kill its contents"), 0, {{"object", 184999}}}},
         },
-        [10917] = {
+        [10917] = { -- The Outcast's Plight
             [questKeys.requiredMaxRep] = {},
+            [questKeys.nextQuestInChain] = 10918,
         },
         [10922] = {
             [questKeys.triggerEnd] = {"Protect the Explorers", {[zoneIDs.TEROKKAR_FOREST]={{30.12,70.9}}}},
@@ -7407,6 +7418,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{3033,12042,16655}},
         },
+        [9990] = { -- Investigate Tuurem
+            [questKeys.nextQuestInChain] = 9995,
+        },
     }
 
     local questFixesAlliance = {
@@ -7445,6 +7459,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{4217,5505,12042,16721}},
+        },
+        [9990] = { -- Investigate Tuurem
+            [questKeys.nextQuestInChain] = 9994,
         },
     }
 
