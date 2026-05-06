@@ -1009,6 +1009,9 @@ function QuestieTBCNpcFixes:Load()
         [18653] = { -- Seth
             [npcKeys.waypoints] = {},
         },
+        [18670] = { -- Ironjaw
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{69.25,33.1}}},
+        },
         [18707] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{27.05,55.66}}},
         },
