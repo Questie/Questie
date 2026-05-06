@@ -1006,6 +1006,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{72.33,44.98}}},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
+        [18648] = { -- Stonegazer
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{62.81,27.69}}},
+        },
         [18653] = { -- Seth
             [npcKeys.waypoints] = {},
         },
