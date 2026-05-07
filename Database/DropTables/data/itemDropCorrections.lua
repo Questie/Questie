@@ -335,6 +335,9 @@ QuestieItemDropCorrections.Tbc = {
     [30798] = { -- Extra Sharp Daggermaw Tooth
         [20751] = DropKeys.WOWHEAD,
     },
+    [30819] = { -- Felfire Spleen
+        [21408] = DropKeys.WOWHEAD,
+    },
     [31119] = { -- Wyrmcult Net
         [21809] = DropKeys.WOWHEAD,
     },
