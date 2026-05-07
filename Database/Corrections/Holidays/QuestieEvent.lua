@@ -395,7 +395,7 @@ QuestieEvent.eventDates = {
         endDate = "11/4"
     },
     ["Children's Week"] = {startDate = "27/4", endDate = "4/5"}, -- TODO: Usually it is only a week long
-    ["Midsummer"] = (Questie.IsTitanReforged) and {startDate = "21/6", endDate = "12/7"} or {startDate = "21/6", endDate = "5/7"},
+    ["Midsummer"] = (Questie.IsTitanReforged) and {startDate = "28/6", endDate = "12/7"} or {startDate = "21/6", endDate = "5/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "2/10",
