@@ -3565,21 +3565,6 @@ function QuestieQuestFixes:Load()
         [6641] = {
             [questKeys.triggerEnd] = {"Defeat Vorsha the Lasher", {[zoneIDs.ASHENVALE]={{9.59,27.58}}}},
         },
-        [6642] = {
-            [questKeys.requiredMinRep] = {59,9000},
-        },
-        [6643] = {
-            [questKeys.requiredMinRep] = {59,9000},
-        },
-        [6644] = {
-            [questKeys.requiredMinRep] = {59,9000},
-        },
-        [6645] = {
-            [questKeys.requiredMinRep] = {59,9000},
-        },
-        [6646] = {
-            [questKeys.requiredMinRep] = {59,9000},
-        },
         [6661] = {
             [questKeys.objectives] = {{{13016,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.nextQuestInChain] = 6662,
