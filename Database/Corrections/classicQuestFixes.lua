@@ -970,7 +970,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
         },
         [1271] = {
-            [questKeys.preQuestGroup] = {1222,1204},
+            [questKeys.preQuestGroup] = {1204,1222},
         },
         [1273] = {
             [questKeys.triggerEnd] = {"Question Reethe with Ogron", {[zoneIDs.DUSTWALLOW_MARSH]={{42.47,38.07}}}},
