@@ -9975,7 +9975,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{73082,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [33161] = { -- A Timeless Tour
-            [questKeys.objectives] = {{{{73577,nil,Questie.ICON_TYPE_EVENT},{73576,nil,Questie.ICON_TYPE_EVENT},{73579,nil,Questie.ICON_TYPE_EVENT},{73578,nil,Questie.ICON_TYPE_EVENT},{73574,nil,Questie.ICON_TYPE_EVENT},{73575,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{73577,nil,Questie.ICON_TYPE_EVENT},{73576,nil,Questie.ICON_TYPE_EVENT},{73579,nil,Questie.ICON_TYPE_EVENT},{73578,nil,Questie.ICON_TYPE_EVENT},{73574,nil,Questie.ICON_TYPE_EVENT},{73575,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [33222] = { -- Little Tommy Newcomer
             [questKeys.requiredSpell] = 119467,
