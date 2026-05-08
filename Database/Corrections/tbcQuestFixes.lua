@@ -236,11 +236,21 @@ function QuestieTBCQuestFixes:Load()
         [1220] = {
             [questKeys.startedBy] = {{23951}},
         },
+        [1252] = { -- Lieutenant Paval Reethe
+            [questKeys.preQuestSingle] = {11123},
+        },
+        [1253] = { -- The Black Shield
+            [questKeys.preQuestSingle] = {11123},
+        },
         [1268] = { -- Suspicious Hoofprints
             [questKeys.startedBy] = {nil,{187273}},
         },
+        [1282] = { -- They Call Him Smiling Jim
+            [questKeys.breadcrumbForQuestId] = 11123,
+        },
         [1284] = { -- Suspicious Hoofprints
             [questKeys.startedBy] = {nil,{187273}},
+            [questKeys.preQuestSingle] = {11123},
         },
         [1287] = { -- The Deserters
             [questKeys.nextQuestInChain] = 11143,
@@ -4698,8 +4708,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11102,11010},
             [questKeys.requiredLevel] = 70,
         },
-        [11123] = {
+        [11123] = { -- Inspecting the Ruins
             [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {1282},
         },
         [11126] = { -- Traitors Among Us
             [questKeys.objectives] = {{{23602,nil,Questie.ICON_TYPE_TALK}}},

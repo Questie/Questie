@@ -945,10 +945,10 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{4962}}},
             [questKeys.nextQuestInChain] = 1250,
         },
-        [1252] = {
+        [1252] = { -- Lieutenant Paval Reethe
             [questKeys.preQuestSingle] = {1302,1282}, -- #1845
         },
-        [1253] = {
+        [1253] = { -- The Black Shield
             [questKeys.preQuestSingle] = {1302,1282}, -- #1845
         },
         [1260] = {
@@ -982,17 +982,19 @@ function QuestieQuestFixes:Load()
         [1276] = {
             [questKeys.preQuestSingle] = {1273}, -- #1574
         },
-        [1282] = {
-            [questKeys.exclusiveTo] = {1301,1302}, -- #917
+        [1282] = { -- They Call Him Smiling Jim
+            [questKeys.availableUntilCompleted] = 1302,
+            [questKeys.exclusiveTo] = {},
         },
-        [1284] = {
+        [1284] = { -- Suspicious Hoofprints
             [questKeys.preQuestSingle] = {1302,1282}, -- #1845
             [questKeys.startedBy] = {nil,{21015,21016}},
         },
-        [1301] = {
+        [1301] = { -- James Hyal
             [questKeys.breadcrumbForQuestId] = 1302, -- #889
+            [questKeys.availableUntilCompleted] = 1282,
         },
-        [1302] = {
+        [1302] = { -- James Hyal
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {}, -- #889
             [questKeys.breadcrumbs] = {1301}, -- #889
