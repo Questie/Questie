@@ -987,7 +987,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
         },
         [1284] = { -- Suspicious Hoofprints
-            [questKeys.preQuestSingle] = {1302,1282}, -- #1845
+            [questKeys.preQuestSingle] = {1282,1302}, -- #1845
             [questKeys.startedBy] = {nil,{21015,21016}},
         },
         [1301] = { -- James Hyal
