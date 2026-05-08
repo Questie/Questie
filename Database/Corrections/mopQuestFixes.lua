@@ -9974,9 +9974,26 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.objectives] = {{{73082,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [33161] = { -- A Timeless Tour
+            [questKeys.objectives] = {{{{73577,nil,Questie.ICON_TYPE_EVENT},{73576,nil,Questie.ICON_TYPE_EVENT},{73579,nil,Questie.ICON_TYPE_EVENT},{73578,nil,Questie.ICON_TYPE_EVENT},{73574,nil,Questie.ICON_TYPE_EVENT},{73575,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [33222] = { -- Little Tommy Newcomer
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{73626,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [33229] = { -- A Flash of Bronze...
+            [questKeys.breadcrumbForQuestId] = 33231,
+        },
+        [33230] = { -- A Flash of Bronze...
+            [questKeys.breadcrumbForQuestId] = 33232,
+        },
+        [33231] = { -- Journey to the Timeless Isle
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {33229},
+        },
+        [33232] = { -- Journey to the Timeless Isle
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {33230},
         },
         [33252] = { -- A Winter Veil Gift
             [questKeys.startedBy] = {nil,{187236}},
