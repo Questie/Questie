@@ -3036,7 +3036,10 @@ function QuestieTBCQuestFixes:Load()
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93}}}},
         },
-        [10218] = {
+        [10216] = { -- Safety Is Job One
+            [questKeys.nextQuestInChain] = 10218,
+        },
+        [10218] = { -- Someone Else's Hard Work Pays Off
             [questKeys.triggerEnd] = {"Escort Cryo-Engineer Sha'heen", {[zoneIDs.MANA_TOMBS]={{-1,-1}}}},
         },
         [10222] = {
@@ -3119,6 +3122,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10283] = {
             [questKeys.objectives] = {nil,{{182589}}},
+        },
+        [10285] = { -- Return to Andormu
+            [questKeys.nextQuestInChain] = 10296,
         },
         [10288] = { -- Arrival in Outland
             [questKeys.preQuestSingle] = {},
@@ -4002,8 +4008,9 @@ function QuestieTBCQuestFixes:Load()
         [10839] = {
             [questKeys.objectives] = {nil,{{185191}}},
         },
-        [10840] = {
+        [10840] = { -- The Tomb of Lights
             [questKeys.preQuestSingle] = {10915,10852},
+            [questKeys.nextQuestInChain] = 10030,
         },
         [10842] = {
             [questKeys.preQuestSingle] = {10915,10852},
@@ -4012,9 +4019,10 @@ function QuestieTBCQuestFixes:Load()
         [10847] = { -- The Eyes of Skettis
             [questKeys.breadcrumbs] = {10862,10863,10908},
         },
-        [10852] = {
+        [10852] = { -- Missing Friends
             [questKeys.objectives] = {{{22314,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",185202}}}},
+            [questKeys.requiredSourceItems] = {31655},
         },
         [10854] = {
             [questKeys.objectives] = {{{21722,nil,Questie.ICON_TYPE_INTERACT}}},
