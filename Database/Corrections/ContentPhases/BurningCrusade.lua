@@ -164,8 +164,6 @@ local questsToBlacklistByPhase = {
         [11171] = true,
         [11178] = true,
         [11195] = true,
-        [11497] = true,
-        [11498] = true,
     },
     [5] = { -- Phase 4 - Sunwell, Isle of Quel'Danas
         [9721] = true,

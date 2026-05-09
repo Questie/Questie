@@ -2487,6 +2487,9 @@ function QuestieTBCQuestFixes:Load()
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97}}}},
         },
+        [9789] = { -- Clefthoof Mastery
+            [questKeys.breadcrumbs] = {10113,10114},
+        },
         [9796] = {
             [questKeys.requiredLevel] = 62,
             [questKeys.exclusiveTo] = {10105},
@@ -2582,8 +2585,9 @@ function QuestieTBCQuestFixes:Load()
         [9872] = {
             [questKeys.startedBy] = {nil,nil,{24558}},
         },
-        [9874] = {
+        [9874] = { -- Stopping the Spread
             [questKeys.requiredMinRep] = {978,0},
+            [questKeys.objectives] = {{{18240,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9876] = { -- Failed Incursion
             [questKeys.breadcrumbForQuestId] = 9738,
@@ -2598,6 +2602,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9882] = { -- Stealing from Thieves
             [questKeys.breadcrumbs] = {9913},
+            [questKeys.nextQuestInChain] = 9883,
         },
         [9884] = { -- Membership Benefits
             [questKeys.questFlags] = questFlags.MONTHLY,
@@ -2613,6 +2618,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9889] = {
             [questKeys.objectives] = {{{18260},{18262}}},
+        },
+        [9893] = { -- Obsidian Warbeads
+            [questKeys.nextQuestInChain] = 9892,
         },
         [9898] = {
             [questKeys.name] = "The Respect of Another",
@@ -2632,6 +2640,9 @@ function QuestieTBCQuestFixes:Load()
         [9913] = { -- The Consortium Needs You!
             [questKeys.breadcrumbForQuestId] = 9882,
             [questKeys.nextQuestInChain] = 9882,
+        },
+        [9914] = { -- A Head Full of Ivory
+            [questKeys.nextQuestInChain] = 9915,
         },
         [9918] = {
             [questKeys.objectives] = {{{18351,nil,Questie.ICON_TYPE_TALK}}},
@@ -2697,8 +2708,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{18428,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}},
         },
-        [9955] = {
+        [9955] = { -- Cho'war the Pillager
+            [questKeys.requiredSourceItems] = {25648},
             [questKeys.objectives] = {{{18445,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182521}}}},
         },
         [9956] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -3191,16 +3204,16 @@ function QuestieTBCQuestFixes:Load()
         [10323] = {
             [questKeys.objectives] = {nil,{{184312}},{{29411}}},
         },
-        [10325] = {
+        [10325] = { -- Marks of Kil'jaeden
             [questKeys.requiredMaxRep] = {932,9000},
             [questKeys.preQuestSingle] = {10551,10552},
         },
-        [10326] = {
+        [10326] = { -- More Marks of Kil'jaeden
             [questKeys.requiredMaxRep] = {932,9000},
             [questKeys.preQuestGroup] = {10551,10325},
             [questKeys.preQuestSingle] = {},
         },
-        [10327] = {
+        [10327] = { -- Single Mark of Kil'jaeden
             [questKeys.requiredMaxRep] = {932,9000},
             [questKeys.preQuestGroup] = {10551,10325},
             [questKeys.preQuestSingle] = {},
@@ -3332,16 +3345,16 @@ function QuestieTBCQuestFixes:Load()
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Void Wastes"), 2, {{"monster", 20778}}},
             },
         },
-        [10412] = {
+        [10412] = { -- Firewing Signets
             [questKeys.requiredMaxRep] = {934,9000},
             [questKeys.preQuestSingle] = {10551,10552},
         },
-        [10414] = {
+        [10414] = { -- Single Firewing Signet
             [questKeys.requiredMaxRep] = {934,9000},
             [questKeys.preQuestGroup] = {10412,10552},
             [questKeys.preQuestSingle] = {},
         },
-        [10415] = {
+        [10415] = { -- More Firewing Signets
             [questKeys.requiredMaxRep] = {934,9000},
             [questKeys.preQuestGroup] = {10412,10552},
             [questKeys.preQuestSingle] = {},
@@ -3706,33 +3719,35 @@ function QuestieTBCQuestFixes:Load()
         [10652] = {
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",20162}}}},
         },
-        [10653] = {
+        [10653] = { -- Marks of Sargeras
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.exclusiveTo] = {10826},
         },
-        [10654] = {
+        [10654] = { -- More Marks of Sargeras
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestGroup] = {10551,10653},
             [questKeys.preQuestSingle] = {},
         },
-        [10655] = {
+        [10655] = { -- Single Mark of Sargeras
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestGroup] = {10551,10653},
             [questKeys.preQuestSingle] = {},
         },
-        [10656] = {
+        [10656] = { -- Sunfury Signets
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.exclusiveTo] = {10824},
         },
         [10657] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents"), 0, {{"monster", 20749}}}},
         },
-        [10658] = {
+        [10658] = { -- More Sunfury Signets
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestGroup] = {10656,10552},
             [questKeys.preQuestSingle] = {},
         },
-        [10659] = {
+        [10659] = { -- Single Sunfury Signet
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestGroup] = {10656,10552},
             [questKeys.preQuestSingle] = {},
@@ -3973,30 +3988,36 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {31536},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Retrieve five Camp Anger Keys and activate the five Legion obelisks. The obelisks have a short duration, so make sure they are all activated at the same time."), 0, {{"object", 185193},{"object", 185195},{"object", 185196},{"object", 185197},{"object", 185198}}}},
         },
-        [10822] = {
+        [10822] = { -- Single Sunfury Signet
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestSingle] = {},
             [questKeys.zoneOrSort] = zoneIDs.SHADOWMOON_VALLEY,
+            [questKeys.preQuestGroup] = {10552,10824},
         },
-        [10823] = {
+        [10823] = { -- More Sunfury Signets
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10552,10824},
+        },
+        [10824] = { -- Sunfury Signets
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.exclusiveTo] = {10656},
         },
-        [10824] = {
+        [10826] = { -- Marks of Sargeras
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.exclusiveTo] = {10653},
         },
-        [10826] = {
+        [10827] = { -- More Marks of Sargeras
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10551,10826},
         },
-        [10827] = {
+        [10828] = { -- Single Mark of Sargeras
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
-        },
-        [10828] = {
-            [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10551,10826},
         },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495,31518},

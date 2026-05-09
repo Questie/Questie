@@ -310,6 +310,9 @@ QuestieItemDropCorrections.Tbc = {
         [18133] = DropKeys.WOWHEAD,
         [20198] = DropKeys.WOWHEAD,
     },
+    [25463] = { -- Pair of Ivory Tusks
+        [18334] = 100,
+    },
     [25891] = { -- Pristine Shimmerscale Eel
         [18750] = DropKeys.WOWHEAD,
     },
