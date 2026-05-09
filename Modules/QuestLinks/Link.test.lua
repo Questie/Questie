@@ -43,6 +43,9 @@ describe("QuestieLink", function()
             return text
         end
 
+        _G.HaveQuestData = function() return false end
+        _G.C_QuestLog.GetQuestObjectives = function() return nil end
+
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.DoableStates = {AVAILABLE = "AVAILABLE"}
         QuestieDB.IsComplete = function() return 0 end
@@ -124,6 +127,145 @@ describe("QuestieLink", function()
             }, tooltipLines)
             assert.spy(QuestieDB.QueryNPCSingle).was_called_with(101, "name")
             assert.spy(QuestieReputation.GetFactionName).was_called_with(201)
+        end)
+
+        it("should show Blizzard objective text when HaveQuestData returns true", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Test Quest",
+                    Description = {"Kill some stuff and gain reputation."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {
+                        {Type = "monster", Id = 101, Text = nil},
+                        {Type = "reputation", Id = 201, Text = nil},
+                    },
+                    Objectives = {},
+                    Starts = nil,
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = function()
+                return {
+                    {text = "Fierce Boar slain: 0/8"},
+                    {text = "Argent Dawn reputation: 0/1000"},
+                }
+            end
+
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+            QuestieDB.QueryNPCSingle = spy.new(function() return "Fierce Boar" end)
+            QuestieReputation.GetFactionName = spy.new(function() return "Argent Dawn" end)
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+
+            local questId = 1234
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+
+            assert.are.same({
+                "Test Quest",
+                "You have not done this quest",
+                " ",
+                "Kill some stuff and gain reputation.",
+                " ",
+                "Objectives",
+                " - Fierce Boar slain: 0/8",
+                " - Argent Dawn reputation: 0/1000",
+            }, tooltipLines)
+            assert.spy(QuestieDB.QueryNPCSingle).was_not_called()
+            assert.spy(QuestieReputation.GetFactionName).was_not_called()
+        end)
+
+        it("should fall back to DB objectives when all Blizzard objective texts start with a space", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Test Quest",
+                    Description = {"Kill some stuff."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {
+                        {Type = "monster", Id = 101, Text = nil},
+                    },
+                    Objectives = {},
+                    Starts = nil,
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = function()
+                return {
+                    {text = " : 0/1"},
+                }
+            end
+
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+            QuestieDB.QueryNPCSingle = spy.new(function() return "Fierce Boar" end)
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+
+            local questId = 1234
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+
+            assert.are.same({
+                "Test Quest",
+                "You have not done this quest",
+                " ",
+                "Kill some stuff.",
+                " ",
+                "Objectives",
+                "Fierce Boar",
+            }, tooltipLines)
+            assert.spy(QuestieDB.QueryNPCSingle).was_called_with(101, "name")
+        end)
+
+        it("should show all Blizzard objectives when at least one is valid", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Test Quest",
+                    Description = {"Kill some stuff."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {
+                        {Type = "monster", Id = 101, Text = nil},
+                    },
+                    Objectives = {},
+                    Starts = nil,
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = function()
+                return {
+                    {text = "Fierce Boar slain: 3/8"},
+                    {text = " : 0/1"},
+                }
+            end
+
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+            QuestieDB.QueryNPCSingle = spy.new(function() return "Fierce Boar" end)
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+
+            local questId = 1234
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+
+            assert.are.same({
+                "Test Quest",
+                "You have not done this quest",
+                " ",
+                "Kill some stuff.",
+                " ",
+                "Objectives",
+                " - Fierce Boar slain: 3/8",
+                " -  : 0/1",
+            }, tooltipLines)
+            assert.spy(QuestieDB.QueryNPCSingle).was_not_called()
         end)
 
         it("should show player progress when quest is in the player quest log", function()
