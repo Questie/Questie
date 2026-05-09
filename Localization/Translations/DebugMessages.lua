@@ -639,6 +639,18 @@ local debugMessagesLocales = {
         ["zhCN"] = "你刚刚选中的 NPC 在 Questie 数据库中缺失数据",
         ["zhTW"] = "你剛才選為目標的 NPC 是 Questie 資料庫中所缺少的",
     },
+    ["Questie has detected the database to be corrupted. You may type \"/run ReloadUI()\" or \"/reload\" to start the recompiling process when the conditions allow it.\n\nThe process will take 1-2 minutes depending on your configuration."] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = "Questie ha detectado que la base de datos está corrompida. Puedes escribir \"/run ReloadUI()\" o \"/reload\" para iniciar el proceso de recompilación cuando las condiciones lo permitan.\n\nEl proceso tardará entre 1 y 2 minutos dependiendo de tu configuración.",
+        ["esMX"] = "Questie ha detectado que la base de datos está corrompida. Puedes escribir \"/run ReloadUI()\" o \"/reload\" para iniciar el proceso de recompilación cuando las condiciones lo permitan.\n\nEl proceso tardará entre 1 y 2 minutos dependiendo de tu configuración.",
+        ["frFR"] = "Questie a détecté que la base de données est corrompue. Vous pouvez taper \"/run ReloadUI()\" ou \"/reload\" pour lancer le processus de recompilation lorsque les conditions le permettent.\n\nLe processus prendra 1 à 2 minutes selon votre configuration.",
+        ["koKR"] = false,
+        ["ptBR"] = "O Questie detectou que o banco de dados está corrompido. Você pode digitar \"/run ReloadUI()\" ou \"/reload\" para iniciar o processo de recompilação quando as condições permitirem.\n\nO processo levará de 1 a 2 minutos dependendo da sua configuração.",
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(debugMessagesLocales) do

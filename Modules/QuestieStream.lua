@@ -241,6 +241,12 @@ function QuestieStreamLib:_ReadShort_raw()
     local p = self._pointer
     self._pointer = p + 2
     local a,b = stringbyte(self._bin, p, p+1)
+    -- database corrupted, needs recompile
+    if not a then
+        Questie.db.global.dbIsCompiled = false
+        Questie:Error(l10n("Questie has detected the database to be corrupted. You may type \"/run ReloadUI()\" or \"/reload\" to start the recompiling process when the conditions allow it.\n\nThe process will take 1-2 minutes depending on your configuration."))
+        return
+    end
     return a*256 + b
 end
 
