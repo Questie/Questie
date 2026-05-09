@@ -9,6 +9,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
 
 -- Tracks quest IDs for which we have already triggered a data prefetch, to avoid spamming the server
+---@type table<QuestId, boolean>
 local prefetchedQuestIds = {}
 
 ---------------------------------------------------------------------------------------------------

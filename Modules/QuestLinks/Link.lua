@@ -24,7 +24,7 @@ QuestieLink.lastItemRefTooltip = ""
 
 -- Forward declaration
 local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _AddDungeonInfo, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
-local _AddTooltipLine, _AddColoredTooltipLine
+local _AddTooltipLine, _AddColoredTooltipLine, _AreBlizzardObjectivesValid, _AddBlizzardObjectives
 
 
 local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
@@ -204,9 +204,52 @@ _AddDungeonInfo = function(quest)
     end
 end
 
+---@param objectives QuestObjectiveInfo[]
+---@return boolean @ true if at least one valid objective was found
+_AreBlizzardObjectivesValid = function(objectives)
+    if (not objectives) or #objectives == 0 then
+        return false
+    end
+
+    for i = 1, #objectives do
+        local objective = objectives[i]
+        if objective and objective.text and objective.text ~= "" and string.byte(objective.text, 1) ~= 32 then
+            return true
+        end
+    end
+
+    return false
+end
+
+---@param objectives QuestObjectiveInfo[]
+_AddBlizzardObjectives = function(objectives)
+    _AddTooltipLine(" ")
+    _AddColoredTooltipLine(l10n("Objectives"), "gold")
+    for i = 1, #objectives do
+        local objective = objectives[i]
+        if objective and objective.text and objective.text ~= "" then
+            _AddColoredTooltipLine(" - " .. objective.text, "white")
+        end
+    end
+end
+
 ---@param quest Quest
 _AddQuestRequirements = function(quest)
-    if #quest.ObjectiveData > 0 and not (QuestiePlayer.currentQuestlog[quest.Id] or Questie.db.char.complete[quest.Id]) then
+    local questId = quest.Id
+    if QuestiePlayer.currentQuestlog[questId] or Questie.db.char.complete[questId] then
+        return
+    end
+
+    if HaveQuestData(questId) then
+        local blizzardObjectives = C_QuestLog.GetQuestObjectives(questId)
+        if _AreBlizzardObjectivesValid(blizzardObjectives) then
+            _AddBlizzardObjectives(blizzardObjectives)
+            return
+        end
+    end
+
+    -- Fallback: use Questie's static database objective data
+    if #quest.ObjectiveData > 0 then
         for i = 1, #quest.ObjectiveData do
             local currentObjective = quest.ObjectiveData[i]
             if currentObjective then
