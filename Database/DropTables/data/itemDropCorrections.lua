@@ -313,6 +313,9 @@ QuestieItemDropCorrections.Tbc = {
     [25891] = { -- Pristine Shimmerscale Eel
         [18750] = DropKeys.WOWHEAD,
     },
+    [28667] = { -- Flawless Greater Windroc Beak
+        [17129] = DropKeys.WOWHEAD,
+    },
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
     },
@@ -350,6 +353,9 @@ QuestieItemDropCorrections.Tbc = {
     [31812] = { -- Doom Skull
         [21242] = DropKeys.WOWHEAD,
         [21285] = DropKeys.WOWHEAD,
+    },
+    [31814] = { -- Mature Bone Sifter Carcass
+        [22482] = 100,
     },
 }
 
