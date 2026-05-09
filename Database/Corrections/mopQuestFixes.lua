@@ -136,6 +136,7 @@ QuestieCorrections.killCreditObjectiveFirst[32659] = true
 QuestieCorrections.itemObjectiveFirst[32809] = true
 QuestieCorrections.killCreditObjectiveFirst[32943] = true
 QuestieCorrections.killCreditObjectiveFirst[32945] = true
+QuestieCorrections.objectObjectiveFirst[33228] = true
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
@@ -9981,6 +9982,10 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{73626,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [33228] = { -- Time In Your Hands
+            [questKeys.objectivesText] = {"Gather 1000 Timeless Coins and introduce yourself to Mistweaver Ai and Mistweaver Ku."},
+            [questKeys.objectives] = {{{73305,nil,Questie.ICON_TYPE_TALK},{73306,nil,Questie.ICON_TYPE_TALK}},{{440009}}},
+        },
         [33229] = { -- A Flash of Bronze...
             [questKeys.breadcrumbForQuestId] = 33231,
         },
@@ -9998,6 +10003,9 @@ function MopQuestFixes.Load()
         [33252] = { -- A Winter Veil Gift
             [questKeys.startedBy] = {nil,{187236}},
         },
+        [33335] = { -- The Last Emperor
+            [questKeys.objectives] = {{{73303,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [33336] = { -- The Essence of Time
             [questKeys.preQuestSingle] = {33161},
         },
@@ -10006,6 +10014,9 @@ function MopQuestFixes.Load()
         },
         [33338] = { -- Empowering the Hourglass
             [questKeys.preQuestSingle] = {33336},
+        },
+        [33340] = { -- Timeless Nutriment
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use it"),0,{{"object",221689},{"object",221690},{"object",221725},{"object",221747},{"object",221763},{"object",221764}}}},
         },
         [33354] = { -- Den Mother's Demise
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
