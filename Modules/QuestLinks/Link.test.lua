@@ -71,11 +71,9 @@ describe("QuestieLink", function()
 
     describe("CreateQuestTooltip", function()
         it("should show quest requirements including reputation when quest is not in the player quest log", function()
-            local questId = 1234
-
-            QuestieDB.GetQuest = function(_questId)
+            QuestieDB.GetQuest = function(questId)
                 return {
-                    Id = _questId,
+                    Id = questId,
                     name = "Test Quest",
                     Description = {"Kill some stuff and gain reputation."},
                     zoneOrSort = 0,
@@ -111,6 +109,7 @@ describe("QuestieLink", function()
                 return "Test Zone"
             end
 
+            local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
             assert.are.same({
@@ -128,15 +127,9 @@ describe("QuestieLink", function()
         end)
 
         it("should show player progress when quest is in the player quest log", function()
-            local questId = 5678
-
-            QuestiePlayer.currentQuestlog = {
-                [questId] = true,
-            }
-
-            QuestieDB.GetQuest = function(_questId)
+            QuestieDB.GetQuest = function(questId)
                 return {
-                    Id = _questId,
+                    Id = questId,
                     name = "Progress Quest",
                     Description = {"Collect some items."},
                     zoneOrSort = 0,
@@ -163,6 +156,11 @@ describe("QuestieLink", function()
             QuestieDB.IsDoableVerbose = function()
                 return "You are on this quest", nil, "AVAILABLE"
             end
+
+            local questId = 5678
+            QuestiePlayer.currentQuestlog = {
+                [questId] = true,
+            }
 
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678")
 
