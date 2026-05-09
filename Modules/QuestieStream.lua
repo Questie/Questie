@@ -1,6 +1,8 @@
 -- small binary stream library with "base 89" decoder (credit to Aero for the algorithm)
 ---@class QuestieStreamLib
 local QuestieStreamLib = QuestieLoader:CreateModule("QuestieStreamLib");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local tinsert = table.insert
 
