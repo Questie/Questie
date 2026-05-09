@@ -2644,6 +2644,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [9924] = { -- Corki's Gone Missing Again!
             [questKeys.requiredSourceItems] = {25509},
+            [questKeys.objectives] = {{{20812,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182350}}}},
         },
         [9927] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2871,16 +2873,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
         },
-        [10074] = {
+        [10074] = { -- Oshu'gun Crystal Powder
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 10075,
+        },
+        [10075] = { -- Oshu'gun Crystal Powder
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [10075] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        },
-        [10076] = {
+        [10076] = { -- Oshu'gun Crystal Powder
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 10077,
         },
-        [10077] = {
+        [10077] = { -- Oshu'gun Crystal Powder
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [10078] = { -- Laying Waste to the Unwanted
@@ -2893,6 +2897,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{18840,nil,Questie.ICON_TYPE_EVENT},{18841,nil,Questie.ICON_TYPE_EVENT},{18842,nil,Questie.ICON_TYPE_EVENT},{18843,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10091] = { -- The Soul Devices
+            [questKeys.preQuestSingle] = {10178},
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
         },
         [10094] = { -- The Codex of Blood
@@ -2901,6 +2906,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10095] = { -- Into the Heart of the Labyrinth
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+            [questKeys.preQuestSingle] = {10094},
         },
         [10097] = { -- Brother Against Brother
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,

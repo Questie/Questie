@@ -94,6 +94,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{72.54,70.73}}},
             [objectKeys.zoneID] = zoneIDs.NAGRAND,
         },
+        [182350] = { -- Corki's Prison
+            [objectKeys.name] = "Corki's Prison",
+            [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{39.25,27.42}}},
+            [objectKeys.zoneID] = zoneIDs.NAGRAND,
+        },
         [182484] = {
             [objectKeys.name] = "Warmaul Prison",
             [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{28.07,19.53},{26.47,19.73},{26.59,23.57},{28.5,24.8},{28.13,24.7},{29.36,24.09},{28.84,25.31},{29.4,24.55},{25.95,24.34},{27.96,25.38},{25.34,24.25},{25.23,25.11},{24.67,27.63},{23.15,29.35},{23.42,28.34},{23.76,30.42},{23.57,31.83},{29.64,25.95},{28.95,25.86},{29.24,26.28}}},
