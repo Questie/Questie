@@ -620,7 +620,6 @@ end
 ---- Link handling code
 
 local LINK_CODE = "addon:questie:offer";
-local LINK_COLOR = CreateColorFromHexString("cff71d5ff");
 local LINK_LENGTHS = LINK_CODE:len();
 
 -- handles clicking on link
