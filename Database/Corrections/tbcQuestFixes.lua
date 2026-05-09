@@ -2636,11 +2636,13 @@ function QuestieTBCQuestFixes:Load()
         [9918] = {
             [questKeys.objectives] = {{{18351,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [9923] = {
+        [9923] = { -- HELP!
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.requiredSourceItems] = {25490},
+            [questKeys.objectives] = {{{18369,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182349}}}},
         },
-        [9924] = {
+        [9924] = { -- Corki's Gone Missing Again!
             [questKeys.requiredSourceItems] = {25509},
         },
         [9927] = {
@@ -3471,11 +3473,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 11106,
             [questKeys.exclusiveTo] = {10461,10462,10463},
         },
-        [10476] = {
+        [10476] = { -- Fierce Enemies
             [questKeys.requiredMinRep] = {978,0},
+            [questKeys.nextQuestInChain] = 10477,
         },
-        [10479] = {
+        [10479] = { -- Proving Your Strength
             [questKeys.requiredMinRep] = {941,0},
+            [questKeys.nextQuestInChain] = 10478,
         },
         [10480] = {
             [questKeys.objectives] = {{{21059,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4095,6 +4099,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10887] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.77,51.61}}}, Questie.ICON_TYPE_EVENT, l10n("Help Akuno find his way to the Refugee Caravan in Terokkar Forest.")}},
+        },
+        [10889] = { -- Return to Shattrath
+            [questKeys.nextQuestInChain] = 10879,
         },
         [10891] = {
             [questKeys.requiredSpell] = -16663,
