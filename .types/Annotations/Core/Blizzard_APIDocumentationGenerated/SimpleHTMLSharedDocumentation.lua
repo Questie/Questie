@@ -1,0 +1,5 @@
+---@meta _
+---@class HTMLContentNode
+---@field text string
+---@field type HTMLTextType
+---@field align JustifyHorizontal

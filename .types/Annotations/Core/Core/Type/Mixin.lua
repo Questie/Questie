@@ -1,0 +1,12 @@
+---@meta _
+
+---@alias AzeriteEmpoweredItemLocation ItemLocation
+---@alias AzeriteItemLocation ItemLocation
+---@alias EmptiableItemLocation ItemLocation
+---@alias ItemTransmogInfo ItemTransmogInfoMixin
+---@alias PlayerLocation PlayerLocationMixin
+---@alias ReportInfo ReportInfoMixin
+---@alias TransmogLocation TransmogLocationType
+---@alias TransmogPendingInfo TransmogPendingInfoMixin
+---@alias vector2 Vector2DMixin
+---@alias vector3 Vector3DMixin

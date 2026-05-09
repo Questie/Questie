@@ -1,0 +1,7 @@
+---@meta _
+---@class NumberAbbreviationBreakpoint
+---@field breakpoint number
+---@field abbreviation string
+---@field significandDivisor number
+---@field fractionDivisor number
+---@field abbreviationIsGlobal boolean? Default = true

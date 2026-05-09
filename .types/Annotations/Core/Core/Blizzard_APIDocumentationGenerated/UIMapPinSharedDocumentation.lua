@@ -1,0 +1,6 @@
+---@meta _
+---@class UIMapPinInfo
+---@field button UIButtonInfo
+---@field buttonSelected UIButtonInfo
+---@field underlay textureAtlas
+---@field outerGlow textureAtlas

@@ -1,0 +1,13 @@
+---@meta _
+---@class TooltipComparisonLine
+---@field text string
+---@field color colorRGB
+
+---@class TooltipDataArg
+---@field field string
+---@field stringVal string?
+---@field intVal number?
+---@field floatVal number?
+---@field boolVal boolean?
+---@field colorVal colorRGB?
+---@field guidVal WOWGUID?

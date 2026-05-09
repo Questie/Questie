@@ -1,0 +1,214 @@
+---@meta _
+---@class CraftingCurrencyResultData
+---@field currencyID number? Default = 0
+---@field quantity number? Default = 0
+---@field operationID number? Default = 0
+---@field firstCraftReward boolean? Default = false
+---@field showCurrencyText boolean? Default = true
+
+---@class CraftingItemResultData
+---@field resourcesReturned CraftingResourceReturnInfo[]?
+---@field craftingQuality number?
+---@field qualityProgress number? Default = 0
+---@field itemID number? Default = 0
+---@field itemGUID WOWGUID
+---@field quantity number? Default = 0
+---@field hyperlink string
+---@field isCrit boolean? Default = false
+---@field critBonusSkill number? Default = 0
+---@field recraftable boolean? Default = false
+---@field bonusCraft boolean? Default = false
+---@field multicraft number? Default = 0
+---@field operationID number? Default = 0
+---@field firstCraftReward boolean? Default = false
+---@field isEnchant boolean? Default = false
+---@field hasIngenuityProc boolean? Default = false
+---@field concentrationCurrencyID number? Default = 0
+---@field concentrationSpent number? Default = 0
+---@field ingenuityRefund number? Default = 0
+
+---@class CraftingItemSlotModification
+---@field dataSlotIndex number
+---@field reagent CraftingReagent
+
+---@class CraftingOperationBonusStatInfo
+---@field bonusStatName string
+---@field bonusStatValue number
+---@field ratingDescription string
+---@field ratingPct number
+---@field bonusRatingPct number
+
+---@class CraftingOperationInfo
+---@field recipeID number
+---@field baseDifficulty number
+---@field bonusDifficulty number
+---@field baseSkill number
+---@field bonusSkill number
+---@field isQualityCraft boolean
+---@field quality number
+---@field craftingQuality number
+---@field craftingQualityID number
+---@field craftingDataID number
+---@field lowerSkillThreshold number
+---@field upperSkillTreshold number
+---@field guaranteedCraftingQualityID number
+---@field bonusStats CraftingOperationBonusStatInfo[]
+---@field concentrationCurrencyID number
+---@field concentrationCost number
+---@field ingenuityRefund number
+
+---@class CraftingQualityInfo
+---@field quality number
+---@field icon textureAtlas
+---@field iconSmall textureAtlas
+---@field iconInventory textureAtlas
+---@field iconMixed textureAtlas
+---@field iconAppear textureAtlas
+---@field iconDissolve textureAtlas
+---@field barFill textureAtlas
+---@field barBackground textureAtlas
+---@field barBackgroundCap textureAtlas
+---@field barHighlight textureAtlas
+---@field iconChat textureAtlas
+
+---@class CraftingReagent
+---@field itemID number?
+---@field currencyID number?
+
+---@class CraftingReagentInfo
+---@field reagent CraftingReagent
+---@field dataSlotIndex number
+---@field quantity number
+
+---@class CraftingReagentSlotInfo
+---@field mcrSlotID number
+---@field requiredSkillRank number
+---@field slotText string?
+
+---@class CraftingReagentSlotSchematic
+---@field reagents CraftingReagent[]
+---@field reagentType Enum.CraftingReagentType
+---@field variableQuantities CraftingVariableQuantities[]
+---@field quantityRequired number
+---@field slotInfo CraftingReagentSlotInfo?
+---@field dataSlotType Enum.TradeskillSlotDataType? Default = Reagent
+---@field dataSlotIndex number
+---@field slotIndex number
+---@field orderSource Enum.CraftingOrderReagentSource?
+---@field required boolean
+---@field hiddenInCraftingForm boolean
+
+---@class CraftingRecipeOutputInfo
+---@field icon number
+---@field hyperlink string?
+---@field itemID number?
+
+---@class CraftingRecipeRequirement
+---@field name string
+---@field met boolean
+---@field type Enum.RecipeRequirementType
+
+---@class CraftingRecipeSchematic
+---@field recipeID number
+---@field icon number
+---@field quantityMin number
+---@field quantityMax number
+---@field name string
+---@field recipeType Enum.TradeskillRecipeType? Default = Item
+---@field productQuality number?
+---@field outputItemID number?
+---@field reagentSlotSchematics CraftingReagentSlotSchematic[]
+---@field isRecraft boolean
+---@field hasCraftingOperationInfo boolean
+
+---@class CraftingRecipeSkillLineInfo
+---@field professionSkillLineID number
+---@field expansionSkillLineID number
+
+---@class CraftingResourceReturnInfo
+---@field reagent CraftingReagent
+---@field quantity number
+
+---@class CraftingTargetItem
+---@field itemID number
+---@field itemGUID WOWGUID
+---@field hyperlink string?
+---@field quantity number
+
+---@class CraftingVariableQuantities
+---@field reagent CraftingReagent
+---@field quantity number
+
+---@class GatheringOperationBonusStatInfo
+---@field bonusStatName string
+---@field bonusStatValue number
+---@field ratingDescription string
+---@field ratingPct number
+---@field bonusRatingPct number
+
+---@class GatheringOperationInfo
+---@field spellID number
+---@field maxDifficulty number
+---@field baseSkill number
+---@field bonusSkill number
+---@field bonusStats GatheringOperationBonusStatInfo[]
+
+---@class ProfessionInfo
+---@field profession Enum.Profession?
+---@field professionID number
+---@field sourceCounter number
+---@field professionName string
+---@field expansionName string
+---@field skillLevel number
+---@field maxSkillLevel number
+---@field skillModifier number
+---@field isPrimaryProfession boolean
+---@field parentProfessionID number?
+---@field parentProfessionName string?
+
+---@class RegularReagentInfo
+---@field reagent CraftingReagent
+---@field quantity number
+
+---@class TradeSkillRecipeInfo
+---@field categoryID number
+---@field name string
+---@field relativeDifficulty Enum.TradeskillRelativeDifficulty?
+---@field maxTrivialLevel number
+---@field itemLevel number
+---@field alternateVerb string?
+---@field numSkillUps number
+---@field canSkillUp boolean
+---@field firstCraft boolean
+---@field sourceType number?
+---@field learned boolean
+---@field disabled boolean
+---@field favorite boolean
+---@field supportsQualities boolean
+---@field craftable boolean? Default = true
+---@field disabledReason string?
+---@field recipeID number
+---@field skillLineAbilityID number
+---@field previousRecipeID number?
+---@field nextRecipeID number?
+---@field icon number?
+---@field hyperlink string?
+---@field currentRecipeExperience number?
+---@field nextLevelRecipeExperience number?
+---@field unlockedRecipeLevel number?
+---@field earnedExperience number?
+---@field supportsCraftingStats boolean? Default = false
+---@field hasSingleItemOutput boolean? Default = false
+---@field qualityItemIDs number[]?
+---@field qualityIlvlBonuses number[]?
+---@field alwaysUsesLowestQuality boolean? Default = false
+---@field maxQuality number?
+---@field qualityIDs number[]?
+---@field canCreateMultiple boolean? Default = true
+---@field abilityVerb string?
+---@field abilityAllVerb string?
+---@field isRecraft boolean? Default = false
+---@field isDummyRecipe boolean? Default = false
+---@field isGatheringRecipe boolean? Default = false
+---@field isEnchantingRecipe boolean? Default = false
+---@field isSalvageRecipe boolean? Default = false

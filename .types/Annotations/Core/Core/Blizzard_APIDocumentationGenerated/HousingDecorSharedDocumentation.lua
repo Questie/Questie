@@ -1,0 +1,21 @@
+---@meta _
+---@class HousingDecorDyeSlot
+---@field ID number
+---@field dyeColorCategoryID number
+---@field orderIndex number
+---@field channel number
+---@field dyeColorID number?
+
+---@class HousingDecorInstanceInfo
+---@field decorGUID WOWGUID
+---@field decorID number
+---@field name string
+---@field isLocked boolean
+---@field canBeCustomized boolean
+---@field canBeRemoved boolean
+---@field isAllowedOutdoors boolean
+---@field isAllowedIndoors boolean
+---@field isRefundable boolean
+---@field dyeSlots HousingDecorDyeSlot[]
+---@field dataTagsByID LuaValueVariant
+---@field size Enum.HousingCatalogEntrySize

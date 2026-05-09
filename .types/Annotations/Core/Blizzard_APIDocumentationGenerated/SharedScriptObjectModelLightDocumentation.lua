@@ -1,0 +1,8 @@
+---@meta _
+---@class ModelLight
+---@field omnidirectional boolean? Default = false
+---@field point vector3
+---@field ambientIntensity number? Default = 0
+---@field ambientColor colorRGB?
+---@field diffuseIntensity number? Default = 0
+---@field diffuseColor colorRGB?
