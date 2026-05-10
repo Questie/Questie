@@ -24,7 +24,7 @@ QuestieLink.lastItemRefTooltip = ""
 
 -- Forward declaration
 local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _AddDungeonInfo, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
-local _AddTooltipLine, _AddColoredTooltipLine, _AreBlizzardObjectivesValid, _AddBlizzardObjectives
+local _AddTooltipLine, _AddColoredTooltipLine, _GetObjectiveText
 
 
 local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
@@ -204,33 +204,22 @@ _AddDungeonInfo = function(quest)
     end
 end
 
----@param objectives QuestObjectiveInfo[]
----@return boolean @ true if at least one valid objective was found
-_AreBlizzardObjectivesValid = function(objectives)
-    if (not objectives) or #objectives == 0 then
-        return false
+---@param objectiveId number
+---@param objectiveType "event"|"item"|"killcredit"|"monster"|"object"|"reputation"|"spell"
+---@return string
+_GetObjectiveText = function(objectiveId, objectiveType)
+    if objectiveType == "monster" then
+        return QuestieDB.QueryNPCSingle(objectiveId, "name")
+    elseif objectiveType == "object" then
+        return QuestieDB.QueryObjectSingle(objectiveId, "name")
+    elseif objectiveType == "item" then
+        return QuestieDB.QueryItemSingle(objectiveId, "name")
+    elseif objectiveType == "reputation" then
+        return QuestieReputation.GetFactionName(objectiveId)
+    elseif objectiveType == "spell" then
+        return C_Spell.GetSpellName(objectiveId)
     end
-
-    for i = 1, #objectives do
-        local objective = objectives[i]
-        if objective and objective.text and objective.text ~= "" and string.byte(objective.text, 1) ~= 32 then
-            return true
-        end
-    end
-
-    return false
-end
-
----@param objectives QuestObjectiveInfo[]
-_AddBlizzardObjectives = function(objectives)
-    _AddTooltipLine(" ")
-    _AddColoredTooltipLine(l10n("Objectives"), "gold")
-    for i = 1, #objectives do
-        local objective = objectives[i]
-        if objective and objective.text and objective.text ~= "" then
-            _AddColoredTooltipLine(" - " .. objective.text, "white")
-        end
-    end
+    return ""
 end
 
 ---@param quest Quest
@@ -242,10 +231,22 @@ _AddQuestRequirements = function(quest)
 
     if HaveQuestData(questId) then
         local blizzardObjectives = C_QuestLog.GetQuestObjectives(questId)
-        if _AreBlizzardObjectivesValid(blizzardObjectives) then
-            _AddBlizzardObjectives(blizzardObjectives)
-            return
+        if #quest.ObjectiveData > 0 then
+            _AddTooltipLine(" ")
+            _AddColoredTooltipLine(l10n("Objectives"), "gold")
         end
+        for i = 1, #blizzardObjectives do
+            local objective = blizzardObjectives[i]
+            if objective and objective.text and objective.text ~= "" then
+                -- we have uncached individual objectives
+                if string.byte(objective.text, 1) == 32 then
+                    local objectiveText = _GetObjectiveText(quest.ObjectiveData[i].Id, quest.ObjectiveData[i].Type)
+                    objective.text = objectiveText .. string.gsub(objective.text, "^%s", "")
+                end
+                _AddColoredTooltipLine(" - " .. objective.text, "white")
+            end
+        end
+        return
     end
 
     -- Fallback: use Questie's static database objective data
@@ -258,24 +259,15 @@ _AddQuestRequirements = function(quest)
                         _AddTooltipLine(" ")
                         _AddColoredTooltipLine(l10n("Objectives"), "gold")
                     end
-                    _AddColoredTooltipLine(currentObjective.Text, "white")
+                    _AddColoredTooltipLine(" - " .. currentObjective.Text, "white")
                 else
-                    local objectiveName
-                    if currentObjective.Type == "monster" then
-                        objectiveName = QuestieDB.QueryNPCSingle(currentObjective.Id, "name")
-                    elseif currentObjective.Type == "reputation" then
-                        objectiveName = QuestieReputation.GetFactionName(currentObjective.Id)
-                    else
-                        objectiveName = QuestieDB.QueryItemSingle(currentObjective.Id, "name")
-                    end
+                    local objectiveText = _GetObjectiveText(currentObjective.Id, currentObjective.Type)
 
-                    if objectiveName then
-                        if currentObjective == quest.ObjectiveData[1] then
-                            _AddTooltipLine(" ")
-                            _AddColoredTooltipLine(l10n("Objectives"), "gold")
-                        end
-                        _AddColoredTooltipLine(objectiveName, "white")
+                    if currentObjective == quest.ObjectiveData[1] then
+                        _AddTooltipLine(" ")
+                        _AddColoredTooltipLine(l10n("Objectives"), "gold")
                     end
+                    _AddColoredTooltipLine(" - " .. objectiveText, "white")
                 end
             end
         end
