@@ -579,6 +579,7 @@ globals = {
     "C_Social.TwitterPostMessage",
     "C_Social.TwitterPostScreenshot",
     "C_Spell.DoesSpellExist",
+    "C_Spell.GetSpellName",
     "C_Spell.IsSpellDataCached",
     "C_Spell.RequestLoadSpellData",
     "C_SpellBook",
