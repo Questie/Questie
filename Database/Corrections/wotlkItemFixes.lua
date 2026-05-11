@@ -752,6 +752,11 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658},
             [itemKeys.objectDrops] = {193597,193603,202336},
         },
+        [264272] = { -- Celestial Missive
+            [itemKeys.name] = 'Celestial Missive',
+            [itemKeys.relatedQuests] = {94376},
+            [itemKeys.class] = 12,
+        },
     }
 end
 
