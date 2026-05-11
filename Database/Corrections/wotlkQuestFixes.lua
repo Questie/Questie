@@ -7935,19 +7935,18 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
-        -- [94376] = { -- Titanic Power -- only present on titan reforged
-        --     [questKeys.name] = "Titanic Power",
-        --     [questKeys.sourceItemId] = {{20735}},
-        --     [questKeys.finishedBy] = {{20735}}, -- needs info
-        --     [questKeys.requiredLevel] = 69,
-        --     [questKeys.questLevel] = 80,
-        --     [questKeys.requiredRaces] = raceIDs.NONE,
-        --     [questKeys.objectivesText] = {"Speak to Algalon and learn about Titanic Embers."},
-        --     [questKeys.objectives] = {{{11502}}}, -- needs info
-        --     [questKeys.zoneOrSort] = zoneIDs.STORM_PEAKS,
-        --     [questKeys.specialFlags] = specialFlags.NONE,
-        --     [questKeys.questFlags] = questFlags.NONE,
-        -- },
+        [94376] = { -- Titanic Power -- only present on titan reforged
+            [questKeys.name] = "Titanic Power",
+            [questKeys.startedBy] = {{257403}},
+            [questKeys.finishedBy] = {{257403}},
+            [questKeys.requiredLevel] = 69,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Speak to Algalon and learn about Titanic Embers."},
+            [questKeys.zoneOrSort] = zoneIDs.STORM_PEAKS,
+            [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.questFlags] = questFlags.NONE,
+        },
         [94576] = { -- Find a New Way -- only present on titan reforged
             [questKeys.name] = "Find a New Way",
             [questKeys.startedBy] = {{31136}},
@@ -8209,6 +8208,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Titan reforged quests
     QuestieDB.questData[93950] = {} -- A Message From The Stars
+    QuestieDB.questData[94376] = {} -- Titanic Power
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
     QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
