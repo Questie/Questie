@@ -2478,6 +2478,9 @@ function QuestieTBCQuestFixes:Load()
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
         },
+        [9765] = { -- Preparing for War
+            [questKeys.nextQuestInChain] = 9766,
+        },
         [9778] = { -- Warden Hamoot
             [questKeys.breadcrumbForQuestId] = 9728,
         },
@@ -2513,10 +2516,10 @@ function QuestieTBCQuestFixes:Load()
         [9824] = { -- Arcane Disturbances
             [questKeys.objectives] = {{{18161,nil,Questie.ICON_TYPE_EVENT},{18162,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
-            [questKeys.breadcrumbs] = {11216},
         },
         [9825] = { -- Restless Activity
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+            [questKeys.breadcrumbs] = {11216},
         },
         [9830] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -2524,11 +2527,12 @@ function QuestieTBCQuestFixes:Load()
         [9831] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the container"), 0, {{"object", 182196}}}},
         },
-        [9832] = {
+        [9832] = { -- The Second and Third Fragments
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the container"), 1, {{"object", 182197}}},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the container"), 2, {{"object", 182198}}},
             },
+            [questKeys.nextQuestInChain] = 9836,
         },
         [9833] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -3098,6 +3102,9 @@ function QuestieTBCQuestFixes:Load()
         [10250] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Blow the Unyielding Battle Horn near the Alliance Banner"), 0, {{"object", 184005}}}},
         },
+        [10253] = { -- Levixus the Soul Caller
+            [questKeys.nextQuestInChain] = 10164,
+        },
         [10255] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Cenarion Antidote on a Hulking Helboar"), 0, {{"monster", 16880}}}},
             [questKeys.objectives] = {{{16880,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3540,6 +3547,9 @@ function QuestieTBCQuestFixes:Load()
                                            {{[zoneIDs.NETHERSTORM]={{30.56,17.69}}}, Questie.ICON_TYPE_EVENT, l10n("After defeating Socrethar, you can open a portal back")},
             },
         },
+        [10511] = { -- Strange Brew
+            [questKeys.nextQuestInChain] = 10512,
+        },
         [10512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -3590,9 +3600,8 @@ function QuestieTBCQuestFixes:Load()
         [10556] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Fistful of Feathers on the Lashh'an Spell Circle and get back to Daranelle"), 0, {{"object", 184826}, {"monster", 21469}}}},
         },
-        [10557] = {
-            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
+        [10557] = { -- Test Flight: The Zephyrium Capacitorium
+            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.17,68.8}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber and use the Zephyrium Capacitorium"), 0, {{"monster", 21461}}}},
         },
         [10562] = { -- Besieged!
@@ -3678,6 +3687,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185059}}}},
             [questKeys.objectives] = {nil,{{184979}}},
         },
+        [10620] = { -- Ridgespine Menace
+            [questKeys.nextQuestInChain] = 10671,
+        },
         [10624] = { -- A Haunted History
             [questKeys.breadcrumbs] = {11046},
         },
@@ -3739,8 +3751,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.exclusiveTo] = {10824},
         },
-        [10657] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents"), 0, {{"monster", 20749}}}},
+        [10657] = { -- Ride the Lightning
+            [questKeys.objectives] = {{{20749,nil,Questie.ICON_TYPE_INTERACT}},nil,{{30849}}},
         },
         [10658] = { -- More Sunfury Signets
             [questKeys.requiredMaxRep] = {},
@@ -3793,21 +3805,19 @@ function QuestieTBCQuestFixes:Load()
         [10708] = {
             [questKeys.exclusiveTo] = {11052},
         },
-        [10710] = {
-            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Throw caution to the wind.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
+        [10710] = { -- Test Flight: The Singing Ridge
+            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.17,68.8}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Sign Tally's Waiver, then speak with Rally Zapnabber to use the Zephyrium Capacitorium"), 0, {{"monster", 21461}}}},
+            [questKeys.requiredSourceItems] = {30539},
         },
-        [10711] = {
-            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
+        [10711] = { -- Test Flight: Razaan's Landing
+            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.17,68.8}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10710, 10657},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber to use the Zephyrium Capacitorium"), 0, {{"monster", 21461}}}},
         },
-        [10712] = {
-            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
+        [10712] = { -- Test Flight: Ruuan Weald
+            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.17,68.8}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10711, 10675},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying"), 0, {{"monster", 21461}}}},
@@ -3917,6 +3927,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10755] = {
             [questKeys.startedBy] = {{22037}},
+        },
+        [10764] = { -- Hotter than Hell
+            [questKeys.objectives] = {nil,nil,{{31252,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10772] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19}}}},
@@ -4859,8 +4872,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11158,11214,11211},
         },
         [11216] = { -- Archmage Alturus
-            [questKeys.nextQuestInChain] = 9824,
-            [questKeys.breadcrumbForQuestId] = 9824,
+            [questKeys.nextQuestInChain] = 9825,
+            [questKeys.breadcrumbForQuestId] = 9825,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
         [11219] = {
@@ -4952,8 +4965,9 @@ function QuestieTBCQuestFixes:Load()
         [11381] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Spiritual Soup at the Ancestral Grounds in Nagrand"), 0, {{"object", 184317}}}},
         },
-        [11383] = {
+        [11383] = { -- Wanted: Rift Lords
             [questKeys.objectives] = {{{17839}}},
+            [questKeys.preQuestSingle] = {10296},
         },
         [11403] = {
             [questKeys.startedBy] = {{23904}},

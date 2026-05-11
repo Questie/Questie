@@ -332,11 +332,23 @@ QuestieItemDropCorrections.Tbc = {
     [29481] = { -- Withered Bog Lord Sample
         [19402] = DropKeys.WOWHEAD,
     },
+    [30184] = { -- Thunderlord Dire Wolf Tail
+        [20748] = 100,
+    },
     [30327] = { -- Bonechewer Blood
         [16876] = DropKeys.WOWHEAD,
         [16925] = DropKeys.WOWHEAD,
         [18952] = DropKeys.WOWHEAD,
         [19701] = DropKeys.WOWHEAD,
+    },
+    [30743] = { -- Proto-Nether Drake Essence
+        [20021] = 100,
+    },
+    [30782] = { -- Adolescent Nether Drake Essence
+        [20021] = 100,
+    },
+    [30783] = { -- Mature Nether Drake Essence
+        [20021] = 100,
     },
     [30798] = { -- Extra Sharp Daggermaw Tooth
         [20751] = DropKeys.WOWHEAD,
