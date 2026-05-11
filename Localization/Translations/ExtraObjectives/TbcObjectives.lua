@@ -806,18 +806,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "用地狱犬哨召唤一只恶魔警卫犬",
         ["zhTW"] = false,
     },
-    ["Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents"] = { -- 10657
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt die repolarisierte Magnetsphäre und absorbiert 25 Blitzschläge von Schuppenflügelschlange.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "用极化电磁球从鳞翼飞蛇身上吸收25发闪电打击",
-        ["zhTW"] = false,
-    },
     ["Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth"] = { -- 10669
         ["enUS"] = true,
         ["deDE"] = "Benutzt den magieerfüllten Silberspeer an der Portalsicherung nahe des Sumpflichtsees um Xeleth zu erwecken.",
