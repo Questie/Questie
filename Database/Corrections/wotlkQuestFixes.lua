@@ -8208,6 +8208,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Titan reforged quests
     QuestieDB.questData[93950] = {} -- A Message From The Stars
+    QuestieDB.questData[94376] = {} -- Titanic Power
     QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
     QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
     QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
