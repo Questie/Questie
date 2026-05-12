@@ -366,7 +366,7 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
         -- On Quest: display quest progress
         if (QuestieDB.IsComplete(quest.Id) == 0) then
             _AddTooltipLine(" ")
-            _AddTooltipLine(l10n("Your progress")..l10n(": "))
+            _AddColoredTooltipLine(l10n("Your progress")..l10n(": "), "gold")
             for _, objective in pairs(quest.Objectives) do
                 local objDesc = objective.Description:gsub("%.$", "")
 
