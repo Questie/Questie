@@ -7943,7 +7943,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectivesText] = {"Speak to Algalon and learn about Titanic Embers."},
-            [questKeys.sourceItemId] = 264272,
             [questKeys.zoneOrSort] = zoneIDs.STORM_PEAKS,
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.questFlags] = questFlags.NONE,

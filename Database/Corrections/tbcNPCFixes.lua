@@ -1422,6 +1422,9 @@ function QuestieTBCNpcFixes:Load()
         [22374] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{47.31,49.66}}},
         },
+        [22386] = { -- Watcher Moonshade
+            [npcKeys.waypoints] = {},
+        },
         [22408] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{35.6,66.6}}},
         },
