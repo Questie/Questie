@@ -3822,11 +3822,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10711, 10675},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying"), 0, {{"monster", 21461}}}},
         },
-        [10719] = {
-            [questKeys.preQuestSingle] = {10682},
-        },
         [10714] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{22160,22384},22160,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10719] = { -- Did You Get The Note?
+            [questKeys.preQuestSingle] = {10682},
+            [questKeys.nextQuestInChain] = 10894,
         },
         [10720] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Control the Marmot"), 0, {{"monster", 22480}}}},
@@ -4186,6 +4187,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 10935,
         },
         [10911] = {
+            [questKeys.objectives] = {{{22472,nil,Questie.ICON_TYPE_EVENT},{22471,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Naturalized Ammunition to take control of the Death's Door Fel Cannon"), 0, {{"object", 185306}}}},
         },
         [10913] = {
