@@ -233,7 +233,7 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
                         end
                     end
 
-                    if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and (not exclusiveQuestCompleted) and (availableUntilCompleted ~= 0 and not Questie.db.char.complete[availableUntilCompleted]) then
+                    if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and (not exclusiveQuestCompleted) and (not Questie.db.char.complete[availableUntilCompleted]) then
                         QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
                     end
                 end
