@@ -649,7 +649,7 @@ local debugMessagesLocales = {
         ["ptBR"] = "O Questie detectou que o banco de dados está corrompido. Você pode digitar \"/run ReloadUI()\" ou \"/reload\" para iniciar o processo de recompilação quando as condições permitirem.\n\nO processo levará de 1 a 2 minutos dependendo da sua configuração.",
         ["ruRU"] = "Questie обнаружил повреждение базы данных. Вы можете выполнить \"/run ReloadUI()\" или \"/reload\" для запуска процесса рекомпиляции, когда будут подходящие условия.\n\nПроцесс займет 1-2 минуты в зависимости от вашей конфигурации.",
         ["zhCN"] = "Questie检测到数据库已损坏。在条件允许的情况下，你可以输入“/run ReloadUI()”或“/reload”来启动重新编译过程。\n\n根据你的配置情况，该过程将耗时1到2分钟。",
-        ["zhTW"] = false,
+        ["zhTW"] = "Questie偵測到資料庫已損毀。在允許的情況下，你可以輸入\"/run ReloadUI()\"或\"/reload\"來啟動重新編譯程序。\n\n根據你的設定，該過程將會花費約1到2分鐘。",
     },
 }
 
