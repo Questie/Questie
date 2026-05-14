@@ -2066,18 +2066,6 @@ local wotlkObjectiveLocales = {
         ["zhCN"] = "已驱散受瘟疫影响的谷物箱：0/1",
         ["zhTW"] = false,
     },
-    ["Mount up"] = { -- 13699, 13713, 13723, 13724, 13725, 13726, 13727, 13728, 13729, 13731
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "骑乘",
-        ["zhTW"] = false,
-    },
     ["Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"] = { -- 13666, 13673
         ["enUS"] = true,
         ["deDE"] = false,

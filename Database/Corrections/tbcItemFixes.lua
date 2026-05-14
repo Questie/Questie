@@ -256,6 +256,9 @@ function QuestieTBCItemFixes:Load()
         [29742] = {
             [itemKeys.class] = 12,
         },
+        [29769] = {
+            [itemKeys.objectDrops] = {184609},
+        },
         [29778] = {
             [itemKeys.class] = 12,
         },
@@ -317,6 +320,12 @@ function QuestieTBCItemFixes:Load()
         [30823] = {
             [itemKeys.npcDrops] = {19678},
         },
+        [31085] = { -- Top Shard of the Arcatraz Key
+            [itemKeys.npcDrops] = {17977},
+        },
+        [31086] = { -- Bottom Shard of the Arcatraz Key
+            [itemKeys.npcDrops] = {19220},
+        },
         [31121] = {
             [itemKeys.class] = 12,
         },
@@ -328,6 +337,9 @@ function QuestieTBCItemFixes:Load()
         },
         [31252] = {
             [itemKeys.npcDrops] = {18733},
+        },
+        [31261] = {
+            [itemKeys.npcDrops] = {19826,19827,21386},
         },
         [31279] = {
             [itemKeys.class] = 12,

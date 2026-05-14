@@ -326,11 +326,20 @@ QuestieItemDropCorrections.Tbc = {
         [17014] = 100,
         [19527] = 100,
     },
+    [29163] = { -- Raw Farahlite
+        [18885] = 100,
+        [18886] = 100,
+        [20202] = 100,
+    },
     [29480] = { -- Parched Hydra Sample
         [20324] = DropKeys.WOWHEAD,
     },
     [29481] = { -- Withered Bog Lord Sample
         [19402] = DropKeys.WOWHEAD,
+    },
+    [29591] = { -- Prepared Ethereum Wrapping
+        [20458] = DropKeys.WOWHEAD,
+        [20459] = DropKeys.WOWHEAD,
     },
     [30184] = { -- Thunderlord Dire Wolf Tail
         [20748] = 100,

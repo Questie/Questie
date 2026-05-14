@@ -911,13 +911,16 @@ function QuestieTBCNpcFixes:Load()
         [17923] = {
             [npcKeys.waypoints] = {[zoneIDs.ZANGARMARSH] = {{{19,62.4},{19,63.5},{19.2,64.6}}}},
         },
-        [17975] = {
+        [17975] = { -- High Botanist Freywinn
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
         },
-        [17976] = {
+        [17976] = { -- Commander Sarannis
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
+        },
+        [17977] = { -- Warp Splinter
+            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{-1,-1}}},
         },
         [18020] = { -- Defender Adrielle
             [npcKeys.questStarts] = {10066,10067},
@@ -1080,6 +1083,9 @@ function QuestieTBCNpcFixes:Load()
         [19178] = { -- Forsaken Commoner
             [npcKeys.questStarts] = {11357,11446,11971},
         },
+        [19220] = { -- Pathaleon the Calculator
+            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{-1,-1}}},
+        },
         [19232] = { -- Innkeeper Haelthol
             [npcKeys.questStarts] = {63448,63767,65284,65561,93823,96253},
             [npcKeys.questEnds] = {63448,63767,65284,65561,93823,96253},
@@ -1113,16 +1119,16 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.TEMPEST_KEEP,
         },
         [19543] = { -- Battle-Mage Dathric
-            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{60.4,88.01},{60.4,88.01}},{{56.74,86.64},{56.83,86.81},{56.85,86.83}}}},
+            [npcKeys.waypoints] = {},
         },
         [19544] = { -- Conjurer Luminrath
-            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{59.79,85.72},{59.82,85.65},{59.92,85.48},{60.29,84.92},{60.0,84.48},{59.76,84.54},{59.7,84.79},{59.76,84.56},{59.98,84.48},{60.29,84.9},{59.91,85.48},{59.83,85.66},{59.47,86.17},{59.76,85.75}},{{56.51,87.65},{56.39,87.75},{56.39,87.75}}}},
+            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{59.79,85.72},{59.82,85.65},{59.92,85.48},{60.29,84.92},{60.0,84.48},{59.76,84.54},{59.7,84.79},{59.76,84.56},{59.98,84.48},{60.29,84.9},{59.91,85.48},{59.83,85.66},{59.47,86.17},{59.76,85.75}}}},
         },
         [19545] = { -- Cohlien Frostweaver
-            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{59.74,87.05},{59.87,86.87},{59.53,86.36},{58.93,85.67},{59.37,86.13},{59.87,86.85},{59.71,87.13},{59.83,87.44},{59.64,87.72},{59.52,87.55},{59.64,87.74},{59.86,87.46},{59.71,87.1}},{{55.32,87.28},{55.1,87.53},{55.1,87.53},{55.11,87.51}}}},
+            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{59.74,87.05},{59.87,86.87},{59.53,86.36},{58.93,85.67},{59.37,86.13},{59.87,86.85},{59.71,87.13},{59.83,87.44},{59.64,87.72},{59.52,87.55},{59.64,87.74},{59.86,87.46},{59.71,87.1}}}},
         },
         [19546] = { -- Abjurist Belmara
-            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{58.06,88.65},{58.09,88.7},{58.45,88.32},{59.07,88.35},{59.01,88.19},{59.07,88.3},{58.86,88.37},{58.4,88.35},{58.12,88.68},{57.74,88.08},{58.06,88.64}},{{55.43,86.62},{55.42,86.57},{55.46,86.51}}}},
+            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{58.06,88.65},{58.09,88.7},{58.45,88.32},{59.07,88.35},{59.01,88.19},{59.07,88.3},{58.86,88.37},{58.4,88.35},{58.12,88.68},{57.74,88.08},{58.06,88.64}}}},
         },
         [19570] = {
             [npcKeys.spawns] = {
@@ -1188,8 +1194,11 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {10460,10461,10462,10463,10464,10465,10466,10467,10468,10469,10470,10471,10472,10473,10474,10475,11103,11104,11105,11106},
             [npcKeys.questEnds] = {11103,11104,11105,11106},
         },
+        [19940] = { -- Apex
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{51.84,70.46}}},
+        },
         [19942] = {
-            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS]={{58.2,55}}},
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{58.2,55}}},
         },
         [20021] = { -- Nether Whelp
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{58.68,72.67},{58.61,74.23},{60.37,77.77},{61.27,75.23},{60.71,78.74},{61.56,77.37},{59.68,79.16},{61.66,79.18},{61.98,78.37},{62.31,79.31},{64.03,78.09},{63.43,78.5},{62.55,76.55},{63.57,77.29},{62.21,76.39},{64.54,77.87},{63.99,75.57},{62.8,76.0},{59.94,72.55},{67.76,76.85},{67.27,75.44},{66.11,78.0},{65.62,76.79},{65.38,76.11},{65.12,75.53},{65.55,75.32},{65.13,78.63},{65.07,76.65},{64.5,75.32},{66.86,75.69},{66.43,74.73},{68.42,76.83}}},
@@ -1207,6 +1216,9 @@ function QuestieTBCNpcFixes:Load()
         [20390] = {
             [npcKeys.friendlyToFaction] = "H",
         },
+        [20416] = { -- Overseer Theredis
+            [npcKeys.waypoints] = {},
+        },
         [20440] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{26.07,38.78}}},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
@@ -1223,6 +1235,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [20520] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93},{54.53,40.28},{54.28,40.29},{54.53,40.6},{54.77,40.28},{54.76,39.91},{54.46,46.37},{54.82,46.79},{54.63,46.76},{54.45,46.73},{54.73,46.57},{54.54,46.55},{54.38,46.53},{54.64,46.39}}},
+        },
+        [20554] = { -- Arconus the Insatiable
+            [npcKeys.waypoints] = {},
         },
         [20555] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{63.79,19.43}}},
@@ -1257,6 +1272,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [20753] = { -- Dorgok
             [npcKeys.questStarts] = {10797},
+        },
+        [20763] = { -- Captured Protectorate Vanguard
+            [npcKeys.waypoints] = {},
         },
         [20787] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
@@ -1319,6 +1337,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [21452] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{47.0,77.8},{46.6,79.2}}},
+        },
+        [21500] = { -- Morgroron
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{23.34,38.04}}},
         },
         [21514] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{30.65,22.1}}},
@@ -1396,6 +1417,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [22113] = { -- Mordenai
             [npcKeys.questEnds] = {10804,10870,10871,11012},
+        },
+        [22226] = { -- Koi-Koi Spirit
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{38.17,24.9},{38.62,28.73},{40.25,28.92},{37.14,27.88},{36.0,29.92},{36.25,28.03},{33.63,29.74},{34.26,28.82},{36.17,25.67},{34.41,27.73},{32.55,30.07},{29.5,32.97},{30.05,29.74},{29.52,29.12},{28.91,28.05},{33.77,22.92},{33.52,21.46},{34.3,17.66},{33.72,19.78},{37.38,17.58},{35.14,21.32},{35.8,23.25}}},
+            [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [22258] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{44.07,51.04}}},

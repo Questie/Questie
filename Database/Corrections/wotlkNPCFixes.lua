@@ -409,9 +409,6 @@ function QuestieWotlkNpcFixes:Load()
         [17718] = {
             [npcKeys.questStarts] = {9684,9681},
         },
-        [17977] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
-        },
         [18481] = { -- A'dal
             [npcKeys.questEnds] = {10102,10210,10280,10560,10704,10708,10781,10882,10883,10884,10885,10886,10948,11007,11052,13081,13430},
         },
@@ -448,9 +445,6 @@ function QuestieWotlkNpcFixes:Load()
         },
         [19178] = { -- Forsaken Commoner
             [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811,13483},
-        },
-        [19220] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
         },
         [19481] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{58.34,86.4}}},

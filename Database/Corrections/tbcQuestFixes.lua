@@ -3007,6 +3007,9 @@ function QuestieTBCQuestFixes:Load()
         [10172] = {
             [questKeys.objectives] = {{{18141,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [10176] = { -- Ar'kelos the Guardian
+            [questKeys.nextQuestInChain] = 10256,
+        },
         [10177] = { -- Trouble at Auchindoun
             [questKeys.breadcrumbForQuestId] = 10094,
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
@@ -3036,8 +3039,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {11039},
         },
         [10190] = {
-            [questKeys.objectives] = {{{18879}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Battery Recharging Blaster when it's weakened"), 0, {{"monster", 18879}}}},
+            [questKeys.objectives] = {{{18879,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10191] = {
             [questKeys.triggerEnd] = {"Escort the Maxx A. Million Mk. V safely through the Ruins of Enkaat", {[zoneIDs.NETHERSTORM]={{31.54,56.47}}}},
@@ -3050,6 +3052,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10201] = {
             [questKeys.objectives] = {{{19606,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [10203] = { -- Invaluable Asset Zapping
+            [questKeys.nextQuestInChain] = 10221,
         },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73}}}},
@@ -3112,6 +3117,9 @@ function QuestieTBCQuestFixes:Load()
         [10256] = {
             [questKeys.objectives] = {{{19938,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Apex's Crystal Focus near Archmage Vargoth's Orb"), 0, {{"object", 183507}}}},
+        },
+        [10262] = { -- A Heap of Ethereals
+            [questKeys.nextQuestInChain] = 10205,
         },
         [10263] = { -- Assisting the Consortium
             [questKeys.preQuestGroup] = {10551,10186},
@@ -3202,6 +3210,9 @@ function QuestieTBCQuestFixes:Load()
         [10311] = { -- Drijya Needs Your Help
             [questKeys.breadcrumbForQuestId] = 10310,
         },
+        [10313] = { -- Measuring Warp Energies
+            [questKeys.objectives] = {{{20333,nil,Questie.ICON_TYPE_EVENT},{20336,nil,Questie.ICON_TYPE_EVENT},{20337,nil,Questie.ICON_TYPE_EVENT},{20338,nil,Questie.ICON_TYPE_EVENT}}},
+        },
         [10321] = {
             [questKeys.objectives] = {nil,{{183956}},{{29396}}},
         },
@@ -3212,7 +3223,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,{{184312}},{{29411}}},
         },
         [10325] = { -- Marks of Kil'jaeden
-            [questKeys.requiredMaxRep] = {932,9000},
+            [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
         },
         [10326] = { -- More Marks of Kil'jaeden
@@ -3233,6 +3244,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10333] = { -- Help Mama Wheeler
             [questKeys.breadcrumbForQuestId] = 10234,
+        },
+        [10334] = { -- Needs More Cowbell
+            [questKeys.nextQuestInChain] = 10337,
         },
         [10335] = {
             [questKeys.objectives] = {{{20473,nil,Questie.ICON_TYPE_EVENT},{20475,nil,Questie.ICON_TYPE_EVENT},{20476,nil,Questie.ICON_TYPE_EVENT}}},
@@ -3308,6 +3322,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {5093,5094,5095},
             [questKeys.breadcrumbForQuestId] = 5096,
         },
+        [10381] = { -- Aldor No More
+            [questKeys.nextQuestInChain] = 10407,
+        },
         [10382] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
         },
@@ -3353,7 +3370,7 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [10412] = { -- Firewing Signets
-            [questKeys.requiredMaxRep] = {934,9000},
+            [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
         },
         [10414] = { -- Single Firewing Signet
@@ -3377,9 +3394,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184588}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20787,20825},20787,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [10424] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Diagnostic Device while standing near the Eco-Dome Sutheron Generator"), 0, {{"object", 184609}}}},
-        },
         [10425] = {
             [questKeys.triggerEnd] = {"Captured Protectorate Vanguard Escorted", {[zoneIDs.NETHERSTORM]={{58.9,32.43}}}},
         },
@@ -3392,8 +3406,11 @@ function QuestieTBCQuestFixes:Load()
         [10428] = { -- The Missing Fisherman
             [questKeys.breadcrumbForQuestId] = 9527,
         },
+        [10436] = { -- All Clear!
+            [questKeys.nextQuestInChain] = 10440,
+        },
         [10438] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"), 0, {{"monster", 20903}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 20903}}}},
         },
         [10439] = {
             [questKeys.objectives] = {{{19554},{20985,nil,Questie.ICON_TYPE_TALK}}},
@@ -3607,8 +3624,11 @@ function QuestieTBCQuestFixes:Load()
         [10562] = { -- Besieged!
             [questKeys.breadcrumbs] = {11044},
         },
-        [10563] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
+        [10563] = { -- To Legion Hold
+            [questKeys.objectives] = {nil,{{184833}}},
+        },
+        [10564] = { -- Blast the Infernals!
+            [questKeys.objectives] = {{{21512,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10565] = { -- The Stones of Vekh'nir
             [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.81,74.67}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Vekh'nir Crystal")}},
@@ -3630,13 +3650,15 @@ function QuestieTBCQuestFixes:Load()
         [10580] = { -- Where Did Those Darn Gnomes Go?
             [questKeys.exclusiveTo] = {10584},
         },
+        [10583] = { -- The Fate of Flanis
+            [questKeys.objectives] = {nil,{{30658,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [10584] = { -- Picking Up Some Power Converters
             [questKeys.objectives] = {{{21729,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the Power Converters and encase what is inside with the Protovoltaic Magneto Collector"), 0, {{"object", 184906}}}},
         },
-        [10585] = {
-            [questKeys.sourceItemId] = 30672,
+        [10585] = { -- The Summoning Chamber
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{37,38}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Elemental Displacer to disrupt the ritual in the summoning chamber"), 0}},
         },
         [10588] = {
@@ -3914,8 +3936,8 @@ function QuestieTBCQuestFixes:Load()
         [10742] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rexxar's Battle Horn at the Altar of Goc"), 0, {{"object", 185309}}}},
         },
-        [10747] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Throw a net at the targeted wyrmcult blackwhelp"), 0, {{"monster", 21387}}}},
+        [10747] = { -- Whelps of the Wyrmcult
+            [questKeys.objectives] = {nil,nil,{{31130,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10750] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19}}}},
@@ -4018,6 +4040,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.exclusiveTo] = {10656},
         },
+        [10825] = { -- Treebole Must Know
+            [questKeys.nextQuestInChain] = 10829,
+        },
         [10826] = { -- Marks of Sargeras
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
@@ -4078,7 +4103,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10857] = {
             [questKeys.objectives] = {{{22348,nil,Questie.ICON_TYPE_EVENT},{22350,nil,Questie.ICON_TYPE_EVENT},{22351,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability"), 0, {{"monster", 16943}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability"), 0, {{"monster", 16943},{"monster", 20928}}}},
         },
         [10859] = {
             [questKeys.objectives] = {{{20635,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4347,10 +4372,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10970] = { -- A Mission of Mercy
             [questKeys.breadcrumbs] = {10969},
+            [questKeys.nextQuestInChain] = 10971,
         },
         [10971] = {
             [questKeys.requiredSourceItems] = {29460},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184998}}}},
+            [questKeys.nextQuestInChain] = 10972,
         },
         [10974] = {
             [questKeys.requiredMinRep] = {933,21000},
