@@ -3677,7 +3677,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {11048},
         },
         [10596] = { -- To Legion Hold
-            [questKeys.bjectives] = {nil,{{184833}}},
+            [questKeys.objectives] = {nil,{{184833}}},
         },
         [10598] = {
             [questKeys.objectives] = {{{21512,nil,Questie.ICON_TYPE_EVENT}}},
