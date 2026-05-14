@@ -256,7 +256,7 @@ function QuestieTBCItemFixes:Load()
         [29742] = {
             [itemKeys.class] = 12,
         },
-        [29769] = {
+        [29769] = { -- Diagnostic Results
             [itemKeys.objectDrops] = {184609},
         },
         [29778] = {

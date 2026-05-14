@@ -3651,7 +3651,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10584},
         },
         [10583] = { -- The Fate of Flanis
-            [questKeys.objectives] = {nil,{{30658,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.objectives] = {nil,nil,{{30658,nil,Questie.ICON_TYPE_TALK}}},
         },
         [10584] = { -- Picking Up Some Power Converters
             [questKeys.objectives] = {{{21729,nil,Questie.ICON_TYPE_INTERACT}}},
