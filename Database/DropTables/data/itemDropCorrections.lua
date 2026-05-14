@@ -365,6 +365,9 @@ QuestieItemDropCorrections.Tbc = {
     [30819] = { -- Felfire Spleen
         [21408] = DropKeys.WOWHEAD,
     },
+    [30867] = { -- Overdeveloped Felfire Gizzard
+        [21462] = DropKeys.WOWHEAD,
+    },
     [31119] = { -- Wyrmcult Net
         [21809] = DropKeys.WOWHEAD,
     },
@@ -373,6 +376,11 @@ QuestieItemDropCorrections.Tbc = {
         [21381] = DropKeys.WOWHEAD,
         [21849] = DropKeys.WOWHEAD,
         [22466] = DropKeys.WOWHEAD,
+    },
+    [31316] = { -- Lianthe's Key
+        [19792] = DropKeys.WOWHEAD,
+        [19796] = DropKeys.WOWHEAD,
+        [19806] = DropKeys.WOWHEAD,
     },
     [31812] = { -- Doom Skull
         [21242] = DropKeys.WOWHEAD,

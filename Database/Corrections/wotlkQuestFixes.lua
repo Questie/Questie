@@ -672,9 +672,6 @@ function QuestieWotlkQuestFixes:Load()
         [10888] = {
             [questKeys.exclusiveTo] = {13430},
         },
-        [10900] = {
-            [questKeys.requiredMaxLevel] = 70,
-        },
         [10901] = {
             [questKeys.exclusiveTo] = {13431},
         },

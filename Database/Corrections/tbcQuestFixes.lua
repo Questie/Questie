@@ -3676,8 +3676,8 @@ function QuestieTBCQuestFixes:Load()
         [10595] = { -- Besieged!
             [questKeys.breadcrumbs] = {11048},
         },
-        [10596] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Box o'Tricks while standing near the communication device"), 0, {{"object", 184833}}}},
+        [10596] = { -- To Legion Hold
+            [questKeys.bjectives] = {nil,{{184833}}},
         },
         [10598] = {
             [questKeys.objectives] = {{{21512,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4189,6 +4189,10 @@ function QuestieTBCQuestFixes:Load()
         [10899] = {
             [questKeys.preQuestSingle] = {},
         },
+        [10900] = { -- The Mark of Vashj
+            [questKeys.nextQuestInChain] = 13431,
+            [questKeys.requiredMaxLevel] = 70,
+        },
         [10902] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -4456,6 +4460,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11009] = { -- Ogre Heaven
             [questKeys.breadcrumbs] = {11022},
+            [questKeys.breadcrumbForQuestId] = 11025,
         },
         [11010] = {
             [questKeys.requiredLevel] = 70,
@@ -4507,8 +4512,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11010,11102},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
-        [11025] = {
+        [11025] = { -- The Crystals
             [questKeys.preQuestSingle] = {11000},
+            [questKeys.breadcrumbs] = {11009},
         },
         [11026] = {
             [questKeys.preQuestSingle] = {11009},
