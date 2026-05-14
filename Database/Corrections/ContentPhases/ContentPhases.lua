@@ -8,7 +8,7 @@ ContentPhases.activePhases = {
     SoD = 7,
     Anniversary = 6, -- Phase 6 is the final state of the game, with invasions inactive.
     MoP = 4,
-    TBC = 1,
+    TBC = 2,
 }
 
 -- Central place to activate Invasion event
