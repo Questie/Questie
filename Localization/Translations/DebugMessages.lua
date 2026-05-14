@@ -641,7 +641,7 @@ local debugMessagesLocales = {
     },
     ["Questie has detected the database to be corrupted. You may type \"/run ReloadUI()\" or \"/reload\" to start the recompiling process when the conditions allow it.\n\nThe process will take 1-2 minutes depending on your configuration."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Questie hat festgestellt, dass die Datenbank beschädigt ist. Du kannst \"/run ReloadUI()\" oder \"/reload\" eingeben, um das Neukompilieren zu starten.\n\nDer Prozess wird je nach deiner Konfiguration 1-2 Minuten dauern.",
         ["esES"] = "Questie ha detectado que la base de datos está corrompida. Puedes escribir \"/run ReloadUI()\" o \"/reload\" para iniciar el proceso de recompilación cuando las condiciones lo permitan.\n\nEl proceso tardará entre 1 y 2 minutos dependiendo de tu configuración.",
         ["esMX"] = "Questie ha detectado que la base de datos está corrompida. Puedes escribir \"/run ReloadUI()\" o \"/reload\" para iniciar el proceso de recompilación cuando las condiciones lo permitan.\n\nEl proceso tardará entre 1 y 2 minutos dependiendo de tu configuración.",
         ["frFR"] = "Questie a détecté que la base de données est corrompue. Vous pouvez taper \"/run ReloadUI()\" ou \"/reload\" pour lancer le processus de recompilation lorsque les conditions le permettent.\n\nLe processus prendra 1 à 2 minutes selon votre configuration.",
