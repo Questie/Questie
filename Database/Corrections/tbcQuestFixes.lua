@@ -4190,7 +4190,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [10900] = { -- The Mark of Vashj
-            [questKeys.nextQuestInChain] = 13431,
+            [questKeys.nextQuestInChain] = 10901,
             [questKeys.requiredMaxLevel] = 70,
         },
         [10902] = {

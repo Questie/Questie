@@ -672,6 +672,9 @@ function QuestieWotlkQuestFixes:Load()
         [10888] = {
             [questKeys.exclusiveTo] = {13430},
         },
+        [10900] = { -- The Mark of Vashj
+            [questKeys.nextQuestInChain] = 13431,
+        },
         [10901] = {
             [questKeys.exclusiveTo] = {13431},
         },
