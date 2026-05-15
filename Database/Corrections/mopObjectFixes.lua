@@ -743,6 +743,14 @@ function MopObjectFixes.Load()
             },
             [objectKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
         },
+        [214285] = { -- Blades of the Anointed Coffin
+            [objectKeys.spawns] = {},
+            [objectKeys.zoneID] = 0,
+        },
+        [214286] = { -- Aura Red Tall (scale x1.5)
+            [objectKeys.spawns] = {},
+            [objectKeys.zoneID] = 0,
+        },
         [214394] = { -- Ancient Guo-Lai Artifact
             [objectKeys.name] = "Ancient Guo-Lai Artifact",
             [objectKeys.spawns] = {[zoneIDs.GUO_LAI_HALLS] = {{49.8,30.81}}},

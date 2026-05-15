@@ -31,6 +31,14 @@ function CataObjectFixes.Load()
         [1740] = { -- Syndicate Documents
             [objectKeys.questStarts] = {510,511},
         },
+        [1764] = { -- Locked ball and chain
+            [objectKeys.spawns] = {},
+            [objectKeys.zoneID] = 0,
+        },
+        [1770] = { -- Flame of Uzel
+            [objectKeys.spawns] = {},
+            [objectKeys.zoneID] = 0,
+        },
         [2086] = { -- Bloodsail Charts
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{41.05,82.46},{40.75,82.15},{45.01,79.4},{42,83.12}}},
         },
