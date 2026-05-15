@@ -13,6 +13,7 @@ local questKeys = {
     parentQuest = "parentQuest",
     childQuests = "childQuests",
     extraObjectives = "extraObjectives",
+    triggerEnd = "triggerEnd",
 }
 local npcKeys = {
     name = "name",
@@ -1202,6 +1203,51 @@ describe("Validators", function()
             }
 
             local invalidQuests = Validators.checkQuestExtraObjectiveSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
+    describe("checkQuestTriggerEndSpawnAreaIds", function()
+        local getUiMapIdByAreaId
+
+        before_each(function()
+            getUiMapIdByAreaId = function(areaId)
+                local known = { [1519] = 84, [12] = 37 }
+                return known[areaId]
+            end
+        end)
+
+        it("should report quests with triggerEnd spawnlist areaIds not handled by GetUiMapIdByAreaId", function()
+            local quests = {
+                [10] = { triggerEnd = { "Some trigger", {[1519]={{51,27}}, [9999]={{10,20}}} } },
+                [20] = { triggerEnd = { "Other trigger", {[12]={{32,49}}} } },
+            }
+
+            local invalidQuests = Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
+
+            assert.are.same({ [10] = { 9999 } }, invalidQuests)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when all triggerEnd spawnlist areaIds are handled", function()
+            local quests = {
+                [10] = { triggerEnd = { "Some trigger", {[1519]={{51,27}}, [12]={{32,49}}} } },
+            }
+
+            local invalidQuests = Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
+
+            assert.are.same(nil, invalidQuests)
+            assert.spy(exitMock).was_not_called()
+        end)
+
+        it("should not report quests without triggerEnd", function()
+            local quests = {
+                [10] = { requiredRaces = 18875469 },
+            }
+
+            local invalidQuests = Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidQuests)
             assert.spy(exitMock).was_not_called()

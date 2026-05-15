@@ -243,6 +243,7 @@ local function _CheckCataDatabase()
     Validators.checkNpcSpawnAreaIds(QuestieDB.npcData, QuestieDB.npcKeys, function(areaId) return ZoneDB:GetUiMapIdByAreaId(areaId) end)
     Validators.checkObjectSpawnAreaIds(QuestieDB.objectData, QuestieDB.objectKeys, function(areaId) return ZoneDB:GetUiMapIdByAreaId(areaId) end)
     Validators.checkQuestExtraObjectiveSpawnAreaIds(QuestieDB.questData, QuestieDB.questKeys, function(areaId) return ZoneDB:GetUiMapIdByAreaId(areaId) end)
+    Validators.checkQuestTriggerEndSpawnAreaIds(QuestieDB.questData, QuestieDB.questKeys, function(areaId) return ZoneDB:GetUiMapIdByAreaId(areaId) end)
 end
 
 _CheckCataDatabase()
