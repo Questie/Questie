@@ -860,4 +860,46 @@ function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
     end
 end
 
+---@param npcs table<NpcId, Npc>
+---@param npcKeys DatabaseNpcKeys
+---@param getUiMapIdByAreaId fun(areaId: AreaId): number|nil
+---@return table<NpcId, AreaId[]>|nil
+function Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
+    print("\n\27[36mSearching for NPC spawns with areaIds not handled by GetUiMapIdByAreaId...\27[0m")
+    local invalidNpcs = {}
+
+    for npcId, npcData in pairs(npcs) do
+        local spawns = npcData[npcKeys.spawns]
+        if spawns then
+            local unknownAreaIds = {}
+            for areaId in pairs(spawns) do
+                if (not getUiMapIdByAreaId(areaId)) then
+                    table.insert(unknownAreaIds, areaId)
+                end
+            end
+            if #unknownAreaIds > 0 then
+                table.sort(unknownAreaIds)
+                invalidNpcs[npcId] = unknownAreaIds
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidNpcs) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " NPCs with spawn areaIds not handled by GetUiMapIdByAreaId:\27[0m")
+        for npcId, areaIds in pairsByKeys(invalidNpcs) do
+            local npcName = npcs[npcId] and npcs[npcId][npcKeys.name] or "unknown"
+            print("\27[31m- NPC " .. npcId .. " (" .. tostring(npcName) .. "): areaIds " .. table.concat(areaIds, ", ") .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidNpcs
+    else
+        print("\27[32mNo NPCs found with unhandled spawn areaIds\27[0m")
+        return nil
+    end
+end
+
 return Validators

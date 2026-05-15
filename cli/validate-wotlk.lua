@@ -183,6 +183,8 @@ local function _CheckWotlkDatabase()
     local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
     ---@type l10n
     local l10n = QuestieLoader:ImportModule("l10n")
+    ---@type ZoneDB
+    local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
     print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. l10n("..."))
 
@@ -194,7 +196,7 @@ local function _CheckWotlkDatabase()
     print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. l10n("..."))
 
     Questie:SetIcons()
-    QuestieLoader:ImportModule("ZoneDB"):Initialize()
+    ZoneDB:Initialize()
 
     QuestieCorrections:Initialize({
         ["npcData"] = QuestieDB.npcData,
@@ -239,6 +241,7 @@ local function _CheckWotlkDatabase()
     Validators.checkQuestStarters(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.npcKeys, QuestieDB.objectData, QuestieDB.itemData)
     Validators.checkQuestFinishers(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData)
     Validators.checkObjectives(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
+    Validators.checkNpcSpawnAreaIds(QuestieDB.npcData, QuestieDB.npcKeys, function(areaId) return ZoneDB:GetUiMapIdByAreaId(areaId) end)
 end
 --? It is REALLLY slow and designed to be run through docker otherwise you have to change the path.
 -- local profiler = require("cli/profiler")

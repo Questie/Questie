@@ -15,6 +15,7 @@ local questKeys = {
 }
 local npcKeys = {
     name = "name",
+    spawns = "spawns",
     questStarts = "questStarts",
     questEnds = "questEnds",
 }
@@ -1048,6 +1049,51 @@ describe("Validators", function()
             local invalidQuests = Validators.checkRequiredRaces(quests, questKeys, raceKeys)
 
             assert.are.same(nil, invalidQuests)
+        end)
+    end)
+
+    describe("checkNpcSpawnAreaIds", function()
+        local getUiMapIdByAreaId
+
+        before_each(function()
+            getUiMapIdByAreaId = function(areaId)
+                local known = { [1519] = 84, [12] = 37 }
+                return known[areaId]
+            end
+        end)
+
+        it("should report NPCs with spawn areaIds not handled by GetUiMapIdByAreaId", function()
+            local npcs = {
+                [100] = { name = "Guard", spawns = { [1519] = {{51, 27}}, [9999] = {{10, 20}} } },
+                [200] = { name = "Vendor", spawns = { [12] = {{32, 49}} } },
+            }
+
+            local invalidNpcs = Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
+
+            assert.are.same({ [100] = { 9999 } }, invalidNpcs)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when all spawn areaIds are handled", function()
+            local npcs = {
+                [100] = { name = "Guard", spawns = { [1519] = {{51, 27}}, [12] = {{32, 49}} } },
+            }
+
+            local invalidNpcs = Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
+
+            assert.are.same(nil, invalidNpcs)
+            assert.spy(exitMock).was_not_called()
+        end)
+
+        it("should not report NPCs without spawns", function()
+            local npcs = {
+                [100] = { name = "Guard" },
+            }
+
+            local invalidNpcs = Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
+
+            assert.are.same(nil, invalidNpcs)
+            assert.spy(exitMock).was_not_called()
         end)
     end)
 end)
