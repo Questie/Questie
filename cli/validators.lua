@@ -944,4 +944,50 @@ function Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAre
     end
 end
 
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param getUiMapIdByAreaId fun(areaId: AreaId): number|nil
+---@return table<QuestId, AreaId[]>|nil
+function Validators.checkQuestExtraObjectiveSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
+    print("\n\27[36mSearching for quest extraObjective spawnlists with areaIds not handled by GetUiMapIdByAreaId...\27[0m")
+    local invalidQuests = {}
+
+    for questId, questData in pairs(quests) do
+        local extraObjectives = questData[questKeys.extraObjectives]
+        if extraObjectives then
+            local unknownAreaIds = {}
+            for _, extraObjective in ipairs(extraObjectives) do
+                local spawnlist = extraObjective[1]
+                if spawnlist then
+                    for areaId in pairs(spawnlist) do
+                        if (not getUiMapIdByAreaId(areaId)) then
+                            table.insert(unknownAreaIds, areaId)
+                        end
+                    end
+                end
+            end
+            if #unknownAreaIds > 0 then
+                table.sort(unknownAreaIds)
+                invalidQuests[questId] = unknownAreaIds
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with extraObjective spawnlist areaIds not handled by GetUiMapIdByAreaId:\27[0m")
+        for questId, areaIds in pairsByKeys(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. ": areaIds " .. table.concat(areaIds, ", ") .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with unhandled extraObjective spawnlist areaIds\27[0m")
+        return nil
+    end
+end
+
 return Validators
