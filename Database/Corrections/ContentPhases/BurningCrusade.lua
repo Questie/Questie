@@ -7,6 +7,7 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 local questsToBlacklistByPhase = {
     [1] = {}, -- Phase 1 - T4 (Kara, Gruul, Mag) (this is required for counting, but should stay empty)
     [2] = { -- Phase 2 - T5 (SSC, TK)
+        [10445] = true,
         [10944] = true,
         [10946] = true,
         [10984] = true,
@@ -73,7 +74,6 @@ local questsToBlacklistByPhase = {
         [11885] = true,
     },
     [3] = { -- Phase 3 - T6 (Hyjal, BT)
-        [10445] = true,
         [10460] = true,
         [10461] = true,
         [10462] = true,
