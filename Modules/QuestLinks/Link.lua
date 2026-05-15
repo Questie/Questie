@@ -89,6 +89,11 @@ end
 
 ---@param link string
 function QuestieLink:CreateQuestTooltip(link)
+    -- Fixes error when clicking quest links before full init
+    if (not Questie.started) then
+        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
+        return
+    end
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
         ---@type string
