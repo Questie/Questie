@@ -1933,7 +1933,8 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {7367},
         },
         [13602] = { -- The Abominable Greench
-            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{47.65,35.82},{38.98,35.71},{40.31,29.35},{42.98,39.58},{44.71,39.33},{45.49,35.54}}},
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{43.54,39.11}}},
+            [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [13636] = { -- Strange Snowman
             [npcKeys.questStarts] = {6983,7043},
