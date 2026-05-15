@@ -979,7 +979,7 @@ function QuestieQuestBlacklist:Load()
         [8614] = Expansions.Current >= Expansions.Tbc,
         [8615] = Expansions.Current >= Expansions.Tbc,
         [8616] = Expansions.Current >= Expansions.Tbc,
-        [8743] = Expansions.Current >= Expansions.Tbc or HIDE_ON_MAP, -- Bang a Gong! (AQ40 opening quest)
+        [8743] = Expansions.Current >= Expansions.Tbc, -- Bang a Gong! (AQ40 opening quest)
         [8792] = Expansions.Current >= Expansions.Tbc,
         [8793] = Expansions.Current >= Expansions.Tbc,
         [8794] = Expansions.Current >= Expansions.Tbc,

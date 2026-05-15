@@ -3435,7 +3435,7 @@ function QuestieTBCQuestFixes:Load()
         [10458] = { -- Enraged Spirits of Fire and Earth
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10680,10681},
-            [questKeys.objectives] = {{{21050,nil,Questie.ICON_TYPE_INTERACT},{21061,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{21050},{21061}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Earth and Fiery Spirits"), 1, {{"monster", 21050}}},
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Earth and Fiery Spirits"), 2, {{"monster", 21061}}},
@@ -3527,12 +3527,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {941,0},
             [questKeys.nextQuestInChain] = 10478,
         },
-        [10480] = {
-            [questKeys.objectives] = {{{21059,nil,Questie.ICON_TYPE_INTERACT}}},
+        [10480] = { -- Enraged Spirits of Water
+            [questKeys.objectives] = {{{21059}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Water Spirits"), 0, {{"monster", 21059}}}},
         },
-        [10481] = {
-            [questKeys.objectives] = {{{21060,nil,Questie.ICON_TYPE_INTERACT}}},
+        [10481] = { -- Enraged Spirits of Air
+            [questKeys.objectives] = {{{21060}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Air Spirits"), 0, {{"monster", 21060}}}},
         },
         [10482] = { -- Fel Orc Scavengers
@@ -3595,6 +3595,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10526] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Attempt to loot The Thunderspike"), 0, {{"object", 184729}}}},
+        },
+        [10528] = { -- Demonic Crystal Prisons
+            [questKeys.nextQuestInChain] = 10537,
         },
         [10530] = { -- The Hunter's Path
             [questKeys.breadcrumbForQuestId] = 9484,
@@ -4458,12 +4461,14 @@ function QuestieTBCQuestFixes:Load()
         [11003] = {
             [questKeys.startedBy] = {nil,nil,{32386}},
         },
+        [11004] = { -- World of Shadows
+            [questKeys.nextQuestInChain] = 11006,
+        },
         [11007] = {
             [questKeys.startedBy] = {nil,nil,{32405}},
         },
         [11009] = { -- Ogre Heaven
             [questKeys.breadcrumbs] = {11022},
-            [questKeys.breadcrumbForQuestId] = 11025,
         },
         [11010] = {
             [questKeys.requiredLevel] = 70,
@@ -4516,13 +4521,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
         [11025] = { -- The Crystals
-            [questKeys.preQuestSingle] = {11000},
-            [questKeys.breadcrumbs] = {11009},
-        },
-        [11026] = {
             [questKeys.preQuestSingle] = {11009},
+        },
+        [11026] = { -- Banish the Demons
+            [questKeys.preQuestSingle] = {11025},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
+        },
+        [11028] = { -- Countdown to Doom
+            [questKeys.nextQuestInChain] = 11056,
         },
         [11031] = {
             [questKeys.preQuestSingle] = {10725},
@@ -4648,12 +4655,10 @@ function QuestieTBCQuestFixes:Load()
         [11065] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010, 11102},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
-            [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [11066] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
-            [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [11067] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4745,6 +4750,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10211,11095},
             [questKeys.requiredMaxRep] = {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
+        },
+        [11098] = { -- To Skettis!
+            [questKeys.nextQuestInChain] = 11008,
         },
         [11099] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5783,10 +5791,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{25962}},
             [questKeys.finishedBy] = {{25975}},
         },
-        [11885] = {
+        [11885] = { -- Adversarial Blood
             [questKeys.objectives] = {{{23161},{23165},{23163},{23162}}},
             [questKeys.requiredSourceItems] = {32620},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon and defeat each of the descendants by using 10 Time-Lost Scrolls"), 0, {{"object", 185913}}}},
+            [questKeys.nextQuestInChain] = 11073,
         },
         [11886] = {
             [questKeys.requiredRaces] = raceIDs.NONE,

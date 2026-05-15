@@ -1332,6 +1332,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{39.75,85.53}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
+        [21409] = { -- Envoy Icarius
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{48.96,57.6}}},
+        },
         [21446] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{38.8,56},{39,57.6},{39.2,57.4},{39.4,53},{40.2,50},{40.4,57.8},{42,57.2},{42,57.6},{42.4,53.8},{43,47.2},{43,50}}},
         },
@@ -1420,6 +1423,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [22113] = { -- Mordenai
             [npcKeys.questEnds] = {10804,10870,10871,11012},
+        },
+        [22214] = { -- Harbinger Saronen
+            [npcKeys.waypoints] = {},
         },
         [22226] = { -- Koi-Koi Spirit
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{38.17,24.9},{38.62,28.73},{40.25,28.92},{37.14,27.88},{36.0,29.92},{36.25,28.03},{33.63,29.74},{34.26,28.82},{36.17,25.67},{34.41,27.73},{32.55,30.07},{29.5,32.97},{30.05,29.74},{29.52,29.12},{28.91,28.05},{33.77,22.92},{33.52,21.46},{34.3,17.66},{33.72,19.78},{37.38,17.58},{35.14,21.32},{35.8,23.25}}},

@@ -1506,9 +1506,6 @@ function CataQuestFixes.Load()
         [10450] = { -- Bonechewer Blood
             [questKeys.preQuestSingle] = {},
         },
-        [10458] = { -- Enraged Spirits of Fire and Earth
-            [questKeys.breadcrumbs] = {10681},
-        },
         [10460] = { -- Defender's Pledge
             [questKeys.startedBy] = {{19935}},
         },
@@ -1589,9 +1586,6 @@ function CataQuestFixes.Load()
         },
         [10676] = { -- Bane of the Illidari
             [questKeys.preQuestSingle] = {},
-        },
-        [10681] = { -- The Hand of Gul'dan
-            [questKeys.breadcrumbForQuestId] = 10458,
         },
         [10729] = { -- Path of the Violet Mage
             [questKeys.exclusiveTo] = {10730,10731,10732},

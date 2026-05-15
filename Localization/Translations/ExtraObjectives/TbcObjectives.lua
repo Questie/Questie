@@ -1322,18 +1322,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "使用35块埃匹希斯圣物激活埃匹希斯纪念碑，埃匹希斯守护者将在第六轮出现",
         ["zhTW"] = false,
     },
-    ["Use Wrangling Rope on weakened Aether Rays"] = { -- 11065 & 11066
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt das Bändigungsseil an geschwächten Ätherrochen.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "用牧绳捕捉以太鳐",
-        ["zhTW"] = false,
-    },
     ["Use a Time-Lost offering to summon Terokk"] = { -- 11073
         ["enUS"] = true,
         ["deDE"] = false,
