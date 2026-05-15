@@ -1402,6 +1402,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     if _QuestieDB.questCache[questId] then
         return _QuestieDB.questCache[questId];
     end
+    -- Fixes error when clicking quest links before full init
     if (not QuestieDB.QueryQuest) then
         print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
         return
