@@ -3755,6 +3755,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10649] = { -- The Book of Fel Names
             [questKeys.zoneOrSort] = zoneIDs.AUCHINDOUN_DUNGEONS,
+            [questKeys.nextQuestInChain] = 10650,
         },
         [10652] = {
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Take a ride"),0,{{"monster",20162}}}},
@@ -7493,6 +7494,7 @@ end
 function QuestieTBCQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
+    local playerRace = Questie.db.char.townsfolkRace
 
     local questFixesHorde = {
         [1718] = { -- The Islander
@@ -7531,11 +7533,47 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{3326,4563,16647}},
         },
+        [8978] = { -- Return to Mokvar
+            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8927  or
+                                           playerClass == "HUNTER"  and 8938  or
+                                           playerClass == "MAGE"    and 8939  or
+                                           playerClass == "PALADIN" and 10495 or
+                                           playerClass == "PRIEST"  and 8940  or
+                                           playerClass == "ROGUE"   and 8941  or
+                                           playerClass == "SHAMAN"  and 8942  or
+                                           playerClass == "WARLOCK" and 8943  or
+                                           playerClass == "WARRIOR" and 8944,
+        },
+        [8998] = { -- Back to the Beginning
+            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 9007  or
+                                           playerClass == "HUNTER"  and 9008  or
+                                           playerClass == "MAGE"    and 9014  or
+                                           playerClass == "PALADIN" and 10499 or
+                                           playerClass == "PRIEST"  and 9009  or
+                                           playerClass == "ROGUE"   and 9010  or
+                                           playerClass == "SHAMAN"  and 9011  or
+                                           playerClass == "WARLOCK" and 9012  or
+                                           playerClass == "WARRIOR" and 9013,
+        },
+        [9015] = { -- The Challenge
+            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 9016  or
+                                           playerClass == "HUNTER"  and 9017  or
+                                           playerClass == "MAGE"    and 9018  or
+                                           playerClass == "PALADIN" and 10497 or
+                                           playerClass == "PRIEST"  and 9019  or
+                                           playerClass == "ROGUE"   and 9020  or
+                                           playerClass == "SHAMAN"  and 8957  or
+                                           playerClass == "WARLOCK" and 9021  or
+                                           playerClass == "WARRIOR" and 9022,
+        },
         [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{3033,12042,16655}},
         },
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9995,
+        },
+        [10858] = { -- Karynaku
+            [questKeys.nextQuestInChain] = 10866,
         },
     }
 
@@ -7573,11 +7611,47 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,5172}},
         },
+        [8977] = { -- Return to Deliana
+            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8926  or
+                                           playerClass == "HUNTER"  and 8931  or
+                                           playerClass == "MAGE"    and 8932  or
+                                           playerClass == "PALADIN" and 8933  or
+                                           playerClass == "PRIEST"  and 8934  or
+                                           playerClass == "ROGUE"   and 8935  or
+                                           playerClass == "SHAMAN"  and 10494 or
+                                           playerClass == "WARLOCK" and 8936  or
+                                           playerClass == "WARRIOR" and 8937,
+        },
+        [8997] = { -- Back to the Beginning
+            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8999  or
+                                           playerClass == "HUNTER"  and 9000  or
+                                           playerClass == "MAGE"    and 9001  or
+                                           playerClass == "PALADIN" and 9002  or
+                                           playerClass == "PRIEST"  and 9003  or
+                                           playerClass == "ROGUE"   and 9004  or
+                                           playerClass == "SHAMAN"  and 10498 or
+                                           playerClass == "WARLOCK" and 9005  or
+                                           playerClass == "WARRIOR" and 9006,
+        },
+        [9015] = { -- The Challenge
+            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8951  or
+                                           playerClass == "HUNTER"  and 8952  or
+                                           playerClass == "MAGE"    and 8953  or
+                                           playerClass == "PALADIN" and 8954  or
+                                           playerClass == "PRIEST"  and 8955  or
+                                           playerClass == "ROGUE"   and 8956  or
+                                           playerClass == "SHAMAN"  and 10496 or
+                                           playerClass == "WARLOCK" and 8958  or
+                                           playerClass == "WARRIOR" and 8959,
+        },
         [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{4217,5505,12042,16721}},
         },
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9994,
+        },
+        [10858] = { -- Karynaku
+            [questKeys.nextQuestInChain] = playerRace == "Human" and 10872 or 10866,
         },
     }
 

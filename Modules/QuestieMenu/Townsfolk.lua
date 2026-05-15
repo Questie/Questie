@@ -507,7 +507,8 @@ end
 function Townsfolk:BuildCharacterTownsfolk()
     Questie.db.char.townsfolk = {}
     Questie.db.char.vendorList = {}
-    Questie.db.char.townsfolkClass = UnitClass("player")
+    Questie.db.char.townsfolkClass = select(2,UnitClass("player"))
+    Questie.db.char.townsfolkRace = select(2,UnitRace("player"))
 
     for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
         Questie.db.char.townsfolk[key] = npcs
