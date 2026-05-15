@@ -1402,6 +1402,10 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     if _QuestieDB.questCache[questId] then
         return _QuestieDB.questCache[questId];
     end
+    if (not QuestieDB.QueryQuest) then
+        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
+        return
+    end
 
     local rawdata = QuestieDB.QueryQuest(questId, QuestieDB._questAdapterQueryOrder)
 
