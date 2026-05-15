@@ -21,6 +21,7 @@ local npcKeys = {
 }
 local objectKeys = {
     name = "name",
+    spawns = "spawns",
     questStarts = "questStarts",
     questEnds = "questEnds",
 }
@@ -1093,6 +1094,51 @@ describe("Validators", function()
             local invalidNpcs = Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidNpcs)
+            assert.spy(exitMock).was_not_called()
+        end)
+    end)
+
+    describe("checkObjectSpawnAreaIds", function()
+        local getUiMapIdByAreaId
+
+        before_each(function()
+            getUiMapIdByAreaId = function(areaId)
+                local known = { [1519] = 84, [12] = 37 }
+                return known[areaId]
+            end
+        end)
+
+        it("should report objects with spawn areaIds not handled by GetUiMapIdByAreaId", function()
+            local objects = {
+                [100] = { name = "Old Chest", spawns = { [1519] = {{51, 27}}, [9999] = {{10, 20}} } },
+                [200] = { name = "Barrel", spawns = { [12] = {{32, 49}} } },
+            }
+
+            local invalidObjects = Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAreaId)
+
+            assert.are.same({ [100] = { 9999 } }, invalidObjects)
+            assert.spy(exitMock).was_called_with(1)
+        end)
+
+        it("should not report anything when all spawn areaIds are handled", function()
+            local objects = {
+                [100] = { name = "Old Chest", spawns = { [1519] = {{51, 27}}, [12] = {{32, 49}} } },
+            }
+
+            local invalidObjects = Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAreaId)
+
+            assert.are.same(nil, invalidObjects)
+            assert.spy(exitMock).was_not_called()
+        end)
+
+        it("should not report objects without spawns", function()
+            local objects = {
+                [100] = { name = "Old Chest" },
+            }
+
+            local invalidObjects = Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAreaId)
+
+            assert.are.same(nil, invalidObjects)
             assert.spy(exitMock).was_not_called()
         end)
     end)

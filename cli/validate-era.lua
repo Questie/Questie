@@ -242,6 +242,7 @@ local function _CheckClassicDatabase()
     Validators.checkQuestFinishers(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData)
     Validators.checkObjectives(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.npcData, QuestieDB.objectData, QuestieDB.itemData)
     Validators.checkNpcSpawnAreaIds(QuestieDB.npcData, QuestieDB.npcKeys, function(areaId) return ZoneDB:GetUiMapIdByAreaId(areaId) end)
+    Validators.checkObjectSpawnAreaIds(QuestieDB.objectData, QuestieDB.objectKeys, function(areaId) return ZoneDB:GetUiMapIdByAreaId(areaId) end)
 end
 
 _CheckClassicDatabase()

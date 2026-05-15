@@ -902,4 +902,46 @@ function Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
     end
 end
 
+---@param objects table<ObjectId, Object>
+---@param objectKeys DatabaseObjectKeys
+---@param getUiMapIdByAreaId fun(areaId: AreaId): number|nil
+---@return table<ObjectId, AreaId[]>|nil
+function Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAreaId)
+    print("\n\27[36mSearching for object spawns with areaIds not handled by GetUiMapIdByAreaId...\27[0m")
+    local invalidObjects = {}
+
+    for objectId, objectData in pairs(objects) do
+        local spawns = objectData[objectKeys.spawns]
+        if spawns then
+            local unknownAreaIds = {}
+            for areaId in pairs(spawns) do
+                if (not getUiMapIdByAreaId(areaId)) then
+                    table.insert(unknownAreaIds, areaId)
+                end
+            end
+            if #unknownAreaIds > 0 then
+                table.sort(unknownAreaIds)
+                invalidObjects[objectId] = unknownAreaIds
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidObjects) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " objects with spawn areaIds not handled by GetUiMapIdByAreaId:\27[0m")
+        for objectId, areaIds in pairsByKeys(invalidObjects) do
+            local objectName = objects[objectId] and objects[objectId][objectKeys.name] or "unknown"
+            print("\27[31m- Object " .. objectId .. " (" .. tostring(objectName) .. "): areaIds " .. table.concat(areaIds, ", ") .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidObjects
+    else
+        print("\27[32mNo objects found with unhandled spawn areaIds\27[0m")
+        return nil
+    end
+end
+
 return Validators
