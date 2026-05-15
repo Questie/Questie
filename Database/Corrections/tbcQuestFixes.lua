@@ -7495,6 +7495,7 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local playerRace = Questie.db.char.townsfolkRace
+    local playerClass = Questie.db.char.townsfolkClass
 
     local questFixesHorde = {
         [1718] = { -- The Islander
