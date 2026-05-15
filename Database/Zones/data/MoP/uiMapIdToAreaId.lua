@@ -20,6 +20,7 @@ ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [453] = 6471, -- Mogu'shan Palace - The Crimson Assembly Hall
     [454] = 6473, -- Mogu'shan Palace - Vaults of Kings Past
     [455] = 6474, -- Mogu'shan Palace - Throne of Ancient Conquerors
+    [390] = 9105, -- Vale of Eternal Blossoms
 
     [281] = 10000, -- Maraudon - Zaetar's Grave (fake ID for Maraudon)
     [318] = 10001, -- Stratholme - The Gauntlet (fake ID for Stratholme)
