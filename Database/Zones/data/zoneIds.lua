@@ -164,7 +164,6 @@ ZoneDB.zoneIDs = {
     HALLS_OF_LIGHTNING = 4272, -- this is also Unyielding Garrison map for Halls of Lightning
     ULDUAR = 4273,
     AZJOL_NERUB = 4277, -- this is also The Gilded Gate map for Azjol-Nerub
-    ACHERUS_THE_EBON_HOLD = 4281,
     PLAGUELANDS_THE_SCARLET_ENCLAVE = 4298,
     NEW_AVALON = 4343, -- SoD (might be the wrong ID)
     DALARAN = 4395,

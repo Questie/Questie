@@ -1348,13 +1348,13 @@ function QuestieQuestBlacklist:Load()
         [8368] = Expansions.Current >= Expansions.Tbc,
         [8369] = Expansions.Current >= Expansions.Tbc,
         [8370] = Expansions.Current >= Expansions.Tbc,
-        [8371] = Expansions.Current >= Expansions.Tbc,
+        [8371] = Expansions.Current >= Expansions.Wotlk, -- enabled in tbc P2
         [8372] = Expansions.Current >= Expansions.Tbc,
         [8374] = Expansions.Current >= Expansions.Tbc,
         [8375] = Expansions.Current >= Expansions.Tbc,
         [8383] = Expansions.Current >= Expansions.Tbc,
         [8384] = Expansions.Current >= Expansions.Tbc,
-        [8385] = Expansions.Current >= Expansions.Tbc,
+        [8385] = Expansions.Current >= Expansions.Wotlk, -- enabled in tbc P2
         [8386] = Expansions.Current >= Expansions.Tbc,
         [8387] = Expansions.Current >= Expansions.Tbc,
         [8388] = Expansions.Current >= Expansions.Tbc,

@@ -1496,13 +1496,13 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{63.65,49.47}}},
         },
         [420044] = { -- Spend 5 Talent Points
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
         },
         [420045] = { -- Open the Survival Kit
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
         },
         [420046] = { -- Equip a Weapon
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
         },
 
         -- Below are fake objects
