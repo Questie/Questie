@@ -53,6 +53,9 @@ end
 UnitClass = function()
     return "Druid", "DRUID", 11
 end
+UnitRace = function()
+    return "Tauren", "TAUREN", 6
+end
 UnitLevel = function()
     return 60
 end

@@ -5981,7 +5981,7 @@ end
 function QuestieQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
-    local playerClass = Questie.db.char.townsfolkClass
+    local playerClass = select(2, UnitClass("player"))
 
     local questFixesHorde = {
         [687] = {
@@ -6046,37 +6046,43 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.nextQuestInChain] = 8978,
         },
         [8978] = { -- Return to Mokvar
-            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8927 or
-                                           playerClass == "HUNTER"  and 8938 or
-                                           playerClass == "MAGE"    and 8939 or
-                                           playerClass == "PRIEST"  and 8940 or
-                                           playerClass == "ROGUE"   and 8941 or
-                                           playerClass == "SHAMAN"  and 8942 or
-                                           playerClass == "WARLOCK" and 8943 or
-                                           playerClass == "WARRIOR" and 8944,
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 8927,
+                ["HUNTER"]  = 8938,
+                ["MAGE"]    = 8939,
+                ["PRIEST"]  = 8940,
+                ["ROGUE"]   = 8941,
+                ["SHAMAN"]  = 8942,
+                ["WARLOCK"] = 8943,
+                ["WARRIOR"] = 8944,
+            })[playerClass],
         },
         [8996] = {
             [questKeys.nextQuestInChain] = 8998,
         },
         [8998] = { -- Back to the Beginning
-            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 9007 or
-                                           playerClass == "HUNTER"  and 9008 or
-                                           playerClass == "MAGE"    and 9014 or
-                                           playerClass == "PRIEST"  and 9009 or
-                                           playerClass == "ROGUE"   and 9010 or
-                                           playerClass == "SHAMAN"  and 9011 or
-                                           playerClass == "WARLOCK" and 9012 or
-                                           playerClass == "WARRIOR" and 9013,
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 9007,
+                ["HUNTER"]  = 9008,
+                ["MAGE"]    = 9014,
+                ["PRIEST"]  = 9009,
+                ["ROGUE"]   = 9010,
+                ["SHAMAN"]  = 9011,
+                ["WARLOCK"] = 9012,
+                ["WARRIOR"] = 9013,
+            })[playerClass],
         },
         [9015] = { -- The Challenge
-            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 9016 or
-                                           playerClass == "HUNTER"  and 9017 or
-                                           playerClass == "MAGE"    and 9018 or
-                                           playerClass == "PRIEST"  and 9019 or
-                                           playerClass == "ROGUE"   and 9020 or
-                                           playerClass == "SHAMAN"  and 8957 or
-                                           playerClass == "WARLOCK" and 9021 or
-                                           playerClass == "WARRIOR" and 9022,
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 9016,
+                ["HUNTER"]  = 9017,
+                ["MAGE"]    = 9018,
+                ["PRIEST"]  = 9019,
+                ["ROGUE"]   = 9020,
+                ["SHAMAN"]  = 8957,
+                ["WARLOCK"] = 9021,
+                ["WARRIOR"] = 9022,
+            })[playerClass],
         },
         [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{3033,12042}},
@@ -6149,37 +6155,43 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.nextQuestInChain] = 8977,
         },
         [8977] = { -- Return to Deliana
-            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8926 or
-                                           playerClass == "HUNTER"  and 8931 or
-                                           playerClass == "MAGE"    and 8932 or
-                                           playerClass == "PALADIN" and 8933 or
-                                           playerClass == "PRIEST"  and 8934 or
-                                           playerClass == "ROGUE"   and 8935 or
-                                           playerClass == "WARLOCK" and 8936 or
-                                           playerClass == "WARRIOR" and 8937,
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 8926,
+                ["HUNTER"]  = 8931,
+                ["MAGE"]    = 8932,
+                ["PALADIN"] = 8933,
+                ["PRIEST"]  = 8934,
+                ["ROGUE"]   = 8935,
+                ["WARLOCK"] = 8936,
+                ["WARRIOR"] = 8937,
+            })[playerClass],
         },
         [8996] = {
             [questKeys.nextQuestInChain] = 8997,
         },
         [8997] = { -- Back to the Beginning
-            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8999 or
-                                           playerClass == "HUNTER"  and 9000 or
-                                           playerClass == "MAGE"    and 9001 or
-                                           playerClass == "PALADIN" and 9002 or
-                                           playerClass == "PRIEST"  and 9003 or
-                                           playerClass == "ROGUE"   and 9004 or
-                                           playerClass == "WARLOCK" and 9005 or
-                                           playerClass == "WARRIOR" and 9006,
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 8999,
+                ["HUNTER"]  = 9000,
+                ["MAGE"]    = 9001,
+                ["PALADIN"] = 9002,
+                ["PRIEST"]  = 9003,
+                ["ROGUE"]   = 9004,
+                ["WARLOCK"] = 9005,
+                ["WARRIOR"] = 9006,
+            })[playerClass],
         },
         [9015] = { -- The Challenge
-            [questKeys.nextQuestInChain] = playerClass == "DRUID"   and 8951 or
-                                           playerClass == "HUNTER"  and 8952 or
-                                           playerClass == "MAGE"    and 8953 or
-                                           playerClass == "PALADIN" and 8954 or
-                                           playerClass == "PRIEST"  and 8955 or
-                                           playerClass == "ROGUE"   and 8956 or
-                                           playerClass == "WARLOCK" and 8958 or
-                                           playerClass == "WARRIOR" and 8959,
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 8951,
+                ["HUNTER"]  = 8952,
+                ["MAGE"]    = 8953,
+                ["PALADIN"] = 8954,
+                ["PRIEST"]  = 8955,
+                ["ROGUE"]   = 8956,
+                ["WARLOCK"] = 8958,
+                ["WARRIOR"] = 8959,
+            })[playerClass],
         },
         [9063] = { -- Torwa Pathfinder
             [questKeys.startedBy] = {{4217,5505,12042}},

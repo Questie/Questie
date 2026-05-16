@@ -198,7 +198,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     local dbCompiledCount = Questie.IsSoD and Questie.db.global.sod.dbCompiledCount or Questie.db.global.dbCompiledCount
 
     -- For townsfolkClass we take 2nd entry so it works across locales
-    if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= select(2,UnitClass("player"))) then
+    if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= select(2, UnitClass("player"))) then
         Questie.db.char.townsfolkVersion = dbCompiledCount
         coYield()
         Townsfolk:BuildCharacterTownsfolk()
