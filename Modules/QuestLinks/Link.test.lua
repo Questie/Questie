@@ -20,6 +20,7 @@ describe("QuestieLink", function()
     local tooltipLines
 
     before_each(function()
+        Questie.started = true
         Questie.db.profile = {}
         Questie.db.char = {
             complete = {},
