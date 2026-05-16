@@ -56,24 +56,43 @@ end
 GetLocale = function()
     return "enUS"
 end
+GetCurrentRegion = function() return 3 end
 GetQuestGreenRange = function()
     return 10
+end
+GetNumQuestWatches = function()
+    return 0
+end
+GetTrackedAchievements = function()
+    return 0
 end
 UnitName = function()
     return "QuestieNPC"
 end
 LibStub = {
     NewLibrary = _EmptyDummyFunction,
-    GetLibrary = _TableDummyFunction,
+    GetLibrary = function(_, name)
+        if name == "LibUIDropDownMenuQuestie-4.0" then
+            return {
+                Create_UIDropDownMenu = _EmptyDummyFunction,
+            }
+        else
+            return {}
+        end
+    end,
 }
 setmetatable(LibStub, { __call = function(_, ...)
     return {NewAddon = _TableDummyFunction, New = _TableDummyFunction }
 end})
 StaticPopupDialogs = {}
+QuestLogListScrollFrame = {
+    ScrollBar = {}
+}
 
 CreateFrame = function()
     return {
         Show = _EmptyDummyFunction,
+        SetOwner = _EmptyDummyFunction,
         SetScript = _EmptyDummyFunction,
         RegisterEvent = _EmptyDummyFunction,
     }
@@ -123,4 +142,7 @@ ItemRefTooltip = {
     HookScript = _EmptyDummyFunction,
 }
 
+C_CurrencyInfo = {}
+C_AddOns = {}
+C_Item = {}
 C_Map = {}
