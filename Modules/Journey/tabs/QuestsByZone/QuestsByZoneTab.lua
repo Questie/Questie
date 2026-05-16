@@ -20,7 +20,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local AceGUI = LibStub("AceGUI-3.0")
 
 local RESET = -1000
-local _, playerClass, _ = UnitClass("player")
+local playerClass = UnitClassBase("player")
 
 local _CreateContinentDropdown, _CreateZoneDropdown
 local _HandleAllZonesSelection, _HandleContinentSelection, _HandleZoneSelection

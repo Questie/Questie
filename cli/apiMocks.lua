@@ -46,6 +46,9 @@ end
 UnitClass = function()
     return "Druid", "DRUID", 11
 end
+UnitClassBase = function()
+    return "DRUID", 11
+end
 UnitRace = function()
     return "Tauren", "TAUREN", 6
 end

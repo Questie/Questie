@@ -8,7 +8,7 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
-local _, playerClass = UnitClass("player")
+local playerClass = UnitClassBase("player")
 local playerFaction = UnitFactionGroup("player")
 
 local tinsert = table.insert
@@ -507,7 +507,7 @@ end
 function Townsfolk:BuildCharacterTownsfolk()
     Questie.db.char.townsfolk = {}
     Questie.db.char.vendorList = {}
-    Questie.db.char.townsfolkClass = select(2, UnitClass("player"))
+    Questie.db.char.townsfolkClass = UnitClassBase("player")
 
     for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
         Questie.db.char.townsfolk[key] = npcs

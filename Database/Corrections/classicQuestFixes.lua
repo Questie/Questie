@@ -5981,7 +5981,7 @@ end
 function QuestieQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
-    local playerClass = select(2, UnitClass("player"))
+    local playerClass = UnitClassBase("player")
 
     local questFixesHorde = {
         [687] = {
