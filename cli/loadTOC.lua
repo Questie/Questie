@@ -16,11 +16,7 @@ local function loadTOC(file)
                 pcallResult, errorMessage = pcall(chunck, addonName, addonTable)
             end
             if (not pcallResult) then
-                if errorMessage then
-                    print("Error loading " .. line .. ": " .. errorMessage)
-                else
-                    print("Error loading " .. line .. " - No errorMessage")
-                end
+                error("Error loading " .. line .. ": " .. (errorMessage or "No errorMessage"))
             end
         end
     end
