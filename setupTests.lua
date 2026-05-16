@@ -83,6 +83,7 @@ _G.IsEquippableItem = function() return false end
 _G.IsInGroup = function() return false end
 _G.IsShiftKeyDown = function() return false end
 _G.UnitClass = function() return "Druid", "DRUID", 11 end
+_G.UnitClassBase = function() return "DRUID", 11 end
 _G.UnitFactionGroup = function() return "Horde", "Horde" end
 _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
