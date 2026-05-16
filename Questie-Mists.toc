@@ -47,8 +47,6 @@ Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua
-#Message Handler
-Modules\Libs\MessageHandler.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
