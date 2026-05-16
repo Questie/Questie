@@ -243,10 +243,18 @@ _AddQuestRequirements = function(quest)
         for i = 1, #blizzardObjectives do
             local objective = blizzardObjectives[i]
             if objective and objective.text and objective.text ~= "" then
-                -- we have uncached individual objectives
-                if string.byte(objective.text, 1) == 32 then
+                if (l10n:GetUILocale() == "zhCN" or l10n:GetUILocale() == "zhTW") then
+                    -- we look for any uncached objective
+                    for j = 1, #objective.text do
+                        if string.sub(objective.text, j, j) == " " then
+                            local objectiveText = _GetObjectiveText(quest.ObjectiveData[i].Id, quest.ObjectiveData[i].Type)
+                            objective.text = string.gsub(objective.text, "%s", objectiveText)
+                        end
+                    end
+                -- we look for any uncached objective
+                elseif string.byte(objective.text, 1) == 32 then
                     local objectiveText = _GetObjectiveText(quest.ObjectiveData[i].Id, quest.ObjectiveData[i].Type)
-                    objective.text = objectiveText .. string.gsub(objective.text, "^%s", "")
+                    objective.text = string.gsub(objective.text, "^%s", objectiveText)
                 end
                 _AddColoredTooltipLine(" - " .. objective.text, "white")
             end
