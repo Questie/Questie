@@ -1274,18 +1274,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "在磨魂者之穴使用维姆高尔的魔典",
         ["zhTW"] = false,
     },
-    ["Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"] = { -- 11010 & 11023 & 11102
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt Bomben der Himmelswache um 15 Stapel mit Teufelskanonenkugeln zu zerstören.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "使用天空卫队炸弹炸毁15堆邪能炮弹",
-        ["zhTW"] = false,
-    },
     ["Kill any wildlife in Shadowmoon Valley to collect Fel Gland"] = { -- 11020
         ["enUS"] = true,
         ["deDE"] = "Tötet jedes Lebewesen im Schattenmondtal um Teufelsdrüsen zu sammeln.",

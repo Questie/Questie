@@ -4468,13 +4468,16 @@ function QuestieTBCQuestFixes:Load()
         [11007] = {
             [questKeys.startedBy] = {nil,nil,{32405}},
         },
+        [11008] = { -- Fires Over Skettis
+            [questKeys.objectives] = {nil,{{185549}}},
+        },
         [11009] = { -- Ogre Heaven
             [questKeys.breadcrumbs] = {11022},
         },
-        [11010] = {
+        [11010] = { -- Bombing Run
             [questKeys.requiredLevel] = 70,
-            [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
+            [questKeys.requiredClasses] = classIDs.ALL_CLASSES - classIDs.DRUID,
+            [questKeys.objectives] = {nil,{{185861}}},
         },
         [11012] = { -- Blood Oath of the Netherwing
             [questKeys.preQuestSingle] = {10870,10871},
@@ -4519,7 +4522,7 @@ function QuestieTBCQuestFixes:Load()
         [11023] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010,11102},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
+            [questKeys.objectives] = {nil,{{185861}}},
         },
         [11025] = { -- The Crystals
             [questKeys.preQuestSingle] = {11009},
@@ -4774,9 +4777,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep] = {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
-        [11102] = {
+        [11102] = { -- Bombing Run
             [questKeys.requiredLevel] = 70,
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
+            [questKeys.objectives] = {nil,{{185861}}},
         },
         [11103] = {
             [questKeys.startedBy] = {{19935,19936}},
