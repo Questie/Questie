@@ -3421,6 +3421,9 @@ function QuestieTBCQuestFixes:Load()
         [10443] = { -- Helping the Cenarion Post
             [questKeys.breadcrumbForQuestId] = 9372,
         },
+        [10445] = { -- The Vials of Eternity
+            [questKeys.startedBy] = {{19935,19936}},
+        },
         [10446] = { -- The Final Code
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 10005,
