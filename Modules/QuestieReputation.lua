@@ -125,6 +125,10 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         elseif not QuestieReputation.factionsStartingBelowNeutral[minFactionID] then
             hasMinFaction = true
             aboveMinRep = 0 >= reqMinValue
+        -- Consider undiscovered factions to be at -36000 reputation in this check when they start below neutral
+        else
+            hasMinFaction = true
+            aboveMinRep = -36000 >= reqMinValue
         end
     else
         -- If requiredMinRep is nil, we don't care about the reputation aka it fullfils it
@@ -142,6 +146,10 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         elseif not QuestieReputation.factionsStartingBelowNeutral[maxFactionID] then
             hasMaxFaction = true
             belowMaxRep = 0 < reqMaxValue
+        -- Consider undiscovered factions to be at -36000 reputation in this check when they start below neutral
+        else
+            hasMaxFaction = true
+            belowMaxRep = -36000 < reqMaxValue
         end
     else
         -- If requiredMaxRep is nil, we don't care about the reputation aka it fullfils it

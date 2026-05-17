@@ -725,7 +725,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
         if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
             --- If we haven't got the faction for min or max we blacklist it
-            if not hasMinFaction or not hasMaxFaction then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
+            if not (aboveMinRep and belowMaxRep) then
                 QuestieDB.autoBlacklist[questId] = "rep"
             end
 
