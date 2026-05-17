@@ -3831,8 +3831,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Go to the top of the Ata'mal Terrace in Shadowmoon Valley and obtain the Heart of Fury. Return to Akama at the Warden's Cage in Shadowmoon Valley when you've completed this task."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"), 0, {{"object", 185125}}}},
         },
-        [10708] = {
+        [10708] = { -- Akama's Promise
             [questKeys.exclusiveTo] = {11052},
+            [questKeys.requiredLevel] = 68,
+            [questKeys.nextQuestInChain] = 10944,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [10710] = { -- Test Flight: The Singing Ridge
             [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.17,68.8}}}},
@@ -4268,6 +4271,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [10944] = { -- The Secret Compromised
+            [questKeys.preQuestSingle] = {10708,11052},
+        },
         [10945] = { -- Hch'uu and the Mushroom People
             [questKeys.finishedBy] = {{22823}},
             [questKeys.questLevel] = -1,
@@ -4630,11 +4636,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
         },
-        [11052] = {
+        [11052] = { -- Akama's Promise
             [questKeys.name] = "Akama's Promise",
             [questKeys.exclusiveTo] = {10708},
             [questKeys.startedBy] = {{21700}},
             [questKeys.finishedBy] = {{18481}},
+            [questKeys.requiredLevel] = 68,
+            [questKeys.nextQuestInChain] = 10944,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
@@ -7582,6 +7591,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9995,
         },
+        [10707] = { -- The Ata'mal Terrace
+            [questKeys.nextQuestInChain] = 10708,
+        },
         [10858] = { -- Karynaku
             [questKeys.nextQuestInChain] = 10866,
         },
@@ -7665,6 +7677,9 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9994,
+        },
+        [10707] = { -- The Ata'mal Terrace
+            [questKeys.nextQuestInChain] = 11052,
         },
         [10858] = { -- Karynaku
             [questKeys.nextQuestInChain] = playerRace == "Human" and 10872 or 10866,

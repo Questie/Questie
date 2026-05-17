@@ -1341,7 +1341,6 @@ function QuestieQuestBlacklist:Load()
         [8411] = Expansions.Current >= Expansions.Cata, -- not sure when this quest was removed, Wowhead says Cata, it is present in Classic SoD
         [9712] = true,
         [10377] = true,
-        [11052] = true,
 
         -- Marks of Honor PvP quests - All of them should only be available in Era
         [8367] = Expansions.Current >= Expansions.Tbc,
