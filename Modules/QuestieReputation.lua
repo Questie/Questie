@@ -109,10 +109,7 @@ end
 ---@return boolean BelowMaxRep
 ---@return boolean HasMaxFaction
 function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
-    local aboveMinRep = false -- the player has reached the min required reputation value
-    local belowMaxRep = false
-    local hasMinFaction = false
-    local hasMaxFaction = false
+    local aboveMinRep, belowMaxRep, hasMinFaction, hasMaxFaction
 
     if requiredMinRep then
         local minFactionID = requiredMinRep[1]
