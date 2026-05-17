@@ -55,9 +55,9 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          luarocks install bit32
-          luarocks install busted
-          luarocks install luafilesystem
+          luarocks install bit32 5.3.5.1-1
+          luarocks install busted 2.2.0-1
+          luarocks install luafilesystem 1.8.0-1
 
       - name: Run busted Unit Tests
         run: busted -p ".test.lua" .
@@ -88,8 +88,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          luarocks install bit32
-          luarocks install luafilesystem
+          luarocks install bit32 5.3.5.1-1
+          luarocks install luafilesystem 1.8.0-1
 
       - name: Validate ${{ matrix.expansion }} database
         run: lua cli/validate-${{ matrix.expansion }}.lua
