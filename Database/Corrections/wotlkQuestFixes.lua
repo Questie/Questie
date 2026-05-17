@@ -570,7 +570,8 @@ function QuestieWotlkQuestFixes:Load()
         [10180] = {
             [questKeys.nextQuestInChain] = 10097,
         },
-        [10445] = {
+        [10445] = { -- The Vials of Eternity
+            [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {13432},
         },
         [10460] = {
