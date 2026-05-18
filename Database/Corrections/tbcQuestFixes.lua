@@ -4540,6 +4540,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11025},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
+            [questKeys.nextQuestInChain] = 11051,
         },
         [11028] = { -- Countdown to Doom
             [questKeys.nextQuestInChain] = 11056,
