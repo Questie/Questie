@@ -2125,8 +2125,17 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{8479,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.nextQuestInChain] = 3442,
         },
-        [3449] = {
-            [questKeys.childQuests] = {3483}, -- #1008
+        [3449] = { -- Arcane Runes
+            [questKeys.childQuests] = {3450},
+            [questKeys.requiredSourceItems] = {10444},
+        },
+        [3450] = { -- An Easy Pickup
+            [questKeys.parentQuest] = 3449,
+            [questKeys.preQuestSingle] = {},
+        },
+        [3451] = { -- Signal for Pickup
+            [questKeys.availableUntilCompleted] = 3449,
+            [questKeys.nextQuestInChain] = 3483,
         },
         [3453] = {
             [questKeys.objectives] = {{{8479,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2140,9 +2149,9 @@ function QuestieQuestFixes:Load()
         [3481] = { -- Trinkets...
             [questKeys.nextQuestInChain] = 4022,
         },
-        [3483] = {
-            [questKeys.parentQuest] = 3449, -- #1008
+        [3483] = { -- Signal for Pickup
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1131
+            [questKeys.availableUntilCompleted] = 3449,
         },
         [3520] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vale Screechers and use Yeh'kinya's Bramble on their corpse."), 0, {{"monster", 5307},{"monster", 5308}}}},
