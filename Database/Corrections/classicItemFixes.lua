@@ -758,6 +758,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [10444] = { -- Standard Issue Flare Gun
+            [itemKeys.npcDrops] = {8517},
+        },
         [10515] = { -- Torch of Retribution
             [itemKeys.class] = itemClasses.QUEST,
         },
