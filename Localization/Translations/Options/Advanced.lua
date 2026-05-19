@@ -650,7 +650,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "裁剪对象文本",
         ["zhTW"] = true,
     },
-    ["Simplify quest objective text by removing Kill word,Requires UI reload to apply changes."] = {
+    ["Simplify quest objective text by removing Kill word, Requires UI reload to apply changes."] = {
         ["enUS"] = true,
         ["deDE"] = true,
         ["esES"] = true,
@@ -660,6 +660,18 @@ local advancedOptionsLocales = {
         ["ptBR"] = true,
         ["ruRU"] = true,
         ["zhCN"] = "移除任务目标中的击杀词语以简化文本，重载界面以应用变更。",
+        ["zhTW"] = true,
+    },
+    ["Setting changed. Please reload your UI for changes to take effect."] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = true,
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "设置已更改。请重载界面以使更改生效。",
         ["zhTW"] = true,
     },
 }
