@@ -91,9 +91,9 @@ function QuestieQuest.ToggleAvailableQuests(showIcons)
     AvailableQuests.CalculateAndDrawAll()
 
     if showIcons then
-        _QuestieQuest:ShowQuestIcons()
+        QuestieQuest:ShowQuestIcons()
     else
-        _QuestieQuest:HideQuestIcons()
+        QuestieQuest:HideQuestIcons()
     end
 end
 
