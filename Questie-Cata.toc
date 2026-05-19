@@ -228,6 +228,7 @@ Modules\QuestieCoordinates.lua
 Modules\Network\Comms.lua
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
+Modules\PartyQuests.lua
 
 # Journey
 Modules\Journey\QuestieJourney.lua

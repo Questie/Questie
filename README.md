@@ -113,6 +113,8 @@ Checkout the [README of the Questie API](./Public/README.md).
 
 ### Quest Communication
 - You can see party members quest progress on the tooltip.
+- `/questie partyquests list [playerName]` prints synced party quest logs.
+- `/questie partyquests map [on|off|all|playerName]` shows synced party quest objectives as map markers.
 
 ### Tooltips
 - Show tooltips on map notes and quest NPCs/objects.

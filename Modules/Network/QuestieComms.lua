@@ -360,6 +360,7 @@ function QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(questPacket, play
 
                 --Write to tooltip data
                 QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
+                Questie:SendMessage("QC_ID_REMOTE_QUESTLOG_UPDATED")
             end
         end
     end
@@ -409,10 +410,12 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, d
 
                 --Write to tooltip data
                 QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
+                Questie:SendMessage("QC_ID_REMOTE_QUESTLOG_UPDATED")
             elseif disableCompleteQuests then
                 -- remove player if they exist
                 if QuestieComms.remoteQuestLogs[questPacketid] and QuestieComms.remoteQuestLogs[questPacketid][playerName] then
                     QuestieComms.remoteQuestLogs[questPacketid][playerName] = nil
+                    Questie:SendMessage("QC_ID_REMOTE_QUESTLOG_UPDATED")
                 end
             end
         end
@@ -438,6 +441,7 @@ function QuestieComms:RemoveRemotePlayer(name)
         for _, players in pairs(QuestieComms.remoteQuestLogs) do
             players[name] = nil
         end
+        Questie:SendMessage("QC_ID_REMOTE_QUESTLOG_UPDATED")
     end
 end
 
@@ -831,6 +835,7 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
 
             --Write to tooltip data
             QuestieComms.data:RegisterTooltip(questPacket.id, playerName, objectives);
+            Questie:SendMessage("QC_ID_REMOTE_QUESTLOG_UPDATED")
         end
     end
 end
@@ -871,6 +876,7 @@ _QuestieComms.packets = {
         if(QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][playerName]) then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms] Removed quest:", questId, "for player:", playerName);
             QuestieComms.remoteQuestLogs[questId][playerName] = nil;
+            Questie:SendMessage("QC_ID_REMOTE_QUESTLOG_UPDATED")
         end
         QuestieComms.data:RemoveQuestFromPlayer(questId, playerName);
       end
@@ -1089,6 +1095,7 @@ end
 function QuestieComms:ResetAll()
     QuestieComms.data:ResetAll()
     QuestieComms.remoteQuestLogs = {}
+    Questie:SendMessage("QC_ID_REMOTE_QUESTLOG_UPDATED")
 end
 
 return QuestieComms
