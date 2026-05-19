@@ -118,10 +118,85 @@ function QuestieTBCObjectFixes:Load()
         [183933] = {
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{18.54,73.68},{35.53,57.98},{34.93,58.48},{36.56,59.4},{37.25,57.88},{19.82,75.69},{20.31,77.36},{19.39,78.38},{22.24,78.14},{24.42,78.22},{23.75,79.38},{31.73,71.52},{32.94,79.62},{32.9,78.28},{33.92,79.24},{34.81,78.16},{33.83,77.23},{34.73,77.5},{35.4,76.08},{39.09,77.34},{39.08,78.19},{40.81,77.3},{41.87,77.04},{19.61,75.08},{19.59,78.58},{21.6,78.4},{23.42,77.77},{19.44,74.0},{32.3,79.15},{32.43,79.37},{33.91,75.74},{34.14,78.13},{41.26,77.05},{40.37,78.64},{33.97,75.64}}},
         },
+        [184418] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.76,39.91}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184419] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.28,40.29}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184420] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.53,40.6}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184421] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184422] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.77,40.28}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184423] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.53,40.28}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184424] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.46,46.37}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184425] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.64,46.39}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184426] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.73,46.57}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184427] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.54,46.55}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184428] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.38,46.53}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184429] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.45,46.73}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184430] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.63,46.76}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184431] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.82,46.79}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [184588] = {
             [objectKeys.name] = "Captain Tyralius's Prison",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184595] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.63,15.76}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [184691] = {
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{49.8,20.01},{55.62,15.07},{55.35,15.55},{52.89,14.63},{52.59,14.14},{53.19,14.12},{54.72,14.59},{55.92,16.44},{55.62,16.87},{54.99,16.87},{52.56,20.45},{52.31,19.04},{52.58,18.66},{51.97,18.68},{51.67,18.16},{50.49,17.29},{50.75,15.97},{51.7,15.53},{52.6,15.06},{55.02,14.17},{55.33,14.63},{55.91,15.49},{55.01,15.97},{54.15,16.38},{54.05,17.33},{54.36,17.76},{53.8,17.78},{53.19,15.95},{52.3,16.36},{51.67,16.37}}},
@@ -129,15 +204,6 @@ function QuestieTBCObjectFixes:Load()
         },
         [184980] = {
             [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{45.9,28.2},{46.2,29.1},{46.4,32.5},{46.5,28.6},{46.6,29.5},{46.6,32.6},{46.7,32.4},{46.7,39.6},{46.8,28.3},{46.8,39.3},{46.8,40.7},{46.9,35.6},{46.9,37.4},{46.9,37.6},{47.3,35.2},{47.4,30.7},{47.5,29.1},{47.5,34.4},{47.5,35.3},{47.5,35.9},{47.7,30.7},{47.8,32.5},{48.1,30.1},{48.3,31.9},{48.6,29.6},{48.8,29.0},{48.9,30.9},{48.9,31.5},{49.4,28.1},{49.4,42.8},{49.6,28.4},{49.6,31.3},{49.7,29.8},{50.0,28.7},{50.0,38.4},{50.1,43.5},{50.2,35.9},{50.2,38.6},{50.2,40.5},{50.2,43.2},{50.2,44.9},{50.2,45.7},{50.3,27.4},{50.3,37.4},{50.3,40.3},{50.4,41.5},{50.5,28.7},{50.5,38.6},{50.6,42.9},{50.7,38.1},{50.7,40.0},{50.8,26.6},{50.8,29.6},{50.8,43.5},{50.8,44.7},{51.0,26.0},{51.0,27.9},{51.3,23.5},{51.3,31.2},{51.4,40.5},{51.5,40.7},{51.5,44.2},{51.5,44.7},{51.6,21.4},{51.8,22.8},{52.2,22.2},{52.8,44.3},{52.8,44.5},{53.4,45.7},{53.5,43.8},{53.8,44.8},{55.2,45.5}}},
-        },
-        [184998] = {
-            [objectKeys.name] = "Ethereum Prison",
-            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93},{54.53,40.28},{54.28,40.29},{54.53,40.6},{54.77,40.28},{54.76,39.91},{54.46,46.37},{54.82,46.79},{54.63,46.76},{54.45,46.73},{54.73,46.57},{54.54,46.55},{54.38,46.53},{54.64,46.39}}},
-        },
-        [184595] = {
-            [objectKeys.name] = "Ethereum Stasis Chamber",
-            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.63,15.76}}},
-            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [185015] = {
             [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},

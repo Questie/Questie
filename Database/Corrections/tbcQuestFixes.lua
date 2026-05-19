@@ -4396,7 +4396,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10971] = { -- Ethereum Secrets
             [questKeys.requiredSourceItems] = {29460},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184998}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184418},{"object", 184419},{"object", 184420},{"object", 184421},{"object", 184422},{"object", 184423},{"object", 184424},{"object", 184425},{"object", 184426},{"object", 184427},{"object", 184428},{"object", 184429},{"object", 184430},{"object", 184431}}}},
             [questKeys.nextQuestInChain] = 10973,
         },
         [10974] = { -- Stasis Chambers of Bash'ir
