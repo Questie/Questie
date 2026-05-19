@@ -97,17 +97,26 @@ local function _BuildSpawnList(objective, objectiveData, questObjective)
         return nil, objectiveType
     end
 
+    -- Guard against partial comms payloads: Questie core spawn builders expect
+    -- required IDs/coordinates and will emit hard error logs if missing.
+    if objectiveType == "event" then
+        local hasCoordinates = (questObjective and questObjective.Coordinates) or (objectiveData and objectiveData.Coordinates)
+        if not hasCoordinates then
+            return nil, objectiveType
+        end
+    elseif objectiveType == "killcredit" then
+        if not (objectiveData and objectiveData.IdList) then
+            return nil, objectiveType
+        end
+    elseif not objective.id then
+        return nil, objectiveType
+    end
+
     local fakeObjective = {
         Description = objectiveData and objectiveData.Description or "Objective",
         Icon = objectiveData and objectiveData.Icon,
         Coordinates = (questObjective and questObjective.Coordinates) or (objectiveData and objectiveData.Coordinates),
     }
-
-    -- Event objectives require coordinate payload. Skip gracefully when missing
-    -- instead of invoking Questie core error logging with incomplete data.
-    if objectiveType == "event" and not fakeObjective.Coordinates then
-        return nil, objectiveType
-    end
 
     return spawnBuilder(objective.id, fakeObjective, objectiveData), objectiveType
 end
