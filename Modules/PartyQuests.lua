@@ -39,6 +39,8 @@ local ICON_BY_OBJECTIVE_TYPE = {
 _PartyQuests.enabled = false
 _PartyQuests.focusPlayer = nil
 _PartyQuests.refreshPending = false
+_PartyQuests.showCompleted = false  -- show completed quests on map
+_PartyQuests.showOnlyObjectives = true  -- show only incomplete objectives (false = show all including completed)
 
 local function _GetQuestName(questId)
     return QuestieLib:GetColoredQuestName(
@@ -66,6 +68,23 @@ local function _ShouldRenderPlayer(playerName)
 
     return _GetNormalizedName(playerName) == _GetNormalizedName(_PartyQuests.focusPlayer)
 end
+
+local function _GetTableSize(t)
+    local count = 0
+    for _ in pairs(t) do count = count + 1 end
+    return count
+end
+
+local _classToIdLookup = {
+    ["DRUID"] = "DRUID",
+    ["HUNTER"] = "HUNTER",
+    ["MAGE"] = "MAGE",
+    ["PRIEST"] = "PRIEST",
+    ["ROGUE"] = "ROGUE",
+    ["SHAMAN"] = "SHAMAN",
+    ["WARLOCK"] = "WARLOCK",
+    ["WARRIOR"] = "WARRIOR",
+}
 
 local function _BuildSpawnList(objective, objectiveData)
     local objectiveType = OBJECTIVE_TYPE_LOOKUP[objective.type]
@@ -155,7 +174,10 @@ function PartyQuests:RefreshMapPins()
                 for objectiveIndex, objective in pairs(objectives) do
                     local fulfilled = objective.fulfilled or 0
                     local required = objective.required or 0
-                    if required > fulfilled then
+                    -- Show objective if: only incomplete objectives mode AND progress incomplete
+                    --                   OR show all objectives mode (always show)
+                    local shouldShow = (not _PartyQuests.showOnlyObjectives) or (required > fulfilled)
+                    if shouldShow then
                         _DrawObjective(questId, questName, objectiveIndex, objective, playerName)
                     end
                 end
@@ -197,26 +219,82 @@ end
 function PartyQuests:PrintRemoteQuestLog(playerName)
     local normalizedPlayer = _GetNormalizedName(playerName)
     local questCount = 0
+    local groupedQuests = {}
 
+    -- Gather quests by player
     for questId, questEntries in pairs(QuestieComms.remoteQuestLogs) do
-        for remotePlayerName, _ in pairs(questEntries) do
+        for remotePlayerName, objectives in pairs(questEntries) do
             local isMatch = (not normalizedPlayer) or (_GetNormalizedName(remotePlayerName) == normalizedPlayer)
             if isMatch and QuestieComms:CheckInGroup(remotePlayerName) then
+                if not groupedQuests[remotePlayerName] then
+                    groupedQuests[remotePlayerName] = {}
+                end
+
+                -- Calculate quest progress
+                local totalObjectives = 0
+                local completedObjectives = 0
+                for _, objective in pairs(objectives) do
+                    totalObjectives = totalObjectives + 1
+                    if objective.fulfilled and objective.required and objective.fulfilled >= objective.required then
+                        completedObjectives = completedObjectives + 1
+                    end
+                end
+
+                groupedQuests[remotePlayerName][questId] = {
+                    name = _GetQuestName(questId),
+                    completed = completedObjectives,
+                    total = totalObjectives,
+                    objectives = objectives,
+                }
                 questCount = questCount + 1
-                local questName = _GetQuestName(questId)
-                Questie:Print("|cFFFF6F22[PartyQuests]|r", remotePlayerName .. ":", questName)
-                break
             end
         end
     end
 
     if questCount == 0 then
         if playerName then
-            Questie:Print("|cFFFF6F22[PartyQuests]|r", "No shared quests found for " .. playerName .. ".")
+            Questie:Print("|cFFFF6F22[PartyQuests]|r", "No quests found for " .. playerName .. ".")
         else
-            Questie:Print("|cFFFF6F22[PartyQuests]|r", "No shared party quests found.")
+            Questie:Print("|cFFFF6F22[PartyQuests]|r", "No party quests found.")
+        end
+        return
+    end
+
+    -- Print grouped output
+    for remotePlayerName, quests in pairs(groupedQuests) do
+        local classColor = _PartyQuests:GetPlayerClassColor(remotePlayerName)
+        Questie:Print("|cFFFF6F22[PartyQuests]|r", classColor .. remotePlayerName .. "|r (" .. _GetTableSize(quests) .. " quests)")
+        for questId, questInfo in pairs(quests) do
+            local progressColor = questInfo.completed == questInfo.total and "|cFF00FF00" or "|cFFFFA500"
+            Questie:Print("  " .. progressColor .. questInfo.name .. "|r (" .. questInfo.completed .. "/" .. questInfo.total .. " objectives)")
         end
     end
+end
+
+function _PartyQuests:GetPlayerClassColor(playerName)
+    local classId = _classToIdLookup[QuestieComms.remotePlayerClasses[playerName]]
+    if classId then
+        return "|c" .. RAID_CLASS_COLORS[classId].colorStr
+    end
+    return "|cFFFFFFFF"
+end
+
+function PartyQuests:GetShowCompleted()
+    return _PartyQuests.showCompleted
+end
+
+function PartyQuests:SetShowCompleted(showCompleted)
+    _PartyQuests.showCompleted = showCompleted and true or false
+    PartyQuests:RefreshMapPins()
+end
+
+function PartyQuests:GetShowOnlyObjectives()
+    return _PartyQuests.showOnlyObjectives
+end
+
+function PartyQuests:SetShowOnlyObjectives(showOnlyObjectives)
+    _PartyQuests.showOnlyObjectives = showOnlyObjectives and true or false
+    PartyQuests:RefreshMapPins()
 end
 
 function PartyQuests:Initialize()

@@ -89,6 +89,10 @@ function QuestieSlash.HandleCommands(input)
             Questie:Colorize("/questie partyquests list [playerName]"),
             "Print shared party quest logs from Questie comms."
         );
+        print(
+            Questie:Colorize("/questie partyquests showall [on|off]"),
+            "Show all objectives (including completed) or only incomplete objectives."
+        );
         print(Questie:Colorize("/questie flex"), l10n("Flex the amount of quests you have completed so far"));
         print(Questie:Colorize("/questie doable [questID]"), l10n("Prints whether you are eligibile to do a quest"));
         print(Questie:Colorize("/questie version"), l10n("Prints Questie and client version info"));
@@ -179,9 +183,26 @@ function QuestieSlash.HandleCommands(input)
             end
         end
 
+        if subCommand == "showall" then
+            local toggleArg = string.lower(commands[3] or "")
+            if toggleArg == "on" then
+                PartyQuests:SetShowOnlyObjectives(false)
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Now showing all quest objectives (including completed).")
+            elseif toggleArg == "off" then
+                PartyQuests:SetShowOnlyObjectives(true)
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Now showing only incomplete quest objectives.")
+            else
+                local current = PartyQuests:GetShowOnlyObjectives()
+                PartyQuests:SetShowOnlyObjectives(not current)
+                local mode = (not current) and "completed" or "incomplete"
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Now showing " .. mode .. " quest objectives.")
+            end
+            return
+        end
+
         print(
             Questie:Colorize("/questie "..input..":"),
-            "Usage: /questie partyquests map [on|off|all|playerName] OR /questie partyquests list [playerName]"
+            "Usage: /questie partyquests map [on|off|all|playerName] OR /questie partyquests list [playerName] OR /questie partyquests showall [on|off]"
         )
         return
     end
