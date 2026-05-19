@@ -1311,6 +1311,19 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
+        [20889] = { -- Ethereum Prisoner (Group Energy Ball)
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {
+                {51.1,11.6,phases.BEM_CHAMBERS_OF_BASHIR},
+                {52.5,20.43,phases.BEM_NEXUS_KING},
+                {52.68,20.25,phases.BEM_NEXUS_KING},
+                {52.87,20.08,phases.BEM_NEXUS_KING},
+                {49.62,21.42,phases.BEM_NEXUS_KING},
+                {49.39,21.3,phases.BEM_NEXUS_KING},
+                {49.15,21.13,phases.BEM_NEXUS_KING},
+                {49.63,15.76,phases.BEM_NEXUS_KING},
+                {49.48,15.54,phases.BEM_NEXUS_KING},
+            }},
+        },
         [20912] = {
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
@@ -1546,6 +1559,7 @@ function QuestieTBCNpcFixes:Load()
         },
         [22920] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{51.1,11.6}}},
+            [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [22932] = {
             [npcKeys.waypoints] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{{29.54,59.72},{30.6,59.5},{31.5,58.1},{31.5,56.8},{30.5,56.2},{30.0,54.5},{30.5,56.2},{31.5,56.8},{31.5,58.1},{30.6,59.5},{29.54,59.72}}}},
