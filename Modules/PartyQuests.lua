@@ -42,6 +42,8 @@ _PartyQuests.refreshPending = false
 _PartyQuests.showCompleted = false  -- show completed quests on map
 _PartyQuests.showOnlyObjectives = true  -- show only incomplete objectives (false = show all including completed)
 
+---@param questId QuestId
+---@return string
 local function _GetQuestName(questId)
     return QuestieLib:GetColoredQuestName(
         questId,
@@ -50,6 +52,8 @@ local function _GetQuestName(questId)
     )
 end
 
+---@param name string|nil
+---@return string|nil
 local function _GetNormalizedName(name)
     if not name then
         return nil
@@ -57,6 +61,8 @@ local function _GetNormalizedName(name)
     return stringlower(name)
 end
 
+---@param playerName string
+---@return boolean
 local function _ShouldRenderPlayer(playerName)
     if not QuestieComms:CheckInGroup(playerName) then
         return false
@@ -69,6 +75,8 @@ local function _ShouldRenderPlayer(playerName)
     return _GetNormalizedName(playerName) == _GetNormalizedName(_PartyQuests.focusPlayer)
 end
 
+---@param t table
+---@return number
 local function _GetTableSize(t)
     local count = 0
     for _ in pairs(t) do count = count + 1 end
@@ -86,6 +94,10 @@ local _classToIdLookup = {
     ["WARRIOR"] = "WARRIOR",
 }
 
+---@param objective table
+---@param objectiveData table|nil
+---@param questObjective table|nil
+---@return table|nil, string|nil
 local function _BuildSpawnList(objective, objectiveData, questObjective)
     local objectiveType = OBJECTIVE_TYPE_LOOKUP[objective.type]
     if not objectiveType then
@@ -121,6 +133,11 @@ local function _BuildSpawnList(objective, objectiveData, questObjective)
     return spawnBuilder(objective.id, fakeObjective, objectiveData), objectiveType
 end
 
+---@param questName string
+---@param objectiveText string
+---@param playerName string
+---@param objective table
+---@return table
 local function _GetTooltipBody(questName, objectiveText, playerName, objective)
     local progressText = tostring(objective.fulfilled or 0) .. "/" .. tostring(objective.required or 0)
     return {
@@ -131,6 +148,11 @@ local function _GetTooltipBody(questName, objectiveText, playerName, objective)
     }
 end
 
+---@param questId QuestId
+---@param questName string
+---@param objectiveIndex number
+---@param objective table
+---@param playerName string
 local function _DrawObjective(questId, questName, objectiveIndex, objective, playerName)
     local quest = QuestieDB.GetQuest(questId)
     local objectiveData = quest and quest.ObjectiveData and quest.ObjectiveData[objectiveIndex]
@@ -179,6 +201,7 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
     end
 end
 
+---Refreshes all PartyQuests manual pins on the world map and minimap.
 function PartyQuests:RefreshMapPins()
     QuestieMap:ResetManualFrames(REMOTE_MAP_TYPE)
     if not _PartyQuests.enabled then
@@ -208,24 +231,29 @@ function PartyQuests:RefreshMapPins()
     end
 end
 
+---@param enabled boolean
 function PartyQuests:SetEnabled(enabled)
     _PartyQuests.enabled = enabled and true or false
     PartyQuests:RefreshMapPins()
 end
 
+---@return boolean
 function PartyQuests:IsEnabled()
     return _PartyQuests.enabled
 end
 
+---@param playerName string|nil
 function PartyQuests:SetFocusPlayer(playerName)
     _PartyQuests.focusPlayer = playerName
     PartyQuests:RefreshMapPins()
 end
 
+---@return string|nil
 function PartyQuests:GetFocusPlayer()
     return _PartyQuests.focusPlayer
 end
 
+---Queues a debounced map refresh after remote quest-log updates.
 function PartyQuests:QueueRefresh()
     if _PartyQuests.refreshPending then
         return
@@ -238,6 +266,7 @@ function PartyQuests:QueueRefresh()
     end)
 end
 
+---@param playerName string|nil
 function PartyQuests:PrintRemoteQuestLog(playerName)
     local normalizedPlayer = _GetNormalizedName(playerName)
     local questCount = 0
@@ -293,6 +322,8 @@ function PartyQuests:PrintRemoteQuestLog(playerName)
     end
 end
 
+---@param playerName string
+---@return string
 function _PartyQuests:GetPlayerClassColor(playerName)
     local classId = _classToIdLookup[QuestieComms.remotePlayerClasses[playerName]]
     if classId then
@@ -301,26 +332,31 @@ function _PartyQuests:GetPlayerClassColor(playerName)
     return "|cFFFFFFFF"
 end
 
+---@return boolean
 function PartyQuests:GetShowCompleted()
     return _PartyQuests.showCompleted
 end
 
+---@param showCompleted boolean
 function PartyQuests:SetShowCompleted(showCompleted)
     _PartyQuests.showCompleted = showCompleted and true or false
     _PartyQuests.showOnlyObjectives = not _PartyQuests.showCompleted
     PartyQuests:RefreshMapPins()
 end
 
+---@return boolean
 function PartyQuests:GetShowOnlyObjectives()
     return _PartyQuests.showOnlyObjectives
 end
 
+---@param showOnlyObjectives boolean
 function PartyQuests:SetShowOnlyObjectives(showOnlyObjectives)
     _PartyQuests.showOnlyObjectives = showOnlyObjectives and true or false
     _PartyQuests.showCompleted = not _PartyQuests.showOnlyObjectives
     PartyQuests:RefreshMapPins()
 end
 
+---Registers PartyQuests listeners for remote quest-log updates.
 function PartyQuests:Initialize()
     Questie:RegisterMessage("QC_ID_REMOTE_QUESTLOG_UPDATED", PartyQuests.QueueRefresh)
 end
