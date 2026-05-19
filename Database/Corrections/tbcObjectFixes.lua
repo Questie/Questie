@@ -134,9 +134,9 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Ethereum Prison",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93},{54.53,40.28},{54.28,40.29},{54.53,40.6},{54.77,40.28},{54.76,39.91},{54.46,46.37},{54.82,46.79},{54.63,46.76},{54.45,46.73},{54.73,46.57},{54.54,46.55},{54.38,46.53},{54.64,46.39}}},
         },
-        [185001] = {
+        [184595] = {
             [objectKeys.name] = "Ethereum Stasis Chamber",
-            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.63,15.76}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [185015] = {
@@ -162,6 +162,46 @@ function QuestieTBCObjectFixes:Load()
         },
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
+        },
+        [185461] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.48,15.54}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185462] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.15,21.13}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185463] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.39,21.3}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185464] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.62,21.42}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185465] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.87,20.08}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185466] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.68,20.25}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185467] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185512] = { -- Stasis Chamber Alpha
+            [objectKeys.name] = "Stasis Chamber Alpha",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{51.14,11.59}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [185519] = {
             [objectKeys.name] = "Mana-Tombs Stasis Chamber",

@@ -4394,22 +4394,25 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {10969},
             [questKeys.nextQuestInChain] = 10971,
         },
-        [10971] = {
+        [10971] = { -- Ethereum Secrets
             [questKeys.requiredSourceItems] = {29460},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184998}}}},
-            [questKeys.nextQuestInChain] = 10972,
+            [questKeys.nextQuestInChain] = 10973,
         },
-        [10974] = {
+        [10974] = { -- Stasis Chambers of Bash'ir
+            [questKeys.requiredMinRep] = {933,21000},
+            [questKeys.nextQuestInChain] = 10976,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 185512}}}},
+        },
+        [10975] = { -- Purging the Chambers of Bash'ir
             [questKeys.requiredMinRep] = {933,21000},
         },
-        [10975] = {
+        [10976] = { -- The Mark of the Nexus-King
             [questKeys.requiredMinRep] = {933,21000},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184595},{"object", 185461},{"object", 185462},{"object", 185463},{"object", 185464},{"object", 185465},{"object", 185466},{"object", 185467}}}},
+            [questKeys.nextQuestInChain] = 10977,
         },
-        [10976] = {
-            [questKeys.requiredMinRep] = {933,21000},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 185001}}}},
-        },
-        [10977] = {
+        [10977] = { -- Stasis Chambers of the Mana-Tombs
             [questKeys.objectives] = {nil,{{185519}}},
             [questKeys.requiredMinRep] = {933,21000},
         },

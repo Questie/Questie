@@ -404,6 +404,12 @@ function QuestieTBCItemFixes:Load()
         [31957] = {
             [itemKeys.npcDrops] = {20520},
         },
+        [31994] = { -- Ethereum Key Tablet - Alpha
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [32061] = { -- Evidence from Alpha
+            [itemKeys.npcDrops] = {20889},
+        },
         [32364] = {
             [itemKeys.objectDrops] = {185566},
             [itemKeys.npcDrops] = {23002},
