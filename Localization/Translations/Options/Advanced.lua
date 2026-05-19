@@ -638,6 +638,30 @@ local advancedOptionsLocales = {
         ["zhCN"] = "重新编译Questie数据库\n\n此操作将重载魔兽世界界面，且需要一定时间完成。进程完成后，你会在聊天框中看到提示信息。\n\n重新编译过程需在非战斗状态下进行，否则Questie可能出现故障！\n\n你确定要重新编译Questie数据库吗？",
         ["zhTW"] = "重新編譯Questie資料庫\n\n此操作會重新載入《魔獸世界》介面，並需要一些時間完成。完成後，你會在聊天視窗中看到提示訊息。\n\n重新編譯過程必須在非戰鬥狀態下進行，否則Questie可能會發生錯誤！\n\n你確定要重新編譯Questie資料庫嗎？",
     },
+    ["Trim Objective Text"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = true,
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "裁剪对象文本",
+        ["zhTW"] = true,
+    },
+    ["Simplify quest objective text by removing Kill word,Requires UI reload to apply changes."] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = true,
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "移除任务目标中的击杀词语以简化文本，重载界面以应用变更。",
+        ["zhTW"] = true,
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do
