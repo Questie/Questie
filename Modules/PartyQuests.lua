@@ -86,7 +86,7 @@ local _classToIdLookup = {
     ["WARRIOR"] = "WARRIOR",
 }
 
-local function _BuildSpawnList(objective, objectiveData)
+local function _BuildSpawnList(objective, objectiveData, questObjective)
     local objectiveType = OBJECTIVE_TYPE_LOOKUP[objective.type]
     if not objectiveType then
         return nil, nil
@@ -100,7 +100,14 @@ local function _BuildSpawnList(objective, objectiveData)
     local fakeObjective = {
         Description = objectiveData and objectiveData.Description or "Objective",
         Icon = objectiveData and objectiveData.Icon,
+        Coordinates = (questObjective and questObjective.Coordinates) or (objectiveData and objectiveData.Coordinates),
     }
+
+    -- Event objectives require coordinate payload. Skip gracefully when missing
+    -- instead of invoking Questie core error logging with incomplete data.
+    if objectiveType == "event" and not fakeObjective.Coordinates then
+        return nil, objectiveType
+    end
 
     return spawnBuilder(objective.id, fakeObjective, objectiveData), objectiveType
 end
@@ -118,7 +125,8 @@ end
 local function _DrawObjective(questId, questName, objectiveIndex, objective, playerName)
     local quest = QuestieDB.GetQuest(questId)
     local objectiveData = quest and quest.ObjectiveData and quest.ObjectiveData[objectiveIndex]
-    local spawnList, objectiveType = _BuildSpawnList(objective, objectiveData)
+    local questObjective = quest and quest.Objectives and quest.Objectives[objectiveIndex]
+    local spawnList, objectiveType = _BuildSpawnList(objective, objectiveData, questObjective)
     if not spawnList then
         return
     end
