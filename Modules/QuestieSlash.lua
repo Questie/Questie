@@ -138,6 +138,32 @@ function QuestieSlash.HandleCommands(input)
     end
 
     if mainCommand == "partyquests" then
+        if not subCommand then
+            -- Print help when no subcommand given
+            print(Questie:Colorize("|cFFFF6F22PartyQuests Help|r"))
+            print("")
+            print(Questie:Colorize("/questie partyquests list [playerName]"))
+            print("  └─ Print all synced party quest logs with progress tracking")
+            print("     • /questie partyquests list → show all party members' quests")
+            print("     • /questie partyquests list Thrall → show Thrall's quests only")
+            print("")
+            print(Questie:Colorize("/questie partyquests map [on|off|all|playerName]"))
+            print("  └─ Show quest objective pins on map/minimap")
+            print("     • /questie partyquests map → toggle map pins on/off")
+            print("     • /questie partyquests map on → enable map pins")
+            print("     • /questie partyquests map all → show all party members' objectives")
+            print("     • /questie partyquests map Thrall → show Thrall's objectives only")
+            print("")
+            print(Questie:Colorize("/questie partyquests showall [on|off]"))
+            print("  └─ Toggle visibility of completed objectives on the map")
+            print("     • /questie partyquests showall on → show all objectives (completed + incomplete)")
+            print("     • /questie partyquests showall off → show only incomplete objectives (default)")
+            print("     • /questie partyquests showall → toggle current mode")
+            print("")
+            print("|cFFAAAAAA⚠️  Note: Requires party members to have Questie installed|r")
+            return
+        end
+
         if subCommand == "list" then
             PartyQuests:PrintRemoteQuestLog(commands[3])
             return
@@ -202,7 +228,7 @@ function QuestieSlash.HandleCommands(input)
 
         print(
             Questie:Colorize("/questie "..input..":"),
-            "Usage: /questie partyquests map [on|off|all|playerName] OR /questie partyquests list [playerName] OR /questie partyquests showall [on|off]"
+            "Unknown subcommand. Type '/questie partyquests' for help."
         )
         return
     end
