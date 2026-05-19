@@ -156,6 +156,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 148, -- #1173
             [questKeys.nextQuestInChain] = 148,
         },
+        [179] = { -- Dwarven Outfitters
+            [questKeys.nextQuestInChain] = 233,
+        },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
         },
@@ -320,6 +323,9 @@ function QuestieQuestFixes:Load()
         },
         [452] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{2060,2061,2062,2063,2064,2065,2066,2067,2068},2060}}},
+        },
+        [454] = { -- After the Ambush
+            [questKeys.nextQuestInChain] = 309,
         },
         [455] = {
             [questKeys.preQuestSingle] = {}, -- #1858
