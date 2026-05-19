@@ -244,7 +244,7 @@ _AddQuestRequirements = function(quest)
             local objective = blizzardObjectives[i]
             if objective and objective.text and objective.text ~= "" then
                 if (l10n:GetUILocale() == "zhCN" or l10n:GetUILocale() == "zhTW") then
-                    -- we look for any uncached objective (sometimes first char is space but it's due to multibyte characters)
+                                -- we look for any uncached objective (sometimes first char is space but it's due to multibyte characters)
                     -- print("server objective =*"..objective.text.."*")
                     for j = 1, #objective.text do
                         if string.sub(objective.text, j, j) == " " then
@@ -385,7 +385,7 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
             _AddTooltipLine(" ")
             _AddColoredTooltipLine(l10n("Your progress")..l10n(": "), "gold")
             for _, objective in pairs(quest.Objectives) do
-                local objDesc = objective.Description:gsub("%.$", "")
+                local objDesc = (Questie.db.profile.trimObjectiveText ~= false and objective.Description or objective.FullDescription):gsub("%.$", "")
 
                 if objective.Needed > 0 then
                     local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
