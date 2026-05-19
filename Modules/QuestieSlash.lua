@@ -220,7 +220,7 @@ function QuestieSlash.HandleCommands(input)
             else
                 local current = PartyQuests:GetShowOnlyObjectives()
                 PartyQuests:SetShowOnlyObjectives(not current)
-                local mode = (not current) and "completed" or "incomplete"
+                local mode = (not current) and "all (including completed)" or "only incomplete"
                 Questie:Print("|cFFFF6F22[PartyQuests]|r", "Now showing " .. mode .. " quest objectives.")
             end
             return

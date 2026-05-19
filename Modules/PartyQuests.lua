@@ -142,7 +142,8 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
 
     local objectiveDescription = objectiveData and objectiveData.Description or objectiveType or "Objective"
     local iconType = ICON_BY_OBJECTIVE_TYPE[objectiveType] or Questie.ICON_TYPE_LOOT
-    local sharedDataId = (questId * 1000) + objectiveIndex
+    local playerKey = _GetNormalizedName(playerName) or playerName or "unknown"
+    local sharedDataId = tostring(questId) .. ":" .. tostring(objectiveIndex) .. ":" .. tostring(playerKey)
 
     for _, spawnData in pairs(spawnList) do
         for zone, spawns in pairs(spawnData.Spawns or {}) do
@@ -193,7 +194,11 @@ function PartyQuests:RefreshMapPins()
                     local required = objective.required or 0
                     -- Show objective if: only incomplete objectives mode AND progress incomplete
                     --                   OR show all objectives mode (always show)
-                    local shouldShow = (not _PartyQuests.showOnlyObjectives) or (required > fulfilled)
+                    local isIncomplete = required > fulfilled
+                    local shouldShow = isIncomplete
+                    if not _PartyQuests.showOnlyObjectives and _PartyQuests.showCompleted then
+                        shouldShow = true
+                    end
                     if shouldShow then
                         _DrawObjective(questId, questName, objectiveIndex, objective, playerName)
                     end
@@ -302,6 +307,7 @@ end
 
 function PartyQuests:SetShowCompleted(showCompleted)
     _PartyQuests.showCompleted = showCompleted and true or false
+    _PartyQuests.showOnlyObjectives = not _PartyQuests.showCompleted
     PartyQuests:RefreshMapPins()
 end
 
@@ -311,6 +317,7 @@ end
 
 function PartyQuests:SetShowOnlyObjectives(showOnlyObjectives)
     _PartyQuests.showOnlyObjectives = showOnlyObjectives and true or false
+    _PartyQuests.showCompleted = not _PartyQuests.showOnlyObjectives
     PartyQuests:RefreshMapPins()
 end
 
