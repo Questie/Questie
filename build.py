@@ -229,7 +229,7 @@ def get_branch():
 
 
 def get_interface_versions(expansion="Classic"):
-    with open("Questie-%s.toc" % expansion, "r") as toc:
+    with open("Questie-%s.toc" % expansion, "r", encoding="utf-8") as toc:
         match = re.match("## Interface: (.*?)\n", toc.read(), re.DOTALL)
         return [v.strip() for v in match.group(1).split(",")]
 
