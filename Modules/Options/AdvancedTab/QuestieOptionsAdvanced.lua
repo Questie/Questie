@@ -201,7 +201,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 end,
 
                 desc = function()
-                    return l10n("Simplify quest objective text by removing Kill word,Requires UI reload to apply changes.")
+                    return l10n("Simplify quest objective text by removing Kill word, Requires UI reload to apply changes.")
                 end,
 
                 width = "full",
@@ -212,6 +212,7 @@ function QuestieOptions.tabs.advanced:Initialize()
 
                 set = function(info, value)
                     QuestieOptions:SetProfileValue(info, value)
+                    Questie:Print(l10n("Setting changed. Please reload your UI for changes to take effect."))
                 end,
             },
             Spacer_A = QuestieOptionsUtils:Spacer(2.9),

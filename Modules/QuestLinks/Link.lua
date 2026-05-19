@@ -89,11 +89,6 @@ end
 
 ---@param link string
 function QuestieLink:CreateQuestTooltip(link)
-    -- Fixes error when clicking quest links before full init
-    if (not Questie.started) then
-        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
-        return
-    end
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
         ---@type string
@@ -240,18 +235,22 @@ _AddQuestRequirements = function(quest)
             _AddTooltipLine(" ")
             _AddColoredTooltipLine(l10n("Objectives"), "gold")
         end
-        for i = 1, #blizzardObjectives do
+                for i = 1, #blizzardObjectives do
             local objective = blizzardObjectives[i]
             if objective and objective.text and objective.text ~= "" then
                 if (l10n:GetUILocale() == "zhCN" or l10n:GetUILocale() == "zhTW") then
-                    -- we look for any uncached objective
+                                -- we look for any uncached objective (sometimes first char is space but it's due to multibyte characters)
+                    -- print("server objective =*"..objective.text.."*")
                     for j = 1, #objective.text do
                         if string.sub(objective.text, j, j) == " " then
+                            -- print("found space at #" ..j)
                             local objectiveText = _GetObjectiveText(quest.ObjectiveData[i].Id, quest.ObjectiveData[i].Type)
+                            -- print("*"..objectiveText.."*")
                             objective.text = string.gsub(objective.text, "%s", objectiveText)
+                            -- print("*"..objective.text.."*")
                         end
-                    end
-                -- we look for any uncached objective
+                    end                                        
+                -- we have uncached individual objectives
                 elseif string.byte(objective.text, 1) == 32 then
                     local objectiveText = _GetObjectiveText(quest.ObjectiveData[i].Id, quest.ObjectiveData[i].Type)
                     objective.text = string.gsub(objective.text, "^%s", objectiveText)
