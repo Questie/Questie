@@ -63,6 +63,8 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 local Comms = QuestieLoader:ImportModule("Comms")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type PartyQuests
+local PartyQuests = QuestieLoader:ImportModule("PartyQuests")
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieCoords
@@ -262,6 +264,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Comms.Initialize()
     QuestieComms:Initialize()
+    PartyQuests:Initialize()
 
     QuestieAnnounce:InitializeLogoFilter()
 

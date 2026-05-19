@@ -23,6 +23,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type PartyQuests
+local PartyQuests = QuestieLoader:ImportModule("PartyQuests")
 
 local stringtrim, stringgmatch, stringmatch = string.trim, string.gmatch, string.match
 
@@ -61,7 +63,7 @@ function QuestieSlash.HandleCommands(input)
     -- lazy match commands
     -- command priority is last match in the table
     -- NEW COMMANDS SHOULD BE ADDED HERE
-    local ctypes = {"doable", "flex", "help", "journey", "minimap", "search", "tracker", "toggle", "tomap"}
+    local ctypes = {"doable", "flex", "help", "journey", "minimap", "partyquests", "search", "tracker", "toggle", "tomap"}
     local tempCommand
     for i=1, #ctypes do
         local partialMatch = stringmatch(ctypes[i], "^"..mainCommand)
@@ -79,6 +81,18 @@ function QuestieSlash.HandleCommands(input)
         print(Questie:Colorize("/questie minimap"), l10n("Toggles the Minimap Button for Questie"));
         print(Questie:Colorize("/questie journey"), l10n("Toggles the My Journey window"));
         print(Questie:Colorize("/questie tracker reset|show||hide"), ("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"));
+        print(
+            Questie:Colorize("/questie partyquests map [on|off|all|playerName]"),
+            "Toggle map pins for shared party quests, or focus one player."
+        );
+        print(
+            Questie:Colorize("/questie partyquests list [playerName]"),
+            "Print shared party quest logs from Questie comms."
+        );
+        print(
+            Questie:Colorize("/questie partyquests showall [on|off]"),
+            "Show all objectives (including completed) or only incomplete objectives."
+        );
         print(Questie:Colorize("/questie flex"), l10n("Flex the amount of quests you have completed so far"));
         print(Questie:Colorize("/questie doable [questID]"), l10n("Prints whether you are eligibile to do a quest"));
         print(Questie:Colorize("/questie version"), l10n("Prints Questie and client version info"));
@@ -120,6 +134,102 @@ function QuestieSlash.HandleCommands(input)
         else
             QuestieTracker:Toggle()
         end
+        return
+    end
+
+    if mainCommand == "partyquests" then
+        if not subCommand then
+            -- Print help when no subcommand given
+            print(Questie:Colorize("|cFFFF6F22PartyQuests Help|r"))
+            print("")
+            print(Questie:Colorize("/questie partyquests list [playerName]"))
+            print("  - Print all synced party quest logs with progress tracking")
+            print("    * /questie partyquests list - show all party members' quests")
+            print("    * /questie partyquests list Thrall - show Thrall's quests only")
+            print("")
+            print(Questie:Colorize("/questie partyquests map [on|off|all|playerName]"))
+            print("  - Show quest objective pins on map/minimap")
+            print("    * /questie partyquests map - toggle map pins on/off")
+            print("    * /questie partyquests map on - enable map pins")
+            print("    * /questie partyquests map all - show all party members' objectives")
+            print("    * /questie partyquests map Thrall - show Thrall's objectives only")
+            print("")
+            print(Questie:Colorize("/questie partyquests showall [on|off]"))
+            print("  - Toggle visibility of completed objectives on the map")
+            print("    * /questie partyquests showall on - show all objectives (completed + incomplete)")
+            print("    * /questie partyquests showall off - show only incomplete objectives (default)")
+            print("    * /questie partyquests showall - toggle current mode")
+            print("")
+            print("|cFFAAAAAANote: Requires party members to have Questie installed|r")
+            return
+        end
+
+        if subCommand == "list" then
+            PartyQuests:PrintRemoteQuestLog(commands[3])
+            return
+        end
+
+        if subCommand == "map" then
+            local mapArgument = commands[3]
+            if not mapArgument then
+                PartyQuests:SetEnabled(not PartyQuests:IsEnabled())
+                if PartyQuests:IsEnabled() then
+                    Questie:Print("|cFFFF6F22[PartyQuests]|r", "Shared party quest map pins enabled.")
+                else
+                    Questie:Print("|cFFFF6F22[PartyQuests]|r", "Shared party quest map pins disabled.")
+                end
+                return
+            end
+
+            local loweredMapArgument = string.lower(mapArgument)
+            if loweredMapArgument == "on" then
+                PartyQuests:SetEnabled(true)
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Shared party quest map pins enabled.")
+                return
+            elseif loweredMapArgument == "off" then
+                PartyQuests:SetEnabled(false)
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Shared party quest map pins disabled.")
+                return
+            elseif loweredMapArgument == "all" then
+                PartyQuests:SetFocusPlayer(nil)
+                PartyQuests:SetEnabled(true)
+                Questie:Print(
+                    "|cFFFF6F22[PartyQuests]|r",
+                    "Showing shared party quest map pins for all party members."
+                )
+                return
+            else
+                PartyQuests:SetFocusPlayer(mapArgument)
+                PartyQuests:SetEnabled(true)
+                Questie:Print(
+                    "|cFFFF6F22[PartyQuests]|r",
+                    "Showing shared party quest map pins for " .. mapArgument .. "."
+                )
+                return
+            end
+        end
+
+        if subCommand == "showall" then
+            local toggleArg = string.lower(commands[3] or "")
+            if toggleArg == "on" then
+                PartyQuests:SetShowOnlyObjectives(false)
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Now showing all quest objectives (including completed).")
+            elseif toggleArg == "off" then
+                PartyQuests:SetShowOnlyObjectives(true)
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Now showing only incomplete quest objectives.")
+            else
+                local current = PartyQuests:GetShowOnlyObjectives()
+                PartyQuests:SetShowOnlyObjectives(not current)
+                local mode = (not current) and "all (including completed)" or "only incomplete"
+                Questie:Print("|cFFFF6F22[PartyQuests]|r", "Now showing " .. mode .. " quest objectives.")
+            end
+            return
+        end
+
+        print(
+            Questie:Colorize("/questie "..input..":"),
+            "Unknown subcommand. Type '/questie partyquests' for help."
+        )
         return
     end
 
