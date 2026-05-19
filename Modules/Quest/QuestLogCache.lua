@@ -95,6 +95,16 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     for objIndex=1, #objectives do -- iterate manually to be sure getting those in order
         local oldObj = oldObjectives[objIndex]
         local newObj = objectives[objIndex]
+        local objectiveText
+
+        if Questie.db.profile.trimObjectiveText then
+            objectiveText = QuestieLib.TrimObjectiveText(newObj.text, newObj.type)
+        else
+            objectiveText =
+                string.match(newObj.text, "^(.*):%s*%d+/%d+$")
+                or string.match(newObj.text, "^(.*)：%s*%d+/%d+$")
+                or newObj.text
+        end
         -- Check if objective.text is in game's cache
         if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
             if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
@@ -127,7 +137,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
                         numRequired = newObj.numRequired,
-                        text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
+                        text = objectiveText,
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
