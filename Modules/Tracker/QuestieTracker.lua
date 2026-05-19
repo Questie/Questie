@@ -939,7 +939,7 @@ function QuestieTracker:Update()
                                     line.questHasSecondaryQIB = secondaryButton
 
                                     -- Set Objective based on states
-                                    local objDesc = objective.Description:gsub("%.$", "")
+                                    local objDesc = (Questie.db.profile.trimObjectiveText ~= false and objective.Description or objective.FullDescription):gsub("%.$", "")
 
                                     -- Sometimes the API returns messy objective data (finished=false, but numRequired==numFulfilled)
                                     local questIsIncompleteButObjectiveIsComplete = ((not quest.isComplete) and objective.Completed == true and #quest.Objectives == 1)
