@@ -129,7 +129,14 @@ end
 ---@param objective QuestObjective
 ---@return string
 function QuestieLib:GetObjectiveDescription(objective)
-    return (Questie.db.profile.trimObjectiveText ~= false and objective.Description or objective.FullDescription):gsub("%.$", "")
+    if not objective then
+        return ""
+    end
+    local desc = Questie.db.profile.trimObjectiveText ~= false and objective.Description or objective.FullDescription
+    if not desc then
+        return ""
+    end
+    return desc:gsub("%.$", "")
 end
 
 ---@param questId number
