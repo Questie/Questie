@@ -498,7 +498,8 @@ end
 
 -- Draw manually added NPC/object notes
 -- TODO: item and custom notes
---@param data table<...> @A table created by the calling function, must contain `id`, `Name`, `GetIconScale()`, and `Type`
+---@param data table<...> @A table created by the calling function, must contain `id`, `Name`, `GetIconScale()`, and `Type`
+---@param data.manualKey string|number|nil @Optional per-icon key used to separate otherwise shared manual notes
 --@param AreaID number @The zone ID from the raw data
 --@param x float @The X coordinate in 0-100 format
 --@param y float @The Y coordinate in 0-100 format
@@ -509,7 +510,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     if type(areaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
         error("Questie" .. ": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers " .. areaID .. " " .. x .. " " .. y)
     end
-    if type(data.id) ~= "number" or type(data.id) ~= "number" then
+    if type(data.id) ~= "number" then
         error("Questie" .. "Data.id must be set to the NPC or object ID!")
     end
 
@@ -523,14 +524,15 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     end
     -- set the icon
     local texture = data.Icon or "Interface\\WorldMap\\WorldMapPartyIcon"
-    -- Save new zone ID format, used in QuestieFramePool
-    -- create a list for all frames belonging to a NPC (id > 0) or an object (id < 0)
+    -- Save new zone ID format, used in QuestieFramePool.
+    -- create a list for all frames belonging to a NPC/object or a caller-provided manual key.
     typ = typ or "any"
+    local manualKey = data.manualKey or data.id
     if not QuestieMap.manualFrames[typ] then
         QuestieMap.manualFrames[typ] = {}
     end
-    if not QuestieMap.manualFrames[typ][data.id] then
-        QuestieMap.manualFrames[typ][data.id] = {}
+    if not QuestieMap.manualFrames[typ][manualKey] then
+        QuestieMap.manualFrames[typ][manualKey] = {}
     end
 
     -- create the map icon
@@ -550,7 +552,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     -- add the map icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, icon.UiMapID, x / 100, y / 100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-    tinsert(QuestieMap.manualFrames[typ][data.id], icon:GetName())
+    tinsert(QuestieMap.manualFrames[typ][manualKey], icon:GetName())
 
     -- create the minimap icon
     local iconMinimap = QuestieFramePool:GetFrame()
@@ -579,7 +581,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     -- add the minimap icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, iconMinimap.UiMapID, x / 100, y / 100, true, true);
-    tinsert(QuestieMap.manualFrames[typ][data.id], iconMinimap:GetName())
+    tinsert(QuestieMap.manualFrames[typ][manualKey], iconMinimap:GetName())
 
     -- make sure notes are only shown when they are supposed to
     if (not Questie.db.profile.enabled) then -- TODO: or (not Questie.db.profile.manualNotes)
