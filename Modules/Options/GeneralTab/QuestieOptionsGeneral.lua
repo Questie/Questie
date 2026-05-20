@@ -198,7 +198,6 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 7.6,
                         name = function() return l10n("Show party quest map pins") end,
                         desc = function() return l10n("Display party members' quest objective pins on the map and minimap. Requires party members to also have Questie installed.") end,
-                        descStyle = "inline",
                         width = 2,
                         get = function() return Questie.db.profile.partyQuestsEnabled end,
                         set = function(_, value)
@@ -211,7 +210,6 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 7.7,
                         name = function() return l10n("Show completed party quest objectives") end,
                         desc = function() return l10n("Also show objectives that party members have already completed.") end,
-                        descStyle = "inline",
                         disabled = function() return not Questie.db.profile.partyQuestsEnabled end,
                         width = 2,
                         get = function() return Questie.db.profile.partyQuestsShowCompleted end,
