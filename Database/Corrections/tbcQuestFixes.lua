@@ -2310,8 +2310,9 @@ function QuestieTBCQuestFixes:Load()
         [9629] = {
             [questKeys.objectives] = {{{17326,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9630] = {
+        [9630] = { -- Medivh's Journal
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+            [questKeys.preQuestSingle] = {9837}, -- not 100% sure, but makes sense
         },
         [9634] = { -- Alien Predators
             [questKeys.preQuestSingle] = {},
@@ -4394,22 +4395,25 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {10969},
             [questKeys.nextQuestInChain] = 10971,
         },
-        [10971] = {
+        [10971] = { -- Ethereum Secrets
             [questKeys.requiredSourceItems] = {29460},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184998}}}},
-            [questKeys.nextQuestInChain] = 10972,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184418},{"object", 184419},{"object", 184420},{"object", 184421},{"object", 184422},{"object", 184423},{"object", 184424},{"object", 184425},{"object", 184426},{"object", 184427},{"object", 184428},{"object", 184429},{"object", 184430},{"object", 184431}}}},
+            [questKeys.nextQuestInChain] = 10973,
         },
-        [10974] = {
+        [10974] = { -- Stasis Chambers of Bash'ir
+            [questKeys.requiredMinRep] = {933,21000},
+            [questKeys.nextQuestInChain] = 10976,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 185512}}}},
+        },
+        [10975] = { -- Purging the Chambers of Bash'ir
             [questKeys.requiredMinRep] = {933,21000},
         },
-        [10975] = {
+        [10976] = { -- The Mark of the Nexus-King
             [questKeys.requiredMinRep] = {933,21000},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184595},{"object", 185461},{"object", 185462},{"object", 185463},{"object", 185464},{"object", 185465},{"object", 185466},{"object", 185467}}}},
+            [questKeys.nextQuestInChain] = 10977,
         },
-        [10976] = {
-            [questKeys.requiredMinRep] = {933,21000},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 185001}}}},
-        },
-        [10977] = {
+        [10977] = { -- Stasis Chambers of the Mana-Tombs
             [questKeys.objectives] = {nil,{{185519}}},
             [questKeys.requiredMinRep] = {933,21000},
         },

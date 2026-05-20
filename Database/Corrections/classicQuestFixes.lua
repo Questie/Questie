@@ -1800,6 +1800,9 @@ function QuestieQuestFixes:Load()
         [2480] = {
             [questKeys.triggerEnd] = {"Cure Completed",{[zoneIDs.HILLSBRAD_FOOTHILLS]={{61.57, 19.21}}}},
         },
+        [2500] = { -- Badlands Reagent Run
+            [questKeys.nextQuestInChain] = 17,
+        },
         [2501] = {
             [questKeys.preQuestSingle] = {}, -- #1541
             [questKeys.preQuestGroup] = {2500,17}, -- #1541

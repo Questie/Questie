@@ -398,11 +398,20 @@ function QuestieTBCItemFixes:Load()
         [31881] = { -- Draenei Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [31941] = { -- Mark of the Nexus-King
+            [itemKeys.npcDrops] = {20888,20889,22825,22826,22827,22828},
+        },
         [31951] = {
             [itemKeys.vendors] = {21643},
         },
         [31957] = {
             [itemKeys.npcDrops] = {20520},
+        },
+        [31994] = { -- Ethereum Key Tablet - Alpha
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [32061] = { -- Evidence from Alpha
+            [itemKeys.npcDrops] = {20889,22920},
         },
         [32364] = {
             [itemKeys.objectDrops] = {185566},
