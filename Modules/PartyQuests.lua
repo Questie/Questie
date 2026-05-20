@@ -171,6 +171,10 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
     local sharedManualKey = tostring(questId) .. ":" .. tostring(objectiveIndex) .. ":" .. tostring(playerKey)
 
     for _, spawnData in pairs(spawnList) do
+        local manualId = spawnData.Id or objective.id
+        if type(manualId) ~= "number" then
+            manualId = 0
+        end
         for zone, spawns in pairs(spawnData.Spawns or {}) do
             local count = 0
             for _, coords in ipairs(spawns) do
@@ -182,7 +186,7 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
                     end
 
                     local data = {
-                        id = objective.id,
+                        id = manualId,
                         manualKey = sharedManualKey,
                         Icon = Questie.usedIcons[iconType],
                         Name = objectiveDescription,
