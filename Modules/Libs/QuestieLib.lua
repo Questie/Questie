@@ -125,6 +125,13 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
+---Returns the appropriate objective description based on the trimObjectiveText profile setting
+---@param objective QuestObjective
+---@return string
+function QuestieLib:GetObjectiveDescription(objective)
+    return (Questie.db.profile.trimObjectiveText ~= false and objective.Description or objective.FullDescription):gsub("%.$", "")
+end
+
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
