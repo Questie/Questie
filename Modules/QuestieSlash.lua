@@ -82,16 +82,16 @@ function QuestieSlash.HandleCommands(input)
         print(Questie:Colorize("/questie journey"), l10n("Toggles the My Journey window"));
         print(Questie:Colorize("/questie tracker reset|show||hide"), l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"));
         print(
-            Questie:Colorize("/questie partyquests map [on|off|all|playerName]"),
-            "Toggle map pins for shared party quests, or focus one player."
+            Questie:Colorize("/questie partyquests map [on/off/all/name]"),
+            l10n("Toggle map pins for shared party quests, or focus one player.")
         );
         print(
-            Questie:Colorize("/questie partyquests list [playerName]"),
-            "Print shared party quest logs from Questie comms."
+            Questie:Colorize("/questie partyquests list [name]"),
+            l10n("Print shared party quest logs from Questie comms.")
         );
         print(
-            Questie:Colorize("/questie partyquests showall [on|off]"),
-            "Show all objectives (including completed) or only incomplete objectives."
+            Questie:Colorize("/questie partyquests showall [on/off]"),
+            l10n("Show all objectives (including completed) or only incomplete objectives.")
         );
         print(Questie:Colorize("/questie flex"), l10n("Flex the amount of quests you have completed so far"));
         print(Questie:Colorize("/questie doable [questID]"), l10n("Prints whether you are eligibile to do a quest"));
