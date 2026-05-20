@@ -2310,8 +2310,9 @@ function QuestieTBCQuestFixes:Load()
         [9629] = {
             [questKeys.objectives] = {{{17326,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9630] = {
+        [9630] = { -- Medivh's Journal
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+            [questKeys.preQuestSingle] = {9837}, -- not 100% sure, but makes sense
         },
         [9634] = { -- Alien Predators
             [questKeys.preQuestSingle] = {},
