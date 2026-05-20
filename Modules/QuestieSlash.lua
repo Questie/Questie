@@ -76,11 +76,11 @@ function QuestieSlash.HandleCommands(input)
     if mainCommand == "help" or mainCommand == "?" then
         print(Questie:Colorize(l10n("Questie Commands")));
         print(Questie:Colorize("/questie"), l10n("Toggles the Config window"));
-        print(Questie:Colorize("/questie toggle"), ("Toggles showing questie on the map and minimap"));
+        print(Questie:Colorize("/questie toggle"), l10n("Toggles showing questie on the map and minimap"));
         print(Questie:Colorize("/questie tomap reset||npc|object [ID or name]"), l10n("Try to add markers for NPCs or objects to the map by search. If the \"tomap\" command is entered without subcommand it will attempt to mark the currently selected target. Searches by ID return exact matches, searches by name return partial matches. The \"reset\" subcommand does not accept additional parameters and just removes all markers."));
         print(Questie:Colorize("/questie minimap"), l10n("Toggles the Minimap Button for Questie"));
         print(Questie:Colorize("/questie journey"), l10n("Toggles the My Journey window"));
-        print(Questie:Colorize("/questie tracker reset|show||hide"), ("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"));
+        print(Questie:Colorize("/questie tracker reset|show||hide"), l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"));
         print(
             Questie:Colorize("/questie partyquests map [on|off|all|playerName]"),
             "Toggle map pins for shared party quests, or focus one player."
