@@ -87,11 +87,14 @@ local _classToIdLookup = {
     ["DRUID"] = "DRUID",
     ["HUNTER"] = "HUNTER",
     ["MAGE"] = "MAGE",
+    ["PALADIN"] = "PALADIN",
     ["PRIEST"] = "PRIEST",
     ["ROGUE"] = "ROGUE",
     ["SHAMAN"] = "SHAMAN",
     ["WARLOCK"] = "WARLOCK",
     ["WARRIOR"] = "WARRIOR",
+    ["DEATHKNIGHT"] = "DEATHKNIGHT",
+    ["MONK"] = "MONK",
 }
 
 ---@param objective table
@@ -360,6 +363,9 @@ end
 function PartyQuests:SetShowOnlyObjectives(showOnlyObjectives)
     _PartyQuests.showOnlyObjectives = showOnlyObjectives and true or false
     _PartyQuests.showCompleted = not _PartyQuests.showOnlyObjectives
+    if Questie.db and Questie.db.profile then
+        Questie.db.profile.partyQuestsShowCompleted = _PartyQuests.showCompleted
+    end
     PartyQuests:RefreshMapPins()
 end
 
