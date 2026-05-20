@@ -235,6 +235,9 @@ end
 ---@param enabled boolean
 function PartyQuests:SetEnabled(enabled)
     _PartyQuests.enabled = enabled and true or false
+    if Questie.db and Questie.db.profile then
+        Questie.db.profile.partyQuestsEnabled = _PartyQuests.enabled
+    end
     PartyQuests:RefreshMapPins()
 end
 
@@ -342,6 +345,9 @@ end
 function PartyQuests:SetShowCompleted(showCompleted)
     _PartyQuests.showCompleted = showCompleted and true or false
     _PartyQuests.showOnlyObjectives = not _PartyQuests.showCompleted
+    if Questie.db and Questie.db.profile then
+        Questie.db.profile.partyQuestsShowCompleted = _PartyQuests.showCompleted
+    end
     PartyQuests:RefreshMapPins()
 end
 
@@ -360,6 +366,11 @@ end
 ---Registers PartyQuests listeners for remote quest-log updates.
 function PartyQuests:Initialize()
     Questie:RegisterMessage("QC_ID_REMOTE_QUESTLOG_UPDATED", PartyQuests.QueueRefresh)
+    if Questie.db and Questie.db.profile then
+        _PartyQuests.enabled = Questie.db.profile.partyQuestsEnabled and true or false
+        _PartyQuests.showCompleted = Questie.db.profile.partyQuestsShowCompleted and true or false
+        _PartyQuests.showOnlyObjectives = not _PartyQuests.showCompleted
+    end
 end
 
 return PartyQuests

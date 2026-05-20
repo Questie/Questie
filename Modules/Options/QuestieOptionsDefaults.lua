@@ -65,6 +65,8 @@ function QuestieOptionsDefaults:Load()
             enableMapIcons = true,
             enableMiniMapIcons = true,
             questieShutUp = false,
+            partyQuestsEnabled = false,
+            partyQuestsShowCompleted = false,
             bugWorkarounds = true,
             hideIconsOnContinents = false,
 
