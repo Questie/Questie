@@ -177,7 +177,7 @@ function QuestieSlash.HandleCommands(input)
                 Questie:Print("|cFFFF6F22[PartyQuests]|r", "Shared party quest map pins disabled.")
                 return
             elseif loweredMapArgument == "all" then
-                PartyQuests:SetFocusPlayer(nil)
+                PartyQuests:SetFocusPlayer(nil, false)
                 PartyQuests:SetEnabled(true)
                 Questie:Print(
                     "|cFFFF6F22[PartyQuests]|r",
@@ -185,7 +185,7 @@ function QuestieSlash.HandleCommands(input)
                 )
                 return
             else
-                PartyQuests:SetFocusPlayer(mapArgument)
+                PartyQuests:SetFocusPlayer(mapArgument, false)
                 PartyQuests:SetEnabled(true)
                 Questie:Print(
                     "|cFFFF6F22[PartyQuests]|r",

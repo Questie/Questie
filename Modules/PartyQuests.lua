@@ -270,9 +270,12 @@ function PartyQuests:IsEnabled()
 end
 
 ---@param playerName string|nil
-function PartyQuests:SetFocusPlayer(playerName)
+---@param shouldRefresh boolean|nil
+function PartyQuests:SetFocusPlayer(playerName, shouldRefresh)
     _PartyQuests.focusPlayer = playerName
-    _RefreshMapPinsFresh()
+    if shouldRefresh ~= false then
+        _RefreshMapPinsFresh()
+    end
 end
 
 ---@return string|nil
