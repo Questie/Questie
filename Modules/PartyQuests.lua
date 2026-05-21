@@ -41,6 +41,7 @@ _PartyQuests.focusPlayer = nil
 _PartyQuests.refreshPending = false
 _PartyQuests.showCompleted = false  -- show completed quests on map
 _PartyQuests.showOnlyObjectives = true  -- show only incomplete objectives (false = show all including completed)
+local periodicSyncTicker
 
 ---@param questId QuestId
 ---@return string
@@ -396,6 +397,15 @@ function PartyQuests:Initialize()
         _PartyQuests.showCompleted = Questie.db.profile.partyQuestsShowCompleted and true or false
         _PartyQuests.showOnlyObjectives = not _PartyQuests.showCompleted
     end
+
+    if periodicSyncTicker then
+        periodicSyncTicker:Cancel()
+    end
+    periodicSyncTicker = C_Timer.NewTicker(60, function()
+        if _PartyQuests.enabled then
+            _RefreshMapPinsFresh()
+        end
+    end)
 end
 
 return PartyQuests
