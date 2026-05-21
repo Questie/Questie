@@ -8157,6 +8157,11 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.requiredLevel] = 80,
             [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.MAGE + classIDs.WARLOCK + classIDs.PRIEST + classIDs.DRUID,
         },
+        [9269] = { -- Atiesh, Greatstaff of the Guardian
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.MAGE + classIDs.WARLOCK + classIDs.PRIEST + classIDs.DRUID,
+        },
         [11007] = { -- Kael'thas and the Verdant Sphere
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
