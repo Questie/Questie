@@ -150,7 +150,11 @@ function QuestieSlash.HandleCommands(input)
         end
 
         if subCommand == "list" then
-            PartyQuests:PrintRemoteQuestLog(commands[3])
+            local playerName = commands[3]
+            Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
+            C_Timer.After(0.8, function()
+                PartyQuests:PrintRemoteQuestLog(playerName)
+            end)
             return
         end
 
