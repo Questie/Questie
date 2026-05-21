@@ -138,6 +138,17 @@ local function _BuildSpawnList(objective, objectiveData, questObjective)
         end
     elseif not objective.id then
         return nil, objectiveType
+    elseif objectiveType == "monster" then
+        -- Skip NPCs not in the database to avoid error spam for unknown IDs
+        -- (e.g. new NPCs added in recent patches not yet in Questie's DB)
+        if not QuestieDB.QueryNPCSingle(objective.id, "name") then
+            return nil, objectiveType
+        end
+    elseif objectiveType == "object" then
+        -- Same guard for game objects
+        if not QuestieDB.QueryObjectSingle(objective.id, "name") then
+            return nil, objectiveType
+        end
     end
 
     local fakeObjective = {
