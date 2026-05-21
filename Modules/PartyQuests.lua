@@ -83,6 +83,18 @@ local function _GetTableSize(t)
     return count
 end
 
+local function _RefreshMapPinsFresh()
+    if not _PartyQuests.enabled then
+        PartyQuests:RefreshMapPins()
+        return
+    end
+
+    Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
+    C_Timer_After(0.8, function()
+        PartyQuests:RefreshMapPins()
+    end)
+end
+
 local _classToIdLookup = {
     ["DRUID"] = "DRUID",
     ["HUNTER"] = "HUNTER",
@@ -244,7 +256,11 @@ function PartyQuests:SetEnabled(enabled)
     if Questie.db and Questie.db.profile then
         Questie.db.profile.partyQuestsEnabled = _PartyQuests.enabled
     end
-    PartyQuests:RefreshMapPins()
+    if _PartyQuests.enabled then
+        _RefreshMapPinsFresh()
+    else
+        PartyQuests:RefreshMapPins()
+    end
 end
 
 ---@return boolean
@@ -255,7 +271,7 @@ end
 ---@param playerName string|nil
 function PartyQuests:SetFocusPlayer(playerName)
     _PartyQuests.focusPlayer = playerName
-    PartyQuests:RefreshMapPins()
+    _RefreshMapPinsFresh()
 end
 
 ---@return string|nil
@@ -354,7 +370,7 @@ function PartyQuests:SetShowCompleted(showCompleted)
     if Questie.db and Questie.db.profile then
         Questie.db.profile.partyQuestsShowCompleted = _PartyQuests.showCompleted
     end
-    PartyQuests:RefreshMapPins()
+    _RefreshMapPinsFresh()
 end
 
 ---@return boolean
@@ -369,7 +385,7 @@ function PartyQuests:SetShowOnlyObjectives(showOnlyObjectives)
     if Questie.db and Questie.db.profile then
         Questie.db.profile.partyQuestsShowCompleted = _PartyQuests.showCompleted
     end
-    PartyQuests:RefreshMapPins()
+    _RefreshMapPinsFresh()
 end
 
 ---Registers PartyQuests listeners for remote quest-log updates.
