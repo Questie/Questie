@@ -200,7 +200,7 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
                     local data = {
                         id = manualId,
                         manualKey = sharedManualKey,
-                        Icon = spawnData.Icon or ICON_BY_OBJECTIVE_TYPE[objectiveType] or Questie.ICON_TYPE_LOOT,
+                        Icon = Questie.usedIcons[spawnData.Icon or ICON_BY_OBJECTIVE_TYPE[objectiveType] or Questie.ICON_TYPE_LOOT],
                         Name = objectiveDescription,
                         Type = "manual",
                         ManualTooltipData = {
