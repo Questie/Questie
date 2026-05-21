@@ -178,11 +178,11 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
         return
     end
 
-    local objectiveDescription = objectiveData and objectiveData.Description or objectiveType or "Objective"
     local playerKey = _GetNormalizedName(playerName) or playerName or "unknown"
     local sharedManualKey = tostring(questId) .. ":" .. tostring(objectiveIndex) .. ":" .. tostring(playerKey)
 
     for _, spawnData in pairs(spawnList) do
+        local objectiveDescription = spawnData.Name or (objectiveData and objectiveData.Description) or objectiveType or "Objective"
         local manualId = spawnData.Id or objective.id
         if type(manualId) ~= "number" then
             manualId = 0
