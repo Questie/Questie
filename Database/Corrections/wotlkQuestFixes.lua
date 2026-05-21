@@ -1616,9 +1616,6 @@ function QuestieWotlkQuestFixes:Load()
         [11995] = {
             [questKeys.exclusiveTo] = {12439},
         },
-        [12000] = {
-            [questKeys.preQuestSingle] = {},
-        },
         [12007] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering Zim'bo's Mojo"),0,{{"object", 420033}}}},
             [questKeys.requiredSourceItems] = {35797,35836},
