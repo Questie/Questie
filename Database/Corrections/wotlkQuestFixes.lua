@@ -7942,6 +7942,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.MOLTEN_CORE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.exclusiveTo] = {94577,94579,95037,96312,96315,96318},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [94376] = { -- Titanic Power -- only present on titan reforged
@@ -7981,6 +7982,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.TEMPEST_KEEP,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.exclusiveTo] = {93975,94579,95037,96312,96315,96318},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [94579] = { -- Patchwerk Must Die! -- only present on titan reforged
@@ -7995,6 +7997,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.NAXXRAMAS,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.exclusiveTo] = {93975,94577,95037,96312,96315,96318},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [95037] = { -- Lord Jaraxxus Must Die! -- only present on titan reforged
@@ -8009,6 +8012,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.TRIAL_OF_THE_CRUSADER,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.exclusiveTo] = {93975,94577,94579,96312,96315,96318},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [95705] = { -- Gobb's Grand Opening! -- only present on titan reforged
@@ -8075,6 +8079,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.SUNWELL_PLATEAU,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.exclusiveTo] = {93975,94577,94579,95037,96315,96318},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [96315] = { -- XT-002 Deconstructor Must Die! -- only present on titan reforged
@@ -8089,6 +8094,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.ULDUAR,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.exclusiveTo] = {93975,94577,94579,95037,96312,96318},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
         [96318] = { -- Shade of Aran Must Die!-- only present on titan reforged
@@ -8103,6 +8109,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+            [questKeys.exclusiveTo] = {93975,94577,94579,95037,96312,96315},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
     }
