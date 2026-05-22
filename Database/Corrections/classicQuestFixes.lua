@@ -185,6 +185,9 @@ function QuestieQuestFixes:Load()
         [239] = {
             [questKeys.breadcrumbForQuestId] = 11,
         },
+        [248] = {
+            [questKeys.nextQuestInChain] = 249,
+        },
         [249] = {
             [questKeys.startedBy] = {{313},{31}},
         },
