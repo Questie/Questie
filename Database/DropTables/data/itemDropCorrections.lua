@@ -310,6 +310,12 @@ QuestieItemDropCorrections.Tbc = {
         [18133] = DropKeys.WOWHEAD,
         [20198] = DropKeys.WOWHEAD,
     },
+    [25461] = { -- Book of Forgotten Names
+        [18472] = 100,
+    },
+    [25462] = { -- Tome of Dusk
+        [16807] = 100,
+    },
     [25463] = { -- Pair of Ivory Tusks
         [18334] = 100,
     },
