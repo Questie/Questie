@@ -235,7 +235,6 @@ function QuestieItemBlacklist:Load()
         [29740] = true, -- Fel Armament
         [30809] = true, -- Mark of Sargeras
         [30810] = true, -- Sunfury Signet
-        [32569] = true, -- Apexis Shard
 
         -- Wrath of the Lich King : Phase 1
         [33470] = true, -- Frostweave Cloth
