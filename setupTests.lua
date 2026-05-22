@@ -250,9 +250,7 @@ _G["Questie"] = {
     },
     db = {
         char = {},
-        profile = {
-            trimObjectiveText = true,
-        },
+        profile = {},
         global = {},
     },
     Print = EMTPY_FUNC,
