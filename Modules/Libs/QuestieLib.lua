@@ -132,7 +132,7 @@ function QuestieLib:GetObjectiveDescription(objective)
     if not objective then
         return ""
     end
-    local desc = Questie.db.profile.trimObjectiveText ~= false and objective.Description or objective.FullDescription
+    local desc = Questie.db.profile.trimObjectiveText ~= false and objective.Description or objective.FullDescription or objective.Description
     if not desc then
         return ""
     end
