@@ -10,6 +10,29 @@ local _journeyExportFrame
 local _journeyImportFrame
 local _pendingJourneyImport
 
+local _validEvents    = { Quest = true, Level = true, Note = true }
+local _validSubTypes  = { Accept = true, Complete = true, Abandon = true }
+
+local function _ValidateJourneyData(data)
+    if type(data) ~= "table" then return false end
+    for _, entry in ipairs(data) do
+        if type(entry) ~= "table" then return false end
+        if type(entry.Timestamp) ~= "number" then return false end
+        if not _validEvents[entry.Event] then return false end
+        if entry.Event == "Quest" then
+            if not _validSubTypes[entry.SubType] then return false end
+            if type(entry.Quest) ~= "number" then return false end
+            if type(entry.Level) ~= "number" then return false end
+        elseif entry.Event == "Level" then
+            if type(entry.NewLevel) ~= "number" then return false end
+        elseif entry.Event == "Note" then
+            if type(entry.Title) ~= "string" then return false end
+            if type(entry.Note) ~= "string" then return false end
+        end
+    end
+    return true
+end
+
 function _QuestieJourney:ShowExportFrame()
     if _journeyExportFrame then _journeyExportFrame:Show() return end
     local frame = AceGUI:Create("Frame")
@@ -59,7 +82,7 @@ function _QuestieJourney:ShowImportFrame()
     importBtn:SetCallback("OnClick", function()
         local text = editBox:GetText()
         local ok, data = Questie:Deserialize(text)
-        if not ok or type(data) ~= "table" then
+        if not ok or not _ValidateJourneyData(data) then
             Questie:Print(l10n("Invalid journey data - paste the full exported text."))
             return
         end
