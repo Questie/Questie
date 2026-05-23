@@ -180,9 +180,7 @@ local migrationFunctions = {
         end
     end,
     [28] = function()
-        if Questie.db.profile.trimObjectiveText == nil then
-            Questie.db.profile.trimObjectiveText = true
-        end
+        Questie.db.profile.trimObjectiveText = true
     end,
 }
 
