@@ -2863,6 +2863,7 @@ function QuestieQuestFixes:Load()
         },
         [5214] = { -- The Great Ezra Grimm
             [questKeys.name] = "The Great Ezra Grimm",
+            [questKeys.objectivesText] = {"Find Ezra Grimm's smoke shop in Stratholme and recover a box of Grimm's Premium Tobacco. Return to Smokey LaRue when the job is done."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the box"), 0, {{"object", 176248}}}},
         },
         [5218] = {
