@@ -201,7 +201,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 end,
 
                 desc = function()
-                    return l10n("Simplify quest objective text by removing slain word.")
+                    return l10n("Simplify quest objective text by removing \"slain\" from it.")
                 end,
 
                 width = "full",
