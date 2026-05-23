@@ -161,7 +161,7 @@ function MapIconTooltip:Show()
                         local add = true;
                         for _, data in pairs(questOrder[key]) do
                             for text, _ in pairs(data) do
-                                if (text == iconData.ObjectiveData.Description) then
+                                if (text == QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)) then
                                     add = false;
                                     break;
                                 end
@@ -513,10 +513,11 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
 end
 
 function _MapIconTooltip:GetEventObjectiveTooltip(iconData)
+    local desc = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
     if iconData.Name then
         return {
             [iconData.ObjectiveData.Index] = {
-                [iconData.ObjectiveData.Description] = {
+                [desc] = {
                     [iconData.Name] = true
                 }
             }
@@ -524,7 +525,7 @@ function _MapIconTooltip:GetEventObjectiveTooltip(iconData)
     else
         return {
             [iconData.ObjectiveData.Index] = {
-                [iconData.ObjectiveData.Description] = true
+                [desc] = true
             }
         }
     end
