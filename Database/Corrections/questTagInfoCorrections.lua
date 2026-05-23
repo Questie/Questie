@@ -2522,7 +2522,7 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [33087] = {83, l10n("Legendary")}, -- Meet Me Back at the Inn
         [33088] = {83, l10n("Legendary")}, -- A Timeless Discovery
         [33098] = {83, l10n("Legendary")}, -- Secrets of the Timeless Isle
-        [33100] = {83, l10n("Legendary")}, -- The Emperor's Way
+        [33100] = {62, l10n("Raid")}, -- The Emperor's Way
         [33104] = {83, l10n("Legendary")}, -- A Pandaren Legend
         [33105] = {83, l10n("Legendary")}, -- Judgment of the Black Prince
         [33107] = {81, l10n("Dungeon")}, -- Bad Feeling, Worse Result
