@@ -240,7 +240,7 @@ _AddQuestRequirements = function(quest)
             _AddTooltipLine(" ")
             _AddColoredTooltipLine(l10n("Objectives"), "gold")
         end
-            for i = 1, #blizzardObjectives do
+        for i = 1, #blizzardObjectives do
             local objective = blizzardObjectives[i]
             if objective and objective.text and objective.text ~= "" then
                 if (l10n:GetUILocale() == "zhCN" or l10n:GetUILocale() == "zhTW") then
