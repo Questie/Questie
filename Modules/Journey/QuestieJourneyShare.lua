@@ -10,9 +10,14 @@ local _journeyExportFrame
 local _journeyImportFrame
 local _pendingJourneyImport
 
+---@type table<string, boolean>
 local _validEvents    = { Quest = true, Level = true, Note = true }
+---@type table<string, boolean>
 local _validSubTypes  = { Accept = true, Complete = true, Abandon = true }
 
+---Validates deserialised journey data to ensure it matches expected format
+---@param data any
+---@return boolean
 local function _ValidateJourneyData(data)
     if type(data) ~= "table" then return false end
     for _, entry in ipairs(data) do
@@ -33,6 +38,8 @@ local function _ValidateJourneyData(data)
     return true
 end
 
+---Shows the export frame for the journey data
+---@return void
 function _QuestieJourney:ShowExportFrame()
     if _journeyExportFrame then _journeyExportFrame:Show() return end
     local frame = AceGUI:Create("Frame")
@@ -58,6 +65,8 @@ function _QuestieJourney:ShowExportFrame()
     editBox:HighlightText()
 end
 
+---Shows the import frame for the journey data
+---@return void
 function _QuestieJourney:ShowImportFrame()
     if _journeyImportFrame then _journeyImportFrame:Show() return end
     local frame = AceGUI:Create("Frame")
@@ -95,6 +104,8 @@ function _QuestieJourney:ShowImportFrame()
     editBox:SetFocus()
 end
 
+---Popup dialog for confirming journey import
+---@type StaticPopupDialog
 StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
     text = "",
     button1 = l10n("Yes"),
