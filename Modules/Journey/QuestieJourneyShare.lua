@@ -8,12 +8,26 @@ local AceGUI = LibStub("AceGUI-3.0")
 
 local _journeyExportFrame
 local _journeyImportFrame
+local _journeyCharacterBrowserFrame
 local _pendingJourneyImport
 
 ---@type table<string, boolean>
 local _validEvents = {Quest = true, Level = true, Note = true}
 ---@type table<string, boolean>
 local _validSubTypes = {Accept = true, Complete = true, Abandon = true}
+
+---Returns journey data for all other characters on this account that have journey entries
+---@return table<string, table> charKey -> journeyData
+local function _GetOtherCharactersWithJourney()
+    local currentKey = UnitName("player") .. " - " .. GetRealmName()
+    local results = {}
+    for charKey, charData in pairs((QuestieConfig and QuestieConfig.char) or {}) do
+        if charKey ~= currentKey and charData.journey and #charData.journey > 0 then
+            results[charKey] = charData.journey
+        end
+    end
+    return results
+end
 
 ---Validates deserialised journey data to ensure it matches expected format
 ---@param data any
@@ -110,6 +124,80 @@ function _QuestieJourney:ShowImportFrame()
     editBox:SetFocus()
 end
 
+---Shows a frame listing other characters on this account that have journey data, allowing import
+---@return void
+function _QuestieJourney:ShowCharacterBrowserFrame()
+    if _journeyCharacterBrowserFrame then
+        _journeyCharacterBrowserFrame:Show()
+        return
+    end
+
+    local characters = _GetOtherCharactersWithJourney()
+
+    local frame = AceGUI:Create("Frame")
+    _journeyCharacterBrowserFrame = frame
+    frame:SetTitle(l10n("Import from Character"))
+    frame:SetLayout("Flow")
+    frame:SetWidth(500)
+    frame:SetCallback("OnClose", function(widget)
+        AceGUI:Release(widget)
+        _journeyCharacterBrowserFrame = nil
+    end)
+
+    if not next(characters) then
+        frame:SetHeight(150)
+        local label = AceGUI:Create("Label")
+        label:SetText(l10n("No other characters with journey data found."))
+        label:SetFullWidth(true)
+        frame:AddChild(label)
+        frame:Show()
+        return
+    end
+
+    frame:SetHeight(230)
+
+    local dropdownList = {}
+    local dropdownOrder = {}
+    for charKey in pairs(characters) do
+        local charName, realm = charKey:match("^(.-) %- (.+)$")
+        dropdownList[charKey] = (charName and realm) and (charName .. " (" .. realm .. ")") or charKey
+        dropdownOrder[#dropdownOrder + 1] = charKey
+    end
+    table.sort(dropdownOrder, function(a, b) return dropdownList[a] < dropdownList[b] end)
+
+    local selectedKey = dropdownOrder[1]
+
+    local dropdown = AceGUI:Create("Dropdown")
+    dropdown:SetLabel(l10n("Select a character to import:"))
+    dropdown:SetFullWidth(true)
+    dropdown:SetList(dropdownList, dropdownOrder)
+    dropdown:SetValue(selectedKey)
+
+    dropdown:SetCallback("OnValueChanged", function(_, _, value)
+        selectedKey = value
+        countLabel:SetText(string.format(l10n("%d journey entries"), #characters[value]))
+    end)
+
+    local importBtn = AceGUI:Create("Button")
+    importBtn:SetText(l10n("Import"))
+    importBtn:SetFullWidth(true)
+    importBtn:SetCallback("OnClick", function()
+        local journey = QuestieConfig.char[selectedKey] and QuestieConfig.char[selectedKey].journey
+        if not journey or not _ValidateJourneyData(journey) then
+            Questie:Print(l10n("Invalid journey data - paste the full exported text."))
+            return
+        end
+        Questie.db.char.journey = journey
+        frame:Hide()
+        Questie:Print(l10n("Journey imported. Open the My Journey tab to see the changes."))
+    end)
+
+    frame:AddChild(dropdown)
+    frame:AddChild(countLabel)
+    frame:AddChild(importBtn)
+    frame:Show()
+end
+
 ---Popup dialog for confirming journey import
 ---@type StaticPopupDialog
 StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
@@ -119,7 +207,8 @@ StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
     OnAccept = function()
         Questie.db.char.journey = _pendingJourneyImport
         _pendingJourneyImport = nil
-        ReloadUI()
+        frame:Hide()
+        Questie:Print(l10n("Journey imported. Open the My Journey tab to see the changes."))
     end,
     OnCancel = function()
         _pendingJourneyImport = nil

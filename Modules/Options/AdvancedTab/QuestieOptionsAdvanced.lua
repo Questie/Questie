@@ -276,6 +276,14 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n("Paste journey data exported from another character.") end,
                 func = function() QuestieJourney.private:ShowImportFrame() end,
             },
+            Spacer_Browse = QuestieOptionsUtils:Spacer(4.45),
+            journeyBrowseCharacters = {
+                type = "execute",
+                order = 4.46,
+                name = function() return l10n("Import from Character") end,
+                desc = function() return l10n("Browse other characters on this account and import their journey data.") end,
+                func = function() QuestieJourney.private:ShowCharacterBrowserFrame() end,
+            },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
             recompileDatabase = {
                 type = "execute",
