@@ -650,7 +650,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "裁剪对象文本",
         ["zhTW"] = false,
     },
-    ["Simplify quest objective text by removing slain word."] = {
+    ["Simplify quest objective text by removing \"slain\" from it."] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
