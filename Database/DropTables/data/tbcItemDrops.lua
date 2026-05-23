@@ -22664,7 +22664,7 @@ QuestieTBCItemDrops.cmangosData = [[return {
     [13157] = { -- Fetid Skull
         [8529] = 100.0,
     },
-    [13172] = { -- Siabi's Premium Tobacco
+    [13172] = { -- Grimm's Premium Tobacco
         [11058] = 100.0,
     },
     [13174] = { -- Plagued Flesh Sample
