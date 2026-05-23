@@ -17,6 +17,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -257,6 +259,22 @@ function QuestieOptions.tabs.advanced:Initialize()
                 func = function(_,_)
                     StaticPopup_Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
+            },
+            Spacer_Export = QuestieOptionsUtils:Spacer(4.41),
+            journeyExport = {
+                type = "execute",
+                order = 4.42,
+                name = function() return l10n("Export Journey Data") end,
+                desc = function() return l10n("Open a window with your journey data ready to copy.") end,
+                func = function() QuestieJourney.private:ShowExportFrame() end,
+            },
+            Spacer_Import = QuestieOptionsUtils:Spacer(4.43),
+            journeyImport = {
+                type = "execute",
+                order = 4.44,
+                name = function() return l10n("Import Journey Data") end,
+                desc = function() return l10n("Paste journey data exported from another character.") end,
+                func = function() QuestieJourney.private:ShowImportFrame() end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
             recompileDatabase = {
