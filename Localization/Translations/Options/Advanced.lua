@@ -659,7 +659,7 @@ local advancedOptionsLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "移除任务目标中的已消灭词语以简化文本。",
+        ["zhCN"] = "移除任务目标中的“已消灭”以简化文本。",
         ["zhTW"] = false,
     },
 }
