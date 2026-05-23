@@ -280,13 +280,19 @@ local myJourneyLocales = {
     },
     ["Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!"] = {
         ["enUS"] = true,
-        ["deDE"] = "Erstelle einen Eintrag in deinem Reisetagebuch, um dich an einen bestimmten Moment zu erinnern. Gebe einfach einen Titel und eine Beschreibung an und Questie wird sich für dich erinnern!",
-        ["esES"] = "Crea una nueva entrada en el tu viaje para recordar un momento especifico. Simplemente proporciona un titulo y una descripción y Questie lo recordará por ti",
-        ["esMX"] = "Crea una nueva nota en tu viaje para recordar un momento especifico. Simplemente proporciona un titulo y una descripción y Questie lo recordará por ti",
-        ["frFR"] = "Créez une note dans votre journal pour vous rappeler un moment précis. Indiquez simplement un titre et une description et Questie s'en souviendra pour vous !",
+        ["deDE"] =
+        "Erstelle einen Eintrag in deinem Reisetagebuch, um dich an einen bestimmten Moment zu erinnern. Gebe einfach einen Titel und eine Beschreibung an und Questie wird sich für dich erinnern!",
+        ["esES"] =
+        "Crea una nueva entrada en el tu viaje para recordar un momento especifico. Simplemente proporciona un titulo y una descripción y Questie lo recordará por ti",
+        ["esMX"] =
+        "Crea una nueva nota en tu viaje para recordar un momento especifico. Simplemente proporciona un titulo y una descripción y Questie lo recordará por ti",
+        ["frFR"] =
+        "Créez une note dans votre journal pour vous rappeler un moment précis. Indiquez simplement un titre et une description et Questie s'en souviendra pour vous !",
         ["koKR"] = "여정 내역에 메모를 남겨 특별한 순간을 기억해보세요. 간단하게 제목과 내용을 입력하면 Questie가 당신을 위해 기억해드립니다!",
-        ["ptBR"] = "Cria uma entrada no seu diário para lembrá-lo de um momento específico. Basta fornecer um título e uma descrição e o Questie lembrará disso para você!",
-        ["ruRU"] = "Создает заметку в журнале путешествия, чтобы запомнить определенный момент. Просто введите название и описание, и Questie запомнит это для вас!",
+        ["ptBR"] =
+        "Cria uma entrada no seu diário para lembrá-lo de um momento específico. Basta fornecer um título e uma descrição e o Questie lembrará disso para você!",
+        ["ruRU"] =
+        "Создает заметку в журнале путешествия, чтобы запомнить определенный момент. Просто введите название и описание, и Questie запомнит это для вас!",
         ["zhCN"] = "替你的魔兽升级之旅创建一个条目，纪录特别的时刻。只要输入标题和内容，Questie就会替你保存下来！",
         ["zhTW"] = "在你的冒險日記中建立新內容來記錄特別的時刻，只要簡單的輸入標題和內容描述，任務位置提示插件就會幫你保存起來！",
     },
@@ -891,30 +897,6 @@ local myJourneyLocales = {
         ["zhTW"] = false,
     },
     ["Import this journey data? This will overwrite your current journey and reload the UI."] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
-    ["Yes"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
-    ["No"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,

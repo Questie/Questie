@@ -11,9 +11,9 @@ local _journeyImportFrame
 local _pendingJourneyImport
 
 ---@type table<string, boolean>
-local _validEvents    = { Quest = true, Level = true, Note = true }
+local _validEvents = {Quest = true, Level = true, Note = true}
 ---@type table<string, boolean>
-local _validSubTypes  = { Accept = true, Complete = true, Abandon = true }
+local _validSubTypes = {Accept = true, Complete = true, Abandon = true}
 
 ---Validates deserialised journey data to ensure it matches expected format
 ---@param data any
@@ -41,7 +41,10 @@ end
 ---Shows the export frame for the journey data
 ---@return void
 function _QuestieJourney:ShowExportFrame()
-    if _journeyExportFrame then _journeyExportFrame:Show() return end
+    if _journeyExportFrame then
+        _journeyExportFrame:Show()
+        return
+    end
     local frame = AceGUI:Create("Frame")
     _journeyExportFrame = frame
     frame:SetTitle(l10n("Export Journey Data"))
@@ -68,7 +71,10 @@ end
 ---Shows the import frame for the journey data
 ---@return void
 function _QuestieJourney:ShowImportFrame()
-    if _journeyImportFrame then _journeyImportFrame:Show() return end
+    if _journeyImportFrame then
+        _journeyImportFrame:Show()
+        return
+    end
     local frame = AceGUI:Create("Frame")
     _journeyImportFrame = frame
     frame:SetTitle(l10n("Import Journey Data"))
@@ -108,8 +114,8 @@ end
 ---@type StaticPopupDialog
 StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
     text = "",
-    button1 = l10n("Yes"),
-    button2 = l10n("No"),
+    button1 = YES,
+    button2 = NO,
     OnAccept = function()
         Questie.db.char.journey = _pendingJourneyImport
         _pendingJourneyImport = nil
