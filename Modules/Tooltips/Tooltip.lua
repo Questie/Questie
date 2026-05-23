@@ -365,7 +365,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " ..QuestieLib:GetObjectiveDescription(objective) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         else
-                            text = "   " .. color .. tostring(QuestieLib:GetObjectiveDescription(objective)) .. dropRateText;
+                            text = "   " .. color .. QuestieLib:GetObjectiveDescription(objective) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
                     end
