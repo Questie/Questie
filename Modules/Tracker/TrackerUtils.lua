@@ -632,26 +632,10 @@ function TrackerUtils:GetSortedQuestIds()
         Sorter.byComplete(sortedQuestIds, questDetails)
     elseif sortObj == "byCompleteReversed" then
         Sorter.byCompleteReverse(sortedQuestIds, questDetails)
-    elseif sortObj == "byLevel" or sortObj == "byLevelReversed" then
-        table.sort(sortedQuestIds, function(a, b)
-            local qA = questDetails[a].quest
-            local qB = questDetails[b].quest
-
-            if qA.level == qB.level then
-                local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
-                local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
-                if suffixPrioA == suffixPrioB then
-                    return qA.Id < qB.Id
-                end
-                return suffixPrioA < suffixPrioB
-            end
-
-            if sortObj == "byLevel" then
-                return qA.level < qB.level
-            else
-                return qA.level > qB.level
-            end
-        end)
+    elseif sortObj == "byLevel" then
+        Sorter.byLevel(sortedQuestIds, questDetails)
+    elseif sortObj == "byLevelReversed" then
+        Sorter.byLevelReverse(sortedQuestIds, questDetails)
     elseif sortObj == "byZone" then
         table.sort(sortedQuestIds, function(a, b)
             local qA = questDetails[a].quest
