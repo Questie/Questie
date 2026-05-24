@@ -392,7 +392,7 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Questie Tracker will automatically be hidden when entering a dungeon, raid, or battleground."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons, Schlachtzugs oder Schlachtfelds automatisch ausgeblendet.",
+        ["deDE"] = "Wenn aktiviert, wird der Tracker beim Betreten eines Dungeons, Schlachtzugs oder Schlachtfelds automatisch ausgeblendet.",
         ["esES"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en una mazmorra, banda o campo de batalla.",
         ["esMX"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en un calabozo, banda o campo de batalla.",
         ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement caché lors de l’entrée dans un donjon, un raid ou un champ de bataille.",
@@ -417,7 +417,7 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Questie Tracker will automatically be hidden when entering a pet battle."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Haustierkampfs automatisch ausgeblendet.",
+        ["deDE"] = "Wenn aktiviert, wird der Tracker beim Betreten eines Haustierkampfs automatisch ausgeblendet.",
         ["esES"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en un duelo de mascotas.",
         ["esMX"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en un duelo de mascotas.",
         ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement caché lors d’un combat de mascottes.",
