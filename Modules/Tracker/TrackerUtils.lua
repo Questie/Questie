@@ -5,6 +5,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type Sorter
+local Sorter = QuestieLoader:ImportModule("Sorter")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerFadeTicker
@@ -626,30 +628,10 @@ function TrackerUtils:GetSortedQuestIds()
     end
 
     -- Quests and objectives sort
-    if sortObj == "byComplete" or sortObj == "byCompleteReversed" then
-        table.sort(sortedQuestIds, function(a, b)
-            local vA, vB = questDetails[a].questCompletePercent, questDetails[b].questCompletePercent
-            if vA == vB then
-                local qA = questDetails[a].quest
-                local qB = questDetails[b].quest
-
-                if qA.level == qB.level then
-                    local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
-                    local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
-                    if suffixPrioA == suffixPrioB then
-                        return qA.Id < qB.Id
-                    end
-                    return suffixPrioA < suffixPrioB
-                end
-                return qA.level < qB.level
-            end
-
-            if sortObj == "byComplete" then
-                return vB < vA
-            else
-                return vB > vA
-            end
-        end)
+    if sortObj == "byComplete" then
+        Sorter.byComplete(sortedQuestIds, questDetails)
+    elseif sortObj == "byCompleteReversed" then
+        Sorter.byCompleteReverse(sortedQuestIds, questDetails)
     elseif sortObj == "byLevel" or sortObj == "byLevelReversed" then
         table.sort(sortedQuestIds, function(a, b)
             local qA = questDetails[a].quest
