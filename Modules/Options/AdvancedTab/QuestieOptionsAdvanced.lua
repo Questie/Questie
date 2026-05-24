@@ -260,23 +260,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     StaticPopup_Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
-            Spacer_Export = QuestieOptionsUtils:Spacer(4.41),
-            journeyExport = {
-                type = "execute",
-                order = 4.42,
-                name = function() return l10n("Export Journey Data") end,
-                desc = function() return l10n("Open a window with your journey data ready to copy.") end,
-                func = function() QuestieJourney.private:ShowExportFrame() end,
-            },
-            Spacer_Import = QuestieOptionsUtils:Spacer(4.43),
-            journeyImport = {
-                type = "execute",
-                order = 4.44,
-                name = function() return l10n("Import Journey Data") end,
-                desc = function() return l10n("Paste journey data exported from another character.") end,
-                func = function() QuestieJourney.private:ShowImportFrame() end,
-            },
-            Spacer_Browse = QuestieOptionsUtils:Spacer(4.45),
+            Spacer_Browse = QuestieOptionsUtils:Spacer(4.4),
             journeyBrowseCharacters = {
                 type = "execute",
                 order = 4.46,
