@@ -1,0 +1,60 @@
+---@meta _
+---@alias FrameType
+---|"Frame"
+---|"ArchaeologyDigSiteFrame"
+---|"Browser"
+---|"Button"
+---|"CheckButton"
+---|"Checkout"
+---|"CinematicModel"
+---|"ColorSelect"
+---|"Cooldown"
+---|"DressUpModel"
+---|"EditBox"
+---|"FogOfWarFrame"
+---|"GameTooltip"
+---|"ItemButton"
+---|"MessageFrame"
+---|"Model"
+---|"ModelScene"
+---|"MovieFrame"
+---|"OffScreenFrame"
+---|"PlayerModel"
+---|"QuestPOIFrame"
+---|"ScenarioPOIFrame"
+---|"ScrollFrame"
+---|"ScrollingMessageFrame"
+---|"SimpleHTML"
+---|"Slider"
+---|"StatusBar"
+---|"TabardModel"
+---|"UnitPositionFrame"
+---|"EventFrame" Frame|EventFrameMixin
+
+---@alias AnimationType
+---|"Alpha"
+---|"Animation"
+---|"FlipBook"
+---|"LineScale"
+---|"LineTranslation"
+---|"Path"
+---|"Rotation"
+---|"Scale"
+---|"Translation"
+---|"VertexColor"
+
+---@alias ChatBubbleFrame Frame
+---@alias CScriptObject Object
+---@alias ModelSceneFrame ModelScene
+---@alias ModelSceneFrameActor ModelSceneActor
+---@alias SimpleAnimGroup AnimationGroup
+---@alias SimpleControlPoint ControlPoint
+---@alias SimpleFont Font
+---@alias SimpleFontString FontString
+---@alias SimpleFrame Frame
+---@alias SimpleLine Line
+---@alias SimpleMaskTexture MaskTexture
+---@alias SimplePathAnim Path
+---@alias SimpleRegion Region
+---@alias SimpleTexture Texture
+---@alias SimpleWindow table

@@ -6,6 +6,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 function QuestieTBCItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
+    local itemClasses = QuestieDB.itemClasses
 
     return {
         [4503] = {
@@ -14,17 +15,29 @@ function QuestieTBCItemFixes:Load()
         [5445] = {
             [itemKeys.npcDrops] = {3943},
         },
+        [5060] = {
+            [itemKeys.vendors] = {1325,1326,1457,2622,3090,3135,3334,3490,3542,3551,3561,3969,4585,5139,5169,6779,7166,10364,12096,12097,15175,16268,16683,16829,18006,18019,20121},
+        },
+        [5359] = { -- Lorgalis Manuscript
+            [itemKeys.npcDrops] = {},
+        },
         [5959] = {
             [itemKeys.npcDrops] = {4376,4378,4379,4380},
         },
         [6083] = {
             [itemKeys.npcDrops] = {},
         },
+        [7923] = { -- Defias Tower Key
+            [itemKeys.npcDrops] = {7051},
+        },
         [8073] = {
             [itemKeys.npcDrops] = {},
         },
         [12366] = {
             [itemKeys.npcDrops] = {7457,7458,7459,7460},
+        },
+        [17126] = { -- Elegant Letter
+            [itemKeys.npcDrops] = {332,918,3327,3328,3401,4163,4214,4215,4582,4583,4584,5165,5166,5167,15285,16279,16684,16685,16686},
         },
         [20023] = {
             [itemKeys.npcDrops] = {6375,6377,6378,6379,6380,8759,8761,8762,8763,8764,8766,},
@@ -68,6 +81,9 @@ function QuestieTBCItemFixes:Load()
         [23670] = {
             [itemKeys.objectDrops] = {181632},
         },
+        [23686] = { -- Lacy Handkerchief
+            [itemKeys.npcDrops] = {17210},
+        },
         [23750] = {
             [itemKeys.objectDrops] = {107047},
         },
@@ -83,11 +99,11 @@ function QuestieTBCItemFixes:Load()
         [23818] = {
             [itemKeys.class] = 12,
         },
+        [23837] = { -- Weathered Treasure Map
+            [itemKeys.npcDrops] = {17421},
+        },
         [23848] = {
             [itemKeys.npcDrops] = {3546},
-        },
-        [23849] = {
-            [itemKeys.npcDrops] = {17190,17191,17192},
         },
         [23878] = {
             [itemKeys.objectDrops] = {181779},
@@ -109,6 +125,9 @@ function QuestieTBCItemFixes:Load()
         },
         [24099] = {
             [itemKeys.class] = 12,
+        },
+        [24132] = {
+            [itemKeys.objectDrops] = {410001},
         },
         [24156] = {
             [itemKeys.npcDrops] = {17544},
@@ -237,6 +256,9 @@ function QuestieTBCItemFixes:Load()
         [29742] = {
             [itemKeys.class] = 12,
         },
+        [29769] = { -- Diagnostic Results
+            [itemKeys.objectDrops] = {184609},
+        },
         [29778] = {
             [itemKeys.class] = 12,
         },
@@ -298,6 +320,12 @@ function QuestieTBCItemFixes:Load()
         [30823] = {
             [itemKeys.npcDrops] = {19678},
         },
+        [31085] = { -- Top Shard of the Arcatraz Key
+            [itemKeys.npcDrops] = {17977},
+        },
+        [31086] = { -- Bottom Shard of the Arcatraz Key
+            [itemKeys.npcDrops] = {19220},
+        },
         [31121] = {
             [itemKeys.class] = 12,
         },
@@ -309,6 +337,9 @@ function QuestieTBCItemFixes:Load()
         },
         [31252] = {
             [itemKeys.npcDrops] = {18733},
+        },
+        [31261] = {
+            [itemKeys.npcDrops] = {19826,19827,21386},
         },
         [31279] = {
             [itemKeys.class] = 12,
@@ -361,11 +392,26 @@ function QuestieTBCItemFixes:Load()
         [31813] = {
             [itemKeys.npcDrops] = {18884},
         },
+        [31880] = { -- Blood Elf Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [31881] = { -- Draenei Orphan Whistle
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [31941] = { -- Mark of the Nexus-King
+            [itemKeys.npcDrops] = {20888,20889,22825,22826,22827,22828},
+        },
         [31951] = {
             [itemKeys.vendors] = {21643},
         },
         [31957] = {
             [itemKeys.npcDrops] = {20520},
+        },
+        [31994] = { -- Ethereum Key Tablet - Alpha
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [32061] = { -- Evidence from Alpha
+            [itemKeys.npcDrops] = {20889,22920},
         },
         [32364] = {
             [itemKeys.objectDrops] = {185566},
@@ -453,6 +499,9 @@ function QuestieTBCItemFixes:Load()
         [33840] = {
             [itemKeys.npcDrops] = {18708},
         },
+        [33847] = {
+            [itemKeys.npcDrops] = {18096},
+        },
         [33858] = {
             [itemKeys.npcDrops] = {17881},
         },
@@ -520,19 +569,37 @@ function QuestieTBCItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
-        [30712] = {
+        [17126] = { -- Elegant Letter
+            [itemKeys.npcDrops] = {3327,3328,3401,4582,4583,4584,15285,16279,16684,16685,16686},
+        },
+        [25911] = { -- Salvaged Wood
+            [itemKeys.objectDrops] = {182936},
+        },
+        [25912] = { -- Salvaged Metal
+            [itemKeys.objectDrops] = {182937, 182938},
+        },
+        [30712] = { -- The Doctor's Key
             [itemKeys.npcDrops] = {21779},
         },
-        [30713] = {
+        [30713] = { -- The Art of Fel Reaver Maintenance
             [itemKeys.objectDrops] = {185233},
         },
     }
 
     local itemFixesAlliance = {
-        [30712] = {
+        [17126] = { -- Elegant Letter
+            [itemKeys.npcDrops] = {332,918,4163,4214,4215,5165,5166,5167},
+        },
+        [25911] = { -- Salvaged Wood
+            [itemKeys.objectDrops] = {182799},
+        },
+        [25912] = { -- Salvaged Metal
+            [itemKeys.objectDrops] = {182798, 182797},
+        },
+        [30712] = { -- The Doctor's Key
             [itemKeys.npcDrops] = {21778},
         },
-        [30713] = {
+        [30713] = { -- The Art of Fel Reaver Maintenance
             [itemKeys.objectDrops] = {184947},
         },
     }

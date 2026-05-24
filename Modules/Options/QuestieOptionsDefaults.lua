@@ -4,7 +4,7 @@ local QuestieOptionsDefaults = QuestieLoader:CreateModule("QuestieOptionsDefault
 function QuestieOptionsDefaults:Load()
     return {
         profile = {
-            clusterLevelHotzone = 50,
+            objectiveFilterDistance = 2,
             spawnFilterDistance = 28,
             availableIconLimit = 30,
             enableIconLimit = false,
@@ -61,6 +61,7 @@ function QuestieOptionsDefaults:Load()
             enableTooltipsQuestLevel = true,
             showQuestXpAtMaxLevel = true,
             enableTooltipsNextInChain = true,
+            enableTooltipDroprates = true,
             enableMapIcons = true,
             enableMiniMapIcons = true,
             questieShutUp = false,
@@ -112,9 +113,10 @@ function QuestieOptionsDefaults:Load()
             trackerFontSizeObjective = 10,
             trackerFontObjective = "Friz Quadrata TT",
             trackerQuestPadding = 4,
-            trackerFontOutline = "None",
+            trackerFontOutline = "",
             trackerBackdropColor = {r = 0, g = 0, b = 0, a = 1},
             trackerHeightRatio = 0.50,
+            trackerWidthRatio = 0.20,
 
             lowLevelStyle = 1, -- Questie.LOWLEVEL_NONE
             manualLevelOffset = 7,
@@ -187,6 +189,7 @@ function QuestieOptionsDefaults:Load()
                 ["Auctioneer"] = false,
                 ["Meeting Stones"] = true,
                 ["Reagents"] = false,
+                ["Poisons"] = false,
                 ["Transmogrifier"] = false,
                 ["Arcane Reforger"] = false,
                 ["Barber"] = false,

@@ -8,7 +8,7 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
-local _, playerClass = UnitClass("player")
+local playerClass = UnitClassBase("player")
 local playerFaction = UnitFactionGroup("player")
 
 local tinsert = table.insert
@@ -124,9 +124,12 @@ function Townsfolk.Initialize()
         ["Innkeeper"] = townsfolkData["Innkeeper"].data,
         ["Barber"] = QuestieDB.npcFlags.BARBER and townsfolkData["Barber"].data or nil,
         ["Arcane Reforger"] = QuestieDB.npcFlags.ARCANE_REFORGER and townsfolkData["Arcane Reforger"].data or nil,
-        ["Transmogrifier"] = QuestieDB.npcFlags.TRANSMOGRIFIER and townsfolkData["Transmogrifier"].data or nil,
-        ["Weapon Master"] = {}, -- populated below
+        ["Transmogrifier"] = QuestieDB.npcFlags.TRANSMOGRIFIER and townsfolkData["Transmogrifier"].data or nil
     }
+
+    if Expansions.Current <= Expansions.Wotlk then
+        townfolk["Weapon Master"] = {} -- populated below
+    end
 
     ---@type table<ProfessionEnum, NpcId[]>
     local professionTrainers = {
@@ -410,10 +413,7 @@ function Townsfolk.Initialize()
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
             if QuestieDB.npcData[trainer] then
-                local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
-                if subName and string.len(subName) > 0 then
-                    tinsert(newTrainers, trainer)
-                end
+                tinsert(newTrainers, trainer)
             end
         end
         classSpecificTownsfolk[class] = {}
@@ -461,22 +461,16 @@ function Townsfolk.Initialize()
 end
 
 function Townsfolk.PostBoot() -- post DB boot (use queries here)
-    -- item ids for class-specific reagents
     local reagents = {
-        ["MAGE"] = {17031, 17032, 17020},
-        ["SHAMAN"] = {17030},
-        ["PRIEST"] = {17029,17028},
-        ["PALADIN"] = {21177,17033},
-        ["WARRIOR"] = {},
-        ["HUNTER"] = {},
-        ["DEATHKNIGHT"] = {37201},
-        ["WARLOCK"] = {5565,16583},
-        ["ROGUE"] = (Expansions.Current >= Expansions.Wotlk) and {2892} -- All poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
-            or {5140,2928,8924,5173,2930,8923},
-        ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037},
-        ["MONK"] = {},
+        17031, 17032, 17020, -- MAGE
+        17030, -- SHAMAN
+        17029, 17028, -- PRIEST
+        21177, 17033, -- PALADIN
+        37201, -- DEATHKNIGHT
+        5565, 16583, -- WARLOCK
+        17034, 17026, 17035, 17021, 17038, 17036, 17037, -- DRUID
     }
-    reagents = reagents[playerClass]
+
     if Questie.IsSoD then
         table.insert(reagents, 212160) -- In SoD the Chronoboon Displacer is sold by reagent vendors
     end
@@ -485,6 +479,13 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
     if #reagents > 0 then
         Questie.db.char.vendorList["Reagents"] = _reformatVendors(Townsfolk:PopulateVendors(reagents))
     end
+
+    if Expansions.Current < Expansions.MoP then
+        -- Beginning with WotLK, all poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
+        local poisons = Expansions.Current >= Expansions.Wotlk and {2892} or {5140,2928,8924,5173,2930,8923}
+        Questie.db.char.vendorList["Poisons"] = _reformatVendors(Townsfolk:PopulateVendors(poisons))
+    end
+
     Questie.db.char.vendorList["Trade Goods"] = _reformatVendors(Townsfolk:PopulateVendors({
         14256,12810,13463,8845,8846,4234,3713,8170,14341,4389,3357,2453,13464,
         3355,3356,3358,4371,4304,5060,2319,18256,8925,3857,10940,2321,785,4404,2692,
@@ -506,7 +507,7 @@ end
 function Townsfolk:BuildCharacterTownsfolk()
     Questie.db.char.townsfolk = {}
     Questie.db.char.vendorList = {}
-    Questie.db.char.townsfolkClass = UnitClass("player")
+    Questie.db.char.townsfolkClass = UnitClassBase("player")
 
     for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
         Questie.db.char.townsfolk[key] = npcs
@@ -551,11 +552,10 @@ end
 
 function Townsfolk:UpdatePlayerVendors() -- call on levelup
     _UpdateFoodDrink()
+    _UpdateAmmoVendors()
+
     if playerClass == "HUNTER" then
         _UpdatePetFood()
-        _UpdateAmmoVendors()
-    elseif playerClass == "ROGUE" or playerClass == "WARRIOR" then
-        _UpdateAmmoVendors()
     end
 end
 

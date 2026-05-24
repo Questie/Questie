@@ -17,8 +17,25 @@ function QuestieTBCObjectFixes:Load()
         [1739] = { -- Syndicate Documents
             [objectKeys.questStarts] = {},
         },
+        [5619] = { -- Flawed Power Stone
+            [objectKeys.questStarts] = {926},
+            [objectKeys.questEnds] = {926},
+        },
+        [5621] = { -- Flawed Power Stones
+            [objectKeys.questStarts] = {926},
+            [objectKeys.questEnds] = {926},
+        },
+        [21015] = { -- Hoofprints
+            [objectKeys.questStarts] = {},
+        },
+        [21016] = { -- Hoofprints
+            [objectKeys.questStarts] = {},
+        },
         [142122] = {
             [objectKeys.questStarts] = {2781,2875},
+        },
+        [156561] = { -- Wanted Poster
+            [objectKeys.questStarts] = {176},
         },
         [177281] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{80.32,65.06}}},
@@ -52,6 +69,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{41,30}}},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
+        [181849] = { -- Ravager Cage
+            [objectKeys.name] = "Ravager Cage",
+            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{54.03,9.95}}},
+            [objectKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+        },
         [181897] = {
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{68.3,21.7},{69.98,26.3},{70.6,16.5},{71.4,11.7},{71.4,28.2},{72.7,21.4},{74.7,16.3},{75,8.7},{75.4,19.1},{75.7,28.4},{75.54,13.85},{76,24.8},{76.8,21.4}}},
         },
@@ -67,9 +89,24 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
         },
+        [182349] = { -- Corki's Prison
+            [objectKeys.name] = "Corki's Prison",
+            [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{72.54,70.73}}},
+            [objectKeys.zoneID] = zoneIDs.NAGRAND,
+        },
+        [182350] = { -- Corki's Prison
+            [objectKeys.name] = "Corki's Prison",
+            [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{39.25,27.42}}},
+            [objectKeys.zoneID] = zoneIDs.NAGRAND,
+        },
         [182484] = {
             [objectKeys.name] = "Warmaul Prison",
             [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{28.07,19.53},{26.47,19.73},{26.59,23.57},{28.5,24.8},{28.13,24.7},{29.36,24.09},{28.84,25.31},{29.4,24.55},{25.95,24.34},{27.96,25.38},{25.34,24.25},{25.23,25.11},{24.67,27.63},{23.15,29.35},{23.42,28.34},{23.76,30.42},{23.57,31.83},{29.64,25.95},{28.95,25.86},{29.24,26.28}}},
+            [objectKeys.zoneID] = zoneIDs.NAGRAND,
+        },
+        [182521] = { -- Corki's Prison
+            [objectKeys.name] = "Corki's Prison",
+            [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{29.54,26.05}}},
             [objectKeys.zoneID] = zoneIDs.NAGRAND,
         },
         [182950] = {
@@ -81,10 +118,85 @@ function QuestieTBCObjectFixes:Load()
         [183933] = {
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{18.54,73.68},{35.53,57.98},{34.93,58.48},{36.56,59.4},{37.25,57.88},{19.82,75.69},{20.31,77.36},{19.39,78.38},{22.24,78.14},{24.42,78.22},{23.75,79.38},{31.73,71.52},{32.94,79.62},{32.9,78.28},{33.92,79.24},{34.81,78.16},{33.83,77.23},{34.73,77.5},{35.4,76.08},{39.09,77.34},{39.08,78.19},{40.81,77.3},{41.87,77.04},{19.61,75.08},{19.59,78.58},{21.6,78.4},{23.42,77.77},{19.44,74.0},{32.3,79.15},{32.43,79.37},{33.91,75.74},{34.14,78.13},{41.26,77.05},{40.37,78.64},{33.97,75.64}}},
         },
+        [184418] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.76,39.91}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184419] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.28,40.29}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184420] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.53,40.6}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184421] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184422] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.77,40.28}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184423] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.53,40.28}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184424] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.46,46.37}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184425] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.64,46.39}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184426] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.73,46.57}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184427] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.54,46.55}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184428] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.38,46.53}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184429] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.45,46.73}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184430] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.63,46.76}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184431] = {
+            [objectKeys.name] = "Ethereum Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.82,46.79}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [184588] = {
             [objectKeys.name] = "Captain Tyralius's Prison",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184595] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.63,15.76}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [184691] = {
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{49.8,20.01},{55.62,15.07},{55.35,15.55},{52.89,14.63},{52.59,14.14},{53.19,14.12},{54.72,14.59},{55.92,16.44},{55.62,16.87},{54.99,16.87},{52.56,20.45},{52.31,19.04},{52.58,18.66},{51.97,18.68},{51.67,18.16},{50.49,17.29},{50.75,15.97},{51.7,15.53},{52.6,15.06},{55.02,14.17},{55.33,14.63},{55.91,15.49},{55.01,15.97},{54.15,16.38},{54.05,17.33},{54.36,17.76},{53.8,17.78},{53.19,15.95},{52.3,16.36},{51.67,16.37}}},
@@ -92,15 +204,6 @@ function QuestieTBCObjectFixes:Load()
         },
         [184980] = {
             [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{45.9,28.2},{46.2,29.1},{46.4,32.5},{46.5,28.6},{46.6,29.5},{46.6,32.6},{46.7,32.4},{46.7,39.6},{46.8,28.3},{46.8,39.3},{46.8,40.7},{46.9,35.6},{46.9,37.4},{46.9,37.6},{47.3,35.2},{47.4,30.7},{47.5,29.1},{47.5,34.4},{47.5,35.3},{47.5,35.9},{47.7,30.7},{47.8,32.5},{48.1,30.1},{48.3,31.9},{48.6,29.6},{48.8,29.0},{48.9,30.9},{48.9,31.5},{49.4,28.1},{49.4,42.8},{49.6,28.4},{49.6,31.3},{49.7,29.8},{50.0,28.7},{50.0,38.4},{50.1,43.5},{50.2,35.9},{50.2,38.6},{50.2,40.5},{50.2,43.2},{50.2,44.9},{50.2,45.7},{50.3,27.4},{50.3,37.4},{50.3,40.3},{50.4,41.5},{50.5,28.7},{50.5,38.6},{50.6,42.9},{50.7,38.1},{50.7,40.0},{50.8,26.6},{50.8,29.6},{50.8,43.5},{50.8,44.7},{51.0,26.0},{51.0,27.9},{51.3,23.5},{51.3,31.2},{51.4,40.5},{51.5,40.7},{51.5,44.2},{51.5,44.7},{51.6,21.4},{51.8,22.8},{52.2,22.2},{52.8,44.3},{52.8,44.5},{53.4,45.7},{53.5,43.8},{53.8,44.8},{55.2,45.5}}},
-        },
-        [184998] = {
-            [objectKeys.name] = "Ethereum Prison",
-            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{54.52,39.93},{54.53,40.28},{54.28,40.29},{54.53,40.6},{54.77,40.28},{54.76,39.91},{54.46,46.37},{54.82,46.79},{54.63,46.76},{54.45,46.73},{54.73,46.57},{54.54,46.55},{54.38,46.53},{54.64,46.39}}},
-        },
-        [185001] = {
-            [objectKeys.name] = "Ethereum Stasis Chamber",
-            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43},{52.68,20.25},{52.87,20.08},{49.62,21.42},{49.39,21.3},{49.15,21.13},{49.63,15.76},{49.48,15.54}}},
-            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [185015] = {
             [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
@@ -126,10 +229,54 @@ function QuestieTBCObjectFixes:Load()
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
         },
+        [185461] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.48,15.54}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185462] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.15,21.13}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185463] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.39,21.3}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185464] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.62,21.42}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185465] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.87,20.08}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185466] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.68,20.25}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185467] = {
+            [objectKeys.name] = "Ethereum Stasis Chamber",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{52.5,20.43}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [185512] = { -- Stasis Chamber Alpha
+            [objectKeys.name] = "Stasis Chamber Alpha",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{51.14,11.59}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
         [185519] = {
             [objectKeys.name] = "Mana-Tombs Stasis Chamber",
             [objectKeys.spawns] = {[zoneIDs.MANA_TOMBS] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MANA_TOMBS,
+        },
+        [185549] = { -- Monstrous Kaliri Egg
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{75.2,86.49},{75.26,86.36},{75.18,86.33},{74.74,88.51},{74.75,88.67},{74.78,88.68},{74.79,88.47},{74.87,88.54},{74.88,88.6},{63.11,79.79},{67.46,79.53},{67.49,79.56},{69.23,78.87},{69.23,78.76},{73.13,83.1},{73.04,83.07},{72.49,88.85},{72.47,88.81},{72.51,88.79},{73.37,86.33},{73.33,86.34},{73.35,86.39},{75.96,81.03},{75.54,80.09},{75.94,81.07},{75.59,80.09},{75.92,80.99},{75.56,80.12},{71.5,82.11},{71.4,82.04},{73.89,80.51},{73.75,80.58},{73.84,80.64},{70.32,84.7},{70.3,84.57},{67.48,79.07},{67.65,79.07},{67.44,79.09},{68.6,73.94},{68.55,73.91},{68.58,74.04},{69.95,74.59},{70.04,74.62},{70.06,74.66},{69.9,74.68},{69.94,74.74},{70.02,74.8},{74.18,83.89},{74.14,83.87},{74.2,83.84},{72.99,83.25},{69.47,79.03},{67.72,79.38},{71.31,82.37},{70.6,84.48},{67.93,85.47},{67.97,85.47},{67.98,85.5},{61.17,79.84},{61.2,79.71},{61.42,79.92},{63.08,80.36},{63.14,80.35},{62.93,80.14},{60.98,77.75},{61.02,77.75},{60.99,77.8},{60.87,75.48},{60.85,75.38},{60.94,75.34},{61.64,73.32},{61.59,73.48},{61.53,73.43},{63.3,79.98},{63.25,79.92}}},
+            [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
         },
         [185562] = {
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.53,31.2}}},
@@ -155,9 +302,6 @@ function QuestieTBCObjectFixes:Load()
         [186189] = {
             [objectKeys.name] = "Alcohol-Free Brewfest Sampler",
         },
-        [186273] = {
-            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
-        },
         [186420] = { -- Syndicate Documents
             [objectKeys.questStarts] = {510,511},
         },
@@ -172,6 +316,9 @@ function QuestieTBCObjectFixes:Load()
         },
         [187078] = {
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{46.5,35.5},{48.63,35.37},{48.89,39.15},{49.14,29.53},{50.32,38.27},{50.34,42.36},{53.77,36.21},}},
+        },
+        [187273] = { -- Suspicious Hoofprint
+            [objectKeys.questStarts] = {1268,1284},
         },
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
@@ -791,14 +938,18 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
             [objectKeys.questStarts] = {12409},
             [objectKeys.questEnds] = {12409},
-
+        },
+        [190483] = { -- Document Chest
+            [objectKeys.name] = "Document Chest",
+        },
+        [190484] = { -- Document Chest
+            [objectKeys.name] = "Document Chest",
         },
 
         -- Below are fake objects
         -- For TBC fixes 410001-419999
         [410001] = {
             [objectKeys.name] = "Mailbox",
-            [objectKeys.questStarts] = {9672},
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{55.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
@@ -896,6 +1047,27 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Blackhoof Cage",
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{40.7,11.9},{40.89,12.43},{40.63,11.5},{41.62,10.8},{41.93,13.22},{41.48,12.98},{42.39,11.76}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+        },
+        [410021] = { -- Cenarion Thicket Moonwell
+            [objectKeys.name] = "Moonwell",
+            [objectKeys.questStarts] = {},
+            [objectKeys.questEnds] = {},
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{45.1, 23.6}}},
+            [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [410022] = { -- Evergrove Moonwell
+            [objectKeys.name] = "Moonwell",
+            [objectKeys.questStarts] = {},
+            [objectKeys.questEnds] = {},
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.0, 39.2}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [410023] = { -- Ghostlands Moonwell
+            [objectKeys.name] = "Moonwell",
+            [objectKeys.questStarts] = {},
+            [objectKeys.questEnds] = {},
+            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{13.17,26.59}}},
+            [objectKeys.zoneID] = zoneIDs.GHOSTLANDS,
         },
     }
 end

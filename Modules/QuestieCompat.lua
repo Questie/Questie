@@ -8,6 +8,8 @@ local INDIZES_ACTIVE = 6
 
 local tinsert = table.insert
 
+local WatchFrame = QuestWatchFrame or WatchFrame
+
 ------------------------------------------
 -- Older client compatibility (pre 1.14.1)
 ------------------------------------------
@@ -257,4 +259,42 @@ function QuestieCompat.GetCurrentCalendarTime()
         }
     end
     error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsSpellKnown)
+---Returns whether the player (or pet) knows the given spell. 
+---@param spellID number The spell ID.
+---@return boolean isKnown True if the player knows the spell/profession spell, false otherwise
+function QuestieCompat.IsSpellKnown(spellID)
+    if C_SpellBook and C_SpellBook.IsSpellKnown then
+        return C_SpellBook.IsSpellKnown(spellID)
+    else
+        -- If there is no C_SpellBook we need to call this function instead because passive spells
+        -- would return wrong values and feed wrong data to our logic
+        return IsPlayerSpell(spellID)
+    end
+end
+
+function QuestieCompat.HideWatchFrame()
+    if Questie.IsTitanReforged then
+        -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
+        -- details: https://github.com/Questie/Questie/issues/7497
+        WatchFrame:SetAlpha(0)
+    else
+        WatchFrame:Hide()
+    end
+end
+
+function QuestieCompat.ShowWatchFrame()
+    if Questie.IsTitanReforged then
+        -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
+        -- details: https://github.com/Questie/Questie/issues/7497
+        WatchFrame:SetAlpha(1)
+    else
+        WatchFrame:Show()
+    end
+end
+
+function QuestieCompat.GetWatchFramePoint()
+    return WatchFrame:GetPoint()
 end

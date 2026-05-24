@@ -36749,4 +36749,10 @@ l10n.itemLookup["deDE"] = loadstring([[return {
 [54847] = "XT der Kleine",
 [54860] = "X-53 Reiserakete",
 [56806] = "Mini-Thor",
+[190181] = "Herz der Liebenden",
+[190186] = "Holzstatuette",
+[190187] = "Abgetragener Schal",
+[190307] = "Nicht angezündete Fackel",
+[190308] = "Brennende Fackel",
+[190309] = "Holzstatuette",
 }]])

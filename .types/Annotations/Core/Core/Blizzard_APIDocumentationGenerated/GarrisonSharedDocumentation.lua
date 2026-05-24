@@ -1,0 +1,66 @@
+---@meta _
+---@class GarrisonAbilityEffect
+---@field name string
+---@field description string
+---@field icon number
+---@field factor number
+
+---@class GarrisonFollowerAbilityInfo
+---@field id number
+---@field name string
+---@field description string
+---@field icon number
+---@field isTrait boolean
+---@field isSpecialization boolean
+---@field temporary boolean
+---@field category string?
+---@field counters GarrisonAbilityEffect[]
+---@field isEmptySlot boolean
+
+---@class GarrisonTalentCurrencyCostInfo
+---@field currencyType number
+---@field currencyQuantity number
+
+---@class GarrisonTalentInfo
+---@field id number
+---@field ability GarrisonFollowerAbilityInfo
+---@field name string
+---@field icon number
+---@field tier number
+---@field uiOrder number
+---@field type number
+---@field prerequisiteTalentID number?
+---@field selected boolean
+---@field researched boolean
+---@field ignoreTalent boolean
+---@field researchDuration time_t
+---@field startTime time_t
+---@field timeRemaining time_t
+---@field researchGoldCost number
+---@field researchCurrencyCosts GarrisonTalentCurrencyCostInfo[]
+---@field talentAvailability Enum.GarrisonTalentAvailability
+---@field talentRank number
+---@field talentMaxRank number
+---@field isBeingResearched boolean
+---@field description string
+---@field perkSpellID number
+---@field researchDescription string?
+---@field playerConditionReason string?
+---@field socketInfo GarrisonTalentSocketInfo
+---@field treeID number
+
+---@class GarrisonTalentSocketInfo
+---@field socketType number
+---@field socketSubtype number
+---@field misc0 number
+---@field misc1 number
+
+---@class GarrisonTalentTreeInfo
+---@field treeID number
+---@field title string
+---@field textureKit textureKit
+---@field talents GarrisonTalentInfo[]
+---@field isClassAgnostic boolean
+---@field isThemed boolean
+---@field featureType number
+---@field featureSubtype number

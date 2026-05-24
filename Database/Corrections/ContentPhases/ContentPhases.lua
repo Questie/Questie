@@ -7,8 +7,15 @@ ContentPhases.activePhases = {
     SoM = 5,
     SoD = 7,
     Anniversary = 6, -- Phase 6 is the final state of the game, with invasions inactive.
-    MoP = 3,
-    TBC = 1,
+    MoP = 4,
+    TBC = 2,
+}
+
+-- Central place to activate Invasion event
+ContentPhases.IsInvasionActive = {
+    [1] = Questie.IsSoD and true or false, -- Era
+    [2] = false, -- TBC
+    [3] = false, -- Wotlk - Remember Questie.IsTitanReforged is WotLK technically
 }
 
 return ContentPhases

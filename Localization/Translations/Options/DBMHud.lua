@@ -35,8 +35,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "DBM 애드온의 HUD 오버레이 기능을 사용해서 지도상의 오브젝트를 화면에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa a sobreposição do DBM Heads Up Display (HUD) para mostrar objetos do mapa.",
         ["ruRU"] = "Включить/отключить DBM HUD - оверлей для отображения объектов карты",
-        ["zhCN"] = "启用或停用 DBM HUD 覆盖层，以显示地图物体。",
-        ["zhTW"] = "啟用或停用 DBM HUD 覆蓋層，以顯示地圖物體。",
+        ["zhCN"] = "启用或停用 DBM HUD 覆盖层，以显示地图物体",
+        ["zhTW"] = "啟用或停用 DBM HUD 覆蓋層，以顯示地圖物體",
     },
     ["Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"] = {
         ["enUS"] = true,
@@ -47,8 +47,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "Questie가 DBM HUD 오버레이를 활성화했습니다. 더 많은 옵션을 보려면 Questie 설정의 DBM HUD 탭을 방문하세요.",
         ["ptBR"] = "O Questie ativou a sobreposição do DBM HUD. Para mais opções, acesse a aba DBM HUD nas opções de Questie.",
         ["ruRU"] = "В Questie активировано наложение DBM HUD. Для расширенных настроек посетите вкладку DBM HUD в параметрах Questie",
-        ["zhCN"] = "Questie 已激活 DBM HUD 覆盖。更多选项，请前往 Questie 选项中的 DBM HUD 标签。",
-        ["zhTW"] = "Questie 已啟用 DBM 畫面中顯示 (HUD) 圖層，更多選項在 Questie 設定選項的 DBM HUD 標籤頁面中。",
+        ["zhCN"] = "Questie 已激活 DBM HUD 覆盖。更多选项，请前往 Questie 选项中的 DBM HUD 标签",
+        ["zhTW"] = "Questie 已啟用 DBM 畫面中顯示 (HUD) 圖層，更多選項在 Questie 設定選項的 DBM HUD 標籤頁面中",
     },
     ["Filter Options"] = {
         ["enUS"] = true,
@@ -83,8 +83,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "수행가능/완료 퀘스트 아이콘을 HUD에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de missões disponíveis/concluídas aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки доступных или выполненных заданий на HUD",
-        ["zhCN"] = "切换是否在HUD上显示可用/完成任务图标。",
-        ["zhTW"] = "切換 HUD 上是否要顯示可接/完成任務的圖示。",
+        ["zhCN"] = "切换是否在HUD上显示可用/完成任务图标",
+        ["zhTW"] = "切換 HUD 上是否要顯示可接/完成任務的圖示",
     },
     ["Show object interact icons"] = {
         ["enUS"] = true,
@@ -95,7 +95,7 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "오브젝트 상호작용 아이콘 표시",
         ["ptBR"] = "Mostrar ícones de interação com objetos",
         ["ruRU"] = "Значки объектов",
-        ["zhCN"] = "显示物件互动图标",
+        ["zhCN"] = "显示物体互动图标",
         ["zhTW"] = "顯示物件互動圖示",
     },
     ["Refresh rate for HUD (Requires turning HUD off/on)"] = {
@@ -120,7 +120,7 @@ local dbmHudOptionsLocales = {
         ["ptBR"] = "Ajusta a taxa de atualização dos ícones do HUD, que afeta a frequência com que a interface do usuário atualiza sua posição. (Padrão: %s)",
         ["ruRU"] = "Регулирует частоту обновления значков DBM HUD, которая влияет на то, как часто пользовательский интерфейс обновляет их позиции (по умолчанию: %s)",
         ["zhCN"] = "调整HUD图标的刷新率，这会影响UI更新其位置的频率。（默认：%s）",
-        ["zhTW"] = "調整 HUD 圖示的更新頻率，會影響介面有多頻繁更新位置。(預設值: %s)",
+        ["zhTW"] = "調整 HUD 圖示的更新頻率，會影響介面有多頻繁更新位置。（預設值：%s）",
     },
     ["Enable proximity visual for HUD icons"] = {
         ["enUS"] = true,
@@ -144,7 +144,7 @@ local dbmHudOptionsLocales = {
         ["ptBR"] = "Ajusta o tamanho dos ícones que aparecem no HUD. (Padrão: %s)",
         ["ruRU"] = "Регулирует размер значков, отображаемых на HUD (по умолчанию: %s)",
         ["zhCN"] = "调整HUD上显示的图标的大小。（默认：%s）",
-        ["zhTW"] = "調整 HUD 上出現的圖示大小。(預設值: %s)",
+        ["zhTW"] = "調整 HUD 上出現的圖示大小。（預設值：%s）",
     },
     ["Toggles whether or not object (gear) icons appear on the HUD."] = {
         ["enUS"] = true,
@@ -155,8 +155,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "HUD에 오브젝트(기어) 아이콘을 표시할지 여부를 전환합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de objetos (engrenagem) aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки объектов (шестерня) на HUD",
-        ["zhCN"] = "切换是否在 HUD 上显示物件（齿轮）图标。",
-        ["zhTW"] = "切換是否在 HUD 上顯示物件（齒輪）圖示。",
+        ["zhCN"] = "切换是否在 HUD 上显示物件（齿轮）图标",
+        ["zhTW"] = "切換是否在 HUD 上顯示物件（齒輪）圖示",
     },
     ["Size & Scale Options"] = {
         ["enUS"] = true,
@@ -167,8 +167,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "크기 & 비율 설정",
         ["ptBR"] = "Opções de tamanho e escala",
         ["ruRU"] = "Параметры масштабирования и размера значков",
-        ["zhCN"] = "打开大小 & 比例 选项",
-        ["zhTW"] = "大小 & 縮放選項",
+        ["zhCN"] = "大小和缩放选项",
+        ["zhTW"] = "大小和縮放選項",
     },
     ["Show loot icons"] = {
         ["enUS"] = true,
@@ -179,7 +179,7 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "수집 아이콘 표시",
         ["ptBR"] = "Mostrar ícones de saque",
         ["ruRU"] = "Значки добычи",
-        ["zhCN"] = "显示任务物品图标",
+        ["zhCN"] = "显示拾取图标",
         ["zhTW"] = "顯示撿東西圖示",
     },
     ["Toggles whether or not loot icons appear on the HUD."] = {
@@ -191,8 +191,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "수집 아이콘을 HUD에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de saque aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки добычи на HUD",
-        ["zhCN"] = "切换是否在HUD上显示物品图标。",
-        ["zhTW"] = "切換 HUD 上是否要顯示撿東西的圖示。",
+        ["zhCN"] = "切换是否在HUD上显示物品图标",
+        ["zhTW"] = "切換 HUD 上是否要顯示撿東西的圖示",
     },
     ["Global zoom level for HUD Icons"] = {
         ["enUS"] = true,
@@ -215,8 +215,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "근처에 다가가면 HUD 아이콘을 빨간색으로 표시합니다.",
         ["ptBR"] = "Muda a cor de um ícone HUD para vermelho quando você está perto dele.",
         ["ruRU"] = "Изменяет цвет значка DBM HUD на красный, когда игрок находится рядом с ним",
-        ["zhCN"] = "靠近HUD图标时，将其颜色更改为红色。",
-        ["zhTW"] = "靠近時將 HUD 圖示變成紅色。",
+        ["zhCN"] = "靠近HUD图标时，将其颜色更改为红色",
+        ["zhTW"] = "靠近時將 HUD 圖示變成紅色",
     },
     ["Show slay icons"] = {
         ["enUS"] = true,
@@ -227,7 +227,7 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "처치 아이콘 표시",
         ["ptBR"] = "Mostrar ícones de matança",
         ["ruRU"] = "Значки убийств",
-        ["zhCN"] = "显示任务需要击杀图标",
+        ["zhCN"] = "显示击杀图标",
         ["zhTW"] = "顯示殺怪圖示",
     },
     ["Toggles whether or not slay icons appear on the HUD."] = {
@@ -239,8 +239,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "처치 아이콘을 HUD에 표시합니다.",
         ["ptBR"] = "Ativa ou desativa se os ícones de matança aparecem no HUD.",
         ["ruRU"] = "Показать/скрыть значки убийств на HUD",
-        ["zhCN"] = "切换是否在HUD上显示击杀目标的图标。",
-        ["zhTW"] = "切換 HUD 上是否要顯示殺怪的圖示。",
+        ["zhCN"] = "切换是否在HUD上显示击杀目标的图标",
+        ["zhTW"] = "切換 HUD 上是否要顯示殺怪的圖示",
     },
     ["Global radius/size for HUD Icons"] = {
         ["enUS"] = true,
@@ -264,7 +264,7 @@ local dbmHudOptionsLocales = {
         ["ptBR"] = "Ajusta o nível de zoom dos ícones HUD, o que afeta a proximidade ou a distância que você os vê. (Padrão: %s)",
         ["ruRU"] = "Регулирует уровень масштабирования для значков DBM HUD, который влияет на то, как близко или как далеко вы видите их (по умолчанию: %s)",
         ["zhCN"] = "调整HUD图标的缩放级别，这会影响您看到它们的接近程度或远近程度。（默认：%s）",
-        ["zhTW"] = "調整 HUD 圖示的檢視大小，會影響你看到它們的遠近程度。(預設值: %s)",
+        ["zhTW"] = "調整 HUD 圖示的檢視大小，會影響你看到它們的遠近程度。（預設值：%s）",
     },
     ["The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect."] = {
         ["enUS"] = true,
@@ -275,8 +275,8 @@ local dbmHudOptionsLocales = {
         ["koKR"] = "DBM HUD는 애드온 DeadlyBossMods와 통합되어 전체 화면에 목표 아이콘의 레이더를 표시합니다. 이 기능을 활성화시키기 위해 /reload가 필요합니다.",
         ["ptBR"] = "O DBM HUD se integra ao addon DeadlyBossMods para mostrar um radar de ícones de objetivos em toda a tela. Ativar esse recurso geralmente requer recarregar a interface para ter efeito.",
         ["ruRU"] = "Оверлей DBM HUD интегрируется с аддоном DeadlyBossMods для отображения на вашем экране радара со значками целей. После включения настройки желательно перезагрузить интерфейс командой /reload",
-        ["zhCN"] = "DBM HUD 与 DeadlyBossMods 插件集成，可在整个屏幕上显示目标图标雷达。启用此功能通常需要 /reload 才能生效。",
-        ["zhTW"] = "DBM HUD 與 DeadlyBossMods 插件整合，可在整個螢幕上顯示目標圖示雷達。啟用此功能通常需要 /reload 才能生效。",
+        ["zhCN"] = "DBM HUD 与 DeadlyBossMods 插件集成，可在整个屏幕上显示目标图标雷达。启用此功能通常需要 /reload 才能生效",
+        ["zhTW"] = "DBM HUD 與 DeadlyBossMods 插件整合，可在整個螢幕上顯示目標圖示雷達。啟用此功能通常需要 /reload 才能生效",
     },
 }
 

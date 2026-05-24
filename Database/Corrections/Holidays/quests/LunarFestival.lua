@@ -55,10 +55,10 @@ tinsert(eventQuests, {"Lunar Festival", 8724}) -- Morningdew the Elder
 tinsert(eventQuests, {"Lunar Festival", 8725}) -- Riversong the Elder
 tinsert(eventQuests, {"Lunar Festival", 8726}) -- Brightspear the Elder
 tinsert(eventQuests, {"Lunar Festival", 8727}) -- Farwhisper the Elder
-tinsert(eventQuests, {"Lunar Festival", 8862, nil, nil, Expansions.Current == Expansions.Era}) -- Elune's Candle
-tinsert(eventQuests, {"Lunar Festival", 8863, nil, nil, Expansions.Current == Expansions.Era}) -- Festival Dumplings
-tinsert(eventQuests, {"Lunar Festival", 8864, nil, nil, Expansions.Current == Expansions.Era}) -- Festive Lunar Dresses
-tinsert(eventQuests, {"Lunar Festival", 8865, nil, nil, Expansions.Current == Expansions.Era}) -- Festive Lunar Pant Suits
+tinsert(eventQuests, {"Lunar Festival", 8862, nil, nil, Expansions.Current >= Expansions.Cata}) -- Elune's Candle
+tinsert(eventQuests, {"Lunar Festival", 8863, nil, nil, Expansions.Current >= Expansions.Cata}) -- Festival Dumplings
+tinsert(eventQuests, {"Lunar Festival", 8864, nil, nil, Expansions.Current >= Expansions.Cata}) -- Festive Lunar Dresses
+tinsert(eventQuests, {"Lunar Festival", 8865, nil, nil, Expansions.Current >= Expansions.Cata}) -- Festive Lunar Pant Suits
 tinsert(eventQuests, {"Lunar Festival", 8866}) -- Bronzebeard the Elder
 tinsert(eventQuests, {"Lunar Festival", 8867}) -- Lunar Fireworks
 tinsert(eventQuests, {"Lunar Festival", 8868}) -- Elune's Blessing
@@ -68,13 +68,13 @@ tinsert(eventQuests, {"Lunar Festival", 8872}) -- The Lunar Festival
 tinsert(eventQuests, {"Lunar Festival", 8873}) -- The Lunar Festival
 tinsert(eventQuests, {"Lunar Festival", 8874}) -- The Lunar Festival
 tinsert(eventQuests, {"Lunar Festival", 8875}) -- The Lunar Festival
-tinsert(eventQuests, {"Lunar Festival", 8876, nil, nil, Expansions.Current == Expansions.Era}) -- Small Rockets
-tinsert(eventQuests, {"Lunar Festival", 8877, nil, nil, Expansions.Current == Expansions.Era}) -- Firework Launcher
-tinsert(eventQuests, {"Lunar Festival", 8878, nil, nil, Expansions.Current == Expansions.Era}) -- Festive Recipes
-tinsert(eventQuests, {"Lunar Festival", 8879, nil, nil, Expansions.Current == Expansions.Era}) -- Large Rockets
-tinsert(eventQuests, {"Lunar Festival", 8880, nil, nil, Expansions.Current == Expansions.Era}) -- Cluster Rockets
-tinsert(eventQuests, {"Lunar Festival", 8881, nil, nil, Expansions.Current == Expansions.Era}) -- Large Cluster Rockets
-tinsert(eventQuests, {"Lunar Festival", 8882, nil, nil, Expansions.Current == Expansions.Era}) -- Cluster Launcher
+tinsert(eventQuests, {"Lunar Festival", 8876, nil, nil, Expansions.Current >= Expansions.Cata}) -- Small Rockets
+tinsert(eventQuests, {"Lunar Festival", 8877, nil, nil, Expansions.Current >= Expansions.Cata}) -- Firework Launcher
+tinsert(eventQuests, {"Lunar Festival", 8878, nil, nil, Expansions.Current >= Expansions.Cata}) -- Festive Recipes
+tinsert(eventQuests, {"Lunar Festival", 8879, nil, nil, Expansions.Current >= Expansions.Cata}) -- Large Rockets
+tinsert(eventQuests, {"Lunar Festival", 8880, nil, nil, Expansions.Current >= Expansions.Cata}) -- Cluster Rockets
+tinsert(eventQuests, {"Lunar Festival", 8881, nil, nil, Expansions.Current >= Expansions.Cata}) -- Large Cluster Rockets
+tinsert(eventQuests, {"Lunar Festival", 8882, nil, nil, Expansions.Current >= Expansions.Cata}) -- Cluster Launcher
 tinsert(eventQuests, {"Lunar Festival", 8883}) -- Valadar Starsong
 
 -- SoD quests

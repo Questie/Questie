@@ -2,7 +2,7 @@
 local AchievementCriteriaCheckmark = QuestieLoader:CreateModule("AchievementCriteriaCheckmark")
 
 ---@param index number
----@param parent LineFrame
+---@param parent TrackerLineFrame
 ---@return LineFrame
 function AchievementCriteriaCheckmark.New(index, parent)
     local criteriaMark = CreateFrame("Button", "linePool.criteriaMark" .. index, parent)

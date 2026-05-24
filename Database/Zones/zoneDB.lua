@@ -83,7 +83,12 @@ end
 ---@param areaId AreaId
 ---@return UiMapId
 function ZoneDB:GetUiMapIdByAreaId(areaId)
-    return areaIdToUiMapId[areaId]
+    local uiMapId = areaIdToUiMapId[areaId]
+    if (not uiMapId) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "No UiMapId found for AreaId: " .. tostring(areaId))
+    end
+
+    return uiMapId
 end
 
 --- Use with care, kind of slow.
@@ -361,6 +366,23 @@ function _ZoneDB.SplitSeasonalQuests()
                 updatedZoneMap[sortKeys.WINTER_VEIL] = {}
             end
             updatedZoneMap[sortKeys.WINTER_VEIL][questId] = true
+        elseif eventName == "Lunar Festival" then
+            if (not updatedZoneMap[sortKeys.LUNAR_FESTIVAL]) then
+                updatedZoneMap[sortKeys.LUNAR_FESTIVAL] = {}
+            end
+            updatedZoneMap[sortKeys.LUNAR_FESTIVAL][questId] = true
+        elseif eventName == "Midsummer" then
+            if (not updatedZoneMap[sortKeys.MIDSUMMER]) then
+                updatedZoneMap[sortKeys.MIDSUMMER] = {}
+            end
+            updatedZoneMap[sortKeys.MIDSUMMER][questId] = true
+        else
+            -- here for actual "Special" quests that are not part of events
+            -- E.g. CLUCK!
+            if (not updatedZoneMap[sortKeys.SPECIALTEMP]) then
+                updatedZoneMap[sortKeys.SPECIALTEMP] = {}
+            end
+            updatedZoneMap[sortKeys.SPECIALTEMP][questId] = true
         end
     end
 

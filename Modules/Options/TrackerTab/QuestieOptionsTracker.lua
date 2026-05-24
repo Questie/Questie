@@ -138,7 +138,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 1,
                         width = 1.5,
                         name = function() return l10n("Auto Track Quests") end,
-                        desc = function() return l10n("This is the same as \"Enable Automatic Quest Tracking\" in the Blizzard Interface Options. When enabled, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: \"Show Complete Quests\" is disabled while this option is not being used.") end,
+                        desc = function() return l10n("This is the same as \"Enable Automatic Quest Tracking\" in the Blizzard Interface Options. If checked, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: \"Show Complete Quests\" is disabled while this option is not being used.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.autoTrackQuests end,
                         set = function(_, value)
@@ -163,7 +163,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 2,
                         width = 1.5,
                         name = function() return l10n("Show Quest Level") end,
-                        desc = function() return l10n("When this is checked, the Quest Level Tags for Quest Titles will show in the Questie Tracker.") end,
+                        desc = function() return l10n("If checked, the Quest Level Tags for Quest Titles will show in the Questie Tracker.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerShowQuestLevel end,
                         set = function(_, value)
@@ -176,7 +176,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 3,
                         width = 1.5,
                         name = function() return l10n("Show Blizzard Timer") end,
-                        desc = function() return l10n("When this is checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker.") end,
+                        desc = function() return l10n("If checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.showBlizzardQuestTimer end,
                         set = function(_, value)
@@ -196,7 +196,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 4,
                         width = 1.5,
                         name = function() return l10n("List Achievements First") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker will list Achievements first then Quests.") end,
+                        desc = function() return l10n("If checked, the Questie Tracker will list Achievements first then Quests.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         hidden = function() return Expansions.Current < Expansions.Wotlk end,
                         get = function() return Questie.db.profile.listAchievementsFirst end,
@@ -294,7 +294,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 1,
                                 width = 1.5,
                                 name = function() return l10n("Show Completed Quests") end,
-                                desc = function() return l10n("When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when \"Auto Track Quests\" is enabled.") end,
+                                desc = function() return l10n("If checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when \"Auto Track Quests\" is enabled.") end,
                                 disabled = function() return (not Questie.db.profile.trackerEnabled) or (not Questie.db.profile.autoTrackQuests) end,
                                 get = function() return Questie.db.profile.trackerShowCompleteQuests end,
                                 set = function(_, value)
@@ -307,7 +307,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 2,
                                 width = 1.5,
                                 name = function() return l10n("Auto Minimize Completed Quests") end,
-                                desc = function() return l10n("When this is checked, completed Quests will automatically minimize.") end,
+                                desc = function() return l10n("If checked, completed Quests will automatically minimize.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.collapseCompletedQuests end,
                                 set = function(_, value)
@@ -323,7 +323,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 3,
                                 width = 1.5,
                                 name = function() return l10n("Hide Completed Quest Objectives") end,
-                                desc = function() return l10n("When this is checked, completed Quest Objectives will automatically be removed from the Questie Tracker.") end,
+                                desc = function() return l10n("If checked, completed Quest Objectives will automatically be removed from the Questie Tracker.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.hideCompletedQuestObjectives end,
                                 set = function(_, value)
@@ -336,7 +336,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 4,
                                 width = 1.5,
                                 name = function() return l10n("Hide Completed Achieve Objectives") end,
-                                desc = function() return l10n("When this is checked, completed Achievement Objectives will automatically be removed from the Questie Tracker.") end,
+                                desc = function() return l10n("If checked, completed Achievement Objectives will automatically be removed from the Questie Tracker.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 hidden = function() return Expansions.Current < Expansions.Wotlk end,
                                 get = function() return Questie.db.profile.hideCompletedAchieveObjectives end,
@@ -374,7 +374,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 8,
                                 width = 1.5,
                                 name = function() return l10n("Hide Blizzard Completion Text") end,
-                                desc = function() return l10n("When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: \"Quest Complete!\" or \"Quest Failed!\"") end,
+                                desc = function() return l10n("If checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: \"Quest Complete!\" or \"Quest Failed!\"") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled or Questie.db.profile.trackerColorObjectives == "minimal" end,
                                 get = function() return Questie.db.profile.hideBlizzardCompletionText end,
                                 set = function(_, value)
@@ -429,7 +429,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 1,
                         width = 1.5,
                         name = function() return l10n("Minimize In Combat") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be minimized while entering combat.") end,
+                        desc = function() return l10n("If checked, the Questie Tracker will automatically be minimized while entering combat.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.minimizeTrackerInCombat end,
                         set = function(_, value)
@@ -471,7 +471,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 3,
                         width = 1.5,
                         name = function() return l10n("Hide In Combat") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering combat.") end,
+                        desc = function() return l10n("If checked, the Questie Tracker will automatically be hidden when entering combat.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.hideTrackerInCombat end,
                         set = function(_, value)
@@ -503,7 +503,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 5,
                         width = 1.5,
                         name = function() return l10n("Hide In Pet Battles") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker will automatically be hidden when entering a pet battle.") end,
+                        desc = function() return l10n("If checked, the Questie Tracker will automatically be hidden when entering a pet battle.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         hidden = function() return Expansions.Current < Expansions.MoP end,
                         get = function() return Questie.db.profile.hideTrackerInPetBattles end,
@@ -519,7 +519,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 6,
                         width = 1.5,
                         name = function() return l10n("Fade Min/Max Buttons") end,
-                        desc = function() return l10n("When this is checked, the Minimize and Maximize Buttons will fade and become transparent when not in use.") end,
+                        desc = function() return l10n("If checked, the Minimize and Maximize Buttons will fade and become transparent when not in use.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerFadeMinMaxButtons end,
                         set = function(_, value)
@@ -555,7 +555,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 7,
                         width = 1.5,
                         name = function() return l10n("Fade Quest Item Buttons") end,
-                        desc = function() return l10n("When this is checked, the Quest Item Buttons will fade and become transparent when not in use.") end,
+                        desc = function() return l10n("If checked, the Quest Item Buttons will fade and become transparent when not in use.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerFadeQuestItemButtons end,
                         set = function(_, value)
@@ -591,7 +591,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 8,
                         width = 1.5,
                         name = function() return l10n("Disable Quest Hover Fade") end,
-                        desc = function() return l10n("When this is checked, the other quests in the tracker will stay fully opaque while hovering a quest.") end,
+                        desc = function() return l10n("If checked, the other quests in the tracker will stay fully opaque while hovering a quest.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerDisableHoverFade end,
                         set = function(_, value)
@@ -603,7 +603,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 9,
                         width = 1.5,
                         name = function() return l10n("Hide Tracker Sizer") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden.") end,
+                        desc = function() return l10n("If checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.sizerHidden end,
                         set = function(_, value)
@@ -616,7 +616,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 10,
                         width = 1.5,
                         name = function() return l10n("Lock Tracker") end,
-                        desc = function() return l10n("When this is checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it.") end,
+                        desc = function() return l10n("If checked, the Questie Tracker is locked and you need to hold CTRL when you want to move it.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerLocked end,
                         set = function(_, value)
@@ -629,7 +629,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 11,
                         width = 1.5,
                         name = function() return l10n("Sticky Durability Frame") end,
-                        desc = function() return l10n("When this is checked, the durability frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
+                        desc = function() return l10n("If checked, the durability frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.stickyDurabilityFrame end,
                         set = function(_, value)
@@ -645,7 +645,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 12,
                         width = 1.5,
                         name = function() return l10n("Sticky VoiceOver Frame") end,
-                        desc = function() return l10n("When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
+                        desc = function() return l10n("If checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         hidden = function() return not (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla")) end,
                         get = function() return Questie.db.profile.stickyVoiceOverFrame end,
@@ -731,6 +731,34 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end
                     },
+                    trackerWidthRatio = {
+                        type = "range",
+                        order = 15.1,
+                        name = function() return l10n("Tracker Width Ratio") end,
+                        desc = function() return l10n("The width of the Questie Tracker based on percentage of usable screen width. A setting of 100 percent would make the Tracker fill the players entire screen width.\n\nNOTE: This setting only applies while in Sizer Mode: Auto") end,
+                        width = 3,
+                        min = 15,
+                        max = 100,
+                        step = 1,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerWidthRatio * 100 end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerWidthRatio = value / 100
+                            if IsMouseButtonDown("LeftButton") and Questie.db.profile.TrackerWidth == 0 then
+                                TrackerBaseFrame.isSizing = true
+                                Questie.db.profile.trackerBackdropEnabled = true
+                                Questie.db.profile.trackerBorderEnabled = true
+                                Questie.db.profile.trackerBackdropFader = false
+                                QuestieTracker:UpdateFormatting()
+                            else
+                                TrackerBaseFrame.isSizing = false
+                                Questie.db.profile.trackerBackdropEnabled = Questie.db.profile.currentBackdropEnabled
+                                Questie.db.profile.trackerBorderEnabled = Questie.db.profile.currentBorderEnabled
+                                Questie.db.profile.trackerBackdropFader = Questie.db.profile.currentBackdropFader
+                                QuestieTracker:UpdateFormatting()
+                            end
+                        end
+                    },
                     group_header = {
                         type = "group",
                         order = 16,
@@ -744,7 +772,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 1,
                                 width = 1.5,
                                 name = function() return l10n("Enable Tracker Header") end,
-                                desc = function() return l10n("When this is enabled the Tracker Header with the number of active quests and the Questie Icon will be permanently visible.\n\nWhen this is disabled the Questie Icon will fade in while your mouse is over the Tracker.") end,
+                                desc = function() return l10n("If checked, the Tracker Header with the number of active quests and the Questie Icon will be permanently visible.\n\nWhen this is disabled the Questie Icon will fade in while your mouse is over the Tracker.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.trackerHeaderEnabled end,
                                 set = function(_, value)
@@ -757,7 +785,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 2,
                                 width = 1.5,
                                 name = function() return l10n("Show Tracker Header At The Bottom") end,
-                                desc = function() return l10n("When this is enabled the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top.") end,
+                                desc = function() return l10n("If checked, the Tracker Header and/or the Questie Icon will be moved to the bottom of the Questie Tracker and the sizer to the top.") end,
                                 disabled = function() return (not Questie.db.profile.trackerEnabled) end,
                                 get = function() return Questie.db.profile.moveHeaderToBottom end,
                                 set = function(_, value)
@@ -770,7 +798,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 3,
                                 width = 1.5,
                                 name = function() return l10n("Show Header For Empty Tracker") end,
-                                desc = function() return l10n("When this is enabled the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely.") end,
+                                desc = function() return l10n("If checked, the Tracker Header will be visible even when no quests are being tracked versus the Tracker being hidden completely.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.alwaysShowTracker end,
                                 set = function(_, value)
@@ -796,7 +824,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 1,
                                 width = 1.5,
                                 name = function() return l10n("Enable Background") end,
-                                desc = function() return l10n("When this is checked, the Questie Tracker Background becomes visible.") end,
+                                desc = function() return l10n("If checked, the Questie Tracker Background becomes visible.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.trackerBackdropEnabled end,
                                 set = function(_, value)
@@ -817,7 +845,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 2,
                                 width = 1.5,
                                 name = function() return l10n("Enable Border") end,
-                                desc = function() return l10n("When this is checked, the Questie Tracker Border becomes visible.") end,
+                                desc = function() return l10n("If checked, the Questie Tracker Border becomes visible.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerBackdropEnabled end,
                                 get = function() return Questie.db.profile.trackerBorderEnabled end,
                                 set = function(_, value)
@@ -838,7 +866,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 3,
                                 width = 1.5,
                                 name = function() return l10n("Fade Background") end,
-                                desc = function() return l10n("When this is checked, the Questie Tracker background and border (if enabled) will fade and become transparent when not in use.") end,
+                                desc = function() return l10n("If checked, the Questie Tracker background and border (if enabled) will fade and become transparent when not in use.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerBackdropEnabled end,
                                 get = function() return Questie.db.profile.trackerBackdropFader end,
                                 set = function(_, value)
@@ -965,9 +993,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.trackerFontSizeQuest end,
                         set = function(_, value)
                             Questie.db.profile.trackerFontSizeQuest = value
-                            if Questie.db.profile.trackerFontSizeObjective > value then
-                                Questie.db.profile.trackerFontSizeObjective = value
-                            end
                             QuestieTracker:Update()
                         end
                     },
@@ -998,11 +1023,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerFontSizeObjective end,
                         set = function(_, value)
-                            if Questie.db.profile.trackerFontSizeQuest < value then
-                                Questie.db.profile.trackerFontSizeObjective = Questie.db.profile.trackerFontSizeQuest
-                            else
-                                Questie.db.profile.trackerFontSizeObjective = value
-                            end
+                            Questie.db.profile.trackerFontSizeObjective = value
                             QuestieTracker:Update()
                         end
                     },
@@ -1034,8 +1055,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                         name = function() return l10n("Outline for Zones, Titles, and Objectives") end,
                         desc = function() return l10n("The outline used for Quest Zones, Titles, and Objectives in the Questie Tracker.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerFontOutline end,
+                        get = function()
+                            return Questie.db.profile.trackerFontOutline == "" and "None" or Questie.db.profile.trackerFontOutline
+                        end,
                         set = function(_, value)
+                            if value == "None" then
+                                value = ""
+                            end
                             Questie.db.profile.trackerFontOutline = value
                             QuestieTracker:Update()
                         end

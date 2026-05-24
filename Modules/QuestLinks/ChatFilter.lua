@@ -8,6 +8,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 -- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter instead of ChatFrame_AddMessageEventFilter
 local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
 
+-- Tracks quest IDs for which we have already triggered a data prefetch, to avoid spamming the server
+---@type table<QuestId, boolean>
+local prefetchedQuestIds = {}
+
 ---------------------------------------------------------------------------------------------------
 -- These must be loaded in order together and loaded before the hook for custom quest links
 -- The Hyperlink hook is located in Link.lua
@@ -35,6 +39,12 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                 end
 
                 if questId and QuestieDB.QuestPointers[questId] then
+                    if  (not prefetchedQuestIds[questId]) and (not HaveQuestData(questId)) then
+                        -- prefetch quest data from server to have data when user clicks the link
+                        prefetchedQuestIds[questId] = true
+                        C_QuestLog.GetQuestObjectives(questId)
+                    end
+
                     if (not senderGUID) then
                         playerName = BNGetFriendInfoByID(bnSenderID)
                         senderGUID = bnSenderID

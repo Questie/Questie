@@ -21,8 +21,12 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local _LibDBIcon = LibStub("LibDBIcon-1.0")
 
+local minimapButton
+
 function MinimapIcon:Init()
     _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap)
+
+    minimapButton = _LibDBIcon:GetMinimapButton("Questie")
 
     _MinimapIcon.RepositionIcon()
 end
@@ -47,7 +51,8 @@ function _MinimapIcon:CreateDataBrokerObject()
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Reload Questie'), 'white'))
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Right Click'), 'lightBlue'), Questie:Colorize(l10n('Hide Minimap Button'), 'white'))
             tooltip:AddLine(" ")
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Questie'), 'white'))
+            local toggleLabel = Questie.db.profile.enabled and l10n('Hide Questie') or l10n('Show Questie')
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click'), 'lightBlue'), Questie:Colorize(toggleLabel, 'white'))
         end,
     })
 
@@ -65,6 +70,14 @@ function _MinimapIcon.OnClick(_, button)
         if IsShiftKeyDown() and IsControlKeyDown() then
             Questie.db.profile.enabled = (not Questie.db.profile.enabled)
             QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
+
+            if minimapButton and minimapButton:IsMouseOver() then
+                local onEnter = minimapButton:GetScript("OnEnter")
+                if onEnter then
+                    GameTooltip:Hide()
+                    onEnter(minimapButton)
+                end
+            end
 
             -- Close config window if it's open to avoid desyncing the Checkbox
             QuestieOptions:HideFrame()

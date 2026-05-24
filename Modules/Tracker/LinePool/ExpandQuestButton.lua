@@ -11,7 +11,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@param index number
----@param parent LineFrame
+---@param parent TrackerLineFrame
 ---@return LineFrame
 function ExpandQuestButton.New(index, parent)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest

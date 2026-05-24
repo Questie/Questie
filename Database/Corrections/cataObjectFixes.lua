@@ -31,6 +31,14 @@ function CataObjectFixes.Load()
         [1740] = { -- Syndicate Documents
             [objectKeys.questStarts] = {510,511},
         },
+        [1764] = { -- Locked ball and chain
+            [objectKeys.spawns] = {},
+            [objectKeys.zoneID] = 0,
+        },
+        [1770] = { -- Flame of Uzel
+            [objectKeys.spawns] = {},
+            [objectKeys.zoneID] = 0,
+        },
         [2086] = { -- Bloodsail Charts
             [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{41.05,82.46},{40.75,82.15},{45.01,79.4},{42,83.12}}},
         },
@@ -269,6 +277,10 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Brazier of the Herald",
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.46,4.24}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
+        [175632] = { -- Campfire
+            [objectKeys.spawns] = {},
+            [objectKeys.zoneID] = 0,
+        },
         [176224] = { -- Supply Crate
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME] = {{82.86,35.92},{40.36,30.51},{42.25,32.44},{40.35,39.64},{38.3,30.31},{33.36,20.67},{40.11,23.98},{55.12,24.21},{68.72,70.45},{68.36,74.11},{65.23,63.88},{70.45,61.24},{59.42,68.56},{54.74,72.89},{55.97,55.88},{56.05,52.75},{55.68,31.84},{59.99,28.13},{80.13,15.05},{86.53,29.14},{88.29,41.16},{85.09,46.05},{80.82,47.69},{63.15,51.05},{62.21,48.49},{61.73,36.71},{64.14,31.97},{71.53,26.92},{80.27,27.74},{78.71,32.74},{78.95,37.84},{77.66,44.55},{-1,-1}},[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{68.04,23.59},{49.04,15.35},{58.37,15.34},{69.72,43.59},{63.3,44.43},{65.88,56.73},{39.72,10.97},{41.88,8.23},{47.11,9.59},{39.52,27.94},{45.52,29.12},{48.38,25.37},{58.07,12.87},{54.99,15.92},{55.32,23.5},{58.7,21.07},{62.05,23.81},{57.42,30.96},{60.44,31.79},{62.63,29.96},{65.33,21.27},{65.41,29.18},{66.7,32.3},{73.26,41.86},{77.92,42.02},{72.08,52.26},{69.75,45.7},{64.44,45.75},{59.81,41.26},{55.2,43.13},{58.79,49.42},{61.21,50.57},{68.64,54.67},{69.68,75.13},{-1,-1}}},
         },
@@ -332,10 +344,6 @@ function CataObjectFixes.Load()
         [179517] = { -- Treasure of the Shen'dralar
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{70.66,24.05},{-1,-1}}},
         },
-        [179547] = { -- A Dusty Tome
-            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL]={{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.DIRE_MAUL,
-        },
         [179553] = { -- Core Fragment
             [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{69.27,36.95}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
@@ -346,7 +354,7 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.54}}},
         },
         [179880] = { -- Drakkisath's Brand
-            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{32.6,43.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{32.6,43.4},{-1,-1}}}, -- the actual map is missing in cataclysm, using this one instead
         },
         [180366] = { -- Battered Tackle Box
             [objectKeys.questStarts] = {8227},
@@ -398,6 +406,8 @@ function CataObjectFixes.Load()
         },
         [181073] = { -- Fragrant Cauldron
             [objectKeys.questStarts] = {9029},
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{73.42,42.6}}},
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [181085] = { -- Stratholme Supply Crate
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{39.86,28.07},{50.01,23.34},{37.81,14.14},{-1,-1}}},
@@ -1494,13 +1504,13 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{63.65,49.47}}},
         },
         [420044] = { -- Spend 5 Talent Points
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
         },
         [420045] = { -- Open the Survival Kit
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
         },
         [420046] = { -- Equip a Weapon
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,48.01},{80.91,43.77},{83.74,44.57}}},
         },
 
         -- Below are fake objects

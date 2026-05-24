@@ -22,17 +22,25 @@ function _QuestieJourney:GetHistory()
     for _, year in pairs(years) do
         local yearTable = {
             value = year,
-            text = l10n('Year %s', year),
+            text = year,
             children = {},
         }
 
-        for month=12, 1, -1 do -- Iterate the month from last to newest
-            if journeyEntries[year][month] then -- Only check month with events
-                local monthView = {
-                    value = month,
-                    text = CALENDAR_FULLDATE_MONTH_NAMES[month] .. ' '.. year,
-                    children = {},
-                }
+                for month = 12, 1, -1 do -- Iterate the month from last to newest
+                    if journeyEntries[year][month] then -- Only check month with events
+                    local monthName = CALENDAR_FULLDATE_MONTH_NAMES[month]
+                    local langCode = l10n:GetUILocale()
+                    local text
+                    if langCode == "ruRU" then -- Russian letter is already capitalized and using the function makes it not render properly
+                        text = monthName
+                    else
+                        text = monthName and (monthName:sub(1,1):upper() .. monthName:sub(2)) or ""
+                    end
+                    local monthView = {
+                        value = month,
+                        text = text,
+                        children = {},
+                        }
 
                 for entryIndex=#journeyEntries[year][month], 1, -1 do -- Iterate backwards to show newest first
 
@@ -47,7 +55,7 @@ function _QuestieJourney:GetHistory()
                     }
 
                     tinsert(monthView.children, entryView)
-                end
+                    end
 
                 tinsert(yearTable.children, monthView)
             end

@@ -1,0 +1,21 @@
+---@meta _
+---@class ActionBarChargeInfo
+---@field currentCharges number
+---@field maxCharges number
+---@field cooldownStartTime number
+---@field cooldownDuration number
+---@field chargeModRate number
+
+---@class ActionBarCooldownInfo
+---@field startTime number
+---@field duration number
+---@field isEnabled boolean
+---@field modRate number
+---@field activeCategory number?
+---@field timeUntilEndOfStartRecovery number?
+---@field isOnGCD boolean?
+
+---@class ActionUsableState
+---@field slot number
+---@field usable boolean
+---@field noMana boolean

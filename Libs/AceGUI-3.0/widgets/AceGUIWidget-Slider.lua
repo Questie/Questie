@@ -2,7 +2,7 @@
 Slider Widget
 Graphical Slider, like, for Range values.
 -------------------------------------------------------------------------------]]
-local Type, Version = "Slider", 23
+local Type, Version = "Slider", 24
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -273,6 +273,7 @@ local function Constructor()
 		widget[method] = func
 	end
 	slider.obj, editbox.obj = widget, widget
+	C_Timer.After(0.3, function() editbox:SetText(" ") UpdateText(widget) end) -- Workaround for font loading issue, making the editboxes blank until the text is changed
 
 	return AceGUI:RegisterAsWidget(widget)
 end

@@ -19,13 +19,14 @@ local linePoolSize = 250
 local lineIndex = 0
 local buttonPoolSize = 25
 local buttonIndex = 0
+---@type table<number, TrackerLineFrame>
 local linePool = {}
 local buttonPool = {}
 
----@type table<QuestId, table<Frame>>
+---@type table<QuestId, table<TrackerLineFrame>>
 local linesByQuest = {}
 
----@type table<number, table<Frame>>
+---@type table<number, table<TrackerLineFrame>>
 local linesByScenarioIndex = {}
 
 ---@param questFrame Frame
@@ -65,6 +66,7 @@ function TrackerLinePool.ResetLinesForChange()
     for _, line in pairs(linePool) do
         line.mode = nil
         line.trackTimedQuest = nil
+        line.questHasSecondaryQIB = false
         if line.expandQuest then
             line.expandQuest.mode = nil
             line.expandQuest.questId = nil
@@ -102,6 +104,24 @@ function TrackerLinePool.ResetButtonsForChange()
     buttonIndex = 0
 end
 
+---@param callback function
+function TrackerLinePool.UpdateObjectiveLines(callback)
+    for _, line in pairs(linePool) do
+        if line.mode == "objective" then
+            callback(line)
+        end
+    end
+end
+
+---@param callback function
+function TrackerLinePool.UpdateQuestTitleLines(callback)
+    for _, line in pairs(linePool) do
+        if line.mode == "quest" then
+            callback(line)
+        end
+    end
+end
+
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerMarginLeft = 14
@@ -133,7 +153,7 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     end
 end
 
----@return table|nil lineIndex linePool[lineIndex + 1]
+---@return TrackerLineFrame|nil
 function TrackerLinePool.GetNextLine()
     lineIndex = lineIndex + 1
     if not linePool[lineIndex] then
@@ -141,6 +161,120 @@ function TrackerLinePool.GetNextLine()
     end
 
     return linePool[lineIndex]
+end
+
+---@param zoneName string
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetZoneLine(zoneName)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("zone")
+    line:SetZone(zoneName)
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+
+    return line
+end
+
+---@param quest Quest
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetQuestTitleLine(quest, lineWidth)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("quest")
+    line:SetOnClick("quest")
+    line:SetQuest(quest)
+    line:SetObjective(nil)
+    line.expandZone:Hide()
+    line.criteriaMark:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param quest Quest
+---@param objective QuestObjective|nil
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
+   local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("objective")
+    line:SetOnClick("quest")
+    line:SetQuest(quest)
+    line:SetObjective(objective)
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param achieve Achievement
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
+   local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("achieve")
+    line:SetOnClick("achieve")
+    line:SetQuest(achieve)
+    line:SetObjective(nil)
+    line.expandZone:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param achieve Achievement
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
+   local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode("objective")
+    line:SetOnClick("achieve")
+    line:SetQuest(achieve)
+    line:SetObjective(nil)
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
 end
 
 ---@return table|nil buttonIndex buttonPool[buttonIndex]
@@ -153,18 +287,13 @@ function TrackerLinePool.GetNextItemButton()
     return buttonPool[buttonIndex]
 end
 
----@return number lineIndex lineIndex == 1
-function TrackerLinePool.IsFirstLine()
-    return linePool[1]
-end
-
 ---@param index number
----@return table index linePool[index]
+---@return TrackerLineFrame
 function TrackerLinePool.GetLine(index)
     return linePool[index]
 end
 
----@return table lineIndex linePool[lineIndex]
+---@return TrackerLineFrame
 function TrackerLinePool.GetCurrentLine()
     return linePool[lineIndex]
 end
@@ -174,22 +303,12 @@ function TrackerLinePool.GetCurrentButton()
     return buttonPool[buttonIndex]
 end
 
----@return table|nil lineIndex linePool[lineIndex - 1]
-function TrackerLinePool.GetPreviousLine()
-    lineIndex = lineIndex - 1
-    if not linePool[lineIndex] then
-        return nil -- past the line limit
-    end
-
-    return linePool[lineIndex]
-end
-
----@return table linePool linePool[1]
+---@return TrackerLineFrame
 function TrackerLinePool.GetFirstLine()
     return linePool[1]
 end
 
----@return table linePool linePool[linePoolSize]
+---@return TrackerLineFrame
 function TrackerLinePool.GetLastLine()
     return linePool[linePoolSize]
 end
@@ -216,6 +335,7 @@ function TrackerLinePool.HideUnusedLines()
             line.Objective = nil
             line.Button = nil
             line.altButton = nil
+            line.questHasSecondaryQIB = false
             line.trackTimedQuest = nil
             line.expandQuest.mode = nil
             line.expandQuest.questId = nil
@@ -336,7 +456,7 @@ TrackerLinePool.OnHighlightLeave = function()
 end
 
 ---@param questId QuestId
----@param line LineFrame
+---@param line TrackerLineFrame
 function TrackerLinePool.AddQuestLine(questId, line)
     if (not linesByQuest[questId]) then
         linesByQuest[questId] = {}
@@ -358,17 +478,16 @@ function TrackerLinePool.UpdateQuestLines(questId)
         if line.Objective then
             ---@type QuestObjective
             local objective = line.Objective
-            objective:Update()
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
-            local objDesc = objective.Description:gsub("%.", "")
+            local objDesc = objective.Description:gsub("%.$", "")
             line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
         end
     end
 end
 
 ---@param criteriaIndex number
----@param line LineFrame
+---@param line TrackerLineFrame
 function TrackerLinePool.AddScenarioLine(criteriaIndex, line)
     if (not linesByScenarioIndex[criteriaIndex]) then
         linesByScenarioIndex[criteriaIndex] = {}

@@ -355,7 +355,7 @@ local function filterItem(itemID, itemInfo, containerGUID)
             else
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - ItemFilter - NPC drop data for item " .. itemID .. " OK, ignoring")
             end
-        elseif containerType == "GameObject" then -- if container is an object
+        elseif containerType == "GameObject" and containerID > 0 then -- if container is an object
             -- first check if object is even in our DB
             if not QuestieDB.QueryObjectSingle(containerID, "name") then
                 return itemTripCodes.ContainerMissingFromObjectDB
@@ -620,7 +620,6 @@ end
 ---- Link handling code
 
 local LINK_CODE = "addon:questie:offer";
-local LINK_COLOR = CreateColorFromHexString("cff71d5ff");
 local LINK_LENGTHS = LINK_CODE:len();
 
 -- handles clicking on link
@@ -679,7 +678,7 @@ local function _CreateOfferFrame(popupText, discordURL, index)
 
     debugFrame.discordText = debugFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     debugFrame.discordText:SetPoint("TOP", debugFrame.dataEditBox, "BOTTOM", 0, -15)
-    debugFrame.discordText:SetText("|cFFAAAAAA" .. l10n("Please share this info with us on") .. "  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r\n" .. "(" .. l10n("You can copy the data above") .. ")")
+    debugFrame.discordText:SetText("|cFFAAAAAA" .. l10n("Please share this info with us on") .. "  |TInterface\\Addons\\Questie\\Icons\\discord.blp:16|t |cFF5765ECDiscord|r\n" .. l10n("(") .. l10n("You can copy the data above") .. l10n(")"))
 
     debugFrame.discordLinkEditBox = CreateFrame("EditBox", nil, debugFrame, "InputBoxTemplate")
     debugFrame.discordLinkEditBox:SetSize(200, 20)

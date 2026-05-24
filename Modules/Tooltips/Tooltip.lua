@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -60,7 +62,8 @@ end
 ---@param name string The name of the object or NPC the tooltip should show on
 ---@param starterId number The ID of the object or NPC the tooltip should show on
 ---@param key string @Either m_<npcId> or o_<objectId>
-function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key)
+---@param type string Indicates the type of quest starter; this changes icon in tooltip
+function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key, type)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
@@ -71,6 +74,7 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key
         questId = questId,
         name = name,
         starterId = starterId,
+        type = type,
     };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. name .. " " .. starterId] = tooltip
     tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
@@ -126,11 +130,26 @@ function QuestieTooltips:RemoveQuest(questId)
     QuestieTooltips.lookupKeysByQuestId[questId] = nil
 end
 
+-- This function contains the rules for formatting text for drop rate tooltips.
+---@param rate number
+---@return string
+local function FormatDropText(rate)
+    if rate >= 10 then
+        return string.format("%.0f", rate)
+    elseif rate >= 2 then
+        return string.format("%.1f", rate)
+    elseif rate >= 0.01 then
+        return string.format("%.2f", rate)
+    else
+        return string.format("%.3f", rate)
+    end
+end
+
 -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
 -- It uses a similar system like here with i_ID etc as keys.
 local function _FetchTooltipsForGroupMembers(key, tooltipData)
     local anotherPlayer = false;
-    if QuestieComms and QuestieComms.data:KeyExists(key) then
+    if QuestieComms.data:KeyExists(key) then
         ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
         local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
         for questId, playerList in pairs(tooltipDataExternal) do
@@ -209,7 +228,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     end
 
     local isObjectTooltip = key:sub(1, 2) == "o_"
-    if isObjectTooltip then
+    if isObjectTooltip and (not IsInInstance()) then
+        -- Outside of dungeons we want to only show object tooltips for objects that are in the current zone.
+        -- Otherwise quests from Wanted! posters and Midsummer Bonfires will show up incorrectly.
         local objectIsInCurrentZone = false
         if playerZone == 0 then
             objectIsInCurrentZone = true
@@ -273,6 +294,29 @@ function QuestieTooltips.GetTooltip(key, playerZone)
             if tooltip.name then
                 if Questie.db.profile.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
+                    if tooltip.type then
+                        local level, _ = QuestieLib.GetTbcLevel(questId)
+                        local colorText
+                        if QuestieEvent.IsEventQuest(questId) then
+                            colorText = ":108:227:20"
+                        elseif QuestieDB.IsPvPQuest(questId) then
+                            colorText = ":227:86:57"
+                        elseif QuestieDB.IsRepeatable(questId) then
+                            colorText = ":33:204:231"
+                        else -- normal quest, use leveled colors
+                            local r, g, b = QuestieLib:GetDifficultyColorPercent(level)
+                            colorText = ":" .. tostring(math.floor(r * 255)) .. ":" .. tostring(math.floor(g * 255)) .. ":" .. tostring(math.floor(b * 255))
+                        end
+                        if tooltip.type == "NPC" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
+                        elseif tooltip.type == "Finisher" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_complete.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
+                        elseif tooltip.type == "itemFromMonster" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_mobdrop.png:14|t" .. questString
+                        elseif tooltip.type == "itemFromObject" or tooltip.type == "Object" then
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_object.png:14|t" .. questString
+                        end
+                    end
                     tinsert(tooltipLines, questString)
                 end
             elseif (not finishedAndUnacceptedQuests[questId]) then
@@ -295,17 +339,35 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     local text;
                     local color = QuestieLib:GetRGBForObjective(objective)
 
-                    if objective.Type == "spell" and objective.spawnList[tonumber(key:sub(3))].ItemId then
-                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[tonumber(key:sub(3))].ItemId, "name"));
+                    local npcId = tonumber(key:sub(3))
+                    local objectiveId = objective.Id
+                    if objective.Type == "spell" and objective.spawnList[npcId].ItemId then
+                        text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[npcId].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
-                    elseif objective.Needed then
-                        if (not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed then
-                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description);
+                    else
+                        local dropIcon, dropRateText = "", ""
+                        local dropRateData = QuestieDB.GetItemDroprate(objectiveId, npcId)
+                        if dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates then
+                            if Questie.db.profile.debugEnabled and dropRateData and dropRateData[2] then
+                                if dropRateData[2] == "cmangos" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
+                                elseif dropRateData[2] == "mangos3" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\mangos3.png:12|t "
+                                elseif dropRateData[2] == "wowhead" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                                elseif dropRateData[2] == "questie" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
+                                end
+                            end
+                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
+                        end
+                        if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
+                        else
+                            text = "   " .. color .. tostring(objective.Description) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
-                    else
-                        text = "   " .. color .. tostring(objective.Description);
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     end
                 end
             end
@@ -336,11 +398,17 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         playerType = " (" .. l10n("Nearby") .. ")"
                     end
                 end
-                if objectivePlayerName == playerName and anotherPlayer then -- why did we have this case
-                    local _, classFilename = UnitClass("player");
-                    local _, _, _, argbHex = GetClassColor(classFilename)
-                    objectiveInfo.text = objectiveInfo.text .. " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
-                elseif playerColor and objectivePlayerName ~= playerName then
+                if objectivePlayerName == playerName and anotherPlayer then -- Add current player name to own objective
+                    local playerClass = UnitClassBase("player")
+                    local _, _, _, argbHex = GetClassColor(playerClass)
+                    local dropIndex = string.find(objectiveInfo.text, "  |cFF999999")
+                    local playerString = " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
+                    if dropIndex then
+                        objectiveInfo.text = objectiveInfo.text:sub(1,dropIndex-1)..playerString.." "..objectiveInfo.text:sub(dropIndex+1) -- Ensures drop data is shown after player name
+                    else
+                        objectiveInfo.text = objectiveInfo.text .. playerString
+                    end
+                elseif playerColor and objectivePlayerName ~= playerName then -- Add other player name to their objective
                     objectiveInfo.text = objectiveInfo.text .. " (" .. playerColor .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r" .. playerType
                 end
                 -- We want the player to be on top.
@@ -450,7 +518,7 @@ function QuestieTooltips:Initialize()
                     (not QuestieTooltips.lastGametooltipCount) or
                     _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                     or QuestieTooltips.lastGametooltipType ~= "object"
-                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds it's own tooltip
+                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds its own tooltip
                 local playerZone = QuestiePlayer:GetCurrentZoneId()
                 _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText(), playerZone)
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()

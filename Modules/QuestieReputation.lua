@@ -72,6 +72,17 @@ function QuestieReputation:Update(isInit)
     return factionChanged, newFaction
 end
 
+QuestieReputation.factionsStartingBelowNeutral = {
+    [87] = true, -- Bloodsail Buccaneeers
+    [576] = true, -- Timbermaw Hold
+    [910] = true, -- Brood of Nozdormu
+    [941] = true, -- The Maghar
+    [970] = true, -- Sporeggar
+    [978] = true, -- Kurenai
+    [1015] = true, -- Netherwing
+    [1171] = true, -- Therazane
+}
+
 ---@return boolean
 _ReachedNewStanding = function(previousValues, standingId)
     return (not previousValues) -- New faction
@@ -98,10 +109,7 @@ end
 ---@return boolean BelowMaxRep
 ---@return boolean HasMaxFaction
 function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
-    local aboveMinRep = false -- the player has reached the min required reputation value
-    local belowMaxRep = false
-    local hasMinFaction = false
-    local hasMaxFaction = false
+    local aboveMinRep, belowMaxRep, hasMinFaction, hasMaxFaction
 
     if requiredMinRep then
         local minFactionID = requiredMinRep[1]
@@ -110,6 +118,14 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         if playerReputations[minFactionID] then
             hasMinFaction = true
             aboveMinRep = playerReputations[minFactionID][2] >= reqMinValue
+        -- Consider undiscovered factions to be at 0 reputation in this check unless they start below neutral
+        elseif not QuestieReputation.factionsStartingBelowNeutral[minFactionID] then
+            hasMinFaction = true
+            aboveMinRep = 0 >= reqMinValue
+        -- Consider undiscovered factions to be at -36000 reputation in this check when they start below neutral
+        else
+            hasMinFaction = true
+            aboveMinRep = -36000 >= reqMinValue
         end
     else
         -- If requiredMinRep is nil, we don't care about the reputation aka it fullfils it
@@ -123,9 +139,14 @@ function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, required
         if playerReputations[maxFactionID] then
             hasMaxFaction = true
             belowMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
-        elseif maxFactionID == QuestieDB.factionIDs.DARKMOON_FAIRE then
+        -- Consider undiscovered factions to be at 0 reputation in this check unless they start below neutral
+        elseif not QuestieReputation.factionsStartingBelowNeutral[maxFactionID] then
             hasMaxFaction = true
-            belowMaxRep = true
+            belowMaxRep = 0 < reqMaxValue
+        -- Consider undiscovered factions to be at -36000 reputation in this check when they start below neutral
+        else
+            hasMaxFaction = true
+            belowMaxRep = -36000 < reqMaxValue
         end
     else
         -- If requiredMaxRep is nil, we don't care about the reputation aka it fullfils it
@@ -251,8 +272,8 @@ function QuestieReputation.GetReputationReward(questId)
 end
 
 _GetRewardMultiplier = function()
-    local knowsMrPopularityRank1 = IsSpellKnown(78634)
-    local knowsMrPopularityRank2 = IsSpellKnown(78635)
+    local knowsMrPopularityRank1 = QuestieCompat.IsSpellKnown(78634)
+    local knowsMrPopularityRank2 = QuestieCompat.IsSpellKnown(78635)
     local buffMultiplier = _GetBuffMultiplier()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
     local multiplier = 1 + buffMultiplier

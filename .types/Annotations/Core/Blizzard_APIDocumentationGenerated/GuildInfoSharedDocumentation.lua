@@ -1,0 +1,7 @@
+---@meta _
+---@class GuildTabardInfo
+---@field backgroundColor colorRGB
+---@field borderColor colorRGB
+---@field emblemColor colorRGB
+---@field emblemFileID number
+---@field emblemStyle number

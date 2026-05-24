@@ -59,7 +59,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "找到克伦·断脊者尸体的地方使用先祖狼魂图腾，并跟随先祖狼魂前进.",
+        ["zhCN"] = "找到克伦·断脊者尸体的地方使用先祖狼魂图腾，并跟随先祖狼魂前进",
         ["zhTW"] = false,
     },
     ["Take Avruu's Orb to the Haal'eshi Altar"] = { -- 9418
@@ -98,18 +98,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "在奈亚斯祭坛附近使用奈亚斯的礼物",
         ["zhTW"] = false,
     },
-    ["Pickpocket the Lacy Handkerchief from the Sentinel Leader"] = { -- 9460
-        ["enUS"] = true,
-        ["deDE"] = "Stehlt das Spitzentaschentuch der Anführerin der Schildwachen.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "从哨兵队长身上偷取一张花边手帕",
-        ["zhTW"] = false,
-    },
     ["Summon Hauteur using the Ritual Torch"] = { -- 9467
         ["enUS"] = true,
         ["deDE"] = false,
@@ -119,7 +107,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用仪祭火炬召唤赫图尔",
         ["zhTW"] = false,
     },
     ["Gather a Fel Ember using Grand Warlock's Amulet"] = { -- 9494
@@ -131,7 +119,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用高阶术士的护符收集邪能灰烬",
         ["zhTW"] = false,
     },
     ["Destroy the barrel using the Skin of Purest Water"] = { -- 9508
@@ -143,7 +131,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用纯净水囊摧毁贮藏桶",
         ["zhTW"] = false,
     },
     ["Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"] = { -- 9667
@@ -155,7 +143,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "杀死刺臂熊怪来引诱刺臂酋长",
         ["zhTW"] = false,
     },
     ["Light the brazier"] = { -- 9678
@@ -179,7 +167,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "亵渎艾萨拉女王的雕像",
         ["zhTW"] = false,
     },
     ["Place the Bundle of Dragon Bones at the Ever-burning Pyre"] = { -- 9689
@@ -191,7 +179,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将一捆龙骨放置在永燃火堆上",
         ["zhTW"] = false,
     },
     ["Call for help from Trackers of the Hand"] = { -- 9711
@@ -203,7 +191,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "向阿古斯之手的追踪者求助",
         ["zhTW"] = false,
     },
     ["Destroy all 4 Sunhawk Portal Controller"] = { -- 9740
@@ -251,7 +239,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "收集7枚徽记，摆放在战槌山的大地印记上。召唤出戈隆克。",
+        ["zhCN"] = "收集7枚徽记，摆放在战槌山的大地印记上。召唤出戈隆克",
         ["zhTW"] = false,
     },
     ["Make smoke signals"] = { -- 9932
@@ -263,7 +251,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "发出烟雾信号",
         ["zhTW"] = false,
     },
     ["Place the carcass"] = { -- 10035
@@ -275,7 +263,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "放置尸体",
         ["zhTW"] = false,
     },
     ["Jump!"] = { -- 10111
@@ -287,7 +275,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "跳！",
         ["zhTW"] = false,
     },
     ["Use Apex's Crystal Focus near Archmage Vargoth's Orb"] = { -- 10256
@@ -323,7 +311,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与空军指挥官布拉克交谈",
         ["zhTW"] = false,
     },
     ["Speak with Gryphoneer Windbellow"] = { -- 10163 & 10382
@@ -347,19 +335,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "在奥金尼地穴中找到一面灵魂之镜，用它召唤纳格兰上古兽人先祖的黑暗之魂。",
-        ["zhTW"] = false,
-    },
-    ["Use the Battery Recharging Blaster when it's weakened"] = { -- 10190
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在奥金尼地穴中找到一面灵魂之镜，用它召唤纳格兰上古兽人先祖的黑暗之魂",
         ["zhTW"] = false,
     },
     ["Use the Elemental Power Extractor before killing it"] = { -- 10226
@@ -371,7 +347,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在击杀它之前使用元素能量萃取器",
         ["zhTW"] = false,
     },
     ["Activate the rune"] = { -- 10240
@@ -383,7 +359,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "激活符文",
         ["zhTW"] = false,
     },
     ["Use the Challenge of the Blue Fight to challenge Veraku"] = { -- 10274
@@ -443,7 +419,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与星界商人玛里德沟通",
         ["zhTW"] = false,
     },
     ["Communicate with Commander Ameer"] = { -- 10384
@@ -455,7 +431,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与指挥官阿米尔联系",
         ["zhTW"] = false,
     },
     ["Take the portal to Socrethar's Seat"] = { -- 10409 10507
@@ -467,7 +443,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入通往索克雷萨之座的传送门",
         ["zhTW"] = false,
     },
     ["When at Socrethar's Seat, ask for his help against Socrethar"] = { -- 10409
@@ -479,7 +455,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "在索克雷萨之座处，请求他帮助对抗索克雷萨",
         ["zhTW"] = false,
     },
     ["Open a portal to Socrethar's Seat with Socrethar's Teleporting Stone"] = { -- 10409 10507
@@ -491,7 +467,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用索克雷萨传送石打开通往索克雷萨之座的传送门",
         ["zhTW"] = false,
     },
     ["After defeating Socrethar, you can open a portal back"] = { -- 10409 10507
@@ -503,7 +479,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败索克雷萨后，你可以打开一个返回的传送门",
         ["zhTW"] = false,
     },
     ["Take the portal back to Invasion Point: Overlord"] = { -- 10409 10507
@@ -515,7 +491,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入传送门返回登陆场：霸王",
         ["zhTW"] = false,
     },
     ["Use Navuud's Concoction before attacking Void Wastes"] = { -- 10411
@@ -551,31 +527,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
-    ["Use the Diagnostic Device while standing near the Eco-Dome Sutheron Generator"] = { -- 10424
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt das Diagnosegerät während ihr in der nähe des Eco-Dome Sutheron Generators steht.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "在苏瑟伦生态圆顶发生器旁使用诊断设备",
-        ["zhTW"] = false,
-    },
-    ["Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"] = { -- 10438
-        ["enUS"] = true,
-        ["deDE"] = "Ein Netherdrache des Protektorats wird euch nahe genug an Ultris heranfliegen, damit ihr den Disruptor auf das Leerenrohr abwerfen könnt.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "虚空幼龙会将你送到乌提斯上空，然后你要对准空灵管道投掷相位扰流器",
+        ["zhCN"] = "打开牢笼",
         ["zhTW"] = false,
     },
     ["Use the Totem of Spirits on Enraged Earth and Fiery Spirits"] = { -- 10458
@@ -674,18 +626,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "与拉雷·萨普纳波谈一谈，并使用风动电容器",
         ["zhTW"] = false,
     },
-    ["Use the Box o'Tricks while standing near the communication device"] = { -- 10563 & 10596
-        ["enUS"] = true,
-        ["deDE"] = "Benutze die Trickkiste während du neben dem Kommunikationsgerät stehst.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "在伪装状态下站在军团通讯装置附近",
-        ["zhTW"] = false,
-    },
     ["Place the Bundle of Bloodthistle at the end of the bridge"] = { -- 10570
         ["enUS"] = true,
         ["deDE"] = "Platziert das Bündel Blutdisteln am Ende der Brücke.",
@@ -707,7 +647,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与他交谈前，请使用血精灵伪装",
         ["zhTW"] = false,
     },
     ["Open the Power Converters and encase what is inside with the Protovoltaic Magneto Collector"] = { -- 10584
@@ -755,7 +695,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "当你准备好迎接火焰之王森卢肯时告诉他",
         ["zhTW"] = false,
     },
     ["Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches"] = { -- 10609
@@ -779,7 +719,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用时间定相调节器",
         ["zhTW"] = false,
     },
     ["Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"] = { -- 10612 & 10613
@@ -816,18 +756,6 @@ local tbcObjectiveLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = "用地狱犬哨召唤一只恶魔警卫犬",
-        ["zhTW"] = false,
-    },
-    ["Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents"] = { -- 10657
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt die repolarisierte Magnetsphäre und absorbiert 25 Blitzschläge von Schuppenflügelschlange.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "用极化电磁球从鳞翼飞蛇身上吸收25发闪电打击",
         ["zhTW"] = false,
     },
     ["Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth"] = { -- 10669
@@ -875,7 +803,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀3个影月窃魂者，迫使暗影领主达斯维尔降临",
         ["zhTW"] = false,
     },
     ["Sign Tally's Waiver, then speak with Rally Zapnabber to use the Zephyrium Capacitorium"] = { -- 10710
@@ -887,7 +815,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "签署塔利的声明，然后与拉雷·萨普纳波谈一谈，并使用风动电容器。",
+        ["zhCN"] = "签署塔利的声明，然后与拉雷·萨普纳波谈一谈，并使用风动电容器",
         ["zhTW"] = false,
     },
     ["Speak with Rally Zapnabber to use the Zephyrium Capacitorium"] = { -- 10711
@@ -899,7 +827,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "与拉雷·萨普纳波谈一谈，并使用风动电容器。",
+        ["zhCN"] = "与拉雷·萨普纳波谈一谈，并使用风动电容器",
         ["zhTW"] = false,
     },
     ["Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying"] = { -- 10712
@@ -923,7 +851,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "吹响哨子，让格鲁洛克追赶野猪",
         ["zhTW"] = false,
     },
     ["Use Sablemane's Trap at Gorgrom's Altar"] = { -- 10723 & 10802
@@ -950,18 +878,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "在苟克的祭坛处吹响雷克萨的战斗号角，杀死苟克",
         ["zhTW"] = false,
     },
-    ["Throw a net at the targeted wyrmcult blackwhelp"] = { -- 10747
-        ["enUS"] = true,
-        ["deDE"] = "Wirf ein Netz auf den anvisierten Schwarzwelpe des Wyrmkults.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "使用黑色龙崽之网捕捉拜龙教黑色龙崽",
-        ["zhTW"] = false,
-    },
     ["Equip the Unfinished Headpiece, travel to the Altar of Damnation, and use it while standing near Gul'dan."] = { -- 10782
         ["enUS"] = true,
         ["deDE"] = "Legt das unfertige Kopfstück an und reist zum Altar der Verdammnis und benutzt es während Ihr in der Nähe von Gul'dan steht.",
@@ -983,7 +899,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用萨博迈恩的催眠粉让格鲁洛克睡着",
         ["zhTW"] = false,
     },
     ["Kill flayers and take their carcasses. Place a carcass in the field"] = { -- 10804
@@ -1091,7 +1007,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击杀节点亲王拉扎安即可生成灵魂之盒",
         ["zhTW"] = false,
     },
     ["Kill Force Commander Gorax and place the Challenge From the Horde upon his corpse"] = { -- 10876
@@ -1115,7 +1031,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "帮助阿库诺回到泰罗卡森林的难民车队。",
+        ["zhCN"] = "帮助阿库诺回到泰罗卡森林的难民车队",
         ["zhTW"] = false,
     },
     ["Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mites"] = { -- 10896
@@ -1223,7 +1139,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进行驱魔仪式",
         ["zhTW"] = false,
     },
     ["Use the Sparrowhawk Net to capture a Wild Sparrowhawk"] = { -- 10987
@@ -1283,7 +1199,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败他，他就会生成格鲁洛克的巨龙颅骨",
         ["zhTW"] = false,
     },
     ["Defeat him so he spawns Maggoc's Treasure Chest"] = { -- 10996
@@ -1295,7 +1211,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败他，他就会生成玛古克的宝箱",
         ["zhTW"] = false,
     },
     ["Defeat him so he spawns Slaag's Standard"] = { -- 10997
@@ -1307,7 +1223,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败他，他就会召唤出戈隆的军旗",
         ["zhTW"] = false,
     },
     ["Step into fire rings to summon Vim'gol"] = { -- 10998
@@ -1319,7 +1235,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "踏入火焰之环即可召唤维姆高尔",
         ["zhTW"] = false,
     },
     ["Defeat him so he spawns Vim'gol's Vile Grimoire"] = { -- 10998
@@ -1331,7 +1247,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败他，他就会生成维姆高尔的邪恶魔典",
         ["zhTW"] = false,
     },
     ["Defeat him so he spawns Skulloc's Soul"] = { -- 11000
@@ -1343,7 +1259,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败他，他就会召唤斯古洛克的灵魂",
         ["zhTW"] = false,
     },
     ["Use Vim'gol's Grimoire at Soulgrinder's Altar"] = { -- 11000
@@ -1356,18 +1272,6 @@ local tbcObjectiveLocales = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["zhCN"] = "在磨魂者之穴使用维姆高尔的魔典",
-        ["zhTW"] = false,
-    },
-    ["Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"] = { -- 11010 & 11023 & 11102
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt Bomben der Himmelswache um 15 Stapel mit Teufelskanonenkugeln zu zerstören.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "使用天空卫队炸弹炸毁15堆邪能炮弹",
         ["zhTW"] = false,
     },
     ["Kill any wildlife in Shadowmoon Valley to collect Fel Gland"] = { -- 11020
@@ -1406,18 +1310,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "使用35块埃匹希斯圣物激活埃匹希斯纪念碑，埃匹希斯守护者将在第六轮出现",
         ["zhTW"] = false,
     },
-    ["Use Wrangling Rope on weakened Aether Rays"] = { -- 11065 & 11066
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt das Bändigungsseil an geschwächten Ätherrochen.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "用牧绳捕捉以太鳐",
-        ["zhTW"] = false,
-    },
     ["Use a Time-Lost offering to summon Terokk"] = { -- 11073
         ["enUS"] = true,
         ["deDE"] = false,
@@ -1427,7 +1319,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用失落的祭品召唤泰罗克",
         ["zhTW"] = false,
     },
     ["Use 35 Apexis Shards to open Furywing's Egg"] = { -- 11078
@@ -1439,7 +1331,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用35个埃匹希斯碎片打开弗雷文的卵",
         ["zhTW"] = false,
     },
     ["Use 35 Apexis Shards to open Obsidia's Egg"] = { -- 11078
@@ -1451,7 +1343,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用35个埃匹希斯碎片打开欧比斯迪的卵",
         ["zhTW"] = false,
     },
     ["Use 35 Apexis Shards to open Insidion's Egg"] = { -- 11078
@@ -1463,7 +1355,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用35个埃匹希斯碎片打开因斯迪安的卵",
         ["zhTW"] = false,
     },
     ["Use 35 Apexis Shards to open Rivendark's Egg"] = { -- 11078
@@ -1475,7 +1367,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用35个埃匹希斯碎片打开雷文达克的卵",
         ["zhTW"] = false,
     },
     ["Use 35 Apexis Shards to activate Fel Crystal Prism"] = { -- 11079
@@ -1487,7 +1379,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = "使用 35 个埃匹希斯碎片激活绿色水晶棱柱",
+        ["zhCN"] = "使用35个埃匹希斯碎片激活绿色水晶棱柱",
         ["zhTW"] = false,
     },
     ["Use the Nether Ray Cage and slay Blackwind Warp Chasers near the Hungry Nether Ray"] = { -- 11093
@@ -1511,7 +1403,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "归还遗骸",
         ["zhTW"] = false,
     },
     ["Plant the Stonemaul Banner"] = { -- 11162
@@ -1607,7 +1499,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败敌方玩家",
         ["zhTW"] = false,
     },
     ["Use Fel Siphon and then kill the weakened Felblood Initiate"] = { -- 11515
@@ -1679,7 +1571,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车返回小岛",
         ["zhTW"] = false,
     },
     ["Break down Ata'mal Metal on the anvil to cleanse it"] = { -- 11544
@@ -1787,7 +1679,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "让希里知道你已经准备好战斗了",
         ["zhTW"] = false,
     },
     ["Take a ride to Spinebreaker Post"] = { -- 10242
@@ -1799,7 +1691,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车前往断背岗哨",
         ["zhTW"] = false,
     },
     ["Light the torches"] = { -- 10792
@@ -1811,7 +1703,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "点燃火炬",
         ["zhTW"] = false,
     },
     ["Place the Signaling Gem"] = { -- 9370
@@ -1823,7 +1715,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "放置信号宝石",
         ["zhTW"] = false,
     },
     ["Disturb the nest"] = { -- 9397
@@ -1835,7 +1727,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骚扰鸟巢",
         ["zhTW"] = false,
     },
     ["Fish for Baby Crocolisk"] = {
@@ -1847,7 +1739,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "钓取鳄鱼宝宝",
         ["zhTW"] = false,
     },
     ["Use the cannon"] = {
@@ -1859,7 +1751,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用大炮",
         ["zhTW"] = false,
     },
     ["Open the container"] = {
@@ -1871,7 +1763,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "打开容器",
         ["zhTW"] = false,
     },
     ["Attempt to loot The Thunderspike"] = {
@@ -1883,7 +1775,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "试图掠夺雷霆之刺",
         ["zhTW"] = false,
     },
     ["Control the Marmot"] = {
@@ -1895,7 +1787,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "控制土拨鼠",
         ["zhTW"] = false,
     },
     ["Take a ride"] = {
@@ -1907,7 +1799,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "乘车",
         ["zhTW"] = false,
     },
     ["Get a disguise"] = {
@@ -1919,7 +1811,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "伪装一下",
         ["zhTW"] = false,
     },
     ["Charge the Vekh'nir Crystal"] = {
@@ -1931,7 +1823,7 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "为维克鸦巢水晶充能",
         ["zhTW"] = false,
     },
     ["Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven"] = {
@@ -1943,7 +1835,31 @@ local tbcObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用6个卢安利爪召唤乌鸦预言者",
+        ["zhTW"] = false,
+    },
+    ["Kill Siltfin Murlocs to summon a Quel'dorei Magewrath"] = { -- 9667
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "击杀沙鳞鱼人以召唤奎尔多雷法师怨灵",
+        ["zhTW"] = false,
+    },
+    ["Mount up"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "骑乘",
         ["zhTW"] = false,
     },
 }

@@ -49,6 +49,7 @@ QuestieDB.sortKeys = {
     THE_ZANDALARI = -380,
     ELEMENTAL_BONDS = -381,
     PANDAREN_BREWMASTERS = -391,
+    SCENARIO = -392,
     PET_BATTLE = -394,
     MONK = -395,
     LANDFALL = -396,
@@ -60,4 +61,6 @@ QuestieDB.sortKeys = {
     WINTER_VEIL = -404,
     NIGHTMARE_INCURSIONS = -641,
     BLACKROCK_ERUPTION = -644,
+    TITAN_REFORGED_REALM = -662,
+    SPECIALTEMP = -1000,
 }

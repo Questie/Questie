@@ -17,7 +17,7 @@ function QuestieWotlkNpcFixes:Load()
 
     return {
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
+            [npcKeys.questStarts] = {5631,5634,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
             [npcKeys.questEnds] = {5640,5678,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164},
         },
         [658] = {
@@ -31,6 +31,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {3000,7637,7640,7641,7643,7646,7647,7666,8415,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
             [npcKeys.questEnds] = {7638,7639,7640,7644,7646,7648,7666,7670,64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164},
         },
+        [946] = { -- Frostmane Novice
+            [npcKeys.friendlyToFaction] = "",
+        },
         [1105] = {
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN]={{36.99,47.02}}},
         },
@@ -43,7 +46,10 @@ function QuestieWotlkNpcFixes:Load()
         [1748] = { -- Highlord Bolvar Fordragon
             [npcKeys.questStarts] = {6182,6501,7496,7782},
         },
-        [1755] = {
+        [1754] = { -- Lord Gregor Lescovar
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{72.3,35.11}}},
+        },
+        [1755] = { -- Marzon the Silent Blade
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{71.97,35.39}}},
         },
         [2079] = {
@@ -77,7 +83,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
         [3328] = { -- Ormok
-            [npcKeys.questStarts] = {6681,8233,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
+            [npcKeys.questStarts] = {8233,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
             [npcKeys.questEnds] = {64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
         [3344] = { -- Kardris Dreamseeker
@@ -133,7 +139,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164},
         },
         [5885] = { -- Deino
-            [npcKeys.questStarts] = {1944,1945,1947,2861,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
+            [npcKeys.questStarts] = {1944,1945,1947,1953,2861,64048,64050,64052,64063,64064,70734,70735,70736,70737,70865,70869,78167,78168},
             [npcKeys.questEnds] = {1943,1944,64046,64048,64050,64052,70396,70734,70735,70736,70869,78137,78167},
         },
         [5994] = { -- Zayus
@@ -147,7 +153,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {1645,1647,1779,1789,1794,4485},
         },
         [6467] = { -- Mennet Carkad
-            [npcKeys.questStarts] = {1998,1999,2019,2378,6681,14418,14419,14420},
+            [npcKeys.questStarts] = {1998,1999,2019,2378,14418,14419,14420},
         },
         [6826] = { -- Talvash del Kissel
             [npcKeys.questStarts] = {2199,2200,2361,2948,3375,8355},
@@ -199,7 +205,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [11406] = { -- High Priest Rohan
-            [npcKeys.questStarts] = {7639,8254},
+            [npcKeys.questStarts] = {5633,7639,8254},
         },
         [11407] = { -- Var'jun
             [npcKeys.questStarts] = {},
@@ -216,7 +222,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {6607,6608,6609,8227,11194,11209,13826},
         },
         [13283] = { -- Lord Tony Romano
-            [npcKeys.questStarts] = {6681,64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
+            [npcKeys.questStarts] = {64031,64034,64035,64037,64038,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
             [npcKeys.questEnds] = {64028,64031,64034,64035,70395,70397,70398,70401,70870,78136,78140,78157,78164},
         },
         [13434] = { -- Macey Jinglepocket
@@ -316,7 +322,7 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.questStarts] = {8870},
         },
-        [15895] = {
+        [15895] = { -- Lunar Festival Harbinger
             [npcKeys.spawns] = {
                 [zoneIDs.DARNASSUS]={{32.59,12}},
                 [zoneIDs.UNDERCITY]={{65.62,36.0}},
@@ -398,19 +404,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {10960,64139,64140,64141,64142,64143,64144,64145},
         },
         [17219] = { -- Sulaa
-            [npcKeys.questStarts] = {9462,9500,9551,14111},
-        },
-        [17663] = {
-            [npcKeys.name] = "Maatparm",
+            [npcKeys.questStarts] = {8410,9462,9502,9551,14111},
         },
         [17718] = {
             [npcKeys.questStarts] = {9684,9681},
-        },
-        [17977] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
-        },
-        [18024] = { -- Defender Sorli
-            [npcKeys.questStarts] = {},
         },
         [18481] = { -- A'dal
             [npcKeys.questEnds] = {10102,10210,10280,10560,10704,10708,10781,10882,10883,10884,10885,10886,10948,11007,11052,13081,13430},
@@ -423,34 +420,31 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808,13484,14022},
         },
         [19148] = { -- Dwarf Commoner
-            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808},
+            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808,13484},
         },
         [19169] = { -- Blood Elf Commoner
             [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811,13483,14036},
         },
         [19171] = { -- Draenei Commoner
-            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808},
+            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808,13484},
         },
         [19172] = { -- Gnome Commoner
-            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808},
+            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808,13484},
         },
         [19173] = { -- Night Elf Commoner
-            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808},
+            [npcKeys.questStarts] = {11356,11441,11970,12753,12772,12775,12777,12808,13484},
         },
         [19175] = { -- Orc Commoner
-            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811},
+            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811,13483},
         },
         [19176] = { -- Tauren Commoner
-            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811},
+            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811,13483},
         },
         [19177] = { -- Troll Commoner
-            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811},
+            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811,13483},
         },
         [19178] = { -- Forsaken Commoner
-            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811},
-        },
-        [19220] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
+            [npcKeys.questStarts] = {11357,11446,11971,12752,12782,12783,12784,12811,13483},
         },
         [19481] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{58.34,86.4}}},
@@ -458,16 +452,19 @@ function QuestieWotlkNpcFixes:Load()
         [19684] = { -- Haggard War Veteran
             [npcKeys.questEnds] = {70865},
         },
+        [19936] = { -- Arazmodu
+            [npcKeys.questStarts] = {10460,10461,10462,10463,10464,10465,10466,10467,10468,10469,10470,10471,10472,10473,10474,10475,11103,11104,11105,11106},
+        },
         [20102] = { -- Goblin Commoner
-            [npcKeys.questStarts] = {11441,11446,11970,11971,12752,12753,12772,12775,12777,12782,12783,12784,12808,12811},
+            [npcKeys.questStarts] = {11441,11446,11970,11971,12752,12753,12772,12775,12777,12782,12783,12784,12808,12811,13483,13484},
         },
         [20407] = { -- Farseer Umbrua
             [npcKeys.questStarts] = {8410,10490,10491,70397,70398,70401,70411,70865,70870,78140,78157,78164,78166},
             [npcKeys.questEnds] = {70395,70397,70398,70401,70870,78136,78140,78157,78164},
         },
         [20735] = { -- Archmage Lan'dalock
-            [npcKeys.questStarts] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199,24579,24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590,78752,78753,83713,83714,83717,87379},
-            [npcKeys.questEnds] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199,24579,24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590,78752,78753,83713,83714,83717,87379},
+            [npcKeys.questStarts] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199,24579,24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590,78752,78753,83713,83714,83717,87379,93975,94577,94579,95037,96312,96315,96318},
+            [npcKeys.questEnds] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199,24579,24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590,78752,78753,83713,83714,83717,87379,93975,94577,94579,95037,96312,96315,96318},
         },
         [22515] = {
             [npcKeys.spawns] = {[4264]={{70.68,57.53},{71.63,57.69},{59.72,39.98},{63.76,39.98}},[4131]={{-1,-1}},[4075]={{-1,-1}},[1196]={{-1,-1}},[3805]={{-1,-1}},[3959]={{-1,-1}},[3562]={{-1,-1}},[495]={{57.65,77.64},{60.53,78.47},{58.97,80.08},{58.71,78.18},{59.2,76.94},{59.78,79.37},{60.5,80.44},{57.84,75.7},{61.86,79.8}},[210]={{44.94,61.23},{45.33,60.99},{45.53,62.56},{44.84,62.0}},[4197]={{46.88,43.15}},[4384]={{50.19,45.79},{47.32,45.25},{50.08,44.72},{47.13,44.65}},[2597]={{42.36,13.25}},[4196]={{39.21,21.91},{48.25,10.59},{44.3,10.39},{46.08,10.63}},[zoneIDs.AZJOL_NERUB]={{-1,-1}},[4273]={{39.71,29.29},{39.74,26.52},{39.71,23.82}},[4710]={{53.16,78.39},{44.96,26.93},{51.45,26.9},{52.3,26.94},{48.72,23.31},{47.96,30.87},{49.23,32.2},{47.89,78.23},{49.32,78.25},{52.15,72.32},{51.24,80.86},{54.45,78.97},{52.24,74.48},{45.78,26.83}},[4812]={{32.42,20.8},{31.22,20.81}},[4723]={{56.99,83.83}},[4820]={{41.07,13.75}}},
@@ -1193,23 +1190,23 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{14.83,86.63}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27715] = {
+        [27715] = { -- Ironhide
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27716] = {
+        [27716] = { -- Torgg Thundertotem
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27717] = {
+        [27717] = { -- Rustblood
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27718] = {
+        [27718] = { -- Horgrenn Hellcleave
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
-        [27727] = {
+        [27727] = { -- Conqueror Krenna
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
@@ -2034,6 +2031,10 @@ function QuestieWotlkNpcFixes:Load()
         [31134] = {
             [npcKeys.spawns] = {[zoneIDs.VIOLET_HOLD] = {{45.9,56.5},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.VIOLET_HOLD,
+        },
+        [31136] = {
+            [npcKeys.questStarts] = {94576},
+            [npcKeys.questEnds] = {94576},
         },
         [31191] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
@@ -3090,32 +3091,85 @@ function QuestieWotlkNpcFixes:Load()
         [80001] = {
             [npcKeys.name] = "Maintain a Trot for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
-            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}},
         },
         [80002] = {
             [npcKeys.name] = "Maintain a Canter for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
-            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}},
         },
         [80003] = {
             [npcKeys.name] = "Maintain a Gallop for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
-            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}},
         },
         [80004] = {
             [npcKeys.name] = "Maintain a Trot for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}},
         },
         [80005] = {
             [npcKeys.name] = "Maintain a Canter for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}},
         },
         [80006] = {
             [npcKeys.name] = "Maintain a Gallop for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}},
+        },
+        [256887] = { -- Greater Dust Stormer
+            [npcKeys.name] = "Greater Dust Stormer",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 11752,
+            [npcKeys.maxLevelHealth] = 11752,
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{27.49,18.13},{28.47,19.96},{30.17,13.88},{30.37,16.82},{29.25,15.28},{32.1,14.26},{32.05,16.82},{31.22,16.03},{31.19,18.16},{33.25,12.89},{32.95,15.27},{34.21,13.5},{34.71,12.45},{28.53,22.51},{29.51,21.45},{29.39,18.51},{30.16,20.12},{28.41,17.51},{34.73,25.49},{22.78,28.24},{19.68,27.37},{18.57,25.46},{23.65,27.15},{18.97,22.24},{19.59,21.27},{18.73,19.9},{17.62,23.56},{17.61,26.59},{17.04,24.91},{18.7,28.5},{17.09,26.72},{18.01,29.51},{19.98,29.55},{22.63,25.15},{19.9,18.2},{21.71,24.19},{22.46,22.77},{21.81,21.27},{20.48,23.06},{21.81,26.95},{20.75,25.49},{21.55,30.04},{20.37,31.18},{19.86,32.0},{20.59,28.25},{18.11,32.46}}},
+            [npcKeys.zoneID] = zoneIDs.SILITHUS,
+        },
+        [256889] = { -- Greater Desert Rumbler
+            [npcKeys.name] = "Greater Desert Rumbler",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 11752,
+            [npcKeys.maxLevelHealth] = 11752,
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{27.0,15.53},{18.73,17.13},{22.63,19.54},{25.45,15.16},{26.91,10.98},{28.31,14.1},{25.53,12.26},{26.48,14.24},{22.04,11.62},{24.61,11.32},{25.25,9.65},{24.58,13.77},{23.45,15.51},{23.65,9.9},{21.83,15.84},{20.68,16.6},{20.82,14.0},{21.62,10.01},{21.06,10.57},{22.18,8.63},{21.82,12.73},{22.7,14.46},{19.97,15.7},{23.49,17.91},{22.72,17.4},{21.48,17.76}}},
+            [npcKeys.zoneID] = zoneIDs.SILITHUS,
+        },
+        [257012] = { -- Algalon the Observer
+            [npcKeys.name] = "Algalon the Observer",
+            [npcKeys.minLevel] = 83,
+            [npcKeys.maxLevel] = 83,
+            [npcKeys.rank] = 3,
+            [npcKeys.minLevelHealth] = 8367000,
+            [npcKeys.maxLevelHealth] = 8367000,
+            [npcKeys.questStarts] = {93950},
+            [npcKeys.questEnds] = {93950},
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{83.23,43.38}},[zoneIDs.MULGORE] = {{45.28,77.47}},[zoneIDs.EVERSONG_WOODS] = {{38.1,19.99}},[zoneIDs.DUROTAR] = {{44.15,67.51}},[zoneIDs.TIRISFAL_GLADES] = {{31.38,70.3}},[zoneIDs.ELWYNN_FOREST] = {{47.82,42.34}},[zoneIDs.DUN_MOROGH] = {{28.85,71.35}},[zoneIDs.TELDRASSIL] = {{58.38,41.76}}},
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [257403] = { -- Algalon the Observer
+            [npcKeys.name] = "Algalon the Observer",
+            [npcKeys.minLevel] = 83,
+            [npcKeys.maxLevel] = 83,
+            [npcKeys.rank] = 3,
+            [npcKeys.minLevelHealth] = 8367000,
+            [npcKeys.maxLevelHealth] = 8367000,
+            [npcKeys.questStarts] = {94376},
+            [npcKeys.questEnds] = {94376},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{45.42,16.06}}},
+            [npcKeys.friendlyToFaction] = "AH",
+        },
+        [262258] = { -- Boss Gobb Goldnick
+            [npcKeys.name] = "Boss Gobb Goldnick",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 12600,
+            [npcKeys.maxLevelHealth] = 12600,
+            [npcKeys.questStarts] = {95705,95706,95844,95845},
+            [npcKeys.questEnds] = {95705,95706,95844,95845},
+            [npcKeys.friendlyToFaction] = "AH",
         },
     }
 end
@@ -3741,9 +3795,26 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
         },
+        [257012] = { -- Algalon the Observer
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [262258] = { -- Boss Gobb Goldnick
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.01,12.61}},[zoneIDs.UNDERCITY] = {{65.99,21.77}},[zoneIDs.THUNDER_BLUFF] = {{29.61,65.38}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
     }
 
     local npcFixesAlliance = {
+        [5676] = { -- Summoned Voidwalker
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.09,84.36}}},
+        },
+        [5677] = { -- Summoned Succubus
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.09,84.36}}},
+        },
+        [6492] = { -- Rift Spawn
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{51.32,92.34},{50.83,92.63},{51.61,94.5},{51.21,95.73},{50.99,95.58},{51.3,93.34}}},
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
         [15898] = {
             [npcKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY]={{37.32,64.04}},
@@ -3847,6 +3918,16 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         },
         [38342] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{61.33,65.64}}},
+        },
+        [185335] = { -- Summoned Incubus
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.09,84.36}}},
+        },
+        [257012] = { -- Algalon the Observer
+            [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
+        },
+        [262258] = { -- Boss Gobb Goldnick
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.12,50.75}},[zoneIDs.DUN_MOROGH] = {{52.46,35.32}},[zoneIDs.TELDRASSIL] = {{56.29,90.01}}},
+            [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
     }
 

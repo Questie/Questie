@@ -32,8 +32,6 @@ local Moonwell = QuestieLoader:ImportModule("Moonwell")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
-local _, playerClass = UnitClass("player")
-
 local tinsert = tinsert
 
 local professionKeys = QuestieProfessions.professionKeys
@@ -60,12 +58,8 @@ local _townsfolk_texturemap = {
     ["Arcane Reforger"] = QuestieLib.AddonPath.."Icons\\reforge.png",
     ["Transmogrifier"] = QuestieLib.AddonPath.."Icons\\transmogrify.png",
     ["Battle Pet Trainer"] = QuestieLib.AddonPath.."Icons\\petbattle.png",
-    ["Reagents"] = (function()
-        if playerClass == "ROGUE" then
-            return "Interface\\Minimap\\tracking\\poisons"
-        end
-        return QuestieLib.AddonPath.."Icons\\reagents.blp"
-    end)(),
+    ["Reagents"] = QuestieLib.AddonPath.."Icons\\reagents.blp",
+    ["Poisons"] = "Interface\\Minimap\\tracking\\poisons",
     [professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
     [professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
     [professionKeys.LEATHERWORKING] = "Interface\\Icons\\trade_leatherworking",
@@ -397,11 +391,13 @@ function QuestieMenu:Show(hideDelay)
         QuestieJourney.tabGroup:SelectTab("zone");
         QuestieJourney:ToggleJourneyWindow()
     end})
+
     tinsert(menuTable, { text= l10n('Quests by Faction'), func=function()
         QuestieOptions:HideFrame();
         QuestieJourney.tabGroup:SelectTab("faction");
         QuestieJourney:ToggleJourneyWindow()
     end})
+
     tinsert(menuTable, { text= l10n("Questie Options"), func=function()
         QuestieCombatQueue:Queue(function()
             QuestieOptions:ToggleConfigWindow()

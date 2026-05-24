@@ -34,6 +34,21 @@ function WorldMapButton.Toggle(shouldShow)
     end
 end
 
+---@param self Frame
+---@return nil
+local function UpdateTooltip(self)
+    local tooltip = GameTooltip
+    tooltip:SetOwner(self, "ANCHOR_NONE");
+    tooltip:ClearLines()
+    tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
+    tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
+    tooltip:AddLine(" ")
+    local toggleLabel = Questie.db.profile.enabled and l10n('Hide Questie') or l10n('Show Questie')
+    tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(toggleLabel, 'white'))
+    tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
+    tooltip:Show()
+end
+
 QuestieWorldMapButtonMixin = {
     OnLoad = function() end,
     OnHide = function() end,
@@ -41,6 +56,9 @@ QuestieWorldMapButtonMixin = {
         if button == "LeftButton" then
             Questie.db.profile.enabled = (not Questie.db.profile.enabled)
             QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
+            if GameTooltip:IsShown() and GameTooltip:GetOwner() == mapButton then
+                UpdateTooltip(mapButton)
+            end
         elseif button == "RightButton" then
             if QuestieMenu.IsOpen() then
                 QuestieMenu:Hide()
@@ -51,14 +69,7 @@ QuestieWorldMapButtonMixin = {
     end,
     OnMouseUp = function() end,
     OnEnter = function(self)
-        local tooltip = GameTooltip
-        tooltip:SetOwner(self, "ANCHOR_NONE");
-        tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
-        tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
-        tooltip:AddLine(" ")
-        tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Questie'), 'white'))
-        tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
-        tooltip:Show()
+        UpdateTooltip(self)
     end,
     OnLeave = function() end,
     OnClick = function() end, -- Only fires on left click

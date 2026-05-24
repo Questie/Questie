@@ -62,15 +62,11 @@ _CreateNoteWindow = function ()
 end
 
 _CreateContainer = function ()
-    -- Setup Note Taking
-    local day = CALENDAR_WEEKDAY_NAMES[tonumber(date('%w', time())) + 1]
-    local month = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(date('%m', time()))]
-    local today = date(day ..', '.. month ..' %d', time())
     local container = AceGUI:Create("InlineGroup")
     container:SetFullHeight(true)
     container:SetFullWidth(true)
     container:SetLayout('flow')
-    container:SetTitle(l10n('New Note For: %s', today))
+    container:SetTitle(l10n('New Note'))
     return container
 end
 

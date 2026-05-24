@@ -6,37 +6,47 @@ from scrapy import signals
 from quest.quest_formatter import QuestFormatter
 from quest.quest_ids import QUEST_IDS
 from quest.factions_ignore import FACTIONS_IGNORE_LIST
-from quest.retail_quest_ids import RETAIL_QUEST_IDS
 
 
 class QuestSpider(scrapy.Spider):
     name = "quest"
-    base_url_classic = "https://www.wowhead.com/classic/quest={}"
-    base_url_retail = "https://www.wowhead.com/quest={}"
+    base_url = "https://www.wowhead.com/classic/quest={}"
+    exp = ""
 
-    run_for_retail = False
     start_urls = []
 
-    def __init__(self, run_for_retail: bool) -> None:
+    def __init__(self, expansion: int) -> None:
         super().__init__()
-        self.run_for_retail = run_for_retail
-        if run_for_retail:
-            self.start_urls = [self.base_url_retail.format(quest_id) for quest_id in RETAIL_QUEST_IDS]
-        else:
-            self.start_urls = [self.base_url_classic.format(quest_id) for quest_id in QUEST_IDS]
+
+        # This expansion code differs from the other spiders because we also need to use the expansion prefix later on for URL validation
+        match expansion:
+            case 0:
+                self.exp = ""
+            case 1:
+                self.exp = "classic/"
+            case 2:
+                self.exp = "tbc/"
+            case 3:
+                self.exp = "wotlk/"
+            case 4:
+                self.exp = "cata/"
+            case 5:
+                self.exp = "mop-classic/"
+            case _: # If number is unknown, treat it as classic
+                self.exp = "classic/"
+
+        self.base_url = "https://www.wowhead.com/" + self.exp + "quest={}"
+        self.start_urls = [self.base_url.format(quest_id) for quest_id in QUEST_IDS]
 
     def parse(self, response):
         # debug the response
         # with open('response.html', 'wb') as f:
         #     f.write(response.body)
 
-        if (not self.run_for_retail) and response.url.startswith('https://www.wowhead.com/classic/quests?notFound='):
-            questID = re.search(r'https://www.wowhead.com/classic/quests\?notFound=(\d+)', response.url).group(1)
-            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
-            return None
-        elif self.run_for_retail and response.url.startswith('https://www.wowhead.com/quests?notFound='):
-            questID = re.search(r'https://www.wowhead.com/quests\?notFound=(\d+)', response.url).group(1)
-            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=questID))
+        not_found_prefix = self.base_url.replace('quest={}', 'quests?notFound=')
+        if response.url.startswith(not_found_prefix):
+            quest_id = re.search(r'notFound=(\d+)', response.url).group(1)
+            logging.warning('\x1b[31;20mQuest with ID {questID} not found\x1b[0m'.format(questID=quest_id))
             return None
 
         result = {}
@@ -58,8 +68,10 @@ class QuestSpider(scrapy.Spider):
                         result["questId"],
                         repRewardsMatch.group(1).rstrip(']').lstrip('[').replace('],[', ',').split(',')
                     )
-                if "reqRace" not in result:
-                    result["reqRace"] = re.search(r'"reqrace":(\d+)', script).group(1)
+                req_race = re.search(r'"reqrace":(\d+)', script).group(1)
+                if req_race and (not "reqRace" in result or (result["reqRace"] != req_race and req_race != "0")):
+                    # we want to override eventually found fallback
+                    result["reqRace"] = req_race
             if script.lstrip().startswith('WH.markup'):
                 npc_starter = re.findall(r'Start:[^]]*?npc=(\d+)', script)
                 object_starter = re.findall(r'Start:[^]]*?object=(\d+)', script)
@@ -134,7 +146,9 @@ class QuestSpider(scrapy.Spider):
             # if we already have the same reputation reward from the same faction, ignore it
             if any(item[0] == reward[0] for item in normalized_reputations):
                 existing_reward = next(item for item in normalized_reputations if item[0] == reward[0])
-                logging.info("Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward, reward2=existing_reward))
+                logging.info(
+                    "Quest with ID {questID} has multiple reputations rewards for the same faction: {reward1} vs. {reward2}. Ignoring.".format(questID=questID, reward1=reward,
+                                                                                                                                               reward2=existing_reward))
             else:
                 normalized_reputations.append(reward)
 

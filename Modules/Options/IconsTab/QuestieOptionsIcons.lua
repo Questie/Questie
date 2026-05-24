@@ -117,7 +117,11 @@ function QuestieOptions.tabs.icons:Initialize()
                 get = function() return Questie.db.profile.hideUntrackedQuestsMapIcons; end,
                 set = function(info, value)
                     Questie.db.profile.hideUntrackedQuestsMapIcons = value
-                    QuestieQuest:ToggleNotes(not value)
+                    if value then
+                       QuestieQuest:HideQuestIcons()
+                    else
+                       QuestieQuest:ShowQuestIcons()
+                    end
 
                     -- Hides tooltips for untracked quests
                     if value == true then
@@ -154,7 +158,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.01,
                         name = function() return l10n("Available Normal Quests"); end,
-                        desc = function() return l10n("When this is enabled, the locations of available quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of available quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function() return Questie.db.profile.enableAvailable; end,
@@ -167,7 +171,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.011,
                         name = function() return l10n("Available Quests from Items"); end,
-                        desc = function() return l10n("When this is enabled, the locations of item drops that start quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of item drops that start quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function() return Questie.db.profile.enableAvailableItems; end,
@@ -180,7 +184,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.02,
                         name = function() return l10n("Available Event Quests"); end,
-                        desc = function() return l10n("When this is enabled, the locations of active event quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of active event quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function(info) return Questie.db.profile.showEventQuests end,
@@ -193,7 +197,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.03,
                         name = function() return l10n("Available Repeatable Quests"); end,
-                        desc = function() return l10n("When this is enabled, the locations of repeatable quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of repeatable quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function(info) return Questie.db.profile.showRepeatableQuests end,
@@ -206,7 +210,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.04,
                         name = function() return l10n("Available PvP Quests"); end,
-                        desc = function() return l10n("When this is enabled, the locations of PvP quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of PvP quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function(info) return Questie.db.profile.showPvPQuests end,
@@ -219,7 +223,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.05,
                         name = function() return l10n("Available Dungeon Quests"); end,
-                        desc = function() return l10n("When this is enabled, the locations of dungeon quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of dungeon quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function(info) return Questie.db.profile.showDungeonQuests end,
@@ -232,7 +236,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.06,
                         name = function() return l10n("Available Raid Quests"); end,
-                        desc = function() return l10n("When this is enabled, the locations of raid quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of raid quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function(info) return Questie.db.profile.showRaidQuests end,
@@ -245,7 +249,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.07,
                         name = function() return l10n("Completed Quests"); end,
-                        desc = function() return l10n("When this is enabled, the quest turn-in locations will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the quest turn-in locations will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function() return Questie.db.profile.enableTurnins; end,
@@ -258,7 +262,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         type = "toggle",
                         order = 2.08,
                         name = function() return l10n("Objectives"); end,
-                        desc = function() return l10n("When this is enabled, quest objective icons will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, quest objective icons will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function() return Questie.db.profile.enableObjectives; end,
@@ -273,7 +277,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         order = 2.09,
                         hidden = (not Questie.IsClassic),
                         name = function() return l10n("Available AQ War Effort Quests"); end,
-                        desc = function() return l10n("When this is enabled, the locations of the AQ War Effort quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of the AQ War Effort quests will be shown on the map/minimap."); end,
                         width = 1.595,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         get = function(info) return Questie.db.profile.showAQWarEffortQuests end,
@@ -294,7 +298,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         order = 2.092,
                         hidden = (not Questie.IsSoD),
                         name = function() return l10n("Show Runes"); end,
-                        desc = function() return l10n("When this is enabled, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."); end,
+                        desc = function() return l10n("If checked, the locations of Season of Discovery Runes and Rune quests will be shown on the map/minimap."); end,
                         width = "full",
                         disabled = function()
                             return (not Questie.db.profile.enabled);
@@ -1064,7 +1068,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         width = 1.295,
                         name = function() return l10n("Complete repeatable quests") end,
                         desc = function() return l10n("The icon that is displayed for repeatable quests that can be handed in"); end,
-                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE_COMPLETE) or "complete"; end,
+                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE_COMPLETE) or "repeatable_complete"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)
                             Questie.db.profile.ICON_REPEATABLE_COMPLETE = Questie.icons[key]
@@ -1119,7 +1123,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         width = 1.295,
                         name = function() return l10n("Complete event quests") end,
                         desc = function() return l10n("The icon that is displayed for event quests that can be handed in"); end,
-                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST_COMPLETE) or "complete"; end,
+                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST_COMPLETE) or "eventquest_complete"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)
                             Questie.db.profile.ICON_EVENTQUEST_COMPLETE = Questie.icons[key]
@@ -1174,7 +1178,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         width = 1.295,
                         name = function() return l10n("Complete PvP quests") end,
                         desc = function() return l10n("The icon that is displayed for PvP quests that can be handed in"); end,
-                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST_COMPLETE) or "complete"; end,
+                        get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST_COMPLETE) or "pvpquest_complete"; end,
                         disabled = function() return (not Questie.db.profile.enabled); end,
                         set = function(input, key)
                             Questie.db.profile.ICON_PVPQUEST_COMPLETE = Questie.icons[key]
@@ -1285,7 +1289,7 @@ function QuestieOptionsUtils.SetPfQuestIcons(info, value)
         Questie.db.profile.alwaysGlowMap = false
         Questie.db.profile.questMinimapObjectiveColors = true
         Questie.db.profile.alwaysGlowMinimap = false
-        Questie.db.profile.clusterLevelHotzone = 1
+        Questie.db.profile.objectiveFilterDistance = 0
     else
         Questie.db.profile.ICON_SLAY = Questie.icons["slay"]
         Questie.db.profile.ICON_LOOT = Questie.icons["loot"]
@@ -1298,7 +1302,7 @@ function QuestieOptionsUtils.SetPfQuestIcons(info, value)
         Questie.db.profile.alwaysGlowMap = true
         Questie.db.profile.questMinimapObjectiveColors = false
         Questie.db.profile.alwaysGlowMinimap = false
-        Questie.db.profile.clusterLevelHotzone = 50
+        Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     end
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
@@ -1353,7 +1357,7 @@ function QuestieOptionsUtils.DetermineTheme()
             Questie.db.profile.alwaysGlowMap == false and
             Questie.db.profile.questMinimapObjectiveColors == true and
             Questie.db.profile.alwaysGlowMinimap == false and
-            Questie.db.profile.clusterLevelHotzone == 1)
+            Questie.db.profile.objectiveFilterDistance == 0)
             then
             Questie.db.profile.iconTheme = "pfquest"
         elseif (Questie.db.profile.enableObjectives == true and
@@ -1367,7 +1371,7 @@ function QuestieOptionsUtils.DetermineTheme()
             Questie.db.profile.alwaysGlowMap == optionsDefaults.profile.alwaysGlowMap and
             Questie.db.profile.questMinimapObjectiveColors == optionsDefaults.profile.questMinimapObjectiveColors and
             Questie.db.profile.alwaysGlowMinimap == optionsDefaults.profile.alwaysGlowMinimap and
-            Questie.db.profile.clusterLevelHotzone == optionsDefaults.profile.clusterLevelHotzone)
+            Questie.db.profile.objectiveFilterDistance == optionsDefaults.profile.objectiveFilterDistance)
             then
             Questie.db.profile.iconTheme = "questie"
         else
@@ -1397,7 +1401,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMap = optionsDefaults.profile.alwaysGlowMap
         Questie.db.profile.questMinimapObjectiveColors = optionsDefaults.profile.questMinimapObjectiveColors
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
-        Questie.db.profile.clusterLevelHotzone = optionsDefaults.profile.clusterLevelHotzone
+        Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "pfquest" then
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
@@ -1417,7 +1421,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMap = false
         Questie.db.profile.questMinimapObjectiveColors = true
         Questie.db.profile.alwaysGlowMinimap = false
-        Questie.db.profile.clusterLevelHotzone = 1
+        Questie.db.profile.objectiveFilterDistance = 0
     elseif value == "blizzard" then
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "1")
@@ -1437,7 +1441,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMap = optionsDefaults.profile.alwaysGlowMap
         Questie.db.profile.questMinimapObjectiveColors = optionsDefaults.profile.questMinimapObjectiveColors
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
-        Questie.db.profile.clusterLevelHotzone = optionsDefaults.profile.clusterLevelHotzone
+        Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "custom" then
         return
     end

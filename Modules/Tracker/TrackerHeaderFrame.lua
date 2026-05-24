@@ -84,24 +84,24 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
         GameTooltip._owner = self
         GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
         GameTooltip:AddLine("Questie " .. QuestieLib:GetAddonVersionString(), 1, 1, 1)
-        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click") .. ": ", "gray") .. l10n("Toggle Options"))
-        GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Toggle My Journey"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click") .. l10n(": "), "gray") .. l10n("Toggle Options"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. l10n(": "), "gray") .. l10n("Toggle My Journey"))
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Drag while Unlocked"))
-        GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Drag while Locked"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. l10n(": "), "gray") .. l10n("Drag while Unlocked"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. l10n(": "), "gray") .. l10n("Drag while Locked"))
 
         local VoiceOver, TomTom = TrackerUtils:IsVoiceOverLoaded(), IsAddOnLoaded("TomTom")
 
         if VoiceOver or TomTom then
             GameTooltip:AddLine(" ")
-            GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations") .. ": ", "gray"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations") .. l10n(": "), "gray"))
 
             if VoiceOver then
-                GameTooltip:AddLine(Questie:Colorize(l10n("VoiceOver") .. ": ", "white") .. l10n("Hold shift to see PlayButtons"))
+                GameTooltip:AddLine(Questie:Colorize(l10n("VoiceOver") .. l10n(": "), "white") .. l10n("Hold shift to see PlayButtons"))
             end
 
             if TomTom then
-                GameTooltip:AddLine(Questie:Colorize(l10n("TomTom") .. ": ", "white") .. l10n("Ctrl + Left Click or Right Click a Quest Title"))
+                GameTooltip:AddLine(Questie:Colorize(l10n("TomTom") .. l10n(": "), "white") .. l10n("Ctrl + Left Click or Right Click a Quest Title"))
             end
         end
 
@@ -216,7 +216,7 @@ function TrackerHeaderFrame:Update()
 
         if Questie.db.char.isTrackerExpanded then
             local activeQuests = QuestLogCache.GetQuestCount()
-            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. ": " .. tostring(activeQuests) .. maxQuestAmount)
+            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. l10n(": ") .. tostring(activeQuests) .. maxQuestAmount)
         else
             headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. " +")
         end

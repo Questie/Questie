@@ -1,0 +1,1510 @@
+---@meta _
+---@alias FrameEvent string
+---|"ACCOUNT_CHARACTER_CURRENCY_DATA_RECEIVED"
+---|"ACCOUNT_CVARS_LOADED"
+---|"ACCOUNT_MONEY"
+---|"ACCOUNT_STORE_CURRENCY_AVAILABLE_UPDATED" # `currencyID`
+---|"ACCOUNT_STORE_ITEM_INFO_UPDATED" # `itemID`
+---|"ACHIEVEMENT_EARNED" # `achievementID, alreadyEarned`
+---|"ACHIEVEMENT_PLAYER_NAME" # `achievementID`
+---|"ACHIEVEMENT_SEARCH_UPDATED"
+---|"ACTIONBAR_HIDEGRID"
+---|"ACTIONBAR_PAGE_CHANGED"
+---|"ACTIONBAR_SHOWGRID"
+---|"ACTIONBAR_SHOW_BOTTOMLEFT"
+---|"ACTIONBAR_SLOT_CHANGED" # `slot`
+---|"ACTIONBAR_UPDATE_COOLDOWN"
+---|"ACTIONBAR_UPDATE_STATE"
+---|"ACTIONBAR_UPDATE_USABLE"
+---|"ACTION_RANGE_CHECK_UPDATE" # `slot, isInRange, checksRange`
+---|"ACTION_USABLE_CHANGED" # `changes`
+---|"ACTION_WILL_BIND_ITEM"
+---|"ACTIVATE_GLYPH" # `spellID`
+---|"ACTIVE_COMBAT_CONFIG_CHANGED" # `configID`
+---|"ACTIVE_DELVE_DATA_UPDATE"
+---|"ACTIVE_GAME_MODE_UPDATED" # `gameMode`
+---|"ACTIVE_PLAYER_SPECIALIZATION_CHANGED"
+---|"ACTIVE_TALENT_GROUP_CHANGED" # `curr, prev`
+---|"ADAPTER_LIST_CHANGED"
+---|"ADDONS_UNLOADING" # `closingClient`
+---|"ADDON_ACTION_BLOCKED" # `isTainted, function`
+---|"ADDON_ACTION_FORBIDDEN" # `isTainted, function`
+---|"ADDON_LOADED" # `addOnName, containsBindings`
+---|"ADVENTURE_MAP_CLOSE"
+---|"ADVENTURE_MAP_OPEN" # `followerTypeID`
+---|"ADVENTURE_MAP_QUEST_UPDATE" # `questID`
+---|"ADVENTURE_MAP_UPDATE_INSETS"
+---|"ADVENTURE_MAP_UPDATE_POIS"
+---|"AJ_DUNGEON_ACTION" # `lfgDungeonID`
+---|"AJ_OPEN"
+---|"AJ_OPEN_COLLECTIONS_ACTION"
+---|"AJ_PVE_LFG_ACTION"
+---|"AJ_PVP_ACTION" # `battleMasterListID`
+---|"AJ_PVP_LFG_ACTION"
+---|"AJ_PVP_RBG_ACTION"
+---|"AJ_PVP_SKIRMISH_ACTION"
+---|"AJ_PVP_SPECIAL_BG_ACTION"
+---|"AJ_QUEST_LOG_OPEN" # `questID, uiMapID`
+---|"AJ_RAID_ACTION" # `lfgDungeonID`
+---|"AJ_REFRESH_DISPLAY" # `newAdventureNotice`
+---|"AJ_REWARD_DATA_RECEIVED"
+---|"ALERT_REGIONAL_CHAT_DISABLED"
+---|"ALLIED_RACE_CLOSE"
+---|"ALLIED_RACE_OPEN" # `raceID`
+---|"ALTERNATIVE_DEFAULT_LANGUAGE_CHANGED"
+---|"ANIMA_DIVERSION_CLOSE"
+---|"ANIMA_DIVERSION_OPEN" # `info`
+---|"ANIMA_DIVERSION_TALENT_UPDATED"
+---|"ARCHAEOLOGY_CLOSED"
+---|"ARCHAEOLOGY_FIND_COMPLETE" # `numFindsCompleted, totalFinds, researchBranchID`
+---|"ARCHAEOLOGY_SURVEY_CAST" # `numFindsCompleted, totalFinds, researchBranchID, successfulFind`
+---|"ARCHAEOLOGY_TOGGLE"
+---|"AREA_POIS_UPDATED"
+---|"AREA_SPIRIT_HEALER_IN_RANGE"
+---|"AREA_SPIRIT_HEALER_OUT_OF_RANGE"
+---|"ARENA_COOLDOWNS_UPDATE" # `unitTarget`
+---|"ARENA_CROWD_CONTROL_SPELL_UPDATE" # `unitTarget, spellID`
+---|"ARENA_OPPONENT_UPDATE" # `unitToken, updateReason`
+---|"ARENA_PREP_OPPONENT_SPECIALIZATIONS"
+---|"ARENA_SEASON_WORLD_STATE"
+---|"ARTIFACT_CLOSE"
+---|"ARTIFACT_DIGSITE_COMPLETE" # `researchBranchID`
+---|"ARTIFACT_ENDGAME_REFUND" # `numRefundedPowers, refundedTier, bagOrSlotIndex, slotIndex`
+---|"ARTIFACT_RELIC_FORGE_CLOSE"
+---|"ARTIFACT_RELIC_FORGE_PREVIEW_RELIC_CHANGED"
+---|"ARTIFACT_RELIC_FORGE_UPDATE"
+---|"ARTIFACT_RELIC_INFO_RECEIVED"
+---|"ARTIFACT_RESPEC_PROMPT"
+---|"ARTIFACT_TIER_CHANGED" # `newTier, bagOrSlotIndex, slotIndex`
+---|"ARTIFACT_UPDATE" # `newItem`
+---|"ARTIFACT_XP_UPDATE"
+---|"ASSISTED_COMBAT_ACTION_SPELL_CAST"
+---|"AUCTION_CANCELED" # `auctionID`
+---|"AUCTION_HOUSE_AUCTIONS_EXPIRED" # `auctionID`
+---|"AUCTION_HOUSE_AUCTION_CREATED" # `auctionID`
+---|"AUCTION_HOUSE_BROWSE_FAILURE"
+---|"AUCTION_HOUSE_BROWSE_RESULTS_ADDED" # `addedBrowseResults`
+---|"AUCTION_HOUSE_BROWSE_RESULTS_UPDATED"
+---|"AUCTION_HOUSE_CLOSED"
+---|"AUCTION_HOUSE_DISABLED"
+---|"AUCTION_HOUSE_FAVORITES_UPDATED"
+---|"AUCTION_HOUSE_ITEM_DELIVERY_DELAY_UPDATE" # `purchasedItemDeliveryDelay, cancelledItemDeliveryDelay`
+---|"AUCTION_HOUSE_NEW_BID_RECEIVED" # `auctionID`
+---|"AUCTION_HOUSE_NEW_RESULTS_RECEIVED" # `itemKey`
+---|"AUCTION_HOUSE_POST_ERROR"
+---|"AUCTION_HOUSE_POST_WARNING"
+---|"AUCTION_HOUSE_PURCHASE_COMPLETED" # `auctionID`
+---|"AUCTION_HOUSE_SCRIPT_DEPRECATED"
+---|"AUCTION_HOUSE_SHOW"
+---|"AUCTION_HOUSE_SHOW_COMMODITY_WON_NOTIFICATION" # `commodityName, commodityQuantity`
+---|"AUCTION_HOUSE_SHOW_ERROR" # `error`
+---|"AUCTION_HOUSE_SHOW_FORMATTED_NOTIFICATION" # `notification, text, auctionID`
+---|"AUCTION_HOUSE_SHOW_NOTIFICATION" # `notification`
+---|"AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED"
+---|"AUCTION_HOUSE_THROTTLED_MESSAGE_QUEUED"
+---|"AUCTION_HOUSE_THROTTLED_MESSAGE_RESPONSE_RECEIVED"
+---|"AUCTION_HOUSE_THROTTLED_MESSAGE_SENT"
+---|"AUCTION_HOUSE_THROTTLED_SYSTEM_READY"
+---|"AUCTION_MULTISELL_FAILURE"
+---|"AUCTION_MULTISELL_START" # `numRepetitions`
+---|"AUCTION_MULTISELL_UPDATE" # `createdCount, totalToCreate`
+---|"AUTOFOLLOW_BEGIN" # `name`
+---|"AUTOFOLLOW_END"
+---|"AVATAR_LIST_UPDATED" # `clubType`
+---|"AVOIDANCE_UPDATE"
+---|"AZERITE_EMPOWERED_ITEM_EQUIPPED_STATUS_CHANGED" # `isHeartEquipped`
+---|"AZERITE_EMPOWERED_ITEM_LOOTED" # `itemLink`
+---|"AZERITE_EMPOWERED_ITEM_SELECTION_UPDATED" # `azeriteEmpoweredItemLocation`
+---|"AZERITE_ESSENCE_ACTIVATED" # `slot, essenceID`
+---|"AZERITE_ESSENCE_ACTIVATION_FAILED" # `slot, essenceID`
+---|"AZERITE_ESSENCE_CHANGED" # `essenceID, newRank`
+---|"AZERITE_ESSENCE_FORGE_CLOSE"
+---|"AZERITE_ESSENCE_FORGE_OPEN"
+---|"AZERITE_ESSENCE_MILESTONE_UNLOCKED" # `milestoneID`
+---|"AZERITE_ESSENCE_UPDATE"
+---|"AZERITE_ITEM_ENABLED_STATE_CHANGED" # `enabled`
+---|"AZERITE_ITEM_EXPERIENCE_CHANGED" # `azeriteItemLocation, oldExperienceAmount, newExperienceAmount`
+---|"AZERITE_ITEM_POWER_LEVEL_CHANGED" # `azeriteItemLocation, oldPowerLevel, newPowerLevel, unlockedEmpoweredItemsInfo, azeriteItemID`
+---|"BAG_CLOSED" # `bagID`
+---|"BAG_CONTAINER_UPDATE"
+---|"BAG_NEW_ITEMS_UPDATED"
+---|"BAG_OPEN" # `bagID`
+---|"BAG_OVERFLOW_WITH_FULL_INVENTORY"
+---|"BAG_SLOT_FLAGS_UPDATED" # `slot`
+---|"BAG_UPDATE" # `bagID`
+---|"BAG_UPDATE_COOLDOWN"
+---|"BAG_UPDATE_DELAYED"
+---|"BANKFRAME_CLOSED"
+---|"BANKFRAME_OPENED"
+---|"BANK_BAG_SLOT_FLAGS_UPDATED" # `slot`
+---|"BANK_TABS_CHANGED" # `bankType`
+---|"BANK_TAB_SETTINGS_UPDATED" # `bankType`
+---|"BARBER_SHOP_APPEARANCE_APPLIED"
+---|"BARBER_SHOP_CAMERA_VALUES_UPDATED"
+---|"BARBER_SHOP_CLOSE"
+---|"BARBER_SHOP_COST_UPDATE"
+---|"BARBER_SHOP_FORCE_CUSTOMIZATIONS_UPDATE"
+---|"BARBER_SHOP_OPEN"
+---|"BARBER_SHOP_RESULT" # `success`
+---|"BATTLEFIELDS_CLOSED"
+---|"BATTLEFIELDS_SHOW" # `isArena, battleMasterListID`
+---|"BATTLEFIELD_AUTO_QUEUE"
+---|"BATTLEFIELD_AUTO_QUEUE_EJECT"
+---|"BATTLEFIELD_QUEUE_TIMEOUT"
+---|"BATTLEGROUND_OBJECTIVES_UPDATE"
+---|"BATTLEGROUND_POINTS_UPDATE"
+---|"BATTLEPET_FORCE_NAME_DECLENSION" # `name, battlePetGUID`
+---|"BATTLETAG_INVITE_SHOW" # `name`
+---|"BATTLE_PET_CURSOR_CLEAR"
+---|"BEHAVIORAL_NOTIFICATION" # `notificationType, dbId`
+---|"BIDS_UPDATED"
+---|"BID_ADDED" # `bidID`
+---|"BIND_ENCHANT"
+---|"BLACK_MARKET_BID_RESULT" # `marketID, resultCode`
+---|"BLACK_MARKET_CLOSE"
+---|"BLACK_MARKET_ITEM_UPDATE"
+---|"BLACK_MARKET_OPEN"
+---|"BLACK_MARKET_OUTBID" # `marketID, itemID`
+---|"BLACK_MARKET_UNAVAILABLE"
+---|"BLACK_MARKET_WON" # `marketID, itemID`
+---|"BNET_REQUEST_INVITE_CONFIRMATION" # `gameAccountID, questSessionActive, tank, healer, dps`
+---|"BN_BLOCK_FAILED_TOO_MANY" # `blockType`
+---|"BN_BLOCK_LIST_UPDATED"
+---|"BN_CHAT_MSG_ADDON" # `prefix, text, channel, senderID`
+---|"BN_CHAT_WHISPER_UNDELIVERABLE" # `senderID`
+---|"BN_CONNECTED" # `suppressNotification`
+---|"BN_CUSTOM_MESSAGE_CHANGED" # `id`
+---|"BN_CUSTOM_MESSAGE_LOADED"
+---|"BN_DISCONNECTED" # `result, suppressNotification`
+---|"BN_FRIEND_ACCOUNT_OFFLINE" # `friendId, isCompanionApp`
+---|"BN_FRIEND_ACCOUNT_ONLINE" # `friendId, isCompanionApp`
+---|"BN_FRIEND_INFO_CHANGED" # `friendIndex`
+---|"BN_FRIEND_INVITE_ADDED" # `accountID`
+---|"BN_FRIEND_INVITE_LIST_INITIALIZED" # `listSize`
+---|"BN_FRIEND_INVITE_REMOVED"
+---|"BN_FRIEND_LIST_SIZE_CHANGED" # `accountID`
+---|"BN_INFO_CHANGED"
+---|"BN_REQUEST_FOF_SUCCEEDED"
+---|"BONUS_ROLL_ACTIVATE"
+---|"BONUS_ROLL_DEACTIVATE"
+---|"BONUS_ROLL_FAILED"
+---|"BONUS_ROLL_RESULT" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, currencyID, isSecondaryResult, corrupted`
+---|"BONUS_ROLL_STARTED"
+---|"BOSS_KILL" # `encounterID, encounterName`
+---|"CALENDAR_ACTION_PENDING" # `pending`
+---|"CALENDAR_CLOSE_EVENT"
+---|"CALENDAR_EVENT_ALARM" # `title, hour, minute`
+---|"CALENDAR_NEW_EVENT" # `isCopy`
+---|"CALENDAR_OPEN_EVENT" # `calendarType`
+---|"CALENDAR_UPDATE_ERROR" # `errorReason`
+---|"CALENDAR_UPDATE_ERROR_WITH_COUNT" # `errorReason, count`
+---|"CALENDAR_UPDATE_ERROR_WITH_PLAYER_NAME" # `errorReason, playerName`
+---|"CALENDAR_UPDATE_EVENT"
+---|"CALENDAR_UPDATE_EVENT_LIST"
+---|"CALENDAR_UPDATE_GUILD_EVENTS"
+---|"CALENDAR_UPDATE_INVITE_LIST" # `hasCompleteList`
+---|"CALENDAR_UPDATE_PENDING_INVITES"
+---|"CANCEL_ALL_LOOT_ROLLS"
+---|"CANCEL_GLYPH_CAST"
+---|"CANCEL_LOOT_ROLL" # `rollID`
+---|"CANCEL_PLAYER_COUNTDOWN" # `initiatedBy, informChat, initiatedByName`
+---|"CANCEL_SUMMON"
+---|"CAN_LOCAL_WHISPER_TARGET_RESPONSE" # `whisperTarget, status`
+---|"CAN_PLAYER_SPEAK_LANGUAGE_CHANGED" # `languageId, canSpeakLanguage`
+---|"CAPTUREFRAMES_FAILED"
+---|"CAPTUREFRAMES_SUCCEEDED"
+---|"CAUTIONARY_CHANNEL_MESSAGE" # `confirmNumber`
+---|"CAUTIONARY_CHAT_MESSAGE" # `chatLineID, confirmNumber`
+---|"CEMETERY_PREFERENCE_UPDATED"
+---|"CHALLENGE_MODE_COMPLETED"
+---|"CHALLENGE_MODE_COMPLETED_REWARDS" # `mapID, medal, timeMS, money, rewards`
+---|"CHALLENGE_MODE_DEATH_COUNT_UPDATED"
+---|"CHALLENGE_MODE_KEYSTONE_RECEPTABLE_OPEN"
+---|"CHALLENGE_MODE_KEYSTONE_SLOTTED" # `keystoneID`
+---|"CHALLENGE_MODE_LEADERS_UPDATE"
+---|"CHALLENGE_MODE_LEAVER_TIMER_ENDED"
+---|"CHALLENGE_MODE_LEAVER_TIMER_STARTED"
+---|"CHALLENGE_MODE_MAPS_UPDATE"
+---|"CHALLENGE_MODE_MEMBER_INFO_UPDATED"
+---|"CHALLENGE_MODE_NEW_RECORD" # `mapID, timeMS, medal`
+---|"CHALLENGE_MODE_RESET" # `mapID`
+---|"CHALLENGE_MODE_START" # `mapID`
+---|"CHANNEL_COUNT_UPDATE" # `displayIndex, count`
+---|"CHANNEL_FLAGS_UPDATED" # `displayIndex`
+---|"CHANNEL_INVITE_REQUEST" # `channelID, name`
+---|"CHANNEL_LEFT" # `chatChannelID, name`
+---|"CHANNEL_PASSWORD_REQUEST" # `channelID`
+---|"CHANNEL_ROSTER_UPDATE" # `displayIndex, count`
+---|"CHANNEL_UI_UPDATE"
+---|"CHARACTER_ITEM_FIXUP_NOTIFICATION" # `fixupVersion`
+---|"CHARACTER_POINTS_CHANGED" # `change`
+---|"CHARACTER_UPGRADE_SPELL_TIER_SET" # `tierIndex`
+---|"CHAT_COMBAT_MSG_ARENA_POINTS_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_DISABLED_CHANGED" # `disabled`
+---|"CHAT_DISABLED_CHANGE_FAILED" # `disabled`
+---|"CHAT_LOGGING_CHANGED" # `whichLog, isEnabled`
+---|"CHAT_MSG_ACHIEVEMENT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_ADDON" # `prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID`
+---|"CHAT_MSG_ADDON_LOGGED" # `prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID`
+---|"CHAT_MSG_AFK" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BG_SYSTEM_ALLIANCE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BG_SYSTEM_HORDE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BG_SYSTEM_NEUTRAL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_ALERT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_BROADCAST" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_BROADCAST_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_CONVERSATION" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN_WHISPER_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_BN_WHISPER_PLAYER_OFFLINE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CHANNEL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CHANNEL_JOIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CHANNEL_LEAVE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CHANNEL_LEAVE_PREVENTED" # `channelName`
+---|"CHAT_MSG_CHANNEL_LIST" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CHANNEL_NOTICE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CHANNEL_NOTICE_USER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_COMBAT_FACTION_CHANGE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_COMBAT_HONOR_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_COMBAT_MISC_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_COMBAT_XP_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_COMMUNITIES_CHANNEL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CURRENCY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_DND" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_FILTERED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_GUILD" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_GUILD_ACHIEVEMENT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_GUILD_ITEM_LOOTED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_IGNORED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_INSTANCE_CHAT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_INSTANCE_CHAT_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_LOOT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_MONEY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_MONSTER_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_MONSTER_PARTY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_MONSTER_SAY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_MONSTER_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_MONSTER_YELL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_OFFICER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_OPENING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_PARTY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_PARTY_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_PET_BATTLE_COMBAT_LOG" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_PET_BATTLE_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_PET_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_PING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_RAID" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_RAID_BOSS_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_RAID_BOSS_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_RAID_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_RAID_WARNING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_RESTRICTED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_SAY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_SKILL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_SYSTEM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_TARGETICONS" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_TEXT_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_TRADESKILLS" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_VOICE_TEXT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_WHISPER_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_YELL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_REGIONAL_SEND_FAILED"
+---|"CHAT_REGIONAL_STATUS_CHANGED" # `isServiceAvailable`
+---|"CHAT_SERVER_DISCONNECTED" # `isInitialMessage`
+---|"CHAT_SERVER_RECONNECTED"
+---|"CHEST_REWARDS_UPDATED_FROM_SERVER"
+---|"CINEMATIC_START" # `canBeCancelled, forcedAspectRatio`
+---|"CINEMATIC_STOP"
+---|"CLASS_TRIAL_TIMER_START"
+---|"CLASS_TRIAL_UPGRADE_COMPLETE"
+---|"CLEAR_BOSS_EMOTES"
+---|"CLICKBINDINGS_SET_HIGHLIGHTS_SHOWN" # `showHighlights`
+---|"CLIENT_SCENE_CLOSED"
+---|"CLIENT_SCENE_OPENED" # `sceneType`
+---|"CLOSE_INBOX_ITEM" # `mailIndex`
+---|"CLOSE_TABARD_FRAME"
+---|"CLUB_ADDED" # `clubId`
+---|"CLUB_ERROR" # `action, error, clubType`
+---|"CLUB_FINDER_APPLICANT_INVITE_RECIEVED" # `clubFinderGUIDs`
+---|"CLUB_FINDER_APPLICATIONS_UPDATED" # `type, clubFinderGUIDs`
+---|"CLUB_FINDER_CAN_WHISPER_APPLICANT" # `applicant`
+---|"CLUB_FINDER_CLUB_LIST_RETURNED" # `type`
+---|"CLUB_FINDER_CLUB_REPORTED" # `type, clubFinderGUID`
+---|"CLUB_FINDER_COMMUNITY_OFFLINE_JOIN" # `clubId`
+---|"CLUB_FINDER_ENABLED_OR_DISABLED"
+---|"CLUB_FINDER_GUILD_REALM_NAME_UPDATED" # `clubFinderGUID, realmName`
+---|"CLUB_FINDER_LINKED_CLUB_RETURNED" # `clubInfo`
+---|"CLUB_FINDER_MEMBERSHIP_LIST_CHANGED"
+---|"CLUB_FINDER_PLAYER_PENDING_LIST_RECIEVED" # `type`
+---|"CLUB_FINDER_POST_UPDATED" # `clubFinderGUIDs`
+---|"CLUB_FINDER_RECRUITMENT_POST_RETURNED" # `type`
+---|"CLUB_FINDER_RECRUITS_UPDATED" # `type`
+---|"CLUB_FINDER_RECRUIT_LIST_CHANGED"
+---|"CLUB_INVITATIONS_RECEIVED_FOR_CLUB" # `clubId`
+---|"CLUB_INVITATION_ADDED_FOR_SELF" # `invitation`
+---|"CLUB_INVITATION_REMOVED_FOR_SELF" # `invitationId`
+---|"CLUB_MEMBERS_UPDATED" # `clubId`
+---|"CLUB_MEMBER_ADDED" # `clubId, memberId`
+---|"CLUB_MEMBER_PRESENCE_UPDATED" # `clubId, memberId, presence`
+---|"CLUB_MEMBER_REMOVED" # `clubId, memberId`
+---|"CLUB_MEMBER_ROLE_UPDATED" # `clubId, memberId, roleId`
+---|"CLUB_MEMBER_UPDATED" # `clubId, memberId`
+---|"CLUB_MESSAGE_ADDED" # `clubId, streamId, messageId`
+---|"CLUB_MESSAGE_HISTORY_RECEIVED" # `clubId, streamId, downloadedRange, contiguousRange`
+---|"CLUB_MESSAGE_UPDATED" # `clubId, streamId, messageId`
+---|"CLUB_REMOVED" # `clubId`
+---|"CLUB_REMOVED_MESSAGE" # `clubName, clubRemovedReason`
+---|"CLUB_SELF_MEMBER_ROLE_UPDATED" # `clubId, roleId`
+---|"CLUB_STREAMS_LOADED" # `clubId`
+---|"CLUB_STREAM_ADDED" # `clubId, streamId`
+---|"CLUB_STREAM_REMOVED" # `clubId, streamId`
+---|"CLUB_STREAM_SUBSCRIBED" # `clubId, streamId`
+---|"CLUB_STREAM_UNSUBSCRIBED" # `clubId, streamId`
+---|"CLUB_STREAM_UPDATED" # `clubId, streamId`
+---|"CLUB_TICKETS_RECEIVED" # `clubId`
+---|"CLUB_TICKET_CREATED" # `clubId, ticketInfo`
+---|"CLUB_TICKET_RECEIVED" # `ticket`
+---|"CLUB_UPDATED" # `clubId`
+---|"COLOR_OVERRIDES_RESET"
+---|"COLOR_OVERRIDE_UPDATED" # `overrideType`
+---|"COMBAT_LOG_EVENT"
+---|"COMBAT_LOG_EVENT_UNFILTERED"
+---|"COMBAT_RATING_UPDATE"
+---|"COMBAT_TEXT_UPDATE" # `combatTextType`
+---|"COMBO_TARGET_CHANGED"
+---|"COMMENTATOR_ENTER_WORLD"
+---|"COMMENTATOR_HISTORY_FLUSHED"
+---|"COMMENTATOR_IMMEDIATE_FOV_UPDATE" # `fov`
+---|"COMMENTATOR_MAP_UPDATE"
+---|"COMMENTATOR_PLAYER_NAME_OVERRIDE_UPDATE" # `nameToOverride, overrideName`
+---|"COMMENTATOR_PLAYER_UPDATE"
+---|"COMMENTATOR_RESET_SETTINGS"
+---|"COMMENTATOR_TEAMS_SWAPPED" # `swapped`
+---|"COMMENTATOR_TEAM_NAME_UPDATE" # `teamName`
+---|"COMMODITY_PRICE_UNAVAILABLE"
+---|"COMMODITY_PRICE_UPDATED" # `updatedUnitPrice, updatedTotalPrice`
+---|"COMMODITY_PURCHASED" # `itemID, quantity`
+---|"COMMODITY_PURCHASE_FAILED"
+---|"COMMODITY_PURCHASE_SUCCEEDED"
+---|"COMMODITY_SEARCH_RESULTS_ADDED" # `itemID`
+---|"COMMODITY_SEARCH_RESULTS_RECEIVED"
+---|"COMMODITY_SEARCH_RESULTS_UPDATED" # `itemID`
+---|"COMPACT_UNIT_FRAME_PROFILES_LOADED"
+---|"COMPANION_LEARNED"
+---|"COMPANION_UNLEARNED"
+---|"COMPANION_UPDATE" # `companionType`
+---|"CONFIG_COMMIT_FAILED" # `configID`
+---|"CONFIRM_BEFORE_USE"
+---|"CONFIRM_BINDER" # `areaName`
+---|"CONFIRM_DISENCHANT_ROLL" # `rollID, rollType`
+---|"CONFIRM_LOOT_ROLL" # `rollID, rollType, confirmReason`
+---|"CONFIRM_PET_UNLEARN" # `cost`
+---|"CONFIRM_SUMMON" # `summonReason, skippingStartExperience`
+---|"CONFIRM_TALENT_WIPE" # `cost, respecType`
+---|"CONFIRM_XP_LOSS"
+---|"CONSOLE_CLEAR"
+---|"CONSOLE_COLORS_CHANGED"
+---|"CONSOLE_FONT_SIZE_CHANGED"
+---|"CONSOLE_LOG" # `message`
+---|"CONSOLE_MESSAGE" # `message, colorType`
+---|"CONTENT_TRACKING_IS_ENABLED_UPDATE" # `isEnabled`
+---|"CONTENT_TRACKING_LIST_UPDATE"
+---|"CONTENT_TRACKING_UPDATE" # `type, id, isTracked`
+---|"CONTRIBUTION_CHANGED" # `state, result, name, contributionID`
+---|"CONTRIBUTION_COLLECTOR_PENDING" # `contributionID, isPending, result`
+---|"CONTRIBUTION_COLLECTOR_UPDATE"
+---|"CONTRIBUTION_COLLECTOR_UPDATE_SINGLE" # `contributionID`
+---|"CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM"
+---|"CONVERT_TO_RAID_CONFIRMATION"
+---|"COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED" # `baseSpellID, overrideSpellID`
+---|"COOLDOWN_VIEWER_TABLE_HOTFIXED"
+---|"CORPSE_IN_INSTANCE"
+---|"CORPSE_IN_RANGE"
+---|"CORPSE_OUT_OF_RANGE"
+---|"COVENANT_CALLINGS_UPDATED" # `callings`
+---|"COVENANT_CHOSEN" # `covenantID`
+---|"COVENANT_PREVIEW_CLOSE"
+---|"COVENANT_PREVIEW_OPEN" # `previewInfo`
+---|"COVENANT_RENOWN_CATCH_UP_STATE_UPDATE"
+---|"COVENANT_SANCTUM_RENOWN_LEVEL_CHANGED" # `newRenownLevel, oldRenownLevel`
+---|"CRAFTINGORDERS_CAN_REQUEST"
+---|"CRAFTINGORDERS_CLAIMED_ORDER_ADDED"
+---|"CRAFTINGORDERS_CLAIMED_ORDER_REMOVED"
+---|"CRAFTINGORDERS_CLAIMED_ORDER_UPDATED" # `orderID`
+---|"CRAFTINGORDERS_CLAIM_ORDER_RESPONSE" # `result, orderID`
+---|"CRAFTINGORDERS_CRAFT_ORDER_RESPONSE" # `result, orderID`
+---|"CRAFTINGORDERS_CUSTOMER_FAVORITES_CHANGED"
+---|"CRAFTINGORDERS_CUSTOMER_OPTIONS_PARSED"
+---|"CRAFTINGORDERS_DISPLAY_CRAFTER_FULFILLED_MSG" # `orderTypeString, itemNameString, playerNameString, tipAmount, quantityCrafted`
+---|"CRAFTINGORDERS_FULFILL_ORDER_RESPONSE" # `result, orderID`
+---|"CRAFTINGORDERS_HIDE_CRAFTER"
+---|"CRAFTINGORDERS_HIDE_CUSTOMER"
+---|"CRAFTINGORDERS_ORDER_CANCEL_RESPONSE" # `result`
+---|"CRAFTINGORDERS_ORDER_PLACEMENT_RESPONSE" # `result`
+---|"CRAFTINGORDERS_REJECT_ORDER_RESPONSE" # `result, orderID`
+---|"CRAFTINGORDERS_RELEASE_ORDER_RESPONSE" # `result, orderID`
+---|"CRAFTINGORDERS_SHOW_CRAFTER"
+---|"CRAFTINGORDERS_SHOW_CUSTOMER"
+---|"CRAFTINGORDERS_UNEXPECTED_ERROR"
+---|"CRAFTINGORDERS_UPDATE_CUSTOMER_NAME" # `customerName, orderID`
+---|"CRAFTINGORDERS_UPDATE_ORDER_COUNT" # `orderType, numOrders`
+---|"CRAFTINGORDERS_UPDATE_PERSONAL_ORDER_COUNTS"
+---|"CRAFTINGORDERS_UPDATE_REWARDS" # `npcOrderRewards, orderID`
+---|"CRAFTING_DETAILS_UPDATE"
+---|"CRAFTING_HOUSE_DISABLED"
+---|"CRITERIA_COMPLETE" # `criteriaID`
+---|"CRITERIA_EARNED" # `achievementID, description, achievementAlreadyEarnedOnAccount`
+---|"CRITERIA_UPDATE"
+---|"CURRENCY_DISPLAY_UPDATE" # `currencyType, quantity, quantityChange, quantityGainSource, destroyReason`
+---|"CURRENCY_TRANSFER_FAILED" # `failureReason`
+---|"CURRENCY_TRANSFER_INITIATED"
+---|"CURRENCY_TRANSFER_LOG_UPDATE"
+---|"CURRENCY_TRANSFER_SUCCESS"
+---|"CURRENT_SPELL_CAST_CHANGED" # `cancelledCast`
+---|"CURSOR_CHANGED" # `isDefault, newCursorType, oldCursorType, oldCursorVirtualID`
+---|"CVAR_UPDATE" # `eventName, value`
+---|"DAILY_RESET_INSTANCE_WELCOME" # `mapname, timeLeft`
+---|"DELETE_ITEM_CONFIRM" # `itemName, qualityID, bonding, questWarn`
+---|"DELVES_ACCOUNT_DATA_ELEMENT_CHANGED"
+---|"DELVE_ASSIST_ACTION" # `data`
+---|"DISABLE_DECLINE_GUILD_INVITE"
+---|"DISABLE_LOW_LEVEL_RAID"
+---|"DISABLE_TAXI_BENCHMARK"
+---|"DISABLE_XP_GAIN"
+---|"DISPLAY_EVENT_TOASTS"
+---|"DISPLAY_EVENT_TOAST_LINK" # `link`
+---|"DISPLAY_SIZE_CHANGED"
+---|"DUEL_FINISHED"
+---|"DUEL_INBOUNDS"
+---|"DUEL_OUTOFBOUNDS"
+---|"DUEL_REQUESTED" # `playerName`
+---|"DUEL_TO_THE_DEATH_REQUESTED" # `playerName`
+---|"DYNAMIC_GOSSIP_POI_UPDATED"
+---|"ECLIPSE_DIRECTION_CHANGE" # `direction`
+---|"EDIT_MODE_LAYOUTS_UPDATED" # `layoutInfo, reconcileLayouts`
+---|"EJ_DIFFICULTY_UPDATE" # `difficultyID`
+---|"EJ_LOOT_DATA_RECIEVED" # `itemID`
+---|"ENABLE_DECLINE_GUILD_INVITE"
+---|"ENABLE_LOW_LEVEL_RAID"
+---|"ENABLE_TAXI_BENCHMARK"
+---|"ENABLE_XP_GAIN"
+---|"ENCHANT_SPELL_COMPLETED" # `successful, enchantedItem`
+---|"ENCHANT_SPELL_SELECTED"
+---|"ENCOUNTER_END" # `encounterID, encounterName, difficultyID, groupSize, success`
+---|"ENCOUNTER_LOOT_RECEIVED" # `encounterID, itemID, itemLink, quantity, itemName, fileName`
+---|"ENCOUNTER_START" # `encounterID, encounterName, difficultyID, groupSize`
+---|"END_BOUND_TRADEABLE" # `reason`
+---|"ENTERED_DIFFERENT_INSTANCE_FROM_PARTY"
+---|"ENTITLEMENT_DELIVERED" # `entitlementType, textureID, name, payloadID, showFancyToast`
+---|"EQUIPMENT_SETS_CHANGED"
+---|"EQUIPMENT_SWAP_FINISHED" # `result, setID`
+---|"EQUIPMENT_SWAP_PENDING"
+---|"EQUIP_BIND_CONFIRM" # `slot, itemLocation`
+---|"EQUIP_BIND_REFUNDABLE_CONFIRM" # `slot, itemLocation`
+---|"EQUIP_BIND_TRADEABLE_CONFIRM" # `slot, itemLocation`
+---|"EVENT_REALM_QUEUES_UPDATED" # `eventRealmQueues`
+---|"EVENT_SCHEDULER_UPDATE"
+---|"EXPAND_BAG_BAR_CHANGED" # `expandBagBar`
+---|"EXTRA_BROWSE_INFO_RECEIVED" # `itemID`
+---|"FIRST_FRAME_RENDERED"
+---|"FOG_OF_WAR_UPDATED"
+---|"FORBIDDEN_NAME_PLATE_CREATED" # `namePlateFrame`
+---|"FORBIDDEN_NAME_PLATE_UNIT_ADDED" # `unitToken`
+---|"FORBIDDEN_NAME_PLATE_UNIT_REMOVED" # `unitToken`
+---|"FRAME_MANAGER_UPDATE_ALL"
+---|"FRAME_MANAGER_UPDATE_FRAME" # `type, show`
+---|"FRIENDLIST_UPDATE"
+---|"GAME_MODE_DISPLAY_INFO_UPDATED"
+---|"GAME_PAD_ACTIVE_CHANGED" # `isActive`
+---|"GAME_PAD_CONFIGS_CHANGED"
+---|"GAME_PAD_CONNECTED"
+---|"GAME_PAD_DISCONNECTED"
+---|"GAME_PAD_POWER_CHANGED" # `powerLevel`
+---|"GARRISON_ARCHITECT_CLOSED"
+---|"GARRISON_ARCHITECT_OPENED" # `followerTypeID`
+---|"GARRISON_BUILDING_ACTIVATABLE" # `buildingName, garrisonType`
+---|"GARRISON_BUILDING_ACTIVATED" # `garrisonPlotInstanceID, garrisonBuildingID`
+---|"GARRISON_BUILDING_ERROR"
+---|"GARRISON_BUILDING_LIST_UPDATE" # `categoryID`
+---|"GARRISON_BUILDING_PLACED" # `garrisonPlotInstanceID, newPlacement`
+---|"GARRISON_BUILDING_REMOVED" # `garrPlotInstanceID, garrBuildingID`
+---|"GARRISON_BUILDING_UPDATE" # `garrisonBuildingID, garrPlotInstanceID`
+---|"GARRISON_FOLLOWER_ADDED" # `followerDbID, followerName, followerClassName, followerLevel, followerQuality, isUpgraded, textureKit, followerTypeID`
+---|"GARRISON_FOLLOWER_CATEGORIES_UPDATED"
+---|"GARRISON_FOLLOWER_DURABILITY_CHANGED" # `garrFollowerTypeID, followerDbID, followerDurability`
+---|"GARRISON_FOLLOWER_HEALED" # `followerID`
+---|"GARRISON_FOLLOWER_LIST_UPDATE" # `followerTypeID`
+---|"GARRISON_FOLLOWER_REMOVED" # `followerTypeID`
+---|"GARRISON_FOLLOWER_UPGRADED" # `followerDbID`
+---|"GARRISON_FOLLOWER_XP_CHANGED" # `garrFollowerTypeID, followerDbID, xpChange, oldFollowerXp, oldFollowerLevel, oldFollowerQuality`
+---|"GARRISON_HIDE_LANDING_PAGE"
+---|"GARRISON_INVASION_AVAILABLE"
+---|"GARRISON_INVASION_UNAVAILABLE"
+---|"GARRISON_LANDINGPAGE_SHIPMENTS"
+---|"GARRISON_MISSION_AREA_BONUS_ADDED" # `garrisonMissonBonusAbilityID`
+---|"GARRISON_MISSION_BONUS_ROLL_COMPLETE" # `missionID, success`
+---|"GARRISON_MISSION_BONUS_ROLL_LOOT" # `itemID, quantity`
+---|"GARRISON_MISSION_COMPLETE_RESPONSE" # `missionID, canComplete, success, bonusRollSuccess, followerDeaths, autoCombatResult`
+---|"GARRISON_MISSION_FINISHED" # `followerTypeID, missionID`
+---|"GARRISON_MISSION_LIST_UPDATE" # `garrFollowerTypeID`
+---|"GARRISON_MISSION_NPC_CLOSED"
+---|"GARRISON_MISSION_NPC_OPENED" # `followerTypeID`
+---|"GARRISON_MISSION_REWARD_INFO" # `missionID, followerDbID`
+---|"GARRISON_MISSION_STARTED" # `garrFollowerTypeID, missionID`
+---|"GARRISON_MONUMENT_CLOSE_UI"
+---|"GARRISON_MONUMENT_LIST_LOADED" # `success`
+---|"GARRISON_MONUMENT_REPLACED" # `success`
+---|"GARRISON_MONUMENT_SELECTED_TROPHY_ID_LOADED" # `success`
+---|"GARRISON_MONUMENT_SHOW_UI"
+---|"GARRISON_RANDOM_MISSION_ADDED" # `followerTypeID, missionID`
+---|"GARRISON_RECALL_PORTAL_LAST_USED_TIME" # `success, recallPortalLastUsedTime`
+---|"GARRISON_RECALL_PORTAL_USED" # `success`
+---|"GARRISON_RECRUITMENT_FOLLOWERS_GENERATED"
+---|"GARRISON_RECRUITMENT_NPC_CLOSED"
+---|"GARRISON_RECRUITMENT_NPC_OPENED" # `followerTypeID`
+---|"GARRISON_RECRUITMENT_READY"
+---|"GARRISON_RECRUIT_FOLLOWER_RESULT"
+---|"GARRISON_SHIPMENT_RECEIVED"
+---|"GARRISON_SHIPYARD_NPC_CLOSED"
+---|"GARRISON_SHIPYARD_NPC_OPENED" # `followerTypeID`
+---|"GARRISON_SHOW_LANDING_PAGE"
+---|"GARRISON_SPEC_GROUPS_CLEARED" # `garrTypeID`
+---|"GARRISON_SPEC_GROUP_UPDATED" # `garrTypeID, specID`
+---|"GARRISON_TALENT_COMPLETE" # `garrTypeID, doAlert`
+---|"GARRISON_TALENT_EVENT_UPDATE" # `eventType, eventID`
+---|"GARRISON_TALENT_NPC_CLOSED"
+---|"GARRISON_TALENT_NPC_OPENED" # `garrisonTypeID, garrisonTalentTreeID`
+---|"GARRISON_TALENT_RESEARCH_STARTED" # `garrTypeID, garrisonTalentTreeID, garrTalentID`
+---|"GARRISON_TALENT_UNLOCKS_RESULT"
+---|"GARRISON_TALENT_UPDATE" # `garrTypeID`
+---|"GARRISON_TRADESKILL_NPC_CLOSED"
+---|"GARRISON_UPDATE"
+---|"GARRISON_UPGRADEABLE_RESULT" # `garrisonUpgradeable`
+---|"GARRISON_USE_PARTY_GARRISON_CHANGED"
+---|"GDF_SIM_COMPLETE"
+---|"GENERIC_ERROR" # `errorMessage`
+---|"GENERIC_WIDGET_DISPLAY_SHOW" # `info`
+---|"GET_ITEM_INFO_RECEIVED" # `itemID, success`
+---|"GLOBAL_MOUSE_DOWN" # `button`
+---|"GLOBAL_MOUSE_UP" # `button`
+---|"GLUE_SCREENSHOT_FAILED"
+---|"GLUE_SCREENSHOT_STARTED"
+---|"GLUE_SCREENSHOT_SUCCEEDED"
+---|"GM_PLAYER_INFO" # `name, info`
+---|"GOSSIP_CLOSED" # `interactionIsContinuing`
+---|"GOSSIP_CONFIRM" # `gossipID, text, cost`
+---|"GOSSIP_CONFIRM_CANCEL"
+---|"GOSSIP_ENTER_CODE" # `gossipID`
+---|"GOSSIP_OPTIONS_REFRESHED"
+---|"GOSSIP_SHOW" # `uiTextureKit`
+---|"GROUP_FORMED" # `category, partyGUID`
+---|"GROUP_INVITE_CONFIRMATION"
+---|"GROUP_JOINED" # `category, partyGUID`
+---|"GROUP_LEFT" # `category, partyGUID`
+---|"GROUP_ROSTER_UPDATE"
+---|"GUILDBANKBAGSLOTS_CHANGED"
+---|"GUILDBANKFRAME_CLOSED"
+---|"GUILDBANKFRAME_OPENED"
+---|"GUILDBANKLOG_UPDATE"
+---|"GUILDBANK_ITEM_LOCK_CHANGED"
+---|"GUILDBANK_TEXT_CHANGED" # `guildBankTab`
+---|"GUILDBANK_UPDATE_MONEY"
+---|"GUILDBANK_UPDATE_TABS"
+---|"GUILDBANK_UPDATE_TEXT" # `guildBankTab`
+---|"GUILDBANK_UPDATE_WITHDRAWMONEY"
+---|"GUILDTABARD_UPDATE"
+---|"GUILD_CHALLENGE_COMPLETED" # `challengeType, currentCount, maxCount, goldAwarded`
+---|"GUILD_CHALLENGE_UPDATED"
+---|"GUILD_EVENT_LOG_UPDATE"
+---|"GUILD_INVITE_CANCEL"
+---|"GUILD_INVITE_REQUEST" # `inviter, guildName, guildAchievementPoints, oldGuildName, isNewGuild, tabardInfo`
+---|"GUILD_MOTD" # `motdText`
+---|"GUILD_NEWS_UPDATE"
+---|"GUILD_PARTY_STATE_UPDATED" # `inGuildParty`
+---|"GUILD_RANKS_UPDATE"
+---|"GUILD_RECIPE_KNOWN_BY_MEMBERS"
+---|"GUILD_REGISTRAR_CLOSED"
+---|"GUILD_REGISTRAR_SHOW"
+---|"GUILD_RENAME_NAME_CHECK" # `desiredName, status, nameErrorToken`
+---|"GUILD_RENAME_REFUND_RESULT" # `guildName, status`
+---|"GUILD_RENAME_REQUIRED" # `flagSet`
+---|"GUILD_RENAME_STATUS_UPDATE" # `status`
+---|"GUILD_REWARDS_LIST"
+---|"GUILD_REWARDS_LIST_UPDATE"
+---|"GUILD_ROSTER_UPDATE" # `canRequestRosterUpdate`
+---|"GUILD_TRADESKILL_UPDATE"
+---|"GX_RESTARTED"
+---|"HANDLE_UI_ACTION" # `actionType`
+---|"HARDCORE_DEATHS" # `memberName`
+---|"HEARTHSTONE_BOUND"
+---|"HEIRLOOMS_UPDATED" # `itemID, updateReason, hideUntilLearned`
+---|"HEIRLOOM_UPGRADE_TARGETING_CHANGED" # `pendingHeirloomUpgradeSpellcast`
+---|"HIDE_HYPERLINK_TOOLTIP"
+---|"HIDE_SUBTITLE"
+---|"HONOR_LEVEL_UPDATE" # `isHigherLevel`
+---|"HONOR_XP_UPDATE" # `unitTarget`
+---|"IGNORELIST_UPDATE"
+---|"IMMERSIVE_INTERACTION_BEGIN"
+---|"IMMERSIVE_INTERACTION_END"
+---|"INCOMING_RESURRECT_CHANGED" # `unitTarget`
+---|"INCOMING_SUMMON_CHANGED" # `unitTarget`
+---|"INITIAL_CLUBS_LOADED"
+---|"INITIAL_HOTFIXES_APPLIED"
+---|"INSPECT_ACHIEVEMENT_READY" # `guid`
+---|"INSPECT_HONOR_UPDATE"
+---|"INSPECT_READY" # `inspecteeGUID`
+---|"INSTANCE_ABANDON_VOTE_FINISHED" # `votePassed`
+---|"INSTANCE_ABANDON_VOTE_STARTED"
+---|"INSTANCE_ABANDON_VOTE_UPDATED"
+---|"INSTANCE_BOOT_START"
+---|"INSTANCE_BOOT_STOP"
+---|"INSTANCE_ENCOUNTER_ADD_TIMER" # `timeRemaining`
+---|"INSTANCE_ENCOUNTER_ENGAGE_UNIT"
+---|"INSTANCE_ENCOUNTER_OBJECTIVE_COMPLETE" # `objectiveID`
+---|"INSTANCE_ENCOUNTER_OBJECTIVE_START" # `objectiveID, objectiveProgress`
+---|"INSTANCE_ENCOUNTER_OBJECTIVE_UPDATE" # `objectiveID, objectiveProgress`
+---|"INSTANCE_GROUP_SIZE_CHANGED"
+---|"INSTANCE_LEAVER_STATUS_CHANGED" # `isLeaver`
+---|"INSTANCE_LOCK_START"
+---|"INSTANCE_LOCK_STOP"
+---|"INSTANCE_LOCK_WARNING"
+---|"INSTANCE_RESET_WARNING" # `warningMessage, timeLeft`
+---|"INVENTORY_SEARCH_UPDATE"
+---|"INVITE_TO_PARTY_CONFIRMATION" # `targetName, willConvertToRaid, questSessionActive`
+---|"INVITE_TRAVEL_PASS_CONFIRMATION" # `targetName, targetGUID, willConvertToRaid, questSessionActive`
+---|"ISLANDS_QUEUE_CLOSE"
+---|"ISLANDS_QUEUE_OPEN"
+---|"ISLAND_AZERITE_GAIN" # `amount, gainedByPlayer, factionIndex, gainedBy, gainedFrom`
+---|"ISLAND_COMPLETED" # `mapID, winner`
+---|"ITEM_CHANGED" # `previousHyperlink, newHyperlink`
+---|"ITEM_CONVERSION_DATA_READY" # `itemGUID`
+---|"ITEM_COUNT_CHANGED" # `itemID`
+---|"ITEM_DATA_LOAD_RESULT" # `itemID, success`
+---|"ITEM_INTERACTION_CHARGE_INFO_UPDATED"
+---|"ITEM_INTERACTION_ITEM_SELECTION_UPDATED" # `itemLocation`
+---|"ITEM_KEY_ITEM_INFO_RECEIVED" # `itemID`
+---|"ITEM_LOCKED" # `bagOrSlotIndex, slotIndex`
+---|"ITEM_LOCK_CHANGED" # `bagOrSlotIndex, slotIndex`
+---|"ITEM_PURCHASED" # `itemID`
+---|"ITEM_PUSH" # `bagSlot, iconFileID`
+---|"ITEM_RESTORATION_BUTTON_STATUS"
+---|"ITEM_SEARCH_RESULTS_ADDED" # `itemKey`
+---|"ITEM_SEARCH_RESULTS_UPDATED" # `itemKey, newAuctionID`
+---|"ITEM_TEXT_BEGIN"
+---|"ITEM_TEXT_CLOSED"
+---|"ITEM_TEXT_READY"
+---|"ITEM_TEXT_TRANSLATION" # `delay`
+---|"ITEM_UNLOCKED" # `bagOrSlotIndex, slotIndex`
+---|"ITEM_UPGRADE_FAILED"
+---|"ITEM_UPGRADE_MASTER_SET_ITEM"
+---|"ITEM_UPGRADE_MASTER_UPDATE"
+---|"JAILERS_TOWER_LEVEL_UPDATE" # `level, type`
+---|"KNOWN_TITLES_UPDATE" # `unitTarget`
+---|"LANGUAGE_LIST_CHANGED"
+---|"LEARNED_SPELL_IN_SKILL_LINE" # `spellID, skillLineIndex, isGuildPerkSpell`
+---|"LEARNED_SPELL_IN_TAB" # `spellID, skillInfoIndex, isGuildPerkSpell`
+---|"LEAVE_PARTY_CONFIRMATION" # `reason`
+---|"LEAVING_TUTORIAL_AREA"
+---|"LFG_BOOT_PROPOSAL_UPDATE"
+---|"LFG_COMPLETION_REWARD"
+---|"LFG_ENABLED_STATE_CHANGED"
+---|"LFG_GROUP_DELISTED_LEADERSHIP_CHANGE" # `listingName, automaticDelistTimeRemaining`
+---|"LFG_INVALID_ERROR_MESSAGE" # `reason, subReason1, subReason2`
+---|"LFG_LIST_ACTIVE_ENTRY_UPDATE" # `created`
+---|"LFG_LIST_APPLICANT_LIST_UPDATED" # `newPendingEntry, newPendingEntryWithData`
+---|"LFG_LIST_APPLICANT_UPDATED" # `applicantID`
+---|"LFG_LIST_APPLICATION_STATUS_UPDATED" # `searchResultID, newStatus, oldStatus, groupName`
+---|"LFG_LIST_AVAILABILITY_UPDATE"
+---|"LFG_LIST_ENTRY_CREATION_FAILED"
+---|"LFG_LIST_ENTRY_EXPIRED_TIMEOUT"
+---|"LFG_LIST_ENTRY_EXPIRED_TOO_MANY_PLAYERS"
+---|"LFG_LIST_JOINED_GROUP" # `searchResultID, groupName`
+---|"LFG_LIST_SEARCH_FAILED" # `reason`
+---|"LFG_LIST_SEARCH_RESULTS_RECEIVED"
+---|"LFG_LIST_SEARCH_RESULT_UPDATED" # `searchResultID`
+---|"LFG_LOCK_INFO_RECEIVED"
+---|"LFG_OFFER_CONTINUE" # `name, lfgDungeonsID, typeID`
+---|"LFG_OPEN_FROM_GOSSIP" # `dungeonID`
+---|"LFG_PROPOSAL_DONE"
+---|"LFG_PROPOSAL_FAILED"
+---|"LFG_PROPOSAL_SHOW"
+---|"LFG_PROPOSAL_SUCCEEDED"
+---|"LFG_PROPOSAL_UPDATE"
+---|"LFG_QUEUE_STATUS_UPDATE"
+---|"LFG_READY_CHECK_DECLINED" # `name`
+---|"LFG_READY_CHECK_HIDE"
+---|"LFG_READY_CHECK_PLAYER_IS_READY" # `name`
+---|"LFG_READY_CHECK_SHOW" # `isRequeue`
+---|"LFG_READY_CHECK_UPDATE"
+---|"LFG_ROLE_CHECK_DECLINED"
+---|"LFG_ROLE_CHECK_HIDE"
+---|"LFG_ROLE_CHECK_ROLE_CHOSEN" # `name, isTank, isHealer, isDamage`
+---|"LFG_ROLE_CHECK_SHOW" # `isRequeue`
+---|"LFG_ROLE_CHECK_UPDATE"
+---|"LFG_ROLE_UPDATE"
+---|"LFG_UPDATE"
+---|"LFG_UPDATE_RANDOM_INFO"
+---|"LIFESTEAL_UPDATE"
+---|"LOADING_SCREEN_DISABLED"
+---|"LOADING_SCREEN_ENABLED"
+---|"LOBBY_MATCHMAKER_QUEUE_ABANDONED"
+---|"LOBBY_MATCHMAKER_QUEUE_ERROR"
+---|"LOBBY_MATCHMAKER_QUEUE_EXPIRED"
+---|"LOBBY_MATCHMAKER_QUEUE_POPPED"
+---|"LOBBY_MATCHMAKER_QUEUE_STATUS_UPDATE"
+---|"LOCALPLAYER_PET_RENAMED"
+---|"LOC_RESULT" # `result`
+---|"LOGOUT_CANCEL"
+---|"LOOT_BIND_CONFIRM" # `lootSlot`
+---|"LOOT_CLOSED"
+---|"LOOT_HISTORY_CLEAR_HISTORY"
+---|"LOOT_HISTORY_GO_TO_ENCOUNTER" # `encounterID`
+---|"LOOT_HISTORY_ONE_HUNDRED_ROLL" # `encounterID, lootListID`
+---|"LOOT_HISTORY_UPDATE_DROP" # `encounterID, lootListID`
+---|"LOOT_HISTORY_UPDATE_ENCOUNTER" # `encounterID`
+---|"LOOT_ITEM_AVAILABLE" # `itemTooltip, lootHandle`
+---|"LOOT_ITEM_ROLL_WON" # `itemLink, rollQuantity, rollType, roll, upgraded`
+---|"LOOT_JOURNAL_ITEM_UPDATE"
+---|"LOOT_OPENED" # `autoLoot, isFromItem`
+---|"LOOT_READY" # `autoloot`
+---|"LOOT_ROLLS_COMPLETE" # `lootHandle`
+---|"LOOT_SLOT_CHANGED" # `lootSlot`
+---|"LOOT_SLOT_CLEARED" # `lootSlot`
+---|"LORE_TEXT_UPDATED_CAMPAIGN" # `campaignID, textEntries`
+---|"LOSS_OF_CONTROL_ADDED" # `unitTarget, effectIndex`
+---|"LOSS_OF_CONTROL_COMMENTATOR_ADDED" # `victim, effectIndex`
+---|"LOSS_OF_CONTROL_COMMENTATOR_UPDATE" # `victim`
+---|"LOSS_OF_CONTROL_UPDATE" # `unitTarget`
+---|"LUA_WARNING" # `warningText`
+---|"MACRO_ACTION_BLOCKED" # `function`
+---|"MACRO_ACTION_FORBIDDEN" # `function`
+---|"MAIL_CLOSED"
+---|"MAIL_FAILED" # `itemID`
+---|"MAIL_INBOX_UPDATE"
+---|"MAIL_LOCK_SEND_ITEMS" # `attachSlot, itemLink`
+---|"MAIL_SEND_INFO_UPDATE"
+---|"MAIL_SEND_SUCCESS"
+---|"MAIL_SHOW"
+---|"MAIL_SUCCESS" # `itemID`
+---|"MAIL_UNLOCK_SEND_ITEMS"
+---|"MAIN_SPEC_NEED_ROLL" # `rollID, roll, isWinning`
+---|"MAJOR_FACTION_INTERACTION_ENDED"
+---|"MAJOR_FACTION_INTERACTION_STARTED"
+---|"MAJOR_FACTION_RENOWN_LEVEL_CHANGED" # `majorFactionID, newRenownLevel, oldRenownLevel`
+---|"MAJOR_FACTION_UNLOCKED" # `majorFactionID`
+---|"MAP_EXPLORATION_UPDATED"
+---|"MASTERY_UPDATE"
+---|"MAX_EXPANSION_LEVEL_UPDATED"
+---|"MAX_SPELL_START_RECOVERY_OFFSET_CHANGED" # `clampedNewQueueWindowMs`
+---|"MENTORSHIP_STATUS_CHANGED"
+---|"MERCHANT_CLOSED"
+---|"MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL" # `itemLink`
+---|"MERCHANT_FILTER_ITEM_UPDATE" # `itemID`
+---|"MERCHANT_SHOW"
+---|"MERCHANT_UPDATE"
+---|"MINIMAP_PING" # `unitTarget, y, x`
+---|"MINIMAP_UPDATE_TRACKING"
+---|"MINIMAP_UPDATE_ZOOM"
+---|"MIN_EXPANSION_LEVEL_UPDATED"
+---|"MIRROR_TIMER_PAUSE" # `timerName, paused`
+---|"MIRROR_TIMER_START" # `timerName, value, maxValue, scale, paused, timerLabel`
+---|"MIRROR_TIMER_STOP" # `timerName`
+---|"MODIFIER_STATE_CHANGED" # `key, down`
+---|"MOUNT_CURSOR_CLEAR"
+---|"MOUNT_EQUIPMENT_APPLY_RESULT" # `success`
+---|"MOUNT_JOURNAL_SEARCH_UPDATED"
+---|"MOUNT_JOURNAL_USABILITY_CHANGED"
+---|"MUTELIST_UPDATE"
+---|"MYTHIC_PLUS_CURRENT_AFFIX_UPDATE"
+---|"MYTHIC_PLUS_NEW_WEEKLY_RECORD" # `mapChallengeModeID, completionMilliseconds, level`
+---|"NAME_PLATE_CREATED" # `namePlateFrame`
+---|"NAME_PLATE_UNIT_ADDED" # `unitToken`
+---|"NAME_PLATE_UNIT_REMOVED" # `unitToken`
+---|"NAVIGATION_DESTINATION_REACHED" # `isWaypoint`
+---|"NAVIGATION_FRAME_CREATED" # `region`
+---|"NAVIGATION_FRAME_DESTROYED"
+---|"NEUTRAL_FACTION_SELECT_RESULT" # `success`
+---|"NEWCOMER_GRADUATION"
+---|"NEW_MATCHMAKING_PARTY_INVITE"
+---|"NEW_MOUNT_ADDED" # `mountID`
+---|"NEW_PET_ADDED" # `battlePetGUID`
+---|"NEW_RECIPE_LEARNED" # `recipeID, recipeLevel, baseRecipeID`
+---|"NEW_RUNEFORGE_POWER_ADDED" # `powerID`
+---|"NEW_TOY_ADDED" # `itemID`
+---|"NEW_WARBAND_SCENE_ADDED" # `warbandScenID`
+---|"NEW_WMO_CHUNK"
+---|"NOTCHED_DISPLAY_MODE_CHANGED"
+---|"NOTIFY_CHAT_SUPPRESSED"
+---|"NOTIFY_PVP_AFK_RESULT" # `offender, numBlackMarksOnOffender, numPlayersIHaveReported`
+---|"NPE_TUTORIAL_UPDATE"
+---|"OBJECT_ENTERED_AOI" # `guid`
+---|"OBJECT_LEFT_AOI" # `guid`
+---|"OBLITERUM_FORGE_PENDING_ITEM_CHANGED"
+---|"OPEN_MASTER_LOOT_LIST"
+---|"OPEN_RECIPE_RESPONSE" # `recipeID, skillLineID, expansionSkillLineID`
+---|"OPEN_SPLASH_SCREEN" # `info`
+---|"OPEN_TABARD_FRAME"
+---|"OWNED_AUCTIONS_UPDATED"
+---|"OWNED_AUCTION_BIDDER_INFO_RECEIVED" # `auctionID, bidderName`
+---|"PARTY_ELIGIBILITY_FOR_DELVE_TIERS_CHANGED" # `playerName, maxEligibleLevel`
+---|"PARTY_INVITE_CANCEL"
+---|"PARTY_INVITE_REQUEST" # `name, isTank, isHealer, isDamage, isNativeRealm, allowMultipleRoles, inviterGUID, questSessionActive`
+---|"PARTY_LEADER_CHANGED"
+---|"PARTY_LFG_RESTRICTED"
+---|"PARTY_LOOT_METHOD_CHANGED"
+---|"PARTY_MEMBER_DISABLE" # `unitTarget`
+---|"PARTY_MEMBER_ENABLE" # `unitTarget`
+---|"PENDING_AZERITE_ESSENCE_CHANGED" # `essenceID`
+---|"PERKS_ACTIVITIES_TRACKED_LIST_CHANGED" # `perksActivityID, added`
+---|"PERKS_ACTIVITIES_TRACKED_UPDATED"
+---|"PERKS_ACTIVITIES_UPDATED"
+---|"PERKS_ACTIVITY_COMPLETED" # `perksActivityID`
+---|"PERKS_PROGRAM_ADD_PENDING_SHOP_ITEM" # `vendorItemID`
+---|"PERKS_PROGRAM_CLOSE"
+---|"PERKS_PROGRAM_CURRENCY_AWARDED" # `value`
+---|"PERKS_PROGRAM_CURRENCY_REFRESH" # `oldValue, newValue`
+---|"PERKS_PROGRAM_DATA_REFRESH"
+---|"PERKS_PROGRAM_DATA_SPECIFIC_ITEM_REFRESH" # `vendorItemID`
+---|"PERKS_PROGRAM_DISABLED"
+---|"PERKS_PROGRAM_OPEN"
+---|"PERKS_PROGRAM_PURCHASE_CART_SUCCESS" # `vendorItemIDs`
+---|"PERKS_PROGRAM_PURCHASE_SUCCESS" # `vendorItemID`
+---|"PERKS_PROGRAM_REFUND_SUCCESS" # `vendorItemID`
+---|"PERKS_PROGRAM_REMOVE_PENDING_SHOP_ITEM" # `vendorItemID`
+---|"PERKS_PROGRAM_RESULT_ERROR"
+---|"PERKS_PROGRAM_SET_FROZEN_ITEM" # `vendorItemID`
+---|"PETITION_CLOSED"
+---|"PETITION_SHOW"
+---|"PET_ATTACK_START"
+---|"PET_ATTACK_STOP"
+---|"PET_BAR_HIDEGRID"
+---|"PET_BAR_SHOWGRID"
+---|"PET_BAR_UPDATE"
+---|"PET_BAR_UPDATE_COOLDOWN"
+---|"PET_BAR_UPDATE_USABLE"
+---|"PET_BATTLE_ABILITY_CHANGED" # `owner, petIndex, abilityID`
+---|"PET_BATTLE_ACTION_SELECTED"
+---|"PET_BATTLE_AURA_APPLIED" # `owner, petIndex, auraInstanceID`
+---|"PET_BATTLE_AURA_CANCELED" # `owner, petIndex, auraInstanceID`
+---|"PET_BATTLE_AURA_CHANGED" # `owner, petIndex, auraInstanceID`
+---|"PET_BATTLE_CAPTURED" # `owner, petIndex`
+---|"PET_BATTLE_CLOSE"
+---|"PET_BATTLE_FINAL_ROUND" # `owner`
+---|"PET_BATTLE_HEALTH_CHANGED" # `owner, petIndex, healthChange`
+---|"PET_BATTLE_LEVEL_CHANGED" # `owner, petIndex, newLevel`
+---|"PET_BATTLE_LOOT_RECEIVED" # `typeIdentifier, itemLink, quantity`
+---|"PET_BATTLE_MAX_HEALTH_CHANGED" # `owner, petIndex, healthChange`
+---|"PET_BATTLE_OPENING_DONE"
+---|"PET_BATTLE_OPENING_START"
+---|"PET_BATTLE_OVER"
+---|"PET_BATTLE_OVERRIDE_ABILITY" # `abilityIndex`
+---|"PET_BATTLE_PET_CHANGED" # `owner`
+---|"PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE" # `roundNumber`
+---|"PET_BATTLE_PET_ROUND_RESULTS" # `roundNumber`
+---|"PET_BATTLE_PET_TYPE_CHANGED" # `owner, petIndex, stateValue`
+---|"PET_BATTLE_PVP_DUEL_REQUESTED" # `fullName`
+---|"PET_BATTLE_PVP_DUEL_REQUEST_CANCEL"
+---|"PET_BATTLE_QUEUE_PROPOSAL_ACCEPTED"
+---|"PET_BATTLE_QUEUE_PROPOSAL_DECLINED"
+---|"PET_BATTLE_QUEUE_PROPOSE_MATCH"
+---|"PET_BATTLE_QUEUE_STATUS"
+---|"PET_BATTLE_XP_CHANGED" # `owner, petIndex, xpChange`
+---|"PET_DISMISS_START" # `delay`
+---|"PET_FORCE_NAME_DECLENSION" # `name, petNumber, declinedName1, declinedName2, declinedName3, declinedName4, declinedName5`
+---|"PET_INFO_UPDATE"
+---|"PET_JOURNAL_AUTO_SLOTTED_PET" # `slotIndex, battlePetGUID`
+---|"PET_JOURNAL_CAGE_FAILED"
+---|"PET_JOURNAL_LIST_UPDATE"
+---|"PET_JOURNAL_NEW_BATTLE_SLOT"
+---|"PET_JOURNAL_PETS_HEALED"
+---|"PET_JOURNAL_PET_DELETED" # `battlePetGUID`
+---|"PET_JOURNAL_PET_RESTORED" # `battlePetGUID`
+---|"PET_JOURNAL_PET_REVOKED" # `battlePetGUID`
+---|"PET_JOURNAL_TRAP_LEVEL_SET" # `trapLevel`
+---|"PET_SPECIALIZATION_CHANGED"
+---|"PET_SPELL_POWER_UPDATE"
+---|"PET_STABLE_CLOSED"
+---|"PET_STABLE_FAVORITES_UPDATED"
+---|"PET_STABLE_SHOW"
+---|"PET_STABLE_UPDATE"
+---|"PET_UI_CLOSE"
+---|"PET_UI_UPDATE"
+---|"PING_SYSTEM_ERROR" # `error`
+---|"PLAYERBANKSLOTS_CHANGED" # `slot`
+---|"PLAYER_ACCOUNT_BANK_TAB_SLOTS_CHANGED" # `slot`
+---|"PLAYER_ALIVE"
+---|"PLAYER_AVG_ITEM_LEVEL_UPDATE"
+---|"PLAYER_CAMPING"
+---|"PLAYER_CAN_GLIDE_CHANGED" # `canGlide`
+---|"PLAYER_CHOICE_CLOSE"
+---|"PLAYER_CHOICE_UPDATE"
+---|"PLAYER_CONTROL_GAINED"
+---|"PLAYER_CONTROL_LOST"
+---|"PLAYER_DAMAGE_DONE_MODS" # `unitTarget`
+---|"PLAYER_DEAD"
+---|"PLAYER_DIFFICULTY_CHANGED"
+---|"PLAYER_ENTERING_BATTLEGROUND"
+---|"PLAYER_ENTERING_WORLD" # `isInitialLogin, isReloadingUi`
+---|"PLAYER_ENTER_COMBAT"
+---|"PLAYER_EQUIPMENT_CHANGED" # `equipmentSlot, hasCurrent`
+---|"PLAYER_FARSIGHT_FOCUS_CHANGED"
+---|"PLAYER_FLAGS_CHANGED" # `unitTarget`
+---|"PLAYER_FOCUS_CHANGED"
+---|"PLAYER_GAINS_VEHICLE_DATA" # `unitTarget, vehicleUIIndicatorID`
+---|"PLAYER_GUILD_UPDATE" # `unitTarget`
+---|"PLAYER_IMPULSE_APPLIED"
+---|"PLAYER_INSIDE_QUEST_BLOB_STATE_CHANGED" # `questID, isInside`
+---|"PLAYER_INTERACTION_MANAGER_FRAME_HIDE" # `type`
+---|"PLAYER_INTERACTION_MANAGER_FRAME_SHOW" # `type`
+---|"PLAYER_IN_COMBAT_CHANGED" # `inCombat`
+---|"PLAYER_IS_GLIDING_CHANGED" # `isGliding`
+---|"PLAYER_JOINED_PVP_MATCH"
+---|"PLAYER_LEARN_PVP_TALENT_FAILED"
+---|"PLAYER_LEARN_TALENT_FAILED"
+---|"PLAYER_LEAVE_COMBAT"
+---|"PLAYER_LEAVING_WORLD"
+---|"PLAYER_LEVEL_CHANGED" # `oldLevel, newLevel, real`
+---|"PLAYER_LEVEL_UP" # `level, healthDelta, powerDelta, numNewTalents, numNewPvpTalentSlots, strengthDelta, agilityDelta, staminaDelta, intellectDelta`
+---|"PLAYER_LOGIN"
+---|"PLAYER_LOGOUT"
+---|"PLAYER_LOOT_SPEC_UPDATED"
+---|"PLAYER_LOSES_VEHICLE_DATA" # `unitTarget`
+---|"PLAYER_MAP_CHANGED" # `oldMapID, newMapID`
+---|"PLAYER_MONEY"
+---|"PLAYER_MOUNT_DISPLAY_CHANGED"
+---|"PLAYER_PVP_KILLS_CHANGED" # `unitTarget`
+---|"PLAYER_PVP_RANK_CHANGED" # `unitTarget`
+---|"PLAYER_PVP_TALENT_UPDATE"
+---|"PLAYER_QUITING"
+---|"PLAYER_REGEN_DISABLED"
+---|"PLAYER_REGEN_ENABLED"
+---|"PLAYER_REPORT_SUBMITTED" # `invitedByGUID`
+---|"PLAYER_ROLES_ASSIGNED"
+---|"PLAYER_SKINNED" # `hasFreeRepop`
+---|"PLAYER_SOFT_ENEMY_CHANGED"
+---|"PLAYER_SOFT_FRIEND_CHANGED"
+---|"PLAYER_SOFT_INTERACT_CHANGED" # `oldTarget, newTarget`
+---|"PLAYER_SOFT_TARGET_INTERACTION"
+---|"PLAYER_SPECIALIZATION_CHANGED" # `unitTarget`
+---|"PLAYER_STARTED_LOOKING"
+---|"PLAYER_STARTED_MOVING"
+---|"PLAYER_STARTED_TURNING"
+---|"PLAYER_STOPPED_LOOKING"
+---|"PLAYER_STOPPED_MOVING"
+---|"PLAYER_STOPPED_TURNING"
+---|"PLAYER_TALENT_UPDATE"
+---|"PLAYER_TARGET_CHANGED"
+---|"PLAYER_TOTEM_UPDATE" # `totemSlot`
+---|"PLAYER_TRADE_CURRENCY"
+---|"PLAYER_TRADE_MONEY"
+---|"PLAYER_TRIAL_XP_UPDATE" # `unitTarget`
+---|"PLAYER_UNGHOST"
+---|"PLAYER_UPDATE_RESTING"
+---|"PLAYER_XP_UPDATE" # `unitTarget`
+---|"PLAY_MOVIE" # `movieID`
+---|"PORTRAITS_UPDATED"
+---|"POST_MATCH_CURRENCY_REWARD_UPDATE" # `reward`
+---|"POST_MATCH_ITEM_REWARD_UPDATE"
+---|"PROFESSION_EQUIPMENT_CHANGED" # `skillLineID, isTool`
+---|"PROFESSION_RESPEC_CONFIRMATION" # `skillName`
+---|"PROVING_GROUNDS_SCORE_UPDATE" # `points`
+---|"PVPQUEUE_ANYWHERE_SHOW"
+---|"PVPQUEUE_ANYWHERE_UPDATE_AVAILABLE"
+---|"PVP_BRAWL_INFO_UPDATED"
+---|"PVP_MATCH_ACTIVE"
+---|"PVP_MATCH_COMPLETE" # `winner, duration`
+---|"PVP_MATCH_INACTIVE"
+---|"PVP_MATCH_STATE_CHANGED"
+---|"PVP_POWER_UPDATE"
+---|"PVP_RATED_STATS_UPDATE"
+---|"PVP_REWARDS_UPDATE"
+---|"PVP_ROLE_POPUP_HIDE" # `readyCheckInfo`
+---|"PVP_ROLE_POPUP_SHOW" # `readyCheckInfo`
+---|"PVP_ROLE_UPDATE"
+---|"PVP_SPECIAL_EVENT_INFO_UPDATED"
+---|"PVP_TIMER_UPDATE" # `unitTarget`
+---|"PVP_TYPES_ENABLED" # `wargameBattlegrounds, ratedBattlegrounds, ratedArenas, ratedSoloShuffle, ratedBGBlitz`
+---|"PVP_VEHICLE_INFO_UPDATED"
+---|"PVP_WORLDSTATE_UPDATE"
+---|"QUESTLINE_UPDATE" # `requestRequired`
+---|"QUEST_ACCEPTED" # `questId`
+---|"QUEST_ACCEPT_CONFIRM" # `name, questTitle`
+---|"QUEST_AUTOCOMPLETE" # `questId`
+---|"QUEST_BOSS_EMOTE" # `text, playerName, displayTime, enableBossEmoteWarningSound`
+---|"QUEST_COMPLETE"
+---|"QUEST_CURRENCY_LOOT_RECEIVED" # `questID, currencyId, quantity`
+---|"QUEST_DATA_LOAD_RESULT" # `questID, success`
+---|"QUEST_DETAIL" # `questStartItemID`
+---|"QUEST_FINISHED"
+---|"QUEST_GREETING"
+---|"QUEST_ITEM_UPDATE"
+---|"QUEST_LOG_CRITERIA_UPDATE" # `questID, specificTreeID, description, numFulfilled, numRequired`
+---|"QUEST_LOG_UPDATE"
+---|"QUEST_LOOT_RECEIVED" # `questID, itemLink, quantity`
+---|"QUEST_POI_UPDATE"
+---|"QUEST_PROGRESS"
+---|"QUEST_REMOVED" # `questID, wasReplayQuest`
+---|"QUEST_SESSION_CREATED"
+---|"QUEST_SESSION_DESTROYED"
+---|"QUEST_SESSION_ENABLED_STATE_CHANGED" # `enabled`
+---|"QUEST_SESSION_JOINED"
+---|"QUEST_SESSION_LEFT"
+---|"QUEST_SESSION_MEMBER_CONFIRM"
+---|"QUEST_SESSION_MEMBER_START_RESPONSE" # `guid, response`
+---|"QUEST_SESSION_NOTIFICATION" # `result, guid`
+---|"QUEST_TURNED_IN" # `questID, xpReward, moneyReward`
+---|"QUEST_WATCH_LIST_CHANGED" # `questID, added`
+---|"QUEST_WATCH_UPDATE" # `questID`
+---|"QUICK_TICKET_SYSTEM_STATUS"
+---|"QUICK_TICKET_THROTTLE_CHANGED"
+---|"RAF_ENTITLEMENT_DELIVERED" # `entitlementType, textureID, name, payloadID, showFancyToast, rafVersion`
+---|"RAF_INFO_UPDATED" # `info`
+---|"RAF_RECRUITING_ENABLED_STATUS" # `enabled`
+---|"RAF_REWARD_CLAIM_FAILED"
+---|"RAF_SYSTEM_ENABLED_STATUS" # `enabled`
+---|"RAF_SYSTEM_INFO_UPDATED" # `systemInfo`
+---|"RAID_BOSS_EMOTE" # `text, playerName, displayTime, enableBossEmoteWarningSound`
+---|"RAID_BOSS_WHISPER" # `text, playerName, displayTime, enableBossEmoteWarningSound`
+---|"RAID_INSTANCE_WELCOME" # `mapname, timeLeft, locked, extended`
+---|"RAID_ROSTER_UPDATE"
+---|"RAID_TARGET_UPDATE"
+---|"RAISED_AS_GHOUL"
+---|"READY_CHECK" # `initiatorName, readyCheckTimeLeft`
+---|"READY_CHECK_CONFIRM" # `unitTarget, isReady`
+---|"READY_CHECK_FINISHED" # `preempted`
+---|"RECEIVED_ACHIEVEMENT_LIST"
+---|"RECEIVED_ACHIEVEMENT_MEMBER_LIST" # `achievementID`
+---|"REJECTED_MATCHMAKING_PARTY_INVITE" # `name`
+---|"REMIX_END_OF_EVENT"
+---|"REPLACE_ENCHANT" # `existingStr, replacementStr`
+---|"REPLACE_TRADESKILL_ENCHANT" # `existing, replacement`
+---|"REPLICATE_ITEM_LIST_UPDATE"
+---|"REPORT_PLAYER_RESULT" # `result, reportType`
+---|"REQUESTED_GUILD_RENAME_RESULT" # `newName, status`
+---|"REQUEST_CEMETERY_LIST_RESPONSE" # `isGossipTriggered`
+---|"REQUEST_INVITE_CONFIRMATION" # `targetName, partyLevelLink, questSessionActive, tank, healer, dps`
+---|"REQUIRED_GUILD_RENAME_RESULT" # `success`
+---|"RESEARCH_ARTIFACT_COMPLETE" # `name`
+---|"RESEARCH_ARTIFACT_DIG_SITE_UPDATED"
+---|"RESEARCH_ARTIFACT_UPDATE"
+---|"RESURRECT_REQUEST" # `inviter`
+---|"RETURNING_PLAYER_PROMPT"
+---|"ROLE_CHANGED_INFORM" # `changedName, fromName, oldRole, newRole`
+---|"ROLE_POLL_BEGIN" # `fromName`
+---|"RUNEFORGE_LEGENDARY_CRAFTING_CLOSED"
+---|"RUNEFORGE_LEGENDARY_CRAFTING_OPENED" # `isUpgrade`
+---|"RUNEFORGE_POWER_INFO_UPDATED" # `powerID`
+---|"RUNE_POWER_UPDATE" # `runeIndex, added`
+---|"RUNE_TYPE_UPDATE" # `runeIndex`
+---|"SAVED_VARIABLES_TOO_LARGE" # `addOnName`
+---|"SCENARIO_BONUS_OBJECTIVE_COMPLETE" # `bonusObjectiveID`
+---|"SCENARIO_BONUS_VISIBILITY_UPDATE"
+---|"SCENARIO_COMPLETED" # `questID, xp, money`
+---|"SCENARIO_CRITERIA_SHOW_STATE_UPDATE" # `show`
+---|"SCENARIO_CRITERIA_UPDATE" # `criteriaID`
+---|"SCENARIO_POI_UPDATE"
+---|"SCENARIO_SPELL_UPDATE"
+---|"SCENARIO_UPDATE" # `newStep`
+---|"SCRAPPING_MACHINE_ITEM_ADDED" # `index`
+---|"SCRAPPING_MACHINE_ITEM_REMOVED" # `index`
+---|"SCRAPPING_MACHINE_PENDING_ITEM_CHANGED"
+---|"SCRAPPING_MACHINE_SCRAPPING_FINISHED"
+---|"SCREENSHOT_FAILED"
+---|"SCREENSHOT_STARTED"
+---|"SCREENSHOT_SUCCEEDED"
+---|"SCRIPTED_ANIMATIONS_UPDATE"
+---|"SEARCH_DB_LOADED"
+---|"SECURE_TRANSFER_CANCEL"
+---|"SECURE_TRANSFER_CONFIRM_SEND_MAIL"
+---|"SECURE_TRANSFER_CONFIRM_TRADE_ACCEPT"
+---|"SELECTED_LOADOUT_CHANGED"
+---|"SELF_RES_SPELL_CHANGED"
+---|"SEND_MAIL_COD_CHANGED"
+---|"SEND_MAIL_MONEY_CHANGED"
+---|"SETTINGS_LOADED"
+---|"SHIPMENT_CRAFTER_CLOSED"
+---|"SHIPMENT_CRAFTER_INFO" # `success, shipmentCount, maxShipments, ownedShipments, plotInstanceID`
+---|"SHIPMENT_CRAFTER_OPENED" # `charShipmentContainerID`
+---|"SHIPMENT_CRAFTER_REAGENT_UPDATE"
+---|"SHIPMENT_UPDATE" # `shipmentStarted, hasAttachedFollower`
+---|"SHOW_DELVES_COMPANION_CONFIGURATION_UI"
+---|"SHOW_DELVES_DISPLAY_UI"
+---|"SHOW_END_OF_MATCH_UI"
+---|"SHOW_FACTION_SELECT_UI"
+---|"SHOW_HYPERLINK_TOOLTIP" # `hyperlink`
+---|"SHOW_LFG_EXPAND_SEARCH_PROMPT"
+---|"SHOW_LOOT_TOAST" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, toastMethod, lessAwesome, upgraded, corrupted`
+---|"SHOW_LOOT_TOAST_LEGENDARY_LOOTED" # `itemLink`
+---|"SHOW_LOOT_TOAST_UPGRADE" # `itemLink, quantity, specID, sex, baseQuality, personalLootToast, lessAwesome`
+---|"SHOW_PARTY_POSE_UI" # `mapID, won`
+---|"SHOW_PVP_FACTION_LOOT_TOAST" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, lessAwesome`
+---|"SHOW_RATED_PVP_REWARD_TOAST" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, lessAwesome`
+---|"SHOW_SUBSCRIPTION_INTERSTITIAL" # `type`
+---|"SHOW_SUBTITLE" # `subtitle, sender`
+---|"SIMPLE_BROWSER_WEB_ERROR" # `errorCode`
+---|"SIMPLE_BROWSER_WEB_PROXY_FAILED"
+---|"SIMPLE_CHECKOUT_CLOSED"
+---|"SKILL_LINES_CHANGED"
+---|"SKILL_LINE_SPECS_RANKS_CHANGED"
+---|"SKILL_LINE_SPECS_UNLOCKED" # `skillLineID, tradeSkillID`
+---|"SOCIAL_QUEUE_CONFIG_UPDATED"
+---|"SOCIAL_QUEUE_UPDATE" # `groupGUID, numAddedItems`
+---|"SOCKET_INFO_ACCEPT"
+---|"SOCKET_INFO_BIND_CONFIRM"
+---|"SOCKET_INFO_CLOSE"
+---|"SOCKET_INFO_FAILURE"
+---|"SOCKET_INFO_REFUNDABLE_CONFIRM"
+---|"SOCKET_INFO_SUCCESS"
+---|"SOCKET_INFO_UPDATE"
+---|"SOULBIND_ACTIVATED" # `soulbindID`
+---|"SOULBIND_CONDUIT_COLLECTION_CLEARED"
+---|"SOULBIND_CONDUIT_COLLECTION_REMOVED" # `conduitID`
+---|"SOULBIND_CONDUIT_COLLECTION_UPDATED" # `collectionData`
+---|"SOULBIND_CONDUIT_INSTALLED" # `nodeID, data`
+---|"SOULBIND_CONDUIT_UNINSTALLED" # `nodeID, data`
+---|"SOULBIND_FORGE_INTERACTION_ENDED"
+---|"SOULBIND_FORGE_INTERACTION_STARTED"
+---|"SOULBIND_NODE_LEARNED" # `nodeID`
+---|"SOULBIND_NODE_UNLEARNED" # `nodeID`
+---|"SOULBIND_NODE_UPDATED" # `nodeID`
+---|"SOULBIND_PATH_CHANGED"
+---|"SOULBIND_PENDING_CONDUIT_CHANGED" # `nodeID, conduitID`
+---|"SOUNDKIT_FINISHED" # `soundHandle`
+---|"SOUND_DEVICE_UPDATE"
+---|"SPECIALIZATION_CHANGE_CAST_FAILED"
+---|"SPEC_INVOLUNTARILY_CHANGED" # `isPet`
+---|"SPEED_UPDATE"
+---|"SPELLS_CHANGED"
+---|"SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" # `spellID`
+---|"SPELL_ACTIVATION_OVERLAY_GLOW_SHOW" # `spellID`
+---|"SPELL_ACTIVATION_OVERLAY_HIDE" # `spellID`
+---|"SPELL_ACTIVATION_OVERLAY_SHOW" # `spellID, overlayFileDataID, locationType, scale, r, g, b`
+---|"SPELL_CONFIRMATION_PROMPT" # `spellID, effectValue, message, duration, currencyTypesID, currencyCost, currentDifficulty`
+---|"SPELL_CONFIRMATION_TIMEOUT" # `spellID, effectValue`
+---|"SPELL_DATA_LOAD_RESULT" # `spellID, success`
+---|"SPELL_FLYOUT_UPDATE" # `flyoutID, spellID, isLearned`
+---|"SPELL_POWER_CHANGED"
+---|"SPELL_PUSHED_TO_ACTIONBAR" # `spellID, slot, page`
+---|"SPELL_PUSHED_TO_FLYOUT_ON_ACTIONBAR" # `spellID, flyoutSlot, flyoutPage`
+---|"SPELL_RANGE_CHECK_UPDATE" # `spellIdentifier, isInRange, checksRange`
+---|"SPELL_TEXT_UPDATE" # `spellID`
+---|"SPELL_UPDATE_CHARGES"
+---|"SPELL_UPDATE_COOLDOWN" # `spellID, baseSpellID, category, startRecoveryCategory`
+---|"SPELL_UPDATE_ICON" # `spellID`
+---|"SPELL_UPDATE_USABLE"
+---|"SPELL_UPDATE_USES" # `spellID, baseSpellID`
+---|"STARTER_BUILD_ACTIVATION_FAILED"
+---|"START_AUTOREPEAT_SPELL"
+---|"START_LOOT_ROLL" # `rollID, rollTime, lootHandle`
+---|"START_PLAYER_COUNTDOWN" # `initiatedBy, timeRemaining, totalTime, informChat, initiatedByName`
+---|"START_TIMER" # `timerType, timeRemaining, totalTime`
+---|"STOP_AUTOREPEAT_SPELL"
+---|"STOP_MOVIE"
+---|"STOP_TIMER_OF_TYPE" # `timerType`
+---|"STORE_FRONT_STATE_UPDATED" # `storeFrontID`
+---|"STREAMING_ICON" # `streamingStatus`
+---|"STREAM_VIEW_MARKER_UPDATED" # `clubId, streamId, lastReadTime`
+---|"STURDINESS_UPDATE"
+---|"SUPER_TRACKING_CHANGED"
+---|"SUPER_TRACKING_PATH_UPDATED"
+---|"SYSMSG" # `string, r, g, b`
+---|"SYSTEM_VISIBILITY_CHANGED"
+---|"TABARD_CANSAVE_CHANGED"
+---|"TABARD_SAVE_PENDING"
+---|"TALENTS_INVOLUNTARILY_RESET" # `isPetTalents`
+---|"TALKINGHEAD_CLOSE"
+---|"TALKINGHEAD_REQUESTED"
+---|"TASK_PROGRESS_UPDATE"
+---|"TAXIMAP_CLOSED"
+---|"TAXIMAP_OPENED" # `system`
+---|"TAXI_NODE_STATUS_CHANGED"
+---|"TIME_PLAYED_MSG" # `totalTimePlayed, timePlayedThisLevel`
+---|"TOGGLE_CONSOLE" # `showConsole`
+---|"TOKEN_AUCTION_SOLD"
+---|"TOKEN_BUY_CONFIRM_REQUIRED"
+---|"TOKEN_BUY_RESULT" # `result`
+---|"TOKEN_CAN_VETERAN_BUY_UPDATE" # `result`
+---|"TOKEN_DISTRIBUTIONS_UPDATED" # `result`
+---|"TOKEN_MARKET_PRICE_UPDATED" # `result`
+---|"TOKEN_REDEEM_BALANCE_UPDATED"
+---|"TOKEN_REDEEM_CONFIRM_REQUIRED" # `choiceType`
+---|"TOKEN_REDEEM_FRAME_SHOW"
+---|"TOKEN_REDEEM_GAME_TIME_UPDATED"
+---|"TOKEN_REDEEM_RESULT" # `result, choiceType`
+---|"TOKEN_SELL_CONFIRMED"
+---|"TOKEN_SELL_CONFIRM_REQUIRED"
+---|"TOKEN_SELL_RESULT" # `result`
+---|"TOKEN_STATUS_CHANGED"
+---|"TOOLTIP_DATA_UPDATE" # `dataInstanceID`
+---|"TOYS_UPDATED" # `itemID, isNew, hasFanfare`
+---|"TRACKABLE_INFO_UPDATE" # `type, id`
+---|"TRACKED_ACHIEVEMENT_LIST_CHANGED" # `achievementID, added`
+---|"TRACKED_ACHIEVEMENT_UPDATE" # `achievementID, criteriaID, elapsed, duration`
+---|"TRACKED_RECIPE_UPDATE" # `recipeID, tracked`
+---|"TRACKING_TARGET_INFO_UPDATE" # `targetType, targetID`
+---|"TRADE_ACCEPT_UPDATE" # `playerAccepted, targetAccepted`
+---|"TRADE_CLOSED"
+---|"TRADE_CURRENCY_CHANGED"
+---|"TRADE_MONEY_CHANGED"
+---|"TRADE_PLAYER_ITEM_CHANGED" # `tradeSlotIndex`
+---|"TRADE_POTENTIAL_BIND_ENCHANT" # `canBecomeBoundForTrade`
+---|"TRADE_POTENTIAL_REMOVE_TRANSMOG" # `itemLink, tradeSlotIndex`
+---|"TRADE_REPLACE_ENCHANT" # `existing, replacement`
+---|"TRADE_REQUEST" # `name`
+---|"TRADE_REQUEST_CANCEL"
+---|"TRADE_SHOW"
+---|"TRADE_SKILL_CLOSE"
+---|"TRADE_SKILL_CRAFTING_REAGENT_BONUS_TEXT_UPDATED" # `itemID`
+---|"TRADE_SKILL_CRAFT_BEGIN" # `recipeSpellID`
+---|"TRADE_SKILL_CURRENCY_REWARD_RESULT" # `data`
+---|"TRADE_SKILL_DATA_SOURCE_CHANGED"
+---|"TRADE_SKILL_DATA_SOURCE_CHANGING"
+---|"TRADE_SKILL_DETAILS_UPDATE"
+---|"TRADE_SKILL_FAVORITES_CHANGED" # `isFavorite, recipeSpellID`
+---|"TRADE_SKILL_ITEM_CRAFTED_RESULT" # `data`
+---|"TRADE_SKILL_ITEM_UPDATE" # `itemGUID`
+---|"TRADE_SKILL_LIST_UPDATE"
+---|"TRADE_SKILL_NAME_UPDATE"
+---|"TRADE_SKILL_SHOW"
+---|"TRADE_TARGET_ITEM_CHANGED" # `tradeSlotIndex`
+---|"TRADE_UPDATE"
+---|"TRAINER_CLOSED"
+---|"TRAINER_DESCRIPTION_UPDATE"
+---|"TRAINER_SERVICE_INFO_NAME_UPDATE"
+---|"TRAINER_SHOW"
+---|"TRAINER_UPDATE"
+---|"TRAIT_COND_INFO_CHANGED" # `condID`
+---|"TRAIT_CONFIG_CREATED" # `configInfo`
+---|"TRAIT_CONFIG_DELETED" # `configID`
+---|"TRAIT_CONFIG_LIST_UPDATED"
+---|"TRAIT_CONFIG_UPDATED" # `configID`
+---|"TRAIT_NODE_CHANGED" # `nodeID`
+---|"TRAIT_NODE_CHANGED_PARTIAL" # `ID, info`
+---|"TRAIT_NODE_ENTRY_UPDATED" # `nodeEntryID`
+---|"TRAIT_SUB_TREE_CHANGED" # `subTreeID`
+---|"TRAIT_SYSTEM_INTERACTION_STARTED" # `treeID`
+---|"TRAIT_SYSTEM_NPC_CLOSED"
+---|"TRAIT_TREE_CHANGED" # `treeID`
+---|"TRAIT_TREE_CURRENCY_INFO_UPDATED" # `treeID`
+---|"TRANSMOGRIFY_CLOSE"
+---|"TRANSMOGRIFY_ITEM_UPDATE"
+---|"TRANSMOGRIFY_OPEN"
+---|"TRANSMOGRIFY_SUCCESS" # `transmogLocation`
+---|"TRANSMOGRIFY_UPDATE" # `transmogLocation, action`
+---|"TRANSMOG_COLLECTION_CAMERA_UPDATE"
+---|"TRANSMOG_COLLECTION_ITEM_FAVORITE_UPDATE" # `itemAppearanceID, isFavorite`
+---|"TRANSMOG_COLLECTION_ITEM_UPDATE"
+---|"TRANSMOG_COLLECTION_SOURCE_ADDED" # `itemModifiedAppearanceID`
+---|"TRANSMOG_COLLECTION_SOURCE_REMOVED" # `itemModifiedAppearanceID`
+---|"TRANSMOG_COLLECTION_UPDATED" # `collectionIndex, modID, itemAppearanceID, reason`
+---|"TRANSMOG_COSMETIC_COLLECTION_SOURCE_ADDED" # `itemModifiedAppearanceID`
+---|"TRANSMOG_OUTFITS_CHANGED"
+---|"TRANSMOG_SEARCH_UPDATED" # `searchType, collectionType`
+---|"TRANSMOG_SETS_UPDATE_FAVORITE"
+---|"TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" # `itemModifiedAppearanceID, collectable`
+---|"TREASURE_PICKER_CACHE_FLUSH"
+---|"TRIAL_CAP_REACHED_MONEY"
+---|"TUTORIAL_HIGHLIGHT_SPELL" # `spellID, tutorialGlobalStringTag`
+---|"TUTORIAL_TRIGGER" # `tutorialIndex, forceShow`
+---|"TUTORIAL_UNHIGHLIGHT_SPELL"
+---|"UI_ERROR_MESSAGE" # `errorType, message`
+---|"UI_ERROR_POPUP" # `errorType, message`
+---|"UI_INFO_MESSAGE" # `errorType, message`
+---|"UI_MODEL_SCENE_INFO_UPDATED"
+---|"UI_SCALE_CHANGED"
+---|"UNIT_ABSORB_AMOUNT_CHANGED" # `unitTarget`
+---|"UNIT_AREA_CHANGED" # `unitTarget`
+---|"UNIT_ATTACK" # `unitTarget`
+---|"UNIT_ATTACK_POWER" # `unitTarget`
+---|"UNIT_ATTACK_SPEED" # `unitTarget`
+---|"UNIT_AURA" # `unitTarget, updateInfo`
+---|"UNIT_CHEAT_TOGGLE_EVENT"
+---|"UNIT_CLASSIFICATION_CHANGED" # `unitTarget`
+---|"UNIT_COMBAT" # `unitTarget, event, flagText, amount, schoolMask`
+---|"UNIT_CONNECTION" # `unitTarget, isConnected`
+---|"UNIT_CTR_OPTIONS" # `unitTarget`
+---|"UNIT_DAMAGE" # `unitTarget`
+---|"UNIT_DEFENSE" # `unitTarget`
+---|"UNIT_DISPLAYPOWER" # `unitTarget`
+---|"UNIT_DISTANCE_CHECK_UPDATE" # `unitTarget, isInDistance`
+---|"UNIT_ENTERED_VEHICLE" # `unitTarget, showVehicleFrame, isControlSeat, vehicleUIIndicatorID, vehicleGUID, mayChooseExit, hasPitch`
+---|"UNIT_ENTERING_VEHICLE" # `unitTarget, showVehicleFrame, isControlSeat, vehicleUIIndicatorID, vehicleGUID, mayChooseExit, hasPitch`
+---|"UNIT_EXITED_VEHICLE" # `unitTarget`
+---|"UNIT_EXITING_VEHICLE" # `unitTarget`
+---|"UNIT_FACTION" # `unitTarget`
+---|"UNIT_FLAGS" # `unitTarget`
+---|"UNIT_FORM_CHANGED" # `unitTarget`
+---|"UNIT_GUILD_LEVEL" # `newLevel`
+---|"UNIT_HEALTH" # `unitTarget`
+---|"UNIT_HEAL_ABSORB_AMOUNT_CHANGED" # `unitTarget`
+---|"UNIT_HEAL_PREDICTION" # `unitTarget`
+---|"UNIT_INVENTORY_CHANGED" # `unitTarget`
+---|"UNIT_IN_RANGE_UPDATE" # `unitTarget, isInRange`
+---|"UNIT_LEVEL" # `unitTarget`
+---|"UNIT_MANA" # `unitTarget`
+---|"UNIT_MAXHEALTH" # `unitTarget`
+---|"UNIT_MAXPOWER" # `unitTarget, powerType`
+---|"UNIT_MAX_HEALTH_MODIFIERS_CHANGED" # `unitTarget, percentMaxHealthAdjusted`
+---|"UNIT_MODEL_CHANGED" # `unitTarget`
+---|"UNIT_NAME_UPDATE" # `unitTarget`
+---|"UNIT_OTHER_PARTY_CHANGED" # `unitTarget`
+---|"UNIT_PET" # `unitTarget`
+---|"UNIT_PET_EXPERIENCE" # `unitTarget`
+---|"UNIT_PHASE" # `unitTarget`
+---|"UNIT_PORTRAIT_UPDATE" # `unitTarget`
+---|"UNIT_POWER_BAR_HIDE" # `unitTarget`
+---|"UNIT_POWER_BAR_SHOW" # `unitTarget`
+---|"UNIT_POWER_BAR_TIMER_UPDATE" # `unitTarget`
+---|"UNIT_POWER_FREQUENT" # `unitTarget, powerType`
+---|"UNIT_POWER_POINT_CHARGE" # `unitTarget`
+---|"UNIT_POWER_UPDATE" # `unitTarget, powerType`
+---|"UNIT_QUEST_LOG_CHANGED" # `unitTarget`
+---|"UNIT_RANGEDDAMAGE" # `unitTarget`
+---|"UNIT_RANGED_ATTACK_POWER" # `unitTarget`
+---|"UNIT_RESISTANCES" # `unitTarget`
+---|"UNIT_SPELLCAST_CHANNEL_START" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_CHANNEL_STOP" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_CHANNEL_UPDATE" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_DELAYED" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_EMPOWER_START" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_EMPOWER_STOP" # `unitTarget, castGUID, spellID, complete`
+---|"UNIT_SPELLCAST_EMPOWER_UPDATE" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_FAILED" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_FAILED_QUIET" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_INTERRUPTED" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_INTERRUPTIBLE" # `unitTarget`
+---|"UNIT_SPELLCAST_NOT_INTERRUPTIBLE" # `unitTarget`
+---|"UNIT_SPELLCAST_RETICLE_CLEAR" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_RETICLE_TARGET" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_SENT" # `unit, target, castGUID, spellID`
+---|"UNIT_SPELLCAST_START" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_STOP" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_SUCCEEDED" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELL_HASTE" # `unitTarget`
+---|"UNIT_STATS" # `unitTarget`
+---|"UNIT_TARGET" # `unitTarget`
+---|"UNIT_TARGETABLE_CHANGED" # `unitTarget`
+---|"UNIT_THREAT_LIST_UPDATE" # `unitTarget`
+---|"UNIT_THREAT_SITUATION_UPDATE" # `unitTarget`
+---|"UPDATE_ACTIVE_BATTLEFIELD"
+---|"UPDATE_ALL_UI_WIDGETS"
+---|"UPDATE_BATTLEFIELD_SCORE"
+---|"UPDATE_BATTLEFIELD_STATUS" # `battleFieldIndex`
+---|"UPDATE_BINDINGS"
+---|"UPDATE_BONUS_ACTIONBAR"
+---|"UPDATE_CHAT_COLOR" # `name, r, g, b`
+---|"UPDATE_CHAT_COLOR_NAME_BY_CLASS" # `name, colorNameByClass`
+---|"UPDATE_CHAT_WINDOWS"
+---|"UPDATE_EXHAUSTION"
+---|"UPDATE_EXTRA_ACTIONBAR"
+---|"UPDATE_FACTION"
+---|"UPDATE_FLOATING_CHAT_WINDOWS"
+---|"UPDATE_INSTANCE_INFO"
+---|"UPDATE_INVENTORY_ALERTS"
+---|"UPDATE_INVENTORY_DURABILITY"
+---|"UPDATE_LFG_LIST"
+---|"UPDATE_MACROS"
+---|"UPDATE_MASTER_LOOT_LIST"
+---|"UPDATE_MOUSEOVER_UNIT"
+---|"UPDATE_MULTI_CAST_ACTIONBAR"
+---|"UPDATE_OVERRIDE_ACTIONBAR"
+---|"UPDATE_PENDING_MAIL"
+---|"UPDATE_POSSESS_BAR"
+---|"UPDATE_SHAPESHIFT_COOLDOWN"
+---|"UPDATE_SHAPESHIFT_FORM"
+---|"UPDATE_SHAPESHIFT_FORMS"
+---|"UPDATE_SHAPESHIFT_USABLE"
+---|"UPDATE_SPELL_TARGET_ITEM_CONTEXT"
+---|"UPDATE_STEALTH"
+---|"UPDATE_SUMMONPETS_ACTION"
+---|"UPDATE_TRADESKILL_CAST_STOPPED" # `isScrapping`
+---|"UPDATE_UI_WIDGET" # `widgetInfo`
+---|"UPDATE_VEHICLE_ACTIONBAR"
+---|"UPDATE_WEB_TICKET" # `hasTicket, numTickets, ticketStatus, caseIndex, waitTimeMinutes, waitMessage, caseTitle, caseDescription`
+---|"USER_WAYPOINT_UPDATED"
+---|"USE_BIND_CONFIRM"
+---|"USE_COMBINED_BAGS_CHANGED" # `useCombinedBags`
+---|"USE_GLYPH" # `spellID`
+---|"USE_NO_REFUND_CONFIRM"
+---|"VARIABLES_LOADED"
+---|"VEHICLE_ANGLE_SHOW" # `shouldShow`
+---|"VEHICLE_ANGLE_UPDATE" # `normalizedPitch, radians`
+---|"VEHICLE_PASSENGERS_CHANGED"
+---|"VEHICLE_POWER_SHOW" # `shouldShow`
+---|"VEHICLE_UPDATE"
+---|"VIGNETTES_UPDATED"
+---|"VIGNETTE_MINIMAP_UPDATED" # `vignetteGUID, onMinimap`
+---|"VOICE_CHAT_ACTIVE_INPUT_DEVICE_UPDATED"
+---|"VOICE_CHAT_ACTIVE_OUTPUT_DEVICE_UPDATED"
+---|"VOICE_CHAT_AUDIO_CAPTURE_ENERGY" # `isSpeaking, energy`
+---|"VOICE_CHAT_AUDIO_CAPTURE_STARTED"
+---|"VOICE_CHAT_AUDIO_CAPTURE_STOPPED"
+---|"VOICE_CHAT_CHANNEL_ACTIVATED" # `channelID`
+---|"VOICE_CHAT_CHANNEL_DEACTIVATED" # `channelID`
+---|"VOICE_CHAT_CHANNEL_DISPLAY_NAME_CHANGED" # `channelID, channelDisplayName`
+---|"VOICE_CHAT_CHANNEL_JOINED" # `status, channelID, channelType, clubId, streamId`
+---|"VOICE_CHAT_CHANNEL_MEMBER_ACTIVE_STATE_CHANGED" # `memberID, channelID, isActive`
+---|"VOICE_CHAT_CHANNEL_MEMBER_ADDED" # `memberID, channelID`
+---|"VOICE_CHAT_CHANNEL_MEMBER_ENERGY_CHANGED" # `memberID, channelID, speakingEnergy`
+---|"VOICE_CHAT_CHANNEL_MEMBER_GUID_UPDATED" # `memberID, channelID`
+---|"VOICE_CHAT_CHANNEL_MEMBER_MUTE_FOR_ALL_CHANGED" # `memberID, channelID, isMutedForAll`
+---|"VOICE_CHAT_CHANNEL_MEMBER_MUTE_FOR_ME_CHANGED" # `memberID, channelID, isMutedForMe`
+---|"VOICE_CHAT_CHANNEL_MEMBER_REMOVED" # `memberID, channelID`
+---|"VOICE_CHAT_CHANNEL_MEMBER_SILENCED_CHANGED" # `memberID, channelID, isSilenced`
+---|"VOICE_CHAT_CHANNEL_MEMBER_SPEAKING_STATE_CHANGED" # `memberID, channelID, isSpeaking`
+---|"VOICE_CHAT_CHANNEL_MEMBER_STT_MESSAGE" # `memberID, channelID, message, language`
+---|"VOICE_CHAT_CHANNEL_MEMBER_VOLUME_CHANGED" # `memberID, channelID, volume`
+---|"VOICE_CHAT_CHANNEL_MUTE_STATE_CHANGED" # `channelID, isMuted`
+---|"VOICE_CHAT_CHANNEL_PTT_CHANGED" # `channelID, pushToTalkSetting`
+---|"VOICE_CHAT_CHANNEL_REMOVED" # `channelID`
+---|"VOICE_CHAT_CHANNEL_TRANSCRIBING_CHANGED" # `channelID, isTranscribing`
+---|"VOICE_CHAT_CHANNEL_TRANSMIT_CHANGED" # `channelID, isTransmitting`
+---|"VOICE_CHAT_CHANNEL_VOLUME_CHANGED" # `channelID, volume`
+---|"VOICE_CHAT_COMMUNICATION_MODE_CHANGED" # `communicationMode`
+---|"VOICE_CHAT_CONNECTION_SUCCESS"
+---|"VOICE_CHAT_DEAFENED_CHANGED" # `isDeafened`
+---|"VOICE_CHAT_ERROR" # `platformCode, statusCode`
+---|"VOICE_CHAT_INPUT_DEVICES_UPDATED"
+---|"VOICE_CHAT_LOGIN" # `status`
+---|"VOICE_CHAT_LOGOUT" # `status`
+---|"VOICE_CHAT_MUTED_CHANGED" # `isMuted`
+---|"VOICE_CHAT_OUTPUT_DEVICES_UPDATED"
+---|"VOICE_CHAT_PENDING_CHANNEL_JOIN_STATE" # `channelType, clubId, streamId, pendingJoin`
+---|"VOICE_CHAT_PTT_BUTTON_PRESSED_STATE_CHANGED" # `isPressed`
+---|"VOICE_CHAT_SILENCED_CHANGED" # `isSilenced`
+---|"VOICE_CHAT_SPEAK_FOR_ME_ACTIVE_STATUS_UPDATED"
+---|"VOICE_CHAT_SPEAK_FOR_ME_FEATURE_STATUS_UPDATED"
+---|"VOICE_CHAT_TTS_PLAYBACK_FAILED" # `status, utteranceID, destination`
+---|"VOICE_CHAT_TTS_PLAYBACK_FINISHED" # `numConsumers, utteranceID, destination`
+---|"VOICE_CHAT_TTS_PLAYBACK_STARTED" # `numConsumers, utteranceID, durationMS, destination`
+---|"VOICE_CHAT_TTS_SPEAK_TEXT_UPDATE" # `status, utteranceID`
+---|"VOICE_CHAT_TTS_VOICES_UPDATE"
+---|"VOICE_CHAT_VAD_SETTINGS_UPDATED"
+---|"VOTE_KICK_REASON_NEEDED" # `name, resultGUID`
+---|"WALK_IN_DATA_UPDATE"
+---|"WARBAND_SCENE_FAVORITES_UPDATED"
+---|"WARFRONT_COMPLETED" # `mapID, winner`
+---|"WARGAME_INVITE_SENT"
+---|"WARGAME_REQUESTED" # `opposingPartyMemberName, battlegroundName, timeoutSeconds, tournamentRules`
+---|"WARGAME_REQUEST_RESPONSE" # `responderGUID, responderName, accepted`
+---|"WAR_MODE_STATUS_UPDATE" # `warModeEnabled`
+---|"WAYPOINT_UPDATE"
+---|"WEAPON_ENCHANT_CHANGED"
+---|"WEAPON_SLOT_CHANGED"
+---|"WEEKLY_REWARDS_ITEM_CHANGED"
+---|"WEEKLY_REWARDS_UPDATE"
+---|"WHO_LIST_UPDATE"
+---|"WORLD_CURSOR_TOOLTIP_UPDATE" # `anchorType`
+---|"WORLD_LOOT_OBJECT_INFO_UPDATED" # `guid`
+---|"WORLD_MAP_OPEN" # `uiMapID`
+---|"WORLD_PVP_QUEUE"
+---|"WORLD_QUEST_COMPLETED_BY_SPELL" # `questID`
+---|"WORLD_STATE_TIMER_START" # `timerID`
+---|"WORLD_STATE_TIMER_STOP" # `timerID`
+---|"WOW_MOUSE_NOT_FOUND"
+---|"ZONE_CHANGED"
+---|"ZONE_CHANGED_INDOORS"
+---|"ZONE_CHANGED_NEW_AREA"

@@ -36749,4 +36749,10 @@ l10n.itemLookup["esMX"] = loadstring([[return {
 [54847] = "Mini XT",
 [54860] = "Cohete de paseo X-53",
 [56806] = "Mini thor",
+[190181] = "Corazón de los amantes",
+[190186] = "Figurilla de madera",
+[190187] = "Bufanda desgastada",
+[190307] = "Antorcha apagada",
+[190308] = "Antorcha ardiente",
+[190309] = "Figurilla de madera",
 }]])

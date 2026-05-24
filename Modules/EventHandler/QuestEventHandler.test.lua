@@ -92,6 +92,7 @@ describe("QuestEventHandler", function()
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
         QuestieTracker.Update = spy.new(function() end)
 
+        _G.GetTime = function() return 1000 end
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
@@ -103,9 +104,10 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieQuest.AcceptQuest).was_not_called()
         assert.spy(QuestieTracker.Update).was_not_called()
 
-        QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
+        QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
         callbacks[1]()
 
+        _G.GetTime = function() return 1010 end
         QuestEventHandler.QuestLogUpdate()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})

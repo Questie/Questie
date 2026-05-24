@@ -1,3 +1,5 @@
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -28,10 +30,10 @@ local dungeonLocales = {
     },
     ["Blackrock Spire"] = {
         ["enUS"] = true,
-        ["deDE"] = "Blackrockspitze",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Blackrockspitze") or "Schwarzfelsspitze",
         ["esES"] = "Cumbre de Roca Negra",
         ["esMX"] = "Cumbre de Roca Negra",
-        ["frFR"] = "Pic Rochenoire",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Pic Blackrock") or "Pic Rochenoire",
         ["koKR"] = "검은바위 첨탑",
         ["ptBR"] = "Pico da Rocha Negra",
         ["ruRU"] = "Вершина Черной Горы",
@@ -40,10 +42,10 @@ local dungeonLocales = {
     },
     ["Upper Blackrock Spire"] = {
         ["enUS"] = true,
-        ["deDE"] = "Obere Schwarzfelsspitze",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Obere Blackrockspitze") or "Obere Schwarzfelsspitze",
         ["esES"] = "Cumbre de Roca Negra Superior",
         ["esMX"] = "Cumbre de Roca Negra Superior",
-        ["frFR"] = "Sommet du pic Rochenoire",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Sommet du pic Blackrock") or "Sommet du pic Rochenoire",
         ["koKR"] = "검은바위 첨탑 상층",
         ["ptBR"] = "Pico da Rocha Negra Superior",
         ["ruRU"] = "Верхняя часть пика Черной горы",
@@ -52,10 +54,10 @@ local dungeonLocales = {
     },
     ["Lower Blackrock Spire"] = {
         ["enUS"] = true,
-        ["deDE"] = "Untere Schwarzfelsspitze",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Untere Blackrockspitze") or "Untere Schwarzfelsspitze",
         ["esES"] = "Cumbre de Roca Negra Inferior",
         ["esMX"] = "Cumbre de Roca Negra Inferior",
-        ["frFR"] = "Bas du pic Rochenoire",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Bas du pic Blackrock") or "Bas du pic Rochenoire",
         ["koKR"] = "검은바위 첨탑 하층",
         ["ptBR"] = "Pico da Rocha Negra Inferior",
         ["ruRU"] = "Нижняя часть пика Черной горы",
@@ -232,7 +234,7 @@ local dungeonLocales = {
     },
     ["Razorfen Downs"] = {
         ["enUS"] = true,
-        ["deDE"] = "Die Hügel von Razorfen",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Die Hügel von Razorfen") or "Hügel der Klingenhauer",
         ["esES"] = "Zahúrda Rajacieno",
         ["esMX"] = "Zahúrda Rajacieno",
         ["frFR"] = "Souilles de Tranchebauge",
@@ -256,7 +258,7 @@ local dungeonLocales = {
     },
     ["Ragefire Chasm"] = {
         ["enUS"] = true,
-        ["deDE"] = "Flammenschlund",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Ragefireabgrund") or "Der Flammenschlund",
         ["esES"] = "Sima Ígnea",
         ["esMX"] = "Sima Ígnea",
         ["frFR"] = "Gouffre de Ragefeu",
@@ -280,7 +282,7 @@ local dungeonLocales = {
     },
     ["Blackfathom Deeps"] = {
         ["enUS"] = true,
-        ["deDE"] = "Tiefschwarze Grotte",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Blackfathom-Tiefe") or "Tiefschwarze Grotte",
         ["esES"] = "Cavernas de Brazanegra",
         ["esMX"] = "Cavernas de Brazanegra",
         ["frFR"] = "Profondeurs de Brassenoire",
@@ -340,7 +342,7 @@ local dungeonLocales = {
     },
     ["Shadowfang Keep"] = {
         ["enUS"] = true,
-        ["deDE"] = "Burg Shadowfang",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Burg Shadowfang") or "Burg Schattenfang",
         ["esES"] = "Castillo de Colmillo Oscuro",
         ["esMX"] = "Castillo de Colmillo Oscuro",
         ["frFR"] = "Donjon d'Ombrecroc",
@@ -364,7 +366,7 @@ local dungeonLocales = {
     },
     ["Razorfen Kraul"] = {
         ["enUS"] = true,
-        ["deDE"] = "Der Kral von Razorfen",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Der Kral von Razorfen") or "Kral der Klingenhauer",
         ["esES"] = "Horado Rajacieno",
         ["esMX"] = "Horado Rajacieno",
         ["frFR"] = "Kraal de Tranchebauge",
@@ -448,10 +450,10 @@ local dungeonLocales = {
     },
     ["Blackrock Depths"] = {
         ["enUS"] = true,
-        ["deDE"] = "Schwarzfelstiefen",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Blackrocktiefen") or "Schwarzfelstiefen",
         ["esES"] = "Profundidades de Roca Negra",
         ["esMX"] = "Profundidades de Roca Negra",
-        ["frFR"] = "Profondeurs de Rochenoire",
+        ["frFR"] = (Expansions.Current == Expansions.Era and "Profondeurs de Blackrock") or "Profondeurs de Rochenoire",
         ["koKR"] = "검은바위 나락",
         ["ptBR"] = "Abismo Rocha Negra",
         ["ruRU"] = "Глубины Черной Горы",

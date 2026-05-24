@@ -1168,6 +1168,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [13965] = "Porte de l'usine",
 [15068] = "Feu de camp",
 [15069] = "Feu de joie",
+[15885] = "Sanctuaire de Remulos",
 [16393] = "Flamme antique",
 [16394] = "Flamme antique",
 [16395] = "Flamme de sceau détruit",
@@ -19789,4 +19790,5 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [209348] = "Fournitures des flammes infernales",
 [210216] = "Débris d’épave",
 [375544] = "Figurine en bois",
+[400001] = "Torche éteinte",
 }]])

@@ -311,4 +311,107 @@ describe("QuestieLib", function()
             assert.is_false(result)
         end)
     end)
+
+    describe("FormatDate", function()
+        it("should format date for enUS", function()
+            l10n.GetUILocale = function() return "enUS" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"January","February","March","April","May","June","July","August","September","October","November","December"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Wednesday, February 18, 2026 at 19:35", formattedDate)
+        end)
+
+        it("should format date for deDE", function()
+            l10n.GetUILocale = function() return "deDE" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Mittwoch, 18. Februar 2026 um 19:35", formattedDate)
+        end)
+
+        it("should format date for esES", function()
+            l10n.GetUILocale = function() return "esES" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Miércoles, 18 de Febrero de 2026 a las 19:35", formattedDate)
+        end)
+
+        it("should format date for esMX", function()
+            l10n.GetUILocale = function() return "esMX" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Miércoles, 18 de Febrero de 2026 a las 19:35", formattedDate)
+        end)
+
+        it("should format date for frFR", function()
+            l10n.GetUILocale = function() return "frFR" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Mercredi 18 Février 2026 à 19:35", formattedDate)
+        end)
+
+        it("should format date for koKR", function()
+            l10n.GetUILocale = function() return "koKR" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"일요일","월요일","화요일","수요일","목요일","금요일","토요일"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("2026년 2월 18일 수요일 19:35", formattedDate)
+        end)
+
+        it("should format date for ptBR", function()
+            l10n.GetUILocale = function() return "ptBR" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            -- Match the exact output produced by the current formatter (keeps same assert style as other locale tests)
+            assert.are_same("Quarta-feira, 18 de Fevereiro de 2026 às 19:35", formattedDate)
+        end)
+
+        it("should format date for ruRU", function()
+            l10n.GetUILocale = function() return "ruRU" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Среда, 18 февраля 2026, 19:35", formattedDate)
+        end)
+
+        it("should format date for zhCN", function()
+            l10n.GetUILocale = function() return "zhCN" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("2026年2月18日 星期三 19:35", formattedDate)
+        end)
+
+        it("should format date for zhTW", function()
+            l10n.GetUILocale = function() return "zhTW" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("2026年2月18日 星期三 19:35", formattedDate)
+        end)
+    end)
 end)

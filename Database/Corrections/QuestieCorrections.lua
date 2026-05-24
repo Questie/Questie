@@ -142,6 +142,16 @@ do
             addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
+            -- TitanReforged Corrections
+            if Questie.IsTitanReforged then
+                addOverride(QuestieDB.questDataOverrides, QuestieWotlkQuestFixes:LoadTitanReforgedFixes())
+                addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadTitanReforgedFixes())
+                -- TO DO: improve this
+                -- this must be behind locale check to prevent empty table return error
+                if GetLocale() == "zhCN" then
+                    addOverride(QuestieDB.questDataOverrides, Questie.LoadTitanQuestLookupOverrides())
+                end
+            end
         end
 
         -- CATA Corrections
@@ -185,6 +195,15 @@ do
                 -- This has to be a nil-check, because the value could be false
                 if (QuestieCorrections.hiddenQuests[id] == nil) then
                     QuestieCorrections.hiddenQuests[id] = hide
+                end
+            end
+            -- Also do TitanReforged blacklists
+            if Questie.IsTitanReforged then
+                for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()) do
+                    -- This has to be a nil-check, because the value could be false
+                    if (QuestieCorrections.hiddenQuests[id] == nil) then
+                        QuestieCorrections.hiddenQuests[id] = hide
+                    end
                 end
             end
         end
@@ -234,7 +253,8 @@ function QuestieCorrections:Initialize(validationTables)
     QuestieQuestFixes:LoadMissingQuests()
 
     -- Classic Corrections
-    if Expansions.Current < Expansions.Cata then
+    if Questie.IsClassic then
+        -- This data is only correct for Era/SoX, for the other expansions we trust the base DB
         _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
     end
     _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)

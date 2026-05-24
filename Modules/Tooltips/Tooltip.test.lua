@@ -23,6 +23,9 @@ describe("Tooltip", function()
 
     before_each(function()
         Questie.db.profile = {}
+            _G.IsInInstance = spy.new(function()
+                return false, nil
+            end)
 
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.GetQuest = spy.new(function(questId)
@@ -216,6 +219,30 @@ describe("Tooltip", function()
             assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
+        end)
+
+        it("should return quest name and objective description when player is in a dungeon", function()
+            _G.IsInInstance = spy.new(function()
+                return true, "Dungeon"
+            end)
+            QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
+                questId = 1,
+                objective = {
+                    Index = 1,
+                    Description = "do it",
+                    Update = function() end,
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+            QuestieDB.QueryObjectSingle = spy.new(function()
+                return {[440]={{10,10}}}
+            end)
+            local playerZone = 440
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
+
+            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.are.same({"Quest Name", "   golddo it"}, tooltip)
         end)
 
         it("should only return quest name when tooltip has completed objective and showQuestsInNpcTooltip is true", function()

@@ -11,7 +11,7 @@ local trackerUILocales = {
         ["koKR"] = "활성 퀘스트",
         ["ptBR"] = "Rastreador de Questie",
         ["ruRU"] = "Активные задания",
-        ["zhCN"] = "当前任务",
+        ["zhCN"] = "Questie追踪器",
         ["zhTW"] = "任務",
     },
     ---------------------------------------------------------
@@ -25,7 +25,7 @@ local trackerUILocales = {
         ["koKR"] = "사이저 모드",
         ["ptBR"] = "Modo de medição",
         ["ruRU"] = "Режим сайзера",
-        ["zhCN"] = "分级器模式",
+        ["zhCN"] = "缩放模式",
         ["zhTW"] = "調整模式",
     },
     ["Resize Tracker"] = {
@@ -37,7 +37,7 @@ local trackerUILocales = {
         ["koKR"] = "트래커 크기 조정",
         ["ptBR"] = "Redimensionar rastreador",
         ["ruRU"] = "Изменить размера трекера",
-        ["zhCN"] = "调整跟踪器",
+        ["zhCN"] = "调整追踪器",
         ["zhTW"] = "調整任務清單大小",
     },
     ["Reset Sizer"] = {
@@ -46,10 +46,10 @@ local trackerUILocales = {
         ["esES"] = "Restablecer medidor",
         ["esMX"] = "Restablecer medidor",
         ["frFR"] = "Réinitialiser le calibreur",
-        ["koKR"] = "Sizer 재설정",
+        ["koKR"] = "사이저 재설정",
         ["ptBR"] = "Redefinir medidor",
         ["ruRU"] = "Сбросить сайзер",
-        ["zhCN"] = "重置 Sizer",
+        ["zhCN"] = "重置大小",
         ["zhTW"] = "重置大小",
     },
     ["NOTE"] = {
@@ -61,8 +61,8 @@ local trackerUILocales = {
         ["koKR"] = "메모",
         ["ptBR"] = "NOTA",
         ["ruRU"] = "ПРИМЕЧАНИЕ",
-        ["zhCN"] = "笔记",
-        ["zhTW"] = "筆記",
+        ["zhCN"] = "注意",
+        ["zhTW"] = "注意",
     },
     ["The Tracker Height Ratio\nis ignored while in Manual mode"] = {
         ["enUS"] = true,
@@ -73,7 +73,7 @@ local trackerUILocales = {
         ["koKR"] = "수동 모드에서는 추적기 높이 비율이 무시됩니다.",
         ["ptBR"] = "A relação de altura do\nrastreador é ignorada no modo manual",
         ["ruRU"] = "Соотношение высоты трекера игнорируется в ручном режиме",
-        ["zhCN"] = "在手動模式下忽略跟踪器高度比",
+        ["zhCN"] = "在手动模式下忽略追踪器高度比例",
         ["zhTW"] = "手動模式下忽略任務清單的高度比例",
     },
     ---------------------------------------------------------
@@ -124,7 +124,7 @@ local trackerUILocales = {
         ["koKR"] = "통합 퀘스티 추적기",
         ["ptBR"] = "Integrações do rastreador",
         ["ruRU"] = "Интеграции трекера",
-        ["zhCN"] = "Questie 追踪器集成",
+        ["zhCN"] = "Questie追踪器集成",
         ["zhTW"] = "整合插件",
     },
     -- VoiceOver Integration
@@ -237,7 +237,7 @@ local trackerUILocales = {
         ["koKR"] = "아이콘 가리기",
         ["ptBR"] = "Ocultar ícones",
         ["ruRU"] = "Скрыть значки",
-        ["zhCN"] = "隐藏标记",
+        ["zhCN"] = "隐藏图标",
         ["zhTW"] = "隱藏圖示",
     },
     ["Show Icons"] = {
@@ -249,7 +249,7 @@ local trackerUILocales = {
         ["koKR"] = "아이콘 표시",
         ["ptBR"] = "Mostrar ícones",
         ["ruRU"] = "Показать значки",
-        ["zhCN"] = "显示标记",
+        ["zhCN"] = "显示图标",
         ["zhTW"] = "顯示圖示",
     },
     ["Show on Map"] = {
@@ -261,7 +261,7 @@ local trackerUILocales = {
         ["koKR"] = "지도에 표시",
         ["ptBR"] = "Mostrar no mapa",
         ["ruRU"] = "Показать на карте",
-        ["zhCN"] = "地图上显示",
+        ["zhCN"] = "在地图上显示",
         ["zhTW"] = "在地圖上顯示",
     },
     ["Show in Quest Log"] = {
@@ -297,7 +297,7 @@ local trackerUILocales = {
         ["koKR"] = "채팅창에 퀘스트 링크",
         ["ptBR"] = "Enviar missão para o chat",
         ["ruRU"] = "Ссылка на задание в чат",
-        ["zhCN"] = "将任务连接到聊天框",
+        ["zhCN"] = "将任务链接到聊天框",
         ["zhTW"] = "將任務貼到對話視窗",
     },
     ["Link Achievement to chat"] = {
@@ -309,7 +309,7 @@ local trackerUILocales = {
         ["koKR"] = "업적을 채팅에 연결",
         ["ptBR"] = "Conquista de link para bate-papo",
         ["ruRU"] = "Ссылка на достижение в чат",
-        ["zhCN"] = "将成就链接到聊天",
+        ["zhCN"] = "将成就链接到聊天框",
         ["zhTW"] = "將成就貼到對話視窗",
     },
     ["Untrack Quest"] = {
@@ -321,7 +321,7 @@ local trackerUILocales = {
         ["koKR"] = "퀘스트 추적해제",
         ["ptBR"] = "Não rastrear a missão",
         ["ruRU"] = "Не отслеживать задание",
-        ["zhCN"] = "停止追踪",
+        ["zhCN"] = "停止追踪任务",
         ["zhTW"] = "取消追蹤任務",
     },
     ["Untrack Achievement"] = {
@@ -333,7 +333,7 @@ local trackerUILocales = {
         ["koKR"] = "업적 추적 해제",
         ["ptBR"] = "Descompactar conquista",
         ["ruRU"] = "Не отслеживать достижение",
-        ["zhCN"] = "取消跟踪成就",
+        ["zhCN"] = "取消追踪成就",
         ["zhTW"] = "取消追蹤成就",
     },
     ["Abandon Quest"] = {
@@ -372,7 +372,7 @@ local trackerUILocales = {
         ["koKR"] = "추적기 잠금해제",
         ["ptBR"] = "Desbloquear rastreador",
         ["ruRU"] = "Разблокировать трекер",
-        ["zhCN"] = "解锁框体",
+        ["zhCN"] = "解锁追踪器",
         ["zhTW"] = "解鎖任務清單",
     },
     ---------------------------------------------------------
@@ -394,9 +394,9 @@ local trackerUILocales = {
         ["deDE"] = "Quest fehlgeschlagen!",
         ["esES"] = "¡Misión fracasada!",
         ["esMX"] = "¡Misión fracasada!",
-        ["frFR"] = "Quête échouée !",
+        ["frFR"] = "Quête échec !",
         ["koKR"] = "퀘스트 실패",
-        ["ptBR"] = "Missão falhou!",
+        ["ptBR"] = "Missão fracassada!",
         ["ruRU"] = "Задание провалено!",
         ["zhCN"] = "任务失败！",
         ["zhTW"] = "任務失敗！",
@@ -410,8 +410,8 @@ local trackerUILocales = {
         ["koKR"] = "전투 중에는 퀘스트 목록을 열 수 없습니다. 수동으로 열어주세요.",
         ["ptBR"] = "Não é possível abrir o registro de missões durante o combate. Abra-o manualmente.",
         ["ruRU"] = "Невозможно автоматически открыть журнал заданий, находясь в бою. Откройте его вручную.",
-        ["zhCN"] = "战斗中无法打开任务日志，需要手动打开.",
-        ["zhTW"] = "戰鬥中無法打開任務日誌。",
+        ["zhCN"] = "战斗中无法打开任务日志，需要手动打开",
+        ["zhTW"] = "戰鬥中無法打開任務日誌",
     },
     ["Maximize Quest"] = {
         ["enUS"] = true,
@@ -446,7 +446,7 @@ local trackerUILocales = {
         ["koKR"] = "퀘스트 (%% 완료 기준 역순)",
         ["ptBR"] = "Missões (Por %% completo invertido)",
         ["ruRU"] = "Задания (По %% выполнения убыв.)",
-        ["zhCN"] = "任务 (按完成度 %%反向）",
+        ["zhCN"] = "任务（按完成度 %% 反向）",
         ["zhTW"] = "任務 (依完成度 %% 反向)",
     },
     ["Quests (By Level)"] = {
@@ -494,8 +494,8 @@ local trackerUILocales = {
         ["koKR"] = "퀘스트 (가까운 역순)",
         ["ptBR"] = "Missões (Por proximidade invertida)",
         ["ruRU"] = "Задания (По близости убыв.)",
-        ["zhCN"] = "任务（按远近反向）",
-        ["zhTW"] = "任務 (依遠近 (反向)",
+        ["zhCN"] = "任务（按远近 反向）",
+        ["zhTW"] = "任務 (依遠近 反向)",
     },
     ["Blizzard Timer Active!"] = {
         ["enUS"] = true,

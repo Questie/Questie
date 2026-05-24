@@ -46,7 +46,7 @@ function TrackerQuestTimers:HideBlizzardTimer()
 end
 
 function TrackerQuestTimers:ShowBlizzardTimer()
-    if QuestTimerFrame then
+    if QuestTimerFrame and timer then
         QuestTimerFrame:Show()
     end
 end
@@ -124,6 +124,10 @@ function TrackerQuestTimers:UpdateTimerFrame()
             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
 
             QuestieCombatQueue:Queue(function()
+                if (not timer) then
+                    -- timer might be reset on next combat queue
+                    return
+                end
                 timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
                 timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
                 timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.profile.trackerFontSizeQuest)) + Questie.db.profile.trackerFontSizeQuest)

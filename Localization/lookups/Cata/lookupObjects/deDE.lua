@@ -1168,6 +1168,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [13965] = "Fabriktür",
 [15068] = "Lagerfeuer",
 [15069] = "Freudenfeuer",
+[15885] = "Schrein von Remulos",
 [16393] = "Uralte Flamme",
 [16394] = "Uralte Flamme",
 [16395] = "Siegel Zerstörte Flamme",
@@ -19838,4 +19839,5 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [209348] = "Vorräte der Höllenfeuerhalbinsel",
 [210216] = "Schiffswracktrümmer",
 [375544] = "Holzstatuette",
+[400001] = "Nicht angezündete Fackel",
 }]])

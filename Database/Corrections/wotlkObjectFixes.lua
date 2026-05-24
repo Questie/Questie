@@ -14,11 +14,11 @@ function QuestieWotlkObjectFixes:Load()
         [269] = { -- Guarded Thunder Ale Barrel
             [objectKeys.questStarts] = {403},
         },
+        [140911] = { -- Spool of Light Chartreuse Silk Thread
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{50.58,60.14}}},
+        },
         [141980] = { -- Spectral Lockbox
             [objectKeys.questEnds] = {2701},
-        },
-        [156561] = { -- Wanted Poster
-            [objectKeys.questStarts] = {176},
         },
         [176213] = {
             [objectKeys.spawns] = {
@@ -156,6 +156,12 @@ function QuestieWotlkObjectFixes:Load()
         },
         [190354] = {
             [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{54.45,31.44}}},
+        },
+        [190483] = { -- Document Chest
+            [objectKeys.name] = "Document Chest #2",
+        },
+        [190484] = { -- Document Chest
+            [objectKeys.name] = "Document Chest #3",
         },
         [190510] = {
             [objectKeys.spawns] = {[65]={{55.39,10.45},{55.01,10.65},{51.22,20.0},{51.56,19.98},{50.01,16.49},{50.0,17.04},{53.1,17.57},{52.68,17.74},{50.9,15.47},{50.66,15.91},{51.34,15.14},{51.61,15.13},{54.63,12.28},{54.43,12.06},{53.61,10.84}}},
@@ -756,7 +762,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ICECROWN]={{53.77,33.60}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN,
         },
-        -- TODO: Reuse 400002 - 420032
+        -- TODO: Reuse 420002 - 420032
         [420033] = {
             [objectKeys.name] = "Drakuru's Brazier",
             [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{17.42,36.36}}}, -- Zeb'Halak
@@ -814,23 +820,23 @@ function QuestieWotlkObjectFixes:Load()
         },
         [420044] = {
             [objectKeys.name] = "Spend 5 Talent Points",
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
-            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [420045] = {
             [objectKeys.name] = "Open the Survival Kit",
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
-            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [420046] = {
             [objectKeys.name] = "Equip a Weapon",
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
-            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [420047] = {
             [objectKeys.name] = "Train a Spell at your class trainer",
-            [objectKeys.spawns] = {[zoneIDs.ACHERUS_THE_EBON_HOLD]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
-            [objectKeys.zoneID] = zoneIDs.ACHERUS_THE_EBON_HOLD,
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{80.29,48.02},{80.91,43.78},{83.74,44.58}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [420048] = {
             [objectKeys.name] = "Scourge Enclosure",
@@ -860,6 +866,16 @@ function QuestieWotlkObjectFixes:LoadFactionFixes()
     }
 
     local objectFixesAlliance = {
+        [103574] = { -- Filled Containment Coffer
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{51.32,92.34},{50.83,92.63},{51.61,94.5},{51.21,95.73},{50.99,95.58},{51.3,93.34}}},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [105174] = { -- Chest of Containment Coffers
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{49.45,85.48},{49.51,85.6},{49.5,85.55},{49.56,85.58}}},
+        },
+        [105175] = { -- Cantation of Manifestation
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{49.64,85.44},{49.6,85.36},{49.61,85.42}}},
+        },
         [186189] = { -- Complimentary Brewfest Sampler
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{46.92,40.66},{46.92,40.69},{46.94,40.65},{47.06,40.06},{47.07,40.08},{47.56,39.68},{47.56,39.66},{47.68,39.65},{47.57,39.66},{47.67,39.66},{47.69,39.66},{47.58,39.69},{47.68,39.67},{47.58,39.67},{47.67,39.65},{48.2,39.01},{48.18,39.03},{47.57,39.66},{48.2,39.05},{47.58,39.69},{47.58,39.67},{47.69,39.66},{47.56,39.66},{48.2,39.05},{47.68,39.67},{48.2,39.03},{47.58,39.69},{48.58,39.91},{48.56,39.92},{48.57,39.91},{49.41,38.44},{49.39,38.45},{48.51,38.24},{48.53,38.24},{49.14,39.69},{49.41,38.47},{49.14,39.72},{49.16,39.68},{48.78,38.19},{48.79,38.16},{48.77,38.16},{49.4,38.48},{49.17,39.71},{48.79,38.18},{48.55,38.25},{47.68,39.67},{48.57,39.91},{46.94,40.65},{48.2,39.03},{48.77,38.16},{48.18,39.03},{48.2,39.05},{48.21,39.04},{49.4,38.48},{48.18,39.03},{47.58,39.69},{48.2,39.03},{47.58,39.67},{47.56,39.68},{48.2,39.05},{48.21,39.04},{49.16,39.68},{52.65,35.28},{52.63,35.29}}},
         },

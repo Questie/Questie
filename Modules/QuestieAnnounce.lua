@@ -14,6 +14,57 @@ local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
+-- === Below code borrowed from ShutUp to implement Questie logo swapping for chat messages ===
+
+-- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter/RemoveMessageEventFilter instead of ChatFrame_AddMessageEventFilter/RemoveMessageEventFilter
+local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
+local ChatFrameRemoveMessageEventFilter = ChatFrameUtil and ChatFrameUtil.RemoveMessageEventFilter or ChatFrame_RemoveMessageEventFilter
+
+-- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
+local function SafeAddMessageEventFilter(event, filter)
+    local success, err = pcall(function()
+        ChatFrameAddMessageEventFilter(event, filter)
+    end)
+    if not success then
+        -- If ChatFrameUtil isn't ready yet, retry after a short delay
+        if err and string.find(err, "CreateSecureFiltersArray") then
+            C_Timer.After(0.1, function()
+                SafeAddMessageEventFilter(event, filter)
+            end)
+        else
+            Questie:Error("Failed to register chat filter for", event, ":", err)
+        end
+    end
+end
+
+local pattern = ""
+local patternRU = ""
+
+function QuestieAnnounce.LogoFilter(self, event, msg, author, ...)
+    if msg:find(pattern) then
+        return false, gsub(msg, pattern, "|TInterface\\Addons\\Questie\\Icons\\questie.png:0|t"), author, ...
+    end
+    -- Adding this check for messages sent by ruRU clients where {rt1} doesnt work (thanks Blizz)
+    -- We want those to also be replaced with our Questie icon
+    if msg:find(patternRU) then
+        return false, gsub(msg, patternRU, "|TInterface\\Addons\\Questie\\Icons\\questie.png:0|t"), author, ...
+    end
+end
+
+function QuestieAnnounce:InitializeLogoFilter()
+    pattern = "{rt1}" .. " Questie%s?:"
+     -- ruRU clients don't have {rt1} so we also want to filter these
+    patternRU = "{звезда}" .. " Questie%s?:"
+    SafeAddMessageEventFilter("CHAT_MSG_PARTY", QuestieAnnounce.LogoFilter)
+    SafeAddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieAnnounce.LogoFilter)
+    SafeAddMessageEventFilter("CHAT_MSG_RAID", QuestieAnnounce.LogoFilter)
+    SafeAddMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestieAnnounce.LogoFilter)
+    SafeAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", QuestieAnnounce.LogoFilter)
+    SafeAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieAnnounce.LogoFilter)
+end
+
+-- === End logo swapping code block ===
+
 local _GetAnnounceMarker
 
 ---@return string
@@ -21,6 +72,7 @@ _GetAnnounceMarker = function()
     local locale = l10n:GetUILocale()
     if IsInRaid() or IsInGroup() then
         if locale == "ruRU" then
+            -- ruRU clients don't have {rt1} so we also want to filter these
             return "{звезда} Questie: ";
         elseif locale == "frFR" then
             return "{rt1} Questie : ";

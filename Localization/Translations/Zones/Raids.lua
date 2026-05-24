@@ -1,3 +1,5 @@
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -18,7 +20,7 @@ local raidLocales = {
     ["Blackwing Lair"] = {
         ["enUS"] = true,
         ["deDE"] = "Pechschwingenhort",
-        ["esES"] = "Guarida Alanegra",
+        ["esES"] = (Expansions.Current <= Expansions.Tbc and "Guarida Alanegra") or "Guarida de Alanegra",
         ["esMX"] = "Guarida de Alanegra",
         ["frFR"] = "Repaire de l'Aile noire",
         ["koKR"] = "검은날개 둥지",

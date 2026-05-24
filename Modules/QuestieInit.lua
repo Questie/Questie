@@ -59,6 +59,8 @@ local Hooks = QuestieLoader:ImportModule("Hooks")
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type Comms
+local Comms = QuestieLoader:ImportModule("Comms")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
@@ -99,31 +101,35 @@ local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+---@type DropDB
+local DropDB = QuestieLoader:ImportModule("DropDB")
+---@type QuestieAnnounce
+local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 
 local coYield = coroutine.yield
 
 local function loadFullDatabase()
-    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. "...")
+    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. l10n("..."))
 
     QuestieInit:LoadBaseDB()
 
-    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. "...")
+    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. l10n("..."))
 
     coYield()
     QuestieCorrections:Initialize()
 
-    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. "...")
+    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. l10n("..."))
     coYield()
     Townsfolk.Initialize()
 
-    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. "...")
+    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. l10n("..."))
     coYield()
     l10n:Initialize()
 
     coYield()
     QuestieDB.private:DeleteGatheringNodes()
 
-    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. "...")
+    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. l10n("..."))
     coYield()
     QuestieCorrections:PreCompile()
 end
@@ -178,7 +184,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     -- Check if the DB needs to be recompiled
     if (not dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= dbCompiledOnVersion) or (l10n:GetUILocale() ~= dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
-        print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
+        print("\124cFFAAEEFF" ..
+            l10n("Questie DB is updating — ") .. "\124r\124cFFFF6F22" .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
         dbCompiled = true
@@ -190,7 +197,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     local dbCompiledCount = Questie.IsSoD and Questie.db.global.sod.dbCompiledCount or Questie.db.global.dbCompiledCount
 
-    if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClass("player")) then
+    -- For townsfolkClass we use UnitClassBase so it works across locales
+    if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClassBase("player")) then
         Questie.db.char.townsfolkVersion = dbCompiledCount
         coYield()
         Townsfolk:BuildCharacterTownsfolk()
@@ -246,11 +254,16 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 3 start.")
 
     QuestieTooltips:Initialize()
+    DropDB:Initialize()
     TrackerQuestTimers:Initialize()
     if Expansions.Current >= Expansions.MoP then
         ChallengeModeTimer.Initialize()
     end
+
+    Comms.Initialize()
     QuestieComms:Initialize()
+
+    QuestieAnnounce:InitializeLogoFilter()
 
     coYield()
 
@@ -299,14 +312,16 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         Questie.db.profile.aqWarningPrintDate = dateToday
         C_Timer.After(2, function()
             print("|cffff0000-----------------------------|r")
-            Questie:Print("|cffff0000" .. l10n("The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!") .. "|r");
+            Questie:Print("|cffff0000" ..
+                l10n("The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the Icons settings of Questie!") .. "|r");
             print("|cffff0000-----------------------------|r")
         end)
     end
 
     if Questie.IsTBC and ContentPhases.activePhases.TBC == 5 and (not Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled) then
         C_Timer.After(2, function()
-            Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.", IsleOfQuelDanas.localizedPhaseNames[Questie.db.global.isleOfQuelDanasPhase]))
+            Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.",
+                IsleOfQuelDanas.localizedPhaseNames[Questie.db.global.isleOfQuelDanasPhase]))
         end)
     end
 

@@ -55,13 +55,12 @@ function l10n:Initialize()
             if data[1] then
                 QuestieDB.questData[id][QuestieDB.questKeys.name] = data[1]
             end
-            -- TODO add details text to questDB.lua (data[2])
-            if data[3] then
+            if data[2] then
                 -- needs to be saved as a table for tooltips to have lines
-                if type(data[3]) == "string" then
-                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[3]}
+                if type(data[2]) == "string" then
+                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[2]}
                 else
-                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[3]
+                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[2]
                 end
             end
         end
@@ -108,10 +107,10 @@ end
 _InitializeLocaleOverride = function()
     local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
     supportedLocals[overridingLocale] = true
-    l10n.itemLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.itemLookup end
-    l10n.questLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.questLookup end
-    l10n.npcNameLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.npcNameLookup end
-    l10n.objectLookup[overridingLocale] = function() return QUESTIE_LOCALES_OVERRIDE.objectLookup end
+    l10n.itemLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.itemLookup
+    l10n.questLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.questLookup
+    l10n.npcNameLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.npcNameLookup
+    l10n.objectLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.objectLookup
 
     for id, _ in pairs(l10n.translations) do
         if QUESTIE_LOCALES_OVERRIDE.translations[id] ~= nil then

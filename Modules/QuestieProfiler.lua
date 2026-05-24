@@ -334,7 +334,7 @@ function QuestieProfiler:CreateUI()
     button:SetWidth(80)
     button:SetHeight(24)
 
-    button:SetText("Reset")
+    button:SetText(RESET)
 
     button:SetNormalFontObject("GameFontNormal")
 
@@ -373,7 +373,7 @@ function QuestieProfiler:CreateUI()
     button:SetWidth(60)
     button:SetHeight(24)
 
-    button:SetText("Close")
+    button:SetText(CLOSE)
 
     button:SetNormalFontObject("GameFontNormal")
     button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))

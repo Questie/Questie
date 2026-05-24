@@ -19,7 +19,7 @@ local MAX_NUM_QUESTS = MAX_NUM_QUESTS
 local function determineAppropriateQuestIcon(questID, isActive)
     if questID == 0 then -- if we were fed a questID of 0, the ID bruteforce failed, abort
         if isActive == true then
-            return Questie.icons["complete"]
+            return Questie.icons["incomplete"]
         else
             return Questie.icons["available"]
         end
@@ -52,6 +52,7 @@ end
 
 -- 9.0.0 API GOSSIP
 local function updateGossipFrame()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 9.0-")
     local numAvailable = GetNumGossipAvailableQuests()
     local numActive = GetNumGossipActiveQuests()
     local availQuests = QuestieCompat.GetAvailableQuests()
@@ -86,9 +87,9 @@ end
 
 -- GREETING FRAMES (API independent)
 local function updateGreetingFrame()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Greeting frame.")
     local titleLines = {}
     local questIconTextures = {}
-    local questgiver = UnitGUID("npc")
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         if titleLine then
@@ -96,7 +97,7 @@ local function updateGreetingFrame()
             tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
         else
             Questie:Error("Frame error! Could not obtain Greeting's QuestTitleButton object. Please report this on Github or Discord!")
-            Questie:Error("Questgiver is: " .. questgiver)
+            Questie:Error("Questgiver is: " .. UnitGUID("npc"))
             Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
             return
         end
@@ -109,17 +110,31 @@ local function updateGreetingFrame()
             if (titleLine.isActive == 1) then
                 lineIcon:SetTexture(Questie.icons["incomplete"]) -- fallback icon in case any of the logic below fails
                 local title = GetActiveTitle(titleLine:GetID()) -- obtain plaintext name of quest
-                local questID = QuestieDB.GetQuestIDFromName(title, questgiver, false)
+                local questID = QuestieDB.GetQuestIDFromName(title, UnitGUID("npc"), false)
                 local icon = determineAppropriateQuestIcon(questID, true)
                 lineIcon:SetTexture(icon)
             else
                 lineIcon:SetTexture(Questie.icons["available"]) -- fallback icon in case any of the logic below fails
                 local title = GetAvailableTitle(titleLine:GetID())
-                local questID = QuestieDB.GetQuestIDFromName(title, questgiver, true)
+                local questID = QuestieDB.GetQuestIDFromName(title, UnitGUID("npc"), true)
                 local icon = determineAppropriateQuestIcon(questID, false)
                 lineIcon:SetTexture(icon)
             end
         end
+    end
+end
+
+-- This function is called for QUEST_LOG_UPDATE events.
+-- If that event fires, this function checks to see if a greeting dialog is currently open,
+-- and if so it runs our icon pass again. This is because the greeting dialog may open
+-- showing we've accepted a quest before Questie is even aware we're on it.
+-- This also fixes race conditions with server lag delaying events.
+function QuestgiverFrame.RecheckGreeting()
+    local activeTitle, _ = GetActiveTitle(1)
+    local availableTitle, _ = GetAvailableTitle(1)
+    if activeTitle or availableTitle then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Greeting Panel Refreshing. Active: " .. tostring(activeTitle) .. " Available: " .. tostring(availableTitle))
+        QuestgiverFrame.GreetingMark()
     end
 end
 
@@ -145,6 +160,7 @@ end
 if GossipAvailableQuestButtonMixin then
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
     function GossipAvailableQuestButtonMixin:Setup(...)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Updating GossipAvailableQuestButtonMixin frame 10.0+")
         oldAvailableSetup(self, ...)
         if (not Questie.started) then
             return
@@ -165,6 +181,7 @@ if GossipAvailableQuestButtonMixin then
 
     local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
     function GossipActiveQuestButtonMixin:Setup(...)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Updating GossipActiveQuestButtonMixin frame 10.0+")
         oldActiveSetup(self, ...)
         if (not Questie.started) then
             return

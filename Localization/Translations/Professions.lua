@@ -1,3 +1,5 @@
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -53,7 +55,7 @@ local professionLocals = {
     ["Leatherworking"] = {
         ["enUS"] = true,
         ["deDE"] = "Lederverarbeitung",
-        ["esES"] = "Peletería",
+        ["esES"] = (Expansions.Current == Expansions.Era and "Marroquinería") or "Peletería",
         ["esMX"] = "Peletería",
         ["frFR"] = "Travail du cuir",
         ["koKR"] = "가죽세공",
@@ -101,7 +103,7 @@ local professionLocals = {
     ["Herbalism"] = {
         ["enUS"] = true,
         ["deDE"] = "Kräuterkunde",
-        ["esES"] = "Herboristería",
+        ["esES"] = (Expansions.Current == Expansions.Era and "Botánica") or "Herboristería",
         ["esMX"] = "Herboristería",
         ["frFR"] = "Herboristerie",
         ["koKR"] = "약초채집",
@@ -173,7 +175,7 @@ local professionLocals = {
     ["Tailoring"] = {
         ["enUS"] = true,
         ["deDE"] = "Schneiderei",
-        ["esES"] = "Sastrería",
+        ["esES"] = (Expansions.Current == Expansions.Era and "Costura") or "Sastrería",
         ["esMX"] = "Sastrería",
         ["frFR"] = "Couture",
         ["koKR"] = "재봉술",

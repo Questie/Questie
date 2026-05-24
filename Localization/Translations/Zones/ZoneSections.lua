@@ -35,7 +35,7 @@ local zoneSectionLocales = {
         ["koKR"] = "이벤트들",
         ["ptBR"] = "Eventos",
         ["ruRU"] = "События",
-        ["zhCN"] = "事件",
+        ["zhCN"] = "节日",
         ["zhTW"] = "節慶",
     },
     ["Outland"] = {
@@ -181,6 +181,18 @@ local zoneSectionLocales = {
         ["ruRU"] = "Боевые питомцы",
         ["zhCN"] = "战斗宠物",
         ["zhTW"] = "戰寵",
+    },
+    ["Instance"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Instanz",
+        ["esES"] = "Estancia",
+        ["esMX"] = "Estancia",
+        ["frFR"] = true,
+        ["koKR"] = "인스턴스",
+        ["ptBR"] = "Instância",
+        ["ruRU"] = "Подземелье",
+        ["zhCN"] = "副本",
+        ["zhTW"] = "副本",
     },
 }
 

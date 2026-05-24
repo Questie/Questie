@@ -11,10 +11,12 @@ QuestieQuestBlacklist.HIDE_ON_MAP = HIDE_ON_MAP
 
 ---@return table<QuestId, boolean|string>
 function QuestieQuestBlacklist:Load()
-    local locale = GetLocale()
     local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
-        [2358] = true, -- See #921
+        [7487] = true, -- Duplicate of 7848
+        [7908] = true, -- Duplicate of 7810
+        [11072] = true, -- Duplicate of 11885
+        [2358] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Wotlk, -- available in TBC anniversary (!)
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
@@ -22,13 +24,12 @@ function QuestieQuestBlacklist:Load()
         [615] = true, -- Duplicate of 8553. See #2215
         [618] = true, -- Duplicate of 8554
         [934] = true, -- Duplicate of 7383. See #2386
-        --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
+        [236] = Expansions.Current < Expansions.Wotlk,
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = Expansions.Current ~= Expansions.Wotlk, -- Only implemented in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
-        [6066] = true, -- Not in the game - #1957
         [4601] = true, -- Duplicate of 2951
         [4602] = true, -- Duplicate of 2951
         [4603] = true, -- Duplicate of 2953
@@ -43,16 +44,17 @@ function QuestieQuestBlacklist:Load()
         [936] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Cata,
         [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
+        [5101] = true,
         [5805] = true,
         [5841] = true,
         [5842] = true,
         [5843] = true,
         [5844] = true,
         [5847] = true,
-        --Stray quests
-        [3861] = true, --CLUCK!
-        --World event quests
-        --Fetched from https://classic.wowhead.com/world-event-quests
+        -- Special quests
+        [3861] = HIDE_ON_MAP, -- CLUCK!
+        -- World event quests
+        -- Fetched from https://classic.wowhead.com/world-event-quests
         [7904] = true,
         [8571] = true,
         [7930] = true,
@@ -248,8 +250,7 @@ function QuestieQuestBlacklist:Load()
         [8857] = true,
         [8858] = true,
         [8859] = true,
-        --Rocknot's Ale instance quest shown in SG/BS at lvl 1
-        --[4295] = true,
+        [9030] = true,
         --mount exchange/replacement
         [7678] = true,
         [7677] = true,
@@ -262,11 +263,11 @@ function QuestieQuestBlacklist:Load()
         [7672] = true,
         [7676] = true,
         --fishing tournament
+        [8193] = HIDE_ON_MAP,
         [8194] = HIDE_ON_MAP,
         [8221] = HIDE_ON_MAP,
         [8224] = HIDE_ON_MAP,
         [8225] = HIDE_ON_MAP,
-        [8193] = HIDE_ON_MAP,
         [8228] = HIDE_ON_MAP,
         [8229] = HIDE_ON_MAP,
         --love is in the air
@@ -315,6 +316,7 @@ function QuestieQuestBlacklist:Load()
         [10966] = true,
         [10967] = true,
         [10968] = true,
+        [11116] = true,
         [11117] = true,
         [11431] = true,
         [11118] = true,
@@ -351,6 +353,7 @@ function QuestieQuestBlacklist:Load()
         [11450] = true,
         [11454] = true,
         [11528] = true,
+        [11558] = true,
         [11580] = true,
         [11581] = true,
         [11583] = true,
@@ -492,6 +495,7 @@ function QuestieQuestBlacklist:Load()
         [11926] = true,
         [11933] = true,
         [11935] = true,
+        [11937] = true,
         [11947] = true,
         [11948] = true,
         [11952] = true,
@@ -835,36 +839,36 @@ function QuestieQuestBlacklist:Load()
         -----------------------------------------------
 
         -- corrupted windblossom
-        [2523] = true,
-        [2878] = true,
-        [3363] = true,
-        [4113] = true,
-        [4114] = true,
-        [4116] = true,
-        [4118] = true,
-        [4401] = true,
-        [4464] = true,
-        [4465] = true,
-        [996] = true,
-        [998] = true,
-        [1514] = true,
-        [4115] = true,
-        [4221] = true,
-        [4222] = true,
-        [4343] = true,
-        [4403] = true,
-        [4466] = true,
-        [4467] = true,
-        [4117] = true,
-        [4443] = true,
-        [4444] = true,
-        [4445] = true,
-        [4446] = true,
-        [4461] = true,
-        [4119] = true,
-        [4447] = true,
-        [4448] = true,
-        [4462] = true,
+        [996] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [998] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [1514] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [2523] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [2878] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [3363] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4113] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4114] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4115] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4116] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4117] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4118] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4119] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4221] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4222] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4343] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4401] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4403] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4443] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4444] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4445] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4446] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4447] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4448] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4461] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4462] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4464] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4465] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4466] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
+        [4467] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
 
         -- Darkmoon Faire
         [7905] = true,
@@ -975,7 +979,7 @@ function QuestieQuestBlacklist:Load()
         [8614] = Expansions.Current >= Expansions.Tbc,
         [8615] = Expansions.Current >= Expansions.Tbc,
         [8616] = Expansions.Current >= Expansions.Tbc,
-        [8743] = true, -- Bang a Gong! (AQ40 opening quest)
+        [8743] = Expansions.Current >= Expansions.Tbc, -- Bang a Gong! (AQ40 opening quest)
         [8792] = Expansions.Current >= Expansions.Tbc,
         [8793] = Expansions.Current >= Expansions.Tbc,
         [8794] = Expansions.Current >= Expansions.Tbc,
@@ -986,36 +990,36 @@ function QuestieQuestBlacklist:Load()
         [10501] = Expansions.Current >= Expansions.Tbc,
 
         -- Classic Phase 6 Invasion quests
-        [9085] = true, -- Shadows of Doom
-        [9094] = true, -- Argent Dawn Gloves
-        [9153] = true, -- Under the Shadow
-        [9154] = true, -- Light's Hope Chapel
+        [9085] = Expansions.Current >= Expansions.Cata, -- Shadows of Doom
+        [9094] = Expansions.Current >= Expansions.Cata, -- Argent Dawn Gloves
+        [9153] = Expansions.Current >= Expansions.Cata, -- Under the Shadow
+        [9154] = Expansions.Current >= Expansions.Cata, -- Light's Hope Chapel
         [9247] = true, -- The Keeper's Call (Blizzard forgot to implement in Era and Anniversary)
-        [9260] = true, -- Investigate the Scourge of Stormwind
-        [9261] = true, -- Investigate the Scourge of Ironforge
-        [9262] = true, -- Investigate the Scourge of Darnassus
-        [9263] = true, -- Investigate the Scourge of Orgrimmar
-        [9264] = true, -- Investigate the Scourge of Thunder Bluff
-        [9265] = true, -- Investigate the Scourge of the Undercity
-        [9292] = true, -- Cracked Necrotic Crystal
-        [9295] = true, -- Letter from the Front
-        [9299] = true, -- Note from the Front
-        [9300] = true, -- Page from the Front
-        [9301] = true, -- Envelope from the Front
-        [9302] = true, -- Missive from the Front
-        [9304] = true, -- Document from the Front
-        [9310] = true, -- Faint Necrotic Crystal
-        [9317] = true, -- Consecrated Sharpening Stones
-        [9318] = true, -- Blessed Wizard Oil
-        [9320] = true, -- Major Mana Potion
-        [9321] = true, -- Major Healing Potion
-        [9333] = true, -- Argent Dawn Gloves
-        [9334] = true, -- Blessed Wizard Oil
-        [9335] = true, -- Consecrated Sharpening Stones
-        [9336] = true, -- Major Healing Potion
-        [9337] = true, -- Major Mana Potion
-        [9341] = true, -- Tabard of the Argent Dawn
-        [9343] = true, -- Tabard of the Argent Dawn
+        [9260] = Expansions.Current >= Expansions.Cata, -- Investigate the Scourge of Stormwind
+        [9261] = Expansions.Current >= Expansions.Cata, -- Investigate the Scourge of Ironforge
+        [9262] = Expansions.Current >= Expansions.Cata, -- Investigate the Scourge of Darnassus
+        [9263] = Expansions.Current >= Expansions.Cata, -- Investigate the Scourge of Orgrimmar
+        [9264] = Expansions.Current >= Expansions.Cata, -- Investigate the Scourge of Thunder Bluff
+        [9265] = Expansions.Current >= Expansions.Cata, -- Investigate the Scourge of the Undercity
+        [9292] = Expansions.Current >= Expansions.Cata, -- Cracked Necrotic Crystal
+        [9295] = Expansions.Current >= Expansions.Cata, -- Letter from the Front
+        [9299] = Expansions.Current >= Expansions.Cata, -- Note from the Front
+        [9300] = Expansions.Current >= Expansions.Cata, -- Page from the Front
+        [9301] = Expansions.Current >= Expansions.Cata, -- Envelope from the Front
+        [9302] = Expansions.Current >= Expansions.Cata, -- Missive from the Front
+        [9304] = Expansions.Current >= Expansions.Cata, -- Document from the Front
+        [9310] = Expansions.Current >= Expansions.Cata, -- Faint Necrotic Crystal
+        [9317] = Expansions.Current >= Expansions.Cata, -- Consecrated Sharpening Stones
+        [9318] = Expansions.Current >= Expansions.Cata, -- Blessed Wizard Oil
+        [9320] = Expansions.Current >= Expansions.Cata, -- Major Mana Potion
+        [9321] = Expansions.Current >= Expansions.Cata, -- Major Healing Potion
+        [9333] = Expansions.Current >= Expansions.Cata, -- Argent Dawn Gloves
+        [9334] = Expansions.Current >= Expansions.Cata, -- Blessed Wizard Oil
+        [9335] = Expansions.Current >= Expansions.Cata, -- Consecrated Sharpening Stones
+        [9336] = Expansions.Current >= Expansions.Cata, -- Major Healing Potion
+        [9337] = Expansions.Current >= Expansions.Cata, -- Major Mana Potion
+        [9341] = Expansions.Current >= Expansions.Cata, -- Tabard of the Argent Dawn
+        [9343] = Expansions.Current >= Expansions.Cata, -- Tabard of the Argent Dawn
 
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
@@ -1151,12 +1155,12 @@ function QuestieQuestBlacklist:Load()
         [10454] = true, -- FLAG - OFF THE RAILS
         [10610] = true, -- Prospecting Basics
         [10716] = true, -- Test Flight: Raven's Wood <needs reward>
+        [10737] = true, -- The Master's Touch
         [10815] = true, -- The Journal of Val'zareq: Portends of War
         [10841] = true, -- The Vengeful Harbringer
         [10844] = true, -- Forge Camp: Anger
-        [10871] = true, -- Ally of the Netherwing
-        [10872] = true, -- Zuluhed the Whacked
         [10925] = true, -- Evil Draws Near
+        [11425] = true, -- Test Quest - Craig
         [11518] = true, -- Sunwell Daily Portal Flag
         [11577] = true, -- WoW Collector's Edition: - DEM - E - FLAG
         [11874] = true, -- Upper Deck Promo - Rocket Mount
@@ -1170,6 +1174,7 @@ function QuestieQuestBlacklist:Load()
         -- [Not Used] quests
         [620] = true, -- UNUSED The Monogrammed Sash
         [1390] = true, -- BETA Oops, We Killed Them Again.
+        [2018] = true, -- Rokar's Test
         [2019] = true, -- Tools of the Trade
         [5383] = true, -- Krastinov's Bag of Horrors
         [8530] = true, -- The Alliance Needs Singed Corestones!
@@ -1207,7 +1212,12 @@ function QuestieQuestBlacklist:Load()
         [10259] = true, -- Into the Breach (TBC Pre patch event)
         [10364] = true, -- Caedmos (Unavailable Priest quest)
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
+        [10531] = true, -- The Battle for Arathi Basin!
+        [10532] = true, -- Cut Arathor Supply Lines
+        [10533] = true, -- More Resource Crates
         [10534] = true, -- Returning Home (Unavailable Priest quest)
+        [10535] = true, -- Arathi Basin Resources!
+        [10536] = true, -- More Resource Crates
         [10539] = true, -- Returning Home (Unavailable Priest quest)
         [10638] = true, -- NOT A QUEST (Unavailable Priest quest)
         [10779] = true, -- The Hunter's Path (Unused)
@@ -1216,7 +1226,9 @@ function QuestieQuestBlacklist:Load()
         [10933] = true, -- Level 0 Priest quest
         [10934] = true, -- Level 0 Priest quest
         [63448] = true, -- Boosted character quest
+        [63450] = true, -- Boosted character quest
         [63767] = true, -- Boosted character quest
+        [63768] = true, -- Boosted character quest
         [64028] = true, -- First quest for boosted characters. Blocked to not show for others
         [64031] = true, -- Boosted character quest
         [64034] = true, -- Boosted character quest
@@ -1234,17 +1246,19 @@ function QuestieQuestBlacklist:Load()
         [64063] = true, -- Boosted character quest
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
-        [64139] = true, -- Horde pala mount quest chain
+        --[[[64139] = true, -- Horde pala mount quest chain -- TODO: figure out a way to blacklist these by content phase
         [64140] = true, -- Horde pala mount quest chain
         [64141] = true, -- Horde pala mount quest chain
         [64142] = true, -- Horde pala mount quest chain
         [64143] = true, -- Horde pala mount quest chain
         [64144] = true, -- Horde pala mount quest chain
-        [64145] = true, -- Horde pala mount quest chain
+        [64145] = true, -- Horde pala mount quest chain]]
         [64217] = true, -- Boosted character quest
         [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
         [65284] = true, -- Boosted character quest
+        [65285] = true, -- Boosted character quest
         [65561] = true, -- Boosted character quest
+        [65562] = true, -- Boosted character quest
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
         [70396] = true, -- First quest for boosted characters. Blocked to not show for others
         [70397] = true, -- Boosted character quest
@@ -1281,6 +1295,9 @@ function QuestieQuestBlacklist:Load()
         [78224] = true, -- Boosted character quest
         [78225] = true, -- Boosted character quest
         [93823] = true, -- Boosted character quest
+        [93824] = true, -- Boosted character quest
+        [96253] = true, -- Boosted character quest
+        [96254] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
         [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
@@ -1297,20 +1314,18 @@ function QuestieQuestBlacklist:Load()
         [10560] = true,
         [10561] = true,
 
-        [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
-        [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
+        [11497] = Expansions.Current >= Expansions.Cata, -- Removed with cata (according to wowhead comments)
+        [11498] = Expansions.Current >= Expansions.Cata, -- Removed with cata (according to wowhead comments)
 
         -- [OLD] quests. Classic quests deprecated in TBC
         [708] = true,
+        [908] = true,
         [909] = true,
         [1288] = true,
-        [1661] = Expansions.Current >= Expansions.Tbc,
+        [1661] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3366] = true,
         [3381] = true,
-        [5627] = true,
-        [5641] = Expansions.Current >= Expansions.Tbc,
-        [5645] = Expansions.Current >= Expansions.Tbc,
-        [5647] = Expansions.Current >= Expansions.Tbc,
+        [3911] = true,
         [6131] = true,
         [6221] = true,
         [6241] = true,
@@ -1322,23 +1337,23 @@ function QuestieQuestBlacklist:Load()
         [7425] = true,
         [7426] = true,
         [7521] = true,
+        [7522] = true,
         [8411] = Expansions.Current >= Expansions.Cata, -- not sure when this quest was removed, Wowhead says Cata, it is present in Classic SoD
         [9712] = true,
         [10377] = true,
-        [11052] = true,
 
         -- Marks of Honor PvP quests - All of them should only be available in Era
         [8367] = Expansions.Current >= Expansions.Tbc,
         [8368] = Expansions.Current >= Expansions.Tbc,
         [8369] = Expansions.Current >= Expansions.Tbc,
         [8370] = Expansions.Current >= Expansions.Tbc,
-        [8371] = Expansions.Current >= Expansions.Tbc,
+        [8371] = Expansions.Current >= Expansions.Wotlk, -- enabled in tbc P2
         [8372] = Expansions.Current >= Expansions.Tbc,
         [8374] = Expansions.Current >= Expansions.Tbc,
         [8375] = Expansions.Current >= Expansions.Tbc,
         [8383] = Expansions.Current >= Expansions.Tbc,
         [8384] = Expansions.Current >= Expansions.Tbc,
-        [8385] = Expansions.Current >= Expansions.Tbc,
+        [8385] = Expansions.Current >= Expansions.Wotlk, -- enabled in tbc P2
         [8386] = Expansions.Current >= Expansions.Tbc,
         [8387] = Expansions.Current >= Expansions.Tbc,
         [8388] = Expansions.Current >= Expansions.Tbc,
@@ -1382,7 +1397,7 @@ function QuestieQuestBlacklist:Load()
         [8443] = Expansions.Current >= Expansions.Tbc,
 
         -- Phase 4 Zul'Aman
-        --[11196] = true, -- Not in the game
+        [11196] = true, -- Not in the game
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
@@ -1397,13 +1412,6 @@ function QuestieQuestBlacklist:Load()
         [6823] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
         [6824] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
         [7486] = Expansions.Current >= Expansions.Wotlk, -- Not in the game
-        [5634] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
-        [5635] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
-        [5636] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
-        [5637] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
-        [5638] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
-        [5639] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
-        [5640] = Expansions.Current >= Expansions.Wotlk, -- removed since wotlk
         [12881] = true, -- Not in the game
         [14351] = true, -- Not in the game
         [14353] = true, -- Not in the game
@@ -1655,15 +1663,27 @@ function QuestieQuestBlacklist:Load()
         --- Phase 5 Ruby Sanctum
         --[26012] = true, -- Trouble at Wyrmrest
         --[26013] = true, -- Assault on the Sanctum
+        --[26034] = true, -- The Twilight Destroyer
 
         --- Chinese servers wotlk only
-        [78752] = (locale == "zhCN" or locale == "zhTW") and Expansions.Current >= Expansions.Cata, -- Proof of Demise: Titan Rune Protocol Gamma
-        [78753] = (locale == "zhCN" or locale == "zhTW") and Expansions.Current >= Expansions.Cata, -- Proof of Demise: Threats to Azeroth
         [83713] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Alpha (new version to reward correct emblems)
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
-        [93975] = Expansions.Current >= Expansions.Wotlk, -- Ragnaros Must Die!
+        [93950] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
+        [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
+        [94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers
+        [94576] = not Questie.IsTitanReforged, -- Find a New Way -- only present on Titan servers
+        [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
+        [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers
+        [95705] = not Questie.IsTitanReforged, -- Gobb's Grand Opening! -- only present on Titan servers
+        [95706] = not Questie.IsTitanReforged, -- Gobb's Weekly Greed Deal -- only present on Titan servers
+        [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
+        [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
+        [95037] = not Questie.IsTitanReforged, -- Lord Jaraxxus Must Die!
+        [96312] = true, -- Brutallus Must Die! not open now
+        [96315] = true, -- XT-002 Deconstructor Must Die! not open now
+        [96318] = true, -- Shade of Aran Must Die! not open now
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -2027,7 +2047,7 @@ function QuestieQuestBlacklist:Load()
         [400] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [401] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [404] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [403] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [403] = Expansions.Current >= Expansions.Tbc, -- Removed with TBC
         [405] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [406] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [407] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -2463,7 +2483,6 @@ function QuestieQuestBlacklist:Load()
         [904] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [906] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [907] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [908] = Expansions.Current >= Expansions.Cata, -- Removed with cata (replaced with 26891)
         [912] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [913] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [914] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -3058,9 +3077,9 @@ function QuestieQuestBlacklist:Load()
         [1883] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1884] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1885] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1886] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1898] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1899] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1886] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [1898] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [1899] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [1919] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1920] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1921] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -3090,6 +3109,7 @@ function QuestieQuestBlacklist:Load()
         [1961] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1963] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1978] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [1998] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1999] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2020] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -3543,7 +3563,6 @@ function QuestieQuestBlacklist:Load()
         [3908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3909] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3910] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3911] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3912] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3913] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3914] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4026,16 +4045,27 @@ function QuestieQuestBlacklist:Load()
         [5624] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5625] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5626] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5628] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5629] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5630] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5631] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5632] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5633] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5642] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5643] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5644] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5646] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5627] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5628] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5629] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5630] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5631] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5632] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5633] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5634] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5635] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5636] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5637] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5638] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5639] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5640] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5641] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5642] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5643] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5644] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5645] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5646] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5647] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [5648] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5649] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5650] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4060,15 +4090,15 @@ function QuestieQuestBlacklist:Load()
         [5669] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5670] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5671] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5672] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5673] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5674] = true, -- I have not found evidence that this quest actually exists in the game. I checked Laurna Morninglight and Astarii Starseeker and they did not give the quest.
-        [5675] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5676] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5677] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5678] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5679] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5680] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5672] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5673] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5674] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5675] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5676] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5677] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5678] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5679] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [5680] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [5681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5682] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5683] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4182,6 +4212,7 @@ function QuestieQuestBlacklist:Load()
         [6063] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6064] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6065] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [6066] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6067] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6068] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [6069] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4481,7 +4512,6 @@ function QuestieQuestBlacklist:Load()
         [7869] = true, -- Not in the game
         [7870] = true, -- Not in the game
         [7877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [7908] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7962] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8041] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8042] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4860,7 +4890,6 @@ function QuestieQuestBlacklist:Load()
         [9021] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9022] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9023] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [9030] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9031] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9032] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9033] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4996,8 +5025,8 @@ function QuestieQuestBlacklist:Load()
         [9228] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9231] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9248] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [9250] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
-        [9251] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
+        [9250] = ((Expansions.Current >= Expansions.Wotlk) and (not Questie.IsTitanReforged)), -- Removed with Wotlk
+        [9251] = ((Expansions.Current >= Expansions.Wotlk) and (not Questie.IsTitanReforged)), -- Removed with Wotlk
         [9257] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [9269] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [9270] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
@@ -5249,7 +5278,7 @@ function QuestieQuestBlacklist:Load()
         [10497] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10498] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10499] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [10529] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [10529] = true, -- Not in the game
         [10530] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10548] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [10549] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5306,7 +5335,6 @@ function QuestieQuestBlacklist:Load()
         [11087] = true, -- Not in the game
         [11088] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11115] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [11116] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11121] = true, -- Not in the game
         [11123] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [11124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5411,7 +5439,6 @@ function QuestieQuestBlacklist:Load()
         [11588] = true, -- Not in the game
         [11589] = true, -- Not in the game
         [11790] = true, -- Not in the game
-        [11875] = true, -- hiding because we use fake quests to mimic this one
         [11883] = true, -- Not in the game
         [11934] = true, -- Not in the game
         [11974] = true, -- Not in the game
@@ -5423,6 +5450,7 @@ function QuestieQuestBlacklist:Load()
         [12179] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [12238] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [12313] = true, -- Not in the game
+        [12452] = true, -- Not in the game
         [12625] = true, -- Not in the game
         [12626] = true, -- Not in the game
         [12765] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5944,10 +5972,6 @@ function QuestieQuestBlacklist:Load()
         [29028] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29029] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29033] = true, -- Not in the game
-        [29035] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29052
-        [29037] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29039
-        [29038] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29053
-        [29040] = Expansions.Current >= Expansions.Cata, -- Duplicate of 29051
         [29049] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29067] = true, -- Not in the game
         [29068] = true, -- Not in the game
@@ -6036,6 +6060,7 @@ function QuestieQuestBlacklist:Load()
         [29550] = true, -- Not in the game
         [29551] = true, -- Not in the game
         [29554] = true, -- Not in the game
+        [29557] = true, -- Not in the game
         [29561] = true, -- Not in the game
         [29569] = true, -- Not in the game
         [29572] = true, -- Not in the game
@@ -6082,6 +6107,7 @@ function QuestieQuestBlacklist:Load()
         [29817] = true, -- Not in the game
         [29818] = true, -- Not in the game
         [29819] = true, -- Not in the game
+        [29820] = true, -- Not in the game
         [29837] = true, -- Not in the game
         [29841] = true, -- Not in the game
         [29842] = true, -- Not in the game
@@ -6106,6 +6132,7 @@ function QuestieQuestBlacklist:Load()
         [30009] = true, -- Not in the game
         [30019] = true, -- Not in the game
         [30020] = true, -- Not in the game
+        [30021] = true, -- Not in the game
         [30087] = true, -- Not in the game
         [30110] = true, -- Not in the game
         [30111] = true, -- Not in the game
@@ -6137,14 +6164,17 @@ function QuestieQuestBlacklist:Load()
         [30315] = true, -- Not in the game
         [30316] = true, -- Not in the game
         [30343] = true, -- Not in the game
+        [30345] = true, -- Not in the game
         [30358] = true, -- Not in the game
         [30362] = true, -- Not in the game
         [30364] = true, -- Not in the game
+        [30377] = true, -- Not in the game
         [30378] = true, -- Not in the game
         [30442] = true, -- Not in the game
         [30443] = true, -- Not in the game
         [30454] = true, -- Not in the game
         [30455] = true, -- Not in the game
+        [30458] = true, -- Not in the game
         [30461] = true, -- Believe this is duplicate and not actually in game
         [30462] = true, -- Believe this is duplicate and not actually in game
         [30464] = true, -- Believe this is duplicate and not actually in game
@@ -6211,11 +6241,15 @@ function QuestieQuestBlacklist:Load()
         [30818] = true, -- Not in the game
         [30934] = true, -- Not in the game
         [30936] = true, -- Not in the game
+        [30941] = true, -- Not in the game
         [30965] = true, -- Not in the game
         [30974] = true, -- Not in the game
+        [30986] = true, -- Not in the game
+        [30990] = true, -- Not in the game
         [31016] = true, -- Not in the game
         [31017] = true, -- Not in the game
         [31025] = true, -- Not in the game
+        [31027] = true, -- Not in the game
         [31028] = true, -- Not in the game
         [31033] = true, -- Not in the game
         [31035] = true, -- Not in the game
@@ -6237,6 +6271,7 @@ function QuestieQuestBlacklist:Load()
         [31155] = true, -- Hidden quest
         [31126] = true, -- Hidden quest
         [31172] = true, -- Not in the game
+        [31206] = true, -- Not in the game
         [31212] = true, -- Not in the game
         [31213] = true, -- Not in the game
         [31214] = true, -- Not in the game
@@ -6303,6 +6338,7 @@ function QuestieQuestBlacklist:Load()
         [31491] = true, -- Not in the game
         [31518] = true, -- Not in the game
         [31530] = true, -- Not in the game
+        [31600] = true, -- Not in the game
         [31604] = true, -- Not in the game
         [31664] = true, -- Not in the game
         [31665] = true, -- Not in the game
@@ -6403,25 +6439,48 @@ function QuestieQuestBlacklist:Load()
         [32458] = true, -- Not in the game
         [32475] = true, -- Not in the game
         [32504] = true, -- Not in the game
+        [32508] = true, -- Not in the game
         [32534] = true, -- Not in the game
+        [32609] = true, -- Hidden quest
+        [32610] = true, -- Hidden quest
+        [32611] = true, -- Hidden quest
+        [32622] = true, -- Hidden quest
+        [32626] = true, -- Hidden quest
+        [32629] = true, -- Hidden quest
         [32651] = true, -- Hidden quest
         [32666] = true, -- Hidden quest
+        [32694] = true, -- Hidden quest
+        [32695] = true, -- Hidden quest
         [32696] = true, -- Not in the game
+        [32697] = true, -- Hidden quest
+        [32698] = true, -- Hidden quest
         [32699] = true, -- Not in the game
+        [32700] = true, -- Hidden quest
+        [32701] = true, -- Hidden quest
         [32702] = true, -- Not in the game
+        [32703] = true, -- Hidden quest
+        [32704] = true, -- Hidden quest
         [32705] = true, -- Not in the game
         [32717] = true, -- Not in the game
         [32723] = true, -- Hidden quest
+        [32725] = true, -- Hidden quest
+        [32727] = true, -- Hidden quest
+        [32825] = true, -- Hidden quest
         [32826] = true, -- Hidden quest
         [32827] = true, -- Hidden quest
         [32832] = true, -- Not in the game
         [32860] = true, -- Hidden quest
-        [32872] = true, -- Not in the game
         [32890] = true, -- Not in the game
         [32891] = true, -- Not in the game
-        [32895] = true, -- Not in the game
         [32910] = true, -- Hidden quest
         [32952] = true, -- Not in the game
+        [32995] = true, -- Not in the game
+        [32996] = true, -- Not in the game
+        [33000] = true, -- Not in the game
+        [33001] = true, -- Not in the game
+        [33002] = true, -- Not in the game
+        [33003] = true, -- Not in the game
+        [33007] = true, -- Not in the game
         [33008] = true, -- Not in the game
         [33019] = true, -- Not in the game
         [33023] = true, -- Not in the game
@@ -6845,6 +6904,7 @@ function QuestieQuestBlacklist:Load()
         [13541] = true, -- Not in the game
         [30415] = true, -- A Ruby Shard for Chee Chee (duplicate of 30397) - wowhead even lists this as "Tracking Quest - Successful"
         [31533] = true, -- The Perfect Feather (not in the game)
+        [31816] = true, -- Traitor Gluk
         [31878] = true, -- Audrey Burnhep
         [31879] = true, -- Audrey Burnhep
         [31880] = true, -- Audrey Burnhep
@@ -6999,7 +7059,7 @@ function QuestieQuestBlacklist:Load()
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for TBC...")
         questsToBlacklist = ContentPhases.BlacklistTbcQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.TBC)
     elseif Questie.IsAnniversaryEra or Questie.IsAnniversaryHardcore then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary...")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary Era/Hardcore...")
         questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
@@ -7117,6 +7177,7 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [8614] = true,
     [8615] = true,
     [8616] = true,
+    [8743] = true,
     [8792] = true,
     [8793] = true,
     [8794] = true,
@@ -7127,6 +7188,39 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [10501] = true,
 }
 
+QuestieQuestBlacklist.InvasionQuests = {
+    [9085] = true, -- Shadows of Doom
+    [9094] = true, -- Argent Dawn Gloves
+    [9153] = true, -- Under the Shadow
+    [9154] = true, -- Light's Hope Chapel
+    [9260] = true, -- Investigate the Scourge of Stormwind
+    [9261] = true, -- Investigate the Scourge of Ironforge
+    [9262] = true, -- Investigate the Scourge of Darnassus
+    [9263] = true, -- Investigate the Scourge of Orgrimmar
+    [9264] = true, -- Investigate the Scourge of Thunder Bluff
+    [9265] = true, -- Investigate the Scourge of the Undercity
+    [9292] = true, -- Cracked Necrotic Crystal
+    [9295] = true, -- Letter from the Front
+    [9299] = true, -- Note from the Front
+    [9300] = true, -- Page from the Front
+    [9301] = true, -- Envelope from the Front
+    [9302] = true, -- Missive from the Front
+    [9304] = true, -- Document from the Front
+    [9310] = true, -- Faint Necrotic Crystal
+    [9317] = true, -- Consecrated Sharpening Stones
+    [9318] = true, -- Blessed Wizard Oil
+    [9320] = true, -- Major Mana Potion
+    [9321] = true, -- Major Healing Potion
+    [9333] = true, -- Argent Dawn Gloves
+    [9334] = true, -- Blessed Wizard Oil
+    [9335] = true, -- Consecrated Sharpening Stones
+    [9336] = true, -- Major Healing Potion
+    [9337] = true, -- Major Mana Potion
+    [9341] = true, -- Tabard of the Argent Dawn
+    [9343] = true, -- Tabard of the Argent Dawn
+}
+
+---@return table<QuestId, boolean>
 function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
     return {
         --! 1.11.1
@@ -7153,10 +7247,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         -- Kalimdor -> Silithus (1 -> 1377)
         [8340] = true, --* Twilight Signet Ring <NYI> <TXT> (https://www.wowhead.com/wotlk/quest=8340) (Retail Data)
-
-        -- Classes -> Rogue (4 -> -162)
-        [2018] = true, --* Rokar's Test (https://www.wowhead.com/wotlk/quest=2018) (Retail Data)
-        [2019] = true, --* Tools of the Trade (https://www.wowhead.com/wotlk/quest=2019) (Retail Data)
 
         -- Uncategorized ->  (-2 -> 0)
         [6843] = true, --* Da Foo (https://www.wowhead.com/wotlk/quest=6843) (Retail Data)
@@ -7233,9 +7323,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [1485] = true, --* Vile Familiars (https://www.wowhead.com/wotlk/quest=1485)
         [1598] = true, --* The Stolen Tome (https://www.wowhead.com/wotlk/quest=1598)
         [1599] = true, --* Beginnings (https://www.wowhead.com/wotlk/quest=1599)
-
-        -- Classes -> Rogue (4 -> -162)
-        [1978] = true, --* The Deathstalkers (https://www.wowhead.com/wotlk/quest=1978)
 
         -- Kalimdor -> Mulgore (1 -> 215)
         [781] = true, --* Attack on Camp Narache (https://www.wowhead.com/wotlk/quest=781)
@@ -7481,9 +7568,9 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 --         [13864] = true, --* Battle Before The Citadel (https://www.wowhead.com/wotlk/quest=13864) (Retail Data)
 --         [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
 --         [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
---        [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
---        [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
---        [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
+--         [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
+--         [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
+--         [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
 --         [14095] = true, --* Identifying the Remains (https://www.wowhead.com/wotlk/quest=14095) (Retail Data)
 --         [14101] = true, --* Drottinn Hrothgar (https://www.wowhead.com/wotlk/quest=14101) (Retail Data)
 --         [14102] = true, --* Mistcaller Yngvar (https://www.wowhead.com/wotlk/quest=14102) (Retail Data)
@@ -7794,6 +7881,688 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [13255] = true, --* Proof of Demise: Herald Volazj (https://www.wowhead.com/wotlk/quest=13255) (Retail Data)
         [13256] = true, --* Proof of Demise: Cyanigosa (https://www.wowhead.com/wotlk/quest=13256) (Retail Data)
         [14199] = true, --* Proof of Demise: The Black Knight (https://www.wowhead.com/wotlk/quest=14199) (Retail Data)
+
+    }
+end
+
+---@return table<QuestId, boolean>
+function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
+    return {
+        -- Professions
+        [14103] = true, -- Titanium Powder
+        [14151] = true, -- Cardinal Ruby
+
+        -- Onyxia
+        [24428] = true, -- A Most Puzzling Circumstance
+        [24429] = true, -- A Most Puzzling Circumstance
+
+        -- Black Knight
+        [13633] = true, -- The Black Knight of Westfall?
+        [13634] = true, -- The Black Knight of Silverpine?
+        [13641] = true, -- The Seer's Crystal
+        [13643] = true, -- The Stories Dead Men Tell
+        [13654] = true, -- There's Something About the Squire
+        [13663] = true, -- The Black Knight's Orders
+        [13664] = true, -- The Black Knight's Fall
+        [13667] = true, -- The Argent Tournament
+        [13668] = true, -- The Argent Tournament
+
+        -- Argent Tournament
+        [13627] = true, -- Jack Me Some Lumber
+        [13681] = true, -- A Chip Off the Ulduar Block
+        [13820] = true, -- The Blastbolt Brothers
+        [13846] = true, -- Contributin' To The Cause
+        [14095] = true, -- Identifying the Remains
+        [14076] = true, -- Breakfast Of Champions
+        [14092] = true, -- Breakfast Of Champions
+        [14090] = true, -- Gormok Wants His Snobolds
+        [14141] = true, -- Gormok Wants His Snobolds
+        [14112] = true, -- What Do You Feed a Yeti, Anyway?
+        [14145] = true, -- What Do You Feed a Yeti, Anyway?
+        [14199] = true, -- Proof of Demise: The Black Knight
+        [14016] = true, -- The Black Knight's Curse
+        [14017] = true, -- The Black Knight's Fate
+        [14142] = true, -- You've Really Done It This Time, Kul
+        [14096] = true, -- You've Really Done It This Time, Kul
+        [14074] = true, -- A Leg Up
+        [14143] = true, -- A Leg Up
+        [14136] = true, -- Rescue at Sea
+        [14152] = true, -- Rescue at Sea
+        [14077] = true, -- The Light's Mercy
+        [14144] = true, -- The Light's Mercy
+        [14080] = true, -- Stop The Aggressors
+        [14140] = true, -- Stop The Aggressors
+        [14101] = true, -- Drottinn Hrothgar
+        [14102] = true, -- Mistcaller Yngvar
+        [14104] = true, -- Ornolf The Scarred
+        [14105] = true, -- Deathspeaker Kharos
+        [14107] = true, -- The Fate Of The Fallen
+        [14108] = true, -- Get Kraken!
+
+        -- Quel'Delar
+        [24554] = true, -- The Battered Hilt (H)
+        [14443] = true, -- The Battered Hilt (A)
+        [24555] = true, -- What The Dragons Know (H)
+        [14444] = true, -- What The Dragons Know (A)
+        [24557] = true, -- The Silver Covenant's Scheme (H)
+        [14457] = true, -- The Sunreaver Plan (A)
+        [24556] = true, -- A Suitable Disguise (H)
+        [20438] = true, -- A Suitable Disguise (A)
+        [24451] = true, -- An Audience With The Arcanist (H)
+        [20439] = true, -- A Meeting With The Magister (A)
+        [24558] = true, -- Return To Myralion Sunblaze (H)
+        [24454] = true, -- Return To Caladis Brightspear (A)
+        [24559] = true, -- Reforging The Sword (H)
+        [24461] = true, -- Reforging The Sword (A)
+        [24560] = true, -- Tempering The Blade (H)
+        [24476] = true, -- Tempering The Blade (A)
+        [24561] = true, -- The Halls Of Reflection (H)
+        [24480] = true, -- The Halls Of Reflection (A)
+        [24562] = true, -- Journey To The Sunwell (H)
+        [24522] = true, -- Journey To The Sunwell (A)
+        [24563] = true, -- Thalorien Dawnseeker (H)
+        [24535] = true, -- Thalorien Dawnseeker (A)
+        [24564] = true, -- The Purification of Quel'Delar (H)
+        [24553] = true, -- The Purification of Quel'Delar (A)
+        [24594] = true, -- The Purification of Quel'Delar (H Belf)
+        [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        [24598] = true, -- The Purification of Quel'Delar (H ?)
+        [24795] = true, -- A Victory For The Silver Covenant (A)
+        [24796] = true, -- A Victory For The Silver Covenant (A)
+        [24798] = true, -- A Victory For The Sunreavers (H)
+        [24799] = true, -- A Victory For The Sunreavers (H)
+        [24800] = true, -- A Victory For The Sunreavers (H)
+        [24801] = true, -- A Victory For The Sunreavers (H)
+
+        -- Ulduar
+        [13604] = true,
+        [13606] = true,
+        [13607] = true,
+        [13609] = true,
+        [13610] = true,
+        [13611] = true,
+        [13614] = true,
+        [13622] = true,
+        [13629] = true,
+        [13631] = true,
+        [13816] = true,
+        [13817] = true,
+        [13818] = true,
+        [13819] = true,
+        [13821] = true,
+        [13822] = true,
+        [13823] = true,
+        [13824] = true,
+
+        -- Aspirant
+        [13828] = true,
+        [13829] = true,
+        [13837] = true,
+        [13839] = true,
+        [13835] = true,
+        [13838] = true,
+        [13672] = true,
+        [13678] = true,
+        [13625] = true,
+        [13677] = true,
+        [13671] = true,
+        [13676] = true,
+        [13666] = true,
+        [13673] = true,
+        [13669] = true,
+        [13674] = true,
+        [13670] = true,
+        [13675] = true,
+        [13679] = true,
+        [13680] = true,
+
+        -- Valiant
+        [13684] = true,
+        [13685] = true,
+        [13688] = true,
+        [13689] = true,
+        [13690] = true,
+        [13691] = true,
+        [13693] = true,
+        [13694] = true,
+        [13695] = true,
+        [13696] = true,
+        [13718] = true,
+        [13714] = true,
+        [13715] = true,
+        [13717] = true,
+        [13716] = true,
+        [13697] = true,
+        [13719] = true,
+        [13720] = true,
+        [13721] = true,
+        [13722] = true,
+        [13592] = true,
+        [13744] = true,
+        [13749] = true,
+        [13760] = true,
+        [13755] = true,
+        [13765] = true,
+        [13771] = true,
+        [13776] = true,
+        [13781] = true,
+        [13786] = true,
+        [13665] = true,
+        [13745] = true,
+        [13750] = true,
+        [13761] = true,
+        [13756] = true,
+        [13767] = true,
+        [13772] = true,
+        [13777] = true,
+        [13782] = true,
+        [13787] = true,
+        [13847] = true,
+        [13851] = true,
+        [13852] = true,
+        [13855] = true,
+        [13854] = true,
+        [13856] = true,
+        [13857] = true,
+        [13858] = true,
+        [13860] = true,
+        [13859] = true,
+        [13603] = true,
+        [13741] = true,
+        [13746] = true,
+        [13757] = true,
+        [13752] = true,
+        [13762] = true,
+        [13768] = true,
+        [13773] = true,
+        [13778] = true,
+        [13783] = true,
+        [13600] = true,
+        [13742] = true,
+        [13747] = true,
+        [13758] = true,
+        [13753] = true,
+        [13763] = true,
+        [13769] = true,
+        [13774] = true,
+        [13779] = true,
+        [13784] = true,
+        [13616] = true,
+        [13743] = true,
+        [13748] = true,
+        [13759] = true,
+        [13754] = true,
+        [13764] = true,
+        [13770] = true,
+        [13775] = true,
+        [13780] = true,
+        [13785] = true,
+        [13699] = true,
+        [13713] = true,
+        [13723] = true,
+        [13725] = true,
+        [13724] = true,
+        [13726] = true,
+        [13727] = true,
+        [13728] = true,
+        [13729] = true,
+        [13731] = true,
+        [13593] = true,
+        [13703] = true,
+        [13704] = true,
+        [13706] = true,
+        [13705] = true,
+        [13707] = true,
+        [13708] = true,
+        [13709] = true,
+        [13710] = true,
+        [13711] = true,
+
+        -- Champion
+        [13702] = true,
+        [13732] = true,
+        [13733] = true,
+        [13735] = true,
+        [13734] = true,
+        [13736] = true,
+        [13737] = true,
+        [13738] = true,
+        [13739] = true,
+        [13740] = true,
+        [13794] = true,
+        [13795] = true,
+        [13682] = true,
+        [13809] = true,
+        [13788] = true,
+        [13812] = true,
+        [13789] = true,
+        [13810] = true,
+        [13791] = true,
+        [13813] = true,
+        [13861] = true,
+        [13862] = true,
+        [13864] = true,
+        [13863] = true,
+        [13790] = true,
+        [13811] = true,
+        [13793] = true,
+        [13814] = true,
+        [13686] = true,
+        [13687] = true,
+        [13700] = true,
+        [13701] = true,
+
+        -- ICC weekly quests
+        [24869] = true, -- Deprogramming
+        [24870] = true, -- Securing the Ramparts
+        [24871] = true, -- Securing the Ramparts
+        [24872] = true, -- Respite for a Tormented Soul
+        [24873] = true, -- Residue Rendezvous
+        [24874] = true, -- Blood Quickening
+        [24875] = true, -- Deprogramming
+        [24876] = true, -- Securing the Ramparts
+        [24877] = true, -- Securing the Ramparts
+        [24878] = true, -- Residue Rendezvous
+        [24879] = true, -- Blood Quickening
+        [24880] = true, -- Respite for a Tormented Soul
+
+        -- New raid weekly quests
+        [24579] = true, -- Sartharion Must Die!
+        [24580] = true, -- Anub'Rekhan Must Die!
+        [24581] = true, -- Noth the Plaguebringer Must Die!
+        [24582] = true, -- Instructor Razuvious Must Die!
+        [24583] = true, -- Patchwerk Must Die!
+        [24584] = true, -- Malygos Must Die!
+        [24585] = true, -- Flame Leviathan Must Die!
+        [24586] = true, -- Razorscale Must Die!
+        [24587] = true, -- Ignis the Furnace Master Must Die!
+        [24588] = true, -- XT-002 Deconstructor Must Die!
+        [24589] = true, -- Lord Jaraxxus Must Die!
+        [24590] = true, -- Lord Marrowgar Must Die!
+
+        -- Shadowmourne
+        [24545] = true, -- The Sacred and the Corrupt
+        [24547] = true, -- A Feast of Souls
+        [24548] = true, -- The Splintered Throne
+        [24549] = true, -- Shadowmourne...
+        [24743] = true, -- Shadow's Edge
+        [24748] = true, -- The Lich King's Last Stand
+        [24749] = true, -- Unholy Infusion
+        [24756] = true, -- Blood Infusion
+        [24757] = true, -- Frost Infusion
+        [24912] = true, -- Empowerment
+        [24914] = true, -- Personal Property
+        [24915] = true, -- Mograine's Reunion
+        [24916] = true, -- Jaina's Locket
+        [24917] = true, -- Muradin's Lament
+        [24918] = true, -- Sylvanas' Vengeance
+        [24919] = true, -- The Lightbringer's Redemption
+
+        -- ICC
+        [24815] = true, -- Choose Your Path
+        [24827] = true, -- "Path of Courage"
+        [24834] = true, -- "Path of Courage"
+        [24835] = true, -- "Path of Courage"
+        [24828] = true, -- "Path of Destruction"
+        [24823] = true, -- "Path of Destruction"
+        [24829] = true, -- "Path of Destruction"
+        [25239] = true, -- "Path of Might"
+        [25240] = true, -- "Path of Might"
+        [25242] = true, -- "Path of Might"
+        [24826] = true, -- "Path of Vengeance"
+        [24832] = true, -- "Path of Vengeance"
+        [24833] = true, -- "Path of Vengeance"
+        [24825] = true, -- "Path of Wisdom"
+        [24830] = true, -- "Path of Wisdom"
+        [24831] = true, -- "Path of Wisdom"
+        [24819] = true, -- "A Change of Heart"
+        [24820] = true, -- "A Change of Heart"
+        [24821] = true, -- "A Change of Heart"
+        [24822] = true, -- "A Change of Heart"
+        [24836] = true, -- "A Change of Heart"
+        [24837] = true, -- "A Change of Heart"
+        [24838] = true, -- "A Change of Heart"
+        [24839] = true, -- "A Change of Heart"
+        [24840] = true, -- "A Change of Heart"
+        [24841] = true, -- "A Change of Heart"
+        [24842] = true, -- "A Change of Heart"
+        [24843] = true, -- "A Change of Heart"
+        [24844] = true, -- "A Change of Heart"
+        [24845] = true, -- "A Change of Heart"
+        [24846] = true, -- "A Change of Heart"
+        [24847] = true, -- "A Change of Heart"
+        [25246] = true, -- "A Change of Heart"
+        [25247] = true, -- "A Change of Heart"
+        [25248] = true, -- "A Change of Heart"
+        [25249] = true, -- "A Change of Heart"
+
+        -- Wintergrasp Quests
+        [236] = true, -- Fueling the Demolishers
+        [13153] = true, -- Warding the Warriors
+        [13154] = true, -- Bones and Arrows
+        [13156] = true, -- A Rare Herb
+        [13177] = true, -- No Mercy for the Merciless
+        [13178] = true, -- Slay them all!
+        [13179] = true, -- No Mercy for the Merciless
+        [13180] = true, -- Slay them all!
+        [13185] = true, -- Stop the Siege
+        [13186] = true, -- Stop the Siege
+        [13191] = true, -- Fueling the Demolishers
+        [13192] = true, -- Warding the Walls
+        [13193] = true, -- Bones and Arrows
+        [13194] = true, -- Healing with Roses
+        [13195] = true, -- A Rare Herb
+        [13196] = true, -- Bones and Arrows
+        [13197] = true, -- Fueling the Demolishers
+        [13198] = true, -- Warding the Warriors
+        [13199] = true, -- Bones and Arrows
+        [13200] = true, -- Fueling the Demolishers
+        [13201] = true, -- Healing with Roses
+        [13202] = true, -- Jinxing the Walls
+        [13222] = true, -- Defend the Siege
+        [13223] = true, -- Defend the Siege
+        [13538] = true, -- Southern Sabotage
+        [13539] = true, -- Toppling the Towers
+
+        --- Phase 5 Ruby Sanctum
+        [26012] = true, -- Trouble at Wyrmrest
+        [26013] = true, -- Assault on the Sanctum
+        [26034] = true, -- The Twilight Destroyer
+
+        -- Frozen Citadel quest chain
+        [24510] = true, -- Inside the Frozen Citadel (A)
+        [24499] = true, -- Echoes of Tortured Souls
+        [24683] = true, -- The Pit of Saron
+        [24498] = true, -- The Path to the Citadel
+        [24710] = true, -- Deliverance from the Pit
+        [24711] = true, -- Frostmourne
+        [24506] = true, -- Inside the Frozen Citadel (H)
+        [24511] = true, -- Echoes of Tortured Souls
+        [24682] = true, -- The Pit of Saron
+        [24507] = true, -- The Path to the Citadel
+        [24712] = true, -- Deliverance from the Pit
+        [24713] = true, -- Frostmourne
+
+        -- The Temple of Ahn'Qiraj and the Ruins of Ahn'Qiraj
+        [8784] = true, -- Secrets of the Qiraji
+        [8791] = true, -- The Fall of Ossirian
+        [8579] = true, -- Mortal Champions
+        [8790] = true, -- Imperial Qiraji Regalia
+        [8789] = true, -- Imperial Qiraji Armaments
+        [8801] = true, -- C'Thun's Legacy
+        [8595] = true, -- Mortal Champions
+        [8802] = true, -- The Savior of Kalimdor
+        [8627] = true, -- Avenger's Breastplate
+        [8628] = true, -- Avenger's Crown
+        [8655] = true, -- Avenger's Greaves
+        [8629] = true, -- Avenger's Legguards
+        [8630] = true, -- Avenger's Pauldrons
+        [8700] = true, -- Band of Unending Life
+        [8699] = true, -- Band of Vaulted Secrets
+        [8701] = true, -- Band of Veiled Shadows
+        [8711] = true, -- Blade of Eternal Justice
+        [8707] = true, -- Blade of Vaulted Secrets
+        [8695] = true, -- Cape of Eternal Justice
+        [8690] = true, -- Cloak of the Gathering Storm
+        [8696] = true, -- Cloak of the Unseen Path
+        [8692] = true, -- Cloak of Unending Life
+        [8693] = true, -- Cloak of Veiled Shadows
+        [8562] = true, -- Conqueror's Breastplate
+        [8561] = true, -- Conqueror's Crown
+        [8559] = true, -- Conqueror's Greaves
+        [8560] = true, -- Conqueror's Legguards
+        [8544] = true, -- Conqueror's Spaulders
+        [8709] = true, -- Dagger of Veiled Shadows
+        [8637] = true, -- Deathdealer's Boots
+        [8639] = true, -- Deathdealer's Helm
+        [8640] = true, -- Deathdealer's Leggings
+        [8641] = true, -- Deathdealer's Spaulders
+        [8638] = true, -- Deathdealer's Vest
+        [8662] = true, -- Doomcaller's Circlet
+        [8660] = true, -- Doomcaller's Footwraps
+        [8664] = true, -- Doomcaller's Mantle
+        [8661] = true, -- Doomcaller's Robes
+        [8663] = true, -- Doomcaller's Trousers
+        [8557] = true, -- Drape of Unyielding Strength
+        [8691] = true, -- Drape of Vaulted Secrets
+        [8634] = true, -- Enigma Boots
+        [8632] = true, -- Enigma Circlet
+        [8631] = true, -- Enigma Leggings
+        [8633] = true, -- Enigma Robes
+        [8625] = true, -- Enigma Shoulderpads
+        [8596] = true, -- Footwraps of the Oracle
+        [8705] = true, -- Gavel of Infinite Wisdom
+        [8665] = true, -- Genesis Boots
+        [8667] = true, -- Genesis Helm
+        [8669] = true, -- Genesis Shoulderpads
+        [8668] = true, -- Genesis Trousers
+        [8666] = true, -- Genesis Vest
+        [8706] = true, -- Hammer of the Gathering Storm
+        [8710] = true, -- Kris of Unspoken Names
+        [8708] = true, -- Mace of Unending Life
+        [8594] = true, -- Mantle of the Oracle
+        [8703] = true, -- Ring of Eternal Justice
+        [8697] = true, -- Ring of Infinite Wisdom
+        [8698] = true, -- Ring of the Gathering Storm
+        [8702] = true, -- Ring of Unspoken Names
+        [8712] = true, -- Scythe of the Unseen Path
+        [8689] = true, -- Shroud of Infinite Wisdom
+        [8694] = true, -- Shroud of Unspoken Names
+        [8558] = true, -- Sickle of Unyielding Strength
+        [8704] = true, -- Signet of the Unseen Path
+        [8556] = true, -- Signet of Unyielding Strength
+        [8623] = true, -- Stormcaller's Diadem
+        [8621] = true, -- Stormcaller's Footguards
+        [8622] = true, -- Stormcaller's Hauberk
+        [8624] = true, -- Stormcaller's Leggings
+        [8602] = true, -- Stormcaller's Pauldrons
+        [8657] = true, -- Striker's Diadem
+        [8626] = true, -- Striker's Footguards
+        [8656] = true, -- Striker's Hauberk
+        [8658] = true, -- Striker's Leggings
+        [8659] = true, -- Striker's Pauldrons
+        [8592] = true, -- Tiara of the Oracle
+        [8593] = true, -- Trousers of the Oracle
+        [8603] = true, -- Vestments of the Oracle
+
+        -- Zul'Gurub
+        [8108] = true, -- Kezan's Taint
+        [8148] = true, -- Maelstrom's Wrath
+        [8107] = true, -- Kezan's Taint
+        [8103] = true, -- The Pebble of Kajaro
+        [8049] = true, -- The Eye of Zuldazar
+        [8073] = true, -- Paragons of Power: The Madcap's Tunic
+        [8111] = true, -- Enchanted South Seas Kelp
+        [9209] = true, -- The Savage Guard - Arcanum of Rapidity
+        [8243] = true, -- Zanza's Potent Potables
+        [8192] = true, -- Animist's Caress
+        [8227] = true, -- Nat's Measuring Tape
+        [8195] = true, -- Zulian, Razzashi, and Hakkari Coins
+        [8183] = true, -- The Heart of Hakkar
+        [8143] = true, -- Zandalarian Shadow Talisman
+        [8077] = true, -- Paragons of Power: The Demoniac's Robes
+        [9210] = true, -- The Savage Guard - Arcanum of Focus
+        [8063] = true, -- Paragons of Power: The Madcap's Bracers
+        [8059] = true, -- Paragons of Power: The Demoniac's Wraps
+        [8144] = true, -- Zandalarian Shadow Mastery Talisman
+        [8052] = true, -- The All-Seeing Eye of Zuldazar
+        [8067] = true, -- Paragons of Power: The Predator's Mantle
+        [8068] = true, -- Paragons of Power: The Illusionist's Mantle
+        [8046] = true, -- The Heathen's Brand
+        [8102] = true, -- The Pebble of Kajaro
+        [8079] = true, -- Paragons of Power: The Vindicator's Breastplate
+        [8141] = true, -- Zandalarian Shadow Talisman
+        [8147] = true, -- The Maelstrom's Tendril
+        [8187] = true, -- Falcon's Call
+        [8053] = true, -- Paragons of Power: The Freethinker's Armguards
+        [8106] = true, -- Kezan's Taint
+        [8078] = true, -- Paragons of Power: The Vindicator's Belt
+        [8201] = true, -- A Collection of Heads
+        [8072] = true, -- Paragons of Power: The Madcap's Mantle
+        [8071] = true, -- Paragons of Power: The Confessor's Mantle
+        [8240] = true, -- A Bijou for Zanza
+        [8246] = true, -- Signets of the Zandalar
+        [8064] = true, -- Paragons of Power: The Haruspex's Belt
+        [8058] = true, -- Paragons of Power: The Vindicator's Armguards
+        [8142] = true, -- Zandalarian Shadow Talisman
+        [8117] = true, -- Vision of Voodress
+        [8186] = true, -- Death's Embrace
+        [8189] = true, -- Presence of Sight
+        [8109] = true, -- Kezan's Unstoppable Taint
+        [8069] = true, -- Paragons of Power: The Illusionist's Robes
+        [8045] = true, -- The Heathen's Brand
+        [8101] = true, -- The Pebble of Kajaro
+        [8044] = true, -- The Rage of Mugamba
+        [8075] = true, -- Paragons of Power: The Augur's Hauberk
+        [8074] = true, -- Paragons of Power: The Augur's Belt
+        [9208] = true, -- The Savage Guard - Arcanum of Protection
+        [8060] = true, -- Paragons of Power: The Illusionist's Wraps
+        [8047] = true, -- The Heathen's Brand
+        [8181] = true, -- Confront Yeh'kinya
+        [8042] = true, -- Strength of Mount Mugamba
+        [8145] = true, -- The Maelstrom's Tendril
+        [8041] = true, -- Strength of Mount Mugamba
+        [8051] = true, -- The Eye of Zuldazar
+        [8076] = true, -- Paragons of Power: The Demoniac's Mantle
+        [8055] = true, -- Paragons of Power: The Freethinker's Breastplate
+        [8104] = true, -- The Jewel of Kajaro
+        [8056] = true, -- Paragons of Power: The Augur's Bracers
+        [8110] = true, -- Enchanted South Seas Kelp
+        [8070] = true, -- Paragons of Power: The Confessor's Bindings
+        [8112] = true, -- Enchanted South Seas Kelp
+        [8066] = true, -- Paragons of Power: The Predator's Belt
+        [8113] = true, -- Pristine Enchanted South Seas Kelp
+        [8065] = true, -- Paragons of Power: The Haruspex's Tunic
+        [8057] = true, -- Paragons of Power: The Haruspex's Bracers
+        [8062] = true, -- Paragons of Power: The Predator's Bracers
+        [8050] = true, -- The Eye of Zuldazar
+        [8185] = true, -- Syncretist's Sigil
+        [8116] = true, -- Vision of Voodress
+        [8054] = true, -- Paragons of Power: The Freethinker's Belt
+        [8238] = true, -- Gurubashi, Vilebranch, and Witherbark Coins
+        [8061] = true, -- Paragons of Power: The Confessor's Wraps
+        [8043] = true, -- Strength of Mount Mugamba
+        [8191] = true, -- Prophetic Aura
+        [8188] = true, -- Vodouisant's Vigilant Embrace
+        [8118] = true, -- Vision of Voodress
+        [8196] = true, -- Essence Mangoes
+        [8239] = true, -- Sandfury, Skullsplitter, and Bloodscalp Coins
+        [8190] = true, -- Hoodoo Hex
+        [8184] = true, -- Presence of Might
+        [8048] = true, -- The Hero's Brand
+        [8146] = true, -- The Maelstrom's Tendril
+        [8119] = true, -- The Unmarred Vision of Voodress
+
+        -- Zul'Aman
+        [11166] = true, -- X Marks... Your Doom!
+        [11171] = true, -- Hex Lord? Hah!
+        [11195] = true, -- Playin' With Dolls
+        [11130] = true, -- Oooh, Shinies!
+        [11178] = true, -- Blood of the Warlord
+        [11132] = true, -- Promises, Promises...
+        [11163] = true, -- Undercover Sister
+        [11164] = true, -- Tuskin' Raiders
+        [11165] = true, -- A Troll Among Trolls
+        [11196] = true, -- TEMP X
+
+        -- Isle of Quel'Danas
+        [11526] = true, -- The Missing Magistrix
+        [11549] = true, -- A Magnanimous Benefactor
+        [11481] = true, -- Crisis at the Sunwell
+        [11482] = true, -- Duty Calls
+        [11524] = true, -- Erratic Behavior
+        [11536] = true, -- Don't Stop Now....
+        [11525] = true, -- Further Conversions
+        [11496] = true, -- The Sanctum Wards
+        [11557] = true, -- Exalted Among All Combatants
+        [11556] = true, -- Revered in the Field of Battle
+        [11555] = true, -- Honored by Your Allies
+        [11550] = true, -- Enter, the Deceiver...
+        [11548] = true, -- Your Continued Support
+        [11535] = true, -- Making Ready
+        [11554] = true, -- A Friend in the Frontlines
+        [11542] = true, -- Intercept the Reinforcements
+        [11546] = true, -- Open for Business
+        [11532] = true, -- Distraction at the Dead Scar
+        [11541] = true, -- Disrupt the Greengill Coast
+        [11543] = true, -- Keeping the Enemy at Bay
+        [11523] = true, -- Arm the Wards!
+        [11545] = true, -- A Charitable Donation
+        [11540] = true, -- Crush the Dawnblade
+        [11538] = true, -- The Battle for the Sun's Reach Armory
+        [11537] = true, -- The Battle Must Go On
+        [11521] = true, -- Rediscovering Your Roots
+        [11533] = true, -- The Air Strikes Must Continue
+        [11547] = true, -- Know Your Ley Lines
+        [11544] = true, -- Ata'mal Armaments
+
+        -- Magisters' Terrace
+        [11492] = true, -- Hard to Kill
+        [11500] = true, -- Wanted: Sisters of Torment
+        [11499] = true, -- Wanted: The Signet Ring of Prince Kael'thas
+        [11490] = true, -- The Scryer's Scryer
+        [11488] = true, -- Magisters' Terrace
+
+        -- Magtheridon's Lair
+        [10888] = true, -- Trial of the Naaru: Magtheridon
+        [13430] = true, -- Trial of the Naaru: Magtheridon
+
+        -- Seer Kanai quest chain include Black Temple
+        [10946] = true, -- Ruse of the Ashtongue
+        [10947] = true, -- An Artifact From the Past
+        [10948] = true, -- The Hostage Soul
+        [10949] = true, -- Entry Into the Black Temple
+        [10985] = true, -- A Distraction for Akama
+        [13429] = true, -- A Distraction for Akama
+        [10958] = true, -- Seek Out the Ashtongue
+        [10957] = true, -- Redemption of the Ashtongue
+        [10959] = true, -- The Fall of the Betrayer
+
+        -- Blackwing Lair
+        [8730] = true, -- Nefarius's Corruption
+        [8288] = true, -- Only One May Rise
+
+        -- Karazhan
+        [9824] = true, -- Arcane Disturbances
+        [9644] = true, -- Nightbane
+        [9645] = true, -- The Master's Terrace
+        [9637] = true, -- Kalynna's Request
+        [9630] = true, -- Medivh's Journal
+        [9843] = true, -- Keanna's Log
+        [9844] = true, -- A Demonic Presence
+        [9640] = true, -- The Shade of Aran
+        [9639] = true, -- Kamsis
+        [9825] = true, -- Restless Activity
+        [9840] = true, -- Assessing the Situation
+        [9638] = true, -- In Good Hands
+        [10732] = true, -- Path of the Violet Protector
+        [12616] = true, -- Chamber of Secrets
+        [11216] = true, -- Archmage Alturus
+        [11031] = true, -- Archmage No More
+        [10731] = true, -- Path of the Violet Assassin
+        [10735] = true, -- Down the Violet Path
+        [10733] = true, -- Down the Violet Path
+        [9613] = true, -- Deprecated: Keanna's Will
+        [10738] = true, -- Distinguished Service
+        [10734] = true, -- Down the Violet Path
+        [9838] = true, -- The Violet Eye
+        [10729] = true, -- Path of the Violet Mage
+        [10726] = true, -- Eminence Among the Violet Eye
+        [10739] = true, -- Distinguished Service
+        [10741] = true, -- Distinguished Service
+        [10725] = true, -- Eminence Among the Violet Eye
+        [11034] = true, -- Restorer No More
+        [10727] = true, -- Eminence Among the Violet Eye
+        [10730] = true, -- Path of the Violet Restorer
+        [10736] = true, -- Down the Violet Path
+        [10740] = true, -- Distinguished Service
+        [11032] = true, -- Protector No More
+        [11033] = true, -- Assassin No More
+        [10728] = true, -- Eminence Among the Violet Eye
+
+        [78752] = true, -- Proof of Demise: Titan Rune Protocol Gamma -- not available on Titan servers
+        [78753] = true, -- Proof of Demise: Threats to Azeroth -- not available on Titan servers
 
     }
 end

@@ -492,6 +492,13 @@ local phases = {
     SUNREAVER_ONSLAUGHT_CONQUERORS_TERRACE = 1420,
     SUNREAVER_ONSLAUGHT_THE_BEAST_PENS = 1421,
     LORD_TIRION_FORDRING_AT_TOWER = 1422,
+    BLOODMYST_ISLE_SAVED = 1423,
+    SEER_HAO_DOWN = 1424,
+    SEER_HAO_UP = 1425,
+    KITA_RAZOR_HILL = 1426,
+    KITA_SENJIN_VILLAGE = 1427,
+    BEM_CHAMBERS_OF_BASHIR = 1428,
+    BEM_NEXUS_KING = 1429,
 }
 Phasing.phases = phases
 
@@ -2273,6 +2280,34 @@ function Phasing.IsSpawnVisible(phase)
 
     if phase == phases.LORD_TIRION_FORDRING_AT_TOWER then
         return (questLog[5944] and questLog[5944].isComplete == 1) or false
+    end
+
+    if phase == phases.BLOODMYST_ISLE_SAVED then
+        return complete[9759] or false
+    end
+
+    if phase == phases.SEER_HAO_DOWN then
+        return not (complete[32816] or (questLog[32816] and questLog[32816].isComplete == 1)) or false
+    end
+
+    if phase == phases.SEER_HAO_UP then
+        return complete[32816] or (questLog[32816] and questLog[32816].isComplete == 1) or false
+    end
+
+    if phase == phases.KITA_RAZOR_HILL then
+        return complete[32811] or complete[32814] or false
+    end
+
+    if phase == phases.KITA_SENJIN_VILLAGE then
+        return (not complete[32867] and playerFaction == "Horde") or false
+    end
+
+    if phase == phases.BEM_CHAMBERS_OF_BASHIR then
+        return not complete[10974] or false
+    end
+
+    if phase == phases.BEM_NEXUS_KING then
+        return complete[10974] or false
     end
 
     return false

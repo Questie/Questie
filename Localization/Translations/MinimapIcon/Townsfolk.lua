@@ -11,7 +11,7 @@ local townsfolkLocales = {
         ["koKR"] = "무기상인",
         ["ptBR"] = "Munição",
         ["ruRU"] = "Боеприпасы",
-        ["zhCN"] = "枪械和弹药商",
+        ["zhCN"] = "弹药", -- the official translate
         ["zhTW"] = "武器商人",
     },
     ["Auctioneer"] = {
@@ -119,7 +119,7 @@ local townsfolkLocales = {
         ["koKR"] = "여관주인",
         ["ptBR"] = "Estalajadeiro",
         ["ruRU"] = "Хозяин таверны",
-        ["zhCN"] = "旅馆老板",
+        ["zhCN"] = "旅店老板",
         ["zhTW"] = "旅店老闆",
     },
     ["Mailbox"] = {
@@ -251,7 +251,7 @@ local townsfolkLocales = {
         ["koKR"] = "물약",
         ["ptBR"] = "Poções",
         ["ruRU"] = "Зелья",
-        ["zhCN"] = "药剂商人",
+        ["zhCN"] = "药水商人",
         ["zhTW"] = "藥水商人",
     },
     ["Trade Goods"] = {
@@ -349,6 +349,18 @@ local townsfolkLocales = {
         ["ruRU"] = "Наставник боевых питомцев",
         ["zhCN"] = "战斗宠物训练师",
         ["zhTW"] = "戰寵訓練師",
+    },
+    ["Poisons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Gifte",
+        ["esES"] = "Venenos",
+        ["esMX"] = "Venenos",
+        ["frFR"] = true,
+        ["koKR"] = "독",
+        ["ptBR"] = "Venenos",
+        ["ruRU"] = "Яды",
+        ["zhCN"] = "毒药",
+        ["zhTW"] = "毒藥",
     },
 }
 

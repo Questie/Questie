@@ -63,7 +63,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {3103,77619},
         },
         [376] = { -- High Priestess Laurena
-            [npcKeys.questStarts] = {5634,5645,5673,5676,84320,84321,84324,84326,84327,84329,84413},
+            [npcKeys.questStarts] = {5631,5634,5645,5673,5676,84320,84321,84324,84326,84327,84329,84413},
             [npcKeys.questEnds] = {5634,5635,5636,5637,5638,5639,5640,5676,5677,5678,78193,84320,84323,84324,84325,84326,84412,84413},
         },
         [391] = { -- Old Murk-Eye
@@ -530,7 +530,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {3094,77648},
         },
         [3061] = { -- Lanka Farshot
-            [npcKeys.questStarts] = {6066,77649},
+            [npcKeys.questStarts] = {77649},
             [npcKeys.questEnds] = {3092,77649},
         },
         [3062] = { -- Meela Dawnstrider
@@ -608,6 +608,9 @@ function SeasonOfDiscovery:LoadNPCs()
         [3399] = { -- Zamja
             [npcKeys.questStarts] = {6611,90109},
             [npcKeys.questEnds] = {90109},
+        },
+        [3407] = { -- Sian'dur
+            [npcKeys.questStarts] = {6066,6068},
         },
         [3408] = { -- Zel'mak
             [npcKeys.questStarts] = {78304},
@@ -1088,7 +1091,7 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {5243,5462,5464,5522,87459,87497,89229,89562},
         },
         [11039] = { -- Duke Nicholas Zverenhoff
-            [npcKeys.questStarts] = {5251,5263,5264,5405,5508,5509,5510,85963,85964,85965,85966},
+            [npcKeys.questStarts] = {5251,5263,5264,5503,5508,5509,5510,85963,85964,85965,85966},
             [npcKeys.questEnds] = {5251,5262,5263,5503,5508,5509,5510,6030,85963,85964,85965,85966},
         },
         [11082] = { -- Stratholme Courier
@@ -1119,11 +1122,11 @@ function SeasonOfDiscovery:LoadNPCs()
             [npcKeys.questEnds] = {5307,85700},
         },
         [11397] = { -- Nara Meideros
-            [npcKeys.questStarts] = {5632,5638,78194,78195},
+            [npcKeys.questStarts] = {5632,5638,5674,78194,78195},
             [npcKeys.questEnds] = {78194},
         },
         [11406] = { -- High Priest Rohan
-            [npcKeys.questStarts] = {5639,5641,5675,5677,7639,8254},
+            [npcKeys.questStarts] = {5633,5639,5641,5675,5677,7639,8254},
         },
         [11407] = { -- Var'jun
             [npcKeys.questStarts] = {5655,5661},
@@ -2533,12 +2536,12 @@ function SeasonOfDiscovery:LoadNPCs()
             },
         },
         [230775] = { -- Rage Talon Quartermaster
-            [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1, -1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1, -1}}},
         },
         [231050] = { -- Syndicate Infiltrator
-            [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
-            [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1, -1}}},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1, -1}}},
         },
         [231430] = { -- Caius Blackwood
             [npcKeys.zoneID] = zoneIDs.FELWOOD,

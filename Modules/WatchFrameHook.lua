@@ -1,14 +1,14 @@
 ---@class WatchFrameHook
 local WatchFrameHook = QuestieLoader:CreateModule("WatchFrameHook")
 
-local WatchFrame, QuestTimerFrame = WatchFrame or QuestWatchFrame, QuestTimerFrame
+local QuestTimerFrame = QuestTimerFrame
 
 function WatchFrameHook.Hide()
     if QuestTimerFrame then
         QuestTimerFrame:Hide()
     end
 
-    WatchFrame:Hide()
+    QuestieCompat.HideWatchFrame()
 end
 
 return WatchFrameHook

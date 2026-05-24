@@ -41,7 +41,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 type = "toggle",
                 order = 1.1,
                 name = function() return l10n("Auto Complete Quests"); end,
-                desc = function() return l10n("When enabled, Questie will automatically hand in finished quests when talking to NPCs."); end,
+                desc = function() return l10n("If checked, Questie will automatically hand in finished quests when talking to NPCs."); end,
                 get = function () return Questie.db.profile.autocomplete; end,
                 set = function (info, value)
                     Questie.db.profile.autocomplete = value
@@ -58,7 +58,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 type = "toggle",
                 order = 2.1,
                 name = function() return l10n("Auto Accept Quests"); end,
-                desc = function() return l10n("When enabled, Questie will automatically accept quest dialogs when they appear, depending on the rules below."); end,
+                desc = function() return l10n("If checked, Questie will automatically accept quest dialogs when they appear, depending on the rules below."); end,
                 get = function () return Questie.db.profile.autoAccept.enabled; end,
                 set = function (info, value)
                     Questie.db.profile.autoAccept.enabled = value
@@ -278,7 +278,7 @@ function QuestieOptions.tabs.auto:Initialize()
             --    type = "toggle",
             --    order = 8,
             --    name = function() return l10n("Accept trivial (low level) quests"); end,
-            --    desc = function() return l10n("When this is enabled trivial (gray) quests will be auto accepted as well."); end,
+            --    desc = function() return l10n("If checked, trivial (gray) quests will be auto accepted as well."); end,
             --    disabled = function() return (not Questie.db.profile.autoAccept.enabled) end,
             --    width = 1.5,
             --    get = function () return Questie.db.profile.autoAccept.trivial; end,

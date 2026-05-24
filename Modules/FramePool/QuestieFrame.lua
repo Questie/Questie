@@ -314,9 +314,9 @@ function _Qframe.UpdateTexture(self, texture)
     local colors = { 1, 1, 1 }
 
     if self.data.StarterType then
-        if self.data.StarterType == "itemFromMonster" then
+        if self.data.StarterType == "itemFromMonster" or self.data.StarterType == "itemFromObject" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
-        elseif self.data.StarterType == "itemFromObject" then
+        elseif self.data.StarterType == "Object" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
         end
     else
@@ -529,8 +529,7 @@ function _Qframe.ShouldBeHidden(self)
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and (
-                    (not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
-                or ((not profile.enableAvailable) and normal)
+                   ((not profile.enableAvailable) and normal)
                 or ((not profile.showRepeatableQuests) and repeatable)
                 or ((not profile.showEventQuests) and event)
                 or ((not profile.showDungeonQuests) and dungeon)

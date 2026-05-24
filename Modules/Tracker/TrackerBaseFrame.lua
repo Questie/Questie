@@ -17,7 +17,6 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local WatchFrame = QuestWatchFrame or WatchFrame
 local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
 local updateTimer
 
@@ -135,30 +134,22 @@ function TrackerBaseFrame.Initialize()
             Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
             Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
-            if WatchFrame then
-                local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
-                Questie.db.profile.trackerSetpoint = "TOPLEFT"
+            local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
+            Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
-                if (not result2) then
-                    Questie.db.profile.TrackerLocation = nil
-                    TrackerBaseFrame:SetSafePoint()
-                end
-            else
+            if (not result2) then
+                Questie.db.profile.TrackerLocation = nil
                 TrackerBaseFrame:SetSafePoint()
             end
         end
     else
-        if WatchFrame then
-            local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
-            Questie.db.profile.trackerSetpoint = "TOPLEFT"
+        local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
+        Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
-            if not result then
-                Questie.db.profile.TrackerLocation = nil
-                Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
-                Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
-                TrackerBaseFrame:SetSafePoint()
-            end
-        else
+        if not result then
+            Questie.db.profile.TrackerLocation = nil
+            Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
             TrackerBaseFrame:SetSafePoint()
         end
     end
@@ -565,21 +556,21 @@ _SetSizerTooltip = function()
 
     if IsShiftKeyDown() then
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. l10n(": "), "white") .. trackerSizeMode)
         if Questie.db.profile.trackerLocked then
-            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker"))
-            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. ": ", "gray") .. l10n("Reset Sizer"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. l10n(": "), "gray") .. l10n("Resize Tracker"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. l10n(": "), "gray") .. l10n("Reset Sizer"))
         else
-            GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker"))
-            GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Reset Sizer"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. l10n(": "), "gray") .. l10n("Resize Tracker"))
+            GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. l10n(": "), "gray") .. l10n("Reset Sizer"))
         end
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. ": ", "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. l10n(": "), "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
         GameTooltip:Show()
     else
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
-        GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. l10n(": "), "white") .. trackerSizeMode)
+        GameTooltip:AddLine(Questie:Colorize(l10n("(") .. l10n("Hold Shift") .. l10n(")"), "gray"))
         GameTooltip:Show()
     end
 end

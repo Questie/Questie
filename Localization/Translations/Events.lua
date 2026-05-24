@@ -1,3 +1,5 @@
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -20,10 +22,10 @@ local eventsLocales = {
         ["esES"] = "Festival Lunar",
         ["esMX"] = "Festival Lunar",
         ["frFR"] = "Fête lunaire",
-        ["koKR"] = "달의 축제",
+        ["koKR"] = (Expansions.Current == Expansions.Era and "설날") or "달의 축제",
         ["ptBR"] = "Festival da Lua",
         ["ruRU"] = "Лунный фестиваль",
-        ["zhCN"] = "春节",
+        ["zhCN"] = "新年",
         ["zhTW"] = "新年慶典",
     },
     ["Love is in the Air"] = {
@@ -301,6 +303,18 @@ local eventsLocales = {
         ["ruRU"] = "Бойцовская гильдия",
         ["zhCN"] = "搏击俱乐部",
         ["zhTW"] = "鬥陣俱樂部",
+    },
+    ["Titan-Reforged Realm"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = true,
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "泰坦重铸服务器",
+        ["zhTW"] = true,
     },
 }
 

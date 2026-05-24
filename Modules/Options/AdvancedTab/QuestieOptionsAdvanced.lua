@@ -61,7 +61,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "range",
                 order = 1.2,
                 name = function() return l10n("Icon Limit"); end,
-                desc = function() return l10n("Limits the amount of icons drawn per type. ( Default: %s )", optionsDefaults.profile.iconLimit); end,
+                desc = function() return l10n("Limits the amount of icons drawn per type. (Default: %s)", optionsDefaults.profile.iconLimit); end,
                 width = 1.5,
                 min = 1,
                 max = 5000,
@@ -83,21 +83,20 @@ function QuestieOptions.tabs.advanced:Initialize()
                 width = 0.3,
                 func = function() end,
             },
-            clusterLevelHotzone = {
+            objectiveFilterDistance = {
                 type = "range",
                 order = 1.4,
-                name = function() return l10n("Objective icon cluster amount"); end,
-                desc = function() return l10n("How much objective icons should cluster."); end,
+                name = function() return l10n("Objective icon filter distance"); end,
+                desc = function() return l10n("Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter."); end,
                 width = 1.5,
                 disabled = function() return (not Questie.db.profile.enabled); end,
-                min = 1,
-                max = 300,
+                min = 0,
+                max = 5,
                 step = 1,
                 get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function(info, value)
-                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", value))
                     QuestieOptions:SetProfileValue(info, value)
-                    QuestieOptionsUtils.DetermineTheme()
+                    QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting objective filter distance to %s : Redrawing!", value))
                 end,
             },
             spawnFilterDistance = {
@@ -245,37 +244,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.2,
                 name = function() return l10n("Reset Questie"); end,
                 desc = function() return l10n("Reset Questie to the default values for all settings."); end,
-                func = function (_, _)
-                    -- update all values to default
-                    for k,v in pairs(optionsDefaults.profile) do
-                       Questie.db.profile[k] = v
-                    end
-
-                    -- only toggle questie if it"s off (must be called before resetting the value)
-                    if (not Questie.db.profile.enabled) then
-                        Questie.db.profile.enabled = true
-                        --QuestieQuest:ToggleNotes(true);
-                    end
-
-                    Questie.db.profile.enabled = optionsDefaults.profile.enabled;
-                    Questie.db.profile.lowLevelStyle = optionsDefaults.profile.lowLevelStyle;
-
-                    Questie.db.profile.migrationVersion = nil
-
-                    Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
-
-                    if Questie.IsSoD then
-                        Questie.db.global.sod.dbIsCompiled = false
-                    else
-                        Questie.db.global.dbIsCompiled = false
-                    end
-
-                    Questie.db.char.hidden = nil
-                    Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies;
-
-                    Questie.db.global.unavailableQuestsDeterminedByTalking = {}
-
-                    ReloadUI()
+                func = function()
+                    StaticPopup_Show("QUESTIE_RESET_CONFIRM")
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
@@ -285,9 +255,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Reset Questie Journey"); end,
                 desc = function() return l10n("Clear the Journey of the current character"); end,
                 func = function(_,_)
-                    Questie.db.char.journey = nil
-
-                    ReloadUI()
+                    StaticPopup_Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
@@ -297,12 +265,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Recompile Database"); end,
                 desc = function() return l10n("Forces a recompile of the Questie database. This will also reload the UI."); end,
                 func = function (_, _)
-                    if Questie.IsSoD then
-                        Questie.db.global.sod.dbIsCompiled = false
-                    else
-                        Questie.db.global.dbIsCompiled = false
-                    end
-                    ReloadUI()
+                    StaticPopup_Show("QUESTIE_RECOMPILE_DATABASE_CONFIRM")
                 end,
             },
             Spacer_G = QuestieOptionsUtils:Spacer(4.7),
@@ -331,7 +294,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.01,
                 name = function() return l10n("Enable bug workarounds"); end,
-                desc = function() return l10n("When enabled, Questie will hotfix vanilla UI bugs."); end,
+                desc = function() return l10n("If checked, Questie will hotfix vanilla UI bugs."); end,
                 width = "full",
                 get = function() return Questie.db.profile.bugWorkarounds; end,
                 set = function (_, value)
@@ -354,7 +317,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.02,
                 name = function() return l10n("Show Item IDs"); end,
-                desc = function() return l10n("When this is checked, the ID of items will shown in tooltips."); end,
+                desc = function() return l10n("If checked, the ID of items will shown in tooltips."); end,
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsItemID; end,
@@ -366,7 +329,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.03,
                 name = function() return l10n("Show NPC IDs"); end,
-                desc = function() return l10n("When this is checked, the ID of NPCs will be shown in tooltips."); end,
+                desc = function() return l10n("If checked, the ID of NPCs will be shown in tooltips."); end,
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsNPCID; end,
@@ -378,7 +341,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.04,
                 name = function() return l10n("Show Object IDs"); end,
-                desc = function() return l10n("When this is checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB."); end,
+                desc = function() return l10n("If checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB."); end,
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsObjectID; end,
@@ -390,7 +353,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.05,
                 name = function() return l10n("Show Quest IDs"); end,
-                desc = function() return l10n("When this is checked, the ID of quests will show in tooltips and the tracker."); end,
+                desc = function() return l10n("If checked, the ID of quests will show in tooltips and the tracker."); end,
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsQuestID; end,
@@ -471,6 +434,92 @@ function QuestieOptions.tabs.advanced:Initialize()
         },
     }
 end
+
+StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
+    text = "",
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        for k,v in pairs(optionsDefaults.profile) do
+            Questie.db.profile[k] = v
+        end
+
+        if (not Questie.db.profile.enabled) then
+            Questie.db.profile.enabled = true
+        end
+
+        Questie.db.profile.enabled = optionsDefaults.profile.enabled
+        Questie.db.profile.lowLevelStyle = optionsDefaults.profile.lowLevelStyle
+        Questie.db.profile.migrationVersion = nil
+        Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
+
+        if Questie.IsSoD then
+            Questie.db.global.sod.dbIsCompiled = false
+        else
+            Questie.db.global.dbIsCompiled = false
+        end
+
+        Questie.db.char.hidden = nil
+        Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
+        Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+
+        ReloadUI()
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("Are you sure you want to reset Questie to default settings?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
+StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
+    text = "", -- we set it in OnShow
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        Questie.db.char.journey = nil
+        ReloadUI()
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("Are you sure you want to reset the Questie Journey for this character?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
+StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
+    text = "", -- we set it in OnShow
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+            if Questie.IsSoD then
+                Questie.db.global.sod.dbIsCompiled = false
+            else
+                Questie.db.global.dbIsCompiled = false
+            end
+            ReloadUI()
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
 
 _GetLanguages = function()
     local languages = {

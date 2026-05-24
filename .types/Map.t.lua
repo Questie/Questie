@@ -1,4 +1,4 @@
-
+---@meta _
 
 ---@alias ZoneName string
 ---@alias ContinentName string

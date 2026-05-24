@@ -80,6 +80,14 @@ class QuestFormatter:
             return "raceIDs.TROLL"
         if req_race == "178":
             return "raceIDs.ALL_HORDE"
+        if req_race == "256":
+            return "raceIDs.GOBLIN"
+        if req_race == "512":
+            return "raceIDs.BLOOD_ELF"
+        if req_race == "1024":
+            return "raceIDs.DRAENEI"
+        if req_race == "2097152":
+            return "raceIDs.WORGEN"
         else:
             return "raceIDs.NONE"
 

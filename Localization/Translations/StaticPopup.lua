@@ -63,8 +63,8 @@ local staticPopup = {
         ["koKR"] = "지원되지 않습니다",
         ["ptBR"] = "não são suportados.",
         ["ruRU"] = "не поддерживаются.",
-        ["zhCN"] = "不受支持。",
-        ["zhTW"] = "都不支援。",
+        ["zhCN"] = "不受支持",
+        ["zhTW"] = "都不支援",
     },
     ["Questie only supports"] = {
         ["enUS"] = true,

@@ -50,7 +50,6 @@ body:
       description: >
         Please select the WoW version you encountered this issue in
       options:
-        - Anniversary
         - Era/HC
         - Season of Discovery
         - TBC

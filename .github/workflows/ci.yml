@@ -19,60 +19,96 @@ on:
       - reopened
 
 jobs:
-  ci:
+  luacheck:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v6
-
-      - name: Install Lua
-        run: |
-          sudo apt-get install lua5.1 lua-check luarocks
-          sudo luarocks install bit32
-          sudo luarocks install busted
-          sudo luarocks install luafilesystem
-
-      - name: Run busted Unit Tests
-        run: |
-          busted -p ".test.lua" .
-          rm -rf cli/output
-
-      - name: Validate Era database
-        run: lua cli/validate-era.lua
-
-      - name: Validate SoD database
-        run: lua cli/validate-sod.lua
-
-      - name: Validate TBC database
-        run: lua cli/validate-tbc.lua
-
-      - name: Validate WotLK database
-        run: lua cli/validate-wotlk.lua
-
-#      - name: Validate Cata database
-#        run: lua cli/validate-cata.lua
-
-      - name: Validate MoP database
-        run: lua cli/validate-mop.lua
-
-      - name: Validate Localized database
-        run: lua cli/validate-localization.lua
+        uses: actions/checkout@v6.0.2
 
       - name: Run Luacheck
-        run: luacheck -q -- Database Localization Modules Public Questie.lua
+        uses: nebularg/actions-luacheck@v1.1.2
+        with:
+          files: Database Localization Modules Public Questie.lua
+          args: -q
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+    env:
+      TZ: Europe/Berlin
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v6.0.2
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v13.0.0
+        with:
+          luaVersion: "5.1"
+
+      - name: Install luarocks packages
+        uses: leafo/gh-actions-luarocks@v6.1.0
+        with:
+          luaRocksVersion: "3.13.0"
+
+      - name: Install test dependencies
+        run: |
+          luarocks install bit32 5.3.5.1-1
+          luarocks install busted 2.2.0-1
+          luarocks install luafilesystem 1.8.0-1
+
+      - name: Run busted Unit Tests
+        run: busted -p ".test.lua" .
+
+  db-validation:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+    env:
+      TZ: Europe/Berlin
+    strategy:
+      matrix:
+        expansion: [era, sod, tbc, wotlk, mop, localization]
+      fail-fast: false
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v6.0.2
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v13.0.0
+        with:
+          luaVersion: "5.1"
+
+      - name: Install luarocks packages
+        uses: leafo/gh-actions-luarocks@v6.1.0
+        with:
+          luaRocksVersion: "3.13.0"
+
+      - name: Install dependencies
+        run: |
+          luarocks install bit32 5.3.5.1-1
+          luarocks install luafilesystem 1.8.0-1
+
+      - name: Validate ${{ matrix.expansion }} database
+        run: lua cli/validate-${{ matrix.expansion }}.lua
 
       - name: Upload correction files
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7.0.1
         with:
-          name: correction-files
+          name: correction-files-${{ matrix.expansion }}
           path: cli/output/
         if: success() || failure()
 
+  notify:
+    runs-on: ubuntu-latest
+    needs: [luacheck, unit-tests, db-validation]
+    if: failure()
+
+    steps:
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-        if: ${{ failure() }}
+          status: failure
