@@ -95,7 +95,7 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     local selectedKey = dropdownOrder[1]
 
     local dropdown = AceGUI:Create("Dropdown")
-    dropdown:SetLabel(l10n("Select a character to import:"))
+    dropdown:SetLabel(l10n("Select a character to import"))
     dropdown:SetFullWidth(true)
     dropdown:SetList(dropdownList, dropdownOrder)
     dropdown:SetValue(selectedKey)
