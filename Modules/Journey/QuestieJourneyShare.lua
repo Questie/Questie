@@ -175,7 +175,6 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
 
     dropdown:SetCallback("OnValueChanged", function(_, _, value)
         selectedKey = value
-        countLabel:SetText(string.format(l10n("%d journey entries"), #characters[value]))
     end)
 
     local importBtn = AceGUI:Create("Button")
@@ -193,7 +192,6 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     end)
 
     frame:AddChild(dropdown)
-    frame:AddChild(countLabel)
     frame:AddChild(importBtn)
     frame:Show()
 end
@@ -207,7 +205,9 @@ StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
     OnAccept = function()
         Questie.db.char.journey = _pendingJourneyImport
         _pendingJourneyImport = nil
-        frame:Hide()
+        if _journeyImportFrame then
+            _journeyImportFrame:Hide()
+        end
         Questie:Print(l10n("Journey imported. Open the My Journey tab to see the changes."))
     end,
     OnCancel = function()
