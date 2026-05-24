@@ -249,19 +249,12 @@ local function _GetTooltipBody(objectiveText, playerName, objective)
     return { [line] = false }
 end
 
----@param questName string
 ---@param objectiveText string
 ---@param playerName string
 ---@param objective table
 ---@return table
-local function _GetFallbackManualTooltipBody(questName, objectiveText, playerName, objective)
-    local progressText = tostring(objective.fulfilled or 0) .. "/" .. tostring(objective.required or 0)
-    return {
-        {"Quest: ", questName},
-        {"Player: ", playerName},
-        {"Objective: ", objectiveText},
-        {"Progress: ", progressText},
-    }
+local function _GetFallbackManualTooltipBody(objectiveText, playerName, objective)
+    return _GetTooltipBody(objectiveText, playerName, objective)
 end
 
 ---@param questId QuestId
@@ -316,7 +309,7 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
                     else
                         data.ManualTooltipData = {
                             Title = questName,
-                            Body = _GetFallbackManualTooltipBody(questName, objectiveDescription, playerName, objective),
+                            Body = _GetFallbackManualTooltipBody(objectiveDescription, playerName, objective),
                             disableShiftToRemove = true,
                         }
                     end
