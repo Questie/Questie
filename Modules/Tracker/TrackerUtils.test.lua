@@ -7,6 +7,8 @@ describe("TrackerUtils", function()
     local QuestieDB
     ---@type ZoneIDs
     local ZoneIDs
+    ---@type QuestieLib
+    local QuestieLib
     ---@type QuestiePlayer
     local QuestiePlayer
     ---@type TrackerLinePool
@@ -37,6 +39,7 @@ describe("TrackerUtils", function()
         Expansions = require("Modules.Expansions")
         QuestieDB = require("Database.QuestieDB")
         ZoneIDs = require("Database.Zones.zoneDB").zoneIDs
+        QuestieLib = require("Modules.Libs.QuestieLib")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
@@ -727,11 +730,24 @@ describe("TrackerUtils", function()
                 [6] = {Id = 6, level = 5, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
                 [7] = {Id = 7, level = 79, zoneOrSort = ZoneIDs.ZUL_DRAK, IsComplete = function() return 1 end},
                 [8] = {Id = 8, level = 10, zoneOrSort = ZoneIDs.DUN_MOROGH, IsComplete = function() return 1 end},
+                [9] = {Id = 9, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [10] = {Id = 10, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [11] = {Id = 11, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [12] = {Id = 12, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [13] = {Id = 13, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
             }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [11] = "D",
+                    [12] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
 
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
-            assert.are.same({8, 6, 1, 4, 2, 5, 7, 3}, sortedIds)
+            assert.are.same({8, 6, 1, 9, 10, 13, 12, 11, 4, 2, 5, 7, 3}, sortedIds)
         end)
     end)
 end)
