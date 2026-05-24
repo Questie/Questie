@@ -637,31 +637,7 @@ function TrackerUtils:GetSortedQuestIds()
     elseif sortObj == "byLevelReversed" then
         Sorter.byLevelReverse(sortedQuestIds, questDetails)
     elseif sortObj == "byZone" then
-        table.sort(sortedQuestIds, function(a, b)
-            local qA = questDetails[a].quest
-            local qB = questDetails[b].quest
-            local qAZone = questDetails[a].zoneName
-            local qBZone = questDetails[b].zoneName
-
-            -- Sort by Zone then by Level to mimic QuestLog sorting
-            if qAZone == qBZone then
-                if qA.level == qB.level then
-                    local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
-                    local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
-                    if suffixPrioA == suffixPrioB then
-                        return qA.Id < qB.Id
-                    end
-                    return suffixPrioA < suffixPrioB
-                end
-                return qA.level < qB.level
-            else
-                if qAZone ~= nil and qBZone ~= nil then
-                    return qAZone < qBZone
-                else
-                    return qAZone and qBZone
-                end
-            end
-        end)
+        Sorter.byZone(sortedQuestIds, questDetails)
     elseif sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
         local toSort = {}
         local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
