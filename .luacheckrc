@@ -2894,6 +2894,7 @@ globals = {
     "QuestieConfigFrame",
     "QuestieConfig",
     "QuestieCompat",
+    "QuestieImportJourneyFrame",
     "QuestieWorldMapButtonMixin",
     "Validators",
     -----------------------------------------------------> busted unit testing
