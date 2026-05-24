@@ -2469,13 +2469,13 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 4322,
         },
         [4285] = {
-            [questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{56,12}}}},
+            [questKeys.objectives] = {nil,{{164955}}},
         },
         [4287] = {
-            [questKeys.triggerEnd] = {"Discover and examine the Eastern Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{77,50}}}},
+            [questKeys.objectives] = {nil,{{164957}}},
         },
         [4288] = {
-            [questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{23,59}}}},
+            [questKeys.objectives] = {nil,{{164956}}},
         },
         [4289] = { -- The Apes of Un'Goro
             [questKeys.nextQuestInChain] = 4301,
