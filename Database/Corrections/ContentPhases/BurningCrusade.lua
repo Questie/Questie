@@ -71,8 +71,8 @@ local questsToBlacklistByPhase = {
         [11102] = true,
         [11119] = true,
         [11885] = true,
-    },
-    [3] = { -- Phase 3 - T6 (Hyjal, BT)
+
+        -- Mount Hyjal ring quests
         [10460] = true,
         [10461] = true,
         [10462] = true,
@@ -89,17 +89,19 @@ local questsToBlacklistByPhase = {
         [10473] = true,
         [10474] = true,
         [10475] = true,
-        [10947] = true, -- might be phase 2
-        [10948] = true, -- might be phase 2
-        [10949] = true, -- might be phase 2
-        [10957] = true,
-        [10958] = true,
-        [10959] = true,
-        [10985] = true,
+        [10947] = true,
         [11103] = true,
         [11104] = true,
         [11105] = true,
         [11106] = true,
+    },
+    [3] = { -- Phase 3 - T6 (Hyjal, BT)
+        [10948] = true,
+        [10949] = true,
+        [10957] = true,
+        [10958] = true,
+        [10959] = true,
+        [10985] = true,
 
         -- Netherwing
         [11012] = true,
