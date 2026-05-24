@@ -3153,7 +3153,8 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.TIRISFAL_GLADES] = {{31.38,70.3}},
                 [zoneIDs.ELWYNN_FOREST] = {{47.82,42.34}},
                 [zoneIDs.DUN_MOROGH] = {{28.85,71.35}},
-                [zoneIDs.TELDRASSIL] = {{58.38,41.76}}},
+                [zoneIDs.TELDRASSIL] = {{58.38,41.76}}
+            },
             [npcKeys.friendlyToFaction] = "AH",
         },
         [257403] = { -- Algalon the Observer
