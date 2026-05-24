@@ -264,7 +264,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             journeyBrowseCharacters = {
                 type = "execute",
                 order = 4.46,
-                name = function() return l10n("Import from Character") end,
+                name = function() return l10n("Import Journey data") end,
                 desc = function() return l10n("Browse other characters on this account and import their journey data.") end,
                 func = function() QuestieJourney.private:ShowCharacterBrowserFrame() end,
             },

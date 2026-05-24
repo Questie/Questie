@@ -62,7 +62,7 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
 
     local frame = AceGUI:Create("Frame")
     _journeyCharacterBrowserFrame = frame
-    frame:SetTitle(l10n("Import from Character"))
+    frame:SetTitle(l10n("Import Journey data"))
     frame:SetLayout("Flow")
     frame:SetWidth(300)
     frame:SetCallback("OnClose", function(widget)
@@ -119,8 +119,8 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     if statusBar then statusBar:Hide() end
 
     local importBtnNative = CreateFrame("Button", nil, frame.frame, "UIPanelButtonTemplate")
-    importBtnNative:SetSize(150, 20)
-    importBtnNative:SetText(l10n("Import journey data"))
+    importBtnNative:SetSize(105, 20)
+    importBtnNative:SetText(l10n("Import"))
     if closeBtn then
         importBtnNative:SetPoint("RIGHT", closeBtn, "LEFT", -5, 0)
     else
