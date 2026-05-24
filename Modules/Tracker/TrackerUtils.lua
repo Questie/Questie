@@ -632,7 +632,16 @@ function TrackerUtils:GetSortedQuestIds()
             if vA == vB then
                 local qA = questDetails[a].quest
                 local qB = questDetails[b].quest
-                return qA and qB and qA.level < qB.level
+
+                if qA.level == qB.level then
+                    local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
+                    local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
+                    if suffixPrioA == suffixPrioB then
+                        return qA.Id < qB.Id
+                    end
+                    return suffixPrioA < suffixPrioB
+                end
+                return qA.level < qB.level
             end
 
             if sortObj == "byComplete" then
