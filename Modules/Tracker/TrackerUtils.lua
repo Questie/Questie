@@ -628,7 +628,9 @@ function TrackerUtils:GetSortedQuestIds()
     end
 
     -- Quests and objectives sort
-    if sortObj == "byComplete" then
+    if sortObj == "byZone" then
+        Sorter.byZone(sortedQuestIds, questDetails)
+    elseif sortObj == "byComplete" then
         Sorter.byComplete(sortedQuestIds, questDetails)
     elseif sortObj == "byCompleteReversed" then
         Sorter.byCompleteReverse(sortedQuestIds, questDetails)
@@ -636,8 +638,6 @@ function TrackerUtils:GetSortedQuestIds()
         Sorter.byLevel(sortedQuestIds, questDetails)
     elseif sortObj == "byLevelReversed" then
         Sorter.byLevelReverse(sortedQuestIds, questDetails)
-    elseif sortObj == "byZone" then
-        Sorter.byZone(sortedQuestIds, questDetails)
     elseif sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
         local toSort = {}
         local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
