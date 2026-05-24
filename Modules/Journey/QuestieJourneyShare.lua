@@ -80,7 +80,7 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
         return
     end
 
-    frame:SetHeight(230)
+    frame:SetHeight(175)
 
     local dropdownList = {}
     local dropdownOrder = {}
@@ -103,10 +103,30 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
         selectedKey = value
     end)
 
-    local importBtn = AceGUI:Create("Button")
-    importBtn:SetText(l10n("Import"))
-    importBtn:SetFullWidth(true)
-    importBtn:SetCallback("OnClick", function()
+    -- Find AceGUI's built-in close button and status bar.
+    -- statusbg is a Button (BackdropTemplate, no text) that spans the bottom and blocks clicks in that zone.
+    -- We hide it (unused) and anchor the Import button directly to the left of the close button.
+    local closeBtn, statusBar
+    for _, child in next, {frame.frame:GetChildren()} do
+        if child:GetObjectType() == "Button" then
+            if child:GetText() == CLOSE then
+                closeBtn = child
+            elseif child:GetHeight() == 24 then
+                statusBar = child
+            end
+        end
+    end
+    if statusBar then statusBar:Hide() end
+
+    local importBtnNative = CreateFrame("Button", nil, frame.frame, "UIPanelButtonTemplate")
+    importBtnNative:SetSize(150, 20)
+    importBtnNative:SetText(l10n("Import journey data"))
+    if closeBtn then
+        importBtnNative:SetPoint("RIGHT", closeBtn, "LEFT", -5, 0)
+    else
+        importBtnNative:SetPoint("BOTTOMRIGHT", frame.frame, "BOTTOMRIGHT", -132, 17)
+    end
+    importBtnNative:SetScript("OnClick", function()
         local journey = QuestieConfig.char[selectedKey] and QuestieConfig.char[selectedKey].journey
         if not journey or not _ValidateJourneyData(journey) then
             Questie:Print(l10n("Invalid journey data - paste the full exported text."))
@@ -116,8 +136,14 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
         StaticPopup_Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
     end)
 
+    frame:SetCallback("OnClose", function(widget)
+        importBtnNative:Hide()
+        if statusBar then statusBar:Show() end
+        AceGUI:Release(widget)
+        _journeyCharacterBrowserFrame = nil
+    end)
+
     frame:AddChild(dropdown)
-    frame:AddChild(importBtn)
     frame:Show()
 end
 
