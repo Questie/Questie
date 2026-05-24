@@ -65,6 +65,7 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     frame:SetTitle(l10n("Import Journey data"))
     frame:SetLayout("Flow")
     frame:SetWidth(300)
+    frame:EnableResize(false)
     frame:SetCallback("OnClose", function(widget)
         AceGUI:Release(widget)
         _journeyCharacterBrowserFrame = nil
