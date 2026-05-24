@@ -660,6 +660,14 @@ function TrackerUtils:GetSortedQuestIds()
 
             -- Sort by Zone then by Level to mimic QuestLog sorting
             if qAZone == qBZone then
+                if qA.level == qB.level then
+                    local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
+                    local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
+                    if suffixPrioA == suffixPrioB then
+                        return qA.Id < qB.Id
+                    end
+                    return suffixPrioA < suffixPrioB
+                end
                 return qA.level < qB.level
             else
                 if qAZone ~= nil and qBZone ~= nil then
