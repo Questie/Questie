@@ -110,7 +110,8 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     local closeBtn, statusBar
     for _, child in next, {frame.frame:GetChildren()} do
         if child:GetObjectType() == "Button" then
-            if child:GetText() == CLOSE then
+            local text = child:GetText()
+            if text == CLOSE then
                 closeBtn = child
             elseif not text or text == "" then
                 statusBar = child
