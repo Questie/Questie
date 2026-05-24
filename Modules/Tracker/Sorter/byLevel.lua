@@ -4,6 +4,18 @@ local Sorter = QuestieLoader:ImportModule("Sorter")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
+---@param questIdA QuestId
+---@param questIdB QuestId
+---@return boolean
+local function compareBySuffix(questIdA, questIdB)
+    local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
+    local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
+    if suffixPrioA == suffixPrioB then
+        return questIdA < questIdB
+    end
+    return suffixPrioA < suffixPrioB
+end
+
 --- Sorts the given questIds in place by their level, with lower level quests first.
 ---@param questIds QuestId[]
 ---@param questDetails table<QuestId, QuestSortDetails>
@@ -13,12 +25,7 @@ function Sorter.byLevel(questIds, questDetails)
         local questB = questDetails[questIdB].quest
 
         if questA.level == questB.level then
-            local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
-            local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
-            if suffixPrioA == suffixPrioB then
-                return questIdA < questIdB
-            end
-            return suffixPrioA < suffixPrioB
+            return compareBySuffix(questIdA, questIdB)
         end
 
         return questA.level < questB.level
@@ -34,12 +41,7 @@ function Sorter.byLevelReverse(questIds, questDetails)
         local questB = questDetails[questIdB].quest
 
         if questA.level == questB.level then
-            local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
-            local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
-            if suffixPrioA == suffixPrioB then
-                return questIdA < questIdB
-            end
-            return suffixPrioA < suffixPrioB
+            return compareBySuffix(questIdA, questIdB)
         end
 
         return questA.level > questB.level
