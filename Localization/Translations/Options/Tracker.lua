@@ -342,7 +342,7 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Questie Tracker will automatically be minimized when entering a dungeon, raid, or battleground."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons, Schlachtzugs oder Schlachtfelds automatisch minimiert.",
+        ["deDE"] = "Wenn aktiviert, wird der Tracker beim Betreten eines Dungeons, Schlachtzugs oder Schlachtfelds automatisch minimiert.",
         ["esES"] = "Si está seleccionado, el rastreador se minimizará automáticamente al entrar en una mazmorra, banda o campo de batalla.",
         ["esMX"] = "Si está seleccionado, el rastreador se minimizará automáticamente al entrar en un calabozo, banda o campo de batalla.",
         ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement réduit lors de l’entrée dans un donjon, un raid ou un champ de bataille.",
