@@ -4,36 +4,38 @@ local Sorter = QuestieLoader:ImportModule("Sorter")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
----@param aQuestId QuestId
----@param aQuestLevel number
----@param bQuestId QuestId
----@param bQuestLevel number
+---@param questIdA QuestId
+---@param questLevelA number
+---@param questIdB QuestId
+---@param questLevelB number
 ---@return boolean
-local function compareByQuestLevelAndType(aQuestId, aQuestLevel, bQuestId, bQuestLevel)
-    if aQuestLevel == bQuestLevel then
-        local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(aQuestId)
-        local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(bQuestId)
+local function compareByQuestLevelAndType(questIdA, questLevelA, questIdB, questLevelB)
+    if questLevelA == questLevelB then
+        local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
+        local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
         if suffixPrioA == suffixPrioB then
-            return aQuestId < bQuestId
+            return questIdA < questIdB
         end
         return suffixPrioA < suffixPrioB
     end
-    return aQuestLevel < bQuestLevel
+    return questLevelA < questLevelB
 end
 
 --- Sorts the given questIds in place by their completion status, with completed quests first.
 ---@param questIds QuestId[]
 ---@param questDetails table<QuestId, QuestSortDetails>
 function Sorter.byComplete(questIds, questDetails)
-    table.sort(questIds, function(a, b)
-        local vA, vB = questDetails[a].questCompletePercent, questDetails[b].questCompletePercent
-        if vA == vB then
-            local aQuest = questDetails[a].quest
-            local bQuest = questDetails[b].quest
-            return compareByQuestLevelAndType(aQuest.Id, aQuest.level, bQuest.Id, bQuest.level)
+    table.sort(questIds, function(questIdA, questIdB)
+        local percentageA = questDetails[questIdA].questCompletePercent
+        local percentageB = questDetails[questIdB].questCompletePercent
+
+        if percentageA == percentageB then
+            local questA = questDetails[questIdA].quest
+            local questB = questDetails[questIdB].quest
+            return compareByQuestLevelAndType(questIdA, questA.level, questIdB, questB.level)
         end
 
-        return vB < vA
+        return percentageB < percentageA
     end)
 end
 
@@ -41,14 +43,16 @@ end
 ---@param questIds QuestId[]
 ---@param questDetails table<QuestId, QuestSortDetails>
 function Sorter.byCompleteReverse(questIds, questDetails)
-    table.sort(questIds, function(a, b)
-        local vA, vB = questDetails[a].questCompletePercent, questDetails[b].questCompletePercent
-        if vA == vB then
-            local aQuest = questDetails[a].quest
-            local bQuest = questDetails[b].quest
-            return compareByQuestLevelAndType(aQuest.Id, aQuest.level, bQuest.Id, bQuest.level)
+    table.sort(questIds, function(questIdA, questIdB)
+        local percentageA = questDetails[questIdA].questCompletePercent
+        local percentageB = questDetails[questIdB].questCompletePercent
+
+        if percentageA == percentageB then
+            local questA = questDetails[questIdA].quest
+            local questB = questDetails[questIdB].quest
+            return compareByQuestLevelAndType(questIdA, questA.level, questIdB, questB.level)
         end
 
-        return vB > vA
+        return percentageB > percentageA
     end)
 end

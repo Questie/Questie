@@ -8,20 +8,20 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@param questIds QuestId[]
 ---@param questDetails table<QuestId, QuestSortDetails>
 function Sorter.byLevel(questIds, questDetails)
-    table.sort(questIds, function(a, b)
-        local qA = questDetails[a].quest
-        local qB = questDetails[b].quest
+    table.sort(questIds, function(questIdA, questIdB)
+        local questA = questDetails[questIdA].quest
+        local questB = questDetails[questIdB].quest
 
-        if qA.level == qB.level then
-            local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
-            local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
+        if questA.level == questB.level then
+            local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
+            local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
             if suffixPrioA == suffixPrioB then
-                return qA.Id < qB.Id
+                return questIdA < questIdB
             end
             return suffixPrioA < suffixPrioB
         end
 
-        return qA.level < qB.level
+        return questA.level < questB.level
     end)
 end
 
@@ -29,19 +29,19 @@ end
 ---@param questIds QuestId[]
 ---@param questDetails table<QuestId, QuestSortDetails>
 function Sorter.byLevelReverse(questIds, questDetails)
-    table.sort(questIds, function(a, b)
-        local qA = questDetails[a].quest
-        local qB = questDetails[b].quest
+    table.sort(questIds, function(questIdA, questIdB)
+        local questA = questDetails[questIdA].quest
+        local questB = questDetails[questIdB].quest
 
-        if qA.level == qB.level then
-            local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
-            local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
+        if questA.level == questB.level then
+            local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
+            local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
             if suffixPrioA == suffixPrioB then
-                return qA.Id < qB.Id
+                return questIdA < questIdB
             end
             return suffixPrioA < suffixPrioB
         end
 
-        return qA.level > qB.level
+        return questA.level > questB.level
     end)
 end
