@@ -59,6 +59,7 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     end
 
     local characters = _GetOtherCharactersWithJourney()
+    local QuestieImportJourneyFrame
 
     local frame = AceGUI:Create("Frame")
     _journeyCharacterBrowserFrame = frame
