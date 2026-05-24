@@ -181,8 +181,16 @@ function MapIconTooltip:Show()
                         end
                     end
                 elseif iconData.CustomTooltipData then
-                    questOrder[iconData.CustomTooltipData.Title] = {}
-                    tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
+                    local title = iconData.CustomTooltipData.Title
+                    if not questOrder[title] then
+                        questOrder[title] = {}
+                    end
+
+                    local customKey = tostring(title) .. ":" .. tostring(iconData.CustomTooltipData.Key or iconData.CustomTooltipData.Body)
+                    if not usedText[customKey] then
+                        tinsert(questOrder[title], iconData.CustomTooltipData.Body)
+                        usedText[customKey] = true
+                    end
                 elseif iconData.ManualTooltipData then
                     manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
                 end

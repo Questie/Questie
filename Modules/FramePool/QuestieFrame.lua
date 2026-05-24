@@ -197,10 +197,11 @@ function _Qframe.OnClick(self, button)
         if uiMapId and button == "LeftButton" then
             local frameData = self.data
             if ChatEdit_GetActiveWindow() and frameData.QuestData then
+                local questId = frameData.QuestData.Id or frameData.Id
                 if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(frameData.QuestData.level, frameData.QuestData.name, frameData.Id))
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(frameData.QuestData.level, frameData.QuestData.name, questId))
                 else
-                    ChatEdit_InsertLink("[" .. frameData.QuestData.name .. " (" .. frameData.Id .. ")]")
+                    ChatEdit_InsertLink("[" .. frameData.QuestData.name .. " (" .. questId .. ")]")
                 end
             else
                 if frameData.Type == "available" and IsShiftKeyDown() then

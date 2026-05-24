@@ -15,6 +15,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local C_Timer_After = C_Timer.After
+local stringbyte = string.byte
 local stringlower = string.lower
 local tostring = tostring
 
@@ -34,6 +35,18 @@ local ICON_BY_OBJECTIVE_TYPE = {
     ["item"] = Questie.ICON_TYPE_LOOT,
     ["spell"] = Questie.ICON_TYPE_LOOT,
     ["event"] = Questie.ICON_TYPE_EVENT,
+}
+local GENERIC_OBJECTIVE_TEXT = {
+    ["monster"] = true,
+    ["monsters"] = true,
+    ["object"] = true,
+    ["objects"] = true,
+    ["item"] = true,
+    ["items"] = true,
+    ["event"] = true,
+    ["spell"] = true,
+    ["killcredit"] = true,
+    ["objective"] = true,
 }
 
 _PartyQuests.enabled = false
@@ -110,6 +123,71 @@ local _classToIdLookup = {
     ["MONK"] = "MONK",
 }
 
+---@param playerName string
+---@return string
+local function _GetPlayerClassColor(playerName)
+    local classId = _classToIdLookup[QuestieComms.remotePlayerClasses[playerName]]
+    if classId and RAID_CLASS_COLORS[classId] then
+        return "|c" .. RAID_CLASS_COLORS[classId].colorStr
+    end
+    return "|cFFFFFFFF"
+end
+
+---@param objectiveType string
+---@param spawnData table
+---@return string
+local function _ResolveSpawnIconTexture(objectiveType, spawnData)
+    local iconType = ICON_BY_OBJECTIVE_TYPE[objectiveType]
+    if not iconType and spawnData and type(spawnData.Icon) == "number" then
+        iconType = spawnData.Icon
+    end
+    return Questie.usedIcons[iconType or Questie.ICON_TYPE_LOOT] or Questie.icons["loot"]
+end
+
+---@param questId QuestId
+---@param objectiveIndex number
+---@param playerKey string
+---@param targetId number
+---@return number
+local function _BuildPartyIconId(questId, objectiveIndex, playerKey, targetId)
+    local hash = 0
+    for i = 1, #playerKey do
+        hash = (hash * 33 + stringbyte(playerKey, i)) % 100000
+    end
+    local seed = ((questId or 0) % 100000) * 1000000 + ((objectiveIndex or 0) % 1000) * 1000 + ((targetId or 0) % 1000)
+    return -(seed + hash + 1)
+end
+
+---@param text string|nil
+---@param objectiveType string|nil
+---@return boolean
+local function _IsGenericObjectiveText(text, objectiveType)
+    if not text then
+        return true
+    end
+    local normalized = stringlower(tostring(text))
+    return GENERIC_OBJECTIVE_TEXT[normalized] or (objectiveType and normalized == objectiveType)
+end
+
+---@param objective table
+---@param objectiveData table|nil
+---@param spawnData table
+---@param objectiveType string|nil
+---@return string
+local function _ResolveObjectiveText(objective, objectiveData, spawnData, objectiveType)
+    local remoteText = objective and objective.text
+    if remoteText and not _IsGenericObjectiveText(remoteText, objectiveType) then
+        return remoteText
+    end
+
+    local description = objectiveData and objectiveData.Description
+    if description and not _IsGenericObjectiveText(description, objectiveType) then
+        return description
+    end
+
+    return spawnData.Name or description or objectiveType or "Objective"
+end
+
 ---@param objective table
 ---@param objectiveData table|nil
 ---@param questObjective table|nil
@@ -153,11 +231,22 @@ local function _BuildSpawnList(objective, objectiveData, questObjective)
 
     local fakeObjective = {
         Description = objectiveData and objectiveData.Description or "Objective",
-        Icon = objectiveData and objectiveData.Icon,
         Coordinates = (questObjective and questObjective.Coordinates) or (objectiveData and objectiveData.Coordinates),
     }
 
     return spawnBuilder(objective.id, fakeObjective, objectiveData), objectiveType
+end
+
+---@param objectiveText string
+---@param playerName string
+---@param objective table
+---@return table
+local function _GetTooltipBody(objectiveText, playerName, objective)
+    local progressText = tostring(objective.fulfilled or 0) .. "/" .. tostring(objective.required or 0)
+    local objectiveColor = QuestieLib:GetRGBForObjective(objective)
+    local playerColor = _GetPlayerClassColor(playerName)
+    local line = objectiveColor .. progressText .. " " .. objectiveText .. " (" .. playerColor .. playerName .. "|r" .. objectiveColor .. ")|r"
+    return { [line] = false }
 end
 
 ---@param questName string
@@ -165,7 +254,7 @@ end
 ---@param playerName string
 ---@param objective table
 ---@return table
-local function _GetTooltipBody(questName, objectiveText, playerName, objective)
+local function _GetFallbackManualTooltipBody(questName, objectiveText, playerName, objective)
     local progressText = tostring(objective.fulfilled or 0) .. "/" .. tostring(objective.required or 0)
     return {
         {"Quest: ", questName},
@@ -193,11 +282,13 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
     local sharedManualKey = tostring(questId) .. ":" .. tostring(objectiveIndex) .. ":" .. tostring(playerKey)
 
     for _, spawnData in pairs(spawnList) do
-        local objectiveDescription = spawnData.Name or (objectiveData and objectiveData.Description) or objectiveType or "Objective"
-        local manualId = spawnData.Id or objective.id
-        if type(manualId) ~= "number" then
-            manualId = 0
+        local objectiveDescription = _ResolveObjectiveText(objective, objectiveData, spawnData, objectiveType)
+        local targetId = spawnData.Id or objective.id
+        if type(targetId) ~= "number" then
+            targetId = 0
         end
+        local iconId = _BuildPartyIconId(questId, objectiveIndex, playerKey, targetId)
+        local iconTexture = _ResolveSpawnIconTexture(objectiveType, spawnData)
         for zone, spawns in pairs(spawnData.Spawns or {}) do
             local count = 0
             for _, coords in ipairs(spawns) do
@@ -207,22 +298,28 @@ local function _DrawObjective(questId, questName, objectiveIndex, objective, pla
                     if count > 10 then
                         break
                     end
-
                     local data = {
-                        id = manualId,
-                        manualKey = sharedManualKey,
-                        Icon = Questie.usedIcons[spawnData.Icon or ICON_BY_OBJECTIVE_TYPE[objectiveType] or Questie.ICON_TYPE_LOOT],
+                        id = iconId,
+                        manualKey = sharedManualKey .. ":" .. tostring(targetId),
+                        Icon = iconTexture,
                         Name = objectiveDescription,
-                        Type = "manual",
-                        ManualTooltipData = {
-                            Title = questName,
-                            Body = _GetTooltipBody(questName, objectiveDescription, playerName, objective),
-                            disableShiftToRemove = true,
-                        },
-                        GetIconScale = function()
-                            return 0.9
-                        end,
+                        Type = REMOTE_MAP_TYPE,
+                        GetIconScale = spawnData.GetIconScale or function() return 0.9 end,
                     }
+                    if quest then
+                        data.QuestData = quest
+                        data.CustomTooltipData = {
+                            Title = questId,
+                            Key = sharedManualKey,
+                            Body = _GetTooltipBody(objectiveDescription, playerName, objective),
+                        }
+                    else
+                        data.ManualTooltipData = {
+                            Title = questName,
+                            Body = _GetFallbackManualTooltipBody(questName, objectiveDescription, playerName, objective),
+                            disableShiftToRemove = true,
+                        }
+                    end
                     data.IconScale = data:GetIconScale()
 
                     QuestieMap:DrawManualIcon(data, zone, x, y, REMOTE_MAP_TYPE)
@@ -366,11 +463,7 @@ end
 ---@param playerName string
 ---@return string
 function _PartyQuests:GetPlayerClassColor(playerName)
-    local classId = _classToIdLookup[QuestieComms.remotePlayerClasses[playerName]]
-    if classId then
-        return "|c" .. RAID_CLASS_COLORS[classId].colorStr
-    end
-    return "|cFFFFFFFF"
+    return _GetPlayerClassColor(playerName)
 end
 
 ---@return boolean
