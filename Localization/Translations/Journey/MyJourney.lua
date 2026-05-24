@@ -794,7 +794,7 @@ local myJourneyLocales = {
         ["zhCN"] = "专业级别",
         ["zhTW"] = "專業等級",
     },
-    ["Import"] = {
+    ["Import journey data"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
@@ -815,7 +815,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "从角色导入",
         ["zhTW"] = false,
     },
     ["Browse other characters on this account and import their journey data."] = {
@@ -827,7 +827,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "浏览此账号上的其他角色并导入他们的旅程数据",
         ["zhTW"] = false,
     },
     ["Select a character to import:"] = {
@@ -839,7 +839,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "选择角色以导入",
         ["zhTW"] = false,
     },
     ["No other characters with journey data found."] = {
@@ -851,7 +851,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "未找到其他角色的旅程数据",
         ["zhTW"] = false,
     },
     ["Journey imported. Open the My Journey tab to see the changes."] = {
@@ -863,7 +863,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "已导入旅程，打开我的旅程页面查看这些变化",
         ["zhTW"] = false,
     },
     ["Import this journey data? This will overwrite your current journey."] = {
@@ -875,7 +875,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "要导入此旅程数据吗？这会覆盖你当前的旅程",
         ["zhTW"] = false,
     },
 }
