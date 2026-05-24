@@ -815,7 +815,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "导入旅程数据",
         ["zhTW"] = false,
     },
     ["Browse other characters on this account and import their journey data."] = {
