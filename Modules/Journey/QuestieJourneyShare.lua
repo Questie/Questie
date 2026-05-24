@@ -112,7 +112,7 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
         if child:GetObjectType() == "Button" then
             if child:GetText() == CLOSE then
                 closeBtn = child
-            elseif child:GetHeight() == 24 then
+            elseif not text or text == "" then
                 statusBar = child
             end
         end
@@ -120,10 +120,10 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     if statusBar then statusBar:Hide() end
 
     local importBtnNative = CreateFrame("Button", nil, frame.frame, "UIPanelButtonTemplate")
-    importBtnNative:SetSize(105, 20)
+    importBtnNative:SetSize(100, 20)
     importBtnNative:SetText(l10n("Import"))
     if closeBtn then
-        importBtnNative:SetPoint("RIGHT", closeBtn, "LEFT", -5, 0)
+        importBtnNative:SetPoint("BOTTOMLEFT", frame.frame, "BOTTOMLEFT", 27, 17)
     else
         importBtnNative:SetPoint("BOTTOMRIGHT", frame.frame, "BOTTOMRIGHT", -132, 17)
     end
@@ -139,7 +139,6 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
 
     frame:SetCallback("OnClose", function(widget)
         importBtnNative:Hide()
-        if statusBar then statusBar:Show() end
         AceGUI:Release(widget)
         _journeyCharacterBrowserFrame = nil
     end)
