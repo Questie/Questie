@@ -179,14 +179,14 @@ local migrationFunctions = {
             Questie.db.profile.trackerFontOutline = ""
         end
     end,
-    [23] = function()
+    [28] = function()
          -- Preserve previous dungeon hide & minimize preference for both new flags
         local previousMinimizeInInstances = Questie.db.profile.minimizeTrackerInDungeons
         local previousHideInInstances = Questie.db.profile.hideTrackerInDungeons
 
         Questie.db.profile.minimizeTrackerInInstances = previousMinimizeInInstances
         Questie.db.profile.hideTrackerInInstances = previousHideInInstances
-        
+
         Questie.db.profile.minimizeTrackerInDungeons = nil
         Questie.db.profile.hideTrackerInDungeons = nil
     end
