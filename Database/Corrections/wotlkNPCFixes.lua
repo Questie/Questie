@@ -3145,7 +3145,16 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.maxLevelHealth] = 8367000,
             [npcKeys.questStarts] = {93950},
             [npcKeys.questEnds] = {93950},
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{83.23,43.38}},[zoneIDs.MULGORE] = {{45.28,77.47}},[zoneIDs.EVERSONG_WOODS] = {{38.1,19.99}},[zoneIDs.DUROTAR] = {{44.15,67.51}},[zoneIDs.TIRISFAL_GLADES] = {{31.38,70.3}},[zoneIDs.ELWYNN_FOREST] = {{47.82,42.34}},[zoneIDs.DUN_MOROGH] = {{28.85,71.35}},[zoneIDs.TELDRASSIL] = {{58.38,41.76}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.AZUREMYST_ISLE] = {{83.23,43.38}},
+                [zoneIDs.MULGORE] = {{45.28,77.47}},
+                [zoneIDs.EVERSONG_WOODS] = {{38.1,19.99}},
+                [zoneIDs.DUROTAR] = {{44.15,67.51}},
+                [zoneIDs.TIRISFAL_GLADES] = {{31.38,70.3}},
+                [zoneIDs.ELWYNN_FOREST] = {{47.82,42.34}},
+                [zoneIDs.DUN_MOROGH] = {{28.85,71.35}},
+                [zoneIDs.TELDRASSIL] = {{58.38,41.76}}
+            },
             [npcKeys.friendlyToFaction] = "AH",
         },
         [257403] = { -- Algalon the Observer
@@ -3169,6 +3178,14 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.maxLevelHealth] = 12600,
             [npcKeys.questStarts] = {95705,95706,95844,95845},
             [npcKeys.questEnds] = {95705,95706,95844,95845},
+            [npcKeys.spawns] = {
+                [zoneIDs.ELWYNN_FOREST] = {{32.12,50.75}},
+                [zoneIDs.DUN_MOROGH] = {{52.46,35.32}},
+                [zoneIDs.TELDRASSIL] = {{56.29,90.01}},
+                [zoneIDs.DUROTAR] = {{45.01,12.61}},
+                [zoneIDs.UNDERCITY] = {{65.99,21.77}},
+                [zoneIDs.THUNDER_BLUFF] = {{29.61,65.38}}
+            },
             [npcKeys.friendlyToFaction] = "AH",
         },
     }
@@ -3799,7 +3816,6 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [262258] = { -- Boss Gobb Goldnick
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{45.01,12.61}},[zoneIDs.UNDERCITY] = {{65.99,21.77}},[zoneIDs.THUNDER_BLUFF] = {{29.61,65.38}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
     }
@@ -3926,7 +3942,6 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [262258] = { -- Boss Gobb Goldnick
-            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{32.12,50.75}},[zoneIDs.DUN_MOROGH] = {{52.46,35.32}},[zoneIDs.TELDRASSIL] = {{56.29,90.01}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
     }
