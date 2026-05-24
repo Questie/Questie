@@ -654,10 +654,20 @@ function TrackerUtils:GetSortedQuestIds()
         table.sort(sortedQuestIds, function(a, b)
             local qA = questDetails[a].quest
             local qB = questDetails[b].quest
+
+            if qA.level == qB.level then
+                local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(qA.Id)
+                local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(qB.Id)
+                if suffixPrioA == suffixPrioB then
+                    return qA.Id < qB.Id
+                end
+                return suffixPrioA < suffixPrioB
+            end
+
             if sortObj == "byLevel" then
-                return qA and qB and qA.level < qB.level
+                return qA.level < qB.level
             else
-                return qA and qB and qA.level > qB.level
+                return qA.level > qB.level
             end
         end)
     elseif sortObj == "byZone" then

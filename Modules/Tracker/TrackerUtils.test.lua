@@ -804,5 +804,53 @@ describe("TrackerUtils", function()
 
             assert.are.same({1, 3, 5, 4, 9, 2, 8, 6, 7}, sortedIds)
         end)
+
+        it("should return quest IDs correctly sorted for 'byLevel' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byLevel"
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 5, IsComplete = function() return 1 end},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [3] = "D",
+                    [5] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({2, 6, 1, 5, 3, 4}, sortedIds)
+        end)
+
+        it("should return quest IDs correctly sorted for 'byLevelReversed' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byLevelReversed"
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 5, IsComplete = function() return 1 end},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [3] = "D",
+                    [5] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({4, 1, 5, 3, 2, 6}, sortedIds)
+        end)
     end)
 end)
