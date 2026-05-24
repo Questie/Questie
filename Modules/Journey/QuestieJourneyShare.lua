@@ -146,6 +146,9 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
 
     frame:AddChild(dropdown)
     frame:Show()
+
+    QuestieImportJourneyFrame = frame
+    table.insert(UISpecialFrames, "QuestieImportJourneyFrame")
 end
 
 ---Popup dialog for confirming journey import
