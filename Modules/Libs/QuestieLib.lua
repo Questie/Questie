@@ -484,13 +484,15 @@ local function compareQuestsByLevelAndType(a, b)
     return a[2] < b[2]
 end
 
+---@param quests table<QuestId, any>
+---@return table A sorted table of quests, sorted by level and then by type (Elite, Dungeon, etc.)
 function QuestieLib:SortQuestIDsByLevel(quests)
     local sortedQuestsByLevel = {}
 
-    for q in pairs(quests) do
-        local questLevel, _ = QuestieLib.GetTbcLevel(q)
-        local suffix = QuestieLib:GetQuestTypeSuffix(q)
-        tinsert(sortedQuestsByLevel, {questLevel or 0, q, suffix})
+    for questId in pairs(quests) do
+        local questLevel, _ = QuestieLib.GetTbcLevel(questId)
+        local suffix = QuestieLib:GetQuestTypeSuffix(questId)
+        tinsert(sortedQuestsByLevel, {questLevel or 0, questId, suffix})
     end
     table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)
 
