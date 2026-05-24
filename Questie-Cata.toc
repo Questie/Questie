@@ -251,6 +251,8 @@ Modules\Journey\QuestieSearchResults.lua
 # Tracker
 Modules\Tracker\AutoCompleteFrame.lua
 Modules\Tracker\QuestieTracker.lua
+Modules\Tracker\Sorter\Sorter.lua
+Modules\Tracker\Sorter\byComplete.lua
 Modules\Tracker\TrackerUtils.lua
 Modules\Tracker\TrackerFadeTicker.lua
 Modules\Tracker\TrackerBaseFrame.lua

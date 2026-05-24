@@ -707,6 +707,9 @@ describe("TrackerUtils", function()
             QuestiePlayer.currentQuestlog = {}
             Questie.db.profile.trackerSortObjectives = "byZone"
 
+            dofile("Modules/Tracker/Sorter/Sorter.lua")
+            dofile("Modules/Tracker/Sorter/byComplete.lua")
+
             _G.C_Map = {
                 GetAreaInfo = function(zoneId)
                     local zoneNames = {
