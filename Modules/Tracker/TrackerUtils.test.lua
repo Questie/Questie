@@ -5,6 +5,8 @@ local _GetMockedLine
 describe("TrackerUtils", function()
     ---@type QuestieDB
     local QuestieDB
+    ---@type ZoneIDs
+    local ZoneIDs
     ---@type QuestiePlayer
     local QuestiePlayer
     ---@type TrackerLinePool
@@ -34,6 +36,7 @@ describe("TrackerUtils", function()
 
         Expansions = require("Modules.Expansions")
         QuestieDB = require("Database.QuestieDB")
+        ZoneIDs = require("Database.Zones.zoneDB").zoneIDs
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
@@ -693,6 +696,42 @@ describe("TrackerUtils", function()
             local text = TrackerUtils:GetCompletionText(quest)
 
             assert.is_equal(nil, text)
+        end)
+    end)
+
+    describe("GetSortedQuestIds", function()
+        before_each(function()
+            QuestiePlayer.currentQuestlog = {}
+            Questie.db.profile.trackerSortObjectives = "byZone"
+
+            _G.C_Map = {
+                GetAreaInfo = function(zoneId)
+                    local zoneNames = {
+                        [ZoneIDs.DUN_MOROGH] = "Dun Morogh",
+                        [ZoneIDs.DUROTAR] = "Durotar",
+                        [ZoneIDs.ELWYNN_FOREST] = "Elwynn Forest",
+                        [ZoneIDs.ZUL_DRAK] = "Zul'Drak",
+                    }
+                    return zoneNames[zoneId]
+                end
+            }
+        end)
+
+        it("should return quest IDs correctly sorted for 'byZone' sorting", function()
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, zoneOrSort = ZoneIDs.ELWYNN_FOREST, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 80, zoneOrSort = ZoneIDs.ZUL_DRAK, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 6, zoneOrSort = ZoneIDs.ELWYNN_FOREST, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 5, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [7] = {Id = 7, level = 79, zoneOrSort = ZoneIDs.ZUL_DRAK, IsComplete = function() return 1 end},
+                [8] = {Id = 8, level = 10, zoneOrSort = ZoneIDs.DUN_MOROGH, IsComplete = function() return 1 end},
+            }
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({8, 6, 1, 4, 2, 5, 7, 3}, sortedIds)
         end)
     end)
 end)
