@@ -709,6 +709,7 @@ describe("TrackerUtils", function()
 
             dofile("Modules/Tracker/Sorter/Sorter.lua")
             dofile("Modules/Tracker/Sorter/byComplete.lua")
+            dofile("Modules/Tracker/Sorter/byLevel.lua")
 
             _G.C_Map = {
                 GetAreaInfo = function(zoneId)
