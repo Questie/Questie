@@ -242,6 +242,21 @@ QuestieItemDropCorrections.Era = {
         [3234] = 100,
         [3236] = 100,
     },
+    [20373] = { -- Stonelash Scorpid Stinger
+        [11735] = DropKeys.WOWHEAD,
+    },
+    [20374] = { -- Stonelash Pincer Stinger
+        [11736] = DropKeys.WOWHEAD,
+    },
+    [20375] = { -- Stonelash Flayer Stinger
+        [11737] = DropKeys.WOWHEAD,
+    },
+    [20376] = { -- Sand Skitterer Fang
+        [11738] = DropKeys.WOWHEAD,
+    },
+    [20377] = { -- Rock Stalker Fang
+        [11739] = DropKeys.WOWHEAD,
+    },
     [21108] = { -- Draconic for Dummies (Chapter VI)
         [10184] = 100,
     },

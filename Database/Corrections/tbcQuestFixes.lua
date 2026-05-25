@@ -1219,6 +1219,9 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
+        [8381] = { -- Armaments of War
+            [questKeys.requiredClasses] = classIDs.MAGE + classIDs.WARLOCK,
+        },
         [8410] = { -- Elemental Mastery
             [questKeys.startedBy] = {{3032,13417,17219,20407,23127}},
         },

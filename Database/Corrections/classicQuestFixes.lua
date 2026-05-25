@@ -4308,6 +4308,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.breadcrumbForQuestId] = 8280, -- #1873
         },
+        [8277] = {
+            [questKeys.nextQuestInChain] = 8278,
+        },
+        [8278] = {
+            [questKeys.nextQuestInChain] = 8282,
+        },
         [8280] = {
             [questKeys.exclusiveTo] = {},
             [questKeys.breadcrumbs] = {8275,8276}, -- #1873
@@ -4362,7 +4368,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 8341,
         },
         [8348] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {8332},
             [questKeys.breadcrumbs] = {8349},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Duke using a full Twilight set and neck."),0,{{"object", 180461},{"object", 180534},{"object", 180554},}}},
         },
@@ -6058,6 +6064,19 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,6018}},
         },
+        [8315] = { -- The Calling
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 8382,
+                ["HUNTER"]  = 8377,
+                ["MAGE"]    = 8381,
+                ["PALADIN"] = 8376,
+                ["PRIEST"]  = 8379,
+                ["ROGUE"]   = 8378,
+                ["SHAMAN"]  = 8380,
+                ["WARLOCK"] = 8381,
+                ["WARRIOR"] = 8316,
+            })[playerClass],
+        },
         [8417] = { -- A Troubled Spirit
             [questKeys.startedBy] = {{3041,3354,4593}},
         },
@@ -6166,6 +6185,19 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{5489,11406}},
+        },
+        [8315] = { -- The Calling
+            [questKeys.nextQuestInChain] = ({
+                ["DRUID"]   = 8382,
+                ["HUNTER"]  = 8377,
+                ["MAGE"]    = 8381,
+                ["PALADIN"] = 8376,
+                ["PRIEST"]  = 8379,
+                ["ROGUE"]   = 8378,
+                ["SHAMAN"]  = 8380,
+                ["WARLOCK"] = 8381,
+                ["WARRIOR"] = 8316,
+            })[playerClass],
         },
         [8417] = { -- A Troubled Spirit
             [questKeys.startedBy] = {{5113,5479,7315}},
