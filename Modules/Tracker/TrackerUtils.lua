@@ -604,33 +604,34 @@ end
 ---@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
 ---@return table questDetails Table with raw quest table from QuestiePlayer.currentQuestLog, percentage completed value per quest, and a "translated" zoneName
 function TrackerUtils:GetSortedQuestIds()
+    ---@type QuestId[]
     local sortedQuestIds = {}
+    ---@type table<QuestId, QuestSortDetails>
     local questDetails = {}
     local sortObj = Questie.db.profile.trackerSortObjectives
+
     -- Update quest objectives
     for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
         if quest then
-            -- Insert Quest Ids into sortedQuestIds table
             tinsert(sortedQuestIds, questId)
 
-            -- Create questDetails table keys and insert values
-            questDetails[quest.Id] = {}
-            questDetails[quest.Id].quest = quest
-            questDetails[quest.Id].zoneName = _GetZoneName(quest.zoneOrSort, quest.Id)
-
+            local percent = 0
             if quest:IsComplete() == 1 or (not next(quest.Objectives)) then
-                questDetails[quest.Id].questCompletePercent = 1
+                percent = 1
             else
-                local percent = 0
                 local count = 0
                 for _, Objective in pairs(quest.Objectives) do
                     percent = percent + (Objective.Collected / Objective.Needed)
                     count = count + 1
                 end
                 percent = percent / count
-
-                questDetails[quest.Id].questCompletePercent = percent
             end
+
+            questDetails[questId] = {
+                quest = quest,
+                zoneName = _GetZoneName(quest.zoneOrSort, questId),
+                questCompletePercent = percent,
+            }
         end
     end
 
