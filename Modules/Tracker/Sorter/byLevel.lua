@@ -7,7 +7,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@param questIdA QuestId
 ---@param questIdB QuestId
 ---@return boolean
-local function compareBySuffix(questIdA, questIdB)
+local function _CompareBySuffix(questIdA, questIdB)
     local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
     local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
     if suffixPrioA == suffixPrioB then
@@ -25,7 +25,7 @@ function Sorter.byLevel(questIds, questDetails)
         local questB = questDetails[questIdB].quest
 
         if questA.level == questB.level then
-            return compareBySuffix(questIdA, questIdB)
+            return _CompareBySuffix(questIdA, questIdB)
         end
 
         return questA.level < questB.level
@@ -41,7 +41,7 @@ function Sorter.byLevelReverse(questIds, questDetails)
         local questB = questDetails[questIdB].quest
 
         if questA.level == questB.level then
-            return compareBySuffix(questIdA, questIdB)
+            return _CompareBySuffix(questIdA, questIdB)
         end
 
         return questA.level > questB.level

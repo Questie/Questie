@@ -9,7 +9,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@param questIdB QuestId
 ---@param questLevelB number
 ---@return boolean
-local function compareByQuestLevelAndType(questIdA, questLevelA, questIdB, questLevelB)
+local function _CompareByQuestLevelAndType(questIdA, questLevelA, questIdB, questLevelB)
     if questLevelA == questLevelB then
         local suffixPrioA = QuestieLib.GetQuestTypeSuffixPriority(questIdA)
         local suffixPrioB = QuestieLib.GetQuestTypeSuffixPriority(questIdB)
@@ -32,7 +32,7 @@ function Sorter.byZone(questIds, questDetails)
         local zoneB = questDetails[questIdB].zoneName
 
         if zoneA == zoneB then
-            return compareByQuestLevelAndType(questIdA, questA.level, questIdB, questB.level)
+            return _CompareByQuestLevelAndType(questIdA, questA.level, questIdB, questB.level)
         else
             return zoneA < zoneB
         end
