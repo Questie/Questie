@@ -23,7 +23,7 @@ local myJourneyLocales = {
         ["koKR"] = "나의 여정",
         ["ptBR"] = "Minha jornada",
         ["ruRU"] = "Путешествие",
-        ["zhCN"] = "我的任务历程",
+        ["zhCN"] = "我的旅程",
         ["zhTW"] = "我的冒險日記",
     },
     ["%s's Journey"] = {
@@ -35,7 +35,7 @@ local myJourneyLocales = {
         ["koKR"] = "%s의 여정",
         ["ptBR"] = "A jornada de %s",
         ["ruRU"] = "Путешествие персонажа %s",
-        ["zhCN"] = "%s的任务历程",
+        ["zhCN"] = "%s的旅程",
         ["zhTW"] = "%s的冒險日記",
     },
     ["Your Recent History"] = {

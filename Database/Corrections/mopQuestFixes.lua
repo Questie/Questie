@@ -151,6 +151,9 @@ function MopQuestFixes.Load()
 
     ---@format disable
     return {
+        [236] = { -- Fueling the Demolishers
+            [questKeys.requiredLevel] = 75,
+        },
         [2383] = { -- Simple Parchment
             [questKeys.requiredLevel] = 2,
         },
@@ -322,6 +325,99 @@ function MopQuestFixes.Load()
         },
         [10277] = { -- The Caverns of Time
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.CAVERNS_OF_TIME]={{44.31,38.73}}}},
+        },
+        [13153] = { -- Warding the Warriors
+            [questKeys.requiredLevel] = 75,
+        },
+        [13154] = { -- Bones and Arrows
+            [questKeys.requiredLevel] = 75,
+        },
+        [13156] = { -- A Rare Herb
+            [questKeys.requiredLevel] = 75,
+        },
+        [13177] = { -- No Mercy for the Merciless
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13178] = { -- Slay them all!
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13179] = { -- No Mercy for the Merciless
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13180] = { -- Slay them all!
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13181] = { -- Victory in Wintergrasp
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13183] = { -- Victory in Wintergrasp
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13185] = { -- Stop the Siege
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13186] = { -- Stop the Siege
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13191] = { -- Fueling the Demolishers
+            [questKeys.requiredLevel] = 75,
+        },
+        [13192] = { -- Warding the Walls
+            [questKeys.requiredLevel] = 75,
+        },
+        [13193] = { -- Bones and Arrows
+            [questKeys.requiredLevel] = 75,
+        },
+        [13194] = { -- Healing with Roses
+            [questKeys.requiredLevel] = 75,
+        },
+        [13195] = { -- A Rare Herb
+            [questKeys.requiredLevel] = 75,
+        },
+        [13196] = { -- Bones and Arrows
+            [questKeys.requiredLevel] = 75,
+        },
+        [13197] = { -- Fueling the Demolishers
+            [questKeys.requiredLevel] = 75,
+        },
+        [13198] = { -- Warding the Warriors
+            [questKeys.requiredLevel] = 75,
+        },
+        [13199] = { -- Bones and Arrows
+            [questKeys.requiredLevel] = 75,
+        },
+        [13200] = { -- Fueling the Demolishers
+            [questKeys.requiredLevel] = 75,
+        },
+        [13201] = { -- Healing with Roses
+            [questKeys.requiredLevel] = 75,
+        },
+        [13202] = { -- Jinxing the Walls
+            [questKeys.requiredLevel] = 75,
+        },
+        [13222] = { -- Defend the Siege
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13223] = { -- Defend the Siege
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13538] = { -- Southern Sabotage
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
+        },
+        [13539] = { -- Toppling the Towers
+            [questKeys.requiredLevel] = 85,
+            [questKeys.questLevel] = 90,
         },
         [14007] = { -- Steady Shot
             [questKeys.requiredLevel] = 2,
