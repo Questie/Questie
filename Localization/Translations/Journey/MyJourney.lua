@@ -880,7 +880,7 @@ local myJourneyLocales = {
     },
     ["Disabling quest is active"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Deaktivierende Quest ist akttiv",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
