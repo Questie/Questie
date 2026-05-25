@@ -34,11 +34,7 @@ function Sorter.byZone(questIds, questDetails)
         if zoneA == zoneB then
             return compareByQuestLevelAndType(questIdA, questA.level, questIdB, questB.level)
         else
-            if zoneA ~= nil and zoneB ~= nil then
-                return zoneA < zoneB
-            else
-                return zoneA and zoneB
-            end
+            return zoneA < zoneB
         end
     end)
 end
