@@ -266,7 +266,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.46,
                 name = function() return l10n("Import Journey data") end,
                 desc = function() return l10n("Browse other characters on this account and import their journey data.") end,
-                func = function() QuestieJourney.private:ShowCharacterBrowserFrame() end,
+                func = function() QuestieJourney:ShowCharacterBrowserFrame() end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
             recompileDatabase = {

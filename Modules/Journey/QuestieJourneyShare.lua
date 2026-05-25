@@ -52,7 +52,7 @@ end
 
 ---Shows a frame listing other characters on this account that have journey data, allowing import
 ---@return void
-function _QuestieJourney:ShowCharacterBrowserFrame()
+function QuestieJourney:ShowCharacterBrowserFrame()
     if _journeyCharacterBrowserFrame then
         _journeyCharacterBrowserFrame:Show()
         return
@@ -66,7 +66,10 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     frame:SetLayout("Flow")
     frame:SetWidth(300)
     frame:EnableResize(false)
+
+    local importBtnNative
     frame:SetCallback("OnClose", function(widget)
+        if importBtnNative then importBtnNative:Hide() end
         AceGUI:Release(widget)
         _journeyCharacterBrowserFrame = nil
     end)
@@ -87,21 +90,21 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     local dropdownOrder = {}
     for charKey in pairs(characters) do
         local charName, realm = charKey:match("^(.-) %- (.+)$")
-        dropdownList[charKey] = (charName and realm) and (charName .. " (" .. realm .. ")") or charKey
+        dropdownList[charKey] = charName .. " (" .. realm .. ")"
         dropdownOrder[#dropdownOrder + 1] = charKey
     end
     table.sort(dropdownOrder, function(a, b) return dropdownList[a] < dropdownList[b] end)
 
-    local selectedKey = dropdownOrder[1]
+    local selectedCharacterName = dropdownOrder[1]
 
     local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetLabel(l10n("Select a character to import"))
     dropdown:SetFullWidth(true)
     dropdown:SetList(dropdownList, dropdownOrder)
-    dropdown:SetValue(selectedKey)
+    dropdown:SetValue(selectedCharacterName)
 
     dropdown:SetCallback("OnValueChanged", function(_, _, value)
-        selectedKey = value
+        selectedCharacterName = value
     end)
 
     -- Find AceGUI's built-in close button and status bar.
@@ -120,7 +123,7 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
     end
     if statusBar then statusBar:Hide() end
 
-    local importBtnNative = CreateFrame("Button", nil, frame.frame, "UIPanelButtonTemplate")
+    importBtnNative = CreateFrame("Button", nil, frame.frame, "UIPanelButtonTemplate")
     importBtnNative:SetSize(100, 20)
     importBtnNative:SetText(l10n("Import"))
     if closeBtn then
@@ -129,19 +132,13 @@ function _QuestieJourney:ShowCharacterBrowserFrame()
         importBtnNative:SetPoint("BOTTOMRIGHT", frame.frame, "BOTTOMRIGHT", -132, 17)
     end
     importBtnNative:SetScript("OnClick", function()
-        local journey = QuestieConfig.char[selectedKey] and QuestieConfig.char[selectedKey].journey
+        local journey = QuestieConfig.char[selectedCharacterName] and QuestieConfig.char[selectedCharacterName].journey
         if not journey or not _ValidateJourneyData(journey) then
             Questie:Print(l10n("Invalid journey data - paste the full exported text."))
             return
         end
         _pendingJourneyImport = journey
         StaticPopup_Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
-    end)
-
-    frame:SetCallback("OnClose", function(widget)
-        importBtnNative:Hide()
-        AceGUI:Release(widget)
-        _journeyCharacterBrowserFrame = nil
     end)
 
     frame:AddChild(dropdown)
