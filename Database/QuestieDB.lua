@@ -111,6 +111,7 @@ QuestieDB.DoableStates = {
     ENABLING_QUEST_MISSING = 28,
     PROFESSION_MISSING = 29,
     PROFESSION_RANK = 30,
+    DISABLED_BY = 31,
 }
 
 -- * race bitmask data, for easy access
@@ -865,9 +866,19 @@ function QuestieDB.IsDoable(questId, debugPrint)
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
             if QuestiePlayer.currentQuestlog[breadcrumbId] then
-                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest in the quest log for quest " .. questId) end
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest " .. breadcrumbId .. " in the quest log for quest " .. questId) end
                 return false
             end
+        end
+    end
+
+    -- Check if this quest has a quest that disables it while in quest log
+    local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
+    if disabledByQuest and disabledByQuest ~= 0 then
+        -- Check the disabling quest is active
+        if QuestiePlayer.currentQuestlog[disabledByQuest] then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Disabling quest " .. disabledByQuest .. " in the quest log for quest " .. questId) end
+            return false
         end
     end
 
@@ -1285,6 +1296,19 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Check if this quest has a quest that disables it while in quest log
+    local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
+    if disabledByQuest and disabledByQuest ~= 0 then
+        -- Check the disabling quest is active
+        if currentQuestlog[disabledByQuest] then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest is active"), true, DoableStates.DISABLED_BY
+            elseif returnText and not returnBrief then
+                return "Disabling quest " .. disabledByQuest .. " is in the quest log for quest " .. questId, true, DoableStates.DISABLED_BY
+            end
+        end
+    end
+
     -- Daily quest not active (based on ShouldBeHidden)
     if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
         if returnText and returnBrief then
@@ -1447,6 +1471,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public availableUntilCompleted QuestId
     ---@field public availableStartingWith QuestId
     ---@field public requiredRanks SkillPair[]
+    ---@field public disabledByQuest QuestId
     local QO = {
         Id = questId
     }

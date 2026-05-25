@@ -878,6 +878,18 @@ local myJourneyLocales = {
         ["zhCN"] = "要导入此旅程数据吗？这会覆盖你当前的旅程",
         ["zhTW"] = false,
     },
+    ["Disabling quest is active"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(myJourneyLocales) do

@@ -50,6 +50,7 @@ QuestieDB.questKeys = {
     ['availableUntilCompleted'] = 33, -- int: the current quest is available until this quest is turned in
     ['availableStartingWith'] = 34, -- int: the ID of the quest that needs to be in quest log OR turned in for the current one to be available.
     ['requiredRanks'] = 35, -- table: {{skill(int), value(int)}}. Table of professions and ranks to be checked with OR logic
+    ['disabledByQuest'] = 36, -- int: quest that, if in player's quest log, makes current quest unavailable for the duration
 }
 
 QuestieDB.questKeysReversed = {}
@@ -93,13 +94,14 @@ QuestieDB.questCompilerTypes = {
     ['availableUntilCompleted'] = "u24", -- int, the ID of the quest that needs to not be turned in for the current one to be available.
     ['availableStartingWith'] = "u24", -- int, the ID of the quest that needs to be in quest log OR turned in for the current one to be available.
     ['requiredRanks'] = "u8s24pairs", -- table: {{skill(int), value(int)}}
+    ['disabledByQuest'] = "u24", -- int: quest that, if in player's quest log, makes current quest unavailable for the duration
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
     'requiredLevel', 'questLevel', 'requiredRaces', 'requiredClasses', 'sourceItemId', 'zoneOrSort', 'requiredSkill',
     'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest', 'requiredSpell',
-    'requiredSpecialization', 'requiredMaxLevel', 'breadcrumbForQuestId', 'availableUntilCompleted', 'availableStartingWith',
+    'requiredSpecialization', 'requiredMaxLevel', 'breadcrumbForQuestId', 'availableUntilCompleted', 'availableStartingWith', 'disabledByQuest',
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',
