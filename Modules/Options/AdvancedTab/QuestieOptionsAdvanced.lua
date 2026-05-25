@@ -192,29 +192,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                     },
                 },
             },
-            trimObjectiveText = {
-                type = "toggle",
-                order = 1.095,
-
-                name = function()
-                    return l10n("Trim Objective Text")
-                end,
-
-                desc = function()
-                    return l10n("Simplify quest objective text by removing \"slain\" from it.")
-                end,
-
-                width = "full",
-
-                get = function(info)
-                    return QuestieOptions:GetProfileValue(info)
-                end,
-
-                set = function(info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieTracker:Update()
-                end,
-            },
             Spacer_A = QuestieOptionsUtils:Spacer(2.9),
             locale_header = {
                 type = "header",

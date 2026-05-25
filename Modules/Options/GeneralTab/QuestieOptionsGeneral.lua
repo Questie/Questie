@@ -495,6 +495,18 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function () return Questie.db.profile.onlyPartyShared; end,
                         set = function (_, value) Questie.db.profile.onlyPartyShared = value end
                     },
+                    trimObjectiveText = {
+                        type = "toggle",
+                        order = 8.8,
+                        name = function() return l10n("Trim Objective Text"); end,
+                        desc = function() return l10n("Simplify quest objective text by removing \"slain\" from it."); end,
+                        width = 1.5,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function(info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+                            QuestieTracker:Update()
+                        end,
+                    },
                 },
             },
             sound_spacer = QuestieOptionsUtils:Spacer(5.5,nil,"minimal"),
