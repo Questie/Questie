@@ -559,8 +559,15 @@ local function _GetContinent(uiMapId)
     end
 end
 
+---@param zoneOrSort ZoneOrSort
+---@param questId QuestId
+---@return string zoneName Returns the zone name for a quest based on the quests zoneOrSort value and the current tracker sorting method. If the quest has no explicit zone or category, it will return "Unknown Zone".
+--- If the sorting method is not byZone, it will return a custom zone name based on the sorting type.
 local function _GetZoneName(zoneOrSort, questId)
-    if not zoneOrSort then return end
+    if (not zoneOrSort) then
+        return "Unknown Zone"
+    end
+
     local zoneName
     local sortObj = Questie.db.profile.trackerSortObjectives
     if sortObj == "byZone" or sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
@@ -591,7 +598,7 @@ local function _GetZoneName(zoneOrSort, questId)
             zoneName = "Quests (By Proximity Reversed)"
         end
     end
-    return zoneName
+    return zoneName or "Unknown Zone"
 end
 
 ---@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
