@@ -542,7 +542,7 @@ end
 ---@return string Continent Returns Continent Name or "UNKNOW"
 local function _GetContinent(uiMapId)
     if (not uiMapId) then
-        return
+        return "UNKNOWN"
     end
 
     local useUiMapId = uiMapId
