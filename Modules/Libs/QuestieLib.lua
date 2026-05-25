@@ -271,6 +271,7 @@ local suffixPriority = {
     ["++"] = 7, -- Legendary
     ["A"] = 8, -- Account
     ["C"] = 9, -- Celestial
+    ["W"] = 10, -- World Event
 }
 
 ---@param questId QuestId
