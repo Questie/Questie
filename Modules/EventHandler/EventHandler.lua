@@ -335,6 +335,20 @@ function EventHandler:RegisterLateEvents()
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
+
+            local isInInstance = IsInInstance()
+            if isInInstance then
+                if Questie.db.profile.minimizeTrackerInInstances then
+                    trackerMinimizedByDungeon = true
+                    QuestieCombatQueue:Queue(function()
+                        QuestieTracker:Collapse()
+                    end)
+                end
+                if Questie.db.profile.hideTrackerInInstances then
+                    trackerHiddenByDungeon = true
+                    QuestieTracker:Hide()
+                end
+            end
         end)
     end
 

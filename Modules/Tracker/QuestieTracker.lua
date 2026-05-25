@@ -181,11 +181,6 @@ function QuestieTracker.Initialize()
     end
 
     QuestieCombatQueue:Queue(function()
-        -- Hides tracker during a login or reloadUI
-        if Questie.db.profile.hideTrackerInDungeons and IsInInstance() then
-            QuestieTracker:Collapse()
-        end
-
         -- Sync and populate the QuestieTracker - this should only run when a player has loaded
         -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
 
