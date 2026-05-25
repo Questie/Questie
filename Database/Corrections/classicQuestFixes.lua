@@ -2027,8 +2027,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {4603,4604},
             [questKeys.preQuestSingle] = {2952,4605,4606},
         },
-        [2954] = {
-            [questKeys.triggerEnd] = {"Learn the purpose of the Stone Watcher of Norgannon", {[zoneIDs.TANARIS]={{37.66,81.42}}}},
+        [2954] = { -- The Stone Watcher
+            [questKeys.startedBy] = {{7918},{142343}},
+            [questKeys.objectives] = {{{7918,nil,Questie.ICON_TYPE_TALK}}},
         },
         [2966] = { -- Seeing What Happens
             [questKeys.nextQuestInChain] = 2954,
@@ -4319,7 +4320,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {8275,8276}, -- #1873
         },
         [8286] = { -- What Tomorrow Brings
-            [questKeys.triggerEnd] = {"Discover the Brood of Nozdormu.",{[zoneIDs.TANARIS]={{63.43, 50.61}}}},
+            [questKeys.objectives] = {{{15192,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 8288,
         },
         [8289] = { -- #1435
