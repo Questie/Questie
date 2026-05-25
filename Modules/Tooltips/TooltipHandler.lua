@@ -21,9 +21,9 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         guid = UnitGUID("mouseover");
     end
 
-    local type, _, _, _, _, npcId, _ = strsplit("-", guid or "");
+    local unitType, _, _, _, _, npcId, _ = strsplit("-", guid or "");
 
-    if name and (type == "Creature" or type == "Vehicle") and (
+    if name and (unitType == "Creature" or unitType == "Vehicle") and (
         name ~= QuestieTooltips.lastGametooltipUnit or
         (not QuestieTooltips.lastGametooltipCount) or
         _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount or
@@ -45,7 +45,7 @@ function _QuestieTooltips:AddUnitDataToTooltip()
                         end
         end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
-    elseif (type == "Player") then
+    elseif (unitType == "Player") then
         local _, serverid, playerid = strsplit("-", guid or "");
         QuestieTooltips.lastGametooltipUnit = name
         if Questie.devChars[serverid] and tContains(Questie.devChars[serverid], playerid) then

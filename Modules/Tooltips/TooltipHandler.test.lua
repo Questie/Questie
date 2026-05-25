@@ -158,4 +158,46 @@ describe("TooltipHandler", function()
             assert.spy(QuestieTooltips.GetTooltip).was_not_called_with("o_11", PLAYER_ZONE)
         end)
     end)
+
+    describe("AddUnitDataToTooltip", function()
+        it("should ignore plain lines without crashing on creature tooltips", function()
+            local name = "Timberling"
+            local npcId = "2022"
+
+            _G.UnitGUID = function()
+                return "Creature-0-6257-1-3195-2022-0000145E4C"
+            end
+
+            local tooltip = {
+                IsForbidden = function()
+                    return false
+                end,
+                AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end),
+                NumLines = function()
+                    return 0
+                end
+            }
+            _G.GameTooltip = tooltip
+
+            QuestieTooltips.GetTooltip = spy.new(function(id)
+                if id == "m_" .. npcId then
+                    return {"|cFFFFFF00[7] Timberling Seeds|r", "   |cFFEEEEEE2/8 Timberling Seed  |cFF999999[70%]|r", "Plain line"}
+                end
+            end)
+
+            tooltip.GetUnit = function()
+                return name, "mouseover"
+            end
+
+            _QuestieTooltips.AddUnitDataToTooltip(tooltip)
+
+            assert.spy(GameTooltip.AddLine).was.called(2)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "|cFFFFFF00[7] Timberling Seeds|r")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   |cFFEEEEEE2/8 Timberling Seed  |cFF999999[70%]|r")
+            assert.spy(GameTooltip.AddLine).was_not_called_with(GameTooltip, "Plain line")
+            assert.spy(GameTooltip.AddDoubleLine).was_not_called()
+        end)
+    end)
 end)
