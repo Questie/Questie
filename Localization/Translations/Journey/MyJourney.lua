@@ -796,7 +796,7 @@ local myJourneyLocales = {
     },
     ["Import"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Importieren",
         ["esES"] = "Importar",
         ["esMX"] = "Importar",
         ["frFR"] = "Importer",
@@ -808,7 +808,7 @@ local myJourneyLocales = {
     },
     ["Import Journey data"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Reisedaten importieren",
         ["esES"] = "Importar datos del viaje",
         ["esMX"] = "Importar datos del viaje",
         ["frFR"] = "Importer les données du voyage",
@@ -820,7 +820,7 @@ local myJourneyLocales = {
     },
     ["Browse other characters on this account and import their journey data."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Finde andere Charakter auf diesem Account, um deren Reisedaten zu importieren.",
         ["esES"] = "Busca otros personajes de esta cuenta e importa sus datos del viaje.",
         ["esMX"] = "Busca otros personajes de esta cuenta e importa sus datos del viaje.",
         ["frFR"] = "Recherche les autres personnages de ce compte et importez leurs données de voyage.",
@@ -832,7 +832,7 @@ local myJourneyLocales = {
     },
     ["Select a character to import"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wähle einen Charakter zum Importieren",
         ["esES"] = "Selecciona un personaje para importar",
         ["esMX"] = "Selecciona un personaje para importar",
         ["frFR"] = "Sélectionnez un personnage à importer",
@@ -844,7 +844,7 @@ local myJourneyLocales = {
     },
     ["No other characters with journey data found."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Es wurde kein anderer Charakter mit Reisedaten gefunden.",
         ["esES"] = "No se encontraron otros personajes con datos del viaje.",
         ["esMX"] = "No se encontraron otros personajes con datos del viaje.",
         ["frFR"] = "Aucun autre personnage avec des données de voyage trouvé.",
@@ -856,7 +856,7 @@ local myJourneyLocales = {
     },
     ["Journey imported. Open the My Journey tab to see the changes."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Reisedaten importiert. Öffne \"Meine Reise\", um die Änderungen zu sehen.",
         ["esES"] = "Viaje importado. Abre la pestaña Mi viaje para ver los cambios.",
         ["esMX"] = "Viaje importado. Abre la pestaña Mi viaje para ver los cambios.",
         ["frFR"] = "Voyage importé. Ouvrez l’onglet Mon voyage pour voir les modifications.",
@@ -868,7 +868,7 @@ local myJourneyLocales = {
     },
     ["Import this journey data? This will overwrite your current journey."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Diese Reisedaten importieren? Die aktuellen Daten werden dadurch überschrieben.",
         ["esES"] = "¿Importar estos datos del viaje? Esto sobrescribirá tu viaje actual.",
         ["esMX"] = "¿Importar estos datos del viaje? Esto sobrescribirá tu viaje actual.",
         ["frFR"] = "Importer ces données de voyage ? Cela écrasera votre voyage actuel.",
