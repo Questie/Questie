@@ -655,8 +655,12 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 0,
             [questKeys.requiredSourceItems] = {18597},
         },
-        [918] = {
+        [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {},
+            [questKeys.disabledByQuest] = 997,
+        },
+        [919] = { -- Timberling Sprouts
+            [questKeys.disabledByQuest] = 997,
         },
         [923] = {
             [questKeys.nextQuestInChain] = 2498,
