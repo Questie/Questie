@@ -1315,6 +1315,9 @@ function QuestieTBCQuestFixes:Load()
         [8574] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8579] = { -- Mortal Champions
+            [questKeys.specialFlags] = specialFlags.NONE,
+        },
         [8592] = { -- Tiara of the Oracle
             [questKeys.preQuestSingle] = {8579},
         },
@@ -1322,6 +1325,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {8579},
         },
         [8594] = { -- Mantle of the Oracle
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8595] = { -- Mortal Champions
             [questKeys.preQuestSingle] = {8579},
         },
         [8596] = { -- Footwraps of the Oracle

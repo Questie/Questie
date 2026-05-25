@@ -4892,6 +4892,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {8555}, -- #2365
             [questKeys.nextQuestInChain] = 8576,
         },
+        [8579] = { -- Mortal Champions
+            [questKeys.nextQuestInChain] = 8595,
+        },
         [8580] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
