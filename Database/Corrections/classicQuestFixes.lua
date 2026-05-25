@@ -1269,8 +1269,8 @@ function QuestieQuestFixes:Load()
         [1559] = {
             [questKeys.preQuestSingle] = {705},
         },
-        [1560] = {
-            [questKeys.triggerEnd] = {"Lead Tooga to Torta", {[zoneIDs.TANARIS]={{66.56,25.65}}}},
+        [1560] = { -- Tooga's Quest
+            [questKeys.objectives] = {{{6015,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [1579] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{35.71,44.68}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Gaffer Jacks"),}},
