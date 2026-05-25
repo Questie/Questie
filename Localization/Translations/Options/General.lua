@@ -1130,6 +1130,30 @@ local generalOptionsLocales = {
         ["zhCN"] = "短路",
         ["zhTW"] = "短路",
     },
+    ["Trim Objective Text"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questzieltexte kürzen",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = "Обрезка текста целей",
+        ["zhCN"] = "裁剪对象文本",
+        ["zhTW"] = false,
+    },
+    ["Simplify quest objective text by removing \"slain\" from it."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kürzt die Questzieltexte, indem \"getötet\" entfernt wird.",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = "Упрощает текст целей заданий, убирая слова про убийства типа \"Убейте\"",
+        ["zhCN"] = "移除任务目标中的“已消灭”以简化文本。",
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(generalOptionsLocales) do
