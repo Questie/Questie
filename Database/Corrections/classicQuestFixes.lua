@@ -4379,7 +4379,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 8352,
         },
         [8352] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {8341},
             [questKeys.breadcrumbs] = {8351},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Lord using a full Twilight set, neck and ring."),0,{{"object", 180466},{"object", 180539},{"object", 180559},}}},
         },
