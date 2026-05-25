@@ -688,12 +688,7 @@ function TrackerUtils:GetSortedQuestIds()
                     return false
                 end
             else
-                -- Sort by Zone
-                if qAZone ~= nil and qBZone ~= nil then
-                    return qAZone < qBZone
-                else
-                    return qAZone and qBZone
-                end
+                return qAZone < qBZone
             end
         end
 
@@ -724,12 +719,7 @@ function TrackerUtils:GetSortedQuestIds()
                     return true
                 end
             else
-                -- Sort by Zone
-                if qAZone ~= nil and qBZone ~= nil then
-                    return qAZone < qBZone
-                else
-                    return qAZone and qBZone
-                end
+                return qAZone < qBZone
             end
         end
 
