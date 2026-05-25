@@ -38,8 +38,11 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
         if tooltipData then
             for _, v in pairs (tooltipData) do
-                GameTooltip:AddLine(v)
-            end
+                            -- Only add colorized lines (those containing |c color codes)
+                            if type(v) == "string" and v:find("|c") then
+                                GameTooltip:AddLine(v)
+                            end
+                        end
         end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     elseif (type == "Player") then
@@ -93,8 +96,11 @@ function _QuestieTooltips:AddItemDataToTooltip()
         local tooltipData = QuestieTooltips.GetTooltip("i_" .. (itemId or 0));
         if tooltipData then
             for _, v in pairs (tooltipData) do
-                self:AddLine(v)
-            end
+                            -- Only add colorized lines (those containing |c color codes)
+                            if type(v) == "string" and v:find("|c") then
+                                self:AddLine(v)
+                            end
+                        end
         end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     end
@@ -134,15 +140,23 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone);
         if tooltipData then
             for _, line in pairs (tooltipData) do
-                if (not alreadyAddedObjectiveLines[line]) then
+                if type(line) == "string" and line:find("|c") and (not alreadyAddedObjectiveLines[line]) then
                     alreadyAddedObjectiveLines[line] = true
-                    GameTooltip:AddLine(line)
+                    if GameTooltip.AddLine then
+                        GameTooltip:AddLine(line)
+                    elseif type(GameTooltip) == "table" and GameTooltip[1] and GameTooltip[1].AddLine then
+                        GameTooltip[1]:AddLine(line)
+                    end
                 end
             end
             addedObjects = addedObjects + 1
         end
     end
-    GameTooltip:Show()
+    if GameTooltip.Show then
+        GameTooltip:Show()
+    elseif type(GameTooltip) == "table" and GameTooltip[1] and GameTooltip[1].Show then
+        GameTooltip[1]:Show()
+    end
     QuestieTooltips.lastGametooltipType = "object";
 end
 

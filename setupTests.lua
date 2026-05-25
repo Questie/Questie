@@ -33,7 +33,7 @@ _G.strsplit = function(delimiter, str)
     for match in (str .. delimiter):gmatch("(.-)" .. delimiter) do
         table.insert(results, match)
     end
-    return unpack(results)
+    return table.unpack(results)
 end
 _G.date = os.date
 _G.string.trim = function(str)
@@ -152,7 +152,7 @@ setmetatable(_G.CreateFrame, {
                 point = {l, nil, nil, x, y}
             end,
             GetPoint = function()
-                return unpack(point)
+                return table.unpack(point)
             end,
             SetParent = EMTPY_FUNC,
             CreateFontString = function()

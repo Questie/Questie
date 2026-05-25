@@ -1,20 +1,26 @@
 dofile("setupTests.lua")
 
+local PLAYER_ZONE = 440
+
+-- Ensure GameTooltip mock is set before requiring modules
+_G.GameTooltip = {
+    AddLine = spy.new(function() end),
+    AddDoubleLine = spy.new(function() end),
+    Show = spy.new(function() end)
+}
+
+-- Now require modules
+local l10n = require("Localization.l10n")
+local QuestieTooltips = require("Modules.Tooltips.Tooltip")
+local _QuestieTooltips = require("Modules.Tooltips.TooltipHandler")
+
 describe("TooltipHandler", function()
-    ---@type l10n
-    local l10n
-    ---@type QuestieTooltips
-    local QuestieTooltips
-    local _QuestieTooltips
-
-    local PLAYER_ZONE = 440
-
     before_each(function()
         _G.Questie.db.profile.enableTooltips = true
-
-        l10n = require("Localization.l10n")
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
-        _QuestieTooltips = require("Modules.Tooltips.TooltipHandler")
+        -- Reset spies
+        _G.GameTooltip.AddLine:clear()
+        _G.GameTooltip.AddDoubleLine:clear()
+        _G.GameTooltip.Show:clear()
     end)
 
     describe("AddObjectDataToTooltip", function()
@@ -24,20 +30,21 @@ describe("TooltipHandler", function()
             l10n.objectNameLookup[name] = {objectId}
 
             QuestieTooltips.GetTooltip = spy.new(function()
-                return {"Quest Name", "0/1 Test Objective", "0/1 Other Objective"}
+                return {"|cFF00FF00Quest Name|r", "|cFFFFFF000/1 Test Objective|r", "|cFFFFFF000/1 Other Objective|r"}
             end)
 
             _G.GameTooltip = {
                 AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
                 Show = spy.new(function() end)
             }
 
             _QuestieTooltips.AddObjectDataToTooltip(name, PLAYER_ZONE)
 
             assert.spy(GameTooltip.AddLine).was.called(3)
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name")
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/1 Test Objective")
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/1 Other Objective")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "|cFF00FF00Quest Name|r")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "|cFFFFFF000/1 Test Objective|r")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "|cFFFFFF000/1 Other Objective|r")
             assert.spy(GameTooltip.Show).was.called()
             assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_" .. objectId, PLAYER_ZONE)
         end)
@@ -48,25 +55,47 @@ describe("TooltipHandler", function()
 
             QuestieTooltips.GetTooltip = spy.new(function(id)
                 if id == "o_1" then
-                    return {"Quest Name"}
+                    return {"|cFF00FF00Quest Name|r"}
                 elseif id == "o_2" then
-                    return {"Quest Name", "Quest Name 2"}
+                    return {"|cFF00FF00Quest Name|r", "|cFF00FF00Quest Name 2|r"}
                 end
             end)
 
             _G.GameTooltip = {
                 AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
                 Show = spy.new(function() end)
             }
 
             _QuestieTooltips.AddObjectDataToTooltip(name, PLAYER_ZONE)
 
             assert.spy(GameTooltip.AddLine).was.called(2)
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name")
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name 2")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "|cFF00FF00Quest Name|r")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "|cFF00FF00Quest Name 2|r")
+
             assert.spy(GameTooltip.Show).was.called()
             assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_1", PLAYER_ZONE)
             assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_2", PLAYER_ZONE)
+        end)
+
+        it("should ignore non-colorized quest lines", function()
+            local name = "test"
+            l10n.objectNameLookup[name] = {1}
+
+            QuestieTooltips.GetTooltip = spy.new(function()
+                return {"Quest Name", "Quest Name 2"}
+            end)
+
+            _G.GameTooltip = {
+                AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
+                Show = spy.new(function() end)
+            }
+
+            _QuestieTooltips.AddObjectDataToTooltip(name, PLAYER_ZONE)
+
+            assert.spy(GameTooltip.AddLine).was_not_called()
+            assert.spy(GameTooltip.Show).was.called()
         end)
 
         it("should add object IDs", function()
@@ -77,6 +106,7 @@ describe("TooltipHandler", function()
             QuestieTooltips.GetTooltip = spy.new(function() end)
 
             _G.GameTooltip = {
+                AddLine = spy.new(function() end),
                 AddDoubleLine = spy.new(function() end),
                 Show = spy.new(function() end)
             }
@@ -95,6 +125,7 @@ describe("TooltipHandler", function()
             QuestieTooltips.GetTooltip = spy.new(function() end)
 
             _G.GameTooltip = {
+                AddLine = spy.new(function() end),
                 AddDoubleLine = spy.new(function() end),
                 Show = spy.new(function() end)
             }
