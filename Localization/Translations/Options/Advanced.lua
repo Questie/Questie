@@ -640,7 +640,7 @@ local advancedOptionsLocales = {
     },
     ["Trim Objective Text"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Questzieltexte kürzen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -652,7 +652,7 @@ local advancedOptionsLocales = {
     },
     ["Simplify quest objective text by removing \"slain\" from it."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Kürzt die Questzieltexte, indem \"getötet\" entfernt wird.",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
