@@ -769,6 +769,7 @@ function QuestieQuestFixes:Load()
         },
         [1008] = { -- The Zoram Strand
             [questKeys.nextQuestInChain] = 1134,
+            [questKeys.disabledByQuest] = 1133,
         },
         [1010] = { -- Bathran's Hair
             [questKeys.nextQuestInChain] = 1020,
@@ -5893,11 +5894,13 @@ function QuestieQuestFixes:Load()
         },
         [9419] = { -- Scouring the Desert
             [questKeys.preQuestSingle] = {},
+            [questKeys.disabledByQuest] = 9415,
             [questKeys.objectives] = {{{17090,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
         [9422] = { -- Scouring the Desert
             [questKeys.preQuestSingle] = {},
+            [questKeys.disabledByQuest] = 9416,
             [questKeys.objectives] = {{{18199,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
