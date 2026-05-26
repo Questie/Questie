@@ -908,6 +908,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1738
             [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
         },
+        [1135] = { -- Highperch Venom
+            [questKeys.disabledByQuest] = 1132,
+        },
         [1136] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use a Fresh Carcass at the Flame of Uzel"), 0, {{"object", 1770}}}},
         },
@@ -2314,6 +2317,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {11018,11022},
             [questKeys.preQuestSingle] = {3781}, -- #7241
             [questKeys.breadcrumbs] = {3787,3788}, -- #885
+            [questKeys.nextQuestInChain] = 3792,
         },
         [3842] = { -- A Short Incubation
             [questKeys.nextQuestInChain] = 3843,
@@ -3609,8 +3613,8 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 6063,
             [questKeys.zoneOrSort] = zoneIDs.KHARANOS,
         },
-        [6762] = {
-            [questKeys.preQuestSingle] = {1015,1019,1047,6761},
+        [6761] = {
+            [questKeys.preQuestSingle] = {1015,1019,1047},
         },
         [6804] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Aspect of Neptulon."), 0, {{"monster", 8519},{"monster", 8520},{"monster", 8521},{"monster", 8522}}}},
@@ -5885,11 +5889,11 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9415] = { -- Report to Marshal Bluewall
-            [questKeys.exclusiveTo] = {},
+            [questKeys.availableUntilCompleted] = 9419,
             [questKeys.nextQuestInChain] = 0,
         },
         [9416] = { -- Report to General Kirika
-            [questKeys.exclusiveTo] = {},
+            [questKeys.availableUntilCompleted] = 9422,
             [questKeys.nextQuestInChain] = 0,
         },
         [9419] = { -- Scouring the Desert
