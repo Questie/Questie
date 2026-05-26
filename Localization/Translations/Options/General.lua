@@ -1140,7 +1140,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "Recortar texto de objetivos",
         ["ruRU"] = "Обрезка текста целей",
         ["zhCN"] = "裁剪对象文本",
-        ["zhTW"] = false,
+        ["zhTW"] = "裁減目標文字",
     },
     ["Simplify quest objective text by removing \"slain\" from it."] = {
         ["enUS"] = true,
@@ -1152,7 +1152,7 @@ local generalOptionsLocales = {
         ["ptBR"] = "Simplifica o texto dos objetivos de missões removendo \"morto\".",
         ["ruRU"] = "Упрощает текст целей заданий, убирая слова про убийства типа \"Убейте\"",
         ["zhCN"] = "移除任务目标中的“已消灭”以简化文本。",
-        ["zhTW"] = false,
+        ["zhTW"] = "藉由移除“已擊殺”來簡化任務目標的文字",
     },
 }
 
