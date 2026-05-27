@@ -199,6 +199,13 @@ QuestieItemDropCorrections.Era = {
         [1022] = 1.5,
         [1023] = 1.5,
     },
+    [5366] = { -- Glowing Soul Gem
+        [3725] = DropKeys.WOWHEAD,
+        [3727] = DropKeys.WOWHEAD,
+        [3728] = DropKeys.WOWHEAD,
+        [3730] = DropKeys.WOWHEAD,
+        [3879] = DropKeys.WOWHEAD,
+    },
     [6443] = { -- Deviate Hide
         [3630] = DropKeys.WOWHEAD,
         [3631] = DropKeys.WOWHEAD,

@@ -2203,6 +2203,7 @@ function QuestieTBCQuestFixes:Load()
         [9549] = { -- Artifacts of the Blacksilt
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10063},
+            [questKeys.nextQuestInChain] = 9550,
         },
         [9551] = { -- Call of Air
             [questKeys.startedBy] = {{17219,23127}},
@@ -2213,6 +2214,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9555] = { -- Call of Fire
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
+        [9557] = { -- Deciphering the Book
+            [questKeys.nextQuestInChain] = 9561,
         },
         [9558] = { -- The Longbeards
             [questKeys.preQuestSingle] = {10143,10483},
@@ -2231,6 +2235,9 @@ function QuestieTBCQuestFixes:Load()
         [9565] = {
             [questKeys.preQuestGroup] = {},
             [questKeys.preQuestSingle] = {9560,9562}, -- without 9564
+        },
+        [9567] = { -- Know Thine Enemy
+            [questKeys.nextQuestInChain] = 9569,
         },
         [9570] = { -- The Kurken is Lurkin'
             [questKeys.preQuestSingle] = {9565,9573},
@@ -2354,6 +2361,9 @@ function QuestieTBCQuestFixes:Load()
         [9640] = {
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
+        [9641] = { -- Irradiated Crystal Shards
+            [questKeys.nextQuestInChain] = 9642,
+        },
         [9644] = {
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
@@ -2367,6 +2377,7 @@ function QuestieTBCQuestFixes:Load()
         [9648] = { -- Mac'Aree Mushroom Menagerie
             [questKeys.name] = "Maatparm Mushroom Menagerie",
             [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 1 Aquatic Stinkhorn, 1 Blood Mushroom, 1 Ruinous Polyspore, and 1 Fel Cone Fungus."},
+            [questKeys.nextQuestInChain] = 9649,
         },
         [9649] = { -- Ysera's Tears
             [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 2 Ysera's Tears."},
@@ -2415,12 +2426,16 @@ function QuestieTBCQuestFixes:Load()
         [9693] = { -- What Argus Means to Me
             [questKeys.disabledByQuest] = 9668,
         },
+        [9694] = { -- Blood Watch
+            [questKeys.nextQuestInChain] = 9779,
+        },
         [9697] = { -- Watcher Leesa'oh
             [questKeys.requiredMinRep] = {942,3000},
             [questKeys.breadcrumbForQuestId] = 9701,
         },
         [9700] = {
             [questKeys.triggerEnd] = {"Sun Portal Site Confirmed", {[zoneIDs.BLOODMYST_ISLE]={{52.92,22.32}}}},
+            [questKeys.nextQuestInChain] = 9703,
         },
         [9701] = { -- Observing the Sporelings
             [questKeys.preQuestSingle] = {},
@@ -2431,11 +2446,14 @@ function QuestieTBCQuestFixes:Load()
         [9703] = { -- The Cryo-Core
             [questKeys.nextQuestInChain] = 9748,
         },
+        [9706] = { -- Galaen's Journal - The Fate of Vindicator Saruan
+            [questKeys.nextQuestInChain] = 9711,
+        },
         [9704] = { -- Slain by the Wretched
             [questKeys.breadcrumbs] = {8347},
             [questKeys.preQuestSingle] = {},
         },
-        [9711] = {
+        [9711] = { -- Matis the Cruel
             [questKeys.objectives] = {{{17664,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Call for help from Trackers of the Hand"), 0, {{"monster", 17664}}}},
         },
@@ -3980,6 +3998,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10752] = {
             [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
         },
         [10754] = {
             [questKeys.startedBy] = {{22037}},
@@ -5055,7 +5074,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Spiritual Soup at the Ancestral Grounds in Nagrand"), 0, {{"object", 184317}}}},
         },
         [11383] = { -- Wanted: Rift Lords
-            [questKeys.objectives] = {{{17839}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17839,21140},17839}}},
             [questKeys.preQuestSingle] = {10296},
         },
         [11403] = {

@@ -729,6 +729,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [970] = { -- The Tower of Althalaxx
+            [questKeys.nextQuestInChain] = 973,
+        },
         [972] = { -- Water Sapta
             [questKeys.exclusiveTo] = {},
             [questKeys.parentQuest] = 0,
