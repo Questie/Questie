@@ -1985,9 +1985,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
         },
         [9415] = { -- Report to Marshal Bluewall
+            [questKeys.availableUntilCompleted] = 9419,
             [questKeys.requiredLevel] = 55,
         },
         [9416] = { -- Report to General Kirika
+            [questKeys.availableUntilCompleted] = 9422,
             [questKeys.requiredLevel] = 55,
         },
         [9417] = { -- The Arakkoa Threat

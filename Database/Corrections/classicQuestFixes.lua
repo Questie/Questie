@@ -5889,11 +5889,11 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9415] = { -- Report to Marshal Bluewall
-            [questKeys.availableUntilCompleted] = 9419,
+            [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
         },
         [9416] = { -- Report to General Kirika
-            [questKeys.availableUntilCompleted] = 9422,
+            [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
         },
         [9419] = { -- Scouring the Desert
