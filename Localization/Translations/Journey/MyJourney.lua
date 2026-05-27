@@ -887,7 +887,7 @@ local myJourneyLocales = {
         ["koKR"] = false,
         ["ptBR"] = "A missão desativadora está ativa",
         ["ruRU"] = "Отключение активного задания",
-        ["zhCN"] = false,
+        ["zhCN"] = "禁用任务已激活",
         ["zhTW"] = false,
     },
 }
