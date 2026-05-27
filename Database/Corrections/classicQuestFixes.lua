@@ -5889,19 +5889,23 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [9415] = { -- Report to Marshal Bluewall
+            [questKeys.requiredLevel] = 1,
             [questKeys.nextQuestInChain] = 0,
        },
         [9416] = { -- Report to General Kirika
+            [questKeys.requiredLevel] = 1,
             [questKeys.nextQuestInChain] = 0,
         },
         [9419] = { -- Scouring the Desert
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredLevel] = 1,
             [questKeys.disabledByQuest] = 9415,
             [questKeys.objectives] = {{{17090,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
         },
         [9422] = { -- Scouring the Desert
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredLevel] = 1,
             [questKeys.disabledByQuest] = 9416,
             [questKeys.objectives] = {{{18199,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
