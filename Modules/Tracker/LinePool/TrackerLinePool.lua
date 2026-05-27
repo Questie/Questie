@@ -480,7 +480,7 @@ function TrackerLinePool.UpdateQuestLines(questId)
             local objective = line.Objective
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
-            local objDesc = objective.Description:gsub("%.$", "")
+            local objDesc = QuestieLib:GetObjectiveDescription(objective)
             line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
         end
     end

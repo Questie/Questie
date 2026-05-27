@@ -939,7 +939,7 @@ function QuestieTracker:Update()
                                     line.questHasSecondaryQIB = secondaryButton
 
                                     -- Set Objective based on states
-                                    local objDesc = objective.Description:gsub("%.$", "")
+                                    local objDesc = QuestieLib:GetObjectiveDescription(objective)
 
                                     -- Sometimes the API returns messy objective data (finished=false, but numRequired==numFulfilled)
                                     local questIsIncompleteButObjectiveIsComplete = ((not quest.isComplete) and objective.Completed == true and #quest.Objectives == 1)

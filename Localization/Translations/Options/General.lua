@@ -1130,6 +1130,30 @@ local generalOptionsLocales = {
         ["zhCN"] = "短路",
         ["zhTW"] = "短路",
     },
+    ["Trim Objective Text"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questzieltexte kürzen",
+        ["esES"] = "Recortar texto de objetivos",
+        ["esMX"] = "Recortar texto de objetivos",
+        ["frFR"] = "Raccourcir l'énoncé des objectifs",
+        ["koKR"] = false,
+        ["ptBR"] = "Recortar texto de objetivos",
+        ["ruRU"] = "Обрезка текста целей",
+        ["zhCN"] = "裁剪对象文本",
+        ["zhTW"] = "裁減目標文字",
+    },
+    ["Simplify quest objective text by removing \"slain\" from it."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kürzt die Questzieltexte, indem \"getötet\" entfernt wird.",
+        ["esES"] = "Simplifica el texto de los objetivos de misión eliminando \"matado\".",
+        ["esMX"] = "Simplifica el texto de los objetivos de misión eliminando \"matado\".",
+        ["frFR"] = "Simplifier l'énoncé des objectifs en supprimant le terme \"tué\" dedans.",
+        ["koKR"] = false,
+        ["ptBR"] = "Simplifica o texto dos objetivos de missões removendo \"morto\".",
+        ["ruRU"] = "Упрощает текст целей заданий, убирая слова про убийства типа \"Убейте\"",
+        ["zhCN"] = "移除任务目标中的“已消灭”以简化文本。",
+        ["zhTW"] = "藉由移除“已擊殺”來簡化任務目標的文字",
+    },
 }
 
 for k, v in pairs(generalOptionsLocales) do

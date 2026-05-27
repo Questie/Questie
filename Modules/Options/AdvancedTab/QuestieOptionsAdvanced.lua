@@ -192,7 +192,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                     },
                 },
             },
-
             Spacer_A = QuestieOptionsUtils:Spacer(2.9),
             locale_header = {
                 type = "header",

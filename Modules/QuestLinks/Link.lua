@@ -381,7 +381,7 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
             _AddTooltipLine(" ")
             _AddColoredTooltipLine(l10n("Your progress")..l10n(": "), "gold")
             for _, objective in pairs(quest.Objectives) do
-                local objDesc = objective.Description:gsub("%.$", "")
+                local objDesc = QuestieLib:GetObjectiveDescription(objective)
 
                 if objective.Needed > 0 then
                     local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
