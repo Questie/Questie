@@ -2000,8 +2000,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {nil,nil,{23580}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Take Avruu's Orb to the Haal'eshi Altar"), 0, {{"object", 181606}}}},
         },
+        [9419] = { -- Scouring the Desert
+            [questKeys.requiredLevel] = 55,
+        },
         [9421] = {
             [questKeys.preQuestSingle] = {9280,9369},
+        },
+        [9422] = { -- Scouring the Desert
+            [questKeys.requiredLevel] = 55,
         },
         [9423] = { -- Return to Obadei
             [questKeys.nextQuestInChain] = 9424,
@@ -2328,6 +2334,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9634] = { -- Alien Predators
             [questKeys.preQuestSingle] = {},
+            [questKeys.disabledByQuest] = 9625,
         },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
@@ -2404,6 +2411,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9689] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Bundle of Dragon Bones at the Ever-burning Pyre"), 0, {{"object", 181988}}}},
+        },
+        [9693] = { -- What Argus Means to Me
+            [questKeys.disabledByQuest] = 9668,
         },
         [9697] = { -- Watcher Leesa'oh
             [questKeys.requiredMinRep] = {942,3000},

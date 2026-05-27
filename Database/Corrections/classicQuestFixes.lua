@@ -5891,7 +5891,7 @@ function QuestieQuestFixes:Load()
         [9415] = { -- Report to Marshal Bluewall
             [questKeys.requiredLevel] = 1,
             [questKeys.nextQuestInChain] = 0,
-       },
+        },
         [9416] = { -- Report to General Kirika
             [questKeys.requiredLevel] = 1,
             [questKeys.nextQuestInChain] = 0,
