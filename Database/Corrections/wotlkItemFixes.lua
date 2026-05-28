@@ -757,7 +757,17 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.relatedQuests] = {94376},
             [itemKeys.class] = 12,
         },
-        [268145] = { -- Punctured Voodoo Doll
+    }
+end
+
+function QuestieWotlkItemFixes:LoadTitanReforgedFixes()
+    local itemKeys = QuestieDB.itemKeys
+
+    return {
+        [22734] = { -- Base of Atiesh
+            [itemKeys.npcDrops] = {15172},
+        },
+        [268145] = { -- Punctured Voodoo Doll -- for DK on titan server
             [itemKeys.name] = "Punctured Voodoo Doll",
             [itemKeys.class] = 12,
             [itemKeys.itemLevel] = 1,
@@ -774,16 +784,6 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.name] = "Primal Hakkari Idol",
             [itemKeys.class] = 15,
             [itemKeys.requiredLevel] = 80,
-        },
-    }
-end
-
-function QuestieWotlkItemFixes:LoadTitanReforgedFixes()
-    local itemKeys = QuestieDB.itemKeys
-
-    return {
-        [22734] = { -- Base of Atiesh
-            [itemKeys.npcDrops] = {15172},
         },
     }
 end
