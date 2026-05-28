@@ -8249,6 +8249,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
     QuestieDB.questData[95845] = {} -- Another Shot at the Scarab
     QuestieDB.questData[95037] = {} -- Lord Jaraxxus Must Die!
+    QuestieDB.questData[96211] = {} -- Heart of the Eredar
     QuestieDB.questData[96312] = {} -- Brutallus Must Die!
     QuestieDB.questData[96315] = {} -- XT-002 Deconstructor Must Die!
     QuestieDB.questData[96318] = {} -- Shade of Aran Must Die!
