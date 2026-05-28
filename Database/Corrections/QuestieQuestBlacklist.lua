@@ -8377,7 +8377,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8243] = true, -- Zanza's Potent Potables
         [8192] = true, -- Animist's Caress
         [8227] = true, -- Nat's Measuring Tape
-        [8195] = true, -- Zulian, Razzashi, and Hakkari Coins
         [8183] = true, -- The Heart of Hakkar
         [8143] = true, -- Zandalarian Shadow Talisman
         [8077] = true, -- Paragons of Power: The Demoniac's Robes
@@ -8397,10 +8396,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8053] = true, -- Paragons of Power: The Freethinker's Armguards
         [8106] = true, -- Kezan's Taint
         [8078] = true, -- Paragons of Power: The Vindicator's Belt
-        [8201] = true, -- A Collection of Heads
         [8072] = true, -- Paragons of Power: The Madcap's Mantle
         [8071] = true, -- Paragons of Power: The Confessor's Mantle
-        [8240] = true, -- A Bijou for Zanza
         [8246] = true, -- Signets of the Zandalar
         [8064] = true, -- Paragons of Power: The Haruspex's Belt
         [8058] = true, -- Paragons of Power: The Vindicator's Armguards
@@ -8439,14 +8436,12 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8185] = true, -- Syncretist's Sigil
         [8116] = true, -- Vision of Voodress
         [8054] = true, -- Paragons of Power: The Freethinker's Belt
-        [8238] = true, -- Gurubashi, Vilebranch, and Witherbark Coins
         [8061] = true, -- Paragons of Power: The Confessor's Wraps
         [8043] = true, -- Strength of Mount Mugamba
         [8191] = true, -- Prophetic Aura
         [8188] = true, -- Vodouisant's Vigilant Embrace
         [8118] = true, -- Vision of Voodress
         [8196] = true, -- Essence Mangoes
-        [8239] = true, -- Sandfury, Skullsplitter, and Bloodscalp Coins
         [8190] = true, -- Hoodoo Hex
         [8184] = true, -- Presence of Might
         [8048] = true, -- The Hero's Brand

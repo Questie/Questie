@@ -8165,6 +8165,26 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 94576,
         },
+        [8195] = { -- Zulian, Razzashi, and Hakkari Coins
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8201] = { -- A Collection of Heads
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8238] = { -- Gurubashi, Vilebranch, and Witherbark Coins
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8239] = { -- Sandfury, Skullsplitter, and Bloodscalp Coins
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8240] = { -- A Bijou for Zanza
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [9250] = { -- Frame of Atiesh
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
