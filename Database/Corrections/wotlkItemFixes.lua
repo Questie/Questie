@@ -757,6 +757,13 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.relatedQuests] = {94376},
             [itemKeys.class] = 12,
         },
+        [272955] = { -- Eredar Heart
+            [itemKeys.name] = "Eredar Heart",
+            [itemKeys.npcDrops] = {34780},
+            [itemKeys.class] = 12,
+            [itemKeys.relatedQuests] = {96211},
+            [itemKeys.startQuest] = 96211,
+        },
     }
 end
 
@@ -766,13 +773,6 @@ function QuestieWotlkItemFixes:LoadTitanReforgedFixes()
     return {
         [22734] = { -- Base of Atiesh
             [itemKeys.npcDrops] = {15172},
-        },
-        [272955] = { -- Eredar Heart
-            [itemKeys.name] = "Eredar Heart",
-            [itemKeys.npcDrops] = {34780},
-            [itemKeys.class] = 12,
-            [itemKeys.relatedQuests] = {96211},
-            [itemKeys.startQuest] = 96211,
         },
     }
 end
