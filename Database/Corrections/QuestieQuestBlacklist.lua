@@ -1681,6 +1681,7 @@ function QuestieQuestBlacklist:Load()
         [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
         [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
         [95037] = not Questie.IsTitanReforged, -- Lord Jaraxxus Must Die!
+        [96211] = not Questie.IsTitanReforged, -- Heart of the Eredar
         [96312] = true, -- Brutallus Must Die! not open now
         [96315] = true, -- XT-002 Deconstructor Must Die! not open now
         [96318] = true, -- Shade of Aran Must Die! not open now
