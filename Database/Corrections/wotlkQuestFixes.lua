@@ -8075,7 +8075,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.ROGUE + classIDs.SHAMAN,
-            [questKeys.objectivesText] = {"Found a suitable purpose for the Eredal Heart."},
+            [questKeys.objectivesText] = {"Found a suitable purpose for the Eredar Heart."},
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.questFlags] = questFlags.NONE,
