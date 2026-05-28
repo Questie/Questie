@@ -768,7 +768,7 @@ function QuestieWotlkItemFixes:LoadTitanReforgedFixes()
             [itemKeys.npcDrops] = {15172},
         },
         [272955] = { -- Eredar Heart
-            [itemKeys.name] = 'Eredar Heart',
+            [itemKeys.name] = "Eredar Heart",
             [itemKeys.npcDrops] = {34780},
             [itemKeys.class] = 12,
             [itemKeys.relatedQuests] = {96211},
