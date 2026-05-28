@@ -3118,6 +3118,12 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}},
         },
+        [80007] = {
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_GURUB,
+            [npcKeys.questEnds] = {96211},
+        },
         [256887] = { -- Greater Dust Stormer
             [npcKeys.name] = "Greater Dust Stormer",
             [npcKeys.minLevel] = 80,

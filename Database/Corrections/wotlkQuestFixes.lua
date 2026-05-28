@@ -8067,6 +8067,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.NONE,
             [questKeys.preQuestSingle] = {95844},
         },
+        [96211] = { -- Heart of the Eredar -- only present on titan reforged
+            [questKeys.name] = "Heart of the Eredar",
+            [questKeys.startedBy] = {nil,nil,{272955}},
+            [questKeys.finishedBy] = {{80007}},
+            [questKeys.sourceItemId] = 272955,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.HUNTER + classIDs.ROGUE + classIDs.SHAMAN,
+            [questKeys.objectivesText] = {"Find a suitable purpose for the Eredar Heart."},
+            [questKeys.objectives] = {nil,{{420002}}},
+            [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
+            [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.questFlags] = questFlags.NONE,
+        },
         [96312] = { -- Brutallus Must Die! -- only present on titan reforged
             [questKeys.name] = "Brutallus Must Die!",
             [questKeys.startedBy] = {{20735}},
@@ -8236,6 +8250,7 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
     QuestieDB.questData[95845] = {} -- Another Shot at the Scarab
     QuestieDB.questData[95037] = {} -- Lord Jaraxxus Must Die!
+    QuestieDB.questData[96211] = {} -- Heart of the Eredar
     QuestieDB.questData[96312] = {} -- Brutallus Must Die!
     QuestieDB.questData[96315] = {} -- XT-002 Deconstructor Must Die!
     QuestieDB.questData[96318] = {} -- Shade of Aran Must Die!

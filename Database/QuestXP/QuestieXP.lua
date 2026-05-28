@@ -22,8 +22,8 @@ function QuestXP.Init()
             local _, _, _, _, _, _, _, _, _, buffSpellId = UnitBuff("player", i)
 
             if buffSpellId == 377749 then
-                -- Joyous Journeys is active - 50% bonus XP
-                globalXPMultiplier = 1.5
+                -- Joyous Journeys is active - 50% bonus XP on regular realms, 100% bonus on Titan
+                globalXPMultiplier = Questie.IsTitanReforged and 2 or 1.5
                 break
             end
 
