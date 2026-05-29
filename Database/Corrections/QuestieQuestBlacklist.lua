@@ -7899,15 +7899,15 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24429] = true, -- A Most Puzzling Circumstance
 
         -- Black Knight
-        [13633] = true, -- The Black Knight of Westfall?
-        [13634] = true, -- The Black Knight of Silverpine?
-        [13641] = true, -- The Seer's Crystal
-        [13643] = true, -- The Stories Dead Men Tell
-        [13654] = true, -- There's Something About the Squire
-        [13663] = true, -- The Black Knight's Orders
-        [13664] = true, -- The Black Knight's Fall
-        [13667] = true, -- The Argent Tournament
-        [13668] = true, -- The Argent Tournament
+        -- [13633] = true, -- The Black Knight of Westfall?
+        -- [13634] = true, -- The Black Knight of Silverpine?
+        -- [13641] = true, -- The Seer's Crystal
+        -- [13643] = true, -- The Stories Dead Men Tell
+        -- [13654] = true, -- There's Something About the Squire
+        -- [13663] = true, -- The Black Knight's Orders
+        -- [13664] = true, -- The Black Knight's Fall
+        -- [13667] = true, -- The Argent Tournament
+        -- [13668] = true, -- The Argent Tournament
 
         -- Argent Tournament
         [13627] = true, -- Jack Me Some Lumber
