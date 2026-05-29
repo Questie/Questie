@@ -216,6 +216,12 @@ function QuestieTBCQuestFixes:Load()
         [1093] = { -- Super Reaper 6000
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [1094] = { -- Further Instructions
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [1096] = { -- Gerenzo Wrenchwhistle
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [1109] = {
             [questKeys.requiredLevel] = 22,
             [questKeys.questLevel] = 26,

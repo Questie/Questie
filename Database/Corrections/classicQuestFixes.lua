@@ -777,8 +777,9 @@ function QuestieQuestFixes:Load()
         [1010] = { -- Bathran's Hair
             [questKeys.nextQuestInChain] = 1020,
         },
-        [1011] = {
+        [1011] = { -- Forsaken Diseases
             [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 1012,
         },
         [1015] = {
             [questKeys.exclusiveTo] = {1047,1019},
@@ -801,6 +802,9 @@ function QuestieQuestFixes:Load()
         [1027] = { -- Raene's Cleansing
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay slimes until they leave behind a Rusty Chest"), 0, {{"monster", 3928}}}},
         },
+        [1031] = { -- The Branch of Cenarius
+            [questKeys.nextQuestInChain] = 1032,
+        },
         [1033] = { -- Elune's Tear
             [questKeys.nextQuestInChain] = 1034,
         },
@@ -811,8 +815,12 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {87,3000},
             [questKeys.requiredMaxRep] = {21,-5999},
         },
+        [1045] = { -- Raene's Cleansing
+            [questKeys.requiredSourceItems] = {},
+        },
         [1046] = {
             [questKeys.objectives] = {nil,nil,{{5388},{5462}}},
+            [questKeys.sourceItemId] = 0,
         },
         [1047] = {
             [questKeys.exclusiveTo] = {1015,1019},
@@ -855,7 +863,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Place the Toxic Fogger", {[zoneIDs.STONETALON_MOUNTAINS]={{66.44,45.46}}}},
         },
         [1090] = {
-            [questKeys.objectives] = {{{4276,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {{{4276,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [1093] = {
             [questKeys.breadcrumbs] = {1483},
