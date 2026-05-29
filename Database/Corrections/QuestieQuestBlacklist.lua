@@ -8376,8 +8376,6 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [9209] = true, -- The Savage Guard - Arcanum of Rapidity
         [8243] = true, -- Zanza's Potent Potables
         [8192] = true, -- Animist's Caress
-        [8227] = true, -- Nat's Measuring Tape
-        [8183] = true, -- The Heart of Hakkar
         [8143] = true, -- Zandalarian Shadow Talisman
         [8077] = true, -- Paragons of Power: The Demoniac's Robes
         [9210] = true, -- The Savage Guard - Arcanum of Focus

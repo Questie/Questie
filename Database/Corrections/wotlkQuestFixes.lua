@@ -8165,11 +8165,19 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 94576,
         },
+        [8183] = { -- The Heart of Hakkar
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [8195] = { -- Zulian, Razzashi, and Hakkari Coins
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
         [8201] = { -- A Collection of Heads
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8227] = { -- Nat's Measuring Tape
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
