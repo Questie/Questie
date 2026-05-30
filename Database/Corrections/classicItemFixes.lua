@@ -48,6 +48,9 @@ function QuestieItemFixes:Load()
         [1357] = { -- Captain Sander's Treasure Map
             [itemKeys.npcDrops] = {126, 127, 171, 391, 456, 458, 513, 515, 517},
         },
+        [1468] = { -- Murloc Fin
+            [itemKeys.npcDrops] = {422,544,545,548,578,1024,1025,1026,1027,1028,1029,1083,1259,1418,3654,3737,3739,3740,3742,4818,4819,4820,6243,10643,14270},
+        },
         [1524] = { -- Skullsplitter Tusk
             [itemKeys.npcDrops] = {667, 669, 670, 672, 696, 780, 781, 782, 783, 784, 1059, 1061, 1062},
         },
