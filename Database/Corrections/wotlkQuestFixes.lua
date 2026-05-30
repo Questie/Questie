@@ -8325,8 +8325,8 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
-        [8185] = { -- Destructive Prophecy
-            [questKeys.name] = "Destructive Prophecy",
+        [8185] = { -- Syncretist's Prophecy
+            [questKeys.name] = "Syncretist's Prophecy",
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },

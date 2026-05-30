@@ -74,5 +74,8 @@ function Questie.LoadTitanQuestLookupOverrides()
         [8192] = { -- Animist's Prophecy
             [questKeys.name] = "万灵预言",
         },
+        [8185] = { -- Syncretist's Prophecy
+            [questKeys.name] = "调和预言",
+        },
     }
 end
