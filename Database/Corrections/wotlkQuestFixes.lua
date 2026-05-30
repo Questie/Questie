@@ -8024,7 +8024,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
-            [questKeys.reputationReward] = {factionIDs.ZANDALAR_TRIBE,250},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
         [95082] = { -- Lunar Prophecy
             [questKeys.name] = "Lunar Prophecy",
@@ -8038,7 +8038,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
-            [questKeys.reputationReward] = {factionIDs.ZANDALAR_TRIBE,250},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
         [95083] = { -- Naturalist's Prophecy
             [questKeys.name] = "Naturalist's Prophecy",
@@ -8052,7 +8052,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
-            [questKeys.reputationReward] = {factionIDs.ZANDALAR_TRIBE,250},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
         [95103] = { -- Guardian's Embodiment
             [questKeys.name] = "Guardian's Embodiment",
@@ -8066,7 +8066,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
-            [questKeys.reputationReward] = {factionIDs.ZANDALAR_TRIBE,250},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
         [95104] = { -- Animist's Embodiment
             [questKeys.name] = "Animist's Embodiment",
@@ -8080,7 +8080,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
-            [questKeys.reputationReward] = {factionIDs.ZANDALAR_TRIBE,250},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
         [95105] = { -- Lunar Embodiment
             [questKeys.name] = "Lunar Embodiment",
@@ -8094,7 +8094,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
-            [questKeys.reputationReward] = {factionIDs.ZANDALAR_TRIBE,250},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
         [95106] = { -- Naturalist's Embodiment
             [questKeys.name] = "Naturalist's Embodiment",
@@ -8108,7 +8108,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
-            [questKeys.reputationReward] = {factionIDs.ZANDALAR_TRIBE,250},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
         [95705] = { -- Gobb's Grand Opening! -- only present on titan reforged
             [questKeys.name] = "Gobb's Grand Opening!",
