@@ -1,5 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local townsfolkLocales = {
     ["Ammo"] = {
@@ -281,11 +283,11 @@ local townsfolkLocales = {
     ["Weapon Master"] = {
         ["enUS"] = true,
         ["deDE"] = "Waffenmeister",
-        ["esES"] = "Maestro armero",
+        ["esES"] = (Expansions.Current == Expansions.Era and "Maestro armero") or "Maestro de armas",
         ["esMX"] = "Maestro de armas",
         ["frFR"] = "Maître d'armes",
         ["koKR"] = "무기 전문가",
-        ["ptBR"] = "Mestre de Armas",
+        ["ptBR"] = "Mestre de armas",
         ["ruRU"] = "Эксперт по оружию",
         ["zhCN"] = "武器大师",
         ["zhTW"] = "武器大師",
