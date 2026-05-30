@@ -84,6 +84,10 @@ _GetAnnounceMarker = function()
     end
 end
 
+---@param questId QuestId
+---@param itemId? ItemId
+---@param objectiveText string
+---@param objectiveProgress string
 function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveText, objectiveProgress)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
         -- no hyperlink required here
@@ -105,6 +109,10 @@ end
 local _has_seen_incomplete = {}
 local _has_sent_announce = {}
 
+---@param questId QuestId
+---@param text string
+---@param numFulfilled number
+---@param numRequired number
 function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequired)
     -- Announce completed objective
     if (numRequired ~= numFulfilled) then
@@ -116,7 +124,8 @@ function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequir
     end
 end
 
-
+---@param questId QuestId
+---@param itemId ItemId
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceItems then
         local questHyperLink = QuestieLink:GetQuestLinkStringById(questId);
@@ -130,6 +139,8 @@ function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     end
 end
 
+---@param questId QuestId
+---@param itemId ItemId
 function _QuestieAnnounce:AnnounceSelf(questId, itemId)
     local questHyperLink = QuestieLink:GetQuestHyperLink(questId);
     local itemLink = select(2, GetItemInfo(itemId));
@@ -162,6 +173,7 @@ function _QuestieAnnounce.GetChatMessageChannel()
     end
 end
 
+---@param message string
 function _QuestieAnnounce:AnnounceToChannel(message)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
     if (not message) or alreadySentBandaid[message] or Questie.db.profile.questieShutUp then
@@ -184,6 +196,9 @@ local function _GetPlayerName()
     return playerNameCache
 end
 
+---@param text string
+---@param notPlayerName string
+---@param playerName string
 function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     if (playerNameCache or _GetPlayerName()) == playerName or (string.len(playerName) == 0 and playerNameCache == notPlayerName) then
         local itemId = tonumber(string.match(text, "item:(%d+)"))
@@ -207,6 +222,7 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     end
 end
 
+---@param questId QuestId
 function QuestieAnnounce:AcceptedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAccepted then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
@@ -216,6 +232,7 @@ function QuestieAnnounce:AcceptedQuest(questId)
     end
 end
 
+---@param questId QuestId
 function QuestieAnnounce:AbandonedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAbandoned then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
@@ -225,6 +242,7 @@ function QuestieAnnounce:AbandonedQuest(questId)
     end
 end
 
+---@param questId QuestId
 function QuestieAnnounce:CompletedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceCompleted then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
