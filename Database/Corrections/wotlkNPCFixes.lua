@@ -3709,7 +3709,17 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
       },
     },
   }
-  end
+end
+
+function QuestieWotlkNPCFixes:LoadTitanReforgedFixes()
+    local npcKeys = QuestieDB.npcKeys
+
+    return {
+        --[28860] = {
+        --    [npcKeys.spawns] = {[4493]={{50.07,47.75},{-1,-1}}},
+        --},
+    }
+end
 
 -- This should allow manual fix for NPC availability
 function QuestieWotlkNpcFixes:LoadFactionFixes()
