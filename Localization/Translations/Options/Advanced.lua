@@ -311,7 +311,7 @@ local advancedOptionsLocales = {
         ["koKR"] = "Questie 여정 초기화",
         ["ptBR"] = "Redefinir viagem",
         ["ruRU"] = "Сброс Путешествия",
-        ["zhCN"] = "重置Questiel旅程",
+        ["zhCN"] = "重置Questie旅程",
         ["zhTW"] = "重置Questie冒險日記",
     },
     ["Clear the Journey of the current character"] = {
