@@ -3711,7 +3711,7 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
   }
 end
 
-function QuestieWotlkNPCFixes:LoadTitanReforgedFixes()
+function QuestieWotlkNpcFixes:LoadTitanReforgedFixes()
     local npcKeys = QuestieDB.npcKeys
 
     return {
