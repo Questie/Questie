@@ -71,5 +71,8 @@ function Questie.LoadTitanQuestLookupOverrides()
             [questKeys.name] = "昔日的传奇",
             [questKeys.objectivesText] = {"寻找对休眠之刃有所了解的人。"},
         },
+        [8192] = { -- Animist's Prophecy
+            [questKeys.name] = "万灵预言",
+        },
     }
 end

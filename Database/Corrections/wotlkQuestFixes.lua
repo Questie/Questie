@@ -8169,6 +8169,11 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [8192] = { -- Animist's Prophecy
+            [questKeys.name] = "Animist's Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [8195] = { -- Zulian, Razzashi, and Hakkari Coins
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
