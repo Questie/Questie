@@ -107,7 +107,7 @@ end
 --   Event/Enable/Disable Handlers  --
 -------------------------------------
 do
-    -- PARENTED TO WORLDFRAME: This ticker stays alive and clears markers even when UIParent is hidden (Alt+Z)
+    -- PARENTED TO WORLDFRAME: This ticker stays alive and clears markers even when UIParent is hidden
     local eventFrame = CreateFrame("frame", nil, WorldFrame)
     local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
     local warningShown = false
