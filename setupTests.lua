@@ -74,6 +74,7 @@ _G.C_Item = {
     GetItemCount = function() return 0 end,
     GetItemSpell = function() return nil end,
 }
+_G.ItemRefTooltip = {}
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
