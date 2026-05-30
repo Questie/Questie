@@ -358,7 +358,7 @@ function QuestieDBMIntegration:UnregisterHudQuestIcon(tableString)
         if KalimdorPoints[tableString] then KalimdorPoints[tableString] = nil end
         if EKPoints[tableString] then EKPoints[tableString] = nil end
         if OutlandPoints[tableString] then OutlandPoints[tableString] = nil end
-        if NorthrendPoints[tableString] then NorthrendPoints[tableString] = nil end -- Fixed original author typo (OutlandPoints typo)
+        if NorthrendPoints[tableString] then NorthrendPoints[tableString] = nil end
         if PandariaPoints[tableString] then PandariaPoints[tableString] = nil end
         if AddedHudIds[tableString] then
             RemoveHudQuestIcon(tableString)
@@ -406,3 +406,11 @@ function QuestieDBMIntegration:ClearHudEdge(tableString)
         end
     end
 end
+--TODO
+----HUD
+--more fancy functions similar to drawing lines/arrows to objectives. Current edge code works, but there are still more cool things HUD can do
+--possibly pulsing or other icon effects for specific objectives to make specific things stand out more, such as a click/interact objective in middle of a bunch of loot/kill ones
+--Much more memory efficient table management? (especially since I'm just REALLY bad at tables). Maybe a way to just pull info from existing map Pins from questie or HBD instead of literally storing local tables of all objects here as well
+--Move a bunch of this to DBM-Core's HUDMAP module and expand api to support more mods such as handynotes, gathermate, etc
+----ARROW?
+--Arrow functions?, since DBM also has a regular waypoint arrow as well. DBM arrow api is https://github.com/DeadlyBossMods/DBM-Classic/blob/master/DBM-Core/DBM-Arrow.lua
