@@ -2188,6 +2188,7 @@ function CataNpcFixes.Load()
         },
         [15042] = { -- Zanza the Restless
             [npcKeys.questStarts] = {8184,8185,8186,8187,8188,8189,8190,8191,8192,9208,9209,9210},
+            [npcKeys.questEnds] = {8184,8185,8186,8187,8188,8189,8190,8191,8192,9208,9209,9210},
         },
         [15070] = { -- Vinchaxa
             [npcKeys.questStarts] = {8195,8238,8239,8240},
