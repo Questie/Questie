@@ -263,8 +263,8 @@ local mapOptionsLocales = {
         ["koKR"] = "마을 주민 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["ptBR"] = "Tamanho dos ícones dos serviços no mapa.\n(Padrão: %s)",
         ["ruRU"] = "Размер значков полезных NPC на карте.\n(По умолчанию: %s)",
-        ["zhCN"] = "城镇居民地图图标的大小。\n（默认：%s）",
-        ["zhTW"] = "城村居民地圖圖示的大小。\n（預設值：%s）",
+        ["zhCN"] = "镇民地图图标的大小。\n（默认：%s）",
+        ["zhTW"] = "村民地圖圖示的大小。\n（預設值：%s）",
     },
     ["Minimap Townsfolk Icons"] = {
         ["enUS"] = true,
@@ -287,8 +287,8 @@ local mapOptionsLocales = {
         ["koKR"] = "마을 주민 미니맵 아이콘의 크기를 설정합니다.\n(기본값: %s)",
         ["ptBR"] = "Tamanho dos ícones dos serviços no minimapa.\n(Padrão: %s)",
         ["ruRU"] = "Размер значков полезных NPC на миникарте.\n(По умолчанию: %s)",
-        ["zhCN"] = "城镇居民小地图图标的大小。\n（默认：%s）",
-        ["zhTW"] = "城村居民小地圖圖示的大小。\n（預設值：%s）",
+        ["zhCN"] = "镇民小地图图标的大小。\n（默认：%s）",
+        ["zhTW"] = "村民小地圖圖示的大小。\n（預設值：%s）",
     },
     ["Show Map Coordinates"] = {
         ["enUS"] = true,
