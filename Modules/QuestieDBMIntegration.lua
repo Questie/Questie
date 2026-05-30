@@ -21,7 +21,7 @@ local PandariaPoints = {}--Maintains Pandaria objective list
 local AddedHudIds = {}--Tracking table of all active hud markers
 local playerName = UnitName("player")
 local QuestieHUDEnabled = false
-local UIHidden = not UIParent:IsShown()
+local UIHidden = false
 local HudSuspended = false
 
 --------------------------------------------
@@ -76,6 +76,7 @@ end
 
 -- Force checks and purges markers if UI is toggled closed via Alt+Z
 local function UpdateUIVisibility()
+    if not UIParent then return end
     local isHidden = not UIParent:IsShown()
     if isHidden == UIHidden then return end
     UIHidden = isHidden
@@ -381,6 +382,7 @@ end
 
 --Creates a line between player and a specific point
 function QuestieDBMIntegration:EdgeTo(tableString)
+    if not UIParent or UIHidden or not DBM or not DBM.HudMap or not tableString then return end
     if DBM and DBM.HudMap and tableString and not UIHidden then
         if not AddedHudIds[tableString.."edge"] then
             --Request Marker table from DBM for specific tableString
