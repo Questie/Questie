@@ -252,7 +252,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Ícones dos serviços",
         ["ruRU"] = "Значки полезных NPC",
         ["zhCN"] = "镇民图标",
-        ["zhTW"] = "鎮民圖示",
+        ["zhTW"] = "村民圖示",
     },
     ["How large the townsfolk map icons are.\n(Default: %s)"] = {
         ["enUS"] = true,
@@ -264,7 +264,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Tamanho dos ícones dos serviços no mapa.\n(Padrão: %s)",
         ["ruRU"] = "Размер значков полезных NPC на карте.\n(По умолчанию: %s)",
         ["zhCN"] = "城镇居民地图图标的大小。\n（默认：%s）",
-        ["zhTW"] = "城鎮居民地圖圖示的大小。\n（預設值：%s）",
+        ["zhTW"] = "城村居民地圖圖示的大小。\n（預設值：%s）",
     },
     ["Minimap Townsfolk Icons"] = {
         ["enUS"] = true,
@@ -276,7 +276,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Ícones dos serviços no minimapa",
         ["ruRU"] = "Значки полезных NPC (миникарта)",
         ["zhCN"] = "小地图镇民图标",
-        ["zhTW"] = "小地圖鎮民圖示",
+        ["zhTW"] = "小地圖村民圖示",
     },
     ["How large the townsfolk minimap icons are.\n(Default: %s)"] = {
         ["enUS"] = true,
@@ -288,7 +288,7 @@ local mapOptionsLocales = {
         ["ptBR"] = "Tamanho dos ícones dos serviços no minimapa.\n(Padrão: %s)",
         ["ruRU"] = "Размер значков полезных NPC на миникарте.\n(По умолчанию: %s)",
         ["zhCN"] = "城镇居民小地图图标的大小。\n（默认：%s）",
-        ["zhTW"] = "城鎮居民小地圖圖示的大小。\n（預設值：%s）",
+        ["zhTW"] = "城村居民小地圖圖示的大小。\n（預設值：%s）",
     },
     ["Show Map Coordinates"] = {
         ["enUS"] = true,
