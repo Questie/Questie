@@ -30,13 +30,13 @@ describe("QuestieAnnounce", function()
         it("should not announce when questAnnounceObjectives is disabled", function()
             Questie.db.profile.questAnnounceObjectives = false
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill goblins", "1/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill goblins", "1/10")
 
             assert.spy(_G.SendChatMessage).was_not_called()
         end)
 
         it("should not announce when not in the correct channel", function()
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill ogres", "1/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill ogres", "1/10")
 
             assert.spy(_G.SendChatMessage).was_not_called()
         end)
@@ -51,7 +51,7 @@ describe("QuestieAnnounce", function()
             end
             QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "1/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "1/10")
 
             assert.spy(_G.SendChatMessage).was_called_with("{rt1} Questie: 1/10 Kill wolves for |cff...questLink|r!", "PARTY")
         end)
@@ -60,7 +60,7 @@ describe("QuestieAnnounce", function()
             _G.IsInGroup = function() return true end
             QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "2/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "2/10")
 
             assert.spy(_G.SendChatMessage).was_called_with("{rt1} Questie: 2/10 Kill wolves for |cff...questLink|r!", "INSTANCE_CHAT")
         end)
@@ -78,7 +78,7 @@ describe("QuestieAnnounce", function()
             QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "3/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "3/10")
 
             assert.spy(_G.SendChatMessage).was_not_called()
             assert.spy(Questie.Print).was_called_with(Questie, "{rt1} Questie: 3/10 Kill wolves for |cff...questLink|r!")
@@ -90,7 +90,7 @@ describe("QuestieAnnounce", function()
             QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "4/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "4/10")
 
             assert.spy(_G.SendChatMessage).was_not_called()
             assert.spy(Questie.Print).was_called_with(Questie, "4/10 Kill wolves for |cff...questLink|r!")
@@ -109,7 +109,7 @@ describe("QuestieAnnounce", function()
             QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "5/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "5/10")
 
             assert.spy(_G.SendChatMessage).was_called_with("{rt1} Questie: 5/10 Kill wolves for |cff...questLink|r!", "PARTY")
             assert.spy(Questie.Print).was_called_with(Questie, "{rt1} Questie: 5/10 Kill wolves for |cff...questLink|r!")
@@ -127,7 +127,7 @@ describe("QuestieAnnounce", function()
             Questie.db.profile.questAnnounceChannel = "disabled"
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "6/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "6/10")
 
             assert.spy(_G.SendChatMessage).was_not_called()
             assert.spy(Questie.Print).was_not_called()
@@ -140,7 +140,7 @@ describe("QuestieAnnounce", function()
             Questie.db.profile.questieShutUp = true
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "7/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "7/10")
 
             assert.spy(_G.SendChatMessage).was_not_called()
             assert.spy(Questie.Print).was_not_called()
