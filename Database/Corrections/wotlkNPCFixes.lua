@@ -3719,6 +3719,12 @@ function QuestieWotlkNpcFixes:LoadTitanReforgedFixes()
     local npcKeys = QuestieDB.npcKeys
 
     return {
+        [14834] = {
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevelHealth] = 32700000,
+            [npcKeys.maxLevelHealth] = 32700000,
+        },
         [15042] = {
             [npcKeys.minLevel] = 80,
             [npcKeys.maxLevel] = 80,
