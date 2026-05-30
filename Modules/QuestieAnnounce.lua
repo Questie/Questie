@@ -149,18 +149,25 @@ function _QuestieAnnounce:AnnounceSelf(questId, itemId)
 end
 
 ---@return boolean
-function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
-    if Questie.db.profile.questAnnounceLocally == true then
-        return true -- we always want to print if this option is enabled
-    elseif Questie.db.profile.questAnnounceChannel == "both" then
+local function _ShouldAnnounceToGroup()
+    local channel = Questie.db.profile.questAnnounceChannel
+    if channel == "both" then
         return IsInRaid() or IsInGroup()
-    elseif Questie.db.profile.questAnnounceChannel == "raid" then
+    elseif channel == "raid" then
         return IsInRaid()
-    elseif Questie.db.profile.questAnnounceChannel == "party" then
+    elseif channel == "party" then
         return IsInGroup() and not IsInRaid()
     else
         return false
     end
+end
+
+---@return boolean
+function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
+    if Questie.db.profile.questAnnounceLocally == true then
+        return true -- we always want to print if this option is enabled
+    end
+    return _ShouldAnnounceToGroup()
 end
 
 function _QuestieAnnounce.GetChatMessageChannel()
@@ -182,10 +189,12 @@ function _QuestieAnnounce:AnnounceToChannel(message)
 
     alreadySentBandaid[message] = true
 
-    if IsInRaid() or IsInGroup() then
-        SendChatMessage(message, _QuestieAnnounce.GetChatMessageChannel())
-    elseif Questie.db.profile.questAnnounceLocally == true then
+    if Questie.db.profile.questAnnounceLocally == true then
         Questie:Print(message)
+    end
+
+    if _ShouldAnnounceToGroup() then
+        SendChatMessage(message, _QuestieAnnounce.GetChatMessageChannel())
     end
 end
 
