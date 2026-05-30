@@ -133,6 +133,19 @@ describe("QuestieAnnounce", function()
             assert.spy(Questie.Print).was_not_called()
         end)
 
+        it("should not announce at all when questieShutUp is active", function()
+            _G.IsInGroup = function() return true end
+            Questie.db.profile.questAnnounceLocally = true
+            Questie.db.profile.questAnnounceChannel = "party"
+            Questie.db.profile.questieShutUp = true
+            Questie.Print = spy.new(function() end)
+
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, nil, "Kill wolves", "7/10")
+
+            assert.spy(_G.SendChatMessage).was_not_called()
+            assert.spy(Questie.Print).was_not_called()
+        end)
+
         it("should print locally only when questAnnounceLocally is true and channel is raid but player is in party", function()
             _G.LE_PARTY_CATEGORY_INSTANCE = 0
             _G.IsInRaid = function() return false end
