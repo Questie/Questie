@@ -1094,18 +1094,6 @@ local iconOptionsLocales = {
         ["zhCN"] = "其他图标",
         ["zhTW"] = "其他圖示",
     },
-    ["Profession Trainers"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Berufe-Lehrer",
-        ["esES"] = "Instructores de profesión",
-        ["esMX"] = "Instructores de profesión",
-        ["frFR"] = "Maîtres de profession",
-        ["koKR"] = "직업 훈련사",
-        ["ptBR"] = "Instrutores de profissões",
-        ["ruRU"] = "Учителя профессий",
-        ["zhCN"] = "专业训练师",
-        ["zhTW"] = "專業訓練師",
-    },
     ["Change between themes for objective icons."] = {
         ["enUS"] = true,
         ["deDE"] = "Wähle den Ziel-Icon-Style.",
