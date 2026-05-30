@@ -1,108 +1,82 @@
--- DBM HudMap integration written by MysticalOS (Refactored)
--- Questie integration layer for DBM HudMap
-
+--DBM HudMap integration written by MysticalOS
+--All code here executes functions from https://github.com/DeadlyBossMods/DBM-Unified/blob/master/DBM-Core/DBM-HudMap.lua
+----------------------
+--   Globals/Locals   --
+----------------------
 ---@class QuestieDBMIntegration
-local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration")
+local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+--Libs
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
-
----
--- State
-local LastInstanceMapID = 9999
-local AddedHudIds = {}
-
+--Local Variables
+local LastInstanceMapID = 9999--Just making sure to set initial zone ID to a number (that isn't an actual zone)
+local KalimdorPoints = {}--Maintains Kalimdor objective list
+local EKPoints = {}--Maintains Eastern Kingdoms objective list
+local OutlandPoints = {}--Maintains Outland objective list
+local NorthrendPoints = {}--Maintains Northrend Kingdoms objective list
+local PandariaPoints = {}--Maintains Pandaria objective list
+local AddedHudIds = {}--Tracking table of all active hud markers
 local playerName = UnitName("player")
 local QuestieHUDEnabled = false
 local UIHidden = not UIParent:IsShown()
-
-local ZoneTables = {
-    [0] = {},   -- EK
-    [1] = {},   -- Kalimdor
-    [530] = {}, -- Outland
-    [571] = {}, -- Northrend
-    [860] = {}, -- Pandaria
-    [870] = {}, -- Pandaria alt
-}
-
----
--- Helpers
-
-local function IsIconAllowed(icon)
-    local db = Questie.db.profile
-
-    if (not db.dbmHUDShowSlay and icon == Questie.ICON_TYPE_SLAY) then return false end
-
-    if (not db.dbmHUDShowQuest) then
-        if icon == Questie.ICON_TYPE_AVAILABLE
-        or icon == Questie.ICON_TYPE_AVAILABLE_GRAY
-        or icon == Questie.ICON_TYPE_COMPLETE
-        or icon == Questie.ICON_TYPE_EVENTQUEST
-        or icon == Questie.ICON_TYPE_EVENTQUEST_COMPLETE
-        or icon == Questie.ICON_TYPE_INCOMPLETE
-        or icon == Questie.ICON_TYPE_PVPQUEST
-        or icon == Questie.ICON_TYPE_PVPQUEST_COMPLETE
-        or icon == Questie.ICON_TYPE_REPEATABLE
-        or icon == Questie.ICON_TYPE_REPEATABLE_COMPLETE
-        or icon == Questie.ICON_TYPE_SODRUNE then
-            return false
-        end
-    end
-
-    if (not db.dbmHUDShowInteract and icon == Questie.ICON_TYPE_OBJECT) then return false end
-    if (not db.dbmHUDShowLoot and icon == Questie.ICON_TYPE_LOOT) then return false end
-
-    return true
-end
-
-local function RemoveHud(tableString)
-    if AddedHudIds[tableString] then
-        if DBM and DBM.HudMap then
-            DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
-        end
-        AddedHudIds[tableString] = nil
-    end
-end
-
 local HudSuspended = false
-local function AddHud(tableString, icon, AreaID, x, y, r, g, b)
+
+--------------------------------------------
+--   Local function used by entire module   --
+--------------------------------------------
+--Adds icons to actual hud display
+local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
     if HudSuspended or UIHidden then return end
-    if not tableString or AddedHudIds[tableString] then return end
-    if not IsIconAllowed(icon) then return end
-
-    local db = Questie.db.profile
-
-    if not DBM.HudMap.HUDEnabled then
-        DBM.HudMap:SetFixedZoom(db.DBMHUDZoom or 100)
-        QuestieDBMIntegration:ChangeRefreshRate(db.DBMHUDRefresh or 0.03)
+    if tableString and not AddedHudIds[tableString] then
+        --Icon based filters, if icon is disabled, return without adding
+        if  not Questie.db.profile.dbmHUDShowSlay and icon == Questie.ICON_TYPE_SLAY or
+            not Questie.db.profile.dbmHUDShowQuest and (
+                icon == Questie.ICON_TYPE_AVAILABLE or
+                icon == Questie.ICON_TYPE_AVAILABLE_GRAY or
+                icon == Questie.ICON_TYPE_COMPLETE or
+                icon == Questie.ICON_TYPE_EVENTQUEST or
+                icon == Questie.ICON_TYPE_EVENTQUEST_COMPLETE or
+                icon == Questie.ICON_TYPE_INCOMPLETE or
+                icon == Questie.ICON_TYPE_PVPQUEST or
+                icon == Questie.ICON_TYPE_PVPQUEST_COMPLETE or
+                icon == Questie.ICON_TYPE_REPEATABLE or
+                icon == Questie.ICON_TYPE_REPEATABLE_COMPLETE or
+                icon == Questie.ICON_TYPE_SODRUNE) or
+            not Questie.db.profile.dbmHUDShowInteract and icon == Questie.ICON_TYPE_OBJECT or
+            not Questie.db.profile.dbmHUDShowLoot and icon == Questie.ICON_TYPE_LOOT then
+            return
+        end
+        if not DBM.HudMap.HUDEnabled then
+            --Force a fixed zoom, if one is not set, hudmap tries to zoom out until all registered icons fit, that's no good for world wide quest icons
+            DBM.HudMap:SetFixedZoom(Questie.db.profile.DBMHUDZoom or 100)
+            QuestieDBMIntegration:ChangeRefreshRate(Questie.db.profile.DBMHUDRefresh or 0.03)
+        end
+        --uniqueID, name, texture, x, y, radius, duration, r, g, b, a, blend, useLocalMap, LocalMapId
+        if Questie.db.profile.dbmHUDShowAlert then
+            DBM.HudMap:RegisterPositionMarker(tableString, "Questie", Questie.usedIcons[icon], x, y, Questie.db.profile.dbmHUDRadius or 3, nil, r, g, b, 1, nil, true, AreaID):Appear():RegisterForAlerts()
+        else
+            DBM.HudMap:RegisterPositionMarker(tableString, "Questie", Questie.usedIcons[icon], x, y, Questie.db.profile.dbmHUDRadius or 3, nil, r, g, b, 1, nil, true, AreaID):Appear()
+        end
+        AddedHudIds[tableString] = true
+        --print("Adding "..tableString)
     end
-
-    local marker
-    if db.dbmHUDShowAlert then
-        marker = DBM.HudMap:RegisterPositionMarker(
-            tableString, "Questie", Questie.usedIcons[icon],
-            x, y, db.dbmHUDRadius or 3,
-            nil, r, g, b, 1, nil, true, AreaID
-        ):Appear():RegisterForAlerts()
-    else
-        marker = DBM.HudMap:RegisterPositionMarker(
-            tableString, "Questie", Questie.usedIcons[icon],
-            x, y, db.dbmHUDRadius or 3,
-            nil, r, g, b, 1, nil, true, AreaID
-        ):Appear()
-    end
-
-    AddedHudIds[tableString] = true
 end
 
----
+--Removes icons from hud display
+local function RemoveHudQuestIcon(tableString)
+    if tableString and AddedHudIds[tableString] then
+        DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
+        AddedHudIds[tableString] = nil
+        --print("Removing "..tableString)
+    end
+end
 
+-- Force checks and purges markers if UI is toggled closed via Alt+Z
 local function UpdateUIVisibility()
-    -- Check if UIParent is visible (Alt+Z hides UIParent)
     local isHidden = not UIParent:IsShown()
-
     if isHidden == UIHidden then return end
     UIHidden = isHidden
 
@@ -110,169 +84,287 @@ local function UpdateUIVisibility()
 
     if isHidden then
         HudSuspended = true
-        
-        -- Completely purge DBM's active marker objects instantly
-        for id in pairs(AddedHudIds) do
-            DBM.HudMap:FreeEncounterMarkerByTarget(id, "Questie")
+        for tableString in pairs(AddedHudIds) do
+            DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
         end
         wipe(AddedHudIds)
-        
+
         if DBM.HudMap.Frame then
             DBM.HudMap.Frame:Hide()
         end
     else
         HudSuspended = false
-        
         if DBM.HudMap.Frame then
             DBM.HudMap.Frame:Show()
         end
-        
-        -- Re-draw markers now that the UI is back
         QuestieDBMIntegration:SoftReset()
     end
 end
 
----
--- Map Handling
+-------------------------------------
+--   Event/Enable/Disable Handlers  --
+-------------------------------------
+do
+    -- PARENTED TO WORLDFRAME: This ticker stays alive and clears markers even when UIParent is hidden (Alt+Z)
+    local eventFrame = CreateFrame("frame", "QuestieDBMIntegration", WorldFrame)
+    local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
+    local warningShown = false
 
-local function CleanupPoints(keep)
-    for id, _ in pairs(AddedHudIds) do
-        RemoveHud(id)
+    local function CleanupPoints(keepInstance)
+        if keepInstance ~= 0 then
+            for tableString, points in pairs(EKPoints) do
+                RemoveHudQuestIcon(tableString)
+            end
+        end
+        if keepInstance ~= 1 then
+            for tableString, points in pairs(KalimdorPoints) do
+                RemoveHudQuestIcon(tableString)
+            end
+        end
+        if keepInstance ~= 530 then
+            for tableString, points in pairs(OutlandPoints) do
+                RemoveHudQuestIcon(tableString)
+            end
+        end
+       if keepInstance ~= 571 then
+            for tableString, points in pairs(NorthrendPoints) do
+                RemoveHudQuestIcon(tableString)
+            end
+        end
+        if keepInstance ~= 860 and keepInstance ~= 870 then--Turtle island and main pandaria continent
+            for tableString, points in pairs(PandariaPoints) do
+                RemoveHudQuestIcon(tableString)
+            end
+        end
     end
 
-    for zone, _ in pairs(ZoneTables) do
-        if zone ~= keep then
-            for id in pairs(ZoneTables[zone]) do
-                RemoveHud(id)
+    local function ReAddHudIcons()
+        if UIHidden or HudSuspended then return end
+        if LastInstanceMapID == 0 then--It means we are now in Eastern Kingdoms (but weren't before)
+            for tableString, points in pairs(EKPoints) do
+                AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+            end
+        elseif LastInstanceMapID == 1 then--It means we are now in Kalimdor (but weren't before)
+            for tableString, points in pairs(KalimdorPoints) do
+                AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+            end
+        elseif LastInstanceMapID == 530 then--It means we are now in Outland (but weren't before)
+            for tableString, points in pairs(OutlandPoints) do
+                AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+            end
+        elseif LastInstanceMapID == 571 then--It means we are now in Northrend (but weren't before)
+            for tableString, points in pairs(NorthrendPoints) do
+                AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+            end
+        elseif LastInstanceMapID == 860 or LastInstanceMapID == 870 then--It means we are now in Pandaria (but weren't before)
+            for tableString, points in pairs(PandariaPoints) do
+                AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+            end
+        end
+    end
+
+    local function DelayedMapCheck()
+        --Only run stuff if map actually changes
+        local _, _, _, _, _, _, _, mapID = GetInstanceInfo()
+        if LastInstanceMapID ~= mapID then
+            LastInstanceMapID = mapID
+            DBM.HudMap:ClearAllEdges()--Wipe out any edges, they wouldn't work cross continent anyways
+            if IsInInstance() then--We've entered an instance, DBM itself will already wiped/disabled hud for entering a map restricted area, but locally we need to wipe AddedHudIds
+                AddedHudIds = {}
+            else
+                CleanupPoints(LastInstanceMapID)
+                ReAddHudIcons()
+            end
+        --else
+            --print("No action taken because mapID hasn't changed since last check")
+        end
+    end
+
+    --Called when Hud Option in questie options is toggled to on
+    function QuestieDBMIntegration:EnableHUD()
+        if DBM and DBM.HudMap and not QuestieHUDEnabled then
+            QuestieHUDEnabled = true
+            eventFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
+            DelayedMapCheck()
+            DBM:Schedule(1, DelayedMapCheck)
+            if not warningShown then
+                DBM:AddMsg(l10n("Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options"))
+                warningShown = true
+            end
+        end
+    end
+
+    function QuestieDBMIntegration:SoftReset()
+        --Needed for when Icon sizes, or icon filters are changed
+        if DBM and DBM.HudMap and QuestieHUDEnabled then
+            CleanupPoints(9999)--Wipes all the added markers
+            ReAddHudIcons()--Re-Add all icons
+        end
+    end
+
+    function QuestieDBMIntegration:ClearAll(disable)
+        --Needed for QuestieQuest:SmoothReset(), which should call QuestieDBMIntegration:ClearAll() to also wipe hud markers. Do not call disable arg
+        --Hud Markers will be regenerated when questie regenerates it's own icons
+        if DBM and DBM.HudMap and QuestieHUDEnabled then
+            for tableString, points in pairs(AddedHudIds) do
+                DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
+                AddedHudIds[tableString] = nil
+            end
+            KalimdorPoints = {}
+            EKPoints = {}
+            OutlandPoints = {}
+            NorthrendPoints = {}
+            PandariaPoints = {}
+            --Also used onClick for GUI option to turn feature off, of course, just pass disable arg
+            if disable then
+                QuestieHUDEnabled = false
+                if eventFrame then
+                    eventFrame:UnregisterEvent("LOADING_SCREEN_DISABLED")
+                end
+                DBM:Unschedule(DelayedMapCheck)
+            end
+        end
+    end
+
+    eventFrame:SetScript("OnEvent", function(self, event, ...)
+        if event == "LOADING_SCREEN_DISABLED"  then
+            DelayedMapCheck()
+            --In rare cases, the incorrect Id is given when checked immediately, for users who have very slow popin after loading screen, this checks again for good measure
+            DBM:Schedule(1, DelayedMapCheck)--Well, since DBM is loaded, might as well use DBM scheduler instead of creating a ticker
+        end
+    end)
+
+    -- Reliable UI visibility ticker monitoring WorldFrame
+    local totalElapsed = 0
+    eventFrame:SetScript("OnUpdate", function(_, elapsed)
+        totalElapsed = totalElapsed + elapsed
+        if totalElapsed > 0.15 then
+            totalElapsed = 0
+            if QuestieHUDEnabled then
+                UpdateUIVisibility()
+            end
+        end
+    end)
+end
+
+------------------------
+--   Global Functions   --
+------------------------
+--Called in QuestieMap in DrawWorldIcon function right after QuestieMap:QueueDraw
+--QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, ZoneDB:GetUiMapIdByAreaId(AreaID), x, y, colors[1], colors[2], colors[3])
+--Take note of x, y. do not /100 the coords sent to this itegration, since HudMap expects unmodified values
+function QuestieDBMIntegration:RegisterHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+    if DBM and DBM.HudMap and QuestieHUDEnabled and tableString then
+        local _, _, instanceID = HBD:GetWorldCoordinatesFromZone(x, y, AreaID)--Used to transform mapid to instance ID, DBM will transform the coords more reliably later
+        --Eastern Kingdoms: Instance 0, Map 1415. Kalimdor: Instance 1, Map 1414
+        if instanceID == 0 then
+            --Build an Eastern Kingdoms Points Table
+            if not EKPoints[tableString] then
+                EKPoints[tableString] = {}
+                EKPoints[tableString].icon = icon
+                EKPoints[tableString].AreaID = AreaID
+                EKPoints[tableString].x = x
+                EKPoints[tableString].y = y
+                EKPoints[tableString].r = r
+                EKPoints[tableString].g = g
+                EKPoints[tableString].b = b
+            end
+            --Object being registered is in continent we currently reside, add to hud
+            if LastInstanceMapID == 0 then
+                AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+            --else
+                --print("Rejecting point for being on a different continent")
+            end
+        elseif instanceID == 1 then
+            --Build a Kalimdor Points Table
+            if not KalimdorPoints[tableString] then
+                KalimdorPoints[tableString] = {}
+                KalimdorPoints[tableString].icon = icon
+                KalimdorPoints[tableString].AreaID = AreaID
+                KalimdorPoints[tableString].x = x
+                KalimdorPoints[tableString].y = y
+                KalimdorPoints[tableString].r = r
+                KalimdorPoints[tableString].g = g
+                KalimdorPoints[tableString].b = b
+            end
+            --Object being registered is in continent we currently reside, add to hud
+            if LastInstanceMapID == 1 then
+                AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+            --else
+                --print("Rejecting point for being on a different continent")
+            end
+        elseif instanceID == 530 then
+            --Build a Kalimdor Points Table
+            if not OutlandPoints[tableString] then
+                OutlandPoints[tableString] = {}
+                OutlandPoints[tableString].icon = icon
+                OutlandPoints[tableString].AreaID = AreaID
+                OutlandPoints[tableString].x = x
+                OutlandPoints[tableString].y = y
+                OutlandPoints[tableString].r = r
+                OutlandPoints[tableString].g = g
+                OutlandPoints[tableString].b = b
+            end
+            --Object being registered is in continent we currently reside, add to hud
+            if LastInstanceMapID == 530 then
+                AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+            --else
+                --print("Rejecting point for being on a different continent")
+            end
+        elseif instanceID == 571 then
+            --Build a Kalimdor Points Table
+            if not NorthrendPoints[tableString] then
+                NorthrendPoints[tableString] = {}
+                NorthrendPoints[tableString].icon = icon
+                NorthrendPoints[tableString].AreaID = AreaID
+                NorthrendPoints[tableString].x = x
+                NorthrendPoints[tableString].y = y
+                NorthrendPoints[tableString].r = r
+                NorthrendPoints[tableString].g = g
+                NorthrendPoints[tableString].b = b
+            end
+            --Object being registered is in continent we currently reside, add to hud
+            if LastInstanceMapID == 571 then
+                AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+            --else
+                --print("Rejecting point for being on a different continent")
+            end
+        elseif instanceID == 860 or instanceID == 870 then--Turtle island and main pandaria continent
+            --Build a Pandaria Points Table
+            if not PandariaPoints[tableString] then
+                PandariaPoints[tableString] = {}
+                PandariaPoints[tableString].icon = icon
+                PandariaPoints[tableString].AreaID = AreaID
+                PandariaPoints[tableString].x = x
+                PandariaPoints[tableString].y = y
+                PandariaPoints[tableString].r = r
+                PandariaPoints[tableString].g = g
+                PandariaPoints[tableString].b = b
+            end
+            --Object being registered is in continent we currently reside, add to hud
+            if LastInstanceMapID == 860 or LastInstanceMapID == 870 then
+                AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+            --else
+                --print("Rejecting point for being on a different continent")
             end
         end
     end
 end
 
-local function ReAddHudIcons()
-    if UIHidden or HudSuspended then return end
-    local zone = LastInstanceMapID
-    if ZoneTables[zone] then
-        for id, data in pairs(ZoneTables[zone]) do
-            AddHud(id, data.icon, data.AreaID, data.x, data.y, data.r, data.g, data.b)
+--Called in QuestieFramePool in Unload right after HBDPins:RemoveWorldMapIcon. Add the below line
+--QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self))
+function QuestieDBMIntegration:UnregisterHudQuestIcon(tableString)
+    if DBM and DBM.HudMap and QuestieHUDEnabled and tableString then
+        if KalimdorPoints[tableString] then KalimdorPoints[tableString] = nil end
+        if EKPoints[tableString] then EKPoints[tableString] = nil end
+        if OutlandPoints[tableString] then OutlandPoints[tableString] = nil end
+        if NorthrendPoints[tableString] then NorthrendPoints[tableString] = nil end -- Fixed original author typo (OutlandPoints typo)
+        if PandariaPoints[tableString] then PandariaPoints[tableString] = nil end
+        if AddedHudIds[tableString] then
+            RemoveHudQuestIcon(tableString)
         end
     end
 end
-
-local function DelayedMapCheck()
-    local _, _, _, _, _, _, _, mapID = GetInstanceInfo()
-    if LastInstanceMapID == mapID then return end
-
-    LastInstanceMapID = mapID
-    DBM.HudMap:ClearAllEdges()
-
-    if IsInInstance() then
-        wipe(AddedHudIds)
-    else
-        CleanupPoints(mapID)
-        ReAddHudIcons()
-    end
-end
-
----
--- Events & Ticker (Parented to WorldFrame to survive Alt+Z)
-
-local eventFrame = CreateFrame("Frame", "QuestieDBMIntegrationFrame", WorldFrame)
-
-eventFrame:SetScript("OnEvent", function(_, event)
-    if event == "LOADING_SCREEN_DISABLED" then
-        DelayedMapCheck()
-        DBM:Schedule(1, DelayedMapCheck)
-    elseif event == "PLAYER_ENTERING_WORLD"
-        or event == "UI_SCALE_CHANGED"
-        or event == "DISPLAY_SIZE_CHANGED" then
-        UpdateUIVisibility()
-    end
-end)
-
--- This ticker lives on WorldFrame and will never sleep
-local totalElapsed = 0
-eventFrame:SetScript("OnUpdate", function(_, elapsed)
-    totalElapsed = totalElapsed + elapsed
-    if totalElapsed > 0.1 then -- Crisp 100ms response time
-        totalElapsed = 0
-        if QuestieHUDEnabled then
-            UpdateUIVisibility()
-        end
-    end
-end)
-
----
--- API
-
-function QuestieDBMIntegration:EnableHUD()
-    if not DBM or not DBM.HudMap or QuestieHUDEnabled then return end
-
-    QuestieHUDEnabled = true
-
-    eventFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
-    eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-    eventFrame:RegisterEvent("UI_SCALE_CHANGED")
-    eventFrame:RegisterEvent("DISPLAY_SIZE_CHANGED")
-
-    DelayedMapCheck()
-
-    DBM:Schedule(1, DelayedMapCheck)
-    DBM:AddMsg(l10n("Questie has activated DBM HUD overlay"))
-end
-
-function QuestieDBMIntegration:SoftReset()
-    CleanupPoints(9999)
-    ReAddHudIcons()
-end
-
-function QuestieDBMIntegration:ClearAll(disable)
-    if not DBM or not DBM.HudMap then return end
-
-    for id in pairs(AddedHudIds) do
-        DBM.HudMap:FreeEncounterMarkerByTarget(id, "Questie")
-    end
-
-    wipe(AddedHudIds)
-
-    for k in pairs(ZoneTables) do
-        wipe(ZoneTables[k])
-    end
-
-    if disable then
-        QuestieHUDEnabled = false
-        eventFrame:UnregisterAllEvents()
-        eventFrame:SetScript("OnUpdate", nil)
-        DBM:Unschedule(DelayedMapCheck)
-    end
-end
-
----
--- Public API (Register/Unregister)
-
-function QuestieDBMIntegration:RegisterHudQuestIcon(id, icon, AreaID, x, y, r, g, b)
-    if not QuestieHUDEnabled or not DBM then return end
-
-    local _, _, instanceID = HBD:GetWorldCoordinatesFromZone(x, y, AreaID)
-    if not ZoneTables[instanceID] then return end
-
-    local entry = ZoneTables[instanceID]
-    entry[id] = {icon = icon, AreaID = AreaID, x = x, y = y, r = r, g = g, b = b}
-
-    if LastInstanceMapID == instanceID and not UIHidden and not HudSuspended then
-        AddHud(id, icon, AreaID, x, y, r, g, b)
-    end
-end
-
-function QuestieDBMIntegration:UnregisterHudQuestIcon(id)
-    for _, zone in pairs(ZoneTables) do
-        zone[id] = nil
-    end
-    RemoveHud(id)
-end
-
----
--- Settings
 
 function QuestieDBMIntegration:ChangeZoomLevel(zoom)
     if DBM and DBM.HudMap and QuestieHUDEnabled then
@@ -282,33 +374,35 @@ end
 
 function QuestieDBMIntegration:ChangeRefreshRate(rate)
     if DBM and DBM.HudMap and QuestieHUDEnabled and DBM.HudMap.Version then
-        DBM.HudMap:SetFixedUpdateRate(math.max(rate, 0.01))
+        if rate < 0.01 then rate = 0.01 end--just to protect against a user who might try to hack their config file
+        DBM.HudMap:SetFixedUpdateRate(rate)
     end
 end
 
----
--- Edge functions
-
-function QuestieDBMIntegration:EdgeTo(id)
-    if not DBM or not DBM.HudMap or UIHidden then return end
-    if AddedHudIds[id .. playerName] then return end
-
-    local marker = DBM.HudMap:GetEncounterMarker(id .. "Questie")
-    if not marker then return end
-
-    local playerMarker = DBM.HudMap:RegisterRangeMarkerOnPartyMember(
-        id, "party", playerName, 0.1, nil, 0, 1, 0, 1, nil, false
-    ):Appear()
-
-    marker:EdgeTo(playerMarker, nil, nil, 0, 1, 0, 1)
-    AddedHudIds[id .. playerName] = true
+--Creates a line between player and a specific point
+function QuestieDBMIntegration:EdgeTo(tableString)
+    if DBM and DBM.HudMap and tableString and not UIHidden then
+        if not AddedHudIds[tableString.."edge"] then
+            --Request Marker table from DBM for specific tableString
+            local marker2 = DBM.HudMap:GetEncounterMarker(tableString.."Questie")
+            if marker2 and type(marker2) == "table" then
+                --Now, create a practically invisible point on player to establish edge from location
+                local marker1 = DBM.HudMap:RegisterRangeMarkerOnPartyMember(tableString, "party", playerName, 0.1, nil, 0, 1, 0, 1, nil, false):Appear()--objectId, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf
+                marker2:EdgeTo(marker1, nil, hudDuration, 0, 1, 0, 1)--point_or_unit_or_x, from_y, duration, r, g, b, a, w, texfile, extend
+                AddedHudIds[tableString..playerName] = true
+            --else
+            --    print("attempted to create an edge with an invalid target marker")
+            end
+        end
+    end
 end
 
-function QuestieDBMIntegration:ClearHudEdge(id)
-    if AddedHudIds[id .. playerName] then
-        AddedHudIds[id .. playerName] = nil
-        if DBM and DBM.HudMap then
-            DBM.HudMap:FreeEncounterMarkerByTarget(id, playerName)
+--Creates a line between player and a specific point
+function QuestieDBMIntegration:ClearHudEdge(tableString)
+    if DBM and DBM.HudMap and tableString then
+        if AddedHudIds[tableString..playerName] then
+            AddedHudIds[tableString..playerName] = nil
+            DBM.HudMap:FreeEncounterMarkerByTarget(tableString, playerName)--Wipes player marker, doing so should automatically wipe edge
         end
     end
 end
