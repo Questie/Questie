@@ -85,22 +85,14 @@ _GetAnnounceMarker = function()
 end
 
 ---@param questId QuestId
----@param itemId? ItemId
 ---@param objectiveText string
 ---@param objectiveProgress string
-function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveText, objectiveProgress)
+function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText, objectiveProgress)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
         -- no hyperlink required here
         local questLink = QuestieLink:GetQuestLinkStringById(questId);
 
-        local objective
-        if itemId then
-            local itemLink = select(2, GetItemInfo(itemId))
-            objective = objectiveProgress.." "..itemLink
-        else
-            objective = objectiveProgress.." "..objectiveText
-        end
-
+        local objective = objectiveProgress .. " " .. objectiveText
         local message = _GetAnnounceMarker() .. l10n("%s for %s!", objective, questLink)
         _QuestieAnnounce:AnnounceToChannel(message)
     end
@@ -120,7 +112,7 @@ function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequir
     elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
         _has_seen_incomplete[text] = nil
         _has_sent_announce[text] = true
-        QuestieAnnounce:AnnounceObjectiveToChannel(questId, nil, text, tostring(numFulfilled) .. "/" .. tostring(numRequired))
+        QuestieAnnounce:AnnounceObjectiveToChannel(questId, text, tostring(numFulfilled) .. "/" .. tostring(numRequired))
     end
 end
 
