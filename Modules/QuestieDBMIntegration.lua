@@ -74,7 +74,7 @@ local function RemoveHudQuestIcon(tableString)
     end
 end
 
--- Force checks and purges markers if UI is toggled closed via Alt+Z
+-- Force checks and purges markers if UI is toggled off
 local function UpdateUIVisibility()
     if not UIParent then return end
     local isHidden = not UIParent:IsShown()
