@@ -85,6 +85,7 @@ local function UpdateUIVisibility()
 
     if isHidden then
         HudSuspended = true
+        DBM.HudMap:ClearAllEdges()
         for tableString in pairs(AddedHudIds) do
             DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
         end
@@ -107,7 +108,7 @@ end
 -------------------------------------
 do
     -- PARENTED TO WORLDFRAME: This ticker stays alive and clears markers even when UIParent is hidden (Alt+Z)
-    local eventFrame = CreateFrame("frame", "QuestieDBMIntegration", WorldFrame)
+    local eventFrame = CreateFrame("frame", nil, WorldFrame)
     local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
     local warningShown = false
 
