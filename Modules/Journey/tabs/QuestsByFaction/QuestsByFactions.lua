@@ -479,8 +479,13 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
             temp.text = questName
 
-            -- Manually hidden quests: only show in Hidden Quests section, skip categorization
-            if Questie.db.char.hidden and Questie.db.char.hidden[questId] then
+            -- Manually hidden quests and option-filtered quests: only show in Hidden Quests section
+            if (Questie.db.char.hidden and Questie.db.char.hidden[questId]) or
+               (not Questie.db.profile.showEventQuests and QuestieEvent.IsEventQuest(questId)) or
+               (not Questie.db.profile.showRepeatableQuests and QuestieDB.IsRepeatable(questId)) or
+               (not Questie.db.profile.showPvPQuests and QuestieDB.IsPvPQuest(questId)) or
+               (not Questie.db.profile.showDungeonQuests and QuestieDB.IsDungeonQuest(questId)) or
+               (not Questie.db.profile.showRaidQuests and QuestieDB.IsRaidQuest(questId)) then
                 if not factionTree[7] then
                     factionTree[7] = {
                         value = "h",
