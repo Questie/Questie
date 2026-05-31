@@ -479,17 +479,29 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
             temp.text = questName
 
-            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
-            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+            -- Manually hidden quests: only show in Hidden Quests section, skip categorization
+            if Questie.db.char.hidden[questId] then
+                if not factionTree[7] then
+                    factionTree[7] = {
+                        value = "h",
+                        text = l10n("Hidden Quests"),
+                        children = {},
+                    }
+                end
+                tinsert(factionTree[7].children, temp)
+                hiddenCounter = hiddenCounter + 1
+            else
+                local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
+                local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
 
-            -- Breadcrumb quests
-            if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
-                tinsert(factionTree[1].children, temp)
-                breadcrumbCounter = breadcrumbCounter + 1
-            end
+                -- Breadcrumb quests
+                if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                    tinsert(factionTree[1].children, temp)
+                    breadcrumbCounter = breadcrumbCounter + 1
+                end
 
-            -- Filtering logic. If changing anything here, also change in QuestsByZone.lua
-            if returnReason then
+                -- Filtering logic. If changing anything here, also change in QuestsByZone.lua
+                if returnReason then
                 if returnReason == DoableStates.AVAILABLE then -- available quests
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(factionTree[3].children, temp)
@@ -709,19 +721,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 end
-            end
-
-            -- show manually hidden quests
-            if Questie.db.char.hidden[questId] then
-                if not factionTree[7] then
-                    factionTree[7] = {
-                        value = "h",
-                        text = l10n("Hidden Quests"),
-                        children = {},
-                    }
                 end
-                tinsert(factionTree[7].children, temp)
-                hiddenCounter = hiddenCounter + 1
             end
             temp = {}
         end

@@ -237,17 +237,29 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             temp.value = questId
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
-            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
-            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+            -- Manually hidden quests: only show in Hidden Quests section, skip categorization
+            if Questie.db.char.hidden[questId] then
+                if not zoneTree[7] then
+                    zoneTree[7] = {
+                        value = "h",
+                        text = l10n("Hidden Quests"),
+                        children = {},
+                    }
+                end
+                tinsert(zoneTree[7].children, temp)
+                hiddenCounter = hiddenCounter + 1
+            else
+                local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
+                local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
 
-            -- Breadcrumb quests
-            if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
-                tinsert(zoneTree[1].children, temp)
-                breadcrumbCounter = breadcrumbCounter + 1
-            end
+                -- Breadcrumb quests
+                if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                    tinsert(zoneTree[1].children, temp)
+                    breadcrumbCounter = breadcrumbCounter + 1
+                end
 
-            -- Filtering logic. If changing anything here, also change in QuestsByFaction.lua
-            if returnReason then
+                -- Filtering logic. If changing anything here, also change in QuestsByFaction.lua
+                if returnReason then
                 if returnReason == DoableStates.AVAILABLE then -- available quests
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(zoneTree[3].children, temp)
@@ -467,19 +479,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 end
-            end
-
-            -- show manually hidden quests
-            if Questie.db.char.hidden[questId] then
-                if not zoneTree[7] then
-                    zoneTree[7] = {
-                        value = "h",
-                        text = l10n("Hidden Quests"),
-                        children = {},
-                    }
                 end
-                tinsert(zoneTree[7].children, temp)
-                hiddenCounter = hiddenCounter + 1
             end
             temp = {}
         end
