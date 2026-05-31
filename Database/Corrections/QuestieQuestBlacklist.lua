@@ -7910,9 +7910,9 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- [13668] = true, -- The Argent Tournament
 
         -- Argent Tournament
-        -- [13627] = true, -- Jack Me Some Lumber
-        -- [13681] = true, -- A Chip Off the Ulduar Block
-        -- [13820] = true, -- The Blastbolt Brothers
+        [13627] = true, -- Jack Me Some Lumber
+        [13681] = true, -- A Chip Off the Ulduar Block
+        [13820] = true, -- The Blastbolt Brothers
         -- [13846] = true, -- Contributin' To The Cause
         -- [14095] = true, -- Identifying the Remains
         -- [14076] = true, -- Breakfast Of Champions
