@@ -16,6 +16,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -110,6 +112,46 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         local eligibilityTextLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Doable") .. l10n(": "), 'yellow') .. eligibilityText, true)
         container:AddChild(eligibilityTextLabel)
     end
+
+    local hiddenLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Hide Quest")..l10n(":"), 'yellow'), false)
+    container:AddChild(hiddenLabel)
+    local hiddenCheckbox = AceGUI:Create("CheckBox")
+    hiddenCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil)
+    hiddenCheckbox:SetFullWidth(false)
+    hiddenCheckbox:SetWidth(14)
+    hiddenCheckbox:SetHeight(14)
+    hiddenCheckbox.checkbg:SetSize(14, 14)
+    hiddenCheckbox.checkbg:SetPoint("TOPLEFT", hiddenCheckbox.frame, "TOPLEFT", 0, 0)
+    hiddenCheckbox.check:SetSize(14, 14)
+    hiddenCheckbox.check:SetPoint("TOPLEFT", hiddenCheckbox.frame, "TOPLEFT", 0, 0)
+    hiddenCheckbox:SetCallback("OnValueChanged", function(frame)
+        if Questie.db.char.hidden[quest.Id] ~= nil then
+            frame:SetValue(false)
+            QuestieQuest:UnhideQuest(quest.Id)
+        else
+            frame:SetValue(true)
+            QuestieQuest:HideQuest(quest.Id)
+        end
+    end)
+    hiddenCheckbox:SetCallback("OnEnter", function()
+        if GameTooltip:IsShown() then return end
+        GameTooltip:SetOwner(hiddenCheckbox.frame, "ANCHOR_CURSOR")
+        GameTooltip:AddLine(l10n("Quest is hidden"))
+        GameTooltip:AddLine(l10n("\nIf checked, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."), 1, 1, 1, true)
+        GameTooltip:SetFrameStrata("TOOLTIP")
+        GameTooltip:Show()
+    end)
+    hiddenCheckbox:SetCallback("OnLeave", function()
+        if GameTooltip:IsShown() then
+            GameTooltip:Hide()
+        end
+    end)
+    container:AddChild(hiddenCheckbox)
+    hiddenCheckbox.frame:SetScript("OnUpdate", function(self)
+        self:ClearAllPoints()
+        self:SetPoint("LEFT", hiddenLabel.frame, "LEFT", hiddenLabel.label:GetStringWidth() + 1, (hiddenLabel.frame:GetHeight() - 14) / 2)
+        self:SetScript("OnUpdate", nil)
+    end)
 
     QuestieJourneyUtils:Spacer(container)
 

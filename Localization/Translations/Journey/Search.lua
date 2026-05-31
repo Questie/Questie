@@ -650,6 +650,18 @@ local searchLocales = {
         ["zhCN"] = "掉落该物品的 NPC:",
         ["zhTW"] = "掉落此物品的 NPC:",
     },
+    ["Hide Quest"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest verstecken",
+        ["esES"] = "Ocultar misión",
+        ["esMX"] = "Ocultar misión",
+        ["frFR"] = "Cacher la quête",
+        ["koKR"] = "퀘스트 숨기기",
+        ["ptBR"] = "Ocultar missão",
+        ["ruRU"] = "Скрыть задание",
+        ["zhCN"] = "隐藏任务",
+        ["zhTW"] = "隱藏任務",
+    },
 }
 
 for k, v in pairs(searchLocales) do
