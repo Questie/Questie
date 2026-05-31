@@ -893,6 +893,7 @@ function QuestieItemFixes:Load()
         },
         [11953] = { -- Empty Pure Sample Jar
             [itemKeys.class] = 12,
+            [itemKeys.npcDrops] = {},
         },
         [11954] = { -- Filled Pure Sample Jar (#1070)
             [itemKeys.relatedQuests] = {4513},
