@@ -135,21 +135,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             end
         end, CallErrorHandler)
     end)
-    hiddenCheckbox:SetCallback("OnEnter", function()
-        xpcall(function()
-        if GameTooltip:IsShown() then return end
-            GameTooltip:SetOwner(hiddenCheckbox.frame, "ANCHOR_CURSOR")
-            GameTooltip:SetFrameStrata("TOOLTIP")
-            GameTooltip:Show()
-        end, CallErrorHandler)
-    end)
-    hiddenCheckbox:SetCallback("OnLeave", function()
-        xpcall(function()
-            if GameTooltip:IsShown() then
-                GameTooltip:Hide()
-            end
-        end, CallErrorHandler)
-    end)
     container:AddChild(hiddenCheckbox)
     hiddenCheckbox.frame:SetScript("OnUpdate", function(self)
         self:ClearAllPoints()
