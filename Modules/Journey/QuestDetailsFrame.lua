@@ -18,6 +18,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -116,7 +118,12 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     local hiddenLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Hide Quest")..l10n(": "), 'yellow'), false)
     container:AddChild(hiddenLabel)
     local hiddenCheckbox = AceGUI:Create("CheckBox")
-    hiddenCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil)
+    hiddenCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil or
+        (not Questie.db.profile.showEventQuests and QuestieEvent.IsEventQuest(quest.Id)) or
+        (not Questie.db.profile.showRepeatableQuests and QuestieDB.IsRepeatable(quest.Id)) or
+        (not Questie.db.profile.showPvPQuests and QuestieDB.IsPvPQuest(quest.Id)) or
+        (not Questie.db.profile.showDungeonQuests and QuestieDB.IsDungeonQuest(quest.Id)) or
+        (not Questie.db.profile.showRaidQuests and QuestieDB.IsRaidQuest(quest.Id)))
     hiddenCheckbox:SetWidth(14)
     hiddenCheckbox:SetHeight(14)
     hiddenCheckbox.checkbg:SetSize(14, 14)

@@ -13,6 +13,8 @@ local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieLib
@@ -222,12 +224,17 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
 
     -- hidden by Questie
     local hiddenQuests = AceGUI:Create("CheckBox")
-    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id])
     hiddenQuests:SetLabel(l10n("Hidden by Questie"))
     hiddenQuests:SetDisabled(true)
     -- reduce offset to next checkbox
     hiddenQuests:SetHeight(16)
     hiddenQuests:SetFullWidth(true);
+    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id] or
+        (not Questie.db.profile.showEventQuests and QuestieEvent.IsEventQuest(id)) or
+        (not Questie.db.profile.showRepeatableQuests and QuestieDB.IsRepeatable(id)) or
+        (not Questie.db.profile.showPvPQuests and QuestieDB.IsPvPQuest(id)) or
+        (not Questie.db.profile.showDungeonQuests and QuestieDB.IsDungeonQuest(id)) or
+        (not Questie.db.profile.showRaidQuests and QuestieDB.IsRaidQuest(id)))
     details:AddChild(hiddenQuests)
 
     -- hidden by user

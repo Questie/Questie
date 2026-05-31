@@ -89,6 +89,17 @@ local DMF_CALENDER_ICON_TEXTURES = {
 }
 
 function QuestieEvent.Initialize()
+    -- Always populate event names regardless of showEventQuests setting,
+    -- so that IsEventQuest() works correctly for the Journey hidden section
+    for _, questData in pairs(QuestieEvent.eventQuests) do
+        local questId = questData[2]
+        local hideQuest = questData[5]
+        if (not hideQuest) then
+            _QuestieEvent.eventNamesForQuests[questId] = questData[1]
+            QuestieCorrections.hiddenQuests[questId] = nil
+        end
+    end
+
     if (not Questie.db.profile.showEventQuests) then
         return
     end
