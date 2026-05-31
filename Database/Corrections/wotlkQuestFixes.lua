@@ -7421,10 +7421,10 @@ function QuestieWotlkQuestFixes:Load()
         [26013] = { -- Assault on the Sanctum
             [questKeys.preQuestSingle] = {},
         },
-        [26034] = {
+        [26034] = { -- The Twilight Destroyer
             [questKeys.preQuestSingle] = {26013},
         },
-        [64845] = {
+        [64845] = { -- Alliance War Effort
             [questKeys.triggerEnd] = {"Victory in a battleground match", {
                 [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
                 [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
