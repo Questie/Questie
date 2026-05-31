@@ -238,7 +238,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
             -- Manually hidden quests: only show in Hidden Quests section, skip categorization
-            if Questie.db.char.hidden and Questie.db.char.hidden[questId] then 
+            if Questie.db.char.hidden and Questie.db.char.hidden[questId] then
                 if not zoneTree[7] then
                     zoneTree[7] = {
                         value = "h",
