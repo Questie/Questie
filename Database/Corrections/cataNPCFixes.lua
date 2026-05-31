@@ -732,6 +732,10 @@ function CataNpcFixes.Load()
         [3654] = { -- Mutanus the Devourer
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{31.77,10.1},{-1,-1}}},
         },
+        [3655] = { -- Mad Magglish
+            [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS_ENTRANCE] = {{30.69,71.84}}},
+            [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS_ENTRANCE,
+        },
         [3664] = { -- Ilkrud Magthrull
             [npcKeys.name] = "Ilkrud Magthrull",
         },

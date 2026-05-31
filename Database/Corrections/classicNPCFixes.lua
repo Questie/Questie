@@ -665,6 +665,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
         },
+        [3655] = { -- Mad Magglish
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{46.46,35.47},{46.83,34.66},{45.69,33.62}}},
+        },
         [3657] = { -- Sentinel Elissa Starbreeze
             [npcKeys.questStarts] = {965,1684},
         },
