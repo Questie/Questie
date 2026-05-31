@@ -479,34 +479,17 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
             temp.text = questName
 
-            -- Manually hidden quests and option-filtered quests: only show in Hidden Quests section
-            if (Questie.db.char.hidden and Questie.db.char.hidden[questId]) or
-               (not Questie.db.profile.showEventQuests and QuestieEvent.IsEventQuest(questId)) or
-               (not Questie.db.profile.showRepeatableQuests and QuestieDB.IsRepeatable(questId)) or
-               (not Questie.db.profile.showPvPQuests and QuestieDB.IsPvPQuest(questId)) or
-               (not Questie.db.profile.showDungeonQuests and QuestieDB.IsDungeonQuest(questId)) or
-               (not Questie.db.profile.showRaidQuests and QuestieDB.IsRaidQuest(questId)) then
-                if not factionTree[7] then
-                    factionTree[7] = {
-                        value = "h",
-                        text = l10n("Hidden Quests"),
-                        children = {},
-                    }
-                end
-                tinsert(factionTree[7].children, temp)
-                hiddenCounter = hiddenCounter + 1
-            else
-                local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
-                local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
+            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
 
-                -- Breadcrumb quests
-                if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
-                    tinsert(factionTree[1].children, temp)
-                    breadcrumbCounter = breadcrumbCounter + 1
-                end
+            -- Breadcrumb quests
+            if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+                tinsert(factionTree[1].children, temp)
+                breadcrumbCounter = breadcrumbCounter + 1
+            end
 
-                -- Filtering logic. If changing anything here, also change in QuestsByZone.lua
-                if returnReason then
+            -- Filtering logic. If changing anything here, also change in QuestsByZone.lua
+            if returnReason then
                 if returnReason == DoableStates.AVAILABLE then -- available quests
                     if QuestieDB.IsRepeatable(questId) then
                         tinsert(factionTree[3].children, temp)
@@ -726,7 +709,24 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 end
+            end
+
+            -- show hidden and option-filtered quests
+            if (Questie.db.char.hidden and Questie.db.char.hidden[questId]) or
+               (not Questie.db.profile.showEventQuests and QuestieEvent.IsEventQuest(questId)) or
+               (not Questie.db.profile.showRepeatableQuests and QuestieDB.IsRepeatable(questId)) or
+               (not Questie.db.profile.showPvPQuests and QuestieDB.IsPvPQuest(questId)) or
+               (not Questie.db.profile.showDungeonQuests and QuestieDB.IsDungeonQuest(questId)) or
+               (not Questie.db.profile.showRaidQuests and QuestieDB.IsRaidQuest(questId)) then
+                if not factionTree[7] then
+                    factionTree[7] = {
+                        value = "h",
+                        text = l10n("Hidden Quests"),
+                        children = {},
+                    }
                 end
+                tinsert(factionTree[7].children, temp)
+                hiddenCounter = hiddenCounter + 1
             end
             temp = {}
         end
