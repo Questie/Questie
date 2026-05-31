@@ -225,6 +225,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                         Questie.db.global.questieLocale = lang;
                         Questie.db.global.questieLocaleDiff = true;
                     end
+                    ReloadUI()
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),

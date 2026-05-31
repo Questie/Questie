@@ -98,6 +98,7 @@ end
 _CreateNoteAddButton = function ()
     local addEntryBtn = AceGUI:Create("Button")
     addEntryBtn:SetText(l10n('Add Entry'))
+    addEntryBtn:SetAutoWidth(true)
     addEntryBtn:SetCallback("OnClick", _HandleNoteEntry)
     return addEntryBtn
 end
