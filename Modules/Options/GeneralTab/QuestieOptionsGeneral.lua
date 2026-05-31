@@ -12,6 +12,10 @@ local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type TrackerLinePool
+local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestieShutUp
 local QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
 ---@type Sounds
@@ -504,7 +508,14 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
                         set = function(info, value)
                             QuestieOptions:SetProfileValue(info, value)
-                            QuestieTracker:Update()
+                            TrackerLinePool.UpdateObjectiveLines(function(line)
+                                if line.Objective then
+                                    local objective = line.Objective
+                                    local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
+                                    local objDesc = QuestieLib:GetObjectiveDescription(objective)
+                                    line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+                                end
+                            end)
                         end,
                     },
                 },
