@@ -480,7 +480,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
             temp.text = questName
 
             -- Manually hidden quests: only show in Hidden Quests section, skip categorization
-            if Questie.db.char.hidden[questId] then
+            if Questie.db.char.hidden and Questie.db.char.hidden[questId] then
                 if not factionTree[7] then
                     factionTree[7] = {
                         value = "h",
