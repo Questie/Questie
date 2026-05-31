@@ -113,7 +113,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(eligibilityTextLabel)
     end
 
-    local hiddenLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Hide Quest")..l10n(":"), 'yellow'), false)
+    local hiddenLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Hide Quest")..l10n(": "), 'yellow'), false)
     container:AddChild(hiddenLabel)
     local hiddenCheckbox = AceGUI:Create("CheckBox")
     hiddenCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil)
