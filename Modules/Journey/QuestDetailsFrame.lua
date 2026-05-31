@@ -117,23 +117,18 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     container:AddChild(hiddenLabel)
     local hiddenCheckbox = AceGUI:Create("CheckBox")
     hiddenCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil)
-    hiddenCheckbox:SetFullWidth(false)
     hiddenCheckbox:SetWidth(14)
     hiddenCheckbox:SetHeight(14)
     hiddenCheckbox.checkbg:SetSize(14, 14)
     hiddenCheckbox.checkbg:SetPoint("TOPLEFT", hiddenCheckbox.frame, "TOPLEFT", 0, 0)
     hiddenCheckbox.check:SetSize(14, 14)
     hiddenCheckbox.check:SetPoint("TOPLEFT", hiddenCheckbox.frame, "TOPLEFT", 0, 0)
-    hiddenCheckbox:SetCallback("OnValueChanged", function(frame)
-        xpcall(function()
-            if Questie.db.char.hidden[quest.Id] ~= nil then
-                frame:SetValue(false)
-                QuestieQuest:UnhideQuest(quest.Id)
-            else
-                frame:SetValue(true)
-                QuestieQuest:HideQuest(quest.Id)
-            end
-        end, CallErrorHandler)
+    hiddenCheckbox:SetCallback("OnValueChanged", function()
+        if Questie.db.char.hidden[quest.Id] ~= nil then
+            QuestieQuest:UnhideQuest(quest.Id)
+        else
+            QuestieQuest:HideQuest(quest.Id)
+        end
     end)
     container:AddChild(hiddenCheckbox)
     hiddenCheckbox.frame:SetScript("OnUpdate", function(self)
