@@ -125,31 +125,35 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     hiddenCheckbox.check:SetSize(14, 14)
     hiddenCheckbox.check:SetPoint("TOPLEFT", hiddenCheckbox.frame, "TOPLEFT", 0, 0)
     hiddenCheckbox:SetCallback("OnValueChanged", function(frame)
-        if Questie.db.char.hidden[quest.Id] ~= nil then
-            frame:SetValue(false)
-            QuestieQuest:UnhideQuest(quest.Id)
-        else
-            frame:SetValue(true)
-            QuestieQuest:HideQuest(quest.Id)
-        end
+        xpcall(function()
+            if Questie.db.char.hidden[quest.Id] ~= nil then
+                frame:SetValue(false)
+                QuestieQuest:UnhideQuest(quest.Id)
+            else
+                frame:SetValue(true)
+                QuestieQuest:HideQuest(quest.Id)
+            end
+        end, CallErrorHandler)
     end)
     hiddenCheckbox:SetCallback("OnEnter", function()
+        xpcall(function()
         if GameTooltip:IsShown() then return end
-        GameTooltip:SetOwner(hiddenCheckbox.frame, "ANCHOR_CURSOR")
-        GameTooltip:AddLine(l10n("Quest is hidden"))
-        GameTooltip:AddLine(l10n("\nIf checked, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."), 1, 1, 1, true)
-        GameTooltip:SetFrameStrata("TOOLTIP")
-        GameTooltip:Show()
+            GameTooltip:SetOwner(hiddenCheckbox.frame, "ANCHOR_CURSOR")
+            GameTooltip:SetFrameStrata("TOOLTIP")
+            GameTooltip:Show()
+        end, CallErrorHandler)
     end)
     hiddenCheckbox:SetCallback("OnLeave", function()
-        if GameTooltip:IsShown() then
-            GameTooltip:Hide()
-        end
+        xpcall(function()
+            if GameTooltip:IsShown() then
+                GameTooltip:Hide()
+            end
+        end, CallErrorHandler)
     end)
     container:AddChild(hiddenCheckbox)
     hiddenCheckbox.frame:SetScript("OnUpdate", function(self)
         self:ClearAllPoints()
-        self:SetPoint("LEFT", hiddenLabel.frame, "LEFT", hiddenLabel.label:GetStringWidth() + 1, (hiddenLabel.frame:GetHeight() - 14) / 2)
+        self:SetPoint("LEFT", hiddenLabel.frame, "LEFT", hiddenLabel.label:GetStringWidth(), (hiddenLabel.frame:GetHeight() - 14) / 2)
         self:SetScript("OnUpdate", nil)
     end)
 
