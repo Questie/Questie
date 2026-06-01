@@ -129,9 +129,6 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         type = newObj.type,
                         numRequired = newObj.numRequired,
                         text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
-                        full_description = string.match(newObj.text, "^(.*):%s*%d+/%d+$")
-                                       or string.match(newObj.text, "^(.*)：%s*%d+/%d+$")
-                                       or QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
