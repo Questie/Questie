@@ -525,6 +525,24 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function () return Questie.db.profile.loadCustomSounds; end,
                         set = function (_, value) Questie.db.profile.loadCustomSounds = value end
                     },
+                    soundChannel = {
+                        type = "select",
+                        order = 8.6,
+                        values = {
+                            Master = "Master",
+                            SFX = "SFX",
+                            Music = "Music",
+                            Ambience = "Ambience",
+                            Dialog = "Dialog",
+                        },
+                        style = "dropdown",
+                        name = function() return l10n("Sound Channel") end,
+                        desc = function() return l10n("The sound channel used for Questie's notification sounds. Master ignores in-game volume sliders; the other channels respect their matching slider in the game's Sound settings.") end,
+                        get = function() return Questie.db.profile.soundChannel or "Master" end,
+                        set = function(_, value)
+                            Questie.db.profile.soundChannel = value
+                        end,
+                    },
                     questCompleteSound = {
                         type = "toggle",
                         order = 9.01,
@@ -545,7 +563,7 @@ function QuestieOptions.tabs.general:Initialize()
                             return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                         end,
                         func = function()
-                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), Questie.db.profile.soundChannel)
                         end
                     },
                     questCompleteSoundChoice = {
@@ -588,7 +606,7 @@ function QuestieOptions.tabs.general:Initialize()
                             return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                         end,
                         func = function()
-                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), "Master")
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), Questie.db.profile.soundChannel)
                         end
                     },
                     objectiveCompleteSoundChoice = {
@@ -625,7 +643,7 @@ function QuestieOptions.tabs.general:Initialize()
                             return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                         end,
                         func = function()
-                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), "Master")
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), Questie.db.profile.soundChannel)
                         end
                     },
                     objectiveProgressSoundChoice = {
