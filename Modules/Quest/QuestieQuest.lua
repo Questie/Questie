@@ -1411,17 +1411,13 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                 Questie:Error(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
             else
                 if not quest.Objectives[objectiveIndex] then
-                    local fullDesc = string.match(objective.raw_text, "^(.*):%s*%d+/%d+$")
-                        or string.match(objective.raw_text, "^(.*)：%s*%d+/%d+$")
-                        or objective.text
-
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
                         questId = quest.Id,
                         _lastUpdate = 0,
                         Description = objective.text,
-                        FullDescription = fullDesc,
+                        FullDescription = objective.text,
                         _rawText = objective.raw_text,
                         spawnList = {},
                         AlreadySpawned = {},
@@ -1496,10 +1492,8 @@ function _QuestieQuest.ObjectiveUpdate(self)
             self.Description = obj.text
             if obj.raw_text ~= self._rawText then
                 self._rawText = obj.raw_text
-                self.FullDescription = string.match(obj.raw_text, "^(.*):%s*%d+/%d+$")
-                    or string.match(obj.raw_text, "^(.*)：%s*%d+/%d+$")
-                    or obj.text
             end
+            self.FullDescription = obj.text
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
             self.Completed = (self.Needed == self.Collected and self.Needed > 0) or
