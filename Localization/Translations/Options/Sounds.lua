@@ -194,6 +194,30 @@ local soundsOptionsLocales = {
         ["zhCN"] = "播放任务目标进度和完成音效的延迟（以秒为单位，默认：%s）。如果听到重复音效，请将此数值调高",
         ["zhTW"] = "播放任務目標進度及完成音效的延遲（以秒為單位，預設：%s）。如果聽到重複音效，請將此數值調高",
     },
+    ["Sound Channel"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["The sound channel used for Questie's notification sounds."] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(soundsOptionsLocales) do

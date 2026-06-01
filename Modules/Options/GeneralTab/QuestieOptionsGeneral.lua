@@ -537,7 +537,7 @@ function QuestieOptions.tabs.general:Initialize()
                         },
                         style = "dropdown",
                         name = function() return l10n("Sound Channel") end,
-                        desc = function() return l10n("The sound channel used for Questie's notification sounds. Master ignores in-game volume sliders; the other channels respect their matching slider in the game's Sound settings.") end,
+                        desc = function() return l10n("The sound channel used for Questie's notification sounds.") end,
                         get = function() return Questie.db.profile.soundChannel or "Master" end,
                         set = function(_, value)
                             Questie.db.profile.soundChannel = value
