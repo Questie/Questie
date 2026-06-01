@@ -132,17 +132,7 @@ function QuestieLib:GetObjectiveDescription(objective)
     if not objective then
         return ""
     end
-    if Questie.db.profile.trimObjectiveText ~= false then
-        if not objective.Description then
-            return ""
-        end
-        return objective.Description:gsub("%.$", "")
-    end
-    local raw = objective._rawText or objective.Description
-    if not raw then
-        return ""
-    end
-    local desc = smatch(raw, "^(.*):%s*") or smatch(raw, "^(.*)：%s*") or raw
+    local desc = objective.FullDescription or objective.Description
     if not desc then
         return ""
     end

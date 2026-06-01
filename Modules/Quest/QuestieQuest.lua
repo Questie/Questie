@@ -47,6 +47,10 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
+local function _GetFullDescription(raw_text, fallback)
+    return string.match(raw_text, "^(.*):%s*") or string.match(raw_text, "^(.*)：%s*") or fallback
+end
+
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
 local tinsert = table.insert;
@@ -1411,13 +1415,18 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                 Questie:Error(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
             else
                 if not quest.Objectives[objectiveIndex] then
+                    local fullDesc
+                    if Questie.db.profile.trimObjectiveText == false then
+                        fullDesc = _GetFullDescription(objective.raw_text, objective.text)
+                    end
+
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
                         questId = quest.Id,
                         _lastUpdate = 0,
                         Description = objective.text,
-                        _rawText = objective.raw_text,
+                        FullDescription = fullDesc,
                         spawnList = {},
                         AlreadySpawned = {},
                         Update = _QuestieQuest.ObjectiveUpdate,
@@ -1489,8 +1498,8 @@ function _QuestieQuest.ObjectiveUpdate(self)
 
             self.Type = obj.type;
             self.Description = obj.text
-            if obj.raw_text ~= self._rawText then
-                self._rawText = obj.raw_text
+            if Questie.db.profile.trimObjectiveText == false then
+                self.FullDescription = _GetFullDescription(obj.raw_text, obj.text)
             end
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
