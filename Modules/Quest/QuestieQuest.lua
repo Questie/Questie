@@ -1417,7 +1417,6 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         questId = quest.Id,
                         _lastUpdate = 0,
                         Description = objective.text,
-                        FullDescription = objective.text,
                         _rawText = objective.raw_text,
                         spawnList = {},
                         AlreadySpawned = {},
