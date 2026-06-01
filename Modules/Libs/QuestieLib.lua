@@ -145,9 +145,7 @@ function QuestieLib:GetObjectiveDescription(objective)
     if not raw then
         return ""
     end
-    local desc = string.match(raw, "^(.*):%s*%d+/%d+$")
-        or string.match(raw, "^(.*)：%s*%d+/%d+$")
-        or raw
+    local desc = smatch(raw, "^(.*):%s*") or smatch(raw, "^(.*)：%s*") or raw
     if not desc then
         return ""
     end
