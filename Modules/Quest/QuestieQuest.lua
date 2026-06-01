@@ -47,8 +47,8 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
-local function _GetFullDescription(raw_text, fallback)
-    return string.match(raw_text, "^(.*):%s*") or string.match(raw_text, "^(.*)：%s*") or fallback
+local function _GetFullDescription(raw_text)
+    return string.match(raw_text, "^(.*):%s*") or string.match(raw_text, "^(.*)：%s*")
 end
 
 --We should really try and squeeze out all the performance we can, especially in this.
@@ -1417,7 +1417,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                 if not quest.Objectives[objectiveIndex] then
                     local fullDesc
                     if Questie.db.profile.trimObjectiveText == false then
-                        fullDesc = _GetFullDescription(objective.raw_text, objective.text)
+                        fullDesc = _GetFullDescription(objective.raw_text)
                     end
 
                     quest.Objectives[objectiveIndex] = {
@@ -1499,7 +1499,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
             self.Type = obj.type;
             self.Description = obj.text
             if Questie.db.profile.trimObjectiveText == false then
-                self.FullDescription = _GetFullDescription(obj.raw_text or obj.text, obj.text)
+                self.FullDescription = _GetFullDescription(obj.raw_text or obj.text)
             else
                 self.FullDescription = nil
             end
