@@ -138,9 +138,6 @@ function QuestieLib:GetObjectiveDescription(objective)
         end
         return objective.Description:gsub("%.$", "")
     end
-    if objective.FullDescription then
-        return objective.FullDescription:gsub("%.$", "")
-    end
     local raw = objective._rawText or objective.Description
     if not raw then
         return ""
