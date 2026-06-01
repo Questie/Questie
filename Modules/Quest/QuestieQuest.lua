@@ -1499,7 +1499,9 @@ function _QuestieQuest.ObjectiveUpdate(self)
             self.Type = obj.type;
             self.Description = obj.text
             if Questie.db.profile.trimObjectiveText == false then
-                self.FullDescription = _GetFullDescription(obj.raw_text, obj.text)
+                self.FullDescription = _GetFullDescription(obj.raw_text or obj.text, obj.text)
+            else
+                self.FullDescription = nil
             end
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
