@@ -1492,8 +1492,8 @@ function _QuestieQuest.ObjectiveUpdate(self)
             self.Description = obj.text
             if obj.raw_text ~= self._rawText then
                 self._rawText = obj.raw_text
+                self.FullDescription = nil
             end
-            self.FullDescription = obj.text
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
             self.Completed = (self.Needed == self.Collected and self.Needed > 0) or
