@@ -137,12 +137,11 @@ function QuestieLib:GetObjectiveDescription(objective)
         desc = objective.Description
     else
         desc = objective.FullDescription
-        if not desc or desc == objective.Description then
+        if not desc then
             local raw = objective._rawText or objective.Description
             desc = string.match(raw, "^(.*):%s*%d+/%d+$")
                 or string.match(raw, "^(.*)：%s*%d+/%d+$")
                 or objective.Description
-            objective.FullDescription = desc
         end
     end
     if not desc then
