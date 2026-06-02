@@ -87,6 +87,7 @@
 ---@field QuestData Quest Basically contains the data from QuestieDB.GetQuest
 ---@field _lastUpdate number UNKNOWN
 ---@field Description string Objective description
+---@field FullDescription string? The full objective description including "slain". Only present when Questie.db.profile.trimObjectiveTex is inactive
 ---@field spawnList table<NpcId, SpawnListNPC>[]|table<ObjectId, SpawnListObject>|table<NpcId, SpawnListNPC>|{ [1]: SpawnListBase }|table<ItemId, SpawnListItem> UNKOWN
 ---@field AlreadySpawned table UNKNOWN
 ---@field Update fun(self: table) Quick call for _QuestieQuest.ObjectiveUpdate
@@ -94,6 +95,8 @@
 ---@field RequiredRepValue number @ Only used for type "reputation"
 ---@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation"|"spell" Added in _QuestieQuest.ObjectiveUpdate
 ---@field isUpdated boolean Used and added in _QuestieQuest.ObjectiveUpdate
+---@field Collected number The number of items collected, NPCs killed, etc.
+---@field Needed number The number of items needed, NPCs to kill, etc.
 ---@field Completed boolean Added in _QuestieQuest.ObjectiveUpdate
 ---@field Color Color Added in QuestieQuest:PopulateObjective
 
