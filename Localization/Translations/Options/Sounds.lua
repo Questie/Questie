@@ -202,7 +202,7 @@ local soundsOptionsLocales = {
         ["frFR"] = "Canal audio",
         ["koKR"] = "사운드 채널",
         ["ptBR"] = "Canal de som",
-        ["ruRU"] = "Канал звука",
+        ["ruRU"] = "Звуковой канал",
         ["zhCN"] = "声道",
         ["zhTW"] = "聲道",
     },
