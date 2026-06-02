@@ -528,13 +528,16 @@ function QuestieOptions.tabs.general:Initialize()
                     soundChannel = {
                         type = "select",
                         order = 8.6,
-                        values = {
-                            Master = "Master",
-                            SFX = "SFX",
-                            Music = "Music",
-                            Ambience = "Ambience",
-                            Dialog = "Dialog",
-                        },
+                        values = function()
+                            return {
+                                Master = l10n("Master"),
+                                SFX = l10n("SFX"),
+                                Music = l10n("Music"),
+                                Ambience = l10n("Ambience"),
+                                Dialog = l10n("Dialog"),
+                            }
+                        end,
+                        sorting = {"Master", "Music", "SFX", "Ambience", "Dialog"},
                         style = "dropdown",
                         name = function() return l10n("Sound Channel") end,
                         desc = function() return l10n("The sound channel used for Questie's notification sounds.") end,
