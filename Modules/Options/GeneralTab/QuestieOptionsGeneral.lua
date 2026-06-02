@@ -530,11 +530,11 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 8.6,
                         values = function()
                             return {
-                                Master = l10n("Master"),
-                                Music = l10n("Music"),
-                                SFX = l10n("SFX"),
-                                Ambience = l10n("Ambience"),
-                                Dialog = l10n("Dialog"),
+                                Master = MASTER_VOLUME,
+                                Music = MUSIC_VOLUME,
+                                SFX = FX_VOLUME,
+                                Ambience = AMBIENCE_VOLUME,
+                                Dialog = DIALOG_VOLUME,
                             }
                         end,
                         sorting = {"Master", "Music", "SFX", "Ambience", "Dialog"},
