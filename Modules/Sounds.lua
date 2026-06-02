@@ -16,7 +16,7 @@ function Sounds.PlayObjectiveProgress()
         shouldPlayObjectiveProgress = true
         C_Timer.After(Questie.db.profile.soundDelay, function ()
             if shouldPlayObjectiveProgress then
-                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), "Master")
+                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), Questie.db.profile.soundChannel)
                 shouldPlayObjectiveProgress = false
             end
         end)
@@ -32,7 +32,7 @@ function Sounds.PlayObjectiveComplete()
         shouldPlayObjectiveComplete = true
         C_Timer.After(Questie.db.profile.soundDelay, function ()
             if shouldPlayObjectiveComplete then
-                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), "Master")
+                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), Questie.db.profile.soundChannel)
                 shouldPlayObjectiveComplete = false
             end
         end)
@@ -46,7 +46,7 @@ function Sounds.PlayQuestComplete()
 
     shouldPlayObjectiveProgress = false
     shouldPlayObjectiveComplete = false
-    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
+    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), Questie.db.profile.soundChannel)
 end
 
 function Sounds.GetSelectedSoundFile(typeSelected)
