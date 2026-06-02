@@ -212,20 +212,10 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end,
                 set = function(_, lang)
-                    if lang == "auto" then
-                        local clientLocale = GetLocale()
-                        if QUESTIE_LOCALES_OVERRIDE ~= nil then
-                            clientLocale = QUESTIE_LOCALES_OVERRIDE.locale
-                        end
-                        l10n:SetUILocale(clientLocale)
-                        Questie.db.global.questieLocale = clientLocale
-                        Questie.db.global.questieLocaleDiff = false
-                    else
-                        l10n:SetUILocale(lang);
-                        Questie.db.global.questieLocale = lang;
-                        Questie.db.global.questieLocaleDiff = true;
+                    local popup = StaticPopup_Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
+                    if popup then
+                        popup.data = lang
                     end
-                    ReloadUI()
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -521,6 +511,39 @@ StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
     end,
     OnShow = function(self)
         local confirmText = l10n("Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
+StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+    text = "",
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        local lang = self.data
+        if lang == "auto" then
+            local clientLocale = GetLocale()
+            if QUESTIE_LOCALES_OVERRIDE ~= nil then
+                clientLocale = QUESTIE_LOCALES_OVERRIDE.locale
+            end
+            l10n:SetUILocale(clientLocale)
+            Questie.db.global.questieLocale = clientLocale
+            Questie.db.global.questieLocaleDiff = false
+        else
+            l10n:SetUILocale(lang);
+            Questie.db.global.questieLocale = lang;
+            Questie.db.global.questieLocaleDiff = true;
+        end
+        ReloadUI()
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("This will reload the UI. Are you sure you want to change the language?")
         self.Text:SetText(confirmText)
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()

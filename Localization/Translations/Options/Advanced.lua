@@ -626,6 +626,18 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
         ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗",
     },
+    ["This will reload the UI. Are you sure you want to change the language?"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Dies wird die Benutzeroberfläche neu laden. Bist du sicher, dass du die Sprache ändern möchtest?",
+        ["esES"] = "Esto recargará la interfaz. ¿Estás seguro de que quieres cambiar el idioma?",
+        ["esMX"] = "Esto recargará la interfaz. ¿Estás seguro de que quieres cambiar el idioma?",
+        ["frFR"] = "Cela va recharger l'interface. Êtes-vous sûr de vouloir changer la langue ?",
+        ["koKR"] = "UI를 다시 로드합니다. 언어를 변경하시겠습니까?",
+        ["ptBR"] = "Isso recarregará a interface. Tem certeza de que deseja alterar o idioma?",
+        ["ruRU"] = "Это приведет к перезагрузке интерфейса. Вы уверены, что хотите изменить язык?",
+        ["zhCN"] = "这将重载界面。你确定要更改语言吗？",
+        ["zhTW"] = "這將重新載入介面。你確定要更改語言嗎？",
+    },
     ["Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?"] = {
         ["enUS"] = true,
         ["deDE"] = "Questie-Datenbank neu kompilieren\n\nDies wird die WoW-Benutzeroberfläche neu laden und anschließend einige Zeit in Anspruch nehmen. Du erhältst eine Nachricht im Chat, sobald der Vorgang abgeschlossen ist.\n\nDas Neukompilieren sollte außerhalb des Kampfes durchgeführt werden, da Questie sonst möglicherweise nicht korrekt funktioniert!\n\nBist du sicher, dass du die Questie-Datenbank neu kompilieren möchtest?",
