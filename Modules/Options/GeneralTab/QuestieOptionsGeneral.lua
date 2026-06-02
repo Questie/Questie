@@ -531,8 +531,8 @@ function QuestieOptions.tabs.general:Initialize()
                         values = function()
                             return {
                                 Master = l10n("Master"),
-                                SFX = l10n("SFX"),
                                 Music = l10n("Music"),
+                                SFX = l10n("SFX"),
                                 Ambience = l10n("Ambience"),
                                 Dialog = l10n("Dialog"),
                             }
