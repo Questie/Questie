@@ -21,15 +21,12 @@ local PandariaPoints = {}--Maintains Pandaria objective list
 local AddedHudIds = {}--Tracking table of all active hud markers
 local playerName = UnitName("player")
 local QuestieHUDEnabled = false
-local UIHidden = false
-local HudSuspended = false
 
 --------------------------------------------
 --   Local function used by entire module   --
 --------------------------------------------
 --Adds icons to actual hud display
 local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
-    if HudSuspended or UIHidden then return end
     if tableString and not AddedHudIds[tableString] then
         --Icon based filters, if icon is disabled, return without adding
         if  not Questie.db.profile.dbmHUDShowSlay and icon == Questie.ICON_TYPE_SLAY or
@@ -74,35 +71,6 @@ local function RemoveHudQuestIcon(tableString)
     end
 end
 
--- Force checks and purges markers if UI is toggled off
-local function UpdateUIVisibility()
-    if not UIParent then return end
-    local isHidden = not UIParent:IsShown()
-    if isHidden == UIHidden then return end
-    UIHidden = isHidden
-
-    if not DBM or not DBM.HudMap or not QuestieHUDEnabled then return end
-
-    if isHidden then
-        HudSuspended = true
-        DBM.HudMap:ClearAllEdges()
-        for tableString in pairs(AddedHudIds) do
-            DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
-        end
-        wipe(AddedHudIds)
-
-        if DBM.HudMap.Frame then
-            DBM.HudMap.Frame:Hide()
-        end
-    else
-        HudSuspended = false
-        if DBM.HudMap.Frame then
-            DBM.HudMap.Frame:Show()
-        end
-        QuestieDBMIntegration:SoftReset()
-    end
-end
-
 -------------------------------------
 --   Event/Enable/Disable Handlers  --
 -------------------------------------
@@ -141,7 +109,6 @@ do
     end
 
     local function ReAddHudIcons()
-        if UIHidden or HudSuspended then return end
         if LastInstanceMapID == 0 then--It means we are now in Eastern Kingdoms (but weren't before)
             for tableString, points in pairs(EKPoints) do
                 AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
@@ -385,19 +352,17 @@ end
 
 --Creates a line between player and a specific point
 function QuestieDBMIntegration:EdgeTo(tableString)
-    if not UIParent or UIHidden or not DBM or not DBM.HudMap or not tableString then return end
-    if DBM and DBM.HudMap and tableString and not UIHidden then
-        if not AddedHudIds[tableString.."edge"] then
-            --Request Marker table from DBM for specific tableString
-            local marker2 = DBM.HudMap:GetEncounterMarker(tableString.."Questie")
-            if marker2 and type(marker2) == "table" then
-                --Now, create a practically invisible point on player to establish edge from location
-                local marker1 = DBM.HudMap:RegisterRangeMarkerOnPartyMember(tableString, "party", playerName, 0.1, nil, 0, 1, 0, 1, nil, false):Appear()--objectId, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf
-                marker2:EdgeTo(marker1, nil, hudDuration, 0, 1, 0, 1)--point_or_unit_or_x, from_y, duration, r, g, b, a, w, texfile, extend
-                AddedHudIds[tableString..playerName] = true
-            --else
-            --    print("attempted to create an edge with an invalid target marker")
-            end
+    if not UIParent or not DBM or not DBM.HudMap or not tableString then return end
+    if not AddedHudIds[tableString.."edge"] then
+        --Request Marker table from DBM for specific tableString
+        local marker2 = DBM.HudMap:GetEncounterMarker(tableString.."Questie")
+        if marker2 and type(marker2) == "table" then
+            --Now, create a practically invisible point on player to establish edge from location
+            local marker1 = DBM.HudMap:RegisterRangeMarkerOnPartyMember(tableString, "party", playerName, 0.1, nil, 0, 1, 0, 1, nil, false):Appear()--objectId, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf
+            marker2:EdgeTo(marker1, nil, hudDuration, 0, 1, 0, 1)--point_or_unit_or_x, from_y, duration, r, g, b, a, w, texfile, extend
+            AddedHudIds[tableString..playerName] = true
+        --else
+        --    print("attempted to create an edge with an invalid target marker")
         end
     end
 end
