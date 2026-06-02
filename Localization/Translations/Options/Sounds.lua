@@ -267,7 +267,7 @@ local soundsOptionsLocales = {
         ["zhTW"] = "環境",
     },
     ["Dialog"] = {
-        ["enUS"] = false,
+        ["enUS"] = true,
         ["deDE"] = "Dialoge",
         ["esES"] = "Diálogo",
         ["esMX"] = "Diálogo",
