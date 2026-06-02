@@ -239,12 +239,11 @@ do
     -- Reliable UI visibility ticker monitoring WorldFrame
     local totalElapsed = 0
     eventFrame:SetScript("OnUpdate", function(_, elapsed)
+        if not QuestieHUDEnabled then return end
         totalElapsed = totalElapsed + elapsed
         if totalElapsed > 0.15 then
             totalElapsed = 0
-            if QuestieHUDEnabled then
-                UpdateUIVisibility()
-            end
+            UpdateUIVisibility()
         end
     end)
 end
