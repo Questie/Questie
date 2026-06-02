@@ -203,19 +203,19 @@ do
         end
     end)
 
-    -- Hide nodes when the user hides the game UI
-    UIParent:HookScript("OnHide", function()
-        if QuestieHUDEnabled then
-            CleanupPoints(9999)
-        end
-    end)
+    if UIParent then
+        UIParent:HookScript("OnHide", function()
+            if QuestieHUDEnabled then
+                CleanupPoints(9999)
+            end
+        end)
 
-    -- Show nodes when the user shows the game UI
-    UIParent:HookScript("OnShow", function()
-        if QuestieHUDEnabled then
-            ReAddHudIcons()
-        end
-    end)
+        UIParent:HookScript("OnShow", function()
+            if QuestieHUDEnabled then
+                ReAddHudIcons()
+            end
+        end)
+    end
 end
 
 ------------------------
