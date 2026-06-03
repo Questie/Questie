@@ -367,7 +367,8 @@ function QuestieMenu:Show(hideDelay)
     if not QuestieMenu.menu then
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
-    local menuTable = QuestieMenu.buildTownsfolkMenu()
+    local menuTable = {}
+    tinsert(menuTable, {text= _G["TOWNSFOLK_TRACKING_TEXT"], func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildTownsfolkMenu(), notCheckable=true})
     tinsert(menuTable, { text= _G["AVAILABLE_QUESTS"], func = function()
         local value = not Questie.db.profile.enableAvailable
         Questie.db.profile.enableAvailable = value
