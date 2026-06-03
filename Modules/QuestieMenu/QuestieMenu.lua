@@ -321,7 +321,7 @@ function QuestieMenu.buildTownsfolkMenu()
         tinsert(townsfolkMenu, build(key))
         seenKeys[key] = true
     end
-    if not seenKeys["Moonwell"] then
+    if not seenKeys["Moonwell"] and QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.TAILORING}) then
         tinsert(townsfolkMenu, build("Moonwell"))
     end
     return townsfolkMenu
