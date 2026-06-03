@@ -180,7 +180,10 @@ local migrationFunctions = {
         end
     end,
     [28] = function()
-         -- Preserve previous dungeon hide & minimize preference for both new flags
+        Questie.db.profile.trimObjectiveText = true
+    end,
+    [29] = function()
+       -- Preserve previous dungeon hide & minimize preference for both new flags
         local previousMinimizeInInstances = Questie.db.profile.minimizeTrackerInDungeons
         local previousHideInInstances = Questie.db.profile.hideTrackerInDungeons
 
@@ -189,7 +192,7 @@ local migrationFunctions = {
 
         Questie.db.profile.minimizeTrackerInDungeons = nil
         Questie.db.profile.hideTrackerInDungeons = nil
-    end
+    end,
 }
 
 function Migration:Migrate()

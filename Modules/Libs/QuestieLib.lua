@@ -125,6 +125,20 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
+---Returns the appropriate objective description based on the trimObjectiveText profile setting
+---@param objective QuestObjective
+---@return string
+function QuestieLib:GetObjectiveDescription(objective)
+    if (not objective) then
+        return ""
+    end
+    local desc = objective.FullDescription or objective.Description
+    if (not desc) then
+        return ""
+    end
+    return desc:gsub("%.$", "")
+end
+
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
@@ -259,6 +273,26 @@ function QuestieLib:GetQuestTypeSuffix(questId)
         -- This preserves backward compatibility with existing UI/tests
         return stringSub(questTagName, 1, 1)
     end
+end
+
+local suffixPriority = {
+    [""] = 1, -- No suffix (normal quests) - should come first
+    ["+"] = 2, -- Elite
+    ["S"] = 3, -- Scenario
+    ["D"] = 4, -- Dungeon
+    ["H"] = 5, -- Heroic
+    ["R"] = 6, -- Raid
+    ["++"] = 7, -- Legendary
+    ["A"] = 8, -- Account
+    ["C"] = 9, -- Celestial
+    ["W"] = 10, -- World Event
+}
+
+---@param questId QuestId
+---@return number priority @The priority of the quest type suffix, lower means higher priority
+function QuestieLib.GetQuestTypeSuffixPriority(questId)
+    local suffix = QuestieLib:GetQuestTypeSuffix(questId)
+    return suffixPriority[suffix] or 999
 end
 
 ---@param questId QuestId
@@ -454,18 +488,6 @@ function QuestieLib:SanitizePattern(pattern)
     return sanitize_cache[pattern]
 end
 
-local suffixPriority = {
-    [""] = 1, -- No suffix (normal quests) - should come first
-    ["+"] = 2, -- Elite
-    ["S"] = 3, -- Scenario
-    ["D"] = 4, -- Dungeon
-    ["H"] = 5, -- Heroic
-    ["R"] = 6, -- Raid
-    ["++"] = 7, -- Legendary
-    ["A"] = 8, -- Account
-    ["C"] = 9, -- Celestial
-}
-
 local function compareQuestsByLevelAndType(a, b)
     if a[1] ~= b[1] then
         return a[1] < b[1]
@@ -484,13 +506,15 @@ local function compareQuestsByLevelAndType(a, b)
     return a[2] < b[2]
 end
 
+---@param quests table<QuestId, any>
+---@return table A sorted table of quests, sorted by level and then by type (Elite, Dungeon, etc.)
 function QuestieLib:SortQuestIDsByLevel(quests)
     local sortedQuestsByLevel = {}
 
-    for q in pairs(quests) do
-        local questLevel, _ = QuestieLib.GetTbcLevel(q)
-        local suffix = QuestieLib:GetQuestTypeSuffix(q)
-        tinsert(sortedQuestsByLevel, {questLevel or 0, q, suffix})
+    for questId in pairs(quests) do
+        local questLevel, _ = QuestieLib.GetTbcLevel(questId)
+        local suffix = QuestieLib:GetQuestTypeSuffix(questId)
+        tinsert(sortedQuestsByLevel, {questLevel or 0, questId, suffix})
     end
     table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)
 

@@ -67,6 +67,7 @@ function QuestieOptionsDefaults:Load()
             questieShutUp = false,
             bugWorkarounds = true,
             hideIconsOnContinents = false,
+            trimObjectiveText = true,
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
@@ -167,6 +168,7 @@ function QuestieOptionsDefaults:Load()
             objectiveCompleteSoundChoiceName = "ObjectiveDefault",
             soundOnObjectiveProgress = false,
             objectiveProgressSoundChoiceName = "ObjectiveProgress",
+            soundChannel = "Master",
             iconTheme = "questie",
 
             minimap = {

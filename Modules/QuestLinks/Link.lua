@@ -97,8 +97,7 @@ function QuestieLink:CreateQuestTooltip(link)
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
         ---@type string
-        local questIdStr = select(2, strsplit(":", link))
-        local questId = tonumber(questIdStr)
+        local questId = tonumber(isQuestieLink)
         local quest = QuestieDB.GetQuest(questId)
 
         if quest then
@@ -381,7 +380,7 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
             _AddTooltipLine(" ")
             _AddColoredTooltipLine(l10n("Your progress")..l10n(": "), "gold")
             for _, objective in pairs(quest.Objectives) do
-                local objDesc = objective.Description:gsub("%.$", "")
+                local objDesc = QuestieLib:GetObjectiveDescription(objective)
 
                 if objective.Needed > 0 then
                     local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)

@@ -216,6 +216,12 @@ function QuestieTBCQuestFixes:Load()
         [1093] = { -- Super Reaper 6000
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [1094] = { -- Further Instructions
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [1096] = { -- Gerenzo Wrenchwhistle
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [1109] = {
             [questKeys.requiredLevel] = 22,
             [questKeys.questLevel] = 26,
@@ -1219,6 +1225,9 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
+        [8381] = { -- Armaments of War
+            [questKeys.requiredClasses] = classIDs.MAGE + classIDs.WARLOCK,
+        },
         [8410] = { -- Elemental Mastery
             [questKeys.startedBy] = {{3032,13417,17219,20407,23127}},
         },
@@ -1312,6 +1321,9 @@ function QuestieTBCQuestFixes:Load()
         [8574] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [8579] = { -- Mortal Champions
+            [questKeys.specialFlags] = specialFlags.NONE,
+        },
         [8592] = { -- Tiara of the Oracle
             [questKeys.preQuestSingle] = {8579},
         },
@@ -1319,6 +1331,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {8579},
         },
         [8594] = { -- Mantle of the Oracle
+            [questKeys.preQuestSingle] = {8579},
+        },
+        [8595] = { -- Mortal Champions
             [questKeys.preQuestSingle] = {8579},
         },
         [8596] = { -- Footwraps of the Oracle
@@ -1976,10 +1991,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf."), 0, {{"monster", 17062}}}},
         },
         [9415] = { -- Report to Marshal Bluewall
-            [questKeys.nextQuestInChain] = 9419,
+            [questKeys.availableUntilCompleted] = 9419,
+            [questKeys.requiredLevel] = 55,
         },
         [9416] = { -- Report to General Kirika
-            [questKeys.nextQuestInChain] = 9422,
+            [questKeys.availableUntilCompleted] = 9422,
+            [questKeys.requiredLevel] = 55,
         },
         [9417] = { -- The Arakkoa Threat
             [questKeys.preQuestSingle] = {},
@@ -1989,8 +2006,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {nil,nil,{23580}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Take Avruu's Orb to the Haal'eshi Altar"), 0, {{"object", 181606}}}},
         },
+        [9419] = { -- Scouring the Desert
+            [questKeys.requiredLevel] = 55,
+        },
         [9421] = {
             [questKeys.preQuestSingle] = {9280,9369},
+        },
+        [9422] = { -- Scouring the Desert
+            [questKeys.requiredLevel] = 55,
         },
         [9423] = { -- Return to Obadei
             [questKeys.nextQuestInChain] = 9424,
@@ -2018,6 +2041,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9454] = { -- The Great Moongraze Hunt
             [questKeys.preQuestSingle] = {},
+            [questKeys.disabledByQuest] = 9453,
         },
         [9455] = {
             [questKeys.startedBy] = {nil,nil,{23678}},
@@ -2185,6 +2209,7 @@ function QuestieTBCQuestFixes:Load()
         [9549] = { -- Artifacts of the Blacksilt
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {10063},
+            [questKeys.nextQuestInChain] = 9550,
         },
         [9551] = { -- Call of Air
             [questKeys.startedBy] = {{17219,23127}},
@@ -2195,6 +2220,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9555] = { -- Call of Fire
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
+        [9557] = { -- Deciphering the Book
+            [questKeys.nextQuestInChain] = 9561,
         },
         [9558] = { -- The Longbeards
             [questKeys.preQuestSingle] = {10143,10483},
@@ -2213,6 +2241,9 @@ function QuestieTBCQuestFixes:Load()
         [9565] = {
             [questKeys.preQuestGroup] = {},
             [questKeys.preQuestSingle] = {9560,9562}, -- without 9564
+        },
+        [9567] = { -- Know Thine Enemy
+            [questKeys.nextQuestInChain] = 9569,
         },
         [9570] = { -- The Kurken is Lurkin'
             [questKeys.preQuestSingle] = {9565,9573},
@@ -2316,6 +2347,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9634] = { -- Alien Predators
             [questKeys.preQuestSingle] = {},
+            [questKeys.disabledByQuest] = 9625,
         },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
@@ -2335,6 +2367,9 @@ function QuestieTBCQuestFixes:Load()
         [9640] = {
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
+        [9641] = { -- Irradiated Crystal Shards
+            [questKeys.nextQuestInChain] = 9642,
+        },
         [9644] = {
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
@@ -2348,6 +2383,7 @@ function QuestieTBCQuestFixes:Load()
         [9648] = { -- Mac'Aree Mushroom Menagerie
             [questKeys.name] = "Maatparm Mushroom Menagerie",
             [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 1 Aquatic Stinkhorn, 1 Blood Mushroom, 1 Ruinous Polyspore, and 1 Fel Cone Fungus."},
+            [questKeys.nextQuestInChain] = 9649,
         },
         [9649] = { -- Ysera's Tears
             [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 2 Ysera's Tears."},
@@ -2393,12 +2429,19 @@ function QuestieTBCQuestFixes:Load()
         [9689] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Bundle of Dragon Bones at the Ever-burning Pyre"), 0, {{"object", 181988}}}},
         },
+        [9693] = { -- What Argus Means to Me
+            [questKeys.disabledByQuest] = 9668,
+        },
+        [9694] = { -- Blood Watch
+            [questKeys.nextQuestInChain] = 9779,
+        },
         [9697] = { -- Watcher Leesa'oh
             [questKeys.requiredMinRep] = {942,3000},
             [questKeys.breadcrumbForQuestId] = 9701,
         },
         [9700] = {
             [questKeys.triggerEnd] = {"Sun Portal Site Confirmed", {[zoneIDs.BLOODMYST_ISLE]={{52.92,22.32}}}},
+            [questKeys.nextQuestInChain] = 9703,
         },
         [9701] = { -- Observing the Sporelings
             [questKeys.preQuestSingle] = {},
@@ -2409,11 +2452,14 @@ function QuestieTBCQuestFixes:Load()
         [9703] = { -- The Cryo-Core
             [questKeys.nextQuestInChain] = 9748,
         },
+        [9706] = { -- Galaen's Journal - The Fate of Vindicator Saruan
+            [questKeys.nextQuestInChain] = 9711,
+        },
         [9704] = { -- Slain by the Wretched
             [questKeys.breadcrumbs] = {8347},
             [questKeys.preQuestSingle] = {},
         },
-        [9711] = {
+        [9711] = { -- Matis the Cruel
             [questKeys.objectives] = {{{17664,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Call for help from Trackers of the Hand"), 0, {{"monster", 17664}}}},
         },
@@ -3621,7 +3667,12 @@ function QuestieTBCQuestFixes:Load()
         [10552] = { -- Allegiance to the Scryers
             [questKeys.nextQuestInChain] = 10553,
         },
-        [10554] = {
+        [10553] = { -- Voren'thal the Seer
+            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.requiredMinRep] = {934,0},
+        },
+        [10554] = { -- Ishanah
+            [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.requiredMinRep] = {932,0},
         },
         [10556] = {
@@ -3958,6 +4009,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10752] = {
             [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 0,
         },
         [10754] = {
             [questKeys.startedBy] = {{22037}},
@@ -5033,7 +5085,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Spiritual Soup at the Ancestral Grounds in Nagrand"), 0, {{"object", 184317}}}},
         },
         [11383] = { -- Wanted: Rift Lords
-            [questKeys.objectives] = {{{17839}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17839,21140},17839}}},
             [questKeys.preQuestSingle] = {10296},
         },
         [11403] = {

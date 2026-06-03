@@ -495,6 +495,18 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function () return Questie.db.profile.onlyPartyShared; end,
                         set = function (_, value) Questie.db.profile.onlyPartyShared = value end
                     },
+                    trimObjectiveText = {
+                        type = "toggle",
+                        order = 8.8,
+                        name = function() return l10n("Trim Objective Text"); end,
+                        desc = function() return l10n("Simplify quest objective text by removing \"slain\" from it."); end,
+                        width = 1.5,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function(info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+                            QuestieTracker:Update()
+                        end,
+                    },
                 },
             },
             sound_spacer = QuestieOptionsUtils:Spacer(5.5,nil,"minimal"),
@@ -512,6 +524,27 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 2.5,
                         get = function () return Questie.db.profile.loadCustomSounds; end,
                         set = function (_, value) Questie.db.profile.loadCustomSounds = value end
+                    },
+                    soundChannel = {
+                        type = "select",
+                        order = 8.6,
+                        values = function()
+                            return {
+                                Master = MASTER_VOLUME,
+                                Music = MUSIC_VOLUME,
+                                SFX = FX_VOLUME,
+                                Ambience = AMBIENCE_VOLUME,
+                                Dialog = DIALOG_VOLUME,
+                            }
+                        end,
+                        sorting = {"Master", "Music", "SFX", "Ambience", "Dialog"},
+                        style = "dropdown",
+                        name = function() return l10n("Sound Channel") end,
+                        desc = function() return l10n("The sound channel used for Questie's notification sounds.") end,
+                        get = function() return Questie.db.profile.soundChannel or "Master" end,
+                        set = function(_, value)
+                            Questie.db.profile.soundChannel = value
+                        end,
                     },
                     questCompleteSound = {
                         type = "toggle",
@@ -533,7 +566,7 @@ function QuestieOptions.tabs.general:Initialize()
                             return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                         end,
                         func = function()
-                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), Questie.db.profile.soundChannel)
                         end
                     },
                     questCompleteSoundChoice = {
@@ -576,7 +609,7 @@ function QuestieOptions.tabs.general:Initialize()
                             return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                         end,
                         func = function()
-                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), "Master")
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), Questie.db.profile.soundChannel)
                         end
                     },
                     objectiveCompleteSoundChoice = {
@@ -613,7 +646,7 @@ function QuestieOptions.tabs.general:Initialize()
                             return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                         end,
                         func = function()
-                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), "Master")
+                            PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), Questie.db.profile.soundChannel)
                         end
                     },
                     objectiveProgressSoundChoice = {

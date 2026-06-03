@@ -880,7 +880,7 @@ function QuestieTBCNpcFixes:Load()
         [17831] = {
             [npcKeys.waypoints] = {[zoneIDs.ZANGARMARSH] = {{{23.32,66.21},{23.28,66.08},{23.39,65.98},{23.51,66.01},{23.67,66.09},{24.52,66.48},{24.69,66.5},{24.52,66.48},{23.7,66.18},{23.48,66.01},{23.39,66.01},{23.34,66.1},{23.32,66.21}}}},
         },
-        [17839] = {
+        [17839] = { -- Rift Lord
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
         },
@@ -1333,6 +1333,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [21118] = {
             [npcKeys.waypoints] = {},
+        },
+        [21140] = { -- Rift Lord
+            [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
         },
         [21209] = { -- Dumphry
             [npcKeys.waypoints] = {},

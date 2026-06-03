@@ -40,6 +40,7 @@ _G.string.trim = function(str)
     return str:gsub("^%s*(.-)%s*$", "%1")
 end
 _G.strlen = string.len
+_G.strmatch = string.match
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
 _G.GetCurrentRegion = function() return 3 end

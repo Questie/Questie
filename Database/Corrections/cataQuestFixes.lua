@@ -252,9 +252,11 @@ function CataQuestFixes.Load()
         },
         [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {997},
+            [questKeys.disabledByQuest] = 0,
         },
         [919] = { -- Timberling Sprouts
             [questKeys.preQuestSingle] = {997},
+            [questKeys.disabledByQuest] = 0,
         },
         [929] = { -- Teldrassil: The Refusal of the Aspects
             [questKeys.preQuestSingle] = {28731},

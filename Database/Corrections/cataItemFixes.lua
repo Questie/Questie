@@ -15,6 +15,9 @@ function CataItemFixes.Load()
         [1357] = { -- Captain Sander's Treasure Map
             [itemKeys.startQuest] = 26353,
         },
+        [1468] = { -- Murloc Fin
+            [itemKeys.npcDrops] = {126,127,171,285,422,456,458,513,515,517,544,545,548,578,732,735,1083,1259,1418,3654,3737,3740,4818,4819,4820,6243,10643,14270},
+        },
         [2536] = { -- Trogg Stone Tooth
             [itemKeys.npcDrops] = {1161,1162,1163,1164,1165,1166,1167,1197,1393},
         },

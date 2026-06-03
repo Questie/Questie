@@ -111,6 +111,7 @@ QuestieDB.DoableStates = {
     ENABLING_QUEST_MISSING = 28,
     PROFESSION_MISSING = 29,
     PROFESSION_RANK = 30,
+    DISABLED_BY = 31,
 }
 
 -- * race bitmask data, for easy access
@@ -865,9 +866,19 @@ function QuestieDB.IsDoable(questId, debugPrint)
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
             if QuestiePlayer.currentQuestlog[breadcrumbId] then
-                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest in the quest log for quest " .. questId) end
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest " .. breadcrumbId .. " in the quest log for quest " .. questId) end
                 return false
             end
+        end
+    end
+
+    -- Check if this quest has a quest that disables it while in quest log
+    local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
+    if disabledByQuest and disabledByQuest ~= 0 then
+        -- Check the disabling quest is active
+        if QuestiePlayer.currentQuestlog[disabledByQuest] then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Disabling quest " .. disabledByQuest .. " in the quest log for quest " .. questId) end
+            return false
         end
     end
 
@@ -1134,6 +1145,31 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Check if this quest is a breadcrumb
+    local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
+    if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
+        -- Check the follow up quest of this breadcrumb
+        if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Follow up quest active or completed"), true, DoableStates.BREADCRUMB_FOLLOWUP
+            elseif returnText and not returnBrief then
+                return "Follow up of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId, true, DoableStates.BREADCRUMB_FOLLOWUP
+            end
+        end
+        -- The next case is commented out since it's not a valid check to have. Breadcrumbs to the same quest are not always exclusive to eachother
+        --[[ Check if the other breadcrumbs are active
+        local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
+        for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do
+            if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
+                if returnText and returnBrief then
+                    return l10n("Unavailable")..l10n(": ")..l10n("Another breadcrumb is active"), true, DoableStates.EXCLUSIVE_BREADCRUMB
+                elseif returnText and not returnBrief then
+                    return "Alternative breadcrumb quest " .. breadcrumbId .." in the quest log for quest " .. questId, true, DoableStates.EXCLUSIVE_BREADCRUMB
+                end
+            end
+        end]]
+    end
+
     -- Check reputation requirements
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
@@ -1246,31 +1282,6 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    -- Check if this quest is a breadcrumb
-    local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
-    if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
-        -- Check the follow up quest of this breadcrumb
-        if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Follow up quest active or completed"), true, DoableStates.BREADCRUMB_FOLLOWUP
-            elseif returnText and not returnBrief then
-                return "Follow up of breadcrumb quest " .. breadcrumbForQuestId .. " already completed or in the quest log for quest " .. questId, true, DoableStates.BREADCRUMB_FOLLOWUP
-            end
-        end
-        -- The next case is commented out since it's not a valid check to have. Breadcrumbs to the same quest are not always exclusive to eachother
-        --[[ Check if the other breadcrumbs are active
-        local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
-        for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do
-            if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
-                if returnText and returnBrief then
-                    return l10n("Unavailable")..l10n(": ")..l10n("Another breadcrumb is active"), true, DoableStates.EXCLUSIVE_BREADCRUMB
-                elseif returnText and not returnBrief then
-                    return "Alternative breadcrumb quest " .. breadcrumbId .." in the quest log for quest " .. questId, true, DoableStates.EXCLUSIVE_BREADCRUMB
-                end
-            end
-        end]]
-    end
-
     -- Check if this quest has active breadcrumbs
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
@@ -1281,6 +1292,19 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 elseif returnText and not returnBrief then
                     return "A breadcrumb quest " .. breadcrumbId .." is in the quest log for quest " .. questId, true, DoableStates.BREADCRUMB_ACTIVE
                 end
+            end
+        end
+    end
+
+    -- Check if this quest has a quest that disables it while in quest log
+    local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
+    if disabledByQuest and disabledByQuest ~= 0 then
+        -- Check the disabling quest is active
+        if currentQuestlog[disabledByQuest] then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest is active"), true, DoableStates.DISABLED_BY
+            elseif returnText and not returnBrief then
+                return "Disabling quest " .. disabledByQuest .. " is in the quest log for quest " .. questId, true, DoableStates.DISABLED_BY
             end
         end
     end
@@ -1447,6 +1471,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public availableUntilCompleted QuestId
     ---@field public availableStartingWith QuestId
     ---@field public requiredRanks SkillPair[]
+    ---@field public disabledByQuest QuestId
     local QO = {
         Id = questId
     }

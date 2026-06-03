@@ -362,10 +362,10 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
                         end
                         if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
-                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. tostring(objective.Description) .. dropRateText;
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " ..QuestieLib:GetObjectiveDescription(objective) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         else
-                            text = "   " .. color .. tostring(objective.Description) .. dropRateText;
+                            text = "   " .. color .. QuestieLib:GetObjectiveDescription(objective) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
                     end

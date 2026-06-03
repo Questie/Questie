@@ -141,6 +141,9 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.TANARIS]={{54,93}}},
             [objectKeys.zoneID] = zoneIDs.TANARIS,
         },
+        [142343] = { -- Uldum Pedestal
+            [objectKeys.questStarts] = {2954,2967,2977},
+        },
         [142345] = { -- Matrix Punchograph 3005-A
             [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{42.83,59.191},{42.854,59.193},{42.838,59.386},{42.798,59.381}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
@@ -336,6 +339,9 @@ function QuestieObjectFixes:Load()
         },
         [179703] = { -- Cache of the Firelord
             [objectKeys.questStarts] = {7632},
+        },
+        [179888] = { -- Rizzle's Guarded Plans
+            [objectKeys.questStarts] = {1194},
         },
         [179908] = {
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9}}},

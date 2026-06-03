@@ -119,6 +119,7 @@ Custom type aliases: `QuestId`, `NpcId`, `ObjectId`, `ItemId`, `AreaId`, `CoordP
 |----------------------|--------------------|--------------------------------------------|
 | Module names         | PascalCase         | `QuestieTooltips`, `BlacklistFilter`       |
 | Local variables      | camelCase          | `tooltipData`, `playerName`                |
+| Local functions      | `_` + PascalCase   | `_HelperFunction`, `_CompareSomething`     |
 | Module methods       | PascalCase         | `QuestieTooltips:RemoveQuest()`            |
 | Private tables       | `_` + PascalCase   | `_QuestieTooltips`, `_EventHandler`        |
 | Constants            | UPPER_SNAKE_CASE   | `Questie.DEBUG_CRITICAL`, `MAX_GROUP_SIZE` |

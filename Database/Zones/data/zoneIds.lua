@@ -274,6 +274,7 @@ ZoneDB.zoneIDs = {
     MOGUSHAN_PALACE_VAULTS_OF_KINGS_PAST = 6473, -- 454
     MOGUSHAN_PALACE_THRONE_OF_ANCIENT_CONQUERORS = 6474, -- 455
     ISLE_OF_THUNDER = 6507,
+    WAILING_CAVERNS_ENTRANCE = 6511, -- entrance cave leading to Wailing Caverns
     THE_WIDOWS_WAIL = 6512, -- cave in The Jade Forest
     OONA_KAGU = 6513, -- cave in The Jade Forest
     GREYMANE_MANOR_UPPER_FLOOR = 6545,

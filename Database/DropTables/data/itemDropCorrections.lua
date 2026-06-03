@@ -78,6 +78,33 @@ QuestieItemDropCorrections.Era = {
         [930] = DropKeys.WOWHEAD,
         [949] = DropKeys.WOWHEAD,
     },
+    [1468] = { -- Murloc Fin
+        [422] = DropKeys.WOWHEAD,
+        [544] = DropKeys.WOWHEAD,
+        [545] = DropKeys.WOWHEAD,
+        [548] = DropKeys.WOWHEAD,
+        [578] = DropKeys.WOWHEAD,
+        [1024] = DropKeys.WOWHEAD,
+        [1025] = DropKeys.WOWHEAD,
+        [1026] = DropKeys.WOWHEAD,
+        [1027] = DropKeys.WOWHEAD,
+        [1028] = DropKeys.WOWHEAD,
+        [1029] = DropKeys.WOWHEAD,
+        [1083] = DropKeys.WOWHEAD,
+        [1259] = DropKeys.WOWHEAD,
+        [1418] = DropKeys.WOWHEAD,
+        [3654] = DropKeys.WOWHEAD,
+        [3737] = DropKeys.WOWHEAD,
+        [3739] = DropKeys.WOWHEAD,
+        [3740] = DropKeys.WOWHEAD,
+        [3742] = DropKeys.WOWHEAD,
+        [4818] = DropKeys.WOWHEAD,
+        [4819] = DropKeys.WOWHEAD,
+        [4820] = DropKeys.WOWHEAD,
+        [6243] = DropKeys.WOWHEAD,
+        [10643] = DropKeys.WOWHEAD,
+        [14270] = DropKeys.WOWHEAD,
+    },
     [1519] = { -- Bloodscalp Ear
         [587] = DropKeys.WOWHEAD,
         [588] = DropKeys.WOWHEAD,
@@ -199,6 +226,16 @@ QuestieItemDropCorrections.Era = {
         [1022] = 1.5,
         [1023] = 1.5,
     },
+    [5366] = { -- Glowing Soul Gem
+        [3725] = DropKeys.WOWHEAD,
+        [3727] = DropKeys.WOWHEAD,
+        [3728] = DropKeys.WOWHEAD,
+        [3730] = DropKeys.WOWHEAD,
+        [3879] = DropKeys.WOWHEAD,
+    },
+    [5669] = { -- Dust Devil Debris
+        [832] = 50.0, -- not 100%, not 5%. Could be more than 50%
+    },
     [6443] = { -- Deviate Hide
         [3630] = DropKeys.WOWHEAD,
         [3631] = DropKeys.WOWHEAD,
@@ -225,6 +262,9 @@ QuestieItemDropCorrections.Era = {
     [6652] = { -- Reagent Pouch
         [3199] = 75,
     },
+    [6915] = { -- Large Soran'ruk Fragment
+        [3855] = 20, -- empyrical value
+    },
     [7267] = { -- Pristine Spider Silk
         [930] = 18,
         [949] = 100,
@@ -238,9 +278,37 @@ QuestieItemDropCorrections.Era = {
     [11479] = { -- Un'Goro Stomper Pelt
         [6513] = DropKeys.WOWHEAD,
     },
+    [11829] = { -- Un'Goro Ash
+        [6520] = 100.0,
+        [6521] = 100.0,
+        [9376] = 10.0,
+        [14460] = 100.0,
+        [14461] = 10.0,
+    },
     [15852] = { -- Kodo Horn
         [3234] = 100,
         [3236] = 100,
+    },
+    [20373] = { -- Stonelash Scorpid Stinger
+        [11735] = DropKeys.WOWHEAD,
+    },
+    [20374] = { -- Stonelash Pincer Stinger
+        [11736] = DropKeys.WOWHEAD,
+    },
+    [20375] = { -- Stonelash Flayer Stinger
+        [11737] = DropKeys.WOWHEAD,
+    },
+    [20376] = { -- Sand Skitterer Fang
+        [11738] = DropKeys.WOWHEAD,
+    },
+    [20377] = { -- Rock Stalker Fang
+        [11739] = DropKeys.WOWHEAD,
+    },
+    [21108] = { -- Draconic for Dummies (Chapter VI)
+        [10184] = 100,
+    },
+    [21110] = { -- Draconic for Dummies (Chapter VIII)
+        [11502] = 100,
     },
     [190232] = { -- Withered Scarf
         [3782] = 5, -- super bad drop rate, wowhead shows 3%. it's somewhere between 5-10%

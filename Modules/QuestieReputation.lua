@@ -306,6 +306,8 @@ _GetBuffMultiplier = function()
             buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Unburdened (Hallow's End Alliance)
         elseif spellId == 24705 then
             buffMultiplier = buffMultiplier + 0.1 -- 10% bonus reputation from Grim Visage (Hallow's End Horde)
+        elseif spellId == 377749 then
+            buffMultiplier = buffMultiplier + (Questie.IsTitanReforged and 1 or 0) -- 100% bonus reputation from Joyous Journeys (Titan server only)
         end
     end
 

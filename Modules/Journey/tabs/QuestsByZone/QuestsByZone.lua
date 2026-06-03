@@ -461,6 +461,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 elseif returnReason == DoableStates.PROFESSION_MISSING then -- profession missing completely
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
+                elseif returnReason == DoableStates.DISABLED_BY then -- disabling quest is active
+                    tinsert(zoneTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 end
             end
 

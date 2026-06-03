@@ -5,6 +5,10 @@ local _GetMockedLine
 describe("TrackerUtils", function()
     ---@type QuestieDB
     local QuestieDB
+    ---@type ZoneIDs
+    local ZoneIDs
+    ---@type QuestieLib
+    local QuestieLib
     ---@type QuestiePlayer
     local QuestiePlayer
     ---@type TrackerLinePool
@@ -34,6 +38,8 @@ describe("TrackerUtils", function()
 
         Expansions = require("Modules.Expansions")
         QuestieDB = require("Database.QuestieDB")
+        ZoneIDs = require("Database.Zones.zoneDB").zoneIDs
+        QuestieLib = require("Modules.Libs.QuestieLib")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
@@ -693,6 +699,163 @@ describe("TrackerUtils", function()
             local text = TrackerUtils:GetCompletionText(quest)
 
             assert.is_equal(nil, text)
+        end)
+    end)
+
+    describe("GetSortedQuestIds", function()
+        before_each(function()
+            QuestiePlayer.currentQuestlog = {}
+            Questie.db.profile.trackerSortObjectives = "byZone"
+
+            dofile("Modules/Tracker/Sorter/Sorter.lua")
+            dofile("Modules/Tracker/Sorter/byComplete.lua")
+            dofile("Modules/Tracker/Sorter/byLevel.lua")
+            dofile("Modules/Tracker/Sorter/byZone.lua")
+
+            _G.C_Map = {
+                GetAreaInfo = function(zoneId)
+                    local zoneNames = {
+                        [ZoneIDs.DUN_MOROGH] = "Dun Morogh",
+                        [ZoneIDs.DUROTAR] = "Durotar",
+                        [ZoneIDs.ELWYNN_FOREST] = "Elwynn Forest",
+                        [ZoneIDs.ZUL_DRAK] = "Zul'Drak",
+                    }
+                    return zoneNames[zoneId]
+                end
+            }
+        end)
+
+        it("should return quest IDs correctly sorted for 'byZone' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byZone"
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, zoneOrSort = ZoneIDs.ELWYNN_FOREST, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 80, zoneOrSort = ZoneIDs.ZUL_DRAK, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 6, zoneOrSort = ZoneIDs.ELWYNN_FOREST, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 5, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [7] = {Id = 7, level = 79, zoneOrSort = ZoneIDs.ZUL_DRAK, IsComplete = function() return 1 end},
+                [8] = {Id = 8, level = 10, zoneOrSort = ZoneIDs.DUN_MOROGH, IsComplete = function() return 1 end},
+                [9] = {Id = 9, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [10] = {Id = 10, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [11] = {Id = 11, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [12] = {Id = 12, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+                [13] = {Id = 13, level = 12, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [11] = "D",
+                    [12] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({8, 6, 1, 9, 10, 13, 12, 11, 4, 2, 5, 7, 3}, sortedIds)
+        end)
+
+        it("should return quest IDs correctly sorted for 'byComplete' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byComplete"
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 0, Needed = 1}}},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
+                [6] = {Id = 6, level = 5, IsComplete = function() return 1 end},
+                [7] = {Id = 7, level = 10, IsComplete = function() return 1 end},
+                [8] = {Id = 8, level = 5, IsComplete = function() return 1 end},
+                [9] = {Id = 9, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 9, Needed = 10}}},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [6] = "D",
+                    [8] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({2, 8, 6, 7, 9, 3, 5, 4, 1}, sortedIds)
+        end)
+
+        it("should return quest IDs correctly sorted for 'byCompleteReversed' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byCompleteReversed"
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 0, Needed = 1}}},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
+                [6] = {Id = 6, level = 5, IsComplete = function() return 1 end},
+                [7] = {Id = 7, level = 10, IsComplete = function() return 1 end},
+                [8] = {Id = 8, level = 5, IsComplete = function() return 1 end},
+                [9] = {Id = 9, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 9, Needed = 10}}},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [6] = "D",
+                    [8] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({1, 3, 5, 4, 9, 2, 8, 6, 7}, sortedIds)
+        end)
+
+        it("should return quest IDs correctly sorted for 'byLevel' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byLevel"
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 5, IsComplete = function() return 1 end},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [3] = "D",
+                    [5] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({2, 6, 1, 5, 3, 4}, sortedIds)
+        end)
+
+        it("should return quest IDs correctly sorted for 'byLevelReversed' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byLevelReversed"
+            QuestiePlayer.currentQuestlog = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 5, IsComplete = function() return 1 end},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [3] = "D",
+                    [5] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({4, 1, 5, 3, 2, 6}, sortedIds)
         end)
     end)
 end)

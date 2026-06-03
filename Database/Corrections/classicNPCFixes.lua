@@ -623,7 +623,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{44.16,73.83}}},
         },
         [3535] = { -- Blackmoss the Fetid
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{43.955,29.557},{42.427,37.837},{43.26,27.02}}},
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{42.81,28.39},{43.96,29.56},{42.43,37.84},{43.26,27.02}}},
         },
         [3537] = { -- Zixil <Merchant Supreme>
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{55.38,34.71}}},
@@ -664,6 +664,9 @@ function QuestieNPCFixes:Load()
         [3654] = { -- Mutanus the Devourer
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
+        },
+        [3655] = { -- Mad Magglish
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{46.46,35.47},{46.83,34.66},{45.69,33.62}}},
         },
         [3657] = { -- Sentinel Elissa Starbreeze
             [npcKeys.questStarts] = {965,1684},

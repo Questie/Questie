@@ -194,6 +194,30 @@ local soundsOptionsLocales = {
         ["zhCN"] = "播放任务目标进度和完成音效的延迟（以秒为单位，默认：%s）。如果听到重复音效，请将此数值调高",
         ["zhTW"] = "播放任務目標進度及完成音效的延遲（以秒為單位，預設：%s）。如果聽到重複音效，請將此數值調高",
     },
+    ["Sound Channel"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Audiokanal",
+        ["esES"] = "Canal de sonido",
+        ["esMX"] = "Canal de sonido",
+        ["frFR"] = "Canal audio",
+        ["koKR"] = "사운드 채널",
+        ["ptBR"] = "Canal de som",
+        ["ruRU"] = "Звуковой канал",
+        ["zhCN"] = "声道",
+        ["zhTW"] = "聲道",
+    },
+    ["The sound channel used for Questie's notification sounds."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Der Audio Kanal, um Questie Töne abzuspielen.",
+        ["esES"] = "El canal de sonido usado para los sonidos de notificación de Questie.",
+        ["esMX"] = "El canal de sonido usado para los sonidos de notificación de Questie.",
+        ["frFR"] = "Le canal audio utilisé pour les sons de notification de Questie.",
+        ["koKR"] = "Questie 알림음에 사용되는 사운드 채널입니다.",
+        ["ptBR"] = "O canal de som usado para os sons de notificação do Questie.",
+        ["ruRU"] = "Звуковой канал, используемый для уведомлений Questie",
+        ["zhCN"] = "用于Questie通知音效的声道",
+        ["zhTW"] = "Questie 通知音效所使用的聲道",
+    },
 }
 
 for k, v in pairs(soundsOptionsLocales) do
