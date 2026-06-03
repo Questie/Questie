@@ -59,6 +59,7 @@ local trackerMarginLeft = 14
 local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
 local lastAchieveId = GetTime()
+local lastTomTomUpdate = 0
 local durabilityInitialPosition
 
 local voiceOverInitialPosition
@@ -1582,7 +1583,8 @@ function QuestieTracker:Update()
         end)
     end
 
-    if Questie.db.profile.autoSetTomTom and IsAddOnLoaded("TomTom") then
+    if Questie.db.profile.autoSetTomTom and IsAddOnLoaded("TomTom") and (GetTime() - lastTomTomUpdate) >= 1.0 then
+        lastTomTomUpdate = GetTime()
         TrackerUtils:AutoSetTomTomClosestQuest()
     end
 end

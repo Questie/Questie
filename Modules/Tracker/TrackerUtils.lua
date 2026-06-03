@@ -138,6 +138,9 @@ function TrackerUtils:AutoSetTomTomClosestQuest()
     end
     if bestSpawn then
         TrackerUtils:SetTomTomTarget(bestName, bestZone, bestSpawn[1], bestSpawn[2])
+    elseif Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then
+        TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+        Questie.db.char._tom_waypoint = nil
     end
 end
 
