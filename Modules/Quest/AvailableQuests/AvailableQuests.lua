@@ -600,6 +600,8 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starter.name,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        isDungeonQuest = QuestieDB.IsDungeonQuest(quest.Id),
+                        isRaidQuest = QuestieDB.IsRaidQuest(quest.Id),
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -645,6 +647,8 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starter.name,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        isDungeonQuest = QuestieDB.IsDungeonQuest(quest.Id),
+                        isRaidQuest = QuestieDB.IsRaidQuest(quest.Id),
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
