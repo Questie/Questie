@@ -204,15 +204,14 @@ end
 function QuestieJourney:SetupKeybinding()
     _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
 
-    -- Only ever attempt to set the default keybind once, so we never fight a user
-    -- who later changes or removes their bindings.
+    -- Only ever attempt to set the default keybind once, so we never fight a user who later changes or removes their bindings
     if Questie.db.global.journeyKeybindDefaultApplied then
         return
     end
     Questie.db.global.journeyKeybindDefaultApplied = true
 
     local currentBinding = GetBindingKey("QUESTIE_TOGGLE_JOURNEY")
-    if not currentBinding and not C_KeyBindings.GetBindingByKey("SEMICOLON") then
+    if not currentBinding and not C_KeyBindings.GetBindingByKey(";") then
         SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
         Questie:Debug(Questie.DEBUG_INFO, "Set default keybind ';' for Questie Journey")
     end
