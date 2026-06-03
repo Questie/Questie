@@ -118,7 +118,7 @@ local function loadFullDatabase()
     coYield()
     QuestieCorrections:Initialize()
 
-    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. l10n("..."))
+    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townsfolk") .. l10n("..."))
     coYield()
     Townsfolk.Initialize()
 

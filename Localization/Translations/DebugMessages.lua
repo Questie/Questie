@@ -362,7 +362,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "初始化语系",
         ["zhTW"] = "正在初始化語系",
     },
-    ["Initializing townfolks"] = {
+    ["Initializing townsfolk"] = {
         ["enUS"] = true,
         ["deDE"] = "Initialisiere Stadtbewohner",
         ["esES"] = "Inicializando ciudadanos",
