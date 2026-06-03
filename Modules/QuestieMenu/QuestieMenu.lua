@@ -101,10 +101,9 @@ local function getNpcTitle(id, key)
     if (not subName) then
         local trainerName = QuestieProfessions.GetTrainerName(key)
         if trainerName then
-            subName = _G[trainerName:upper()] or _G["CHARACTER_PROFESSION_" .. trainerName:upper()] or l10n(trainerName)
+            subName = l10n(trainerName)
         else
-            local globalName = _townsfolkGlobalMap[tostring(key)]
-            subName = (globalName and _G[globalName]) or _G[tostring(key):upper()] or l10n(tostring(key))
+            subName = l10n(tostring(key))
         end
     end
 
