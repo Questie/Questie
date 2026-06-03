@@ -275,7 +275,7 @@ local secondaryProfessions = {
 function QuestieMenu.buildTailoringSubmenu()
     return {
         {
-            text = _G["TAILORING"] or _G["CHARACTER_PROFESSION_TAILORING"] or l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
+            text = _G["CHARACTER_PROFESSION_TAILORING"] or l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
             func = function()
                 Questie.db.profile.townsfolkConfig[professionKeys.TAILORING] = not Questie.db.profile.townsfolkConfig[professionKeys.TAILORING]
                 toggle(professionKeys.TAILORING)
@@ -397,7 +397,7 @@ function QuestieMenu:Show(hideDelay)
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.profile.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text= _G["MINIMAP_TRACKING_TRAINER_PROFESSION"] or "Profession Trainers", func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildProfessionMenu(), notCheckable=true})
+    tinsert(menuTable, {text= _G["MINIMAP_TRACKING_TRAINER_PROFESSION"], func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildProfessionMenu(), notCheckable=true})
     tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildVendorMenu(), notCheckable=true})
 
     tinsert(menuTable, div)
