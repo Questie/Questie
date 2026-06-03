@@ -451,6 +451,7 @@ globals = {
     "C_Item.RequestLoadItemDataByID",
     "C_Item.UnlockItem",
     "C_KeyBindings.GetCustomBindingType",
+    "C_KeyBindings.GetBindingByKey",
     "C_LootHistory.CanMasterLoot",
     "C_LootHistory.GetExpiration",
     "C_LootHistory.GetItem",
