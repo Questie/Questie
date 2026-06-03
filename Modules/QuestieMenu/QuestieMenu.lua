@@ -36,6 +36,24 @@ local tinsert = tinsert
 
 local professionKeys = QuestieProfessions.professionKeys
 
+local _townsfolkGlobalMap = {
+    ["Repair"] = "MINIMAP_TRACKING_REPAIR",
+    ["Auctioneer"] = "MINIMAP_TRACKING_AUCTIONEER",
+    ["Banker"] = "MINIMAP_TRACKING_BANKER",
+    ["Battlemaster"] = "MINIMAP_TRACKING_BATTLEMASTER",
+    ["Flight Master"] = "MINIMAP_TRACKING_FLIGHTMASTER",
+    ["Innkeeper"] = "MINIMAP_TRACKING_INNKEEPER",
+    ["Stable Master"] = "MINIMAP_TRACKING_STABLEMASTER",
+    ["Mailbox"] = "MINIMAP_TRACKING_MAILBOX",
+    ["Class Trainer"] = "MINIMAP_TRACKING_TRAINER_CLASS",
+    ["Profession Trainers"] = "MINIMAP_TRACKING_TRAINER_PROFESSION",
+    ["Barber"] = "MINIMAP_TRACKING_BARBER",
+    ["Ammo"] = "MINIMAP_TRACKING_VENDOR_AMMO",
+    ["Food"] = "MINIMAP_TRACKING_VENDOR_FOOD",
+    ["Poisons"] = "MINIMAP_TRACKING_VENDOR_POISON",
+    ["Reagents"] = "MINIMAP_TRACKING_VENDOR_REAGENT",
+}
+
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
     ["Meeting Stones"] = QuestieLib.AddonPath.."Icons\\mstone.blp",
@@ -43,22 +61,21 @@ local _townsfolk_texturemap = {
     ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
-    ["Mailbox"] = QuestieLib.AddonPath.."Icons\\mailbox.blp",
+    ["Mailbox"] = "Interface\\Minimap\\tracking\\mailbox",
     ["Moonwell"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
     ["Profession Trainers"] = "Interface\\Minimap\\tracking\\profession",
-    ["Ammo"] = 132382,--select(10, GetItemInfo(2515)) -- sharp arrow
+    ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
     ["Potions"] = 134831,--select(10, GetItemInfo(929)) -- Healing Potion
     ["Trade Goods"] = 132912,--select(10, GetItemInfo(2321)) -- thread
-    ["Drink"] = 134712,--select(10, GetItemInfo(8766)) -- morning glory dew
-    ["Food"] = 133964,--select(10, GetItemInfo(4540)) -- bread
+    ["Food"] = "Interface\\Minimap\\tracking\\food",
     ["Pet Food"] = 132165,--select(3, GetSpellInfo(6991)) -- feed pet
     ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
-    ["Barber"] = QuestieLib.AddonPath.."Icons\\barber.png",
+    ["Barber"] = "Interface\\Minimap\\tracking\\barbershop",
     ["Arcane Reforger"] = QuestieLib.AddonPath.."Icons\\reforge.png",
-    ["Transmogrifier"] = QuestieLib.AddonPath.."Icons\\transmogrify.png",
+    ["Transmogrifier"] = "Interface\\Minimap\\tracking\\transmogrifier",
     ["Battle Pet Trainer"] = QuestieLib.AddonPath.."Icons\\petbattle.png",
-    ["Reagents"] = QuestieLib.AddonPath.."Icons\\reagents.blp",
+    ["Reagents"] = "Interface\\Minimap\\tracking\\reagents",
     ["Poisons"] = "Interface\\Minimap\\tracking\\poisons",
     [professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
     [professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
@@ -90,9 +107,10 @@ local function getNpcTitle(id, key)
     if (not subName) then
         local trainerName = QuestieProfessions.GetTrainerName(key)
         if trainerName then
-            subName = l10n(trainerName)
+            subName = _G[trainerName:upper()] or _G["CHARACTER_PROFESSION_" .. trainerName:upper()] or l10n(trainerName)
         else
-            subName = l10n(tostring(key))
+            local globalName = _townsfolkGlobalMap[tostring(key)]
+            subName = (globalName and _G[globalName]) or _G[tostring(key):upper()] or l10n(tostring(key))
         end
     end
 
@@ -129,7 +147,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                         QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n("Meeting Stone"), "white") .. "|n" .. dungeonName .. " " .. levelRange, {}, true, key)
                     end
                 else
-                    QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n(key), "white"), {}, true, key)
+                    QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(_townsfolkGlobalMap[key] and _G[_townsfolkGlobalMap[key]] or key, "white"), {}, true, key)
                 end
             end
         else
@@ -173,9 +191,11 @@ end
 
 local function build(key)
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+    local globalName = _townsfolkGlobalMap[key]
+    local text = (globalName and _G[globalName]) or l10n(tostring(key))
 
     return {
-        text = l10n(tostring(key)),
+        text = text,
         func = function() Questie.db.profile.townsfolkConfig[key] = not Questie.db.profile.townsfolkConfig[key] toggle(key) end,
         icon=icon,
         notCheckable=false,
@@ -255,7 +275,7 @@ local secondaryProfessions = {
 function QuestieMenu.buildTailoringSubmenu()
     return {
         {
-            text = l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
+            text = _G["TAILORING"] or _G["CHARACTER_PROFESSION_TAILORING"] or l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
             func = function()
                 Questie.db.profile.townsfolkConfig[professionKeys.TAILORING] = not Questie.db.profile.townsfolkConfig[professionKeys.TAILORING]
                 toggle(professionKeys.TAILORING)
@@ -287,7 +307,8 @@ function QuestieMenu.buildProfessionMenu()
     local secondaryProfMenuSorted = {}
     local profMenuData = {}
     for key, _ in pairs(Questie.db.global.professionTrainers) do
-        local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
+        local professionName = QuestieProfessions:GetProfessionName(key)
+        local localizedKey = _G[professionName:upper()] or _G["CHARACTER_PROFESSION_" .. professionName:upper()] or l10n(professionName)
         if key == professionKeys.TAILORING then
             profMenuData[localizedKey] = {
                 text = localizedKey,
@@ -323,7 +344,8 @@ function QuestieMenu.buildVendorMenu()
     local vendorMenuSorted = {}
     local vendorMenuData = {}
     for key, _ in pairs(Questie.db.char.vendorList) do
-        local localizedKey = l10n(tostring(key))
+        local label = _G[_townsfolkGlobalMap[tostring(key)]] or l10n(tostring(key))
+        local localizedKey = label
         vendorMenuData[localizedKey] = build(key)
         tinsert(vendorMenuSorted, localizedKey)
     end
@@ -353,13 +375,13 @@ function QuestieMenu:Show(hideDelay)
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
-    tinsert(menuTable, { text= l10n("Available Quest"), func = function()
+    tinsert(menuTable, { text= _G["AVAILABLE_QUESTS"], func = function()
         local value = not Questie.db.profile.enableAvailable
         Questie.db.profile.enableAvailable = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.profile.enableAvailable, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
+    tinsert(menuTable, { text= _G["MINIMAP_TRACKING_TRIVIAL_QUESTS"], func = function()
         local value = Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_ALL
         if value then
             Questie.db.profile.lowLevelStyle = Questie.LOWLEVEL_NONE
@@ -375,7 +397,7 @@ function QuestieMenu:Show(hideDelay)
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.profile.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text= l10n("Profession Trainers"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildProfessionMenu(), notCheckable=true})
+    tinsert(menuTable, {text= _G["MINIMAP_TRACKING_TRAINER_PROFESSION"] or "Profession Trainers", func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildProfessionMenu(), notCheckable=true})
     tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildVendorMenu(), notCheckable=true})
 
     tinsert(menuTable, div)

@@ -34,12 +34,17 @@ function QuestieProfessions:Init()
     -- Generate professionTable with translations for all available locals.
     -- We need the translated values because the API returns localized profession names
     for professionId, professionName in pairs(professionNames) do
-        for _, translation in pairs(l10n.translations[professionName]) do
-            if translation == true then
-                professionTable[professionName] = professionId
-            else
-                professionTable[translation] = professionId
+        local translations = l10n.translations[professionName]
+        if translations then
+            for _, translation in pairs(translations) do
+                if translation == true then
+                    professionTable[professionName] = professionId
+                else
+                    professionTable[translation] = professionId
+                end
             end
+        else
+            professionTable[professionName] = professionId
         end
     end
 

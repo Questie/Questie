@@ -538,16 +538,16 @@ local function _UpdateAmmoVendors() -- call on change weapon
 end
 
 local function _UpdateFoodDrink()
-    local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455} -- water item ids -- TO DO: update this?
-    local food = { -- food item ids (from wowhead) -- TO DO: update this?
+    local food = { -- food & drink item ids (from wowhead) -- TO DO: update this?
         8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
         2287,4601,422,16166,4537,4602,4542,4594,1707,4540,414,4538,4607,17119,19225,2070,21552,787,4544,18632,16167,4606,16170,
         4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223,
-        27857,27854,20857,27858,27856,29448,27855,29451,30355,28486,29450,29393,29394,29449,29452
+        27857,27854,20857,27858,27856,29448,27855,29451,30355,28486,29450,29393,29394,29449,29452,
+        159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455
     }
 
     Questie.db.char.vendorList["Food"] = _reformatVendors(Townsfolk:PopulateVendors(food, {}, true))
-    Questie.db.char.vendorList["Drink"] = _reformatVendors(Townsfolk:PopulateVendors(drink, {}, true))
+    Questie.db.char.vendorList["Drink"] = nil
 end
 
 function Townsfolk:UpdatePlayerVendors() -- call on levelup
