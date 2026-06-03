@@ -52,6 +52,7 @@ local _townsfolkGlobalMap = {
     ["Food"] = "MINIMAP_TRACKING_VENDOR_FOOD",
     ["Poisons"] = "MINIMAP_TRACKING_VENDOR_POISON",
     ["Reagents"] = "MINIMAP_TRACKING_VENDOR_REAGENT",
+    ["Transmogrifier"] = "MINIMAP_TRACKING_TRANSMOGRIFIER",
 }
 
 local _townsfolk_texturemap = {

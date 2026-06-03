@@ -124,18 +124,6 @@ local townsfolkLocales = {
         ["zhCN"] = "武器大师",
         ["zhTW"] = "武器大師",
     },
-    ["Transmogrifier"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Transmogrifizierer",
-        ["esES"] = "Transfigurador",
-        ["esMX"] = "Transfigurador",
-        ["frFR"] = "Transmogrifieur",
-        ["koKR"] = "형상변환사",
-        ["ptBR"] = "Transmogrificador",
-        ["ruRU"] = "Трансмогрификатор",
-        ["zhCN"] = "幻化师",
-        ["zhTW"] = "塑形師",
-    },
     ["Arcane Reforger"] = {
         ["enUS"] = true,
         ["deDE"] = "Arkaner Umschmieder",
