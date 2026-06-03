@@ -340,6 +340,9 @@ function QuestieObjectFixes:Load()
         [179703] = { -- Cache of the Firelord
             [objectKeys.questStarts] = {7632},
         },
+        [179888] = { -- Rizzle's Guarded Plans
+            [objectKeys.questStarts] = {1194},
+        },
         [179908] = {
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9}}},
         },
