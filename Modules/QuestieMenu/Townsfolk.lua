@@ -534,7 +534,7 @@ local function _UpdateAmmoVendors() -- call on change weapon
         return
     end
 
-    Questie.db.char.vendorList["Ammo"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
+    Questie.db.char.vendorList["Ammunition"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
 end
 
 local function _UpdateFoodDrink()
