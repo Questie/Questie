@@ -30,8 +30,6 @@ local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
----@type DistanceUtils
-local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
