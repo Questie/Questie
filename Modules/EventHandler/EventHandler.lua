@@ -68,14 +68,29 @@ local FACTION_STANDING_CHANGED_PATTERN
 function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
 
+    local questPOIHandled = false
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-        if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
-            -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
-            -- Don't use WorldMapFrame:Hide() that will cause taint issues
-            HideUIPanel(WorldMapFrame)
-            tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
+        if not questPOIHandled then
+            if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
+                HideUIPanel(WorldMapFrame)
+                tinsert(UISpecialFrames, "WorldMapFrame")
+            end
+            questPOIHandled = true
         end
-        Questie:UnregisterEvent("PLAYER_ENTERING_WORLD")
+
+        C_Timer.After(8, function()
+            local isInInstance = IsInInstance()
+            if isInInstance and Questie.db.profile.trackerEnabled then
+                if Questie.db.profile.minimizeTrackerInInstances then
+                    trackerMinimizedByDungeon = true
+                    QuestieTracker:Collapse()
+                end
+                if Questie.db.profile.hideTrackerInInstances then
+                    trackerHiddenByDungeon = true
+                    QuestieTracker:Hide()
+                end
+            end
+        end)
     end)
 end
 
@@ -326,29 +341,6 @@ function EventHandler:RegisterLateEvents()
         -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
             QuestieCombatQueue:Queue(WatchFrameHook.Hide)
-        end)
-    end
-
-    if Expansions.Current >= Expansions.MoP then
-        Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-
-            local isInInstance = IsInInstance()
-            if isInInstance then
-                if Questie.db.profile.minimizeTrackerInInstances then
-                    trackerMinimizedByDungeon = true
-                    QuestieCombatQueue:Queue(function()
-                        QuestieTracker:Collapse()
-                    end)
-                end
-                if Questie.db.profile.hideTrackerInInstances then
-                    trackerHiddenByDungeon = true
-                    QuestieTracker:Hide()
-                end
-            end
         end)
     end
 
