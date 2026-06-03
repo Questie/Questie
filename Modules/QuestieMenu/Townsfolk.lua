@@ -461,6 +461,11 @@ function Townsfolk.Initialize()
 end
 
 function Townsfolk.PostBoot() -- post DB boot (use queries here)
+    -- Clear class-restricted vendor entries that may persist from saved variables
+    Questie.db.char.vendorList["Reagents"] = nil
+    Questie.db.char.vendorList["Poisons"] = nil
+    Questie.db.char.vendorList["Ammunition"] = nil
+
     local reagents = {
         17031, 17032, 17020, -- MAGE
         17030, -- SHAMAN
@@ -476,14 +481,18 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
     end
 
     -- populate vendor IDs from db
-    if #reagents > 0 then
-        Questie.db.char.vendorList["Reagents"] = _reformatVendors(Townsfolk:PopulateVendors(reagents))
+    if playerClass == "MAGE" or playerClass == "WARLOCK" or playerClass == "PRIEST" or playerClass == "SHAMAN" or playerClass == "DRUID" or playerClass == "PALADIN" or playerClass == "DEATHKNIGHT" then
+        if #reagents > 0 then
+            Questie.db.char.vendorList["Reagents"] = _reformatVendors(Townsfolk:PopulateVendors(reagents))
+        end
     end
 
     if Expansions.Current < Expansions.MoP then
         -- Beginning with WotLK, all poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
         local poisons = Expansions.Current >= Expansions.Wotlk and {2892} or {5140,2928,8924,5173,2930,8923}
-        Questie.db.char.vendorList["Poisons"] = _reformatVendors(Townsfolk:PopulateVendors(poisons))
+        if playerClass == "ROGUE" then
+            Questie.db.char.vendorList["Poisons"] = _reformatVendors(Townsfolk:PopulateVendors(poisons))
+        end
     end
 
     Questie.db.char.vendorList["Trade Goods"] = _reformatVendors(Townsfolk:PopulateVendors({
@@ -553,7 +562,10 @@ end
 
 function Townsfolk:UpdatePlayerVendors() -- call on levelup
     _UpdateFoodDrink()
-    _UpdateAmmoVendors()
+
+    if playerClass == "HUNTER" or playerClass == "ROGUE" or playerClass == "WARRIOR" then
+        _UpdateAmmoVendors()
+    end
 
     if playerClass == "HUNTER" then
         _UpdatePetFood()
