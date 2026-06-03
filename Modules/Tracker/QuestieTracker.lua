@@ -1581,6 +1581,10 @@ function QuestieTracker:Update()
             end)
         end)
     end
+
+    if Questie.db.profile.autoSetTomTom and IsAddOnLoaded("TomTom") then
+        TrackerUtils:AutoSetTomTomClosestQuest()
+    end
 end
 
 function QuestieTracker:UpdateFormatting()

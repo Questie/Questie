@@ -30,6 +30,8 @@ local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
@@ -116,6 +118,28 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
         end
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
         Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, { title = title, crazy = true, from = "Questie" })
+    end
+end
+
+function TrackerUtils:AutoSetTomTomClosestQuest()
+    if not TomTom or not TomTom.AddWaypoint or not Questie.db.profile.autoSetTomTom then
+        return
+    end
+    local bestDistance = 999999999
+    local bestSpawn, bestZone, bestName
+    for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
+        if quest then
+            local spawn, zone, name, dist = DistanceUtils.GetNearestSpawnForQuest(quest)
+            if spawn and dist < bestDistance then
+                bestDistance = dist
+                bestSpawn = spawn
+                bestZone = zone
+                bestName = name
+            end
+        end
+    end
+    if bestSpawn then
+        TrackerUtils:SetTomTomTarget(bestName, bestZone, bestSpawn[1], bestSpawn[2])
     end
 end
 
