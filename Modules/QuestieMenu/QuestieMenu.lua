@@ -266,35 +266,6 @@ local secondaryProfessions = {
     [professionKeys.FISHING] = true
 }
 
-function QuestieMenu.buildTailoringSubmenu()
-    return {
-        {
-            text = l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
-            func = function()
-                Questie.db.profile.townsfolkConfig[professionKeys.TAILORING] = not Questie.db.profile.townsfolkConfig[professionKeys.TAILORING]
-                toggle(professionKeys.TAILORING)
-            end,
-            icon = _townsfolk_texturemap[professionKeys.TAILORING],
-            notCheckable = false,
-            checked = Questie.db.profile.townsfolkConfig[professionKeys.TAILORING],
-            isNotRadio = true,
-            keepShownOnClick = true
-        },
-        {
-            text = l10n("Moonwell"),
-            func = function()
-                Questie.db.profile.townsfolkConfig["Moonwell"] = not Questie.db.profile.townsfolkConfig["Moonwell"]
-                toggle("Moonwell")
-            end,
-            icon = "Interface\\Icons\\inv_fabric_moonrag_01",
-            notCheckable = false,
-            checked = Questie.db.profile.townsfolkConfig["Moonwell"],
-            isNotRadio = true,
-            keepShownOnClick = true
-        }
-    }
-end
-
 function QuestieMenu.buildProfessionMenu()
     local profMenu = {}
     local profMenuSorted = {}
@@ -303,18 +274,7 @@ function QuestieMenu.buildProfessionMenu()
     for key, _ in pairs(Questie.db.global.professionTrainers) do
         local professionName = QuestieProfessions:GetProfessionName(key)
         local localizedKey = _G[professionName:upper()] or l10n(professionName)
-        if key == professionKeys.TAILORING then
-            profMenuData[localizedKey] = {
-                text = localizedKey,
-                func = function() end,
-                keepShownOnClick = true,
-                hasArrow = true,
-                menuList = QuestieMenu.buildTailoringSubmenu(),
-                notCheckable = true
-            }
-        else
-            profMenuData[localizedKey] = buildLocalized(key, localizedKey)
-        end
+        profMenuData[localizedKey] = buildLocalized(key, localizedKey)
         if secondaryProfessions[key] then
             tinsert(secondaryProfMenuSorted, localizedKey)
         else
@@ -352,11 +312,17 @@ end
 
 function QuestieMenu.buildTownsfolkMenu()
     local townsfolkMenu = {}
+    local seenKeys = {}
     for key in pairs(Questie.db.global.townsfolk) do
         tinsert(townsfolkMenu, build(key))
+        seenKeys[key] = true
     end
     for key in pairs(Questie.db.char.townsfolk) do
         tinsert(townsfolkMenu, build(key))
+        seenKeys[key] = true
+    end
+    if not seenKeys["Moonwell"] then
+        tinsert(townsfolkMenu, build("Moonwell"))
     end
     return townsfolkMenu
 end
