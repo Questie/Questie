@@ -879,6 +879,9 @@ function QuestieQuestFixes:Load()
             [questKeys.availableUntilCompleted] = 96,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [1105] = {
+            [questKeys.disabledByQuest] = 1179,
+        },
         [1106] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1104,1105},
@@ -886,6 +889,18 @@ function QuestieQuestFixes:Load()
         [1107] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1104,1105}, -- #2444
+        },
+        [1108] = { -- Indurium
+            [questKeys.nextQuestInChain] = 1137,
+        },
+        [1112] = { -- Parts for Kravel
+            [questKeys.nextQuestInChain] = 1114,
+        },
+        [1114] = { -- Delivery to the Gnomes
+            [questKeys.nextQuestInChain] = 1115,
+        },
+        [1117] = { -- Rumors for Kravel
+            [questKeys.nextQuestInChain] = 1118,
         },
         [1118] = {
             [questKeys.inGroupWith] = {}, -- #886
@@ -925,6 +940,9 @@ function QuestieQuestFixes:Load()
         [1136] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use a Fresh Carcass at the Flame of Uzel"), 0, {{"object", 1770}}}},
         },
+        [1137] = { -- News for Fizzle
+            [questKeys.nextQuestInChain] = 1190,
+        },
         [1141] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{35.71,44.68}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Darkshore Groupers"),}},
         },
@@ -948,6 +966,10 @@ function QuestieQuestFixes:Load()
         },
         [1193] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1348
+        },
+        [1194] = { -- Rizzle's Schematics
+            [questKeys.startedBy] = {nil,{20805,179888}},
+            [questKeys.nextQuestInChain] = 1192,
         },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.NONE, -- horde CAN get this quest

@@ -3667,7 +3667,12 @@ function QuestieTBCQuestFixes:Load()
         [10552] = { -- Allegiance to the Scryers
             [questKeys.nextQuestInChain] = 10553,
         },
-        [10554] = {
+        [10553] = { -- Voren'thal the Seer
+            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.requiredMinRep] = {934,0},
+        },
+        [10554] = { -- Ishanah
+            [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.requiredMinRep] = {932,0},
         },
         [10556] = {

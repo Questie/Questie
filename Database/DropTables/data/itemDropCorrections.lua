@@ -233,6 +233,9 @@ QuestieItemDropCorrections.Era = {
         [3730] = DropKeys.WOWHEAD,
         [3879] = DropKeys.WOWHEAD,
     },
+    [5669] = { -- Dust Devil Debris
+        [832] = 50.0, -- not 100%, not 5%. Could be more than 50%
+    },
     [6443] = { -- Deviate Hide
         [3630] = DropKeys.WOWHEAD,
         [3631] = DropKeys.WOWHEAD,
@@ -259,6 +262,9 @@ QuestieItemDropCorrections.Era = {
     [6652] = { -- Reagent Pouch
         [3199] = 75,
     },
+    [6915] = { -- Large Soran'ruk Fragment
+        [3855] = 20, -- empyrical value
+    },
     [7267] = { -- Pristine Spider Silk
         [930] = 18,
         [949] = 100,
@@ -271,6 +277,13 @@ QuestieItemDropCorrections.Era = {
     },
     [11479] = { -- Un'Goro Stomper Pelt
         [6513] = DropKeys.WOWHEAD,
+    },
+    [11829] = { -- Un'Goro Ash
+        [6520] = 100.0,
+        [6521] = 100.0,
+        [9376] = 10.0,
+        [14460] = 100.0,
+        [14461] = 10.0,
     },
     [15852] = { -- Kodo Horn
         [3234] = 100,

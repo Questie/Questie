@@ -231,6 +231,7 @@ function QuestieOptionsDefaults:Load()
             lastDailyRequestDate = "",
             questieLocale = "enUS",
             questieLocaleDiff = false,
+            journeyKeybindDefaultApplied = false,
             sod = {}, -- Special place for the SoD database
         }
     }
