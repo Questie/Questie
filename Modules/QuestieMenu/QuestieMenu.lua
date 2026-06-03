@@ -268,7 +268,7 @@ local secondaryProfessions = {
 function QuestieMenu.buildTailoringSubmenu()
     return {
         {
-            text = _G["CHARACTER_PROFESSION_TAILORING"] or l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
+            text = l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
             func = function()
                 Questie.db.profile.townsfolkConfig[professionKeys.TAILORING] = not Questie.db.profile.townsfolkConfig[professionKeys.TAILORING]
                 toggle(professionKeys.TAILORING)
@@ -301,7 +301,7 @@ function QuestieMenu.buildProfessionMenu()
     local profMenuData = {}
     for key, _ in pairs(Questie.db.global.professionTrainers) do
         local professionName = QuestieProfessions:GetProfessionName(key)
-        local localizedKey = _G[professionName:upper()] or _G["CHARACTER_PROFESSION_" .. professionName:upper()] or l10n(professionName)
+        local localizedKey = _G[professionName:upper()] or l10n(professionName)
         if key == professionKeys.TAILORING then
             profMenuData[localizedKey] = {
                 text = localizedKey,
