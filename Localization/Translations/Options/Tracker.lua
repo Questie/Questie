@@ -349,8 +349,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 던전, 공격대 또는 전장에 들어갈 때 Questie 추적기가 자동으로 최소화됩니다.",
         ["ptBR"] = "Se marcado, o rastreador será minimizado automaticamente ao entrar em uma masmorra, raide ou campo de batalha.",
         ["ruRU"] = "Когда включено, трекер будет автоматически свернут при входе в подземелье, рейд или на поле боя",
-        ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动最小化。",
-        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動最小化。",
+        ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动最小化",
+        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動最小化",
     },
     ---------------------------------------------------------
     ["Hide In Combat"] = {
@@ -399,8 +399,8 @@ local trackerOptionsLocales = {
         ["koKR"] = "이 옵션을 선택하면 던전, 공격대 또는 전장에 들어갈 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se marcado, o rastreador será automaticamente ocultado ao entrar em uma masmorra, raide ou campo de batalha.",
         ["ruRU"] = "Когда включено, при входе в подземелье, рейд или на поле боя трекер будет автоматически скрыт",
-        ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动隐藏。",
-        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動隱藏。",
+        ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动隐藏",
+        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動隱藏",
     },
     ---------------------------------------------------------
     ["Hide In Pet Battles"] = {
