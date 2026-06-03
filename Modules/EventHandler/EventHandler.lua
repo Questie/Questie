@@ -74,6 +74,7 @@ function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
         if not questPOIHandled then
             if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
+            -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
                 HideUIPanel(WorldMapFrame)
                 tinsert(UISpecialFrames, "WorldMapFrame")
             end
