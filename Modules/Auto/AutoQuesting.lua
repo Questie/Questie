@@ -70,20 +70,18 @@ function AutoQuesting.OnQuestDetail()
         source = "player"
     end
 
-    if source == "player" then
-        if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
+    if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") and source == "player" then
+        DeclineQuest()
+        Questie:Print(l10n("Automatically rejected quest shared by player."))
+        return
+    end
+
+    if source == "player" and Questie.db.profile.autoreject_nonfriend then
+        local playerName = UnitName("questnpc")
+        if playerName and _IsFriend(playerName) == false then
             DeclineQuest()
             Questie:Print(l10n("Automatically rejected quest shared by player."))
             return
-        end
-
-        if Questie.db.profile.autoreject_nonfriend then
-            local playerName = UnitName("questnpc")
-            if playerName and _IsFriend(playerName) == false then
-                DeclineQuest()
-                Questie:Print(l10n("Automatically rejected quest shared by player."))
-                return
-            end
         end
     end
 
