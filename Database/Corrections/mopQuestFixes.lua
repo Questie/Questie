@@ -10049,6 +10049,7 @@ function MopQuestFixes.Load()
         },
         [33098] = { -- Secrets of the Timeless Isle
             [questKeys.objectivesText] = {"Collect 5000 Timeless Coins from creatures and events on the Timeless Isle."},
+            [questKeys.objectives] = {nil,{{440009}}},
         },
         [33133] = { -- Warforged Seals
             [questKeys.objectives] = {nil,{{440004}}},

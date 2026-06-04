@@ -194,14 +194,11 @@ function QuestieQuestFixes:Load()
         [251] = { -- Translate Abercrombie's Note
             [questKeys.nextQuestInChain] = 401,
         },
-        [252] = {
+        [252] = { -- Translation to Ello
             [questKeys.nextQuestInChain] = 253,
         },
-        [254] = {
-            [questKeys.parentQuest] = 253,
+        [254] = { -- Digging Through the Dirt
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
-            [questKeys.exclusiveTo] = {253}, -- #2173
-            [questKeys.preQuestSingle] = {252},
         },
         [258] = { -- A Hunter's Challenge
             [questKeys.nextQuestInChain] = 271,

@@ -65,6 +65,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13153,13154,13156,13195,13196,13197,13198},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [254] = { -- Digging Through the Dirt
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [403] = {
             [questKeys.startedBy] = {nil,{269}},
         },
