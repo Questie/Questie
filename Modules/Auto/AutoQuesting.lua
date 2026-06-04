@@ -85,7 +85,7 @@ function AutoQuesting.OnQuestDetail()
         end
     end
 
-    if (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
+    if (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsQuestAllowedToAccept()) then
         return
     end
 
@@ -100,12 +100,12 @@ function AutoQuesting.OnQuestDetail()
 end
 
 function AutoQuesting.OnQuestGreeting()
-    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() then
         shouldRunAuto = false
         return
     end
 
-    if Questie.db.profile.autocomplete then
+    if Questie.db.profile.autocomplete and _IsAllowedNPC() then
         for index = 1, GetNumActiveQuests() do
             local quest, isComplete = GetActiveTitle(index)
             if isComplete then
@@ -124,12 +124,12 @@ function AutoQuesting.OnQuestGreeting()
 end
 
 function AutoQuesting.OnGossipShow()
-    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() then
         shouldRunAuto = false
         return
     end
 
-    if Questie.db.profile.autocomplete then
+    if Questie.db.profile.autocomplete and _IsAllowedNPC() then
         local completeQuests = QuestieCompat.GetActiveQuests()
         if #completeQuests > 0 then
             local firstCompleteQuestIndex = 0

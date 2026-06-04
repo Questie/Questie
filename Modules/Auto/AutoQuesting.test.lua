@@ -469,7 +469,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
         end)
 
-        it("should not accept available quest when NPC is not allowed to accept quests from", function()
+        it("should accept available quest even when NPC is not allowed for turn-in", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.QuestieCompat.GetAvailableQuests = function()
@@ -478,7 +478,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
