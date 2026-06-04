@@ -10104,7 +10104,14 @@ function MopQuestFixes.Load()
         [33104] = { -- A Pandaren Legend
             [questKeys.preQuestGroup] = {33098,33100},
         },
+        [33332] = { -- Hints From The Past
+            [questKeys.preQuestSingle] = {33228},
+        },
+        [33333] = { -- Timeless Treasures
+            [questKeys.preQuestSingle] = {33332},
+        },
         [33335] = { -- The Last Emperor
+            [questKeys.preQuestSingle] = {33333},
             [questKeys.objectives] = {{{73303,nil,Questie.ICON_TYPE_TALK}}},
         },
         [33336] = { -- The Essence of Time
