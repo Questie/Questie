@@ -667,6 +667,10 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.68,92.06}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
         },
+        [213756] = { -- Wagon
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{54.44,59.9}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [213767] = { -- Hidden Treasure
             [objectKeys.spawns] = {[zoneIDs.CAVERN_OF_ENDLESS_ECHOES] = {{31.36,52.86}}},
             [objectKeys.zoneID] = zoneIDs.CAVERN_OF_ENDLESS_ECHOES,
@@ -1252,11 +1256,17 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DUROTAR] = {{53.09,43.59}}}, -- has more spawns
             [objectKeys.zoneID] = zoneIDs.DUROTAR,
         },
-        [221268] = { -- Meeting Stone (Siege of Orgrimmar) TODO: Enable correct spawns, once SoO is available
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = {},
-            --[objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
-            --[objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{69.8,45.5}}},
+        [221268] = { -- Meeting Stone (Siege of Orgrimmar)
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{69.01,44.87}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [221376] = { -- Old Sign Fragment
+            [objectKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{52.09,46.15}}},
+            [objectKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [221413] = { -- Lin Family Scroll
+            [objectKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT] = {{69.1,57.46},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
         },
         [223819] = { -- Traps for quest Tread Lightly
             [objectKeys.name] = "Riverblade Spike Trap", -- DB says "unk name" and wowhead does not know this object, so we reuse it.
