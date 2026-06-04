@@ -7240,10 +7240,16 @@ function MopNpcFixes.Load()
             [npcKeys.questEnds] = {32507},
         },
         [110019] = { -- Bad Feeling, Worse Result
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT] = {{73.27,65.24},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
+            [npcKeys.questEnds] = {33107},
+        },
+        [110020] = { -- Secrets Lost, Forever?
+            [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT] = {{73.27,65.24},{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
             [npcKeys.questStarts] = {33021},
-            [npcKeys.questEnds] = {33107},
         },
     }
 end

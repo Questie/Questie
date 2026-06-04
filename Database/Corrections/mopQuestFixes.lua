@@ -10049,11 +10049,14 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,nil,{{74841}},nil,{{{63154,63156,63158},63154,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [32974] = { -- Rolo's Riddle
+            [questKeys.startedBy] = {nil,nil,{102225}},
+        },
         [33018] = { -- Noodle Secrets Long Forgotten
             [questKeys.preQuestGroup] = {31467,31471,31474,31476,31477,31480},
         },
         [33021] = { -- Secrets Lost, Forever?
-            [questKeys.startedBy] = {{110019}},
+            [questKeys.startedBy] = {{110020}},
         },
         [33022] = { -- Catch and Carry
             [questKeys.startedBy] = {{64231}},
@@ -10062,6 +10065,9 @@ function MopQuestFixes.Load()
         },
         [33024] = { -- Is That A Real Measurement?
             [questKeys.preQuestSingle] = {33022},
+        },
+        [33027] = { -- The Secret Ingredient Is...
+            [questKeys.objectives] = {{{64231,nil,Questie.ICON_TYPE_TALK},{72984}}},
         },
         [33087] = { -- Meet Me Back at the Inn
             [questKeys.startedBy] = {{71426}},
@@ -10114,6 +10120,9 @@ function MopQuestFixes.Load()
             [questKeys.requiredSpell] = 119467,
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.objectives] = {{{73082,nil,Questie.ICON_TYPE_PET_BATTLE}}},
+        },
+        [33146] = { -- Noodle Time
+            [questKeys.preQuestSingle] = {33027},
         },
         [33161] = { -- A Timeless Tour
             [questKeys.preQuestSingle] = {33160},
@@ -10183,6 +10192,9 @@ function MopQuestFixes.Load()
         [33354] = { -- Den Mother's Demise
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+        },
+        [33358] = { -- Noodle Time: Bonus
+            [questKeys.preQuestSingle] = {33027},
         },
         [33374] = { -- Path of the Mistwalker
             [questKeys.preQuestSingle] = {33341},

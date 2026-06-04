@@ -1378,6 +1378,9 @@ function MopItemFixes.Load()
         [98004] = { -- Kor'kron Command Posts
             [itemKeys.npcDrops] = {71271},
         },
+        [102225] = { -- Rolo's Riddle
+            [itemKeys.startQuest] = 32974,
+        },
         [105891] = { -- Moonfang's Pelt
             [itemKeys.startQuest] = 33354,
             [itemKeys.npcDrops] = {71992},
