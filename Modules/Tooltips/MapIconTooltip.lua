@@ -237,20 +237,19 @@ function MapIconTooltip:Show()
                     if Questie.db.profile.enableTooltipsNextInChain then
                         local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
                         if shift and breadcrumbs then
-                            local firstBreadcrumb = true
+                            local breadcrumbCount = 0
                             for _, breadcrumbId in ipairs(breadcrumbs) do
                                 if not QuestieCorrections.hiddenQuests[breadcrumbId] then
                                     local breadcrumbQuest = QuestieDB.GetQuest(breadcrumbId)
                                     if breadcrumbQuest then
                                         local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbQuest.level, "")
                                         self:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
-
-                                        if firstBreadcrumb then
-                                            self:AddLine("|TInterface\\Addons\\Questie\\Icons\\breadcrumb.png:16|t " .. l10n("Breadcrumb Quests"), 0.86, 0.86, 0.86)
-                                            firstBreadcrumb = false
-                                        end
+                                        breadcrumbCount = breadcrumbCount + 1
                                     end
                                 end
+                            end
+                            if breadcrumbCount > 0 then
+                                self:AddLine("|TInterface\\Addons\\Questie\\Icons\\breadcrumb.png:16|t " .. l10n("Breadcrumb Quests"), 0.86, 0.86, 0.86)
                             end
                         end
                     end
