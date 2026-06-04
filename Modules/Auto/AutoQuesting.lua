@@ -16,13 +16,9 @@ local function _IsFriend(playerName)
     local found = false
     pcall(function()
         local basePlayerName = strsplit("-", playerName)
-        print("DEBUG _IsFriend: basePlayerName=", tostring(basePlayerName))
 
         if C_FriendList then
-            print("DEBUG _IsFriend: C_FriendList methods:")
-            for k,v in pairs(C_FriendList) do print("  ", k, type(v)) end
             local numFriends = type(C_FriendList.GetNumFriends) == "function" and C_FriendList.GetNumFriends() or 0
-            print("DEBUG _IsFriend: C_FriendList.GetNumFriends()=", tostring(numFriends))
             if type(numFriends) == "number" and numFriends > 0 then
                 for i = 1, numFriends do
                     local friendInfo
@@ -31,47 +27,35 @@ local function _IsFriend(playerName)
                     elseif type(C_FriendList.GetFriendInfo) == "function" then
                         friendInfo = C_FriendList.GetFriendInfo(i)
                     end
-                    print("DEBUG _IsFriend: C_FriendList i=", i, "friendInfo type=", type(friendInfo))
                     if friendInfo then
                         local friendName
                         if type(friendInfo) == "table" then
-                            print("DEBUG _IsFriend: table keys:")
-                            for k,v in pairs(friendInfo) do print("  ", k, "=", tostring(v)) end
                             friendName = friendInfo.name
                         elseif type(friendInfo) == "string" then
                             friendName = friendInfo
                         end
                         if friendName and strsplit("-", friendName) == basePlayerName then
-                            print("DEBUG _IsFriend: C_FriendList MATCH!")
                             found = true
                             return
                         end
                     end
                 end
             end
-        else
-            print("DEBUG _IsFriend: C_FriendList path skipped")
         end
 
         if not found and type(GetFriendInfo) == "function" then
             local numFriends = GetNumFriends()
-            print("DEBUG _IsFriend: legacy GetNumFriends()=", tostring(numFriends))
             if type(numFriends) == "number" and numFriends > 0 then
                 for i = 1, numFriends do
                     local name = GetFriendInfo(i)
-                    print("DEBUG _IsFriend: legacy i=", i, "name=", tostring(name))
                     if name and strsplit("-", name) == basePlayerName then
-                        print("DEBUG _IsFriend: legacy MATCH!")
                         found = true
                         return
                     end
                 end
             end
-        else
-            print("DEBUG _IsFriend: legacy path skipped, found=", tostring(found), "GetFriendInfo exists=", tostring(type(GetFriendInfo) == "function"))
         end
     end)
-    print("DEBUG _IsFriend: returning found=", tostring(found))
     return found
 end
 
