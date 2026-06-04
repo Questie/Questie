@@ -103,7 +103,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         name = function() return l10n("Daily Quests"); end,
                         desc = function() return l10n("Automatically accept daily quests from NPCs."); end,
                         width = 1,
-                        disabled = function() return Expansions.Current < Expansions.Tbc end,
+                        hidden = function() return Expansions.Current < Expansions.Tbc end,
                         get = function () return Questie.db.profile.autoAccept.npc_daily; end,
                         set = function (_, value)
                             Questie.db.profile.autoAccept.npc_daily = value
@@ -202,7 +202,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         name = function() return l10n("Daily Quests"); end,
                         desc = function() return l10n("Automatically accept daily quests from players."); end,
                         width = 1,
-                        disabled = function() return Expansions.Current < Expansions.Tbc end,
+                        hidden = function() return Expansions.Current < Expansions.Tbc end,
                         get = function () return Questie.db.profile.autoAccept.player_daily; end,
                         set = function (_, value)
                             Questie.db.profile.autoAccept.player_daily = value
