@@ -79,7 +79,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         type = "toggle",
                         order = 1,
                         name = function() return l10n("Normal Quests"); end,
-                        desc = function() return l10n("Automatically accept normal (one-time) quests from NPCs."); end,
+                        desc = function() return l10n("Automatically accept normal quests from NPCs."); end,
                         width = 1,
                         get = function () return Questie.db.profile.autoAccept.npc_normal; end,
                         set = function (_, value)
@@ -178,7 +178,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         type = "toggle",
                         order = 1,
                         name = function() return l10n("Normal Quests"); end,
-                        desc = function() return l10n("Automatically accept normal (one-time) quests from players."); end,
+                        desc = function() return l10n("Automatically accept normal quests from players."); end,
                         width = 1,
                         get = function () return Questie.db.profile.autoAccept.player_normal; end,
                         set = function (_, value)
