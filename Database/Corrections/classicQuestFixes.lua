@@ -191,6 +191,12 @@ function QuestieQuestFixes:Load()
         [249] = {
             [questKeys.startedBy] = {{313},{31}},
         },
+        [251] = { -- Translate Abercrombie's Note
+            [questKeys.nextQuestInChain] = 401,
+        },
+        [252] = {
+            [questKeys.nextQuestInChain] = 253,
+        },
         [254] = {
             [questKeys.parentQuest] = 253,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
