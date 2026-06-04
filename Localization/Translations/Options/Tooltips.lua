@@ -98,18 +98,6 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "即使满级时也显示任务经验值",
         ["zhTW"] = "滿等後也要顯示任務的經驗值",
     },
-    ["Breadcrumb"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Brotkrümel",
-        ["esES"] = "Misión de rastro",
-        ["esMX"] = "Misión de migajas",
-        ["frFR"] = "Quête d'orientation",
-        ["koKR"] = "길잡이 퀘스트",
-        ["ptBR"] = "Missão de encaminhamento",
-        ["ruRU"] = "Предзадание",
-        ["zhCN"] = "线索任务",
-        ["zhTW"] = "線索任務",
-    },
     ["Next in chain"] = {
         ["enUS"] = true,
         ["deDE"] = "Folge-Quests in der Reihe",
