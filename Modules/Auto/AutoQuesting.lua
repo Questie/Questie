@@ -116,9 +116,8 @@ function AutoQuesting.OnQuestGreeting()
     end
 
     if Questie.db.profile.autoAccept.enabled then
-        if GetNumAvailableQuests() > 0 then
+        if GetNumAvailableQuests() == 1 then
             SelectAvailableQuest(1)
-            return
         end
     end
 end
@@ -150,36 +149,8 @@ function AutoQuesting.OnGossipShow()
 
     if Questie.db.profile.autoAccept.enabled then
         local availableQuests = QuestieCompat.GetAvailableQuests()
-        if #availableQuests > 0 then
-            local indexToAccept = 0
-            local toggles = Questie.db.profile.autoAccept
-
-            for i = 1, #availableQuests do
-                local quest = availableQuests[i]
-                if quest.questID and quest.questID > 0 then
-                    if _ShouldAcceptByType(quest.questID, toggles, "npc") then
-                        indexToAccept = i
-                        break
-                    end
-                else
-                    -- Fallback for old API without questID
-                    local shouldAccept = true
-                    if (not toggles.npc_trivial) and quest.isTrivial then
-                        shouldAccept = false
-                    end
-                    if (not toggles.npc_repeatable) and quest.repeatable then
-                        shouldAccept = false
-                    end
-                    if shouldAccept then
-                        indexToAccept = i
-                        break
-                    end
-                end
-            end
-
-            if indexToAccept > 0 then
-                QuestieCompat.SelectAvailableQuest(indexToAccept)
-            end
+        if #availableQuests == 1 then
+            QuestieCompat.SelectAvailableQuest(1)
         end
     end
 end
@@ -270,9 +241,13 @@ _ShouldAcceptByType = function(questId, toggles, source)
 
     local function toggle(key)
         if source == "npc" then
-            return toggles["npc_" .. key]
+            if toggles["npc_" .. key] ~= nil then
+                return toggles["npc_" .. key]
+            end
         elseif source == "player" then
-            return toggles["player_" .. key]
+            if toggles["player_" .. key] ~= nil then
+                return toggles["player_" .. key]
+            end
         end
         return toggles[key]
     end
