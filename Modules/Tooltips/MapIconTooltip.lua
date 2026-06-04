@@ -233,6 +233,28 @@ function MapIconTooltip:Show()
 
                 if questData.title ~= nil then
                     local quest = QuestieDB.GetQuest(questData.questId)
+
+                    if Questie.db.profile.enableTooltipsNextInChain then
+                        local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
+                        if shift and breadcrumbs then
+                            local firstBreadcrumb = true
+                            for _, breadcrumbId in ipairs(breadcrumbs) do
+                                if not QuestieCorrections.hiddenQuests[breadcrumbId] then
+                                    local breadcrumbQuest = QuestieDB.GetQuest(breadcrumbId)
+                                    if breadcrumbQuest then
+                                        local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbQuest.level, "")
+                                        self:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
+
+                                        if firstBreadcrumb then
+                                            self:AddLine("|TInterface\\Addons\\Questie\\Icons\\breadcrumb.blp:16|t " .. l10n("Breadcrumb"), 0.86, 0.86, 0.86)
+                                            firstBreadcrumb = false
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+
                     local rewardString = ""
                     if (quest and shift) then
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.profile.showQuestXpAtMaxLevel)
@@ -661,7 +683,7 @@ end
 ---@param questId QuestId
 ---@param questLevel number
 ---@return string, string
-function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel)
+function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel, indent)
     local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false);
 
     local nextQuestXpRewardString = "";
@@ -676,5 +698,6 @@ function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel)
         nextQuestMoneyRewardString = Questie:Colorize(l10n("(") .. GetCoinTextureString(moneyReward) .. l10n(")") .. " ", "white")
     end
 
-    return "      " .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString
+    local prefix = indent or "      "
+    return prefix .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString
 end
