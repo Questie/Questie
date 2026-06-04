@@ -10051,6 +10051,13 @@ function MopQuestFixes.Load()
         },
         [32974] = { -- Rolo's Riddle
             [questKeys.startedBy] = {nil,nil,{102225}},
+            [questKeys.objectives] = {{{72751,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [32975] = { -- Rolo's Riddle
+            [questKeys.objectives] = {{{72754,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [32976] = { -- Rolo's Riddle
+            [questKeys.objectives] = {{{72755,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [33018] = { -- Noodle Secrets Long Forgotten
             [questKeys.preQuestGroup] = {31467,31471,31474,31476,31477,31480},
@@ -10153,6 +10160,24 @@ function MopQuestFixes.Load()
         [33232] = { -- Journey to the Timeless Isle
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {33230},
+        },
+        [33234] = { -- Meaty Crane Leg
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33235] = { -- Great Turtle Meat
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33236] = { -- Heavy Yak Flank
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33238] = { -- Thick Tiger Haunch
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33239] = { -- Pristine Firestorm Egg
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33250] = { -- A Time-Lost Treasure
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [33252] = { -- A Winter Veil Gift
             [questKeys.startedBy] = {nil,{187236}},
