@@ -10101,6 +10101,9 @@ function MopQuestFixes.Load()
         [33252] = { -- A Winter Veil Gift
             [questKeys.startedBy] = {nil,{187236}},
         },
+        [33104] = { -- A Pandaren Legend
+            [questKeys.preQuestGroup] = {33098,33100},
+        },
         [33335] = { -- The Last Emperor
             [questKeys.objectives] = {{{73303,nil,Questie.ICON_TYPE_TALK}}},
         },
