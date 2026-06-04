@@ -5,43 +5,114 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
+local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn, _ShouldAcceptByType
 
 local shouldRunAuto = true
 
+local function _IsFriend(playerName)
+    if not playerName then
+        return nil
+    end
+    local found = false
+    pcall(function()
+        local basePlayerName = strsplit("-", playerName)
+        print("DEBUG _IsFriend: basePlayerName=", tostring(basePlayerName))
+
+        if C_FriendList then
+            print("DEBUG _IsFriend: C_FriendList methods:")
+            for k,v in pairs(C_FriendList) do print("  ", k, type(v)) end
+            local numFriends = type(C_FriendList.GetNumFriends) == "function" and C_FriendList.GetNumFriends() or 0
+            print("DEBUG _IsFriend: C_FriendList.GetNumFriends()=", tostring(numFriends))
+            if type(numFriends) == "number" and numFriends > 0 then
+                for i = 1, numFriends do
+                    local friendInfo
+                    if type(C_FriendList.GetFriendInfoByIndex) == "function" then
+                        friendInfo = C_FriendList.GetFriendInfoByIndex(i)
+                    elseif type(C_FriendList.GetFriendInfo) == "function" then
+                        friendInfo = C_FriendList.GetFriendInfo(i)
+                    end
+                    print("DEBUG _IsFriend: C_FriendList i=", i, "friendInfo type=", type(friendInfo))
+                    if friendInfo then
+                        local friendName
+                        if type(friendInfo) == "table" then
+                            print("DEBUG _IsFriend: table keys:")
+                            for k,v in pairs(friendInfo) do print("  ", k, "=", tostring(v)) end
+                            friendName = friendInfo.name
+                        elseif type(friendInfo) == "string" then
+                            friendName = friendInfo
+                        end
+                        if friendName and strsplit("-", friendName) == basePlayerName then
+                            print("DEBUG _IsFriend: C_FriendList MATCH!")
+                            found = true
+                            return
+                        end
+                    end
+                end
+            end
+        else
+            print("DEBUG _IsFriend: C_FriendList path skipped")
+        end
+
+        if not found and type(GetFriendInfo) == "function" then
+            local numFriends = GetNumFriends()
+            print("DEBUG _IsFriend: legacy GetNumFriends()=", tostring(numFriends))
+            if type(numFriends) == "number" and numFriends > 0 then
+                for i = 1, numFriends do
+                    local name = GetFriendInfo(i)
+                    print("DEBUG _IsFriend: legacy i=", i, "name=", tostring(name))
+                    if name and strsplit("-", name) == basePlayerName then
+                        print("DEBUG _IsFriend: legacy MATCH!")
+                        found = true
+                        return
+                    end
+                end
+            end
+        else
+            print("DEBUG _IsFriend: legacy path skipped, found=", tostring(found), "GetFriendInfo exists=", tostring(type(GetFriendInfo) == "function"))
+        end
+    end)
+    print("DEBUG _IsFriend: returning found=", tostring(found))
+    return found
+end
+
 function AutoQuesting.OnQuestDetail()
-    if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
+    if not shouldRunAuto then
+        return
+    end
+
+    local source = "npc"
+    local unitType = strsplit("-", UnitGUID("questnpc"))
+    if unitType == "Player" then
+        source = "player"
+    end
+
+    if source == "player" then
+        if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
+            DeclineQuest()
+            Questie:Print(l10n("Automatically rejected quest shared by player."))
+            return
+        end
+
+        if Questie.db.profile.autoreject_nonfriend then
+            local playerName = UnitName("questnpc")
+            if playerName and _IsFriend(playerName) == false then
+                DeclineQuest()
+                Questie:Print(l10n("Automatically rejected quest shared by player."))
+                return
+            end
+        end
+    end
+
+    if (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
 
     local questId = GetQuestID()
     if questId == 0 then
-        -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
         return
     end
 
-    if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
-        local unitType = strsplit("-", UnitGUID("questnpc"))
-        if unitType == "Player" then
-            DeclineQuest()
-            Questie:Print(l10n("Automatically rejected quest shared by player."))
-            return
-        end
-    end
-
-    local doAcceptQuest = true
-    if (not Questie.db.profile.autoAccept.trivial) then
-        local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
-        doAcceptQuest = (not QuestieDB.IsTrivial(questLevel))
-    end
-    if (not Questie.db.profile.autoAccept.repeatable) then
-        doAcceptQuest = (not QuestieDB.IsRepeatable(questId))
-    end
-    if (not Questie.db.profile.autoAccept.pvp) then
-        doAcceptQuest = (not QuestieDB.IsPvPQuest(questId))
-    end
-
-    if doAcceptQuest then
+    if _ShouldAcceptByType(questId, Questie.db.profile.autoAccept, source) then
         AcceptQuest()
     end
 end
@@ -63,11 +134,9 @@ function AutoQuesting.OnQuestGreeting()
     end
 
     if Questie.db.profile.autoAccept.enabled then
-        local availableQuestsCount = GetNumAvailableQuests()
-        if availableQuestsCount > 0 then
-            -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
-            -- TODO: Do we want to call SelectAvailableQuest in QuestieCompat.SelectAvailableQuest when C_GossipInfo.GetAvailableQuests() is an empty table?
+        if GetNumAvailableQuests() > 0 then
             SelectAvailableQuest(1)
+            return
         end
     end
 end
@@ -101,31 +170,24 @@ function AutoQuesting.OnGossipShow()
         local availableQuests = QuestieCompat.GetAvailableQuests()
         if #availableQuests > 0 then
             local indexToAccept = 0
+            local toggles = Questie.db.profile.autoAccept
 
-            if Questie.db.profile.autoAccept.trivial and Questie.db.profile.autoAccept.repeatable then
-                indexToAccept = 1
-            else
-                for i = 1, #availableQuests do
+            for i = 1, #availableQuests do
+                local quest = availableQuests[i]
+                if quest.questID and quest.questID > 0 then
+                    if _ShouldAcceptByType(quest.questID, toggles, "npc") then
+                        indexToAccept = i
+                        break
+                    end
+                else
+                    -- Fallback for old API without questID
                     local shouldAccept = true
-                    if (not Questie.db.profile.autoAccept.trivial) then
-                        local isTrivial = availableQuests[i].isTrivial
-                        if isTrivial then
-                            shouldAccept = false
-                        end
+                    if (not toggles.npc_trivial) and quest.isTrivial then
+                        shouldAccept = false
                     end
-                    if (not Questie.db.profile.autoAccept.repeatable) then
-                        local isRepeatable = availableQuests[i].repeatable
-                        if isRepeatable then
-                            shouldAccept = false
-                        end
+                    if (not toggles.npc_repeatable) and quest.repeatable then
+                        shouldAccept = false
                     end
-                    if (not Questie.db.profile.autoAccept.pvp) then
-                        local isPvP = QuestieDB.IsPvPQuest(availableQuests[i].questID)
-                        if isPvP then
-                            shouldAccept = false
-                        end
-                    end
-
                     if shouldAccept then
                         indexToAccept = i
                         break
@@ -156,9 +218,17 @@ function AutoQuesting.OnQuestProgress()
     CompleteQuest()
 end
 
-function AutoQuesting.OnQuestAcceptConfirm()
+function AutoQuesting.OnQuestAcceptConfirm(_, playerName)
     if (not Questie.db.profile.autoAccept.enabled) then
         return
+    end
+
+    if Questie.db.profile.autoreject_nonfriend and playerName then
+        if _IsFriend(playerName) == false then
+            DeclineQuest()
+            Questie:Print(l10n("Automatically rejected quest shared by player."))
+            return
+        end
     end
 
     ConfirmAcceptQuest()
@@ -207,6 +277,48 @@ function AutoQuesting.IsModifierHeld()
     end
 
     return bindTruthTable[bind]()
+end
+
+---@param questId number
+---@param toggles table @Toggles table from autoAccept (root or prefixed with npc_/player_)
+---@param source string|nil @"npc" or "player" to use prefixed toggles, nil for root toggles
+---@return boolean
+_ShouldAcceptByType = function(questId, toggles, source)
+    source = source or ""
+
+    local function toggle(key)
+        if source == "npc" then
+            return toggles["npc_" .. key]
+        elseif source == "player" then
+            return toggles["player_" .. key]
+        end
+        return toggles[key]
+    end
+
+    -- Check trivial (level-based)
+    if not toggle("trivial") and QuestieDB.IsTrivial(QuestieDB.QueryQuestSingle(questId, "questLevel")) then
+        return false
+    end
+
+    -- Determine quest types
+    local isDaily = QuestieDB.IsDailyQuest(questId)
+    local isRepeatable = QuestieDB.IsRepeatable(questId) and not isDaily
+    local isDungeon = QuestieDB.IsDungeonQuest(questId)
+    local isRaid = QuestieDB.IsRaidQuest(questId)
+    local isPvP = QuestieDB.IsPvPQuest(questId)
+    local isEvent = QuestieDB.IsActiveEventQuest(questId)
+    local isNormal = not (isRepeatable or isDaily or isDungeon or isRaid or isPvP or isEvent)
+
+    -- Accept if any matching type toggle is enabled
+    if isDaily and toggle("daily") then return true end
+    if isRepeatable and toggle("repeatable") then return true end
+    if isDungeon and toggle("dungeon") then return true end
+    if isRaid and toggle("raid") then return true end
+    if isPvP and toggle("pvp") then return true end
+    if isEvent and toggle("event") then return true end
+    if isNormal and toggle("normal") then return true end
+
+    return false
 end
 
 _IsAllowedNPC = function()

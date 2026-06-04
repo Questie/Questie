@@ -45,8 +45,29 @@ describe("AutoQuesting", function()
             enabled = true,
             trivial = false,
             repeatable = true,
+            daily = true,
+            dungeon = true,
+            raid = true,
             pvp = true,
-            rejectSharedInBattleground = false
+            event = true,
+            normal = true,
+            rejectSharedInBattleground = false,
+            npc_trivial = false,
+            npc_repeatable = true,
+            npc_daily = true,
+            npc_dungeon = true,
+            npc_raid = true,
+            npc_pvp = true,
+            npc_event = true,
+            npc_normal = true,
+            player_trivial = false,
+            player_repeatable = true,
+            player_daily = true,
+            player_dungeon = true,
+            player_raid = true,
+            player_pvp = true,
+            player_event = true,
+            player_normal = true,
         }
         Questie.db.profile.autoModifier = "disabled"
         Questie.Print = spy.new(function() end)
@@ -70,11 +91,13 @@ describe("AutoQuesting", function()
         _G.SelectAvailableQuest = spy.new(function() end)
         _G.CompleteQuest = spy.new(function() end)
         _G.GetQuestID = function() return 0 end
+        _G.GetAvailableQuestInfo = spy.new(function() return "Test Quest", 1, false, 1, false, false, false end)
+        _G.GetNumAvailableQuests = spy.new(function() return 0 end)
         _G.IsQuestCompletable = spy.new(function() return true end)
         _G.GetNumQuestChoices = function() return 1 end
         _G.GetQuestReward = spy.new(function() end)
         _G.IsShiftKeyDown = function() return false end
-        _G.UnitGUID = spy.new(function() end)
+        _G.UnitGUID = spy.new(function() return "Creature-0-0-0-0-0-1" end)
 
         _G.C_Timer = {
             After = function(_, callback)
@@ -84,6 +107,14 @@ describe("AutoQuesting", function()
 
         QuestieDB = require("Database.QuestieDB")
         require("Localization.l10n") -- We don't need the return value
+        QuestieDB.IsDailyQuest = spy.new(function() return false end)
+        QuestieDB.IsRepeatable = spy.new(function() return false end)
+        QuestieDB.IsDungeonQuest = spy.new(function() return false end)
+        QuestieDB.IsRaidQuest = spy.new(function() return false end)
+        QuestieDB.IsPvPQuest = spy.new(function() return false end)
+        QuestieDB.IsActiveEventQuest = spy.new(function() return false end)
+        QuestieDB.IsTrivial = spy.new(function() return false end)
+        QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
 
         AutoQuesting = require("Modules.Auto.AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
@@ -156,7 +187,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
-            Questie.db.profile.autoAccept.trivial = true
+            Questie.db.profile.autoAccept.npc_trivial = true
             _G.GetQuestID = function() return 123 end
 
             AutoQuesting.OnQuestDetail()
@@ -175,19 +206,18 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept repeatable quest when setting is enabled", function()
-            Questie.db.profile.autoAccept.trivial = true
-            Questie.db.profile.autoAccept.repeatable = true
+            Questie.db.profile.autoAccept.npc_trivial = true
+            Questie.db.profile.autoAccept.npc_repeatable = true
             _G.GetQuestID = function() return 123 end
-            QuestieDB.IsRepeatable = spy.new()
+            QuestieDB.IsRepeatable = spy.new(function() return true end)
 
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
-            assert.spy(QuestieDB.IsRepeatable).was_not.called()
         end)
 
         it("should not accept repeatable quest when setting is disabled", function()
-            Questie.db.profile.autoAccept.repeatable = false
+            Questie.db.profile.autoAccept.npc_repeatable = false
             _G.GetQuestID = function() return 123 end
             QuestieDB.IsRepeatable = spy.new(function() return true end)
 
@@ -198,19 +228,18 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept PvP quest when setting is enabled", function()
-            Questie.db.profile.autoAccept.trivial = true
-            Questie.db.profile.autoAccept.pvp = true
+            Questie.db.profile.autoAccept.npc_trivial = true
+            Questie.db.profile.autoAccept.npc_pvp = true
             _G.GetQuestID = function() return 123 end
-            QuestieDB.IsPvPQuest = spy.new()
+            QuestieDB.IsPvPQuest = spy.new(function() return true end)
 
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
-            assert.spy(QuestieDB.IsPvPQuest).was_not.called()
         end)
 
         it("should not accept PvP quest when setting is disabled", function()
-            Questie.db.profile.autoAccept.pvp = false
+            Questie.db.profile.autoAccept.npc_pvp = false
             _G.GetQuestID = function() return 123 end
             QuestieDB.IsPvPQuest = spy.new(function() return true end)
 
@@ -221,7 +250,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept PvP quests when setting is enabled but questId is 0 - happens when some other addon is faster", function()
-            Questie.db.profile.autoAccept.pvp = false
+            Questie.db.profile.autoAccept.npc_pvp = false
             _G.GetQuestID = function() return 0 end
             QuestieDB.IsPvPQuest = spy.new()
 
@@ -259,7 +288,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was_not.called()
             assert.spy(Questie.Print).was_not.called()
-            assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
+            assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was_not.called()
         end)
 
@@ -289,7 +318,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was_not.called()
             assert.spy(Questie.Print).was_not.called()
-            assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
+            assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
     end)
@@ -297,6 +326,7 @@ describe("AutoQuesting", function()
     describe("OnQuestGreeting", function()
         it("should accept quests", function()
             _G.GetNumAvailableQuests = function() return 2 end
+            _G.GetAvailableQuestInfo = function() return "Test Quest", 1, false, 1, false, false, false end
             Questie.db.profile.autocomplete = false
 
             AutoQuesting.OnQuestGreeting()
@@ -452,7 +482,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
-            Questie.db.profile.autoAccept.trivial = true
+            Questie.db.profile.autoAccept.npc_trivial = true
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({isTrivial = true})}
             end
@@ -483,7 +513,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept repeatable quest when setting is enabled", function()
-            Questie.db.profile.autoAccept.repeatable = true
+            Questie.db.profile.autoAccept.npc_repeatable = true
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({repeatable = true})}
             end
@@ -494,7 +524,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept repeatable quest when setting is disabled", function()
-            Questie.db.profile.autoAccept.repeatable = false
+            Questie.db.profile.autoAccept.npc_repeatable = false
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({repeatable = true})}
             end
@@ -505,7 +535,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should skip repeatable quest when setting is disabled and accept non-repeatable", function()
-            Questie.db.profile.autoAccept.repeatable = false
+            Questie.db.profile.autoAccept.npc_repeatable = false
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({repeatable = true}), getAvailableTestQuest({})}
             end
@@ -516,9 +546,9 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept PvP quest when setting is enabled", function()
-            Questie.db.profile.autoAccept.pvp = true
+            Questie.db.profile.autoAccept.npc_pvp = true
             _G.QuestieCompat.GetAvailableQuests = function()
-                return {getAvailableTestQuest({})}
+                return {getAvailableTestQuest({questID = 1})}
             end
             QuestieDB.IsPvPQuest = spy.new(function() return true end)
 
@@ -528,9 +558,9 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept PvP quest when setting is disabled", function()
-            Questie.db.profile.autoAccept.pvp = false
+            Questie.db.profile.autoAccept.npc_pvp = false
             _G.QuestieCompat.GetAvailableQuests = function()
-                return {getAvailableTestQuest({})}
+                return {getAvailableTestQuest({questID = 1})}
             end
             QuestieDB.IsPvPQuest = spy.new(function() return true end)
 
@@ -540,7 +570,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should skip PvP quest when setting is disabled and accept non-PvP", function()
-            Questie.db.profile.autoAccept.pvp = false
+            Questie.db.profile.autoAccept.npc_pvp = false
             _G.QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({questID = 1}), getAvailableTestQuest({questID = 2})}
             end
