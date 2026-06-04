@@ -197,10 +197,10 @@ local _AbandonQuest = function(questId, breadcrumbQuestId)
             SelectQuestLogEntry(questLogIndex)
             SetAbandonQuest()
             AbandonQuest()
+            local questLink = QuestieLink:GetQuestHyperLink(questId)
+            local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
+            Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s was not completed.", questLink, breadcrumbLink))
         end
-        local questLink = QuestieLink:GetQuestHyperLink(questId)
-        local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
-        Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s was not completed.", questLink, breadcrumbLink))
     end)
 end
 
