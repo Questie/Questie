@@ -10103,6 +10103,7 @@ function MopQuestFixes.Load()
         },
         [33104] = { -- A Pandaren Legend
             [questKeys.preQuestGroup] = {33098,33100},
+            [questKeys.objectives] = {{{72723,nil,Questie.ICON_TYPE_EVENT},{72723,nil,Questie.ICON_TYPE_TALK}}},
         },
         [33332] = { -- Hints From The Past
             [questKeys.preQuestSingle] = {33228},
