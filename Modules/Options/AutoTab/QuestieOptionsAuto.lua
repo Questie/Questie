@@ -90,7 +90,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         type = "toggle",
                         order = 2,
                         name = function() return l10n("Repeatable Quests"); end,
-                        desc = function() return l10n("Automatically accept repeatable (non-daily) quests from NPCs."); end,
+                        desc = function() return l10n("Automatically accept repeatable quests from NPCs."); end,
                         width = 1,
                         get = function () return Questie.db.profile.autoAccept.npc_repeatable; end,
                         set = function (_, value)
@@ -189,7 +189,7 @@ function QuestieOptions.tabs.auto:Initialize()
                         type = "toggle",
                         order = 2,
                         name = function() return l10n("Repeatable Quests"); end,
-                        desc = function() return l10n("Automatically accept repeatable (non-daily) quests from players."); end,
+                        desc = function() return l10n("Automatically accept repeatable quests from players."); end,
                         width = 1,
                         get = function () return Questie.db.profile.autoAccept.player_repeatable; end,
                         set = function (_, value)
