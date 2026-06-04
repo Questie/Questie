@@ -249,7 +249,7 @@ function MapIconTooltip:Show()
                                 end
                             end
                             if breadcrumbCount > 0 then
-                                self:AddLine("|TInterface\\Addons\\Questie\\Icons\\breadcrumb.png:16|t " .. l10n("Breadcrumb Quests"), 0.86, 0.86, 0.86)
+                                self:AddLine("|TInterface\\Addons\\Questie\\Icons\\breadcrumbtooltip.png:16|t " .. l10n("Breadcrumb Quests"), 0.86, 0.86, 0.86)
                             end
                         end
                     end
