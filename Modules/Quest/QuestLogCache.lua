@@ -361,6 +361,12 @@ function QuestLogCache.GetQuestObjectives(questId)
     return cache[questId].objectives
 end
 
+---@param questId QuestId
+---@return boolean
+function QuestLogCache.HasQuest(questId)
+    return cache[questId] and true or false
+end
+
 ---@return number @The amount of quests in the quest cache
 function QuestLogCache.GetQuestCount()
     return questCount
