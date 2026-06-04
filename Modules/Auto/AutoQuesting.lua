@@ -284,11 +284,11 @@ _ShouldAcceptByType = function(questId, toggles, source)
 
     -- Determine quest types
     local isDaily = QuestieDB.IsDailyQuest(questId)
-    local isRepeatable = QuestieDB.IsRepeatable(questId) and not isDaily
+    local isPvP = QuestieDB.IsPvPQuest(questId)
     local isDungeon = QuestieDB.IsDungeonQuest(questId)
     local isRaid = QuestieDB.IsRaidQuest(questId)
-    local isPvP = QuestieDB.IsPvPQuest(questId)
     local isEvent = QuestieDB.IsActiveEventQuest(questId)
+    local isRepeatable = QuestieDB.IsRepeatable(questId) and not isDaily and not isPvP
     local isNormal = not (isRepeatable or isDaily or isDungeon or isRaid or isPvP or isEvent)
 
     -- Accept if any matching type toggle is enabled
