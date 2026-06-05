@@ -1,5 +1,9 @@
 ---@class QuestiePartyObjectives : QuestieModule
 local QuestiePartyObjectives = QuestieLoader:CreateModule("QuestiePartyObjectives")
+---@class QuestiePartyObjectivesPrivate
+QuestiePartyObjectives.private = QuestiePartyObjectives.private or {}
+---@type QuestiePartyObjectivesPrivate
+local _QuestiePartyObjectives = QuestiePartyObjectives.private
 -------------------------
 --Import modules.
 -------------------------
