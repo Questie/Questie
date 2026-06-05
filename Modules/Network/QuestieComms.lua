@@ -20,6 +20,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -439,6 +441,7 @@ function QuestieComms:RemoveRemotePlayer(name)
             players[name] = nil
         end
     end
+    QuestiePartyObjectives:ScheduleUpdate()
 end
 
 function QuestieComms:SortRemotePlayers()
@@ -1005,6 +1008,7 @@ end
 
 function _QuestieComms:OnCommReceived(message, distribution, sender)
     pcall(_QuestieComms.OnCommReceived_unsafe, _QuestieComms, message, distribution, sender)
+    QuestiePartyObjectives:ScheduleUpdate()
 end
 
 function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
@@ -1089,6 +1093,7 @@ end
 function QuestieComms:ResetAll()
     QuestieComms.data:ResetAll()
     QuestieComms.remoteQuestLogs = {}
+    QuestiePartyObjectives:ScheduleUpdate()
 end
 
 return QuestieComms

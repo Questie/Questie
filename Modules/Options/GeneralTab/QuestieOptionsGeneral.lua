@@ -22,6 +22,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -94,6 +96,18 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (_, value)
                             Questie.db.profile.questAnnounceLocally = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Quest announce locally changed to:", value)
+                        end,
+                    },
+                    showPartyQuestObjectives = {
+                        type = "toggle",
+                        order = 7.35,
+                        name = function() return l10n("Show party members' quest objectives"); end,
+                        desc = function() return l10n("Show quest objectives from party members on the map and minimap, even for quests you don't have or have already completed."); end,
+                        width = 2.5,
+                        get = function () return Questie.db.profile.showPartyQuestObjectives end,
+                        set = function (_, value)
+                            Questie.db.profile.showPartyQuestObjectives = value
+                            QuestiePartyObjectives:Update()
                         end,
                     },
                     shareQuestsNearby = {

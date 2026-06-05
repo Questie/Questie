@@ -303,6 +303,30 @@ local socialOptionsLocales = {
         ["zhCN"] = "不在队伍时会用系统白色显示你的任务进度信息，其他玩家无法看到",
         ["zhTW"] = "不在隊伍中時會用系統白字顯示你的任務進度訊息，其他玩家無法看到",
     },
+    ["Show party members' quest objectives"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["Show quest objectives from party members on the map and minimap, even for quests you don't have or have already completed."] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(socialOptionsLocales) do
