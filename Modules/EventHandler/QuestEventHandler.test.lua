@@ -35,8 +35,6 @@ describe("QuestEventHandler", function()
     local QuestieAPI
     ---@type QuestEventHandler
     local QuestEventHandler
-    ---@type QuestiePartyObjectives
-    local QuestiePartyObjectives
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
@@ -58,7 +56,7 @@ describe("QuestEventHandler", function()
         dofile("Public/Enums.lua")
         QuestieAPI = require("Public.RegisterForQuestUpdates")
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
-        QuestiePartyObjectives = require("Modules.Network.QuestiePartyObjectives")
+        require("Modules.Network.QuestiePartyObjectives")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
 
