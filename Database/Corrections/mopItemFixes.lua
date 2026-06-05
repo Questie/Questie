@@ -1380,6 +1380,7 @@ function MopItemFixes.Load()
         },
         [102225] = { -- Rolo's Riddle
             [itemKeys.startQuest] = 32974,
+            [itemKeys.objectDrops] = {222684},
         },
         [105891] = { -- Moonfang's Pelt
             [itemKeys.startQuest] = 33354,

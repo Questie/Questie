@@ -10132,7 +10132,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {33027},
         },
         [33161] = { -- A Timeless Tour
-            [questKeys.preQuestSingle] = {33160},
+            [questKeys.preQuestSingle] = {33156,33160},
             [questKeys.objectives] = {{{73577,nil,Questie.ICON_TYPE_EVENT},{73576,nil,Questie.ICON_TYPE_EVENT},{73579,nil,Questie.ICON_TYPE_EVENT},{73578,nil,Questie.ICON_TYPE_EVENT},{73574,nil,Questie.ICON_TYPE_EVENT},{73575,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [33211] = { -- A Timeless Question
@@ -10143,7 +10143,7 @@ function MopQuestFixes.Load()
             [questKeys.objectives] = {{{73626,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [33228] = { -- Time In Your Hands
-            [questKeys.preQuestSingle] = {33160},
+            [questKeys.preQuestSingle] = {33156,33160},
             [questKeys.objectivesText] = {"Gather 1000 Timeless Coins and introduce yourself to Mistweaver Ai and Mistweaver Ku."},
             [questKeys.objectives] = {{{73305,nil,Questie.ICON_TYPE_TALK},{73306,nil,Questie.ICON_TYPE_TALK}},{{440009}}},
         },

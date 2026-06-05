@@ -6765,10 +6765,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{38,90.8},{38.4,93.2},{39,93.2},{39.2,91.4},{39.2,91.6},{39.8,93.6},{40,93}}},
         },
         [71939] = { -- Chi-Ro the Skytamer
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{21.92,39.75}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
         },
         [71940] = { -- Michi Windblossom
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.08,71.05}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
         },
         [71986] = { -- Cove Shark
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6942,20 +6944,30 @@ function MopNpcFixes.Load()
         [73348] = { -- Watcher Lara
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.13,71.64}}},
         },
+        [73353] = { -- Watcher Alundra
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22,40.94}}},
+        },
         [73386] = { -- Sentry Jienfo
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.3,71.8}}},
         },
+        [73398] = { -- Sentry Mimao
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.3,41.11}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+        },
         [73399] = { -- Sentry "Big Belly" Fong
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.06,72.23}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
         },
         [73401] = { -- Sentry Yinli
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.58,71.03}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR + npcFlags.REPAIR,
         },
         [73403] = { -- Sentry Dondao
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.16,40.21}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR + npcFlags.REPAIR,
         },
         [73422] = { -- Miss Jadepaw
-            [npcKeys.spawns] = {[5840]={{26.2,30.6},{26.4,32.2},{27,32},{27,33},{27,36.4},{27.4,33.6},{27.6,31.8},{27.6,32.6},{27.8,33.8}},[6141]={{27,32.2},{27.4,32.6},{27.8,32.6}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.2,30.6},{26.4,32.2},{27,32},{27,33},{27,36.4},{27.4,33.6},{27.6,31.8},{27.6,32.6},{27.8,33.8}},[6141]={{27,32.2},{27.4,32.6},{27.8,32.6}}},
         },
         [73531] = { -- Highwind Albatross
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6990,7 +7002,7 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
         },
         [73577] = { -- [DND] Timeless Isle Quest Credit Explore Cavern of Lost Spirits
-            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{43.47,38.13}}},
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{43.26,40.78}}},
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
         },
         [73578] = { -- [DND] Timeless Isle Quest Credit Explore Misty Strand
@@ -7011,6 +7023,7 @@ function MopNpcFixes.Load()
         },
         [73622] = { -- Graceful Swan
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{36.58,46.84}}},
+            [npcKeys.npcFlags] = npcFlags.INNKEEPER,
         },
         [73626] = { -- Little Tommy Newcomer
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.6,60.39}}},
@@ -7019,9 +7032,11 @@ function MopNpcFixes.Load()
         [73632] = { -- Cowardly Zue
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{37.33,46.6}}},
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [73656] = { -- Crafter Kwon
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{38.56,46.54}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR + npcFlags.REPAIR,
         },
         [73657] = { -- Great Chef Woo
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{41.78,63.72}}},

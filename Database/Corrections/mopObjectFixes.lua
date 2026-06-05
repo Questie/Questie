@@ -1273,6 +1273,16 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{51.58,33.08},{47.24,29.63},{47.30,30.53},{48.61,33.45},{46.66,36.47},{47.22,38.36},{46.59,38.07},{41.29,41.19},{41.98,42.24},{40.14,41.87},{39.16,39.98},{38.83,38.51},{37.11,39.04},{37.14,37.00},{37.89,34.22},{43.55,32.98}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
         },
+        [227893] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.18,41.39}}},
+            [objectKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [227894] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.94,71.35}}},
+            [objectKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+            [objectKeys.factionID] = 1732, -- alliance only
+        },
 
         -- Below are fake objects
         -- These objects are from previous expansions and they need updated coords
