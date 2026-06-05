@@ -230,6 +230,9 @@ function QuestieQuestFixes:Load()
         [297] = {
              [questKeys.breadcrumbs] = {436}, -- #2492
         },
+        [303] = { -- The Dark Iron War
+            [questKeys.nextQuestInChain] = 378,
+        },
         [308] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.preQuestSingle] = {},
