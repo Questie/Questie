@@ -601,6 +601,12 @@ function QuestieTracker:Update()
 
     lastTrackerUpdate = now
 
+    -- Hide if logged in or reloaded UI in a dungeon with the option to hide enabled
+    if Questie.trackerHiddenByDungeon then
+        Questie.trackerHiddenByDungeon = false
+        return
+    end
+
     -- Check if we're in a pet battle and should hide the tracker
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
