@@ -10220,6 +10220,9 @@ function MopQuestFixes.Load()
         [33342] = { -- Drive Back The Flame
             [questKeys.preQuestSingle] = {33374},
         },
+        [33343] = { -- The Archiereus Of Flame
+            [questKeys.preQuestSingle] = {33342},
+        },
         [33354] = { -- Den Mother's Demise
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,

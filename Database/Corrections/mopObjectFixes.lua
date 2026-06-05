@@ -1292,39 +1292,39 @@ function MopObjectFixes.Load()
         },
 
         -- For MoP fixes 440001-449999
-        [440001] = { -- For Fresh Pots 31181
+        [440001] = { -- Empty Crab Pot
             [objectKeys.name] = "Empty Crab Pot",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{58.41,81.83},{58.91,82.32},{59.07,83.39},{59.93,83.38},{60.23,83.06},{60,82.56},{60.6,82.5},{61.18,82.9},{61.44,84.22},{61.24,84.5},{60.52,84.82},{61.51,82.01},{62.16,81.84},{62.06,81.2},{61.1,80.89},{61.49,79.62},{59.84,79.62},{59.56,80.92},{59.54,81.25},{58.15,80.47}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
-        [440002] = { -- For Evie Stormstout 31077
+        [440002] = { -- Evie Stormstout
             [objectKeys.name] = "Evie Stormstout",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.22,10.14}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
-        [440003] = { -- For Fires and Fears of Old 31085
+        [440003] = { -- Enormous Landslide
             [objectKeys.name] = "Enormous Landslide",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{29.91,31.27}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
-        [440004] = {
+        [440004] = { -- Lesser Charm of Good Fortune
             [objectKeys.name] = "Lesser Charm of Good Fortune",
         },
-        [440005] = {
+        [440005] = { -- Elder Charm of Good Fortune
             [objectKeys.name] = "Elder Charm of Good Fortune",
         },
-        [440006] = {
+        [440006] = { -- Mogu Archaeology Fragment
             [objectKeys.name] = "Mogu Archaeology Fragment",
         },
-        [440007] = {
+        [440007] = { -- Pandaren Archaeology Fragment
             [objectKeys.name] = "Pandaren Archaeology Fragment",
         },
-        [440008] = {
+        [440008] = { -- Golden Falls
             [objectKeys.name] = "Golden Falls",
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.71,21.87}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
-        [440009] = {
+        [440009] = { -- Timeless Coin
             [objectKeys.name] = "Timeless Coin",
         },
     }
