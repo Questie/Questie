@@ -214,6 +214,45 @@ local function _DrawQuest(questId)
         end
     end
 
+    -- Also draw the quest's extra/special objectives (DB-defined, e.g. "use item" custom spawns
+    -- and required source items). These come from QuestieDB.GetQuest, independent of comms data.
+    local specialCounter = 0
+    for _, special in pairs(quest.SpecialObjectives or {}) do
+        if drawnIconCount + iconCount >= MAX_PARTY_ICONS then
+            break
+        end
+
+        -- Always draw extras. RealObjectiveIndex is used loosely in the DB (it can be 0 or point
+        -- past the real objectives), so we can't reliably tie an extra to a standard objective's
+        -- completion for party members; matching Questie's own pipeline, we just draw them.
+        specialCounter = specialCounter + 1
+        local objective = {
+            Id = special.Id,
+            Type = special.Type,
+            -- Offset past standard objective indices, matching PopulateQuestLogInfo.
+            Index = 64 + specialCounter,
+            questId = questId,
+            Description = special.Description or "Special objective",
+            Icon = special.Icon,
+            Coordinates = special.Coordinates,
+            Completed = false,
+            -- Reuse the DB-built spawn list read-only; PopulateObjective builds it from
+            -- Type/Id when absent (the required-source-item case).
+            spawnList = special.spawnList or {},
+            AlreadySpawned = {},
+            Update = NOP_FUNCTION,
+            IsPartyObjective = true,
+            hasRegisteredTooltips = true,
+            registeredItemTooltips = true,
+        }
+
+        local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objective.Index, objective, true)
+        if ok then
+            objectives[#objectives + 1] = objective
+            iconCount = iconCount + _CountIcons(objective)
+        end
+    end
+
     if #objectives > 0 then
         drawnByQuest[questId] = { objectives = objectives, iconCount = iconCount }
         drawnIconCount = drawnIconCount + iconCount
