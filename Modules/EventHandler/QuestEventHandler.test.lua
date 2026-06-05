@@ -35,6 +35,8 @@ describe("QuestEventHandler", function()
     local QuestieAPI
     ---@type QuestEventHandler
     local QuestEventHandler
+    ---@type QuestiePartyObjectives
+    local QuestiePartyObjectives
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
