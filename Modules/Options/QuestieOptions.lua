@@ -80,7 +80,8 @@ end
 function QuestieOptions:ToggleConfigWindow()
     if not QuestieConfigFrame:IsShown() then
         PlaySound(882)
-        -- AceConfigDialog:Open("Questie", QuestieConfigFrame)
+        local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+        AceConfigDialog:Open("Questie", QuestieConfigFrame)
         QuestieConfigFrame:Show()
     else
         QuestieConfigFrame:Hide()
