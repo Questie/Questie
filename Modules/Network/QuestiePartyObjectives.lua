@@ -18,6 +18,15 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 local NOP_FUNCTION = function() end
 
+-- Beyond a 5-man group (party or 5-man dungeon) we stop drawing party objectives, to avoid
+-- flooding the map with every raid member's quests.
+local MAX_GROUP_SIZE = 5
+-- Total ceiling on the number of party objective map-icons, independent of the per-objective
+-- icon limit, so a crowded zone with a full group can't flood the map.
+local MAX_PARTY_ICONS = 500
+-- How many quests we redraw per frame when spreading a large refresh across frames.
+local CHUNK_SIZE = 10
+
 -- The single-character objective types used in the QuestieComms packets, mapped to the
 -- full type names used by the drawing pipeline and the database ObjectiveData.
 local typeCharToFull = {
@@ -26,12 +35,24 @@ local typeCharToFull = {
     ["i"] = "item",
 }
 
--- The synthetic objectives we have drawn this cycle. We keep them so we can unload exactly
--- the icons we created (their AlreadySpawned refs), without touching the local player's own
--- icons that may share the same questId key in QuestieMap.questIdFrames.
-local drawnObjectives = {}
+-- drawnByQuest[questId] = { objectives = { synthetic objective tables }, iconCount = number }
+-- Tracked per quest so we can clear/redraw a single quest incrementally and account for the
+-- icon budget.
+local drawnByQuest = {}
+-- spawnListCache[questId][objectiveIndex] = spawnList. Spawn data is static (DB + the
+-- objective's icon, both constant per questId+objectiveIndex), so it is built once and reused.
+local spawnListCache = {}
+-- Running total of party map-icons currently drawn, compared against MAX_PARTY_ICONS.
+local drawnIconCount = 0
 
+-- Scheduling state.
+local dirtyQuests = {}
+local fullRefreshPending = false
 local updateScheduled = false
+local processing = false
+
+-- Forward declarations (these reference each other).
+local _Kick, _ProcessScheduled, _ProcessQueue
 
 ---@param questId number
 ---@return boolean @true if the local player currently has this quest in their log
@@ -58,108 +79,246 @@ local function _GetObjectiveName(objType, objId)
     end
 end
 
--- Unload every icon we drew for party members and forget them.
--- We only unload an icon if it still holds the exact data table we drew it with. Party
--- icons are keyed by questId in QuestieMap.questIdFrames, the same key the local player's own
--- quest uses, so an icon may have already been unloaded and recycled (e.g. the player picked
--- up or abandoned the quest). The identity check prevents us from unloading a frame that has
--- since been reused for a different quest. _Qframe.Unload sets `data = nil` on unload, so an
--- unloaded-but-not-reused frame is skipped too.
-function QuestiePartyObjectives:Clear()
-    for _, objective in pairs(drawnObjectives) do
-        for _, spawn in pairs(objective.AlreadySpawned) do
-            for _, mapIcon in pairs(spawn.mapRefs) do
-                if mapIcon.data == spawn.data then
-                    mapIcon:Unload()
-                end
+---@return boolean
+local function _ShouldDraw()
+    return Questie.db.profile.showPartyQuestObjectives
+        and QuestiePlayer:GetGroupType() ~= nil
+        and GetNumGroupMembers() <= MAX_GROUP_SIZE
+end
+
+---@param objective table
+---@return number @the number of map-icons this objective drew
+local function _CountIcons(objective)
+    local count = 0
+    for _, spawn in pairs(objective.AlreadySpawned) do
+        count = count + #spawn.mapRefs
+    end
+    return count
+end
+
+-- Unload an objective's icons. We only unload an icon if it still holds the exact data table
+-- we drew it with: party icons are keyed by questId in QuestieMap.questIdFrames, the same key
+-- the local player's own quest uses, so an icon may have already been unloaded and recycled.
+-- _Qframe.Unload sets `data = nil` on unload, so unloaded/reused frames are skipped.
+---@param objective table
+local function _UnloadObjective(objective)
+    for _, spawn in pairs(objective.AlreadySpawned) do
+        for _, mapIcon in pairs(spawn.mapRefs) do
+            if mapIcon.data == spawn.data then
+                mapIcon:Unload()
             end
-            for _, minimapIcon in pairs(spawn.minimapRefs) do
-                if minimapIcon.data == spawn.data then
-                    minimapIcon:Unload()
-                end
+        end
+        for _, minimapIcon in pairs(spawn.minimapRefs) do
+            if minimapIcon.data == spawn.data then
+                minimapIcon:Unload()
             end
         end
     end
-    drawnObjectives = {}
 end
 
--- Redraw all party members' quest objectives from the shared remote quest logs.
-function QuestiePartyObjectives:Update()
-    QuestiePartyObjectives:Clear()
+---@param questId number
+local function _ClearQuest(questId)
+    local entry = drawnByQuest[questId]
+    if not entry then
+        return
+    end
+    for _, objective in pairs(entry.objectives) do
+        _UnloadObjective(objective)
+    end
+    drawnIconCount = drawnIconCount - entry.iconCount
+    drawnByQuest[questId] = nil
+end
 
-    if (not Questie.db.profile.showPartyQuestObjectives) or (not QuestiePlayer:GetGroupType()) then
+-- Draw a single party quest's objectives (assumes it has already been cleared).
+---@param questId number
+local function _DrawQuest(questId)
+    -- Quests the local player has are drawn by the normal pipeline; don't double up.
+    if _PlayerHasQuest(questId) or drawnIconCount >= MAX_PARTY_ICONS then
         return
     end
 
-    for questId, players in pairs(QuestieComms.remoteQuestLogs) do
-        -- Quests the local player has are drawn by the normal pipeline; don't double up.
-        if not _PlayerHasQuest(questId) then
-            -- An objective index is drawn if at least one party member still needs it.
-            local neededIndices = {}
-            for _, objectives in pairs(players) do
-                for objectiveIndex, objective in pairs(objectives) do
-                    if not objective.finished then
-                        neededIndices[objectiveIndex] = objective
-                    end
-                end
+    local players = QuestieComms.remoteQuestLogs[questId]
+    if not players then
+        return
+    end
+
+    -- An objective index is drawn if at least one party member still needs it.
+    local neededIndices = {}
+    for _, objectives in pairs(players) do
+        for objectiveIndex, objective in pairs(objectives) do
+            if not objective.finished then
+                neededIndices[objectiveIndex] = objective
             end
+        end
+    end
+    if not next(neededIndices) then
+        return
+    end
 
-            if next(neededIndices) then
-                local quest = QuestieDB.GetQuest(questId)
-                if quest and quest.ObjectiveData then
-                    if (not quest.Color) then
-                        quest.Color = QuestieLib:ColorWheel()
+    local quest = QuestieDB.GetQuest(questId)
+    if not (quest and quest.ObjectiveData) then
+        return
+    end
+    if not quest.Color then
+        quest.Color = QuestieLib:ColorWheel()
+    end
+
+    local objectives = {}
+    local iconCount = 0
+
+    for objectiveIndex, remoteObjective in pairs(neededIndices) do
+        if drawnIconCount + iconCount >= MAX_PARTY_ICONS then
+            break
+        end
+
+        -- Prefer the database ObjectiveData (canonical Type/Id); fall back to comms data.
+        local objData = quest.ObjectiveData[objectiveIndex]
+        local objType = objData and objData.Type or typeCharToFull[remoteObjective.type]
+        local objId = objData and objData.Id or remoteObjective.id
+
+        if objType and objId then
+            local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
+            local objective = {
+                Id = objId,
+                Type = objType,
+                Index = objectiveIndex,
+                questId = questId,
+                Description = (objData and objData.Text) or _GetObjectiveName(objType, objId) or "",
+                Icon = objData and objData.Icon,
+                Completed = false,
+                -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.
+                spawnList = cachedSpawnList or {},
+                AlreadySpawned = {},
+                Update = NOP_FUNCTION,
+                -- Marks this as a party member's objective (the local player does not have the
+                -- quest), so the map tooltip doesn't label it with the local player's name.
+                IsPartyObjective = true,
+                -- Skip in-world unit/item tooltip registration; the map icon tooltip already
+                -- shows party members via QuestieComms, and this avoids leaking tooltip entries.
+                hasRegisteredTooltips = true,
+                registeredItemTooltips = true,
+            }
+
+            -- must be p-called (matches how QuestieQuest calls it internally)
+            local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objectiveIndex, objective, true)
+            if ok then
+                if (not cachedSpawnList) and objective.spawnList and next(objective.spawnList) then
+                    if not spawnListCache[questId] then
+                        spawnListCache[questId] = {}
                     end
-
-                    for objectiveIndex, remoteObjective in pairs(neededIndices) do
-                        -- Prefer the database ObjectiveData (it carries the canonical Type/Id); fall back to the comms-supplied id/type if the index is missing.
-                        local objData = quest.ObjectiveData[objectiveIndex]
-                        local objType = objData and objData.Type or typeCharToFull[remoteObjective.type]
-                        local objId = objData and objData.Id or remoteObjective.id
-
-                        if objType and objId then
-                            local objective = {
-                                Id = objId,
-                                Type = objType,
-                                Index = objectiveIndex,
-                                questId = questId,
-                                Description = (objData and objData.Text) or _GetObjectiveName(objType, objId) or "",
-                                Icon = objData and objData.Icon,
-                                Completed = false,
-                                spawnList = {},
-                                AlreadySpawned = {},
-                                Update = NOP_FUNCTION,
-                                -- Marks this as a party member's objective (the local player does not have the quest), so the map tooltip doesn't label the objective with the local player's name.
-                                IsPartyObjective = true,
-                                -- Don't register in-world unit/item tooltips for party objectives; the map icon tooltip already shows party members via QuestieComms. Setting these flags makes
-                                -- PopulateObjective skip QuestieTooltips registration so we never leak tooltip entries across redraws.
-                                hasRegisteredTooltips = true,
-                                registeredItemTooltips = true,
-                            }
-
-                            -- Must be p-called (matches how QuestieQuest calls it internally)
-                            local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objectiveIndex, objective, true)
-                            if ok then
-                                drawnObjectives[#drawnObjectives + 1] = objective
-                            end
-                        end
-                    end
+                    spawnListCache[questId][objectiveIndex] = objective.spawnList
                 end
+                objectives[#objectives + 1] = objective
+                iconCount = iconCount + _CountIcons(objective)
             end
+        end
+    end
+
+    if #objectives > 0 then
+        drawnByQuest[questId] = { objectives = objectives, iconCount = iconCount }
+        drawnIconCount = drawnIconCount + iconCount
+    end
+end
+
+-- Process a queue of questIds in chunks, one chunk per frame, to avoid a single large hitch.
+---@param queue number[]
+---@param index number
+_ProcessQueue = function(queue, index)
+    local stop = math.min(index + CHUNK_SIZE - 1, #queue)
+    for i = index, stop do
+        local questId = queue[i]
+        _ClearQuest(questId)
+        _DrawQuest(questId)
+    end
+
+    if stop < #queue then
+        C_Timer.After(0, function() _ProcessQueue(queue, stop + 1) end)
+    else
+        processing = false
+        -- Work that arrived while we were processing.
+        if fullRefreshPending or next(dirtyQuests) then
+            _Kick()
         end
     end
 end
 
--- Debounced redraw, used by the QuestieComms hooks to coalesce bursts of incoming packets.
-function QuestiePartyObjectives:ScheduleUpdate()
-    if updateScheduled or (not Questie.db.profile.showPartyQuestObjectives) then
+_ProcessScheduled = function()
+    if processing then
+        _Kick()
+        return
+    end
+
+    if not _ShouldDraw() then
+        QuestiePartyObjectives:Clear()
+        dirtyQuests = {}
+        fullRefreshPending = false
+        return
+    end
+
+    local queue = {}
+    if fullRefreshPending then
+        fullRefreshPending = false
+        dirtyQuests = {}
+        QuestiePartyObjectives:Clear()
+        for questId in pairs(QuestieComms.remoteQuestLogs) do
+            queue[#queue + 1] = questId
+        end
+    else
+        for questId in pairs(dirtyQuests) do
+            queue[#queue + 1] = questId
+        end
+        dirtyQuests = {}
+    end
+
+    if #queue == 0 then
+        return
+    end
+    processing = true
+    _ProcessQueue(queue, 1)
+end
+
+-- Debounce: coalesce bursts of incoming packets into a single processing pass.
+_Kick = function()
+    if updateScheduled then
         return
     end
     updateScheduled = true
     C_Timer.After(1.5, function()
         updateScheduled = false
-        QuestiePartyObjectives:Update()
+        _ProcessScheduled()
     end)
+end
+
+-- Unload all party objective icons and forget them.
+function QuestiePartyObjectives:Clear()
+    for _, entry in pairs(drawnByQuest) do
+        for _, objective in pairs(entry.objectives) do
+            _UnloadObjective(objective)
+        end
+    end
+    drawnByQuest = {}
+    drawnIconCount = 0
+end
+
+-- Immediate full refresh, used by the options toggle.
+function QuestiePartyObjectives:Update()
+    fullRefreshPending = true
+    _ProcessScheduled()
+end
+
+-- Schedule a debounced redraw. Pass a questId to redraw only that quest (incremental); pass
+-- nothing to request a full refresh (e.g. a player left the group).
+---@param questId number?
+function QuestiePartyObjectives:ScheduleUpdate(questId)
+    if not Questie.db.profile.showPartyQuestObjectives then
+        return
+    end
+    if questId then
+        dirtyQuests[questId] = true
+    else
+        fullRefreshPending = true
+    end
+    _Kick()
 end
 
 return QuestiePartyObjectives

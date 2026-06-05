@@ -280,7 +280,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     end
 
     -- The local player now has this quest, so stop drawing it as a party member's objective.
-    QuestiePartyObjectives:ScheduleUpdate()
+    QuestiePartyObjectives:ScheduleUpdate(questId)
 end
 
 --- Fires when a quest is turned in
@@ -329,7 +329,7 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     QuestieAnnounce:CompletedQuest(questId)
 
     -- The local player no longer has this quest; a party member helping out may still need it.
-    QuestiePartyObjectives:ScheduleUpdate()
+    QuestiePartyObjectives:ScheduleUpdate(questId)
 end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
@@ -378,7 +378,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         QuestieAnnounce:AbandonedQuest(questId)
 
         -- The local player no longer has this quest; a party member may still need it.
-        QuestiePartyObjectives:ScheduleUpdate()
+        QuestiePartyObjectives:ScheduleUpdate(questId)
     end
 end
 
