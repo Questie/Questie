@@ -3720,8 +3720,8 @@ function QuestieWotlkNpcFixes:LoadTitanReforgedFixes()
 
     return {
         [14834] = {
-            [npcKeys.minLevel] = 80,
-            [npcKeys.maxLevel] = 80,
+            [npcKeys.minLevel] = 83,
+            [npcKeys.maxLevel] = 83,
             [npcKeys.minLevelHealth] = 32700000,
             [npcKeys.maxLevelHealth] = 32700000,
         },
