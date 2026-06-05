@@ -10176,6 +10176,12 @@ function MopQuestFixes.Load()
         [33239] = { -- Pristine Firestorm Egg
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [33248] = { -- Proving Grounds
+            [questKeys.objectives] = {{{72536,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [33249] = { -- Proving Grounds
+            [questKeys.objectives] = {{{72536,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [33250] = { -- A Time-Lost Treasure
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },

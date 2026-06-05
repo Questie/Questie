@@ -288,6 +288,7 @@ ZoneDB.zoneIDs = {
     BLOOD_IN_THE_SNOW_SCENARIO = 6678, -- Scenario
     THUNDER_KINGS_CITADEL = 6716, -- Scenario
     TIMELESS_ISLE = 6757,
+    PROVING_GROUNDS_SCENARIO = 6852, -- Scenario
     -- UPPER_BLACKROCK_SPIRE = 7307, -- only added in WoD
 
     -- Fake IDs for dungeons

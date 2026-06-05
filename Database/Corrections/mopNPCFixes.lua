@@ -1166,7 +1166,8 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{81.31,6.84}}},
         },
         [58408] = { -- Leven Dawnblade
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.7,43.59,phases.GOLDEN_LOTUS_LEVEN_AT_PAGODA}}},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.7,43.59,phases.GOLDEN_LOTUS_LEVEN_AT_PAGODA}}}, -- pre-SoO do not delete
+            [npcKeys.spawns] = {},
         },
         [58410] = { -- Yi-Mo Longbrow
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{76.49,8.78}}},
@@ -1224,16 +1225,18 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{24.54,74.63}}},
         },
         [58465] = { -- Anji Autumnlight
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {33.97,38.11,phases.GOLDEN_LOTUS_DAILY_LOCKED},
-                {56.56,43.61,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
-            }},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = { -- pre-So0 do not delete
+            --    {33.97,38.11,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+            --    {56.56,43.61,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            --}},
+            [npcKeys.spawns] = {},
         },
         [58468] = { -- Sun Tenderheart
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {56.74,42.64,phases.GOLDEN_LOTUS_DAILY_LOCKED},
-                {56.5,43.39,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
-            }},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = { -- pre-SoO do not delete
+            --    {56.74,42.64,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+            --    {56.5,43.39,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            --}},
+            [npcKeys.spawns] = {},
         },
         [58469] = { -- Ren Firetongue
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.68,43.15}}},
@@ -1242,10 +1245,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.54,43.22}}},
         },
         [58471] = { -- Kun Autumnlight
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {33.66,38.4,phases.GOLDEN_LOTUS_DAILY_LOCKED},
-                {56.52,43.63,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
-            }},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = { -- pre-So0 do not delete
+            --    {33.66,38.4,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+            --    {56.52,43.63,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            --}},
+            [npcKeys.spawns] = {},
         },
         [58497] = { -- Azure Cloud Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
@@ -2493,6 +2497,10 @@ function MopNpcFixes.Load()
         },
         [61625] = { -- Provisioner Bamfu
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{49.14,71.32}}},
+        },
+        [61636] = { -- Trial Master Rotun
+            [npcKeys.name] = "Trial Master Rotun",
+            [npcKeys.spawns] = {[zoneIDs.PROVING_GROUNDS_SCENARIO] = {{50.26,82.69}}},
         },
         [61680] = { -- Kor'kron Scout
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{51.99,26.09},{61.04,43.06},{64.58,71.16},{67.97,60.23},{43.09,66.3},{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
@@ -6781,6 +6789,11 @@ function MopNpcFixes.Load()
         [72426] = { -- Lin Chao-Wei
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{41.15,73.78}}},
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [72536] = { -- Trial Master Rotun
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{69.02,44.82}}},
         },
         [72695] = { -- Wrathion
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.48,53.77}}},
