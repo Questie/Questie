@@ -236,7 +236,7 @@ function MapIconTooltip:Show()
 
                     if Questie.db.profile.enableTooltipsNextInChain then
                         local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
-                        if shift and breadcrumbs then
+                        if Questie.db.profile.enableTooltipsBreadcrumbQuests and shift and breadcrumbs then
                             local breadcrumbCount = 0
                             for _, breadcrumbId in ipairs(breadcrumbs) do
                                 if not QuestieCorrections.hiddenQuests[breadcrumbId] then
