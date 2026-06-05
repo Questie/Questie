@@ -221,7 +221,7 @@ local socialOptionsLocales = {
     },
     ["Incomplete breadcrumb"] = {
         ["enUS"] = true,
-        ["deDE"] = "Unvollständige Brotkrumen",
+        ["deDE"] = "Unvollständige Brotkrumen-Quest",
         ["esES"] = "Misión de rastro incompleta",
         ["esMX"] = "Misión de migajas incompleta",
         ["frFR"] = "Quête d'orientation incomplète",
@@ -233,7 +233,7 @@ local socialOptionsLocales = {
     },
     ["Announce that you just picked up a quest for which you have an incomplete breadcrumb quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Teilt mit, dass du gerade eine Quest angenommen hast, für die du eine unvollständige Brotkrumenquest hast.",
+        ["deDE"] = "Teilt mit, dass du gerade eine Quest angenommen hast, für die du eine unvollständige Brotkrumen-Quest hast.",
         ["esES"] = "Anuncia que acabas de aceptar una misión sin haber completado su misión de rastro.",
         ["esMX"] = "Anuncia que acabas de aceptar una misión sin haber completado su misión de migajas.",
         ["frFR"] = "Annonce que vous venez d’accepter une quête pour laquelle vous avez une quête d'orientation incomplète.",
@@ -245,7 +245,7 @@ local socialOptionsLocales = {
     },
     ["You have accepted %s without completing its breadcrumb quest %s"] = {
         ["enUS"] = true,
-        ["deDE"] = "Du hast %s angenommen, ohne die dazugehörige Brotkrumenquest %s abzuschließen.",
+        ["deDE"] = "Du hast %s angenommen, ohne die dazugehörige Brotkrumen-Quest %s abzuschließen.",
         ["esES"] = "Has aceptado la misión: %s sin haber completado su misión de rastro %s",
         ["esMX"] = "Has aceptado la misión: %s sin haber completado su misión de migajas %s",
         ["frFR"] = "Vous avez accepté la quête %s avant de terminer sa quête d'orientation %s",

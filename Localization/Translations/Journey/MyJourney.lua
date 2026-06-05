@@ -616,7 +616,7 @@ local myJourneyLocales = {
     },
     ["Another breadcrumb is active"] = {
         ["enUS"] = true,
-        ["deDE"] = "Eine andere Brotkrumen ist aktiv",
+        ["deDE"] = "Eine andere Brotkrumen-Quest ist aktiv",
         ["esES"] = "Otra misión de rastro está activa",
         ["esMX"] = "Otra misión de migajas está activa",
         ["frFR"] = "Une autre quête préliminaire est active",
@@ -628,7 +628,7 @@ local myJourneyLocales = {
     },
     ["A breadcrumb is active"] = {
         ["enUS"] = true,
-        ["deDE"] = "Eine Brotkrumen ist aktiv",
+        ["deDE"] = "Eine Brotkrumen-Quest ist aktiv",
         ["esES"] = "Una misión de rastro está activa",
         ["esMX"] = "Una misión de migajas está activa",
         ["frFR"] = "Une quête préliminaire est active",
