@@ -10222,6 +10222,7 @@ function MopQuestFixes.Load()
         },
         [33343] = { -- The Archiereus Of Flame
             [questKeys.preQuestSingle] = {33342},
+            [questKeys.requiredSourceItems] = {103684},
         },
         [33354] = { -- Den Mother's Demise
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
