@@ -47,6 +47,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type EventHandler
+local EventHandler = QuestieLoader:ImportModule("EventHandler")
 
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
@@ -602,8 +604,8 @@ function QuestieTracker:Update()
     lastTrackerUpdate = now
 
     -- Hide if logged in or reloaded UI in a dungeon with the option to hide enabled
-    if Questie.trackerHiddenByDungeon then
-        Questie.trackerHiddenByDungeon = false
+    if EventHandler.trackerHiddenByDungeon then
+        EventHandler.trackerHiddenByDungeon = false
         return
     end
 
