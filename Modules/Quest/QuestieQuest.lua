@@ -394,16 +394,22 @@ function QuestieQuest:SmoothReset()
 end
 
 ---@param questId number
+---@return boolean @true if the local player is tracking this quest (independent of any option)
+function QuestieQuest:IsQuestTracked(questId)
+    local autoWatch = Questie.db.profile.autoTrackQuests
+    local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
+    local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
+    return (trackedAuto or trackedManual) and true or false
+end
+
+---@param questId number
 ---@return boolean
 function QuestieQuest:ShouldShowQuestNotes(questId)
     if not Questie.db.profile.hideUntrackedQuestsMapIcons then
         return true
     end
 
-    local autoWatch = Questie.db.profile.autoTrackQuests
-    local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
-    local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
-    return trackedAuto or trackedManual
+    return QuestieQuest:IsQuestTracked(questId)
 end
 
 ---@param questId QuestId
