@@ -65,8 +65,6 @@ function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
 
     local questPOIHandled = false
-    local trackerMinimizedByDungeon = false
-    local trackerHiddenByDungeon = false
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function(event, isInitialLogin, isReloadingUi)
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
         if not questPOIHandled then
