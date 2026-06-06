@@ -72,6 +72,7 @@ function EventHandler:RegisterEarlyEvents()
     Questie.trackerMinimizedByDungeon = false
     Questie.trackerHiddenByDungeon = false
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function(event, isInitialLogin, isReloadingUi)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
         if not questPOIHandled then
             if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
                 -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
