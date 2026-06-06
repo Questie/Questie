@@ -5,6 +5,8 @@ local GroupEventHandler = QuestieLoader:CreateModule("GroupEventHandler")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
 function GroupEventHandler.GroupRosterUpdate()
     local currentMembers = GetNumGroupMembers()
@@ -17,6 +19,9 @@ function GroupEventHandler.GroupRosterUpdate()
         -- We do however always want the local to be the current number to allow up and down.
         QuestiePlayer.numberOfGroupMembers = currentMembers
     end
+
+    -- Re-evaluate party objectives so a member going offline/online hides or restores their icons.
+    QuestiePartyObjectives:ScheduleUpdate()
 end
 
 function GroupEventHandler.GroupJoined()

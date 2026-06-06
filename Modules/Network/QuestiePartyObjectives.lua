@@ -90,6 +90,14 @@ local function _ShouldDraw()
         and GetNumGroupMembers() <= MAX_GROUP_SIZE
 end
 
+---@param name string
+---@return boolean @true if the named party member is online
+local function _IsPlayerOnline(name)
+    -- UnitIsConnected accepts a group member's name (same pattern as QuestieComms:CheckInGroup,
+    -- which calls UnitInParty/UnitInRaid by name). Returns falsy for offline or non-group names.
+    return UnitIsConnected(name)
+end
+
 ---@param objective table
 ---@return number @the number of map-icons this objective drew
 local function _CountIcons(objective)
@@ -146,12 +154,15 @@ local function _DrawQuest(questId)
         return
     end
 
-    -- An objective index is drawn if at least one party member still needs it.
+    -- An objective index is drawn if at least one online party member still needs it. Offline
+    -- members are ignored so their icons disappear until they reconnect.
     local neededIndices = {}
-    for _, objectives in pairs(players) do
-        for objectiveIndex, objective in pairs(objectives) do
-            if not objective.finished then
-                neededIndices[objectiveIndex] = objective
+    for playerName, objectives in pairs(players) do
+        if _IsPlayerOnline(playerName) then
+            for objectiveIndex, objective in pairs(objectives) do
+                if not objective.finished then
+                    neededIndices[objectiveIndex] = objective
+                end
             end
         end
     end
