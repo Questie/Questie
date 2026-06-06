@@ -82,10 +82,10 @@ function EventHandler:RegisterEarlyEvents()
              local isInInstance = IsInInstance()
             if isInInstance and Questie.db.profile.trackerEnabled then
                 if Questie.db.profile.minimizeTrackerInInstances then
-                    trackerMinimizedByDungeon = true
+                    EventHandler.trackerMinimizedByDungeon = true
                 end
                 if Questie.db.profile.hideTrackerInInstances then
-                    trackerHiddenByDungeon = true
+                    EventHandler.trackerHiddenByDungeon = true
                 end
             end
         end
