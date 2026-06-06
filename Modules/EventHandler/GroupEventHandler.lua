@@ -50,4 +50,5 @@ end
 function GroupEventHandler.GroupLeft()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll()
+    QuestiePartyObjectives:Clear()
 end
