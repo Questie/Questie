@@ -61,9 +61,6 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {76}, -- #7364
             [questKeys.breadcrumbs] = {239},
         },
-        [15] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Dagun the Ravenous using an Enchanted Sea Kelp"), 2, {{"object", 2871}}}},
-        },
         [17] = {
             [questKeys.requiredLevel] = 38, -- #2437
         },

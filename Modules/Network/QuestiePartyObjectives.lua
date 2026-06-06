@@ -206,6 +206,11 @@ local function _DrawQuest(questId)
             -- must be p-called (matches how QuestieQuest calls it internally)
             local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objectiveIndex, objective, true)
             if ok then
+                local objectiveIconCount = _CountIcons(objective)
+                if drawnIconCount + iconCount + objectiveIconCount > MAX_PARTY_ICONS then
+                    _UnloadObjective(objective)
+                    break
+                end
                 if (not cachedSpawnList) and objective.spawnList and next(objective.spawnList) then
                     if not spawnListCache[questId] then
                         spawnListCache[questId] = {}
@@ -213,7 +218,7 @@ local function _DrawQuest(questId)
                     spawnListCache[questId][objectiveIndex] = objective.spawnList
                 end
                 objectives[#objectives + 1] = objective
-                iconCount = iconCount + _CountIcons(objective)
+                iconCount = iconCount + objectiveIconCount
             end
         end
     end
@@ -275,7 +280,14 @@ _ProcessQueue = function(queue, index)
     end
 
     if stop < #queue then
-        C_Timer.After(0, function() _ProcessQueue(queue, stop + 1) end)
+        C_Timer.After(0, function()
+            local ok = xpcall(function()
+                _ProcessQueue(queue, stop + 1)
+            end, CallErrorHandler)
+            if not ok then
+                processing = false
+            end
+        end)
     else
         processing = false
         -- Work that arrived while we were processing.
@@ -327,8 +339,14 @@ _Kick = function()
     end
     updateScheduled = true
     C_Timer.After(1.5, function()
-        updateScheduled = false
-        _ProcessScheduled()
+        local ok = xpcall(function()
+            updateScheduled = false
+            _ProcessScheduled()
+        end, CallErrorHandler)
+        if not ok then
+            updateScheduled = false
+            processing = false
+        end
     end)
 end
 
