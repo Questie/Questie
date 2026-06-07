@@ -8446,6 +8446,21 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
             [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
         },
+        [95205] = { -- Greater Inscrptions of the Zandalar -- only present on titan reforged
+            [questKeys.name] = "Greater Inscrptions of the Zandalar",
+            [questKeys.startedBy] = {{14921}},
+            [questKeys.finishedBy] = {{14921}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {},
+            [questKeys.objectives] = {nil,nil,{{19858},{43127}},{270,42000}} -- TO FIX: need to do {item - rep - item} objective format
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,450},
+        },
         [95705] = { -- Gobb's Grand Opening! -- only present on titan reforged
             [questKeys.name] = "Gobb's Grand Opening!",
             [questKeys.startedBy] = {{262258}},
