@@ -204,9 +204,7 @@ local _AbandonQuest = function(questId, breadcrumbQuestId)
 end
 
 Questie:RegisterEvent("QUEST_REMOVED", function(_, questId)
-    if AvailableQuests and AvailableQuests.CalculateAndDrawAll then
-        AvailableQuests.CalculateAndDrawAll()
-    end
+    AvailableQuests.CalculateAndDrawAll()
 end)
 
 --- Fires when a quest is accepted in anyway.
