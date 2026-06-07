@@ -304,7 +304,7 @@ local autoOptionsLocales = {
     },
     ["Abandon quest if breadcrumb is not completed"] = {
         ["enUS"] = true,
-        ["deDE"] = "Quest ablegen, wenn Brotkrume nicht abgeschlossen",
+        ["deDE"] = "Quest abbrechen, wenn Brotkrumen-Quest nicht abgeschlossen",
         ["esES"] = "Abandonar si la misión de rastro no está completada",
         ["esMX"] = "Abandonar si la misión de migajas no está completada",
         ["frFR"] = "Abandonner si la quête d'orientation n'est pas terminée",
