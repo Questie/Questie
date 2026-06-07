@@ -192,23 +192,22 @@ local _AbandonQuest = function(questId, breadcrumbQuestId)
     if not QuestiePlayer.currentQuestlog[questId] then
         return
     end
-    C_Timer.After(0.5, function()
-        local questLogIndex = GetQuestLogIndexByID(questId)
-        if questLogIndex then
-            SelectQuestLogEntry(questLogIndex)
-            SetAbandonQuest()
-            AbandonQuest()
-            local questLink = QuestieLink:GetQuestHyperLink(questId)
-            local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
-            Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s was not completed.", questLink, breadcrumbLink))
-            -- Let the QUEST_REMOVED → MarkQuestAsAbandoned flow clean up objectives,
-            -- then re-scan so the quest reappears as available
-            C_Timer.After(1.5, function()
-                AvailableQuests.CalculateAndDrawAll()
-            end)
-        end
-    end)
+    local questLogIndex = GetQuestLogIndexByID(questId)
+    if questLogIndex then
+        SelectQuestLogEntry(questLogIndex)
+        SetAbandonQuest()
+        AbandonQuest()
+        local questLink = QuestieLink:GetQuestHyperLink(questId)
+        local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
+        Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s is not completed.", questLink, breadcrumbLink))
+    end
 end
+
+Questie:RegisterEvent("QUEST_REMOVED", function(_, questId)
+    if AvailableQuests and AvailableQuests.CalculateAndDrawAll then
+        AvailableQuests.CalculateAndDrawAll()
+    end
+end)
 
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
