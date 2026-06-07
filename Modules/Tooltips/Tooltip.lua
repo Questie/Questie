@@ -145,37 +145,6 @@ local function FormatDropText(rate)
     end
 end
 
--- Returns the "  |cFF999999[xx%]|r" drop-rate suffix for an item objective dropped by an NPC, or
--- "" when there is no drop-rate data or the option is disabled. The drop rate depends only on the
--- (itemId, npcId) pair, so it is identical for the local player and party members on that mob.
----@param objectiveId number @the objective's id (item id for item objectives)
----@param npcId number @the hovered NPC id
----@return string
-local function _GetDropRateText(objectiveId, npcId)
-    if (not objectiveId) or (not npcId) then
-        return ""
-    end
-    local dropRateData = QuestieDB.GetItemDroprate(objectiveId, npcId)
-    if not (dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates) then
-        return ""
-    end
-
-    local dropIcon = ""
-    if Questie.db.profile.debugEnabled and dropRateData[2] then
-        if dropRateData[2] == "cmangos" then
-            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
-        elseif dropRateData[2] == "mangos3" then
-            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\mangos3.png:12|t "
-        elseif dropRateData[2] == "wowhead" then
-            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
-        elseif dropRateData[2] == "questie" then
-            dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
-        end
-    end
-
-    return "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r"
-end
-
 -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
 -- It uses a similar system like here with i_ID etc as keys.
 local function _FetchTooltipsForGroupMembers(key, tooltipData)
@@ -225,13 +194,10 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
                         local text;
                         local color = QuestieLib:GetRGBForObjective(objective)
 
-                        -- Same drop-rate suffix the local player gets; (itemId, npcId) is shared.
-                        local dropRateText = _GetDropRateText(objective.id, tonumber(key:sub(3)))
-
                         if objective.required then
-                            text = "   " .. color .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text .. dropRateText;
+                            text = "   " .. color .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
                         else
-                            text = "   " .. color .. objective.text .. dropRateText;
+                            text = "   " .. color .. objective.text;
                         end
 
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
@@ -379,7 +345,22 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[npcId].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     else
-                        local dropRateText = _GetDropRateText(objectiveId, npcId)
+                        local dropIcon, dropRateText = "", ""
+                        local dropRateData = QuestieDB.GetItemDroprate(objectiveId, npcId)
+                        if dropRateData and dropRateData[1] and Questie.db.profile.enableTooltipDroprates then
+                            if Questie.db.profile.debugEnabled and dropRateData and dropRateData[2] then
+                                if dropRateData[2] == "cmangos" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\cmangos.png:10|t "
+                                elseif dropRateData[2] == "mangos3" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\mangos3.png:12|t "
+                                elseif dropRateData[2] == "wowhead" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\wowhead.png:12|t "
+                                elseif dropRateData[2] == "questie" then
+                                    dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
+                                end
+                            end
+                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
+                        end
                         if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
                             text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " ..QuestieLib:GetObjectiveDescription(objective) .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
@@ -428,13 +409,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         objectiveInfo.text = objectiveInfo.text .. playerString
                     end
                 elseif playerColor and objectivePlayerName ~= playerName then -- Add other player name to their objective
-                    local dropIndex = string.find(objectiveInfo.text, "  |cFF999999")
-                    local playerString = " (" .. playerColor .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r" .. playerType
-                    if dropIndex then
-                        objectiveInfo.text = objectiveInfo.text:sub(1,dropIndex-1)..playerString.." "..objectiveInfo.text:sub(dropIndex+1) -- Ensures drop data is shown after player name
-                    else
-                        objectiveInfo.text = objectiveInfo.text .. playerString
-                    end
+                    objectiveInfo.text = objectiveInfo.text .. " (" .. playerColor .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r" .. playerType
                 end
                 -- We want the player to be on top.
                 if objectivePlayerName == playerName then
