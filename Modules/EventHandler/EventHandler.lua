@@ -347,6 +347,12 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("GROUP_JOINED", GroupEventHandler.GroupJoined)
     Questie:RegisterEvent("GROUP_LEFT", GroupEventHandler.GroupLeft)
 
+    -- On a /reload (or login) while already in a group, GROUP_JOINED does not fire, so request party quest logs now;
+    -- otherwise we never receive party members' objectives until the group changes.
+    if IsInGroup() then
+        GroupEventHandler.GroupJoined()
+    end
+
     -- Nameplate / Target Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
