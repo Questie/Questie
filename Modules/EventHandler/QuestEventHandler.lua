@@ -203,10 +203,6 @@ local _AbandonQuest = function(questId, breadcrumbQuestId)
     end
 end
 
-Questie:RegisterEvent("QUEST_REMOVED", function(_, questId)
-    AvailableQuests.CalculateAndDrawAll()
-end)
-
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
