@@ -8696,6 +8696,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [8246] = { -- Signets of the Zandalar
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [9250] = { -- Frame of Atiesh
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
