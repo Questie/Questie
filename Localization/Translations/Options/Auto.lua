@@ -334,7 +334,7 @@ local autoOptionsLocales = {
         ["frFR"] = "%s est abandonnée automatiquement car la quête d'orientation %s n'est pas terminée.",
         ["koKR"] = "%s을(를) 자동으로 포기했습니다. 길잡이 퀘스트 %s가 완료되지 않았기 때문입니다.",
         ["ptBR"] = "%s é abandonada automaticamente porque a missão de encaminhamento %s não está concluída.",
-        ["ruRU"] = "%s автоматически отклоняется, так как предзадание %s не выполнено.",
+        ["ruRU"] = "%s автоматически отклоняется, так как предзадание %s не выполнено",
         ["zhCN"] = "已自动放弃 %s，因为线索任务 %s 未完成。",
         ["zhTW"] = "已自動放棄 %s，因為線索任務 %s 未完成。",
     },
