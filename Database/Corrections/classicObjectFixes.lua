@@ -39,8 +39,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.name] = "Uther the Lightbringer",
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{52.08,83.28}}},
         },
+        [2086] = { -- Bloodsail Charts
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.96,82.49},{27.15,82.68},{27.73,83.1},{29.59,80.84}}},
+        },
         [2087] = { -- Bloodsail Orders
-            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.96,82.56},{27.18,82.66},{27.74,83.13},{29.57,80.93}}},
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.96,82.56},{27.18,82.66},{27.74,83.13},{29.57,80.94}}},
         },
         [2555] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{31.11,66.14}}},
