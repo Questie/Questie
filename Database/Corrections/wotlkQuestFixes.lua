@@ -8454,7 +8454,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectivesText] = {},
-            [questKeys.objectives] = {nil,nil,{{19858},{43127}},{270,42000}} -- TO FIX: need to do {item - rep - item} objective format
+            [questKeys.objectives] = {nil,nil,{{19858},{43127}},{270,42000}}, -- TO FIX: need to do {item - rep - item} objective format
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.NONE,
