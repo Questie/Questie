@@ -326,7 +326,7 @@ local autoOptionsLocales = {
         ["zhCN"] = "如果你在完成线索任务之前接受了任务，则自动放弃该任务",
         ["zhTW"] = "如果你在完成線索任務之前接受了任務，則自動放棄該任務",
     },
-    ["Automatically abandoned quest %s because breadcrumb quest %s was not completed."] = {
+    ["Automatically abandoned quest %s because breadcrumb quest %s is not complete."] = {
         ["enUS"] = true,
         ["deDE"] = "Quest %s wurde automatisch abgelegt, weil die Brotkrumen-Quest %s nicht abgeschlossen wurde.",
         ["esES"] = "Misión %s abandonada automáticamente porque la misión de rastro %s no estaba completada.",
