@@ -316,7 +316,7 @@ local autoOptionsLocales = {
     },
     ["Automatically abandon a quest if you accept it before completing its breadcrumb quest."] = {
         ["enUS"] = true,
-        ["deDE"] = "Eine Quest automatisch ablegen, wenn du sie annimmst, bevor du die zugehörige Brotkrumen-Quest abgeschlossen hast.",
+        ["deDE"] = "Eine Quest automatisch abbrechen, wenn die dazugehörige Brotkrumen-Quest nicht abgeschlossen ist.",
         ["esES"] = "Abandona automáticamente una misión si la aceptas antes de completar su misión de rastro.",
         ["esMX"] = "Abandona automáticamente una misión si la aceptas antes de completar su misión de migajas.",
         ["frFR"] = "Abandonne automatiquement une quête si vous l'acceptez avant d'avoir terminé sa quête d'orientation.",
