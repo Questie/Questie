@@ -1037,7 +1037,7 @@ local trackerOptionsLocales = {
         ["frFR"] = "Définir automatiquement |cFF54e33bTomTom|r sur la quête la plus proche",
         ["koKR"] = "가장 가까운 퀘스트에 |cFF54e33bTomTom|r 자동 설정",
         ["ptBR"] = "Definir |cFF54e33bTomTom|r automaticamente para a missão mais próxima",
-        ["ruRU"] = "Автоматически устанавливать точку |cFF54e33bTomTom|r на ближайшее задание",
+        ["ruRU"] = "Автоустановка точки |cFF54e33bTomTom|r на ближайшее задание",
         ["zhCN"] = "自动设置|cFF54e33bTomTom|r箭头指向最近的任务",
         ["zhTW"] = "自動設定 |cFF54e33bTomTom|r 到最近的任務",
     },
