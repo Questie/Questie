@@ -328,7 +328,7 @@ local autoOptionsLocales = {
     },
     ["Automatically abandoned quest %s because breadcrumb quest %s is not complete."] = {
         ["enUS"] = true,
-        ["deDE"] = "Quest %s wurde automatisch abgelegt, weil die Brotkrumen-Quest %s nicht abgeschlossen wurde.",
+        ["deDE"] = "Quest %s wurde automatisch abgebrochen, weil die Brotkrumen-Quest %s nicht abgeschlossen ist.",
         ["esES"] = "Misión %s abandonada automáticamente porque la misión de rastro %s no estaba completada.",
         ["esMX"] = "Misión %s abandonada automáticamente porque la misión de migajas %s no estaba completada.",
         ["frFR"] = "Quête %s abandonnée automatiquement car la quête d'orientation %s n'était pas terminée.",
