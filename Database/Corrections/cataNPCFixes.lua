@@ -2172,6 +2172,7 @@ function CataNpcFixes.Load()
         },
         [14921] = { -- Rin'wosho the Trader
             [npcKeys.questStarts] = {8196,8243,8246},
+            [npcKeys.questEnds] = {8196,8243,8246},
         },
         [14983] = { -- Field Marshal Oslight
             [npcKeys.questStarts] = {8105,8114,8115,8166,8167,8168},
