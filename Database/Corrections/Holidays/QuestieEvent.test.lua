@@ -263,6 +263,8 @@ describe("QuestieEvent", function()
                 end
             }
             QuestieEvent.activeQuests = {}
+            -- re-load the event quests table which QuestieEvent:Load clears at the end
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             printMock = spy.new(function() end)
             _G.print = printMock
 
