@@ -2172,6 +2172,7 @@ function CataNpcFixes.Load()
         },
         [14921] = { -- Rin'wosho the Trader
             [npcKeys.questStarts] = {8196,8243,8246},
+            [npcKeys.questEnds] = {8196,8243,8246},
         },
         [14983] = { -- Field Marshal Oslight
             [npcKeys.questStarts] = {8105,8114,8115,8166,8167,8168},
@@ -2188,6 +2189,7 @@ function CataNpcFixes.Load()
         },
         [15042] = { -- Zanza the Restless
             [npcKeys.questStarts] = {8184,8185,8186,8187,8188,8189,8190,8191,8192,9208,9209,9210},
+            [npcKeys.questEnds] = {8184,8185,8186,8187,8188,8189,8190,8191,8192,9208,9209,9210},
         },
         [15070] = { -- Vinchaxa
             [npcKeys.questStarts] = {8195,8238,8239,8240},
