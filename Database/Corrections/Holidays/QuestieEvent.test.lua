@@ -213,6 +213,65 @@ describe("QuestieEvent", function()
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
+        it("should only start on Monday at 03:00 for Era (hour gating)", function()
+            -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekday = 2,
+                        monthDay = 8,
+                        month = 2,
+                        year = 2025,
+                        hour = 2,
+                        minute = 30,
+                    }
+                end
+            }
+
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            -- Mock C_Calendar.GetMonthInfo to return baseInfo and then firstWeekday=2 for the monthOffset
+            local baseInfo = {year = 2025, month = 1}
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return baseInfo
+                    else
+                        return {firstWeekday = 2}
+                    end
+                end
+            }
+
+            -- At 02:30 on start Monday it should NOT be active yet
+            QuestieEvent:Load()
+            assert.spy(printMock).was.not_called()
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_equal(0, #QuestieEvent.activeQuests)
+
+            -- Now simulate 03:00 on the same Monday -> should be active
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekday = 2,
+                        monthDay = 8,
+                        month = 2,
+                        year = 2025,
+                        hour = 3,
+                        minute = 0,
+                    }
+                end
+            }
+            QuestieEvent.activeQuests = {}
+            printMock = spy.new(function() end)
+            _G.print = printMock
+
+            QuestieEvent:Load()
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
         it("should load for MoP servers on days with DMF texture for 'start'", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
