@@ -2874,6 +2874,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {164,275},
         },
         [5126] = {
+            [questKeys.nextQuestInChain] = 5127,
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
             [questKeys.objectives] = {{{10918,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
