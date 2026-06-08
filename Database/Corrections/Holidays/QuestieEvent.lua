@@ -242,13 +242,13 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
     -- Determine the DMF start day for the month based on what weekday the 1st is.
     -- We also require the Monday start to have reached 03:00 server time before considering the event active.
     local startDayByFirstWeekday = {
-        [1] = 9,  -- 1st = Sunday -> Monday is 9th
-        [2] = 8,  -- 1st = Monday -> Monday is 8th
-        [3] = 7,  -- 1st = Tuesday -> Monday is 7th
-        [4] = 6,  -- 1st = Wednesday -> Monday is 6th
-        [5] = 5,  -- 1st = Thursday -> Monday is 5th
-        [6] = 4,  -- 1st = Friday -> Monday is 4th
-        [7] = 10, -- 1st = Saturday -> Monday is 10th
+        [1] = 9,  -- 1st is a Sunday -> Monday is 9th
+        [2] = 8,  -- 1st is a Monday -> Monday is 8th
+        [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
+        [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
+        [5] = 5,  -- 1st is a Thursday -> Monday is 5th
+        [6] = 4,  -- 1st is a Friday -> Monday is 4th
+        [7] = 10, -- 1st is a Saturday -> Monday is 10th
     }
 
     local startDay = startDayByFirstWeekday[firstWeekday]
