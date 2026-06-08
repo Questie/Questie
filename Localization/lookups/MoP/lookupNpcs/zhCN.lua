@@ -44501,7 +44501,7 @@ l10n.npcNameLookup["zhCN"] = loadstring([[return {
 [58397] = {"沮丧的朱家戒卫",nil},
 [58398] = {"球目标",nil},
 [58399] = {"绝望化身",nil},
-[58408] = {"莱文·黎明之刃",nil},
+[58408] = {"莱文·晨刃",nil},
 [58409] = {"绝望精魄",nil},
 [58410] = {"易默·长眉",nil},
 [58411] = {"温驯的箭猪",nil},
@@ -53607,5 +53607,5 @@ l10n.npcNameLookup["zhCN"] = loadstring([[return {
 [213605] = {"阿尔福斯",nil},
 [214760] = {"Unkillable Test Dummy",nil},
 [222854] = {"Polly Roger",nil},
-[222858] = {"Pinchy the Plunderer",nil},
+[222858] = {"劫掠者小钳",nil},
 }]])
