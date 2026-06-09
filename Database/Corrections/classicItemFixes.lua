@@ -42,7 +42,7 @@ function QuestieItemFixes:Load()
         [1262] = { -- Keg of Thunderbrew
             [itemKeys.relatedQuests] = {116, 117},
             [itemKeys.vendors] = {239},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.name] = "Keg of Thunderbrew",
         },
         [1357] = { -- Captain Sander's Treasure Map
@@ -477,7 +477,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {4130, 4131, 4133},
         },
         [5880] = { -- Crate With Holes
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [5942] = { -- Jeweled Pendant
             [itemKeys.npcDrops] = {4405, 4401, 4404, 4402, 4403, 14236},
@@ -597,7 +597,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [7297] = { -- Morbent's Bane
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [7628] = { -- Nondescript Letter
             [itemKeys.relatedQuests] = {8},
@@ -803,7 +803,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {152606},
         },
         [10757] = { -- Ward of the Defiler
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11018] = { -- Un'Goro Soil
             [itemKeys.npcDrops] = {},
@@ -814,7 +814,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [11078] = { -- Relic Coffer Key
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11113] = { -- Crate of Foodstuffs
             [itemKeys.objectDrops] = {161526},
@@ -828,7 +828,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {174793},
         },
         [11148] = { -- Samophlange Manual Page
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11149] = { -- Samophlange Manual
             [itemKeys.relatedQuests] = {3924},
@@ -878,7 +878,7 @@ function QuestieItemFixes:Load()
         },
         [11914] = { -- Empty Cursed Ooze Jar
             [itemKeys.npcDrops] = {},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11947] = { -- Filled Cursed Ooze Jar (#1315)
             [itemKeys.relatedQuests] = {4512},
@@ -887,7 +887,7 @@ function QuestieItemFixes:Load()
         },
         [11948] = { -- Empty Tainted Ooze Jar
             [itemKeys.npcDrops] = {},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11949] = { -- Filled Tainted Ooze Jar (#1315)
             [itemKeys.relatedQuests] = {4512},
@@ -895,7 +895,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [11953] = { -- Empty Pure Sample Jar
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {},
         },
         [11954] = { -- Filled Pure Sample Jar (#1070)
@@ -994,7 +994,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [12886] = { -- Pamela's Doll's Head
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [12907] = { -- Corrupt Moonwell Water (#1083)
             [itemKeys.relatedQuests] = {5157},
@@ -1005,10 +1005,10 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {5157},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [13156] = { -- Mystic Crystal
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [13172] = { -- Grimm's Premium Tobacco
             [itemKeys.name] = "Grimm's Premium Tobacco",
@@ -1249,7 +1249,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [18335] = { -- Pristine Black Diamond
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [18401] = { -- Nostro's Compendium of Dragon Slaying
             [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
@@ -1347,7 +1347,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [20464] = { -- Glyphs of Calling
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [20490] = { -- Ironforge Mint
             [itemKeys.npcDrops] = {5111},
