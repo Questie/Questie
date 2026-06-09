@@ -8676,6 +8676,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [8196] = { -- Essence Mangoes
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [8201] = { -- A Collection of Heads
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,

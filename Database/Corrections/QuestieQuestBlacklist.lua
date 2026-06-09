@@ -8477,7 +8477,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- [8191] = true, -- Prophetic Aura
         -- [8188] = true, -- Vodouisant's Vigilant Embrace
         [8118] = true, -- Vision of Voodress
-        [8196] = true, -- Essence Mangoes
+        -- [8196] = true, -- Essence Mangoes
         -- [8239] = true, -- Sandfury, Skullsplitter, and Bloodscalp Coins
         -- [8190] = true, -- Hoodoo Hex
         -- [8184] = true, -- Presence of Might
