@@ -278,8 +278,8 @@ _GetRewardMultiplier = function()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
     local multiplier = 1 + buffMultiplier
 
-    if playerIsHuman then
-        multiplier = multiplier + 0.1 -- 10% bonus reputation from Human Racial
+    if playerIsHuman and not Questie.IsTitanReforged then
+        multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
     end
 
     if knowsMrPopularityRank2 then
