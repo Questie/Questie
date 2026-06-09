@@ -267,6 +267,18 @@ function QuestieTBCQuestFixes:Load()
         [1361] = {
             [questKeys.startedBy] = {{2229,4485,10540}},
         },
+        [1367] = { -- Magram Alliance
+            [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-250},{factionIDs.MAGRAM_CLAN_CENTAUR,250}},
+        },
+        [1368] = { -- Gelkis Alliance
+            [questKeys.reputationReward] = {{factionIDs.MAGRAM_CLAN_CENTAUR,-250},{factionIDs.GELKIS_CLAN_CENTAUR,250}},
+        },
+        [1382] = { -- Strange Alliance
+            [questKeys.reputationReward] = {{factionIDs.MAGRAM_CLAN_CENTAUR,-500},{factionIDs.GELKIS_CLAN_CENTAUR,250}},
+        },
+        [1385] = { -- Brutal Politics
+            [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-500},{factionIDs.MAGRAM_CLAN_CENTAUR,250}},
+        },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
         },

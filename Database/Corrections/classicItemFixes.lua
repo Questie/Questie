@@ -493,6 +493,9 @@ function QuestieItemFixes:Load()
         [6065] = { -- Khadgar's Essays on Dimensional Convergence
             [itemKeys.npcDrops] = {764, 765, 766, 1081},
         },
+        [6074] = { -- War Horn Mouthpiece
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [6193] = { -- Bundle of Atal'ai Artifacts
             [itemKeys.relatedQuests] = {1429},
             [itemKeys.npcDrops] = {},

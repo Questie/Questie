@@ -436,6 +436,9 @@ function QuestieNPCFixes:Load()
         [2783] = { -- Marez Cowl
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{29.62,62.97},{29.47,64.14}}},
         },
+        [2790] = { -- Grand Mason Marblesten
+            [npcKeys.waypoints] = {},
+        },
         [2794] = { -- Summoned Guardian
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{18.62,67.99}}},

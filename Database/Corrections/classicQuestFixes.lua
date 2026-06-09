@@ -98,6 +98,9 @@ function QuestieQuestFixes:Load()
         [46] = {
             [questKeys.preQuestSingle] = {39},
         },
+        [55] = { -- Morbent Fel
+            [questKeys.objectives] = {{{1200}}},
+        },
         [63] = {
             [questKeys.requiredSourceItems] = {6637},
         },
@@ -451,6 +454,9 @@ function QuestieQuestFixes:Load()
         [621] = {
             [questKeys.inGroupWith] = {}, -- #886
         },
+        [637] = { -- Sully Balloo's Letter
+            [questKeys.nextQuestInChain] = 683,
+        },
         [638] = {
             [questKeys.nextQuestInChain] = 639,
             [questKeys.breadcrumbForQuestId] = 639, -- #1205
@@ -464,6 +470,9 @@ function QuestieQuestFixes:Load()
         },
         [648] = {
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to Steamwheedle Port", {[zoneIDs.TANARIS]={{67.06,23.16}}}},
+        },
+        [657] = {
+            [questKeys.nextQuestInChain] = 660,
         },
         [660] = {
             [questKeys.triggerEnd] = {"Protect Kinelory", {[zoneIDs.ARATHI_HIGHLANDS]={{60.1,53.83}}}},
@@ -488,6 +497,18 @@ function QuestieQuestFixes:Load()
         [680] = {
             [questKeys.preQuestSingle] = {678}, -- #1062
         },
+        [681] = { -- Northfold Manor
+            [questKeys.nextQuestInChain] = 682,
+        },
+        [683] = { -- Sara Balloo's Plea
+            [questKeys.nextQuestInChain] = 686,
+        },
+        [686] = { -- A King's Tribute
+            [questKeys.nextQuestInChain] = 689,
+        },
+        [689] = { -- A King's Tribute
+            [questKeys.nextQuestInChain] = 700,
+        },
         [690] = { -- Malin's Request
             [questKeys.breadcrumbForQuestId] = 691,
             [questKeys.nextQuestInChain] = 691,
@@ -505,6 +526,10 @@ function QuestieQuestFixes:Load()
         },
         [694] = { -- Wand over Fist
             [questKeys.nextQuestInChain] = 695,
+        },
+        [696] = { -- Attack on the Tower
+            [questKeys.requiredSourceItems] = {4529},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2715}}}},
         },
         [707] = {
             [questKeys.nextQuestInChain] = 738,
@@ -819,7 +844,7 @@ function QuestieQuestFixes:Load()
         },
         [1036] = {
             [questKeys.requiredMinRep] = {87,3000},
-            [questKeys.requiredMaxRep] = {21,-5999},
+            [questKeys.requiredMaxRep] = {21,-6000},
         },
         [1045] = { -- Raene's Cleansing
             [questKeys.requiredSourceItems] = {},
@@ -853,14 +878,15 @@ function QuestieQuestFixes:Load()
         [1076] = { -- Devils in Westfall
             [questKeys.nextQuestInChain] = 1077,
         },
-        [1079] = {
+        [1079] = { -- Covert Ops - Alpha
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1077,1074},
-            [questKeys.requiredSourceItems] = {5695,5694,5693,5692},
+            [questKeys.requiredSourceItems] = {5692,5693,5694,5695,5737},
         },
-        [1080] = {
+        [1080] = { -- Covert Ops - Beta
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1077,1074},
+            [questKeys.requiredSourceItems] = {5692,5693,5694,5695,5737},
         },
         [1085] = {
             [questKeys.breadcrumbs] = {1070},
@@ -1082,20 +1108,54 @@ function QuestieQuestFixes:Load()
         [1365] = { -- Khan Dez'hepah
             [questKeys.breadcrumbs] = {1362},
         },
-        [1367] = {
+        [1367] = { -- Magram Alliance
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Gelkis centaur to increase your reputation with the Magram Clan"), 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}},
+            [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-500},{factionIDs.MAGRAM_CLAN_CENTAUR,100}},
         },
-        [1368] = {
+        [1368] = { -- Gelkis Alliance
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Magram centaur to increase your reputation with the Gelkis Clan"), 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}},
+            [questKeys.reputationReward] = {{factionIDs.MAGRAM_CLAN_CENTAUR,-500},{factionIDs.GELKIS_CLAN_CENTAUR,100}},
+        },
+        [1369] = { -- Broken Tears
+            [questKeys.requiredMinRep] = {factionIDs.MAGRAM_CLAN_CENTAUR,3000},
+        },
+        [1370] = { -- Stealing Supplies
+            [questKeys.requiredMinRep] = {factionIDs.GELKIS_CLAN_CENTAUR,3000},
         },
         [1371] = { -- Gizmo for Warug
             [questKeys.nextQuestInChain] = 1375,
+            [questKeys.requiredMinRep] = {factionIDs.MAGRAM_CLAN_CENTAUR,3000},
         },
-        [1380] = {
+        [1373] = { -- Ongeku
+            [questKeys.requiredMinRep] = {factionIDs.GELKIS_CLAN_CENTAUR,3000},
+        },
+        [1374] = { -- Khan Jehn
+            [questKeys.requiredMinRep] = {factionIDs.GELKIS_CLAN_CENTAUR,3000},
+        },
+        [1375] = { -- Khan Shaka
+            [questKeys.requiredMinRep] = {factionIDs.MAGRAM_CLAN_CENTAUR,3000},
+        },
+        [1380] = { -- Khan Hratha
+            [questKeys.requiredMinRep] = {factionIDs.GELKIS_CLAN_CENTAUR,3000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the War Horn Mouthpiece to summon Khan Hratha"), 0, {{"object", 138497}}}},
         },
-        [1381] = {
+        [1381] = { -- Khan Hratha
+            [questKeys.requiredMinRep] = {factionIDs.MAGRAM_CLAN_CENTAUR,3000},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the War Horn Mouthpiece to summon Khan Hratha"), 0, {{"object", 138497}}}},
+        },
+        [1382] = { -- Strange Alliance
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Magram centaur to increase your reputation with the Gelkis Clan"), 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}},
+            [questKeys.reputationReward] = {{factionIDs.MAGRAM_CLAN_CENTAUR,-500},{factionIDs.GELKIS_CLAN_CENTAUR,100}},
+        },
+        [1384] = { -- Raid on the Kolkar
+            [questKeys.requiredMinRep] = {factionIDs.GELKIS_CLAN_CENTAUR,3000},
+        },
+        [1385] = { -- Brutal Politics
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Gelkis centaur to increase your reputation with the Magram Clan"), 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}},
+            [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-500},{factionIDs.MAGRAM_CLAN_CENTAUR,100}},
+        },
+        [1386] = { -- Assault on the Kolkar
+            [questKeys.requiredMinRep] = {factionIDs.MAGRAM_CLAN_CENTAUR,3000},
         },
         [1388] = {
             [questKeys.preQuestSingle] = {1383},
@@ -1128,6 +1188,9 @@ function QuestieQuestFixes:Load()
         [1436] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {1434,1435},
+        },
+        [1439] = { -- Search for Tyranis
+            [questKeys.nextQuestInChain] = 1440,
         },
         [1440] = {
             [questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[zoneIDs.DESOLACE]={{58.27,30.91}}}},
@@ -2621,7 +2684,7 @@ function QuestieQuestFixes:Load()
         [4621] = {
             [questKeys.preQuestSingle] = {1036},
             [questKeys.requiredMinRep] = {87,3000},
-            [questKeys.requiredMaxRep] = {21,-5999},
+            [questKeys.requiredMaxRep] = {21,-6000},
         },
         [4641] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #877
@@ -3311,6 +3374,9 @@ function QuestieQuestFixes:Load()
         [5893] = {
             [questKeys.questLevel] = 55,
         },
+        [5904] = { -- A Plague Upon Thee
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Termite Barrel"), 0, {{"object", 177490}}}},
+        },
         [5921] = {
             [questKeys.breadcrumbs] = {5923,5924,5925},
         },
@@ -3526,6 +3592,9 @@ function QuestieQuestFixes:Load()
         [6163] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {6135,6136}, -- #1950
+        },
+        [6185] = { -- The Eastern Plagues
+            [questKeys.objectives] = {nil,nil,{{16003},{16001},{16002}},nil,{{{11878},11878,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [6187] = {
             [questKeys.objectivesText] = {"Assemble an army and travel to the Eastern Plaguelands. Launch a full assault on Nathanos Blightcaller and any Horde filth that may attempt to protect him.","","Keep your wits about you, <Name>. The Horde will defend the ranger lord with their very lives."},
@@ -5856,6 +5925,9 @@ function QuestieQuestFixes:Load()
         [9265] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TIRISFAL_GLADES] = {{60.4,61.7}}}},
         },
+        [9272] = {
+            [questKeys.requiredMinRep] = {87,0},
+        },
         [9292] = {
             [questKeys.requiredLevel] = 1,
         },
@@ -6096,6 +6168,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [3741] = {
             [questKeys.reputationReward] = {}, -- doable as horde, but no SW reputation for horde side
         },
+        [4985] = { -- The Wildlife Suffers Too
+            [questKeys.nextQuestInChain] = 4987,
+        },
         [5021] = { -- Better Late Than Never
             [questKeys.nextQuestInChain] = 5023,
         },
@@ -6218,6 +6293,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [2954] = { -- The Stone Watcher
             [questKeys.nextQuestInChain] = 2977,
         },
+        [4985] = { -- The Wildlife Suffers Too
+            [questKeys.nextQuestInChain] = 4986,
+        },
         [5021] = { -- Better Late Than Never
             [questKeys.nextQuestInChain] = 5022,
         },
@@ -6321,5 +6399,3 @@ function QuestieQuestFixes:LoadFactionFixes()
         return questFixesAlliance
     end
 end
-
-

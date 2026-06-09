@@ -139,6 +139,15 @@ QuestieItemDropCorrections.Era = {
     [2676] = { -- Shimmerweed
         [1397] = DropKeys.WOWHEAD,
     },
+    [2843] = { -- Dirty Knucklebones
+        [2252] = DropKeys.WOWHEAD,
+        [2253] = DropKeys.WOWHEAD,
+        [2254] = DropKeys.WOWHEAD,
+        [2255] = DropKeys.WOWHEAD,
+        [2256] = DropKeys.WOWHEAD,
+        [2287] = DropKeys.WOWHEAD,
+        [2416] = DropKeys.WOWHEAD,
+    },
     [3297] = { -- Fel Moss
         [1988] = DropKeys.WOWHEAD,
     },
@@ -236,6 +245,21 @@ QuestieItemDropCorrections.Era = {
     [5669] = { -- Dust Devil Debris
         [832] = 50.0, -- not 100%, not 5%. Could be more than 50%
     },
+    [6250] = { -- Felhound Brain
+        [4678] = 100,
+        [4681] = 100,
+        [4685] = 100,
+    },
+    [6251] = { -- Nether Wing
+        [4679] = 100,
+        [4682] = 100,
+        [4684] = 100,
+    },
+    [6252] = { -- Doomwarder Blood
+        [4680] = 100,
+        [5760] = 100,
+        [14226] = 100,
+    },
     [6443] = { -- Deviate Hide
         [3630] = DropKeys.WOWHEAD,
         [3631] = DropKeys.WOWHEAD,
@@ -285,9 +309,23 @@ QuestieItemDropCorrections.Era = {
         [14460] = 100.0,
         [14461] = 10.0,
     },
+    [15849] = { -- Ghost-o-plasm
+        [11560] = 100,
+    },
     [15852] = { -- Kodo Horn
         [3234] = 100,
         [3236] = 100,
+    },
+    [15881] = { -- Rackmore's Golden Key
+        [4711] = DropKeys.WOWHEAD,
+        [4712] = DropKeys.WOWHEAD,
+        [4713] = DropKeys.WOWHEAD,
+        [4714] = DropKeys.WOWHEAD,
+        [4715] = DropKeys.WOWHEAD,
+        [4716] = DropKeys.WOWHEAD,
+        [4718] = DropKeys.WOWHEAD,
+        [4719] = DropKeys.WOWHEAD,
+        [14229] = DropKeys.WOWHEAD,
     },
     [20373] = { -- Stonelash Scorpid Stinger
         [11735] = DropKeys.WOWHEAD,
@@ -318,7 +356,7 @@ QuestieItemDropCorrections.Era = {
 
 QuestieItemDropCorrections.Tbc = {
     [6487] = { -- Vile Familiar Head
-        [3101] = 100,
+        [3101] = 100, -- TO DO double check this. strange that it's TBC only
     },
     [20934] = { -- Wraith Essence
         [15273] = 100,

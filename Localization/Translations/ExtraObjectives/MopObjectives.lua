@@ -1262,18 +1262,6 @@ local mopObjectiveLocales = {
         ["zhCN"] = "打开琥珀",
         ["zhTW"] = false,
     },
-    ["Open the box"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "打开箱子",
-        ["zhTW"] = false,
-    },
     ["Fly to Emperor's Reach"] = {
         ["enUS"] = true,
         ["deDE"] = false,
