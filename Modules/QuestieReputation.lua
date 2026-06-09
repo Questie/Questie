@@ -279,7 +279,7 @@ _GetRewardMultiplier = function()
     local multiplier = 1 + buffMultiplier
 
     if playerIsHuman then
-        multiplier = multiplier + 0.1 -- 10% bonus reputation from Human Racial
+        multiplier = multiplier + (Questie.IsTitanReforged and 0 or 0.1) -- 10% bonus reputation from Human Racial（titan dont have this one）
     end
 
     if knowsMrPopularityRank2 then
