@@ -503,9 +503,6 @@ function QuestieQuestFixes:Load()
         [683] = { -- Sara Balloo's Plea
             [questKeys.nextQuestInChain] = 686,
         },
-        [686] = { -- A King's Tribute
-            [questKeys.nextQuestInChain] = 689,
-        },
         [689] = { -- A King's Tribute
             [questKeys.nextQuestInChain] = 700,
         },
