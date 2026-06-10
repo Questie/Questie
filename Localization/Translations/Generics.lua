@@ -302,6 +302,18 @@ local genericsLocales = {
         ["zhCN"] = "需要职业",
         ["zhTW"] = "需要職業",
     },
+    ["Required Profession"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Benötigter Beruf",
+        ["esES"] = "Profesión requerida",
+        ["esMX"] = "Profesión requerida",
+        ["frFR"] = "Métier requis",
+        ["koKR"] = "필요 전문 기술들",
+        ["ptBR"] = "Profissão necessária",
+        ["ruRU"] = "Требуемая профессия",
+        ["zhCN"] = "需要专业",
+        ["zhTW"] = "需要專業技能",
+    },
     ["Treasure Map"] = {
         ["enUS"] = true,
         ["deDE"] = "Schatzkarte",

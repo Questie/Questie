@@ -1,7 +1,7 @@
 ---@class QuestieProfessions
-local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
+local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions")
 ---@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
@@ -13,6 +13,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
+---@type table<SpecializationKeys, string>
 local specializationNames
 local alternativeProfessionNames = {}
 
@@ -313,6 +314,7 @@ local sortIds = {
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
 
+---@enum SpecializationKeys
 QuestieProfessions.specializationKeys = { -- specializations use spellID, professions use skillID
     ALCHEMY = QuestieProfessions.professionKeys.ALCHEMY,
     ALCHEMY_ELIXIR = 28677,
@@ -385,9 +387,9 @@ function QuestieProfessions.GetTrainerName(professionKey)
     return trainerNames[professionKey]
 end
 
----@return string
+---@param specializationKey SpecializationKeys
+---@return string?
 function QuestieProfessions:GetSpecializationName(specializationKey)
-    -- TODO: this function is as of yet unused, if you plan on using it add translations for the specializationNames table
     return specializationNames[specializationKey]
 end
 
