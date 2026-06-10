@@ -327,6 +327,21 @@ QuestieItemDropCorrections.Era = {
         [4719] = DropKeys.WOWHEAD,
         [14229] = DropKeys.WOWHEAD,
     },
+    [17761] = { -- Gem of the First Khan
+        [12240] = 100,
+    },
+    [17762] = { -- Gem of the Second Khan
+        [12239] = 100,
+    },
+    [17763] = { -- Gem of the Third Khan
+        [12241] = 100,
+    },
+    [17764] = { -- Gem of the Fourth Khan
+        [12242] = 100,
+    },
+    [17765] = { -- Gem of the Fifth Khan
+        [12243] = 100,
+    },
     [20373] = { -- Stonelash Scorpid Stinger
         [11735] = DropKeys.WOWHEAD,
     },
