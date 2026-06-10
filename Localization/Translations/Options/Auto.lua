@@ -124,7 +124,7 @@ local autoOptionsLocales = {
     },
     ["Automatically accept raid quests from NPCs."] = {
         ["enUS"] = true,
-        ["deDE"] = "Schlachtzugs-Quests automatisch von NPCs annehmen.",
+        ["deDE"] = "Schlachtzug-Quests automatisch von NPCs annehmen.",
         ["esES"] = "Acepta automáticamente misiones de banda de PNJ.",
         ["esMX"] = "Acepta automáticamente misiones de banda de PNJ.",
         ["frFR"] = "Accepte automatiquement les quêtes de raid des PNJ.",
@@ -220,7 +220,7 @@ local autoOptionsLocales = {
     },
     ["Automatically accept raid quests from players."] = {
         ["enUS"] = true,
-        ["deDE"] = "Schlachtzugs-Quests automatisch von Spielern annehmen.",
+        ["deDE"] = "Schlachtzug-Quests automatisch von Spielern annehmen.",
         ["esES"] = "Acepta automáticamente misiones de banda de los jugadores.",
         ["esMX"] = "Acepta automáticamente misiones de banda de los jugadores.",
         ["frFR"] = "Accepte automatiquement les quêtes de raid des joueurs.",
@@ -292,7 +292,7 @@ local autoOptionsLocales = {
     },
     ["Raid Quests"] = {
         ["enUS"] = true,
-        ["deDE"] = "Schlachtzugs-Quests",
+        ["deDE"] = "Schlachtzug-Quests",
         ["esES"] = "Misiones de banda",
         ["esMX"] = "Misiones de banda",
         ["frFR"] = "Quêtes de raid",
