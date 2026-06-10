@@ -302,6 +302,18 @@ local genericsLocales = {
         ["zhCN"] = "需要职业",
         ["zhTW"] = "需要職業",
     },
+    ["Required Profession"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Treasure Map"] = {
         ["enUS"] = true,
         ["deDE"] = "Schatzkarte",
