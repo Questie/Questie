@@ -122,6 +122,9 @@ function QuestieQuestFixes:Load()
         [112] = {
             [questKeys.nextQuestInChain] = 114,
         },
+        [113] = { -- Insect Part Analysis
+            [questKeys.nextQuestInChain] = 162,
+        },
         [117] = {
             [questKeys.name] = "Thunderbrew",
         },
@@ -3797,11 +3800,14 @@ function QuestieQuestFixes:Load()
         [7043] = {
             [questKeys.objectivesText] = {"Locate and return the Stolen Treats to Wulmort Jinglepocket in Ironforge. It was last thought to be in the possession of the Abominable Greench, found somewhere in the snowy regions of the Alterac Mountains."},
         },
+        [7044] = { -- Legends of Maraudon
+            [questKeys.nextQuestInChain] = 7046,
+        },
         [7045] = {
             [questKeys.name] = "A Smokywood Pastures' Thank You!",
         },
-        [7046] = {
-            [questKeys.triggerEnd] = {"Create the Scepter of Celebras", {[zoneIDs.DESOLACE]={{35.97,64.41}}}},
+        [7046] = { -- The Scepter of Celebras
+            [questKeys.objectives] = {nil,{{178965}}},
         },
         [7062] = {
             [questKeys.startedBy] = {{1365}},
