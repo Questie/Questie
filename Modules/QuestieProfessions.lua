@@ -5,10 +5,10 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
+local Expansions = QuestieLoader:ImportModule("Expansions");
 
 ---@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
+local l10n = QuestieLoader:ImportModule("l10n");
 
 local playerProfessions = {}
 local professionTable = {}
@@ -385,9 +385,8 @@ function QuestieProfessions.GetTrainerName(professionKey)
     return trainerNames[professionKey]
 end
 
----@return string
+---@return string?
 function QuestieProfessions:GetSpecializationName(specializationKey)
-    -- TODO: this function is as of yet unused, if you plan on using it add translations for the specializationNames table
     return specializationNames[specializationKey]
 end
 
