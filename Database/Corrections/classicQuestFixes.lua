@@ -1134,11 +1134,11 @@ function QuestieQuestFixes:Load()
         },
         [1380] = { -- Khan Hratha
             [questKeys.requiredMinRep] = {factionIDs.GELKIS_CLAN_CENTAUR,3000},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the War Horn Mouthpiece to summon Khan Hratha"), 0, {{"object", 138497}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the War Horn Mouthpiece to summon Khan Hratha"), 0, {{"object", 138497}}}},
         },
         [1381] = { -- Khan Hratha
             [questKeys.requiredMinRep] = {factionIDs.MAGRAM_CLAN_CENTAUR,3000},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the War Horn Mouthpiece to summon Khan Hratha"), 0, {{"object", 138497}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the War Horn Mouthpiece to summon Khan Hratha"), 0, {{"object", 138497}}}},
         },
         [1382] = { -- Strange Alliance
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Magram centaur to increase your reputation with the Gelkis Clan"), 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}},
