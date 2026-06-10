@@ -148,7 +148,7 @@ local autoOptionsLocales = {
     },
     ["Automatically accept event quests from NPCs."] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignis-Quests automatisch von NPCs annehmen.",
+        ["deDE"] = "Event-Quests automatisch von NPCs annehmen.",
         ["esES"] = "Acepta automáticamente misiones de evento de PNJ.",
         ["esMX"] = "Acepta automáticamente misiones de evento de PNJ.",
         ["frFR"] = "Accepte automatiquement les quêtes d'événement des PNJ.",
@@ -244,7 +244,7 @@ local autoOptionsLocales = {
     },
     ["Automatically accept event quests from players."] = {
         ["enUS"] = true,
-        ["deDE"] = "Ereignis-Quests automatisch von Spielern annehmen.",
+        ["deDE"] = "Event-Quests automatisch von Spielern annehmen.",
         ["esES"] = "Acepta automáticamente misiones de evento de los jugadores.",
         ["esMX"] = "Acepta automáticamente misiones de evento de los jugadores.",
         ["frFR"] = "Accepte automatiquement les quêtes d'événement des joueurs.",
