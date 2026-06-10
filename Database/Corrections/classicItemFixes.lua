@@ -1584,7 +1584,7 @@ function QuestieItemFixes:Load()
     }
 end
 
--- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
+-- some quest items are shared across factions but require different sources for each faction
 function QuestieItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
