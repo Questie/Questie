@@ -560,6 +560,11 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                         playerType = " " .. l10n("(") .. l10n("Nearby") .. l10n(")")
                     end
                 end
+                if not playerColor then
+                    -- We have this player's objective data but can't resolve their class;
+                    -- show the name anyway instead of silently dropping the line.
+                    playerColor = "|cFFCCCCCC"
+                end
                 if playerColor then
                     local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
                     if not objectiveEntry then
