@@ -201,8 +201,8 @@ local function recurseTable(theTable, theKeys)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "requiredClasses", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle", "requiredSkill"}) or {}
-    local name, requiredLevel, requiredRaces, requiredClasses, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle, requiredSkill = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8], ret[9], ret[10]
+    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "requiredClasses", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle", "requiredSkill", "requiredSpecialization"}) or {}
+    local name, requiredLevel, requiredRaces, requiredClasses, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle, requiredSkill, requiredSpecialization = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8], ret[9], ret[10], ret[11]
 
     local questLevel, _ = QuestieLib.GetTbcLevel(id);
 
@@ -283,7 +283,9 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Class")) .. l10n(": ") .. reqClasses)
     end
     if requiredSkill and requiredSkill[1] and QuestieProfessions:GetProfessionName(requiredSkill[1]) then
-        local reqProfession = l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
+        -- specialization names are already localized by the client, so no l10n call needed
+        local specializationName = requiredSpecialization and QuestieProfessions:GetSpecializationName(requiredSpecialization)
+        local reqProfession = specializationName or l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
         if requiredSkill[2] and requiredSkill[2] > 1 then
             reqProfession = reqProfession .. " (" .. requiredSkill[2] .. ")"
         end

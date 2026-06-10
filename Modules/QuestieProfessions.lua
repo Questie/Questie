@@ -382,10 +382,14 @@ function QuestieProfessions.GetTrainerName(professionKey)
     return trainerNames[professionKey]
 end
 
----@return string
+---@return string?
 function QuestieProfessions:GetSpecializationName(specializationKey)
-    -- TODO: this function is as of yet unused, if you plan on using it add translations for the specializationNames table
-    return specializationNames[specializationKey]
+    if not specializationNames[specializationKey] then
+        -- profession-only values are not specializations and have no name
+        return nil
+    end
+    -- the spell name is localized by the client, the table only serves as fallback
+    return QuestieCompat.GetSpellName(specializationKey) or specializationNames[specializationKey]
 end
 
 ---@return number
