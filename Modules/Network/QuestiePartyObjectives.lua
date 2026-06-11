@@ -54,7 +54,7 @@ local updateScheduled = false
 local processing = false
 
 -- Forward declarations (these reference each other).
-local _Kick, _ProcessScheduled, _ProcessQueue
+local _ScheduleProcessing, _ProcessScheduled, _ProcessQueue
 
 ---@param questId number
 ---@return boolean @true if the local player currently has this quest in their log
@@ -330,14 +330,14 @@ _ProcessQueue = function(queue, index)
         processing = false
         -- Work that arrived while we were processing.
         if fullRefreshPending or next(dirtyQuests) then
-            _Kick()
+            _ScheduleProcessing()
         end
     end
 end
 
 _ProcessScheduled = function()
     if processing then
-        _Kick()
+        _ScheduleProcessing()
         return
     end
 
@@ -371,7 +371,7 @@ _ProcessScheduled = function()
 end
 
 -- Debounce: coalesce bursts of incoming packets into a single processing pass.
-_Kick = function()
+_ScheduleProcessing = function()
     if updateScheduled then
         return
     end
@@ -417,7 +417,7 @@ function QuestiePartyObjectives:ScheduleUpdate(questId)
     else
         fullRefreshPending = true
     end
-    _Kick()
+    _ScheduleProcessing()
 end
 
 return QuestiePartyObjectives
