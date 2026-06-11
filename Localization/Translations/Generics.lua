@@ -304,7 +304,7 @@ local genericsLocales = {
     },
     ["Required Profession"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benötigter Beruf",
         ["esES"] = "Profesión requerida",
         ["esMX"] = "Profesión requerida",
         ["frFR"] = "Métier requis",
