@@ -8572,6 +8572,18 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {93975,94577,94579,95037,96312,96315},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
+        [98183] = { -- restart ceremony -- only present on titan reforged
+            [questKeys.name] = "Restart Ceremony",
+            [questKeys.startedBy] = {{14910}},
+            [questKeys.finishedBy] = {{14910}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Accept Enhancement of Zandalari Gems."},
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
     }
 end
 

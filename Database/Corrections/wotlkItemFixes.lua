@@ -775,6 +775,11 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.class] = 15,
             [itemKeys.requiredLevel] = 80,
         },
+        [279578] = { -- Strengthen Zandalari Gems
+            [itemKeys.name] = "Strengthen Zandalari Gems",
+            [itemKeys.class] = 12,
+            [itemKeys.requiredLevel] = 80,
+        },
     }
 end
 
