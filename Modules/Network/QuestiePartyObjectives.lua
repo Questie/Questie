@@ -2,8 +2,6 @@
 local QuestiePartyObjectives = QuestieLoader:CreateModule("QuestiePartyObjectives")
 ---@class QuestiePartyObjectivesPrivate
 QuestiePartyObjectives.private = QuestiePartyObjectives.private or {}
----@type QuestiePartyObjectivesPrivate
-local _QuestiePartyObjectives = QuestiePartyObjectives.private
 -------------------------
 --Import modules.
 -------------------------
@@ -81,6 +79,33 @@ local function _GetObjectiveName(objType, objId)
         local item = QuestieDB:GetItem(objId)
         return item and item.name
     end
+end
+
+-- The tooltips prefer FullDescription (the objective text including "slain", see
+-- QuestieLib:GetObjectiveDescription), which QuestieQuest extracts from the local quest log
+-- when trimObjectiveText is inactive. The local player does not have a party member's quest,
+-- so rebuild the text from the client's own quest log format string for the objective type.
+local objectiveTypePatterns = {
+    monster = QUEST_MONSTERS_KILLED, -- "%s slain: %d/%d"
+    item = QUEST_ITEMS_NEEDED,
+    object = QUEST_OBJECTS_FOUND,
+}
+
+---@param objType string
+---@param description string
+---@return string?
+local function _GetFullDescription(objType, description)
+    if Questie.db.profile.trimObjectiveText or description == "" then
+        return nil
+    end
+    local pattern = objectiveTypePatterns[objType]
+    if not pattern then
+        return nil
+    end
+    local rawText = string.format(pattern, description, 0, 0)
+    -- Strip the counter the same way QuestieQuest does for the real quest log text. The second
+    -- match is for Chinese clients where the colon is a different character.
+    return string.match(rawText, "^(.*):%s*%d+/%d+$") or string.match(rawText, "^(.*)：%s*%d+/%d+$")
 end
 
 ---@return boolean
@@ -193,12 +218,14 @@ local function _DrawQuest(questId)
 
         if objType and objId then
             local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
+            local description = (objData and objData.Text) or _GetObjectiveName(objType, objId) or ""
             local objective = {
                 Id = objId,
                 Type = objType,
                 Index = objectiveIndex,
                 questId = questId,
-                Description = (objData and objData.Text) or _GetObjectiveName(objType, objId) or "",
+                Description = description,
+                FullDescription = _GetFullDescription(objType, description),
                 Icon = objData and objData.Icon,
                 Completed = false,
                 -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.

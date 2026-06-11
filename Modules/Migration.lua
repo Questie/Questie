@@ -182,6 +182,9 @@ local migrationFunctions = {
     [28] = function()
         Questie.db.profile.trimObjectiveText = true
     end,
+    [29] = function()
+        Questie.db.profile.showPartyQuestObjectives = true
+    end,
 }
 
 function Migration:Migrate()
