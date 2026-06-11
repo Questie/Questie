@@ -10206,6 +10206,7 @@ function MopQuestFixes.Load()
         },
         [33337] = { -- A Vision in Time
             [questKeys.preQuestSingle] = {33338},
+            [questKeys.objectives] = {{{74094,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [33338] = { -- Empowering the Hourglass
             [questKeys.preQuestSingle] = {33336},

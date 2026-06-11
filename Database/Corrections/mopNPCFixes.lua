@@ -7073,6 +7073,10 @@ function MopNpcFixes.Load()
         [74027] = { -- Lorry Warmheart
             [npcKeys.spawns] = {[5840]={{43,47.2},{43.2,46.4}},[6142]={{41,47.6},{41.4,47},{43,46.8},{43.2,46.4},{43.6,46.4}}},
         },
+        [74094] = { -- Vision of Time Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.SIEGE_OF_ORGRIMMAR] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.SIEGE_OF_ORGRIMMAR,
+        },
         [244975] = { -- Aetha
             [npcKeys.name] = "Aetha",
             [npcKeys.subName] = "Spirit of the Golden Winds",

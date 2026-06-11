@@ -287,6 +287,7 @@ ZoneDB.zoneIDs = {
     ISLE_OF_THUNDER_SCENARIO = 6677, -- Scenario
     BLOOD_IN_THE_SNOW_SCENARIO = 6678, -- Scenario
     THUNDER_KINGS_CITADEL = 6716, -- Scenario
+    SIEGE_OF_ORGRIMMAR = 6738,
     TIMELESS_ISLE = 6757,
     PROVING_GROUNDS_SCENARIO = 6852, -- Scenario
     -- UPPER_BLACKROCK_SPIRE = 7307, -- only added in WoD
