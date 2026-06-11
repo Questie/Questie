@@ -8580,7 +8580,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectivesText] = {"Accept The Empowered Zandalari Bijou."},
-            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
         },
