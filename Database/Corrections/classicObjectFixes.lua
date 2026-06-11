@@ -403,13 +403,13 @@ function QuestieObjectFixes:Load()
             [objectKeys.questStarts] = {},
         },
         [187260] = { -- Mailbox
-            [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
+            [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC. Not there in Era
         },
         [187273] = { -- Suspicious Hoofprint
             [objectKeys.questStarts] = {},
         },
         [188123] = { -- Mailbox
-            [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
+            [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC. Not there in Era
         },
         [190483] = { -- Document Chest
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{33.76,39.99}}},
@@ -425,7 +425,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
         -- Fake IDs
-        -- For Classic fixes 400001-409999
+        -- For Era fixes 400001-409999
         [400001] = { -- Unlit Torch
             [objectKeys.name] = "Unlit Torch",
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE] = {{26.79,22.43}}},
@@ -437,7 +437,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
         --[[[400003] = { -- REUSE
-            [objectKeys.name] = "Maraudon Orange Crystal Pool", -- Desolace for quest 7041
+            [objectKeys.name] = "Maraudon Orange Crystal Pool",
             [objectKeys.spawns] = {[zoneIDs.DESOLACE] = {{33.22,65.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },]]
