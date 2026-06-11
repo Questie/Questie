@@ -8572,6 +8572,18 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {93975,94577,94579,95037,96312,96315},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
+        [98183] = { -- A Ritual Renewed -- only present on titan reforged
+            [questKeys.name] = "A Ritual Renewed",
+            [questKeys.startedBy] = {{14910}},
+            [questKeys.finishedBy] = {{14910}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Accept The Empowered Zandalari Bijou."},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
     }
 end
 
@@ -8790,4 +8802,5 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[96312] = {} -- Brutallus Must Die!
     QuestieDB.questData[96315] = {} -- XT-002 Deconstructor Must Die!
     QuestieDB.questData[96318] = {} -- Shade of Aran Must Die!
+    QuestieDB.questData[98183] = {} -- A Ritual Renewed
 end
