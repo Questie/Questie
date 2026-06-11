@@ -250,7 +250,7 @@ local function _DrawQuest(questId)
             }
 
             -- must be p-called (matches how QuestieQuest calls it internally)
-            local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objectiveIndex, objective, true)
+            local ok, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objectiveIndex, objective, true)
             if ok then
                 local objectiveIconCount = _CountIcons(objective)
                 if drawnIconCount + iconCount + objectiveIconCount > MAX_PARTY_ICONS then
@@ -265,6 +265,8 @@ local function _DrawQuest(questId)
                 end
                 objectives[#objectives + 1] = objective
                 iconCount = iconCount + objectiveIconCount
+            else
+                Questie:Debug(Questie.DEBUG_ELEVATED, "[QuestiePartyObjectives] Error populating party objective for quest", questId, "objective", objectiveIndex, err)
             end
         end
     end
