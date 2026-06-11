@@ -777,7 +777,7 @@ function QuestieWotlkItemFixes:Load()
         },
         [279578] = { -- Empowered Zandalari Bijou
             [itemKeys.name] = "Empowered Zandalari Bijou",
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.requiredLevel] = 80,
         },
     }
