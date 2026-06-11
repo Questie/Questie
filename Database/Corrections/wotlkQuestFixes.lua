@@ -8802,5 +8802,5 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[96312] = {} -- Brutallus Must Die!
     QuestieDB.questData[96315] = {} -- XT-002 Deconstructor Must Die!
     QuestieDB.questData[96318] = {} -- Shade of Aran Must Die!
-    QuestieDB.questData[98183] = {} -- Restart Ceremony
+    QuestieDB.questData[98183] = {} -- A Ritual Renewed
 end
