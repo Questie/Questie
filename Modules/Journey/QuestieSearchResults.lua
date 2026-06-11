@@ -283,9 +283,8 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Class")) .. l10n(": ") .. reqClasses)
     end
     if requiredSkill and requiredSkill[1] and QuestieProfessions:GetProfessionName(requiredSkill[1]) then
-        -- specialization names are already localized by the client, so no l10n call needed
         local specializationName = requiredSpecialization and QuestieProfessions:GetSpecializationName(requiredSpecialization)
-        local reqProfession = specializationName or l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
+        local reqProfession = specializationName and l10n(specializationName) or l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
         if requiredSkill[2] and requiredSkill[2] > 1 then
             reqProfession = reqProfession .. " (" .. requiredSkill[2] .. ")"
         end

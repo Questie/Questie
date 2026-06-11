@@ -275,18 +275,6 @@ function QuestieCompat.IsSpellKnown(spellID)
     end
 end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellName)
----Returns the localized name of a spell.
----@param spellID number The spell ID.
----@return string? spellName The localized spell name, or nil if the spell does not exist
-function QuestieCompat.GetSpellName(spellID)
-    if C_Spell and C_Spell.GetSpellName then
-        return C_Spell.GetSpellName(spellID)
-    else
-        return (GetSpellInfo(spellID))
-    end
-end
-
 function QuestieCompat.HideWatchFrame()
     if Questie.IsTitanReforged then
         -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.

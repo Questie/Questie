@@ -3,10 +3,10 @@ local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
+local Expansions = QuestieLoader:ImportModule("Expansions");
 
 ---@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
+local l10n = QuestieLoader:ImportModule("l10n");
 
 local playerProfessions = {}
 local professionTable = {}
@@ -384,12 +384,7 @@ end
 
 ---@return string?
 function QuestieProfessions:GetSpecializationName(specializationKey)
-    if not specializationNames[specializationKey] then
-        -- profession-only values are not specializations and have no name
-        return nil
-    end
-    -- the spell name is localized by the client, the table only serves as fallback
-    return QuestieCompat.GetSpellName(specializationKey) or specializationNames[specializationKey]
+    return specializationNames[specializationKey]
 end
 
 ---@return number
