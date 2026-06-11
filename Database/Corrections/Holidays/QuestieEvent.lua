@@ -82,7 +82,7 @@ local DMF_LOCATIONS = {
 
 -- The ingame calender adds a texture to the DMF event.
 -- We use this to identify the event without relying on dates or localized event titles.
-local DMF_CALENDER_ICON_TEXTURES = {
+local DMF_CALENDAR_ICON_TEXTURES = {
     [235446] = true, -- End Texture
     [235447] = true, -- Ongoing Texture
     [235448] = true, -- Start Texture
@@ -155,7 +155,7 @@ function QuestieEvent:Load()
 
         for i = 1, numDayEvents do
             local event = C_Calendar.GetHolidayInfo(0, currentDate.monthDay, i)
-            if event and DMF_CALENDER_ICON_TEXTURES[event.texture] then
+            if event and DMF_CALENDAR_ICON_TEXTURES[event.texture] then
                 dmfIsActive = true
                 break
             end
