@@ -1717,7 +1717,7 @@ function QuestieQuestBlacklist:Load()
         [96312] = true, -- Brutallus Must Die! not open now
         [96315] = true, -- XT-002 Deconstructor Must Die! not open now
         [96318] = true, -- Shade of Aran Must Die! not open now
-        [98183] = not Questie.IsTitanReforged, -- Restart Ceremony
+        [98183] = not Questie.IsTitanReforged, -- A Ritual Renewed
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
