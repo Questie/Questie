@@ -211,10 +211,18 @@ local function _DrawQuest(questId)
             break
         end
 
-        -- Prefer the database ObjectiveData (canonical Type/Id); fall back to comms data.
+        -- Prefer the database ObjectiveData (canonical Type/Id). It only misses an entry at this
+        -- index when the party members' databases disagree (e.g. different Questie versions);
+        -- in that case fall back to the comms data as a whole, to not mix the two sources.
         local objData = quest.ObjectiveData[objectiveIndex]
-        local objType = objData and objData.Type or typeCharToFull[remoteObjective.type]
-        local objId = objData and objData.Id or remoteObjective.id
+        local objType, objId
+        if objData then
+            objType = objData.Type
+            objId = objData.Id
+        else
+            objType = typeCharToFull[remoteObjective.type]
+            objId = remoteObjective.id
+        end
 
         if objType and objId then
             local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
