@@ -23,6 +23,11 @@ describe("QuestieDB", function()
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
+        QuestieCorrections.killCreditObjectiveFirst = {}
+        QuestieCorrections.objectObjectiveFirst = {}
+        QuestieCorrections.itemObjectiveFirst = {}
+        QuestieCorrections.eventObjectiveFirst = {}
+        QuestieCorrections.spellObjectiveFirst = {}
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
@@ -71,6 +76,51 @@ describe("QuestieDB", function()
             assert.are.same("Finish him!", quest.Description)
 
             assert.are.same({{Type = "monster", Id = 1000}}, quest.ObjectiveData)
+        end)
+
+        it("should return a spell objective once as structured objective data", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = {
+                [6] = {{12345, "Cast the spell", 67890}}
+            }
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({{
+                Type = "spell",
+                Id = 12345,
+                Text = "Cast the spell",
+                ItemSourceId = 67890,
+            }}, quest.ObjectiveData)
+        end)
+
+        it("should move a structured spell objective first when corrected", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = {
+                [1] = {{1000, "Slay the target"}},
+                [6] = {{12345, "Cast the spell", 67890}}
+            }
+            QuestieCorrections.spellObjectiveFirst[123] = true
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({
+                {
+                    Type = "spell",
+                    Id = 12345,
+                    Text = "Cast the spell",
+                    ItemSourceId = 67890,
+                },
+                {
+                    Type = "monster",
+                    Id = 1000,
+                    Text = "Slay the target",
+                },
+            }, quest.ObjectiveData)
         end)
     end)
 

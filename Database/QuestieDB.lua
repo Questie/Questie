@@ -1607,24 +1607,24 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             end
         end
         if objectives[6] then
-            for index, spellObjective in pairs(objectives[6]) do
+            for _, spellObjective in pairs(objectives[6]) do
                 if spellObjective then
                     ---@type SpellObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local spellObjectiveData = {
                         Type = "spell",
                         Id = spellObjective[1],
                         Text = spellObjective[2],
                         ItemSourceId = spellObjective[3],
                     }
                     QO.SpellItemId = spellObjective[3]
-                end
 
-                --? There are quest(s) which have the spellObjective first so we need to switch them
-                -- Place the spell objective first
-                if QuestieCorrections.spellObjectiveFirst[questId] then
-                    tinsert(QO.ObjectiveData, 1, spellObjective);
-                else
-                    tinsert(QO.ObjectiveData, spellObjective);
+                    --? There are quest(s) which have the spellObjective first so we need to switch them
+                    -- Place the spell objective first
+                    if QuestieCorrections.spellObjectiveFirst[questId] then
+                        tinsert(QO.ObjectiveData, 1, spellObjectiveData);
+                    else
+                        tinsert(QO.ObjectiveData, spellObjectiveData);
+                    end
                 end
             end
         end
