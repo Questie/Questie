@@ -21,6 +21,7 @@ QuestieJourneyFactions.expansionFactionCandidates = {
         factionIDs.STORMWIND,
         factionIDs.ORGRIMMAR,
         factionIDs.THUNDER_BLUFF,
+        factionIDs.BLOODSAIL_BUCCANEERS,
         factionIDs.GELKIS_CLAN_CENTAUR,
         factionIDs.MAGRAM_CLAN_CENTAUR,
         factionIDs.STEAMWHEEDLE_CARTEL,
