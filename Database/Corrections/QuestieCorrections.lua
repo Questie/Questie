@@ -98,6 +98,7 @@ QuestieCorrections.objectObjectiveFirst = {}
 QuestieCorrections.itemObjectiveFirst = {}
 QuestieCorrections.eventObjectiveFirst = {}
 QuestieCorrections.spellObjectiveFirst = {}
+QuestieCorrections.objectiveOrderMoves = {}
 
 do
     local type, assert = type, assert

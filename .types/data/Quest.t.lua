@@ -80,6 +80,12 @@
 ---@field Text string
 ---@field Coordinates table<AreaId, CoordPair[]>
 
+---@class ObjectiveOrderMove
+---@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation"|"spell"
+---@field Id number? @Required except event. Kill credit uses RootId.
+---@field From ObjectiveIndex @Expected original ObjectiveData index.
+---@field To ObjectiveIndex @Target ObjectiveData index.
+
 
 ---@class QuestObjective
 ---@field Id FactionId|ItemId|NpcId|ObjectId|SpellId The relevant ID for the objective
