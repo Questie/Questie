@@ -165,6 +165,9 @@ function QuestieQuestFixes:Load()
         [179] = { -- Dwarven Outfitters
             [questKeys.nextQuestInChain] = 233,
         },
+        [189] = { -- Bloodscalp Ears
+            [questKeys.nextQuestInChain] = 209,
+        },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
         },
@@ -449,6 +452,9 @@ function QuestieQuestFixes:Load()
         },
         [602] = { -- Magical Analysis
             [questKeys.nextQuestInChain] = 603,
+        },
+        [609] = { -- Voodoo Dues
+            [questKeys.nextQuestInChain] = 613,
         },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
@@ -4065,6 +4071,9 @@ function QuestieQuestFixes:Load()
         },
         [7805] = { -- A Donation of Runecloth
             [questKeys.nextQuestInChain] = 7806,
+        },
+        [7810] = { -- Arena Master
+            [questKeys.nextQuestInChain] = 7838,
         },
         [7811] = { -- A Donation of Runecloth
             [questKeys.nextQuestInChain] = 7812,

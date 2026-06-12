@@ -378,6 +378,9 @@ function QuestieWotlkQuestFixes:Load()
         [7704] = {
             [questKeys.startedBy] = {nil,nil,{18950}},
         },
+        [7838] = { -- Arena Grandmaster
+            [questKeys.requiredLevel] = 1,
+        },
         [8149] = {
             [questKeys.objectives] = {nil,{{1323}}},
             [questKeys.extraObjectives] = {},

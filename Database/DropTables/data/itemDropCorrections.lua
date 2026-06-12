@@ -136,6 +136,11 @@ QuestieItemDropCorrections.Era = {
         [787] = DropKeys.WOWHEAD,
         [1110] = DropKeys.WOWHEAD,
     },
+    [2633] = { -- Jungle Remedy
+        [940] = DropKeys.WOWHEAD,
+        [941] = DropKeys.WOWHEAD,
+        [942] = DropKeys.WOWHEAD,
+    },
     [2676] = { -- Shimmerweed
         [1397] = DropKeys.WOWHEAD,
     },
@@ -385,6 +390,12 @@ QuestieItemDropCorrections.Era = {
 }
 
 QuestieItemDropCorrections.Tbc = {
+    [2633] = { -- Jungle Remedy
+        [937] = DropKeys.WOWHEAD, -- TBC only
+        [940] = DropKeys.WOWHEAD,
+        [941] = DropKeys.WOWHEAD,
+        [942] = DropKeys.WOWHEAD,
+    },
     [6487] = { -- Vile Familiar Head
         [3101] = 100, -- TO DO double check this. strange that it's TBC only
     },
