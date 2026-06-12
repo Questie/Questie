@@ -827,7 +827,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "放置白蚁桶",
         ["zhTW"] = false,
     },
     ["Use it"] = {
