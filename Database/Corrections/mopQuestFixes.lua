@@ -12,389 +12,389 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.objectiveOrderMoves[10068] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[10068] = { -- Frost Nova
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Frost Nova
 }
-QuestieCorrections.objectiveOrderMoves[10069] = {
-    {Type = "spell", Id = 105361, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[10069] = { -- Ways of the Light
+    {Type = "spell", Id = 105361, From = 2, To = 1}, -- Ways of the Light
 }
-QuestieCorrections.objectiveOrderMoves[10070] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[10070] = { -- Steady Shot
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- Steady Shot
 }
-QuestieCorrections.objectiveOrderMoves[10071] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[10071] = { -- Evisceration
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- Evisceration
 }
-QuestieCorrections.objectiveOrderMoves[10072] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[10072] = { -- Learning the Word
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Learning the Word
 }
-QuestieCorrections.objectiveOrderMoves[10073] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[10073] = { -- Corruption
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- Corruption
 }
-QuestieCorrections.objectiveOrderMoves[14007] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14007] = { -- Steady Shot
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- Steady Shot
 }
-QuestieCorrections.objectiveOrderMoves[14008] = {
-    {Type = "spell", Id = 5143, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14008] = { -- Frost Nova
+    {Type = "spell", Id = 5143, From = 2, To = 1}, -- Frost Nova
 }
-QuestieCorrections.objectiveOrderMoves[14010] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14010] = { -- Eviscerate
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- Eviscerate
 }
-QuestieCorrections.objectiveOrderMoves[14011] = {
-    {Type = "spell", Id = 73899, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14011] = { -- Primal Strike
+    {Type = "spell", Id = 73899, From = 2, To = 1}, -- Primal Strike
 }
-QuestieCorrections.objectiveOrderMoves[14012] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14012] = { -- Corruption
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- Corruption
 }
-QuestieCorrections.objectiveOrderMoves[14013] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14013] = { -- Charge
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Charge
 }
-QuestieCorrections.objectiveOrderMoves[14266] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14266] = { -- Charge
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Charge
 }
-QuestieCorrections.objectiveOrderMoves[14272] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14272] = { -- Eviscerate
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- Eviscerate
 }
-QuestieCorrections.objectiveOrderMoves[14274] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14274] = { -- Corruption
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- Corruption
 }
-QuestieCorrections.objectiveOrderMoves[14276] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14276] = { -- Steady Shot
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- Steady Shot
 }
-QuestieCorrections.objectiveOrderMoves[14279] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14279] = { -- Learning the Word
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Learning the Word
 }
-QuestieCorrections.objectiveOrderMoves[14281] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14281] = { -- Frost Nova
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Frost Nova
 }
-QuestieCorrections.objectiveOrderMoves[14283] = {
-    {Type = "spell", Id = 8921, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[14283] = { -- Moonfire
+    {Type = "spell", Id = 8921, From = 2, To = 1}, -- Moonfire
 }
-QuestieCorrections.objectiveOrderMoves[24526] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24526] = { -- Filling Up the Spellbook
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Filling Up the Spellbook
 }
-QuestieCorrections.objectiveOrderMoves[24527] = {
-    {Type = "spell", Id = 73899, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24527] = { -- Your Path Begins Here
+    {Type = "spell", Id = 73899, From = 2, To = 1}, -- Your Path Begins Here
 }
-QuestieCorrections.objectiveOrderMoves[24528] = {
-    {Type = "spell", Id = 105361, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24528] = { -- The Power of the Light
+    {Type = "spell", Id = 105361, From = 2, To = 1}, -- The Power of the Light
 }
-QuestieCorrections.objectiveOrderMoves[24530] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24530] = { -- Oh, A Hunter's Life For Me
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- Oh, A Hunter's Life For Me
 }
-QuestieCorrections.objectiveOrderMoves[24531] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24531] = { -- Getting Battle-Ready
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Getting Battle-Ready
 }
-QuestieCorrections.objectiveOrderMoves[24532] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24532] = { -- Evisceratin' the Enemy
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- Evisceratin' the Enemy
 }
-QuestieCorrections.objectiveOrderMoves[24533] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24533] = { -- Words of Power
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Words of Power
 }
-QuestieCorrections.objectiveOrderMoves[24640] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24640] = { -- The Arts of a Warrior
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- The Arts of a Warrior
 }
-QuestieCorrections.objectiveOrderMoves[24752] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24752] = { -- The Arts of a Mage
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- The Arts of a Mage
 }
-QuestieCorrections.objectiveOrderMoves[24760] = {
-    {Type = "spell", Id = 73899, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24760] = { -- The Arts of a Shaman
+    {Type = "spell", Id = 73899, From = 2, To = 1}, -- The Arts of a Shaman
 }
-QuestieCorrections.objectiveOrderMoves[24766] = {
-    {Type = "spell", Id = 8921, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24766] = { -- The Arts of a Druid
+    {Type = "spell", Id = 8921, From = 2, To = 1}, -- The Arts of a Druid
 }
-QuestieCorrections.objectiveOrderMoves[24772] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24772] = { -- The Arts of a Rogue
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- The Arts of a Rogue
 }
-QuestieCorrections.objectiveOrderMoves[24784] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24784] = { -- Learnin' tha Word
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Learnin' tha Word
 }
-QuestieCorrections.objectiveOrderMoves[24964] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24964] = { -- The Thrill of the Hunt
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- The Thrill of the Hunt
 }
-QuestieCorrections.objectiveOrderMoves[24965] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24965] = { -- Magic Training
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Magic Training
 }
-QuestieCorrections.objectiveOrderMoves[24966] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24966] = { -- Of Light and Shadows
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Of Light and Shadows
 }
-QuestieCorrections.objectiveOrderMoves[24967] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24967] = { -- Stab!
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- Stab!
 }
-QuestieCorrections.objectiveOrderMoves[24968] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24968] = { -- Dark Deeds
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- Dark Deeds
 }
-QuestieCorrections.objectiveOrderMoves[24969] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[24969] = { -- Charging into Battle
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Charging into Battle
 }
-QuestieCorrections.objectiveOrderMoves[25139] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[25139] = { -- Steady Shot
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- Steady Shot
 }
-QuestieCorrections.objectiveOrderMoves[25141] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[25141] = { -- Eviscerate
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- Eviscerate
 }
-QuestieCorrections.objectiveOrderMoves[25143] = {
-    {Type = "spell", Id = 73899, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[25143] = { -- Primal Strike
+    {Type = "spell", Id = 73899, From = 2, To = 1}, -- Primal Strike
 }
-QuestieCorrections.objectiveOrderMoves[25145] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[25145] = { -- Corruption
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- Corruption
 }
-QuestieCorrections.objectiveOrderMoves[25147] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[25147] = { -- Charge
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Charge
 }
-QuestieCorrections.objectiveOrderMoves[25149] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[25149] = { -- Frost Nova
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Frost Nova
 }
-QuestieCorrections.objectiveOrderMoves[26198] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26198] = { -- The Arts of a Mage
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- The Arts of a Mage
 }
-QuestieCorrections.objectiveOrderMoves[26200] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26200] = { -- The Arts of a Priest
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- The Arts of a Priest
 }
-QuestieCorrections.objectiveOrderMoves[26201] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26201] = { -- The Power of a Warlock
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- The Power of a Warlock
 }
-QuestieCorrections.objectiveOrderMoves[26204] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26204] = { -- The Arts of a Warrior
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- The Arts of a Warrior
 }
-QuestieCorrections.objectiveOrderMoves[26207] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26207] = { -- The Arts of a Rogue
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- The Arts of a Rogue
 }
-QuestieCorrections.objectiveOrderMoves[26274] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26274] = { -- The Arts of a Warlock
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- The Arts of a Warlock
 }
-QuestieCorrections.objectiveOrderMoves[26904] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26904] = { -- Corruption
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- Corruption
 }
-QuestieCorrections.objectiveOrderMoves[26913] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26913] = { -- Charging into Battle
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Charging into Battle
 }
-QuestieCorrections.objectiveOrderMoves[26914] = {
-    {Type = "spell", Id = 172, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26914] = { -- Corruption
+    {Type = "spell", Id = 172, From = 2, To = 1}, -- Corruption
 }
-QuestieCorrections.objectiveOrderMoves[26915] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26915] = { -- The Deepest Cut
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- The Deepest Cut
 }
-QuestieCorrections.objectiveOrderMoves[26916] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26916] = { -- Mastering the Arcane
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Mastering the Arcane
 }
-QuestieCorrections.objectiveOrderMoves[26918] = {
-    {Type = "spell", Id = 105361, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26918] = { -- The Power of the Light
+    {Type = "spell", Id = 105361, From = 2, To = 1}, -- The Power of the Light
 }
-QuestieCorrections.objectiveOrderMoves[26919] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26919] = { -- Learning the Word
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Learning the Word
 }
-QuestieCorrections.objectiveOrderMoves[26940] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26940] = { -- Frost Nova
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Frost Nova
 }
-QuestieCorrections.objectiveOrderMoves[26945] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26945] = { -- Learning New Techniques
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Learning New Techniques
 }
-QuestieCorrections.objectiveOrderMoves[26946] = {
-    {Type = "spell", Id = 2098, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26946] = { -- A Rogue's Advantage
+    {Type = "spell", Id = 2098, From = 2, To = 1}, -- A Rogue's Advantage
 }
-QuestieCorrections.objectiveOrderMoves[26947] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26947] = { -- A Woodsman's Training
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- A Woodsman's Training
 }
-QuestieCorrections.objectiveOrderMoves[26948] = {
-    {Type = "spell", Id = 8921, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26948] = { -- Moonfire
+    {Type = "spell", Id = 8921, From = 2, To = 1}, -- Moonfire
 }
-QuestieCorrections.objectiveOrderMoves[26949] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26949] = { -- Learning the Word
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Learning the Word
 }
-QuestieCorrections.objectiveOrderMoves[26958] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26958] = { -- Your First Lesson
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Your First Lesson
 }
-QuestieCorrections.objectiveOrderMoves[26963] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26963] = { -- Steadying Your Shot
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- Steadying Your Shot
 }
-QuestieCorrections.objectiveOrderMoves[26966] = {
-    {Type = "spell", Id = 105361, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26966] = { -- The Light's Power
+    {Type = "spell", Id = 105361, From = 2, To = 1}, -- The Light's Power
 }
-QuestieCorrections.objectiveOrderMoves[26968] = {
-    {Type = "spell", Id = 122, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26968] = { -- Frost Nova
+    {Type = "spell", Id = 122, From = 2, To = 1}, -- Frost Nova
 }
-QuestieCorrections.objectiveOrderMoves[26969] = {
-    {Type = "spell", Id = 73899, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26969] = { -- Primal Strike
+    {Type = "spell", Id = 73899, From = 2, To = 1}, -- Primal Strike
 }
-QuestieCorrections.objectiveOrderMoves[26970] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[26970] = { -- Learning the Word
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Learning the Word
 }
-QuestieCorrections.objectiveOrderMoves[27020] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[27020] = { -- The First Lesson
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- The First Lesson
 }
-QuestieCorrections.objectiveOrderMoves[27021] = {
-    {Type = "spell", Id = 56641, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[27021] = { -- The Hunter's Path
+    {Type = "spell", Id = 56641, From = 2, To = 1}, -- The Hunter's Path
 }
-QuestieCorrections.objectiveOrderMoves[27023] = {
-    {Type = "spell", Id = 105361, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[27023] = { -- The Way of the Sunwalkers
+    {Type = "spell", Id = 105361, From = 2, To = 1}, -- The Way of the Sunwalkers
 }
-QuestieCorrections.objectiveOrderMoves[27027] = {
-    {Type = "spell", Id = 73899, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[27027] = { -- Primal Strike
+    {Type = "spell", Id = 73899, From = 2, To = 1}, -- Primal Strike
 }
-QuestieCorrections.objectiveOrderMoves[27066] = {
-    {Type = "spell", Id = 589, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[27066] = { -- Learning the Word
+    {Type = "spell", Id = 589, From = 2, To = 1}, -- Learning the Word
 }
-QuestieCorrections.objectiveOrderMoves[27067] = {
-    {Type = "spell", Id = 8921, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[27067] = { -- Moonfire
+    {Type = "spell", Id = 8921, From = 2, To = 1}, -- Moonfire
 }
-QuestieCorrections.objectiveOrderMoves[27091] = {
-    {Type = "spell", Id = 100, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[27091] = { -- Charge!
+    {Type = "spell", Id = 100, From = 2, To = 1}, -- Charge!
 }
-QuestieCorrections.objectiveOrderMoves[29555] = {
-    {Type = "killcredit", Id = 55155, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[29555] = { -- The White Pawn
+    {Type = "killcredit", Id = 55155, From = 2, To = 1}, -- Fine Leather Journal
 }
-QuestieCorrections.objectiveOrderMoves[29578] = {
-    {Type = "killcredit", Id = 54702, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[29578] = { -- Defiance
+    {Type = "killcredit", Id = 54702, From = 2, To = 1}, -- Gormali Raider
 }
-QuestieCorrections.objectiveOrderMoves[29628] = {
-    {Type = "object", Id = 209551, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[29628] = { -- A Strong Back
+    {Type = "object", Id = 209551, From = 2, To = 1}, -- Boiling Cauldron
 }
-QuestieCorrections.objectiveOrderMoves[29726] = {
-    {Type = "object", Id = 209615, From = 4, To = 1},
+QuestieCorrections.objectiveOrderMoves[29726] = { -- SI:7 Report: Hostile Natives
+    {Type = "object", Id = 209615, From = 4, To = 1}, -- STAY OUT - NO VISITORS
 }
-QuestieCorrections.objectiveOrderMoves[29730] = {
-    {Type = "object", Id = 209615, From = 3, To = 1},
+QuestieCorrections.objectiveOrderMoves[29730] = { -- Scouting Report: Hostile Natives
+    {Type = "object", Id = 209615, From = 3, To = 1}, -- STAY OUT - NO VISITORS
 }
-QuestieCorrections.objectiveOrderMoves[29749] = {
-    {Type = "item", Id = 74258, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[29749] = { -- An Urgent Plea
+    {Type = "item", Id = 74258, From = 2, To = 1}, -- Staff of Pei-Zhi
 }
-QuestieCorrections.objectiveOrderMoves[30325] = {
-    {Type = "object", Id = 210955, From = 3, To = 1},
-    {Type = "monster", Id = 59123, From = 1, To = 3},
+QuestieCorrections.objectiveOrderMoves[30325] = { -- Where It Counts
+    {Type = "object", Id = 210955, From = 3, To = 1}, -- Kunzen Ritual Candle
+    {Type = "monster", Id = 59123, From = 1, To = 3}, -- Kunzen Ritualist
 }
-QuestieCorrections.objectiveOrderMoves[30457] = {
-    {Type = "killcredit", Id = 59148, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[30457] = { -- Call Out Their Leader
+    {Type = "killcredit", Id = 59148, From = 2, To = 1}, -- Bataari Flamecaller
 }
-QuestieCorrections.objectiveOrderMoves[30466] = {
-    {Type = "killcredit", Id = 59296, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[30466] = { -- Sufficient Motivation
+    {Type = "killcredit", Id = 59296, From = 2, To = 1}, -- Lazy Hozen
 }
-QuestieCorrections.objectiveOrderMoves[30527] = {
-    {Type = "killcredit", Id = 58563, From = 3, To = 1},
-    {Type = "item", Id = 74848, From = 1, To = 3},
+QuestieCorrections.objectiveOrderMoves[30527] = { -- Haohan's Vote IV: Melons For Felons
+    {Type = "killcredit", Id = 58563, From = 3, To = 1}, -- Tilled Soil
+    {Type = "item", Id = 74848, From = 1, To = 3}, -- Striped Melon
 }
-QuestieCorrections.objectiveOrderMoves[30607] = {
-    {Type = "item", Id = 80535, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[30607] = { -- Hozen Love Their Keys
+    {Type = "item", Id = 80535, From = 2, To = 1}, -- Yeti Shackle Key
 }
-QuestieCorrections.objectiveOrderMoves[30800] = {
-    {Type = "item", Id = 82764, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[30800] = { -- Stealing Their Thunder King
+    {Type = "item", Id = 82764, From = 2, To = 1}, -- Bottom Fragment of Lei Shen's Tablet
 }
-QuestieCorrections.objectiveOrderMoves[30932] = {
-    {Type = "object", Id = 211837, From = 4, To = 1},
-    {Type = "object", Id = 211836, From = 3, To = 2},
+QuestieCorrections.objectiveOrderMoves[30932] = { -- Father's Footsteps
+    {Type = "object", Id = 211837, From = 4, To = 1}, -- Father's Bedroll
+    {Type = "object", Id = 211836, From = 3, To = 2}, -- Father's Shield
 }
-QuestieCorrections.objectiveOrderMoves[31019] = {
-    {Type = "killcredit", Id = 61970, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31019] = { -- Amber Is Life
+    {Type = "killcredit", Id = 61970, From = 2, To = 1}, -- Mistblade Ripper
 }
-QuestieCorrections.objectiveOrderMoves[31138] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31138] = { -- The Arts of a Monk
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- The Arts of a Monk
 }
-QuestieCorrections.objectiveOrderMoves[31142] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31142] = { -- Palm of the Tiger
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- Palm of the Tiger
 }
-QuestieCorrections.objectiveOrderMoves[31147] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31147] = { -- Tiger Palm
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- Tiger Palm
 }
-QuestieCorrections.objectiveOrderMoves[31151] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31151] = { -- Kick, Punch, It's All in the Mind
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- Kick, Punch, It's All in the Mind
 }
-QuestieCorrections.objectiveOrderMoves[31157] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31157] = { -- Tiger Palm
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- Tiger Palm
 }
-QuestieCorrections.objectiveOrderMoves[31162] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31162] = { -- The Arts of a Monk
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- The Arts of a Monk
 }
-QuestieCorrections.objectiveOrderMoves[31166] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31166] = { -- Tiger Palm
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- Tiger Palm
 }
-QuestieCorrections.objectiveOrderMoves[31169] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31169] = { -- The Art of the Monk
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- The Art of the Monk
 }
-QuestieCorrections.objectiveOrderMoves[31171] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31171] = { -- Tiger Palm
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- Tiger Palm
 }
-QuestieCorrections.objectiveOrderMoves[31173] = {
-    {Type = "spell", Id = 100787, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31173] = { -- The Tiger Palm
+    {Type = "spell", Id = 100787, From = 2, To = 1}, -- The Tiger Palm
 }
-QuestieCorrections.objectiveOrderMoves[31467] = {
-    {Type = "spell", Id = 104298, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31467] = { -- Strong as a Tiger
+    {Type = "spell", Id = 104298, From = 2, To = 1}, -- Strong as a Tiger
 }
-QuestieCorrections.objectiveOrderMoves[31471] = {
-    {Type = "spell", Id = 104301, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31471] = { -- Agile as a Tiger
+    {Type = "spell", Id = 104301, From = 2, To = 1}, -- Agile as a Tiger
 }
-QuestieCorrections.objectiveOrderMoves[31474] = {
-    {Type = "spell", Id = 104304, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31474] = { -- The Soup of Contemplation
+    {Type = "spell", Id = 104304, From = 2, To = 1}, -- The Soup of Contemplation
 }
-QuestieCorrections.objectiveOrderMoves[31476] = {
-    {Type = "spell", Id = 104307, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31476] = { -- The Spirit of Cooking
+    {Type = "spell", Id = 104307, From = 2, To = 1}, -- The Spirit of Cooking
 }
-QuestieCorrections.objectiveOrderMoves[31477] = {
-    {Type = "spell", Id = 104310, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31477] = { -- Endurance
+    {Type = "spell", Id = 104310, From = 2, To = 1}, -- Endurance
 }
-QuestieCorrections.objectiveOrderMoves[31480] = {
-    {Type = "spell", Id = 124052, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[31480] = { -- Have a Drink
+    {Type = "spell", Id = 124052, From = 2, To = 1}, -- Have a Drink
 }
-QuestieCorrections.objectiveOrderMoves[31945] = {
-    {Type = "killcredit", Id = 58563, From = 3, To = 1},
-    {Type = "item", Id = 74843, From = 1, To = 3},
+QuestieCorrections.objectiveOrderMoves[31945] = { -- Learn and Grow VI: Gina's Vote
+    {Type = "killcredit", Id = 58563, From = 3, To = 1}, -- Tilled Soil
+    {Type = "item", Id = 74843, From = 1, To = 3}, -- Scallions
 }
-QuestieCorrections.objectiveOrderMoves[31946] = {
-    {Type = "killcredit", Id = 58563, From = 3, To = 1},
-    {Type = "item", Id = 74841, From = 1, To = 3},
+QuestieCorrections.objectiveOrderMoves[31946] = { -- Mung-Mung's Vote III: The Great Carrot Caper
+    {Type = "killcredit", Id = 58563, From = 3, To = 1}, -- Tilled Soil
+    {Type = "item", Id = 74841, From = 1, To = 3}, -- Juicycrunch Carrot
 }
-QuestieCorrections.objectiveOrderMoves[31947] = {
-    {Type = "killcredit", Id = 58563, From = 3, To = 1},
-    {Type = "item", Id = 74840, From = 1, To = 3},
+QuestieCorrections.objectiveOrderMoves[31947] = { -- Farmer Fung's Vote III: Crazy For Cabbage
+    {Type = "killcredit", Id = 58563, From = 3, To = 1}, -- Tilled Soil
+    {Type = "item", Id = 74840, From = 1, To = 3}, -- Green Cabbage
 }
-QuestieCorrections.objectiveOrderMoves[31949] = {
-    {Type = "killcredit", Id = 58563, From = 3, To = 1},
-    {Type = "item", Id = 74846, From = 1, To = 3},
+QuestieCorrections.objectiveOrderMoves[31949] = { -- Nana's Vote III: Witchberry Julep
+    {Type = "killcredit", Id = 58563, From = 3, To = 1}, -- Tilled Soil
+    {Type = "item", Id = 74846, From = 1, To = 3}, -- Witchberries
 }
-QuestieCorrections.objectiveOrderMoves[32247] = {
-    {Type = "killcredit", Id = 68332, From = 3, To = 1},
+QuestieCorrections.objectiveOrderMoves[32247] = { -- A King Among Men
+    {Type = "killcredit", Id = 68332, From = 3, To = 1}, -- Horde Raider
 }
-QuestieCorrections.objectiveOrderMoves[32250] = {
-    {Type = "killcredit", Id = 67900, From = 3, To = 1},
+QuestieCorrections.objectiveOrderMoves[32250] = { -- The Might of the Warchief
+    {Type = "killcredit", Id = 67900, From = 3, To = 1}, -- Alliance Sentinel
 }
-QuestieCorrections.objectiveOrderMoves[32282] = {
-    {Type = "killcredit", Id = 69183, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32282] = { -- Compy Stomp
+    {Type = "killcredit", Id = 69183, From = 2, To = 1}, -- Maturing Raptor
 }
-QuestieCorrections.objectiveOrderMoves[32333] = {
-    {Type = "object", Id = 216427, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32333] = { -- The Second Riddle: Fellowship
+    {Type = "object", Id = 216427, From = 2, To = 1}, -- Hammer of Fellowship
 }
-QuestieCorrections.objectiveOrderMoves[32551] = {
-    {Type = "killcredit", Id = 69183, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32551] = { -- Compy Stomp
+    {Type = "killcredit", Id = 69183, From = 2, To = 1}, -- Maturing Raptor
 }
-QuestieCorrections.objectiveOrderMoves[32643] = {
-    {Type = "killcredit", Id = 63223, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32643] = { -- Work Order: Dominance Offensive II
+    {Type = "killcredit", Id = 63223, From = 2, To = 1}, -- Bursting Red Blossom Leek
 }
-QuestieCorrections.objectiveOrderMoves[32646] = {
-    {Type = "killcredit", Id = 66080, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32646] = { -- Work Order: Operation: Shieldwall II
+    {Type = "killcredit", Id = 66080, From = 2, To = 1}, -- Bursting Witchberries
 }
-QuestieCorrections.objectiveOrderMoves[32648] = {
-    {Type = "killcredit", Id = 63260, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32648] = { -- Work Order: Golden Lotus II
+    {Type = "killcredit", Id = 63260, From = 2, To = 1}, -- Bursting White Turnip
 }
-QuestieCorrections.objectiveOrderMoves[32650] = {
-    {Type = "killcredit", Id = 58567, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32650] = { -- Work Order: Shado-Pan II
+    {Type = "killcredit", Id = 58567, From = 2, To = 1}, -- Ripe Green Cabbage
 }
-QuestieCorrections.objectiveOrderMoves[32657] = {
-    {Type = "killcredit", Id = 66123, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32657] = { -- Work Order: The August Celestials II
+    {Type = "killcredit", Id = 66123, From = 2, To = 1}, -- Bursting Striped Melon
 }
-QuestieCorrections.objectiveOrderMoves[32659] = {
-    {Type = "killcredit", Id = 63180, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32659] = { -- Work Order: The Klaxxi II
+    {Type = "killcredit", Id = 63180, From = 2, To = 1}, -- Bursting Mogu Pumpkin
 }
-QuestieCorrections.objectiveOrderMoves[32809] = {
-    {Type = "item", Id = 98002, From = 4, To = 1},
-    {Type = "item", Id = 98003, From = 3, To = 2},
-    {Type = "item", Id = 98004, From = 2, To = 3},
+QuestieCorrections.objectiveOrderMoves[32809] = { -- Gathering Intelligence
+    {Type = "item", Id = 98002, From = 4, To = 1}, -- Kor'kron Supply Lines
+    {Type = "item", Id = 98003, From = 3, To = 2}, -- Operation: Darkspear Destruction
+    {Type = "item", Id = 98004, From = 2, To = 3}, -- Kor'kron Command Posts
 }
-QuestieCorrections.objectiveOrderMoves[32943] = {
-    {Type = "killcredit", Id = 63160, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32943] = { -- Work Order: Sunreaver Onslaught II
+    {Type = "killcredit", Id = 63160, From = 2, To = 1}, -- Bursting Scallions
 }
-QuestieCorrections.objectiveOrderMoves[32945] = {
-    {Type = "killcredit", Id = 63154, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[32945] = { -- Work Order: Kirin Tor Offensive II
+    {Type = "killcredit", Id = 63154, From = 2, To = 1}, -- Ripe Juicycrunch Carrot
 }
-QuestieCorrections.objectiveOrderMoves[33228] = {
-    {Type = "object", Id = 440009, From = 3, To = 1},
+QuestieCorrections.objectiveOrderMoves[33228] = { -- Time In Your Hands
+    {Type = "object", Id = 440009, From = 3, To = 1}, -- Timeless Coin
 }
 
 function MopQuestFixes.Load()

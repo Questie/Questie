@@ -14,11 +14,11 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.objectiveOrderMoves[503] = {
-    {Type = "item", Id = 3704, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[503] = { -- Gol'dir
+    {Type = "item", Id = 3704, From = 2, To = 1}, -- Rusted Iron Key
 }
-QuestieCorrections.objectiveOrderMoves[5088] = {
-    {Type = "item", Id = 12925, From = 2, To = 1},
+QuestieCorrections.objectiveOrderMoves[5088] = { -- Arikara
+    {Type = "item", Id = 12925, From = 2, To = 1}, -- Arikara Serpent Skin
 }
 
 -- Further information on how to use this can be found at the wiki
