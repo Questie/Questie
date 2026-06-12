@@ -258,7 +258,7 @@ function QuestieReputation.GetReputationReward(questId)
         end
 
         if reward then
-            reward = reward * reputationMultiplier
+            reward = reward * (reward > 0 and reputationMultiplier or 1)
             -- faction bonus commendation check
             if select(15, GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
