@@ -7,7 +7,7 @@ local ObjectiveOrderCorrections = QuestieLoader:CreateModule("ObjectiveOrderCorr
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
-local tinsert, next = table.insert, next
+local next = next
 
 ---@param objective Objective
 ---@return number|nil
@@ -112,52 +112,12 @@ local function _ApplyObjectiveOrderMoves(questId, objectiveData)
 end
 
 ---@param questId QuestId
----@param objective Objective
----@return boolean
-local function _IsLegacyObjectiveFirst(questId, objective)
-    if objective.Type == "object" then
-        return QuestieCorrections.objectObjectiveFirst[questId]
-    elseif objective.Type == "item" then
-        return QuestieCorrections.itemObjectiveFirst[questId]
-    elseif objective.Type == "killcredit" then
-        return QuestieCorrections.killCreditObjectiveFirst[questId]
-    elseif objective.Type == "spell" then
-        return QuestieCorrections.spellObjectiveFirst[questId]
-    elseif objective.Type == "event" then
-        return QuestieCorrections.eventObjectiveFirst[questId]
-    end
-
-    return false
-end
-
----@param questId QuestId
----@param objectiveData Objective[]
----@return Objective[]
-local function _ApplyLegacyObjectiveFirstCorrections(questId, objectiveData)
-    local result = {}
-    --? There are quest(s) which have specific objective types first so we need to switch them
-    for index = 1, #objectiveData do
-        local objective = objectiveData[index]
-        if _IsLegacyObjectiveFirst(questId, objective) then
-            tinsert(result, 1, objective)
-        else
-            result[#result+1] = objective
-        end
-    end
-
-    return result
-end
-
----@param questId QuestId
 ---@param objectiveData Objective[]
 ---@return Objective[]
 function ObjectiveOrderCorrections:Apply(questId, objectiveData)
-    local movedObjectiveData, appliedMoveCorrection = _ApplyObjectiveOrderMoves(questId, objectiveData)
-    if appliedMoveCorrection then
-        return movedObjectiveData
-    end
+    local movedObjectiveData = _ApplyObjectiveOrderMoves(questId, objectiveData)
 
-    return _ApplyLegacyObjectiveFirstCorrections(questId, objectiveData)
+    return movedObjectiveData
 end
 
 return ObjectiveOrderCorrections

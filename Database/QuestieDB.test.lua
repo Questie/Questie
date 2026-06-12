@@ -24,11 +24,6 @@ describe("QuestieDB", function()
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
-        QuestieCorrections.killCreditObjectiveFirst = {}
-        QuestieCorrections.objectObjectiveFirst = {}
-        QuestieCorrections.itemObjectiveFirst = {}
-        QuestieCorrections.eventObjectiveFirst = {}
-        QuestieCorrections.spellObjectiveFirst = {}
         QuestieCorrections.objectiveOrderMoves = {}
         require("Database.Corrections.ObjectiveOrderCorrections")
         QuestieDB = require("Database.QuestieDB")
@@ -105,7 +100,9 @@ describe("QuestieDB", function()
                 [1] = {{1000, "Slay the target"}},
                 [6] = {{12345, "Cast the spell", 67890}}
             }
-            QuestieCorrections.spellObjectiveFirst[123] = true
+            QuestieCorrections.objectiveOrderMoves[123] = {
+                {Type = "spell", Id = 12345, From = 2, To = 1},
+            }
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
             QuestieLib.GetTbcLevel = function() return 60, 60 end
 
@@ -262,35 +259,6 @@ describe("QuestieDB", function()
             }, quest.ObjectiveData)
         end)
 
-        it("should apply legacy objective first corrections when an objective move does not match", function()
-            local questKeys = QuestieDB.questKeys
-            testQuest[questKeys.objectives] = {
-                [1] = {{1000, "Slay the target"}},
-                [6] = {{12345, "Cast the spell", 67890}}
-            }
-            QuestieCorrections.spellObjectiveFirst[123] = true
-            QuestieCorrections.objectiveOrderMoves[123] = {
-                {Type = "spell", Id = 999, From = 2, To = 1},
-            }
-            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
-
-            local quest = QuestieDB.GetQuest(123)
-
-            assert.are.same({
-                {
-                    Type = "spell",
-                    Id = 12345,
-                    Text = "Cast the spell",
-                    ItemSourceId = 67890,
-                },
-                {
-                    Type = "monster",
-                    Id = 1000,
-                    Text = "Slay the target",
-                },
-            }, quest.ObjectiveData)
-        end)
     end)
 
     describe("GetItem", function()
