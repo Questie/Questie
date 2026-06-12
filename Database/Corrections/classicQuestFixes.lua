@@ -14,8 +14,12 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.itemObjectiveFirst[503] = true
-QuestieCorrections.itemObjectiveFirst[5088] = true
+QuestieCorrections.objectiveOrderMoves[503] = {
+    {Type = "item", Id = 3704, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[5088] = {
+    {Type = "item", Id = 12925, From = 2, To = 1},
+}
 
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/Questie/Questie/wiki/Corrections

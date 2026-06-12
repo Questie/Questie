@@ -11,9 +11,17 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
-QuestieCorrections.eventObjectiveFirst[85304] = true
-QuestieCorrections.eventObjectiveFirst[85386] = true
-QuestieCorrections.eventObjectiveFirst[89567] = true
+if Questie.IsSoD then
+    QuestieCorrections.objectiveOrderMoves[85304] = {
+        {Type = "event", From = 5, To = 1},
+    }
+    QuestieCorrections.objectiveOrderMoves[85386] = {
+        {Type = "event", From = 5, To = 1},
+    }
+    QuestieCorrections.objectiveOrderMoves[89567] = {
+        {Type = "event", From = 3, To = 1},
+    }
+end
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys

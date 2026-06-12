@@ -12,24 +12,62 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.objectObjectiveFirst[14125] = true
-QuestieCorrections.objectObjectiveFirst[24817] = true
-QuestieCorrections.objectObjectiveFirst[25371] = true
-QuestieCorrections.objectObjectiveFirst[25731] = true
-QuestieCorrections.objectObjectiveFirst[25813] = true
-QuestieCorrections.objectObjectiveFirst[26659] = true
-QuestieCorrections.objectObjectiveFirst[26809] = true
-QuestieCorrections.objectObjectiveFirst[27161] = true
-QuestieCorrections.objectObjectiveFirst[30099] = true
-QuestieCorrections.killCreditObjectiveFirst[52] = true
-QuestieCorrections.killCreditObjectiveFirst[13798] = true
-QuestieCorrections.killCreditObjectiveFirst[25015] = true
-QuestieCorrections.killCreditObjectiveFirst[25801] = true
-QuestieCorrections.killCreditObjectiveFirst[26058] = true
-QuestieCorrections.killCreditObjectiveFirst[26621] = true
-QuestieCorrections.killCreditObjectiveFirst[26875] = true
-QuestieCorrections.killCreditObjectiveFirst[27715] = true
-QuestieCorrections.killCreditObjectiveFirst[29290] = true
+QuestieCorrections.objectiveOrderMoves[14125] = {
+    {Type = "object", Id = 201735, From = 4, To = 1},
+    {Type = "object", Id = 201733, From = 3, To = 2},
+    {Type = "object", Id = 201734, From = 2, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[24817] = {
+    {Type = "object", Id = 202108, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25371] = {
+    {Type = "object", Id = 202766, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25813] = {
+    {Type = "object", Id = 203248, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26659] = {
+    {Type = "object", Id = 204837, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26809] = {
+    {Type = "object", Id = 204361, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27161] = {
+    {Type = "object", Id = 204966, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[30099] = {
+    {Type = "object", Id = 209366, From = 4, To = 1},
+    {Type = "object", Id = 209447, From = 3, To = 2},
+    {Type = "object", Id = 209448, From = 2, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[52] = {
+    {Type = "killcredit", Id = 118, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[13798] = {
+    {Type = "killcredit", Id = 33914, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25015] = {
+    {Type = "killcredit", Id = 37521, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25801] = {
+    {Type = "killcredit", Id = 42109, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26058] = {
+    {Type = "killcredit", Id = 42016, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26621] = {
+    {Type = "killcredit", Id = 43577, From = 3, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26875] = {
+    {Type = "killcredit", Id = 44680, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27715] = {
+    {Type = "killcredit", Id = 47123, From = 4, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[29290] = {
+    {Type = "killcredit", Id = 53308, From = 3, To = 1},
+    {Type = "monster", Id = 53310, From = 1, To = 3},
+}
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys

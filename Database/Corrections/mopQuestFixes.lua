@@ -12,131 +12,390 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.spellObjectiveFirst[10068] = true
-QuestieCorrections.spellObjectiveFirst[10069] = true
-QuestieCorrections.spellObjectiveFirst[10070] = true
-QuestieCorrections.spellObjectiveFirst[10071] = true
-QuestieCorrections.spellObjectiveFirst[10072] = true
-QuestieCorrections.spellObjectiveFirst[10073] = true
-QuestieCorrections.spellObjectiveFirst[14007] = true
-QuestieCorrections.spellObjectiveFirst[14008] = true
-QuestieCorrections.spellObjectiveFirst[14010] = true
-QuestieCorrections.spellObjectiveFirst[14011] = true
-QuestieCorrections.spellObjectiveFirst[14012] = true
-QuestieCorrections.spellObjectiveFirst[14013] = true
-QuestieCorrections.spellObjectiveFirst[14266] = true
-QuestieCorrections.spellObjectiveFirst[14272] = true
-QuestieCorrections.spellObjectiveFirst[14274] = true
-QuestieCorrections.spellObjectiveFirst[14276] = true
-QuestieCorrections.spellObjectiveFirst[14279] = true
-QuestieCorrections.spellObjectiveFirst[14281] = true
-QuestieCorrections.spellObjectiveFirst[14283] = true
-QuestieCorrections.spellObjectiveFirst[24526] = true
-QuestieCorrections.spellObjectiveFirst[24527] = true
-QuestieCorrections.spellObjectiveFirst[24528] = true
-QuestieCorrections.spellObjectiveFirst[24530] = true
-QuestieCorrections.spellObjectiveFirst[24531] = true
-QuestieCorrections.spellObjectiveFirst[24532] = true
-QuestieCorrections.spellObjectiveFirst[24533] = true
-QuestieCorrections.spellObjectiveFirst[24640] = true
-QuestieCorrections.spellObjectiveFirst[24752] = true
-QuestieCorrections.spellObjectiveFirst[24760] = true
-QuestieCorrections.spellObjectiveFirst[24766] = true
-QuestieCorrections.spellObjectiveFirst[24772] = true
-QuestieCorrections.spellObjectiveFirst[24784] = true
-QuestieCorrections.spellObjectiveFirst[24964] = true
-QuestieCorrections.spellObjectiveFirst[24965] = true
-QuestieCorrections.spellObjectiveFirst[24966] = true
-QuestieCorrections.spellObjectiveFirst[24967] = true
-QuestieCorrections.spellObjectiveFirst[24968] = true
-QuestieCorrections.spellObjectiveFirst[24969] = true
-QuestieCorrections.spellObjectiveFirst[25139] = true
-QuestieCorrections.spellObjectiveFirst[25141] = true
-QuestieCorrections.spellObjectiveFirst[25143] = true
-QuestieCorrections.spellObjectiveFirst[25145] = true
-QuestieCorrections.spellObjectiveFirst[25147] = true
-QuestieCorrections.spellObjectiveFirst[25149] = true
-QuestieCorrections.spellObjectiveFirst[26198] = true
-QuestieCorrections.spellObjectiveFirst[26200] = true
-QuestieCorrections.spellObjectiveFirst[26201] = true
-QuestieCorrections.spellObjectiveFirst[26204] = true
-QuestieCorrections.spellObjectiveFirst[26207] = true
-QuestieCorrections.spellObjectiveFirst[26274] = true
-QuestieCorrections.spellObjectiveFirst[26904] = true
-QuestieCorrections.spellObjectiveFirst[26913] = true
-QuestieCorrections.spellObjectiveFirst[26914] = true
-QuestieCorrections.spellObjectiveFirst[26915] = true
-QuestieCorrections.spellObjectiveFirst[26916] = true
-QuestieCorrections.spellObjectiveFirst[26918] = true
-QuestieCorrections.spellObjectiveFirst[26919] = true
-QuestieCorrections.spellObjectiveFirst[26940] = true
-QuestieCorrections.spellObjectiveFirst[26945] = true
-QuestieCorrections.spellObjectiveFirst[26946] = true
-QuestieCorrections.spellObjectiveFirst[26947] = true
-QuestieCorrections.spellObjectiveFirst[26948] = true
-QuestieCorrections.spellObjectiveFirst[26949] = true
-QuestieCorrections.spellObjectiveFirst[26958] = true
-QuestieCorrections.spellObjectiveFirst[26963] = true
-QuestieCorrections.spellObjectiveFirst[26966] = true
-QuestieCorrections.spellObjectiveFirst[26968] = true
-QuestieCorrections.spellObjectiveFirst[26969] = true
-QuestieCorrections.spellObjectiveFirst[26970] = true
-QuestieCorrections.spellObjectiveFirst[27020] = true
-QuestieCorrections.spellObjectiveFirst[27021] = true
-QuestieCorrections.spellObjectiveFirst[27023] = true
-QuestieCorrections.spellObjectiveFirst[27027] = true
-QuestieCorrections.spellObjectiveFirst[27066] = true
-QuestieCorrections.spellObjectiveFirst[27067] = true
-QuestieCorrections.spellObjectiveFirst[27091] = true
-QuestieCorrections.killCreditObjectiveFirst[29555] = true
-QuestieCorrections.killCreditObjectiveFirst[29578] = true
-QuestieCorrections.objectObjectiveFirst[29628] = true
-QuestieCorrections.objectObjectiveFirst[29726] = true
-QuestieCorrections.objectObjectiveFirst[29730] = true
-QuestieCorrections.itemObjectiveFirst[29749] = true
-QuestieCorrections.objectObjectiveFirst[30325] = true
-QuestieCorrections.killCreditObjectiveFirst[30457] = true
-QuestieCorrections.killCreditObjectiveFirst[30466] = true
-QuestieCorrections.killCreditObjectiveFirst[30527] = true
-QuestieCorrections.itemObjectiveFirst[30607] = true
-QuestieCorrections.itemObjectiveFirst[30800] = true
-QuestieCorrections.objectObjectiveFirst[30932] = true
-QuestieCorrections.killCreditObjectiveFirst[31019] = true
-QuestieCorrections.spellObjectiveFirst[31138] = true
-QuestieCorrections.spellObjectiveFirst[31142] = true
-QuestieCorrections.spellObjectiveFirst[31147] = true
-QuestieCorrections.spellObjectiveFirst[31151] = true
-QuestieCorrections.spellObjectiveFirst[31157] = true
-QuestieCorrections.spellObjectiveFirst[31162] = true
-QuestieCorrections.spellObjectiveFirst[31166] = true
-QuestieCorrections.spellObjectiveFirst[31169] = true
-QuestieCorrections.spellObjectiveFirst[31171] = true
-QuestieCorrections.spellObjectiveFirst[31173] = true
-QuestieCorrections.spellObjectiveFirst[31467] = true
-QuestieCorrections.spellObjectiveFirst[31471] = true
-QuestieCorrections.spellObjectiveFirst[31474] = true
-QuestieCorrections.spellObjectiveFirst[31476] = true
-QuestieCorrections.spellObjectiveFirst[31477] = true
-QuestieCorrections.spellObjectiveFirst[31480] = true
-QuestieCorrections.killCreditObjectiveFirst[31945] = true
-QuestieCorrections.killCreditObjectiveFirst[31946] = true
-QuestieCorrections.killCreditObjectiveFirst[31947] = true
-QuestieCorrections.killCreditObjectiveFirst[31949] = true
-QuestieCorrections.killCreditObjectiveFirst[32247] = true
-QuestieCorrections.killCreditObjectiveFirst[32250] = true
-QuestieCorrections.killCreditObjectiveFirst[32282] = true
-QuestieCorrections.objectObjectiveFirst[32333] = true
-QuestieCorrections.killCreditObjectiveFirst[32551] = true
-QuestieCorrections.killCreditObjectiveFirst[32643] = true
-QuestieCorrections.killCreditObjectiveFirst[32646] = true
-QuestieCorrections.killCreditObjectiveFirst[32648] = true
-QuestieCorrections.killCreditObjectiveFirst[32650] = true
-QuestieCorrections.killCreditObjectiveFirst[32657] = true
-QuestieCorrections.killCreditObjectiveFirst[32659] = true
-QuestieCorrections.itemObjectiveFirst[32809] = true
-QuestieCorrections.killCreditObjectiveFirst[32943] = true
-QuestieCorrections.killCreditObjectiveFirst[32945] = true
-QuestieCorrections.objectObjectiveFirst[33228] = true
+QuestieCorrections.objectiveOrderMoves[10068] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[10069] = {
+    {Type = "spell", Id = 105361, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[10070] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[10071] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[10072] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[10073] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14007] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14008] = {
+    {Type = "spell", Id = 5143, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14010] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14011] = {
+    {Type = "spell", Id = 73899, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14012] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14013] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14266] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14272] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14274] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14276] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14279] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14281] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[14283] = {
+    {Type = "spell", Id = 8921, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24526] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24527] = {
+    {Type = "spell", Id = 73899, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24528] = {
+    {Type = "spell", Id = 105361, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24530] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24531] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24532] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24533] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24640] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24752] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24760] = {
+    {Type = "spell", Id = 73899, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24766] = {
+    {Type = "spell", Id = 8921, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24772] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24784] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24964] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24965] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24966] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24967] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24968] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[24969] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25139] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25141] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25143] = {
+    {Type = "spell", Id = 73899, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25145] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25147] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[25149] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26198] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26200] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26201] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26204] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26207] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26274] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26904] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26913] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26914] = {
+    {Type = "spell", Id = 172, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26915] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26916] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26918] = {
+    {Type = "spell", Id = 105361, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26919] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26940] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26945] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26946] = {
+    {Type = "spell", Id = 2098, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26947] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26948] = {
+    {Type = "spell", Id = 8921, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26949] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26958] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26963] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26966] = {
+    {Type = "spell", Id = 105361, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26968] = {
+    {Type = "spell", Id = 122, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26969] = {
+    {Type = "spell", Id = 73899, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[26970] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27020] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27021] = {
+    {Type = "spell", Id = 56641, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27023] = {
+    {Type = "spell", Id = 105361, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27027] = {
+    {Type = "spell", Id = 73899, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27066] = {
+    {Type = "spell", Id = 589, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27067] = {
+    {Type = "spell", Id = 8921, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[27091] = {
+    {Type = "spell", Id = 100, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[29555] = {
+    {Type = "killcredit", Id = 55155, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[29578] = {
+    {Type = "killcredit", Id = 54702, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[29628] = {
+    {Type = "object", Id = 209551, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[29726] = {
+    {Type = "object", Id = 209615, From = 4, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[29730] = {
+    {Type = "object", Id = 209615, From = 3, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[29749] = {
+    {Type = "item", Id = 74258, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[30325] = {
+    {Type = "object", Id = 210955, From = 3, To = 1},
+    {Type = "monster", Id = 59123, From = 1, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[30457] = {
+    {Type = "killcredit", Id = 59148, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[30466] = {
+    {Type = "killcredit", Id = 59296, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[30527] = {
+    {Type = "killcredit", Id = 58563, From = 3, To = 1},
+    {Type = "item", Id = 74848, From = 1, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[30607] = {
+    {Type = "item", Id = 80535, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[30800] = {
+    {Type = "item", Id = 82764, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[30932] = {
+    {Type = "object", Id = 211837, From = 4, To = 1},
+    {Type = "object", Id = 211836, From = 3, To = 2},
+}
+QuestieCorrections.objectiveOrderMoves[31019] = {
+    {Type = "killcredit", Id = 61970, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31138] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31142] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31147] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31151] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31157] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31162] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31166] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31169] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31171] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31173] = {
+    {Type = "spell", Id = 100787, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31467] = {
+    {Type = "spell", Id = 104298, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31471] = {
+    {Type = "spell", Id = 104301, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31474] = {
+    {Type = "spell", Id = 104304, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31476] = {
+    {Type = "spell", Id = 104307, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31477] = {
+    {Type = "spell", Id = 104310, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31480] = {
+    {Type = "spell", Id = 124052, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[31945] = {
+    {Type = "killcredit", Id = 58563, From = 3, To = 1},
+    {Type = "item", Id = 74843, From = 1, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[31946] = {
+    {Type = "killcredit", Id = 58563, From = 3, To = 1},
+    {Type = "item", Id = 74841, From = 1, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[31947] = {
+    {Type = "killcredit", Id = 58563, From = 3, To = 1},
+    {Type = "item", Id = 74840, From = 1, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[31949] = {
+    {Type = "killcredit", Id = 58563, From = 3, To = 1},
+    {Type = "item", Id = 74846, From = 1, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[32247] = {
+    {Type = "killcredit", Id = 68332, From = 3, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32250] = {
+    {Type = "killcredit", Id = 67900, From = 3, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32282] = {
+    {Type = "killcredit", Id = 69183, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32333] = {
+    {Type = "object", Id = 216427, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32551] = {
+    {Type = "killcredit", Id = 69183, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32643] = {
+    {Type = "killcredit", Id = 63223, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32646] = {
+    {Type = "killcredit", Id = 66080, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32648] = {
+    {Type = "killcredit", Id = 63260, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32650] = {
+    {Type = "killcredit", Id = 58567, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32657] = {
+    {Type = "killcredit", Id = 66123, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32659] = {
+    {Type = "killcredit", Id = 63180, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32809] = {
+    {Type = "item", Id = 98002, From = 4, To = 1},
+    {Type = "item", Id = 98003, From = 3, To = 2},
+    {Type = "item", Id = 98004, From = 2, To = 3},
+}
+QuestieCorrections.objectiveOrderMoves[32943] = {
+    {Type = "killcredit", Id = 63160, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[32945] = {
+    {Type = "killcredit", Id = 63154, From = 2, To = 1},
+}
+QuestieCorrections.objectiveOrderMoves[33228] = {
+    {Type = "object", Id = 440009, From = 3, To = 1},
+}
 
 function MopQuestFixes.Load()
     local questKeys = QuestieDB.questKeys
