@@ -842,6 +842,18 @@ local classicObjectiveLocales = {
         ["zhCN"] = "使用它",
         ["zhTW"] = false,
     },
+    ["Use the cannon"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Benutze die Kanone",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "使用大炮",
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do

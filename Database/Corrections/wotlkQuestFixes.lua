@@ -416,12 +416,6 @@ function QuestieWotlkQuestFixes:Load()
         [8552] = {
             [questKeys.specialFlags] = specialFlags.NONE,
         },
-        [8553] = {
-            [questKeys.requiredRaces] = raceIDs.NONE,
-        },
-        [8554] = {
-            [questKeys.requiredRaces] = raceIDs.NONE,
-        },
         [8579] = { -- Mortal Champions
             [questKeys.startedBy] = {{15503}},
             [questKeys.finishedBy] = {{15503}},

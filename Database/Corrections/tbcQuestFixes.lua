@@ -1303,8 +1303,14 @@ function QuestieTBCQuestFixes:Load()
         [8548] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8551] = {
+        [8551] = { -- The Captain's Chest
             [questKeys.questLevel] = 42,
+        },
+        [8553] = { -- The Captain's Cutlass
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8554] = { -- Facing Negolash
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8559] = { -- Conqueror's Greaves
             [questKeys.preQuestSingle] = {8579},

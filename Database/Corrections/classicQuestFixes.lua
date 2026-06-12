@@ -456,6 +456,9 @@ function QuestieQuestFixes:Load()
         [609] = { -- Voodoo Dues
             [questKeys.nextQuestInChain] = 613,
         },
+        [617] = { -- Akiris by the Bundle
+            [questKeys.nextQuestInChain] = 623,
+        },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
             [questKeys.requiredLevel] = 35,
@@ -954,6 +957,12 @@ function QuestieQuestFixes:Load()
         [1119] = {
             [questKeys.inGroupWith] = {}, -- #886
             [questKeys.childQuests] = {1127}, -- #1084
+        },
+        [1120] = { -- Get the Gnomes Drunk
+            [questKeys.nextQuestInChain] = 1122,
+        },
+        [1121] = { -- Get the Goblins Drunk
+            [questKeys.nextQuestInChain] = 1122,
         },
         [1123] = {
             [questKeys.preQuestSingle] = {1000, 1004, 1018},

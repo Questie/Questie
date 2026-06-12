@@ -1742,18 +1742,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "钓取鳄鱼宝宝",
         ["zhTW"] = false,
     },
-    ["Use the cannon"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Benutze die Kanone",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "使用大炮",
-        ["zhTW"] = false,
-    },
     ["Open the container"] = {
         ["enUS"] = true,
         ["deDE"] = "Öffne den Behälter",

@@ -212,6 +212,9 @@ QuestieItemDropCorrections.Era = {
         [1550] = DropKeys.WOWHEAD,
         [1551] = DropKeys.WOWHEAD,
     },
+    [4105] = { -- Elder Crocolisk Skin
+        [2635] = 100.0,
+    },
     [5026] = { -- Fire Tar
         [3267] = 75,
         [3268] = 75,
@@ -391,7 +394,7 @@ QuestieItemDropCorrections.Era = {
 
 QuestieItemDropCorrections.Tbc = {
     [2633] = { -- Jungle Remedy
-        [937] = DropKeys.WOWHEAD, -- TBC only
+        [937] = DropKeys.WOWHEAD,
         [940] = DropKeys.WOWHEAD,
         [941] = DropKeys.WOWHEAD,
         [942] = DropKeys.WOWHEAD,
