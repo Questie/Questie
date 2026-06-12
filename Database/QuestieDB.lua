@@ -1542,15 +1542,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         objectObjective[3] = nil
                     end
                     ---@type ObjectObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local objectObjectiveData = {
                         Type = "object",
                         Id = objectObjective[1],
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
                     if QuestieCorrections.objectObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-                        tremove(QO.ObjectiveData)
+                        tinsert(QO.ObjectiveData, 1, objectObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
                     end
                 end
             end
@@ -1562,15 +1563,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         itemObjective[3] = nil
                     end
                     ---@type ItemObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local itemObjectiveData = {
                         Type = "item",
                         Id = itemObjective[1],
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
                     if QuestieCorrections.itemObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-                        tremove(QO.ObjectiveData)
+                        tinsert(QO.ObjectiveData, 1, itemObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
                     end
                 end
             end
@@ -1600,9 +1602,9 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 --? There are quest(s) which have the killCredit first so we need to switch them
                 -- Place the kill credit objective first
                 if QuestieCorrections.killCreditObjectiveFirst[questId] then
-                    tinsert(QO.ObjectiveData, 1, killCreditObjective);
+                    tinsert(QO.ObjectiveData, 1, killCreditObjective)
                 else
-                    tinsert(QO.ObjectiveData, killCreditObjective);
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
                 end
             end
         end
@@ -1621,9 +1623,9 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                     --? There are quest(s) which have the spellObjective first so we need to switch them
                     -- Place the spell objective first
                     if QuestieCorrections.spellObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, spellObjectiveData);
+                        tinsert(QO.ObjectiveData, 1, spellObjectiveData)
                     else
-                        tinsert(QO.ObjectiveData, spellObjectiveData);
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
                     end
                 end
             end
@@ -1634,14 +1636,15 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     local triggerEnd = QO.triggerEnd
     if triggerEnd then
         ---@type TriggerEndObjective
-        QO.ObjectiveData[#QO.ObjectiveData+1] = {
+        local triggerEndObjective = {
             Type = "event",
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
         if QuestieCorrections.eventObjectiveFirst[questId] then
-            tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-            tremove(QO.ObjectiveData)
+            tinsert(QO.ObjectiveData, 1, triggerEndObjective)
+        else
+            QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective
         end
     end
 
