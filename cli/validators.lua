@@ -285,6 +285,138 @@ function Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
     end
 end
 
+---@param questData Quest
+---@param questKeys DatabaseQuestKeys
+---@return Objective[]
+local function _BuildObjectiveOrderMoveObjectiveData(questData, questKeys)
+    local objectiveData = {}
+    local objectives = questData[questKeys.objectives]
+    if objectives then
+        for _, creatureObjective in ipairs(objectives[1] or {}) do
+            objectiveData[#objectiveData+1] = {Type = "monster", Id = creatureObjective[1]}
+        end
+        for _, objectObjective in ipairs(objectives[2] or {}) do
+            objectiveData[#objectiveData+1] = {Type = "object", Id = objectObjective[1]}
+        end
+        for _, itemObjective in ipairs(objectives[3] or {}) do
+            objectiveData[#objectiveData+1] = {Type = "item", Id = itemObjective[1]}
+        end
+        if objectives[4] then
+            objectiveData[#objectiveData+1] = {Type = "reputation", Id = objectives[4][1]}
+        end
+        for _, killCreditObjective in ipairs(objectives[5] or {}) do
+            objectiveData[#objectiveData+1] = {Type = "killcredit", RootId = killCreditObjective[2]}
+        end
+        for _, spellObjective in ipairs(objectives[6] or {}) do
+            objectiveData[#objectiveData+1] = {Type = "spell", Id = spellObjective[1]}
+        end
+    end
+
+    if questData[questKeys.triggerEnd] then
+        objectiveData[#objectiveData+1] = {Type = "event"}
+    end
+
+    return objectiveData
+end
+
+local function _GetObjectiveOrderMoveId(objective)
+    if objective.Type == "killcredit" then
+        return objective.RootId
+    end
+
+    return objective.Id
+end
+
+local function _ObjectiveOrderMoveMatches(objective, move)
+    if (not objective) or objective.Type ~= move.Type then
+        return false
+    end
+
+    if move.Type == "event" then
+        return true
+    end
+
+    return move.Id ~= nil and _GetObjectiveOrderMoveId(objective) == move.Id
+end
+
+local function _AddObjectiveOrderMoveError(invalidMoves, questId, reason)
+    if not invalidMoves[questId] then
+        invalidMoves[questId] = {}
+    end
+
+    table.insert(invalidMoves[questId], reason)
+end
+
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@param objectiveOrderMoves table<QuestId, ObjectiveOrderMove[]>
+---@return table<QuestId, string[]>|nil
+function Validators.checkObjectiveOrderMoves(quests, questKeys, objectiveOrderMoves)
+    print("\n\27[36mSearching for invalid objectiveOrderMoves...\27[0m")
+    local invalidMoves = {}
+
+    for questId, moves in pairs(objectiveOrderMoves) do
+        local questData = quests[questId]
+        if not questData then
+            -- Corrections load cumulatively across expansions, so some objective order moves can target quests
+            -- which are not present in the current database.
+        elseif type(moves) ~= "table" then
+            _AddObjectiveOrderMoveError(invalidMoves, questId, "moves must be a table")
+        else
+            local objectiveData = _BuildObjectiveOrderMoveObjectiveData(questData, questKeys)
+            local movedFrom = {}
+            local usedTo = {}
+
+            for _, move in pairs(moves) do
+                if type(move) ~= "table" then
+                    _AddObjectiveOrderMoveError(invalidMoves, questId, "move must be a table")
+                elseif type(move.From) ~= "number" or type(move.To) ~= "number" then
+                    _AddObjectiveOrderMoveError(invalidMoves, questId, "From and To must be numbers")
+                elseif move.From ~= math.floor(move.From) or move.To ~= math.floor(move.To) then
+                    _AddObjectiveOrderMoveError(invalidMoves, questId, "From and To must be integers")
+                elseif move.From < 1 or move.From > #objectiveData or move.To < 1 or move.To > #objectiveData then
+                    _AddObjectiveOrderMoveError(invalidMoves, questId, "From or To is outside objective range")
+                elseif movedFrom[move.From] then
+                    _AddObjectiveOrderMoveError(invalidMoves, questId, "duplicate From " .. move.From)
+                elseif usedTo[move.To] then
+                    _AddObjectiveOrderMoveError(invalidMoves, questId, "duplicate To " .. move.To)
+                elseif not _ObjectiveOrderMoveMatches(objectiveData[move.From], move) then
+                    local objective = objectiveData[move.From]
+                    local actualType = objective and objective.Type or "nil"
+                    local actualId = objective and _GetObjectiveOrderMoveId(objective) or "nil"
+                    local expectedId = move.Type == "event" and "event" or tostring(move.Id)
+                    _AddObjectiveOrderMoveError(invalidMoves, questId,
+                        "objective at From does not match. expected " .. tostring(move.Type) .. ":" .. expectedId ..
+                        ", got " .. tostring(actualType) .. ":" .. tostring(actualId))
+                else
+                    movedFrom[move.From] = true
+                    usedTo[move.To] = true
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidMoves) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid objectiveOrderMoves:\27[0m")
+        for questId, reasons in pairs(invalidMoves) do
+            print("\27[31m- Quest " .. questId .. ":")
+            for _, reason in ipairs(reasons) do
+                print("  - " .. reason)
+            end
+            print("\27[0m")
+        end
+
+        os.exit(1)
+        return invalidMoves
+    else
+        print("\27[32mNo invalid objectiveOrderMoves found\27[0m")
+        return nil
+    end
+end
+
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@param npcs table<NpcId, NPC>
