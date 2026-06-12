@@ -82,7 +82,7 @@
 
 ---@class ObjectiveOrderMove
 ---@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation"|"spell"
----@field Id number? @Required except event. Kill credit uses RootId.
+---@field Id NpcId|ObjectId|ItemId|FactionId|SpellId|nil @Required except event. Kill credit uses RootId.
 ---@field From ObjectiveIndex @Expected original ObjectiveData index.
 ---@field To ObjectiveIndex @Target ObjectiveData index.
 

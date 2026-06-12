@@ -59,7 +59,7 @@ local function _ApplyObjectiveOrderMoves(questId, objectiveData)
 
     local movedFrom = {}
     local usedTo = {}
-    for _, move in pairs(moves) do
+    for _, move in ipairs(moves) do
         if type(move) ~= "table" then
             _LogInvalidObjectiveOrderMove(questId, "move must be a table")
             return objectiveData, false
@@ -94,7 +94,7 @@ local function _ApplyObjectiveOrderMoves(questId, objectiveData)
     end
 
     local result = {}
-    for _, move in pairs(moves) do
+    for _, move in ipairs(moves) do
         result[move.To] = objectiveData[move.From]
     end
 

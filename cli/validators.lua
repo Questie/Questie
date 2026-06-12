@@ -319,6 +319,8 @@ local function _BuildObjectiveOrderMoveObjectiveData(questData, questKeys)
     return objectiveData
 end
 
+---@param objective Objective
+---@return NpcId|ObjectId|ItemId|FactionId|SpellId|nil
 local function _GetObjectiveOrderMoveId(objective)
     if objective.Type == "killcredit" then
         return objective.RootId
@@ -327,6 +329,9 @@ local function _GetObjectiveOrderMoveId(objective)
     return objective.Id
 end
 
+---@param objective Objective|nil
+---@param move ObjectiveOrderMove
+---@return boolean
 local function _ObjectiveOrderMoveMatches(objective, move)
     if (not objective) or objective.Type ~= move.Type then
         return false
@@ -339,6 +344,9 @@ local function _ObjectiveOrderMoveMatches(objective, move)
     return move.Id ~= nil and _GetObjectiveOrderMoveId(objective) == move.Id
 end
 
+---@param invalidMoves table<QuestId, string[]>
+---@param questId QuestId
+---@param reason string
 local function _AddObjectiveOrderMoveError(invalidMoves, questId, reason)
     if not invalidMoves[questId] then
         invalidMoves[questId] = {}

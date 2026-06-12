@@ -93,6 +93,7 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 
 local filterExpansion = BlacklistFilter.filterExpansion
 
+---@type table<QuestId, ObjectiveOrderMove[]>
 QuestieCorrections.objectiveOrderMoves = {}
 
 do

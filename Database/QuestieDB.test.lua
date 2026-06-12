@@ -16,7 +16,12 @@ describe("QuestieDB", function()
     ---@type Quest
     local testQuest
 
+    local originalQuestieError
+    local originalCompleteQuests
+
     before_each(function()
+        originalQuestieError = Questie.Error
+        originalCompleteQuests = Questie.db.char.complete
         Questie.db.char.complete = {}
         Questie.Error = function() end
         QuestiePlayer = require("Modules.QuestiePlayer")
@@ -46,6 +51,11 @@ describe("QuestieDB", function()
             [questKeys.objectivesText] = "Finish him!",
             [questKeys.objectives] = {{{1000}}}
         }
+    end)
+
+    after_each(function()
+        Questie.Error = originalQuestieError
+        Questie.db.char.complete = originalCompleteQuests
     end)
 
     describe("GetQuest", function()
