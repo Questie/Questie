@@ -122,6 +122,25 @@ describe("QuestieDB", function()
                 },
             }, quest.ObjectiveData)
         end)
+
+        it("should add required source items as special objectives when quest has no objectives", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = nil
+            testQuest[questKeys.requiredSourceItems] = {67890}
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieDB.QueryItemSingle = spy.new(function() return "Required Item" end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({
+                [67890] = {
+                    Type = "item",
+                    Id = 67890,
+                    Description = "Required Item",
+                },
+            }, quest.SpecialObjectives)
+        end)
     end)
 
     describe("GetItem", function()
