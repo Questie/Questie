@@ -15,7 +15,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 QuestieCorrections.objectiveOrderMoves[10503] = { -- The Bladespire Threat
-    {Type = "monster", Id = 20728, From = 1, To = 2}, -- Bladespire Raptor
     {Type = "killcredit", Id = 19995, From = 2, To = 1}, -- Bladespire Ogres killed
 }
 
