@@ -1632,7 +1632,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         end
     end
 
-    -- Events need to be added at the end of ObjectiveData
+    -- Events are usually added at the end of ObjectiveData, unless corrected below.
     local triggerEnd = QO.triggerEnd
     if triggerEnd then
         ---@type TriggerEndObjective

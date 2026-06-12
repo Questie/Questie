@@ -73,6 +73,7 @@
 ---@field Type "spell"
 ---@field Id SpellId
 ---@field Text string
+---@field ItemSourceId ItemId
 
 ---@class TriggerEndObjective
 ---@field Type "event"
@@ -148,13 +149,15 @@
 --   ['itemObjective'] = 3, -- table {{item(int), text(string)},...}
 --   ['reputationObjective'] = 4, -- table: {faction(int), value(int)}
 --   ['killCreditObjective'] = 5, -- table: {{{creature(int), ...}, baseCreatureID, baseCreatureText}, ...}
+--   ['spellObjective'] = 6, -- table: {{spell(int), text(string), item(int)},...}
 
----@class RawObjectives : {[1]: RawNpcObjective[], [2]: RawObjectObjective[], [3]: RawItemObjective[], [4]: RawReputationObjective, [5]: RawKillObjective[]}
+---@class RawObjectives : {[1]: RawNpcObjective[], [2]: RawObjectObjective[], [3]: RawItemObjective[], [4]: RawReputationObjective, [5]: RawKillObjective[], [6]: RawSpellObjective[]}
 ---@class RawNpcObjective : { [1]: NpcId, [2]: string }
 ---@class RawObjectObjective : { [1]: ObjectId, [2]: string }
 ---@class RawItemObjective : { [1]: ItemId, [2]: string }
 ---@class RawReputationObjective : { [1]: FactionId, [2]: number }
 ---@class RawKillObjective : { [1]: NpcId[], [2]: NpcId, [3]: string }
+---@class RawSpellObjective : { [1]: SpellId, [2]: string, [3]: ItemId }
 
 
 
