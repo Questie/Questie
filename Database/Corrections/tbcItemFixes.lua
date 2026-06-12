@@ -9,6 +9,9 @@ function QuestieTBCItemFixes:Load()
     local itemClasses = QuestieDB.itemClasses
 
     return {
+        [2633] = { -- Jungle Remedy
+            [itemKeys.npcDrops] = {937,940,941,942},
+        },
         [4503] = {
             [itemKeys.npcDrops] = {2557,2556,2555,2553,2552,2558,2554},
         },

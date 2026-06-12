@@ -474,6 +474,9 @@ function QuestieQuestFixes:Load()
         [648] = {
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to Steamwheedle Port", {[zoneIDs.TANARIS]={{67.06,23.16}}}},
         },
+        [652] = { -- Breaking the Keystone
+            [questKeys.nextQuestInChain] = 653,
+        },
         [657] = {
             [questKeys.nextQuestInChain] = 660,
         },
@@ -489,6 +492,10 @@ function QuestieQuestFixes:Load()
         },
         [667] = {
             [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{31.93,81.82}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the cannon"), 0, {{"object", 113531}}}},
+        },
+        [670] = { -- Sunken Treasure
+            [questKeys.nextQuestInChain] = 667,
         },
         [676] = { -- The Hammer May Fall
             [questKeys.breadcrumbForQuestId] = 677,
@@ -842,9 +849,10 @@ function QuestieQuestFixes:Load()
         [1034] = { -- The Ruins of Stardust
             [questKeys.nextQuestInChain] = 1035,
         },
-        [1036] = {
+        [1036] = { -- Avast Ye, Scallywag
             [questKeys.requiredMinRep] = {87,3000},
             [questKeys.requiredMaxRep] = {21,-6000},
+            [questKeys.breadcrumbForQuestId] = 4621,
         },
         [1045] = { -- Raene's Cleansing
             [questKeys.requiredSourceItems] = {},
@@ -2004,11 +2012,11 @@ function QuestieQuestFixes:Load()
         [2801] = {
             [questKeys.objectives] = {{{7572,nil,Questie.ICON_TYPE_TALK}}},
         },
-        [2841] = {
-            [questKeys.exclusiveTo] = {2842},
+        [2841] = { -- Rig Wars
+            [questKeys.disabledByQuest] = 2842,
             [questKeys.childQuests] = {},
         },
-        [2842] = {
+        [2842] = { -- Chief Engineer Scooty
             [questKeys.requiredLevel] = 20,
             [questKeys.parentQuest] = 0,
         },
@@ -2681,8 +2689,8 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {2952,4605},
             [questKeys.preQuestSingle] = {2951,4601,4602},
         },
-        [4621] = {
-            [questKeys.preQuestSingle] = {1036},
+        [4621] = { -- Avast Ye, Admiral!
+            [questKeys.breadcrumbs] = {1036},
             [questKeys.requiredMinRep] = {87,3000},
             [questKeys.requiredMaxRep] = {21,-6000},
         },

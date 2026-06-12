@@ -260,6 +260,21 @@ QuestieItemDropCorrections.Era = {
         [5760] = 100,
         [14226] = 100,
     },
+    [6257] = { -- Roc Gizzard
+        [5428] = DropKeys.WOWHEAD,
+        [5429] = DropKeys.WOWHEAD,
+        [5430] = DropKeys.WOWHEAD,
+    },
+    [6258] = { -- Ironfur Liver
+        [5268] = DropKeys.WOWHEAD,
+        [5272] = DropKeys.WOWHEAD,
+        [5274] = DropKeys.WOWHEAD,
+        [5352] = DropKeys.WOWHEAD,
+    },
+    [6259] = { -- Groddoc Liver
+        [5260] = DropKeys.WOWHEAD,
+        [5262] = DropKeys.WOWHEAD,
+    },
     [6443] = { -- Deviate Hide
         [3630] = DropKeys.WOWHEAD,
         [3631] = DropKeys.WOWHEAD,

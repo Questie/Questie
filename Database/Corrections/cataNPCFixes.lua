@@ -2169,6 +2169,7 @@ function CataNpcFixes.Load()
         },
         [14910] = { -- Exzhal
             [npcKeys.questStarts] = {8201},
+            [npcKeys.questEnds] = {8201},
         },
         [14921] = { -- Rin'wosho the Trader
             [npcKeys.questStarts] = {8196,8243,8246},

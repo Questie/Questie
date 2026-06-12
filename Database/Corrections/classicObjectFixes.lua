@@ -107,6 +107,9 @@ function QuestieObjectFixes:Load()
         [35252] = { -- Ancient Relic
             [objectKeys.spawns] = {[zoneIDs.WETLANDS] = {{32.2,50.8},{32.3,48.4},{32.3,48.6},{32.7,51},{33.2,46.4},{33.3,49},{33.4,47.4},{33.4,47.6},{33.4,51.5},{33.8,48.6},{33.9,46.6},{34.1,49.7},{34.2,47.6},{34.2,50.8},{34.3,45.7},{34.4,44.4},{34.4,44.5},{34.7,52.5},{34.8,50.3},{34.9,47},{35,47.9},{35.1,51.5},{35.2,44.3},{35.2,44.5},{35.2,48.9},{35.2,51.4},{35.4,46.3},{35.5,45},{35.5,46},{35.6,47.9},{36.1,48.8},{36.1,50},{36.4,42.1},{36.6,42.2}}},
         },
+        [37099] = { -- Atal'ai Tablet
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{54.298,79.389}},[zoneIDs.SWAMP_OF_SORROWS] = {{76.17,43.79},{74.7,43.84},{70.55,44.53},{75.68,44.95},{72.09,45.22},{74.77,46.71},{71.0,46.89},{76.07,47.44},{72.83,47.65},{75.85,48.3},{76.61,49.05},{75.81,49.4},{75.31,49.51},{78.27,49.54},{76.71,51.31}},[1477] = {{-1,-1}}},
+        },
         [92423] = { -- Damaged Chest
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{43.44,32.69}}},
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
@@ -308,6 +311,10 @@ function QuestieObjectFixes:Load()
             [objectKeys.name] = "Incantation of Celebras",
             [objectKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}},[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MARAUDON,
+        },
+        [179426] = { -- Gri'lek the Wanderer
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{24.77,22.88}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
         [179485] = { -- Broken Trap
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}}},
