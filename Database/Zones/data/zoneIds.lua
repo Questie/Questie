@@ -421,7 +421,7 @@ ZoneDB.zoneIDs = {
     PANDARIA = 10075, -- continent map
     AZEROTH = 10089, -- continent map
 
-    -- Fake IDs for SoD
+    -- Instance IDs for SoD
     DEMON_FALL_CANYON = 15475, -- SoD Dungeon
     THE_TAINTED_SCAR = 15531, -- SoD Lord Kazzak Raid
     THE_BURNING_OF_ANDORHAL = 15828, -- SoD Paladin specific solo dungeon
