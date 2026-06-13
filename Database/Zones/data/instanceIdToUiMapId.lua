@@ -106,5 +106,8 @@ ZoneDB.instanceIdToUiMapId = {
     [1011] = ZoneDB.zoneIDs.SIEGE_OF_NIUZAO_TEMPLE,
     [1098] = ZoneDB.zoneIDs.THRONE_OF_THUNDER,
     [1136] = ZoneDB.zoneIDs.SIEGE_OF_ORGRIMMAR,
+    [2784] = ZoneDB.zoneIDs.DEMON_FALL_CANYON,
+    [2789] = ZoneDB.zoneIDs.THE_TAINTED_SCAR,
     [2856] = ZoneDB.zoneIDs.SCARLET_ENCLAVE,
+    [2875] = ZoneDB.zoneIDs.KARAZHAN_CRYPTS,
 }
