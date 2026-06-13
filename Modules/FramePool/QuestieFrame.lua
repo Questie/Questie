@@ -323,13 +323,13 @@ function _Qframe.UpdateTexture(self, texture)
         self.overlayTexture:SetTexture("")
     end
 
-    if self.data.FinisherType then
+    --[[if self.data.FinisherType then
         if self.data.FinisherType == "Object" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
         end
     else
         self.overlayTexture:SetTexture("")
-    end
+    end]] -- need to see why followup quest from object has no cogwheel anymore
 
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
