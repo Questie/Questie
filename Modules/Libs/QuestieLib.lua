@@ -702,7 +702,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
         local startIndex = 1
         local endIndex = 2 --We should be able to start at a later index...
         --This function returns a list of size information per row, so we use this to calculate number of rows
-        local numberOfRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
+        local numberOfRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, utf8.strlen(useLine))
         for row = 1, numberOfRows do
             local lastSpaceIndex
             local indexes
