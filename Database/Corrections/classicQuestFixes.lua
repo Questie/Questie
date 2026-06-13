@@ -554,7 +554,7 @@ function QuestieQuestFixes:Load()
         [715] = {
             [questKeys.requiredSkill] = {},
         },
-        [717] = {
+        [717] = { -- Tremors of the Earth
             [questKeys.requiredSourceItems] = {4843,4844,4845},
         },
         [729] = {
@@ -626,14 +626,14 @@ function QuestieQuestFixes:Load()
         [771] = {
             [questKeys.nextQuestInChain] = 772,
         },
-        [779] = {
+        [779] = { -- Seal of the Earth
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [788] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4641}, -- #1956
         },
-        [793] = {
+        [793] = { -- Broken Alliances
             [questKeys.requiredSourceItems] = {4843,4844,4845},
         },
         [809] = {
@@ -3951,6 +3951,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {7492}, -- #1514
         },
+        [7490] = { -- Victory for the Horde
+            [questKeys.preQuestSingle] = {6602},
+        },
         [7492] = {
             [questKeys.startedBy] = {{10879,10880,10881}}, -- #1350
             [questKeys.breadcrumbForQuestId] = 7489, -- #1514
@@ -3961,6 +3964,7 @@ function QuestieQuestFixes:Load()
         },
         [7495] = { -- Victory for the Alliance
             [questKeys.requiredLevel] = 60,
+            [questKeys.preQuestSingle] = {6502},
         },
         [7507] = { -- Nostro's Compendium
             [questKeys.name] = "Nostro's Compendium",
@@ -4066,8 +4070,14 @@ function QuestieQuestFixes:Load()
         [7738] = { -- Perfect Yeti Hide H
             [questKeys.preQuestSingle] = {2822},
         },
+        [7781] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {7761},
+        },
         [7782] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{1748}},
+        },
+        [7783] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {7761},
         },
         [7784] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{4949}},
@@ -6173,6 +6183,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [687] = {
             [questKeys.startedBy] = {{2787}},
         },
+        [709] = { -- Solution to Doom
+            [questKeys.nextQuestInChain] = 728,
+        },
         [737] = {
             [questKeys.startedBy] = {{2934}},
         },
@@ -6300,6 +6313,9 @@ function QuestieQuestFixes:LoadFactionFixes()
     local questFixesAlliance = {
         [687] = {
             [questKeys.startedBy] = {{2786}},
+        },
+        [709] = { -- Solution to Doom
+            [questKeys.nextQuestInChain] = 727,
         },
         [737] = {
             [questKeys.startedBy] = {{2786}},

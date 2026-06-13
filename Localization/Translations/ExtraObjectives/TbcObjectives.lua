@@ -1850,6 +1850,18 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "骑乘",
         ["zhTW"] = false,
     },
+    ["Talk to Jaina"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "与吉安娜交谈",
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(tbcObjectiveLocales) do

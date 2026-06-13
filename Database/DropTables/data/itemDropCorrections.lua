@@ -545,6 +545,11 @@ QuestieItemDropCorrections.Tbc = {
     [31814] = { -- Mature Bone Sifter Carcass
         [22482] = 100,
     },
+    [33087] = { -- Black Dragonkin Essence
+        [4328] = 100,
+        [4329] = 100,
+        [4331] = 100,
+    },
 }
 
 QuestieItemDropCorrections.Wotlk = {

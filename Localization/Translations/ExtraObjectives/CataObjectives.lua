@@ -3554,18 +3554,6 @@ local cataObjectiveLocales = {
         ["zhCN"] = "关闭传送门",
         ["zhTW"] = "關閉傳送門",
     },
-    ["Talk to Jaina"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "与吉安娜交谈",
-        ["zhTW"] = false,
-    },
     ["Talk to Archmage Malin"] = {
         ["enUS"] = true,
         ["deDE"] = false,

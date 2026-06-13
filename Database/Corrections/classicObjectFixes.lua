@@ -137,6 +137,10 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{52.039,63.9}},[38] = {{33.27,88.68},{37.57,91.57},{39.79,85.71},{35.74,87.49},{40.08,89.74},{36.98,89.97},{37.19,85.58},{37.19,85.58},{36.98,89.97},{37.57,91.57}},[3] = {{34.04,24.42}},[1337] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
         },
+        [126260] = { -- Ancient Chest
+            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{52.107,64.008}}},
+            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+        },
         [140911] = { -- Spool of Light Chartreuse Silk Thread
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.94,46.14}}},
         },

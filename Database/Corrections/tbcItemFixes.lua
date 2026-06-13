@@ -24,6 +24,9 @@ function QuestieTBCItemFixes:Load()
         [5359] = { -- Lorgalis Manuscript
             [itemKeys.npcDrops] = {},
         },
+        [5883] = { -- Forked Mudrock Tongue
+            [itemKeys.npcDrops] = {4397},
+        },
         [5959] = {
             [itemKeys.npcDrops] = {4376,4378,4379,4380},
         },
