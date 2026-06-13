@@ -662,6 +662,20 @@ end
 
 --Part of the GameTooltipWrapDescription function
 local textWrapObjectiveFontString
+local CHINESE_PUNCTUATION = {
+    ["；"] = true,
+    ["！"] = true,
+    ["？"] = true,
+    ["。"] = true,
+    ["，"] = true,
+    ["："] = true,
+    ["、"] = true,
+}
+
+local function _IsChinesePunctuation(character)
+    return CHINESE_PUNCTUATION[character] == true
+end
+
 ---Emulates the wrapping of a quest description
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
@@ -687,65 +701,100 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
     if (textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
 
     --Set Defaults
-    combineTrailing = combineTrailing or true
+    if (combineTrailing == nil) then
+        combineTrailing = true
+    end
     --We show the fontstring and set the text to start the process
     --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
     textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
     textWrapObjectiveFontString:Show()
 
     local useLine = line
+    local lineLength = utf8.strlen(useLine)
 
     textWrapObjectiveFontString:SetText(useLine)
     --Is the line wrapped?
     if (textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
         local lines = {}
         local startIndex = 1
-        local endIndex = 2 --We should be able to start at a later index...
-        --This function returns a list of size information per row, so we use this to calculate number of rows
-        local numberOfRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, utf8.strlen(useLine))
-        for row = 1, numberOfRows do
+
+        while (startIndex <= lineLength) do
+            local remainingLine = utf8.sub(useLine, startIndex, lineLength)
+            local remainingLineLength = utf8.strlen(remainingLine)
+
+            textWrapObjectiveFontString:SetText(remainingLine)
+            if (textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth()) then
+                tinsert(lines, prefix .. remainingLine)
+                break
+            end
+
+            local endIndex = 1
             local lastSpaceIndex
-            local indexes
-            --We use the previous way to get number of rows to loop through characterindex until we get 2 rows
-            repeat
-                indexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
+
+            --Find the first character that pushes this span onto the next visual row.
+            while (endIndex <= remainingLineLength) do
                 --Last space of the line to be used to break a new row
-                if (utf8.sub(useLine, endIndex, endIndex) == " ") then
+                if (utf8.sub(remainingLine, endIndex, endIndex) == " ") then
                     lastSpaceIndex = endIndex
                 end
-                endIndex = endIndex + 1
-                --If we are at the end of characters break and set endIndex to strlen
-                if (endIndex > utf8.strlen(useLine)) then
-                    endIndex = utf8.strlen(useLine)
-                    lastSpaceIndex = endIndex
+                local indexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
+                if (#indexes > 1) then
                     break
                 end
-            until (#indexes > 1) --Until more than one row
+                endIndex = endIndex + 1
+            end
 
-            --Get the line we calculated
-            --First to space then endIndex(chinese)
-            local newLine = utf8.sub(useLine, startIndex, lastSpaceIndex or endIndex)
+            local lineEndIndex
+            local nextStartIndex
+            local brokeAtSpace = false
 
-            --This combines a trailing word to the previous line if it is the only word of the line
-            --We check lastSpaceIndex here because the logic will be faulty (chinese client)
-            if (row == numberOfRows - 1 and combineTrailing and lastSpaceIndex) then
-                --Get the last line, in its full
-                local lastLine = utf8.sub(useLine, endIndex - 2, utf8.strlen(useLine))
+            if (endIndex > remainingLineLength) then
+                lineEndIndex = remainingLineLength
+                nextStartIndex = remainingLineLength + 1
+            elseif (lastSpaceIndex) then
+                lineEndIndex = lastSpaceIndex
+                nextStartIndex = lastSpaceIndex + 1
+                brokeAtSpace = true
+            else
+                --No word boundary exists on this visual row, so wrap at the last fitting UTF-8 character.
+                lineEndIndex = endIndex - 1
+                if (lineEndIndex < 1) then
+                    lineEndIndex = 1
+                end
+                nextStartIndex = lineEndIndex + 1
+            end
+
+            while (nextStartIndex <= remainingLineLength and utf8.sub(remainingLine, nextStartIndex, nextStartIndex) == " ") do
+                nextStartIndex = nextStartIndex + 1
+            end
+
+            while (nextStartIndex <= remainingLineLength and _IsChinesePunctuation(utf8.sub(remainingLine, nextStartIndex, nextStartIndex))) do
+                lineEndIndex = nextStartIndex
+                nextStartIndex = nextStartIndex + 1
+            end
+
+            while (nextStartIndex <= remainingLineLength and utf8.sub(remainingLine, nextStartIndex, nextStartIndex) == " ") do
+                nextStartIndex = nextStartIndex + 1
+            end
+
+            local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
+
+            --This combines a trailing word to the previous line if it is the only word of the line.
+            --Only do this after a real space break. CJK text often has no spaces, so combining by "no space" would merge visual rows.
+            if (combineTrailing and brokeAtSpace and nextStartIndex <= remainingLineLength) then
+                local lastLine = utf8.sub(remainingLine, nextStartIndex, remainingLineLength)
+                local remainingRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
 
                 --Does the line not contain any space we combine it into the previous line
-                if (not string.find(lastLine, " ")) then
-                    newLine = utf8.sub(useLine, startIndex, utf8.strlen(useLine))
-                    --print("NL1", newLine)
-                    table.insert(lines, prefix .. newLine)
-                    --Break the for loop on last line, no more running required
+                if (remainingRows == 1 and not string.find(lastLine, " ")) then
+                    newLine = remainingLine
+                    tinsert(lines, prefix .. newLine)
                     break
                 end
             end
-            --Change the startIndex to be the new line, and add the line to the lines list
-            startIndex = endIndex - 2
-            endIndex = endIndex
 
-            table.insert(lines, prefix .. newLine)
+            tinsert(lines, prefix .. newLine)
+            startIndex = startIndex + nextStartIndex - 1
         end
         textWrapObjectiveFontString:Hide()
         return lines
