@@ -662,6 +662,8 @@ end
 
 --Part of the GameTooltipWrapDescription function
 local textWrapObjectiveFontString
+-- These Chinese punctuation marks should stay at the end of the previous line.
+-- Starting a new line with punctuation looks wrong and can happen because Chinese text has no spaces.
 local CHINESE_PUNCTUATION = {
     ["；"] = true,
     ["！"] = true,
@@ -674,6 +676,74 @@ local CHINESE_PUNCTUATION = {
 
 local function _IsChinesePunctuation(character)
     return CHINESE_PUNCTUATION[character] == true
+end
+
+local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
+    for endIndex = 1, lineLength do
+        textWrapFontString:SetText(utf8.sub(line, 1, endIndex))
+
+        if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
+            local lineEndIndex = math_max(endIndex - 1, 1)
+            return lineEndIndex, lineEndIndex + 1
+        end
+    end
+
+    return lineLength, lineLength + 1
+end
+
+local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
+    local endIndex = 1
+    local lastSpaceIndex
+
+    -- Walk until this span would wrap to a second visual row.
+    while (endIndex <= lineLength) do
+        if (utf8.sub(line, endIndex, endIndex) == " ") then
+            lastSpaceIndex = endIndex
+        end
+
+        local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
+        if (#indexes > 1) then
+            break
+        end
+
+        endIndex = endIndex + 1
+    end
+
+    if (endIndex > lineLength) then
+        -- Some clients/fonts do not wrap Chinese text without spaces, so the FontString reports one visual row.
+        -- In that case split by measured width instead.
+        if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
+            local lineEndIndex, nextStartIndex = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
+            textWrapFontString:SetText(line)
+            return lineEndIndex, nextStartIndex, false
+        end
+
+        return lineLength, lineLength + 1, false
+    elseif (lastSpaceIndex) then
+        return lastSpaceIndex, lastSpaceIndex + 1, true
+    end
+
+    -- No space exists on this row, so split at the last fitting UTF-8 character.
+    local lineEndIndex = math_max(endIndex - 1, 1)
+
+    return lineEndIndex, lineEndIndex + 1, false
+end
+
+local function _MovePunctuationToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
+    while (nextStartIndex <= lineLength and utf8.sub(line, nextStartIndex, nextStartIndex) == " ") do
+        nextStartIndex = nextStartIndex + 1
+    end
+
+    while (nextStartIndex <= lineLength and _IsChinesePunctuation(utf8.sub(line, nextStartIndex, nextStartIndex))) do
+        lineEndIndex = nextStartIndex
+        nextStartIndex = nextStartIndex + 1
+    end
+
+    while (nextStartIndex <= lineLength and utf8.sub(line, nextStartIndex, nextStartIndex) == " ") do
+        nextStartIndex = nextStartIndex + 1
+    end
+
+    return lineEndIndex, nextStartIndex
 end
 
 ---Emulates the wrapping of a quest description
@@ -722,60 +792,15 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
             local remainingLine = utf8.sub(useLine, startIndex, lineLength)
             local remainingLineLength = utf8.strlen(remainingLine)
 
+            -- Recalculate each remaining line. If we skip spaces or move punctuation, the original FontString rows no longer match.
             textWrapObjectiveFontString:SetText(remainingLine)
             if (textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth()) then
                 tinsert(lines, prefix .. remainingLine)
                 break
             end
 
-            local endIndex = 1
-            local lastSpaceIndex
-
-            --Find the first character that pushes this span onto the next visual row.
-            while (endIndex <= remainingLineLength) do
-                --Last space of the line to be used to break a new row
-                if (utf8.sub(remainingLine, endIndex, endIndex) == " ") then
-                    lastSpaceIndex = endIndex
-                end
-                local indexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
-                if (#indexes > 1) then
-                    break
-                end
-                endIndex = endIndex + 1
-            end
-
-            local lineEndIndex
-            local nextStartIndex
-            local brokeAtSpace = false
-
-            if (endIndex > remainingLineLength) then
-                lineEndIndex = remainingLineLength
-                nextStartIndex = remainingLineLength + 1
-            elseif (lastSpaceIndex) then
-                lineEndIndex = lastSpaceIndex
-                nextStartIndex = lastSpaceIndex + 1
-                brokeAtSpace = true
-            else
-                --No word boundary exists on this visual row, so wrap at the last fitting UTF-8 character.
-                lineEndIndex = endIndex - 1
-                if (lineEndIndex < 1) then
-                    lineEndIndex = 1
-                end
-                nextStartIndex = lineEndIndex + 1
-            end
-
-            while (nextStartIndex <= remainingLineLength and utf8.sub(remainingLine, nextStartIndex, nextStartIndex) == " ") do
-                nextStartIndex = nextStartIndex + 1
-            end
-
-            while (nextStartIndex <= remainingLineLength and _IsChinesePunctuation(utf8.sub(remainingLine, nextStartIndex, nextStartIndex))) do
-                lineEndIndex = nextStartIndex
-                nextStartIndex = nextStartIndex + 1
-            end
-
-            while (nextStartIndex <= remainingLineLength and utf8.sub(remainingLine, nextStartIndex, nextStartIndex) == " ") do
-                nextStartIndex = nextStartIndex + 1
-            end
+            local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreak(textWrapObjectiveFontString, remainingLine, remainingLineLength)
+            lineEndIndex, nextStartIndex = _MovePunctuationToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
 
             local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
 
