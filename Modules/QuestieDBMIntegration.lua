@@ -75,8 +75,7 @@ end
 --   Event/Enable/Disable Handlers  --
 -------------------------------------
 do
-    -- PARENTED TO WORLDFRAME: This ticker stays alive and clears markers even when UIParent is hidden
-    local eventFrame = CreateFrame("frame", nil, WorldFrame)
+    local eventFrame = CreateFrame("frame", "QuestieDBMIntegration", UIParent)
     local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
     local warningShown = false
 
