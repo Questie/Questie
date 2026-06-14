@@ -332,6 +332,32 @@ describe("QuestieReputation", function()
             assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
+        it("should not apply diplomacy bonus to reputation losses for WotLK and before", function()
+            Expansions.Current = Expansions.Wotlk
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, -75}}
+            end)
+            QuestiePlayer.HasRequiredRace = spy.new(function() return true end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, -75}}, reputationReward)
+            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+        end)
+
+        it("should not apply diplomacy bonus to reputation losses", function()
+            Expansions.Current = Expansions.Cata
+            QuestieDB.QueryQuestSingle = spy.new(function()
+                return {{909, -1}}
+            end)
+            QuestiePlayer.HasRequiredRace = spy.new(function() return true end)
+
+            local reputationReward = QuestieReputation.GetReputationReward(1)
+
+            assert.are.same({{909, -10}}, reputationReward)
+            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+        end)
+
         it("should respect Mr. Popularity rank 1 guild perk", function()
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
