@@ -101,7 +101,7 @@ end
 
 local function _SetMeasurementFont(fontString, fontSource)
     local fontSourceType = type(fontSource)
-    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and fontSource.GetFont) then
+    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and type(fontSource.GetFont) == "function") then
         local font, size, flags = fontSource:GetFont()
         if (font and size) then
             fontString:SetFont(font, size, flags)
@@ -443,10 +443,10 @@ function MapIconTooltip:Show()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, rawLine in pairs(questData.subData) do
-                            self:AddDescriptionLine(rawLine, "  ", false, 0.86, 0.86, 0.86);
+                            self:AddDescriptionLine(rawLine, "  ", true, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then
-                        self:AddDescriptionLine(questData.subData, "  ", false, 0.86, 0.86, 0.86);
+                        self:AddDescriptionLine(questData.subData, "  ", true, 0.86, 0.86, 0.86);
                     end
                 end
 

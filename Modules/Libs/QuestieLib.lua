@@ -686,6 +686,47 @@ local FULLWIDTH_DIGITS = {
     ["８"] = true,
     ["９"] = true,
 }
+local NUMERIC_SEPARATORS = {
+    [","] = true,
+    ["."] = true,
+    ["，"] = true,
+    ["．"] = true,
+}
+-- Keep numeric suffixes conservative and exact. These counters/units commonly attach to quest numbers,
+-- but single characters like "经" or "钟" can also appear inside normal words, so only glue full suffix tokens.
+local NUMERIC_SUFFIXES = {
+    "分钟",
+    "分鐘",
+    "经验",
+    "經驗",
+    "个",
+    "個",
+    "块",
+    "塊",
+    "秒",
+    "次",
+    "级",
+    "級",
+    "点",
+    "點",
+    "只",
+    "隻",
+    "件",
+    "名",
+    "份",
+    "颗",
+    "顆",
+    "枚",
+    "条",
+    "條",
+    "本",
+    "层",
+    "層",
+    "组",
+    "組",
+    "码",
+    "碼",
+}
 
 local function _IsChinesePunctuation(character)
     return CHINESE_PUNCTUATION[character] == true
@@ -695,9 +736,71 @@ local function _IsNumericCharacter(character)
     return string.match(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
 end
 
+local function _IsNumericTokenCharacter(line, index, lineLength)
+    if (index < 1 or index > lineLength) then
+        return false
+    end
+
+    local character = utf8.sub(line, index, index)
+    if (_IsNumericCharacter(character)) then
+        return true
+    elseif (character == "%" or character == "％") then
+        return _IsNumericCharacter(utf8.sub(line, index - 1, index - 1))
+    elseif (NUMERIC_SEPARATORS[character]) then
+        return _IsNumericCharacter(utf8.sub(line, index - 1, index - 1)) and _IsNumericCharacter(utf8.sub(line, index + 1, index + 1))
+    end
+
+    return false
+end
+
+local function _GetNumericSuffixLengthAtStart(line, suffixStartIndex, lineLength)
+    if (suffixStartIndex < 1 or suffixStartIndex > lineLength) then
+        return 0
+    end
+
+    for _, suffix in ipairs(NUMERIC_SUFFIXES) do
+        local suffixLength = utf8.strlen(suffix)
+        local suffixEndIndex = suffixStartIndex + suffixLength - 1
+        if (suffixEndIndex <= lineLength and utf8.sub(line, suffixStartIndex, suffixEndIndex) == suffix) then
+            return suffixLength
+        end
+    end
+
+    return 0
+end
+
+local function _GetNumericSuffixEndIndexAt(line, index, lineLength)
+    for _, suffix in ipairs(NUMERIC_SUFFIXES) do
+        local suffixLength = utf8.strlen(suffix)
+        for offset = 0, suffixLength - 1 do
+            local suffixStartIndex = index - offset
+            local suffixEndIndex = suffixStartIndex + suffixLength - 1
+            if (suffixStartIndex >= 1
+                and suffixEndIndex <= lineLength
+                and utf8.sub(line, suffixStartIndex, suffixEndIndex) == suffix
+                and _IsNumericTokenCharacter(line, suffixStartIndex - 1, lineLength)
+            ) then
+                return suffixEndIndex
+            end
+        end
+    end
+
+    return nil
+end
+
+local function _MoveNumericSuffixToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
+    local suffixLength = _GetNumericSuffixLengthAtStart(line, nextStartIndex, lineLength)
+    if (suffixLength > 0) then
+        lineEndIndex = nextStartIndex + suffixLength - 1
+        nextStartIndex = lineEndIndex + 1
+    end
+
+    return lineEndIndex, nextStartIndex
+end
+
 local function _SetTextWrapFont(textWrapFontString, fontSource)
     local fontSourceType = type(fontSource)
-    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and fontSource.GetFont) then
+    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and type(fontSource.GetFont) == "function") then
         local font, size, flags = fontSource:GetFont()
         if (font and size) then
             textWrapFontString:SetFont(font, size, flags)
@@ -709,37 +812,39 @@ local function _SetTextWrapFont(textWrapFontString, fontSource)
     textWrapFontString:SetFont(font, size, flags)
 end
 
-local function _GetPreferredWrapIndex(lastBreakIndex, lastBreakWasSpace, lineEndIndex)
-    if (lastBreakIndex) then
-        return lastBreakIndex, lastBreakIndex + 1, lastBreakWasSpace
+local function _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
+    if (lastSpaceIndex) then
+        return lastSpaceIndex, lastSpaceIndex + 1, true
+    elseif (lastPunctuationIndex) then
+        return lastPunctuationIndex, lastPunctuationIndex + 1, false
     end
 
     return lineEndIndex, lineEndIndex + 1, false
 end
 
-local function _UpdateLastBreakIndex(character, index, lastBreakIndex, lastBreakWasSpace)
+local function _UpdateLastBreakIndexes(character, index, lastSpaceIndex, lastPunctuationIndex)
     if (character == " ") then
-        return index, true
+        return index, lastPunctuationIndex
     elseif (_IsChinesePunctuation(character)) then
-        return index, false
+        return lastSpaceIndex, index
     end
 
-    return lastBreakIndex, lastBreakWasSpace
+    return lastSpaceIndex, lastPunctuationIndex
 end
 
 local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
-    local lastBreakIndex
-    local lastBreakWasSpace = false
+    local lastSpaceIndex
+    local lastPunctuationIndex
 
     for endIndex = 1, lineLength do
         local character = utf8.sub(line, endIndex, endIndex)
-        lastBreakIndex, lastBreakWasSpace = _UpdateLastBreakIndex(character, endIndex, lastBreakIndex, lastBreakWasSpace)
+        lastSpaceIndex, lastPunctuationIndex = _UpdateLastBreakIndexes(character, endIndex, lastSpaceIndex, lastPunctuationIndex)
 
         textWrapFontString:SetText(utf8.sub(line, 1, endIndex))
 
         if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
             local lineEndIndex = math_max(endIndex - 1, 1)
-            return _GetPreferredWrapIndex(lastBreakIndex, lastBreakWasSpace, lineEndIndex)
+            return _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
         end
     end
 
@@ -754,13 +859,13 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
     end
 
     local endIndex = 1
-    local lastBreakIndex
-    local lastBreakWasSpace = false
+    local lastSpaceIndex
+    local lastPunctuationIndex
 
     -- Walk until this span would wrap to a second visual row.
     while (endIndex <= lineLength) do
         local character = utf8.sub(line, endIndex, endIndex)
-        lastBreakIndex, lastBreakWasSpace = _UpdateLastBreakIndex(character, endIndex, lastBreakIndex, lastBreakWasSpace)
+        lastSpaceIndex, lastPunctuationIndex = _UpdateLastBreakIndexes(character, endIndex, lastSpaceIndex, lastPunctuationIndex)
 
         local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
         if (not indexes) then
@@ -789,7 +894,7 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
     -- No space or punctuation exists on this row, so split at the last fitting UTF-8 character.
     local lineEndIndex = math_max(endIndex - 1, 1)
 
-    return _GetPreferredWrapIndex(lastBreakIndex, lastBreakWasSpace, lineEndIndex)
+    return _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
 end
 
 local function _MoveNumberToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
@@ -797,34 +902,67 @@ local function _MoveNumberToPreviousLine(line, lineLength, lineEndIndex, nextSta
         return lineEndIndex, nextStartIndex
     end
 
-    local lineEndCharacter = utf8.sub(line, lineEndIndex, lineEndIndex)
-    local nextStartCharacter = utf8.sub(line, nextStartIndex, nextStartIndex)
-    if (_IsNumericCharacter(lineEndCharacter) and _IsNumericCharacter(nextStartCharacter)) then
-        repeat
+    local suffixEndIndex = _GetNumericSuffixEndIndexAt(line, lineEndIndex, lineLength)
+    if (not _IsNumericTokenCharacter(line, lineEndIndex, lineLength)) then
+        if (suffixEndIndex and nextStartIndex <= suffixEndIndex) then
+            return suffixEndIndex, suffixEndIndex + 1
+        end
+
+        return lineEndIndex, nextStartIndex
+    end
+
+    local movedNumericToken = false
+    while (nextStartIndex <= lineLength and _IsNumericTokenCharacter(line, nextStartIndex, lineLength)) do
+        lineEndIndex = nextStartIndex
+        nextStartIndex = nextStartIndex + 1
+        movedNumericToken = true
+    end
+
+    lineEndIndex, nextStartIndex = _MoveNumericSuffixToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
+
+    if movedNumericToken then
+        while (nextStartIndex <= lineLength and utf8.sub(line, nextStartIndex, nextStartIndex) == " ") do
             lineEndIndex = nextStartIndex
             nextStartIndex = nextStartIndex + 1
-            nextStartCharacter = utf8.sub(line, nextStartIndex, nextStartIndex)
-        until (nextStartIndex > lineLength or not _IsNumericCharacter(nextStartCharacter))
+        end
     end
 
     return lineEndIndex, nextStartIndex
 end
 
 local function _MovePunctuationToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
-    while (nextStartIndex <= lineLength and utf8.sub(line, nextStartIndex, nextStartIndex) == " ") do
-        nextStartIndex = nextStartIndex + 1
-    end
-
     while (nextStartIndex <= lineLength and _IsChinesePunctuation(utf8.sub(line, nextStartIndex, nextStartIndex))) do
         lineEndIndex = nextStartIndex
         nextStartIndex = nextStartIndex + 1
     end
 
-    while (nextStartIndex <= lineLength and utf8.sub(line, nextStartIndex, nextStartIndex) == " ") do
-        nextStartIndex = nextStartIndex + 1
+    return lineEndIndex, nextStartIndex
+end
+
+local function _GetRemainingRows(textWrapFontString, remainingLine, lastLine, nextStartIndex, remainingLineLength)
+    local remainingIndexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
+    if remainingIndexes then
+        return #remainingIndexes
     end
 
-    return lineEndIndex, nextStartIndex
+    textWrapFontString:SetText(lastLine)
+    local remainingRows = textWrapFontString:GetUnboundedStringWidth() <= textWrapFontString:GetWrappedWidth() and 1 or 2
+    textWrapFontString:SetText(remainingLine)
+
+    return remainingRows
+end
+
+local function _ShouldCombineTrailingLine(textWrapFontString, remainingLine, nextStartIndex, remainingLineLength, brokeAtSpace)
+    if (nextStartIndex > remainingLineLength) then
+        return false
+    end
+
+    local lastLine = utf8.sub(remainingLine, nextStartIndex, remainingLineLength)
+    if (_GetRemainingRows(textWrapFontString, remainingLine, lastLine, nextStartIndex, remainingLineLength) ~= 1) then
+        return false
+    end
+
+    return (brokeAtSpace and not string.find(lastLine, " ")) or (utf8.strlen(lastLine) == 1 and string.len(lastLine) > 1)
 end
 
 ---Emulates the wrapping of a quest description
@@ -887,26 +1025,11 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSo
 
             local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
 
-            --This combines a trailing word to the previous line if it is the only word of the line.
-            --Only do this after a real space break. CJK text often has no spaces, so combining by "no space" would merge visual rows.
-            if (combineTrailing and brokeAtSpace and nextStartIndex <= remainingLineLength) then
-                local lastLine = utf8.sub(remainingLine, nextStartIndex, remainingLineLength)
-                local remainingIndexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
-                local remainingRows
-                if remainingIndexes then
-                    remainingRows = #remainingIndexes
-                else
-                    textWrapObjectiveFontString:SetText(lastLine)
-                    remainingRows = textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth() and 1 or 2
-                    textWrapObjectiveFontString:SetText(remainingLine)
-                end
-
-                --Does the line not contain any space we combine it into the previous line
-                if (remainingRows == 1 and not string.find(lastLine, " ")) then
-                    newLine = remainingLine
-                    tinsert(lines, prefix .. newLine)
-                    break
-                end
+            --This combines a trailing word or glyph to the previous line if it would be alone on the last line.
+            if (combineTrailing and _ShouldCombineTrailingLine(textWrapObjectiveFontString, remainingLine, nextStartIndex, remainingLineLength, brokeAtSpace)) then
+                newLine = remainingLine
+                tinsert(lines, prefix .. newLine)
+                break
             end
 
             tinsert(lines, prefix .. newLine)
