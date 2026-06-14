@@ -27,7 +27,7 @@ local MAX_GROUP_SIZE = 5
 -- icon limit, so a crowded zone with a full group can't flood the map.
 local MAX_PARTY_ICONS = 500
 -- How many quests we redraw per frame when spreading a large refresh across frames.
-local CHUNK_SIZE = 10
+local CHUNK_SIZE = 50
 
 -- The single-character objective types used in the QuestieComms packets, mapped to the
 -- full type names used by the drawing pipeline and the database ObjectiveData.
