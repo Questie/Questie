@@ -256,8 +256,7 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
     local endDay = startDay + 6 -- faire runs Monday - Sunday
 
     -- If we're on the first day (Monday) require hour >= 3
-    local hour = (currentDate.hour or 0)
-    if dayOfMonth == startDay and hour < 3 then
+    if dayOfMonth == startDay and currentDate.hour < 3 then
         return DMF_LOCATIONS.NONE
     end
 
