@@ -4,8 +4,8 @@ local TooltipLayout = QuestieLoader:CreateModule("TooltipLayout")
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type WrappedText
+local WrappedText = QuestieLoader:ImportModule("WrappedText")
 
 local tinsert = table.insert
 
@@ -252,7 +252,7 @@ local function _ExpandTooltipDescriptionRows(tooltip, rows)
         if (row.kind == "description") then
             local prefixWidth = _MeasureTooltipText(row.prefix, descriptionFontString)
             local wrapWidth = math.max(tooltipWidth - prefixWidth, 1)
-            local lines = QuestieLib:TextWrap(row.text, row.prefix, row.combineTrailing, wrapWidth, descriptionFontString)
+            local lines = WrappedText:TextWrap(row.text, row.prefix, row.combineTrailing, wrapWidth, descriptionFontString)
 
             for _, line in ipairs(lines) do
                 _AppendTooltipLine(expandedRows, line, row.args)
