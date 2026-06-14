@@ -35,6 +35,8 @@ lua cli/validate-sod.lua
 lua cli/validate-localization.lua
 ```
 
+> **Note:** Any change to `cli/validators.lua` must be accompanied by a matching test in `cli/validators.test.lua`.
+
 ### Build (release packaging)
 ```bash
 python3 build.py --all          # all expansions
