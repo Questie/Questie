@@ -213,7 +213,7 @@ describe("QuestieEvent", function()
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
-        it("should only start on Monday at 03:00 for Era (hour gating)", function()
+        it("should not be active at 02:30 on start Monday for Era (hour gating)", function()
             -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
@@ -243,13 +243,14 @@ describe("QuestieEvent", function()
                 end
             }
 
-            -- At 02:30 on start Monday it should NOT be active yet
             QuestieEvent:Load()
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_equal(0, #QuestieEvent.activeQuests)
+        end)
 
-            -- Now simulate 03:00 on the same Monday -> should be active
+        it("should be active at 03:00 on start Monday for Era (hour gating)", function()
+            -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
                     return {
@@ -262,12 +263,21 @@ describe("QuestieEvent", function()
                     }
                 end
             }
-            QuestieEvent.activeQuests = {}
-            -- re-load the event quests table which QuestieEvent:Load clears at the end
-            QuestieEvent.eventQuests = {}
-            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
-            printMock = spy.new(function() end)
-            _G.print = printMock
+
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            -- Mock C_Calendar.GetMonthInfo to return baseInfo and then firstWeekday=2 for the monthOffset
+            local baseInfo = {year = 2025, month = 1}
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return baseInfo
+                    else
+                        return {firstWeekday = 2}
+                    end
+                end
+            }
 
             QuestieEvent:Load()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
