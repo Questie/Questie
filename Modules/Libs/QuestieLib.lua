@@ -674,35 +674,100 @@ local CHINESE_PUNCTUATION = {
     ["、"] = true,
 }
 
+local FULLWIDTH_DIGITS = {
+    ["０"] = true,
+    ["１"] = true,
+    ["２"] = true,
+    ["３"] = true,
+    ["４"] = true,
+    ["５"] = true,
+    ["６"] = true,
+    ["７"] = true,
+    ["８"] = true,
+    ["９"] = true,
+}
+
 local function _IsChinesePunctuation(character)
     return CHINESE_PUNCTUATION[character] == true
 end
 
+local function _IsNumericCharacter(character)
+    return string.match(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
+end
+
+local function _SetTextWrapFont(textWrapFontString, fontSource)
+    local fontSourceType = type(fontSource)
+    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and fontSource.GetFont) then
+        local font, size, flags = fontSource:GetFont()
+        if (font and size) then
+            textWrapFontString:SetFont(font, size, flags)
+            return
+        end
+    end
+
+    local font, size, flags = textWrapFrameObject:GetFont()
+    textWrapFontString:SetFont(font, size, flags)
+end
+
+local function _GetPreferredWrapIndex(lastBreakIndex, lastBreakWasSpace, lineEndIndex)
+    if (lastBreakIndex) then
+        return lastBreakIndex, lastBreakIndex + 1, lastBreakWasSpace
+    end
+
+    return lineEndIndex, lineEndIndex + 1, false
+end
+
+local function _UpdateLastBreakIndex(character, index, lastBreakIndex, lastBreakWasSpace)
+    if (character == " ") then
+        return index, true
+    elseif (_IsChinesePunctuation(character)) then
+        return index, false
+    end
+
+    return lastBreakIndex, lastBreakWasSpace
+end
+
 local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
+    local lastBreakIndex
+    local lastBreakWasSpace = false
+
     for endIndex = 1, lineLength do
+        local character = utf8.sub(line, endIndex, endIndex)
+        lastBreakIndex, lastBreakWasSpace = _UpdateLastBreakIndex(character, endIndex, lastBreakIndex, lastBreakWasSpace)
+
         textWrapFontString:SetText(utf8.sub(line, 1, endIndex))
 
         if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
             local lineEndIndex = math_max(endIndex - 1, 1)
-            return lineEndIndex, lineEndIndex + 1
+            return _GetPreferredWrapIndex(lastBreakIndex, lastBreakWasSpace, lineEndIndex)
         end
     end
 
-    return lineLength, lineLength + 1
+    return lineLength, lineLength + 1, false
 end
 
 local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
+    if (not string.find(line, " ", 1, true) and textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
+        local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
+        textWrapFontString:SetText(line)
+        return lineEndIndex, nextStartIndex, brokeAtSpace
+    end
+
     local endIndex = 1
-    local lastSpaceIndex
+    local lastBreakIndex
+    local lastBreakWasSpace = false
 
     -- Walk until this span would wrap to a second visual row.
     while (endIndex <= lineLength) do
-        if (utf8.sub(line, endIndex, endIndex) == " ") then
-            lastSpaceIndex = endIndex
-        end
+        local character = utf8.sub(line, endIndex, endIndex)
+        lastBreakIndex, lastBreakWasSpace = _UpdateLastBreakIndex(character, endIndex, lastBreakIndex, lastBreakWasSpace)
 
         local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
-        if (#indexes > 1) then
+        if (not indexes) then
+            local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
+            textWrapFontString:SetText(line)
+            return lineEndIndex, nextStartIndex, brokeAtSpace
+        elseif (#indexes > 1) then
             break
         end
 
@@ -713,20 +778,36 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
         -- Some clients/fonts do not wrap Chinese text without spaces, so the FontString reports one visual row.
         -- In that case split by measured width instead.
         if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
-            local lineEndIndex, nextStartIndex = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
+            local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
             textWrapFontString:SetText(line)
-            return lineEndIndex, nextStartIndex, false
+            return lineEndIndex, nextStartIndex, brokeAtSpace
         end
 
         return lineLength, lineLength + 1, false
-    elseif (lastSpaceIndex) then
-        return lastSpaceIndex, lastSpaceIndex + 1, true
     end
 
-    -- No space exists on this row, so split at the last fitting UTF-8 character.
+    -- No space or punctuation exists on this row, so split at the last fitting UTF-8 character.
     local lineEndIndex = math_max(endIndex - 1, 1)
 
-    return lineEndIndex, lineEndIndex + 1, false
+    return _GetPreferredWrapIndex(lastBreakIndex, lastBreakWasSpace, lineEndIndex)
+end
+
+local function _MoveNumberToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
+    if (lineEndIndex < 1 or nextStartIndex > lineLength) then
+        return lineEndIndex, nextStartIndex
+    end
+
+    local lineEndCharacter = utf8.sub(line, lineEndIndex, lineEndIndex)
+    local nextStartCharacter = utf8.sub(line, nextStartIndex, nextStartIndex)
+    if (_IsNumericCharacter(lineEndCharacter) and _IsNumericCharacter(nextStartCharacter)) then
+        repeat
+            lineEndIndex = nextStartIndex
+            nextStartIndex = nextStartIndex + 1
+            nextStartCharacter = utf8.sub(line, nextStartIndex, nextStartIndex)
+        until (nextStartIndex > lineLength or not _IsNumericCharacter(nextStartCharacter))
+    end
+
+    return lineEndIndex, nextStartIndex
 end
 
 local function _MovePunctuationToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
@@ -751,8 +832,9 @@ end
 ---@param prefix string @The prefix to add to the line
 ---@param combineTrailing boolean @If the last line is only one word, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
 ---@param desiredWidth number @Set the desired width to wrap, default: 275
+---@param fontSource table? @Optional FontString to copy the measuring font from
 ---@return table[] @A table of wrapped lines
-function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
+function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSource)
     if not textWrapObjectiveFontString then
         textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
         textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
@@ -762,9 +844,8 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
         ---@diagnostic disable-next-line: redundant-parameter
         textWrapObjectiveFontString:SetWordWrap(true)
         textWrapObjectiveFontString:SetVertexColor(1, 1, 1, 1) --Set opacity to 0, even if it is shown it should be invisible
-        local font, size = textWrapFrameObject:GetFont()
         --Chinese? "Fonts\\ARKai_T.ttf"
-        textWrapObjectiveFontString:SetFont(font, size);
+        _SetTextWrapFont(textWrapObjectiveFontString)
         textWrapObjectiveFontString:Hide()
     end
 
@@ -776,6 +857,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
     end
     --We show the fontstring and set the text to start the process
     --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
+    _SetTextWrapFont(textWrapObjectiveFontString, fontSource)
     textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
     textWrapObjectiveFontString:Show()
 
@@ -800,6 +882,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
             end
 
             local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreak(textWrapObjectiveFontString, remainingLine, remainingLineLength)
+            lineEndIndex, nextStartIndex = _MoveNumberToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
             lineEndIndex, nextStartIndex = _MovePunctuationToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
 
             local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
@@ -808,7 +891,15 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
             --Only do this after a real space break. CJK text often has no spaces, so combining by "no space" would merge visual rows.
             if (combineTrailing and brokeAtSpace and nextStartIndex <= remainingLineLength) then
                 local lastLine = utf8.sub(remainingLine, nextStartIndex, remainingLineLength)
-                local remainingRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
+                local remainingIndexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
+                local remainingRows
+                if remainingIndexes then
+                    remainingRows = #remainingIndexes
+                else
+                    textWrapObjectiveFontString:SetText(lastLine)
+                    remainingRows = textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth() and 1 or 2
+                    textWrapObjectiveFontString:SetText(remainingLine)
+                end
 
                 --Does the line not contain any space we combine it into the previous line
                 if (remainingRows == 1 and not string.find(lastLine, " ")) then

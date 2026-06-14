@@ -37,6 +37,8 @@ local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.
 local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
 
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
+local MIN_TOOLTIP_TEXT_WIDTH = 375
+local DEFAULT_DOUBLE_LINE_GAP = 38.4
 
 local lastTooltipShowTimestamp = GetTime()
 
@@ -49,6 +51,172 @@ local function FormatLabelWithColon(label)
         return label .. " :"
     else
         return label .. ":"
+    end
+end
+
+local function _PackTooltipArgs(...)
+    return {n = select("#", ...), ...}
+end
+
+local function _AppendTooltipLine(rows, text, args)
+    tinsert(rows, {kind = "line", text = text, args = args})
+end
+
+local function _AppendTooltipDoubleLine(rows, leftText, rightText, args)
+    tinsert(rows, {kind = "doubleLine", leftText = leftText, rightText = rightText, args = args})
+end
+
+local function _AppendTooltipDescription(rows, text, prefix, combineTrailing, args)
+    tinsert(rows, {kind = "description", text = text, prefix = prefix, combineTrailing = combineTrailing, args = args})
+end
+
+local function _CreateTooltipRowBuilder(tooltip, rows)
+    return setmetatable({
+        AddLine = function(_, text, ...)
+            _AppendTooltipLine(rows, text, _PackTooltipArgs(...))
+        end,
+        AddDoubleLine = function(_, leftText, rightText, ...)
+            _AppendTooltipDoubleLine(rows, leftText, rightText, _PackTooltipArgs(...))
+        end,
+        AddDescriptionLine = function(_, text, prefix, combineTrailing, ...)
+            _AppendTooltipDescription(rows, text, prefix, combineTrailing, _PackTooltipArgs(...))
+        end,
+    }, {__index = tooltip})
+end
+
+local tooltipMeasurementFontString
+local tooltipMeasurementDefaultFont
+local tooltipMeasurementDefaultSize
+local tooltipMeasurementDefaultFlags
+local function _GetTooltipMeasurementFontString()
+    if not tooltipMeasurementFontString then
+        tooltipMeasurementFontString = UIParent:CreateFontString("questieMapIconTooltipMeasureString", "ARTWORK", "GameTooltipText")
+        tooltipMeasurementDefaultFont, tooltipMeasurementDefaultSize, tooltipMeasurementDefaultFlags = tooltipMeasurementFontString:GetFont()
+        tooltipMeasurementFontString:SetWordWrap(false)
+        tooltipMeasurementFontString:Hide()
+    end
+
+    return tooltipMeasurementFontString
+end
+
+local function _SetMeasurementFont(fontString, fontSource)
+    local fontSourceType = type(fontSource)
+    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and fontSource.GetFont) then
+        local font, size, flags = fontSource:GetFont()
+        if (font and size) then
+            fontString:SetFont(font, size, flags)
+            return
+        end
+    end
+
+    if (tooltipMeasurementDefaultFont and tooltipMeasurementDefaultSize) then
+        fontString:SetFont(tooltipMeasurementDefaultFont, tooltipMeasurementDefaultSize, tooltipMeasurementDefaultFlags)
+    end
+end
+
+local function _GetTooltipFontString(tooltip, lineIndex, side)
+    local tooltipName = tooltip:GetName()
+    if not tooltipName then
+        return nil
+    end
+
+    local textSide = side == "right" and "TextRight" or "TextLeft"
+    local fontString = _G[tooltipName .. textSide .. lineIndex]
+        or _G[tooltipName .. textSide .. "2"]
+        or _G[tooltipName .. textSide .. "1"]
+
+    if (not fontString and side == "right") then
+        fontString = _G[tooltipName .. "TextLeft" .. lineIndex]
+            or _G[tooltipName .. "TextLeft2"]
+            or _G[tooltipName .. "TextLeft1"]
+    end
+
+    return fontString
+end
+
+local function _MeasureTooltipText(text, fontSource)
+    local fontString = _GetTooltipMeasurementFontString()
+    _SetMeasurementFont(fontString, fontSource)
+    fontString:SetText(text or "")
+
+    return fontString:GetUnboundedStringWidth() or 0
+end
+
+local tooltipDoubleLineGap
+local tooltipDoubleLineGapTooltip
+local function _GetTooltipDoubleLineGap()
+    if tooltipDoubleLineGap then
+        return tooltipDoubleLineGap
+    end
+
+    local tooltipName = "QuestieMapIconTooltipGapMeasureTooltip"
+    tooltipDoubleLineGapTooltip = tooltipDoubleLineGapTooltip or CreateFrame("GameTooltip", tooltipName, UIParent, "GameTooltipTemplate")
+    tooltipDoubleLineGapTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+    tooltipDoubleLineGapTooltip:SetPoint("BOTTOMRIGHT", UIParent, "TOPLEFT", -10000, 10000)
+    tooltipDoubleLineGapTooltip:SetAlpha(0)
+    tooltipDoubleLineGapTooltip:ClearLines()
+    tooltipDoubleLineGapTooltip:AddDoubleLine("L", "R", 1, 1, 1, 1, 1, 1)
+    tooltipDoubleLineGapTooltip:Show()
+
+    local leftText = _G[tooltipName .. "TextLeft1"]
+    local rightText = _G[tooltipName .. "TextRight1"]
+    if (leftText and rightText and leftText:GetRight() and rightText:GetLeft()) then
+        tooltipDoubleLineGap = rightText:GetLeft() - leftText:GetRight()
+    end
+
+    tooltipDoubleLineGapTooltip:Hide()
+    tooltipDoubleLineGapTooltip:ClearLines()
+
+    return tooltipDoubleLineGap or DEFAULT_DOUBLE_LINE_GAP
+end
+
+local function _MeasureTooltipRows(tooltip, rows)
+    local width = 0
+    local lineIndex = 1
+
+    for _, row in ipairs(rows) do
+        if (row.kind == "line") then
+            width = math.max(width, _MeasureTooltipText(row.text, _GetTooltipFontString(tooltip, lineIndex, "left")))
+        elseif (row.kind == "doubleLine") then
+            local leftWidth = _MeasureTooltipText(row.leftText, _GetTooltipFontString(tooltip, lineIndex, "left"))
+            local rightWidth = _MeasureTooltipText(row.rightText, _GetTooltipFontString(tooltip, lineIndex, "right"))
+            width = math.max(width, leftWidth + rightWidth + _GetTooltipDoubleLineGap())
+        end
+        lineIndex = lineIndex + 1
+    end
+
+    return math.max(width, 1)
+end
+
+local function _ExpandTooltipDescriptionRows(tooltip, rows)
+    local expandedRows = {}
+    local tooltipWidth = math.max(MIN_TOOLTIP_TEXT_WIDTH, _MeasureTooltipRows(tooltip, rows))
+    local descriptionFontString = _GetTooltipFontString(tooltip, 2, "left") or _GetTooltipFontString(tooltip, 1, "left")
+
+    for _, row in ipairs(rows) do
+        if (row.kind == "description") then
+            local prefixWidth = _MeasureTooltipText(row.prefix, descriptionFontString)
+            local wrapWidth = math.max(tooltipWidth - prefixWidth, 1)
+            local lines = QuestieLib:TextWrap(row.text, row.prefix, row.combineTrailing, wrapWidth, descriptionFontString)
+
+            for _, line in ipairs(lines) do
+                _AppendTooltipLine(expandedRows, line, row.args)
+            end
+        else
+            tinsert(expandedRows, row)
+        end
+    end
+
+    return expandedRows
+end
+
+local function _RenderTooltipRows(tooltip, rows)
+    for _, row in ipairs(rows) do
+        if (row.kind == "line") then
+            tooltip:AddLine(row.text, unpack(row.args, 1, row.args.n))
+        elseif (row.kind == "doubleLine") then
+            tooltip:AddDoubleLine(row.leftText, row.rightText, unpack(row.args, 1, row.args.n))
+        end
     end
 end
 
@@ -210,6 +378,9 @@ function MapIconTooltip:Show()
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
+        local tooltip = self
+        local tooltipRows = {}
+        self = _CreateTooltipRowBuilder(tooltip, tooltipRows)
 
         -- tooltips for quest icons on the map
         for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
@@ -272,16 +443,10 @@ function MapIconTooltip:Show()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, rawLine in pairs(questData.subData) do
-                            local lines = QuestieLib:TextWrap(rawLine, "  ", false, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
-                            for _, line in pairs(lines) do
-                                self:AddLine(line, 0.86, 0.86, 0.86);
-                            end
+                            self:AddDescriptionLine(rawLine, "  ", false, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then
-                        local lines = QuestieLib:TextWrap(questData.subData, "  ", false, math.max(375, Tooltip:GetWidth())) --275 is the default questlog width
-                        for _, line in pairs(lines) do
-                            self:AddLine(line, 0.86, 0.86, 0.86);
-                        end
+                        self:AddDescriptionLine(questData.subData, "  ", false, 0.86, 0.86, 0.86);
                     end
                 end
 
@@ -413,6 +578,8 @@ function MapIconTooltip:Show()
                 self:AddLine(l10n("|cFFa6a6a6Shift-click to hide|r")) -- grey
             end
         end
+
+        _RenderTooltipRows(tooltip, _ExpandTooltipDescriptionRows(tooltip, tooltipRows))
     end
     Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
     Tooltip:SetFrameStrata("TOOLTIP");
