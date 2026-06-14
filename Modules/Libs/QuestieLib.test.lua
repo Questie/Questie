@@ -482,6 +482,8 @@ describe("QuestieLib", function()
                 CreateFontString = function() return CreateTextWrapFontStringMock() end,
             }
 
+            package.loaded["Modules.Libs.WrappedText"] = nil
+            require("Modules.Libs.WrappedText")
             package.loaded["Modules.Libs.QuestieLib"] = nil
             QuestieLib = require("Modules.Libs.QuestieLib")
         end)
@@ -489,6 +491,7 @@ describe("QuestieLib", function()
         after_each(function()
             _G.UIParent = originalUIParent
             _G["QuestLogObjectivesText"] = originalQuestLogObjectivesText
+            package.loaded["Modules.Libs.WrappedText"] = nil
             package.loaded["Modules.Libs.QuestieLib"] = nil
         end)
 
