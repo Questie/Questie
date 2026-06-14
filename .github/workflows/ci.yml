@@ -108,7 +108,7 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
