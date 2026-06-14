@@ -252,9 +252,6 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
     }
 
     local startDay = startDayByFirstWeekday[firstWeekday]
-    if not startDay then
-        return DMF_LOCATIONS.NONE
-    end
 
     local endDay = startDay + 6 -- faire runs Monday - Sunday
 
