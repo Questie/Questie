@@ -36,6 +36,36 @@ local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t"
 local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
 local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
 
+---@alias MapTooltipRowKind "line"|"doubleLine"|"description"
+
+---@class MapTooltipPackedArgs
+---@field n number Number of packed arguments; needed because colors may contain nil in future calls.
+
+---@class MapTooltipLineRow
+---@field kind "line"
+---@field text string
+---@field args MapTooltipPackedArgs
+
+---@class MapTooltipDoubleLineRow
+---@field kind "doubleLine"
+---@field leftText string
+---@field rightText string
+---@field args MapTooltipPackedArgs
+
+---@class MapTooltipDescriptionRow
+---@field kind "description"
+---@field text string
+---@field prefix string
+---@field combineTrailing boolean
+---@field args MapTooltipPackedArgs
+
+---@alias MapTooltipRow MapTooltipLineRow|MapTooltipDoubleLineRow|MapTooltipDescriptionRow
+
+---@class MapTooltipRowBuilder
+---@field AddLine fun(self: MapTooltipRowBuilder, text: string, ...: any): nil
+---@field AddDoubleLine fun(self: MapTooltipRowBuilder, leftText: string, rightText: string, ...: any): nil
+---@field AddDescriptionLine fun(self: MapTooltipRowBuilder, text: string, prefix: string, combineTrailing: boolean, ...: any): nil
+
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 local MIN_TOOLTIP_TEXT_WIDTH = 375
 local DEFAULT_DOUBLE_LINE_GAP = 38.4
@@ -54,22 +84,44 @@ local function FormatLabelWithColon(label)
     end
 end
 
+---Packs tooltip varargs without losing trailing nil values.
+---@param ... any Tooltip AddLine/AddDoubleLine arguments.
+---@return MapTooltipPackedArgs args Packed argument table.
 local function _PackTooltipArgs(...)
     return {n = select("#", ...), ...}
 end
 
+---@param rows MapTooltipRow[] Mutable row model.
+---@param text string Left text rendered by GameTooltip:AddLine.
+---@param args MapTooltipPackedArgs Packed AddLine arguments.
+---@return nil
 local function _AppendTooltipLine(rows, text, args)
     tinsert(rows, {kind = "line", text = text, args = args})
 end
 
+---@param rows MapTooltipRow[] Mutable row model.
+---@param leftText string Left text rendered by GameTooltip:AddDoubleLine.
+---@param rightText string Right text rendered by GameTooltip:AddDoubleLine.
+---@param args MapTooltipPackedArgs Packed AddDoubleLine arguments.
+---@return nil
 local function _AppendTooltipDoubleLine(rows, leftText, rightText, args)
     tinsert(rows, {kind = "doubleLine", leftText = leftText, rightText = rightText, args = args})
 end
 
+---@param rows MapTooltipRow[] Mutable row model.
+---@param text string Raw description text to wrap after final tooltip width is known.
+---@param prefix string Prefix added to each wrapped line.
+---@param combineTrailing boolean Whether to pull orphan trailing words/glyphs up.
+---@param args MapTooltipPackedArgs Packed AddLine arguments for rendered wrapped lines.
+---@return nil
 local function _AppendTooltipDescription(rows, text, prefix, combineTrailing, args)
     tinsert(rows, {kind = "description", text = text, prefix = prefix, combineTrailing = combineTrailing, args = args})
 end
 
+---Creates a GameTooltip-like adapter that records rows instead of rendering immediately.
+---@param tooltip GameTooltip Runtime tooltip used as fallback for existing fields on `self`.
+---@param rows MapTooltipRow[] Mutable row model.
+---@return MapTooltipRowBuilder builder Adapter used by the existing _Rebuild body.
 local function _CreateTooltipRowBuilder(tooltip, rows)
     return setmetatable({
         AddLine = function(_, text, ...)
@@ -84,10 +136,17 @@ local function _CreateTooltipRowBuilder(tooltip, rows)
     }, {__index = tooltip})
 end
 
+---@type FontString?
 local tooltipMeasurementFontString
+---@type string?
 local tooltipMeasurementDefaultFont
+---@type number?
 local tooltipMeasurementDefaultSize
+---@type string?
 local tooltipMeasurementDefaultFlags
+
+---Returns a reusable hidden FontString for measuring rendered tooltip text.
+---@return FontString fontString Hidden measurement FontString.
 local function _GetTooltipMeasurementFontString()
     if not tooltipMeasurementFontString then
         tooltipMeasurementFontString = UIParent:CreateFontString("questieMapIconTooltipMeasureString", "ARTWORK", "GameTooltipText")
@@ -99,6 +158,10 @@ local function _GetTooltipMeasurementFontString()
     return tooltipMeasurementFontString
 end
 
+---Copies the render font into the measurement FontString, with template-font fallback.
+---@param fontString FontString Hidden measurement FontString.
+---@param fontSource FontString? Tooltip FontString whose font should be matched.
+---@return nil
 local function _SetMeasurementFont(fontString, fontSource)
     local fontSourceType = type(fontSource)
     if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and type(fontSource.GetFont) == "function") then
@@ -114,6 +177,11 @@ local function _SetMeasurementFont(fontString, fontSource)
     end
 end
 
+---Finds the FontString Blizzard will use for a tooltip row.
+---@param tooltip GameTooltip Tooltip being rebuilt.
+---@param lineIndex number 1-based rendered row index.
+---@param side "left"|"right" Tooltip side to measure.
+---@return FontString? fontString Render FontString, if the template has created one.
 local function _GetTooltipFontString(tooltip, lineIndex, side)
     local tooltipName = tooltip:GetName()
     if not tooltipName then
@@ -134,6 +202,10 @@ local function _GetTooltipFontString(tooltip, lineIndex, side)
     return fontString
 end
 
+---Measures text using WoW's renderer so color and texture escape widths match runtime rendering.
+---@param text string? Text to measure; nil is treated as empty.
+---@param fontSource FontString? Render font source.
+---@return number width Unbounded rendered width in UI units.
 local function _MeasureTooltipText(text, fontSource)
     local fontString = _GetTooltipMeasurementFontString()
     _SetMeasurementFont(fontString, fontSource)
@@ -142,8 +214,13 @@ local function _MeasureTooltipText(text, fontSource)
     return fontString:GetUnboundedStringWidth() or 0
 end
 
+---@type number?
 local tooltipDoubleLineGap
+---@type GameTooltip?
 local tooltipDoubleLineGapTooltip
+
+---Measures Blizzard's minimum AddDoubleLine gap using a hidden GameTooltip.
+---@return number gap Minimum space between left and right double-line text.
 local function _GetTooltipDoubleLineGap()
     if tooltipDoubleLineGap then
         return tooltipDoubleLineGap
@@ -170,6 +247,10 @@ local function _GetTooltipDoubleLineGap()
     return tooltipDoubleLineGap or DEFAULT_DOUBLE_LINE_GAP
 end
 
+---Measures non-description rows to choose the tooltip text width before wrapping descriptions.
+---@param tooltip GameTooltip Tooltip being rebuilt.
+---@param rows MapTooltipRow[] Row model before description expansion.
+---@return number width Inner text width in UI units.
 local function _MeasureTooltipRows(tooltip, rows)
     local width = 0
     local lineIndex = 1
@@ -188,6 +269,10 @@ local function _MeasureTooltipRows(tooltip, rows)
     return math.max(width, 1)
 end
 
+---Wraps description rows after stable tooltip width is known.
+---@param tooltip GameTooltip Tooltip being rebuilt.
+---@param rows MapTooltipRow[] Row model before description expansion.
+---@return MapTooltipRow[] expandedRows Row model containing only renderable line/doubleLine rows.
 local function _ExpandTooltipDescriptionRows(tooltip, rows)
     local expandedRows = {}
     local tooltipWidth = math.max(MIN_TOOLTIP_TEXT_WIDTH, _MeasureTooltipRows(tooltip, rows))
@@ -210,6 +295,10 @@ local function _ExpandTooltipDescriptionRows(tooltip, rows)
     return expandedRows
 end
 
+---Renders the completed row model into the GameTooltip exactly once.
+---@param tooltip GameTooltip Tooltip being rebuilt.
+---@param rows MapTooltipRow[] Row model after description expansion.
+---@return nil
 local function _RenderTooltipRows(tooltip, rows)
     for _, row in ipairs(rows) do
         if (row.kind == "line") then
@@ -373,12 +462,13 @@ function MapIconTooltip:Show()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
-        -- generate the tooltips
+        -- Build rows first so description wrapping cannot change the width used to wrap itself.
         local xpString = l10n('xp');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
         local tooltip = self
+        ---@type MapTooltipRow[]
         local tooltipRows = {}
         self = _CreateTooltipRowBuilder(tooltip, tooltipRows)
 
@@ -579,6 +669,7 @@ function MapIconTooltip:Show()
             end
         end
 
+        -- Measure fixed rows, expand descriptions, then render once to avoid dynamic width feedback.
         _RenderTooltipRows(tooltip, _ExpandTooltipDescriptionRows(tooltip, tooltipRows))
     end
     Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
