@@ -57,3 +57,15 @@ function utf8.strlen(s)
   end
   return count
 end
+
+---Splits a string into an array of its UTF-8 characters, decoding the whole string once.
+---Lets callers index characters in O(1) instead of repeatedly calling utf8.sub on the same string.
+---@param s string UTF-8 encoded string
+---@return string[] chars Array of single UTF-8 characters, in order
+function utf8.chars(s)
+  local chars = {}
+  for c in s:gmatch(_CHARPAT) do
+    chars[#chars + 1] = c
+  end
+  return chars
+end
