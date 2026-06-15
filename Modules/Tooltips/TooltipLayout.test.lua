@@ -47,6 +47,7 @@ describe("TooltipLayout", function()
     end
 
     local function RequireTooltipLayout()
+        require("Modules.Libs.FontMeasure")
         package.loaded["Modules.Libs.WrappedText"] = nil
         WrappedText = require("Modules.Libs.WrappedText")
         originalTextWrap = WrappedText.TextWrap

@@ -6,8 +6,11 @@ local TooltipLayout = QuestieLoader:CreateModule("TooltipLayout")
 -------------------------
 ---@type WrappedText
 local WrappedText = QuestieLoader:ImportModule("WrappedText")
+---@type FontMeasure
+local FontMeasure = QuestieLoader:ImportModule("FontMeasure")
 
 local tinsert = table.insert
+local math_max = math.max
 
 local MIN_TOOLTIP_TEXT_WIDTH = 375
 local DEFAULT_DOUBLE_LINE_GAP = 38.4
@@ -42,6 +45,7 @@ local DEFAULT_DOUBLE_LINE_GAP = 38.4
 ---@alias TooltipLayoutRow TooltipLayoutLineRow|TooltipLayoutDoubleLineRow|TooltipLayoutDescriptionRow
 
 ---@class TooltipLayoutRowBuilder
+---@field rows TooltipLayoutRow[] Accumulated rows, consumed by TooltipLayout:Render.
 ---@field AddLine fun(self: TooltipLayoutRowBuilder, text: string, ...: any): nil
 ---@field AddDoubleLine fun(self: TooltipLayoutRowBuilder, leftText: string, rightText: string, ...: any): nil
 ---@field AddDescription fun(self: TooltipLayoutRowBuilder, text: string, prefix: string, ...: any): nil
@@ -80,73 +84,57 @@ local function _AppendTooltipDescription(rows, text, prefix, combineTrailing, ar
     tinsert(rows, {kind = "description", text = text, prefix = prefix, combineTrailing = combineTrailing, args = args})
 end
 
-
----Creates an explicit tooltip row builder.
----@return TooltipLayoutRowBuilder rows Row builder passed to tooltip content modules.
+---Creates an explicit tooltip row builder. Rows are buffered so descriptions can be wrapped after
+---the fixed rows fix the tooltip width, avoiding a width feedback loop.
+---@return TooltipLayoutRowBuilder builder Row builder passed to tooltip content modules.
 function TooltipLayout:CreateRows()
-    local rows = {}
+    ---@type TooltipLayoutRowBuilder
+    local builder = {rows = {}}
 
-    rows.AddLine = function(self, text, ...)
-        _AppendTooltipLine(self, text, _PackTooltipArgs(...))
+    function builder:AddLine(text, ...)
+        _AppendTooltipLine(self.rows, text, _PackTooltipArgs(...))
     end
 
-    rows.AddDoubleLine = function(self, leftText, rightText, ...)
-        _AppendTooltipDoubleLine(self, leftText, rightText, _PackTooltipArgs(...))
+    function builder:AddDoubleLine(leftText, rightText, ...)
+        _AppendTooltipDoubleLine(self.rows, leftText, rightText, _PackTooltipArgs(...))
     end
 
-    rows.AddDescription = function(self, text, prefix, ...)
+    function builder:AddDescription(text, prefix, ...)
         -- Keep combineTrailing disabled here. Combining can increase wrapped line width after measurement,
         -- which would require recursive tooltip reflow to calculate a stable width.
-        _AppendTooltipDescription(self, text, prefix, false, _PackTooltipArgs(...))
+        _AppendTooltipDescription(self.rows, text, prefix, false, _PackTooltipArgs(...))
     end
 
-    return rows
+    return builder
 end
 
 -------------------------
 -- Measurement.
 -------------------------
 
+---@type FontMeasurer?
+local ruler
 
----@type FontString?
-local tooltipMeasurementFontString
----@type string?
-local tooltipMeasurementDefaultFont
----@type number?
-local tooltipMeasurementDefaultSize
----@type string?
-local tooltipMeasurementDefaultFlags
-
----Returns a reusable hidden FontString for measuring rendered tooltip text.
----@return FontString fontString Hidden measurement FontString.
-local function _GetTooltipMeasurementFontString()
-    if not tooltipMeasurementFontString then
-        tooltipMeasurementFontString = UIParent:CreateFontString("questieTooltipLayoutMeasureString", "ARTWORK", "GameTooltipText")
-        tooltipMeasurementDefaultFont, tooltipMeasurementDefaultSize, tooltipMeasurementDefaultFlags = tooltipMeasurementFontString:GetFont()
-        tooltipMeasurementFontString:SetWordWrap(false)
-        tooltipMeasurementFontString:Hide()
+---Returns the lazily-created ruler used to measure rendered tooltip text width.
+---@return FontMeasurer ruler
+local function _GetRuler()
+    if (not ruler) then
+        ruler = FontMeasure.Create({
+            name = "questieTooltipLayoutMeasureString",
+            template = "GameTooltipText",
+            wordWrap = false,
+        })
     end
 
-    return tooltipMeasurementFontString
+    return ruler
 end
 
----Copies the render font into the measurement FontString, with template-font fallback.
----@param fontString FontString Hidden measurement FontString.
----@param fontSource FontString? Tooltip FontString whose font should be matched.
----@return nil
-local function _SetMeasurementFont(fontString, fontSource)
-    local fontSourceType = type(fontSource)
-    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and type(fontSource.GetFont) == "function") then
-        local font, size, flags = fontSource:GetFont()
-        if (font and size) then
-            fontString:SetFont(font, size, flags)
-            return
-        end
-    end
-
-    if (tooltipMeasurementDefaultFont and tooltipMeasurementDefaultSize) then
-        fontString:SetFont(tooltipMeasurementDefaultFont, tooltipMeasurementDefaultSize, tooltipMeasurementDefaultFlags)
-    end
+---Measures text using WoW's renderer so color and texture escape widths match runtime rendering.
+---@param text string? Text to measure; nil is treated as empty.
+---@param fontSource FontString? Render font source.
+---@return number width Unbounded rendered width in UI units.
+local function _MeasureTooltipText(text, fontSource)
+    return _GetRuler():MeasureWidth(text, fontSource)
 end
 
 ---Finds the FontString Blizzard will use for a tooltip row.
@@ -175,18 +163,6 @@ local function _GetTooltipFontString(tooltip, lineIndex, side)
     end
 
     return fontString
-end
-
----Measures text using WoW's renderer so color and texture escape widths match runtime rendering.
----@param text string? Text to measure; nil is treated as empty.
----@param fontSource FontString? Render font source.
----@return number width Unbounded rendered width in UI units.
-local function _MeasureTooltipText(text, fontSource)
-    local fontString = _GetTooltipMeasurementFontString()
-    _SetMeasurementFont(fontString, fontSource)
-    fontString:SetText(text or "")
-
-    return fontString:GetUnboundedStringWidth() or 0
 end
 
 ---@type number?
@@ -243,31 +219,35 @@ local function _MeasureTooltipRows(tooltip, rows)
 
     for _, row in ipairs(rows) do
         if (row.kind == "line") then
-            width = math.max(width, _MeasureTooltipText(row.text, _GetTooltipFontString(tooltip, lineIndex, "left")))
+            width = math_max(width, _MeasureTooltipText(row.text, _GetTooltipFontString(tooltip, lineIndex, "left")))
         elseif (row.kind == "doubleLine") then
             local leftWidth = _MeasureTooltipText(row.leftText, _GetTooltipFontString(tooltip, lineIndex, "left"))
             local rightWidth = _MeasureTooltipText(row.rightText, _GetTooltipFontString(tooltip, lineIndex, "right"))
-            width = math.max(width, leftWidth + rightWidth + _GetTooltipDoubleLineGap())
+            width = math_max(width, leftWidth + rightWidth + _GetTooltipDoubleLineGap())
         end
         lineIndex = lineIndex + 1
     end
 
-    return math.max(width, 1)
+    return math_max(width, 1)
 end
 
----Wraps description rows after stable tooltip width is known.
+-------------------------
+-- Expansion & rendering.
+-------------------------
+
+---Wraps description rows once the stable tooltip text width is known.
 ---@param tooltip GameTooltip Tooltip being rebuilt.
 ---@param rows TooltipLayoutRow[] Row model before description expansion.
+---@param textWidth number Inner text width descriptions must wrap within.
 ---@return TooltipLayoutRow[] expandedRows Row model containing only renderable line/doubleLine rows.
-local function _ExpandTooltipDescriptionRows(tooltip, rows)
+local function _ExpandDescriptionRows(tooltip, rows, textWidth)
     local expandedRows = {}
-    local tooltipWidth = math.max(MIN_TOOLTIP_TEXT_WIDTH, _MeasureTooltipRows(tooltip, rows))
     local descriptionFontString = _GetTooltipFontString(tooltip, 2, "left") or _GetTooltipFontString(tooltip, 1, "left")
 
     for _, row in ipairs(rows) do
         if (row.kind == "description") then
             local prefixWidth = _MeasureTooltipText(row.prefix, descriptionFontString)
-            local wrapWidth = math.max(tooltipWidth - prefixWidth, 1)
+            local wrapWidth = math_max(textWidth - prefixWidth, 1)
             local lines = WrappedText:TextWrap(row.text, row.prefix, row.combineTrailing, wrapWidth, descriptionFontString)
 
             for _, line in ipairs(lines) do
@@ -280,10 +260,6 @@ local function _ExpandTooltipDescriptionRows(tooltip, rows)
 
     return expandedRows
 end
-
--------------------------
--- Rendering.
--------------------------
 
 ---Renders the completed row model into the GameTooltip exactly once.
 ---@param tooltip GameTooltip Tooltip being rebuilt.
@@ -299,12 +275,14 @@ local function _RenderTooltipRows(tooltip, rows)
     end
 end
 
----Measures, expands, and renders tooltip rows exactly once.
+---Measures rows, expands descriptions to the resulting width, then renders exactly once.
 ---@param tooltip GameTooltip Tooltip being rebuilt.
----@param rows TooltipLayoutRow[] Row model before description expansion.
+---@param rowBuilder TooltipLayoutRowBuilder Row builder produced by TooltipLayout:CreateRows.
 ---@return nil
-function TooltipLayout:Render(tooltip, rows)
-    _RenderTooltipRows(tooltip, _ExpandTooltipDescriptionRows(tooltip, rows))
+function TooltipLayout:Render(tooltip, rowBuilder)
+    local rows = rowBuilder.rows
+    local textWidth = math_max(MIN_TOOLTIP_TEXT_WIDTH, _MeasureTooltipRows(tooltip, rows))
+    _RenderTooltipRows(tooltip, _ExpandDescriptionRows(tooltip, rows, textWidth))
 end
 
 return TooltipLayout

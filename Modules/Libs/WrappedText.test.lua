@@ -62,6 +62,7 @@ describe("WrappedText", function()
             originalQuestLogObjectivesText = _G["QuestLogObjectivesText"]
 
             require("Modules.Libs.utf8")
+            require("Modules.Libs.FontMeasure")
             utf8 = QuestieLoader:ImportModule("utf8")
             _G["QuestLogObjectivesText"] = {
                 GetWidth = function() return 275 end,

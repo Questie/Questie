@@ -162,6 +162,7 @@ Localization\lookups\MoP\lookupQuests\lookupQuests.xml
 # Libs
 Modules\Libs\DistanceUtils.lua
 Modules\Libs\utf8.lua
+Modules\Libs\FontMeasure.lua
 Modules\Libs\WrappedText.lua
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua

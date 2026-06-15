@@ -6,6 +6,8 @@ local WrappedText = QuestieLoader:CreateModule("WrappedText")
 -------------------------
 ---@type utf8
 local utf8 = QuestieLoader:ImportModule("utf8")
+---@type FontMeasure
+local FontMeasure = QuestieLoader:ImportModule("FontMeasure")
 
 local math_max = math.max
 local tinsert = table.insert
@@ -14,9 +16,38 @@ local tinsert = table.insert
 --                           Classic                          Wotlk Classic
 local textWrapFrameObject = _G["QuestLogObjectivesText"] or _G["QuestInfoObjectivesText"]
 
---Part of the GameTooltipWrapDescription function
----@type FontString?
-local textWrapObjectiveFontString
+-------------------------
+-- Measurement device.
+-------------------------
+
+---@type FontMeasurer?
+local measurer
+
+---Returns the lazily-created measurer that emulates the quest log objective FontString.
+---@return FontMeasurer measurer
+local function _GetMeasurer()
+    if (not measurer) then
+        measurer = FontMeasure.Create({
+            name = "questieObjectiveTextString",
+            template = "QuestFont",
+            wordWrap = true,
+            defaultFontSource = textWrapFrameObject, --Chinese? "Fonts\\ARKai_T.ttf"
+            onCreate = function(fontString)
+                fontString:SetWidth((textWrapFrameObject and textWrapFrameObject:GetWidth()) or 275) --QuestLogObjectivesText default width = 275
+                fontString:SetHeight(0)
+                fontString:SetPoint("LEFT")
+                fontString:SetJustifyH("LEFT")
+                fontString:SetVertexColor(1, 1, 1, 1) -- Keep the measuring FontString non-transparent for accurate rendering metrics.
+            end,
+        })
+    end
+
+    return measurer
+end
+
+-------------------------
+-- Numeric token policy (pure).
+-------------------------
 
 ---@type table<string, boolean>
 local FULLWIDTH_DIGITS = {
@@ -40,10 +71,10 @@ local NUMERIC_SEPARATORS = {
     ["．"] = true,
 }
 
----@param character string Single UTF-8 character.
+---@param character string? Single UTF-8 character.
 ---@return boolean isDigit True for ASCII or full-width decimal digits.
 local function _IsNumericCharacter(character)
-    return string.match(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
+    return character ~= nil and (string.match(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true)
 end
 
 ---Returns true for digits and numeric separators only when they are part of one number.
@@ -68,190 +99,177 @@ local function _IsNumericTokenCharacter(line, index, lineLength)
     return false
 end
 
----Copies a caller-provided render font onto the measurement FontString, with quest-log font fallback.
----@param textWrapFontString FontString Hidden FontString used for measuring.
----@param fontSource FontString? Optional render FontString to match.
----@return nil
-local function _SetTextWrapFont(textWrapFontString, fontSource)
-    local fontSourceType = type(fontSource)
-    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and type(fontSource.GetFont) == "function") then
-        local font, size, flags = fontSource:GetFont()
-        if (font and size) then
-            textWrapFontString:SetFont(font, size, flags)
-            return
-        end
+---Extends a break so numeric tokens stay on one line.
+---@param line string UTF-8 text segment to wrap.
+---@param lineLength number UTF-8 character length of `line`.
+---@param breakIndex number Proposed current-line end index.
+---@param nextStartIndex number Proposed next-line start index.
+---@return number breakIndex Updated end index.
+---@return number nextStartIndex Updated next-line start index.
+local function _ExtendBreakOverNumber(line, lineLength, breakIndex, nextStartIndex)
+    if (breakIndex < 1 or nextStartIndex > lineLength or not _IsNumericTokenCharacter(line, breakIndex, lineLength)) then
+        return breakIndex, nextStartIndex
     end
 
-    local font, size, flags = textWrapFrameObject:GetFont()
-    textWrapFontString:SetFont(font, size, flags)
+    while (nextStartIndex <= lineLength and _IsNumericTokenCharacter(line, nextStartIndex, lineLength)) do
+        breakIndex = nextStartIndex
+        nextStartIndex = nextStartIndex + 1
+    end
+
+    return breakIndex, nextStartIndex
 end
 
----Chooses the best break before an overflow boundary.
----Spaces remain the strongest boundary for Latin text.
+-------------------------
+-- Break finding.
+-------------------------
+
+---@param line string UTF-8 text segment.
+---@return boolean hasSpace True when `line` contains an ASCII space.
+local function _HasSpace(line)
+    return string.find(line, " ", 1, true) ~= nil
+end
+
+---Prefers a space boundary over a mid-word cut. Spaces stay the strongest break for Latin text.
 ---@param lastSpaceIndex number? Last UTF-8 space index before overflow.
----@param lineEndIndex number Last fitting UTF-8 character index.
----@return number lineEndIndex Chosen line end index.
+---@param fallbackBreakIndex number Last fitting UTF-8 character index when no space exists.
+---@return number breakIndex Chosen line-end index (inclusive).
 ---@return number nextStartIndex Chosen next-line start index.
----@return boolean brokeAtSpace True when break was a space boundary.
-local function _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
+---@return boolean brokeAtSpace True when the break landed on a space boundary.
+local function _PreferSpaceBreak(lastSpaceIndex, fallbackBreakIndex)
     if (lastSpaceIndex) then
         return lastSpaceIndex, lastSpaceIndex + 1, true
     end
 
-    return lineEndIndex, lineEndIndex + 1, false
+    return fallbackBreakIndex, fallbackBreakIndex + 1, false
 end
 
----@param character string Single UTF-8 character.
----@param index number UTF-8 character index of `character`.
----@param lastSpaceIndex number? Previous space boundary.
----@return number? lastSpaceIndex Updated space boundary.
-local function _UpdateLastBreakIndex(character, index, lastSpaceIndex)
-    if (character == " ") then
-        return index
-    end
-
-    return lastSpaceIndex
-end
-
----Finds a wrap break by measuring substring width.
+---Finds a break by measuring substring width.
 ---Used for CJK/no-space strings when WoW's row-span API is unavailable or unreliable.
----@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param textMeasurer FontMeasurer Measurer with `line` already set.
 ---@param line string UTF-8 text segment to wrap.
 ---@param lineLength number UTF-8 character length of `line`.
----@return number lineEndIndex UTF-8 character index where current line should end.
----@return number nextStartIndex UTF-8 character index where next line should start.
----@return boolean brokeAtSpace True when break was a space boundary.
-local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
+---@return number breakIndex UTF-8 index where the current line should end.
+---@return number nextStartIndex UTF-8 index where the next line should start.
+---@return boolean brokeAtSpace True when the break landed on a space boundary.
+local function _FindBreakByWidth(textMeasurer, line, lineLength)
     local lastSpaceIndex
 
     for endIndex = 1, lineLength do
-        local character = utf8.sub(line, endIndex, endIndex)
-        lastSpaceIndex = _UpdateLastBreakIndex(character, endIndex, lastSpaceIndex)
+        if (utf8.sub(line, endIndex, endIndex) == " ") then
+            lastSpaceIndex = endIndex
+        end
 
-        textWrapFontString:SetText(utf8.sub(line, 1, endIndex))
-
-        if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
-            local lineEndIndex = math_max(endIndex - 1, 1)
-            return _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
+        textMeasurer:SetText(utf8.sub(line, 1, endIndex))
+        if (textMeasurer:Overflows()) then
+            return _PreferSpaceBreak(lastSpaceIndex, math_max(endIndex - 1, 1))
         end
     end
 
     return lineLength, lineLength + 1, false
 end
 
----Finds a wrap break using WoW row spans, falling back to measured width for CJK edge cases.
----@param textWrapFontString FontString Hidden FontString used for measuring.
+---Runs the width-based break, then restores `line` as the measurer's text.
+---Downstream trailing-line checks read row spans of the full segment, so the text must be intact.
+---@param textMeasurer FontMeasurer Measurer with `line` set.
 ---@param line string UTF-8 text segment to wrap.
 ---@param lineLength number UTF-8 character length of `line`.
----@return number lineEndIndex UTF-8 character index where current line should end.
----@return number nextStartIndex UTF-8 character index where next line should start.
----@return boolean brokeAtSpace True when break was a space boundary.
-local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
-    if (not string.find(line, " ", 1, true) and textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
-        local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
-        textWrapFontString:SetText(line)
-        return lineEndIndex, nextStartIndex, brokeAtSpace
+---@return number breakIndex
+---@return number nextStartIndex
+---@return boolean brokeAtSpace
+local function _FindBreakByWidthRestoring(textMeasurer, line, lineLength)
+    local breakIndex, nextStartIndex, brokeAtSpace = _FindBreakByWidth(textMeasurer, line, lineLength)
+    textMeasurer:SetText(line)
+    return breakIndex, nextStartIndex, brokeAtSpace
+end
+
+---Finds a break using WoW row spans, falling back to measured width for CJK edge cases.
+---@param textMeasurer FontMeasurer Measurer with `line` already set.
+---@param line string UTF-8 text segment to wrap.
+---@param lineLength number UTF-8 character length of `line`.
+---@return number breakIndex UTF-8 index where the current line should end.
+---@return number nextStartIndex UTF-8 index where the next line should start.
+---@return boolean brokeAtSpace True when the break landed on a space boundary.
+local function _FindBreak(textMeasurer, line, lineLength)
+    -- Some clients/fonts do not wrap spaceless CJK text, so row spans report a single row. Measure instead.
+    if (not _HasSpace(line) and textMeasurer:Overflows()) then
+        return _FindBreakByWidthRestoring(textMeasurer, line, lineLength)
     end
 
-    local endIndex = 1
     local lastSpaceIndex
 
-    -- Walk until this span would wrap to a second visual row.
-    while (endIndex <= lineLength) do
-        local character = utf8.sub(line, endIndex, endIndex)
-        lastSpaceIndex = _UpdateLastBreakIndex(character, endIndex, lastSpaceIndex)
-
-        local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
-        if (not indexes) then
-            local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
-            textWrapFontString:SetText(line)
-            return lineEndIndex, nextStartIndex, brokeAtSpace
-        elseif (#indexes > 1) then
-            break
+    -- Walk until this span would wrap onto a second visual row.
+    for endIndex = 1, lineLength do
+        if (utf8.sub(line, endIndex, endIndex) == " ") then
+            lastSpaceIndex = endIndex
         end
 
-        endIndex = endIndex + 1
-    end
-
-    if (endIndex > lineLength) then
-        -- Some clients/fonts do not wrap Chinese text without spaces, so the FontString reports one visual row.
-        -- In that case split by measured width instead.
-        if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
-            local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
-            textWrapFontString:SetText(line)
-            return lineEndIndex, nextStartIndex, brokeAtSpace
+        local rowSpan = textMeasurer:RowSpan(1, endIndex)
+        if (not rowSpan) then
+            return _FindBreakByWidthRestoring(textMeasurer, line, lineLength)
+        elseif (#rowSpan > 1) then
+            return _PreferSpaceBreak(lastSpaceIndex, math_max(endIndex - 1, 1))
         end
-
-        return lineLength, lineLength + 1, false
     end
 
-    -- No space exists on this row, so split at the last fitting UTF-8 character.
-    local lineEndIndex = math_max(endIndex - 1, 1)
+    -- The whole segment stayed on one visual row; only break when width still overflows.
+    if (textMeasurer:Overflows()) then
+        return _FindBreakByWidthRestoring(textMeasurer, line, lineLength)
+    end
 
-    return _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
+    return lineLength, lineLength + 1, false
 end
 
----Extends a break so numeric tokens stay on one line.
----@param line string UTF-8 text segment to wrap.
+-------------------------
+-- Trailing-line combining.
+-------------------------
+
+---Counts how many visual rows the trailing text occupies after a candidate break.
+---@param textMeasurer FontMeasurer Measurer with `line` set.
+---@param line string Current remaining text segment.
+---@param lastLine string Candidate trailing text.
+---@param nextStartIndex number UTF-8 index where the trailing text starts.
 ---@param lineLength number UTF-8 character length of `line`.
----@param lineEndIndex number Proposed current-line end index.
----@param nextStartIndex number Proposed next-line start index.
----@return number lineEndIndex Updated end index.
----@return number nextStartIndex Updated next-line start index.
-local function _MoveNumberToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
-    if (lineEndIndex < 1 or nextStartIndex > lineLength or not _IsNumericTokenCharacter(line, lineEndIndex, lineLength)) then
-        return lineEndIndex, nextStartIndex
+---@return number remainingRows Visual row count, approximated by width when row spans are unavailable.
+local function _CountTrailingRows(textMeasurer, line, lastLine, nextStartIndex, lineLength)
+    local rowSpan = textMeasurer:RowSpan(nextStartIndex, lineLength)
+    if (rowSpan) then
+        return #rowSpan
     end
 
-    while (nextStartIndex <= lineLength and _IsNumericTokenCharacter(line, nextStartIndex, lineLength)) do
-        lineEndIndex = nextStartIndex
-        nextStartIndex = nextStartIndex + 1
-    end
-
-    return lineEndIndex, nextStartIndex
-end
-
----Counts how many visual rows remain after a candidate break.
----@param textWrapFontString FontString Hidden FontString used for measuring.
----@param remainingLine string Current remaining text segment.
----@param lastLine string Candidate trailing line text.
----@param nextStartIndex number UTF-8 index where trailing text starts.
----@param remainingLineLength number UTF-8 character length of `remainingLine`.
----@return number remainingRows Visual row count, approximated by width if row-span data is unavailable.
-local function _GetRemainingRows(textWrapFontString, remainingLine, lastLine, nextStartIndex, remainingLineLength)
-    local remainingIndexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
-    if remainingIndexes then
-        return #remainingIndexes
-    end
-
-    textWrapFontString:SetText(lastLine)
-    local remainingRows = textWrapFontString:GetUnboundedStringWidth() <= textWrapFontString:GetWrappedWidth() and 1 or 2
-    textWrapFontString:SetText(remainingLine)
+    textMeasurer:SetText(lastLine)
+    local remainingRows = textMeasurer:Overflows() and 2 or 1
+    textMeasurer:SetText(line)
 
     return remainingRows
 end
 
 ---Determines whether an orphan word or CJK glyph should be pulled into the previous line.
----@param textWrapFontString FontString Hidden FontString used for measuring.
----@param remainingLine string Current remaining text segment.
----@param nextStartIndex number UTF-8 index where trailing text starts.
----@param remainingLineLength number UTF-8 character length of `remainingLine`.
----@param brokeAtSpace boolean Whether the candidate break is a space boundary.
+---@param textMeasurer FontMeasurer Measurer with `line` set.
+---@param line string Current remaining text segment.
+---@param nextStartIndex number UTF-8 index where the trailing text starts.
+---@param lineLength number UTF-8 character length of `line`.
+---@param brokeAtSpace boolean Whether the candidate break landed on a space boundary.
 ---@return boolean shouldCombine True when combining improves trailing-line readability.
-local function _ShouldCombineTrailingLine(textWrapFontString, remainingLine, nextStartIndex, remainingLineLength, brokeAtSpace)
-    if (nextStartIndex > remainingLineLength) then
+local function _ShouldCombineTrailing(textMeasurer, line, nextStartIndex, lineLength, brokeAtSpace)
+    if (nextStartIndex > lineLength) then
         return false
     end
 
-    local lastLine = utf8.sub(remainingLine, nextStartIndex, remainingLineLength)
-    if (_GetRemainingRows(textWrapFontString, remainingLine, lastLine, nextStartIndex, remainingLineLength) ~= 1) then
+    local lastLine = utf8.sub(line, nextStartIndex, lineLength)
+    if (_CountTrailingRows(textMeasurer, line, lastLine, nextStartIndex, lineLength) ~= 1) then
         return false
     end
 
-    return (brokeAtSpace and not string.find(lastLine, " ")) or (utf8.strlen(lastLine) == 1 and string.len(lastLine) > 1)
+    local isSingleWord = brokeAtSpace and not _HasSpace(lastLine)
+    local isSingleGlyph = utf8.strlen(lastLine) == 1 and string.len(lastLine) > 1
+    return isSingleWord or isSingleGlyph
 end
 
----Emulates the wrapping of a quest description
+-------------------------
+-- Public API.
+-------------------------
+
+---Emulates the wrapping of a quest description.
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
 ---@param combineTrailing boolean? @If the last line is only one word/glyph, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: false
@@ -259,76 +277,59 @@ end
 ---@param fontSource FontString? @Optional FontString to copy the measuring font from
 ---@return string[] lines @Wrapped lines with `prefix` already applied
 function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSource)
-    if not textWrapObjectiveFontString then
-        textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
-        textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
-        textWrapObjectiveFontString:SetHeight(0);
-        textWrapObjectiveFontString:SetPoint("LEFT");
-        textWrapObjectiveFontString:SetJustifyH("LEFT");
-        ---@diagnostic disable-next-line: redundant-parameter
-        textWrapObjectiveFontString:SetWordWrap(true)
-        textWrapObjectiveFontString:SetVertexColor(1, 1, 1, 1) -- Keep the hidden measurement FontString non-transparent for accurate rendering metrics.
-        --Chinese? "Fonts\\ARKai_T.ttf"
-        _SetTextWrapFont(textWrapObjectiveFontString)
-        textWrapObjectiveFontString:Hide()
-    end
+    local textMeasurer = _GetMeasurer()
 
-    if (textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
+    if (textMeasurer:IsShown()) then
+        Questie:Error("TextWrap already running... Please report this on GitHub or Discord.")
+    end
 
     --Set Defaults
     if (combineTrailing == nil) then
         combineTrailing = false
     end
-    --We show the fontstring and set the text to start the process
-    --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
-    _SetTextWrapFont(textWrapObjectiveFontString, fontSource)
-    textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
-    textWrapObjectiveFontString:Show()
 
-    local useLine = line
-    local lineLength = utf8.strlen(useLine)
+    -- We have to show the FontString or the metric functions won't work, but it stays invisible (alpha 0).
+    textMeasurer:MatchFont(fontSource)
+    textMeasurer:SetWidth(desiredWidth or (textWrapFrameObject and textWrapFrameObject:GetWidth()) or 275) --QuestLogObjectivesText default width = 275
+    textMeasurer:Show()
 
-    -- Fast path: unwrapped text can be returned without token policy checks.
-    textWrapObjectiveFontString:SetText(useLine)
-    if (textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
-        local lines = {}
-        local startIndex = 1
+    local lineLength = utf8.strlen(line)
 
-        while (startIndex <= lineLength) do
-            local remainingLine = utf8.sub(useLine, startIndex, lineLength)
-            local remainingLineLength = utf8.strlen(remainingLine)
-
-            -- Recalculate each remaining line. Moving breaks over numeric tokens changes row geometry.
-            textWrapObjectiveFontString:SetText(remainingLine)
-            if (textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth()) then
-                tinsert(lines, prefix .. remainingLine)
-                break
-            end
-
-            -- Apply number-token post-processing after the raw break is found.
-            local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreak(textWrapObjectiveFontString, remainingLine, remainingLineLength)
-            lineEndIndex, nextStartIndex = _MoveNumberToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
-
-            local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
-
-            --This combines a trailing word or glyph to the previous line if it would be alone on the last line.
-            if (combineTrailing and _ShouldCombineTrailingLine(textWrapObjectiveFontString, remainingLine, nextStartIndex, remainingLineLength, brokeAtSpace)) then
-                newLine = remainingLine
-                tinsert(lines, prefix .. newLine)
-                break
-            end
-
-            tinsert(lines, prefix .. newLine)
-            startIndex = startIndex + nextStartIndex - 1
-        end
-        textWrapObjectiveFontString:Hide()
-        return lines
-    else
-        textWrapObjectiveFontString:Hide()
-        useLine = prefix .. line
-        return {useLine}
+    -- Fast path: text that already fits needs no wrapping or token policy.
+    textMeasurer:SetText(line)
+    if (not textMeasurer:Overflows()) then
+        textMeasurer:Hide()
+        return { prefix .. line }
     end
-end
 
+    local lines = {}
+    local startIndex = 1
+    while (startIndex <= lineLength) do
+        local remainingLine = utf8.sub(line, startIndex, lineLength)
+        local remainingLength = utf8.strlen(remainingLine)
+
+        -- Recalculate per segment. Moving breaks over numeric tokens changes row geometry.
+        textMeasurer:SetText(remainingLine)
+        if (not textMeasurer:Overflows()) then
+            tinsert(lines, prefix .. remainingLine)
+            break
+        end
+
+        local breakIndex, nextStartIndex, brokeAtSpace = _FindBreak(textMeasurer, remainingLine, remainingLength)
+        breakIndex, nextStartIndex = _ExtendBreakOverNumber(remainingLine, remainingLength, breakIndex, nextStartIndex)
+
+        -- Pull a lone trailing word or glyph up into this line when requested.
+        if (combineTrailing and _ShouldCombineTrailing(textMeasurer, remainingLine, nextStartIndex, remainingLength, brokeAtSpace)) then
+            tinsert(lines, prefix .. remainingLine)
+            break
+        end
+
+        tinsert(lines, prefix .. utf8.sub(remainingLine, 1, breakIndex))
+        startIndex = startIndex + nextStartIndex - 1
+    end
+
+    textMeasurer:Hide()
+    return lines
+end
 
 return WrappedText
