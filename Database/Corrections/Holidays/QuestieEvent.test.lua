@@ -269,12 +269,10 @@ describe("QuestieEvent", function()
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
-            -- Mock C_Calendar.GetMonthInfo to return baseInfo and then firstWeekday=2 for the monthOffset
-            local baseInfo = {year = 2025, month = 1}
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
-                        return baseInfo
+                        return {year = 2025, month = 2}
                     else
                         return {firstWeekday = 2}
                     end
@@ -305,12 +303,10 @@ describe("QuestieEvent", function()
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
-            -- Mock C_Calendar.GetMonthInfo to return baseInfo and then firstWeekday=2 for the monthOffset
-            local baseInfo = {year = 2025, month = 1}
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
-                        return baseInfo
+                        return {year = 2025, month = 2}
                     else
                         return {firstWeekday = 2}
                     end
@@ -440,11 +436,10 @@ describe("QuestieEvent", function()
                     }
                 end
             }
-            local baseInfo = {year = 2025, month = 1}
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
-                        return baseInfo
+                        return {year = 2025, month = 1}
                     else
                         return {firstWeekday = 7}
                     end
@@ -477,11 +472,10 @@ describe("QuestieEvent", function()
                     }
                 end
             }
-            local baseInfo = {year = 2025, month = 1}
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
-                        return baseInfo
+                        return {year = 2025, month = 2}
                     else
                         return {firstWeekday = 2}
                     end
@@ -512,11 +506,10 @@ describe("QuestieEvent", function()
                     }
                 end
             }
-            local baseInfo = {year = 2025, month = 1}
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
-                        return baseInfo
+                        return {year = 2025, month = 3}
                     else
                         return {firstWeekday = 2}
                     end
@@ -547,11 +540,10 @@ describe("QuestieEvent", function()
                     }
                 end
             }
-            local baseInfo = {year = 2025, month = 1}
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
-                        return baseInfo
+                        return {year = 2025, month = 4}
                     else
                         return {firstWeekday = 7}
                     end
