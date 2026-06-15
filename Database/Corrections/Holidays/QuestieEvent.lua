@@ -264,8 +264,6 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
-    local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
-
     local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
     local endDay = startDay + 6 -- faire runs Monday - Sunday
 
@@ -276,7 +274,12 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
     end
 
     if dayOfMonth >= startDay and dayOfMonth <= endDay then
-        return eventLocation
+        local remainder = currentDate.month % 2
+        if remainder == 1 then
+            return DMF_LOCATIONS.ELWYNN_FOREST
+        else -- remainder == 0
+            return DMF_LOCATIONS.MULGORE
+        end
     end
 
     return DMF_LOCATIONS.NONE
@@ -291,16 +294,6 @@ _GetDarkmoonFaireLocationTBC = function(currentDate)
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
-    local remainder = currentDate.month % 3
-    local eventLocation
-    if remainder == 1 then
-        eventLocation = DMF_LOCATIONS.TEROKKAR_FOREST
-    elseif remainder == 2 then
-        eventLocation = DMF_LOCATIONS.ELWYNN_FOREST
-    else -- remainder == 0
-        eventLocation = DMF_LOCATIONS.MULGORE
-    end
-
     local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
     local endDay = startDay + 6
 
@@ -311,7 +304,14 @@ _GetDarkmoonFaireLocationTBC = function(currentDate)
     end
 
     if dayOfMonth >= startDay and dayOfMonth <= endDay then
-        return eventLocation
+        local remainder = currentDate.month % 3
+        if remainder == 1 then
+            return DMF_LOCATIONS.TEROKKAR_FOREST
+        elseif remainder == 2 then
+            return DMF_LOCATIONS.ELWYNN_FOREST
+        else -- remainder == 0
+            return DMF_LOCATIONS.MULGORE
+        end
     end
 
     return DMF_LOCATIONS.NONE
