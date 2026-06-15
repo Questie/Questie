@@ -157,6 +157,15 @@ describe("QuestieEvent", function()
                     }
                 end
             }
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return {year = 2024, month = 12}
+                    else
+                        return {firstWeekday = 1}
+                    end
+                end
+            }
             ContentPhases.activePhases.Anniversary = 3
 
             Questie.IsClassic = true
@@ -180,6 +189,15 @@ describe("QuestieEvent", function()
                         hour = 0,
                         minute = 0,
                     }
+                end
+            }
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return {year = 2024, month = 12}
+                    else
+                        return {firstWeekday = 1}
+                    end
                 end
             }
             ContentPhases.activePhases.Anniversary = 3
@@ -206,6 +224,15 @@ describe("QuestieEvent", function()
                         hour = 0,
                         minute = 0,
                     }
+                end
+            }
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return {year = 2024, month = 12}
+                    else
+                        return {firstWeekday = 1}
+                    end
                 end
             }
 
