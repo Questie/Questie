@@ -446,18 +446,6 @@ local debugMessagesLocales = {
         ["zhCN"] = "你拾取了 %s 自动接受任务 %s！",
         ["zhTW"] = "你拾取 %s 自動接受任務 %s！",
     },
-    ["The '%s' world event is active!"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Das '%s' Feiertag-Event ist aktiv!",
-        ["esES"] = "¡El evento del mundo '%s' está activo!",
-        ["esMX"] = "¡El evento del mundo '%s' está activo!",
-        ["frFR"] = "L'évènement mondial « %s » est en cours !",
-        ["koKR"] = "월드 이벤트 '%s' 활성화",
-        ["ptBR"] = "O evento mundial '%s' está ativo!",
-        ["ruRU"] = "Игровое событие '%s' активно!",
-        ["zhCN"] = "世界任务'%s'已开始！",
-        ["zhTW"] = "世界事件'%s'已開始！",
-    },
     ["Error during initialization!"] = {
         ["enUS"] = true,
         ["deDE"] = "Fehler während der Initialisierung!",

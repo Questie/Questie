@@ -179,7 +179,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
@@ -214,7 +214,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
@@ -246,7 +246,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
@@ -314,7 +314,7 @@ describe("QuestieEvent", function()
             }
 
             QuestieEvent:Load()
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
@@ -453,7 +453,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
             assert.is_true(QuestieEvent.activeQuests[7905] == true)
             assert.is_true(QuestieEvent.activeQuests[7926] == true)
             assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, true)
@@ -489,7 +489,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
             assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, false)
         end)
 
@@ -523,7 +523,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, true, false)
         end)
 
