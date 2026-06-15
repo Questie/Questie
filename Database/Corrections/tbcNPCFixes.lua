@@ -295,6 +295,10 @@ function QuestieTBCNpcFixes:Load()
         [7315] = { -- Darnath Bladesinger
             [npcKeys.questStarts] = {1698,8417},
         },
+        [7884] = { -- Fraggar Thundermantle
+            [npcKeys.questStarts] = {2877,2880,2881},
+            [npcKeys.questEnds] = {2877,2880,2881},
+        },
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
