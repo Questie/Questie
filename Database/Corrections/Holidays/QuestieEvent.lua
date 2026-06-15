@@ -99,6 +99,18 @@ local DMF_CALENDAR_ICON_TEXTURES = {
     [235448] = true, -- Start Texture
 }
 
+-- Determine the DMF start day for the month based on what weekday the 1st is.
+-- We also require the Monday start to have reached 03:00 server time before considering the event active.
+local DMF_START_DAY_BY_FIRST_WEEKDAY = {
+    [1] = 9,  -- 1st is a Sunday -> Monday is 9th
+    [2] = 8,  -- 1st is a Monday -> Monday is 8th
+    [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
+    [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
+    [5] = 5,  -- 1st is a Thursday -> Monday is 5th
+    [6] = 4,  -- 1st is a Friday -> Monday is 4th
+    [7] = 10, -- 1st is a Saturday -> Monday is 10th
+}
+
 function QuestieEvent.Initialize()
     if (not Questie.db.profile.showEventQuests) then
         return
@@ -254,23 +266,10 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
 
     local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
 
-    local dayOfMonth = currentDate.monthDay
-    -- Determine the DMF start day for the month based on what weekday the 1st is.
-    -- We also require the Monday start to have reached 03:00 server time before considering the event active.
-    local startDayByFirstWeekday = {
-        [1] = 9,  -- 1st is a Sunday -> Monday is 9th
-        [2] = 8,  -- 1st is a Monday -> Monday is 8th
-        [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
-        [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
-        [5] = 5,  -- 1st is a Thursday -> Monday is 5th
-        [6] = 4,  -- 1st is a Friday -> Monday is 4th
-        [7] = 10, -- 1st is a Saturday -> Monday is 10th
-    }
-
-    local startDay = startDayByFirstWeekday[firstWeekday]
-
+    local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
     local endDay = startDay + 6 -- faire runs Monday - Sunday
 
+    local dayOfMonth = currentDate.monthDay
     -- If we're on the first day (Monday) require hour >= 3
     if dayOfMonth == startDay and currentDate.hour < 3 then
         return DMF_LOCATIONS.NONE
@@ -302,20 +301,11 @@ _GetDarkmoonFaireLocationTBC = function(currentDate)
         eventLocation = DMF_LOCATIONS.MULGORE
     end
 
-    local dayOfMonth = currentDate.monthDay
-    local startDayByFirstWeekday = {
-        [1] = 9,  -- 1st is a Sunday -> Monday is 9th
-        [2] = 8,  -- 1st is a Monday -> Monday is 8th
-        [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
-        [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
-        [5] = 5,  -- 1st is a Thursday -> Monday is 5th
-        [6] = 4,  -- 1st is a Friday -> Monday is 4th
-        [7] = 10, -- 1st is a Saturday -> Monday is 10th
-    }
-
-    local startDay = startDayByFirstWeekday[firstWeekday]
+    local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
     local endDay = startDay + 6
 
+    local dayOfMonth = currentDate.monthDay
+    -- If we're on the first day (Monday) require hour >= 3
     if dayOfMonth == startDay and currentDate.hour < 3 then
         return DMF_LOCATIONS.NONE
     end
