@@ -81,7 +81,7 @@ local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _GetLunarFestivalDates
+local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
 
 ---@enum DMFLocation
 local DMF_LOCATIONS = {
@@ -259,30 +259,15 @@ end
 ---@param currentDate CalendarTime
 ---@return DMFLocation
 _GetDarkmoonFaireLocationEra = function(currentDate)
-    local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
-    -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
-    local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
-    local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
-
-    local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
-    local endDay = startDay + 6 -- faire runs Monday - Sunday
-
-    local dayOfMonth = currentDate.monthDay
-    -- If we're on the first day (Monday) require hour >= 3
-    if dayOfMonth == startDay and currentDate.hour < 3 then
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
         return DMF_LOCATIONS.NONE
     end
 
-    if dayOfMonth >= startDay and dayOfMonth <= endDay then
-        local remainder = currentDate.month % 2
-        if remainder == 1 then
-            return DMF_LOCATIONS.ELWYNN_FOREST
-        else -- remainder == 0
-            return DMF_LOCATIONS.MULGORE
-        end
+    local remainder = currentDate.month % 2
+    if remainder == 1 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
     end
-
-    return DMF_LOCATIONS.NONE
+    return DMF_LOCATIONS.MULGORE
 end
 
 --- DMF in TBC rotates monthly through three locations: Mulgore, Terokkar Forest, and Elwynn Forest.
@@ -290,31 +275,36 @@ end
 ---@param currentDate CalendarTime
 ---@return DMFLocation
 _GetDarkmoonFaireLocationTBC = function(currentDate)
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local remainder = currentDate.month % 3
+    if remainder == 1 then
+        return DMF_LOCATIONS.TEROKKAR_FOREST
+    elseif remainder == 2 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
+    return DMF_LOCATIONS.MULGORE
+end
+
+---@param currentDate CalendarTime
+---@return boolean
+_IsDarkmoonFaireWeek = function(currentDate)
     local baseInfo = C_Calendar.GetMonthInfo()
+    -- Calculate the offset in months from baseInfo to make C_Calendar.GetMonthInfo return the correct month
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
     local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
-    local endDay = startDay + 6
-
     local dayOfMonth = currentDate.monthDay
+
     -- If we're on the first day (Monday) require hour >= 3
     if dayOfMonth == startDay and currentDate.hour < 3 then
-        return DMF_LOCATIONS.NONE
+        return false
     end
 
-    if dayOfMonth >= startDay and dayOfMonth <= endDay then
-        local remainder = currentDate.month % 3
-        if remainder == 1 then
-            return DMF_LOCATIONS.TEROKKAR_FOREST
-        elseif remainder == 2 then
-            return DMF_LOCATIONS.ELWYNN_FOREST
-        else -- remainder == 0
-            return DMF_LOCATIONS.MULGORE
-        end
-    end
-
-    return DMF_LOCATIONS.NONE
+    return dayOfMonth >= startDay and dayOfMonth <= startDay + 6
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
