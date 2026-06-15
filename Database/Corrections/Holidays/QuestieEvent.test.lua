@@ -21,6 +21,7 @@ describe("QuestieEvent", function()
     before_each(function()
         Questie.IsClassic = false
         Questie.IsAnniversaryEra = false
+        Questie.IsAnniversaryHardcore = false
         Questie.IsTBC = false
         _G.Questie.Colorize = function(_, str) return str end
         printMock = spy.new(function() end)
