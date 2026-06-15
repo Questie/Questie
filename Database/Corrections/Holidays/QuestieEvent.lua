@@ -91,6 +91,12 @@ local DMF_LOCATIONS = {
     TEROKKAR_FOREST = 3,
 }
 
+local DMF_LOCATION_NAMES = {
+    [1] = "Mulgore",
+    [2] = "Elwynn Forest",
+    [3] = "Terokkar Forest",
+}
+
 -- The ingame calender adds a texture to the DMF event.
 -- We use this to identify the event without relying on dates or localized event titles.
 local DMF_CALENDAR_ICON_TEXTURES = {
@@ -383,7 +389,7 @@ _LoadDarkmoonFaire = function()
         end
     end
 
-    print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+    print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The Darkmoon Faire is up in %s!", l10n(DMF_LOCATION_NAMES[eventLocation])))
 end
 
 --- Checks wheather the current date is within the given date range
