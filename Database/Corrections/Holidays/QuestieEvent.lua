@@ -83,6 +83,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _GetLunarFestivalDates
 
+---@enum DMFLocation
 local DMF_LOCATIONS = {
     NONE = 0,
     MULGORE = 1,
@@ -224,12 +225,12 @@ _GetLunarFestivalDates = function(year)
     return QuestieEvent.lunarFestival.DEFAULT[year]
 end
 
----@return boolean
+---@return DMFLocation
 _GetDarkmoonFaireLocation = function()
     if C_Calendar == nil then
         -- This is a band aid fix for private servers which do not support the `C_Calendar` API.
         -- They won't see Darkmoon Faire quests, but that's the price to pay.
-        return false
+        return DMF_LOCATIONS.NONE
     end
 
     local currentDate = QuestieCompat.GetCurrentCalendarTime()
@@ -244,6 +245,7 @@ _GetDarkmoonFaireLocation = function()
 end
 
 ---@param currentDate CalendarTime
+---@return DMFLocation
 _GetDarkmoonFaireLocationEra = function(currentDate)
     local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
     -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
@@ -284,6 +286,7 @@ end
 --- DMF in TBC rotates monthly through three locations: Mulgore, Terokkar Forest, and Elwynn Forest.
 --- The timing follows the same Monday-start, 7-day schedule as Classic Era.
 ---@param currentDate CalendarTime
+---@return DMFLocation
 _GetDarkmoonFaireLocationTBC = function(currentDate)
     local baseInfo = C_Calendar.GetMonthInfo()
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
@@ -326,6 +329,7 @@ end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
 ---@param currentDate CalendarTime
+---@return DMFLocation
 _GetDarkmoonFaireLocationSoD = function(currentDate)
     local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
     local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
