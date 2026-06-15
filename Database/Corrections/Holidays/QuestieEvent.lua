@@ -230,6 +230,7 @@ _GetDarkmoonFaireLocation = function()
     end
 end
 
+---@param currentDate CalendarTime
 _GetDarkmoonFaireLocationEra = function(currentDate)
     local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
     -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
@@ -239,54 +240,43 @@ _GetDarkmoonFaireLocationEra = function(currentDate)
     local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
 
     local dayOfMonth = currentDate.monthDay
-    if firstWeekday == 1 then
-        -- The 1st is a Sunday
-        if dayOfMonth >= 9 and dayOfMonth < 15 then
-            return eventLocation
-        end
-    elseif firstWeekday == 2 then
-        -- The 1st is a Monday
-        if dayOfMonth >= 8 and dayOfMonth < 14 then
-            return eventLocation
-        end
-    elseif firstWeekday == 3 then
-        -- The 1st is a Tuesday
-        if dayOfMonth >= 7 and dayOfMonth < 13 then
-            return eventLocation
-        end
-    elseif firstWeekday == 4 then
-        -- The 1st is a Wednesday
-        if dayOfMonth >= 6 and dayOfMonth < 12 then
-            return eventLocation
-        end
-    elseif firstWeekday == 5 then
-        -- The 1st is a Thursday
-        if dayOfMonth >= 5 and dayOfMonth < 11 then
-            return eventLocation
-        end
-    elseif firstWeekday == 6 then
-        -- The 1st is a Friday
-        if dayOfMonth >= 4 and dayOfMonth < 10 then
-            return eventLocation
-        end
-    elseif firstWeekday == 7 then
-        -- The 1st is a Saturday
-        if dayOfMonth >= 10 and dayOfMonth < 16 then
-            return eventLocation
-        end
+    -- Determine the DMF start day for the month based on what weekday the 1st is.
+    -- We also require the Monday start to have reached 03:00 server time before considering the event active.
+    local startDayByFirstWeekday = {
+        [1] = 9,  -- 1st is a Sunday -> Monday is 9th
+        [2] = 8,  -- 1st is a Monday -> Monday is 8th
+        [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
+        [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
+        [5] = 5,  -- 1st is a Thursday -> Monday is 5th
+        [6] = 4,  -- 1st is a Friday -> Monday is 4th
+        [7] = 10, -- 1st is a Saturday -> Monday is 10th
+    }
+
+    local startDay = startDayByFirstWeekday[firstWeekday]
+
+    local endDay = startDay + 6 -- faire runs Monday - Sunday
+
+    -- If we're on the first day (Monday) require hour >= 3
+    if dayOfMonth == startDay and currentDate.hour < 3 then
+        return DMF_LOCATIONS.NONE
+    end
+
+    if dayOfMonth >= startDay and dayOfMonth <= endDay then
+        return eventLocation
     end
 
     return DMF_LOCATIONS.NONE
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
+---@param currentDate CalendarTime
 _GetDarkmoonFaireLocationSoD = function(currentDate)
     local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
     local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
-    currentDate = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
+    local currentDateTimestamp = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
 
     local eventDuration = initialEndDate - initialStartDate
-    local timeSinceStart = currentDate - initialStartDate
+    local timeSinceStart = currentDateTimestamp - initialStartDate
 
     local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
 
