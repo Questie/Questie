@@ -151,7 +151,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.questStarts] = {2781,2875},
         },
         [142194] = { -- Pirate's Treasure!
-            [objectKeys.spawns] = {[zoneIDs.TANARIS] = {{54,93}}},
+            [objectKeys.spawns] = {[zoneIDs.TANARIS] = {{50.7,90.78},{54.06,93.03},{53.09,95.89},{52.16,94.39},{54.54,95.09},{55.56,92.28}}},
             [objectKeys.zoneID] = zoneIDs.TANARIS,
         },
         [142343] = { -- Uldum Pedestal
@@ -160,6 +160,11 @@ function QuestieObjectFixes:Load()
         [142345] = { -- Matrix Punchograph 3005-A
             [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{42.83,59.191},{42.854,59.193},{42.838,59.386},{42.798,59.381}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+        },
+        [143979] = { -- Cage Door
+            [objectKeys.name] = "Cage Door",
+            [objectKeys.spawns] = {[zoneIDs.TANARIS] = {{66.66,46.75}}},
+            [objectKeys.zoneID] = zoneIDs.TANARIS,
         },
         [144052] = { -- Sandsorrow Watch Water Hole
             [objectKeys.spawns] = {[zoneIDs.TANARIS] = {{39,29}}},
@@ -413,6 +418,11 @@ function QuestieObjectFixes:Load()
         },
         [181598] = { -- Silithyst Geyser
             [objectKeys.spawns] = {[zoneIDs.SILITHUS] = {{41.17,77.14},{49.21,44.84},{35.7,66.4},{41.67,27.04},{26.42,81.5},{20.84,81.43},{31.28,65.46},{39.94,22.35},{36.7,77.47},{18.88,80.26},{50.45,50.69},{38.91,80.85},{36.09,29.92},{48.83,85.1},{36.02,38.35},{59.25,58.77},{64.01,70.86},{60.61,63.0},{58.07,49.96}}},
+        },
+        [186419] = { -- Wrecked Row Boat
+            [objectKeys.questStarts] = {4127},
+            [objectKeys.spawns] = {[zoneIDs.FERALAS] = {{45.79,65.69}}},
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
         },
         [186420] = { -- Syndicate Documents
             [objectKeys.questStarts] = {},

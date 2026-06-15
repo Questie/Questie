@@ -1198,7 +1198,6 @@ function QuestieQuestBlacklist:Load()
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
-        [2881] = Expansions.Current >= Expansions.Tbc, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [8329] = Expansions.Current < Expansions.Cata, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
@@ -3315,6 +3314,7 @@ function QuestieQuestBlacklist:Load()
         [2877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2881] = Expansions.Current >= Expansions.Cata, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [2882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2903] = Expansions.Current >= Expansions.Cata, -- Removed with cata

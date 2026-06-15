@@ -226,9 +226,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{5111}},
             [questKeys.exclusiveTo] = {3763,3789},
         },
-        [4127] = {
-            [questKeys.startedBy] = {nil,{164909,186419}},
-        },
         [4144] = {
             [questKeys.specialFlags] = specialFlags.NONE,
         },

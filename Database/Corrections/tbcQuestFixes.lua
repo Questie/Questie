@@ -279,6 +279,9 @@ function QuestieTBCQuestFixes:Load()
         [1385] = { -- Brutal Politics
             [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-500},{factionIDs.MAGRAM_CLAN_CENTAUR,250}},
         },
+        [1396] = { -- Encroaching Wildlife
+            [questKeys.breadcrumbs] = {9609},
+        },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
         },
@@ -575,9 +578,12 @@ function QuestieTBCQuestFixes:Load()
         [2880] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [2881] = {
+        [2881] = { -- Troll Necklace Bounty
+            [questKeys.startedBy] = {{7884}},
+            [questKeys.finishedBy] = {{7884}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {2880},
         },
         [2985] = { -- Call of Water
             [questKeys.exclusiveTo] = {1528,1529,2986},
@@ -2385,6 +2391,9 @@ function QuestieTBCQuestFixes:Load()
         [9608] = { -- Heart of Rage
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
+        },
+        [9609] = { -- Help Watcher Biggs
+            [questKeys.breadcrumbForQuestId] = 1396,
         },
         [9616] = { -- Bandits!
             [questKeys.startedBy] = {nil,nil,{23910}},

@@ -1382,15 +1382,15 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.FERALAS,
         },
         [7899] = { -- Treasure Hunting Pirate
-            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{54.45,93.47}}},
+            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50.7,90.78},{54.06,93.03},{53.09,95.89},{52.16,94.39},{54.54,95.09},{55.56,92.28}}},
             [npcKeys.zoneID] = zoneIDs.TANARIS,
         },
         [7901] = { -- Treasure Hunting Swashbuckler
-            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{54.4,93.5}}},
+            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50.7,90.78},{54.06,93.03},{53.09,95.89},{52.16,94.39},{54.54,95.09},{55.56,92.28}}},
             [npcKeys.zoneID] = zoneIDs.TANARIS,
         },
         [7902] = { -- Treasure Hunting Buccaneer
-            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{54.34,93.58}}},
+            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50.7,90.78},{54.06,93.03},{53.09,95.89},{52.16,94.39},{54.54,95.09},{55.56,92.28}}},
             [npcKeys.zoneID] = zoneIDs.TANARIS,
         },
         [7918] = { -- Stone Watcher of Norgannon
@@ -1476,6 +1476,10 @@ function QuestieNPCFixes:Load()
         },
         [8580] = { -- Atal'alarion <Guardian of the Idol>
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
+        },
+        [8612] = { -- Screecher Spirit
+            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{43.07,36.94},{42.01,36.27},{43.97,36.36},{44.85,36.14},{55.68,46.97},{53.16,46.78},{47.89,55.72},{47.87,59.24},{52.29,49.19},{49.43,49.88},{56.88,48.11},{58.98,51.08},{60.81,49.76},{46.46,39.36},{46.0,37.69},{46.55,40.66},{46.55,47.61},{45.86,49.23},{46.82,48.47},{46.13,50.04},{57.65,59.38},{57.06,54.79},{58.19,57.76},{60.22,62.16}}},
+            [npcKeys.zoneID] = zoneIDs.FERALAS,
         },
         [8888] = { -- Franclorn Forgewright
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93}}},
