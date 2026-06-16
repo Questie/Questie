@@ -183,9 +183,7 @@ local migrationFunctions = {
         Questie.db.profile.trimObjectiveText = true
     end,
     [29] = function()
-        if Questie.db.profile.showQuestXpAtMaxLevel == true then
-            Questie.db.profile.showQuestXpAtMaxLevel = false
-        end
+        Questie.db.profile.showQuestXpAtMaxLevel = false
     end,
 }
 
