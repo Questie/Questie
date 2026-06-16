@@ -2215,8 +2215,8 @@ function QuestieQuestFixes:Load()
         [2986] = {
             [questKeys.breadcrumbForQuestId] = 1530,
         },
-        [2992] = {
-            [questKeys.triggerEnd] = {"Wait for Grimshade to finish", {[zoneIDs.BLASTED_LANDS]={{66.99,19.41}}}},
+        [2992] = { -- The Divination
+            [questKeys.objectives] = {{{8022,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [2994] = {
             [questKeys.questLevel] = 51, -- #1129
