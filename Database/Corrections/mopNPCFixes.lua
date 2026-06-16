@@ -6913,6 +6913,9 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.68,57.67}}},
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
         },
+        [73138] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.8,72.4}}},
+        },
         [73167] = { -- Huolon
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{57.4,57.8},{57.6,57.8},{57.8,58.8},{58,57.4},{65,57.2},{65.4,36.2},{65.6,57},{66,58.8},{66.4,59.8},{66.6,57.6},{67.2,57.4},{67.2,59},{68,58.8},{68.2,58.4},{68.6,58.4},{68.6,58.6},{72.4,54.4},{73,50.8},{73,53.6},{73.8,50.8},{74.2,41.6},{74.4,43.6}}},
