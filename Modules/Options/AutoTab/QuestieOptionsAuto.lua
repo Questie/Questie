@@ -6,6 +6,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 QuestieOptions.tabs.auto = {...}
 
@@ -70,7 +72,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 order = 2.2,
                 inline = true,
                 width = 0.5,
-                name = function() return l10n("Rules for NPCs"); end,
+                name = function() return l10n("Quests from NPCs"); end,
                 disabled = function() return not Questie.db.profile.autoAccept.enabled end,
                 args = {
                     npc_normalquests = {
@@ -79,90 +81,88 @@ function QuestieOptions.tabs.auto:Initialize()
                         name = function() return l10n("Normal Quests"); end,
                         desc = function() return l10n("Automatically accept normal quests from NPCs."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_normal; end,
-                        -- END
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_normal = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Normal toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.npc_normal; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.npc_normal = value
                         end,
                     },
                     npc_repeatablequests = {
                         type = "toggle",
                         order = 2,
                         name = function() return l10n("Repeatable Quests"); end,
-                        desc = function() return l10n("Automatically accept repeatable quests (including dailies) from NPCs."); end,
+                        desc = function() return l10n("Automatically accept repeatable quests from NPCs."); end,
                         width = 1,
-                        get = function () return Questie.db.profile.autoAccept.repeatable; end,
+                        get = function () return Questie.db.profile.autoAccept.npc_repeatable; end,
                         set = function (_, value)
-                            Questie.db.profile.autoAccept.repeatable = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Repeatable toggled to:", value)
+                            Questie.db.profile.autoAccept.npc_repeatable = value
+                        end,
+                    },
+                    npc_dailyquests = {
+                        type = "toggle",
+                        order = 3,
+                        name = function() return l10n("Daily Quests"); end,
+                        desc = function() return l10n("Automatically accept daily quests from NPCs."); end,
+                        width = 1,
+                        hidden = function() return Expansions.Current < Expansions.Tbc end,
+                        get = function () return Questie.db.profile.autoAccept.npc_daily; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.npc_daily = value
                         end,
                     },
                     npc_dungeonquests = {
                         type = "toggle",
-                        order = 3,
-                        name = function() return l10n("Dungeon/Raid Quests"); end,
-                        desc = function() return l10n("Automatically accept dungeon and raid quests from NPCs."); end,
+                        order = 4,
+                        name = function() return l10n("Dungeon Quests"); end,
+                        desc = function() return l10n("Automatically accept dungeon quests from NPCs."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_dungeon; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_dungeon = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Dungeon toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.npc_dungeon; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.npc_dungeon = value
+                        end,
+                    },
+                    npc_raidquests = {
+                        type = "toggle",
+                        order = 5,
+                        name = function() return l10n("Raid Quests"); end,
+                        desc = function() return l10n("Automatically accept raid quests from NPCs."); end,
+                        width = 1,
+                        get = function () return Questie.db.profile.autoAccept.npc_raid; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.npc_raid = value
                         end,
                     },
                     npc_pvpquests = {
                         type = "toggle",
-                        order = 4,
+                        order = 6,
                         name = function() return l10n("PvP Quests"); end,
                         desc = function() return l10n("Automatically accept PvP quests from NPCs."); end,
                         width = 1,
-                        get = function () return Questie.db.profile.autoAccept.pvp; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoAccept.pvp = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC PvP toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.npc_pvp; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.npc_pvp = value
                         end,
                     },
                     npc_eventquests = {
                         type = "toggle",
-                        order = 5,
+                        order = 7,
                         name = function() return l10n("Event Quests"); end,
-                        desc = function() return l10n("Automatically accept event quests (including event dailies) from NPCs."); end,
+                        desc = function() return l10n("Automatically accept event quests from NPCs."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_event; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_event = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Event toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.npc_event; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.npc_event = value
                         end,
                     },
                     npc_trivialquests = {
                         type = "toggle",
-                        order = 6,
+                        order = 8,
                         name = function() return l10n("Trivial Quests"); end,
                         desc = function() return l10n("Automatically accept trivial (low-level) quests from NPCs."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        get = function() return Questie.db.profile.autoAccept.trivial; end,
+                        get = function() return Questie.db.profile.autoAccept.npc_trivial; end,
                         set = function(_, value)
-                            Questie.db.profile.autoAccept.trivial = value
+                            Questie.db.profile.autoAccept.npc_trivial = value
                         end,
-                        -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_trivial; end,
-                        -- set = function (info, value)
-                        --     Questie.db.profile.autoaccept_npc_trivial = value
-                        --     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Trivial toggled to:", value)
-                        -- end,
                     },
                 },
             },
@@ -172,7 +172,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 inline = true,
                 width = 0.5,
                 disabled = function() return not Questie.db.profile.autoAccept.enabled end,
-                name = function() return l10n("Rules for players"); end,
+                name = function() return l10n("Quests shared from players"); end,
                 args = {
                     player_normalquests = {
                         type = "toggle",
@@ -180,94 +180,87 @@ function QuestieOptions.tabs.auto:Initialize()
                         name = function() return l10n("Normal Quests"); end,
                         desc = function() return l10n("Automatically accept normal quests from players."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_normal; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_normal = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Normal toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.player_normal; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.player_normal = value
                         end,
                     },
                     player_repeatablequests = {
                         type = "toggle",
                         order = 2,
                         name = function() return l10n("Repeatable Quests"); end,
-                        desc = function() return l10n("Automatically accept repeatable quests (including dailies) from players."); end,
+                        desc = function() return l10n("Automatically accept repeatable quests from players."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_repeatable; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_repeatable = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Repeatable toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.player_repeatable; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.player_repeatable = value
+                        end,
+                    },
+                    player_dailyquests = {
+                        type = "toggle",
+                        order = 3,
+                        name = function() return l10n("Daily Quests"); end,
+                        desc = function() return l10n("Automatically accept daily quests from players."); end,
+                        width = 1,
+                        hidden = function() return Expansions.Current < Expansions.Tbc end,
+                        get = function () return Questie.db.profile.autoAccept.player_daily; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.player_daily = value
                         end,
                     },
                     player_dungeonquests = {
                         type = "toggle",
-                        order = 3,
-                        name = function() return l10n("Dungeon/Raid Quests"); end,
-                        desc = function() return l10n("Automatically accept dungeon and raid quests from players."); end,
+                        order = 4,
+                        name = function() return l10n("Dungeon Quests"); end,
+                        desc = function() return l10n("Automatically accept dungeon quests from players."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_dungeon; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_dungeon = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Dungeon toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.player_dungeon; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.player_dungeon = value
+                        end,
+                    },
+                    player_raidquests = {
+                        type = "toggle",
+                        order = 5,
+                        name = function() return l10n("Raid Quests"); end,
+                        desc = function() return l10n("Automatically accept raid quests from players."); end,
+                        width = 1,
+                        get = function () return Questie.db.profile.autoAccept.player_raid; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.player_raid = value
                         end,
                     },
                     player_pvpquests = {
                         type = "toggle",
-                        order = 4,
+                        order = 6,
                         name = function() return l10n("PvP Quests"); end,
                         desc = function() return l10n("Automatically accept PvP quests from players."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_pvp; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_pvp = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player PvP toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.player_pvp; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.player_pvp = value
                         end,
                     },
                     player_eventquests = {
                         type = "toggle",
-                        order = 5,
+                        order = 7,
                         name = function() return l10n("Event Quests"); end,
-                        desc = function() return l10n("Automatically accept event quests (including event dailies) from players."); end,
+                        desc = function() return l10n("Automatically accept event quests from players."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_event; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_event = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Event toggled to:", value)
+                        get = function () return Questie.db.profile.autoAccept.player_event; end,
+                        set = function (_, value)
+                            Questie.db.profile.autoAccept.player_event = value
                         end,
                     },
                     player_trivialquests = {
                         type = "toggle",
-                        order = 6,
+                        order = 8,
                         name = function() return l10n("Trivial Quests"); end,
                         desc = function() return l10n("Automatically accept trivial (low-level) quests from players."); end,
                         width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_trivial; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_trivial = value
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Trivial toggled to:", value)
+                        get = function() return Questie.db.profile.autoAccept.player_trivial; end,
+                        set = function(_, value)
+                            Questie.db.profile.autoAccept.player_trivial = value
                         end,
                     },
                 },
@@ -296,7 +289,7 @@ function QuestieOptions.tabs.auto:Initialize()
                 order = 3.1,
                 name = function() return l10n("Reject quests shared in battlegrounds"); end,
                 desc = function() return l10n("Automatically reject quests shared by players while in a battleground instance. This feature overrides autoaccept behavior."); end,
-                width = 1.6,
+                width = "full",
                 get = function () return Questie.db.profile.autoAccept.rejectSharedInBattleground; end,
                 set = function (_, value)
                     Questie.db.profile.autoAccept.rejectSharedInBattleground = value
@@ -308,24 +301,14 @@ function QuestieOptions.tabs.auto:Initialize()
                 order = 3.2,
                 name = function() return l10n("Reject quests shared by non-friends"); end,
                 desc = function() return l10n("Automatically reject quests shared by players that aren't on your friends list. This feature overrides autoaccept behavior."); end,
-                width = 1.6,
-                -- AUTO 1.0
-                disabled = true,
-                get = function () return false; end,
-                -- -- AUTO 2.0
-                -- get = function () return Questie.db.profile.autoreject_nonfriend; end,
+                width = "full",
+                get = function () return Questie.db.profile.autoreject_nonfriend; end,
                 set = function (info, value)
                     Questie.db.profile.autoreject_nonfriend = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Reject Nonfriend toggled to:", value)
                 end,
             },
             wip_spacer = QuestieOptionsUtils:Spacer(4),
-            wip_text = {
-                type = "description",
-                order = 5,
-                name = function() return l10n("Further Auto customization is coming in a future Questie update."); end,
-                fontSize = "medium",
-            },
         }
     }
 end
