@@ -82,7 +82,6 @@ function QuestieOptions:ToggleConfigWindow()
     if not QuestieConfigFrame:IsShown() then
         PlaySound(882)
         AceConfigDialog:Open("Questie", QuestieConfigFrame)
-        QuestieConfigFrame:Show()
     else
         QuestieConfigFrame:Hide()
     end
