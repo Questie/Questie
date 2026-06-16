@@ -760,7 +760,7 @@ _GetObjectiveSoundChoices = function()
         ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
         ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Tbc then
         options["Explosion"] = l10n("Explosion")
         options["Shing!"] = l10n("Shing!")
         options["Wham!"] = l10n("Wham!")
@@ -790,7 +790,7 @@ _GetObjectiveProgressSoundChoices = function()
         ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
         ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Tbc then
         options["Explosion"] = l10n("Explosion")
         options["Shing!"] = l10n("Shing!")
         options["Wham!"] = l10n("Wham!")
