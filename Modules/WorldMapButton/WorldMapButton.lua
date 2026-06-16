@@ -13,6 +13,9 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 
 local KButtons = LibStub("Krowi_WorldMapButtons-1.4")
 
+---@type AceConfigDialog-3.0
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+
 local mapButton
 
 function WorldMapButton.Initialize()
@@ -58,6 +61,10 @@ QuestieWorldMapButtonMixin = {
             QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
             if GameTooltip:IsShown() and GameTooltip:GetOwner() == mapButton then
                 UpdateTooltip(mapButton)
+            end
+            -- Refresh options UI if open to reflect new state
+            if _G.QuestieConfigFrame and _G.QuestieConfigFrame:IsShown() then
+                AceConfigDialog:Open("Questie", _G.QuestieConfigFrame)
             end
         elseif button == "RightButton" then
             if QuestieMenu.IsOpen() then
