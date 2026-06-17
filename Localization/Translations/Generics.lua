@@ -530,17 +530,17 @@ local genericsLocales = {
         ["zhCN"] = true,
         ["zhTW"] = true,
     },
-    ["|cFFa6a6a6Shift-click to hide|r"] = {
+    ["Shift-click to hide"] = {
         ["enUS"] = true,
-        ["deDE"] = "|cFFa6a6a6Shift + Klick zum Verstecken|r",
-        ["esES"] = "|cFFa6a6a6Mayús + clic para ocultar|r",
-        ["esMX"] = "|cFFa6a6a6Mayús + clic para ocultar|r",
-        ["frFR"] = "|cFFa6a6a6Maj + clic pour cacher|r",
-        ["koKR"] = "|cFFa6a6a6Shift + 클릭으로 숨기기|r",
-        ["ptBR"] = "|cFFa6a6a6Shift + clique para ocultar|r",
-        ["ruRU"] = "|cFFa6a6a6Shift+клик, чтобы скрыть|r",
-        ["zhCN"] = "|cFFa6a6a6Shift+点击隐藏|r",
-        ["zhTW"] = "|cFFa6a6a6Shift+點擊隱藏|r",
+        ["deDE"] = "Shift + Klick zum Verstecken",
+        ["esES"] = "Mayús + clic para ocultar",
+        ["esMX"] = "Mayús + clic para ocultar",
+        ["frFR"] = "Maj + clic pour cacher",
+        ["koKR"] = "Shift + 클릭으로 숨기기",
+        ["ptBR"] = "Shift + clique para ocultar",
+        ["ruRU"] = "Shift+клик, чтобы скрыть",
+        ["zhCN"] = "Shift+点击隐藏",
+        ["zhTW"] = "Shift+點擊隱藏",
     },
 }
 

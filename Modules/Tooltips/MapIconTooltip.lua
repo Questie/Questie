@@ -378,6 +378,7 @@ function MapIconTooltip:Show()
             tooltipRows:AddLine("             ")
         end
 
+        -- Manually activated icons through Journey
         for title, data in pairs(self.manualOrder) do
             local body = data.Body
             tooltipRows:AddLine(title)
@@ -390,7 +391,7 @@ function MapIconTooltip:Show()
                 end
             end
             if self.miniMapIcon == false and not data.disableShiftToRemove then
-                tooltipRows:AddLine(l10n("|cFFa6a6a6Shift-click to hide|r")) -- grey
+                tooltipRows:AddLine(Questie:Colorize(l10n("Shift-click to hide"), "gray")) -- gray
             end
         end
 
