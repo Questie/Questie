@@ -306,10 +306,8 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
 
     if (textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
 
-    --Set Defaults
-    if (combineTrailing == nil) then
-        combineTrailing = true
-    end
+    -- Combining orphan words changes wrap points away from Blizzard's own tooltip layout.
+    combineTrailing = false
     --We show the fontstring and set the text to start the process
     --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
     _SetTextWrapFont(textWrapObjectiveFontString, fontSource)
