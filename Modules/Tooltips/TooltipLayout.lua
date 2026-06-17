@@ -11,6 +11,7 @@ local tinsert = table.insert
 
 local MIN_TOOLTIP_TEXT_WIDTH = 375
 local DEFAULT_DOUBLE_LINE_GAP = 38.4
+local INDENT_TEXTURE_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
 
 -------------------------
 -- Row model.
@@ -187,6 +188,14 @@ local function _MeasureTooltipText(text, fontSource)
     fontString:SetText(text or "")
 
     return fontString:GetUnboundedStringWidth() or 0
+end
+
+---Creates a transparent texture prefix used for indentation in measured tooltip rows.
+---@param width number Texture width in UI units.
+---@return string prefix Transparent texture escape sequence.
+---@return number width Texture width in UI units.
+function TooltipLayout.CreateIndentUI(width)
+    return "|T" .. INDENT_TEXTURE_PATH .. ":1:" .. width .. "|t", width
 end
 
 ---@type number?

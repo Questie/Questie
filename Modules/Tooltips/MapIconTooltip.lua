@@ -33,10 +33,12 @@ local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextu
 
 
 local REPUTATION_ICON_PATH = QuestieLib.AddonPath .. "Icons\\reputation.blp"
-local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t"
+local REPUTATION_ICON_TEXTURE_SIZE = 14
+local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":" .. REPUTATION_ICON_TEXTURE_SIZE .. ":" .. REPUTATION_ICON_TEXTURE_SIZE .. ":2:0|t"
 
-local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
-local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
+local NEXT_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\nextquest.blp"
+local NEXT_QUEST_ICON_TEXTURE_SIZE = 16
+local NEXT_QUEST_ICON_TEXTURE = "|T" .. NEXT_QUEST_ICON_PATH .. ":" .. NEXT_QUEST_ICON_TEXTURE_SIZE .. ":" .. NEXT_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
@@ -188,6 +190,20 @@ function MapIconTooltip:Show()
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
+
+    -- Texture indents are more robust than raw spaces in tooltip layout.
+    -- Base indent is 6 UI units, then each deeper level scales by 1.5.
+    local indent = 6
+    local indentScale = 1.5
+    local indentHalf, indentHalfWidth = TooltipLayout.CreateIndentUI(indent / 2) -- 3
+    local indentTwo, indentTwoWidth = TooltipLayout.CreateIndentUI(indent * (indentScale ^ 1)) -- 9
+    local indentThree = TooltipLayout.CreateIndentUI(indent * (indentScale ^ 2)) -- 13.5
+    local indentSix = TooltipLayout.CreateIndentUI(indent * (indentScale ^ 3)) -- 20.25
+    local indentReputation = TooltipLayout.CreateIndentUI(REPUTATION_ICON_TEXTURE_SIZE) -- 14
+    local nextQuestLabelPrefix = indentTwo .. NEXT_QUEST_ICON_TEXTURE .. indentHalf -- Keep this in sync with nextQuestTitleIndent.
+    local nextQuestTitleIndent = TooltipLayout.CreateIndentUI(indentTwoWidth + NEXT_QUEST_ICON_TEXTURE_SIZE + indentHalfWidth)
+
+
     Tooltip._Rebuild = function(self)
         -- Build rows first so description wrapping cannot change the width used to wrap itself.
         local xpString = l10n('xp');
@@ -238,8 +254,8 @@ function MapIconTooltip:Show()
                         if shift then
                             tooltipRows:AddDoubleLine(questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         else
-                            -- We use a transparent icon because this eases setting the correct margin
-                            tooltipRows:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                            -- We indent the same width as the reputation icon
+                            tooltipRows:AddDoubleLine(indentReputation .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         end
                     end
                     -- Add dungeon information if this is a dungeon quest
@@ -248,7 +264,7 @@ function MapIconTooltip:Show()
                         if zoneOrSort and zoneOrSort > 0 then
                             local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
                             if localizedDungeonName then
-                                tooltipRows:AddLine("  " .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
+                                tooltipRows:AddLine(indentTwo .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
                             end
                         end
                     end
@@ -257,11 +273,16 @@ function MapIconTooltip:Show()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, rawLine in pairs(questData.subData) do
-                            tooltipRows:AddDescription(rawLine, "  ", 0.86, 0.86, 0.86);
+                            tooltipRows:AddDescription(rawLine, indentTwo, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then
-                        tooltipRows:AddDescription(questData.subData, "  ", 0.86, 0.86, 0.86);
+                        tooltipRows:AddDescription(questData.subData, indentTwo, 0.86, 0.86, 0.86);
                     end
+                end
+
+                if shift and next(reputationReward) then
+                    local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
+                    tooltipRows:AddLine(indentTwo .. REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1, 1, 0)
                 end
 
                 if Questie.db.profile.enableTooltipsNextInChain then
@@ -273,12 +294,10 @@ function MapIconTooltip:Show()
                         local firstInChain = true;
                         while nextQuest ~= nil and (not QuestieCorrections.hiddenQuests[nextQuest.Id]) and (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS) do
                             if firstInChain then
-                                tooltipRows:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
+                                tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                                 firstInChain = false
                             end
-
-                            local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuest.Id, nextQuest.level)
-
+                            local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuest.Id, nextQuest.level, nextQuestTitleIndent)
                             tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
 
                             if nextQuest.nextQuestInChain > 0 then
@@ -288,11 +307,6 @@ function MapIconTooltip:Show()
                             end
                         end
                     end
-                end
-
-                if shift and next(reputationReward) then
-                    local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
-                    tooltipRows:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1, 1, 0)
                 end
             end
         end
@@ -337,7 +351,7 @@ function MapIconTooltip:Show()
                 if zoneOrSort and zoneOrSort > 0 then
                     local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
                     if localizedDungeonName then
-                        tooltipRows:AddLine("  " .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
+                        tooltipRows:AddLine(indentTwo .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
                     end
                 end
             end
@@ -353,21 +367,21 @@ function MapIconTooltip:Show()
                                 if (not addedCreatureNames[name]) then
                                     addedCreatureNames[name] = true
                                     name = _MapIconTooltip.GetLevelString(creatureLevels, name)
-                                    tooltipRows:AddLine("   |cFFDDDDDD" .. name);
+                                    tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. name);
                                 end
                             end
                         elseif dataType == "string" and (not addedCreatureNames[nameData]) then
                             addedCreatureNames[nameData] = true
                             nameData = _MapIconTooltip.GetLevelString(creatureLevels, nameData)
-                            tooltipRows:AddLine("   |cFFDDDDDD" .. nameData);
+                            tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. nameData);
                         end
-                        tooltipRows:AddLine("      " .. defaultQuestColor .. textLine);
+                        tooltipRows:AddLine(indentSix .. defaultQuestColor .. textLine);
                     end
                 end
             else
                 for _, textData in pairs(textList) do
                     for textLine, _ in pairs(textData) do
-                        tooltipRows:AddLine("   " .. defaultQuestColor .. textLine);
+                        tooltipRows:AddLine(indentThree .. defaultQuestColor .. textLine);
                     end
                 end
             end
@@ -625,8 +639,9 @@ end
 
 ---@param questId QuestId
 ---@param questLevel number
+---@param indent string
 ---@return string, string
-function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel)
+function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel, indent)
     local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false);
 
     local nextQuestXpRewardString = "";
@@ -641,5 +656,5 @@ function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel)
         nextQuestMoneyRewardString = Questie:Colorize(l10n("(") .. GetCoinTextureString(moneyReward) .. l10n(")") .. " ", "white")
     end
 
-    return "      " .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString
+    return indent .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString
 end

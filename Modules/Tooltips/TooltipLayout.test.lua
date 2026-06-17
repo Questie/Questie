@@ -11,11 +11,25 @@ describe("TooltipLayout", function()
     local originalTextWrap
     local capturedTextWrap
 
-    local function CreateFontStringMock()
+    local function CreateFontStringMock(defaultFont)
         local text = ""
-        local font = "GameTooltipFont"
+        local font = defaultFont or "GameTooltipFont"
         local size = 12
         local flags = ""
+        local fontWidthMultipliers = {
+            DoubleWidthFont = 2,
+        }
+
+        local function GetMockTextWidth()
+            local textureWidth = 0
+            local measuredText = string.gsub(text, "|T.-:%d+%.?%d*:(%d+%.?%d*).-|t", function(width)
+                textureWidth = textureWidth + (tonumber(width) or 0)
+                return ""
+            end)
+            measuredText = string.gsub(measuredText, "\194\160", " ")
+
+            return (string.len(measuredText) + textureWidth) * (fontWidthMultipliers[font] or 1)
+        end
 
         return {
             GetFont = function() return font, size, flags end,
@@ -27,7 +41,7 @@ describe("TooltipLayout", function()
             SetWordWrap = function() end,
             Hide = function() end,
             SetText = function(_, value) text = value or "" end,
-            GetUnboundedStringWidth = function() return string.len(text) end,
+            GetUnboundedStringWidth = function() return GetMockTextWidth() end,
         }
     end
 
@@ -163,5 +177,12 @@ describe("TooltipLayout", function()
 
         assert.are.same(449, capturedTextWrap.desiredWidth)
         assert.is_false(capturedTextWrap.combineTrailing)
+    end)
+
+    it("should create raw UI indent textures", function()
+        local prefix, width = TooltipLayout.CreateIndentUI(7.5)
+
+        assert.are.same("|TInterface\\Minimap\\UI-bonusobjectiveblob-inside.blp:1:7.5|t", prefix)
+        assert.are.same(7.5, width)
     end)
 end)
