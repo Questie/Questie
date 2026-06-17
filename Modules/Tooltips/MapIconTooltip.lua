@@ -17,6 +17,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type TooltipLayout
+local TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 ---@type l10n
@@ -36,39 +38,7 @@ local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t"
 local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
 local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
 
----@alias MapTooltipRowKind "line"|"doubleLine"|"description"
-
----@class MapTooltipPackedArgs
----@field n number Number of packed arguments; needed because colors may contain nil in future calls.
-
----@class MapTooltipLineRow
----@field kind "line"
----@field text string
----@field args MapTooltipPackedArgs
-
----@class MapTooltipDoubleLineRow
----@field kind "doubleLine"
----@field leftText string
----@field rightText string
----@field args MapTooltipPackedArgs
-
----@class MapTooltipDescriptionRow
----@field kind "description"
----@field text string
----@field prefix string
----@field combineTrailing boolean
----@field args MapTooltipPackedArgs
-
----@alias MapTooltipRow MapTooltipLineRow|MapTooltipDoubleLineRow|MapTooltipDescriptionRow
-
----@class MapTooltipRowBuilder
----@field AddLine fun(self: MapTooltipRowBuilder, text: string, ...: any): nil
----@field AddDoubleLine fun(self: MapTooltipRowBuilder, leftText: string, rightText: string, ...: any): nil
----@field AddDescriptionLine fun(self: MapTooltipRowBuilder, text: string, prefix: string, combineTrailing: boolean, ...: any): nil
-
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
-local MIN_TOOLTIP_TEXT_WIDTH = 375
-local DEFAULT_DOUBLE_LINE_GAP = 38.4
 
 local lastTooltipShowTimestamp = GetTime()
 
@@ -81,231 +51,6 @@ local function FormatLabelWithColon(label)
         return label .. " :"
     else
         return label .. ":"
-    end
-end
-
----Packs tooltip varargs without losing trailing nil values.
----@param ... any Tooltip AddLine/AddDoubleLine arguments.
----@return MapTooltipPackedArgs args Packed argument table.
-local function _PackTooltipArgs(...)
-    return {n = select("#", ...), ...}
-end
-
----@param rows MapTooltipRow[] Mutable row model.
----@param text string Left text rendered by GameTooltip:AddLine.
----@param args MapTooltipPackedArgs Packed AddLine arguments.
----@return nil
-local function _AppendTooltipLine(rows, text, args)
-    tinsert(rows, {kind = "line", text = text, args = args})
-end
-
----@param rows MapTooltipRow[] Mutable row model.
----@param leftText string Left text rendered by GameTooltip:AddDoubleLine.
----@param rightText string Right text rendered by GameTooltip:AddDoubleLine.
----@param args MapTooltipPackedArgs Packed AddDoubleLine arguments.
----@return nil
-local function _AppendTooltipDoubleLine(rows, leftText, rightText, args)
-    tinsert(rows, {kind = "doubleLine", leftText = leftText, rightText = rightText, args = args})
-end
-
----@param rows MapTooltipRow[] Mutable row model.
----@param text string Raw description text to wrap after final tooltip width is known.
----@param prefix string Prefix added to each wrapped line.
----@param combineTrailing boolean Whether to pull orphan trailing words/glyphs up.
----@param args MapTooltipPackedArgs Packed AddLine arguments for rendered wrapped lines.
----@return nil
-local function _AppendTooltipDescription(rows, text, prefix, combineTrailing, args)
-    tinsert(rows, {kind = "description", text = text, prefix = prefix, combineTrailing = combineTrailing, args = args})
-end
-
----Creates a GameTooltip-like adapter that records rows instead of rendering immediately.
----@param tooltip GameTooltip Runtime tooltip used as fallback for existing fields on `self`.
----@param rows MapTooltipRow[] Mutable row model.
----@return MapTooltipRowBuilder builder Adapter used by the existing _Rebuild body.
-local function _CreateTooltipRowBuilder(tooltip, rows)
-    return setmetatable({
-        AddLine = function(_, text, ...)
-            _AppendTooltipLine(rows, text, _PackTooltipArgs(...))
-        end,
-        AddDoubleLine = function(_, leftText, rightText, ...)
-            _AppendTooltipDoubleLine(rows, leftText, rightText, _PackTooltipArgs(...))
-        end,
-        AddDescriptionLine = function(_, text, prefix, combineTrailing, ...)
-            _AppendTooltipDescription(rows, text, prefix, combineTrailing, _PackTooltipArgs(...))
-        end,
-    }, {__index = tooltip})
-end
-
----@type FontString?
-local tooltipMeasurementFontString
----@type string?
-local tooltipMeasurementDefaultFont
----@type number?
-local tooltipMeasurementDefaultSize
----@type string?
-local tooltipMeasurementDefaultFlags
-
----Returns a reusable hidden FontString for measuring rendered tooltip text.
----@return FontString fontString Hidden measurement FontString.
-local function _GetTooltipMeasurementFontString()
-    if not tooltipMeasurementFontString then
-        tooltipMeasurementFontString = UIParent:CreateFontString("questieMapIconTooltipMeasureString", "ARTWORK", "GameTooltipText")
-        tooltipMeasurementDefaultFont, tooltipMeasurementDefaultSize, tooltipMeasurementDefaultFlags = tooltipMeasurementFontString:GetFont()
-        tooltipMeasurementFontString:SetWordWrap(false)
-        tooltipMeasurementFontString:Hide()
-    end
-
-    return tooltipMeasurementFontString
-end
-
----Copies the render font into the measurement FontString, with template-font fallback.
----@param fontString FontString Hidden measurement FontString.
----@param fontSource FontString? Tooltip FontString whose font should be matched.
----@return nil
-local function _SetMeasurementFont(fontString, fontSource)
-    local fontSourceType = type(fontSource)
-    if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and type(fontSource.GetFont) == "function") then
-        local font, size, flags = fontSource:GetFont()
-        if (font and size) then
-            fontString:SetFont(font, size, flags)
-            return
-        end
-    end
-
-    if (tooltipMeasurementDefaultFont and tooltipMeasurementDefaultSize) then
-        fontString:SetFont(tooltipMeasurementDefaultFont, tooltipMeasurementDefaultSize, tooltipMeasurementDefaultFlags)
-    end
-end
-
----Finds the FontString Blizzard will use for a tooltip row.
----@param tooltip GameTooltip Tooltip being rebuilt.
----@param lineIndex number 1-based rendered row index.
----@param side "left"|"right" Tooltip side to measure.
----@return FontString? fontString Render FontString, if the template has created one.
-local function _GetTooltipFontString(tooltip, lineIndex, side)
-    local tooltipName = tooltip:GetName()
-    if not tooltipName then
-        return nil
-    end
-
-    local textSide = side == "right" and "TextRight" or "TextLeft"
-    local fontString = _G[tooltipName .. textSide .. lineIndex]
-        or _G[tooltipName .. textSide .. "2"]
-        or _G[tooltipName .. textSide .. "1"]
-
-    if (not fontString and side == "right") then
-        fontString = _G[tooltipName .. "TextLeft" .. lineIndex]
-            or _G[tooltipName .. "TextLeft2"]
-            or _G[tooltipName .. "TextLeft1"]
-    end
-
-    return fontString
-end
-
----Measures text using WoW's renderer so color and texture escape widths match runtime rendering.
----@param text string? Text to measure; nil is treated as empty.
----@param fontSource FontString? Render font source.
----@return number width Unbounded rendered width in UI units.
-local function _MeasureTooltipText(text, fontSource)
-    local fontString = _GetTooltipMeasurementFontString()
-    _SetMeasurementFont(fontString, fontSource)
-    fontString:SetText(text or "")
-
-    return fontString:GetUnboundedStringWidth() or 0
-end
-
----@type number?
-local tooltipDoubleLineGap
----@type GameTooltip?
-local tooltipDoubleLineGapTooltip
-
----Measures Blizzard's minimum AddDoubleLine gap using a hidden GameTooltip.
----@return number gap Minimum space between left and right double-line text.
-local function _GetTooltipDoubleLineGap()
-    if tooltipDoubleLineGap then
-        return tooltipDoubleLineGap
-    end
-
-    local tooltipName = "QuestieMapIconTooltipGapMeasureTooltip"
-    tooltipDoubleLineGapTooltip = tooltipDoubleLineGapTooltip or CreateFrame("GameTooltip", tooltipName, UIParent, "GameTooltipTemplate")
-    tooltipDoubleLineGapTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-    tooltipDoubleLineGapTooltip:SetPoint("BOTTOMRIGHT", UIParent, "TOPLEFT", -10000, 10000)
-    tooltipDoubleLineGapTooltip:SetAlpha(0)
-    tooltipDoubleLineGapTooltip:ClearLines()
-    tooltipDoubleLineGapTooltip:AddDoubleLine("L", "R", 1, 1, 1, 1, 1, 1)
-    tooltipDoubleLineGapTooltip:Show()
-
-    local leftText = _G[tooltipName .. "TextLeft1"]
-    local rightText = _G[tooltipName .. "TextRight1"]
-    if (leftText and rightText and leftText:GetRight() and rightText:GetLeft()) then
-        tooltipDoubleLineGap = rightText:GetLeft() - leftText:GetRight()
-    end
-
-    tooltipDoubleLineGapTooltip:Hide()
-    tooltipDoubleLineGapTooltip:ClearLines()
-
-    return tooltipDoubleLineGap or DEFAULT_DOUBLE_LINE_GAP
-end
-
----Measures non-description rows to choose the tooltip text width before wrapping descriptions.
----@param tooltip GameTooltip Tooltip being rebuilt.
----@param rows MapTooltipRow[] Row model before description expansion.
----@return number width Inner text width in UI units.
-local function _MeasureTooltipRows(tooltip, rows)
-    local width = 0
-    local lineIndex = 1
-
-    for _, row in ipairs(rows) do
-        if (row.kind == "line") then
-            width = math.max(width, _MeasureTooltipText(row.text, _GetTooltipFontString(tooltip, lineIndex, "left")))
-        elseif (row.kind == "doubleLine") then
-            local leftWidth = _MeasureTooltipText(row.leftText, _GetTooltipFontString(tooltip, lineIndex, "left"))
-            local rightWidth = _MeasureTooltipText(row.rightText, _GetTooltipFontString(tooltip, lineIndex, "right"))
-            width = math.max(width, leftWidth + rightWidth + _GetTooltipDoubleLineGap())
-        end
-        lineIndex = lineIndex + 1
-    end
-
-    return math.max(width, 1)
-end
-
----Wraps description rows after stable tooltip width is known.
----@param tooltip GameTooltip Tooltip being rebuilt.
----@param rows MapTooltipRow[] Row model before description expansion.
----@return MapTooltipRow[] expandedRows Row model containing only renderable line/doubleLine rows.
-local function _ExpandTooltipDescriptionRows(tooltip, rows)
-    local expandedRows = {}
-    local tooltipWidth = math.max(MIN_TOOLTIP_TEXT_WIDTH, _MeasureTooltipRows(tooltip, rows))
-    local descriptionFontString = _GetTooltipFontString(tooltip, 2, "left") or _GetTooltipFontString(tooltip, 1, "left")
-
-    for _, row in ipairs(rows) do
-        if (row.kind == "description") then
-            local prefixWidth = _MeasureTooltipText(row.prefix, descriptionFontString)
-            local wrapWidth = math.max(tooltipWidth - prefixWidth, 1)
-            local lines = QuestieLib:TextWrap(row.text, row.prefix, row.combineTrailing, wrapWidth, descriptionFontString)
-
-            for _, line in ipairs(lines) do
-                _AppendTooltipLine(expandedRows, line, row.args)
-            end
-        else
-            tinsert(expandedRows, row)
-        end
-    end
-
-    return expandedRows
-end
-
----Renders the completed row model into the GameTooltip exactly once.
----@param tooltip GameTooltip Tooltip being rebuilt.
----@param rows MapTooltipRow[] Row model after description expansion.
----@return nil
-local function _RenderTooltipRows(tooltip, rows)
-    for _, row in ipairs(rows) do
-        if (row.kind == "line") then
-            tooltip:AddLine(row.text, unpack(row.args, 1, row.args.n))
-        elseif (row.kind == "doubleLine") then
-            tooltip:AddDoubleLine(row.leftText, row.rightText, unpack(row.args, 1, row.args.n))
-        end
     end
 end
 
@@ -449,26 +194,23 @@ function MapIconTooltip:Show()
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
-        local tooltip = self
-        ---@type MapTooltipRow[]
-        local tooltipRows = {}
-        self = _CreateTooltipRowBuilder(tooltip, tooltipRows)
+        local tooltipRows = TooltipLayout:CreateRows()
 
         -- tooltips for quest icons on the map
         for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
-                self:AddLine("             ")
+                tooltipRows:AddLine("             ")
             end
             if (firstLine and not shift) then
-                self:AddDoubleLine(npcOrObjectName, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                tooltipRows:AddDoubleLine(npcOrObjectName, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
-                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
+                tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
                 firstLine = false;
             else
-                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
+                tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
             end
 
             for _, questData in pairs(quests) do
@@ -491,13 +233,13 @@ function MapIconTooltip:Show()
                     rewardString = rewardString .. questData.type
 
                     if (not shift) and next(reputationReward) then
-                        self:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                        tooltipRows:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                     else
                         if shift then
-                            self:AddDoubleLine(questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                            tooltipRows:AddDoubleLine(questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         else
                             -- We use a transparent icon because this eases setting the correct margin
-                            self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                            tooltipRows:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                         end
                     end
                     -- Add dungeon information if this is a dungeon quest
@@ -506,7 +248,7 @@ function MapIconTooltip:Show()
                         if zoneOrSort and zoneOrSort > 0 then
                             local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
                             if localizedDungeonName then
-                                self:AddLine("  " .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
+                                tooltipRows:AddLine("  " .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
                             end
                         end
                     end
@@ -515,10 +257,10 @@ function MapIconTooltip:Show()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, rawLine in pairs(questData.subData) do
-                            self:AddDescriptionLine(rawLine, "  ", true, 0.86, 0.86, 0.86);
+                            tooltipRows:AddDescription(rawLine, "  ", true, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then
-                        self:AddDescriptionLine(questData.subData, "  ", true, 0.86, 0.86, 0.86);
+                        tooltipRows:AddDescription(questData.subData, "  ", true, 0.86, 0.86, 0.86);
                     end
                 end
 
@@ -531,13 +273,13 @@ function MapIconTooltip:Show()
                         local firstInChain = true;
                         while nextQuest ~= nil and (not QuestieCorrections.hiddenQuests[nextQuest.Id]) and (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS) do
                             if firstInChain then
-                                self:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
+                                tooltipRows:AddLine("  |TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16|t " .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                                 firstInChain = false
                             end
 
                             local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuest.Id, nextQuest.level)
 
-                            self:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
+                            tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
 
                             if nextQuest.nextQuestInChain > 0 then
                                 nextQuest = QuestieDB.GetQuest(nextQuest.nextQuestInChain)
@@ -550,7 +292,7 @@ function MapIconTooltip:Show()
 
                 if shift and next(reputationReward) then
                     local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
-                    self:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                    tooltipRows:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1, 1, 0)
                 end
             end
         end
@@ -566,23 +308,23 @@ function MapIconTooltip:Show()
             if haveGiver then
                 if shift and xpReward > 0 then
                     local rewardString = QuestieLib:PrintDifficultyColor(quest.level, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")") .. " ", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
-                    self:AddLine(" ");
-                    self:AddDoubleLine(questTitle, rewardString .. l10n("(") .. l10n("Active") .. l10n(")"), 0.2, 1, 0.2, 1, 1, 0);
+                    tooltipRows:AddLine(" ");
+                    tooltipRows:AddDoubleLine(questTitle, rewardString .. l10n("(") .. l10n("Active") .. l10n(")"), 0.2, 1, 0.2, 1, 1, 0);
                     haveGiver = false -- looks better when only the first one shows (active)
                 else
-                    self:AddLine(" ");
-                    self:AddDoubleLine(questTitle, l10n("(") .. l10n("Active") .. l10n(")"), 1, 1, 1, 1, 1, 0);
+                    tooltipRows:AddLine(" ");
+                    tooltipRows:AddDoubleLine(questTitle, l10n("(") .. l10n("Active") .. l10n(")"), 1, 1, 1, 1, 1, 0);
                     haveGiver = false -- looks better when only the first one shows (active)
                 end
             else
                 if (quest and shift and xpReward > 0) then
-                    self:AddDoubleLine(questTitle, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")"), 0.2, 1, 0.2, r, g, b);
+                    tooltipRows:AddDoubleLine(questTitle, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")"), 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
-                    self:AddDoubleLine(questTitle, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                    tooltipRows:AddDoubleLine(questTitle, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
                     firstLine = false;
                 else
-                    self:AddLine(questTitle);
+                    tooltipRows:AddLine(questTitle);
                 end
             end
 
@@ -595,7 +337,7 @@ function MapIconTooltip:Show()
                 if zoneOrSort and zoneOrSort > 0 then
                     local localizedDungeonName = ZoneDB:GetLocalizedDungeonName(zoneOrSort)
                     if localizedDungeonName then
-                        self:AddLine("  " .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
+                        tooltipRows:AddLine("  " .. FormatLabelWithColon(l10n("Instance")) .. " " .. localizedDungeonName, 0.7, 0.7, 0.7)
                     end
                 end
             end
@@ -611,21 +353,21 @@ function MapIconTooltip:Show()
                                 if (not addedCreatureNames[name]) then
                                     addedCreatureNames[name] = true
                                     name = _MapIconTooltip.GetLevelString(creatureLevels, name)
-                                    self:AddLine("   |cFFDDDDDD" .. name);
+                                    tooltipRows:AddLine("   |cFFDDDDDD" .. name);
                                 end
                             end
                         elseif dataType == "string" and (not addedCreatureNames[nameData]) then
                             addedCreatureNames[nameData] = true
                             nameData = _MapIconTooltip.GetLevelString(creatureLevels, nameData)
-                            self:AddLine("   |cFFDDDDDD" .. nameData);
+                            tooltipRows:AddLine("   |cFFDDDDDD" .. nameData);
                         end
-                        self:AddLine("      " .. defaultQuestColor .. textLine);
+                        tooltipRows:AddLine("      " .. defaultQuestColor .. textLine);
                     end
                 end
             else
                 for _, textData in pairs(textList) do
                     for textLine, _ in pairs(textData) do
-                        self:AddLine("   " .. defaultQuestColor .. textLine);
+                        tooltipRows:AddLine("   " .. defaultQuestColor .. textLine);
                     end
                 end
             end
@@ -633,27 +375,27 @@ function MapIconTooltip:Show()
 
         if next(self.npcAndObjectOrder) and next(self.manualOrder) then
             -- Spacer before townsfolk
-            self:AddLine("             ")
+            tooltipRows:AddLine("             ")
         end
 
         for title, data in pairs(self.manualOrder) do
             local body = data.Body
-            self:AddLine(title)
+            tooltipRows:AddLine(title)
             for _, stringOrTable in ipairs(body) do
                 local dataType = type(stringOrTable)
                 if dataType == "string" then
-                    self:AddLine(stringOrTable)
+                    tooltipRows:AddLine(stringOrTable)
                 elseif dataType == "table" then
-                    self:AddDoubleLine(stringOrTable[1], '|cFFffffff' .. stringOrTable[2] .. '|r') --normal, white
+                    tooltipRows:AddDoubleLine(stringOrTable[1], '|cFFffffff' .. stringOrTable[2] .. '|r') --normal, white
                 end
             end
             if self.miniMapIcon == false and not data.disableShiftToRemove then
-                self:AddLine(l10n("|cFFa6a6a6Shift-click to hide|r")) -- grey
+                tooltipRows:AddLine(l10n("|cFFa6a6a6Shift-click to hide|r")) -- grey
             end
         end
 
         -- Measure fixed rows, expand descriptions, then render once to avoid dynamic width feedback.
-        _RenderTooltipRows(tooltip, _ExpandTooltipDescriptionRows(tooltip, tooltipRows))
+        TooltipLayout:Render(self, tooltipRows)
     end
     Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
     Tooltip:SetFrameStrata("TOOLTIP");
