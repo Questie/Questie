@@ -128,9 +128,7 @@ describe("TooltipLayout", function()
         _G.QuestieTooltipLayoutGapMeasureTooltipTextRight1 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft2 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextRight2 = nil
-        if WrappedText then
-            WrappedText.TextWrap = originalTextWrap
-        end
+        WrappedText.TextWrap = originalTextWrap
         package.loaded["Modules.Libs.WrappedText"] = nil
         package.loaded["Modules.Tooltips.TooltipLayout"] = nil
     end)
