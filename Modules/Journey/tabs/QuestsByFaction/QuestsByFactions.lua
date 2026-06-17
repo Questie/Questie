@@ -467,6 +467,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
             ) or {}
 
             local questName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
+            local questLogPrefix = QuestiePlayer.currentQuestlog[questId] and "|TInterface\\AddOns\\Questie\\Icons\\Questbook.png:14:14|t " or ""
 
             local reputationRewards = QuestieReputation.GetReputationReward(questId)
             if reputationRewards and next(reputationRewards) then
@@ -477,7 +478,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 end
             end
 
-            temp.text = questName
+            temp.text = questLogPrefix .. questName
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
             local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
