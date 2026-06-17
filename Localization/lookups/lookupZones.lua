@@ -1385,6 +1385,9 @@ l10n.zoneLookup = {
     [369]={
         [2257]="Deeprun Tram",
     },
+    [379]={
+        [6852]="Proving Grounds",
+    },
     [389]={
         [2437]="Ragefire Chasm",
     },

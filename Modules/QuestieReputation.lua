@@ -258,7 +258,7 @@ function QuestieReputation.GetReputationReward(questId)
         end
 
         if reward then
-            reward = reward * reputationMultiplier
+            reward = reward * (reward > 0 and reputationMultiplier or 1)
             -- faction bonus commendation check
             if select(15, GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
@@ -278,8 +278,8 @@ _GetRewardMultiplier = function()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
     local multiplier = 1 + buffMultiplier
 
-    if playerIsHuman then
-        multiplier = multiplier + 0.1 -- 10% bonus reputation from Human Racial
+    if playerIsHuman and not Questie.IsTitanReforged then
+        multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
     end
 
     if knowsMrPopularityRank2 then

@@ -319,6 +319,18 @@ function QuestieOptions.tabs.auto:Initialize()
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Reject Nonfriend toggled to:", value)
                 end,
             },
+            autoreject_breadcrumb = {
+                type = "toggle",
+                order = 3.3,
+                name = function() return l10n("Abandon quest if breadcrumb is not completed"); end,
+                desc = function() return l10n("Automatically abandon a quest if you accept it before completing its breadcrumb quest."); end,
+                width = 2.0,
+                get = function () return Questie.db.profile.autoAccept.abandonBreadcrumbFollowup; end,
+                set = function (_, value)
+                    Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = value
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Reject Breadcrumb toggled to:", value)
+                end,
+            },
             wip_spacer = QuestieOptionsUtils:Spacer(4),
             wip_text = {
                 type = "description",
