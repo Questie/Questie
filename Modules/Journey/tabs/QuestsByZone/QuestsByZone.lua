@@ -235,7 +235,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
         -- Only show quests which are not hidden
         if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
             temp.value = questId
-            local questLogPrefix = QuestiePlayer.currentQuestlog[questId] and "* " or ""
+            local questLogPrefix = QuestiePlayer.currentQuestlog[questId] and "|TInterface\\AddOns\\Questie\\Icons\\Questbook.png:14:14|t " or ""
             temp.text = questLogPrefix .. QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
