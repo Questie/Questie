@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type utf8
+local utf8 = QuestieLoader:ImportModule("utf8")
 
 QuestieLib.AddonPath = "Interface\\Addons\\Questie\\"
 
@@ -708,13 +710,13 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
             repeat
                 indexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
                 --Last space of the line to be used to break a new row
-                if (string.sub(useLine, endIndex, endIndex) == " ") then
+                if (utf8.sub(useLine, endIndex, endIndex) == " ") then
                     lastSpaceIndex = endIndex
                 end
                 endIndex = endIndex + 1
                 --If we are at the end of characters break and set endIndex to strlen
-                if (endIndex > strlen(useLine)) then
-                    endIndex = strlen(useLine)
+                if (endIndex > utf8.strlen(useLine)) then
+                    endIndex = utf8.strlen(useLine)
                     lastSpaceIndex = endIndex
                     break
                 end
@@ -722,17 +724,17 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
 
             --Get the line we calculated
             --First to space then endIndex(chinese)
-            local newLine = string.sub(useLine, startIndex, lastSpaceIndex or endIndex)
+            local newLine = utf8.sub(useLine, startIndex, lastSpaceIndex or endIndex)
 
             --This combines a trailing word to the previous line if it is the only word of the line
             --We check lastSpaceIndex here because the logic will be faulty (chinese client)
             if (row == numberOfRows - 1 and combineTrailing and lastSpaceIndex) then
                 --Get the last line, in its full
-                local lastLine = string.sub(useLine, endIndex - 2, strlen(useLine))
+                local lastLine = utf8.sub(useLine, endIndex - 2, utf8.strlen(useLine))
 
                 --Does the line not contain any space we combine it into the previous line
                 if (not string.find(lastLine, " ")) then
-                    newLine = string.sub(useLine, startIndex, strlen(useLine))
+                    newLine = utf8.sub(useLine, startIndex, utf8.strlen(useLine))
                     --print("NL1", newLine)
                     table.insert(lines, prefix .. newLine)
                     --Break the for loop on last line, no more running required
