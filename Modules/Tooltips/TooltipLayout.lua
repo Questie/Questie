@@ -220,15 +220,15 @@ local function _MeasureTooltipText(text, fontSource)
 end
 
 ---@type number?
-local tooltipDoubleLineGap
+local tooltipDoubleLineGapAvg
 ---@type GameTooltip?
 local tooltipDoubleLineGapTooltip
 
 ---Measures Blizzard's minimum AddDoubleLine gap using a hidden GameTooltip.
 ---@return number gap Minimum space between left and right double-line text.
 local function _GetTooltipDoubleLineGap()
-    if tooltipDoubleLineGap then
-        return tooltipDoubleLineGap
+    if tooltipDoubleLineGapAvg then
+        return tooltipDoubleLineGapAvg
     end
 
     local tooltipName = "QuestieTooltipLayoutGapMeasureTooltip"
@@ -238,18 +238,29 @@ local function _GetTooltipDoubleLineGap()
     tooltipDoubleLineGapTooltip:SetAlpha(0)
     tooltipDoubleLineGapTooltip:ClearLines()
     tooltipDoubleLineGapTooltip:AddDoubleLine("L", "R", 1, 1, 1, 1, 1, 1)
+    tooltipDoubleLineGapTooltip:AddDoubleLine("L", "R", 1, 1, 1, 1, 1, 1)
     tooltipDoubleLineGapTooltip:Show()
 
+    -- On a normal GameTooltip the first row has a different font than the second row, so we measure both and average them to get a more accurate gap estimate.
+    local gap1 = DEFAULT_DOUBLE_LINE_GAP
     local leftText = _G[tooltipName .. "TextLeft1"]
     local rightText = _G[tooltipName .. "TextRight1"]
     if (leftText and rightText and leftText:GetRight() and rightText:GetLeft()) then
-        tooltipDoubleLineGap = rightText:GetLeft() - leftText:GetRight()
+        gap1 = rightText:GetLeft() - leftText:GetRight()
+    end
+
+    local gap2 = DEFAULT_DOUBLE_LINE_GAP
+    leftText = _G[tooltipName .. "TextLeft2"]
+    rightText = _G[tooltipName .. "TextRight2"]
+    if (leftText and rightText and leftText:GetRight() and rightText:GetLeft()) then
+        gap2 = rightText:GetLeft() - leftText:GetRight()
     end
 
     tooltipDoubleLineGapTooltip:Hide()
     tooltipDoubleLineGapTooltip:ClearLines()
 
-    return tooltipDoubleLineGap or DEFAULT_DOUBLE_LINE_GAP
+    tooltipDoubleLineGapAvg = (gap1 + gap2) / 2
+    return tooltipDoubleLineGapAvg or DEFAULT_DOUBLE_LINE_GAP
 end
 
 ---Measures non-description rows to choose the tooltip text width before wrapping descriptions.
