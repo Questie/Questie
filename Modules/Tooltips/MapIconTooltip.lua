@@ -26,9 +26,6 @@ local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
----@type QuestLogCache
-local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
-
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
 
@@ -156,9 +153,6 @@ function MapIconTooltip:Show()
                     end
 
                     local orderedTooltips = {}
-                    if not QuestLogCache.HasQuest(iconData.ObjectiveData.questId) then
-                        return
-                    end
                     iconData.ObjectiveData:Update()
                     local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
                     for _, tip in pairs(tooltips) do
