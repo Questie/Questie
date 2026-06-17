@@ -89,6 +89,25 @@ describe("WrappedText", function()
             assert.are_same({">>ab", ">>cd"}, lines)
         end)
 
+        it("should add the prefix to unwrapped text", function()
+            local lines = WrappedText:TextWrap("abc", ">>", false, 10)
+
+            assert.are_same({">>abc"}, lines)
+        end)
+
+        it("should use the quest objective width by default", function()
+            local lines = WrappedText:TextWrap(string.rep("A", 276), "", false)
+
+            assert.are_same(string.rep("A", 275), lines[1])
+            assert.are_same("A", lines[2])
+        end)
+
+        it("should fall back to the quest font when fontSource is invalid", function()
+            local lines = WrappedText:TextWrap("abcd", "", false, 4, {})
+
+            assert.are_same({"abcd"}, lines)
+        end)
+
         it("should measure with the provided font source", function()
             local fontSource = {
                 GetFont = function() return "DoubleWidthFont", 12, "" end,
