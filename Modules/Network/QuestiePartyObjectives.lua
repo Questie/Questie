@@ -272,11 +272,10 @@ local function _DrawQuest(questId)
 
         if objType and objId then
             local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
-            -- When the objective's live API type (first char, from comms) differs from the
-            -- database's compiled type (kill-credit, events, invisible "bunny" NPCs), the id/type
-            -- no longer map to a meaningful name, so use the Blizzard objective text and skip the
-            -- name-based fallback. Derived here rather than transmitted so it works for every comms
-            -- path, including the full quest list received on login/join.
+            -- When the objective's live API type (first char, from comms) differs from the database's compiled type
+            -- (kill-credit, events, invisible "bunny" NPCs), the id/type no longer map to a meaningful name, so use
+            -- the Blizzard objective text and skip the name-based fallback. Derived here rather than transmitted so
+            -- it works for every comms path, including the full quest list received on login/join.
             local useApiObjectiveText = objData ~= nil and remoteObjective.type ~= nil
                 and string.sub(objData.Type, 1, 1) ~= remoteObjective.type
             local apiText = useApiObjectiveText and _GetApiObjectiveText(questId, objectiveIndex) or nil

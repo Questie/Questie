@@ -277,7 +277,10 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
 
         offset = offset + 2
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
-            quest[offset] = questObject.Objectives[objectiveIndex].Id
+            -- Default to 0: a nil id (e.g. killcredit/event objectives have no .Id) would leave a
+            -- hole in the array and stop the receiver's objective loop, truncating this quest and
+            -- every quest packed after it in the same block.
+            quest[offset] = questObject.Objectives[objectiveIndex].Id or 0
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
             quest[offset + 3] = objective.numRequired
@@ -310,7 +313,10 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
 
         offset = offset + 3
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
-            quest[offset] = questObject.Objectives[objectiveIndex].Id
+            -- Default to 0: a nil id (e.g. killcredit/event objectives have no .Id) would leave a
+            -- hole in the array and stop the receiver's objective loop, truncating this quest and
+            -- every quest packed after it in the same block.
+            quest[offset] = questObject.Objectives[objectiveIndex].Id or 0
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
             quest[offset + 3] = objective.numRequired
@@ -802,7 +808,9 @@ function QuestieComms:CreateQuestDataPacket(questId)
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             if questObject.Objectives[objectiveIndex] then
                 quest.objectives[objectiveIndex] = {
-                    id = questObject.Objectives[objectiveIndex].Id,
+                    -- 0 rather than nil for objectives without an id (killcredit/event), matching
+                    -- the V2 packets and so the receiver never stores a nil id.
+                    id = questObject.Objectives[objectiveIndex].Id or 0,
                     typ = string.sub(objective.type, 1, 1),
                     fin = objective.finished,
                     ful = objective.numFulfilled,
