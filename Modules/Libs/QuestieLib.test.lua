@@ -414,4 +414,232 @@ describe("QuestieLib", function()
             assert.are_same("2026年2月18日 星期三 19:35", formattedDate)
         end)
     end)
+
+    describe("TextWrap", function()
+        local originalUIParent
+        local originalQuestLogObjectivesText
+        local utf8
+
+        local function CreateTextWrapFontStringMock()
+            local text = ""
+            local width = 275
+            local visible = false
+            local font = "Font"
+            local size = 12
+            local flags = ""
+
+            local function GetRow(index)
+                return math.floor((index - 1) / width) + 1
+            end
+
+            return {
+                SetWidth = function(_, value) width = value end,
+                SetHeight = function() end,
+                SetPoint = function() end,
+                SetJustifyH = function() end,
+                SetWordWrap = function() end,
+                SetVertexColor = function() end,
+                SetFont = function(_, newFont, newSize, newFlags)
+                    font = newFont
+                    size = newSize
+                    flags = newFlags
+                end,
+                GetFont = function() return font, size, flags end,
+                SetText = function(_, value) text = value end,
+                Show = function() visible = true end,
+                Hide = function() visible = false end,
+                IsVisible = function() return visible end,
+                GetWrappedWidth = function() return width end,
+                GetUnboundedStringWidth = function() return utf8.strlen(text) end,
+                CalculateScreenAreaFromCharacterSpan = function(_, leftIndex, rightIndex)
+                    local areas = {}
+                    for row = GetRow(leftIndex), GetRow(rightIndex) do
+                        areas[#areas + 1] = {left = 0, bottom = 0, width = width, height = 1}
+                    end
+
+                    return areas
+                end,
+            }
+        end
+
+        before_each(function()
+            originalUIParent = _G.UIParent
+            originalQuestLogObjectivesText = _G["QuestLogObjectivesText"]
+
+            require("Modules.Libs.utf8")
+            utf8 = QuestieLoader:ImportModule("utf8")
+            _G["QuestLogObjectivesText"] = {
+                GetWidth = function() return 275 end,
+                GetFont = function() return "Font", 12, "" end,
+            }
+            _G.UIParent = {
+                CreateFontString = function() return CreateTextWrapFontStringMock() end,
+            }
+
+            package.loaded["Modules.Libs.QuestieLib"] = nil
+            QuestieLib = require("Modules.Libs.QuestieLib")
+        end)
+
+        after_each(function()
+            _G.UIParent = originalUIParent
+            _G["QuestLogObjectivesText"] = originalQuestLogObjectivesText
+            package.loaded["Modules.Libs.QuestieLib"] = nil
+        end)
+
+        it("should not split inside ASCII numbers or their suffix", function()
+            local text = "杀死50个狂心狼獾人"
+            local lines = QuestieLib:TextWrap(text, "", false, 3)
+
+            assert.are_same("杀死50个", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split inside full-width numbers or their suffix", function()
+            local text = "杀死５０个狂心狼獾人"
+            local lines = QuestieLib:TextWrap(text, "", false, 3)
+
+            assert.are_same("杀死５０个", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split comma separated numbers or their suffix", function()
+            local text = "1,050经验后返回"
+            local lines = QuestieLib:TextWrap(text, "", false, 1)
+
+            assert.are_same("1,050经验", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split percent values", function()
+            local text = "达到50%完成"
+            local lines = QuestieLib:TextWrap(text, "", false, 3)
+
+            assert.are_same("达到50%", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split decimal percent values", function()
+            local text = "3.14%完成"
+            local lines = QuestieLib:TextWrap(text, "", false, 1)
+
+            assert.are_same("3.14%", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split full-width numeric separators", function()
+            local text = "1，050经验后返回"
+            local lines = QuestieLib:TextWrap(text, "", false, 1)
+
+            assert.are_same("1，050经验", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not treat normal punctuation as a numeric separator", function()
+            local text = "1. Next"
+            local lines = QuestieLib:TextWrap(text, "", false, 1)
+
+            assert.are_same("1", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split minute units from numbers", function()
+            local text = "15分钟后返回"
+            local lines = QuestieLib:TextWrap(text, "", false, 2)
+
+            assert.are_same("15分钟", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split traditional Chinese numeric suffixes", function()
+            local text = "１５分鐘後返回"
+            local lines = QuestieLib:TextWrap(text, "", false, 2)
+
+            assert.are_same("１５分鐘", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split when the wrap point lands inside a Chinese numeric suffix", function()
+            local text = "15分钟后返回"
+            local lines = QuestieLib:TextWrap(text, "", false, 3)
+
+            assert.are_same("15分钟", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split when the wrap point lands inside a traditional Chinese numeric suffix", function()
+            local text = "１經驗後返回"
+            local lines = QuestieLib:TextWrap(text, "", false, 2)
+
+            assert.are_same("１經驗", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not glue partial numeric suffix matches", function()
+            local text = "1经返回"
+            local lines = QuestieLib:TextWrap(text, "", false, 1)
+
+            assert.are_same({"1", "经", "返", "回"}, lines)
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should not split localized count or range units from numbers", function()
+            local countText = "殺死8隻狗頭人"
+            local rangeText = "最远20码以外"
+            local countLines = QuestieLib:TextWrap(countText, "", false, 3)
+            local rangeLines = QuestieLib:TextWrap(rangeText, "", false, 4)
+
+            assert.are_same("殺死8隻", countLines[1])
+            assert.are_same(countText, table.concat(countLines, ""))
+            assert.are_same("最远20码", rangeLines[1])
+            assert.are_same(rangeText, table.concat(rangeLines, ""))
+        end)
+
+        it("should preserve spaces after moving a full number to the previous line", function()
+            local text = "杀死50 个"
+            local lines = QuestieLib:TextWrap(text, "", false, 3)
+
+            assert.are_same("杀死50 ", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should combine a single trailing English word with the previous line", function()
+            local lines = QuestieLib:TextWrap("alpha beta", "", true, 5)
+
+            assert.are_same({"alpha beta"}, lines)
+        end)
+
+        it("should combine a single trailing Chinese glyph with the previous line", function()
+            local lines = QuestieLib:TextWrap("一二三四", "", true, 3)
+
+            assert.are_same({"一二三四"}, lines)
+        end)
+
+        it("should not combine a single trailing ASCII character from an unbroken word", function()
+            local lines = QuestieLib:TextWrap("abcdef", "", true, 5)
+
+            assert.are_same({"abcde", "f"}, lines)
+        end)
+
+        it("should keep a single trailing Chinese glyph when combining is disabled", function()
+            local lines = QuestieLib:TextWrap("一二三四", "", false, 3)
+
+            assert.are_same({"一二三", "四"}, lines)
+        end)
+
+        it("should prefer Chinese punctuation over splitting list items", function()
+            local text = "宾格斯的气压炸弹、宾格斯的扳手、宾格斯的榔头和宾格斯的螺丝起子。"
+            local lines = QuestieLib:TextWrap(text, "", false, 28)
+
+            assert.are_same({"宾格斯的气压炸弹、宾格斯的扳手、", "宾格斯的榔头和宾格斯的螺丝起子。"}, lines)
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should prefer spaces over Chinese punctuation when both are available", function()
+            local text = "甲、乙 丙丁戊己庚"
+            local lines = QuestieLib:TextWrap(text, "", false, 6)
+
+            assert.are_same({"甲、乙 ", "丙丁戊己庚"}, lines)
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+    end)
 end)
