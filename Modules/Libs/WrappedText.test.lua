@@ -19,6 +19,9 @@ describe("WrappedText", function()
             local font = "Font"
             local size = 12
             local flags = ""
+            local fontWidthMultipliers = {
+                DoubleWidthFont = 2,
+            }
 
             ---@param index number UTF-8 character index.
             ---@return number row Visual row for the mocked fixed-width FontString.
@@ -44,7 +47,7 @@ describe("WrappedText", function()
                 Hide = function() visible = false end,
                 IsVisible = function() return visible end,
                 GetWrappedWidth = function() return width end,
-                GetUnboundedStringWidth = function() return utf8.strlen(text) end,
+                GetUnboundedStringWidth = function() return utf8.strlen(text) * (fontWidthMultipliers[font] or 1) end,
                 CalculateScreenAreaFromCharacterSpan = function(_, leftIndex, rightIndex)
                     ---@type table[]
                     local areas = {}
@@ -78,6 +81,21 @@ describe("WrappedText", function()
             _G.UIParent = originalUIParent
             _G["QuestLogObjectivesText"] = originalQuestLogObjectivesText
             package.loaded["Modules.Libs.WrappedText"] = nil
+        end)
+
+        it("should add the prefix to each wrapped line", function()
+            local lines = WrappedText:TextWrap("abcd", ">>", false, 2)
+
+            assert.are_same({">>ab", ">>cd"}, lines)
+        end)
+
+        it("should measure with the provided font source", function()
+            local fontSource = {
+                GetFont = function() return "DoubleWidthFont", 12, "" end,
+            }
+            local lines = WrappedText:TextWrap("abcd", "", false, 4, fontSource)
+
+            assert.are_same({"ab", "cd"}, lines)
         end)
 
         it("should not split inside ASCII numbers", function()
