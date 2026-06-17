@@ -185,6 +185,9 @@ local migrationFunctions = {
     [29] = function()
         Questie.db.profile.showQuestXpAtMaxLevel = false
     end,
+    [30] = function()
+        Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
+    end,
 }
 
 function Migration:Migrate()
