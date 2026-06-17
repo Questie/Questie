@@ -226,14 +226,18 @@ local function _DrawQuest(questId)
 
         if objType and objId then
             local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
-            local description = (objData and objData.Text) or _GetObjectiveName(objType, objId) or ""
+            -- The sender flags an objective whose API type differs from the database type (e.g.
+            -- kill-credit, events, invisible "bunny" NPCs): the id/type no longer map to a
+            -- meaningful name, so use the DB objective text and skip the name-based fallback.
+            local useApiObjectiveText = remoteObjective.useApiObjectiveText
+            local description = (objData and objData.Text) or (not useApiObjectiveText and _GetObjectiveName(objType, objId)) or ""
             local objective = {
                 Id = objId,
                 Type = objType,
                 Index = objectiveIndex,
                 questId = questId,
                 Description = description,
-                FullDescription = _GetFullDescription(objType, description),
+                FullDescription = (not useApiObjectiveText) and _GetFullDescription(objType, description) or nil,
                 Icon = objData and objData.Icon,
                 Completed = false,
                 -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.
