@@ -46,6 +46,9 @@ local drawnByQuest = {}
 local spawnListCache = {}
 -- Running total of party map-icons currently drawn, compared against MAX_PARTY_ICONS.
 local drawnIconCount = 0
+-- Quests we asked the client to cache (for objective text we don't have yet) and scheduled a
+-- one-shot redraw for, so a cache miss is retried at most once and can't loop.
+local prefetchedQuests = {}
 
 -- Scheduling state.
 local dirtyQuests = {}
@@ -79,6 +82,35 @@ local function _GetObjectiveName(objType, objId)
         local item = QuestieDB:GetItem(objId)
         return item and item.name
     end
+end
+
+-- A flagged objective's database name is meaningless (kill-credit, event, etc.). The Blizzard API
+-- returns the real objective text for quests we don't have, once the client has cached the quest
+-- data (same pattern as Link.lua _AddQuestRequirements).
+---@param questId number
+---@param objectiveIndex number
+---@return string?
+local function _GetApiObjectiveText(questId, objectiveIndex)
+    if not HaveQuestData(questId) then
+        C_QuestLog.GetQuestObjectives(questId) -- prime the client cache
+        -- The data arrives asynchronously; QUEST_DATA_LOAD_RESULT isn't available on Classic clients,
+        -- so schedule a single delayed redraw to pick it up. Guarded so it can't loop if the data
+        -- never loads; any later comms/roster update will redraw regardless.
+        if not prefetchedQuests[questId] then
+            prefetchedQuests[questId] = true
+            C_Timer.After(1, function() QuestiePartyObjectives:ScheduleUpdate(questId) end)
+        end
+        return nil
+    end
+    local objectives = C_QuestLog.GetQuestObjectives(questId)
+    local objective = objectives and objectives[objectiveIndex]
+    local text = objective and objective.text
+    if (not text) or text == "" then
+        return nil
+    end
+    -- Strip the trailing progress counter ("...: n/m"); the tooltip prepends fulfilled/required
+    -- separately. Same regex used by _GetFullDescription and QuestieQuest:PopulateQuestLogInfo.
+    return string.match(text, "^(.*):%s*%d+/%d+$") or string.match(text, "^(.*)：%s*%d+/%d+$") or text
 end
 
 -- The tooltips prefer FullDescription (the objective text including "slain", see
@@ -230,7 +262,8 @@ local function _DrawQuest(questId)
             -- kill-credit, events, invisible "bunny" NPCs): the id/type no longer map to a
             -- meaningful name, so use the DB objective text and skip the name-based fallback.
             local useApiObjectiveText = remoteObjective.useApiObjectiveText
-            local description = (objData and objData.Text) or (not useApiObjectiveText and _GetObjectiveName(objType, objId)) or ""
+            local apiText = useApiObjectiveText and _GetApiObjectiveText(questId, objectiveIndex) or nil
+            local description = apiText or (objData and objData.Text) or (not useApiObjectiveText and _GetObjectiveName(objType, objId)) or ""
             local objective = {
                 Id = objId,
                 Type = objType,
@@ -411,6 +444,7 @@ function QuestiePartyObjectives:Clear()
     end
     drawnByQuest = {}
     drawnIconCount = 0
+    prefetchedQuests = {}
 end
 
 -- Immediate full refresh, used by the options toggle.
