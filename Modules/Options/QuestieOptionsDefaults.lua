@@ -132,6 +132,7 @@ function QuestieOptionsDefaults:Load()
                 repeatable = true,
                 pvp = true,
                 rejectSharedInBattleground = false,
+                abandonBreadcrumbFollowup = false,
             },
             questAnnounceChannel = "party",
             questAnnounceItems = true,
