@@ -18,19 +18,6 @@ local textWrapFrameObject = _G["QuestLogObjectivesText"] or _G["QuestInfoObjecti
 ---@type FontString?
 local textWrapObjectiveFontString
 
--- These Chinese punctuation marks should stay at the end of the previous line.
--- Starting a new line with punctuation looks wrong and can happen because Chinese text has no spaces.
----@type table<string, boolean>
-local CHINESE_PUNCTUATION = {
-    ["；"] = true,
-    ["！"] = true,
-    ["？"] = true,
-    ["。"] = true,
-    ["，"] = true,
-    ["："] = true,
-    ["、"] = true,
-}
-
 ---@type table<string, boolean>
 local FULLWIDTH_DIGITS = {
     ["０"] = true,
@@ -44,6 +31,7 @@ local FULLWIDTH_DIGITS = {
     ["８"] = true,
     ["９"] = true,
 }
+
 ---@type table<string, boolean>
 local NUMERIC_SEPARATORS = {
     [","] = true,
@@ -51,48 +39,6 @@ local NUMERIC_SEPARATORS = {
     ["，"] = true,
     ["．"] = true,
 }
--- Keep numeric suffixes conservative and exact. These counters/units commonly attach to quest numbers,
--- but single characters like "经" or "钟" can also appear inside normal words, so only glue full suffix tokens.
----@type string[]
-local NUMERIC_SUFFIXES = {
-    "分钟",
-    "分鐘",
-    "经验",
-    "經驗",
-    "个",
-    "個",
-    "块",
-    "塊",
-    "秒",
-    "次",
-    "级",
-    "級",
-    "点",
-    "點",
-    "只",
-    "隻",
-    "件",
-    "名",
-    "份",
-    "颗",
-    "顆",
-    "枚",
-    "条",
-    "條",
-    "本",
-    "层",
-    "層",
-    "组",
-    "組",
-    "码",
-    "碼",
-}
-
----@param character string Single UTF-8 character.
----@return boolean isPunctuation True when the character should be kept off the start of the next line.
-local function _IsChinesePunctuation(character)
-    return CHINESE_PUNCTUATION[character] == true
-end
 
 ---@param character string Single UTF-8 character.
 ---@return boolean isDigit True for ASCII or full-width decimal digits.
@@ -122,68 +68,6 @@ local function _IsNumericTokenCharacter(line, index, lineLength)
     return false
 end
 
----Finds an exact numeric suffix token starting at `suffixStartIndex`.
----@param line string UTF-8 text being wrapped.
----@param suffixStartIndex number UTF-8 character index where a suffix may begin.
----@param lineLength number UTF-8 character length of `line`.
----@return number suffixLength UTF-8 character length, or 0 when no exact suffix matches.
-local function _GetNumericSuffixLengthAtStart(line, suffixStartIndex, lineLength)
-    if (suffixStartIndex < 1 or suffixStartIndex > lineLength) then
-        return 0
-    end
-
-    for _, suffix in ipairs(NUMERIC_SUFFIXES) do
-        local suffixLength = utf8.strlen(suffix)
-        local suffixEndIndex = suffixStartIndex + suffixLength - 1
-        if (suffixEndIndex <= lineLength and utf8.sub(line, suffixStartIndex, suffixEndIndex) == suffix) then
-            return suffixLength
-        end
-    end
-
-    return 0
-end
-
----Finds the end of a numeric suffix when `index` is inside one.
----@param line string UTF-8 text being wrapped.
----@param index number UTF-8 character index that may be inside a suffix.
----@param lineLength number UTF-8 character length of `line`.
----@return number? suffixEndIndex UTF-8 character index of suffix end.
-local function _GetNumericSuffixEndIndexAt(line, index, lineLength)
-    for _, suffix in ipairs(NUMERIC_SUFFIXES) do
-        local suffixLength = utf8.strlen(suffix)
-        for offset = 0, suffixLength - 1 do
-            local suffixStartIndex = index - offset
-            local suffixEndIndex = suffixStartIndex + suffixLength - 1
-            if (suffixStartIndex >= 1
-                and suffixEndIndex <= lineLength
-                and utf8.sub(line, suffixStartIndex, suffixEndIndex) == suffix
-                and _IsNumericTokenCharacter(line, suffixStartIndex - 1, lineLength)
-            ) then
-                return suffixEndIndex
-            end
-        end
-    end
-
-    return nil
-end
-
----Extends a line break to include an exact numeric suffix immediately after a number.
----@param line string UTF-8 text being wrapped.
----@param lineLength number UTF-8 character length of `line`.
----@param lineEndIndex number UTF-8 character index where current line ends.
----@param nextStartIndex number UTF-8 character index where next line starts.
----@return number lineEndIndex Updated end index.
----@return number nextStartIndex Updated next-line start index.
-local function _MoveNumericSuffixToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
-    local suffixLength = _GetNumericSuffixLengthAtStart(line, nextStartIndex, lineLength)
-    if (suffixLength > 0) then
-        lineEndIndex = nextStartIndex + suffixLength - 1
-        nextStartIndex = lineEndIndex + 1
-    end
-
-    return lineEndIndex, nextStartIndex
-end
-
 ---Copies a caller-provided render font onto the measurement FontString, with quest-log font fallback.
 ---@param textWrapFontString FontString Hidden FontString used for measuring.
 ---@param fontSource FontString? Optional render FontString to match.
@@ -203,18 +87,15 @@ local function _SetTextWrapFont(textWrapFontString, fontSource)
 end
 
 ---Chooses the best break before an overflow boundary.
----Spaces remain the strongest boundary for Latin text; punctuation is the CJK fallback.
+---Spaces remain the strongest boundary for Latin text.
 ---@param lastSpaceIndex number? Last UTF-8 space index before overflow.
----@param lastPunctuationIndex number? Last CJK punctuation index before overflow.
 ---@param lineEndIndex number Last fitting UTF-8 character index.
 ---@return number lineEndIndex Chosen line end index.
 ---@return number nextStartIndex Chosen next-line start index.
 ---@return boolean brokeAtSpace True when break was a space boundary.
-local function _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
+local function _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
     if (lastSpaceIndex) then
         return lastSpaceIndex, lastSpaceIndex + 1, true
-    elseif (lastPunctuationIndex) then
-        return lastPunctuationIndex, lastPunctuationIndex + 1, false
     end
 
     return lineEndIndex, lineEndIndex + 1, false
@@ -223,17 +104,13 @@ end
 ---@param character string Single UTF-8 character.
 ---@param index number UTF-8 character index of `character`.
 ---@param lastSpaceIndex number? Previous space boundary.
----@param lastPunctuationIndex number? Previous CJK punctuation boundary.
 ---@return number? lastSpaceIndex Updated space boundary.
----@return number? lastPunctuationIndex Updated punctuation boundary.
-local function _UpdateLastBreakIndexes(character, index, lastSpaceIndex, lastPunctuationIndex)
+local function _UpdateLastBreakIndex(character, index, lastSpaceIndex)
     if (character == " ") then
-        return index, lastPunctuationIndex
-    elseif (_IsChinesePunctuation(character)) then
-        return lastSpaceIndex, index
+        return index
     end
 
-    return lastSpaceIndex, lastPunctuationIndex
+    return lastSpaceIndex
 end
 
 ---Finds a wrap break by measuring substring width.
@@ -246,17 +123,16 @@ end
 ---@return boolean brokeAtSpace True when break was a space boundary.
 local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
     local lastSpaceIndex
-    local lastPunctuationIndex
 
     for endIndex = 1, lineLength do
         local character = utf8.sub(line, endIndex, endIndex)
-        lastSpaceIndex, lastPunctuationIndex = _UpdateLastBreakIndexes(character, endIndex, lastSpaceIndex, lastPunctuationIndex)
+        lastSpaceIndex = _UpdateLastBreakIndex(character, endIndex, lastSpaceIndex)
 
         textWrapFontString:SetText(utf8.sub(line, 1, endIndex))
 
         if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
             local lineEndIndex = math_max(endIndex - 1, 1)
-            return _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
+            return _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
         end
     end
 
@@ -279,12 +155,11 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
 
     local endIndex = 1
     local lastSpaceIndex
-    local lastPunctuationIndex
 
     -- Walk until this span would wrap to a second visual row.
     while (endIndex <= lineLength) do
         local character = utf8.sub(line, endIndex, endIndex)
-        lastSpaceIndex, lastPunctuationIndex = _UpdateLastBreakIndexes(character, endIndex, lastSpaceIndex, lastPunctuationIndex)
+        lastSpaceIndex = _UpdateLastBreakIndex(character, endIndex, lastSpaceIndex)
 
         local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
         if (not indexes) then
@@ -310,13 +185,13 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
         return lineLength, lineLength + 1, false
     end
 
-    -- No space or punctuation exists on this row, so split at the last fitting UTF-8 character.
+    -- No space exists on this row, so split at the last fitting UTF-8 character.
     local lineEndIndex = math_max(endIndex - 1, 1)
 
-    return _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
+    return _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
 end
 
----Extends a break so numeric tokens and exact suffixes stay on one line.
+---Extends a break so numeric tokens stay on one line.
 ---@param line string UTF-8 text segment to wrap.
 ---@param lineLength number UTF-8 character length of `line`.
 ---@param lineEndIndex number Proposed current-line end index.
@@ -324,47 +199,11 @@ end
 ---@return number lineEndIndex Updated end index.
 ---@return number nextStartIndex Updated next-line start index.
 local function _MoveNumberToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
-    if (lineEndIndex < 1 or nextStartIndex > lineLength) then
+    if (lineEndIndex < 1 or nextStartIndex > lineLength or not _IsNumericTokenCharacter(line, lineEndIndex, lineLength)) then
         return lineEndIndex, nextStartIndex
     end
 
-    local suffixEndIndex = _GetNumericSuffixEndIndexAt(line, lineEndIndex, lineLength)
-    if (not _IsNumericTokenCharacter(line, lineEndIndex, lineLength)) then
-        if (suffixEndIndex and nextStartIndex <= suffixEndIndex) then
-            return suffixEndIndex, suffixEndIndex + 1
-        end
-
-        return lineEndIndex, nextStartIndex
-    end
-
-    local movedNumericToken = false
     while (nextStartIndex <= lineLength and _IsNumericTokenCharacter(line, nextStartIndex, lineLength)) do
-        lineEndIndex = nextStartIndex
-        nextStartIndex = nextStartIndex + 1
-        movedNumericToken = true
-    end
-
-    lineEndIndex, nextStartIndex = _MoveNumericSuffixToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
-
-    if movedNumericToken then
-        while (nextStartIndex <= lineLength and utf8.sub(line, nextStartIndex, nextStartIndex) == " ") do
-            lineEndIndex = nextStartIndex
-            nextStartIndex = nextStartIndex + 1
-        end
-    end
-
-    return lineEndIndex, nextStartIndex
-end
-
----Extends a break so CJK punctuation does not start the next line.
----@param line string UTF-8 text segment to wrap.
----@param lineLength number UTF-8 character length of `line`.
----@param lineEndIndex number Proposed current-line end index.
----@param nextStartIndex number Proposed next-line start index.
----@return number lineEndIndex Updated end index.
----@return number nextStartIndex Updated next-line start index.
-local function _MovePunctuationToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
-    while (nextStartIndex <= lineLength and _IsChinesePunctuation(utf8.sub(line, nextStartIndex, nextStartIndex))) do
         lineEndIndex = nextStartIndex
         nextStartIndex = nextStartIndex + 1
     end
@@ -459,17 +298,16 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
             local remainingLine = utf8.sub(useLine, startIndex, lineLength)
             local remainingLineLength = utf8.strlen(remainingLine)
 
-            -- Recalculate each remaining line. Moving breaks over punctuation/numeric tokens changes row geometry.
+            -- Recalculate each remaining line. Moving breaks over numeric tokens changes row geometry.
             textWrapObjectiveFontString:SetText(remainingLine)
             if (textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth()) then
                 tinsert(lines, prefix .. remainingLine)
                 break
             end
 
-            -- Apply language-aware post-processing after the raw break is found.
+            -- Apply number-token post-processing after the raw break is found.
             local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreak(textWrapObjectiveFontString, remainingLine, remainingLineLength)
             lineEndIndex, nextStartIndex = _MoveNumberToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
-            lineEndIndex, nextStartIndex = _MovePunctuationToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
 
             local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
 
