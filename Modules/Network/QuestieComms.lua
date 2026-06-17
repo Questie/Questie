@@ -801,17 +801,12 @@ function QuestieComms:CreateQuestDataPacket(questId)
     if questObject and next(questObject.Objectives) then
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             if questObject.Objectives[objectiveIndex] then
-                local objectiveData = questObject.ObjectiveData[objectiveIndex]
                 quest.objectives[objectiveIndex] = {
                     id = questObject.Objectives[objectiveIndex].Id,
                     typ = string.sub(objective.type, 1, 1),
                     fin = objective.finished,
                     ful = objective.numFulfilled,
                     req = objective.numRequired,
-                    -- The API reports a different objective type than the database compiled. The
-                    -- id/type no longer map to a meaningful name, so tell the receiver to use the
-                    -- DB objective Text instead of generating a name from the object/NPC/spell.
-                    api = (objectiveData and objectiveData.Type ~= objective.type) and true or nil,
                 }
             else
                 Questie:Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
@@ -847,7 +842,6 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
                     finished = objectiveData.fin,
                     fulfilled = objectiveData.ful,
                     required = objectiveData.req,
-                    useApiObjectiveText = objectiveData.api,
                 }
             end
             QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;

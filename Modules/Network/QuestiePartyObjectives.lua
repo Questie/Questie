@@ -28,6 +28,9 @@ local MAX_GROUP_SIZE = 5
 local MAX_PARTY_ICONS = 500
 -- How many quests we redraw per frame when spreading a large refresh across frames.
 local CHUNK_SIZE = 50
+-- How many times we re-poll the client for a party member's quest objective data (for the
+-- Blizzard objective text) before giving up, when it isn't cached yet on the first draw.
+local MAX_PREFETCH_RETRIES = 5
 
 -- The single-character objective types used in the QuestieComms packets, mapped to the
 -- full type names used by the drawing pipeline and the database ObjectiveData.
@@ -46,8 +49,9 @@ local drawnByQuest = {}
 local spawnListCache = {}
 -- Running total of party map-icons currently drawn, compared against MAX_PARTY_ICONS.
 local drawnIconCount = 0
--- Quests we asked the client to cache (for objective text we don't have yet) and scheduled a
--- one-shot redraw for, so a cache miss is retried at most once and can't loop.
+-- prefetchedQuests[questId] = { attempts = number, pending = boolean }. Tracks our bounded poll
+-- for a party member's quest objective data so a cache miss is retried a few times (not forever)
+-- and only one retry timer is in flight per quest.
 local prefetchedQuests = {}
 
 -- Scheduling state.
@@ -93,12 +97,22 @@ end
 local function _GetApiObjectiveText(questId, objectiveIndex)
     if not HaveQuestData(questId) then
         C_QuestLog.GetQuestObjectives(questId) -- prime the client cache
-        -- The data arrives asynchronously; QUEST_DATA_LOAD_RESULT isn't available on Classic clients,
-        -- so schedule a single delayed redraw to pick it up. Guarded so it can't loop if the data
-        -- never loads; any later comms/roster update will redraw regardless.
-        if not prefetchedQuests[questId] then
-            prefetchedQuests[questId] = true
-            C_Timer.After(1, function() QuestiePartyObjectives:ScheduleUpdate(questId) end)
+        -- The data arrives asynchronously and QUEST_DATA_LOAD_RESULT isn't available on Classic
+        -- clients, so poll with a bounded number of delayed redraws until it's cached (a server
+        -- round-trip can take a few seconds on login). One timer in flight per quest so multiple
+        -- objectives don't multiply retries; gives up after MAX_PREFETCH_RETRIES so it can't loop.
+        local state = prefetchedQuests[questId]
+        if not state then
+            state = { attempts = 0, pending = false }
+            prefetchedQuests[questId] = state
+        end
+        if (not state.pending) and state.attempts < MAX_PREFETCH_RETRIES then
+            state.pending = true
+            C_Timer.After(1.5, function()
+                state.pending = false
+                state.attempts = state.attempts + 1
+                QuestiePartyObjectives:ScheduleUpdate(questId)
+            end)
         end
         return nil
     end
@@ -258,10 +272,13 @@ local function _DrawQuest(questId)
 
         if objType and objId then
             local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
-            -- The sender flags an objective whose API type differs from the database type (e.g.
-            -- kill-credit, events, invisible "bunny" NPCs): the id/type no longer map to a
-            -- meaningful name, so use the DB objective text and skip the name-based fallback.
-            local useApiObjectiveText = remoteObjective.useApiObjectiveText
+            -- When the objective's live API type (first char, from comms) differs from the
+            -- database's compiled type (kill-credit, events, invisible "bunny" NPCs), the id/type
+            -- no longer map to a meaningful name, so use the Blizzard objective text and skip the
+            -- name-based fallback. Derived here rather than transmitted so it works for every comms
+            -- path, including the full quest list received on login/join.
+            local useApiObjectiveText = objData ~= nil and remoteObjective.type ~= nil
+                and string.sub(objData.Type, 1, 1) ~= remoteObjective.type
             local apiText = useApiObjectiveText and _GetApiObjectiveText(questId, objectiveIndex) or nil
             local description = apiText or (objData and objData.Text) or (not useApiObjectiveText and _GetObjectiveName(objType, objId)) or ""
             local objective = {
