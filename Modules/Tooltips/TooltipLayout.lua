@@ -147,6 +147,37 @@ local function _SetMeasurementFont(fontString, fontSource)
     end
 end
 
+---Matches the hidden measurement FontString's effective scale to the rendered font source.
+---@param fontString FontString Hidden measurement FontString.
+---@param fontSource FontString? Tooltip FontString whose effective scale should be matched.
+---@return nil
+local function _SetMeasurementScale(fontString, fontSource)
+    if (type(fontString.SetScale) ~= "function") then
+        return
+    end
+
+    local fontSourceType = type(fontSource)
+    local hasScaleSource = fontSource and (fontSourceType == "table" or fontSourceType == "userdata")
+        and type(fontSource.GetEffectiveScale) == "function"
+    if (hasScaleSource) then
+        local sourceScale = fontSource:GetEffectiveScale()
+        local parent = type(fontString.GetParent) == "function" and fontString:GetParent()
+        local parentScale
+        if (parent and type(parent.GetEffectiveScale) == "function") then
+            parentScale = parent:GetEffectiveScale()
+        elseif (UIParent and type(UIParent.GetEffectiveScale) == "function") then
+            parentScale = UIParent:GetEffectiveScale()
+        end
+
+        if (sourceScale and parentScale and parentScale > 0) then
+            fontString:SetScale(sourceScale / parentScale)
+            return
+        end
+    end
+
+    fontString:SetScale(1)
+end
+
 ---Finds the FontString Blizzard will use for a tooltip row.
 ---@param tooltip GameTooltip Tooltip being rebuilt.
 ---@param lineIndex number 1-based rendered row index.
@@ -158,11 +189,14 @@ local function _GetTooltipFontString(tooltip, lineIndex, side)
         return nil
     end
 
+    -- Get the FontString of the given line and side.
+    -- fallback to line 2 and 1 in case the tooltip template does not have enough lines.
     local textSide = side == "right" and "TextRight" or "TextLeft"
     local fontString = _G[tooltipName .. textSide .. lineIndex]
         or _G[tooltipName .. textSide .. "2"]
         or _G[tooltipName .. textSide .. "1"]
 
+    -- If the right side is missing, fallback to the left side.
     if (not fontString and side == "right") then
         fontString = _G[tooltipName .. "TextLeft" .. lineIndex]
             or _G[tooltipName .. "TextLeft2"]
@@ -179,6 +213,7 @@ end
 local function _MeasureTooltipText(text, fontSource)
     local fontString = _GetTooltipMeasurementFontString()
     _SetMeasurementFont(fontString, fontSource)
+    _SetMeasurementScale(fontString, fontSource)
     fontString:SetText(text or "")
 
     return fontString:GetUnboundedStringWidth() or 0

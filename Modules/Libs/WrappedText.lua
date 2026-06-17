@@ -86,6 +86,37 @@ local function _SetTextWrapFont(textWrapFontString, fontSource)
     textWrapFontString:SetFont(font, size, flags)
 end
 
+---Matches the hidden measurement FontString's effective scale to the rendered font source.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param fontSource FontString? Optional render FontString to match.
+---@return nil
+local function _SetTextWrapScale(textWrapFontString, fontSource)
+    if (type(textWrapFontString.SetScale) ~= "function") then
+        return
+    end
+
+    local fontSourceType = type(fontSource)
+    local hasScaleSource = fontSource and (fontSourceType == "table" or fontSourceType == "userdata")
+        and type(fontSource.GetEffectiveScale) == "function"
+    if (hasScaleSource) then
+        local sourceScale = fontSource:GetEffectiveScale()
+        local parent = type(textWrapFontString.GetParent) == "function" and textWrapFontString:GetParent()
+        local parentScale
+        if (parent and type(parent.GetEffectiveScale) == "function") then
+            parentScale = parent:GetEffectiveScale()
+        elseif (UIParent and type(UIParent.GetEffectiveScale) == "function") then
+            parentScale = UIParent:GetEffectiveScale()
+        end
+
+        if (sourceScale and parentScale and parentScale > 0) then
+            textWrapFontString:SetScale(sourceScale / parentScale)
+            return
+        end
+    end
+
+    textWrapFontString:SetScale(1)
+end
+
 ---Chooses the best break before an overflow boundary.
 ---Spaces remain the strongest boundary for Latin text.
 ---@param lastSpaceIndex number? Last UTF-8 space index before overflow.
@@ -282,6 +313,7 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
     --We show the fontstring and set the text to start the process
     --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
     _SetTextWrapFont(textWrapObjectiveFontString, fontSource)
+    _SetTextWrapScale(textWrapObjectiveFontString, fontSource)
     textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
     textWrapObjectiveFontString:Show()
 
