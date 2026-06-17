@@ -44,7 +44,7 @@ local DEFAULT_DOUBLE_LINE_GAP = 38.4
 ---@class TooltipLayoutRowBuilder
 ---@field AddLine fun(self: TooltipLayoutRowBuilder, text: string, ...: any): nil
 ---@field AddDoubleLine fun(self: TooltipLayoutRowBuilder, leftText: string, rightText: string, ...: any): nil
----@field AddDescription fun(self: TooltipLayoutRowBuilder, text: string, prefix: string, combineTrailing: boolean, ...: any): nil
+---@field AddDescription fun(self: TooltipLayoutRowBuilder, text: string, prefix: string, ...: any): nil
 
 ---Packs tooltip varargs without losing trailing nil values.
 ---@param ... any Tooltip AddLine/AddDoubleLine arguments.
@@ -94,8 +94,10 @@ function TooltipLayout:CreateRows()
         _AppendTooltipDoubleLine(self, leftText, rightText, _PackTooltipArgs(...))
     end
 
-    rows.AddDescription = function(self, text, prefix, combineTrailing, ...)
-        _AppendTooltipDescription(self, text, prefix, combineTrailing, _PackTooltipArgs(...))
+    rows.AddDescription = function(self, text, prefix, ...)
+        -- Keep combineTrailing disabled here. Combining can increase wrapped line width after measurement,
+        -- which would require recursive tooltip reflow to calculate a stable width.
+        _AppendTooltipDescription(self, text, prefix, false, _PackTooltipArgs(...))
     end
 
     return rows
@@ -147,37 +149,6 @@ local function _SetMeasurementFont(fontString, fontSource)
     end
 end
 
----Matches the hidden measurement FontString's effective scale to the rendered font source.
----@param fontString FontString Hidden measurement FontString.
----@param fontSource FontString? Tooltip FontString whose effective scale should be matched.
----@return nil
-local function _SetMeasurementScale(fontString, fontSource)
-    if (type(fontString.SetScale) ~= "function") then
-        return
-    end
-
-    local fontSourceType = type(fontSource)
-    local hasScaleSource = fontSource and (fontSourceType == "table" or fontSourceType == "userdata")
-        and type(fontSource.GetEffectiveScale) == "function"
-    if (hasScaleSource) then
-        local sourceScale = fontSource:GetEffectiveScale()
-        local parent = type(fontString.GetParent) == "function" and fontString:GetParent()
-        local parentScale
-        if (parent and type(parent.GetEffectiveScale) == "function") then
-            parentScale = parent:GetEffectiveScale()
-        elseif (UIParent and type(UIParent.GetEffectiveScale) == "function") then
-            parentScale = UIParent:GetEffectiveScale()
-        end
-
-        if (sourceScale and parentScale and parentScale > 0) then
-            fontString:SetScale(sourceScale / parentScale)
-            return
-        end
-    end
-
-    fontString:SetScale(1)
-end
-
 ---Finds the FontString Blizzard will use for a tooltip row.
 ---@param tooltip GameTooltip Tooltip being rebuilt.
 ---@param lineIndex number 1-based rendered row index.
@@ -213,7 +184,6 @@ end
 local function _MeasureTooltipText(text, fontSource)
     local fontString = _GetTooltipMeasurementFontString()
     _SetMeasurementFont(fontString, fontSource)
-    _SetMeasurementScale(fontString, fontSource)
     fontString:SetText(text or "")
 
     return fontString:GetUnboundedStringWidth() or 0

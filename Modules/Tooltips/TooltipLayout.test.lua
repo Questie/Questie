@@ -90,6 +90,8 @@ describe("TooltipLayout", function()
         _G.TestTooltipTextRight1 = CreateFontStringMock()
         _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft1 = {GetRight = function() return 100 end}
         _G.QuestieTooltipLayoutGapMeasureTooltipTextRight1 = {GetLeft = function() return 150 end}
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft2 = {GetRight = function() return 100 end}
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextRight2 = {GetLeft = function() return 150 end}
 
         RequireTooltipLayout()
     end)
@@ -102,6 +104,8 @@ describe("TooltipLayout", function()
         _G.TestTooltipTextRight1 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft1 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextRight1 = nil
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft2 = nil
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextRight2 = nil
         if WrappedText then
             WrappedText.TextWrap = originalTextWrap
         end
@@ -138,7 +142,7 @@ describe("TooltipLayout", function()
         local wideLine = string.rep("A", 500)
 
         rows:AddLine(wideLine)
-        rows:AddDescription(string.rep("B", 900), "  ", false, 0.86, 0.86, 0.86)
+        rows:AddDescription(string.rep("B", 900), "  ", 0.86, 0.86, 0.86)
         TooltipLayout:Render(tooltip, rows)
 
         assert.are.same(498, capturedTextWrap.desiredWidth)
@@ -154,9 +158,10 @@ describe("TooltipLayout", function()
         local rows = TooltipLayout:CreateRows()
 
         rows:AddDoubleLine(string.rep("L", 300), string.rep("R", 100))
-        rows:AddDescription("description", " ", true)
+        rows:AddDescription("description", " ")
         TooltipLayout:Render(tooltip, rows)
 
         assert.are.same(449, capturedTextWrap.desiredWidth)
+        assert.is_false(capturedTextWrap.combineTrailing)
     end)
 end)
