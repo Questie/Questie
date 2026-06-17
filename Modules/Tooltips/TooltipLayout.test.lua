@@ -10,6 +10,8 @@ describe("TooltipLayout", function()
     local originalCreateFrame
     local originalTextWrap
     local capturedTextWrap
+    local createFontStringCallCount
+    local createFrameCallCount
 
     local function CreateFontStringMock(defaultFont)
         local text = ""
@@ -83,11 +85,17 @@ describe("TooltipLayout", function()
         originalUIParent = _G.UIParent
         originalCreateFrame = _G.CreateFrame
         capturedTextWrap = nil
+        createFontStringCallCount = 0
+        createFrameCallCount = 0
 
         _G.UIParent = {
-            CreateFontString = function() return CreateFontStringMock() end,
+            CreateFontString = function()
+                createFontStringCallCount = createFontStringCallCount + 1
+                return CreateFontStringMock()
+            end,
         }
         _G.CreateFrame = function()
+            createFrameCallCount = createFrameCallCount + 1
             return {
                 SetOwner = function() end,
                 SetPoint = function() end,
@@ -148,6 +156,9 @@ describe("TooltipLayout", function()
         assert.are.same(3, tooltip.calls[2].n)
         assert.are.same("line", tooltip.calls[3].kind)
         assert.are.same("last", tooltip.calls[3].text)
+        assert.is_nil(capturedTextWrap)
+        assert.are.same(0, createFontStringCallCount)
+        assert.are.same(0, createFrameCallCount)
     end)
 
     it("should wrap descriptions from non-description width minus prefix width", function()

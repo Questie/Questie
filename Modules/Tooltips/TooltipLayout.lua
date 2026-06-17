@@ -313,7 +313,16 @@ end
 ---@param rows TooltipLayoutRow[] Row model before description expansion.
 ---@return nil
 function TooltipLayout:Render(tooltip, rows)
-    _RenderTooltipRows(tooltip, _ExpandTooltipDescriptionRows(tooltip, rows))
+    -- Skip measurement and description expansion for common tooltips that only contain fixed rows.
+    for _, row in ipairs(rows) do
+        if (row.kind == "description") then
+            _RenderTooltipRows(tooltip, _ExpandTooltipDescriptionRows(tooltip, rows))
+            return
+        end
+    end
+
+    -- No rows require expansion, so render directly without measuring.
+    _RenderTooltipRows(tooltip, rows)
 end
 
 return TooltipLayout
