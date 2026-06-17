@@ -101,18 +101,6 @@ local function _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
     return lineEndIndex, lineEndIndex + 1, false
 end
 
----@param character string Single UTF-8 character.
----@param index number UTF-8 character index of `character`.
----@param lastSpaceIndex number? Previous space boundary.
----@return number? lastSpaceIndex Updated space boundary.
-local function _UpdateLastBreakIndex(character, index, lastSpaceIndex)
-    if (character == " ") then
-        return index
-    end
-
-    return lastSpaceIndex
-end
-
 ---Finds a wrap break by measuring substring width.
 ---Used for CJK/no-space strings when WoW's row-span API is unavailable or unreliable.
 ---@param textWrapFontString FontString Hidden FontString used for measuring.
@@ -126,7 +114,10 @@ local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
 
     for endIndex = 1, lineLength do
         local character = utf8.sub(line, endIndex, endIndex)
-        lastSpaceIndex = _UpdateLastBreakIndex(character, endIndex, lastSpaceIndex)
+        -- Track the last ASCII space so Latin text can break at word boundaries.
+        if (character == " ") then
+            lastSpaceIndex = endIndex
+        end
 
         textWrapFontString:SetText(utf8.sub(line, 1, endIndex))
 
@@ -159,7 +150,10 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
     -- Walk until this span would wrap to a second visual row.
     while (endIndex <= lineLength) do
         local character = utf8.sub(line, endIndex, endIndex)
-        lastSpaceIndex = _UpdateLastBreakIndex(character, endIndex, lastSpaceIndex)
+        -- Track the last ASCII space so Latin text can break at word boundaries.
+        if (character == " ") then
+            lastSpaceIndex = endIndex
+        end
 
         local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
         if (not indexes) then
