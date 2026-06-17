@@ -418,8 +418,11 @@ describe("QuestieLib", function()
     describe("TextWrap", function()
         local originalUIParent
         local originalQuestLogObjectivesText
+        ---@type utf8
         local utf8
 
+        ---Creates a FontString mock where one UTF-8 character equals one width unit.
+        ---@return table fontStringMock Mocked FontString API used by QuestieLib:TextWrap.
         local function CreateTextWrapFontStringMock()
             local text = ""
             local width = 275
@@ -428,6 +431,8 @@ describe("QuestieLib", function()
             local size = 12
             local flags = ""
 
+            ---@param index number UTF-8 character index.
+            ---@return number row Visual row for the mocked fixed-width FontString.
             local function GetRow(index)
                 return math.floor((index - 1) / width) + 1
             end
@@ -452,6 +457,7 @@ describe("QuestieLib", function()
                 GetWrappedWidth = function() return width end,
                 GetUnboundedStringWidth = function() return utf8.strlen(text) end,
                 CalculateScreenAreaFromCharacterSpan = function(_, leftIndex, rightIndex)
+                    ---@type table[]
                     local areas = {}
                     for row = GetRow(leftIndex), GetRow(rightIndex) do
                         areas[#areas + 1] = {left = 0, bottom = 0, width = width, height = 1}

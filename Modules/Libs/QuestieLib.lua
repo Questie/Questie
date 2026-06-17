@@ -661,9 +661,12 @@ function QuestieLib:TableMemoizeFunction(func, __mode)
 end
 
 --Part of the GameTooltipWrapDescription function
+---@type FontString?
 local textWrapObjectiveFontString
+
 -- These Chinese punctuation marks should stay at the end of the previous line.
 -- Starting a new line with punctuation looks wrong and can happen because Chinese text has no spaces.
+---@type table<string, boolean>
 local CHINESE_PUNCTUATION = {
     ["；"] = true,
     ["！"] = true,
@@ -674,6 +677,7 @@ local CHINESE_PUNCTUATION = {
     ["、"] = true,
 }
 
+---@type table<string, boolean>
 local FULLWIDTH_DIGITS = {
     ["０"] = true,
     ["１"] = true,
@@ -686,6 +690,7 @@ local FULLWIDTH_DIGITS = {
     ["８"] = true,
     ["９"] = true,
 }
+---@type table<string, boolean>
 local NUMERIC_SEPARATORS = {
     [","] = true,
     ["."] = true,
@@ -694,6 +699,7 @@ local NUMERIC_SEPARATORS = {
 }
 -- Keep numeric suffixes conservative and exact. These counters/units commonly attach to quest numbers,
 -- but single characters like "经" or "钟" can also appear inside normal words, so only glue full suffix tokens.
+---@type string[]
 local NUMERIC_SUFFIXES = {
     "分钟",
     "分鐘",
@@ -728,14 +734,23 @@ local NUMERIC_SUFFIXES = {
     "碼",
 }
 
+---@param character string Single UTF-8 character.
+---@return boolean isPunctuation True when the character should be kept off the start of the next line.
 local function _IsChinesePunctuation(character)
     return CHINESE_PUNCTUATION[character] == true
 end
 
+---@param character string Single UTF-8 character.
+---@return boolean isDigit True for ASCII or full-width decimal digits.
 local function _IsNumericCharacter(character)
     return string.match(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
 end
 
+---Returns true for digits and numeric separators only when they are part of one number.
+---@param line string UTF-8 text being wrapped.
+---@param index number UTF-8 character index to inspect.
+---@param lineLength number UTF-8 character length of `line`.
+---@return boolean isNumericTokenCharacter
 local function _IsNumericTokenCharacter(line, index, lineLength)
     if (index < 1 or index > lineLength) then
         return false
@@ -753,6 +768,11 @@ local function _IsNumericTokenCharacter(line, index, lineLength)
     return false
 end
 
+---Finds an exact numeric suffix token starting at `suffixStartIndex`.
+---@param line string UTF-8 text being wrapped.
+---@param suffixStartIndex number UTF-8 character index where a suffix may begin.
+---@param lineLength number UTF-8 character length of `line`.
+---@return number suffixLength UTF-8 character length, or 0 when no exact suffix matches.
 local function _GetNumericSuffixLengthAtStart(line, suffixStartIndex, lineLength)
     if (suffixStartIndex < 1 or suffixStartIndex > lineLength) then
         return 0
@@ -769,6 +789,11 @@ local function _GetNumericSuffixLengthAtStart(line, suffixStartIndex, lineLength
     return 0
 end
 
+---Finds the end of a numeric suffix when `index` is inside one.
+---@param line string UTF-8 text being wrapped.
+---@param index number UTF-8 character index that may be inside a suffix.
+---@param lineLength number UTF-8 character length of `line`.
+---@return number? suffixEndIndex UTF-8 character index of suffix end.
 local function _GetNumericSuffixEndIndexAt(line, index, lineLength)
     for _, suffix in ipairs(NUMERIC_SUFFIXES) do
         local suffixLength = utf8.strlen(suffix)
@@ -788,6 +813,13 @@ local function _GetNumericSuffixEndIndexAt(line, index, lineLength)
     return nil
 end
 
+---Extends a line break to include an exact numeric suffix immediately after a number.
+---@param line string UTF-8 text being wrapped.
+---@param lineLength number UTF-8 character length of `line`.
+---@param lineEndIndex number UTF-8 character index where current line ends.
+---@param nextStartIndex number UTF-8 character index where next line starts.
+---@return number lineEndIndex Updated end index.
+---@return number nextStartIndex Updated next-line start index.
 local function _MoveNumericSuffixToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
     local suffixLength = _GetNumericSuffixLengthAtStart(line, nextStartIndex, lineLength)
     if (suffixLength > 0) then
@@ -798,6 +830,10 @@ local function _MoveNumericSuffixToPreviousLine(line, lineLength, lineEndIndex, 
     return lineEndIndex, nextStartIndex
 end
 
+---Copies a caller-provided render font onto the measurement FontString, with quest-log font fallback.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param fontSource FontString? Optional render FontString to match.
+---@return nil
 local function _SetTextWrapFont(textWrapFontString, fontSource)
     local fontSourceType = type(fontSource)
     if (fontSource and (fontSourceType == "table" or fontSourceType == "userdata") and type(fontSource.GetFont) == "function") then
@@ -812,6 +848,14 @@ local function _SetTextWrapFont(textWrapFontString, fontSource)
     textWrapFontString:SetFont(font, size, flags)
 end
 
+---Chooses the best break before an overflow boundary.
+---Spaces remain the strongest boundary for Latin text; punctuation is the CJK fallback.
+---@param lastSpaceIndex number? Last UTF-8 space index before overflow.
+---@param lastPunctuationIndex number? Last CJK punctuation index before overflow.
+---@param lineEndIndex number Last fitting UTF-8 character index.
+---@return number lineEndIndex Chosen line end index.
+---@return number nextStartIndex Chosen next-line start index.
+---@return boolean brokeAtSpace True when break was a space boundary.
 local function _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
     if (lastSpaceIndex) then
         return lastSpaceIndex, lastSpaceIndex + 1, true
@@ -822,6 +866,12 @@ local function _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, line
     return lineEndIndex, lineEndIndex + 1, false
 end
 
+---@param character string Single UTF-8 character.
+---@param index number UTF-8 character index of `character`.
+---@param lastSpaceIndex number? Previous space boundary.
+---@param lastPunctuationIndex number? Previous CJK punctuation boundary.
+---@return number? lastSpaceIndex Updated space boundary.
+---@return number? lastPunctuationIndex Updated punctuation boundary.
 local function _UpdateLastBreakIndexes(character, index, lastSpaceIndex, lastPunctuationIndex)
     if (character == " ") then
         return index, lastPunctuationIndex
@@ -832,6 +882,14 @@ local function _UpdateLastBreakIndexes(character, index, lastSpaceIndex, lastPun
     return lastSpaceIndex, lastPunctuationIndex
 end
 
+---Finds a wrap break by measuring substring width.
+---Used for CJK/no-space strings when WoW's row-span API is unavailable or unreliable.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param line string UTF-8 text segment to wrap.
+---@param lineLength number UTF-8 character length of `line`.
+---@return number lineEndIndex UTF-8 character index where current line should end.
+---@return number nextStartIndex UTF-8 character index where next line should start.
+---@return boolean brokeAtSpace True when break was a space boundary.
 local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
     local lastSpaceIndex
     local lastPunctuationIndex
@@ -851,6 +909,13 @@ local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
     return lineLength, lineLength + 1, false
 end
 
+---Finds a wrap break using WoW row spans, falling back to measured width for CJK edge cases.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param line string UTF-8 text segment to wrap.
+---@param lineLength number UTF-8 character length of `line`.
+---@return number lineEndIndex UTF-8 character index where current line should end.
+---@return number nextStartIndex UTF-8 character index where next line should start.
+---@return boolean brokeAtSpace True when break was a space boundary.
 local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
     if (not string.find(line, " ", 1, true) and textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
         local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
@@ -897,6 +962,13 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
     return _GetPreferredWrapIndex(lastSpaceIndex, lastPunctuationIndex, lineEndIndex)
 end
 
+---Extends a break so numeric tokens and exact suffixes stay on one line.
+---@param line string UTF-8 text segment to wrap.
+---@param lineLength number UTF-8 character length of `line`.
+---@param lineEndIndex number Proposed current-line end index.
+---@param nextStartIndex number Proposed next-line start index.
+---@return number lineEndIndex Updated end index.
+---@return number nextStartIndex Updated next-line start index.
 local function _MoveNumberToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
     if (lineEndIndex < 1 or nextStartIndex > lineLength) then
         return lineEndIndex, nextStartIndex
@@ -930,6 +1002,13 @@ local function _MoveNumberToPreviousLine(line, lineLength, lineEndIndex, nextSta
     return lineEndIndex, nextStartIndex
 end
 
+---Extends a break so CJK punctuation does not start the next line.
+---@param line string UTF-8 text segment to wrap.
+---@param lineLength number UTF-8 character length of `line`.
+---@param lineEndIndex number Proposed current-line end index.
+---@param nextStartIndex number Proposed next-line start index.
+---@return number lineEndIndex Updated end index.
+---@return number nextStartIndex Updated next-line start index.
 local function _MovePunctuationToPreviousLine(line, lineLength, lineEndIndex, nextStartIndex)
     while (nextStartIndex <= lineLength and _IsChinesePunctuation(utf8.sub(line, nextStartIndex, nextStartIndex))) do
         lineEndIndex = nextStartIndex
@@ -939,6 +1018,13 @@ local function _MovePunctuationToPreviousLine(line, lineLength, lineEndIndex, ne
     return lineEndIndex, nextStartIndex
 end
 
+---Counts how many visual rows remain after a candidate break.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param remainingLine string Current remaining text segment.
+---@param lastLine string Candidate trailing line text.
+---@param nextStartIndex number UTF-8 index where trailing text starts.
+---@param remainingLineLength number UTF-8 character length of `remainingLine`.
+---@return number remainingRows Visual row count, approximated by width if row-span data is unavailable.
 local function _GetRemainingRows(textWrapFontString, remainingLine, lastLine, nextStartIndex, remainingLineLength)
     local remainingIndexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
     if remainingIndexes then
@@ -952,6 +1038,13 @@ local function _GetRemainingRows(textWrapFontString, remainingLine, lastLine, ne
     return remainingRows
 end
 
+---Determines whether an orphan word or CJK glyph should be pulled into the previous line.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param remainingLine string Current remaining text segment.
+---@param nextStartIndex number UTF-8 index where trailing text starts.
+---@param remainingLineLength number UTF-8 character length of `remainingLine`.
+---@param brokeAtSpace boolean Whether the candidate break is a space boundary.
+---@return boolean shouldCombine True when combining improves trailing-line readability.
 local function _ShouldCombineTrailingLine(textWrapFontString, remainingLine, nextStartIndex, remainingLineLength, brokeAtSpace)
     if (nextStartIndex > remainingLineLength) then
         return false
@@ -968,10 +1061,10 @@ end
 ---Emulates the wrapping of a quest description
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
----@param combineTrailing boolean @If the last line is only one word, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
----@param desiredWidth number @Set the desired width to wrap, default: 275
----@param fontSource table? @Optional FontString to copy the measuring font from
----@return table[] @A table of wrapped lines
+---@param combineTrailing boolean? @If the last line is only one word/glyph, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
+---@param desiredWidth number? @Set the desired width to wrap, default: 275
+---@param fontSource FontString? @Optional FontString to copy the measuring font from
+---@return string[] lines @Wrapped lines with `prefix` already applied
 function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSource)
     if not textWrapObjectiveFontString then
         textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
@@ -981,7 +1074,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSo
         textWrapObjectiveFontString:SetJustifyH("LEFT");
         ---@diagnostic disable-next-line: redundant-parameter
         textWrapObjectiveFontString:SetWordWrap(true)
-        textWrapObjectiveFontString:SetVertexColor(1, 1, 1, 1) --Set opacity to 0, even if it is shown it should be invisible
+        textWrapObjectiveFontString:SetVertexColor(1, 1, 1, 1) -- Keep the hidden measurement FontString non-transparent for accurate rendering metrics.
         --Chinese? "Fonts\\ARKai_T.ttf"
         _SetTextWrapFont(textWrapObjectiveFontString)
         textWrapObjectiveFontString:Hide()
@@ -1002,8 +1095,8 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSo
     local useLine = line
     local lineLength = utf8.strlen(useLine)
 
+    -- Fast path: unwrapped text can be returned without token policy checks.
     textWrapObjectiveFontString:SetText(useLine)
-    --Is the line wrapped?
     if (textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
         local lines = {}
         local startIndex = 1
@@ -1012,13 +1105,14 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSo
             local remainingLine = utf8.sub(useLine, startIndex, lineLength)
             local remainingLineLength = utf8.strlen(remainingLine)
 
-            -- Recalculate each remaining line. If we skip spaces or move punctuation, the original FontString rows no longer match.
+            -- Recalculate each remaining line. Moving breaks over punctuation/numeric tokens changes row geometry.
             textWrapObjectiveFontString:SetText(remainingLine)
             if (textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth()) then
                 tinsert(lines, prefix .. remainingLine)
                 break
             end
 
+            -- Apply language-aware post-processing after the raw break is found.
             local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreak(textWrapObjectiveFontString, remainingLine, remainingLineLength)
             lineEndIndex, nextStartIndex = _MoveNumberToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
             lineEndIndex, nextStartIndex = _MovePunctuationToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
@@ -1038,7 +1132,6 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSo
         textWrapObjectiveFontString:Hide()
         return lines
     else
-        --Line was not wrapped, return the string as is.
         textWrapObjectiveFontString:Hide()
         useLine = prefix .. line
         return {useLine}
