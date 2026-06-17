@@ -3,8 +3,8 @@ dofile("setupTests.lua")
 describe("TooltipLayout", function()
     ---@type TooltipLayout
     local TooltipLayout
-    ---@type QuestieLib
-    local QuestieLib
+    ---@type WrappedText
+    local WrappedText
 
     local originalUIParent
     local originalCreateFrame
@@ -47,10 +47,10 @@ describe("TooltipLayout", function()
     end
 
     local function RequireTooltipLayout()
-        package.loaded["Modules.Libs.QuestieLib"] = nil
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        originalTextWrap = QuestieLib.TextWrap
-        QuestieLib.TextWrap = function(_, text, prefix, combineTrailing, desiredWidth, fontSource)
+        package.loaded["Modules.Libs.WrappedText"] = nil
+        WrappedText = require("Modules.Libs.WrappedText")
+        originalTextWrap = WrappedText.TextWrap
+        WrappedText.TextWrap = function(_, text, prefix, combineTrailing, desiredWidth, fontSource)
             capturedTextWrap = {
                 text = text,
                 prefix = prefix,
@@ -102,9 +102,10 @@ describe("TooltipLayout", function()
         _G.TestTooltipTextRight1 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft1 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextRight1 = nil
-        if QuestieLib then
-            QuestieLib.TextWrap = originalTextWrap
+        if WrappedText then
+            WrappedText.TextWrap = originalTextWrap
         end
+        package.loaded["Modules.Libs.WrappedText"] = nil
         package.loaded["Modules.Tooltips.TooltipLayout"] = nil
     end)
 

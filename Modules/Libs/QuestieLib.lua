@@ -11,8 +11,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type WrappedText
-local WrappedText = QuestieLoader:ImportModule("WrappedText")
 
 QuestieLib.AddonPath = "Interface\\Addons\\Questie\\"
 
@@ -654,17 +652,6 @@ function QuestieLib:TableMemoizeFunction(func, __mode)
         end,
         __mode = __mode or ""
     });
-end
-
----Emulates the wrapping of a quest description
----@param line string @The line to wrap
----@param prefix string @The prefix to add to the line
----@param combineTrailing boolean? @If the last line is only one word/glyph, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
----@param desiredWidth number? @Set the desired width to wrap, default: 275
----@param fontSource FontString? @Optional FontString to copy the measuring font from
----@return string[] lines @Wrapped lines with `prefix` already applied
-function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSource)
-    return WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontSource)
 end
 
 function QuestieLib.GetSpawnDistance(spawnA, spawnB)
