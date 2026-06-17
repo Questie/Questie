@@ -174,8 +174,23 @@ describe("TooltipLayout", function()
         assert.are.same(string.rep("B", 900), capturedTextWrap.text)
         assert.are.same("  ", capturedTextWrap.prefix)
         assert.is_false(capturedTextWrap.combineTrailing)
+        assert.are.same(_G.TestTooltipTextLeft2, capturedTextWrap.fontSource)
         assert.are.same("  wrapped", tooltip.calls[2].text)
         assert.are.same(3, tooltip.calls[2].n)
+    end)
+
+    it("should fall back to the default tooltip font instead of the header font for descriptions", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+        _G.TestTooltipTextLeft1 = CreateFontStringMock("DoubleWidthFont")
+        _G.TestTooltipTextLeft2 = nil
+
+        rows:AddDescription("description", "  ")
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same(373, capturedTextWrap.desiredWidth)
+        assert.is_false(capturedTextWrap.combineTrailing)
+        assert.are.same(1, createFontStringCallCount)
     end)
 
     it("should include measured double-line gap when deriving description width", function()

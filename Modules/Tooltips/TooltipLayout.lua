@@ -271,7 +271,14 @@ end
 local function _ExpandTooltipDescriptionRows(tooltip, rows)
     local expandedRows = {}
     local tooltipWidth = math.max(MIN_TOOLTIP_TEXT_WIDTH, _MeasureTooltipRows(tooltip, rows))
-    local descriptionFontString = _GetTooltipFontString(tooltip, 2, "left") or _GetTooltipFontString(tooltip, 1, "left")
+    local tooltipName = tooltip:GetName()
+    -- Descriptions render with body text, while GameTooltip line 1 uses the larger header font.
+    local descriptionFontString = tooltipName and _G[tooltipName .. "TextLeft2"]
+    if (not descriptionFontString) then
+        -- Use TextLeft2 when available; otherwise fall back to default GameTooltipText, not TextLeft1.
+        descriptionFontString = _GetTooltipMeasurementFontString()
+        _SetMeasurementFont(descriptionFontString)
+    end
 
     for _, row in ipairs(rows) do
         if (row.kind == "description") then
