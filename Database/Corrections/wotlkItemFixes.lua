@@ -163,7 +163,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [33096] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.objectDrops] = {186189},
         },
         [33109] = {
@@ -179,10 +179,10 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [33284] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [33290] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [33330] = {
             [itemKeys.npcDrops] = {23954},
@@ -197,16 +197,16 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {23967},
         },
         [33621] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [33634] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
         [34023] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [34024] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [34070] = {
             [itemKeys.npcDrops] = {},
@@ -266,7 +266,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {25342,25343},
         },
         [34908] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [34909] = {
             [itemKeys.npcDrops] = {},
@@ -354,7 +354,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {26608},
         },
         [36760] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [36765] = {
             [itemKeys.npcDrops] = {26809},
@@ -363,7 +363,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {26358,26359},
         },
         [36771] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [36772] = {
             [itemKeys.objectDrops] = {190510},
@@ -384,7 +384,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [37173] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [37248] = {
             [itemKeys.npcDrops] = {27410},
@@ -393,7 +393,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.objectDrops] = {188666},
         },
         [37265] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [37303] = {
             [itemKeys.objectDrops] = {188694},
@@ -414,22 +414,22 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [37708] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [37661] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [37727] = {
             [itemKeys.npcDrops] = {},
         },
         [37877] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [37879] = {
             [itemKeys.npcDrops] = {},
         },
         [37888] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [38303] = {
             [itemKeys.npcDrops] = {26620,26639,27431},
@@ -468,7 +468,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [38657] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [38677] = {
             [itemKeys.npcDrops] = {},
@@ -486,13 +486,13 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {29079},
         },
         [40390] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [40641] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [40652] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [40728] = {
             [itemKeys.npcDrops] = {29402},
@@ -501,7 +501,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [40732] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [41399] = {
             [itemKeys.npcDrops] = {},
@@ -517,7 +517,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.objectDrops] = {192124,192127},
         },
         [42422] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [42423] = {
             [itemKeys.npcDrops] = {30163,30208},
@@ -658,7 +658,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [46895] = {
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [48418] = {
             [itemKeys.npcDrops] = {35451},
@@ -711,68 +711,73 @@ function QuestieWotlkItemFixes:Load()
         [199335] = {
             [itemKeys.name] = "Teleport Scroll: Menethil Harbor",
             [itemKeys.relatedQuests] = {70411},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.flags] = 64,
         },
         [199336] = {
             [itemKeys.name] = "Teleport Scroll: Stormwind Harbor",
             [itemKeys.relatedQuests] = {70411},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.flags] = 64,
         },
         [199777] = {
             [itemKeys.name] = "Teleport Scroll: Orgrimmar Zeppelin Tower",
             [itemKeys.relatedQuests] = {70737},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.flags] = 64,
         },
         [199778] = {
             [itemKeys.name] = "Teleport Scroll: Undercity Zeppelin Tower",
             [itemKeys.relatedQuests] = {70737},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.flags] = 64,
         },
         [200068] = {
             [itemKeys.name] = "Teleport Scroll: Shattrath City",
             [itemKeys.relatedQuests] = {70865},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.flags] = 64,
         },
         [211206] = {
             [itemKeys.name] = "Defiler\'s Medallion",
             [itemKeys.relatedQuests] = {78752},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658},
             [itemKeys.objectDrops] = {193597,193603,202336},
         },
         [211207] = {
             [itemKeys.name] = "Mysterious Artifact",
             [itemKeys.relatedQuests] = {78753},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658},
             [itemKeys.objectDrops] = {193597,193603,202336},
         },
         [264272] = { -- Celestial Missive
             [itemKeys.name] = "Celestial Missive",
             [itemKeys.relatedQuests] = {94376},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [268145] = { -- Punctured Voodoo Doll
             [itemKeys.name] = "Punctured Voodoo Doll",
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.itemLevel] = 1,
             [itemKeys.flags] = 33792,
         },
         [272955] = { -- Eredar Heart
             [itemKeys.name] = "Eredar Heart",
             [itemKeys.npcDrops] = {34780},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.relatedQuests] = {96211},
             [itemKeys.startQuest] = 96211,
         },
         [274994] = { -- Primal Hakkari Idol
             [itemKeys.name] = "Primal Hakkari Idol",
             [itemKeys.class] = 15,
+            [itemKeys.requiredLevel] = 80,
+        },
+        [279578] = { -- Empowered Zandalari Bijou
+            [itemKeys.name] = "Empowered Zandalari Bijou",
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.requiredLevel] = 80,
         },
     }

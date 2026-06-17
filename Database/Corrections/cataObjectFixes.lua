@@ -350,6 +350,10 @@ function CataObjectFixes.Load()
         [179559] = { -- Felvine Shard
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{54.89,26.81},{54.97,26.85},{55.03,26.97},{55.02,26.71},{55.12,26.87},{-1,-1}}},
         },
+        [179697] = { -- Arena Treasure Chest
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{46.42,26.17}}},
+            [objectKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
+        },
         [179832] = { -- Pillaclencher's Ornate Pillow
             [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.54}}},
         },

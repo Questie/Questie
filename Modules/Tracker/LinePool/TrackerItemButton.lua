@@ -27,6 +27,11 @@ function TrackerItemButton.New(buttonName)
     end
 
     btn.SetItem = function(self, questItemId, questId, size)
+        -- Force reset all secure attributes before setting up the button
+        self:SetAttribute("type1", nil)
+        self:SetAttribute("item1", nil)
+        self:RegisterForClicks()
+
         local validTexture
 
         for bag = -2, 4 do
@@ -64,12 +69,8 @@ function TrackerItemButton.New(buttonName)
             self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
             self:SetSize(size, size)
 
-            if Questie.IsTBC or Questie.IsWotlk then
-                -- Both are needed since the TBC retail client API merge thingy.
-                self:RegisterForClicks("AnyUp", "AnyDown")
-            else
-                self:RegisterForClicks("AnyUp")
-            end
+            -- Always register both click types for all expansions
+            self:RegisterForClicks("AnyUp", "AnyDown")
 
             self:SetScript("OnEvent", self.OnEvent)
             self:SetScript("OnShow", self.OnShow)
@@ -198,6 +199,8 @@ function TrackerItemButton.New(buttonName)
 
     btn.FakeHide = function(self)
         self:RegisterForClicks()
+        self:SetAttribute("type1", nil)
+        self:SetAttribute("item1", nil)
         self:SetScript("OnEnter", nil)
         self:SetScript("OnLeave", nil)
     end

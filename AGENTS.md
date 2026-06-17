@@ -35,12 +35,25 @@ lua cli/validate-sod.lua
 lua cli/validate-localization.lua
 ```
 
+> **Note:** Any change to `cli/validators.lua` must be accompanied by a matching test in `cli/validators.test.lua`.
+
 ### Build (release packaging)
 ```bash
 python3 build.py --all          # all expansions
 python3 build.py --classic      # era only
 python3 build.py --release      # omit commit hash from name
 ```
+
+### Commit Message Prefixes (Changelog)
+Commits are automatically categorized in the changelog based on their prefix. Use one of these prefixes at the start of your commit message (case-insensitive):
+
+- `[feature]` - New features → "## New Features"
+- `[fix]` - General bug fixes → "## General Fixes"
+- `[quest]` - Quest-related fixes → "## Quest Fixes"
+- `[db]` - Database fixes → "## Database Fixes"
+- `[locale]` - Localization fixes → "## Localization Fixes"
+
+Example: `[fix] Fix journey keybind not working`
 
 ## Project Structure
 

@@ -230,6 +230,18 @@ local dungeonLocales = {
         ["zhCN"] = "古神之心场景",
         ["zhTW"] = false,
     },
+    ["Halfhill Scenario"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(dungeonLocales) do

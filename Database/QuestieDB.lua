@@ -1542,15 +1542,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         objectObjective[3] = nil
                     end
                     ---@type ObjectObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local objectObjectiveData = {
                         Type = "object",
                         Id = objectObjective[1],
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
                     if QuestieCorrections.objectObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-                        tremove(QO.ObjectiveData)
+                        tinsert(QO.ObjectiveData, 1, objectObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
                     end
                 end
             end
@@ -1562,15 +1563,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         itemObjective[3] = nil
                     end
                     ---@type ItemObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local itemObjectiveData = {
                         Type = "item",
                         Id = itemObjective[1],
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
                     if QuestieCorrections.itemObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-                        tremove(QO.ObjectiveData)
+                        tinsert(QO.ObjectiveData, 1, itemObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
                     end
                 end
             end
@@ -1600,48 +1602,49 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 --? There are quest(s) which have the killCredit first so we need to switch them
                 -- Place the kill credit objective first
                 if QuestieCorrections.killCreditObjectiveFirst[questId] then
-                    tinsert(QO.ObjectiveData, 1, killCreditObjective);
+                    tinsert(QO.ObjectiveData, 1, killCreditObjective)
                 else
-                    tinsert(QO.ObjectiveData, killCreditObjective);
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
                 end
             end
         end
         if objectives[6] then
-            for index, spellObjective in pairs(objectives[6]) do
+            for _, spellObjective in pairs(objectives[6]) do
                 if spellObjective then
                     ---@type SpellObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local spellObjectiveData = {
                         Type = "spell",
                         Id = spellObjective[1],
                         Text = spellObjective[2],
                         ItemSourceId = spellObjective[3],
                     }
                     QO.SpellItemId = spellObjective[3]
-                end
 
-                --? There are quest(s) which have the spellObjective first so we need to switch them
-                -- Place the spell objective first
-                if QuestieCorrections.spellObjectiveFirst[questId] then
-                    tinsert(QO.ObjectiveData, 1, spellObjective);
-                else
-                    tinsert(QO.ObjectiveData, spellObjective);
+                    --? There are quest(s) which have the spellObjective first so we need to switch them
+                    -- Place the spell objective first
+                    if QuestieCorrections.spellObjectiveFirst[questId] then
+                        tinsert(QO.ObjectiveData, 1, spellObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
+                    end
                 end
             end
         end
     end
 
-    -- Events need to be added at the end of ObjectiveData
+    -- Events are usually added at the end of ObjectiveData, unless corrected below.
     local triggerEnd = QO.triggerEnd
     if triggerEnd then
         ---@type TriggerEndObjective
-        QO.ObjectiveData[#QO.ObjectiveData+1] = {
+        local triggerEndObjective = {
             Type = "event",
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
         if QuestieCorrections.eventObjectiveFirst[questId] then
-            tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-            tremove(QO.ObjectiveData)
+            tinsert(QO.ObjectiveData, 1, triggerEndObjective)
+        else
+            QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective
         end
     end
 
@@ -1660,7 +1663,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 -- TODO: This is not required anymore since we validate the database for this case
                 -- Make sure requiredSourceItems aren't already an objective
                 local itemObjPresent = false
-                if objectives[3] then
+                if objectives and objectives[3] then
                     for _, itemObjective in pairs(objectives[3]) do
                         if itemObjective then
                             if itemId == itemObjective[1] then

@@ -136,8 +136,22 @@ QuestieItemDropCorrections.Era = {
         [787] = DropKeys.WOWHEAD,
         [1110] = DropKeys.WOWHEAD,
     },
+    [2633] = { -- Jungle Remedy
+        [940] = DropKeys.WOWHEAD,
+        [941] = DropKeys.WOWHEAD,
+        [942] = DropKeys.WOWHEAD,
+    },
     [2676] = { -- Shimmerweed
         [1397] = DropKeys.WOWHEAD,
+    },
+    [2843] = { -- Dirty Knucklebones
+        [2252] = DropKeys.WOWHEAD,
+        [2253] = DropKeys.WOWHEAD,
+        [2254] = DropKeys.WOWHEAD,
+        [2255] = DropKeys.WOWHEAD,
+        [2256] = DropKeys.WOWHEAD,
+        [2287] = DropKeys.WOWHEAD,
+        [2416] = DropKeys.WOWHEAD,
     },
     [3297] = { -- Fel Moss
         [1988] = DropKeys.WOWHEAD,
@@ -198,6 +212,9 @@ QuestieItemDropCorrections.Era = {
         [1550] = DropKeys.WOWHEAD,
         [1551] = DropKeys.WOWHEAD,
     },
+    [4105] = { -- Elder Crocolisk Skin
+        [2635] = 100.0,
+    },
     [5026] = { -- Fire Tar
         [3267] = 75,
         [3268] = 75,
@@ -236,6 +253,36 @@ QuestieItemDropCorrections.Era = {
     [5669] = { -- Dust Devil Debris
         [832] = 50.0, -- not 100%, not 5%. Could be more than 50%
     },
+    [6250] = { -- Felhound Brain
+        [4678] = 100,
+        [4681] = 100,
+        [4685] = 100,
+    },
+    [6251] = { -- Nether Wing
+        [4679] = 100,
+        [4682] = 100,
+        [4684] = 100,
+    },
+    [6252] = { -- Doomwarder Blood
+        [4680] = 100,
+        [5760] = 100,
+        [14226] = 100,
+    },
+    [6257] = { -- Roc Gizzard
+        [5428] = DropKeys.WOWHEAD,
+        [5429] = DropKeys.WOWHEAD,
+        [5430] = DropKeys.WOWHEAD,
+    },
+    [6258] = { -- Ironfur Liver
+        [5268] = DropKeys.WOWHEAD,
+        [5272] = DropKeys.WOWHEAD,
+        [5274] = DropKeys.WOWHEAD,
+        [5352] = DropKeys.WOWHEAD,
+    },
+    [6259] = { -- Groddoc Liver
+        [5260] = DropKeys.WOWHEAD,
+        [5262] = DropKeys.WOWHEAD,
+    },
     [6443] = { -- Deviate Hide
         [3630] = DropKeys.WOWHEAD,
         [3631] = DropKeys.WOWHEAD,
@@ -272,6 +319,18 @@ QuestieItemDropCorrections.Era = {
     [7291] = { -- Infernal Orb
         [4668] = 100,
     },
+    [10458] = { -- Prayer to Elune
+        [5860] = 20, -- empyrical value
+        [5861] = 20, -- empyrical value
+        [5862] = 20, -- empyrical value
+        [8419] = 20, -- empyrical value
+    },
+    [10552] = { -- Symbol of Ragnaros
+        [5860] = DropKeys.WOWHEAD,
+        [5861] = DropKeys.WOWHEAD,
+        [5862] = DropKeys.WOWHEAD,
+        [8419] = DropKeys.WOWHEAD,
+    },
     [10639] = { -- Hyacinth Mushroom
         [1988] = 80,
     },
@@ -285,9 +344,50 @@ QuestieItemDropCorrections.Era = {
         [14460] = 100.0,
         [14461] = 10.0,
     },
+    [15849] = { -- Ghost-o-plasm
+        [11560] = 100,
+    },
     [15852] = { -- Kodo Horn
         [3234] = 100,
         [3236] = 100,
+    },
+    [15881] = { -- Rackmore's Golden Key
+        [4711] = DropKeys.WOWHEAD,
+        [4712] = DropKeys.WOWHEAD,
+        [4713] = DropKeys.WOWHEAD,
+        [4714] = DropKeys.WOWHEAD,
+        [4715] = DropKeys.WOWHEAD,
+        [4716] = DropKeys.WOWHEAD,
+        [4718] = DropKeys.WOWHEAD,
+        [4719] = DropKeys.WOWHEAD,
+        [14229] = DropKeys.WOWHEAD,
+    },
+    [17761] = { -- Gem of the First Khan
+        [12240] = 100,
+    },
+    [17762] = { -- Gem of the Second Khan
+        [12239] = 100,
+    },
+    [17763] = { -- Gem of the Third Khan
+        [12241] = 100,
+    },
+    [17764] = { -- Gem of the Fourth Khan
+        [12242] = 100,
+    },
+    [17765] = { -- Gem of the Fifth Khan
+        [12243] = 100,
+    },
+    [18956] = { -- Miniaturization Residue
+        [5357] = 100,
+        [5358] = 100,
+        [5359] = 100,
+        [5360] = 100,
+        [5361] = 100,
+        [14603] = 100,
+        [14604] = 100,
+        [14638] = 100,
+        [14639] = 100,
+        [14640] = 100,
     },
     [20373] = { -- Stonelash Scorpid Stinger
         [11735] = DropKeys.WOWHEAD,
@@ -317,8 +417,14 @@ QuestieItemDropCorrections.Era = {
 }
 
 QuestieItemDropCorrections.Tbc = {
+    [2633] = { -- Jungle Remedy
+        [937] = DropKeys.WOWHEAD,
+        [940] = DropKeys.WOWHEAD,
+        [941] = DropKeys.WOWHEAD,
+        [942] = DropKeys.WOWHEAD,
+    },
     [6487] = { -- Vile Familiar Head
-        [3101] = 100,
+        [3101] = 100, -- TO DO double check this. strange that it's TBC only
     },
     [20934] = { -- Wraith Essence
         [15273] = 100,
@@ -462,6 +568,11 @@ QuestieItemDropCorrections.Tbc = {
     },
     [31814] = { -- Mature Bone Sifter Carcass
         [22482] = 100,
+    },
+    [33087] = { -- Black Dragonkin Essence
+        [4328] = 100,
+        [4329] = 100,
+        [4331] = 100,
     },
 }
 

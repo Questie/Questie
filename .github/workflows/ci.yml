@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
 
       - name: Run Luacheck
         uses: nebularg/actions-luacheck@v1.1.2
@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
 
       - name: Install Lua
         uses: leafo/gh-actions-lua@v13.0.0
@@ -74,7 +74,7 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
 
       - name: Install Lua
         uses: leafo/gh-actions-lua@v13.0.0
@@ -107,6 +107,9 @@ jobs:
     if: failure()
 
     steps:
+      - name: Checkout project
+        uses: actions/checkout@v6.0.3
+
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
         with:
