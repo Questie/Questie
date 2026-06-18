@@ -70,8 +70,9 @@ function EventHandler:RegisterEarlyEvents()
         if not questPOIHandled then
             if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
                 -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
+                -- Don't use WorldMapFrame:Hide() that will cause taint issues
                 HideUIPanel(WorldMapFrame)
-                tinsert(UISpecialFrames, "WorldMapFrame")
+                tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
             end
             questPOIHandled = true
         end
