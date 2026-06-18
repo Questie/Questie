@@ -628,6 +628,8 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
     -- If the line width is less than the minimum Tracker width then don't wrap text
     if unboundedWidth + objectiveMarginLeft < contentMaxWidth then
         trackerLineWidth = math.max(trackerLineWidth, unboundedWidth + objectiveMarginLeft)
+    elseif rawObjectiveText then
+        trackerLineWidth = math.max(trackerLineWidth, line:GetWidth())
     else
          -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent
         local _, fontSize = line.label:GetFont()
@@ -1421,6 +1423,8 @@ function QuestieTracker:Update()
         line.Quest = nil
         line.Objective = nil
 
+        local objectiveLines = {}
+        local objectiveLabelInset = 15
         local _, _, numSteps = C_Scenario.GetStepInfo()
         for i = 1, numSteps do
             line = TrackerLinePool.GetNextLine()
@@ -1443,6 +1447,10 @@ function QuestieTracker:Update()
             local objectiveFontSize= trackerFontSizeObjective + 2
             line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), objectiveFontSize, Questie.db.profile.trackerFontOutline)
             line.label:SetHeight(objectiveFontSize)
+            if line.progressLabel then
+                line.progressLabel:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), objectiveFontSize, Questie.db.profile.trackerFontOutline)
+                line.progressLabel:SetHeight(objectiveFontSize)
+            end
             line:SetScenarioCriteria(objective)
             line.expandZone:Hide()
             line.expandQuest:Hide()
@@ -1456,19 +1464,28 @@ function QuestieTracker:Update()
 
             -- Set Objective text
             TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding)
-
-            local objectiveLabelInset = 15
-            line.label:SetWidth(math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight))
-            TrackerLinePool.ApplyWrappedObjectiveText(line, line.label:GetWidth())
-            line:SetWidth(line.label:GetWidth() + objectiveLabelInset)
             trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveLabelInset)
-            line:SetHeight(line.label:GetHeight() + 1)
+
+            local objectiveContentWidth = math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight)
+            line:SetWidth(objectiveContentWidth + objectiveLabelInset)
+            line.label:SetWidth(objectiveContentWidth)
+            TrackerLinePool.ApplyWrappedObjectiveText(line, objectiveContentWidth)
+            line:SetWidth(objectiveContentWidth + objectiveLabelInset)
+            table.insert(objectiveLines, line)
 
             line:Show()
             line.label:Show()
         end
 
-        QuestieTracker:UpdateWidth(trackerLineWidth)
+        QuestieTracker:UpdateWidth(trackerLineWidth + trackerMarginRight)
+
+        local finalObjectiveContentWidth = math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight)
+        for _, objectiveLine in ipairs(objectiveLines) do
+            objectiveLine:SetWidth(finalObjectiveContentWidth + objectiveLabelInset)
+            objectiveLine.label:SetWidth(finalObjectiveContentWidth)
+            TrackerLinePool.ApplyWrappedObjectiveText(objectiveLine, finalObjectiveContentWidth)
+        end
+        QuestieTracker:UpdateWidth(trackerLineWidth + trackerMarginRight)
         QuestieTracker:UpdateHeight()
     end
 
@@ -1502,6 +1519,8 @@ function QuestieTracker:Update()
         line.Quest = nil
         line.Objective = nil
 
+        local objectiveLines = {}
+        local objectiveLabelInset = 15
         local _, _, numSteps = C_Scenario.GetStepInfo()
         for i = 1, numSteps do
             line = TrackerLinePool.GetNextLine()
@@ -1524,6 +1543,10 @@ function QuestieTracker:Update()
             local objectiveFontSize= trackerFontSizeObjective + 2
             line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), objectiveFontSize, Questie.db.profile.trackerFontOutline)
             line.label:SetHeight(objectiveFontSize)
+            if line.progressLabel then
+                line.progressLabel:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), objectiveFontSize, Questie.db.profile.trackerFontOutline)
+                line.progressLabel:SetHeight(objectiveFontSize)
+            end
             line:SetScenarioCriteria(objective)
             line.expandZone:Hide()
             line.expandQuest:Hide()
@@ -1537,19 +1560,28 @@ function QuestieTracker:Update()
 
             -- Set Objective text
             TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding)
-
-            local objectiveLabelInset = 15
-            line.label:SetWidth(math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight))
-            TrackerLinePool.ApplyWrappedObjectiveText(line, line.label:GetWidth())
-            line:SetWidth(line.label:GetWidth() + objectiveLabelInset)
             trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveLabelInset)
-            line:SetHeight(line.label:GetHeight() + 1)
+
+            local objectiveContentWidth = math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight)
+            line:SetWidth(objectiveContentWidth + objectiveLabelInset)
+            line.label:SetWidth(objectiveContentWidth)
+            TrackerLinePool.ApplyWrappedObjectiveText(line, objectiveContentWidth)
+            line:SetWidth(objectiveContentWidth + objectiveLabelInset)
+            table.insert(objectiveLines, line)
 
             line:Show()
             line.label:Show()
         end
 
-        QuestieTracker:UpdateWidth(trackerLineWidth)
+        QuestieTracker:UpdateWidth(trackerLineWidth + trackerMarginRight)
+
+        local finalObjectiveContentWidth = math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight)
+        for _, objectiveLine in ipairs(objectiveLines) do
+            objectiveLine:SetWidth(finalObjectiveContentWidth + objectiveLabelInset)
+            objectiveLine.label:SetWidth(finalObjectiveContentWidth)
+            TrackerLinePool.ApplyWrappedObjectiveText(objectiveLine, finalObjectiveContentWidth)
+        end
+        QuestieTracker:UpdateWidth(trackerLineWidth + trackerMarginRight)
         QuestieTracker:UpdateHeight()
     end
 

@@ -62,6 +62,15 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line.label:SetPoint("TOPLEFT", line)
     line.label:Hide()
 
+    line.progressLabel = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    line.progressLabel:SetJustifyH("RIGHT")
+    line.progressLabel:SetJustifyV("TOP")
+    if line.progressLabel.SetWordWrap then
+        line.progressLabel:SetWordWrap(false)
+    end
+    line.progressLabel:SetPoint("TOPRIGHT", line, "TOPRIGHT", 0, 0)
+    line.progressLabel:Hide()
+
     if previousLine then
         line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, 0)
     else
@@ -179,14 +188,20 @@ _SetMode = function(self, mode)
             local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
             self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontZone), trackerFontSizeZone, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeZone)
+            self.progressLabel:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontZone), trackerFontSizeZone, Questie.db.profile.trackerFontOutline)
+            self.progressLabel:SetHeight(trackerFontSizeZone)
         elseif mode == "quest" or mode == "achieve" then
             local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
             self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), trackerFontSizeQuest, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeQuest)
+            self.progressLabel:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontQuest), trackerFontSizeQuest, Questie.db.profile.trackerFontOutline)
+            self.progressLabel:SetHeight(trackerFontSizeQuest)
         elseif mode == "objective" then
             local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
             self.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeObjective)
+            self.progressLabel:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
+            self.progressLabel:SetHeight(trackerFontSizeObjective)
         end
     end
 end

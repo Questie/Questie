@@ -26,6 +26,8 @@ local buttonIndex = 0
 ---@type table<number, TrackerLineFrame>
 local linePool = {}
 local buttonPool = {}
+local PROGRESS_COLUMN_GAP = 8
+local DESCRIPTION_PROGRESS_SEPARATOR = ":"
 
 ---@type table<QuestId, table<TrackerLineFrame>>
 local linesByQuest = {}
@@ -49,12 +51,37 @@ local function _TextFits(label, text, width)
 
     label:SetText(text)
 
-    return label:GetUnboundedStringWidth() <= width
+    return (label:GetUnboundedStringWidth() or 0) <= width
 end
 
 local function _TrimTrailingWhitespace(text)
     local trimmedText = (text or ""):gsub("%s+$", "")
     return trimmedText
+end
+
+local function _IsAsciiText(text)
+    return not string.find(text, "[\128-\255]")
+end
+
+local function _EllipsizeToFit(text, width, label)
+    local ellipsis = "..."
+    if _TextFits(label, text, width) then
+        return text
+    end
+
+    if width <= 0 or _TextFits(label, ellipsis, width) then
+        local textLength = utf8.strlen(text)
+        for endIndex = textLength, 1, -1 do
+            local candidate = utf8.sub(text, 1, endIndex) .. ellipsis
+            if _TextFits(label, candidate, width) then
+                return candidate
+            end
+        end
+
+        return ellipsis
+    end
+
+    return ""
 end
 
 local function _SplitLineToFit(line, width, label)
@@ -63,12 +90,21 @@ local function _SplitLineToFit(line, width, label)
         return {line}
     end
 
+    if (not string.find(line, "%s")) and _IsAsciiText(line) then
+        return {_EllipsizeToFit(line, width, label)}
+    end
+
     local lines = {}
     local remainingLine = line:gsub("^%s+", "")
 
     while remainingLine ~= "" do
         if _TextFits(label, remainingLine, width) then
             table.insert(lines, _TrimTrailingWhitespace(remainingLine))
+            break
+        end
+
+        if (not string.find(remainingLine, "%s")) and _IsAsciiText(remainingLine) then
+            table.insert(lines, _EllipsizeToFit(remainingLine, width, label))
             break
         end
 
@@ -94,6 +130,12 @@ local function _SplitLineToFit(line, width, label)
         if newLine == "" then
             newLine = utf8.sub(remainingLine, 1, 1)
             lineEndIndex = 1
+        end
+
+        if (not lastSpaceIndex) and _IsAsciiText(newLine) and (not string.find(newLine, "%s")) and (not _TextFits(label, newLine, width)) then
+            newLine = _EllipsizeToFit(newLine, width, label)
+            table.insert(lines, newLine)
+            break
         end
 
         table.insert(lines, newLine)
@@ -134,29 +176,51 @@ local function _GetWrappedDescriptionLines(description, width, label)
     return lines
 end
 
-local function _UpdateWrappedLineHeight(line)
-    if (not line.label.GetStringHeight) or (not line.label.SetHeight) then
-        return
+local function _GetReliableLabelHeight(label)
+    if (not label) or (not label.GetStringHeight) then
+        return 0
     end
 
-    local labelHeight = line.label:GetStringHeight()
-    if line.label.GetFont and line.label.GetNumLines then
-        local _, fontSize = line.label:GetFont()
-        if fontSize then
-            labelHeight = math.max(labelHeight or 0, (fontSize * line.label:GetNumLines()) + 1)
+    local labelHeight = label:GetStringHeight() or 0
+    if label.GetFont and label.GetNumLines then
+        local _, fontSize = label:GetFont()
+        local numLines = label:GetNumLines()
+        if fontSize and numLines then
+            labelHeight = math.max(labelHeight, (fontSize * numLines) + 1)
         end
     end
 
-    if labelHeight and labelHeight > 0 then
-        line.label:SetHeight(labelHeight)
+    return labelHeight
+end
+
+local function _UpdateWrappedLineHeight(line)
+    local labelHeight = _GetReliableLabelHeight(line.label)
+    local progressHeight = _GetReliableLabelHeight(line.progressLabel)
+    local lineHeight = math.max(labelHeight, progressHeight)
+
+    if lineHeight > 0 then
+        if line.label.SetHeight then
+            line.label:SetHeight(labelHeight > 0 and labelHeight or lineHeight)
+        end
+        if line.progressLabel and line.progressLabel.SetHeight and progressHeight > 0 then
+            line.progressLabel:SetHeight(progressHeight)
+        end
         if line.SetHeight then
-            line:SetHeight(labelHeight + 2 + Questie.db.profile.trackerQuestPadding)
+            line:SetHeight(lineHeight + 2 + (Questie.db.profile.trackerQuestPadding or 0))
         end
     end
 end
 
 function TrackerLinePool.ClearWrappedObjectiveText(line)
     line.wrappedObjectiveText = nil
+    if line.progressLabel then
+        if line.progressLabel.SetText then
+            line.progressLabel:SetText("")
+        end
+        if line.progressLabel.Hide then
+            line.progressLabel:Hide()
+        end
+    end
 end
 
 function TrackerLinePool.GetWrappedObjectiveText(line)
@@ -174,24 +238,55 @@ function TrackerLinePool.ApplyWrappedObjectiveText(line, targetWidth)
     end
 
     local fullText = TrackerLinePool.GetWrappedObjectiveText(line)
-    if (not targetWidth) or targetWidth <= 0 or string.find(data.description or "", "|", 1, true) then
+    data.lastTargetWidth = targetWidth
+
+    if (not targetWidth) or targetWidth <= 0 or string.find(data.description or "", "|", 1, true) or (not data.progressText) or (not line.progressLabel) or (not line.progressLabel.SetText) then
+        if line.progressLabel then
+            if line.progressLabel.SetText then
+                line.progressLabel:SetText("")
+            end
+            if line.progressLabel.Hide then
+                line.progressLabel:Hide()
+            end
+        end
+        if line.label.SetWidth and targetWidth and targetWidth > 0 then
+            line.label:SetWidth(targetWidth)
+        end
         line.label:SetText(fullText)
         _UpdateWrappedLineHeight(line)
         return
     end
 
-    local descriptionLines = _GetWrappedDescriptionLines(data.description, targetWidth, line.label)
-    if data.progressText then
-        local progressSuffix = ": " .. data.progressText
-        local lastLineIndex = #descriptionLines
-        local lastLineWithProgress = descriptionLines[lastLineIndex] .. progressSuffix
-        if _TextFits(line.label, lastLineWithProgress, targetWidth) then
-            descriptionLines[lastLineIndex] = lastLineWithProgress
-        else
-            table.insert(descriptionLines, "> " .. data.progressText)
-        end
+    local coloredProgressText = (data.colorPrefix or "") .. data.progressText
+    line.progressLabel:SetText(coloredProgressText)
+    if line.progressLabel.Show then
+        line.progressLabel:Show()
     end
 
+    local progressWidth = 0
+    if line.progressLabel.GetUnboundedStringWidth then
+        progressWidth = line.progressLabel:GetUnboundedStringWidth() or 0
+    end
+    if progressWidth <= 0 and line.progressLabel.GetWidth then
+        progressWidth = line.progressLabel:GetWidth() or 0
+    end
+
+    local descriptionWidth = math.max(1, targetWidth - progressWidth - PROGRESS_COLUMN_GAP)
+    if line.label.SetWidth then
+        line.label:SetWidth(descriptionWidth)
+    end
+    if line.progressLabel.SetWidth then
+        line.progressLabel:SetWidth(progressWidth)
+    end
+    if line.progressLabel.ClearAllPoints then
+        line.progressLabel:ClearAllPoints()
+    end
+    if line.progressLabel.SetPoint then
+        line.progressLabel:SetPoint("TOPRIGHT", line, "TOPRIGHT", 0, 0)
+    end
+
+    local descriptionText = (data.description or "") .. DESCRIPTION_PROGRESS_SEPARATOR
+    local descriptionLines = _GetWrappedDescriptionLines(descriptionText, descriptionWidth, line.label)
     line.label:SetText((data.colorPrefix or "") .. table.concat(descriptionLines, "\n"))
     _UpdateWrappedLineHeight(line)
 end
@@ -668,8 +763,8 @@ function TrackerLinePool.UpdateQuestLines(questId)
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
             local objDesc = QuestieLib:GetObjectiveDescription(objective)
-            local targetWidth
-            if line.label.GetWidth then
+            local targetWidth = line.wrappedObjectiveText and line.wrappedObjectiveText.lastTargetWidth
+            if (not targetWidth) and line.label.GetWidth then
                 targetWidth = line.label:GetWidth()
             end
             TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objDesc, lineEnding, targetWidth)
@@ -703,8 +798,8 @@ function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
         end
 
         local lineEnding = tostring(criteriaInfo.quantity) .. "/" .. tostring(criteriaInfo.totalQuantity)
-        local targetWidth
-        if line.label.GetWidth then
+        local targetWidth = line.wrappedObjectiveText and line.wrappedObjectiveText.lastTargetWidth
+        if (not targetWidth) and line.label.GetWidth then
             targetWidth = line.label:GetWidth()
         end
         TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding, targetWidth)
