@@ -316,9 +316,9 @@ function _Qframe.UpdateTexture(self, texture)
     local colors = { 1, 1, 1 }
 
     if self.data.isRaidQuest then
-        self.texture:SetTexture("Interface/AddOns/Questie/Icons/available_raid.png")
+        self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/raid_icon_overlay.png")
     elseif self.data.isDungeonQuest then
-        self.texture:SetTexture("Interface/AddOns/Questie/Icons/available_dungeon.png")
+        self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/dungeon_icon_overlay.png")
     elseif self.data.StarterType then
         if self.data.StarterType == "itemFromMonster" or self.data.StarterType == "itemFromObject" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
