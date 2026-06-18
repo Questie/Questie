@@ -77,7 +77,7 @@ function EventHandler:RegisterEarlyEvents()
         end
 
         if isInitialLogin or isReloadingUi then
-             local isInInstance = IsInInstance()
+            local isInInstance = IsInInstance()
             if isInInstance and Questie.db.profile.trackerEnabled then
                 if Questie.db.profile.minimizeTrackerInInstances then
                     EventHandler.trackerMinimizedByDungeon = true
