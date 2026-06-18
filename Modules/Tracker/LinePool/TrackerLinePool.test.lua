@@ -12,11 +12,13 @@ describe("TrackerLinePool", function()
     local match = require("luassert.match")
     local _ = match._ -- any match
     local originalTextWrap
+    local originalScenarioInfo
 
     before_each(function()
         QuestieLib = require("Modules.Libs.QuestieLib")
         WrappedText = require("Modules.Libs.WrappedText")
         originalTextWrap = WrappedText.TextWrap
+        originalScenarioInfo = _G.C_ScenarioInfo
         TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
     end)
 
@@ -24,6 +26,7 @@ describe("TrackerLinePool", function()
         if WrappedText then
             WrappedText.TextWrap = originalTextWrap
         end
+        _G.C_ScenarioInfo = originalScenarioInfo
     end)
 
     describe("UpdateQuestLines", function()
@@ -91,6 +94,30 @@ describe("TrackerLinePool", function()
             assert.are.same("|cFFEEEEEELong Test\nObjective\n    > 5/10", label.text)
         end)
 
+        it("should expand line height when GetStringHeight only reports one line", function()
+            Questie.db.profile.trackerQuestPadding = 5
+            WrappedText.TextWrap = function()
+                return {"Long Test", "Objective"}
+            end
+
+            local label = {
+                SetText = function() end,
+                SetHeight = spy.new(function() end),
+                GetStringHeight = function() return 10 end,
+                GetFont = function() return nil, 12 end,
+                GetNumLines = function() return 2 end,
+            }
+            local line = {
+                label = label,
+                SetHeight = spy.new(function() end),
+            }
+
+            TrackerLinePool.SetWrappedObjectiveText(line, "|cFFEEEEEE", "Long Test Objective", nil, 100)
+
+            assert.spy(label.SetHeight).was.called_with(_, 25)
+            assert.spy(line.SetHeight).was.called_with(_, 32)
+        end)
+
         it("should do nothing when questId was not added", function()
             local line = {
                 label = {SetText = spy.new(function() end)},
@@ -105,6 +132,34 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(456)
 
+            assert.spy(line.label.SetText).was_not_called()
+        end)
+    end)
+
+    describe("UpdateScenarioLines", function()
+        it("should ignore stale scenario mappings", function()
+            _G.C_ScenarioInfo = {
+                GetCriteriaInfo = spy.new(function()
+                    return {
+                        quantity = 1,
+                        totalQuantity = 3,
+                    }
+                end),
+            }
+
+            local line = {
+                label = {SetText = spy.new(function() end)},
+                Objective = {
+                    Id = 123,
+                    Index = 1,
+                    Description = "Test Scenario Objective",
+                },
+            }
+
+            TrackerLinePool.AddScenarioLine(456, line)
+            TrackerLinePool.UpdateScenarioLines(456)
+
+            assert.spy(_G.C_ScenarioInfo.GetCriteriaInfo).was_not_called()
             assert.spy(line.label.SetText).was_not_called()
         end)
     end)

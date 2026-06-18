@@ -566,6 +566,34 @@ function QuestieTracker:Show()
     end
 end
 
+local function _GetReliableLabelHeight(label)
+    local labelHeight = 0
+
+    if label.GetStringHeight then
+        local stringHeight = label:GetStringHeight()
+        if stringHeight then
+            labelHeight = math.max(labelHeight, stringHeight)
+        end
+    end
+
+    if label.GetHeight then
+        local currentHeight = label:GetHeight()
+        if currentHeight then
+            labelHeight = math.max(labelHeight, currentHeight)
+        end
+    end
+
+    if label.GetFont and label.GetNumLines then
+        local _, fontSize = label:GetFont()
+        local numLines = label:GetNumLines()
+        if fontSize and numLines then
+            labelHeight = math.max(labelHeight, (fontSize * numLines) + 1)
+        end
+    end
+
+    return labelHeight
+end
+
 local function _UpdateLineWidth(line, objectiveMarginLeft)
     local trackerMaxWidth = GetScreenWidth() * Questie.db.profile.trackerWidthRatio
     if Questie.db.profile.TrackerWidth > 0 then
@@ -1382,9 +1410,10 @@ function QuestieTracker:Update()
         line.label:SetText(timer)
         ChallengeModeTimer.SetTimerLabel(line.label)
 
-        line.label:SetWidth(trackerBaseFrame:GetWidth())
-        line:SetWidth(line.label:GetWidth())
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+        local timerLabelInset = 15
+        line.label:SetWidth(math.max(1, trackerBaseFrame:GetWidth() - timerLabelInset - trackerMarginRight))
+        line:SetWidth(line.label:GetWidth() + timerLabelInset)
+        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + timerLabelInset)
         line:SetHeight(line.label:GetHeight() + 3)
 
         line:Show()
@@ -1428,10 +1457,11 @@ function QuestieTracker:Update()
             -- Set Objective text
             TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding)
 
-            line.label:SetWidth(trackerBaseFrame:GetWidth())
+            local objectiveLabelInset = 15
+            line.label:SetWidth(math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight))
             TrackerLinePool.ApplyWrappedObjectiveText(line, line.label:GetWidth())
-            line:SetWidth(line.label:GetWidth())
-            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+            line:SetWidth(line.label:GetWidth() + objectiveLabelInset)
+            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveLabelInset)
             line:SetHeight(line.label:GetHeight() + 1)
 
             line:Show()
@@ -1508,10 +1538,11 @@ function QuestieTracker:Update()
             -- Set Objective text
             TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding)
 
-            line.label:SetWidth(trackerBaseFrame:GetWidth())
+            local objectiveLabelInset = 15
+            line.label:SetWidth(math.max(1, trackerBaseFrame:GetWidth() - objectiveLabelInset - trackerMarginRight))
             TrackerLinePool.ApplyWrappedObjectiveText(line, line.label:GetWidth())
-            line:SetWidth(line.label:GetWidth())
-            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+            line:SetWidth(line.label:GetWidth() + objectiveLabelInset)
+            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveLabelInset)
             line:SetHeight(line.label:GetHeight() + 1)
 
             line:Show()
@@ -1724,7 +1755,7 @@ function QuestieTracker:UpdateHeight()
         local currentLine = TrackerLinePool.GetCurrentLine()
         local firstLine = TrackerLinePool.GetFirstLine()
 
-        currentLine:SetHeight(currentLine.label:GetStringHeight())
+        currentLine:SetHeight(_GetReliableLabelHeight(currentLine.label))
 
         local firstLineTop = firstLine:GetTop()
         local currentLineBottom = currentLine:GetBottom()

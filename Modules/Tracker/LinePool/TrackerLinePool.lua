@@ -74,9 +74,11 @@ local function _UpdateWrappedLineHeight(line)
     end
 
     local labelHeight = line.label:GetStringHeight()
-    if (not labelHeight or labelHeight <= 0) and line.label.GetFont and line.label.GetNumLines then
+    if line.label.GetFont and line.label.GetNumLines then
         local _, fontSize = line.label:GetFont()
-        labelHeight = fontSize * line.label:GetNumLines()
+        if fontSize then
+            labelHeight = math.max(labelHeight or 0, (fontSize * line.label:GetNumLines()) + 1)
+        end
     end
 
     if labelHeight and labelHeight > 0 then
@@ -171,6 +173,7 @@ function TrackerLinePool.ResetLinesForChange()
     end
 
     linesByQuest = {} -- Reset to keep correct questId <-> line mapping
+    linesByScenarioIndex = {} -- Reset to avoid stale scenario criteria <-> line mapping
 
     for _, line in pairs(linePool) do
         line.mode = nil
@@ -611,13 +614,7 @@ end
 ---@param criteriaIndex number
 ---@param line TrackerLineFrame
 function TrackerLinePool.AddScenarioLine(criteriaIndex, line)
-    if (not linesByScenarioIndex[criteriaIndex]) then
-        linesByScenarioIndex[criteriaIndex] = {}
-    end
-
-    if (not tContains(linesByScenarioIndex[criteriaIndex], line)) then
-        linesByScenarioIndex[criteriaIndex] = line
-    end
+    linesByScenarioIndex[criteriaIndex] = line
 end
 
 ---@param criteriaIndex number
@@ -630,6 +627,10 @@ function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
     if line.Objective then
         ---@type QuestObjective
         local objective = line.Objective
+        if objective.Id ~= criteriaIndex then
+            return
+        end
+
         local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(objective.Index)
         if (not criteriaInfo) then
             return
