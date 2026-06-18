@@ -1451,6 +1451,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
+        [8440] = { -- Shade of Hakkar
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+        },
         [8443] = { -- Avatar of Hakkar
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
@@ -1780,6 +1784,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.81,9.8}}},
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
         },
+        [10738] = { -- High Chief Winterfall
+            [npcKeys.waypoints] = {},
+        },
         [10740] = { -- Awbee
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
@@ -1805,7 +1812,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{36.2,56.6},{36.6,57.6},{37,57.2},{37.2,55.4},{37.4,55.6},{37.8,57.6},{38,56.4},{38,56.6},{38.4,55.4},{38.6,55.2},{38.6,56.2}}},
         },
         [10806] = { -- Ursius
-            [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING] = {{{54.2,34.0},{54.8,35.4},{56.0,32.6},{56.2,29.8},{56.4,36.4},{57.2,31.4},{57.4,33.6},{57.6,27.8},{58.0,35.6},{58.2,30.0},{58.8,36.8},{59.0,38.6},{59.2,23.4},{59.2,32.4},{59.4,34.6},{60.0,21.6},{60.0,36.0},{60.4,33.4},{60.8,28.8},{61.0,24.6},{61.0,31.4},{61.2,27.0},{61.2,38.6},{61.4,23.0},{61.6,34.8},{62.2,21.2},{62.2,29.8},{62.4,33.6},{62.6,36.4},{63.4,24.4},{63.6,26.4},{63.6,31.4},{63.8,28.2},{64.0,20.8},{64.6,22.8},{64.6,33.6},{65.2,25.8},{65.2,29.0},{65.6,27.4},{65.8,32.2},{67.4,26.0}}}},
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{60.92,32.9}}},
         },
         [10807] = { -- Brumeran
             [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING] = {{{58,62.1},{59.9,61.5},{61.6,61.5},{62.1,59},{62.6,57.2},{60.3,55.9},{58.4,54.7},{56.3,52.6},{55,50.2},{54.2,47.3},{54.2,44.8}}}},
@@ -2076,6 +2083,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.MOLTEN_CORE,
         },
+        [11558] = { -- Kernda
+            [npcKeys.waypoints] = {},
+        },
         [11560] = { -- Magrami Spectre
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{64.18,91.63}}},
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
@@ -2131,6 +2141,9 @@ function QuestieNPCFixes:Load()
         },
         [11746] = { -- Desert Rumbler
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{18.4,16.8},{18.8,17},{19.4,16.4},{19.8,15.4},{19.8,15.6},{20.4,12.2},{20.4,13.4},{20.4,14},{20.4,16.8},{20.4,17.8},{20.6,13.8},{20.6,16.4},{20.6,16.8},{20.8,15.2},{21,11.4},{21,11.6},{21.2,10.4},{21.2,12.8},{21.4,18},{21.4,9.4},{21.8,12.8},{21.8,15.2},{21.8,18.2},{21.8,9.8},{22,20},{22.2,11.4},{22.2,11.6},{22.4,14.2},{22.4,15.6},{22.4,17},{22.4,18.6},{22.4,8.4},{22.4,8.6},{22.6,11.2},{22.6,12.2},{22.6,12.8},{22.6,14.2},{22.6,15.8},{22.6,17},{22.6,19.6},{22.6,8.4},{22.6,8.6},{22.8,19.2},{23.2,17.8},{23.4,10},{23.4,15.2},{23.6,10},{23.6,15},{24.4,11.8},{24.4,11},{24.4,12.6},{24.4,14},{24.6,11},{24.6,13.8},{25.2,10},{25.4,12.4},{25.4,12.6},{25.4,15.2},{25.6,10.4},{25.6,12.4},{25.6,12.6},{25.6,15},{26.4,11.2},{26.4,13.8},{26.6,11.2},{26.6,11.6},{26.6,13.4},{26.6,13.8},{27.2,15.2},{27.6,12},{27.8,14.6},{28,12.6},{28.2,14},{28.6,14.6},{28.6,14}}},
+        },
+        [11754] = { -- Meggi Peppinrocker
+            [npcKeys.waypoints] = {},
         },
         [11783] = { -- Theradrim Shardling
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}}},

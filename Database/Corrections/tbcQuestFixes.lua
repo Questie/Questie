@@ -748,6 +748,9 @@ function QuestieTBCQuestFixes:Load()
         [5056] = { -- Shy-Rotam
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [5057] = { -- Past Endeavors
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [5066] = { -- A Call to Arms: The Plaguelands!
             [questKeys.exclusiveTo] = {5090,5091,10373},
         },
@@ -7768,6 +7771,12 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461}},
+        },
+        [5054] = { -- Ursius of the Shardtooth
+            [questKeys.reputationReward] = {},
+        },
+        [5057] = { -- Past Endeavors
+            [questKeys.reputationReward] = {},
         },
         [8151] = { -- The Hunter's Charm
             [questKeys.startedBy] = {{4205,5116,5516,17505}},

@@ -294,6 +294,16 @@ function QuestieObjectFixes:Load()
                 [zoneIDs.FERALAS] = {{32.56,43.91},{57.97,44.49}},
             },
         },
+        [177404] = { -- Altar of Elune
+            [objectKeys.name] = "Altar of Elune",
+            [objectKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{64.8,63.78}}},
+            [objectKeys.zoneID] = zoneIDs.WINTERSPRING,
+        },
+        [177417] = { -- Fire of Elune
+            [objectKeys.name] = "Fire of Elune",
+            [objectKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{64.41,61.35},{65.89,58.37},{66.78,59.96},{66.36,61.81},{65.73,64.83}}},
+            [objectKeys.zoneID] = zoneIDs.WINTERSPRING,
+        },
         [177624] = { -- Xabraxxis' Demon Bag
             [objectKeys.spawns] = {[zoneIDs.DARKSHORE] = {{52.48,33.39}}},
             [objectKeys.zoneID] = zoneIDs.DARKSHORE,
