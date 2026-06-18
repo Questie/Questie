@@ -5416,6 +5416,9 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25308,25310,25311},
         },
+        [25316] = { -- As Hyjal Burns
+            [questKeys.breadcrumbs] = {27721,27726},
+        },
         [25323] = { -- Flamebreaker
             [questKeys.objectives] = {{{40080}}},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use Flameseer's Staff"),0,{{"monster",38896}}}},
@@ -10636,6 +10639,7 @@ function CataQuestFixes.Load()
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.nextQuestInChain] = 25316,
+            [questKeys.breadcrumbForQuestId] = 25316,
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [27722] = { -- Warchief's Command: Deepholm!
@@ -10654,6 +10658,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.nextQuestInChain] = 25316,
+            [questKeys.breadcrumbForQuestId] = 25316,
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [27727] = { -- Hero's Call: Deepholm!
