@@ -604,8 +604,8 @@ function QuestieTracker:Update()
     lastTrackerUpdate = now
 
     -- Hide if logged in or reloaded UI in a dungeon with the option to hide enabled
-    if EventHandler.trackerHiddenByDungeon then
-        EventHandler.trackerHiddenByDungeon = false
+    if EventHandler.trackerHiddenByInstance then
+        EventHandler.trackerHiddenByInstance = false
         return
     end
 

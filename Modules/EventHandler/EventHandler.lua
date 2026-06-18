@@ -56,7 +56,8 @@ local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
-
+EventHandler.trackerMinimizedByInstance = false
+EventHandler.trackerHiddenByInstance = false
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
@@ -81,10 +82,10 @@ function EventHandler:RegisterEarlyEvents()
             local isInInstance = IsInInstance()
             if isInInstance and Questie.db.profile.trackerEnabled then
                 if Questie.db.profile.minimizeTrackerInInstances then
-                    EventHandler.trackerMinimizedByDungeon = true
+                    EventHandler.trackerMinimizedByInstance = true
                 end
                 if Questie.db.profile.hideTrackerInInstances then
-                    EventHandler.trackerHiddenByDungeon = true
+                    EventHandler.trackerHiddenByInstance = true
                 end
             end
         end
@@ -186,7 +187,7 @@ function EventHandler:RegisterLateEvents()
         if isInInstance then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
             if Questie.db.profile.minimizeTrackerInInstances then
-                EventHandler.trackerMinimizedByDungeon = true
+                EventHandler.trackerMinimizedByInstance = true
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Collapse()
@@ -196,15 +197,15 @@ function EventHandler:RegisterLateEvents()
             -- Handle complete hiding in instances
             if Questie.db.profile.hideTrackerInInstances then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
-                EventHandler.trackerHiddenByDungeon = true
+                EventHandler.trackerHiddenByInstance = true
                 QuestieTracker:Hide()
             end
         else
             -- Handle minimize when exiting instances
-            if EventHandler.trackerMinimizedByDungeon == true then
+            if EventHandler.trackerMinimizedByInstance == true then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Minimize")
                 if Questie.db.profile.minimizeTrackerInInstances and (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) then
-                    EventHandler.trackerMinimizedByDungeon = false
+                    EventHandler.trackerMinimizedByInstance = false
 
                     QuestieCombatQueue:Queue(function()
                         QuestieTracker:Expand()
@@ -213,10 +214,10 @@ function EventHandler:RegisterLateEvents()
             end
 
             -- Handle hiding when exiting instances
-            if EventHandler.trackerHiddenByDungeon == true then
+            if EventHandler.trackerHiddenByInstance == true then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
                 if Questie.db.profile.hideTrackerInInstances then
-                    EventHandler.trackerHiddenByDungeon = false
+                    EventHandler.trackerHiddenByInstance = false
                     QuestieTracker:Show()
                 end
             end
