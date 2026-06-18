@@ -781,6 +781,7 @@ function QuestieItemFixes:Load()
         },
         [10663] = { -- Essence of Hakkar
             [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.npcDrops] = {8440},
         },
         [10691] = { -- Filled Vial Labeled #1 (#1396)
             [itemKeys.relatedQuests] = {3568},

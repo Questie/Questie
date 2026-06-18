@@ -2334,6 +2334,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
             [questKeys.exclusiveTo] = {3633,3642},
         },
+        [3528] = { -- The God Hakkar
+            [questKeys.nextQuestInChain] = 5065,
+        },
         [3601] = { -- Kim'jael Indeed!
             [questKeys.nextQuestInChain] = 5534,
         },
@@ -2418,6 +2421,9 @@ function QuestieQuestFixes:Load()
         },
         [3702] = { -- The Smoldering Ruins of Thaurissan
             [questKeys.objectives] = {{{8879,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [3721] = { -- An OOX of Your Own
+            [questKeys.zoneOrSort] = zoneIDs.STRANGLETHORN_VALE,
         },
         [3761] = { -- Un'Goro Soil
             [questKeys.breadcrumbs] = {936,3762,3784},
@@ -2508,6 +2514,9 @@ function QuestieQuestFixes:Load()
         },
         [4084] = {
             [questKeys.questLevel] = 54, -- #1495
+        },
+        [4101] = { -- Cleansing Felwood
+            [questKeys.nextQuestInChain] = 5882,
         },
         -- Alliance
         [4103] = { -- Salve via Hunting
@@ -2658,6 +2667,15 @@ function QuestieQuestFixes:Load()
         },
         [4361] = {
             [questKeys.preQuestSingle] = {4342},
+        },
+        [4421] = { -- The Corruption of the Jadefire
+            [questKeys.nextQuestInChain] = 4906,
+        },
+        [4441] = { -- Felbound Ancients
+            [questKeys.nextQuestInChain] = 4442,
+        },
+        [4442] = { -- Purified!
+            [questKeys.nextQuestInChain] = 4261,
         },
         [4485] = { -- The Tome of Nobility
             [questKeys.startedBy] = {{6179}},
@@ -2842,9 +2860,10 @@ function QuestieQuestFixes:Load()
         [4882] = {
             [questKeys.preQuestSingle] = {4741},
         },
-        [4901] = {
+        [4901] = { -- Guardians of the Altar
             [questKeys.triggerEnd] = {"Discover the secret of the Altar of Elune", {[zoneIDs.WINTERSPRING]={{64.85,63.73}}}},
             [questKeys.nextQuestInChain] = 4902,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it when Ranshalla tells you to"), 0, {{"object", 177404},{"object", 177417}}}},
         },
         [4904] = {
             [questKeys.triggerEnd] = {"Escort Lakota Windsong from the Darkcloud Pinnacle.", {[zoneIDs.THOUSAND_NEEDLES]={{30.93,37.12}}}},
@@ -2911,11 +2930,11 @@ function QuestieQuestFixes:Load()
         [5047] = {
             [questKeys.name] = "Pip Quickwit, At Your Service!",
         },
-        [5056] = {
+        [5056] = { -- Shy-Rotam
             [questKeys.requiredSourceItems] = {12733},
             [questKeys.nextQuestInChain] = 5057,
         },
-        [5057] = {
+        [5057] = { -- Past Endeavors
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {},
         },
@@ -2981,6 +3000,9 @@ function QuestieQuestFixes:Load()
         [5122] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1140
         },
+        [5123] = { -- The Final Piece
+            [questKeys.nextQuestInChain] = 5128,
+        },
         [5124] = {
             [questKeys.requiredSkill] = {164,275},
         },
@@ -3012,6 +3034,18 @@ function QuestieQuestFixes:Load()
         },
         [5156] = {
             [questKeys.triggerEnd] = {"Explore the craters in Shatter Scar Vale", {[zoneIDs.FELWOOD]={{41.03,41.96}}}},
+        },
+        [5158] = { -- Seeking Spiritual Aid
+            [questKeys.nextQuestInChain] = 5159,
+        },
+        [5163] = { -- Are We There, Yeti?
+            [questKeys.objectives] = {{{10978,nil,Questie.ICON_TYPE_EVENT},{7583,nil,Questie.ICON_TYPE_EVENT},{10977,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [5165] = { -- Dousing the Flames of Protection
+            [questKeys.nextQuestInChain] = 5242,
+        },
+        [5202] = { -- A Strange Red Key
+            [questKeys.nextQuestInChain] = 5203,
         },
         [5203] = {
             [questKeys.triggerEnd] = {"Protect Arko'narin out of Shadow Hold", {[zoneIDs.FELWOOD]={{35.45,59.06}}}},
@@ -4921,6 +4955,15 @@ function QuestieQuestFixes:Load()
         [8447] = {
             [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
         },
+        [8460] = { -- Timbermaw Ally
+            [questKeys.nextQuestInChain] = 8462,
+        },
+        [8461] = { -- Deadwood of the North
+            [questKeys.nextQuestInChain] = 8465,
+        },
+        [8464] = { -- Winterfall Activity
+            [questKeys.nextQuestInChain] = 8469,
+        },
         [8466] = {
             [questKeys.objectivesText] = {},
         },
@@ -6158,6 +6201,12 @@ function QuestieQuestFixes:Load()
             [questKeys.disabledByQuest] = 9416,
             [questKeys.objectives] = {{{18199,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Silithyst"),0,{{"object", 181597},{"object", 181598}}}},
+        },
+        [9664] = { -- Establishing New Outposts
+            [questKeys.objectives] = {{{17689,nil,Questie.ICON_TYPE_EVENT},{17690,nil,Questie.ICON_TYPE_EVENT},{17696,nil,Questie.ICON_TYPE_EVENT},{17698,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [9665] = { -- Bolstering Our Defenses
+            [questKeys.objectives] = {{{17689,nil,Questie.ICON_TYPE_EVENT},{17690,nil,Questie.ICON_TYPE_EVENT},{17696,nil,Questie.ICON_TYPE_EVENT},{17698,nil,Questie.ICON_TYPE_EVENT}}},
         },
         ----- Warlock Incubus quest chain -----
         [65593] = { -- Hearts of the Lovers

@@ -337,12 +337,29 @@ QuestieItemDropCorrections.Era = {
     [11479] = { -- Un'Goro Stomper Pelt
         [6513] = DropKeys.WOWHEAD,
     },
+    [11503] = { -- Blood Amber
+        [7100] = 100,
+        [7101] = 100,
+        [7104] = 100,
+    },
     [11829] = { -- Un'Goro Ash
         [6520] = 100.0,
         [6521] = 100.0,
         [9376] = 10.0,
         [14460] = 100.0,
         [14461] = 10.0,
+    },
+    [12524] = { -- Blue-feathered Amulet
+        [7452] = 50,
+        [7453] = 50,
+        [7454] = 50,
+    },
+    [12733] = { -- Sacred Frostsaber Meat
+        [7430] = 10,
+        [7431] = 10,
+        [7432] = 10,
+        [7433] = 10,
+        [7434] = 10,
     },
     [15849] = { -- Ghost-o-plasm
         [11560] = 100,
@@ -425,6 +442,11 @@ QuestieItemDropCorrections.Tbc = {
     },
     [6487] = { -- Vile Familiar Head
         [3101] = 100, -- TO DO double check this. strange that it's TBC only
+    },
+    [12334] = { -- Frostmaul Shards
+        [7428] = 20,
+        [7429] = 20,
+        [10198] = 100,
     },
     [20934] = { -- Wraith Essence
         [15273] = 100,
