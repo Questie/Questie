@@ -5401,6 +5401,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25309,25496},
         },
+        [25314] = { -- Speech Writing for Dummies
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25308,25310,25311},
+        },
         [25315] = { -- Graduation Speech
             [questKeys.objectives] = {nil,{{202996}}},
         },
@@ -5408,16 +5412,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {25317,25370,25460},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on Aronus"),0,{{"monster",39140}}}},
+            [questKeys.breadcrumbs] = {27721,27726},
         },
         [25317] = { -- Protect the World Tree
             [questKeys.preQuestSingle] = {},
-        },
-        [25314] = { -- Speech Writing for Dummies
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25308,25310,25311},
-        },
-        [25316] = { -- As Hyjal Burns
-            [questKeys.breadcrumbs] = {27721,27726},
         },
         [25323] = { -- Flamebreaker
             [questKeys.objectives] = {{{40080}}},
