@@ -56,6 +56,9 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     line.label:SetJustifyH("LEFT")
     line.label:SetJustifyV("TOP")
+    if line.label.SetWordWrap then
+        line.label:SetWordWrap(true)
+    end
     line.label:SetPoint("TOPLEFT", line)
     line.label:Hide()
 

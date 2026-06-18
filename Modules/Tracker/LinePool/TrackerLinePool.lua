@@ -14,6 +14,8 @@ local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type WrappedText
+local WrappedText = QuestieLoader:ImportModule("WrappedText")
 
 local linePoolSize = 250
 local lineIndex = 0
@@ -28,6 +30,113 @@ local linesByQuest = {}
 
 ---@type table<number, table<TrackerLineFrame>>
 local linesByScenarioIndex = {}
+
+local function _GetObjectiveText(colorPrefix, description, progressText)
+    local text = (description or "")
+    if progressText then
+        text = text .. ": " .. progressText
+    end
+
+    return (colorPrefix or "") .. text
+end
+
+local function _TextFits(label, text, width)
+    if (not label.SetText) or (not label.GetUnboundedStringWidth) then
+        return true
+    end
+
+    label:SetText(text)
+
+    return label:GetUnboundedStringWidth() <= width
+end
+
+local function _GetWrappedDescriptionLines(description, width, label)
+    local lines = {}
+    local normalizedDescription = (description or ""):gsub("\r\n", "\n")
+
+    for hardLine in (normalizedDescription .. "\n"):gmatch("(.-)\n") do
+        local wrappedLines = WrappedText:TextWrap(hardLine, "", false, width, label)
+        for _, wrappedLine in ipairs(wrappedLines) do
+            table.insert(lines, wrappedLine)
+        end
+    end
+
+    if #lines == 0 then
+        table.insert(lines, "")
+    end
+
+    return lines
+end
+
+local function _UpdateWrappedLineHeight(line)
+    if (not line.label.GetStringHeight) or (not line.label.SetHeight) then
+        return
+    end
+
+    local labelHeight = line.label:GetStringHeight()
+    if (not labelHeight or labelHeight <= 0) and line.label.GetFont and line.label.GetNumLines then
+        local _, fontSize = line.label:GetFont()
+        labelHeight = fontSize * line.label:GetNumLines()
+    end
+
+    if labelHeight and labelHeight > 0 then
+        line.label:SetHeight(labelHeight)
+        if line.SetHeight then
+            line:SetHeight(labelHeight + 2 + Questie.db.profile.trackerQuestPadding)
+        end
+    end
+end
+
+function TrackerLinePool.ClearWrappedObjectiveText(line)
+    line.wrappedObjectiveText = nil
+end
+
+function TrackerLinePool.GetWrappedObjectiveText(line)
+    if not line.wrappedObjectiveText then
+        return nil
+    end
+
+    return _GetObjectiveText(line.wrappedObjectiveText.colorPrefix, line.wrappedObjectiveText.description, line.wrappedObjectiveText.progressText)
+end
+
+function TrackerLinePool.ApplyWrappedObjectiveText(line, targetWidth)
+    local data = line.wrappedObjectiveText
+    if not data then
+        return
+    end
+
+    local fullText = TrackerLinePool.GetWrappedObjectiveText(line)
+    if (not targetWidth) or targetWidth <= 0 or string.find(data.description or "", "|", 1, true) then
+        line.label:SetText(fullText)
+        _UpdateWrappedLineHeight(line)
+        return
+    end
+
+    local descriptionLines = _GetWrappedDescriptionLines(data.description, targetWidth, line.label)
+    if data.progressText then
+        local progressSuffix = ": " .. data.progressText
+        local lastLineIndex = #descriptionLines
+        local lastLineWithProgress = descriptionLines[lastLineIndex] .. progressSuffix
+        if _TextFits(line.label, lastLineWithProgress, targetWidth) then
+            descriptionLines[lastLineIndex] = lastLineWithProgress
+        else
+            table.insert(descriptionLines, "    > " .. data.progressText)
+        end
+    end
+
+    line.label:SetText((data.colorPrefix or "") .. table.concat(descriptionLines, "\n"))
+    _UpdateWrappedLineHeight(line)
+end
+
+function TrackerLinePool.SetWrappedObjectiveText(line, colorPrefix, description, progressText, targetWidth)
+    line.wrappedObjectiveText = {
+        colorPrefix = colorPrefix,
+        description = description or "",
+        progressText = progressText,
+    }
+
+    TrackerLinePool.ApplyWrappedObjectiveText(line, targetWidth)
+end
 
 ---@param questFrame Frame
 function TrackerLinePool.Initialize(questFrame)
@@ -67,6 +176,7 @@ function TrackerLinePool.ResetLinesForChange()
         line.mode = nil
         line.trackTimedQuest = nil
         line.questHasSecondaryQIB = false
+        TrackerLinePool.ClearWrappedObjectiveText(line)
         if line.expandQuest then
             line.expandQuest.mode = nil
             line.expandQuest.questId = nil
@@ -135,18 +245,23 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         if Questie.db.profile.TrackerWidth == 0 then
             if line.mode == "objective" then
                 if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.profile.trackerFontSizeObjective then
-                    line.label:SetText(line.label:GetText())
-
+                    local labelWidth
                     if line.altButton then
-                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - questItemButtonSize)
+                        labelWidth = trackerLineWidth - objectiveMarginLeft - questItemButtonSize
                         line:SetWidth(trackerLineWidth + questItemButtonSize)
                     else
-                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft)
+                        labelWidth = trackerLineWidth - objectiveMarginLeft
                         line:SetWidth(trackerLineWidth)
                     end
 
-                    line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.profile.trackerQuestPadding)
-                    line.label:SetHeight(line:GetHeight() - 2 - Questie.db.profile.trackerQuestPadding)
+                    line.label:SetWidth(labelWidth)
+                    if line.wrappedObjectiveText then
+                        TrackerLinePool.ApplyWrappedObjectiveText(line, labelWidth)
+                    else
+                        line.label:SetText(line.label:GetText())
+                        line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.profile.trackerQuestPadding)
+                        line.label:SetHeight(line:GetHeight() - 2 - Questie.db.profile.trackerQuestPadding)
+                    end
                 end
             end
         end
@@ -159,6 +274,8 @@ function TrackerLinePool.GetNextLine()
     if not linePool[lineIndex] then
         return nil -- past the line limit
     end
+
+    TrackerLinePool.ClearWrappedObjectiveText(linePool[lineIndex])
 
     return linePool[lineIndex]
 end
@@ -336,6 +453,7 @@ function TrackerLinePool.HideUnusedLines()
             line.Button = nil
             line.altButton = nil
             line.questHasSecondaryQIB = false
+            TrackerLinePool.ClearWrappedObjectiveText(line)
             line.trackTimedQuest = nil
             line.expandQuest.mode = nil
             line.expandQuest.questId = nil
@@ -481,7 +599,11 @@ function TrackerLinePool.UpdateQuestLines(questId)
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
             local objDesc = QuestieLib:GetObjectiveDescription(objective)
-            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+            local targetWidth
+            if line.label.GetWidth then
+                targetWidth = line.label:GetWidth()
+            end
+            TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objDesc, lineEnding, targetWidth)
         end
     end
 end
@@ -514,7 +636,11 @@ function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
         end
 
         local lineEnding = tostring(criteriaInfo.quantity) .. "/" .. tostring(criteriaInfo.totalQuantity)
-        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
+        local targetWidth
+        if line.label.GetWidth then
+            targetWidth = line.label:GetWidth()
+        end
+        TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding, targetWidth)
     end
 end
 

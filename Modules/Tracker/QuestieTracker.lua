@@ -568,11 +568,20 @@ end
 
 local function _UpdateLineWidth(line, objectiveMarginLeft)
     local trackerMaxWidth = GetScreenWidth() * Questie.db.profile.trackerWidthRatio
+    if Questie.db.profile.TrackerWidth > 0 then
+        trackerMaxWidth = Questie.db.profile.TrackerWidth
+    end
+
     local margin = objectiveMarginLeft + trackerMarginRight
     local contentMaxWidth = trackerMaxWidth - margin
 
+    local rawObjectiveText = TrackerLinePool.GetWrappedObjectiveText(line)
+    if rawObjectiveText then
+        line.label:SetText(rawObjectiveText)
+    end
+
     local unboundedWidth = line.label:GetUnboundedStringWidth()
-    if (unboundedWidth + margin) < contentMaxWidth then
+    if (unboundedWidth + margin) < trackerMaxWidth then
         -- If the text width is less than the max tracker width, we update the base frame width to fit the text
         QuestieTracker:UpdateWidth(unboundedWidth + margin)
     else
@@ -580,8 +589,13 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
         QuestieTracker:UpdateWidth(trackerMaxWidth)
     end
 
-    line.label:SetWidth(trackerBaseFrame:GetWidth() - margin)
+    local labelWidth = math.max(1, trackerBaseFrame:GetWidth() - margin)
+    line.label:SetWidth(labelWidth)
     line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+
+    if rawObjectiveText then
+        TrackerLinePool.ApplyWrappedObjectiveText(line, labelWidth)
+    end
 
     -- If the line width is less than the minimum Tracker width then don't wrap text
     if unboundedWidth + objectiveMarginLeft < contentMaxWidth then
@@ -947,7 +961,7 @@ function QuestieTracker:Update()
                                         local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
                                         -- Set Objective text
-                                        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+                                        TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objDesc, lineEnding)
                                         _UpdateLineWidth(line, objectiveMarginLeft)
 
                                         -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
@@ -1412,9 +1426,10 @@ function QuestieTracker:Update()
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
             -- Set Objective text
-            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
+            TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding)
 
             line.label:SetWidth(trackerBaseFrame:GetWidth())
+            TrackerLinePool.ApplyWrappedObjectiveText(line, line.label:GetWidth())
             line:SetWidth(line.label:GetWidth())
             trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
             line:SetHeight(line.label:GetHeight() + 1)
@@ -1491,9 +1506,10 @@ function QuestieTracker:Update()
             local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
             -- Set Objective text
-            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
+            TrackerLinePool.SetWrappedObjectiveText(line, QuestieLib:GetRGBForObjective(objective), objective.Description, lineEnding)
 
             line.label:SetWidth(trackerBaseFrame:GetWidth())
+            TrackerLinePool.ApplyWrappedObjectiveText(line, line.label:GetWidth())
             line:SetWidth(line.label:GetWidth())
             trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
             line:SetHeight(line.label:GetHeight() + 1)
