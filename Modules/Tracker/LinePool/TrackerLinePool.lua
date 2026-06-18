@@ -16,6 +16,8 @@ local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type WrappedText
 local WrappedText = QuestieLoader:ImportModule("WrappedText")
+---@type utf8
+local utf8 = QuestieLoader:ImportModule("utf8")
 
 local linePoolSize = 250
 local lineIndex = 0
@@ -50,14 +52,78 @@ local function _TextFits(label, text, width)
     return label:GetUnboundedStringWidth() <= width
 end
 
+local function _TrimTrailingWhitespace(text)
+    local trimmedText = (text or ""):gsub("%s+$", "")
+    return trimmedText
+end
+
+local function _SplitLineToFit(line, width, label)
+    line = _TrimTrailingWhitespace(line)
+    if _TextFits(label, line, width) then
+        return {line}
+    end
+
+    local lines = {}
+    local remainingLine = line:gsub("^%s+", "")
+
+    while remainingLine ~= "" do
+        if _TextFits(label, remainingLine, width) then
+            table.insert(lines, _TrimTrailingWhitespace(remainingLine))
+            break
+        end
+
+        local remainingLineLength = utf8.strlen(remainingLine)
+        local lastFittingIndex
+        local lastSpaceIndex
+
+        for endIndex = 1, remainingLineLength do
+            local character = utf8.sub(remainingLine, endIndex, endIndex)
+            local candidate = utf8.sub(remainingLine, 1, endIndex)
+            if _TextFits(label, candidate, width) then
+                lastFittingIndex = endIndex
+                if character == " " and endIndex > 1 then
+                    lastSpaceIndex = endIndex - 1
+                end
+            else
+                break
+            end
+        end
+
+        local lineEndIndex = lastSpaceIndex or lastFittingIndex or 1
+        local newLine = _TrimTrailingWhitespace(utf8.sub(remainingLine, 1, lineEndIndex))
+        if newLine == "" then
+            newLine = utf8.sub(remainingLine, 1, 1)
+            lineEndIndex = 1
+        end
+
+        table.insert(lines, newLine)
+        remainingLine = utf8.sub(remainingLine, lineEndIndex + 1, remainingLineLength):gsub("^%s+", "")
+    end
+
+    if #lines == 0 then
+        table.insert(lines, "")
+    end
+
+    return lines
+end
+
 local function _GetWrappedDescriptionLines(description, width, label)
     local lines = {}
     local normalizedDescription = (description or ""):gsub("\r\n", "\n")
 
+    if normalizedDescription == "" then
+        return {""}
+    end
+
     for hardLine in (normalizedDescription .. "\n"):gmatch("(.-)\n") do
-        local wrappedLines = WrappedText:TextWrap(hardLine, "", false, width, label)
-        for _, wrappedLine in ipairs(wrappedLines) do
-            table.insert(lines, wrappedLine)
+        if hardLine ~= "" then
+            local wrappedLines = WrappedText:TextWrap(hardLine, "", false, width, label)
+            for _, wrappedLine in ipairs(wrappedLines) do
+                local fittingLines = _SplitLineToFit(wrappedLine, width, label)
+                for _, fittingLine in ipairs(fittingLines) do
+                    table.insert(lines, fittingLine)
+                end
+            end
         end
     end
 
@@ -122,7 +188,7 @@ function TrackerLinePool.ApplyWrappedObjectiveText(line, targetWidth)
         if _TextFits(line.label, lastLineWithProgress, targetWidth) then
             descriptionLines[lastLineIndex] = lastLineWithProgress
         else
-            table.insert(descriptionLines, "    > " .. data.progressText)
+            table.insert(descriptionLines, "> " .. data.progressText)
         end
     end
 

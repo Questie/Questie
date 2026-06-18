@@ -15,6 +15,7 @@ describe("TrackerLinePool", function()
     local originalScenarioInfo
 
     before_each(function()
+        require("Modules.Libs.utf8")
         QuestieLib = require("Modules.Libs.QuestieLib")
         WrappedText = require("Modules.Libs.WrappedText")
         originalTextWrap = WrappedText.TextWrap
@@ -91,7 +92,7 @@ describe("TrackerLinePool", function()
             TrackerLinePool.UpdateQuestLines(123)
 
             assert.spy(WrappedText.TextWrap).was_called()
-            assert.are.same("|cFFEEEEEELong Test\nObjective\n    > 5/10", label.text)
+            assert.are.same("|cFFEEEEEELong Test\nObjective\n> 5/10", label.text)
         end)
 
         it("should expand line height when GetStringHeight only reports one line", function()
@@ -116,6 +117,52 @@ describe("TrackerLinePool", function()
 
             assert.spy(label.SetHeight).was.called_with(_, 25)
             assert.spy(line.SetHeight).was.called_with(_, 32)
+        end)
+
+        it("should split WrappedText lines again when the tracker label still cannot render them", function()
+            WrappedText.TextWrap = function()
+                return {"Mindless Zombie"}
+            end
+
+            local label = {
+                text = nil,
+                SetText = function(self, text)
+                    self.text = text
+                end,
+                GetUnboundedStringWidth = function(self)
+                    return string.len(self.text or "") * 10
+                end,
+            }
+            local line = {
+                label = label,
+            }
+
+            TrackerLinePool.SetWrappedObjectiveText(line, "|cFFEEEEEE", "Mindless Zombie", "8/8", 80)
+
+            assert.are.same("|cFFEEEEEEMindless\nZombie\n> 8/8", label.text)
+        end)
+
+        it("should trim trailing whitespace returned by WrappedText", function()
+            WrappedText.TextWrap = function()
+                return {"Wretched ", "Zombie"}
+            end
+
+            local label = {
+                text = nil,
+                SetText = function(self, text)
+                    self.text = text
+                end,
+                GetUnboundedStringWidth = function(self)
+                    return string.len(self.text or "") * 10
+                end,
+            }
+            local line = {
+                label = label,
+            }
+
+            TrackerLinePool.SetWrappedObjectiveText(line, "|cFFEEEEEE", "Wretched Zombie", "3/8", 120)
+
+            assert.are.same("|cFFEEEEEEWretched\nZombie: 3/8", label.text)
         end)
 
         it("should do nothing when questId was not added", function()
