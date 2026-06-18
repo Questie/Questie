@@ -8407,7 +8407,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8073] = true, -- Paragons of Power: The Madcap's Tunic
         [8111] = true, -- Enchanted South Seas Kelp
         [9209] = true, -- The Savage Guard - Arcanum of Rapidity
-        [8243] = true, -- Zanza's Potent Potables
+        -- [8243] = true, -- Zanza's Potent Potables
         -- [8192] = true, -- Animist's Caress
         -- [8227] = true, -- Nat's Measuring Tape
         -- [8195] = true, -- Zulian, Razzashi, and Hakkari Coins
