@@ -766,6 +766,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [175330] = "Obstlager der Schwarzfelle",
 [175331] = "Getreidelager der Schwarzfelle",
 [175334] = "Bijous Habseligkeiten",
+[175338] = "Nördliches Freudenfeuer der Schwarzfelle",
 [175382] = "Doomriggers Kasten",
 [175384] = "Ei eines Steilhangflügeldrachen",
 [175385] = "Dunkelsteinschrifttafel",
