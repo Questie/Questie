@@ -314,6 +314,74 @@ describe("QuestieEvent", function()
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
+        it("should not be active on the following Monday at 03:00 for Era (end hour gating)", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekday = 2,
+                        monthDay = 15,
+                        month = 3,
+                        year = 2025,
+                        hour = 3,
+                        minute = 0,
+                    }
+                end
+            }
+
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return {year = 2025, month = 3}
+                    else
+                        return {firstWeekday = 2}
+                    end
+                end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.not_called()
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_equal(0, #QuestieEvent.activeQuests)
+        end)
+
+        it("should be active on the following Monday at 02:59 for Era (end hour gating)", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        weekday = 2,
+                        monthDay = 15,
+                        month = 3,
+                        year = 2025,
+                        hour = 2,
+                        minute = 59,
+                    }
+                end
+            }
+
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return {year = 2025, month = 3}
+                    else
+                        return {firstWeekday = 2}
+                    end
+                end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
         it("should load for MoP servers on days with DMF texture for 'start'", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()

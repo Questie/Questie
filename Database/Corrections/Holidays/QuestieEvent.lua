@@ -303,6 +303,7 @@ _IsDarkmoonFaireWeek = function(currentDate)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
     local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
+    local endDay = startDay + 7
     local dayOfMonth = currentDate.monthDay
 
     -- If we're on the first day (Monday) require hour >= 3
@@ -310,7 +311,12 @@ _IsDarkmoonFaireWeek = function(currentDate)
         return false
     end
 
-    return dayOfMonth >= startDay and dayOfMonth <= startDay + 6
+    -- The event ends at 03:00 on the following Monday
+    if dayOfMonth == endDay and currentDate.hour >= 3 then
+        return false
+    end
+
+    return dayOfMonth >= startDay and dayOfMonth <= endDay
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
