@@ -32,6 +32,7 @@ local _Qframe = {}
 ---@field StarterType string|nil
 ---@field isDungeonQuest boolean|nil
 ---@field isRaidQuest boolean|nil
+---@field isHeroicQuest boolean|nil
 
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
@@ -319,6 +320,8 @@ function _Qframe.UpdateTexture(self, texture)
         self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/raid_icon_overlay.png")
     elseif self.data.isDungeonQuest then
         self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/dungeon_icon_overlay.png")
+    elseif self.data.isHeroicQuest then
+        self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/heroic_icon_overlay.png")
     elseif self.data.StarterType then
         if self.data.StarterType == "itemFromMonster" or self.data.StarterType == "itemFromObject" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
