@@ -35,6 +35,8 @@ describe("QuestFinisher", function()
         QuestieDB.IsPvPQuest = function() return false end
         ZoneDB.IsDungeonZone = function() return false end
         QuestieEvent.IsEventQuest = function() return false end
+        QuestieEvent.IsEventActiveForQuest = function() return false end
+        QuestieEvent.CanQuestBeTurnedInOutsideOfEvent = function() return false end
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
         QuestiePlayer.currentQuestlog = {}
@@ -264,6 +266,35 @@ describe("QuestFinisher", function()
         assert.spy(QuestieDB.GetObject).was_not_called()
         assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
         assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+    end)
+
+    it("should add finisher when quest is an event quest and event is not active but can be turned in outside of event", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function()
+            return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
+        end)
+        QuestieDB.GetObject = spy.new(function() end)
+        QuestieEvent.IsEventQuest = function() return true end
+        QuestieEvent.IsEventActiveForQuest = function() return false end
+        QuestieEvent.CanQuestBeTurnedInOutsideOfEvent = function() return true end
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieDB.GetObject).was_not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
+
+        local iconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
+        assert.equal(Questie.ICON_TYPE_EVENTQUEST_COMPLETE, iconData.Icon)
     end)
 
     it("should not add finisher when quest has no finisher", function()

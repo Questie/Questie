@@ -33,7 +33,7 @@ function QuestFinisher.AddFinisher(quest)
         return
     end
 
-    if QuestieEvent.IsEventQuest(questId) and (not QuestieEvent.IsEventActiveForQuest(questId)) then
+    if QuestieEvent.IsEventQuest(questId) and ((not QuestieEvent.IsEventActiveForQuest(questId)) and (not QuestieEvent.CanQuestBeTurnedInOutsideOfEvent(questId))) then
         -- We don't want to show finishers for event quests that are not active atm
         return
     end
@@ -161,7 +161,7 @@ _GetIconData = function(quest, finisherName)
 end
 
 _GetIcon = function(quest)
-    if QuestieDB.IsActiveEventQuest(quest.Id) then
+    if QuestieEvent.IsEventQuest(quest.Id) then
         return Questie.ICON_TYPE_EVENTQUEST_COMPLETE
     elseif QuestieDB.IsPvPQuest(quest.Id) then
         return Questie.ICON_TYPE_PVPQUEST_COMPLETE

@@ -59,6 +59,13 @@ QuestieEvent.activeQuests = {}
 QuestieEvent.calendarDataCached = false
 _QuestieEvent.eventNamesForQuests = {}
 
+local alwaysTurnInAbleQuests = {
+    [7937] = true, -- Your Fortune Awaits You...
+    [7938] = true, -- Your Fortune Awaits You...
+    [7944] = true, -- Your Fortune Awaits You...
+    [7945] = true, -- Your Fortune Awaits You...
+}
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
@@ -372,6 +379,12 @@ end
 ---@return boolean @True if the quest is part of an event and the event is currently active, false otherwise
 function QuestieEvent.IsEventActiveForQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
+end
+
+---@param questId QuestId
+---@return boolean @True if the quest can be turned in outside of the event, false otherwise
+function QuestieEvent.CanQuestBeTurnedInOutsideOfEvent(questId)
+    return alwaysTurnInAbleQuests[questId] == true
 end
 
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
