@@ -474,6 +474,17 @@ function QuestieOptions.tabs.general:Initialize()
                             Questie.db.profile.enableTooltipsNextInChain = value
                         end
                     },
+                    showBreadcrumbQuests = {
+                        type = "toggle",
+                        order = 8.51,
+                        name = function() return l10n("Show breadcrumb quests"); end,
+                        desc = function() return l10n("If checked, breadcrumb quests will show in the expanded map tooltips."); end,
+                        width = 1.5,
+                        get = function() return Questie.db.profile.enableTooltipsBreadcrumbQuests; end,
+                        set = function (_, value)
+                            Questie.db.profile.enableTooltipsBreadcrumbQuests = value
+                        end
+                    },
                     showDropRates = {
                         type = "toggle",
                         order = 8.6,
