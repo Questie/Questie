@@ -122,9 +122,9 @@ local function _GetApiObjectiveText(questId, objectiveIndex)
     if (not text) or text == "" then
         return nil
     end
-    -- Strip the trailing progress counter ("...: n/m"); the tooltip prepends fulfilled/required
-    -- separately. Same regex used by _GetFullDescription and QuestieQuest:PopulateQuestLogInfo.
-    return string.match(text, "^(.*):%s*%d+/%d+$") or string.match(text, "^(.*)：%s*%d+/%d+$") or text
+
+    -- Strip the counter from the objective text; the tooltip prepends fulfilled/required separately
+    return QuestieLib.GetFullObjectiveText(text) or text
 end
 
 -- The tooltips prefer FullDescription (the objective text including "slain", see
@@ -149,9 +149,8 @@ local function _GetFullDescription(objType, description)
         return nil
     end
     local rawText = string.format(pattern, description, 0, 0)
-    -- Strip the counter the same way QuestieQuest does for the real quest log text. The second
-    -- match is for Chinese clients where the colon is a different character.
-    return string.match(rawText, "^(.*):%s*%d+/%d+$") or string.match(rawText, "^(.*)：%s*%d+/%d+$")
+
+    return QuestieLib.GetFullObjectiveText(rawText)
 end
 
 ---@return boolean

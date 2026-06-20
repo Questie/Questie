@@ -414,4 +414,33 @@ describe("QuestieLib", function()
             assert.are_same("2026年2月18日 星期三 19:35", formattedDate)
         end)
     end)
+
+    describe("GetFullObjectiveText", function()
+        it("should return the full objective description if trimObjectiveText is disabled", function()
+            Questie.db.profile.trimObjectiveText = false
+            local rawObjectiveText = "Defeat Hogger: 0/1"
+
+            local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
+
+            assert.are_same("Defeat Hogger", result)
+        end)
+
+        it("should return the full objective description for Chinese clients if trimObjectiveText is disabled", function()
+            Questie.db.profile.trimObjectiveText = false
+            local rawObjectiveText = "击败霍格: 0/1"
+
+            local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
+
+            assert.are_same("击败霍格", result)
+        end)
+
+        it("should return nil if trimObjectiveText is enabled", function()
+            Questie.db.profile.trimObjectiveText = true
+            local rawObjectiveText = "Defeat Hogger: 0/1"
+
+            local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
+
+            assert.is_nil(result)
+        end)
+    end)
 end)

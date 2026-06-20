@@ -836,4 +836,18 @@ function QuestieLib.FormatDate(timeStamp)
     return date(weekDay .. ", " .. monthName .. " %d, %Y at %H:%M", timeStamp)
 end
 
+--- Returns the full objective text without progress numbers if trimObjectiveText is disabled, otherwise returns nil
+--- (e.g. "Kill Hogger: 0/1" -> "Kill Hogger")
+---@param rawObjectiveText string
+---@return string|nil
+function QuestieLib.GetFullObjectiveText(rawObjectiveText)
+    if Questie.db.profile.trimObjectiveText then
+        return nil
+    end
+
+    -- Grab the entire objective text including "slain".
+    -- First regex is for non-Chinese clients, second is for Chinese clients where the colon is a different character
+    return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$")
+end
+
 return QuestieLib
