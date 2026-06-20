@@ -108,6 +108,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryQuestSingle = function() return nil end
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
+        require("Modules.Network.QuestiePartyObjectives")
         dofile("Public/Enums.lua")
         require("Public.RegisterForQuestUpdates")
 

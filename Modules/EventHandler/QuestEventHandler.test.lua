@@ -56,6 +56,7 @@ describe("QuestEventHandler", function()
         dofile("Public/Enums.lua")
         QuestieAPI = require("Public.RegisterForQuestUpdates")
         QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
+        require("Modules.Network.QuestiePartyObjectives")
 
         QuestieLib.CacheItemNames = spy.new(function() end)
 

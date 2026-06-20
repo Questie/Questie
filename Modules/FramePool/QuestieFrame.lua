@@ -344,6 +344,15 @@ function _Qframe.UpdateTexture(self, texture)
         self:SetWidth(16)
         self:SetHeight(16)
     end
+
+    -- Party member objectives (quests the local player does not have) are dimmed so they are
+    -- visually distinct from the player's own quest icons. Frame alpha composes with the
+    -- texture/minimap fade alpha. Runs on every draw, so recycled frames reset to 1.
+    if self.data.ObjectiveData and self.data.ObjectiveData.IsPartyObjective then
+        self:SetAlpha(0.5)
+    else
+        self:SetAlpha(1)
+    end
 end
 
 ---@param self IconFrame
