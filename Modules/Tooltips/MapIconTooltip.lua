@@ -282,7 +282,8 @@ function MapIconTooltip:Show()
 
                 if shift and next(reputationReward) then
                     local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
-                    tooltipRows:AddLine(indentTwo .. REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(rewardString, "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                    -- Apply color through AddLine args so description wrapping cannot split color escape sequences.
+                    tooltipRows:AddDescription(REPUTATION_ICON_TEXTURE .. " " .. rewardString,indentTwo,Questie:ColorizeRGB("reputationBlue"))
                 end
 
                 if Questie.db.profile.enableTooltipsNextInChain then
