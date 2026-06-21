@@ -400,11 +400,9 @@ describe("Tooltip", function()
 
             assert.are.same(false, objective.hasRegisteredTooltips)
             assert.are.same(false, objective.registeredItemTooltips)
-            assert.are.same({}, objective.AlreadySpawned)
 
             assert.are.same(false, specialObjective.hasRegisteredTooltips)
             assert.are.same(false, specialObjective.registeredItemTooltips)
-            assert.are.same({}, specialObjective.AlreadySpawned)
 
             assert.are.same({}, QuestieTooltips.lookupByKey)
             assert.are.same({}, QuestieTooltips.lookupKeysByQuestId)

@@ -1074,8 +1074,8 @@ _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
 
     if objective.spawnList then
         if (not objective.hasRegisteredTooltips) then
-            for id, spawnData in pairs(objective.spawnList) do
-                if spawnData.TooltipKey and (not objective.AlreadySpawned[id]) then
+            for _, spawnData in pairs(objective.spawnList) do
+                if spawnData.TooltipKey then
                     QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
                 end
             end
