@@ -325,9 +325,11 @@ function QuestieTBCObjectFixes:Load()
         },
         [187559] = { -- Horde Bonfire
             [objectKeys.questStarts] = {11580},
+            [objectKeys.questEnds] = {11580},
         },
         [187564] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11581},
+            [objectKeys.questEnds] = {11581},
         },
         [187578] = { -- Scrying Orb
             [objectKeys.name] = "Scrying Orb",
@@ -340,6 +342,7 @@ function QuestieTBCObjectFixes:Load()
         },
         [187914] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11732},
+            [objectKeys.questEnds] = {11732},
         },
         [187917] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -363,12 +366,14 @@ function QuestieTBCObjectFixes:Load()
         },
         [187928] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11745},
+            [objectKeys.questEnds] = {11745},
         },
         [187929] = {
             [objectKeys.spawns] = {[zoneIDs.FERALAS]={{28.2,44.1}}},
         },
         [187932] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11749},
+            [objectKeys.questEnds] = {11749},
         },
         [187933] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -408,6 +413,9 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{32.3,68.3}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
+        [187954] = {
+            [objectKeys.questEnds] = {11766},
+        },
         [187955] = {
             [objectKeys.name] = "Horde Bonfire",
             [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{50.0,59.0}}},
@@ -440,6 +448,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Horde Bonfire",
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{57.0,51.7}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.questEnds] = {11786},
         },
         [188123] = {
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{67.18,16.47}}}, -- TBC only Mailbox
