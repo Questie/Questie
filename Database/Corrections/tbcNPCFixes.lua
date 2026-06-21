@@ -1879,6 +1879,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {11886,11917,11947,11948,11952,11953,11954,11955},
             [npcKeys.questEnds] = {11917,11947,11948,11952,11953,11954,12012},
             [npcKeys.friendlyToFaction] = "AH",
+            [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
         [26309] = { -- Weapons Vendor
             [npcKeys.spawns] = {},
