@@ -603,6 +603,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         isDungeonQuest = QuestieDB.IsDungeonQuest(quest.Id),
                         isRaidQuest = QuestieDB.IsRaidQuest(quest.Id),
                         isHeroicQuest = QuestieDB.IsHeroicQuest(quest.Id),
+                        isCelestialQuest = QuestieDB.IsCelestialQuest(quest.Id),
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
