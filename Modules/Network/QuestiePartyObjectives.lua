@@ -232,11 +232,15 @@ local function _DrawQuest(questId)
 
     -- An objective index is drawn if at least one visible, online party member still needs it.
     -- Offline members disappear until they reconnect, and CommsVisibility can suppress members
-    -- who hid or untracked the quest locally.
+    -- who hid or untracked the quest locally. knownIndices records every index online members
+    -- reported (needed or not), so an extraObjective's hide-index can be told apart from a
+    -- loose/out-of-range one (see the SpecialObjectives loop below).
     local neededIndices = {}
+    local knownIndices = {}
     for playerName, objectives in pairs(players) do
         if _IsPlayerOnline(playerName) and CommsVisibility:ShouldShowPartyObjective(playerName, questId) then
             for objectiveIndex, objective in pairs(objectives) do
+                knownIndices[objectiveIndex] = true
                 if not objective.finished then
                     neededIndices[objectiveIndex] = objective
                 end
@@ -370,38 +374,41 @@ local function _DrawQuest(questId)
 
     -- Also draw the quest's extra/special objectives (DB-defined, e.g. "use item" custom spawns
     -- and required source items). These come from QuestieDB.GetQuest, independent of comms data.
-    local specialCounter = 0
-    for _, special in pairs(quest.SpecialObjectives or {}) do
+    for specialIndex, special in pairs(quest.SpecialObjectives or {}) do
         if drawnIconCount + entry.iconCount >= MAX_PARTY_ICONS then
             break
         end
 
-        -- Always draw extras. RealObjectiveIndex is used loosely in the DB (it can be 0 or point
-        -- past the real objectives), so we can't reliably tie an extra to a standard objective's
-        -- completion for party members; matching Questie's own pipeline, we just draw them.
-        specialCounter = specialCounter + 1
-        local objective = {
-            Id = special.Id,
-            Type = special.Type,
-            -- Offset past standard objective indices, matching PopulateQuestLogInfo.
-            Index = 64 + specialCounter,
-            questId = questId,
-            Description = special.Description or "Special objective",
-            Icon = special.Icon,
-            Coordinates = special.Coordinates,
-            Completed = false,
-            -- Reuse the DB-built spawn list read-only; PopulateObjective builds it from
-            -- Type/Id when absent (the required-source-item case).
-            spawnList = special.spawnList or {},
-            AlreadySpawned = {},
-            Update = NOP_FUNCTION,
-            IsPartyObjective = true,
-            hasRegisteredTooltips = true,
-            registeredItemTooltips = true,
-        }
+        -- Hide an extra once the standard objective it is tied to is finished by the party,
+        -- matching how the local pipeline syncs an extraObjective's Completed from its
+        -- RealObjectiveIndex (QuestieQuest:PopulateQuestLogInfo). RealObjectiveIndex is used
+        -- loosely in the DB (it can be 0 or point past the real objectives), so only apply this
+        -- when it maps to an objective the party members actually reported; otherwise draw it.
+        local realIndex = special.RealObjectiveIndex
+        if not (realIndex and knownIndices[realIndex] and not neededIndices[realIndex]) then
+            local objective = {
+                Id = special.Id,
+                Type = special.Type,
+                -- Offset past standard objective indices, matching PopulateQuestLogInfo.
+                Index = 64 + specialIndex,
+                questId = questId,
+                Description = special.Description or "Special objective",
+                Icon = special.Icon,
+                Coordinates = special.Coordinates,
+                Completed = false,
+                -- Reuse the DB-built spawn list read-only; PopulateObjective builds it from
+                -- Type/Id when absent (the required-source-item case).
+                spawnList = special.spawnList or {},
+                AlreadySpawned = {},
+                Update = NOP_FUNCTION,
+                IsPartyObjective = true,
+                hasRegisteredTooltips = true,
+                registeredItemTooltips = true,
+            }
 
-        -- Special objectives reuse the DB-built spawn list, so there is nothing to cache.
-        _ScheduleObjectiveDraw(objective, objective.Index, nil)
+            -- Special objectives reuse the DB-built spawn list, so there is nothing to cache.
+            _ScheduleObjectiveDraw(objective, objective.Index, nil)
+        end
     end
 end
 
