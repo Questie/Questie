@@ -4792,7 +4792,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11707},
             [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- Human 100%, not sure if other races have this also
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- Human + NE + Draenei + Dwarf 100%, not sure if other races have this also
         },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
@@ -5363,19 +5363,31 @@ function QuestieTBCQuestFixes:Load()
         [11558] = { -- Dangerous Love
             [questKeys.requiredSourceItems] = {21815,21829,22163},
         },
-        [11580] = {
+        [11580] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187559}},
+            [questKeys.finishedBy] = {nil,{187559}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11581] = {
+        [11581] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187564}},
+            [questKeys.finishedBy] = {nil,{187564}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11583] = {
+        [11583] = { -- Honor the Flame
             [questKeys.startedBy] = {{25910}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11584] = {
+        [11584] = { -- Honor the Flame
             [questKeys.startedBy] = {{25939}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
         [11657] = {
             [questKeys.startedBy] = {{25975}},
@@ -5388,6 +5400,7 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.15,27.58}},
                 [zoneIDs.UNDERCITY]={{64.58,8.08}},
             }},
+            [questKeys.requiredLevel] = 1,
         },
         [11665] = { -- Crocolisks in the City
             [questKeys.extraObjectives] = {
@@ -5407,6 +5420,15 @@ function QuestieTBCQuestFixes:Load()
         [11669] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{39.4,43}},[zoneIDs.SHADOWMOON_VALLEY]={{24,32.5},{31.9,29.9},{40.1,60.1}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish here for Monstrous Felblood Snapper")}},
         },
+        [11691] = { -- Summon Ahune
+            [questKeys.requiredLevel] = 65,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {11696},
+        },
+        [11696] = { -- Ahune is Here!
+            [questKeys.requiredLevel] = 65,
+            [questKeys.breadcrumbForQuestId] = 11691,
+        },
         [11731] = {
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
@@ -5417,546 +5439,787 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.73}},
                 [zoneIDs.UNDERCITY]={{68.58,7.88}},
             }},
+            [questKeys.requiredLevel] = 1,
         },
-        [11732] = {
+        [11732] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187914}},
+            [questKeys.finishedBy] = {nil,{187914}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11734] = {
+        [11734] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187916}},
+            [questKeys.finishedBy] = {nil,{187916}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11735] = {
+        [11735] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187917}},
+            [questKeys.finishedBy] = {nil,{187917}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11736] = {
+        [11736] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187919}},
+            [questKeys.finishedBy] = {nil,{187919}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11737] = {
+        [11737] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187920}},
+            [questKeys.finishedBy] = {nil,{187920}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11738] = {
+        [11738] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187921}},
+            [questKeys.finishedBy] = {nil,{187921}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11739] = {
+        [11739] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187922}},
+            [questKeys.finishedBy] = {nil,{187922}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11740] = {
+        [11740] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187923}},
+            [questKeys.finishedBy] = {nil,{187923}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11741] = {
+        [11741] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187924}},
+            [questKeys.finishedBy] = {nil,{187924}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11742] = {
+        [11742] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187925}},
+            [questKeys.finishedBy] = {nil,{187925}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11743] = {
+        [11743] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187926}},
+            [questKeys.finishedBy] = {nil,{187926}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11744] = {
+        [11744] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187927}},
+            [questKeys.finishedBy] = {nil,{187927}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11745] = {
+        [11745] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187928}},
+            [questKeys.finishedBy] = {nil,{187928}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11746] = {
+        [11746] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187929}},
+            [questKeys.finishedBy] = {nil,{187929}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11747] = {
+        [11747] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187930}},
+            [questKeys.finishedBy] = {nil,{187930}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11748] = {
+        [11748] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187931}},
+            [questKeys.finishedBy] = {nil,{187931}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11749] = {
+        [11749] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187932}},
+            [questKeys.finishedBy] = {nil,{187932}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11750] = {
+        [11750] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187933}},
+            [questKeys.finishedBy] = {nil,{187933}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11751] = {
+        [11751] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187934}},
+            [questKeys.finishedBy] = {nil,{187934}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11752] = {
+        [11752] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187935}},
+            [questKeys.finishedBy] = {nil,{187935}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11753] = {
+        [11753] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187936}},
+            [questKeys.finishedBy] = {nil,{187936}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11754] = {
+        [11754] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187937}},
+            [questKeys.finishedBy] = {nil,{187937}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11755] = {
+        [11755] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187938}},
+            [questKeys.finishedBy] = {nil,{187938}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11756] = {
+        [11756] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187939}},
+            [questKeys.finishedBy] = {nil,{187939}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11757] = {
+        [11757] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187940}},
+            [questKeys.finishedBy] = {nil,{187940}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11758] = {
+        [11758] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187941}},
+            [questKeys.finishedBy] = {nil,{187941}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11759] = {
+        [11759] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187942}},
+            [questKeys.finishedBy] = {nil,{187942}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11760] = {
+        [11760] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187943}},
+            [questKeys.finishedBy] = {nil,{187943}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11761] = {
+        [11761] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187944}},
+            [questKeys.finishedBy] = {nil,{187944}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11762] = {
+        [11762] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187945}},
+            [questKeys.finishedBy] = {nil,{187945}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11763] = {
+        [11763] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187946}},
+            [questKeys.finishedBy] = {nil,{187946}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11764] = {
+        [11764] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187947}},
+            [questKeys.finishedBy] = {nil,{187947}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11765] = {
+        [11765] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187948}},
+            [questKeys.finishedBy] = {nil,{187948}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11766] = {
+        [11766] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187954}},
+            [questKeys.finishedBy] = {nil,{187954}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11767] = {
+        [11767] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187955}},
+            [questKeys.finishedBy] = {nil,{187955}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11768] = {
+        [11768] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187956}},
+            [questKeys.finishedBy] = {nil,{187956}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11769] = {
+        [11769] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187957}},
+            [questKeys.finishedBy] = {nil,{187957}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11770] = {
+        [11770] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187958}},
+            [questKeys.finishedBy] = {nil,{187958}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11771] = {
+        [11771] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187959}},
+            [questKeys.finishedBy] = {nil,{187959}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11772] = {
+        [11772] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187960}},
+            [questKeys.finishedBy] = {nil,{187960}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11773] = {
+        [11773] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187961}},
+            [questKeys.finishedBy] = {nil,{187961}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11774] = {
+        [11774] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187962}},
+            [questKeys.finishedBy] = {nil,{187962}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11775] = {
+        [11775] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187963}},
+            [questKeys.finishedBy] = {nil,{187963}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11776] = {
+        [11776] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187964}},
+            [questKeys.finishedBy] = {nil,{187964}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11777] = {
+        [11777] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187965}},
+            [questKeys.finishedBy] = {nil,{187965}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11778] = {
+        [11778] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187966}},
+            [questKeys.finishedBy] = {nil,{187966}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11779] = {
+        [11779] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187967}},
+            [questKeys.finishedBy] = {nil,{187967}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11780] = {
+        [11780] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187968}},
+            [questKeys.finishedBy] = {nil,{187968}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11781] = {
+        [11781] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187969}},
+            [questKeys.finishedBy] = {nil,{187969}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11782] = {
+        [11782] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187970}},
+            [questKeys.finishedBy] = {nil,{187970}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11783] = {
+        [11783] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187971}},
+            [questKeys.finishedBy] = {nil,{187971}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11784] = {
+        [11784] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187972}},
+            [questKeys.finishedBy] = {nil,{187972}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11785] = {
+        [11785] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187973}},
+            [questKeys.finishedBy] = {nil,{187973}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11786] = {
+        [11786] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187974}},
+            [questKeys.finishedBy] = {nil,{187974}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11787] = {
+        [11787] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187975}},
+            [questKeys.finishedBy] = {nil,{187975}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11799] = {
+        [11799] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187949}},
+            [questKeys.finishedBy] = {nil,{187949}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11800] = {
+        [11800] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187950}},
+            [questKeys.finishedBy] = {nil,{187950}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11801] = {
+        [11801] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187951}},
+            [questKeys.finishedBy] = {nil,{187951}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11802] = {
+        [11802] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187952}},
+            [questKeys.finishedBy] = {nil,{187952}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11803] = {
+        [11803] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187953}},
+            [questKeys.finishedBy] = {nil,{187953}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11804] = {
+        [11804] = { -- Honor the Flame
             [questKeys.startedBy] = {{25887}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11805] = {
+        [11805] = { -- Honor the Flame
             [questKeys.startedBy] = {{25883}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11806] = {
+        [11806] = { -- Honor the Flame
             [questKeys.startedBy] = {{25888}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11807] = {
+        [11807] = { -- Honor the Flame
             [questKeys.startedBy] = {{25889}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11808] = {
+        [11808] = { -- Honor the Flame
             [questKeys.startedBy] = {{25890}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11809] = {
+        [11809] = { -- Honor the Flame
             [questKeys.startedBy] = {{25891}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11810] = {
+        [11810] = { -- Honor the Flame
             [questKeys.startedBy] = {{25892}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11811] = {
+        [11811] = { -- Honor the Flame
             [questKeys.startedBy] = {{25893}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11812] = {
+        [11812] = { -- Honor the Flame
             [questKeys.startedBy] = {{25894}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11813] = {
+        [11813] = { -- Honor the Flame
             [questKeys.startedBy] = {{25895}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11814] = {
+        [11814] = { -- Honor the Flame
             [questKeys.startedBy] = {{25896}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11815] = {
+        [11815] = { -- Honor the Flame
             [questKeys.startedBy] = {{25897}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11816] = {
+        [11816] = { -- Honor the Flame
             [questKeys.startedBy] = {{25898}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11817] = {
+        [11817] = { -- Honor the Flame
             [questKeys.startedBy] = {{25899}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11818] = {
+        [11818] = { -- Honor the Flame
             [questKeys.startedBy] = {{25900}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11819] = {
+        [11819] = { -- Honor the Flame
             [questKeys.startedBy] = {{25901}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11820] = {
+        [11820] = { -- Honor the Flame
             [questKeys.startedBy] = {{25902}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11821] = {
+        [11821] = { -- Honor the Flame
             [questKeys.startedBy] = {{25903}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11822] = {
+        [11822] = { -- Honor the Flame
             [questKeys.startedBy] = {{25904}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11823] = {
+        [11823] = { -- Honor the Flame
             [questKeys.startedBy] = {{25905}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11824] = {
+        [11824] = { -- Honor the Flame
             [questKeys.startedBy] = {{25906}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11825] = {
+        [11825] = { -- Honor the Flame
             [questKeys.startedBy] = {{25907}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11826] = {
+        [11826] = { -- Honor the Flame
             [questKeys.startedBy] = {{25908}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11827] = {
+        [11827] = { -- Honor the Flame
             [questKeys.startedBy] = {{25909}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11828] = {
+        [11828] = { -- Honor the Flame
             [questKeys.startedBy] = {{25911}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11829] = {
+        [11829] = { -- Honor the Flame
             [questKeys.startedBy] = {{25912}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11830] = {
+        [11830] = { -- Honor the Flame
             [questKeys.startedBy] = {{25913}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11831] = {
+        [11831] = { -- Honor the Flame
             [questKeys.startedBy] = {{25914}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11832] = {
+        [11832] = { -- Honor the Flame
             [questKeys.startedBy] = {{25915}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11833] = {
+        [11833] = { -- Honor the Flame
             [questKeys.startedBy] = {{25916}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11834] = {
+        [11834] = { -- Honor the Flame
             [questKeys.startedBy] = {{25917}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11835] = {
+        [11835] = { -- Honor the Flame
             [questKeys.startedBy] = {{25918}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11836] = {
+        [11836] = { -- Honor the Flame
             [questKeys.startedBy] = {{25919}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11837] = {
+        [11837] = { -- Honor the Flame
             [questKeys.startedBy] = {{25920}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11838] = {
+        [11838] = { -- Honor the Flame
             [questKeys.startedBy] = {{25921}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11839] = {
+        [11839] = { -- Honor the Flame
             [questKeys.startedBy] = {{25922}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11840] = {
+        [11840] = { -- Honor the Flame
             [questKeys.startedBy] = {{25923}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11841] = {
+        [11841] = { -- Honor the Flame
             [questKeys.startedBy] = {{25884}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11842] = {
+        [11842] = { -- Honor the Flame
             [questKeys.startedBy] = {{25925}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11843] = {
+        [11843] = { -- Honor the Flame
             [questKeys.startedBy] = {{25926}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11844] = {
+        [11844] = { -- Honor the Flame
             [questKeys.startedBy] = {{25927}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11845] = {
+        [11845] = { -- Honor the Flame
             [questKeys.startedBy] = {{25928}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11846] = {
+        [11846] = { -- Honor the Flame
             [questKeys.startedBy] = {{25929}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11847] = {
+        [11847] = { -- Honor the Flame
             [questKeys.startedBy] = {{25930}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11848] = {
+        [11848] = { -- Honor the Flame
             [questKeys.startedBy] = {{25931}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11849] = {
+        [11849] = { -- Honor the Flame
             [questKeys.startedBy] = {{25932}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11850] = {
+        [11850] = { -- Honor the Flame
             [questKeys.startedBy] = {{25933}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11851] = {
+        [11851] = { -- Honor the Flame
             [questKeys.startedBy] = {{25934}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11852] = {
+        [11852] = { -- Honor the Flame
             [questKeys.startedBy] = {{25936}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11853] = {
+        [11853] = { -- Honor the Flame
             [questKeys.startedBy] = {{25935}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11854] = {
+        [11854] = { -- Honor the Flame
             [questKeys.startedBy] = {{25937}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11855] = {
+        [11855] = { -- Honor the Flame
             [questKeys.startedBy] = {{25938}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11856] = {
+        [11856] = { -- Honor the Flame
             [questKeys.startedBy] = {{25940}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11857] = {
+        [11857] = { -- Honor the Flame
             [questKeys.startedBy] = {{25941}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11858] = {
+        [11858] = { -- Honor the Flame
             [questKeys.startedBy] = {{25942}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11859] = {
+        [11859] = { -- Honor the Flame
             [questKeys.startedBy] = {{25943}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11860] = {
+        [11860] = { -- Honor the Flame
             [questKeys.startedBy] = {{25944}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11861] = {
+        [11861] = { -- Honor the Flame
             [questKeys.startedBy] = {{25945}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11862] = {
+        [11862] = { -- Honor the Flame
             [questKeys.startedBy] = {{25946}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11863] = {
+        [11863] = { -- Honor the Flame
             [questKeys.startedBy] = {{25947}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
@@ -5978,36 +6241,32 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon and defeat each of the descendants by using 10 Time-Lost Scrolls"), 0, {{"object", 185913}}}},
             [questKeys.nextQuestInChain] = 11073,
         },
-        [11886] = {
+        [11886] = { -- Unusual Activity
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {nil,nil,{{35277}}},
             [questKeys.finishedBy] = {{25324}},
+            [questKeys.requiredSourceItems] = {35828},
+            [questKeys.requiredLevel] = 16,
         },
-        [11891] = {
+        [11891] = { -- An Innocent Disguise
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41}}}},
             [questKeys.startedBy] = {{25324}},
             [questKeys.finishedBy] = {{25324}},
             [questKeys.preQuestSingle] = {11886},
+            [questKeys.sourceItemId] = 35237,
+            [questKeys.requiredLevel] = 16,
         },
         [11915] = {
             [questKeys.startedBy] = {{25994}},
         },
-        [11917] = {
+        [11917] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 16,
             [questKeys.requiredMaxLevel] = 28,
-        },
-        [11922] = {
-            [questKeys.startedBy] = {{26113}},
-            [questKeys.finishedBy] = {{26113}},
-            [questKeys.triggerEnd] = {"Hit 8 braziers.", {
-                [zoneIDs.TELDRASSIL]={{56.59,92.06}},
-                [zoneIDs.ORGRIMMAR]={{46.65,38.17}},
-                [zoneIDs.STORMWIND_CITY]={{39.21,61.71}},
-                [zoneIDs.IRONFORGE]={{65,23.73}},
-                [zoneIDs.UNDERCITY]={{68.58,7.88}},
-            }},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
         },
         [11921] = {
             [questKeys.startedBy] = {{25975}},
@@ -6021,6 +6280,20 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.68}},
                 [zoneIDs.UNDERCITY]={{68.62,8.01}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredLevel] = 1,
+        },
+        [11922] = {
+            [questKeys.startedBy] = {{26113}},
+            [questKeys.finishedBy] = {{26113}},
+            [questKeys.triggerEnd] = {"Hit 8 braziers.", {
+                [zoneIDs.TELDRASSIL]={{56.59,92.06}},
+                [zoneIDs.ORGRIMMAR]={{46.65,38.17}},
+                [zoneIDs.STORMWIND_CITY]={{39.21,61.71}},
+                [zoneIDs.IRONFORGE]={{65,23.73}},
+                [zoneIDs.UNDERCITY]={{68.58,7.88}},
+            }},
+            [questKeys.requiredLevel] = 1,
         },
         [11923] = {
             [questKeys.startedBy] = {{26113}},
@@ -6033,6 +6306,8 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.15,27.58}},
                 [zoneIDs.UNDERCITY]={{64.58,8.08}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredLevel] = 1,
         },
         [11924] = {
             [questKeys.startedBy] = {{25975}},
@@ -6046,6 +6321,8 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.04,27.83}},
                 [zoneIDs.THUNDER_BLUFF]={{22.17,26.94}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredLevel] = 1,
         },
         [11925] = {
             [questKeys.startedBy] = {{26113}},
@@ -6059,6 +6336,8 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.04,27.83}},
                 [zoneIDs.THUNDER_BLUFF]={{22.17,26.94}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredLevel] = 1,
         },
         [11926] = {
             [questKeys.startedBy] = {{26113}},
@@ -6072,62 +6351,75 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.68}},
                 [zoneIDs.UNDERCITY]={{68.62,8.01}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredLevel] = 1,
         },
-        [11933] = {
+        [11933] = { -- Stealing the Exodar's Flame
             [questKeys.startedBy] = {nil,nil,{35569}},
         },
-        [11935] = {
+        [11935] = { -- Stealing Silvermoon's Flame
             [questKeys.startedBy] = {nil,nil,{35568}},
         },
-        [11947] = {
+        [11947] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 29,
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188130},{"object",188134},{"object",188135}}}},
         },
-        [11948] = {
+        [11948] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 39,
             [questKeys.requiredMaxLevel] = 48,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188139},{"object",188143},{"object",188144}}}},
         },
-        [11952] = {
+        [11952] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 49,
             [questKeys.requiredMaxLevel] = 55,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188145},{"object",188146},{"object",188147}}}},
         },
-        [11953] = {
+        [11953] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 56,
             [questKeys.requiredMaxLevel] = 63,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188148},{"object",188149},{"object",188150}}}},
         },
-        [11954] = {
+        [11954] = { -- Striking Back
             [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.requiredLevel] = 64,
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's templars"),0,{{"object",188151},{"object",188152},{"object",188153},{"object",188154}}}},
         },
-        [11955] = {
+        [11955] = { -- Ahune, the Frost Lord
             [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{25710}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.requiredLevel] = 65,
         },
-        [11964] = {
-            [questKeys.startedBy] = {{16817}},
-        },
-        [11970] = {
+        [11970] = { -- The Master of Summer Lore
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
         },
-        [11971] = {
+        [11971] = { -- The Spinner of Summer Tales
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
         },
-        [11972] = {
-            [questKeys.startedBy] = {nil,{187892},{35723}},
+        [11972] = { -- Shards of Ahune
+            [questKeys.startedBy] = {nil,nil,{35723}},
             [questKeys.finishedBy] = {{25697}},
+            [questKeys.requiredLevel] = 65,
         },
         [11975] = { -- Now, When I Grow Up...
             [questKeys.questLevel] = -1,
@@ -6137,13 +6429,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredSourceItems] = {31880},
         },
-        [12012] = {
+        [12012] = { -- Inform the Elder
             [questKeys.startedBy] = {{25324}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {nil,nil,{{35828}}},
             [questKeys.preQuestSingle] = {11891},
             [questKeys.requiredSourceItems] = {},
+            [questKeys.requiredLevel] = 16,
         },
         [12020] = {
             [questKeys.preQuestSingle] = {},

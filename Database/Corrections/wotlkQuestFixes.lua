@@ -1377,9 +1377,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the kodos to Farmer Torp"), 0, {{"monster", 25607}}}},
             [questKeys.requiredSourceItems] = {},
         },
+        [11691] = { -- Summon Ahune
+            [questKeys.requiredLevel] = 75,
+        },
         [11694] = {
             [questKeys.objectives] = {nil,{{187879}}},
             [questKeys.requiredSourceItems] = {},
+        },
+        [11696] = { -- Ahune is Here!
+            [questKeys.requiredLevel] = 75,
         },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},
@@ -1486,7 +1492,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11891] = {
             [questKeys.requiredSourceItems] = {35828},
-            [questKeys.sourceItemId] = 35237,
         },
         [11892] = {
             [questKeys.requiredSourceItems] = {},
@@ -1573,6 +1578,9 @@ function QuestieWotlkQuestFixes:Load()
         [11951] = {
             [questKeys.requiredSourceItems] = {35671},
         },
+        [11955] = { -- Ahune, the Frost Lord
+            [questKeys.requiredLevel] = 75,
+        },
         [11956] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}},
@@ -1598,6 +1606,9 @@ function QuestieWotlkQuestFixes:Load()
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
             [questKeys.requiredSourceItems] = {},
+        },
+        [11972] = { -- Shards of Ahune
+            [questKeys.requiredLevel] = 75,
         },
         [11982] = {
             [questKeys.objectives] = {{{26270,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4808,41 +4819,49 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194032}},
             [questKeys.finishedBy] = {nil,{194032}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13441] = {
             [questKeys.startedBy] = {nil,{194033}},
             [questKeys.finishedBy] = {nil,{194033}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13442] = {
             [questKeys.startedBy] = {nil,{194035}},
             [questKeys.finishedBy] = {nil,{194035}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13443] = {
             [questKeys.startedBy] = {nil,{194036}},
             [questKeys.finishedBy] = {nil,{194036}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13444] = {
             [questKeys.startedBy] = {nil,{194038}},
             [questKeys.finishedBy] = {nil,{194038}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13445] = {
             [questKeys.startedBy] = {nil,{194040}},
             [questKeys.finishedBy] = {nil,{194040}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13446] = {
             [questKeys.startedBy] = {nil,{194044}},
             [questKeys.finishedBy] = {nil,{194044}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13447] = {
             [questKeys.startedBy] = {nil,{194045}},
             [questKeys.finishedBy] = {nil,{194045}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13448] = {
             [questKeys.startedBy] = {nil,{194063}},
@@ -4853,16 +4872,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194049}},
             [questKeys.finishedBy] = {nil,{194049}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13450] = {
             [questKeys.startedBy] = {nil,{194034}},
             [questKeys.finishedBy] = {nil,{194034}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13451] = {
             [questKeys.startedBy] = {nil,{194037}},
             [questKeys.finishedBy] = {nil,{194037}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13452] = {
             [questKeys.startedBy] = {nil,{194065}},
@@ -4873,16 +4895,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194039}},
             [questKeys.finishedBy] = {nil,{194039}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13454] = {
             [questKeys.startedBy] = {nil,{194042}},
             [questKeys.finishedBy] = {nil,{194042}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13455] = {
             [questKeys.startedBy] = {nil,{194043}},
             [questKeys.finishedBy] = {nil,{194043}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13456] = {
             [questKeys.startedBy] = {nil,{194066}},
@@ -4893,11 +4918,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194046}},
             [questKeys.finishedBy] = {nil,{194046}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13458] = {
             [questKeys.startedBy] = {nil,{194048}},
             [questKeys.finishedBy] = {nil,{194048}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13459] = {
             [questKeys.startedBy] = {nil,{194067}},

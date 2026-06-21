@@ -668,6 +668,10 @@ function CataObjectFixes.Load()
         [188123] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{62.36,33.35}}},
         },
+        [188139] = { -- Ice Stone
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.44,43.34}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
         [189989] = { -- Dark Iron Mole Machine Wreckage
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{56.01,37.07}}},
             [objectKeys.questStarts] = {12020},

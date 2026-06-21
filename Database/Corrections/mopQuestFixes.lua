@@ -9139,6 +9139,32 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
+        [32496] = { -- Desecrate this Fire!
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [32497] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217845}}},
+        },
+        [32498] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217846}}},
+        },
+        [32499] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217847}}},
+        },
+        [32500] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217848}}},
+        },
+        [32501] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217849}}},
+        },
+        [32502] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217850}}},
+        },
+        [32503] = { -- Desecrate this Fire!
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [32505] = { -- The Crumbled Chamberlain
             [questKeys.preQuestSingle] = {32680,32681},
             [questKeys.requiredLevel] = 90,
@@ -9156,6 +9182,12 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{110018}},
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
             [questKeys.preQuestSingle] = {32259},
+        },
+        [32509] = { -- Honor the Flame
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+        },
+        [32510] = { -- Honor the Flame
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [32517] = { -- The Conquest of Stone
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2

@@ -455,6 +455,15 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{69.1,43.5}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
+        [188130] = { -- Ice Stone
+            [objectKeys.name] = "Ice Stone",
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.23,31.37}}},
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+        },
+        [188139] = { -- Ice Stone
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.25,24.27}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
+        },
         [189303] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{43.74,65.89}}},
             [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,

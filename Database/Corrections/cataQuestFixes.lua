@@ -2021,7 +2021,6 @@ function CataQuestFixes.Load()
         },
         [11917] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
         },
         [11921] = { -- More Torch Tossing
             [questKeys.triggerEnd] = {"Hit 20 braziers", {
@@ -2076,23 +2075,18 @@ function CataQuestFixes.Load()
         },
         [11947] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188130},{"object",188134},{"object",188135}}}},
         },
         [11948] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188139},{"object",188143},{"object",188144}}}},
         },
         [11952] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188145},{"object",188146},{"object",188147}}}},
         },
         [11953] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188148},{"object",188149},{"object",188150}}}},
         },
         [11954] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's templars"),0,{{"object",188151},{"object",188152},{"object",188153},{"object",188154}}}},
         },
         [11956] = { -- Finding the Phylactery
             [questKeys.preQuestSingle] = {},

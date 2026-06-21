@@ -3429,12 +3429,6 @@ function CataNpcFixes.Load()
             [npcKeys.questStarts] = {11900,11910},
         },
         [25324] = { -- Earthen Ring Guide
-            [npcKeys.spawns] = {
-                [zoneIDs.ASHENVALE] = {
-                    {15.5,19.0,phases.EARTHEN_GUIDE_BFD},
-                    {9.36,12.99,phases.EARTHEN_GUIDE_SHORE},
-                },
-            },
             [npcKeys.questStarts] = {11891,12012,29092},
         },
         [25450] = { -- Veehja
@@ -3569,12 +3563,9 @@ function CataNpcFixes.Load()
         [26110] = { -- Librarian Serrah
             [npcKeys.questStarts] = {11912,11914,13094,13412},
         },
-        [26113] = { -- Frostwave Lieutenant
+        [26113] = { -- Master Flame Eater
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{62.43,66.85}},[1637] = {{46.59,37.25}},[1638] = {{21,26.44}},[3487] = {{69.48,42.44}}},
             [npcKeys.questStarts] = {11922,11923,11925,11926},
-        },
-        [26116] = { -- Frostwave Lieutenant
-            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{9.64,12.18},{9.26,11.46},{9.67,11.14}}},
         },
         [26117] = { -- Raelorasz
             [npcKeys.questStarts] = {11918,11919,11931,11936,11940,11943,11969},
@@ -3587,20 +3578,8 @@ function CataNpcFixes.Load()
                 [zoneIDs.STORMWIND_CITY] = {{49.02,71.95}},
             },
         },
-        [26178] = { -- Hailstone Lieutenant
-            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.23,31.37},{40.33,30.23},{39.24,30.39}}},
-        },
         [26204] = { -- Chillwind Lieutenant
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.44,43.34},{21.33,41.01},{21.51,41.88}}},
-        },
-        [26214] = { -- Frigid Lieutenant
-            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{14.73,34.39},{16.1,36.92},{13.54,37.12}}},
-        },
-        [26215] = { -- Glacial Lieutenant
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{68.12,20.82},{68.91,20.48},{68.53,19.17}}},
-        },
-        [26216] = { -- Glacial Templar
-            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{85.59,47.14},{84.19,47.1},{85.62,53.26},{84.13,53.4}}},
         },
         [26221] = { -- Earthen Ring Elder
             [npcKeys.questStarts] = {11886,11917,11947,11948,11952,11953,11954,11955},

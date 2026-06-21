@@ -444,7 +444,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211863] = { -- Krik'thik Limb
-            [objectKeys.name] = "Krik\'thik Limb",
+            [objectKeys.name] = "Krik'thik Limb",
             [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{77.19,88.74},{76.93,88.98},{76.72,88.92},{76.3,90.03},{74.87,82.69},{74.28,83.72},{74.33,83.81},{74.39,84.01},{74.19,84.34},{74.17,84.36},{74.27,85.47},{73.85,84.98},{73.34,84.29},{71.54,85.1}}},
             [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
@@ -1127,6 +1127,38 @@ function MopObjectFixes.Load()
             [objectKeys.name] = "Sunreaver Perimeter Ward",
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.2,41.4},{35.3,41.6},{36.2,45.3},{36.4,41.6},{36.4,43.3},{36.4,43.5},{36.4,47.1},{36.5,41.5},{36.5,43.3},{36.5,43.5},{37.2,45.4},{37.2,45.5},{37.3,46.7},{37.4,35.7},{37.4,41.1},{37.5,41.1},{37.5,42.3},{37.5,42.5},{37.6,39.3},{37.7,37.6},{38.2,44.9},{38.4,34.2},{38.4,40.3},{38.5,34.2},{38.5,39},{38.5,47.3},{38.6,40.4},{38.7,49.3},{38.8,40.6},{38.9,43.2},{39,48.3},{39.1,45.8},{39.5,38.8},{40.1,37.7},{40.2,41},{40.2,46.4},{40.2,46.5},{40.8,39.3},{41,40.4},{41,40.5},{41,46.1},{41,47.6},{41.2,44.4},{41.2,44.6},{42.1,46.7},{42.2,47.6},{42.7,44.6},{43.1,42},{43.2,43.7},{43.4,46.4},{43.6,46.4},{43.6,46.5},{44.2,44.9},{44.8,47.6},{45.9,46.2}}},
+        },
+        [217845] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{56.06,69.43}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [217846] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.16,47.09}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [217847] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{73.95,9.38}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [217848] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.1,90.97}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [217849] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{71.43,56.31}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [217850] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{51.82,51.2}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [217851] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{79.89,37.35}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [217852] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{77.79,33.61}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
         },
         [218055] = { -- Loa-Infused Blade
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,50.5},{55.3,48.8},{55.3,50.4},{55.4,47.9},{55.6,54.1},{55.7,48.5},{55.7,50.7},{55.8,48.4},{55.8,50.4},{56.6,52.3},{57.1,46.9},{57.3,48.9},{57.8,50},{57.9,47.9},{58.1,54.2},{58.3,48.5},{58.5,48.2},{58.5,50},{58.8,56.6},{59.3,55.8},{59.5,55.9},{61.3,51.1}}},

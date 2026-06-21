@@ -1736,7 +1736,13 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{40.46,41.56},{41.33,37.33},{41.93,43.46},{43.18,34.85},{40.97,36.5},{40.48,36.31},{40.67,39.16},{38.86,40.98},{38.83,40.54},{38.82,40.14},{38.85,39.79},{43.17,38.98},{43.45,38.8},{43.71,38.74},{40.45,40.8},{40.28,40.18},{39.72,39.66}}},
         },
         [25324] = { -- Earthen Ring Guide
-            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{15.5,19.0},{9.3,13.0}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ASHENVALE] = {
+                    {15.5,19.0,phases.EARTHEN_GUIDE_BFD},
+                    {9.36,12.99,phases.EARTHEN_GUIDE_SHORE},
+                },
+            },
+            [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.questStarts] = {11891,12012},
             [npcKeys.questEnds] = {11886,11891},
         },
@@ -1815,13 +1821,13 @@ function QuestieTBCNpcFixes:Load()
             },
             [npcKeys.questEnds] = {11657,11731,11882,11921,11924},
         },
-        [26116] = {
-            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{9.62,12.20},{9.25,11.50},{9.66,11.17}}},
+        [26116] = { -- Frostwave Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{9.64,12.18},{9.26,11.46},{9.67,11.14}}},
         },
-        [26178] = {
-            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.35,30.27},{40.26,31.35},{39.28,30.35}}},
+        [26178] = { -- Hailstone Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.23,31.37},{40.33,30.23},{39.24,30.39}}},
         },
-        [26204] = {
+        [26204] = { -- Chillwind Lieutenant
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.17,22.74},{21.30,23.36},{21.26,24.30}}},
         },
         [26113] = { -- Master Flame Eater
@@ -1833,7 +1839,7 @@ function QuestieTBCNpcFixes:Load()
             },
             [npcKeys.questEnds] = {11915,11922,11923,11925,11926},
         },
-        [26123] = {
+        [26123] = { -- Midsummer Supplier
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE]={{64.82,26.28}},
                 [zoneIDs.TELDRASSIL]={{56.02,92.22}},
@@ -1841,7 +1847,7 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{37.92,61.42}},
             },
         },
-        [26124] = {
+        [26124] = { -- Midsummer Merchant
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY]={{68.07,11.2}},
                 [zoneIDs.THUNDER_BLUFF]={{20.87,24.18}},
@@ -1849,19 +1855,19 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.SILVERMOON_CITY]={{70.39,44.30}},
             },
         },
-        [26214] = {
-            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{16.02,36.87},{14.66,34.22},{13.55,37.20}}},
+        [26214] = { -- Frigid Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{14.73,34.39},{16.1,36.92},{13.54,37.12}}},
         },
-        [26215] = {
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{66.60,20.62},{67.03,18.72},{67.45,20.14}}},
+        [26215] = { -- Glacial Lieutenant
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{68.12,20.82},{68.91,20.48},{68.53,19.17}}},
         },
-        [26216] = {
-            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{84.2,47.0},{84.2,53.4},{85.4,47.0},{85.6,53.2},{85.8,47.2},{85.8,47.6}}},
+        [26216] = { -- Glacial Templar
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{85.59,47.14},{84.19,47.1},{85.62,53.26},{84.13,53.4}}},
         },
         [26221] = { -- Earthen Ring Elder
             [npcKeys.spawns] = {
-                [zoneIDs.TELDRASSIL]={{56.1,92.16}},
-                [zoneIDs.UNDERCITY]={{66.9,13.53}},
+                [zoneIDs.TELDRASSIL] = {{56.1,92.16}},
+                [zoneIDs.UNDERCITY] = {{66.9,13.53}},
                 [zoneIDs.THUNDER_BLUFF]={{22.16,23.98}},
                 [zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},
                 [zoneIDs.IRONFORGE]={{65.14,27.71}},
@@ -1875,6 +1881,76 @@ function QuestieTBCNpcFixes:Load()
         },
         [26309] = { -- Weapons Vendor
             [npcKeys.spawns] = {},
+        },
+        [26401] = { -- Summer Scorchling
+            [npcKeys.spawns] = {
+                [zoneIDs.NAGRAND] = {{49.57,69.4}},
+                [zoneIDs.ZANGARMARSH] = {{68.73,51.95}},
+                [zoneIDs.BLADES_EDGE_MOUNTAINS] = {{41.52,65.87}},
+                [zoneIDs.TEROKKAR_FOREST] = {{54.01,55.57}},
+                [zoneIDs.SHADOWMOON_VALLEY] = {{39.63,54.56}},
+                [zoneIDs.NETHERSTORM] = {{31.16,62.65}},
+                [zoneIDs.TELDRASSIL] = {{55.0,60.41}},
+                [zoneIDs.DESOLACE] = {{66.19,17.1}},
+                [zoneIDs.DUSTWALLOW_MARSH] = {{61.87,40.5}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{49.94,44.79}},
+                [zoneIDs.STRANGLETHORN_VALE] = {{33.94,73.56}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{50.45,47.45}},
+                [zoneIDs.WETLANDS] = {{13.5,46.97}},
+                [zoneIDs.ELWYNN_FOREST] = {{43.48,62.5}},
+                [zoneIDs.REDRIDGE_MOUNTAINS] = {{26.08,59.25}},
+                [zoneIDs.THE_HINTERLANDS] = {{14.41,50.01}},
+                [zoneIDs.WESTFALL] = {{55.86,53.39}},
+                [zoneIDs.DUN_MOROGH] = {{46.69,46.85}},
+                [zoneIDs.LOCH_MODAN] = {{32.59,41.1}},
+                [zoneIDs.DUSKWOOD] = {{73.77,54.5}},
+                [zoneIDs.BLASTED_LANDS] = {{59.3,16.88}},
+                [zoneIDs.SILITHUS] = {{57.56,35.23}},
+                [zoneIDs.WINTERSPRING] = {{62.52,35.47}},
+                [zoneIDs.TANARIS] = {{52.79,29.32}},
+                [zoneIDs.ASHENVALE] = {{37.79,54.81}},
+                [zoneIDs.DARKSHORE] = {{36.95,46.23}},
+                [zoneIDs.HELLFIRE_PENINSULA] = {{62.2,58.25}},
+                [zoneIDs.AZUREMYST_ISLE] = {{44.4,52.48}},
+                [zoneIDs.BLOODMYST_ISLE] = {{55.81,67.74}},
+                [zoneIDs.FERALAS] = {{28.27,43.86}},
+                [zoneIDs.BURNING_STEPPES] = {{80.28,63.03}},
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{43.43,82.24}},
+            },
+        },
+        [26520] = { -- Festival Scorchling
+            [npcKeys.spawns] = {
+                [zoneIDs.EVERSONG_WOODS] = {{46.41,50.51}},
+                [zoneIDs.GHOSTLANDS] = {{46.89,26.48}},
+                [zoneIDs.TIRISFAL_GLADES] = {{57.29,51.76}},
+                [zoneIDs.SILVERPINE_FOREST] = {{49.65,38.4}},
+                [zoneIDs.HILLSBRAD_FOOTHILLS] = {{58.65,25.52}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{74.27,41.38}},
+                [zoneIDs.THE_HINTERLANDS] = {{76.66,75.07}},
+                [zoneIDs.STRANGLETHORN_VALE] = {{32.89,75.18}},
+                [zoneIDs.SWAMP_OF_SORROWS] = {{46.73,47.17}},
+                [zoneIDs.BURNING_STEPPES] = {{61.86,29.12}},
+                [zoneIDs.BADLANDS] = {{4.7,48.79}},
+                [zoneIDs.TEROKKAR_FOREST] = {{51.97,42.96}},
+                [zoneIDs.SHADOWMOON_VALLEY] = {{33.62,30.64}},
+                [zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.92,58.75}},
+                [zoneIDs.NETHERSTORM] = {{32.16,68.33}},
+                [zoneIDs.HELLFIRE_PENINSULA] = {{57.17,41.99}},
+                [zoneIDs.ZANGARMARSH] = {{35.47,51.69}},
+                [zoneIDs.NAGRAND] = {{50.97,34.13}},
+                [zoneIDs.DUROTAR] = {{52.15,47.25}},
+                [zoneIDs.WINTERSPRING] = {{59.88,35.58}},
+                [zoneIDs.ASHENVALE] = {{70.2,69.31}},
+                [zoneIDs.THE_BARRENS] = {{52.22,28}},
+                [zoneIDs.DUSTWALLOW_MARSH] = {{33.49,30.91}},
+                [zoneIDs.THOUSAND_NEEDLES] = {{42.36,52.93}},
+                [zoneIDs.TANARIS] = {{49.81,26.99}},
+                [zoneIDs.SILITHUS] = {{46.41,44.56}},
+                [zoneIDs.FERALAS] = {{72.41,47.76}},
+                [zoneIDs.DESOLACE] = {{26.13,77.01}},
+                [zoneIDs.STONETALON_MOUNTAINS] = {{50.54,60.41}},
+                [zoneIDs.MULGORE] = {{51.88,59.77}},
+            },
         },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,

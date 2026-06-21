@@ -1862,6 +1862,30 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "与吉安娜交谈",
         ["zhTW"] = false,
     },
+    ["Summon one of Ahune's lieutenants"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "召集埃霍恩的一名副官",
+        ["zhTW"] = false,
+    },
+    ["Summon one of Ahune's templars"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "召唤一名埃霍恩的圣殿骑士",
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(tbcObjectiveLocales) do
