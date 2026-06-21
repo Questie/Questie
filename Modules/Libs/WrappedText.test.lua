@@ -19,6 +19,9 @@ describe("WrappedText", function()
             local font = "Font"
             local size = 12
             local flags = ""
+            local fontWidthMultipliers = {
+                DoubleWidthFont = 2,
+            }
 
             ---@param index number UTF-8 character index.
             ---@return number row Visual row for the mocked fixed-width FontString.
@@ -44,7 +47,7 @@ describe("WrappedText", function()
                 Hide = function() visible = false end,
                 IsVisible = function() return visible end,
                 GetWrappedWidth = function() return width end,
-                GetUnboundedStringWidth = function() return utf8.strlen(text) end,
+                GetUnboundedStringWidth = function() return utf8.strlen(text) * (fontWidthMultipliers[font] or 1) end,
                 CalculateScreenAreaFromCharacterSpan = function(_, leftIndex, rightIndex)
                     ---@type table[]
                     local areas = {}
@@ -61,8 +64,7 @@ describe("WrappedText", function()
             originalUIParent = _G.UIParent
             originalQuestLogObjectivesText = _G["QuestLogObjectivesText"]
 
-            require("Modules.Libs.utf8")
-            utf8 = QuestieLoader:ImportModule("utf8")
+            utf8 = require("Modules.Libs.utf8")
             _G["QuestLogObjectivesText"] = {
                 GetWidth = function() return 275 end,
                 GetFont = function() return "Font", 12, "" end,
@@ -79,6 +81,40 @@ describe("WrappedText", function()
             _G.UIParent = originalUIParent
             _G["QuestLogObjectivesText"] = originalQuestLogObjectivesText
             package.loaded["Modules.Libs.WrappedText"] = nil
+        end)
+
+        it("should add the prefix to each wrapped line", function()
+            local lines = WrappedText:TextWrap("abcd", ">>", false, 2)
+
+            assert.are_same({">>ab", ">>cd"}, lines)
+        end)
+
+        it("should add the prefix to unwrapped text", function()
+            local lines = WrappedText:TextWrap("abc", ">>", false, 10)
+
+            assert.are_same({">>abc"}, lines)
+        end)
+
+        it("should use the quest objective width by default", function()
+            local lines = WrappedText:TextWrap(string.rep("A", 276), "", false)
+
+            assert.are_same(string.rep("A", 275), lines[1])
+            assert.are_same("A", lines[2])
+        end)
+
+        it("should fall back to the quest font when fontSource is invalid", function()
+            local lines = WrappedText:TextWrap("abcd", "", false, 4, {})
+
+            assert.are_same({"abcd"}, lines)
+        end)
+
+        it("should measure with the provided font source", function()
+            local fontSource = {
+                GetFont = function() return "DoubleWidthFont", 12, "" end,
+            }
+            local lines = WrappedText:TextWrap("abcd", "", false, 4, fontSource)
+
+            assert.are_same({"ab", "cd"}, lines)
         end)
 
         it("should not split inside ASCII numbers", function()

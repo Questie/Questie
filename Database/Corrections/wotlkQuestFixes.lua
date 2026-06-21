@@ -226,9 +226,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{5111}},
             [questKeys.exclusiveTo] = {3763,3789},
         },
-        [4127] = {
-            [questKeys.startedBy] = {nil,{164909,186419}},
-        },
         [4144] = {
             [questKeys.specialFlags] = specialFlags.NONE,
         },
@@ -368,6 +365,12 @@ function QuestieWotlkQuestFixes:Load()
         [7042] = {
             [questKeys.startedBy] = {{13433}},
         },
+        [7490] = { -- Victory for the Horde
+            [questKeys.preQuestSingle] = {},
+        },
+        [7495] = { -- Victory for the Alliance
+            [questKeys.preQuestSingle] = {},
+        },
         [7641] = {
             [questKeys.preQuestSingle] = {7638,7670},
         },
@@ -377,6 +380,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [7704] = {
             [questKeys.startedBy] = {nil,nil,{18950}},
+        },
+        [7781] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {},
+        },
+        [7783] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {},
         },
         [7838] = { -- Arena Grandmaster
             [questKeys.requiredLevel] = 1,

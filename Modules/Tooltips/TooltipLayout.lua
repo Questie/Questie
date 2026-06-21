@@ -239,7 +239,7 @@ local function _GetTooltipDoubleLineGap()
     tooltipDoubleLineGapTooltip:ClearLines()
 
     tooltipDoubleLineGapAvg = (gap1 + gap2) / 2
-    return tooltipDoubleLineGapAvg or DEFAULT_DOUBLE_LINE_GAP
+    return tooltipDoubleLineGapAvg
 end
 
 ---Measures non-description rows to choose the tooltip text width before wrapping descriptions.

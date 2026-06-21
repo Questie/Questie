@@ -158,31 +158,13 @@ function MapIconTooltip:Show()
 
                     local orderedTooltips = {}
                     iconData.ObjectiveData:Update()
-                    if iconData.Type == "event" then
-                        local tip = _MapIconTooltip:GetEventObjectiveTooltip(icon.data)
-
-                        -- We need to check for duplicates.
-                        local add = true;
-                        for _, data in pairs(questOrder[key]) do
-                            for text, _ in pairs(data) do
-                                if (text == QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)) then
-                                    add = false;
-                                    break;
-                                end
-                            end
-                        end
-                        if add then
-                            questOrder[key] = tip
-                        end
-                    else
-                        local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
-                        for _, tip in pairs(tooltips) do
-                            tinsert(orderedTooltips, 1, tip);
-                        end
-                        for _, tip in pairs(orderedTooltips) do
-                            local quest = questOrder[key]
-                            _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
-                        end
+                    local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
+                    for _, tip in pairs(tooltips) do
+                        tinsert(orderedTooltips, 1, tip);
+                    end
+                    for _, tip in pairs(orderedTooltips) do
+                        local quest = questOrder[key]
+                        _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
                     end
                 elseif iconData.CustomTooltipData then
                     questOrder[iconData.CustomTooltipData.Title] = {}
@@ -335,12 +317,12 @@ function MapIconTooltip:Show()
             ---@type Quest
             local quest = QuestieDB.GetQuest(questId);
             local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true);
-            local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel);
-            r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
+            local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel) or 0
+            local rewardString = xpReward > 0 and QuestieLib:PrintDifficultyColor(quest.level, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")") .. " ", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)) or ""
             if haveGiver then
-                if shift and xpReward then
+                if shift and xpReward > 0 then
                     tooltipRows:AddLine(" ");
-                    tooltipRows:AddDoubleLine(questTitle, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. ") (" .. l10n("Active") .. l10n(")"), 0.2, 1, 0.2, 1, 1, 0);
+                    tooltipRows:AddDoubleLine(questTitle, rewardString .. l10n("(") .. l10n("Active") .. l10n(")"), 0.2, 1, 0.2, 1, 1, 0);
                     haveGiver = false -- looks better when only the first one shows (active)
                 else
                     tooltipRows:AddLine(" ");
@@ -349,7 +331,7 @@ function MapIconTooltip:Show()
                 end
             else
                 if (quest and shift and xpReward > 0) then
-                    tooltipRows:AddDoubleLine(questTitle, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")"), 0.2, 1, 0.2, r, g, b);
+                    tooltipRows:AddDoubleLine(questTitle, rewardString, 0.2, 1, 0.2, 1, 0, 1); -- magenta to spot any missing text color
                     firstLine = false;
                 elseif (firstLine and not shift) then
                     tooltipRows:AddDoubleLine(questTitle, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
@@ -525,25 +507,6 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     tip.questId = icon.data.Id;
 
     return tip
-end
-
-function _MapIconTooltip:GetEventObjectiveTooltip(iconData)
-    local desc = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
-    if iconData.Name then
-        return {
-            [iconData.ObjectiveData.Index] = {
-                [desc] = {
-                    [iconData.Name] = true
-                }
-            }
-        }
-    else
-        return {
-            [iconData.ObjectiveData.Index] = {
-                [desc] = true
-            }
-        }
-    end
 end
 
 function _MapIconTooltip:GetObjectiveTooltip(icon)

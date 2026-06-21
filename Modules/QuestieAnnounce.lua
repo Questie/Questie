@@ -84,27 +84,31 @@ _GetAnnounceMarker = function()
     end
 end
 
-function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveText, objectiveProgress)
+---@param questId QuestId
+---@param objectiveText string
+---@param objectiveProgress string
+function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText, objectiveProgress)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
-        -- no hyperlink required here
         local questLink = QuestieLink:GetQuestLinkStringById(questId);
+        local objective = objectiveProgress .. " " .. objectiveText
+        local message = l10n("%s for %s!", objective, questLink)
 
-        local objective
-        if itemId then
-            local itemLink = select(2, GetItemInfo(itemId))
-            objective = objectiveProgress.." "..itemLink
-        else
-            objective = objectiveProgress.." "..objectiveText
+        local localMessage
+        if Questie.db.profile.questAnnounceLocally == true then
+            localMessage = l10n("%s for %s!", objective, QuestieLink:GetQuestHyperLink(questId))
         end
 
-        local message = _GetAnnounceMarker() .. l10n("%s for %s!", objective, questLink)
-        _QuestieAnnounce:AnnounceToChannel(message)
+        _QuestieAnnounce:AnnounceToChannel(message, localMessage)
     end
 end
 
 local _has_seen_incomplete = {}
 local _has_sent_announce = {}
 
+---@param questId QuestId
+---@param text string
+---@param numFulfilled number
+---@param numRequired number
 function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequired)
     -- Announce completed objective
     if (numRequired ~= numFulfilled) then
@@ -112,24 +116,32 @@ function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequir
     elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
         _has_seen_incomplete[text] = nil
         _has_sent_announce[text] = true
-        QuestieAnnounce:AnnounceObjectiveToChannel(questId, nil, text, tostring(numFulfilled) .. "/" .. tostring(numRequired))
+        QuestieAnnounce:AnnounceObjectiveToChannel(questId, text, tostring(numFulfilled) .. "/" .. tostring(numRequired))
     end
 end
 
-
+---@param questId QuestId
+---@param itemId ItemId
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceItems then
-        local questHyperLink = QuestieLink:GetQuestLinkStringById(questId);
+        local questLink = QuestieLink:GetQuestLinkStringById(questId);
         local itemLink = select(2, GetItemInfo(itemId))
+        local message = l10n("Picked up %s which starts %s!", itemLink, questLink)
 
-        local message = _GetAnnounceMarker() .. l10n("Picked up %s which starts %s!", itemLink, questHyperLink)
-        _QuestieAnnounce:AnnounceToChannel(message)
+        local localMessage
+        if Questie.db.profile.questAnnounceLocally == true then
+            localMessage = l10n("Picked up %s which starts %s!", itemLink, QuestieLink:GetQuestHyperLink(questId))
+        end
+
+        _QuestieAnnounce:AnnounceToChannel(message, localMessage)
         return true
     else
         return false
     end
 end
 
+---@param questId QuestId
+---@param itemId ItemId
 function _QuestieAnnounce:AnnounceSelf(questId, itemId)
     local questHyperLink = QuestieLink:GetQuestHyperLink(questId);
     local itemLink = select(2, GetItemInfo(itemId));
@@ -138,18 +150,25 @@ function _QuestieAnnounce:AnnounceSelf(questId, itemId)
 end
 
 ---@return boolean
-function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
-    if Questie.db.profile.questAnnounceLocally == true then
-        return true -- we always want to print if this option is enabled
-    elseif Questie.db.profile.questAnnounceChannel == "both" then
+local function _ShouldAnnounceToGroup()
+    local channel = Questie.db.profile.questAnnounceChannel
+    if channel == "both" then
         return IsInRaid() or IsInGroup()
-    elseif Questie.db.profile.questAnnounceChannel == "raid" then
+    elseif channel == "raid" then
         return IsInRaid()
-    elseif Questie.db.profile.questAnnounceChannel == "party" then
+    elseif channel == "party" then
         return IsInGroup() and not IsInRaid()
     else
         return false
     end
+end
+
+---@return boolean
+function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
+    if Questie.db.profile.questAnnounceLocally == true then
+        return true -- we always want to print if this option is enabled
+    end
+    return _ShouldAnnounceToGroup()
 end
 
 function _QuestieAnnounce.GetChatMessageChannel()
@@ -162,7 +181,9 @@ function _QuestieAnnounce.GetChatMessageChannel()
     end
 end
 
-function _QuestieAnnounce:AnnounceToChannel(message)
+---@param message string
+---@param localMessage? string
+function _QuestieAnnounce:AnnounceToChannel(message, localMessage)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
     if (not message) or alreadySentBandaid[message] or Questie.db.profile.questieShutUp then
         return
@@ -170,10 +191,12 @@ function _QuestieAnnounce:AnnounceToChannel(message)
 
     alreadySentBandaid[message] = true
 
-    if IsInRaid() or IsInGroup() then
-        SendChatMessage(message, _QuestieAnnounce.GetChatMessageChannel())
-    elseif Questie.db.profile.questAnnounceLocally == true then
-        Questie:Print(message)
+    if Questie.db.profile.questAnnounceLocally == true then
+        Questie:Print(localMessage)
+    end
+
+    if _ShouldAnnounceToGroup() then
+        SendChatMessage(_GetAnnounceMarker() .. message, _QuestieAnnounce.GetChatMessageChannel())
     end
 end
 
@@ -184,6 +207,9 @@ local function _GetPlayerName()
     return playerNameCache
 end
 
+---@param text string
+---@param notPlayerName string
+---@param playerName string
 function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     if (playerNameCache or _GetPlayerName()) == playerName or (string.len(playerName) == 0 and playerNameCache == notPlayerName) then
         local itemId = tonumber(string.match(text, "item:(%d+)"))
@@ -207,30 +233,48 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     end
 end
 
+---@param questId QuestId
 function QuestieAnnounce:AcceptedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAccepted then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n('Accepted'), questLink or "no quest name")
 
-        local message = _GetAnnounceMarker() .. l10n("Quest %s: %s", l10n('Accepted'), questLink or "no quest name")
-        _QuestieAnnounce:AnnounceToChannel(message)
+        local localMessage
+        if Questie.db.profile.questAnnounceLocally == true then
+            localMessage = l10n("Quest %s: %s", l10n('Accepted'), QuestieLink:GetQuestHyperLink(questId) or "no quest name")
+        end
+
+        _QuestieAnnounce:AnnounceToChannel(message, localMessage)
     end
 end
 
+---@param questId QuestId
 function QuestieAnnounce:AbandonedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAbandoned then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n('Abandoned'), questLink or "no quest name")
 
-        local message = _GetAnnounceMarker() .. l10n("Quest %s: %s", l10n('Abandoned'), questLink or "no quest name")
-        _QuestieAnnounce:AnnounceToChannel(message)
+        local localMessage
+        if Questie.db.profile.questAnnounceLocally == true then
+            localMessage = l10n("Quest %s: %s", l10n('Abandoned'), QuestieLink:GetQuestHyperLink(questId) or "no quest name")
+        end
+
+        _QuestieAnnounce:AnnounceToChannel(message, localMessage)
     end
 end
 
+---@param questId QuestId
 function QuestieAnnounce:CompletedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceCompleted then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n('Completed'), questLink or "no quest name")
 
-        local message = _GetAnnounceMarker() .. l10n("Quest %s: %s", l10n('Completed'), questLink or "no quest name")
-        _QuestieAnnounce:AnnounceToChannel(message)
+        local localMessage
+        if Questie.db.profile.questAnnounceLocally == true then
+            localMessage = l10n("Quest %s: %s", l10n('Completed'), QuestieLink:GetQuestHyperLink(questId) or "no quest name")
+        end
+
+        _QuestieAnnounce:AnnounceToChannel(message, localMessage)
     end
 end
 

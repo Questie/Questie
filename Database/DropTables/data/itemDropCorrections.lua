@@ -319,6 +319,18 @@ QuestieItemDropCorrections.Era = {
     [7291] = { -- Infernal Orb
         [4668] = 100,
     },
+    [10458] = { -- Prayer to Elune
+        [5860] = 20, -- empyrical value
+        [5861] = 20, -- empyrical value
+        [5862] = 20, -- empyrical value
+        [8419] = 20, -- empyrical value
+    },
+    [10552] = { -- Symbol of Ragnaros
+        [5860] = DropKeys.WOWHEAD,
+        [5861] = DropKeys.WOWHEAD,
+        [5862] = DropKeys.WOWHEAD,
+        [8419] = DropKeys.WOWHEAD,
+    },
     [10639] = { -- Hyacinth Mushroom
         [1988] = 80,
     },
@@ -364,6 +376,18 @@ QuestieItemDropCorrections.Era = {
     },
     [17765] = { -- Gem of the Fifth Khan
         [12243] = 100,
+    },
+    [18956] = { -- Miniaturization Residue
+        [5357] = 100,
+        [5358] = 100,
+        [5359] = 100,
+        [5360] = 100,
+        [5361] = 100,
+        [14603] = 100,
+        [14604] = 100,
+        [14638] = 100,
+        [14639] = 100,
+        [14640] = 100,
     },
     [20373] = { -- Stonelash Scorpid Stinger
         [11735] = DropKeys.WOWHEAD,
@@ -544,6 +568,11 @@ QuestieItemDropCorrections.Tbc = {
     },
     [31814] = { -- Mature Bone Sifter Carcass
         [22482] = 100,
+    },
+    [33087] = { -- Black Dragonkin Essence
+        [4328] = 100,
+        [4329] = 100,
+        [4331] = 100,
     },
 }
 

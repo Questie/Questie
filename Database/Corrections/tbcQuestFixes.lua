@@ -239,6 +239,9 @@ function QuestieTBCQuestFixes:Load()
         [1206] = { -- Jarl Needs Eyes
             [questKeys.objectivesText] = {"Bring 20 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
         },
+        [1218] = { -- Marsh Frog Legs
+            [questKeys.breadcrumbs] = {11177},
+        },
         [1220] = {
             [questKeys.startedBy] = {{23951}},
         },
@@ -258,9 +261,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {nil,{187273}},
             [questKeys.preQuestSingle] = {11123},
         },
-        [1287] = { -- The Deserters
-            [questKeys.nextQuestInChain] = 11143,
-        },
         [1322] = {
             [questKeys.objectivesText] = {"Acquire 5 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
         },
@@ -278,6 +278,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1385] = { -- Brutal Politics
             [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-500},{factionIDs.MAGRAM_CLAN_CENTAUR,250}},
+        },
+        [1396] = { -- Encroaching Wildlife
+            [questKeys.breadcrumbs] = {9609},
         },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
@@ -575,9 +578,12 @@ function QuestieTBCQuestFixes:Load()
         [2880] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [2881] = {
+        [2881] = { -- Troll Necklace Bounty
+            [questKeys.startedBy] = {{7884}},
+            [questKeys.finishedBy] = {{7884}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {2880},
         },
         [2985] = { -- Call of Water
             [questKeys.exclusiveTo] = {1528,1529,2986},
@@ -1701,6 +1707,30 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.nextQuestInChain] = 0, -- no followup in TBC
         },
+        [8962] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8963] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8964] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8965] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8966] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8967] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8968] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8969] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
         [8979] = { -- Fenstad's Hunch
             [questKeys.questLevel] = -1,
             [questKeys.preQuestSingle] = {11558},
@@ -1723,6 +1753,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [8984] = { -- The Source Revealed
             [questKeys.questLevel] = -1,
+        },
+        [8985] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8986] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8987] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8988] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8989] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8990] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8991] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8992] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
         },
         [8993] = { -- Gift Giving
             [questKeys.questLevel] = -1,
@@ -2337,6 +2391,9 @@ function QuestieTBCQuestFixes:Load()
         [9608] = { -- Heart of Rage
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
+        },
+        [9609] = { -- Help Watcher Biggs
+            [questKeys.breadcrumbForQuestId] = 1396,
         },
         [9616] = { -- Bandits!
             [questKeys.startedBy] = {nil,nil,{23910}},
@@ -4907,6 +4964,9 @@ function QuestieTBCQuestFixes:Load()
         [11126] = { -- Traitors Among Us
             [questKeys.objectives] = {{{23602,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [11128] = { -- Propaganda War
+            [questKeys.nextQuestInChain] = 11133,
+        },
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -4921,12 +4981,22 @@ function QuestieTBCQuestFixes:Load()
         [11134] = { -- The End of the Deserters
             [questKeys.nextQuestInChain] = 11136,
         },
+        [11136] = { -- A Disturbing Development
+            [questKeys.breadcrumbForQuestId] = 11137,
+        },
+        [11137] = { -- Defias in Dustwallow?
+            [questKeys.breadcrumbs] = {11136},
+        },
         [11140] = { -- Recover the Cargo!
             [questKeys.requiredSourceItems] = {33040},
             [questKeys.nextQuestInChain] = 11141,
         },
         [11142] = {
             [questKeys.objectives] = {{{23704,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [11143] = { -- A Grim Connection
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1284,1287,1320},
         },
         [11145] = {
             [questKeys.requiredSourceItems] = {33061},
@@ -4936,8 +5006,15 @@ function QuestieTBCQuestFixes:Load()
         [11146] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [11147] = { -- Unleash the Raptors
+            [questKeys.objectives] = {{{23727,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [11149] = { -- Tabetha's Assistance
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {11144,11148},
+        },
         [11150] = { -- Raze Direhorn Post!
-            [questKeys.objectives] = {{{23751,nil,Questie.ICON_TYPE_INTERACT},{23752,nil,Questie.ICON_TYPE_INTERACT},{23753,nil,Questie.ICON_TYPE_INTERACT}}}
+            [questKeys.objectives] = {{{23751,nil,Questie.ICON_TYPE_EVENT},{23752,nil,Questie.ICON_TYPE_EVENT},{23753,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [11152] = {
             [questKeys.objectives] = {nil,{{186322,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4956,7 +5033,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11132},
         },
         [11169] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344}}},
         },
         [11172] = { -- The Zeppelin Crash
             [questKeys.nextQuestInChain] = 11174,
@@ -4967,11 +5044,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {11172},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4392,4393,4394},4392,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11177] = {
+        [11177] = { -- The Hermit of Swamplight Manor
             [questKeys.nextQuestInChain] = 1218,
+            [questKeys.breadcrumbForQuestId] = 1218,
         },
         [11180] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861}}},
         },
         [11183] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{55.2,26.6}}}, Questie.ICON_TYPE_EVENT, l10n("Plant the torch at the end of the dock")}},
@@ -4990,9 +5068,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {11200,11201},
         },
-        [11208] = {
-            [questKeys.exclusiveTo] = {11158},
-        },
         [11209] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{56.38,62.42}}}, Questie.ICON_TYPE_EVENT, l10n("Smear the Fish Paste on yourself and swim to the ship wreck")}},
         },
@@ -5006,7 +5081,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11158,11211,11215},
         },
         [11215] = {
-            [questKeys.exclusiveTo] = {11158,11214,11211},
+            [questKeys.exclusiveTo] = {11158,11211,11214},
         },
         [11216] = { -- Archmage Alturus
             [questKeys.nextQuestInChain] = 9825,
@@ -5020,6 +5095,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11222] = { -- Warn Bolvar!
             [questKeys.nextQuestInChain] = 11223,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Jaina"), 0, {{"monster",4968}}}},
         },
         [11225] = { -- The Hermit of Witch Hill
             [questKeys.requiredLevel] = 32,

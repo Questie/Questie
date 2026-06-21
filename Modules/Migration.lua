@@ -17,9 +17,9 @@ local migrationFunctions = {
         -- old settings can linger unused unless you roll back versions, no harm no foul
     end,
     [2] = function()
-        -- Blizzard removed some sounds from Era/SoD, which are present in WotLK
+        -- Blizzard removed some sounds from Era/SoD, which are present in TBC
         local objectiveSound = Questie.db.profile.objectiveCompleteSoundChoiceName
-        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
+        if Expansions.Current < Expansions.Tbc and
             objectiveSound == "Explosion" or
             objectiveSound == "Shing!" or
             objectiveSound == "Wham!" or
@@ -32,7 +32,7 @@ local migrationFunctions = {
         end
 
         local progressSound = Questie.db.profile.objectiveProgressSoundChoiceName
-        if Expansions.Current < Expansions.Wotlk and -- Are these sounds present in TBC as well?
+        if Expansions.Current < Expansions.Tbc and
             progressSound == "Explosion" or
             progressSound == "Shing!" or
             progressSound == "Wham!" or
@@ -181,6 +181,12 @@ local migrationFunctions = {
     end,
     [28] = function()
         Questie.db.profile.trimObjectiveText = true
+    end,
+    [29] = function()
+        Questie.db.profile.showQuestXpAtMaxLevel = false
+    end,
+    [30] = function()
+        Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
     end,
 }
 

@@ -863,6 +863,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {165678},
         },
+        [11463] = { -- Undelivered Parcel
+            [itemKeys.objectDrops] = {164953},
+        },
         [11470] = { -- Tablet Transcript
             [itemKeys.relatedQuests] = {4296},
             [itemKeys.npcDrops] = {},

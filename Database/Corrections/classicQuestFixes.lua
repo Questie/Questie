@@ -551,11 +551,17 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 738,
             [questKeys.breadcrumbForQuestId] = 738, -- #1289
         },
+        [714] = { -- Gyro... What?
+            [questKeys.nextQuestInChain] = 715,
+        },
         [715] = {
             [questKeys.requiredSkill] = {},
         },
-        [717] = {
+        [717] = { -- Tremors of the Earth
             [questKeys.requiredSourceItems] = {4843,4844,4845},
+        },
+        [724] = { -- Prospect of Faith
+            [questKeys.nextQuestInChain] = 725,
         },
         [729] = {
             [questKeys.breadcrumbs] = {730},
@@ -568,7 +574,7 @@ function QuestieQuestFixes:Load()
         [731] = {
             [questKeys.triggerEnd] = {"Escort Prospector Remtravel", {[zoneIDs.DARKSHORE]={{35.67,84.03}}}},
         },
-        [735] = {
+        [735] = { -- The Star, the Hand and the Heart
             [questKeys.requiredSourceItems] = {4639},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Dagun the Ravenous using an Enchanted Sea Kelp"), 2, {{"object", 2871}}}},
         },
@@ -626,14 +632,14 @@ function QuestieQuestFixes:Load()
         [771] = {
             [questKeys.nextQuestInChain] = 772,
         },
-        [779] = {
+        [779] = { -- Seal of the Earth
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [788] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4641}, -- #1956
         },
-        [793] = {
+        [793] = { -- Broken Alliances
             [questKeys.requiredSourceItems] = {4843,4844,4845},
         },
         [809] = {
@@ -2027,6 +2033,12 @@ function QuestieQuestFixes:Load()
         [2801] = {
             [questKeys.objectives] = {{{7572,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [2821] = { -- The Mark of Quality
+            [questKeys.nextQuestInChain] = 7733,
+        },
+        [2822] = { -- The Mark of Quality
+            [questKeys.nextQuestInChain] = 7734,
+        },
         [2841] = { -- Rig Wars
             [questKeys.disabledByQuest] = 2842,
             [questKeys.childQuests] = {},
@@ -2083,6 +2095,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {2864}, -- #2072
         },
+        [2867] = { -- Return to Feathermoon Stronghold
+            [questKeys.nextQuestInChain] = 3130,
+        },
         [2872] = {
             [questKeys.breadcrumbForQuestId] = 2873, -- #1566
         },
@@ -2096,8 +2111,9 @@ function QuestieQuestFixes:Load()
         [2880] = { -- Troll Necklace Bounty
             [questKeys.nextQuestInChain] = 2881,
         },
-        [2882] = {
+        [2882] = { -- Cuergo's Gold
             [questKeys.zoneOrSort] = 440, -- #1780
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 142189}}}},
         },
         [2904] = {
             [questKeys.triggerEnd] = {"Kernobee Rescue", {[zoneIDs.GNOMEREGAN]={{-1,-1}}}},
@@ -2143,6 +2159,9 @@ function QuestieQuestFixes:Load()
         [2936] = {
             [questKeys.triggerEnd] = {"Find the Spider God's Name", {[zoneIDs.TANARIS]={{38.73,19.88}}}},
         },
+        [2939] = { -- In Search of Knowledge
+            [questKeys.nextQuestInChain] = 2940,
+        },
         [2943] = { -- Return to Troyas
             [questKeys.nextQuestInChain] = 2879,
         },
@@ -2169,6 +2188,7 @@ function QuestieQuestFixes:Load()
         },
         [2969] = { -- Freedom for All Creatures
             [questKeys.triggerEnd] = {"Save at least 6 Sprite Darters from capture", {[zoneIDs.FERALAS]={{67.27,46.67}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 143979}}}},
             [questKeys.nextQuestInChain] = 2970,
         },
         [2970] = { -- Doling Justice
@@ -2195,8 +2215,8 @@ function QuestieQuestFixes:Load()
         [2986] = {
             [questKeys.breadcrumbForQuestId] = 1530,
         },
-        [2992] = {
-            [questKeys.triggerEnd] = {"Wait for Grimshade to finish", {[zoneIDs.BLASTED_LANDS]={{66.99,19.41}}}},
+        [2992] = { -- The Divination
+            [questKeys.objectives] = {{{8022,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [2994] = {
             [questKeys.questLevel] = 51, -- #1129
@@ -2247,6 +2267,9 @@ function QuestieQuestFixes:Load()
         },
         [3367] = {
             [questKeys.triggerEnd] = {"Dorius Escort", {[zoneIDs.SEARING_GORGE]={{74.47,19.44}}}},
+        },
+        [3372] = { -- Release Them
+            [questKeys.nextQuestInChain] = 3566,
         },
         [3374] = { -- The Essence of Eranikus
             [questKeys.nextQuestInChain] = 3512,
@@ -2299,7 +2322,8 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1131
             [questKeys.availableUntilCompleted] = 3449,
         },
-        [3520] = {
+        [3520] = { -- Screecher Spirits
+            [questKeys.objectives] = {{{8612,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vale Screechers and use Yeh'kinya's Bramble on their corpse."), 0, {{"monster", 5307},{"monster", 5308}}}},
         },
         [3525] = {
@@ -2468,16 +2492,14 @@ function QuestieQuestFixes:Load()
         [4021] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."), 0, {{"monster", 9456}}}},
         },
-        [4022] = {
-            [questKeys.objectives] = {nil,nil,{{10575}},nil,{{{9459},9459,nil,Questie.ICON_TYPE_INTERACT}}},
+        [4022] = { -- A Taste of Flame
+            [questKeys.objectives] = {nil,nil,{{10575}},nil,{{{9459},9459,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.objectivesText] = {"Show Cyrus Therepentous the Black Dragonflight Molt you received from Kalaran Windblade."},
         },
-        [4023] = {
-            [questKeys.exclusiveTo] = {3481,4022},
+        [4023] = { -- A Taste of Flame
+            [questKeys.availableUntilCompleted] = 3481,
         },
-        [4024] = {
-            [questKeys.preQuestGroup] = {4022,4023}, -- it has to be preQuestGroup or it shows prematurely
-            [questKeys.preQuestSingle] = {},
+        [4024] = { -- A Taste of Flame
             [questKeys.objectivesText] = {"Travel to Blackrock Depths and slay Bael'Gar.","","You only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.","","Return the Encased Fiery Essence to Cyrus Therepentous."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Altered Black Dragonflight Molt on Bael'gar's corpse."), 0, {{"monster", 9016}}}},
         },
@@ -2552,6 +2574,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4128},
         },
+        [4127] = { -- Boat Wreckage
+            [questKeys.startedBy] = {nil,{164909,186419}},
+        },
         [4128] = {
             [questKeys.breadcrumbForQuestId] = 4126,
         },
@@ -2597,8 +2622,8 @@ function QuestieQuestFixes:Load()
         [4265] = {
             [questKeys.triggerEnd] = {"Free Raschal.", {[zoneIDs.FERALAS]={{72.13,63.84}}}},
         },
-        [4267] = { -- Rise of the Silithid
-            [questKeys.nextQuestInChain] = 4493,
+        [4281] = { -- Thalanaar Delivery
+            [questKeys.preQuestSingle] = {4131},
         },
         [4282] = { -- A Shred of Hope
             [questKeys.nextQuestInChain] = 4322,
@@ -2651,9 +2676,9 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}}, -- needed for deDE blizzard spaghetti #2432
         },
         [4493] = { -- March of the Silithid
-            [questKeys.preQuestSingle] = {162,4267},
+            [questKeys.preQuestSingle] = {162},
         },
-        [4494] = {
+        [4494] = { -- March of the Silithid
             [questKeys.preQuestSingle] = {7732},
         },
         [4495] = {
@@ -3951,6 +3976,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {7492}, -- #1514
         },
+        [7490] = { -- Victory for the Horde
+            [questKeys.preQuestSingle] = {6602},
+        },
         [7492] = {
             [questKeys.startedBy] = {{10879,10880,10881}}, -- #1350
             [questKeys.breadcrumbForQuestId] = 7489, -- #1514
@@ -3961,6 +3989,7 @@ function QuestieQuestFixes:Load()
         },
         [7495] = { -- Victory for the Alliance
             [questKeys.requiredLevel] = 60,
+            [questKeys.preQuestSingle] = {6502},
         },
         [7507] = { -- Nostro's Compendium
             [questKeys.name] = "Nostro's Compendium",
@@ -4066,8 +4095,14 @@ function QuestieQuestFixes:Load()
         [7738] = { -- Perfect Yeti Hide H
             [questKeys.preQuestSingle] = {2822},
         },
+        [7781] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {7761},
+        },
         [7782] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{1748}},
+        },
+        [7783] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {7761},
         },
         [7784] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{4949}},
@@ -4164,8 +4199,35 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8044] = {
+        [8041] = { -- Strength of Mount Mugamba
+            [questKeys.nextQuestInChain] = 8042,
+        },
+        [8042] = { -- Strength of Mount Mugamba
+            [questKeys.nextQuestInChain] = 8043,
+        },
+        [8043] = { -- Strength of Mount Mugamba
+            [questKeys.nextQuestInChain] = 8044,
+        },
+        [8044] = { -- The Rage of Mugamba
             [questKeys.name] = "The Rage of Mugamba",
+        },
+        [8045] = { -- The Heathen's Brand
+            [questKeys.nextQuestInChain] = 8046,
+        },
+        [8046] = { -- The Heathen's Brand
+            [questKeys.nextQuestInChain] = 8047,
+        },
+        [8047] = { -- The Heathen's Brand
+            [questKeys.nextQuestInChain] = 8048,
+        },
+        [8049] = { -- The Eye of Zuldazar
+            [questKeys.nextQuestInChain] = 8050,
+        },
+        [8050] = { -- The Eye of Zuldazar
+            [questKeys.nextQuestInChain] = 8051,
+        },
+        [8051] = { -- The Eye of Zuldazar
+            [questKeys.nextQuestInChain] = 8052,
         },
         [8053] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -4248,21 +4310,57 @@ function QuestieQuestFixes:Load()
         [8079] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
         },
-        [8105] = {
+        [8101] = { -- The Pebble of Kajaro
+            [questKeys.nextQuestInChain] = 8102,
+        },
+        [8102] = { -- The Pebble of Kajaro
+            [questKeys.nextQuestInChain] = 8103,
+        },
+        [8103] = { -- The Pebble of Kajaro
+            [questKeys.nextQuestInChain] = 8104,
+        },
+        [8105] = { -- The Battle for Arathi Basin!
             [questKeys.specialFlags] = specialFlags.NONE,
         },
-        [8114] = {
+        [8106] = { -- Kezan's Taint
+            [questKeys.nextQuestInChain] = 8107,
+        },
+        [8107] = { -- Kezan's Taint
+            [questKeys.nextQuestInChain] = 8108,
+        },
+        [8108] = { -- Kezan's Taint
+            [questKeys.nextQuestInChain] = 8109,
+        },
+        [8110] = { -- Enchanted South Seas Kelp
+            [questKeys.nextQuestInChain] = 8111,
+        },
+        [8111] = { -- Enchanted South Seas Kelp
+            [questKeys.nextQuestInChain] = 8112,
+        },
+        [8112] = { -- Enchanted South Seas Kelp
+            [questKeys.nextQuestInChain] = 8113,
+        },
+        [8114] = { -- Control Four Bases
             [questKeys.requiredMinRep] = {509,3000},
             [questKeys.triggerEnd] = {"Control Four Bases.", {[zoneIDs.ARATHI_HIGHLANDS]={{46.03,45.3}}}},
         },
-        [8115] = {
+        [8115] = { -- Control Five Bases
             [questKeys.triggerEnd] = {"Take Five Bases.", {[zoneIDs.ARATHI_HIGHLANDS]={{46.03,45.3}}}},
             [questKeys.requiredMinRep] = {509,42000},
         },
-        [8120] = {
+        [8116] = { -- Vision of Voodress
+            [questKeys.nextQuestInChain] = 8117,
+        },
+        [8117] = { -- Vision of Voodress
+            [questKeys.nextQuestInChain] = 8118,
+        },
+        [8118] = { -- Vision of Voodress
+            [questKeys.nextQuestInChain] = 8119,
+        },
+        [8120] = { -- The Battle for Arathi Basin!
             [questKeys.specialFlags] = specialFlags.NONE,
         },
-        [8121] = {
+        [8121] = { -- Take Four Bases
             [questKeys.requiredMinRep] = {510,3000},
             [questKeys.triggerEnd] = {"Hold Four Bases.", {
                 [zoneIDs.THUNDER_BLUFF]={{40.4,51.57}},
@@ -4271,7 +4369,7 @@ function QuestieQuestFixes:Load()
                 [zoneIDs.SILVERPINE_FOREST]={{39.68,17.75}}},
             },
         },
-        [8122] = {
+        [8122] = { -- Take Five Bases
             [questKeys.triggerEnd] = {"Hold Five Bases.", {
                 [zoneIDs.THUNDER_BLUFF]={{40.4,51.57}},
                 [zoneIDs.ARATHI_HIGHLANDS]={{73.72,29.52}},
@@ -4279,6 +4377,15 @@ function QuestieQuestFixes:Load()
                 [zoneIDs.SILVERPINE_FOREST]={{39.68,17.75}}},
             },
             [questKeys.requiredMinRep] = {510,42000},
+        },
+        [8145] = { -- The Maelstrom's Tendril
+            [questKeys.nextQuestInChain] = 8146,
+        },
+        [8146] = { -- The Maelstrom's Tendril
+            [questKeys.nextQuestInChain] = 8147,
+        },
+        [8147] = { -- The Maelstrom's Tendril
+            [questKeys.nextQuestInChain] = 8148,
         },
         [8148] = {
             [questKeys.name] = "Maelstrom's Wrath",
@@ -4417,6 +4524,7 @@ function QuestieQuestFixes:Load()
         },
         [8240] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.requiredSourceItems] = {19707,19708,19709,19710,19711,19712,19713,19714,19715},
         },
         [8243] = {
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -6173,6 +6281,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [687] = {
             [questKeys.startedBy] = {{2787}},
         },
+        [709] = { -- Solution to Doom
+            [questKeys.nextQuestInChain] = 728,
+        },
         [737] = {
             [questKeys.startedBy] = {{2934}},
         },
@@ -6301,6 +6412,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [687] = {
             [questKeys.startedBy] = {{2786}},
         },
+        [709] = { -- Solution to Doom
+            [questKeys.nextQuestInChain] = 727,
+        },
         [737] = {
             [questKeys.startedBy] = {{2786}},
         },
@@ -6330,6 +6444,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [5050] = {
             [questKeys.startedBy] = {{3520}},
+        },
+        [6804] = { -- Poisoned Water
+            [questKeys.reputationReward] = {}, -- need to check if horde actually gets any reputation at all
         },
         [6981] = {
             [questKeys.nextQuestInChain] = 3370,

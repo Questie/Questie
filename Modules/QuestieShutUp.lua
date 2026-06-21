@@ -76,3 +76,5 @@ function QuestieShutUp:ToggleFilters(value)
         SafeRemoveMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieShutUp.FilterFunc)
     end
 end
+
+return QuestieShutUp

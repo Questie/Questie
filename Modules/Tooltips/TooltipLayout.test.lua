@@ -10,6 +10,7 @@ describe("TooltipLayout", function()
     local originalCreateFrame
     local originalTextWrap
     local capturedTextWrap
+    local textWrapReturnLines
     local createFontStringCallCount
     local createFrameCallCount
 
@@ -74,7 +75,7 @@ describe("TooltipLayout", function()
                 desiredWidth = desiredWidth,
                 fontSource = fontSource,
             }
-            return {prefix .. "wrapped"}
+            return textWrapReturnLines or {prefix .. "wrapped"}
         end
 
         package.loaded["Modules.Tooltips.TooltipLayout"] = nil
@@ -85,6 +86,7 @@ describe("TooltipLayout", function()
         originalUIParent = _G.UIParent
         originalCreateFrame = _G.CreateFrame
         capturedTextWrap = nil
+        textWrapReturnLines = nil
         createFontStringCallCount = 0
         createFrameCallCount = 0
 
@@ -128,9 +130,7 @@ describe("TooltipLayout", function()
         _G.QuestieTooltipLayoutGapMeasureTooltipTextRight1 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft2 = nil
         _G.QuestieTooltipLayoutGapMeasureTooltipTextRight2 = nil
-        if WrappedText then
-            WrappedText.TextWrap = originalTextWrap
-        end
+        WrappedText.TextWrap = originalTextWrap
         package.loaded["Modules.Libs.WrappedText"] = nil
         package.loaded["Modules.Tooltips.TooltipLayout"] = nil
     end)
@@ -176,6 +176,39 @@ describe("TooltipLayout", function()
         assert.is_false(capturedTextWrap.combineTrailing)
         assert.are.same("  wrapped", tooltip.calls[2].text)
         assert.are.same(3, tooltip.calls[2].n)
+    end)
+
+    it("should render multiple wrapped description lines with the original args", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+        textWrapReturnLines = {"  first", "  second"}
+
+        rows:AddLine("header")
+        rows:AddDescription("description", "  ", 1, nil, 3)
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same("header", tooltip.calls[1].text)
+        assert.are.same("  first", tooltip.calls[2].text)
+        assert.are.same(3, tooltip.calls[2].n)
+        assert.are.same(1, tooltip.calls[2].args[1])
+        assert.is_nil(tooltip.calls[2].args[2])
+        assert.are.same(3, tooltip.calls[2].args[3])
+        assert.are.same("  second", tooltip.calls[3].text)
+        assert.are.same(3, tooltip.calls[3].n)
+        assert.are.same(1, tooltip.calls[3].args[1])
+        assert.is_nil(tooltip.calls[3].args[2])
+        assert.are.same(3, tooltip.calls[3].args[3])
+    end)
+
+    it("should use the minimum tooltip width for description-only tooltips", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+
+        rows:AddDescription("description", "  ")
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same(373, capturedTextWrap.desiredWidth)
+        assert.is_false(capturedTextWrap.combineTrailing)
     end)
 
     it("should include measured double-line gap when deriving description width", function()

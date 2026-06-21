@@ -1,8 +1,8 @@
 --DBM HudMap integration written by MysticalOS
 --All code here executes functions from https://github.com/DeadlyBossMods/DBM-Unified/blob/master/DBM-Core/DBM-HudMap.lua
-----------------------
+------------------------
 --   Globals/Locals   --
-----------------------
+------------------------
 ---@class QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
 
@@ -22,9 +22,9 @@ local AddedHudIds = {}--Tracking table of all active hud markers
 local playerName = UnitName("player")
 local QuestieHUDEnabled = false
 
---------------------------------------------
+----------------------------------------------
 --   Local function used by entire module   --
---------------------------------------------
+----------------------------------------------
 --Adds icons to actual hud display
 local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
     if tableString and not AddedHudIds[tableString] then
@@ -71,9 +71,9 @@ local function RemoveHudQuestIcon(tableString)
     end
 end
 
--------------------------------------
---   Event/Enable/Disable Handlers  --
--------------------------------------
+---------------------------------------
+--   Event/Enable/Disable Handlers   --
+---------------------------------------
 do
     local eventFrame = CreateFrame("frame", "QuestieDBMIntegration", UIParent)
     local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
@@ -217,9 +217,9 @@ do
     end
 end
 
-------------------------
+--------------------------
 --   Global Functions   --
-------------------------
+--------------------------
 --Called in QuestieMap in DrawWorldIcon function right after QuestieMap:QueueDraw
 --QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, ZoneDB:GetUiMapIdByAreaId(AreaID), x, y, colors[1], colors[2], colors[3])
 --Take note of x, y. do not /100 the coords sent to this itegration, since HudMap expects unmodified values
