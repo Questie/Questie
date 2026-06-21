@@ -53,11 +53,23 @@ local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
 ---@class QuestieEventPrivate
 local _QuestieEvent = QuestieEvent.private
 
+---[1] = Event Name
+---[2] = QuestId
+---[3] = Start Date (format: "DD/MM")
+---[4] = End Date (format: "DD/MM")
+---[5] = Hide Quest even during event (optional, default: false)
+---@alias EventQuestEntry {[1]: string, [2]: QuestId, [3]: string?, [4]: string?, [5]: boolean?}
+
 -- This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
+---@type EventQuestEntry[]
 QuestieEvent.eventQuests = {}
+
+---@type table<QuestId, boolean>
 QuestieEvent.activeQuests = {}
 QuestieEvent.calendarDataCached = false
-_QuestieEvent.eventNamesForQuests = {}
+
+---@type table<QuestId, string>
+local eventNamesForQuests = {}
 
 local alwaysTurnInAbleQuests = {
     [7937] = true, -- Your Fortune Awaits You...
@@ -186,7 +198,7 @@ function QuestieEvent:Load()
         end
 
         if (not hideQuest) then
-            _QuestieEvent.eventNamesForQuests[questId] = eventName
+            eventNamesForQuests[questId] = eventName
 
             if (activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth)) or (dmfIsActive and eventName == "Darkmoon Faire") then
                 QuestieCorrections.hiddenQuests[questId] = nil
@@ -366,13 +378,13 @@ end
 ---@param questId QuestId
 ---@return string
 function QuestieEvent.GetEventNameFor(questId)
-    return _QuestieEvent.eventNamesForQuests[questId] or ""
+    return eventNamesForQuests[questId] or ""
 end
 
 ---@param questId QuestId
 ---@return boolean @True if the quest is part of an event, false otherwise
 function QuestieEvent.IsEventQuest(questId)
-    return _QuestieEvent.eventNamesForQuests[questId] ~= nil
+    return eventNamesForQuests[questId] ~= nil
 end
 
 ---@param questId QuestId
