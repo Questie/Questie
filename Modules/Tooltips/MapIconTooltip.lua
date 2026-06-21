@@ -317,11 +317,10 @@ function MapIconTooltip:Show()
             ---@type Quest
             local quest = QuestieDB.GetQuest(questId);
             local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true);
-            local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel);
-            r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
+            local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel) or 0
+            local rewardString = xpReward > 0 and QuestieLib:PrintDifficultyColor(quest.level, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")") .. " ", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)) or ""
             if haveGiver then
                 if shift and xpReward > 0 then
-                    local rewardString = QuestieLib:PrintDifficultyColor(quest.level, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")") .. " ", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
                     tooltipRows:AddLine(" ");
                     tooltipRows:AddDoubleLine(questTitle, rewardString .. l10n("(") .. l10n("Active") .. l10n(")"), 0.2, 1, 0.2, 1, 1, 0);
                     haveGiver = false -- looks better when only the first one shows (active)
@@ -332,7 +331,7 @@ function MapIconTooltip:Show()
                 end
             else
                 if (quest and shift and xpReward > 0) then
-                    tooltipRows:AddDoubleLine(questTitle, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")"), 0.2, 1, 0.2, r, g, b);
+                    tooltipRows:AddDoubleLine(questTitle, rewardString, 0.2, 1, 0.2, 1, 0, 1); -- magenta to spot any missing text color
                     firstLine = false;
                 elseif (firstLine and not shift) then
                     tooltipRows:AddDoubleLine(questTitle, l10n("(") .. l10n('Hold Shift') .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
