@@ -329,7 +329,7 @@ function QuestieTBCObjectFixes:Load()
         [187564] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11581},
         },
-        [187578] = {
+        [187578] = { -- Scrying Orb
             [objectKeys.name] = "Scrying Orb",
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
@@ -337,7 +337,6 @@ function QuestieTBCObjectFixes:Load()
         [187892] = { -- Ice Chest
             [objectKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_SLAVE_PENS,
-            [objectKeys.questStarts] = {11972},
         },
         [187914] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11732},
