@@ -42,6 +42,9 @@ function QuestieTBCItemFixes:Load()
         [12366] = {
             [itemKeys.npcDrops] = {7457,7458,7459,7460},
         },
+        [12740] = { -- Fifth Mosh'aru Tablet
+            [itemKeys.npcDrops] = {},
+        },
         [17126] = { -- Elegant Letter
             [itemKeys.npcDrops] = {332,918,3327,3328,3401,4163,4214,4215,4582,4583,4584,5165,5166,5167,15285,16279,16684,16685,16686},
         },

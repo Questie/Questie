@@ -711,6 +711,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [4510] = { -- Calm Before the Storm
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
+        [4511] = { -- Calm Before the Storm
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461,16646}},
             [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF, -- was available for orc + blood elf, safe to assume also available for undead
@@ -780,6 +786,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
+        },
+        [5247] = { -- Fragments of the Past
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
+            [questKeys.nextQuestInChain] = 5248,
         },
         [5401] = { -- Argent Dawn Commission
             [questKeys.exclusiveTo] = {5405,5503},
@@ -4776,12 +4786,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [11052] = { -- Akama's Promise
             [questKeys.name] = "Akama's Promise",
-            [questKeys.exclusiveTo] = {10708},
             [questKeys.startedBy] = {{21700}},
             [questKeys.finishedBy] = {{18481}},
             [questKeys.requiredLevel] = 68,
+            [questKeys.preQuestSingle] = {11707},
+            [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- Human 100%, not sure if other races have this also
         },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,

@@ -791,6 +791,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {220},
             [questKeys.availableUntilCompleted] = 96,
         },
+        [974] = { -- Finding the Source
+            [questKeys.objectives] = {nil,{{148503,nil,Questie.ICON_TYPE_EVENT}}}
+        },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
         },
@@ -2284,10 +2287,10 @@ function QuestieQuestFixes:Load()
         [3382] = {
             [questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[zoneIDs.AZSHARA]={{52.86,87.77}}}},
         },
-        [3385] = {
+        [3385] = { -- The Undermarket
             [questKeys.requiredSkill] = {197,230},
         },
-        [3402] = {
+        [3402] = { -- The Undermarket
             [questKeys.requiredSkill] = {197,230},
         },
         [3441] = {
@@ -2649,6 +2652,13 @@ function QuestieQuestFixes:Load()
         [4289] = { -- The Apes of Un'Goro
             [questKeys.nextQuestInChain] = 4301,
         },
+        [4292] = { -- The Bait for Lar'korwi
+            [questKeys.requiredSourceItems] = {11569,11570},
+            [questKeys.extraObjectives] = {
+                {nil,Questie.ICON_TYPE_OBJECT,l10n("Place the meat"),0,{{"object",172619}}},
+                {nil,Questie.ICON_TYPE_OBJECT,l10n("Apply the pheromones"),0,{{"object",169216}}},
+            },
+        },
         [4295] = {
             [questKeys.requiredLevel] = 42,
         },
@@ -2687,11 +2697,12 @@ function QuestieQuestFixes:Load()
         [4490] = { -- Summon Felsteed
             [questKeys.preQuestSingle] = {3631,4487,4488,4489},
         },
-        [4491] = {
+        [4491] = { -- A Little Help From My Friends
             [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}},
         },
-        [4492] = {
+        [4492] = { -- Lost!
             [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}}, -- needed for deDE blizzard spaghetti #2432
+            [questKeys.nextQuestInChain] = 4491,
         },
         [4493] = { -- March of the Silithid
             [questKeys.preQuestSingle] = {162},
@@ -2702,8 +2713,9 @@ function QuestieQuestFixes:Load()
         [4495] = {
             [questKeys.nextQuestInChain] = 3519,
         },
-        [4496] = {
+        [4496] = { -- Bungle in the Jungle
             [questKeys.preQuestSingle] = {4493,4494},
+            [questKeys.nextQuestInChain] = 4507,
         },
         [4505] = {
             [questKeys.breadcrumbs] = {6605}, -- #1859
@@ -2712,8 +2724,14 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32}}}},
         },
-        [4507] = {
+        [4507] = { -- Pawn Captures Queen
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Gorishi Queen Lure."), 0, {{"object", 174792}}}},
+        },
+        [4510] = { -- Calm Before the Storm
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,200}},
+        },
+        [4511] = { -- Calm Before the Storm
+            [questKeys.reputationReward] = {{factionIDs.HORDE,200}},
         },
         [4512] = { -- A Little Slime Goes a Long Way
             [questKeys.requiredSourceItems] = {11914,11948},
@@ -2757,7 +2775,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 788, -- #1956
         },
         [4726] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Draco-Incarcinatrix 900 and defeat the dragonkin."), 0, {{"monster",7047},{"monster",7048}},{"monster",7049}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Draco-Incarcinatrix 900 and defeat the dragonkin."), 0, {{"monster",7047},{"monster",7048},{"monster",7049}}}},
         },
         [4729] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Empty Worg Pup Cage to capture it."), 0, {{"monster", 10221}}}},
@@ -2831,6 +2849,12 @@ function QuestieQuestFixes:Load()
         [4786] = { -- The Completed Robe
             [questKeys.objectives] = {{{6266,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [4788] = { -- The Final Tablets
+            [questKeys.nextQuestInChain] = 8181,
+        },
+        [4810] = { -- Return to Tinkee
+            [questKeys.nextQuestInChain] = 4907,
+        },
         [4811] = {
             [questKeys.objectives] = {nil,{{175524,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -2868,7 +2892,7 @@ function QuestieQuestFixes:Load()
         [4904] = {
             [questKeys.triggerEnd] = {"Escort Lakota Windsong from the Darkcloud Pinnacle.", {[zoneIDs.THOUSAND_NEEDLES]={{30.93,37.12}}}},
         },
-        [4907] = {
+        [4907] = { -- Tinkee Steamboil
             [questKeys.breadcrumbForQuestId] = 4734,
         },
         [4921] = {
@@ -3397,6 +3421,10 @@ function QuestieQuestFixes:Load()
         [5821] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE]={{67.17,56.62}}}},
         },
+        [5862] = { -- Scarlet Subterfuge
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask for the illusion"), 0, {{"monster", 11872}}}},
+            [questKeys.nextQuestInChain] = 5944,
+        },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
         [5882] = { -- Salve via Hunting
@@ -3523,6 +3551,9 @@ function QuestieQuestFixes:Load()
         },
         [6027] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Lord Kragaru"), 0, {{"object", 177673}}}},
+        },
+        [6032] = { -- Sacred Cloth
+            [questKeys.requiredSkill] = {profKeys.TAILORING,280},
         },
         [6041] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the bomb!"), 0, {{"object", 177668}}}},
@@ -3807,11 +3838,11 @@ function QuestieQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047},
         },
-        [6804] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Aspect of Neptulon."), 0, {{"monster", 8519},{"monster", 8520},{"monster", 8521},{"monster", 8522}}}},
-        },
         [6824] = { -- Hands of the Enemy
             [questKeys.nextQuestInChain] = 7486,
+        },
+        [6845] = { -- Uncovering Past Secrets
+            [questKeys.nextQuestInChain] = 1185,
         },
         [6846] = {
             [questKeys.requiredLevel] = 51,
@@ -4459,8 +4490,9 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredMaxLevel] = 29,
         },
-        [8181] = {
+        [8181] = { -- Confront Yeh'kinya
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.nextQuestInChain] = 8182,
         },
         [8183] = { -- The Heart of Hakkar
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -6357,6 +6389,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [3741] = {
             [questKeys.reputationReward] = {}, -- doable as horde, but no SW reputation for horde side
         },
+        [4507] = { -- Pawn Captures Queen
+            [questKeys.nextQuestInChain] = 4509,
+        },
         [4985] = { -- The Wildlife Suffers Too
             [questKeys.nextQuestInChain] = 4987,
         },
@@ -6484,6 +6519,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [2954] = { -- The Stone Watcher
             [questKeys.nextQuestInChain] = 2977,
+        },
+        [4507] = { -- Pawn Captures Queen
+            [questKeys.nextQuestInChain] = 4508,
         },
         [4985] = { -- The Wildlife Suffers Too
             [questKeys.nextQuestInChain] = 4986,

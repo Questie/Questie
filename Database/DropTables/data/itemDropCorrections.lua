@@ -334,8 +334,14 @@ QuestieItemDropCorrections.Era = {
     [10639] = { -- Hyacinth Mushroom
         [1988] = 80,
     },
+    [11478] = { -- Un'Goro Gorilla Pelt
+        [6514] = DropKeys.WOWHEAD,
+    },
     [11479] = { -- Un'Goro Stomper Pelt
         [6513] = DropKeys.WOWHEAD,
+    },
+    [11480] = { -- Un'Goro Thunderer Pelt
+        [6516] = DropKeys.WOWHEAD,
     },
     [11503] = { -- Blood Amber
         [7100] = 100,
@@ -348,6 +354,15 @@ QuestieItemDropCorrections.Era = {
         [9376] = 10.0,
         [14460] = 100.0,
         [14461] = 10.0,
+    },
+    [12335] = { -- Gemstone of Smolderthorn
+        [9237] = 10,
+    },
+    [12336] = { -- Gemstone of Spirestone
+        [9196] = 10,
+    },
+    [12337] = { -- Gemstone of Bloodaxe
+        [9568] = 10,
     },
     [12524] = { -- Blue-feathered Amulet
         [7452] = 50,
@@ -378,6 +393,12 @@ QuestieItemDropCorrections.Era = {
         [4718] = DropKeys.WOWHEAD,
         [4719] = DropKeys.WOWHEAD,
         [14229] = DropKeys.WOWHEAD,
+    },
+    [17309] = { -- Discordant Bracers
+        [8519] = 100,
+        [8520] = 100,
+        [8521] = 100,
+        [8522] = 100,
     },
     [17761] = { -- Gem of the First Khan
         [12240] = 100,
@@ -447,6 +468,15 @@ QuestieItemDropCorrections.Tbc = {
         [7428] = 20,
         [7429] = 20,
         [10198] = 100,
+    },
+    [12335] = { -- Gemstone of Smolderthorn
+        [9237] = 100,
+    },
+    [12336] = { -- Gemstone of Spirestone
+        [9196] = 100,
+    },
+    [12337] = { -- Gemstone of Bloodaxe
+        [9568] = 100,
     },
     [20934] = { -- Wraith Essence
         [15273] = 100,

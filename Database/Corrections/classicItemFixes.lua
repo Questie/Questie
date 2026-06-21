@@ -779,6 +779,9 @@ function QuestieItemFixes:Load()
         [10639] = { -- Hyacinth Mushroom
             [itemKeys.npcDrops] = {1988, 1989},
         },
+        [10660] = { -- First Mosh'aru Tablet
+            [itemKeys.npcDrops] = {7272},
+        },
         [10663] = { -- Essence of Hakkar
             [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {8440},
@@ -876,6 +879,12 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4005},
             [itemKeys.npcDrops] = {9453},
             [itemKeys.objectDrops] = {},
+        },
+        [11569] = { -- Preserved Threshadon Meat
+            [itemKeys.itemDrops] = {11568},
+        },
+        [11570] = { -- Preserved Pheromone Mixture
+            [itemKeys.itemDrops] = {11568},
         },
         [11818] = { -- Grimesilt Outhouse Key
             [itemKeys.npcDrops] = {5840, 5844, 5846, 8504, 8566, 15692},
@@ -1214,7 +1223,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {332,918,3327,3328,3401,4163,4214,4215,4582,4583,4584,5165,5166,5167},
         },
         [17309] = { -- Discordant Bracers
-            [itemKeys.npcDrops] = {8519, 8520, 8521, 8522},
+            [itemKeys.npcDrops] = {8519,8520,8521,8522},
         },
         [17684] = { -- Theradric Crystal Carving
             [itemKeys.npcDrops] = {11688, 11790, 11791, 11792, 11793, 11794, 12201, 12203, 12206, 12207, 12216, 12218, 12219, 12220, 12221, 12222, 12223, 12224, 12225, 12236, 12237, 12239, 12240, 12241, 12242, 12243, 12258, 13282, 13596, 13601, 13696, 13718},

@@ -4467,7 +4467,6 @@ function CataQuestFixes.Load()
         },
         [24733] = { -- The Bait for Lar'korwi
             [questKeys.requiredSourceItems] = {11569,11570},
-            [questKeys.sourceItemId] = 11568,
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_OBJECT,l10n("Place the meat"),0,{{"object",300246}}},
                 {nil,Questie.ICON_TYPE_OBJECT,l10n("Apply the pheromones"),0,{{"object",169216}}},

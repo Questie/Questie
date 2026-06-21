@@ -165,6 +165,9 @@ function CataItemFixes.Load()
         [12283] = { -- Broodling Essence
             [itemKeys.npcDrops] = {},
         },
+        [12741] = { -- Sixth Mosh'aru Tablet
+            [itemKeys.npcDrops] = {},
+        },
         [12842] = { -- Crudely-Written Log
             [itemKeys.startQuest] = 28471,
         },
