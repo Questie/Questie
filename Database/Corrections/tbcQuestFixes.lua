@@ -3973,12 +3973,12 @@ function QuestieTBCQuestFixes:Load()
         [10707] = { -- The Ata'mal Terrace
             [questKeys.objectivesText] = {"Go to the top of the Ata'mal Terrace in Shadowmoon Valley and obtain the Heart of Fury. Return to Akama at the Warden's Cage in Shadowmoon Valley when you've completed this task."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"), 0, {{"object", 185125}}}},
+            [questKeys.nextQuestInChain] = 11052,
         },
         [10708] = { -- Akama's Promise
             [questKeys.exclusiveTo] = {11052},
             [questKeys.requiredLevel] = 68,
             [questKeys.nextQuestInChain] = 10944,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [10710] = { -- Test Flight: The Singing Ridge
             [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.17,68.8}}}},
@@ -4792,7 +4792,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11707},
             [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- Human + NE + Draenei + Dwarf 100%, not sure if other races have this also
         },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
@@ -8052,9 +8051,6 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9995,
         },
-        [10707] = { -- The Ata'mal Terrace
-            [questKeys.nextQuestInChain] = 10708,
-        },
         [10858] = { -- Karynaku
             [questKeys.nextQuestInChain] = 10866,
         },
@@ -8144,9 +8140,6 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9994,
-        },
-        [10707] = { -- The Ata'mal Terrace
-            [questKeys.nextQuestInChain] = 11052,
         },
         [10858] = { -- Karynaku
             [questKeys.nextQuestInChain] = playerRace == "Human" and 10872 or 10866,
