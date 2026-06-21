@@ -95,6 +95,102 @@ describe("WrappedText", function()
             assert.are_same({">>abc"}, lines)
         end)
 
+        it("should carry active color escapes across wrapped lines", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000abcdef|r", "", false, 3)
+
+            assert.are_same({"|cFFFF0000abc|r", "|cFFFF0000def|r"}, lines)
+        end)
+
+        it("should reopen carried colors after the line prefix", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000abcdef|r", ">>", false, 3)
+
+            assert.are_same({">>|cFFFF0000abc|r", ">>|cFFFF0000def|r"}, lines)
+        end)
+
+        it("should not close unbounded color escapes across wrapped lines", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000abcdef", "", false, 3)
+
+            assert.are_same({"|cFFFF0000abc", "|cFFFF0000def"}, lines)
+        end)
+
+        it("should reopen unbounded color escapes after the line prefix", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000abcdef", ">>", false, 3)
+
+            assert.are_same({">>|cFFFF0000abc", ">>|cFFFF0000def"}, lines)
+        end)
+
+        it("should not close unbounded inline colors split across wrapped lines", function()
+            local lines = WrappedText:TextWrap("aa|cFFFF0000bbcc", "", false, 4)
+
+            assert.are_same({"aa|cFFFF0000bb", "|cFFFF0000cc"}, lines)
+        end)
+
+        it("should not close an unbounded color before the next color opens", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000abcdef|cFF00FF00ghij|rkl", "", false, 3)
+
+            assert.are_same({"|cFFFF0000abc", "|cFFFF0000def", "|cFF00FF00ghi|r", "|cFF00FF00j|rkl"}, lines)
+        end)
+
+        it("should close and reopen inline colors split across wrapped lines", function()
+            local lines = WrappedText:TextWrap("aa|cFFFF0000bbcc|rdd", "", false, 4)
+
+            assert.are_same({"aa|cFFFF0000bb|r", "|cFFFF0000cc|rdd"}, lines)
+        end)
+
+        it("should not bleed reset colors into later normal text", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000red|rnorm|cFF00FF00green|rdone", "", false, 7)
+
+            assert.are_same({"|cFFFF0000red|rnorm", "|cFF00FF00green|rdo", "ne"}, lines)
+        end)
+
+        it("should support uppercase color open and reset escapes", function()
+            local lines = WrappedText:TextWrap("|CFFFF0000abcdef|R", "", false, 3)
+
+            assert.are_same({"|CFFFF0000abc|r", "|CFFFF0000def|R"}, lines)
+        end)
+
+        it("should not carry empty color spans into following text", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000|rabcdef", "", false, 3)
+
+            assert.are_same({"abc", "def"}, lines)
+        end)
+
+        it("should not emit resets for empty color spans at wrap boundaries", function()
+            local lines = WrappedText:TextWrap("abc|cFFFF0000|rdef", "", false, 3)
+
+            assert.are_same({"abc", "def"}, lines)
+        end)
+
+        it("should not emit resets for empty color spans between one-character lines", function()
+            local lines = WrappedText:TextWrap("a|cFFFF0000|rb", "", false, 1)
+
+            assert.are_same({"a", "b"}, lines)
+        end)
+
+        it("should treat escaped literal pipe color-like text as normal text", function()
+            local text = "||cFFFF0000abc"
+            local lines = WrappedText:TextWrap(text, "", false, 3)
+
+            assert.are_same(text, table.concat(lines, ""))
+            for _, line in ipairs(lines) do
+                assert.is_nil(string.find(line, "|r", 1, true))
+            end
+        end)
+
+        it("should preserve escaped literal pipes when real color escapes are present", function()
+            local lines = WrappedText:TextWrap("a||b|cFFFF0000cd|r", "", false, 3)
+
+            assert.are_same({"a||b", "|cFFFF0000cd|r"}, lines)
+        end)
+
+        it("should treat malformed color-like text as normal text", function()
+            local text = "|cFFbad"
+            local lines = WrappedText:TextWrap(text, "", false, 3)
+
+            assert.are_same({"|cF", "Fba", "d"}, lines)
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
         it("should use the quest objective width by default", function()
             local lines = WrappedText:TextWrap(string.rep("A", 276), "", false)
 
@@ -213,6 +309,12 @@ describe("WrappedText", function()
             local lines = WrappedText:TextWrap("alpha beta", "", true, 5)
 
             assert.are_same({"alpha beta"}, lines)
+        end)
+
+        it("should preserve color escapes when combining a single trailing English word", function()
+            local lines = WrappedText:TextWrap("|cFFFF0000alpha beta|r", "", true, 5)
+
+            assert.are_same({"|cFFFF0000alpha beta|r"}, lines)
         end)
 
         it("should combine a single trailing Chinese glyph with the previous line", function()

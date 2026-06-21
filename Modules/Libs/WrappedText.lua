@@ -245,6 +245,179 @@ local function _ShouldCombineTrailingLine(textWrapFontString, remainingLine, nex
     return (brokeAtSpace and not string.find(lastLine, " ")) or (utf8.strlen(lastLine) == 1 and string.len(lastLine) > 1)
 end
 
+---@class WrappedTextColorEvent
+---@field kind "open"|"reset" Whether this event opens a color or resets the current color.
+---@field value string Original `|c...` or `|r` escape sequence.
+
+---Builds the visible text used for measurement and records zero-width color controls.
+---Escaped `||` stays visible and is rebuilt as `||` when color-aware rebuilding is needed.
+---@param line string Source text that may contain WoW color escapes.
+---@return string visibleLine Text with color escapes removed for width measurement.
+---@return table<number, string> rawCharactersByVisibleIndex Raw visible characters, preserving escaped literal pipes.
+---@return table<number, WrappedTextColorEvent[]> colorEventsByVisibleIndex Color events keyed by the next visible character index.
+---@return boolean hasRealColorEscapes True when a real `|c...` or `|r` escape was found.
+local function _ParseColorEscapes(line)
+    local colorEventsByVisibleIndex = {}
+    local visibleCharacters = {}
+    local rawCharactersByVisibleIndex = {}
+    local byteIndex = 1
+    local hasRealColorEscapes = false
+
+    while (byteIndex <= string.len(line)) do
+        local escapedPipe = string.match(line, "^||", byteIndex)
+        local colorOpen = string.match(line, "^|[cC]%x%x%x%x%x%x%x%x", byteIndex)
+        local colorReset = string.match(line, "^|[rR]", byteIndex)
+        if (escapedPipe) then
+            tinsert(visibleCharacters, "|")
+            tinsert(rawCharactersByVisibleIndex, escapedPipe)
+            byteIndex = byteIndex + string.len(escapedPipe)
+        elseif (colorOpen) then
+            local visibleIndex = #visibleCharacters + 1
+            colorEventsByVisibleIndex[visibleIndex] = colorEventsByVisibleIndex[visibleIndex] or {}
+            tinsert(colorEventsByVisibleIndex[visibleIndex], {kind = "open", value = colorOpen})
+            byteIndex = byteIndex + string.len(colorOpen)
+            hasRealColorEscapes = true
+        elseif (colorReset) then
+            local visibleIndex = #visibleCharacters + 1
+            colorEventsByVisibleIndex[visibleIndex] = colorEventsByVisibleIndex[visibleIndex] or {}
+            tinsert(colorEventsByVisibleIndex[visibleIndex], {kind = "reset", value = colorReset})
+            byteIndex = byteIndex + string.len(colorReset)
+            hasRealColorEscapes = true
+        else
+            local character = utf8.sub(string.sub(line, byteIndex), 1, 1)
+            tinsert(visibleCharacters, character)
+            tinsert(rawCharactersByVisibleIndex, character)
+            byteIndex = byteIndex + string.len(character)
+        end
+    end
+
+    return table.concat(visibleCharacters), rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRealColorEscapes
+end
+
+---Returns the color that is active before a visible character index is emitted.
+---@param colorEventsByVisibleIndex table<number, WrappedTextColorEvent[]>
+---@param visibleIndex number Visible character index in the measured text.
+---@return string? activeColor Active `|c...` escape, if any.
+local function _GetActiveColorBefore(colorEventsByVisibleIndex, visibleIndex)
+    local activeColor
+
+    for index = 1, visibleIndex - 1 do
+        local colorEvents = colorEventsByVisibleIndex[index]
+        if (colorEvents) then
+            for _, colorEvent in ipairs(colorEvents) do
+                if (colorEvent.kind == "open") then
+                    activeColor = colorEvent.value
+                else
+                    activeColor = nil
+                end
+            end
+        end
+    end
+
+    return activeColor
+end
+
+---Returns true when the current active color is bounded by a future reset before another color opens.
+---@param colorEventsByVisibleIndex table<number, WrappedTextColorEvent[]>
+---@param visibleStartIndex number Visible character index where the future scan starts.
+---@return boolean hasFutureReset True when this wrapped segment needs a synthetic `|r`.
+local function _HasFutureResetBeforeNextColorOpen(colorEventsByVisibleIndex, visibleStartIndex)
+    local maxIndex = 0
+    for index in pairs(colorEventsByVisibleIndex) do
+        if (index > maxIndex) then
+            maxIndex = index
+        end
+    end
+
+    for index = visibleStartIndex, maxIndex do
+        local colorEvents = colorEventsByVisibleIndex[index]
+        if (colorEvents) then
+            for _, colorEvent in ipairs(colorEvents) do
+                if (colorEvent.kind == "reset") then
+                    return true
+                elseif (colorEvent.kind == "open") then
+                    return false
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+---Rebuilds one wrapped line from visible indexes, reopening carried colors after the prefix.
+---Only bounded color spans get synthetic resets; unbounded spans intentionally stay open.
+---@param visibleLine string Text used for measurement, with color escapes removed.
+---@param rawCharactersByVisibleIndex table<number, string> Raw visible characters, preserving escaped literal pipes.
+---@param colorEventsByVisibleIndex table<number, WrappedTextColorEvent[]> Color events keyed by visible index.
+---@param prefix string Prefix to add before text and any carried color.
+---@param visibleStartIndex number First visible character index for this output line.
+---@param visibleEndIndex number Last visible character index for this output line.
+---@return string rebuiltLine Wrapped line with color escapes restored.
+local function _RebuildColorEscapedLine(
+    visibleLine,
+    rawCharactersByVisibleIndex,
+    colorEventsByVisibleIndex,
+    prefix,
+    visibleStartIndex,
+    visibleEndIndex
+)
+    local rebuiltLine = {prefix}
+    local activeColor = _GetActiveColorBefore(colorEventsByVisibleIndex, visibleStartIndex)
+    local startColorEvents = colorEventsByVisibleIndex[visibleStartIndex]
+
+    -- Same-index events happen before the first visible character. This lets empty color spans net out.
+    if (startColorEvents) then
+        for _, colorEvent in ipairs(startColorEvents) do
+            if (colorEvent.kind == "open") then
+                activeColor = colorEvent.value
+            else
+                activeColor = nil
+            end
+        end
+    end
+
+    -- Continuation lines reopen the active color after the prefix so the prefix remains uncolored.
+    if (activeColor) then
+        tinsert(rebuiltLine, activeColor)
+    end
+
+    for index = visibleStartIndex, visibleEndIndex do
+        local colorEvents
+        if (index ~= visibleStartIndex) then
+            colorEvents = colorEventsByVisibleIndex[index]
+        end
+        if (colorEvents) then
+            for _, colorEvent in ipairs(colorEvents) do
+                if (colorEvent.kind == "open") then
+                    activeColor = colorEvent.value
+                else
+                    activeColor = nil
+                end
+                tinsert(rebuiltLine, colorEvent.value)
+            end
+        end
+
+        tinsert(rebuiltLine, rawCharactersByVisibleIndex[index] or utf8.sub(visibleLine, index, index))
+    end
+
+    local trailingColorEvents = colorEventsByVisibleIndex[visibleEndIndex + 1]
+    if (trailingColorEvents) then
+        for _, colorEvent in ipairs(trailingColorEvents) do
+            if (colorEvent.kind == "reset" and activeColor) then
+                activeColor = nil
+                tinsert(rebuiltLine, colorEvent.value)
+            end
+        end
+    end
+
+    if (activeColor and _HasFutureResetBeforeNextColorOpen(colorEventsByVisibleIndex, visibleEndIndex + 1)) then
+        tinsert(rebuiltLine, "|r")
+    end
+
+    return table.concat(rebuiltLine)
+end
+
 ---Emulates the wrapping of a quest description
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
@@ -269,33 +442,54 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
 
     if (textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
 
-    --Set Defaults
+    -- Set defaults.
     if (combineTrailing == nil) then
         combineTrailing = false
     end
-    --We show the fontstring and set the text to start the process
-    --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
+    -- The FontString must be shown for row-span APIs to return data.
     _SetTextWrapFont(textWrapObjectiveFontString, fontSource)
     textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
     textWrapObjectiveFontString:Show()
 
-    local useLine = line
-    local lineLength = utf8.strlen(useLine)
+    local visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRealColorEscapes
+    -- Most lines have no WoW escapes; avoid parser overhead unless a pipe is present.
+    if (string.find(line, "|", 1, true)) then
+        visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRealColorEscapes = _ParseColorEscapes(line)
+    end
+
+    local measuredLine = hasRealColorEscapes and visibleLine or line
+    local lineLength = utf8.strlen(measuredLine)
 
     -- Fast path: unwrapped text can be returned without token policy checks.
-    textWrapObjectiveFontString:SetText(useLine)
+    textWrapObjectiveFontString:SetText(measuredLine)
     if (textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
         local lines = {}
         local startIndex = 1
 
+        -- Centralizes the color-aware/plain output choice so the wrapping branches stay readable.
+        local function _BuildWrappedLine(visibleStartIndex, visibleEndIndex, rawLine)
+            if (hasRealColorEscapes) then
+                return _RebuildColorEscapedLine(
+                    measuredLine,
+                    rawCharactersByVisibleIndex,
+                    colorEventsByVisibleIndex,
+                    prefix,
+                    visibleStartIndex,
+                    visibleEndIndex
+                )
+            end
+
+            return prefix .. rawLine
+        end
+
         while (startIndex <= lineLength) do
-            local remainingLine = utf8.sub(useLine, startIndex, lineLength)
+            local remainingLine = utf8.sub(measuredLine, startIndex, lineLength)
             local remainingLineLength = utf8.strlen(remainingLine)
 
             -- Recalculate each remaining line. Moving breaks over numeric tokens changes row geometry.
             textWrapObjectiveFontString:SetText(remainingLine)
             if (textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth()) then
-                tinsert(lines, prefix .. remainingLine)
+                tinsert(lines, _BuildWrappedLine(startIndex, lineLength, remainingLine))
                 break
             end
 
@@ -304,23 +498,22 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
             lineEndIndex, nextStartIndex = _MoveNumberToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
 
             local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
+            local endIndex = startIndex + lineEndIndex - 1
 
-            --This combines a trailing word or glyph to the previous line if it would be alone on the last line.
+            -- Combine a trailing word or glyph with the previous line when it would otherwise be alone.
             if (combineTrailing and _ShouldCombineTrailingLine(textWrapObjectiveFontString, remainingLine, nextStartIndex, remainingLineLength, brokeAtSpace)) then
-                newLine = remainingLine
-                tinsert(lines, prefix .. newLine)
+                tinsert(lines, _BuildWrappedLine(startIndex, lineLength, remainingLine))
                 break
             end
 
-            tinsert(lines, prefix .. newLine)
+            tinsert(lines, _BuildWrappedLine(startIndex, endIndex, newLine))
             startIndex = startIndex + nextStartIndex - 1
         end
         textWrapObjectiveFontString:Hide()
         return lines
     else
         textWrapObjectiveFontString:Hide()
-        useLine = prefix .. line
-        return {useLine}
+        return {prefix .. line}
     end
 end
 
