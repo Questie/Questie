@@ -73,8 +73,8 @@ local eventsLocales = {
         ["koKR"] = "한여름 불꽃축제",
         ["ptBR"] = "Solstício",
         ["ruRU"] = "Огненный солнцеворот",
-        ["zhCN"] = "仲夏火焰节",
-        ["zhTW"] = "仲夏火焰節",
+        ["zhCN"] = "仲夏",
+        ["zhTW"] = (Expansions.Current == Expansions.Era and "仲夏") or "仲夏節",
     },
     ["Brewfest"] = {
         ["enUS"] = true,
