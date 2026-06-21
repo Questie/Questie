@@ -126,9 +126,21 @@ describe("Questie", function()
             assert.is_nil(Questie:ColorizeRGB(false))
         end)
 
-        it("should assign nils for invalid colors", function()
+        it("should return three nil values for malformed string colors", function()
+            local count = select("#", Questie:ColorizeRGB("XYZXYZ"))
+            local r, g, b = Questie:ColorizeRGB("XYZXYZ")
+
+            assert.are_same(3, count)
+            assert.is_nil(r)
+            assert.is_nil(g)
+            assert.is_nil(b)
+        end)
+
+        it("should return three nil values for non-string invalid colors", function()
+            local count = select("#", Questie:ColorizeRGB({}))
             local r, g, b = Questie:ColorizeRGB({})
 
+            assert.are_same(3, count)
             assert.is_nil(r)
             assert.is_nil(g)
             assert.is_nil(b)

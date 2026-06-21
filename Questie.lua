@@ -137,12 +137,12 @@ function Questie:ColorizeRGB(color)
     end
 
     if type(color) ~= "string" then
-        return nil
+        return nil, nil, nil
     end
 
     local hex = string.match(color, "^|[cC]%x%x(%x%x%x%x%x%x)") or string.match(color, "^%x%x(%x%x%x%x%x%x)$") or color
     if not string.match(hex, "^%x%x%x%x%x%x$") then
-        return nil
+        return nil, nil, nil
     end
 
     local rgb = Color(hex).rgb
