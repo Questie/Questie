@@ -6410,10 +6410,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 65,
         },
         [11970] = { -- The Master of Summer Lore
-            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}}, -- it's one random quest starter per layer (probably)
         },
         [11971] = { -- The Spinner of Summer Tales
-            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}}, -- it's one random quest starter per layer (probably)
         },
         [11972] = { -- Shards of Ahune
             [questKeys.startedBy] = {nil,nil,{35723}},

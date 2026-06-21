@@ -2,8 +2,6 @@
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type ContentPhases
-local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
@@ -177,8 +175,8 @@ tinsert(eventQuests, {"Midsummer", 11954}) -- Striking Back (level 67)
 tinsert(eventQuests, {"Midsummer", 11955, nil, nil, Expansions.Current >= Expansions.Cata}) -- Ahune, the Frost Lord
 tinsert(eventQuests, {"Midsummer", 11964}) -- Incense for the Summer Scorchlings
 tinsert(eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
-tinsert(eventQuests, {"Midsummer", 11970, nil, nil, ContentPhases.activePhases.TBC < 5}) -- not sure if phase 5 -- The Master of Summer Lore
-tinsert(eventQuests, {"Midsummer", 11971, nil, nil, ContentPhases.activePhases.TBC < 5}) -- not sure if phase 5 -- The Spinner of Summer Tales
+tinsert(eventQuests, {"Midsummer", 11970}) -- not sure if phase 5 -- The Master of Summer Lore
+tinsert(eventQuests, {"Midsummer", 11971}) -- not sure if phase 5 -- The Spinner of Summer Tales
 tinsert(eventQuests, {"Midsummer", 11972}) -- Shards of Ahune
 tinsert(eventQuests, {"Midsummer", 12012}) -- Inform the Elder
 
