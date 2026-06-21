@@ -392,6 +392,7 @@ function QuestieTBCObjectFixes:Load()
         },
         [187938] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11755},
+            [objectKeys.questEnds] = {11755},
         },
         [187939] = {
             [objectKeys.name] = "Alliance Bonfire",
