@@ -1876,7 +1876,7 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.THE_EXODAR]={{43.27,26.26}},
                 [zoneIDs.STORMWIND_CITY]={{38.31,61.84}},
             },
-            [npcKeys.questStarts] = {11886,11954,11955},
+            [npcKeys.questStarts] = {11886,11917,11947,11948,11952,11953,11954,11955},
             [npcKeys.questEnds] = {11917,11947,11948,11952,11953,11954,12012},
         },
         [26309] = { -- Weapons Vendor
