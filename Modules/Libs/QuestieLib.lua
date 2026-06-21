@@ -25,10 +25,6 @@ local strim = string.trim
 local smatch = string.match
 local tonumber = tonumber
 
--- The original frame which we use to fetch the data required
---                           Classic                          Wotlk Classic
-local textWrapFrameObject = _G["QuestLogObjectivesText"] or _G["QuestInfoObjectivesText"]
-
 --[[
     Red: 5+ level above player
     Orange: 3 - 4 level above player
@@ -656,103 +652,6 @@ function QuestieLib:TableMemoizeFunction(func, __mode)
         end,
         __mode = __mode or ""
     });
-end
-
---Part of the GameTooltipWrapDescription function
-local textWrapObjectiveFontString
----Emulates the wrapping of a quest description
----@param line string @The line to wrap
----@param prefix string @The prefix to add to the line
----@param combineTrailing boolean @If the last line is only one word, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
----@param desiredWidth number @Set the desired width to wrap, default: 275
----@return table[] @A table of wrapped lines
-function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
-    if not textWrapObjectiveFontString then
-        textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
-        textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
-        textWrapObjectiveFontString:SetHeight(0);
-        textWrapObjectiveFontString:SetPoint("LEFT");
-        textWrapObjectiveFontString:SetJustifyH("LEFT");
-        ---@diagnostic disable-next-line: redundant-parameter
-        textWrapObjectiveFontString:SetWordWrap(true)
-        textWrapObjectiveFontString:SetVertexColor(1, 1, 1, 1) --Set opacity to 0, even if it is shown it should be invisible
-        local font, size = textWrapFrameObject:GetFont()
-        --Chinese? "Fonts\\ARKai_T.ttf"
-        textWrapObjectiveFontString:SetFont(font, size);
-        textWrapObjectiveFontString:Hide()
-    end
-
-    if (textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
-
-    --Set Defaults
-    combineTrailing = combineTrailing or true
-    --We show the fontstring and set the text to start the process
-    --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
-    textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
-    textWrapObjectiveFontString:Show()
-
-    local useLine = line
-
-    textWrapObjectiveFontString:SetText(useLine)
-    --Is the line wrapped?
-    if (textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
-        local lines = {}
-        local startIndex = 1
-        local endIndex = 2 --We should be able to start at a later index...
-        --This function returns a list of size information per row, so we use this to calculate number of rows
-        local numberOfRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
-        for row = 1, numberOfRows do
-            local lastSpaceIndex
-            local indexes
-            --We use the previous way to get number of rows to loop through characterindex until we get 2 rows
-            repeat
-                indexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
-                --Last space of the line to be used to break a new row
-                if (string.sub(useLine, endIndex, endIndex) == " ") then
-                    lastSpaceIndex = endIndex
-                end
-                endIndex = endIndex + 1
-                --If we are at the end of characters break and set endIndex to strlen
-                if (endIndex > strlen(useLine)) then
-                    endIndex = strlen(useLine)
-                    lastSpaceIndex = endIndex
-                    break
-                end
-            until (#indexes > 1) --Until more than one row
-
-            --Get the line we calculated
-            --First to space then endIndex(chinese)
-            local newLine = string.sub(useLine, startIndex, lastSpaceIndex or endIndex)
-
-            --This combines a trailing word to the previous line if it is the only word of the line
-            --We check lastSpaceIndex here because the logic will be faulty (chinese client)
-            if (row == numberOfRows - 1 and combineTrailing and lastSpaceIndex) then
-                --Get the last line, in its full
-                local lastLine = string.sub(useLine, endIndex - 2, strlen(useLine))
-
-                --Does the line not contain any space we combine it into the previous line
-                if (not string.find(lastLine, " ")) then
-                    newLine = string.sub(useLine, startIndex, strlen(useLine))
-                    --print("NL1", newLine)
-                    table.insert(lines, prefix .. newLine)
-                    --Break the for loop on last line, no more running required
-                    break
-                end
-            end
-            --Change the startIndex to be the new line, and add the line to the lines list
-            startIndex = endIndex - 2
-            endIndex = endIndex
-
-            table.insert(lines, prefix .. newLine)
-        end
-        textWrapObjectiveFontString:Hide()
-        return lines
-    else
-        --Line was not wrapped, return the string as is.
-        textWrapObjectiveFontString:Hide()
-        useLine = prefix .. line
-        return {useLine}
-    end
 end
 
 function QuestieLib.GetSpawnDistance(spawnA, spawnB)

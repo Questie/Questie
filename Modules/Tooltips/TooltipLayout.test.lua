@@ -1,0 +1,232 @@
+dofile("setupTests.lua")
+
+describe("TooltipLayout", function()
+    ---@type TooltipLayout
+    local TooltipLayout
+    ---@type WrappedText
+    local WrappedText
+
+    local originalUIParent
+    local originalCreateFrame
+    local originalTextWrap
+    local capturedTextWrap
+    local textWrapReturnLines
+    local createFontStringCallCount
+    local createFrameCallCount
+
+    local function CreateFontStringMock(defaultFont)
+        local text = ""
+        local font = defaultFont or "GameTooltipFont"
+        local size = 12
+        local flags = ""
+        local fontWidthMultipliers = {
+            DoubleWidthFont = 2,
+        }
+
+        local function GetMockTextWidth()
+            local textureWidth = 0
+            local measuredText = string.gsub(text, "|T.-:%d+%.?%d*:(%d+%.?%d*).-|t", function(width)
+                textureWidth = textureWidth + (tonumber(width) or 0)
+                return ""
+            end)
+            measuredText = string.gsub(measuredText, "\194\160", " ")
+
+            return (string.len(measuredText) + textureWidth) * (fontWidthMultipliers[font] or 1)
+        end
+
+        return {
+            GetFont = function() return font, size, flags end,
+            SetFont = function(_, newFont, newSize, newFlags)
+                font = newFont
+                size = newSize
+                flags = newFlags
+            end,
+            SetWordWrap = function() end,
+            Hide = function() end,
+            SetText = function(_, value) text = value or "" end,
+            GetUnboundedStringWidth = function() return GetMockTextWidth() end,
+        }
+    end
+
+    local function CreateTooltipMock(name)
+        local calls = {}
+
+        return {
+            calls = calls,
+            GetName = function() return name end,
+            AddLine = function(_, text, ...)
+                calls[#calls + 1] = {kind = "line", text = text, n = select("#", ...), args = {...}}
+            end,
+            AddDoubleLine = function(_, leftText, rightText, ...)
+                calls[#calls + 1] = {kind = "doubleLine", leftText = leftText, rightText = rightText, n = select("#", ...), args = {...}}
+            end,
+        }
+    end
+
+    local function RequireTooltipLayout()
+        package.loaded["Modules.Libs.WrappedText"] = nil
+        WrappedText = require("Modules.Libs.WrappedText")
+        originalTextWrap = WrappedText.TextWrap
+        WrappedText.TextWrap = function(_, text, prefix, combineTrailing, desiredWidth, fontSource)
+            capturedTextWrap = {
+                text = text,
+                prefix = prefix,
+                combineTrailing = combineTrailing,
+                desiredWidth = desiredWidth,
+                fontSource = fontSource,
+            }
+            return textWrapReturnLines or {prefix .. "wrapped"}
+        end
+
+        package.loaded["Modules.Tooltips.TooltipLayout"] = nil
+        TooltipLayout = require("Modules.Tooltips.TooltipLayout")
+    end
+
+    before_each(function()
+        originalUIParent = _G.UIParent
+        originalCreateFrame = _G.CreateFrame
+        capturedTextWrap = nil
+        textWrapReturnLines = nil
+        createFontStringCallCount = 0
+        createFrameCallCount = 0
+
+        _G.UIParent = {
+            CreateFontString = function()
+                createFontStringCallCount = createFontStringCallCount + 1
+                return CreateFontStringMock()
+            end,
+        }
+        _G.CreateFrame = function()
+            createFrameCallCount = createFrameCallCount + 1
+            return {
+                SetOwner = function() end,
+                SetPoint = function() end,
+                SetAlpha = function() end,
+                ClearLines = function() end,
+                AddDoubleLine = function() end,
+                Show = function() end,
+                Hide = function() end,
+            }
+        end
+
+        _G.TestTooltipTextLeft1 = CreateFontStringMock()
+        _G.TestTooltipTextLeft2 = CreateFontStringMock()
+        _G.TestTooltipTextRight1 = CreateFontStringMock()
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft1 = {GetRight = function() return 100 end}
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextRight1 = {GetLeft = function() return 150 end}
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft2 = {GetRight = function() return 100 end}
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextRight2 = {GetLeft = function() return 150 end}
+
+        RequireTooltipLayout()
+    end)
+
+    after_each(function()
+        _G.UIParent = originalUIParent
+        _G.CreateFrame = originalCreateFrame
+        _G.TestTooltipTextLeft1 = nil
+        _G.TestTooltipTextLeft2 = nil
+        _G.TestTooltipTextRight1 = nil
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft1 = nil
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextRight1 = nil
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextLeft2 = nil
+        _G.QuestieTooltipLayoutGapMeasureTooltipTextRight2 = nil
+        WrappedText.TextWrap = originalTextWrap
+        package.loaded["Modules.Libs.WrappedText"] = nil
+        package.loaded["Modules.Tooltips.TooltipLayout"] = nil
+    end)
+
+    it("should preserve AddLine and AddDoubleLine order and packed args", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+
+        rows:AddLine("first", 1, nil, 3)
+        rows:AddDoubleLine("left", "right", 4, 5, nil)
+        rows:AddLine("last")
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same("line", tooltip.calls[1].kind)
+        assert.are.same("first", tooltip.calls[1].text)
+        assert.are.same(3, tooltip.calls[1].n)
+        assert.are.same(1, tooltip.calls[1].args[1])
+        assert.is_nil(tooltip.calls[1].args[2])
+        assert.are.same(3, tooltip.calls[1].args[3])
+        assert.are.same("doubleLine", tooltip.calls[2].kind)
+        assert.are.same("left", tooltip.calls[2].leftText)
+        assert.are.same("right", tooltip.calls[2].rightText)
+        assert.are.same(3, tooltip.calls[2].n)
+        assert.are.same("line", tooltip.calls[3].kind)
+        assert.are.same("last", tooltip.calls[3].text)
+        assert.is_nil(capturedTextWrap)
+        assert.are.same(0, createFontStringCallCount)
+        assert.are.same(0, createFrameCallCount)
+    end)
+
+    it("should wrap descriptions from non-description width minus prefix width", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+        local wideLine = string.rep("A", 500)
+
+        rows:AddLine(wideLine)
+        rows:AddDescription(string.rep("B", 900), "  ", 0.86, 0.86, 0.86)
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same(498, capturedTextWrap.desiredWidth)
+        assert.are.same(string.rep("B", 900), capturedTextWrap.text)
+        assert.are.same("  ", capturedTextWrap.prefix)
+        assert.is_false(capturedTextWrap.combineTrailing)
+        assert.are.same("  wrapped", tooltip.calls[2].text)
+        assert.are.same(3, tooltip.calls[2].n)
+    end)
+
+    it("should render multiple wrapped description lines with the original args", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+        textWrapReturnLines = {"  first", "  second"}
+
+        rows:AddLine("header")
+        rows:AddDescription("description", "  ", 1, nil, 3)
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same("header", tooltip.calls[1].text)
+        assert.are.same("  first", tooltip.calls[2].text)
+        assert.are.same(3, tooltip.calls[2].n)
+        assert.are.same(1, tooltip.calls[2].args[1])
+        assert.is_nil(tooltip.calls[2].args[2])
+        assert.are.same(3, tooltip.calls[2].args[3])
+        assert.are.same("  second", tooltip.calls[3].text)
+        assert.are.same(3, tooltip.calls[3].n)
+        assert.are.same(1, tooltip.calls[3].args[1])
+        assert.is_nil(tooltip.calls[3].args[2])
+        assert.are.same(3, tooltip.calls[3].args[3])
+    end)
+
+    it("should use the minimum tooltip width for description-only tooltips", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+
+        rows:AddDescription("description", "  ")
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same(373, capturedTextWrap.desiredWidth)
+        assert.is_false(capturedTextWrap.combineTrailing)
+    end)
+
+    it("should include measured double-line gap when deriving description width", function()
+        local tooltip = CreateTooltipMock("TestTooltip")
+        local rows = TooltipLayout:CreateRows()
+
+        rows:AddDoubleLine(string.rep("L", 300), string.rep("R", 100))
+        rows:AddDescription("description", " ")
+        TooltipLayout:Render(tooltip, rows)
+
+        assert.are.same(449, capturedTextWrap.desiredWidth)
+        assert.is_false(capturedTextWrap.combineTrailing)
+    end)
+
+    it("should create raw UI indent textures", function()
+        local prefix, width = TooltipLayout.CreateIndentUI(7.5)
+
+        assert.are.same("|TInterface\\Minimap\\UI-bonusobjectiveblob-inside.blp:1:7.5|t", prefix)
+        assert.are.same(7.5, width)
+    end)
+end)
