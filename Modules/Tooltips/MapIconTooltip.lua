@@ -193,7 +193,7 @@ function MapIconTooltip:Show()
 
     -- Texture indents are more robust than raw spaces in tooltip layout.
     -- Base indent is 6 UI units, then each deeper level scales by 1.5.
-    local indent = 6
+    local indent = 6 -- 6 UI units is around two spaces.
     local indentScale = 1.5
     local indentHalf, indentHalfWidth = TooltipLayout.CreateIndentUI(indent / 2) -- 3
     local indentTwo, indentTwoWidth = TooltipLayout.CreateIndentUI(indent * (indentScale ^ 1)) -- 9
@@ -283,7 +283,7 @@ function MapIconTooltip:Show()
                 if shift and next(reputationReward) then
                     local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
                     -- Apply color through AddLine args so description wrapping cannot split color escape sequences.
-                    tooltipRows:AddDescription(REPUTATION_ICON_TEXTURE .. " " .. rewardString,indentTwo,Questie:ColorizeRGB("reputationBlue"))
+                    tooltipRows:AddDescription(REPUTATION_ICON_TEXTURE .. " " .. rewardString, indentTwo, Questie:ColorizeRGB("reputationBlue"))
                 end
 
                 if Questie.db.profile.enableTooltipsNextInChain then
