@@ -32,8 +32,7 @@ function QuestieReputation:Update(isInit)
         if factionID and description then -- we use description instead of isHeader because some factions are header (e.g. The Tillers)
             local previousValues = playerReputations[factionID]
             if (not previousValues) then
-                --? Reset all autoBlacklisted quests if a faction gets discovered
-                QuestieQuest.ResetAutoblacklistCategory("rep")
+                -- This is a faction the player encountered for the first time
                 newFaction = true
             end
 
@@ -67,6 +66,11 @@ function QuestieReputation:Update(isInit)
             end
             playerReputations[nomiFactionId] = {standingId, repInfo.standing}
         end
+    end
+
+    if factionChanged or newFaction then
+        -- Reset all autoBlacklisted quests, so availability is checked correctly again
+        QuestieQuest.ResetAutoblacklistCategory("rep")
     end
 
     return factionChanged, newFaction

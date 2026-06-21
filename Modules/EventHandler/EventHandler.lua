@@ -433,7 +433,14 @@ function _EventHandler:ChatMsgSystem(message)
     if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
         MinimapIcon:UpdateText(message)
     elseif string.find(message, FACTION_STANDING_CHANGED_PATTERN) then -- When you discover a new faction or increase standing eg. Neutral -> Friendly
-        QuestieReputation:Update()
+        local factionChanged, newFaction = QuestieReputation:Update(false)
+        if factionChanged or newFaction then
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+
+            AvailableQuests.CalculateAndDrawAll()
+        end
     end
 end
 
