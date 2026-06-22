@@ -764,6 +764,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [175330] = "Provisiones de fruta de los Bosque Negro",
 [175331] = "Provisiones de grano de los Bosque Negro",
 [175334] = "Pertenencias de Bijou",
+[175338] = "Fogata norte de los fúrbolgs Bosque Negro",
 [175382] = "Arca de Equipasino",
 [175384] = "Huevo de dracoleón Nido Alto",
 [175385] = "Tablilla de Rocanegra",

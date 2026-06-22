@@ -755,6 +755,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [175330] = "Reservas de Fruta Bosquenero",
 [175331] = "Reservas de Grão Bosquenero",
 [175334] = "Pertences de Biju",
+[175338] = "Fogueira dos pelursos Bosquenero ao norte",
 [175382] = "Cofre do Finitudo",
 [175384] = "Ovo de Mantícora de Alcândora",
 [175385] = "Tabuleta de Pedranegra",
