@@ -2010,9 +2010,6 @@ function QuestieTBCQuestFixes:Load()
         [9337] = {
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [9339] = {
-            [questKeys.objectivesText] = {},
-        },
         [9340] = { -- The Great Fissure
             [questKeys.breadcrumbs] = {9498,9499},
         },
@@ -2027,9 +2024,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9360] = {
             [questKeys.startedBy] = {nil,nil,{23249}},
-        },
-        [9365] = {
-            [questKeys.objectivesText] = {},
         },
         [9370] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Signaling Gem"), 0, {{"object", 181449}}}},

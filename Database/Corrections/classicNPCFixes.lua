@@ -3691,7 +3691,7 @@ function QuestieNPCFixes:LoadFactionFixes()
                 [zoneIDs.STORMWIND_CITY] = {{38.4,61.29}},
                 [zoneIDs.IRONFORGE] = {{63.54,24.67}},
             },
-            [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
         [185335] = { -- Summoned Incubus
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{25.09,77.45}}},
