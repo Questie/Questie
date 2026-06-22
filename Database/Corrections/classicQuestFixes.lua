@@ -6201,6 +6201,9 @@ function QuestieQuestFixes:Load()
         [9337] = { -- Major Mana Potion
             [questKeys.questLevel] = 60,
         },
+        [9339] = { -- A Thief's Reward
+            [questKeys.objectivesText] = {},
+        },
         [9341] = { -- Tabard of the Argent Dawn
             [questKeys.questLevel] = 60,
         },
