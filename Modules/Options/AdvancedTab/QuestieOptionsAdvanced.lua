@@ -19,6 +19,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -143,7 +145,49 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
             },
-            quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.45, (not Questie.IsTBC)),
+            partyIconLimit = {
+                type = "range",
+                order = 1.44,
+                name = function() return l10n("Party icon limit"); end,
+                desc = function() return l10n("Limits the total number of party members' quest icons drawn on the map. (Default: %s)", optionsDefaults.profile.partyIconLimit); end,
+                width = 1.5,
+                disabled = function() return (not Questie.db.profile.showPartyQuestObjectives); end,
+                min = 0,
+                max = 1000,
+                step = 10,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    QuestieOptionsUtils:Delay(0.5, function() QuestiePartyObjectives:Update() end, l10n("Setting party icon limit to %s : Redrawing!", value))
+                end,
+            },
+            iconSpacer3 = {
+                type = "description",
+                order = 1.45,
+                name = "",
+                desc = "",
+                image = "",
+                imageWidth = 0.3,
+                width = 0.3,
+                func = function() end,
+            },
+            partyObjectiveFilterDistance = {
+                type = "range",
+                order = 1.46,
+                name = function() return l10n("Party objective icon filter distance"); end,
+                desc = function() return l10n("Minimum distance between two party members' objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter."); end,
+                width = 1.5,
+                disabled = function() return (not Questie.db.profile.showPartyQuestObjectives); end,
+                min = 0,
+                max = 5,
+                step = 1,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    QuestieOptionsUtils:Delay(0.5, function() QuestiePartyObjectives:Update() end, l10n("Setting party objective filter distance to %s : Redrawing!", value))
+                end,
+            },
+            quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.47, (not Questie.IsTBC)),
             npcrules_group = {
                 type = "group",
                 order = 1.5,

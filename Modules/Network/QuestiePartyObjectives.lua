@@ -23,9 +23,6 @@ local NOP_FUNCTION = function() end
 -- Beyond a 5-man group (party or 5-man dungeon) we stop drawing party objectives, to avoid
 -- flooding the map with every raid member's quests.
 local MAX_GROUP_SIZE = 5
--- Total ceiling on the number of party objective map-icons, independent of the per-objective
--- icon limit, so a crowded zone with a full group can't flood the map.
-local MAX_PARTY_ICONS = 500
 -- How many quests we redraw per frame when spreading a large refresh across frames.
 local CHUNK_SIZE = 50
 -- How many times we re-poll the client for a party member's quest objective data (for the
@@ -47,7 +44,9 @@ local drawnByQuest = {}
 -- spawnListCache[questId][objectiveIndex] = spawnList. Spawn data is static (DB + the
 -- objective's icon, both constant per questId+objectiveIndex), so it is built once and reused.
 local spawnListCache = {}
--- Running total of party map-icons currently drawn, compared against MAX_PARTY_ICONS.
+-- Running total of party map-icons currently drawn, compared against the party icon limit
+-- (Questie.db.profile.partyIconLimit): a total ceiling independent of the per-objective icon
+-- limit, so a crowded zone with a full group can't flood the map.
 local drawnIconCount = 0
 -- prefetchedQuests[questId] = { attempts = number, pending = boolean }. Tracks our bounded poll
 -- for a party member's quest objective data so a cache miss is retried a few times (not forever)
@@ -214,8 +213,9 @@ end
 -- Draw a single party quest's objectives (assumes it has already been cleared).
 ---@param questId number
 local function _DrawQuest(questId)
+    local maxPartyIcons = Questie.db.profile.partyIconLimit or 500
     -- Quests the local player has are drawn by the normal pipeline; don't double up.
-    if _PlayerHasQuest(questId) or drawnIconCount >= MAX_PARTY_ICONS then
+    if _PlayerHasQuest(questId) or drawnIconCount >= maxPartyIcons then
         return
     end
 
@@ -252,7 +252,7 @@ local function _DrawQuest(questId)
     local iconCount = 0
 
     for objectiveIndex, remoteObjective in pairs(neededIndices) do
-        if drawnIconCount + iconCount >= MAX_PARTY_ICONS then
+        if drawnIconCount + iconCount >= maxPartyIcons then
             break
         end
 
@@ -306,7 +306,7 @@ local function _DrawQuest(questId)
             local ok, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objectiveIndex, objective, true)
             if ok then
                 local objectiveIconCount = _CountIcons(objective)
-                if drawnIconCount + iconCount + objectiveIconCount > MAX_PARTY_ICONS then
+                if drawnIconCount + iconCount + objectiveIconCount > maxPartyIcons then
                     _UnloadObjective(objective)
                     break
                 end
@@ -328,7 +328,7 @@ local function _DrawQuest(questId)
     -- and required source items). These come from QuestieDB.GetQuest, independent of comms data.
     local specialCounter = 0
     for _, special in pairs(quest.SpecialObjectives or {}) do
-        if drawnIconCount + iconCount >= MAX_PARTY_ICONS then
+        if drawnIconCount + iconCount >= maxPartyIcons then
             break
         end
 

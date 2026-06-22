@@ -1205,9 +1205,9 @@ end
 ---Returns true if coords are far enough from every already-placed icon in the same zone.
 ---@param coords table  {x, y} in zone-local coordinates (numeric indices)
 ---@param placed table  array of {x, y} coords already placed in this zone
+---@param minDist number  minimum allowed distance (0 disables filtering)
 ---@return boolean
-local function _HasProperDistanceToAlreadyPlacedObjectives(coords, placed)
-    local minDist = Questie.db.profile.objectiveFilterDistance
+local function _HasProperDistanceToAlreadyPlacedObjectives(coords, placed, minDist)
     if minDist == 0 then
         return true
     end
@@ -1221,6 +1221,10 @@ end
 
 _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveIcons] Adding Icons for quest:", questId)
+
+    -- Party members' objectives use their own clustering distance so a full
+    -- group can be thinned separately from the local player's icons.
+    local minDist = objective.IsPartyObjective and Questie.db.profile.partyObjectiveFilterDistance or Questie.db.profile.objectiveFilterDistance
 
     local spawnedIconCount = 0
     local icon
@@ -1254,7 +1258,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         end
 
         local coords = {icon.x, icon.y}
-        if _HasProperDistanceToAlreadyPlacedObjectives(coords, alreadyPlacedByZone[zoneKey]) then
+        if _HasProperDistanceToAlreadyPlacedObjectives(coords, alreadyPlacedByZone[zoneKey], minDist) then
             local spawnsMapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs
             local spawnsMinimapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs
 
