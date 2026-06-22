@@ -680,6 +680,9 @@ function QuestieTBCQuestFixes:Load()
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
         },
+        [4146] = { -- Zapper Fuel
+            [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
+        },
         [4485] = { -- The Tome of Nobility
             [questKeys.nextQuestInChain] = 1661,
         },

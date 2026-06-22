@@ -1325,6 +1325,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
         },
+        [7363] = { -- Kum'isha the Collector
+            [npcKeys.waypoints] = {},
+        },
         [7406] = { -- Oglethorpe Obnoticus
             [npcKeys.questStarts] = {3642,3643,3645,3721},
             [npcKeys.questEnds] = {648,836,2767,3635,3637,3642,3643,3645,3721,8857},

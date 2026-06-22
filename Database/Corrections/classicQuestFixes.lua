@@ -1991,6 +1991,14 @@ function QuestieQuestFixes:Load()
         [2641] = { -- Sprinkle's Secret Ingredient
             [questKeys.nextQuestInChain] = 2661,
         },
+        [2681] = { -- The Stones That Bind Us
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Release the Servant"), 1, {{"object", 141812}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Release the Servant"), 2, {{"object", 141857}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Release the Servant"), 3, {{"object", 141858}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Release the Servant"), 4, {{"object", 141859}}},
+            },
+        },
         [2701] = { -- Heroes of Old
             [questKeys.nextQuestInChain] = 2721,
         },
@@ -2603,11 +2611,15 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {4324}, -- #4459
         },
+        [4143] = { -- Haze of Evil
+            [questKeys.nextQuestInChain] = 4144,
+        },
         [4144] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1590
         },
         [4146] = { -- Zapper Fuel
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
+            [questKeys.nextQuestInChain] = 4148,
         },
         [4181] = { -- Goblin Engineering (Ironforge)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
