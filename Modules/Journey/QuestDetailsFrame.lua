@@ -105,6 +105,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         container:AddChild(completedLabel)
     end
 
+    if QuestieDB.IsRepeatable(quest.Id) then
+        local repeatableLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Repeatable"), 'yellow'), true)
+        container:AddChild(repeatableLabel)
+    end
+
     local eligibilityText, shouldShowDoableLabel = QuestieDB.IsDoableVerbose(quest.Id, false, true, true)
     if shouldShowDoableLabel then
         local eligibilityTextLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Doable") .. l10n(": "), 'yellow') .. eligibilityText, true)
