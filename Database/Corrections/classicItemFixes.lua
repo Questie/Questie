@@ -851,6 +851,9 @@ function QuestieItemFixes:Load()
         [11188] = { -- Yellow Power Crystal
             [itemKeys.npcDrops] = {},
         },
+        [11230] = { -- Encased Fiery Essence
+            [itemKeys.npcDrops] = {9016},
+        },
         [11243] = { -- Videre Elixir
             [itemKeys.npcDrops] = {7775},
         },
@@ -867,6 +870,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {165678},
         },
+        [11446] = { -- A Crumpled Up Note
+            [itemKeys.startQuest] = 4264,
+        },
         [11463] = { -- Undelivered Parcel
             [itemKeys.objectDrops] = {164953},
         },
@@ -879,6 +885,7 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4005},
             [itemKeys.npcDrops] = {9453},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11569] = { -- Preserved Threshadon Meat
             [itemKeys.itemDrops] = {11568},

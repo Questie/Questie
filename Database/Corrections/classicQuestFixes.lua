@@ -2502,11 +2502,17 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {11141,11242},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bait in front of Miblon Snarltooth."), 0, {{"monster", 9467}}}},
         },
+        [3912] = { -- Meet at the Grave
+            [questKeys.requiredSourceItems] = {11243},
+        },
         [3982] = {
             [questKeys.objectives] = {{{9020,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [4001] = {
             [questKeys.objectives] = {{{9021,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [4005] = {
+            [questKeys.requiredSourceItems] = {11169,11172,11173},
         },
         [4021] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Hold off Kolkar invaders until Warlord Krom'zar spawns and then loot the banner spawned on his corpse."), 0, {{"monster", 9456}}}},
@@ -4757,9 +4763,6 @@ function QuestieQuestFixes:Load()
         [8363] = { -- Abyssal Signets
             [questKeys.requiredMinRep] = {609,3000},
         },
-        [8367] = { -- For Great Honor
-            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
-        },
         [8368] = { -- Battle of Warsong Gulch
             [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
             [questKeys.requiredMaxLevel] = 19,
@@ -4768,14 +4771,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8436,8437,8438,8439},
             [questKeys.requiredMaxLevel] = 29,
         },
-        [8371] = { -- Concerted Efforts
-            [questKeys.zoneOrSort] = sortKeys.IRONFORGE,
-        },
         [8372] = { -- Fight for Warsong Gulch
             [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
             [questKeys.requiredMaxLevel] = 19,
         },
-        [8373] = {
+        [8373] = { -- The Power of Pine
             [questKeys.objectives] = {nil,{{180449}}},
         },
         [8374] = { -- Claiming Arathi Basin
@@ -4793,7 +4793,6 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 29,
         },
         [8385] = { -- Concerted Efforts
-            [questKeys.zoneOrSort] = sortKeys.IRONFORGE,
             [questKeys.objectivesText] = {},
         },
         [8386] = { -- Fight for Warsong Gulch
@@ -4805,7 +4804,6 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {},
         },
         [8388] = { -- For Great Honor
-            [questKeys.zoneOrSort] = sortKeys.ORGRIMMAR,
             [questKeys.objectivesText] = {},
         },
         [8389] = { -- Battle of Warsong Gulch

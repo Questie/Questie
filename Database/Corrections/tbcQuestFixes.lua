@@ -1253,14 +1253,20 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = -1,
         },
-        [8367] = {
+        [8367] = { -- For Great Honor
             [questKeys.requiredLevel] = 61,
         },
-        [8371] = {
+        [8371] = { -- Concerted Efforts
             [questKeys.requiredLevel] = 61,
         },
         [8381] = { -- Armaments of War
             [questKeys.requiredClasses] = classIDs.MAGE + classIDs.WARLOCK,
+        },
+        [8385] = { -- Concerted Efforts
+            [questKeys.requiredLevel] = 61,
+        },
+        [8388] = { -- For Great Honor
+            [questKeys.requiredLevel] = 61,
         },
         [8410] = { -- Elemental Mastery
             [questKeys.startedBy] = {{3032,13417,17219,20407,23127}},
