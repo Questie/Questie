@@ -311,9 +311,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
                         elseif tooltip.type == "Finisher" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_complete.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
-                        elseif tooltip.type == "itemFromMonster" then
+                        elseif tooltip.type == "itemFromMonster" or tooltip.type == "itemFromObject" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\available_mobdrop.png:14|t" .. questString
-                        elseif tooltip.type == "itemFromObject" or tooltip.type == "Object" then
+                        elseif tooltip.type == "Object" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\available_object.png:14|t" .. questString
                         end
                     end
