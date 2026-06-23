@@ -2,7 +2,7 @@
 TreeGroup Container
 Container that uses a tree control to switch between groups.
 -------------------------------------------------------------------------------]]
-local Type, Version = "TreeGroup", 49
+local Type, Version = "TreeGroup", 50
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -61,6 +61,34 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 	local uniquevalue = treeline.uniquevalue
 	local disabled = treeline.disabled
 
+	-- Added by Questie
+	-- `iconSize` controls the rendered texture size. `iconTextOffset` is the
+	-- horizontal space reserved for that texture; default Ace behavior uses the
+	-- same 16px text offset for normal inline icons.
+	local iconSize = treeline.iconSize or 16
+	local iconTextOffset = treeline.iconSize or 16
+
+	-- `useIconGutter` is opt-in and only applies to child rows. Without it,
+	-- TreeGroup keeps Ace's original layout: icons sit inline at `baseOffset`
+	-- and push text right by `iconTextOffset`; rows without icons are unchanged.
+	local useIconGutter = treeline.useIconGutter and level > 1
+
+	-- Moves the gutter icon and text together for visual tuning without changing
+	-- their spacing. It is ignored unless the row uses the gutter layout.
+	local iconGutterOffset = useIconGutter and (treeline.iconGutterOffset or 0) or 0
+
+	-- `baseOffset` is Ace's normal row indent. Gutter rows split the icon space
+	-- around that indent: the icon moves left by half, and text moves right by
+	-- half. This keeps mixed icon/non-icon quest rows aligned while preserving
+	-- the default inline behavior for all non-gutter rows.
+	local baseOffset = (level == 1) and 8 or 8 * level
+	local gutterOffset = useIconGutter and (iconTextOffset / 2) or 0
+	local textOffset = baseOffset + ((icon and not useIconGutter) and iconTextOffset or gutterOffset) + iconGutterOffset
+
+    -- Clear stored icon state because TreeGroup buttons are recycled.
+    button.iconBaseOffset = nil
+	-----------------
+
 	button.treeline = treeline
 	button.value = value
 	button.uniquevalue = uniquevalue
@@ -75,12 +103,11 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 	if ( level == 1 ) then
 		button:SetNormalFontObject("GameFontNormal")
 		button:SetHighlightFontObject("GameFontHighlight")
-		button.text:SetPoint("LEFT", (icon and 16 or 0) + 8, 2)
 	else
 		button:SetNormalFontObject("GameFontHighlightSmall")
 		button:SetHighlightFontObject("GameFontHighlightSmall")
-		button.text:SetPoint("LEFT", (icon and 16 or 0) + 8 * level, 2)
 	end
+	button.text:SetPoint("LEFT", textOffset, 2)
 
 	if disabled then
 		button:EnableMouse(false)
@@ -91,9 +118,19 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 	end
 
 	if icon then
+		-- Added by Questie
+		-- Inline icons use Ace's original `baseOffset`. Gutter icons use the
+		-- left half of the split gutter; `iconGutterOffset` shifts both this
+		-- anchor and `textOffset`, so the icon/text pair moves as one unit.
+		local iconOffset = (useIconGutter and (baseOffset - (iconTextOffset / 2)) or baseOffset) + iconGutterOffset
+		button.iconBaseOffset = iconOffset
+		button.icon:ClearAllPoints()
+		button.icon:SetSize(iconSize, iconSize)
 		button.icon:SetTexture(icon)
-		button.icon:SetPoint("LEFT", 8 * level, (level == 1) and 0 or 1)
+		button.icon:SetPoint("LEFT", iconOffset, (level == 1) and 0 or 1)
+		-----------------
 	else
+		button.iconBaseOffset = nil
 		button.icon:SetTexture(nil)
 	end
 
@@ -142,6 +179,16 @@ local function addLine(self, v, tree, level, parent)
 	line.parent = parent
 	line.visible = v.visible
 	line.uniquevalue = GetButtonUniqueValue(line)
+
+	-- Added by Questie
+    --- Icons
+	line.iconSize = v.iconSize
+	line.useIconGutter = v.useIconGutter
+	line.iconGutterOffset = v.iconGutterOffset
+    --- Tooltip
+	line.tooltipText = v.tooltipText
+	-----------------
+
 	if v.children then
 		line.hasChildren = true
 	else
@@ -178,6 +225,29 @@ local function Expand_OnClick(frame)
 	self:RefreshTree()
 end
 
+-- Added by Questie
+local function DeferredButtonRefresh_OnUpdate(frame)
+	frame:SetScript("OnUpdate", nil)
+	frame.obj:RefreshTree()
+end
+
+local function QueueDeferredButtonRefresh(button)
+	-- Refreshing while the native Blizzard row button is still PUSHED can bake
+	-- the pushed text offset into selected/expanded rows. Delay one frame so the
+	-- TreeGroup rebuilds after the button returns to NORMAL.
+	button:SetScript("OnUpdate", DeferredButtonRefresh_OnUpdate)
+end
+
+local function ResetIconPushedOffset(button)
+	if not button.iconBaseOffset then
+		return
+	end
+
+	button.icon:ClearAllPoints()
+	button.icon:SetPoint("LEFT", button.iconBaseOffset, (button.level == 1) and 0 or 1)
+end
+-----------------
+
 local function Button_OnClick(frame)
 	local self = frame.obj
 	self:Fire("OnClick", frame.uniquevalue, frame.selected)
@@ -185,7 +255,9 @@ local function Button_OnClick(frame)
 		self:SetSelected(frame.uniquevalue)
 		frame.selected = true
 		frame:LockHighlight()
-		self:RefreshTree()
+		-- Added by Questie
+		QueueDeferredButtonRefresh(frame)
+		-----------------
 	end
 	AceGUI:ClearFocus()
 end
@@ -194,8 +266,27 @@ local function Button_OnDoubleClick(button)
 	local self = button.obj
 	local status = (self.status or self.localstatus).groups
 	status[button.uniquevalue] = not status[button.uniquevalue]
-	self:RefreshTree()
+	-- Added by Questie
+	QueueDeferredButtonRefresh(button)
+	-----------------
 end
+
+-- Added by Questie
+-- Match Blizzard's pushed text offset so row icons move with the text while pressed.
+local function Button_OnMouseUp(button)
+    ResetIconPushedOffset(button)
+end
+
+local function Button_OnMouseDown(button)
+	if not button.iconBaseOffset then
+		return
+	end
+
+	local pushedX, pushedY = button:GetPushedTextOffset()
+	button.icon:ClearAllPoints()
+	button.icon:SetPoint("LEFT", button.iconBaseOffset + pushedX, ((button.level == 1) and 0 or 1) + pushedY)
+end
+-----------------
 
 local function Button_OnEnter(frame)
 	local self = frame.obj
@@ -206,7 +297,9 @@ local function Button_OnEnter(frame)
 		tooltip:SetOwner(frame, "ANCHOR_NONE")
 		tooltip:ClearAllPoints()
 		tooltip:SetPoint("LEFT",frame,"RIGHT")
-		tooltip:SetText(frame.text:GetText() or "", 1, .82, 0, 1, true)
+        -- Changed by Questie
+		tooltip:SetText(frame.treeline.tooltipText or (frame.text:GetText() or ""), 1, .82, 0, 1, true)
+        -----------------
 
 		tooltip:Show()
 	end
@@ -215,6 +308,10 @@ end
 local function Button_OnLeave(frame)
 	local self = frame.obj
 	self:Fire("OnButtonLeave", frame.uniquevalue, frame)
+
+	-- Added by Questie
+	ResetIconPushedOffset(frame)
+	-----------------
 
 	if self.enabletooltips then
 		AceGUI.tooltip:Hide()
@@ -329,6 +426,10 @@ local methods = {
 		button:SetScript("OnDoubleClick", Button_OnDoubleClick)
 		button:SetScript("OnEnter",Button_OnEnter)
 		button:SetScript("OnLeave",Button_OnLeave)
+		-- Added by Questie
+		button:SetScript("OnMouseDown", Button_OnMouseDown)
+		button:SetScript("OnMouseUp", Button_OnMouseUp)
+		-----------------
 
 		button.toggle.button = button
 		button.toggle:SetScript("OnClick",Expand_OnClick)
