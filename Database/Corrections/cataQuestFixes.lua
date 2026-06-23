@@ -15317,6 +15317,10 @@ function CataQuestFixes.Load()
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
         },
+        [30120] = { -- Cleansing Drak'Tharon
+            [questKeys.requiredSourceItems] = {35797,38303},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
+        },
         [64845] = { -- Alliance War Effort
             [questKeys.triggerEnd] = {"Victory in a battleground match", {
                 [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
@@ -15741,6 +15745,33 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{3347}},
             [questKeys.finishedBy] = {{3347,3009,4611,16642}},
         },
+        [29734] = { -- Deepforge the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29735] = { -- Stonebrand the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29736] = { -- Darkfeather the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29737] = { -- Firebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29738] = { -- Moonlance the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29739] = { -- Windsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29740] = { -- Evershade the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29741] = { -- Sekhemi the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29742] = { -- Menkhaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
         [29836] = { -- Just Checkin'
             [questKeys.nextQuestInChain] = 29840,
             [questKeys.exclusiveTo] = {13098},
@@ -15846,13 +15877,36 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5499}},
             [questKeys.finishedBy] = {{5499,1537,4160,16723}},
         },
+        [29734] = { -- Deepforge the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29735] = { -- Stonebrand the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29736] = { -- Darkfeather the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29737] = { -- Firebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29738] = { -- Moonlance the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29739] = { -- Windsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29740] = { -- Evershade the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29741] = { -- Sekhemi the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29742] = { -- Menkhaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
         [29836] = { -- Just Checkin'
             [questKeys.nextQuestInChain] = 29844,
             [questKeys.exclusiveTo] = {13098},
-        },
-        [30120] = { -- Cleansing Drak'Tharon
-            [questKeys.requiredSourceItems] = {35797,38303},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
         },
     }
 

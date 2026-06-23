@@ -478,6 +478,12 @@ function QuestieWotlkQuestFixes:Load()
         [9078] = {
             [questKeys.requiredClasses] = classIDs.ROGUE,
         },
+        [9121] = { -- The Dread Citadel - Naxxramas
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,1000}},
+        },
+        [9122] = { -- The Dread Citadel - Naxxramas
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,1000}},
+        },
         [9154] = {
             [questKeys.startedBy] = {{16241,16255}},
             [questKeys.finishedBy] = {{16281}},
@@ -8618,6 +8624,173 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
         },
     }
+end
+
+function QuestieWotlkQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+    local factionIDs = QuestieDB.factionIDs
+
+    local questFixesHorde = {
+        [13012] = { -- Sardis the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13013] = { -- Beldak the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13014] = { -- Morthie the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13015] = { -- Fargal the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13016] = { -- Northal the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13017] = { -- Jarten the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13018] = { -- Sandrene the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13019] = { -- Thoim the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13020] = { -- Stonebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13021] = { -- Igasho the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13022] = { -- Nurgen the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13023] = { -- Kilias the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13024] = { -- Wanikaya the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13025] = { -- Lunaro the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13026] = { -- Bluewolf the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13027] = { -- Tauros the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13028] = { -- Graymane the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13029] = { -- Pamuya the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13030] = { -- Whurain the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13031] = { -- Skywarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13032] = { -- Muraco the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13033] = { -- Arp the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13065] = { -- Ohanzee the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13066] = { -- Yurauk the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13067] = { -- Chogan'gada the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+    }
+
+    local questFixesAlliance = {
+        [13012] = { -- Sardis the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13013] = { -- Beldak the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13014] = { -- Morthie the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13015] = { -- Fargal the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13016] = { -- Northal the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13017] = { -- Jarten the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13018] = { -- Sandrene the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13019] = { -- Thoim the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13020] = { -- Stonebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13021] = { -- Igasho the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13022] = { -- Nurgen the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13023] = { -- Kilias the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13024] = { -- Wanikaya the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13025] = { -- Lunaro the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13026] = { -- Bluewolf the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13027] = { -- Tauros the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13028] = { -- Graymane the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13029] = { -- Pamuya the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13030] = { -- Whurain the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13031] = { -- Skywarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13032] = { -- Muraco the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13033] = { -- Arp the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13065] = { -- Ohanzee the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13066] = { -- Yurauk the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13067] = { -- Chogan'gada the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
 end
 
 function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()

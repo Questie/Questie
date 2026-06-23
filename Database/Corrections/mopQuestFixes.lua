@@ -7799,7 +7799,7 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.HUOJIN_PANDAREN,5},{factionIDs.DOMINANCE_OFFENSIVE,7}},
         },
         [32109] = { -- Lion's Landing
-            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3},{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,5},{factionIDs.OPERATION_SHIELDWALL,7}},
         },
         [32115] = { -- Shackles of the Past
             [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
@@ -8337,7 +8337,7 @@ function MopQuestFixes.Load()
         [32247] = { -- A King Among Men
             [questKeys.preQuestSingle] = {32246},
             [questKeys.objectives] = {{{68331,nil,Questie.ICON_TYPE_EVENT},{68312,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{68332,68333,68334},68332}}},
-            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3},{factionIDs.OPERATION_SHIELDWALL,12}},
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,5},{factionIDs.OPERATION_SHIELDWALL,12}},
         },
         [32248] = { -- A Little Patience
             [questKeys.preQuestSingle] = {32109},
@@ -8535,13 +8535,13 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,19750},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Shrine"),0,{{"monster",68741}}}},
             [questKeys.objectives] = {{{67948,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31},{factionIDs.ALLIANCE,3}},
         },
         [32316] = { -- Heart Of The Alliance
             [questKeys.preQuestSingle] = {32315},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,19750},
             [questKeys.objectives] = {{{68006,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7},{factionIDs.ALLIANCE,7}},
         },
         [32317] = { -- Seeking the Soulstones
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
@@ -8708,7 +8708,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32331},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,11850},
             [questKeys.objectives] = {{{68108,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,6},{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7},{factionIDs.ALLIANCE,6}},
         },
         [32363] = { -- The Kun-Lai Expedition
             [questKeys.preQuestSingle] = {32330},
@@ -8838,14 +8838,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,27650},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Ruins of Korune"),0,{{"monster",68741}}}},
             [questKeys.objectives] = {{{67734,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31},{factionIDs.ALLIANCE,1}},
         },
         [32394] = { -- The Divine Bell
             [questKeys.preQuestSingle] = {32393},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,27650},
             [questKeys.finishedBy] = {{67951}},
             [questKeys.objectives] = {{{68504}},{{216678}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7},{factionIDs.ALLIANCE,6}},
         },
         [32397] = { -- He Won't Even Miss It
             [questKeys.preQuestSingle] = {32382},
@@ -9085,6 +9085,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32401},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,42000},
             [questKeys.objectives] = {{{68928,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,6},{factionIDs.ALLIANCE,6}},
         },
         [32457] = { -- The Thunder King
             [questKeys.startedBy] = {{64616}},

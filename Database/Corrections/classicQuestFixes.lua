@@ -1192,7 +1192,7 @@ function QuestieQuestFixes:Load()
         [1388] = {
             [questKeys.preQuestSingle] = {1383},
         },
-        [1393] = {
+        [1393] = { -- Galen's Escape
             [questKeys.triggerEnd] = {"Escort Galen out of the Fallow Sanctuary.", {[zoneIDs.SWAMP_OF_SORROWS]={{53.08,29.55}}}},
         },
         [1395] = {
@@ -3154,6 +3154,9 @@ function QuestieQuestFixes:Load()
         },
         [5261] = {
             [questKeys.breadcrumbForQuestId] = 33, -- #1726
+        },
+        [5263] = { -- Above and Beyond
+            [questKeys.nextQuestInChain] = 5264,
         },
         [5305] = {
             [questKeys.exclusiveTo] = {8869},
@@ -5999,6 +6002,7 @@ function QuestieQuestFixes:Load()
         },
         [9123] = { -- The Dread Citadel - Naxxramas
             [questKeys.nextQuestInChain] = 9033,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,1000}},
         },
         [9124] = { -- Cryptstalker Armor Doesn't Make Itself...
             [questKeys.requiredMinRep] = {factionIDs.ARGENT_DAWN,3000},
@@ -6375,6 +6379,7 @@ function QuestieQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local playerClass = UnitClassBase("player")
+    local factionIDs = QuestieDB.factionIDs
 
     local questFixesHorde = {
         [687] = {
@@ -6388,6 +6393,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [1198] = {
             [questKeys.nextQuestInChain] = 0,
+        },
+        [1393] = { -- Galen's Escape
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
         },
         [1718] = {
             [questKeys.startedBy] = {{3041,3354,4595}},
@@ -6457,6 +6465,156 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{3326,4563}},
         },
+        [8619] = { -- Morndeep the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8635] = { -- Splitrock the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8636] = { -- Rumblerock the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8642] = { -- Silvervein the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8643] = { -- Highpeak the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8644] = { -- Stonefort the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8645] = { -- Obsidian the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8646] = { -- Hammershout the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8647] = { -- Bellowrage the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8648] = { -- Darkcore the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8649] = { -- Stormbrow the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8650] = { -- Snowcrown the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8651] = { -- Ironband the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8652] = { -- Graveborn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8653] = { -- Goldwell the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8654] = { -- Primestone the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8670] = { -- Runetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8671] = { -- Ragetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8672] = { -- Stonespire the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8673] = { -- Bloodhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8674] = { -- Winterhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8675] = { -- Skychaser the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8676] = { -- Wildmane the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8677] = { -- Darkhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8678] = { -- Proudhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8679] = { -- Grimtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8680] = { -- Windtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8681] = { -- Thunderhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8682] = { -- Skyseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8683] = { -- Dawnstrider the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8684] = { -- Dreamseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8685] = { -- Mistwalker the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8686] = { -- High Mountain the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8688] = { -- Windrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8713] = { -- Starsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8714] = { -- Moonstrike the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8715] = { -- Bladeleaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8716] = { -- Starglade the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8717] = { -- Moonwarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8718] = { -- Bladeswift the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8719] = { -- Bladesing the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8720] = { -- Skygleam the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8721] = { -- Starweave the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8722] = { -- Meadowrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8723] = { -- Nightwind the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8724] = { -- Morningdew the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8725] = { -- Riversong the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8726] = { -- Brightspear the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8727] = { -- Farwhisper the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
+        [8866] = { -- Bronzebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,50}},
+        },
         [8928] = {
             [questKeys.nextQuestInChain] = 8978,
         },
@@ -6522,6 +6680,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [1198] = {
             [questKeys.breadcrumbForQuestId] = 1200,
+        },
+        [1393] = { -- Galen's Escape
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
         },
         [1718] = { -- The Islander
             [questKeys.startedBy] = {{5113,5479}},
@@ -6590,6 +6751,156 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,5172}},
+        },
+        [8619] = { -- Morndeep the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8635] = { -- Splitrock the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8636] = { -- Rumblerock the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8642] = { -- Silvervein the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8643] = { -- Highpeak the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8644] = { -- Stonefort the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8645] = { -- Obsidian the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8646] = { -- Hammershout the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8647] = { -- Bellowrage the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8648] = { -- Darkcore the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8649] = { -- Stormbrow the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8650] = { -- Snowcrown the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8651] = { -- Ironband the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8652] = { -- Graveborn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8653] = { -- Goldwell the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8654] = { -- Primestone the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8670] = { -- Runetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8671] = { -- Ragetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8672] = { -- Stonespire the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8673] = { -- Bloodhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8674] = { -- Winterhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8675] = { -- Skychaser the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8676] = { -- Wildmane the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8677] = { -- Darkhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8678] = { -- Proudhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8679] = { -- Grimtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8680] = { -- Windtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8681] = { -- Thunderhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8682] = { -- Skyseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8683] = { -- Dawnstrider the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8684] = { -- Dreamseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8685] = { -- Mistwalker the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8686] = { -- High Mountain the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8688] = { -- Windrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8713] = { -- Starsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8714] = { -- Moonstrike the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8715] = { -- Bladeleaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8716] = { -- Starglade the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8717] = { -- Moonwarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8718] = { -- Bladeswift the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8719] = { -- Bladesing the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8720] = { -- Skygleam the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8721] = { -- Starweave the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8722] = { -- Meadowrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8723] = { -- Nightwind the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8724] = { -- Morningdew the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8725] = { -- Riversong the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8726] = { -- Brightspear the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8727] = { -- Farwhisper the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
+        },
+        [8866] = { -- Bronzebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,50}},
         },
         [8928] = {
             [questKeys.nextQuestInChain] = 8977,
