@@ -56,6 +56,8 @@ local QUEST_LOG_STATES = {
 
 local questLog = {}
 local deletedQuestItem = false
+local acceptedQuestRetryAttempts = {}
+local MAX_ACCEPTED_QUEST_RETRIES = 10
 
 -- We store the timestamp of the last quest related "marker event" (e.g. QWU, UQLC), to check for objective changes at
 -- all following QUEST_LOG_UPDATE events within MARKER_EVENT_TIMEFRAME seconds
@@ -269,20 +271,24 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
 end
 
 ---@param questId number
-function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
-    -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
+function _QuestEventHandler:HandleQuestAccepted(questId, _isRetry)
+    -- We first check the quest objectives and retry if they are not correct yet.
     local cacheMiss, _ = QuestLogCache.CheckForChanges({[questId] = true})
     if cacheMiss then
-        -- if cacheMiss, no need to check changes as only 1 questId
+        acceptedQuestRetryAttempts[questId] = (acceptedQuestRetryAttempts[questId] or 0) + 1
         Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
-        if (not isRetry) then
+        if acceptedQuestRetryAttempts[questId] <= MAX_ACCEPTED_QUEST_RETRIES then
             C_Timer.After(0.5, function()
                 _QuestEventHandler:HandleQuestAccepted(questId, true)
             end)
+        else
+            acceptedQuestRetryAttempts[questId] = nil
+            Questie:Debug(Questie.DEBUG_ELEVATED, "Giving up waiting for cached objectives after quest accept:", questId)
         end
         return
     end
 
+    acceptedQuestRetryAttempts[questId] = nil
     Questie:Debug(Questie.DEBUG_INFO, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieQuest:SetObjectivesDirty(questId)
