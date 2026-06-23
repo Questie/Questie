@@ -15648,6 +15648,7 @@ end
 
 function CataQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
+    local factionIDs = QuestieDB.factionIDs
 
     local questFixesHorde = {
         [2280] = { -- The Platinum Discs
