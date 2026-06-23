@@ -2,8 +2,6 @@
 local QuestieFrame = QuestieLoader:CreateModule("QuestieFrame")
 local _QuestieFrame = QuestieFrame.private
 
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDBMIntegration
@@ -415,7 +413,6 @@ function _QuestieFrame.Unload(self)
     self.lastGlowFade = nil
     self.worldX = nil
     self.worldY = nil
-    QuestieFramePool:RecycleFrame(self)
 end
 
 ---@param self IconFrame
