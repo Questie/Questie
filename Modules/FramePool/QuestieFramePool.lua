@@ -21,7 +21,6 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 local WAYPOINT_COLOR = { 1, 0.72, 0, 0.5}
 
-local _QuestieFramePool = {}
 local numberOfFrames = 0
 
 ---@type IconFrame[]
@@ -60,7 +59,9 @@ function QuestieFramePool:GetFrame()
     ---@type IconFrame
     local returnFrame = tremove(unusedFrames)
     if not returnFrame then
-        returnFrame = _QuestieFramePool:QuestieCreateFrame()
+        numberOfFrames = numberOfFrames + 1
+
+        returnFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
     end
 
     if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
@@ -147,15 +148,6 @@ function QuestieFramePool:RecycleFrame(frame)
     usedFrames[frame.frameId] = nil
     tinsert(unusedFrames, frame)
 end
-
-function _QuestieFramePool:QuestieCreateFrame()
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
-    numberOfFrames = numberOfFrames + 1
-    local newFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
-
-    return newFrame
-end
-
 
 ---@param iconFrame IconFrame @The parent frame for the current line.
 ---@param waypointTable table<number, Point> @A table containing waypoints {{X, Y}, ...}
