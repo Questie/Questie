@@ -467,8 +467,18 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 }
             ) or {}
 
+            temp.iconSize = 14
+            temp.useIconGutter = true
+            temp.iconGutterOffset = -3
+            if QuestiePlayer.currentQuestlog[questId] then
+                if QuestieDB.IsComplete(questId) == 1 then
+                    temp.icon = Questie.icons["complete"]
+                else
+                    temp.icon = Questie.icons["incomplete"]
+                end
+            end
+
             local questName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
-            local questLogPrefix = QuestiePlayer.currentQuestlog[questId] and "|TInterface\\AddOns\\Questie\\Icons\\Questbook.png:14:14|t " or ""
 
             local reputationRewards = QuestieReputation.GetReputationReward(questId)
             if reputationRewards and next(reputationRewards) then
@@ -479,7 +489,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                 end
             end
 
-            temp.text = questLogPrefix .. questName
+            temp.text = questName
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
             local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
