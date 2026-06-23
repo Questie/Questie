@@ -284,6 +284,7 @@ function TrackerBaseFrame.ShrinkToMinSize(minSize)
 end
 
 ---@param button string @The mouse button that is pressed when dragging starts
+---@return boolean? startedMoving @True if tracker movement started.
 function TrackerBaseFrame.OnDragStart(frame, button)
     if GameTooltip:IsShown() then
         GameTooltip:Hide()
@@ -315,6 +316,8 @@ function TrackerBaseFrame.OnDragStart(frame, button)
 
                     baseFrame:StartMoving()
                     TrackerBaseFrame:Update()
+
+                    return true
                 else
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is not movable!")
                 end

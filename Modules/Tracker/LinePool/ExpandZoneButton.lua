@@ -7,6 +7,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Rem
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 
 ---@param index number
 ---@param parent TrackerLineFrame
@@ -51,6 +53,11 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
 
     expandZone:SetScript("OnMouseUp", function(self, button)
         if button == "LeftButton" then
+            if self.ignoreNextMouseUp or TrackerBaseFrame.isMoving then
+                self.ignoreNextMouseUp = nil
+                return
+            end
+
             if IsShiftKeyDown() then
                 if not Questie.db.char.collapsedZones[self.zoneId] then
                     C_Timer.After(0.1, function()
@@ -101,6 +108,19 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
                 end)
             end
         end
+    end)
+
+    expandZone:SetScript("OnDragStart", function(self, button)
+        if TrackerBaseFrame.OnDragStart(self, button) then
+            self.ignoreNextMouseUp = true
+        end
+    end)
+
+    expandZone:SetScript("OnDragStop", function(self, button)
+        TrackerBaseFrame.OnDragStop(self, button)
+        C_Timer.After(0, function()
+            self.ignoreNextMouseUp = nil
+        end)
     end)
 
     expandZone:SetScript("OnEnter", function(self)
