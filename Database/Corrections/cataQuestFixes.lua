@@ -15318,7 +15318,7 @@ function CataQuestFixes.Load()
             [questKeys.exclusiveTo] = {11272},
         },
         [30120] = { -- Cleansing Drak'Tharon
-            [questKeys.requiredSourceItems] = {35797,38303},
+            [questKeys.requiredSourceItems] = {38303},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
         },
         [64845] = { -- Alliance War Effort
