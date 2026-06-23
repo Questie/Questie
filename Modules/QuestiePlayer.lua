@@ -92,13 +92,14 @@ function QuestiePlayer.HasRequiredClass(requiredClasses)
     return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % playerClassFlagX2) >= playerClassFlag)
 end
 
+---@return AreaId
 function QuestiePlayer:GetCurrentZoneId()
     local uiMapId = C_Map.GetBestMapForUnit("player")
     if uiMapId then
         return ZoneDB:GetAreaIdByUiMapId(uiMapId)
     end
 
-    return ZoneDB.instanceIdToUiMapId[select(8, GetInstanceInfo())]
+    return ZoneDB.instanceIdToAreaId[select(8, GetInstanceInfo())]
 end
 
 ---@return number
