@@ -120,6 +120,32 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieTracker.Update).was.called()
     end)
 
+    it("should ignore delayed accept retry after quest removal", function()
+        local callbacks = {}
+        _G.C_Timer = {
+            After = function(_, callback) table.insert(callbacks, callback) end,
+            NewTicker = function() return {Cancel = function() end} end,
+        }
+        Questie.SendMessage = spy.new(function() end)
+        QuestLogCache.CheckForChanges = spy.new(function() return true, nil end)
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestieQuest.AcceptQuest = spy.new(function() end)
+        QuestieJourney.AcceptQuest = spy.new(function() end)
+        QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+
+        QuestEventHandler.QuestAccepted(2, QUEST_ID)
+        QuestEventHandler.QuestRemoved(QUEST_ID)
+
+        QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+        callbacks[1]()
+
+        assert.spy(QuestLogCache.CheckForChanges).was_not_called()
+        assert.spy(QuestieQuest.SetObjectivesDirty).was_not_called()
+        assert.spy(QuestieJourney.AcceptQuest).was_not_called()
+        assert.spy(QuestieAnnounce.AcceptedQuest).was_not_called()
+        assert.spy(QuestieQuest.AcceptQuest).was_not_called()
+    end)
+
     it("should hide Immersion frame when quest was auto accepted and modifier is not held", function()
         Questie.db.profile.autoAccept.enabled = true
         AutoQuesting.IsModifierHeld = function() return false end

@@ -59,6 +59,20 @@ local deletedQuestItem = false
 local acceptedQuestRetryAttempts = {}
 local MAX_ACCEPTED_QUEST_RETRIES = 10
 
+---@param questId number
+local function _ClearAcceptedQuestRetry(questId)
+    acceptedQuestRetryAttempts[questId] = nil
+end
+
+---@param questId number
+---@return boolean
+local function _CanHandleAcceptedQuest(questId)
+    local questLogEntry = questLog[questId]
+    return questLogEntry ~= nil
+        and questLogEntry.state ~= QUEST_LOG_STATES.QUEST_REMOVED
+        and questLogEntry.state ~= QUEST_LOG_STATES.QUEST_TURNED_IN
+end
+
 -- We store the timestamp of the last quest related "marker event" (e.g. QWU, UQLC), to check for objective changes at
 -- all following QUEST_LOG_UPDATE events within MARKER_EVENT_TIMEFRAME seconds
 local lastMarkerQuestEventTime = 0
@@ -272,6 +286,11 @@ end
 
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, _isRetry)
+    if not _CanHandleAcceptedQuest(questId) then
+        _ClearAcceptedQuestRetry(questId)
+        return
+    end
+
     -- We first check the quest objectives and retry if they are not correct yet.
     local cacheMiss, _ = QuestLogCache.CheckForChanges({[questId] = true})
     if cacheMiss then
@@ -288,7 +307,12 @@ function _QuestEventHandler:HandleQuestAccepted(questId, _isRetry)
         return
     end
 
-    acceptedQuestRetryAttempts[questId] = nil
+    if not _CanHandleAcceptedQuest(questId) then
+        _ClearAcceptedQuestRetry(questId)
+        return
+    end
+
+    _ClearAcceptedQuestRetry(questId)
     Questie:Debug(Questie.DEBUG_INFO, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieQuest:SetObjectivesDirty(questId)
@@ -319,6 +343,7 @@ end
 ---@param moneyReward number
 function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
+    _ClearAcceptedQuestRetry(questId)
 
     if questLog[questId] and questLog[questId].timer then
         -- Cancel the timer so the quest is not marked as abandoned
@@ -366,6 +391,7 @@ end
 ---@param questId number
 function QuestEventHandler.QuestRemoved(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED", questId)
+    _ClearAcceptedQuestRetry(questId)
 
     if (not questLog[questId]) then
         questLog[questId] = {}
