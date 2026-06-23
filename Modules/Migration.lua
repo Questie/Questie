@@ -19,7 +19,7 @@ local migrationFunctions = {
     [2] = function()
         -- Blizzard removed some sounds from Era/SoD, which are present in TBC
         local objectiveSound = Questie.db.profile.objectiveCompleteSoundChoiceName
-        if Expansions.Current < Expansions.Tbc and
+        if Expansions.Current < Expansions.Tbc and (
             objectiveSound == "Explosion" or
             objectiveSound == "Shing!" or
             objectiveSound == "Wham!" or
@@ -27,12 +27,12 @@ local migrationFunctions = {
             objectiveSound == "War Drums" or
             objectiveSound == "Humm" or
             objectiveSound == "Short Circuit"
-        then
+        ) then
             Questie.db.profile.objectiveCompleteSoundChoiceName = "ObjectiveDefault"
         end
 
         local progressSound = Questie.db.profile.objectiveProgressSoundChoiceName
-        if Expansions.Current < Expansions.Tbc and
+        if Expansions.Current < Expansions.Tbc and (
             progressSound == "Explosion" or
             progressSound == "Shing!" or
             progressSound == "Wham!" or
@@ -40,7 +40,7 @@ local migrationFunctions = {
             progressSound == "War Drums" or
             progressSound == "Humm" or
             progressSound == "Short Circuit"
-        then
+        ) then
             Questie.db.profile.objectiveProgressSoundChoiceName = "ObjectiveProgress"
         end
     end,
