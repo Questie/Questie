@@ -198,7 +198,10 @@ local function _ObjectiveMatchesRemote(objData, remoteObjective)
     end
 
     local localId = objData.Id or objData.RootId
-    if localId and remoteObjective.id and remoteObjective.id ~= 0 and localId ~= remoteObjective.id then
+    if remoteObjective.id == 0 then
+        return objData.Type == "event" and localId == nil
+    end
+    if localId and remoteObjective.id and localId ~= remoteObjective.id then
         return false
     end
 

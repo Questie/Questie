@@ -262,8 +262,16 @@ for class, index in pairs(_classToIndex) do
     _indexToClass[index] = class
 end
 
-local function _GetObjectivePacketId(objective)
-    return objective.Id or objective.RootId or 0
+local function _GetObjectivePacketId(objectiveData, objective)
+    objectiveData = objectiveData or objective
+    if objectiveData and (objectiveData.Id or objectiveData.RootId) then
+        return objectiveData.Id or objectiveData.RootId
+    end
+    if objective and (objective.Id or objective.RootId) then
+        return objective.Id or objective.RootId
+    end
+
+    return 0
 end
 
 function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest, offset)
@@ -280,7 +288,10 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
 
         offset = offset + 2
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
-            quest[offset] = _GetObjectivePacketId(questObject.Objectives[objectiveIndex])
+            quest[offset] = _GetObjectivePacketId(
+                questObject.ObjectiveData and questObject.ObjectiveData[objectiveIndex],
+                questObject.Objectives[objectiveIndex]
+            )
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
             quest[offset + 3] = objective.numRequired
@@ -313,7 +324,10 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
 
         offset = offset + 3
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
-            quest[offset] = _GetObjectivePacketId(questObject.Objectives[objectiveIndex])
+            quest[offset] = _GetObjectivePacketId(
+                questObject.ObjectiveData and questObject.ObjectiveData[objectiveIndex],
+                questObject.Objectives[objectiveIndex]
+            )
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
             quest[offset + 3] = objective.numRequired
@@ -829,7 +843,10 @@ function QuestieComms:CreateQuestDataPacket(questId)
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             if questObject.Objectives[objectiveIndex] then
                 quest.objectives[objectiveIndex] = {
-                    id = _GetObjectivePacketId(questObject.Objectives[objectiveIndex]),
+                    id = _GetObjectivePacketId(
+                        questObject.ObjectiveData and questObject.ObjectiveData[objectiveIndex],
+                        questObject.Objectives[objectiveIndex]
+                    ),
                     typ = string.sub(objective.type, 1, 1),
                     fin = objective.finished,
                     ful = objective.numFulfilled,
