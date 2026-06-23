@@ -38,4 +38,24 @@ PR #7574 fixed issue #7477 by adding support for showing party members' quest ob
 
 ## Resolution table
 
-_To be filled after implementation._
+| ID | Resolution commit | Validation |
+| --- | --- | --- |
+| F1 | `a0ec36b36` — `[fix] Support party objectives without direct IDs` | `busted -p ".test.lua" Modules/QuestiePlayer.test.lua Modules/EventHandler/QuestEventHandler.test.lua cli/integrationTests/6734.test.lua Modules/Tracker/ChallengeModeTimers.test.lua`; `luacheck -q --` changed Lua files |
+| F2 | `3be0e57c3` — `[fix] Reset reused quest icon frame visuals` | `luacheck -q --` changed Lua files |
+| F3 | `a8f6f3bd4` — `[fix] Keep retrying accepted quest cache misses` | `busted -p ".test.lua" Modules/EventHandler/QuestEventHandler.test.lua`; included in combined targeted test run |
+| F4 | `a6a85c539` — `[fix] Enforce party special objective icon cap` | `luacheck -q --` changed Lua files |
+| F5 | `13c98428b` — `[fix] Clear stale party objective data` | `luacheck -q --` changed Lua files |
+| F6 | `a0ec36b36` — `[fix] Support party objectives without direct IDs` | Identity validation was implemented with the no-ID objective handling; `luacheck -q --` changed Lua files |
+| F7 | `943407b42` — `[fix] Treat absent quests as untracked` | `luacheck -q --` changed Lua files |
+| F8 | `fd60a2d05` — `[fix] Use challenge mode difficulty ID` | `busted -p ".test.lua" Modules/Tracker/ChallengeModeTimers.test.lua`; included in combined targeted test run |
+| F9 | `5b26ef93c` — `[fix] Guard sound migration by expansion` | `luacheck -q --` changed Lua files |
+
+## Final validation on `review/party-icons`
+
+- `busted -p ".test.lua" Modules/QuestiePlayer.test.lua Modules/EventHandler/QuestEventHandler.test.lua cli/integrationTests/6734.test.lua Modules/Tracker/ChallengeModeTimers.test.lua`: passed, 24 successes / 0 failures / 0 errors.
+- `luacheck -q -- Modules/EventHandler/GroupEventHandler.lua Modules/EventHandler/QuestEventHandler.lua Modules/FramePool/QuestieFramePool.lua Modules/Migration.lua Modules/Network/QuestieComms.lua Modules/Network/QuestiePartyObjectives.lua Modules/Quest/QuestieQuest.lua Modules/Tracker/ChallengeModeTimer.lua Modules/Tracker/ChallengeModeTimers.test.lua Modules/Tracker/QuestieTracker.lua`: passed, 0 warnings / 0 errors.
+
+## Notes
+
+- The pre-existing untracked `Modules/FramePool/QuestieFramePool.test.lua` file was not staged or committed.
+- Other pre-existing untracked files (`CONTEXT.md`, `docs/`, `specs/`) were left untouched and untracked.
