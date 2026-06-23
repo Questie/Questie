@@ -1,4 +1,7 @@
----@class QuestieFramePool
+---@class QuestieFrame
+local QuestieFrame = QuestieLoader:CreateModule("QuestieFrame")
+
+---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
@@ -12,8 +15,6 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
-
-QuestieFramePool.Qframe = {}
 
 ---@class QuestieFrameHandlers
 local _Qframe = {}
@@ -30,7 +31,7 @@ local _Qframe = {}
 ---@field StarterType string|nil
 
 ---@return IconFrame
-function QuestieFramePool.Qframe:New(frameId, OnEnter)
+function QuestieFrame:New(frameId, OnEnter)
     ---@class IconFrame : Button
     ---@field isManualIcon boolean
     ---@field data IconData
