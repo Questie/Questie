@@ -44,6 +44,10 @@ function GroupEventHandler.GroupRosterUpdate()
     local sizeChanged = currentMembers ~= QuestiePlayer.numberOfGroupMembers
     QuestiePlayer.numberOfGroupMembers = currentMembers
 
+    if sizeChanged then
+        QuestieComms:RemoveStaleRemotePlayers()
+    end
+
     -- Evaluate unconditionally so the online snapshot stays current even when the size also changed.
     local onlineChanged = _OnlineStatusChanged()
 

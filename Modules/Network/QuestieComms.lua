@@ -451,12 +451,31 @@ function QuestieComms:RemoveRemotePlayer(name)
     QuestieComms.remotePlayerTimes[name] = nil
     QuestieComms.remotePlayerEnabled[name] = nil
     QuestieComms.remotePlayerClasses[name] = nil
+    QuestieComms.data:RemovePlayer(name)
     if not QuestieComms:CheckInGroup(name) then
-        for _, players in pairs(QuestieComms.remoteQuestLogs) do
+        for questId, players in pairs(QuestieComms.remoteQuestLogs) do
             players[name] = nil
+            if not next(players) then
+                QuestieComms.remoteQuestLogs[questId] = nil
+            end
         end
     end
     QuestiePartyObjectives:ScheduleUpdate()
+end
+
+function QuestieComms:RemoveStaleRemotePlayers()
+    local stalePlayers = {}
+    for _, players in pairs(QuestieComms.remoteQuestLogs) do
+        for name in pairs(players) do
+            if not QuestieComms:CheckInGroup(name) then
+                stalePlayers[name] = true
+            end
+        end
+    end
+
+    for name in pairs(stalePlayers) do
+        QuestieComms:RemoveRemotePlayer(name)
+    end
 end
 
 function QuestieComms:SortRemotePlayers()
