@@ -189,7 +189,9 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     return lineFrameList;
 end
 
+--Keep a total lineFrame count for names.
 local lineFrameCount = 1
+
 
 ---@param iconFrame IconFrame @The parent frame for the current line.
 ---@param startX number @A value between 0-100
@@ -199,7 +201,6 @@ local lineFrameCount = 1
 ---@param lineWidth number @Width of the line.
 ---@param color number[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame
----@class LineFrame @A frame that contains the line used in waypoints.
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color, areaId)
 
     --Create the framepool for lines if it does not already exist.
@@ -210,9 +211,12 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local frameName = "questieLineFrame".. lineFrameCount;
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
+    ---@class LineFrame @A frame that contains the line used in waypoints.
     local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Button", frameName, iconFrame);
     if not lineFrame.frameId then
         lineFrame.frameId = lineFrameCount;
+
+        lineFrameCount = lineFrameCount + 1;
     end
 
     local canvas = WorldMapFrame:GetCanvas()
@@ -380,7 +384,5 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     --end
     --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
 
-    --Keep a total lineFrame count for names.
-    lineFrameCount = lineFrameCount + 1;
     return lineFrame
 end
