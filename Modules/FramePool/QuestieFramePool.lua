@@ -382,3 +382,5 @@ _ReinitFrame = function(frame)
         frame:SetScript("OnHide", frame.BaseOnHide)
     end
 end
+
+return QuestieFramePool
