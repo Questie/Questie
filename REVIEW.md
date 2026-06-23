@@ -63,12 +63,14 @@ PR #7574 fixed issue #7477 by adding support for showing party members' quest ob
 | Stale remote-player cleanup only ran when group size changed, missing same-size roster swaps. | `c69c3aabb` — `[fix] Prune stale players on roster updates` | changed-file luacheck |
 | Synthetic objective id `0` could be registered as a real tooltip key and stop later tooltip registration for invalid item IDs. | `dff824a0e` — `[fix] Ignore synthetic tooltip objective IDs` | changed-file luacheck |
 | Kill credit root IDs were still not serialized because packet builders read runtime quest objectives instead of canonical ObjectiveData. | `1d2f3d60f` — `[fix] Serialize canonical party objective IDs` | `luacheck -q -- Modules/Network/QuestieComms.lua Modules/Network/QuestiePartyObjectives.lua`; combined targeted busted run |
+| Party objective identity validation could still accept index-only mismatches for non-event no-ID data or cross-type direct-ID collisions. | `c92610539` — `[fix] Tighten party objective identity checks` | `luacheck -q -- Modules/Network/QuestiePartyObjectives.lua`; combined targeted busted run |
 
 ## Final follow-up validation
 
 - `busted -p ".test.lua" Modules/EventHandler/QuestEventHandler.test.lua Modules/QuestiePlayer.test.lua cli/integrationTests/6734.test.lua Modules/Tracker/ChallengeModeTimers.test.lua`: passed, 25 successes / 0 failures / 0 errors.
 - `luacheck -q -- Modules/EventHandler/QuestEventHandler.lua Modules/EventHandler/QuestEventHandler.test.lua Modules/EventHandler/GroupEventHandler.lua Modules/Network/QuestieComms.lua Modules/Network/QuestieCommsData.lua`: passed, 0 warnings / 0 errors.
 - `luacheck -q -- Modules/Network/QuestieComms.lua Modules/Network/QuestiePartyObjectives.lua`: passed, 0 warnings / 0 errors.
+- `luacheck -q -- Modules/Network/QuestiePartyObjectives.lua`: passed, 0 warnings / 0 errors.
 
 ## Notes
 
