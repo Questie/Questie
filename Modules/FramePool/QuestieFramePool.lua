@@ -30,7 +30,6 @@ local unusedFrames = {}
 --- Not continuously indexed with numbers, treat it as a key
 ---@type table<number, IconFrame>
 local usedFrames = {};
-local allFrames = {}
 
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
@@ -154,7 +153,6 @@ function _QuestieFramePool:QuestieCreateFrame()
     numberOfFrames = numberOfFrames + 1
     local newFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
 
-    tinsert(allFrames, newFrame)
     return newFrame
 end
 
