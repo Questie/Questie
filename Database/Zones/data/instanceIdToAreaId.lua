@@ -1,8 +1,11 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
+---@alias InstanceId number
+
 -- https://warcraft.wiki.gg/wiki/InstanceID --> Classic
-ZoneDB.instanceIdToUiMapId = {
+---@type table<InstanceId, AreaId>
+ZoneDB.instanceIdToAreaId = {
     [33] = ZoneDB.zoneIDs.SHADOWFANG_KEEP,
     [34] = ZoneDB.zoneIDs.THE_STOCKADE,
     [36] = ZoneDB.zoneIDs.THE_DEADMINES,
