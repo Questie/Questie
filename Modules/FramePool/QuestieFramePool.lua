@@ -30,6 +30,8 @@ local unusedFrames = {}
 ---@type table<number, IconFrame>
 local usedFrames = {};
 
+local _ReinitFrame
+
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
     questID = 0, -- set before showing
@@ -64,44 +66,7 @@ function QuestieFramePool:GetFrame()
         returnFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
     end
 
-    if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
-        returnFrame.hidden = false
-        returnFrame.Show = returnFrame._show;
-        returnFrame.Hide = returnFrame._hide;
-        returnFrame._show = nil
-        returnFrame._hide = nil
-    end
-    returnFrame.isManualIcon = false
-    returnFrame.FadeLogic = nil
-    returnFrame.faded = nil
-    returnFrame.miniMapIcon = nil
-
-    returnFrame.data = nil
-    returnFrame.x = nil;
-    returnFrame.y = nil;
-    returnFrame.AreaID = nil;
-    returnFrame.UiMapID = nil
-
-    if returnFrame.texture then
-        returnFrame.texture:SetVertexColor(1, 1, 1, 1)
-    end
-    returnFrame.loaded = true
-    returnFrame.shouldBeShowing = nil
-    returnFrame.hidden = nil
-
-    if returnFrame.BaseOnShow then
-        returnFrame:SetScript("OnShow", returnFrame.BaseOnShow)
-    end
-
-    if returnFrame.BaseOnUpdate then
-        returnFrame.glowLogicTimer = C_Timer.NewTicker(1, returnFrame.BaseOnUpdate);
-    else
-        returnFrame:SetScript("OnUpdate", nil)
-    end
-
-    if returnFrame.BaseOnHide then
-        returnFrame:SetScript("OnHide", returnFrame.BaseOnHide)
-    end
+    _ReinitFrame(returnFrame)
 
     usedFrames[returnFrame.frameId] = returnFrame
     return returnFrame
@@ -370,4 +335,46 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
 
     return lineFrame
+end
+
+---@param frame IconFrame @will be modified
+_ReinitFrame = function(frame)
+    if frame ~= nil and frame.hidden and frame._show ~= nil and frame._hide ~= nil then -- restore state to normal (toggle questie)
+        frame.hidden = false
+        frame.Show = frame._show;
+        frame.Hide = frame._hide;
+        frame._show = nil
+        frame._hide = nil
+    end
+    frame.isManualIcon = false
+    frame.FadeLogic = nil
+    frame.faded = nil
+    frame.miniMapIcon = nil
+
+    frame.data = nil
+    frame.x = nil;
+    frame.y = nil;
+    frame.AreaID = nil;
+    frame.UiMapID = nil
+
+    if frame.texture then
+        frame.texture:SetVertexColor(1, 1, 1, 1)
+    end
+    frame.loaded = true
+    frame.shouldBeShowing = nil
+    frame.hidden = nil
+
+    if frame.BaseOnShow then
+        frame:SetScript("OnShow", frame.BaseOnShow)
+    end
+
+    if frame.BaseOnUpdate then
+        frame.glowLogicTimer = C_Timer.NewTicker(1, frame.BaseOnUpdate);
+    else
+        frame:SetScript("OnUpdate", nil)
+    end
+
+    if frame.BaseOnHide then
+        frame:SetScript("OnHide", frame.BaseOnHide)
+    end
 end
