@@ -192,6 +192,12 @@ local function _GetObjectiveId(objData)
     end
 end
 
+local directObjectiveTypeChars = {
+    item = "i",
+    monster = "m",
+    object = "o",
+}
+
 local function _ObjectiveMatchesRemote(objData, remoteObjective)
     if not (objData and remoteObjective) then
         return true
@@ -201,14 +207,17 @@ local function _ObjectiveMatchesRemote(objData, remoteObjective)
     if remoteObjective.id == 0 then
         return objData.Type == "event" and localId == nil
     end
-    if localId and remoteObjective.id and localId ~= remoteObjective.id then
+    if (not localId) or (not remoteObjective.id) or localId ~= remoteObjective.id then
         return false
     end
 
-    if objData.Id and remoteObjective.type and string.sub(objData.Type, 1, 1) == remoteObjective.type then
-        return objData.Id == remoteObjective.id
+    local expectedRemoteType = directObjectiveTypeChars[objData.Type]
+    if expectedRemoteType and remoteObjective.type and expectedRemoteType ~= remoteObjective.type then
+        return false
     end
 
+    -- Kill-credit objectives are stored under a root credit ID, while Blizzard reports the live
+    -- objective as a monster objective. The matching root ID above is the identity check.
     return true
 end
 
