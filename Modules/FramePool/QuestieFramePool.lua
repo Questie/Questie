@@ -59,17 +59,17 @@ function QuestieFramePool:GetFrame()
     --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
     ---@type IconFrame
-    local returnFrame = tremove(unusedFrames)
-    if not returnFrame then
+    local frame = tremove(unusedFrames)
+    if (not frame) then
         numberOfFrames = numberOfFrames + 1
 
-        returnFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
+        frame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
     end
 
-    _ReinitFrame(returnFrame)
+    _ReinitFrame(frame)
 
-    usedFrames[returnFrame.frameId] = returnFrame
-    return returnFrame
+    usedFrames[frame.frameId] = frame
+    return frame
 end
 
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
