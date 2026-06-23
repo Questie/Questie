@@ -2545,18 +2545,22 @@ function QuestieQuestFixes:Load()
         [4104] = { -- Salve via Mining
             [questKeys.preQuestSingle] = {5883},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredSkill] = {profKeys.MINING,200},
         },
         [4105] = { -- Salve via Gathering
             [questKeys.preQuestSingle] = {5884},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,200},
         },
         [4106] = { -- Salve via Skinning
             [questKeys.preQuestSingle] = {5885},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredSkill] = {profKeys.SKINNING,200},
         },
         [4107] = { -- Salve via Disenchanting
             [questKeys.preQuestSingle] = {5886},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredSkill] = {profKeys.ENCHANTING,200},
         },
         -- Horde
         [4108] = { -- Salve via Hunting
@@ -2570,24 +2574,28 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{9529}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5888},
+            [questKeys.requiredSkill] = {profKeys.MINING,200},
         },
         [4110] = { -- Salve via Gathering
             [questKeys.startedBy] = {{9529}},
             [questKeys.finishedBy] = {{9529}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5889},
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,200},
         },
         [4111] = { -- Salve via Skinning
             [questKeys.startedBy] = {{9529}},
             [questKeys.finishedBy] = {{9529}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5890},
+            [questKeys.requiredSkill] = {profKeys.SKINNING,200},
         },
         [4112] = { -- Salve via Disenchanting
             [questKeys.startedBy] = {{9529}},
             [questKeys.finishedBy] = {{9529}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5891},
+            [questKeys.requiredSkill] = {profKeys.ENCHANTING,200},
         },
         [4121] = {
             [questKeys.triggerEnd] = {"Prisoner Transport", {[zoneIDs.BURNING_STEPPES]={{25.73,27.1}}}},
@@ -3448,7 +3456,6 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask for the illusion"), 0, {{"monster", 11872}}}},
             [questKeys.nextQuestInChain] = 5944,
         },
-        -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
         [5882] = { -- Salve via Hunting
             [questKeys.startedBy] = {{9528}},
@@ -3461,24 +3468,28 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{9528}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
+            [questKeys.requiredSkill] = {profKeys.MINING,200},
         },
         [5884] = { -- Salve via Gathering
             [questKeys.startedBy] = {{9528}},
             [questKeys.finishedBy] = {{9528}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,200},
         },
         [5885] = { -- Salve via Skinning
             [questKeys.startedBy] = {{9528}},
             [questKeys.finishedBy] = {{9528}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
+            [questKeys.requiredSkill] = {profKeys.SKINNING,200},
         },
         [5886] = { -- Salve via Disenchanting
             [questKeys.startedBy] = {{9528}},
             [questKeys.finishedBy] = {{9528}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
+            [questKeys.requiredSkill] = {profKeys.ENCHANTING,200},
         },
         -- Horde
         [5887] = { -- Salve via Hunting
@@ -3488,18 +3499,22 @@ function QuestieQuestFixes:Load()
         [5888] = { -- Salve via Mining
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredSkill] = {profKeys.MINING,200},
         },
         [5889] = { -- Salve via Gathering
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredSkill] = {profKeys.HERBALISM,200},
         },
         [5890] = { -- Salve via Skinning
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredSkill] = {profKeys.SKINNING,200},
         },
         [5891] = { -- Salve via Disenchanting
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredSkill] = {profKeys.ENCHANTING,200},
         },
         [5892] = {
             [questKeys.questLevel] = 55,
