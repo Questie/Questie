@@ -55,6 +55,19 @@ PR #7574 fixed issue #7477 by adding support for showing party members' quest ob
 - `busted -p ".test.lua" Modules/QuestiePlayer.test.lua Modules/EventHandler/QuestEventHandler.test.lua cli/integrationTests/6734.test.lua Modules/Tracker/ChallengeModeTimers.test.lua`: passed, 24 successes / 0 failures / 0 errors.
 - `luacheck -q -- Modules/EventHandler/GroupEventHandler.lua Modules/EventHandler/QuestEventHandler.lua Modules/FramePool/QuestieFramePool.lua Modules/Migration.lua Modules/Network/QuestieComms.lua Modules/Network/QuestiePartyObjectives.lua Modules/Quest/QuestieQuest.lua Modules/Tracker/ChallengeModeTimer.lua Modules/Tracker/ChallengeModeTimers.test.lua Modules/Tracker/QuestieTracker.lua`: passed, 0 warnings / 0 errors.
 
+## Follow-up review resolutions
+
+| Follow-up | Resolution commit | Validation |
+| --- | --- | --- |
+| Accepted-quest retry timers could still fire after quest removal or turn-in. | `94e257e85` — `[fix] Ignore stale accepted quest retries` | `busted -p ".test.lua" Modules/EventHandler/QuestEventHandler.test.lua`; combined targeted busted run; changed-file luacheck |
+| Stale remote-player cleanup only ran when group size changed, missing same-size roster swaps. | `c69c3aabb` — `[fix] Prune stale players on roster updates` | changed-file luacheck |
+| Synthetic objective id `0` could be registered as a real tooltip key and stop later tooltip registration for invalid item IDs. | `dff824a0e` — `[fix] Ignore synthetic tooltip objective IDs` | changed-file luacheck |
+
+## Final follow-up validation
+
+- `busted -p ".test.lua" Modules/EventHandler/QuestEventHandler.test.lua Modules/QuestiePlayer.test.lua cli/integrationTests/6734.test.lua Modules/Tracker/ChallengeModeTimers.test.lua`: passed, 25 successes / 0 failures / 0 errors.
+- `luacheck -q -- Modules/EventHandler/QuestEventHandler.lua Modules/EventHandler/QuestEventHandler.test.lua Modules/EventHandler/GroupEventHandler.lua Modules/Network/QuestieComms.lua Modules/Network/QuestieCommsData.lua`: passed, 0 warnings / 0 errors.
+
 ## Notes
 
 - The pre-existing untracked `Modules/FramePool/QuestieFramePool.test.lua` file was not staged or committed.
