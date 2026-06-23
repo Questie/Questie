@@ -178,6 +178,37 @@ local function _CountIcons(objective)
     return count
 end
 
+local function _GetObjectiveId(objData)
+    if not objData then
+        return nil
+    end
+
+    if objData.Id then
+        return objData.Id
+    elseif objData.RootId then
+        return objData.RootId
+    elseif objData.Type == "event" then
+        return 0
+    end
+end
+
+local function _ObjectiveMatchesRemote(objData, remoteObjective)
+    if not (objData and remoteObjective) then
+        return true
+    end
+
+    local localId = objData.Id or objData.RootId
+    if localId and remoteObjective.id and remoteObjective.id ~= 0 and localId ~= remoteObjective.id then
+        return false
+    end
+
+    if objData.Id and remoteObjective.type and string.sub(objData.Type, 1, 1) == remoteObjective.type then
+        return objData.Id == remoteObjective.id
+    end
+
+    return true
+end
+
 -- Unload an objective's icons. We only unload an icon if it still holds the exact data table
 -- we drew it with: party icons are keyed by questId in QuestieMap.questIdFrames, the same key
 -- the local player's own quest uses, so an icon may have already been unloaded and recycled.
@@ -262,8 +293,12 @@ local function _DrawQuest(questId)
         local objData = quest.ObjectiveData[objectiveIndex]
         local objType, objId
         if objData then
-            objType = objData.Type
-            objId = objData.Id
+            if not _ObjectiveMatchesRemote(objData, remoteObjective) then
+                Questie:Debug(Questie.DEBUG_ELEVATED, "[QuestiePartyObjectives] Skipping mismatched party objective for quest", questId, "objective", objectiveIndex)
+            else
+                objType = objData.Type
+                objId = _GetObjectiveId(objData)
+            end
         else
             objType = typeCharToFull[remoteObjective.type]
             objId = remoteObjective.id
@@ -288,6 +323,8 @@ local function _DrawQuest(questId)
                 Description = description,
                 FullDescription = (not useApiObjectiveText) and _GetFullDescription(objType, description) or nil,
                 Icon = objData and objData.Icon,
+                Coordinates = objData and objData.Coordinates,
+                RequiredRepValue = objData and objData.RequiredRepValue,
                 Completed = false,
                 -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.
                 spawnList = cachedSpawnList or {},
