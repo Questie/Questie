@@ -112,12 +112,6 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
     end
 end
 
-function QuestieFramePool:RecycleFrame(frame)
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
-    usedFrames[frame.frameId] = nil
-    tinsert(unusedFrames, frame)
-end
-
 ---Unload a frame and return it to the pool.
 ---@param frame IconFrame
 function QuestieFramePool:UnloadFrame(frame)
@@ -129,7 +123,8 @@ function QuestieFramePool:UnloadFrame(frame)
     -- to draw the wrong frame. ProcessQueue detects _needsUnload after the HBDPins add and calls Unload() + recycles directly once it
     -- is safe to do so.
     if (not frame._needsUnload) then
-        QuestieFramePool:RecycleFrame(frame)
+        usedFrames[frame.frameId] = nil
+        tinsert(unusedFrames, frame)
     end
 end
 
