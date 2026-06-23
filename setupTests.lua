@@ -96,6 +96,8 @@ _G.QUEST_MONSTERS_KILLED = "%s slain: %d/%d"
 _G.QUEST_ITEMS_NEEDED = "%s: %d/%d"
 _G.QUEST_OBJECTS_FOUND = "%s: %d/%d"
 
+_G.StaticPopupDialogs = {}
+
 local mockedFrames = {}
 _G.CreateFrame = {
     mockedFrames = mockedFrames,

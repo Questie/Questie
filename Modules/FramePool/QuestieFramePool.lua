@@ -118,6 +118,21 @@ function QuestieFramePool:RecycleFrame(frame)
     tinsert(unusedFrames, frame)
 end
 
+---Unload a frame and return it to the pool.
+---@param frame IconFrame
+function QuestieFramePool:UnloadFrame(frame)
+    frame:Unload()
+
+    -- If the frame was queued for drawing but not yet processed by QuestieMap.ProcessQueue, Unload() defers and sets _needsUnload=true
+    -- instead of doing a full cleanup. In that case we must not recycle yet: the draw call still holds a reference to this frame,
+    -- and recycling now would allow GetFrame() to hand it out again before ProcessQueue consumes the stale draw call, causing it
+    -- to draw the wrong frame. ProcessQueue detects _needsUnload after the HBDPins add and calls Unload() + recycles directly once it
+    -- is safe to do so.
+    if (not frame._needsUnload) then
+        QuestieFramePool:RecycleFrame(frame)
+    end
+end
+
 ---@param iconFrame IconFrame @The parent frame for the current line.
 ---@param waypointTable table<number, Point> @A table containing waypoints {{X, Y}, ...}
 ---@param lineWidth number @Width of the line.
