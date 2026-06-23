@@ -24,7 +24,11 @@ local WAYPOINT_COLOR = { 1, 0.72, 0, 0.5}
 local _QuestieFramePool = {}
 local numberOfFrames = 0
 
+---@type IconFrame[]
 local unusedFrames = {}
+
+--- Not continuously indexed with numbers, treat it as a key
+---@type table<number, IconFrame>
 local usedFrames = {};
 local allFrames = {}
 
@@ -55,20 +59,11 @@ function QuestieFramePool:GetFrame()
     --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
     ---@type IconFrame
-    local returnFrame = next(unusedFrames)
-    returnFrame = returnFrame and unusedFrames[returnFrame]
-
-    if returnFrame and returnFrame.frameId and usedFrames[returnFrame.frameId] then
-        -- something went horribly wrong (desync bug?) don't use this frame since its already in use
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use. frameId:", returnFrame.frameId)
-        returnFrame = nil
-    end
+    local returnFrame = tremove(unusedFrames)
     if not returnFrame then
         returnFrame = _QuestieFramePool:QuestieCreateFrame()
-    else
-        --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
-        unusedFrames[returnFrame.frameId] = nil
     end
+
     if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
         returnFrame.hidden = false
         returnFrame.Show = returnFrame._show;
@@ -151,7 +146,7 @@ end
 function QuestieFramePool:RecycleFrame(frame)
     --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
     usedFrames[frame.frameId] = nil
-    unusedFrames[frame.frameId] = frame
+    tinsert(unusedFrames, frame)
 end
 
 function _QuestieFramePool:QuestieCreateFrame()
