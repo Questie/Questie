@@ -5,8 +5,6 @@ local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type MapIconTooltip
 local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestieLib
@@ -324,15 +322,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     end)
 
     lineFrame:Hide();
-
-
-    --Should we keep these frames in the questIdFrames? Currently it is also a child of the icon.
-    --Maybe the unload of the parent should just unload the children.
-    --For safety we check this here too.
-    --if (QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] == nil) then
-    --    QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] = {}
-    --end
-    --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
 
     return lineFrame
 end
