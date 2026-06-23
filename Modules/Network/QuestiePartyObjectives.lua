@@ -15,6 +15,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
@@ -187,12 +189,12 @@ local function _UnloadObjective(objective)
     for _, spawn in pairs(objective.AlreadySpawned) do
         for _, mapIcon in pairs(spawn.mapRefs) do
             if mapIcon.data == spawn.data then
-                mapIcon:Unload()
+                QuestieFramePool:UnloadFrame(mapIcon)
             end
         end
         for _, minimapIcon in pairs(spawn.minimapRefs) do
             if minimapIcon.data == spawn.data then
-                minimapIcon:Unload()
+                QuestieFramePool:UnloadFrame(minimapIcon)
             end
         end
     end
