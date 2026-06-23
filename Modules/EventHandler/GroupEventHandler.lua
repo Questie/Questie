@@ -44,9 +44,9 @@ function GroupEventHandler.GroupRosterUpdate()
     local sizeChanged = currentMembers ~= QuestiePlayer.numberOfGroupMembers
     QuestiePlayer.numberOfGroupMembers = currentMembers
 
-    if sizeChanged then
-        QuestieComms:RemoveStaleRemotePlayers()
-    end
+    -- Prune stale player data on every roster update. Roster swaps can keep the same group size,
+    -- so only checking size changes leaves old remote quest/tooltip data behind.
+    local stalePlayersRemoved = QuestieComms:RemoveStaleRemotePlayers()
 
     -- Evaluate unconditionally so the online snapshot stays current even when the size also changed.
     local onlineChanged = _OnlineStatusChanged()
@@ -54,7 +54,7 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Only redraw when the group size changed (crossing the draw threshold / members joining or
     -- leaving) or a quest-sharing member changed online status. Pure zone changes also fire
     -- GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
-    if sizeChanged or onlineChanged then
+    if sizeChanged or onlineChanged or stalePlayersRemoved then
         QuestiePartyObjectives:ScheduleUpdate()
     end
 end

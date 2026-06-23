@@ -463,6 +463,7 @@ function QuestieComms:RemoveRemotePlayer(name)
     QuestiePartyObjectives:ScheduleUpdate()
 end
 
+---@return boolean @true if at least one stale remote player was removed
 function QuestieComms:RemoveStaleRemotePlayers()
     local stalePlayers = {}
     for _, players in pairs(QuestieComms.remoteQuestLogs) do
@@ -473,9 +474,13 @@ function QuestieComms:RemoveStaleRemotePlayers()
         end
     end
 
+    local removed = false
     for name in pairs(stalePlayers) do
+        removed = true
         QuestieComms:RemoveRemotePlayer(name)
     end
+
+    return removed
 end
 
 function QuestieComms:SortRemotePlayers()
