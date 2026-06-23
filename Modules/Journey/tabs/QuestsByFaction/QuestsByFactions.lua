@@ -340,6 +340,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     factionTreeFrame = AceGUI:Create("TreeGroup")
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
+    factionTreeFrame:EnableButtonTooltips(false)
     factionTreeFrame:SetTree(factionTree)
 
     factionTreeFrame.treeframe:SetWidth(415)

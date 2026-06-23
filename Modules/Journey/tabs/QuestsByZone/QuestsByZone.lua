@@ -104,6 +104,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame = AceGUI:Create("TreeGroup")
     zoneTreeFrame:SetFullWidth(true)
     zoneTreeFrame:SetFullHeight(true)
+    zoneTreeFrame:EnableButtonTooltips(false)
     zoneTreeFrame:SetTree(zoneTree)
 
     zoneTreeFrame.treeframe:SetWidth(415)
