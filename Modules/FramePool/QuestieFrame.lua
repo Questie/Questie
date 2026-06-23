@@ -45,9 +45,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     if MBB_Ignore then
         tinsert(MBB_Ignore, newFrame:GetName())
     end
-    if frameId > 5000 then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", frameId)
-    end
 
     newFrame.glow = CreateFrame("Button", "QuestieFrame" .. frameId .. "Glow", newFrame) -- glow frame
     newFrame.glow:SetFrameStrata("FULLSCREEN");
