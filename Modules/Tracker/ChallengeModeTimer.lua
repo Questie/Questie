@@ -4,6 +4,7 @@ local ChallengeModeTimer = QuestieLoader:CreateModule("ChallengeModeTimer")
 ---@class Label
 ---@field SetText fun(self: Label, text: string)
 local timerLabel
+local CHALLENGE_MODE_DIFFICULTY_ID = 8
 
 function ChallengeModeTimer.Initialize()
     C_Timer.NewTicker(1, function()
@@ -24,8 +25,8 @@ end
 ---@return string @Returns the Challenge Mode timer in the format "MM:SS / MM:SS" with the appropriate color based on the elapsed time
 function ChallengeModeTimer.GetTimerString()
     local _, elapsed = GetWorldElapsedTime(1)
-    local _, instanceType, _, difficultyName, _, _, _, mapID = GetInstanceInfo()
-    if instanceType ~= "none" and difficultyName == "Challenge Mode" then
+    local _, instanceType, difficultyID, _, _, _, _, mapID = GetInstanceInfo()
+    if instanceType ~= "none" and difficultyID == CHALLENGE_MODE_DIFFICULTY_ID then
         local mapTimes = C_ChallengeMode.GetChallengeModeMapTimes(mapID)
 
         local platinumTime = mapTimes[4]

@@ -1506,8 +1506,8 @@ function QuestieTracker:Update()
         QuestieTracker:UpdateHeight()
     end
 
-    local _, instanceType, _, difficultyName = GetInstanceInfo()
-    if Expansions.Current >= Expansions.MoP and instanceType ~= "none" and difficultyName == "Challenge Mode" then
+    local _, instanceType, difficultyID = GetInstanceInfo()
+    if Expansions.Current >= Expansions.MoP and instanceType ~= "none" and difficultyID == 8 then
         -- Challenge Mode is active, so we only show the Challenge Mode objectives
         _UpdateChallengeModeObjectives()
     elseif Expansions.Current >= Expansions.MoP and instanceType == "scenario" then

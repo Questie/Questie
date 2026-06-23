@@ -19,7 +19,7 @@ describe("ChallengeModeTimer", function()
     describe("GetTimerString", function()
         it("should return placeholder timer when Challenge Mode is not active", function()
             _G.GetWorldElapsedTime = function() return nil, 0 end
-            _G.GetInstanceInfo = function() return nil, nil, nil, "10 Player", nil, nil, nil, 123 end
+            _G.GetInstanceInfo = function() return nil, nil, 3, "10 Player", nil, nil, nil, 123 end
 
             local timer = ChallengeModeTimer.GetTimerString()
 
@@ -30,7 +30,7 @@ describe("ChallengeModeTimer", function()
 
         it("should return placeholder timer when not inside a Challenge Mode dungeon", function()
             _G.GetWorldElapsedTime = function() return nil, 0 end
-            _G.GetInstanceInfo = function() return nil, "none", nil, "Challenge Mode", nil, nil, nil, 123 end
+            _G.GetInstanceInfo = function() return nil, "none", 8, "Challenge Mode", nil, nil, nil, 123 end
 
             local timer = ChallengeModeTimer.GetTimerString()
 
@@ -41,7 +41,7 @@ describe("ChallengeModeTimer", function()
 
         it("should return correct timer when within platinum range", function()
             _G.GetWorldElapsedTime = function() return nil, 50 end
-            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+            _G.GetInstanceInfo = function() return nil, nil, 8, "Localized Challenge Mode", nil, nil, nil, 123 end
 
             local timer = ChallengeModeTimer.GetTimerString()
 
@@ -53,7 +53,7 @@ describe("ChallengeModeTimer", function()
 
         it("should return correct timer when within gold range", function()
             _G.GetWorldElapsedTime = function() return nil, 150 end
-            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+            _G.GetInstanceInfo = function() return nil, nil, 8, "Localized Challenge Mode", nil, nil, nil, 123 end
 
             local timer = ChallengeModeTimer.GetTimerString()
 
@@ -65,7 +65,7 @@ describe("ChallengeModeTimer", function()
 
         it("should return correct timer when within silver range", function()
             _G.GetWorldElapsedTime = function() return nil, 201 end
-            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+            _G.GetInstanceInfo = function() return nil, nil, 8, "Localized Challenge Mode", nil, nil, nil, 123 end
 
             local timer = ChallengeModeTimer.GetTimerString()
 
@@ -77,7 +77,7 @@ describe("ChallengeModeTimer", function()
 
         it("should return correct timer when within bronze range", function()
             _G.GetWorldElapsedTime = function() return nil, 301 end
-            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+            _G.GetInstanceInfo = function() return nil, nil, 8, "Localized Challenge Mode", nil, nil, nil, 123 end
 
             local timer = ChallengeModeTimer.GetTimerString()
 
@@ -89,7 +89,7 @@ describe("ChallengeModeTimer", function()
 
         it("should return correct timer without medal icon when below bronze range", function()
             _G.GetWorldElapsedTime = function() return nil, 401 end
-            _G.GetInstanceInfo = function() return nil, nil, nil, "Challenge Mode", nil, nil, nil, 123 end
+            _G.GetInstanceInfo = function() return nil, nil, 8, "Localized Challenge Mode", nil, nil, nil, 123 end
 
             local timer = ChallengeModeTimer.GetTimerString()
 
