@@ -365,7 +365,6 @@ _ReinitFrame = function(frame)
     if frame.texture then
         frame.texture:SetVertexColor(1, 1, 1, 1)
     end
-    frame.loaded = true
     frame.shouldBeShowing = nil
     frame.hidden = nil
 
