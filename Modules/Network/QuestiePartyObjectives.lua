@@ -395,8 +395,13 @@ local function _DrawQuest(questId)
 
         local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objective.Index, objective, true)
         if ok then
+            local objectiveIconCount = _CountIcons(objective)
+            if drawnIconCount + iconCount + objectiveIconCount > MAX_PARTY_ICONS then
+                _UnloadObjective(objective)
+                break
+            end
             objectives[#objectives + 1] = objective
-            iconCount = iconCount + _CountIcons(objective)
+            iconCount = iconCount + objectiveIconCount
         end
     end
 
