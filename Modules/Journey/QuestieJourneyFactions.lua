@@ -12,7 +12,7 @@ QuestieJourneyFactions.expansionFactionCandidates = {
     classic = {
         factionIDs.BOOTY_BAY,
         factionIDs.IRONFORGE,
-        factionIDs.GNOMEREGAN,
+        factionIDs.GNOMEREGAN_EXILES,
         factionIDs.THORIUM_BROTHERHOOD,
         factionIDs.HORDE,
         factionIDs.UNDERCITY,

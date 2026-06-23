@@ -85,6 +85,9 @@ function QuestieTBCQuestFixes:Load()
         [275] = {
             [questKeys.objectivesText] = {"Kill 8 Fen Creepers, then return to Rethiel the Greenwarden in the Wetlands."}, -- override classic correction
         },
+        [281] = { -- Reclaiming Goods
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,25}},
+        },
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2}}}},
         },
@@ -118,13 +121,19 @@ function QuestieTBCQuestFixes:Load()
         [511] = {
             [questKeys.startedBy] = {nil,{1740,186420}}, -- in TBC, 1738 and 1739 are removed, but 186420 is added to a nearby camp
         },
+        [512] = { -- Noble Deaths
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250}},
+        },
         [532] = { -- Battle of Hillsbrad
             [questKeys.objectivesText] = {"Kill Magistrate Burnside and 4 Hillsbrad Councilmen. Destroy the Hillsbrad Proclamation. Steal the Hillsbrad Town Registry. Report back to Darthalia in Tarren Mill afterwards."},
+        },
+        [542] = { -- Return to Milton
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,350}},
         },
         [549] = { -- WANTED: Syndicate Personnel
             [questKeys.requiredLevel] = 17,
         },
-        [558] = {
+        [558] = { -- Jaina's Autograph
             [questKeys.questLevel] = -1,
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,150}},
         },
@@ -541,6 +550,9 @@ function QuestieTBCQuestFixes:Load()
         [1999] = { -- Tools of the Trade
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [2040] = { -- Underground Assault
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,500},{factionIDs.GNOMEREGAN_EXILES,500}},
+        },
         [2205] = { -- Seek out SI: 7
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -812,6 +824,9 @@ function QuestieTBCQuestFixes:Load()
         [5096] = { -- Scarlet Diversions
             [questKeys.breadcrumbs] = {5093,5094,5095,10374},
         },
+        [5097] = { -- All Along the Watchtowers
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250}},
+        },
         [5102] = { -- General Drakkisath's Demise
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
         },
@@ -820,6 +835,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
+        },
+        [5216] = { -- Target: Felstone Field
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5217] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
+        },
+        [5219] = { -- Target: Dalson's Tears
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5220] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
+        },
+        [5222] = { -- Target: Writhing Haunt
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5223] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
+        },
+        [5225] = { -- Target: Gahrron's Withering
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5226] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
         },
         [5237] = { -- Mission Accomplished!
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500},{factionIDs.ARGENT_DAWN,1000}},
@@ -1082,6 +1121,9 @@ function QuestieTBCQuestFixes:Load()
         [6344] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
+        [6403] = { -- The Great Masquerade
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,500}},
+        },
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16}}}},
         },
@@ -1090,6 +1132,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [6983] = { -- You're a Mean One...
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [7282] = { -- Brotherly Love
+            [questKeys.reputationReward] = {{factionIDs.STORMPIKE_GUARD,250},{factionIDs.IRONFORGE,250},{factionIDs.STORMWIND,250}},
         },
         [7483] = { -- Libram of Rapidity
             [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
@@ -1111,6 +1156,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [7623] = { -- Lord Banehollow
             [questKeys.preQuestSingle] = {},
+        },
+        [7642] = { -- Collection of Goods
+            [questKeys.reputationReward] = {{factionIDs.IRONFORGE,500}},
         },
         [7670] = { -- Lord Grayson Shadowbreaker
             [questKeys.startedBy] = {{5149,17509}},
