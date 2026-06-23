@@ -87,8 +87,12 @@ function QuestieFramePool:GetFrame()
     returnFrame.AreaID = nil;
     returnFrame.UiMapID = nil
 
+    returnFrame:SetAlpha(1)
     if returnFrame.texture then
         returnFrame.texture:SetVertexColor(1, 1, 1, 1)
+    end
+    if returnFrame.overlayTexture then
+        returnFrame.overlayTexture:SetTexture("")
     end
     returnFrame.loaded = true
     returnFrame.shouldBeShowing = nil
