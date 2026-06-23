@@ -396,6 +396,10 @@ end
 ---@param questId number
 ---@return boolean @true if the local player is tracking this quest (independent of any option)
 function QuestieQuest:IsQuestTracked(questId)
+    if not QuestiePlayer.currentQuestlog[questId] then
+        return false
+    end
+
     local autoWatch = Questie.db.profile.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
