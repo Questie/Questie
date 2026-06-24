@@ -3462,6 +3462,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{9528}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
+            [questKeys.nextQuestInChain] = 4103,
         },
         [5883] = { -- Salve via Mining
             [questKeys.startedBy] = {{9528}},
@@ -3469,6 +3470,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.requiredSkill] = {profKeys.MINING,200},
+            [questKeys.nextQuestInChain] = 4104,
         },
         [5884] = { -- Salve via Gathering
             [questKeys.startedBy] = {{9528}},
@@ -3476,6 +3478,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.requiredSkill] = {profKeys.HERBALISM,200},
+            [questKeys.nextQuestInChain] = 4105,
         },
         [5885] = { -- Salve via Skinning
             [questKeys.startedBy] = {{9528}},
@@ -3483,6 +3486,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.requiredSkill] = {profKeys.SKINNING,200},
+            [questKeys.nextQuestInChain] = 4106,
         },
         [5886] = { -- Salve via Disenchanting
             [questKeys.startedBy] = {{9528}},
@@ -3490,31 +3494,37 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.requiredSkill] = {profKeys.ENCHANTING,200},
+            [questKeys.nextQuestInChain] = 4107,
         },
         -- Horde
         [5887] = { -- Salve via Hunting
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.nextQuestInChain] = 4108,
         },
         [5888] = { -- Salve via Mining
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredSkill] = {profKeys.MINING,200},
+            [questKeys.nextQuestInChain] = 4109,
         },
         [5889] = { -- Salve via Gathering
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredSkill] = {profKeys.HERBALISM,200},
+            [questKeys.nextQuestInChain] = 4110,
         },
         [5890] = { -- Salve via Skinning
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredSkill] = {profKeys.SKINNING,200},
+            [questKeys.nextQuestInChain] = 4111,
         },
         [5891] = { -- Salve via Disenchanting
             [questKeys.preQuestSingle] = {4102},
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredSkill] = {profKeys.ENCHANTING,200},
+            [questKeys.nextQuestInChain] = 4112,
         },
         [5892] = {
             [questKeys.questLevel] = 55,
