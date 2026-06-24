@@ -12,6 +12,8 @@ describe("l10n", function()
     ---@type l10n
     local l10n
 
+    local originalGetLocale
+
     local expansions = {"Classic", "TBC", "Wotlk", "Cata", "MoP"}
     local locales = {"deDE", "esES", "esMX", "frFR", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"}
 
@@ -164,9 +166,14 @@ describe("l10n", function()
     end
 
     before_each(function()
+        originalGetLocale = _G.GetLocale
         l10n = require("Localization.l10n")
         QuestieDB = require("Database.QuestieDB")
         _SetupEnglishData()
+    end)
+
+    after_each(function()
+        _G.GetLocale = originalGetLocale
     end)
 
     it("should keep enUS names without lookup", function()

@@ -2,9 +2,21 @@ local LocalizationLookupValidator = {}
 
 local projectDir = os.getenv("PWD") or "."
 
+---@class LocalizationLookupType
+---@field directory string
+---@field tableName string
+
+---@class LocalizationLookupValidatorOptions
+---@field lookupRoot? string
+---@field expansions? string[]
+---@field locales? string[]
+---@field lookupTypes? LocalizationLookupType[]
+---@field includeOverrides? boolean
+
 -- Keep these defaults in sync with generated lookup folders; adding a value here extends CI coverage.
 local DEFAULT_EXPANSIONS = {"Classic", "TBC", "Wotlk", "Cata", "MoP"}
 local DEFAULT_LOCALES = {"deDE", "esES", "esMX", "frFR", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"}
+---@type LocalizationLookupType[]
 local DEFAULT_LOOKUP_TYPES = {
     {directory = "lookupItems", tableName = "itemLookup"},
     {directory = "lookupNpcs", tableName = "npcNameLookup"},
@@ -185,6 +197,8 @@ local function _LoadLookupOverridesFile(filePath, locale)
     end)
 end
 
+---@param options? LocalizationLookupValidatorOptions
+---@return table<string, string>|nil invalidLookups
 function LocalizationLookupValidator.Validate(options)
     options = options or {}
 
