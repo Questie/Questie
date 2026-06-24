@@ -39,7 +39,6 @@ end
 ---@return nil
 local function _InvalidateCompiledDatabase()
     if Questie.IsSoD then
-        Questie.db.global.sod = Questie.db.global.sod or {}
         Questie.db.global.sod.dbIsCompiled = false
     else
         Questie.db.global.dbIsCompiled = false
