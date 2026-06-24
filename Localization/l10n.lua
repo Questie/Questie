@@ -201,8 +201,6 @@ function l10n:GetFallbackLocale(lang)
         return 'zhCN'
     elseif lang == 'enTW' then
         return 'zhTW'
-    elseif lang == 'esMX' then
-        return 'esES'
     elseif lang == 'ptPT' then
         return 'ptBR'
     else
