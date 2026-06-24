@@ -12,6 +12,7 @@ describe("l10n", function()
     ---@type l10n
     local l10n
 
+    ---@return nil
     local function _SetupEnglishData()
         QuestieDB.itemData = {[750] = {[QuestieDB.itemKeys.name] = "Tough Wolf Meat"}}
         QuestieDB.npcData = {[99] = {[QuestieDB.npcKeys.name] = "Morgaine the Sly"}}
@@ -24,9 +25,42 @@ describe("l10n", function()
     end
 
     before_each(function()
+        _G.QUESTIE_LOCALES_OVERRIDE = nil
         l10n = require("Localization.l10n")
         QuestieDB = require("Database.QuestieDB")
         _SetupEnglishData()
+    end)
+
+    after_each(function()
+        _G.QUESTIE_LOCALES_OVERRIDE = nil
+    end)
+
+    it("should return fallback UI locales without changing the current UI locale", function()
+        l10n:SetUILocale("deDE")
+
+        assert.are_same("enUS", l10n:GetFallbackLocale("enGB"))
+        assert.are_same("zhCN", l10n:GetFallbackLocale("enCN"))
+        assert.are_same("zhTW", l10n:GetFallbackLocale("enTW"))
+        assert.are_same("esMX", l10n:GetFallbackLocale("esMX"))
+        assert.are_same("ptBR", l10n:GetFallbackLocale("ptPT"))
+        assert.are_same("enUS", l10n:GetFallbackLocale("unsupported"))
+        assert.are_same("deDE", l10n:GetUILocale())
+    end)
+
+    it("should return locale override locales as supported fallbacks", function()
+        Questie.db.global.questieLocaleDiff = false
+        _G.QUESTIE_LOCALES_OVERRIDE = {
+            locale = "zzZZ",
+            itemLookup = function() return {} end,
+            questLookup = function() return {} end,
+            npcNameLookup = function() return {} end,
+            objectLookup = function() return {} end,
+            translations = {},
+        }
+
+        l10n.InitializeUILocale()
+
+        assert.are_same("zzZZ", l10n:GetFallbackLocale("zzZZ"))
     end)
 
     it("should keep enUS names without lookup", function()

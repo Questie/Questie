@@ -3,6 +3,13 @@
 ---@field zoneLookup table
 ---@field zoneCategoryLookup table
 ---@field questCategoryLookup table
+---@field translations table<string, table<string, string|boolean>>
+---@field itemLookup table<string, fun(): table>
+---@field npcNameLookup table<string, fun(): table>
+---@field objectNameLookup table<string, table<number, number>>
+---@field objectLookup table<string, fun(): table>
+---@field questLookup table<string, fun(): table>
+---@field questLookupOverrides? fun(): table
 local l10n = QuestieLoader:CreateModule("l10n")
 local _l10n = {}
 l10n.translations = {}
@@ -16,9 +23,12 @@ l10n.questLookup = {}
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local _InitializeLocaleOverride, _GetFallbackLocale
+---@type fun(): nil
+local _InitializeLocaleOverride
 
+---@type string
 local locale = 'enUS'
+---@type table<string, boolean>
 local supportedLocals = {
     ['enUS'] = true,
     ['deDE'] = true,
@@ -104,6 +114,7 @@ function l10n.InitializeUILocale()
 end
 
 ---Load the locale override from QUESTIE_LOCALES_OVERRIDE (provided by a different addon)
+---@return nil
 _InitializeLocaleOverride = function()
     local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
     supportedLocals[overridingLocale] = true
@@ -175,7 +186,9 @@ end
 
 setmetatable(l10n, { __call = function(_, ...) return _l10n:translate(...) end})
 
-_GetFallbackLocale = function(lang)
+---@param lang string|nil
+---@return string locale
+function l10n:GetFallbackLocale(lang)
     if (not lang) then
         return 'enUS'
     end
@@ -197,14 +210,17 @@ _GetFallbackLocale = function(lang)
     end
 end
 
+---@param lang string|nil
+---@return nil
 function l10n:SetUILocale(lang)
     if lang then
-        locale = _GetFallbackLocale(lang)
+        locale = l10n:GetFallbackLocale(lang)
     else
-        locale = _GetFallbackLocale(GetLocale())
+        locale = l10n:GetFallbackLocale(GetLocale())
     end
 end
 
+---@return string locale
 function l10n:GetUILocale()
     return locale
 end
