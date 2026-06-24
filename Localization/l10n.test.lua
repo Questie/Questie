@@ -64,18 +64,50 @@ describe("l10n", function()
     end
 
     before_each(function()
+        _G.QUESTIE_LOCALES_OVERRIDE = nil
         originalGetLocale = _G.GetLocale
         dofile("Database/QuestieDB.lua")
-        dofile("Localization/l10n.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+        dofile("Localization/l10n.lua")
         l10n = QuestieLoader:ImportModule("l10n")
+
         _SaveModuleState()
         _SetupEnglishData()
     end)
 
     after_each(function()
+        _G.QUESTIE_LOCALES_OVERRIDE = nil
         _G.GetLocale = originalGetLocale
         _RestoreModuleState()
+    end)
+
+    it("should return fallback UI locales without changing the current UI locale", function()
+        l10n:SetUILocale("deDE")
+
+        assert.are_same("enUS", l10n:GetFallbackLocale("enGB"))
+        assert.are_same("zhCN", l10n:GetFallbackLocale("enCN"))
+        assert.are_same("zhTW", l10n:GetFallbackLocale("enTW"))
+        assert.are_same("esMX", l10n:GetFallbackLocale("esMX"))
+        assert.are_same("ptBR", l10n:GetFallbackLocale("ptPT"))
+        assert.are_same("enUS", l10n:GetFallbackLocale("unsupported"))
+        assert.are_same("deDE", l10n:GetUILocale())
+    end)
+
+    it("should return locale override locales as supported fallbacks", function()
+        Questie.db.global.questieLocaleDiff = false
+        _G.QUESTIE_LOCALES_OVERRIDE = {
+            locale = "zzZZ",
+            itemLookup = function() return {} end,
+            questLookup = function() return {} end,
+            npcNameLookup = function() return {} end,
+            objectLookup = function() return {} end,
+            translations = {},
+        }
+
+        l10n.InitializeUILocale()
+
+        assert.are_same("zzZZ", l10n:GetFallbackLocale("zzZZ"))
     end)
 
     it("should keep enUS names without lookup", function()
