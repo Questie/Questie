@@ -88,15 +88,25 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
+---@type QuestieTBCNpcFixes
+local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetLunarFestivalDates
+local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
 
+---@enum DMFLocation
 local DMF_LOCATIONS = {
     NONE = 0,
     MULGORE = 1,
     ELWYNN_FOREST = 2,
+    TEROKKAR_FOREST = 3,
+}
+
+local DMF_LOCATION_NAMES = {
+    [1] = "Mulgore",
+    [2] = "Elwynn Forest",
+    [3] = "Terokkar Forest",
 }
 
 -- The ingame calender adds a texture to the DMF event.
@@ -105,6 +115,18 @@ local DMF_CALENDAR_ICON_TEXTURES = {
     [235446] = true, -- End Texture
     [235447] = true, -- Ongoing Texture
     [235448] = true, -- Start Texture
+}
+
+-- Determine the DMF start day for the month based on what weekday the 1st is.
+-- We also require the Monday start to have reached 03:00 server time before considering the event active.
+local DMF_START_DAY_BY_FIRST_WEEKDAY = {
+    [1] = 9,  -- 1st is a Sunday -> Monday is 9th
+    [2] = 8,  -- 1st is a Monday -> Monday is 8th
+    [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
+    [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
+    [5] = 5,  -- 1st is a Thursday -> Monday is 5th
+    [6] = 4,  -- 1st is a Friday -> Monday is 4th
+    [7] = 10, -- 1st is a Saturday -> Monday is 10th
 }
 
 function QuestieEvent.Initialize()
@@ -214,7 +236,8 @@ function QuestieEvent:Load()
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)) then
+    if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
+            or Questie.IsTBC then
         _LoadDarkmoonFaire()
     end
 
@@ -232,63 +255,85 @@ _GetLunarFestivalDates = function(year)
     return QuestieEvent.lunarFestival.DEFAULT[year]
 end
 
----@return boolean
+---@return DMFLocation
 _GetDarkmoonFaireLocation = function()
     if C_Calendar == nil then
         -- This is a band aid fix for private servers which do not support the `C_Calendar` API.
         -- They won't see Darkmoon Faire quests, but that's the price to pay.
-        return false
+        return DMF_LOCATIONS.NONE
     end
 
     local currentDate = QuestieCompat.GetCurrentCalendarTime()
 
     if Questie.IsSoD then
         return _GetDarkmoonFaireLocationSoD(currentDate)
+    elseif Questie.IsTBC then
+        return _GetDarkmoonFaireLocationTBC(currentDate)
     else
         return _GetDarkmoonFaireLocationEra(currentDate)
     end
 end
 
 ---@param currentDate CalendarTime
+---@return DMFLocation
 _GetDarkmoonFaireLocationEra = function(currentDate)
-    local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
-    -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
-    local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
-    local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
-
-    local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
-
-    local dayOfMonth = currentDate.monthDay
-    -- Determine the DMF start day for the month based on what weekday the 1st is.
-    -- We also require the Monday start to have reached 03:00 server time before considering the event active.
-    local startDayByFirstWeekday = {
-        [1] = 9,  -- 1st is a Sunday -> Monday is 9th
-        [2] = 8,  -- 1st is a Monday -> Monday is 8th
-        [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
-        [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
-        [5] = 5,  -- 1st is a Thursday -> Monday is 5th
-        [6] = 4,  -- 1st is a Friday -> Monday is 4th
-        [7] = 10, -- 1st is a Saturday -> Monday is 10th
-    }
-
-    local startDay = startDayByFirstWeekday[firstWeekday]
-
-    local endDay = startDay + 6 -- faire runs Monday - Sunday
-
-    -- If we're on the first day (Monday) require hour >= 3
-    if dayOfMonth == startDay and currentDate.hour < 3 then
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
         return DMF_LOCATIONS.NONE
     end
 
-    if dayOfMonth >= startDay and dayOfMonth <= endDay then
-        return eventLocation
+    local remainder = currentDate.month % 2
+    if remainder == 1 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
+    return DMF_LOCATIONS.MULGORE
+end
+
+--- DMF in TBC rotates monthly through three locations: Mulgore, Terokkar Forest, and Elwynn Forest.
+--- The timing follows the same Monday-start, 7-day schedule as Classic Era.
+---@param currentDate CalendarTime
+---@return DMFLocation
+_GetDarkmoonFaireLocationTBC = function(currentDate)
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
+        return DMF_LOCATIONS.NONE
     end
 
-    return DMF_LOCATIONS.NONE
+    local remainder = currentDate.month % 3
+    if remainder == 1 then
+        return DMF_LOCATIONS.TEROKKAR_FOREST
+    elseif remainder == 2 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
+    return DMF_LOCATIONS.MULGORE
+end
+
+---@param currentDate CalendarTime
+---@return boolean
+_IsDarkmoonFaireWeek = function(currentDate)
+    local baseInfo = C_Calendar.GetMonthInfo()
+    -- Calculate the offset in months from baseInfo to make C_Calendar.GetMonthInfo return the correct month
+    local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
+    local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
+
+    local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
+    local endDay = startDay + 7
+    local dayOfMonth = currentDate.monthDay
+
+    -- If we're on the first day (Monday) require hour >= 3
+    if dayOfMonth == startDay and currentDate.hour < 3 then
+        return false
+    end
+
+    -- The event ends at 03:00 on the following Monday
+    if dayOfMonth == endDay and currentDate.hour >= 3 then
+        return false
+    end
+
+    return dayOfMonth >= startDay and dayOfMonth <= endDay
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
 ---@param currentDate CalendarTime
+---@return DMFLocation
 _GetDarkmoonFaireLocationSoD = function(currentDate)
     local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
     local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
@@ -323,16 +368,30 @@ _LoadDarkmoonFaire = function()
         return
     end
 
-    -- TODO: Also handle Terrokar Forest starting with TBC
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
+    local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    -- The faire is setting up right now or is already up
-    local announcingQuestId = 7905 -- Alliance announcement quest
-    if isInMulgore then
-        announcingQuestId = 7926 -- Horde announcement quest
+    if isInTerokkar then
+        QuestieCorrections.hiddenQuests[7905] = nil
+        QuestieEvent.activeQuests[7905] = true
+        QuestieCorrections.hiddenQuests[7926] = nil
+        QuestieEvent.activeQuests[7926] = true
+    else
+        -- The faire is setting up right now or is already up
+        local announcingQuestId = 7905 -- Alliance announcement quest
+        if isInMulgore then
+            announcingQuestId = 7926 -- Horde announcement quest
+        end
+        QuestieCorrections.hiddenQuests[announcingQuestId] = nil
+        QuestieEvent.activeQuests[announcingQuestId] = true
     end
-    QuestieCorrections.hiddenQuests[announcingQuestId] = nil
-    QuestieEvent.activeQuests[announcingQuestId] = true
+
+    local npcFixes
+    if Questie.IsTBC then
+        npcFixes = QuestieTBCNpcFixes:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
+    else
+        npcFixes = QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
+    end
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local hideQuest = questData[5]
@@ -342,13 +401,13 @@ _LoadDarkmoonFaire = function()
             QuestieEvent.activeQuests[questId] = true
 
             -- Update the NPC spawns based on the place of the faire
-            for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
+            for id, data in pairs(npcFixes) do
                 QuestieDB.npcDataOverrides[id] = data
             end
         end
     end
 
-    print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+    print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The Darkmoon Faire is up in %s!", l10n(DMF_LOCATION_NAMES[eventLocation])))
 end
 
 --- Checks wheather the current date is within the given date range

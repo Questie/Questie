@@ -4,6 +4,30 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local eventsLocales = {
+    ["The '%s' world event is active!"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Das '%s' Feiertag-Event ist aktiv!",
+        ["esES"] = "¡El evento del mundo '%s' está activo!",
+        ["esMX"] = "¡El evento del mundo '%s' está activo!",
+        ["frFR"] = "L'évènement mondial « %s » est en cours !",
+        ["koKR"] = "월드 이벤트 '%s' 활성화",
+        ["ptBR"] = "O evento mundial '%s' está ativo!",
+        ["ruRU"] = "Игровое событие '%s' активно!",
+        ["zhCN"] = "世界任务'%s'已开始！",
+        ["zhTW"] = "世界事件'%s'已開始！",
+    },
+    ["The Darkmoon Faire is up in %s!"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Der Dunkelmond-Jahrmarkt findet in %s statt!",
+        ["esES"] = "¡La Feria de la Luna Negra está en %s!",
+        ["esMX"] = "¡La Feria de la Luna Negra está en %s!",
+        ["frFR"] = "La Foire de Sombrelune est à %s !",
+        ["koKR"] = false,
+        ["ptBR"] = "A Feira de Negraluna está em %s!",
+        ["ruRU"] = "Ярмарка Новолуния проходит в %s!",
+        ["zhCN"] = "暗月马戏团正在 %s 举行！",
+        ["zhTW"] = false,
+    },
     ["Darkmoon Faire"] = {
         ["enUS"] = true,
         ["deDE"] = "Dunkelmond-Jahrmarkt",
