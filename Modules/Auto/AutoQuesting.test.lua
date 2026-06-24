@@ -580,6 +580,21 @@ describe("AutoQuesting", function()
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
         end)
 
+        it("should skip PvP quest when trivial and repeatable settings are enabled", function()
+            Questie.db.profile.autoAccept.trivial = true
+            Questie.db.profile.autoAccept.repeatable = true
+            Questie.db.profile.autoAccept.pvp = false
+            _G.QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({questID = 1}), getAvailableTestQuest({questID = 2})}
+            end
+            QuestieDB.IsPvPQuest = spy.new(function(questId) return questId == 1 end)
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called_with(1)
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_called_with(2)
+        end)
+
         it("should not turn in quest when no quest is complete", function()
             _G.QuestieCompat.GetActiveQuests = function()
                 return {getActiveTestQuest({})}

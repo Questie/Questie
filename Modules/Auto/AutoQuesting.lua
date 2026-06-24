@@ -102,7 +102,7 @@ function AutoQuesting.OnGossipShow()
         if #availableQuests > 0 then
             local indexToAccept = 0
 
-            if Questie.db.profile.autoAccept.trivial and Questie.db.profile.autoAccept.repeatable then
+            if Questie.db.profile.autoAccept.trivial and Questie.db.profile.autoAccept.repeatable and Questie.db.profile.autoAccept.pvp then
                 indexToAccept = 1
             else
                 for i = 1, #availableQuests do
