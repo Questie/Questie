@@ -15684,7 +15684,7 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.preQuestGroup] = {26072,26096},
         },
         [26191] = { -- The Culmination of Our Efforts
-            [questKeys.nextQuestInChain] = {25967},
+            [questKeys.nextQuestInChain] = 25967,
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
@@ -15819,7 +15819,7 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.preQuestGroup] = {26072,26096},
         },
         [26191] = { -- The Culmination of Our Efforts
-            [questKeys.nextQuestInChain] = {25892},
+            [questKeys.nextQuestInChain] = 25892,
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45226}},
