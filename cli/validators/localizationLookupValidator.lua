@@ -25,6 +25,48 @@ local function _JoinPath(...)
     return table.concat(parts, "/")
 end
 
+local function _GetSortedKeys(entries)
+    local keys = {}
+    for key in pairs(entries) do
+        table.insert(keys, key)
+    end
+    table.sort(keys)
+    return keys
+end
+
+local function _ExtractLuaChunkLine(reason)
+    local chunkLine = reason:match('%[string [^%]]+%]:(%d+):') or reason:match('%[string.-%]:(%d+):')
+    if chunkLine then
+        return chunkLine
+    end
+
+    local lastLine
+    for line in reason:gmatch(':(%d+):') do
+        lastLine = line
+    end
+    return lastLine
+end
+
+local function _EscapeGitHubAnnotationValue(value)
+    value = tostring(value)
+    value = value:gsub("%%", "%%25")
+    value = value:gsub("\r", "%%0D")
+    value = value:gsub("\n", "%%0A")
+    return value
+end
+
+local function _PrintGitHubAnnotation(filePath, title, reason)
+    if os.getenv("GITHUB_ACTIONS") ~= "true" then
+        return
+    end
+
+    print(
+        "::error file=" .. _EscapeGitHubAnnotationValue(filePath) ..
+        ",title=" .. _EscapeGitHubAnnotationValue(title) .. "::" ..
+        _EscapeGitHubAnnotationValue(reason)
+    )
+end
+
 local function _CreateL10nStub()
     return {
         itemLookup = {},
@@ -158,6 +200,7 @@ function LocalizationLookupValidator.Validate(options)
     print("\n\27[36mValidating localization lookup loadstrings...\27[0m")
 
     local invalidLookups = {}
+    local invalidLookupDetails = {}
     local checkedCount = 0
 
     for _, expansion in ipairs(expansions) do
@@ -168,7 +211,15 @@ function LocalizationLookupValidator.Validate(options)
 
                 local ok, err = pcall(_LoadLookupFile, filePath, locale, lookupType.tableName)
                 if not ok then
-                    invalidLookups[filePath] = tostring(err)
+                    local reason = tostring(err)
+                    invalidLookups[filePath] = reason
+                    invalidLookupDetails[filePath] = {
+                        expansion = expansion,
+                        locale = locale,
+                        lookupType = lookupType.directory,
+                        filePath = filePath,
+                        reason = reason,
+                    }
                 end
             end
         end
@@ -182,16 +233,45 @@ function LocalizationLookupValidator.Validate(options)
 
             local ok, err = pcall(_LoadLookupOverridesFile, overridesPath, locale)
             if not ok then
-                invalidLookups[key] = tostring(err)
+                local reason = tostring(err)
+                invalidLookups[key] = reason
+                invalidLookupDetails[key] = {
+                    locale = locale,
+                    lookupType = "lookupOverrides",
+                    filePath = overridesPath,
+                    reason = reason,
+                }
             end
         end
     end
 
     local invalidCount = _CountEntries(invalidLookups)
     if invalidCount > 0 then
-        print("\27[31mFound " .. invalidCount .. " invalid localization lookup loadstrings:\27[0m")
-        for filePath, reason in pairs(invalidLookups) do
-            print("\27[31m- " .. filePath .. ": " .. reason .. "\27[0m")
+        print("\27[31mFound " .. invalidCount .. " invalid localization lookup loadstring(s).\27[0m")
+        print(
+            "\27[31mMalformed generated lookup tables usually mean an extra/missing brace, comma, " ..
+            "or quote inside the loadstring table.\27[0m"
+        )
+
+        for _, key in ipairs(_GetSortedKeys(invalidLookups)) do
+            local details = invalidLookupDetails[key]
+            local luaChunkLine = _ExtractLuaChunkLine(details.reason)
+            local title = "Invalid localization lookup: " .. details.lookupType .. " " .. details.locale
+
+            print("\27[31m\nLocalization lookup validation failed:\27[0m")
+            if details.expansion then
+                print("  Expansion: " .. details.expansion)
+            end
+            print("  Locale: " .. details.locale)
+            print("  Lookup: " .. details.lookupType)
+            print("  File: " .. details.filePath)
+            if luaChunkLine then
+                print("  Lua chunk line: " .. luaChunkLine)
+            end
+            print("  Error: " .. details.reason)
+            print("  Hint: Check the generated loadstring table for an extra/missing brace, comma, or quote.")
+
+            _PrintGitHubAnnotation(details.filePath, title, details.reason)
         end
 
         os.exit(1)

@@ -3,8 +3,9 @@ local LocalizationLookupValidator = require("cli.validators.localizationLookupVa
 
 local fixtureRoot = "cli/output/localizationLookupValidator"
 local originalExit = os.exit
-local originalPrint = print
+local originalPrint = _G.print
 local exitMock
+local printedLines
 
 local function _Mkdir(path)
     lfs.mkdir(path)
@@ -45,16 +46,27 @@ local function _ValidateFixture(options)
     return LocalizationLookupValidator.Validate(options)
 end
 
+local function _PrintedOutput()
+    return table.concat(printedLines, "\n")
+end
+
 describe("LocalizationLookupValidator", function()
     before_each(function()
+        printedLines = {}
         exitMock = spy.new(function() end)
         os.exit = exitMock
-        print = function() end
+        _G.print = function(...)
+            local parts = {...}
+            for index, value in ipairs(parts) do
+                parts[index] = tostring(value)
+            end
+            table.insert(printedLines, table.concat(parts, "\t"))
+        end
     end)
 
     after_each(function()
         os.exit = originalExit
-        print = originalPrint
+        _G.print = originalPrint
     end)
 
     it("should validate generated lookup files and lookup overrides", function()
@@ -78,12 +90,36 @@ if GetLocale() ~= "deDE" then return end
 local l10n = QuestieLoader:ImportModule("l10n")
 l10n.itemLookup["deDE"] = loadstring([[return {
     [1] = "Test Item",
-    ]])
+}}]])
 ]=])
 
         local invalidLookups = _ValidateFixture({includeOverrides = false})
 
         assert.is_not_nil(invalidLookups[fixtureRoot .. "/Classic/lookupItems/deDE.lua"])
+        assert.spy(exitMock).was_called_with(1)
+    end)
+
+    it("should print readable context for malformed generated lookup loadstrings", function()
+        local filePath = fixtureRoot .. "/Classic/lookupItems/deDE.lua"
+        _CreateLookupFixture([=[
+if GetLocale() ~= "deDE" then return end
+local l10n = QuestieLoader:ImportModule("l10n")
+l10n.itemLookup["deDE"] = loadstring([[return {
+    [1] = "Test Item",
+}}]])
+]=])
+
+        _ValidateFixture({includeOverrides = false})
+
+        local output = _PrintedOutput()
+        assert.is_not_nil(output:find("Localization lookup validation failed", 1, true))
+        assert.is_not_nil(output:find("Expansion: Classic", 1, true))
+        assert.is_not_nil(output:find("Locale: deDE", 1, true))
+        assert.is_not_nil(output:find("Lookup: lookupItems", 1, true))
+        assert.is_not_nil(output:find("File: " .. filePath, 1, true))
+        assert.is_not_nil(output:find("Lua chunk line:", 1, true))
+        assert.is_not_nil(output:find("Error:", 1, true))
+        assert.is_not_nil(output:find("extra/missing brace, comma, or quote", 1, true))
         assert.spy(exitMock).was_called_with(1)
     end)
 
