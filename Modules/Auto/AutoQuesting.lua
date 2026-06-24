@@ -29,6 +29,7 @@ function AutoQuesting.OnQuestDetail()
         end
     end
 
+    -- Validate every disabled Auto Accept variant without letting later checks re-allow a rejected quest.
     local doAcceptQuest = true
     if (not Questie.db.profile.autoAccept.trivial) then
         local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
@@ -102,6 +103,7 @@ function AutoQuesting.OnGossipShow()
         if #availableQuests > 0 then
             local indexToAccept = 0
 
+            -- Skip per-quest filtering only when all Auto Accept variants are allowed.
             if Questie.db.profile.autoAccept.trivial and Questie.db.profile.autoAccept.repeatable and Questie.db.profile.autoAccept.pvp then
                 indexToAccept = 1
             else
