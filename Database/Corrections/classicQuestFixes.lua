@@ -2802,17 +2802,17 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #877
             [questKeys.breadcrumbForQuestId] = 788, -- #1956
         },
-        [4726] = {
+        [4726] = { -- Broodling Essence
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Draco-Incarcinatrix 900 and defeat the dragonkin."), 0, {{"monster",7047},{"monster",7048},{"monster",7049}}}},
         },
         [4729] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Empty Worg Pup Cage to capture it."), 0, {{"monster", 10221}}}},
         },
-        [4734] = {
+        [4734] = { -- Egg Freezing
             [questKeys.objectives] = {nil,{{175124}}},
             [questKeys.breadcrumbs] = {4907},
         },
-        [4735] = {
+        [4735] = { -- Egg Collection
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect eggs using the Collectronic Module."), 0, {{"object", 175124}}}},
         },
         [4736] = { -- In Search of Menara Voidrender

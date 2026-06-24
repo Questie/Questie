@@ -756,6 +756,15 @@ function QuestieTBCQuestFixes:Load()
         [4511] = { -- Calm Before the Storm
             [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
         },
+        [4726] = { -- Broodling Essence
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
+        },
+        [4734] = { -- Egg Freezing
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,500}},
+        },
+        [4735] = { -- Egg Collection
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,500}},
+        },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461,16646}},
             [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF, -- was available for orc + blood elf, safe to assume also available for undead
@@ -916,6 +925,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{11039}},
             [questKeys.finishedBy] = {{11039}},
             [questKeys.exclusiveTo] = {5401,5405},
+        },
+        [5518] = { -- The Gordok Ogre Suit
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
+        },
+        [5519] = { -- The Gordok Ogre Suit
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
         },
         [5621] = { -- Garments of the Moon
             [questKeys.requiredLevel] = 5,
@@ -1130,8 +1145,26 @@ function QuestieTBCQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047},
         },
+        [6962] = { -- Treats for Great-father Winter
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [6963] = { -- Stolen Winter Veil Treats
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
+        },
         [6983] = { -- You're a Mean One...
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [6984] = { -- A Smokywood Pastures' Thank You!
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
+        },
+        [7003] = { -- Zapped Giants
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,350}},
+        },
+        [7025] = { -- Treats for Greatfather Winter
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [7045] = { -- A Smokywood Pastures' Thank You!
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
         },
         [7282] = { -- Brotherly Love
             [questKeys.reputationReward] = {{factionIDs.STORMPIKE_GUARD,250},{factionIDs.IRONFORGE,250},{factionIDs.STORMWIND,250}},
@@ -1162,6 +1195,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [7670] = { -- Lord Grayson Shadowbreaker
             [questKeys.startedBy] = {{5149,17509}},
+        },
+        [7721] = { -- Fuel for the Zapping
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,350}},
+        },
+        [7725] = { -- Again With the Zapped Giants
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [7726] = { -- Refuel for the Zapping
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
         },
         [7792] = {
             [questKeys.startedBy] = {{20604}},
@@ -2057,6 +2099,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 15,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [9272] = { -- Dressing the Part
+            [questKeys.reputationReward] = {{factionIDs.BLOODSAIL_BUCCANEERS,10},{factionIDs.BOOTY_BAY,-250}},
         },
         [9279] = { -- You Survived!
             [questKeys.breadcrumbForQuestId] = 9280,
