@@ -422,17 +422,17 @@ local advancedOptionsLocales = {
         ["zhCN"] = "自动选择",
         ["zhTW"] = "自動",
     },
-    ["Changing Questie's locale requires the database to be recompiled. The UI will reload and Questie may take a moment to process data after reload. Continue?"] = {
+    ["This will reload the UI. Are you sure you want to change the language?"] = {
         ["enUS"] = true,
-        ["deDE"] = "Das Ändern der Questie-Sprache erfordert eine Neukompilierung der Datenbank. Die Benutzeroberfläche wird neu geladen und Questie benötigt nach dem Neuladen möglicherweise einen Moment, um die Daten zu verarbeiten. Fortfahren?", -- GPT-5.5 machine translated using other translations as context.
-        ["esES"] = "Cambiar el idioma de Questie requiere recompilar la base de datos. La interfaz se recargará y Questie puede tardar un momento en procesar los datos después de la recarga. ¿Continuar?", -- GPT-5.5 machine translated using other translations as context.
-        ["esMX"] = "Cambiar el idioma de Questie requiere recompilar la base de datos. La interfaz se recargará y Questie puede tardar un momento en procesar los datos después de la recarga. ¿Continuar?", -- GPT-5.5 machine translated using other translations as context.
-        ["frFR"] = "Changer la langue de Questie nécessite de recompiler la base de données. L’interface va se recharger et Questie peut prendre un moment pour traiter les données après le rechargement. Continuer ?", -- GPT-5.5 machine translated using other translations as context.
-        ["koKR"] = "Questie 언어를 변경하려면 데이터베이스를 재컴파일해야 합니다. UI가 다시 로드되며, 다시 로드한 후 Questie가 데이터를 처리하는 데 잠시 시간이 걸릴 수 있습니다. 계속하시겠습니까?", -- GPT-5.5 machine translated using other translations as context.
-        ["ptBR"] = "Alterar o idioma do Questie requer que o banco de dados seja recompilado. A interface será recarregada e o Questie pode levar um momento para processar os dados após o recarregamento. Continuar?", -- GPT-5.5 machine translated using other translations as context.
-        ["ruRU"] = "Изменение языка Questie требует перекомпиляции базы данных. Интерфейс будет перезагружен, и после перезагрузки Questie может потребоваться некоторое время для обработки данных. Продолжить?", -- GPT-5.5 machine translated using other translations as context.
-        ["zhCN"] = "更改 Questie 的语言需要重新编译数据库。界面将会重载，重载后 Questie 可能需要一些时间来处理数据。继续吗？", -- GPT-5.5 machine translated using other translations as context.
-        ["zhTW"] = "變更 Questie 的語言需要重新編譯資料庫。介面將會重新載入，重新載入後 Questie 可能需要一些時間處理資料。是否繼續？", -- GPT-5.5 machine translated using other translations as context.
+        ["deDE"] = "Dies wird die Benutzeroberfläche neu laden. Bist du sicher, dass du die Sprache ändern möchtest?",
+        ["esES"] = "Esto recargará la interfaz. ¿Estás seguro de que quieres cambiar el idioma?",
+        ["esMX"] = "Esto recargará la interfaz. ¿Estás seguro de que quieres cambiar el idioma?",
+        ["frFR"] = "Cela va recharger l'interface. Êtes-vous sûr de vouloir changer la langue ?",
+        ["koKR"] = "UI를 다시 로드합니다. 언어를 변경하시겠습니까?",
+        ["ptBR"] = "Isso recarregará a interface. Tem certeza de que deseja alterar o idioma?",
+        ["ruRU"] = "Это приведет к перезагрузке интерфейса. Вы уверены, что хотите изменить язык?",
+        ["zhCN"] = "这将重载界面。你确定要更改语言吗？",
+        ["zhTW"] = "這將重新載入介面。你確定要更改語言嗎？",
     },
     ["Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"] = {
         ["enUS"] = true,

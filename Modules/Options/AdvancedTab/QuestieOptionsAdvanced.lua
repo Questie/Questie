@@ -555,7 +555,7 @@ StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
         pendingLocaleSelection = nil
     end,
     OnShow = function(self)
-        local confirmText = l10n("Changing Questie's locale requires the database to be recompiled. The UI will reload and Questie may take a moment to process data after reload. Continue?")
+        local confirmText = l10n("This will reload the UI. Are you sure you want to change the language?")
         self.Text:SetText(confirmText)
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()
