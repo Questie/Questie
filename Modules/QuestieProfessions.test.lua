@@ -41,7 +41,7 @@ describe("QuestieProfessions", function()
             ["Inscription"] = {["enUS"] = true},
             ["Riding"] = {["enUS"] = true},
         }
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
+        QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
         QuestieProfessions = require("Modules.QuestieProfessions")
         QuestieProfessions:Init()
@@ -103,7 +103,7 @@ describe("QuestieProfessions", function()
                 end
             end
 
-            AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
+            AvailableQuests = QuestieLoader:CreateModule("AvailableQuests")
             AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
 
             -- Force a fresh load so the hooksecurefunc("AbandonSkill", ...) registration re-runs and is captured
