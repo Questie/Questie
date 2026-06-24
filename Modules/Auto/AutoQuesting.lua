@@ -35,10 +35,10 @@ function AutoQuesting.OnQuestDetail()
         doAcceptQuest = (not QuestieDB.IsTrivial(questLevel))
     end
     if (not Questie.db.profile.autoAccept.repeatable) then
-        doAcceptQuest = (not QuestieDB.IsRepeatable(questId))
+        doAcceptQuest = doAcceptQuest and (not QuestieDB.IsRepeatable(questId))
     end
     if (not Questie.db.profile.autoAccept.pvp) then
-        doAcceptQuest = (not QuestieDB.IsPvPQuest(questId))
+        doAcceptQuest = doAcceptQuest and (not QuestieDB.IsPvPQuest(questId))
     end
 
     if doAcceptQuest then
