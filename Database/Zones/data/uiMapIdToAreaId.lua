@@ -172,6 +172,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [1456] = 1638, -- Thunder Bluff
     [1457] = 1657, -- Darnassus
     [233]  = 1977, -- Zul'Gurub - Raid - old ZG
+    [337]  = 1977, -- Zul'Gurub - Raid - new ZG
     [317]  = 2017, -- Stratholme - Dungeon - Crusader's Square
     [280]  = 2100, -- Maraudon - Dungeon - Caverns of Maraudon
     [248]  = 2159, -- Onyxia's Lair - Dungeon?

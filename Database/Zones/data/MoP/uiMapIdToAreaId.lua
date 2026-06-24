@@ -349,6 +349,7 @@ ZoneDB.private.uiMapIdToAreaId = [[return {
     [230] = 1337, -- Uldaman - (Dungeon/Raid)
     [231] = 1337, -- Uldaman - (Dungeon/Raid)
     [232] = 2717, -- Molten Core - (Dungeon/Raid)
+    [233] = 1977, -- Zul'Gurub - Raid - old ZG
     [234] = 2557, -- Dire Maul
     [235] = 2557, -- Dire Maul - (Dungeon/Raid)
     [236] = 2557, -- Dire Maul - (Dungeon/Raid)
