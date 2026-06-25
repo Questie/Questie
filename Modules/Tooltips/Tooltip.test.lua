@@ -413,7 +413,11 @@ describe("Tooltip", function()
     end)
 
     describe("RemoveQuest", function()
-        it("should reset tooltip flags", function()
+        it("should reset tooltip flags without clearing AlreadySpawned", function()
+            local objectiveAlreadySpawned = {[123] = {}}
+            local specialObjectiveAlreadySpawned = {[456] = {}}
+            objective.AlreadySpawned = objectiveAlreadySpawned
+            specialObjective.AlreadySpawned = specialObjectiveAlreadySpawned
             QuestieTooltips.lookupKeysByQuestId = {[1] = {"key"}}
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
 
@@ -423,11 +427,13 @@ describe("Tooltip", function()
 
             assert.are.same(false, objective.hasRegisteredTooltips)
             assert.are.same(false, objective.registeredItemTooltips)
-            assert.are.same({}, objective.AlreadySpawned)
+            assert.are.equal(objectiveAlreadySpawned, objective.AlreadySpawned)
+            assert.are.same({[123] = {}}, objective.AlreadySpawned)
 
             assert.are.same(false, specialObjective.hasRegisteredTooltips)
             assert.are.same(false, specialObjective.registeredItemTooltips)
-            assert.are.same({}, specialObjective.AlreadySpawned)
+            assert.are.equal(specialObjectiveAlreadySpawned, specialObjective.AlreadySpawned)
+            assert.are.same({[456] = {}}, specialObjective.AlreadySpawned)
 
             assert.are.same({}, QuestieTooltips.lookupByKey)
             assert.are.same({}, QuestieTooltips.lookupKeysByQuestId)

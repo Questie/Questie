@@ -13,6 +13,37 @@ describe("QuestieMap", function()
     before_each(function()
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieMap = require("Modules.Map.QuestieMap")
+        QuestieMap.questIdFrames = {}
+    end)
+
+    describe("UnloadQuestFrames", function()
+        it("should clear AlreadySpawned for objective frames on full unload", function()
+            local objective = {AlreadySpawned = {[123] = {}}}
+            local unloadFrame1 = spy.new(function(self)
+                self.data = nil
+            end)
+            local unloadFrame2 = spy.new(function(self)
+                self.data = nil
+            end)
+            _G.QuestieFrame1 = {data = {ObjectiveData = objective}, Unload = unloadFrame1}
+            _G.QuestieFrame2 = {data = {ObjectiveData = objective}, Unload = unloadFrame2}
+            QuestieMap.questIdFrames[1] = {
+                QuestieFrame1 = "QuestieFrame1",
+                QuestieFrame2 = "QuestieFrame2",
+            }
+
+            QuestieMap:UnloadQuestFrames(1)
+
+            assert.spy(unloadFrame1).was_called()
+            assert.spy(unloadFrame2).was_called()
+            assert.is_nil(_G.QuestieFrame1.data)
+            assert.is_nil(_G.QuestieFrame2.data)
+            assert.are.same({}, objective.AlreadySpawned)
+            assert.is_nil(QuestieMap.questIdFrames[1])
+
+            _G.QuestieFrame1 = nil
+            _G.QuestieFrame2 = nil
+        end)
     end)
 
     describe("UpdateDrawnIcons", function()
