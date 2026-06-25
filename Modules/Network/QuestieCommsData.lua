@@ -115,10 +115,10 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
                         local sourceLookupKey = sourceType.."_"..sourceId;
                         QuestieComms.data:AddTooltip(playerName, questId, sourceLookupKey, objectiveIndex, objective);
                     end
-
-                    -- Show this objective when hovering the item itself.
-                    QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveIndex, objective);
                 end
+
+                -- Show this objective when hovering the item itself.
+                QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveIndex, objective);
             else
                 -- Show non-item objectives when hovering their direct objective entity.
                 QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveIndex, objective);
