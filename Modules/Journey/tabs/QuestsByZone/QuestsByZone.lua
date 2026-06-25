@@ -104,6 +104,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame = AceGUI:Create("TreeGroup")
     zoneTreeFrame:SetFullWidth(true)
     zoneTreeFrame:SetFullHeight(true)
+    zoneTreeFrame:EnableButtonTooltips(false)
     zoneTreeFrame:SetTree(zoneTree)
 
     zoneTreeFrame.treeframe:SetWidth(415)
@@ -235,6 +236,16 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
         -- Only show quests which are not hidden
         if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
             temp.value = questId
+            temp.iconSize = 14
+            temp.useIconGutter = true
+            temp.iconGutterOffset = -3
+            if QuestiePlayer.currentQuestlog[questId] then
+                if QuestieDB.IsComplete(questId) == 1 then
+                    temp.icon = Questie.icons["complete"]
+                else
+                    temp.icon = Questie.icons["incomplete"]
+                end
+            end
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}

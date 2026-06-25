@@ -304,6 +304,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     factionTreeFrame = AceGUI:Create("TreeGroup")
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
+    factionTreeFrame:EnableButtonTooltips(false)
     factionTreeFrame:SetTree(factionTree)
 
     factionTreeFrame.treeframe:SetWidth(415)
@@ -429,6 +430,17 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     "requiredLevel",
                 }
             ) or {}
+
+            temp.iconSize = 14
+            temp.useIconGutter = true
+            temp.iconGutterOffset = -3
+            if QuestiePlayer.currentQuestlog[questId] then
+                if QuestieDB.IsComplete(questId) == 1 then
+                    temp.icon = Questie.icons["complete"]
+                else
+                    temp.icon = Questie.icons["incomplete"]
+                end
+            end
 
             local questName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 

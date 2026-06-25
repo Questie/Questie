@@ -92,6 +92,10 @@ function AceGUITreeGroup:LayoutFinished(width, height) end
 ---@field text string
 ---@field icon? string|integer
 ---@field iconCoords? number[]
+---@field iconSize? number
+---@field useIconGutter? boolean
+---@field iconGutterOffset? number
+---@field tooltipText? string
 ---@field disabled? boolean
 ---@field tree table
 ---@field level integer
