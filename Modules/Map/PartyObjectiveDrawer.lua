@@ -54,9 +54,11 @@ local function _GetApiObjectiveText(questId, objectiveIndex)
         if (not state.pending) and state.attempts < MAX_PREFETCH_RETRIES then
             state.pending = true
             C_Timer.After(1.5, function()
-                state.pending = false
-                state.attempts = state.attempts + 1
-                QuestiePartyObjectives:ScheduleUpdate(questId)
+                xpcall(function()
+                    state.pending = false
+                    state.attempts = state.attempts + 1
+                    QuestiePartyObjectives:ScheduleUpdate(questId)
+                end, CallErrorHandler)
             end)
         end
         return nil
@@ -196,8 +198,8 @@ function PartyObjectiveDrawer:DrawQuest(plan)
         end
     end
 
-    -- Special objectives are drawn after the standard ones. They never carry a spawn cache and
-    -- only honour the running budget, matching the original pipeline's separate second pass.
+    -- Special objectives are drawn after the standard ones. They never carry a spawn cache, but
+    -- enforce the same icon cap as the standard path so a special objective can't overshoot it.
     for _, descriptor in ipairs(plan.specialObjectives) do
         if drawnIconCount + iconCount >= MAX_PARTY_ICONS then
             break
@@ -210,8 +212,13 @@ function PartyObjectiveDrawer:DrawQuest(plan)
 
         local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, descriptor.Index, objective, true)
         if ok then
+            local objectiveIconCount = _CountIcons(objective)
+            if drawnIconCount + iconCount + objectiveIconCount > MAX_PARTY_ICONS then
+                _UnloadObjective(objective)
+                break
+            end
             drawn[#drawn + 1] = objective
-            iconCount = iconCount + _CountIcons(objective)
+            iconCount = iconCount + objectiveIconCount
         end
     end
 
