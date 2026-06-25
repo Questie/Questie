@@ -51,15 +51,28 @@ function QuestieOptions:Initialize()
     coroutine.yield()
 
     local journeyButton = CreateFrame("Button", nil, configFrame.frame, "UIPanelButtonTemplate")
-    journeyButton:SetWidth(140)
-    journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
     journeyButton:SetText(l10n("My Journey"))
+    journeyButton:SetWidth(journeyButton:GetFontString():GetStringWidth() + 30)
+    journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
     journeyButton:SetScript("OnClick", function()
         QuestieCombatQueue:Queue(function()
             QuestieJourney:ToggleJourneyWindow()
             QuestieOptions:ToggleConfigWindow()
         end)
     end)
+
+    do
+        local tabGroup = configFrame.children[1]
+        if tabGroup and tabGroup.type == "TabGroup" then
+            local origCallback = tabGroup.events.OnGroupSelected
+            tabGroup.events.OnGroupSelected = function(widget, event, uniquevalue)
+                origCallback(widget, event, uniquevalue)
+                if uniquevalue == "icons_tab" then
+                    QuestieOptions:RefreshIconsTabButtons(widget)
+                end
+            end
+        end
+    end
 
     configFrame:Hide()
     coroutine.yield()
@@ -98,6 +111,71 @@ function QuestieOptions:SetProfileValue(info, value)
         Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.profile[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end
     Questie.db.profile[info[#info]] = value
+end
+
+function QuestieOptions:RefreshIconsTabButtons(widget)
+    if not widget then
+        return
+    end
+    local function _AutoSize(container)
+        if container.children then
+            for _, child in ipairs(container.children) do
+                if child.type == "Button" and child.SetAutoWidth then
+                    child:SetAutoWidth(true)
+                elseif child.children then
+                    _AutoSize(child)
+                end
+            end
+        end
+    end
+    _AutoSize(widget)
+    local function _CenterButtons(parent)
+        if parent.children then
+            local buttons = {}
+            for _, child in ipairs(parent.children) do
+                if child.type == "Button" then
+                    table.insert(buttons, child)
+                end
+            end
+            if #buttons >= 2 and parent.content then
+                local contentWidth = parent.content:GetWidth()
+                if contentWidth and contentWidth > 0 then
+                    local totalWidth = 0
+                    for _, btn in ipairs(buttons) do
+                        totalWidth = totalWidth + (btn.frame:GetWidth() or 0)
+                    end
+                    totalWidth = totalWidth + (#buttons - 1) * 4
+                    local leftOffset = (contentWidth - totalWidth) / 2
+                    if leftOffset > 0 then
+                        for i, btn in ipairs(buttons) do
+                            btn.frame:ClearAllPoints()
+                            if i == 1 then
+                                btn.frame:SetPoint("LEFT", parent.content, "LEFT", leftOffset, 0)
+                            else
+                                btn.frame:SetPoint("LEFT", buttons[i-1].frame, "RIGHT", 4, 0)
+                            end
+                        end
+                        parent.content:SetScript("OnSizeChanged", function()
+                            QuestieOptions:RefreshIconsTabButtons(widget)
+                        end)
+                    end
+                end
+            end
+        end
+    end
+    local function _FindButtonContainers(container)
+        if container.children then
+            for _, child in ipairs(container.children) do
+                if child.type ~= "Button" and child.content then
+                    _CenterButtons(child)
+                end
+                if child.children then
+                    _FindButtonContainers(child)
+                end
+            end
+        end
+    end
+    _FindButtonContainers(widget)
 end
 
 ---@return table
