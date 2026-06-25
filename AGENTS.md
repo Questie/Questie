@@ -168,6 +168,13 @@ end
 ```
 Constants: `Era=1, Tbc=2, Wotlk=3, Cata=4, MoP=5`. Boolean flags on `Questie`: `IsSoD`, `IsEra`, `IsTBC`, `IsWotlk`, `IsCata`, `IsMoP`, `IsHardcore`.
 
+### Settings
+
+Questie comes with a lot of settings a user can adjust to their liking. All the default values are stored in `Modules/Options/QuestieOptionsDefaults.lua`.
+
+Whenever a new default value is added or an existing setting is adjusted, a matching change function in the `Modules/Migration.lua` is needed. This ensures that existing user
+configurations are migrated and correctly updated to the new values.
+
 ### Database Corrections
 Corrections are keyed by entity ID and use `*Keys` enum tables:
 ```lua
