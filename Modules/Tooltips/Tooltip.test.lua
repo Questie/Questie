@@ -7,6 +7,8 @@ describe("Tooltip", function()
     local QuestieDB
     ---@type QuestieLib
     local QuestieLib
+    ---@type QuestieComms
+    local QuestieComms
     ---@type QuestiePlayer
     local QuestiePlayer
     ---@type QuestieTooltips
@@ -43,6 +45,13 @@ describe("Tooltip", function()
         QuestieLib.GetRGBForObjective = spy.new(function()
             return "gold"
         end)
+        QuestieComms = require("Modules.Network.QuestieComms")
+        QuestieComms.remoteQuestLogs = {}
+        QuestieComms.remotePlayerClasses = {}
+        QuestieComms.remotePlayerEnabled = {}
+        QuestieComms.data.KeyExists = function() return false end
+        QuestieComms.data.GetTooltip = function() return {} end
+        require("Localization.l10n")
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
     end)
@@ -75,6 +84,47 @@ describe("Tooltip", function()
 
             assert.spy(QuestieLib.GetColoredQuestName).was_not_called()
             assert.is_nil(tooltip)
+        end)
+
+        it("should use the objective player name for remote player class lookup", function()
+            _G.UnitName = function() return "Local" end
+            _G.IsInGroup = function() return true end
+            Questie.GetClassColor = spy.new(function()
+                return "|cFFC79C6E"
+            end)
+            QuestieTooltips.lookupByKey = {}
+            QuestieComms.remotePlayerEnabled["Bob"] = true
+            QuestieComms.remotePlayerClasses["Bob"] = "WARRIOR"
+            QuestieComms.remoteQuestLogs[1] = { ["Bob"] = {} }
+            QuestieComms.data.KeyExists = function(_, key)
+                return key == "m_123"
+            end
+            QuestieComms.data.GetTooltip = function(_, key)
+                if key == "m_123" then
+                    return {
+                        [1] = {
+                            ["Bob"] = {
+                                [1] = {
+                                    fulfilled = 3,
+                                    required = 5,
+                                    text = "do it",
+                                }
+                            }
+                        }
+                    }
+                end
+
+                return {}
+            end
+
+            local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+            assert.is_nil(QuestieComms.remotePlayerClasses["Local"])
+            assert.spy(Questie.GetClassColor).was_called_with(Questie, "WARRIOR")
+            assert.are.same({
+                "Quest Name",
+                "   gold3/5 do it (|cFFC79C6EBob|rgold)|r (Nearby)",
+            }, tooltip)
         end)
 
         it("should return quest name and objective when tooltip has spell objective", function()
