@@ -21,6 +21,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -199,8 +201,8 @@ local function recurseTable(theTable, theKeys)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "requiredClasses", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle"}) or {}
-    local name, requiredLevel, requiredRaces, requiredClasses, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8], ret[9]
+    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "requiredClasses", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle", "requiredSkill", "requiredSpecialization"}) or {}
+    local name, requiredLevel, requiredRaces, requiredClasses, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle, requiredSkill, requiredSpecialization = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8], ret[9], ret[10], ret[11]
 
     local questLevel, _ = QuestieLib.GetTbcLevel(id);
 
@@ -279,6 +281,14 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     local reqClasses = QuestieLib:GetClassString(requiredClasses)
     if (reqClasses ~= "") then
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Class")) .. l10n(": ") .. reqClasses)
+    end
+    if requiredSkill and requiredSkill[1] and QuestieProfessions:GetProfessionName(requiredSkill[1]) then
+        local specializationName = requiredSpecialization and QuestieProfessions:GetSpecializationName(requiredSpecialization)
+        local reqProfession = specializationName and l10n(specializationName) or l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
+        if requiredSkill[2] and requiredSkill[2] > 1 then
+            reqProfession = reqProfession .. " (" .. requiredSkill[2] .. ")"
+        end
+        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Profession")) .. l10n(": ") .. reqProfession)
     end
     QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable")) .. l10n(": ") .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
 
