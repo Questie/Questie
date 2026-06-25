@@ -1911,8 +1911,14 @@ function QuestieTracker:RemoveQuest(questId)
     end
 
     if Questie.db.char.TrackerFocus then
-        if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == questId)
-            or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(questId)) == tostring(questId)) then
+        local focusedQuestId
+        if type(Questie.db.char.TrackerFocus) == "number" then
+            focusedQuestId = Questie.db.char.TrackerFocus
+        elseif type(Questie.db.char.TrackerFocus) == "string" then
+            focusedQuestId = tonumber(Questie.db.char.TrackerFocus:match("^(%d+)%s"))
+        end
+
+        if focusedQuestId == questId then
             TrackerUtils:UnFocus()
             QuestieQuest:ToggleNotes(true)
         end
