@@ -392,7 +392,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
                 elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.profile.onlyPartyShared or UnitInParty(objectivePlayerName)) then
-                    playerColor = QuestieComms.remotePlayerClasses[playerName]
+                    playerColor = QuestieComms.remotePlayerClasses[objectivePlayerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
                         playerType = " (" .. l10n("Nearby") .. ")"
