@@ -7796,7 +7796,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30181},
         },
         [32108] = { -- Domination Point
-            [questKeys.reputationReward] = {{factionIDs.HUOJIN_PANDAREN,5},{factionIDs.DOMINANCE_OFFENSIVE,7}},
+            [questKeys.reputationReward] = {{factionIDs.HORDE,5},{factionIDs.DOMINANCE_OFFENSIVE,7}},
         },
         [32109] = { -- Lion's Landing
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,5},{factionIDs.OPERATION_SHIELDWALL,7}},
@@ -8344,12 +8344,12 @@ function MopQuestFixes.Load()
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32249] = { -- Meet the Scout
-            [questKeys.reputationReward] = {{factionIDs.HUOJIN_PANDAREN,1},{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.HORDE,1},{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32250] = { -- The Might of the Warchief
             [questKeys.objectives] = {{{67927,nil,Questie.ICON_TYPE_EVENT},{67926,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{67900,67901,67902},67900}}},
             [questKeys.preQuestSingle] = {32249},
-            [questKeys.reputationReward] = {{factionIDs.HUOJIN_PANDAREN,5},{factionIDs.DOMINANCE_OFFENSIVE,12}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12},{factionIDs.HORDE,5}},
         },
         [32251] = { -- Dagger in the Dark
             [questKeys.objectives] = {},
@@ -8695,7 +8695,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32351},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,19750},
             [questKeys.objectives] = {{{68284,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7},{factionIDs.HUOJIN_PANDAREN,27}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7},{factionIDs.HORDE,7}},
         },
         [32355] = { -- The Harmonic Mallet
             [questKeys.preQuestSingle] = {32423},

@@ -51,6 +51,9 @@ function QuestieWotlkQuestFixes:Load()
         [75] = {
             [questKeys.specialFlags] = specialFlags.NONE,
         },
+        [105] = { -- Alas, Andorhal
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350},{factionIDs.ARGENT_DAWN,700}},
+        },
         [171] = {
             [questKeys.startedBy] = {{14305}},
             [questKeys.questLevel] = -1,
