@@ -1028,6 +1028,32 @@ local trackerOptionsLocales = {
         ["zhTW"] = "此捷徑將會設定 TomTom 箭頭指向 NPC 或第一個未完成的任務目標（如果位置資料可用）\n\n注意：此功能不適用於成就",
     },
     ---------------------------------------------------------
+    ---------------------------------------------------------
+    ["Auto-Set |cFF54e33bTomTom|r to Closest Quest"] = {
+        ["enUS"] = true,
+        ["deDE"] = "|cFF54e33bTomTom|r automatisch auf die nächste Quest setzen",
+        ["esES"] = "Establecer |cFF54e33bTomTom|r automáticamente en la misión más cercana",
+        ["esMX"] = "Establecer |cFF54e33bTomTom|r automáticamente en la misión más cercana",
+        ["frFR"] = "Définir automatiquement |cFF54e33bTomTom|r sur la quête la plus proche",
+        ["koKR"] = "가장 가까운 퀘스트에 |cFF54e33bTomTom|r 자동 설정",
+        ["ptBR"] = "Definir |cFF54e33bTomTom|r automaticamente para a missão mais próxima",
+        ["ruRU"] = "Автоустановка точки |cFF54e33bTomTom|r на ближайшее задание",
+        ["zhCN"] = "自动设置|cFF54e33bTomTom|r箭头指向最近的任务",
+        ["zhTW"] = "自動設定 |cFF54e33bTomTom|r 到最近的任務",
+    },
+    ["Automatically sets the TomTom waypoint arrow to the closest quest objective or turn-in."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Setzt den TomTom-Wegpunktpfeil automatisch auf das nächste Questziel oder den nächsten Abgabeort.",
+        ["esES"] = "Establece automáticamente la flecha de punto de ruta de TomTom al objetivo de misión o lugar de entrega más cercano.",
+        ["esMX"] = "Establece automáticamente la flecha de punto de ruta de TomTom al objetivo de misión o lugar de entrega más cercano.",
+        ["frFR"] = "Définit automatiquement la flèche de point de cheminement TomTom sur l'objectif de quête ou le lieu de remise le plus proche.",
+        ["koKR"] = "TomTom 웨이 포인트 화살표를 가장 가까운 퀘스트 목표 또는 완료 위치로 자동 설정합니다.",
+        ["ptBR"] = "Define automaticamente a seta de ponto de rota do TomTom para o objetivo de missão ou local de entrega mais próximo.",
+        ["ruRU"] = "Автоматически устанавливает стрелку путевой точки TomTom на ближайшую цель задания или место сдачи",
+        ["zhCN"] = "自动将 TomTom 箭头设置为最近的任务目标或交任务地点",
+        ["zhTW"] = "自動將 TomTom 箭頭設定到最近的任務目標或回任地點",
+    },
+    ---------------------------------------------------------
     -- Classic and TBC only --
     ["Show in Quest Log"] = {
         ["enUS"] = true,

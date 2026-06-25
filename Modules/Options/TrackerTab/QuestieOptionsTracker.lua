@@ -13,6 +13,8 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -676,6 +678,25 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.trackerbindSetTomTom end,
                         set = function(_, key)
                             Questie.db.profile.trackerbindSetTomTom = key
+                        end
+                    },
+                    autoSetTomTom = {
+                        type = "toggle",
+                        order = 13.5,
+                        width = "full",
+                        name = function() return l10n("Auto-Set |cFF54e33bTomTom|r to Closest Quest") end,
+                        desc = function() return l10n("Automatically sets the TomTom waypoint arrow to the closest quest objective or turn-in.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        hidden = function() return not IsAddOnLoaded("TomTom") end,
+                        get = function() return Questie.db.profile.autoSetTomTom end,
+                        set = function(_, value)
+                            Questie.db.profile.autoSetTomTom = value
+                            if value then
+                                TrackerUtils:AutoSetTomTomClosestQuest()
+                            elseif Questie.db.char._tom_waypoint and TomTom and TomTom.RemoveWaypoint then
+                                TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+                                Questie.db.char._tom_waypoint = nil
+                            end
                         end
                     },
                     trackerSetpoint = {

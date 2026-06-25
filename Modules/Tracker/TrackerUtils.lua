@@ -119,6 +119,31 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
+function TrackerUtils:AutoSetTomTomClosestQuest()
+    if not TomTom or not TomTom.AddWaypoint or not Questie.db.profile.autoSetTomTom then
+        return
+    end
+    local bestDistance = 999999999
+    local bestSpawn, bestZone, bestName
+    for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
+        if quest then
+            local spawn, zone, name, dist = DistanceUtils.GetNearestSpawnForQuest(quest)
+            if spawn and dist < bestDistance then
+                bestDistance = dist
+                bestSpawn = spawn
+                bestZone = zone
+                bestName = name
+            end
+        end
+    end
+    if bestSpawn then
+        TrackerUtils:SetTomTomTarget(bestName, bestZone, bestSpawn[1], bestSpawn[2])
+    elseif Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then
+        TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+        Questie.db.char._tom_waypoint = nil
+    end
+end
+
 ---@param objective QuestObjective
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local spawn, zone = DistanceUtils.GetNearestObjective(objective.spawnList)
