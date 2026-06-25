@@ -2755,12 +2755,6 @@ function QuestieQuestFixes:Load()
         [4507] = { -- Pawn Captures Queen
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Gorishi Queen Lure."), 0, {{"object", 174792}}}},
         },
-        [4510] = { -- Calm Before the Storm
-            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,200}},
-        },
-        [4511] = { -- Calm Before the Storm
-            [questKeys.reputationReward] = {{factionIDs.HORDE,200}},
-        },
         [4512] = { -- A Little Slime Goes a Long Way
             [questKeys.requiredSourceItems] = {11914,11948},
             [questKeys.nextQuestInChain] = 4513,

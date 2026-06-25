@@ -32,6 +32,9 @@ function QuestieTBCQuestFixes:Load()
     local rankKeys = QuestieProfessions.rankNames
 
     return {
+        [32] = { -- Rise of the Silithid
+            [questKeys.reputationReward] = {{factionIDs.GADGETZAN,350},{factionIDs.HORDE,350}},
+        },
         [54] = { -- Report to Goldshire
             [questKeys.requiredLevel] = 1,
         },
@@ -59,6 +62,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [172] = { -- Children's Week
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,10}},
         },
         [176] = { -- Wanted:  "Hogger"
             [questKeys.startedBy] = {nil,{68,156561}},
@@ -164,18 +168,25 @@ function QuestieTBCQuestFixes:Load()
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56}}}},
         },
-        [910] = {
-            [questKeys.questLevel] = -1,
+        [891] = { -- The Guns of Northwatch
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,250},{factionIDs.HORDE,75}},
         },
-        [911] = {
+        [910] = { -- Down at the Docks
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
         },
-        [915] = {
+        [911] = { -- Down at the Docks
+            [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [915] = { -- You Scream, I Scream...
             [questKeys.questLevel] = -1,
             [questKeys.preQuestGroup] = {910,911,1800},
+            [questKeys.reputationReward] = {{factionIDs.HORDE,150}},
         },
-        [925] = {
+        [925] = { -- Cairne's Hoofprint
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,150}},
         },
         [926] = { -- Flawed Power Stone
             [questKeys.startedBy] = {nil,{5619,5620,5621}},
@@ -305,6 +316,9 @@ function QuestieTBCQuestFixes:Load()
         [1385] = { -- Brutal Politics
             [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-500},{factionIDs.MAGRAM_CLAN_CENTAUR,250}},
         },
+        [1394] = { -- Final Passage
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [1396] = { -- Encroaching Wildlife
             [questKeys.breadcrumbs] = {9609},
         },
@@ -333,6 +347,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [1488] = { -- The Corrupter
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350}},
         },
         [1499] = { -- Vile Familiars
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -467,8 +484,9 @@ function QuestieTBCQuestFixes:Load()
         [1782] = { -- Furen's Armor
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [1800] = {
+        [1800] = { -- Lordaeron Throne Room
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
         },
         [1801] = { -- Tome of the Cabal
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
@@ -710,6 +728,21 @@ function QuestieTBCQuestFixes:Load()
         [3803] = { -- Morrowgrain to Darnassus
             [questKeys.startedBy] = {{4217}},
         },
+        [3921] = { -- Wenikee Boltbucket
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,75},{factionIDs.HORDE,25}},
+        },
+        [3922] = { -- Nugget Slugs
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,250},{factionIDs.HORDE,75}},
+        },
+        [3923] = { -- Rilli Greasygob
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,25},{factionIDs.HORDE,10}},
+        },
+        [3924] = { -- Samophlange Manual
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,350},{factionIDs.HORDE,150}},
+        },
+        [4004] = { -- The Princess Saved?
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
         },
@@ -918,8 +951,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{10839}},
             [questKeys.finishedBy] = {{10839}},
         },
-        [5502] = {
+        [5502] = { -- A Warden of the Horde
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
         },
         [5503] = { -- Argent Dawn Commission
             [questKeys.startedBy] = {{11039}},
@@ -1181,6 +1215,9 @@ function QuestieTBCQuestFixes:Load()
         [7488] = { -- Lethtendris's Web
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
         },
+        [7489] = { -- Lethtendris's Web
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [7508] = { -- The Forging of Quel'Serrar
             [questKeys.requiredLevel] = 60,
         },
@@ -1193,6 +1230,12 @@ function QuestieTBCQuestFixes:Load()
         [7642] = { -- Collection of Goods
             [questKeys.reputationReward] = {{factionIDs.IRONFORGE,500}},
         },
+        [7667] = { -- Material Assistance
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350}},
+        },
+        [7668] = { -- The Darkreaver Menace
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [7670] = { -- Lord Grayson Shadowbreaker
             [questKeys.startedBy] = {{5149,17509}},
         },
@@ -1204,6 +1247,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [7726] = { -- Refuel for the Zapping
             [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [7730] = { -- Zukk'ash Infestation
+            [questKeys.reputationReward] = {{factionIDs.HORDE,250}},
+        },
+        [7731] = { -- Stinglasher
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350}},
+        },
+        [7732] = { -- Zukk'ash Report
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
         },
         [7792] = {
             [questKeys.startedBy] = {{20604}},
@@ -1280,6 +1332,9 @@ function QuestieTBCQuestFixes:Load()
         [8149] = { -- Honoring a Hero
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
         },
+        [8150] = { -- Honoring a Hero
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [8151] = { -- The Hunter's Charm
             [questKeys.startedBy] = {{3039,3352,4205,5116,5516,16673,17505}},
         },
@@ -1319,6 +1374,9 @@ function QuestieTBCQuestFixes:Load()
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,5489,6018,11406,16658,16756}},
         },
+        [8258] = { -- The Darkreaver Menace
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [8259] = { -- A More Fitting Reward
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {8258},
@@ -1328,8 +1386,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
         },
-        [8312] = {
+        [8312] = { -- Hallow's End Treats for Spoops!
             [questKeys.requiredLevel] = 10,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,250}},
+        },
+        [8322] = { -- Rotten Eggs
+            [questKeys.reputationReward] = {{factionIDs.HORDE,25}},
         },
         [8325] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -1419,6 +1481,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8388] = { -- For Great Honor
             [questKeys.requiredLevel] = 61,
+        },
+        [8409] = { -- Ruined Kegs
+            [questKeys.reputationReward] = {{factionIDs.HORDE,250}},
         },
         [8410] = { -- Elemental Mastery
             [questKeys.startedBy] = {{3032,13417,17219,20407,23127}},
