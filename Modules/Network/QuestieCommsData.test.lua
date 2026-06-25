@@ -16,7 +16,15 @@ describe("QuestieCommsData", function()
             if itemId == 1001 then
                 return nil
             elseif itemId == 1002 then
-                return { Hidden = true }
+                return {
+                    Hidden = true,
+                    Sources = {
+                        {
+                            Type = "monster",
+                            Id = 3003,
+                        },
+                    },
+                }
             end
         end
 
@@ -35,11 +43,12 @@ describe("QuestieCommsData", function()
                 name = "hidden item data",
                 itemId = 1002,
                 monsterId = 2003,
+                skippedSourceKey = "m_3003",
             },
         }
 
         for _, case in ipairs(cases) do
-            it("continues registering later objectives after skipping " .. case.name, function()
+            it("registers direct item and later objectives while skipping source expansion for " .. case.name, function()
                 local questId = 42
                 local playerName = "OtherPlayer"
                 local objectives = {
@@ -59,7 +68,10 @@ describe("QuestieCommsData", function()
 
                 QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
 
-                assert.is_false(QuestieComms.data:KeyExists("i_" .. case.itemId))
+                assert.is_true(QuestieComms.data:KeyExists("i_" .. case.itemId))
+                if case.skippedSourceKey then
+                    assert.is_false(QuestieComms.data:KeyExists(case.skippedSourceKey))
+                end
                 assert.is_true(QuestieComms.data:KeyExists("m_" .. case.monsterId))
             end)
         end
