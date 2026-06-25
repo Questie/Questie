@@ -86,8 +86,16 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
     if QuestieMap.questIdFrames[questId] then
         if not iconType then
             for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
+                -- Capture this before Unload() because it clears frame.data.
+                local objective = frame.data and frame.data.ObjectiveData
+
                 frame:Unload();
+
+                if objective then
+                    objective.AlreadySpawned = {}
+                end
             end
+
             QuestieMap.questIdFrames[questId] = nil;
         else
             for name, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
