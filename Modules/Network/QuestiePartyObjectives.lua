@@ -213,7 +213,7 @@ end
 -- Draw a single party quest's objectives (assumes it has already been cleared).
 ---@param questId number
 local function _DrawQuest(questId)
-    local maxPartyIcons = Questie.db.profile.partyIconLimit or 500
+    local maxPartyIcons = Questie.db.profile.partyIconLimit
     -- Quests the local player has are drawn by the normal pipeline; don't double up.
     if _PlayerHasQuest(questId) or drawnIconCount >= maxPartyIcons then
         return

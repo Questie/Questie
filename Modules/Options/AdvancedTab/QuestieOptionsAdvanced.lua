@@ -158,7 +158,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function(info, value)
                     QuestieOptions:SetProfileValue(info, value)
-                    QuestieOptionsUtils:Delay(0.5, function() QuestiePartyObjectives:Update() end, l10n("Setting party icon limit to %s : Redrawing!", value))
+                    QuestieOptionsUtils:Delay(0.5, function() QuestiePartyObjectives:Update() end, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
             },
             iconSpacer3 = {
@@ -184,7 +184,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function(info, value)
                     QuestieOptions:SetProfileValue(info, value)
-                    QuestieOptionsUtils:Delay(0.5, function() QuestiePartyObjectives:Update() end, l10n("Setting party objective filter distance to %s : Redrawing!", value))
+                    QuestieOptionsUtils:Delay(0.5, function() QuestiePartyObjectives:Update() end, l10n("Setting filter distance to %s : Redrawing!", value))
                 end,
             },
             quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.47, (not Questie.IsTBC)),

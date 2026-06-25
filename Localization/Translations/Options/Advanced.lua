@@ -686,30 +686,6 @@ local advancedOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Setting party icon limit to %s : Redrawing!"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
-    ["Setting party objective filter distance to %s : Redrawing!"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do
