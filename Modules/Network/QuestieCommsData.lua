@@ -87,18 +87,6 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
     if(not playerRegisteredTooltips[playerName][questId]) then
         playerRegisteredTooltips[playerName][questId] = {}
     end
-    --[[if(not commsTooltipLookup[lookupKey]) then
-        commsTooltipLookup[lookupKey] = {}
-    end
-    if(not commsTooltipLookup[lookupKey][playerName]) then
-        commsTooltipLookup[lookupKey][playerName] = {};
-    end
-    if(not commsTooltipLookup[lookupKey][playerName][questId]) then
-        commsTooltipLookup[lookupKey][playerName][questId] = {};
-    end
-    commsTooltipLookup[lookupKey][playerName][questId][objectiveIndex] = objective;
-
-    playerRegisteredTooltips[playerName][questId][lookupKey] = true;]]--
     for objectiveIndex, objective in pairs(objectives) do
         if(objective.type and objective.id) then
             local lookupKey = objective.type.."_"..objective.id;
