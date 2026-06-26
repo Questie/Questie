@@ -1379,7 +1379,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用控制器",
         ["zhTW"] = false,
     },
     ["Bring the sacks here"] = {
@@ -1391,7 +1391,7 @@ local mopObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "将袋子带到此处",
         ["zhTW"] = false,
     },
 }

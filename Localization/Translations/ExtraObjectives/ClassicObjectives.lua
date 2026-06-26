@@ -851,7 +851,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "当兰莎尔拉让你用的时候就用它",
         ["zhTW"] = false,
     },
     ["Ask for the illusion"] = {
@@ -863,7 +863,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "询问幻象",
         ["zhTW"] = false,
     },
     ["Place the meat"] = {
@@ -899,7 +899,7 @@ local classicObjectiveLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "释放仆从",
         ["zhTW"] = false,
     },
 }
