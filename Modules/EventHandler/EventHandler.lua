@@ -83,8 +83,7 @@ function EventHandler:RegisterEarlyEvents()
             if isInInstance and Questie.db.profile.trackerEnabled then
                 if Questie.db.profile.minimizeTrackerInInstances then
                     EventHandler.trackerMinimizedByInstance = true
-                end
-                if Questie.db.profile.hideTrackerInInstances then
+                elseif Questie.db.profile.hideTrackerInInstances then
                     EventHandler.trackerHiddenByInstance = true
                 end
             end
