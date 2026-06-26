@@ -3776,7 +3776,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {235,742,6382},
         },
-        [6403] = {
+        [6402] = { -- Stormwind Rendezvous
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Squire Rowe"), 0, {{"monster", 17804}}}},
+        },
+        [6403] = { -- The Great Masquerade
             [questKeys.triggerEnd] = {"Reginald's March", {[zoneIDs.STORMWIND_CITY]={{77.57,18.59}}}},
         },
         [6482] = {

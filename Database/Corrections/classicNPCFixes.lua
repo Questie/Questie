@@ -2254,7 +2254,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{31.86,21.66}}},
         },
         [12580] = { -- Reginald Windsor
-            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{69.56,85.9},{73.52,23.41},{67.82,82.49},{65.66,78.08},{69.67,28.27}}},
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{69.7,86.09}}},
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
         [12759] = { -- Tideress

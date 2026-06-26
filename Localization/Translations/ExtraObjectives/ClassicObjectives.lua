@@ -902,6 +902,18 @@ local classicObjectiveLocales = {
         ["zhCN"] = "释放仆从",
         ["zhTW"] = false,
     },
+    ["Talk to Squire Rowe"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Spricht mit Knappe Rowe",
+        ["esES"] = "Habla con Escudero Rowe",
+        ["esMX"] = "Habla con Escudero Rowe",
+        ["frFR"] = "Parlez à Ecuyer Rowe",
+        ["koKR"] = "수습기사 로우와 대화",
+        ["ptBR"] = "Converse com Escudeiro Rui",
+        ["ruRU"] = "Поговорите с Оруженосец Роу",
+        ["zhCN"] = "与侍卫洛文交谈",
+        ["zhTW"] = "與侍衛洛義交談",
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do
