@@ -7,9 +7,9 @@ local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
 
 -- TBC quests
-tinsert(eventQuests, {"Brewfest", 11117, nil, nil, Expansions.Current >= Expansions.Cata}) -- Catch the Wild Wolpertinger!
-tinsert(eventQuests, {"Brewfest", 11118, nil, nil, Expansions.Current >= Expansions.Cata}) -- Pink Elekks On Parade
-tinsert(eventQuests, {"Brewfest", 11120, nil, nil, Expansions.Current >= Expansions.Cata}) -- Pink Elekks On Parade
+tinsert(eventQuests, {"Brewfest", 11117, nil, nil, Questie.IsEURegion}) -- Catch the Wild Wolpertinger!
+tinsert(eventQuests, {"Brewfest", 11118, nil, nil, Questie.IsEURegion}) -- Pink Elekks On Parade
+tinsert(eventQuests, {"Brewfest", 11120, nil, nil, Questie.IsEURegion}) -- Pink Elekks On Parade
 tinsert(eventQuests, {"Brewfest", 11122}) -- There and Back Again
 tinsert(eventQuests, {"Brewfest", 11293}) -- Bark for the Barleybrews!
 tinsert(eventQuests, {"Brewfest", 11294}) -- Bark for the Thunderbrews!
@@ -20,7 +20,7 @@ tinsert(eventQuests, {"Brewfest", 11408}) -- Bark for T'chali's Voodoo Brewery!
 tinsert(eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(eventQuests, {"Brewfest", 11412}) -- There and Back Again
 tinsert(eventQuests, {"Brewfest", 11419, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Brewfest Riding Rams
-tinsert(eventQuests, {"Brewfest", 11431, nil, nil, Expansions.Current >= Expansions.Cata}) -- Catch the Wild Wolpertinger!
+tinsert(eventQuests, {"Brewfest", 11431, nil, nil, Questie.IsEURegion}) -- Catch the Wild Wolpertinger!
 tinsert(eventQuests, {"Brewfest", 11441}) -- Brewfest!
 tinsert(eventQuests, {"Brewfest", 11442}) -- Welcome to Brewfest!
 tinsert(eventQuests, {"Brewfest", 11446}) -- Brewfest!
