@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type ObjectiveOrderCorrections
+local ObjectiveOrderCorrections = QuestieLoader:ImportModule("ObjectiveOrderCorrections")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieProfessions
@@ -47,7 +49,7 @@ local _QuestieQuest = QuestieQuest.private
 ---@type table<number, AutoBlacklistString>
 QuestieDB.autoBlacklist = {}
 
-local tinsert, tremove, next = table.insert, table.remove, next
+local next = next
 local bitband = bit.band
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
@@ -1548,11 +1550,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
-                    if QuestieCorrections.objectObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, objectObjectiveData)
-                    else
-                        QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
-                    end
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
                 end
             end
         end
@@ -1569,11 +1567,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
-                    if QuestieCorrections.itemObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, itemObjectiveData)
-                    else
-                        QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
-                    end
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
                 end
             end
         end
@@ -1599,13 +1593,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                     Icon = creditObjective[4]
                 }
 
-                --? There are quest(s) which have the killCredit first so we need to switch them
-                -- Place the kill credit objective first
-                if QuestieCorrections.killCreditObjectiveFirst[questId] then
-                    tinsert(QO.ObjectiveData, 1, killCreditObjective)
-                else
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
-                end
+                QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
             end
         end
         if objectives[6] then
@@ -1620,13 +1608,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                     }
                     QO.SpellItemId = spellObjective[3]
 
-                    --? There are quest(s) which have the spellObjective first so we need to switch them
-                    -- Place the spell objective first
-                    if QuestieCorrections.spellObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, spellObjectiveData)
-                    else
-                        QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
-                    end
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
                 end
             end
         end
@@ -1641,12 +1623,10 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
-        if QuestieCorrections.eventObjectiveFirst[questId] then
-            tinsert(QO.ObjectiveData, 1, triggerEndObjective)
-        else
-            QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective
-        end
+        QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective
     end
+
+    QO.ObjectiveData = ObjectiveOrderCorrections:Apply(questId, QO.ObjectiveData)
 
     --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
     --- Includes also icons drawn to maps, and other stuff.

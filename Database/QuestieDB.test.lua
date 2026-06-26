@@ -16,18 +16,21 @@ describe("QuestieDB", function()
     ---@type Quest
     local testQuest
 
+    local originalQuestieError
+    local originalCompleteQuests
+
     before_each(function()
+        originalQuestieError = Questie.Error
+        originalCompleteQuests = Questie.db.char.complete
         Questie.db.char.complete = {}
+        Questie.Error = function() end
         QuestiePlayer = require("Modules.QuestiePlayer")
         QuestieLib = require("Modules.Libs.QuestieLib")
         QuestieCorrections = require("Database.Corrections.QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
-        QuestieCorrections.killCreditObjectiveFirst = {}
-        QuestieCorrections.objectObjectiveFirst = {}
-        QuestieCorrections.itemObjectiveFirst = {}
-        QuestieCorrections.eventObjectiveFirst = {}
-        QuestieCorrections.spellObjectiveFirst = {}
+        QuestieCorrections.objectiveOrderMoves = {}
+        require("Database.Corrections.ObjectiveOrderCorrections")
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
@@ -48,6 +51,11 @@ describe("QuestieDB", function()
             [questKeys.objectivesText] = "Finish him!",
             [questKeys.objectives] = {{{1000}}}
         }
+    end)
+
+    after_each(function()
+        Questie.Error = originalQuestieError
+        Questie.db.char.complete = originalCompleteQuests
     end)
 
     describe("GetQuest", function()
@@ -102,7 +110,9 @@ describe("QuestieDB", function()
                 [1] = {{1000, "Slay the target"}},
                 [6] = {{12345, "Cast the spell", 67890}}
             }
-            QuestieCorrections.spellObjectiveFirst[123] = true
+            QuestieCorrections.objectiveOrderMoves[123] = {
+                {Type = "spell", Id = 12345, From = 2, To = 1},
+            }
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
             QuestieLib.GetTbcLevel = function() return 60, 60 end
 
@@ -141,6 +151,124 @@ describe("QuestieDB", function()
                 },
             }, quest.SpecialObjectives)
         end)
+
+        it("should move an objective to a target slot and stable-fill remaining objective data", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = {
+                [3] = {
+                    {123, "First item"},
+                    {124, "Second item"},
+                },
+                [4] = {34, 9000},
+            }
+            QuestieCorrections.objectiveOrderMoves[123] = {
+                {Type = "reputation", Id = 34, From = 3, To = 2},
+            }
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({
+                {Type = "item", Id = 123, Text = "First item"},
+                {Type = "reputation", Id = 34, RequiredRepValue = 9000},
+                {Type = "item", Id = 124, Text = "Second item"},
+            }, quest.ObjectiveData)
+        end)
+
+        it("should support multiple objective moves against original positions", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = {
+                [2] = {
+                    {301, "First object"},
+                    {302, "Second object"},
+                },
+                [3] = {
+                    {101, "First item"},
+                    {102, "Second item"},
+                },
+            }
+            QuestieCorrections.objectiveOrderMoves[123] = {
+                {Type = "object", Id = 301, From = 1, To = 4},
+                {Type = "item", Id = 102, From = 4, To = 2},
+            }
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({
+                {Type = "object", Id = 302, Text = "Second object"},
+                {Type = "item", Id = 102, Text = "Second item"},
+                {Type = "item", Id = 101, Text = "First item"},
+                {Type = "object", Id = 301, Text = "First object"},
+            }, quest.ObjectiveData)
+        end)
+
+        it("should move kill credit objectives by root id", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = {
+                [1] = {{1000, "Slay the target"}},
+                [5] = {{{2001, 2002}, 3000, "Earn kill credit"}},
+            }
+            QuestieCorrections.objectiveOrderMoves[123] = {
+                {Type = "killcredit", Id = 3000, From = 2, To = 1},
+            }
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({
+                {Type = "killcredit", IdList = {2001, 2002}, RootId = 3000, Text = "Earn kill credit"},
+                {Type = "monster", Id = 1000, Text = "Slay the target"},
+            }, quest.ObjectiveData)
+        end)
+
+        it("should move event objectives without an id", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = {
+                [1] = {{1000, "Slay the target"}},
+            }
+            testQuest[questKeys.triggerEnd] = {"Reach the target", {[1] = {{12345, 67890}}}}
+            QuestieCorrections.objectiveOrderMoves[123] = {
+                {Type = "event", From = 2, To = 1},
+            }
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({
+                {Type = "event", Text = "Reach the target", Coordinates = {[1] = {{12345, 67890}}}},
+                {Type = "monster", Id = 1000, Text = "Slay the target"},
+            }, quest.ObjectiveData)
+        end)
+
+        it("should keep default objective order when an objective move does not match", function()
+            local questKeys = QuestieDB.questKeys
+            testQuest[questKeys.objectives] = {
+                [3] = {
+                    {123, "First item"},
+                    {124, "Second item"},
+                },
+                [4] = {34, 9000},
+            }
+            QuestieCorrections.objectiveOrderMoves[123] = {
+                {Type = "reputation", Id = 999, From = 3, To = 2},
+            }
+            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            QuestieLib.GetTbcLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are.same({
+                {Type = "item", Id = 123, Text = "First item"},
+                {Type = "item", Id = 124, Text = "Second item"},
+                {Type = "reputation", Id = 34, RequiredRepValue = 9000},
+            }, quest.ObjectiveData)
+        end)
+
     end)
 
     describe("GetItem", function()

@@ -12,24 +12,62 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieCorrections.objectObjectiveFirst[14125] = true
-QuestieCorrections.objectObjectiveFirst[24817] = true
-QuestieCorrections.objectObjectiveFirst[25371] = true
-QuestieCorrections.objectObjectiveFirst[25731] = true
-QuestieCorrections.objectObjectiveFirst[25813] = true
-QuestieCorrections.objectObjectiveFirst[26659] = true
-QuestieCorrections.objectObjectiveFirst[26809] = true
-QuestieCorrections.objectObjectiveFirst[27161] = true
-QuestieCorrections.objectObjectiveFirst[30099] = true
-QuestieCorrections.killCreditObjectiveFirst[52] = true
-QuestieCorrections.killCreditObjectiveFirst[13798] = true
-QuestieCorrections.killCreditObjectiveFirst[25015] = true
-QuestieCorrections.killCreditObjectiveFirst[25801] = true
-QuestieCorrections.killCreditObjectiveFirst[26058] = true
-QuestieCorrections.killCreditObjectiveFirst[26621] = true
-QuestieCorrections.killCreditObjectiveFirst[26875] = true
-QuestieCorrections.killCreditObjectiveFirst[27715] = true
-QuestieCorrections.killCreditObjectiveFirst[29290] = true
+QuestieCorrections.objectiveOrderMoves[14125] = { -- 447
+    {Type = "object", Id = 201735, From = 4, To = 1}, -- Defective Generator
+    {Type = "object", Id = 201733, From = 3, To = 2}, -- Leaky Stove
+    {Type = "object", Id = 201734, From = 2, To = 3}, -- Flammable Bed
+}
+QuestieCorrections.objectiveOrderMoves[24817] = { -- A Goblin in Shark's Clothing
+    {Type = "object", Id = 202108, From = 2, To = 1}, -- Mechashark X-Steam Controller
+}
+QuestieCorrections.objectiveOrderMoves[25371] = { -- The Abyssal Ride
+    {Type = "object", Id = 202766, From = 2, To = 1}, -- Braided Rope
+}
+QuestieCorrections.objectiveOrderMoves[25813] = { -- Go Blow that Horn
+    {Type = "object", Id = 203248, From = 2, To = 1}, -- Horn Mouthpiece
+}
+QuestieCorrections.objectiveOrderMoves[26659] = { -- Resonating Blow
+    {Type = "object", Id = 204837, From = 2, To = 1}, -- Pale Resonating Crystal
+}
+QuestieCorrections.objectiveOrderMoves[26809] = { -- Backdoor Dealings
+    {Type = "object", Id = 204361, From = 2, To = 1}, -- Totem of Hir'eek
+}
+QuestieCorrections.objectiveOrderMoves[27161] = { -- The Endless Flow
+    {Type = "object", Id = 204966, From = 2, To = 1}, -- Scourge Bone Animus
+}
+QuestieCorrections.objectiveOrderMoves[30099] = { -- In Unending Numbers
+    {Type = "object", Id = 209366, From = 4, To = 1}, -- Portal Energy Focus
+    {Type = "object", Id = 209447, From = 3, To = 2}, -- Portal Energy Focus
+    {Type = "object", Id = 209448, From = 2, To = 3}, -- Portal Energy Focus
+}
+QuestieCorrections.objectiveOrderMoves[52] = { -- Protect the Frontier
+    {Type = "killcredit", Id = 118, From = 2, To = 1}, -- Prowler
+}
+QuestieCorrections.objectiveOrderMoves[13798] = { -- Rain of Destruction
+    {Type = "killcredit", Id = 33914, From = 2, To = 1}, -- Ashenvale Bowman
+}
+QuestieCorrections.objectiveOrderMoves[25015] = { -- Make 'em Squeal
+    {Type = "killcredit", Id = 37521, From = 2, To = 1}, -- Bristleback Quilboar Quest Counter
+}
+QuestieCorrections.objectiveOrderMoves[25801] = { -- Claws from the Deep
+    {Type = "killcredit", Id = 42109, From = 2, To = 1}, -- Bluegill Murloc Kill Credit
+}
+QuestieCorrections.objectiveOrderMoves[26058] = { -- In Defense of Krom'gar Fortress
+    {Type = "killcredit", Id = 42016, From = 2, To = 1}, -- Gnomish Flying Machine
+}
+QuestieCorrections.objectiveOrderMoves[26621] = { -- Insurrection
+    {Type = "killcredit", Id = 43577, From = 3, To = 1}, -- Dragonmaw Worker
+}
+QuestieCorrections.objectiveOrderMoves[26875] = { -- Undying Twilight
+    {Type = "killcredit", Id = 44680, From = 2, To = 1}, -- Twilight Defiler
+}
+QuestieCorrections.objectiveOrderMoves[27715] = { -- The Day that Deathwing Came: What Really Happened
+    {Type = "killcredit", Id = 47123, From = 4, To = 1}, -- Night Elf Admirer
+}
+QuestieCorrections.objectiveOrderMoves[29290] = { -- Fire in the Skies
+    {Type = "killcredit", Id = 53308, From = 3, To = 1}, -- Flamewaker Centurion
+    {Type = "monster", Id = 53310, From = 1, To = 3}, -- Molten Lord
+}
 
 function CataQuestFixes.Load()
     local questKeys = QuestieDB.questKeys

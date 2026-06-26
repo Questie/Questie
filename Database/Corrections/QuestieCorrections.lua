@@ -93,11 +93,8 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 
 local filterExpansion = BlacklistFilter.filterExpansion
 
-QuestieCorrections.killCreditObjectiveFirst = {}
-QuestieCorrections.objectObjectiveFirst = {}
-QuestieCorrections.itemObjectiveFirst = {}
-QuestieCorrections.eventObjectiveFirst = {}
-QuestieCorrections.spellObjectiveFirst = {}
+---@type table<QuestId, ObjectiveOrderMove[]>
+QuestieCorrections.objectiveOrderMoves = {}
 
 do
     local type, assert = type, assert

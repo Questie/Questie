@@ -11,9 +11,17 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
-QuestieCorrections.eventObjectiveFirst[85304] = true
-QuestieCorrections.eventObjectiveFirst[85386] = true
-QuestieCorrections.eventObjectiveFirst[89567] = true
+if Questie.IsSoD then
+    QuestieCorrections.objectiveOrderMoves[85304] = { -- Essence of Fire
+        {Type = "event", From = 5, To = 1}, -- Translate the scroll
+    }
+    QuestieCorrections.objectiveOrderMoves[85386] = { -- Essence of Frost
+        {Type = "event", From = 5, To = 1}, -- Translate the scroll
+    }
+    QuestieCorrections.objectiveOrderMoves[89567] = { -- The Wrecked Caravan
+        {Type = "event", From = 3, To = 1}, -- Locate the Scarlet Caravan
+    }
+end
 
 function SeasonOfDiscovery:LoadQuests()
     local questKeys = QuestieDB.questKeys

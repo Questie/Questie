@@ -14,22 +14,55 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-QuestieCorrections.killCreditObjectiveFirst[11652] = true
-QuestieCorrections.killCreditObjectiveFirst[12100] = true
-QuestieCorrections.killCreditObjectiveFirst[12546] = true
-QuestieCorrections.killCreditObjectiveFirst[12561] = true
-QuestieCorrections.killCreditObjectiveFirst[12762] = true
-QuestieCorrections.killCreditObjectiveFirst[12779] = true
-QuestieCorrections.killCreditObjectiveFirst[12919] = true
-QuestieCorrections.killCreditObjectiveFirst[13086] = true
-QuestieCorrections.killCreditObjectiveFirst[13373] = true
-QuestieCorrections.killCreditObjectiveFirst[13376] = true
-QuestieCorrections.killCreditObjectiveFirst[13380] = true
-QuestieCorrections.killCreditObjectiveFirst[13382] = true
-QuestieCorrections.killCreditObjectiveFirst[13404] = true
-QuestieCorrections.killCreditObjectiveFirst[13406] = true
-QuestieCorrections.killCreditObjectiveFirst[24498] = true
-QuestieCorrections.killCreditObjectiveFirst[24507] = true
+QuestieCorrections.objectiveOrderMoves[11652] = { -- The Plains of Nasam
+    {Type = "killcredit", Id = 25333, From = 3, To = 1}, -- Undying Aggressor
+    {Type = "monster", Id = 25465, From = 1, To = 3}, -- Kel'Thuzad
+}
+QuestieCorrections.objectiveOrderMoves[12100] = { -- Containing the Rot
+    {Type = "killcredit", Id = 26874, From = 2, To = 1}, -- Infected Wildlife
+}
+QuestieCorrections.objectiveOrderMoves[12546] = { -- Reclamation
+    {Type = "killcredit", Id = 28271, From = 4, To = 1}, -- Scourge Minions destroyed
+}
+QuestieCorrections.objectiveOrderMoves[12561] = { -- An Issue of Trust
+    {Type = "killcredit", Id = 28101, From = 2, To = 1}, -- Blighted Corpse
+}
+QuestieCorrections.objectiveOrderMoves[12762] = { -- Power of the Great Ones
+    {Type = "killcredit", Id = 28078, From = 2, To = 1}, -- Frenzyheart Attacker
+}
+QuestieCorrections.objectiveOrderMoves[12779] = { -- An End To All Things...
+    {Type = "killcredit", Id = 29150, From = 2, To = 1}, -- Scarlet Soldiers slain
+}
+QuestieCorrections.objectiveOrderMoves[12919] = { -- The Storm King's Vengeance
+    {Type = "killcredit", Id = 29943, From = 4, To = 1}, -- Scourge slain
+}
+QuestieCorrections.objectiveOrderMoves[13086] = { -- The Last Line Of Defense
+    {Type = "killcredit", Id = 30670, From = 2, To = 1}, -- Scourge Attackers slain
+}
+QuestieCorrections.objectiveOrderMoves[13373] = { -- Fringe Science Benefits
+    {Type = "killcredit", Id = 32182, From = 3, To = 1}, -- Enraged Fleshrender
+}
+QuestieCorrections.objectiveOrderMoves[13376] = { -- Total Ohmage: The Valley of Lost Hope!
+    {Type = "killcredit", Id = 32182, From = 4, To = 1}, -- Enraged Fleshrender
+}
+QuestieCorrections.objectiveOrderMoves[13380] = { -- Leading the Charge
+    {Type = "killcredit", Id = 32182, From = 3, To = 1}, -- Enraged Fleshrender
+}
+QuestieCorrections.objectiveOrderMoves[13382] = { -- Putting the Hertz: The Valley of Lost Hope
+    {Type = "killcredit", Id = 32182, From = 4, To = 1}, -- Enraged Fleshrender
+}
+QuestieCorrections.objectiveOrderMoves[13404] = { -- Static Shock Troops: the Bombardment
+    {Type = "killcredit", Id = 32182, From = 3, To = 1}, -- Enraged Fleshrender
+}
+QuestieCorrections.objectiveOrderMoves[13406] = { -- Riding the Wavelength: The Bombardment
+    {Type = "killcredit", Id = 32182, From = 3, To = 1}, -- Enraged Fleshrender
+}
+QuestieCorrections.objectiveOrderMoves[24498] = { -- The Path to the Citadel
+    {Type = "killcredit", Id = 36764, From = 2, To = 1}, -- Alliance Slave
+}
+QuestieCorrections.objectiveOrderMoves[24507] = { -- The Path to the Citadel
+    {Type = "killcredit", Id = 36770, From = 2, To = 1}, -- Horde Slave
+}
 
 function QuestieWotlkQuestFixes:Load()
     _QuestieWotlkQuestFixes:InsertMissingQuestIds()

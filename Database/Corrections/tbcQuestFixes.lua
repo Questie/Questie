@@ -14,7 +14,9 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-QuestieCorrections.killCreditObjectiveFirst[10503] = true -- The Bladespire Threat
+QuestieCorrections.objectiveOrderMoves[10503] = { -- The Bladespire Threat
+    {Type = "killcredit", Id = 19995, From = 2, To = 1}, -- Bladespire Ogres killed
+}
 
 
 function QuestieTBCQuestFixes:Load()
