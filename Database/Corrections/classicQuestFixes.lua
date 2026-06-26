@@ -2736,7 +2736,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {162},
         },
         [4494] = { -- March of the Silithid
-            [questKeys.preQuestSingle] = {7732},
+            [questKeys.preQuestSingle] = {32,7732},
         },
         [4495] = {
             [questKeys.nextQuestInChain] = 3519,
