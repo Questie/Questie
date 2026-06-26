@@ -222,13 +222,13 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
 
             if (not ChatFrame1EditBox:IsVisible()) then
                 if Questie.db.profile.trackerShowQuestLevel then
-                    ChatFrame_OpenChat(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
+                    ChatFrame_OpenChat(QuestieLink:GetQuestLinkStringById(quest.Id))
                 else
                     ChatFrame_OpenChat("[" .. quest.name .. " (" .. quest.Id .. ")]")
                 end
             else
                 if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(quest.Id))
                 else
                     ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
                 end

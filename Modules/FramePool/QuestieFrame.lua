@@ -198,7 +198,7 @@ function _Qframe.OnClick(self, button)
             local frameData = self.data
             if ChatEdit_GetActiveWindow() and frameData.QuestData then
                 if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(frameData.QuestData.level, frameData.QuestData.name, frameData.Id))
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(frameData.Id))
                 else
                     ChatEdit_InsertLink("[" .. frameData.QuestData.name .. " (" .. frameData.Id .. ")]")
                 end
