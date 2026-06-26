@@ -3,8 +3,6 @@ local TrackerQuestTimers = QuestieLoader:CreateModule("TrackerQuestTimers")
 
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type QuestieCombatQueue
-local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -124,15 +122,8 @@ function TrackerQuestTimers:UpdateTimerFrame()
         if timeRemainingString ~= nil then
             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
 
-            QuestieCombatQueue:Queue(function()
-                if (not timer) then
-                    -- timer might be reset on next combat queue
-                    return
-                end
-                timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
-                timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
-                timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.profile.trackerFontSizeQuest)) + Questie.db.profile.trackerFontSizeQuest)
-            end)
+            timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
+            timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
         else
             Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
             return
