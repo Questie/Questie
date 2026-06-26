@@ -89,7 +89,8 @@ function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
 end
 
 ---@param questId number
----@return string timeRemainingString, number timeRemaining, nil
+---@return string? timeRemainingString @Format is "4 Mins 45 Secs"
+---@return number? timeRemaining
 function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
     if (not questLogIndex) then
@@ -109,11 +110,11 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
     SelectQuestLogEntry(currentQuestLogSelection)
 
     if timeRemaining ~= nil then
-        local timeRemainingString = SecondsToTime(timeRemaining, false, true)
+        local timeRemainingString = SecondsToTime(timeRemaining, false, false)
 
         return timeRemainingString, timeRemaining
     else
-        return nil
+        return nil, nil
     end
 end
 

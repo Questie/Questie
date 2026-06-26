@@ -68,12 +68,12 @@ describe("TrackerQuestTimers", function()
                 return 81
             end
             _G.SecondsToTime = function()
-                return "1 |4Minute:Minutes; 21 |4Second:Seconds;"
+                return "2 |4Min:Mins; 21 |4Sec:Secs;"
             end
 
             local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(1)
 
-            assert.is_equal("1 |4Minute:Minutes; 21 |4Second:Seconds;", timeRemainingString)
+            assert.is_equal("2 |4Min:Mins; 21 |4Sec:Secs;", timeRemainingString)
             assert.is_equal(81, timeRemaining)
 
             assert.spy(_G.SelectQuestLogEntry).was.called_with(123)
