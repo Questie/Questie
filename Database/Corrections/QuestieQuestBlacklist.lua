@@ -6316,7 +6316,7 @@ function QuestieQuestBlacklist:Load()
         [31278] = true, -- Hidden quest
         [31280] = true, -- Hidden quest
         [31284] = true, -- Hidden quest
-        [31289] = true, -- Not in the game
+        [31289] = not Questie.IsChinaRegion, -- Seems available on Chinese MoP
         [31292] = true, -- Hidden quest
         [31304] = true, -- Hidden quest
         [31305] = true, -- Hidden quest
