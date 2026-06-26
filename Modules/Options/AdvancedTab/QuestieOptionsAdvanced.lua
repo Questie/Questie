@@ -100,7 +100,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function(info, value)
                     QuestieOptions:SetProfileValue(info, value)
-                    QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting objective filter distance to %s : Redrawing!", value))
+                    QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting filter distance to %s : Redrawing!", value))
                 end,
             },
             spawnFilterDistance = {
