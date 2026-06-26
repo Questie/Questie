@@ -693,12 +693,10 @@ _HandleTreeItemClick = function(group, ...)
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(treePath[2])
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
-        local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
-        local questLevel, _ = QuestieLib.GetTbcLevel(selectedId);
-
         if Questie.db.profile.trackerShowQuestLevel then
-            ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(questLevel, questName, selectedId))
+            ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(selectedId))
         else
+            local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
             ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
         end
     end

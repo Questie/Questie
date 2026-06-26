@@ -77,6 +77,21 @@ describe("QuestieLink", function()
         QuestieLink = require("Modules.QuestLinks.Link")
     end)
 
+    describe("GetQuestLinkStringById", function()
+        it("should return a formatted link string with level and name from the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetTbcLevel = function()
+                return 15
+            end
+
+            local result = QuestieLink:GetQuestLinkStringById(1234)
+
+            assert.are.same("[[15] Test Quest (1234)]", result)
+        end)
+    end)
+
     describe("CreateQuestTooltip", function()
         it("should show quest requirements including reputation when quest is not in the player quest log", function()
             QuestieDB.GetQuest = function(questId)
