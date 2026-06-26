@@ -5,22 +5,52 @@ QuestiePartyObjectives.private = QuestiePartyObjectives.private or {}
 -------------------------
 --Import modules.
 -------------------------
----@type PartyObjectivesGenerator
-local PartyObjectivesGenerator = QuestieLoader:ImportModule("PartyObjectivesGenerator")
+---@type PartyObjectivesProvider
+local PartyObjectivesProvider = QuestieLoader:ImportModule("PartyObjectivesProvider")
 ---@type PartyObjectiveDrawer
 local PartyObjectiveDrawer = QuestieLoader:ImportModule("PartyObjectiveDrawer")
 
 -- How many quests we redraw per frame when spreading a large refresh across frames.
 local CHUNK_SIZE = 50
+-- How many times we re-poll the client for a party member's quest objective data (for the Blizzard
+-- objective text) before giving up, when the generator reports it isn't cached yet.
+local MAX_PREFETCH_RETRIES = 5
 
 -- Scheduling state.
 local dirtyQuests = {}
 local fullRefreshPending = false
 local updateScheduled = false
 local processing = false
+-- prefetchedQuests[questId] = { attempts = number, pending = boolean }. Bounded poll for a party
+-- member's quest objective data so a cache miss is retried a few times (not forever) and only one
+-- retry timer is in flight per quest. Reset on a full clear so a fresh group starts over.
+local prefetchedQuests = {}
 
 -- Forward declarations (these reference each other).
 local _ScheduleProcessing, _ProcessScheduled, _ProcessQueue
+
+-- Schedule a bounded, delayed redraw for a quest whose Blizzard objective text wasn't cached yet
+-- (the generator primed the client cache and flagged the plan). The data arrives asynchronously and
+-- QUEST_DATA_LOAD_RESULT isn't available on Classic clients, so poll until it lands; one timer in
+-- flight per quest, giving up after MAX_PREFETCH_RETRIES so it can't loop.
+---@param questId number
+local function _ScheduleApiRetry(questId)
+    local state = prefetchedQuests[questId]
+    if not state then
+        state = { attempts = 0, pending = false }
+        prefetchedQuests[questId] = state
+    end
+    if (not state.pending) and state.attempts < MAX_PREFETCH_RETRIES then
+        state.pending = true
+        C_Timer.After(1.5, function()
+            xpcall(function()
+                state.pending = false
+                state.attempts = state.attempts + 1
+                QuestiePartyObjectives:ScheduleUpdate(questId)
+            end, CallErrorHandler)
+        end)
+    end
+end
 
 -- Process a queue of questIds in chunks, one chunk per frame, to avoid a single large hitch.
 -- The generator decides what should be drawn; the drawer performs the actual map calls.
@@ -31,9 +61,12 @@ _ProcessQueue = function(queue, index)
     for i = index, stop do
         local questId = queue[i]
         PartyObjectiveDrawer:ClearQuest(questId)
-        local plan = PartyObjectivesGenerator.BuildQuestPlan(questId)
+        local plan = PartyObjectivesProvider.BuildQuestPlan(questId)
         if plan then
             PartyObjectiveDrawer:DrawQuest(plan)
+            if plan.needsApiRetry then
+                _ScheduleApiRetry(questId)
+            end
         end
     end
 
@@ -61,7 +94,7 @@ _ProcessScheduled = function()
         return
     end
 
-    if not PartyObjectivesGenerator.ShouldDraw() then
+    if not PartyObjectivesProvider.ShouldDraw() then
         QuestiePartyObjectives:Clear()
         dirtyQuests = {}
         fullRefreshPending = false
@@ -73,7 +106,7 @@ _ProcessScheduled = function()
         fullRefreshPending = false
         dirtyQuests = {}
         QuestiePartyObjectives:Clear()
-        queue = PartyObjectivesGenerator.GetAllRemoteQuestIds()
+        queue = PartyObjectivesProvider.GetAllRemoteQuestIds()
     else
         for questId in pairs(dirtyQuests) do
             queue[#queue + 1] = questId
@@ -109,6 +142,7 @@ end
 -- Unload all party objective icons and forget them.
 function QuestiePartyObjectives:Clear()
     PartyObjectiveDrawer:ClearAll()
+    prefetchedQuests = {}
 end
 
 -- Immediate full refresh, used by the options toggle.

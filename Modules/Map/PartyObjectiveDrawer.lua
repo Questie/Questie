@@ -3,21 +3,14 @@ local PartyObjectiveDrawer = QuestieLoader:CreateModule("PartyObjectiveDrawer")
 -------------------------
 --Import modules.
 -------------------------
----@type QuestiePartyObjectives
-local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local NOP_FUNCTION = function() end
 
 -- Total ceiling on the number of party objective map-icons, independent of the per-objective
 -- icon limit, so a crowded zone with a full group can't flood the map.
 local MAX_PARTY_ICONS = 500
--- How many times we re-poll the client for a party member's quest objective data (for the
--- Blizzard objective text) before giving up, when it isn't cached yet on the first draw.
-local MAX_PREFETCH_RETRIES = 5
 
 -- drawnByQuest[questId] = { objectives = { synthetic objective tables }, iconCount = number }
 -- Tracked per quest so we can clear/redraw a single quest incrementally and account for the
@@ -28,51 +21,6 @@ local drawnByQuest = {}
 local spawnListCache = {}
 -- Running total of party map-icons currently drawn, compared against MAX_PARTY_ICONS.
 local drawnIconCount = 0
--- prefetchedQuests[questId] = { attempts = number, pending = boolean }. Tracks our bounded poll
--- for a party member's quest objective data so a cache miss is retried a few times (not forever)
--- and only one retry timer is in flight per quest.
-local prefetchedQuests = {}
-
--- A flagged objective's database name is meaningless (kill-credit, event, etc.). The Blizzard API
--- returns the real objective text for quests we don't have, once the client has cached the quest
--- data (same pattern as Link.lua _AddQuestRequirements).
----@param questId number
----@param objectiveIndex number
----@return string?
-local function _GetApiObjectiveText(questId, objectiveIndex)
-    if not HaveQuestData(questId) then
-        C_QuestLog.GetQuestObjectives(questId) -- prime the client cache
-        -- The data arrives asynchronously and QUEST_DATA_LOAD_RESULT isn't available on Classic
-        -- clients, so poll with a bounded number of delayed redraws until it's cached (a server
-        -- round-trip can take a few seconds on login). One timer in flight per quest so multiple
-        -- objectives don't multiply retries; gives up after MAX_PREFETCH_RETRIES so it can't loop.
-        local state = prefetchedQuests[questId]
-        if not state then
-            state = { attempts = 0, pending = false }
-            prefetchedQuests[questId] = state
-        end
-        if (not state.pending) and state.attempts < MAX_PREFETCH_RETRIES then
-            state.pending = true
-            C_Timer.After(1.5, function()
-                xpcall(function()
-                    state.pending = false
-                    state.attempts = state.attempts + 1
-                    QuestiePartyObjectives:ScheduleUpdate(questId)
-                end, CallErrorHandler)
-            end)
-        end
-        return nil
-    end
-    local objectives = C_QuestLog.GetQuestObjectives(questId)
-    local objective = objectives and objectives[objectiveIndex]
-    local text = objective and objective.text
-    if (not text) or text == "" then
-        return nil
-    end
-
-    -- Strip the counter from the objective text; the tooltip prepends fulfilled/required separately
-    return QuestieLib.GetFullObjectiveText(text) or text
-end
 
 ---@param objective table
 ---@return number @the number of map-icons this objective drew
@@ -164,15 +112,6 @@ function PartyObjectiveDrawer:DrawQuest(plan)
 
         local objective = _BuildObjective(descriptor)
 
-        -- Resolve the Blizzard objective text lazily, only when actually drawing this objective,
-        -- so the prefetch/retry isn't triggered for objectives beyond the budget.
-        if descriptor.needsApiText then
-            local apiText = _GetApiObjectiveText(questId, descriptor.Index)
-            if apiText then
-                objective.Description = apiText
-            end
-        end
-
         -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.
         local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][descriptor.Index]
         objective.spawnList = cachedSpawnList or {}
@@ -237,7 +176,6 @@ function PartyObjectiveDrawer:ClearAll()
     end
     drawnByQuest = {}
     drawnIconCount = 0
-    prefetchedQuests = {}
 end
 
 return PartyObjectiveDrawer

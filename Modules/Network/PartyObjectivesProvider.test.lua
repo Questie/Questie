@@ -1,8 +1,8 @@
 dofile("setupTests.lua")
 
-describe("PartyObjectivesGenerator", function()
-    ---@type PartyObjectivesGenerator
-    local PartyObjectivesGenerator
+describe("PartyObjectivesProvider", function()
+    ---@type PartyObjectivesProvider
+    local PartyObjectivesProvider
     ---@type QuestieComms
     local QuestieComms
     ---@type QuestieDB
@@ -41,79 +41,83 @@ describe("PartyObjectivesGenerator", function()
 
         _G.GetNumGroupMembers = function() return 3 end
         _G.UnitIsConnected = function() return true end
+        -- Default: the Blizzard quest data isn't cached, so the API-text path falls back and asks
+        -- for a retry. Tests that exercise resolved text override these.
+        _G.HaveQuestData = function() return false end
+        _G.C_QuestLog.GetQuestObjectives = function() return nil end
 
-        PartyObjectivesGenerator = require("Modules.Network.PartyObjectivesGenerator")
+        PartyObjectivesProvider = require("Modules.Network.PartyObjectivesProvider")
     end)
 
     describe("ShouldDraw", function()
-        it("returns true when the setting is on and in a small group", function()
-            assert.is_true(PartyObjectivesGenerator.ShouldDraw())
+        it("should return true when the setting is on and in a small group", function()
+            assert.is_true(PartyObjectivesProvider.ShouldDraw())
         end)
 
-        it("returns false when the setting is off", function()
+        it("should return false when the setting is off", function()
             Questie.db.profile.showPartyQuestObjectives = false
-            assert.is_falsy(PartyObjectivesGenerator.ShouldDraw())
+            assert.is_false(PartyObjectivesProvider.ShouldDraw())
         end)
 
-        it("returns false when not in a group", function()
+        it("should return false when not in a group", function()
             QuestiePlayer.GetGroupType = function() return nil end
-            assert.is_falsy(PartyObjectivesGenerator.ShouldDraw())
+            assert.is_false(PartyObjectivesProvider.ShouldDraw())
         end)
 
-        it("returns false when the group is larger than 5", function()
+        it("should return false when the group is larger than 5", function()
             _G.GetNumGroupMembers = function() return 6 end
-            assert.is_falsy(PartyObjectivesGenerator.ShouldDraw())
+            assert.is_false(PartyObjectivesProvider.ShouldDraw())
         end)
     end)
 
     describe("GetAllRemoteQuestIds", function()
-        it("lists every quest in the remote logs", function()
+        it("should list every quest in the remote logs", function()
             QuestieComms.remoteQuestLogs = { [10] = {}, [20] = {}, [30] = {} }
-            local ids = PartyObjectivesGenerator.GetAllRemoteQuestIds()
+            local ids = PartyObjectivesProvider.GetAllRemoteQuestIds()
             table.sort(ids)
             assert.same({ 10, 20, 30 }, ids)
         end)
 
-        it("returns an empty list when there are no remote logs", function()
-            assert.same({}, PartyObjectivesGenerator.GetAllRemoteQuestIds())
+        it("should return an empty list when there are no remote logs", function()
+            assert.same({}, PartyObjectivesProvider.GetAllRemoteQuestIds())
         end)
     end)
 
     describe("BuildQuestPlan", function()
-        it("returns nil when the local player already has the quest", function()
+        it("should return nil when the local player already has the quest", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = { [42] = {} }
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false } } } }
-            assert.is_nil(PartyObjectivesGenerator.BuildQuestPlan(42))
+            assert.is_nil(PartyObjectivesProvider.BuildQuestPlan(42))
         end)
 
-        it("returns nil when no party member has the quest", function()
-            assert.is_nil(PartyObjectivesGenerator.BuildQuestPlan(42))
+        it("should return nil when no party member has the quest", function()
+            assert.is_nil(PartyObjectivesProvider.BuildQuestPlan(42))
         end)
 
-        it("returns nil when every objective is finished", function()
+        it("should return nil when every objective is finished", function()
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = true } } } }
             QuestieDB.GetQuest = function()
                 return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Wolf" } } }
             end
-            assert.is_nil(PartyObjectivesGenerator.BuildQuestPlan(42))
+            assert.is_nil(PartyObjectivesProvider.BuildQuestPlan(42))
         end)
 
-        it("ignores objectives only needed by offline members", function()
+        it("should ignore objectives only needed by offline members", function()
             _G.UnitIsConnected = function() return false end
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false } } } }
             QuestieDB.GetQuest = function()
                 return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Wolf" } } }
             end
-            assert.is_nil(PartyObjectivesGenerator.BuildQuestPlan(42))
+            assert.is_nil(PartyObjectivesProvider.BuildQuestPlan(42))
         end)
 
-        it("builds a descriptor from the database ObjectiveData", function()
+        it("should build a descriptor from the database ObjectiveData", function()
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "m" } } } }
             QuestieDB.GetQuest = function()
                 return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Wolf", Icon = "icon" } } }
             end
 
-            local plan = PartyObjectivesGenerator.BuildQuestPlan(42)
+            local plan = PartyObjectivesProvider.BuildQuestPlan(42)
 
             assert.equals(42, plan.questId)
             assert.equals(1, #plan.objectives)
@@ -123,10 +127,10 @@ describe("PartyObjectivesGenerator", function()
             assert.equals(1, descriptor.Index)
             assert.equals("Wolf", descriptor.Description)
             assert.equals("icon", descriptor.Icon)
-            assert.is_false(descriptor.needsApiText)
+            assert.is_false(plan.needsApiRetry)
         end)
 
-        it("falls back to the target name when the DB has no objective text", function()
+        it("should fall back to the target name when the DB has no objective text", function()
             -- The name fallback fires only when Text is absent: an empty string is truthy in Lua,
             -- so it stands as-is (preserving the pre-split behaviour).
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "m" } } } }
@@ -135,49 +139,64 @@ describe("PartyObjectivesGenerator", function()
             end
             QuestieDB.GetNPC = function() return { name = "Snarler" } end
 
-            local descriptor = PartyObjectivesGenerator.BuildQuestPlan(42).objectives[1]
+            local descriptor = PartyObjectivesProvider.BuildQuestPlan(42).objectives[1]
             assert.equals("Snarler", descriptor.Description)
         end)
 
-        it("keeps an empty DB text as-is rather than using the name", function()
+        it("should keep an empty DB text as-is rather than using the name", function()
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "m" } } } }
             QuestieDB.GetQuest = function()
                 return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "" } } }
             end
             QuestieDB.GetNPC = function() return { name = "Snarler" } end
 
-            local descriptor = PartyObjectivesGenerator.BuildQuestPlan(42).objectives[1]
+            local descriptor = PartyObjectivesProvider.BuildQuestPlan(42).objectives[1]
             assert.equals("", descriptor.Description)
         end)
 
-        it("flags needsApiText when the comms type differs from the DB type", function()
+        it("should resolve the Blizzard API text when the comms type differs from the DB type", function()
             -- DB says monster, comms says item -> a kill-credit/flagged objective mismatch.
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "i" } } } }
             QuestieDB.GetQuest = function()
                 return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Credit" } } }
             end
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = function() return { [1] = { text = "Slay the warlord" } } end
 
-            local descriptor = PartyObjectivesGenerator.BuildQuestPlan(42).objectives[1]
-            assert.is_true(descriptor.needsApiText)
-            -- The name fallback is skipped for flagged objectives; the DB text stands as fallback.
-            assert.equals("Credit", descriptor.Description)
-            assert.is_nil(descriptor.FullDescription)
+            local plan = PartyObjectivesProvider.BuildQuestPlan(42)
+            assert.equals("Slay the warlord", plan.objectives[1].Description)
+            assert.is_nil(plan.objectives[1].FullDescription)
+            assert.is_false(plan.needsApiRetry)
         end)
 
-        it("falls back to comms data when the DB objective index is missing", function()
+        it("should keep the DB fallback and flags a retry when the quest data isn't cached yet", function()
+            QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "i" } } } }
+            QuestieDB.GetQuest = function()
+                return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Credit" } } }
+            end
+            _G.HaveQuestData = function() return false end
+
+            local plan = PartyObjectivesProvider.BuildQuestPlan(42)
+            -- The name fallback is skipped for flagged objectives; the DB text stands as fallback.
+            assert.equals("Credit", plan.objectives[1].Description)
+            assert.is_nil(plan.objectives[1].FullDescription)
+            assert.is_true(plan.needsApiRetry)
+        end)
+
+        it("should fall back to comms data when the DB objective index is missing", function()
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "o", id = 99 } } } }
             QuestieDB.GetQuest = function()
                 return { ObjectiveData = {} } -- index 1 absent
             end
             QuestieDB.GetObject = function() return { name = "Crate" } end
 
-            local descriptor = PartyObjectivesGenerator.BuildQuestPlan(42).objectives[1]
+            local descriptor = PartyObjectivesProvider.BuildQuestPlan(42).objectives[1]
             assert.equals(99, descriptor.Id)
             assert.equals("object", descriptor.Type)
             assert.equals("Crate", descriptor.Description)
         end)
 
-        it("returns special objectives in their own list with offset indices", function()
+        it("should return special objectives in their own list with offset indices", function()
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "m" } } } }
             QuestieDB.GetQuest = function()
                 return {
@@ -188,7 +207,7 @@ describe("PartyObjectivesGenerator", function()
                 }
             end
 
-            local plan = PartyObjectivesGenerator.BuildQuestPlan(42)
+            local plan = PartyObjectivesProvider.BuildQuestPlan(42)
             assert.equals(1, #plan.objectives)
             assert.equals(1, #plan.specialObjectives)
             local special = plan.specialObjectives[1]

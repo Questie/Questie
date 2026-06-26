@@ -226,7 +226,7 @@ Modules\QuestieCoordinates.lua
 Modules\Network\Comms.lua
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
-Modules\Network\PartyObjectivesGenerator.lua
+Modules\Network\PartyObjectivesProvider.lua
 Modules\Network\QuestiePartyObjectives.lua
 
 # Journey

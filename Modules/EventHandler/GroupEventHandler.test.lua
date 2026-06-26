@@ -21,16 +21,14 @@ describe("GroupEventHandler", function()
     end
 
     before_each(function()
-        QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer")
+        QuestiePlayer = require("Modules.QuestiePlayer")
         QuestiePlayer.numberOfGroupMembers = 0
-        QuestieComms = QuestieLoader:CreateModule("QuestieComms")
+        QuestieComms = require("Modules.Network.QuestieComms")
         QuestieComms.remoteQuestLogs = {}
-        QuestiePartyObjectives = QuestieLoader:CreateModule("QuestiePartyObjectives")
+        QuestiePartyObjectives = require("Modules.Network.QuestiePartyObjectives")
+        -- ScheduleUpdate is what the assertions spy on, so stub it; the rest of the module is real.
         QuestiePartyObjectives.ScheduleUpdate = function() end
-        -- The module registers itself with QuestieLoader rather than returning the table, so require
-        -- it for its side effects and fetch the populated module afterwards.
-        GroupEventHandler = QuestieLoader:CreateModule("GroupEventHandler")
-        require("Modules.EventHandler.GroupEventHandler")
+        GroupEventHandler = require("Modules.EventHandler.GroupEventHandler")
 
         _G.GetNumGroupMembers = function() return 0 end
         _G.UnitIsConnected = function() return true end

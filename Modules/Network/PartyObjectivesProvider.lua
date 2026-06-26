@@ -1,5 +1,5 @@
----@class PartyObjectivesGenerator : QuestieModule
-local PartyObjectivesGenerator = QuestieLoader:CreateModule("PartyObjectivesGenerator")
+---@class PartyObjectivesProvider : QuestieModule
+local PartyObjectivesProvider = QuestieLoader:CreateModule("PartyObjectivesProvider")
 -------------------------
 --Import modules.
 -------------------------
@@ -85,8 +85,31 @@ local function _GetFullDescription(objType, description)
     return QuestieLib.GetFullObjectiveText(rawText)
 end
 
+-- Resolve the real Blizzard objective text for a quest the local player doesn't have (a flagged
+-- objective's DB name is meaningless). The data arrives asynchronously and QUEST_DATA_LOAD_RESULT
+-- isn't available on Classic clients, so when it isn't cached yet we prime the client cache and
+-- report dataReady=false; the orchestrator then polls with a bounded number of delayed redraws
+-- until it lands (same pattern as Link.lua _AddQuestRequirements).
+---@param questId number
+---@param objectiveIndex number
+---@return string? text, boolean dataReady
+local function _ResolveApiObjectiveText(questId, objectiveIndex)
+    if not HaveQuestData(questId) then
+        C_QuestLog.GetQuestObjectives(questId) -- prime the client cache
+        return nil, false
+    end
+    local objectives = C_QuestLog.GetQuestObjectives(questId)
+    local objective = objectives and objectives[objectiveIndex]
+    local text = objective and objective.text
+    if (not text) or text == "" then
+        return nil, true
+    end
+    -- Strip the counter from the objective text; the tooltip prepends fulfilled/required separately
+    return QuestieLib.GetFullObjectiveText(text) or text, true
+end
+
 ---@return boolean
-function PartyObjectivesGenerator.ShouldDraw()
+function PartyObjectivesProvider.ShouldDraw()
     return Questie.db.profile.showPartyQuestObjectives
         and QuestiePlayer:GetGroupType() ~= nil
         and GetNumGroupMembers() <= MAX_GROUP_SIZE
@@ -94,7 +117,7 @@ end
 
 -- All questIds party members currently have, for a full refresh.
 ---@return number[]
-function PartyObjectivesGenerator.GetAllRemoteQuestIds()
+function PartyObjectivesProvider.GetAllRemoteQuestIds()
     local questIds = {}
     for questId in pairs(QuestieComms.remoteQuestLogs) do
         questIds[#questIds + 1] = questId
@@ -107,25 +130,26 @@ end
 ---@field Type string
 ---@field Index number
 ---@field questId number
----@field Description string @the resolved description, or the fallback when needsApiText is set
+---@field Description string @the fully resolved objective text (Blizzard API text, DB text or name fallback)
 ---@field FullDescription string?
 ---@field Icon any
 ---@field Coordinates any?
----@field needsApiText boolean @when true the drawer must resolve the Blizzard API objective text
 
 ---@class PartyObjectiveQuestPlan
 ---@field questId number
 ---@field quest table @the QuestieDB quest object the drawer feeds to PopulateObjective
 ---@field objectives PartyObjectiveDescriptor[] @standard objectives, drawn first
 ---@field specialObjectives PartyObjectiveDescriptor[] @DB-defined extras, drawn after the standard ones
+---@field needsApiRetry boolean @true when an objective is still awaiting Blizzard quest data; the orchestrator retries
 
--- Decide what should be drawn for a single party quest and describe it as plain data. This is
--- the pure core: it reads comms data, the database, group/online state and settings, but makes
--- no map calls and triggers no side effects, so the drawing layer can consume it and tests can
--- assert against the returned descriptors directly. Returns nil when nothing should be drawn.
+-- Decide what should be drawn for a single party quest and describe it as plain data. This owns
+-- all data gathering: it reads comms data, the database, group/online state, settings and the
+-- Blizzard quest cache (priming it for objective text), but makes no map calls and does no
+-- scheduling, so the drawing layer just consumes the resolved descriptors and tests can assert
+-- against them directly. Returns nil when nothing should be drawn.
 ---@param questId number
 ---@return PartyObjectiveQuestPlan?
-function PartyObjectivesGenerator.BuildQuestPlan(questId)
+function PartyObjectivesProvider.BuildQuestPlan(questId)
     -- Quests the local player has are drawn by the normal pipeline; don't double up.
     if _PlayerHasQuest(questId) then
         return nil
@@ -161,6 +185,7 @@ function PartyObjectivesGenerator.BuildQuestPlan(questId)
     end
 
     local objectives = {}
+    local needsApiRetry = false
 
     for objectiveIndex, remoteObjective in pairs(neededIndices) do
         -- Prefer the database ObjectiveData (canonical Type/Id). It only misses an entry at this
@@ -184,20 +209,32 @@ function PartyObjectivesGenerator.BuildQuestPlan(questId)
             -- works for every comms path, including the full quest list received on login/join.
             local useApiObjectiveText = objData ~= nil and remoteObjective.type ~= nil
                 and string.sub(objData.Type, 1, 1) ~= remoteObjective.type
-            -- The fallback description, used directly when API text isn't needed and as the
-            -- fallback the drawer applies when the API lookup misses.
-            local fallbackDescription = (objData and objData.Text)
+            -- The fallback description, used directly when API text isn't needed and while the
+            -- Blizzard quest data hasn't been cached yet.
+            local description = (objData and objData.Text)
                 or (not useApiObjectiveText and _GetObjectiveName(objType, objId)) or ""
+            local fullDescription = (not useApiObjectiveText) and _GetFullDescription(objType, description) or nil
+
+            -- Resolve the Blizzard objective text now; the generator owns all data fetching. On a
+            -- cache miss the fallback stands and the plan asks the orchestrator to retry, so the
+            -- drawer never has to fetch anything - it just draws the description it is handed.
+            if useApiObjectiveText then
+                local apiText, dataReady = _ResolveApiObjectiveText(questId, objectiveIndex)
+                if apiText then
+                    description = apiText
+                elseif not dataReady then
+                    needsApiRetry = true
+                end
+            end
 
             objectives[#objectives + 1] = {
                 Id = objId,
                 Type = objType,
                 Index = objectiveIndex,
                 questId = questId,
-                Description = fallbackDescription,
-                FullDescription = (not useApiObjectiveText) and _GetFullDescription(objType, fallbackDescription) or nil,
+                Description = description,
+                FullDescription = fullDescription,
                 Icon = objData and objData.Icon,
-                needsApiText = useApiObjectiveText,
             }
         end
     end
@@ -224,7 +261,6 @@ function PartyObjectivesGenerator.BuildQuestPlan(questId)
             -- Reuse the DB-built spawn list read-only; PopulateObjective builds it from
             -- Type/Id when absent (the required-source-item case).
             spawnList = special.spawnList,
-            needsApiText = false,
         }
     end
 
@@ -237,7 +273,8 @@ function PartyObjectivesGenerator.BuildQuestPlan(questId)
         quest = quest,
         objectives = objectives,
         specialObjectives = specialObjectives,
+        needsApiRetry = needsApiRetry,
     }
 end
 
-return PartyObjectivesGenerator
+return PartyObjectivesProvider
