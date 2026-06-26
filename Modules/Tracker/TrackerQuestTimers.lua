@@ -8,7 +8,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
--- QuestTimerFrame is present in Cataclysm, WatchFrame is present in WotLK. Era/SoX does not have a timer frame.
+-- Originally there was no timer frame. WatchFrame was introduced in WotLK and got replaced with QuestTimerFrame in Cataclysm.
+-- Today all client version seem to use QuestTimerFrame.
 local QuestTimerFrame = QuestTimerFrame or WatchFrame
 local timer
 
@@ -19,7 +20,7 @@ function TrackerQuestTimers:Initialize()
         return
     end
 
-    if Expansions.Current >= Expansions.Wotlk then
+    if QuestTimerFrame then
         QuestTimerFrame:HookScript("OnShow", function()
             if Questie.db.profile.showBlizzardQuestTimer then
                 TrackerQuestTimers:ShowBlizzardTimer()
