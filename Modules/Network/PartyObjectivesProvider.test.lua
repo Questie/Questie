@@ -183,6 +183,23 @@ describe("PartyObjectivesProvider", function()
             assert.is_true(plan.needsApiRetry)
         end)
 
+        it("should keep the DB fallback and flag a retry when the API text is just a counter", function()
+            -- Right after a quest's data lands the client can briefly return only the progress
+            -- counter with no name (": 0/8"); GetFullObjectiveText strips the counter to "", which
+            -- isn't a usable name, so we keep the DB fallback and retry rather than baking in "".
+            QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "i" } } } }
+            QuestieDB.GetQuest = function()
+                return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Credit" } } }
+            end
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = function() return { [1] = { text = ": 0/8" } } end
+            QuestieLib.GetFullObjectiveText = function() return "" end
+
+            local plan = PartyObjectivesProvider.BuildQuestPlan(42)
+            assert.equals("Credit", plan.objectives[1].Description)
+            assert.is_true(plan.needsApiRetry)
+        end)
+
         it("should fall back to comms data when the DB objective index is missing", function()
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "o", id = 99 } } } }
             QuestieDB.GetQuest = function()

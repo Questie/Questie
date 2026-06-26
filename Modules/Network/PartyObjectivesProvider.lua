@@ -105,7 +105,14 @@ local function _ResolveApiObjectiveText(questId, objectiveIndex)
         return nil, true
     end
     -- Strip the counter from the objective text; the tooltip prepends fulfilled/required separately
-    return QuestieLib.GetFullObjectiveText(text) or text, true
+    local fullText = QuestieLib.GetFullObjectiveText(text) or text
+    if fullText == "" then
+        -- A name-less counter (": 0/8") strips to "": the client has the quest data but hasn't
+        -- populated the objective name yet, so report not-ready and let the orchestrator retry
+        -- rather than baking in an empty description.
+        return nil, false
+    end
+    return fullText, true
 end
 
 ---@return boolean
