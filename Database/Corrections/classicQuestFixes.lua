@@ -107,6 +107,9 @@ function QuestieQuestFixes:Load()
         [76] = {
             [questKeys.nextQuestInChain] = 239,
         },
+        [82] = { -- The Scrimshank Redemption
+            [questKeys.nextQuestInChain] = 10,
+        },
         [90] = {
             [questKeys.requiredSkill] = {185, 50},
         },
@@ -121,9 +124,6 @@ function QuestieQuestFixes:Load()
         },
         [112] = {
             [questKeys.nextQuestInChain] = 114,
-        },
-        [113] = { -- Insect Part Analysis
-            [questKeys.nextQuestInChain] = 162,
         },
         [117] = {
             [questKeys.name] = "Thunderbrew",
@@ -3224,6 +3224,12 @@ function QuestieQuestFixes:Load()
         },
         [5510] = { -- Minion's Scourgestones
             [questKeys.preQuestSingle] = {5401,5503,5405},
+        },
+        [5518] = { -- The Gordok Ogre Suit
+            [questKeys.nextQuestInChain] = 5519,
+        },
+        [5525] = { -- Free Knot!
+            [questKeys.nextQuestInChain] = 7429,
         },
         [5526] = {
             [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
@@ -6401,6 +6407,9 @@ function QuestieQuestFixes:LoadFactionFixes()
     local factionIDs = QuestieDB.factionIDs
 
     local questFixesHorde = {
+        [113] = { -- Insect Part Analysis
+            [questKeys.nextQuestInChain] = 32,
+        },
         [687] = {
             [questKeys.startedBy] = {{2787}},
         },
@@ -6688,6 +6697,9 @@ function QuestieQuestFixes:LoadFactionFixes()
     }
 
     local questFixesAlliance = {
+        [113] = { -- Insect Part Analysis
+            [questKeys.nextQuestInChain] = 162,
+        },
         [687] = {
             [questKeys.startedBy] = {{2786}},
         },

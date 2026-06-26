@@ -334,6 +334,11 @@ QuestieItemDropCorrections.Era = {
     [10639] = { -- Hyacinth Mushroom
         [1988] = 80,
     },
+    [11405] = { -- Giant Silver Vein
+        [6146] = 100,
+        [6147] = 100,
+        [6148] = 100,
+    },
     [11478] = { -- Un'Goro Gorilla Pelt
         [6514] = DropKeys.WOWHEAD,
     },
