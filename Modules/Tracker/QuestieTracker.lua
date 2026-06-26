@@ -1627,6 +1627,7 @@ function QuestieTracker:UpdateFormatting()
         local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
         local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
         local questItemButtonSize = 12 + trackerFontSizeQuest
+
         TrackerLinePool.UpdateObjectiveLines(function(line)
             if line.questHasSecondaryQIB then
                 -- The objective line belongs to a quest with two quest items, so we need to add extra padding to account for the second QIB
@@ -1635,7 +1636,20 @@ function QuestieTracker:UpdateFormatting()
                 _UpdateLineWidth(line, objectiveMarginLeft)
             end
         end)
+
         QuestieTracker:UpdateWidth(trackerVarsCombined)
+
+        -- Expand all objective line labels to the full available tracker width. Since widths are not updated during combat (only text is via UpdateQuestLines),
+        -- giving lines the maximum width here prevents text cutoff until the next full Update().
+        TrackerLinePool.UpdateObjectiveLines(function(line)
+            local effectiveMarginLeft = objectiveMarginLeft
+            if line.questHasSecondaryQIB then
+                effectiveMarginLeft = objectiveMarginLeft + questItemButtonSize
+            end
+            local margin = effectiveMarginLeft + trackerMarginRight
+            line.label:SetWidth(trackerBaseFrame:GetWidth() - margin)
+            line:SetWidth(line.label:GetWidth() + effectiveMarginLeft)
+        end)
         TrackerLinePool.UpdateQuestTitleLines(function(line)
             line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
             line:SetWidth(line.label:GetWidth() + questMarginLeft)
