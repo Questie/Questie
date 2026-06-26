@@ -10869,3 +10869,8 @@ function MopQuestFixes:LoadFactionFixes()
         return questFixesAlliance
     end
 end
+
+-- Use ContentPhases to apply corrections specific to the current content phase
+function MopQuestFixes:LoadContentPhaseFixes()
+    return {}
+end

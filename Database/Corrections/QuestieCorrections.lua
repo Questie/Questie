@@ -169,6 +169,10 @@ do
             addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, MopObjectFixes:LoadFactionFixes())
+
+            addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadContentPhaseFixes())
+            addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadContentPhaseFixes())
+            addOverride(QuestieDB.objectDataOverrides, MopObjectFixes:LoadContentPhaseFixes())
         end
 
         -- Season of Discovery Corrections
