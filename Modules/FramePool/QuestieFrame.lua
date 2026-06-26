@@ -1,21 +1,18 @@
----@class QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+---@class QuestieFrame
+local QuestieFrame = QuestieLoader:CreateModule("QuestieFrame")
+
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type DailyQuests
-local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
-
-QuestieFramePool.Qframe = {}
 
 ---@class QuestieFrameHandlers
 local _Qframe = {}
@@ -32,7 +29,7 @@ local _Qframe = {}
 ---@field StarterType string|nil
 
 ---@return IconFrame
-function QuestieFramePool.Qframe:New(frameId, OnEnter)
+function QuestieFrame:New(frameId, OnEnter)
     ---@class IconFrame : Button
     ---@field isManualIcon boolean
     ---@field data IconData
@@ -44,9 +41,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     -- Check #1504
     if MBB_Ignore then
         tinsert(MBB_Ignore, newFrame:GetName())
-    end
-    if frameId > 5000 then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", frameId)
     end
 
     newFrame.glow = CreateFrame("Button", "QuestieFrame" .. frameId .. "Glow", newFrame) -- glow frame
@@ -421,7 +415,6 @@ function _Qframe.Unload(self)
     self.lastGlowFade = nil
     self.worldX = nil
     self.worldY = nil
-    QuestieFramePool:RecycleFrame(self)
 end
 
 ---@param self IconFrame

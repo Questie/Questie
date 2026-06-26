@@ -6,12 +6,16 @@ describe("QuestieMap", function()
     local QuestieMap
     ---@type QuestieLib
     local QuestieLib
+    ---@type QuestieFramePool
+    local QuestieFramePool
 
     local match = require("luassert.match")
     local _ = match._ -- any match
 
     before_each(function()
         QuestieLib = require("Modules.Libs.QuestieLib")
+        QuestieFramePool = require("Modules.FramePool.QuestieFramePool")
+        QuestieFramePool.UnloadFrame = spy.new(function() end)
         QuestieMap = require("Modules.Map.QuestieMap")
         QuestieMap.questIdFrames = {}
     end)
@@ -19,14 +23,8 @@ describe("QuestieMap", function()
     describe("UnloadQuestFrames", function()
         it("should clear AlreadySpawned for objective frames on full unload", function()
             local objective = {AlreadySpawned = {[123] = {}}}
-            local unloadFrame1 = spy.new(function(self)
-                self.data = nil
-            end)
-            local unloadFrame2 = spy.new(function(self)
-                self.data = nil
-            end)
-            _G.QuestieFrame1 = {data = {ObjectiveData = objective}, Unload = unloadFrame1}
-            _G.QuestieFrame2 = {data = {ObjectiveData = objective}, Unload = unloadFrame2}
+            _G.QuestieFrame1 = {data = {ObjectiveData = objective}}
+            _G.QuestieFrame2 = {data = {ObjectiveData = objective}}
             QuestieMap.questIdFrames[1] = {
                 QuestieFrame1 = "QuestieFrame1",
                 QuestieFrame2 = "QuestieFrame2",
@@ -34,12 +32,10 @@ describe("QuestieMap", function()
 
             QuestieMap:UnloadQuestFrames(1)
 
-            assert.spy(unloadFrame1).was_called()
-            assert.spy(unloadFrame2).was_called()
-            assert.is_nil(_G.QuestieFrame1.data)
-            assert.is_nil(_G.QuestieFrame2.data)
             assert.are.same({}, objective.AlreadySpawned)
             assert.is_nil(QuestieMap.questIdFrames[1])
+            assert.spy(QuestieFramePool.UnloadFrame).was.called_with(QuestieFramePool, _G.QuestieFrame1)
+            assert.spy(QuestieFramePool.UnloadFrame).was.called_with(QuestieFramePool, _G.QuestieFrame2)
 
             _G.QuestieFrame1 = nil
             _G.QuestieFrame2 = nil

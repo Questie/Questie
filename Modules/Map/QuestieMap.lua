@@ -89,7 +89,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                 -- Capture this before Unload() because it clears frame.data.
                 local objective = frame.data and frame.data.ObjectiveData
 
-                frame:Unload();
+                QuestieFramePool:UnloadFrame(frame)
 
                 if objective then
                     objective.AlreadySpawned = {}
@@ -100,7 +100,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
         else
             for name, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
                 if frame and frame.data and frame.data.Icon == iconType then
-                    frame:Unload();
+                    QuestieFramePool:UnloadFrame(frame)
                     QuestieMap.questIdFrames[questId][name] = nil
                     _G[name] = nil
                 end
@@ -129,7 +129,7 @@ function QuestieMap:UnloadManualFrames(id, typ)
     typ = typ or "any"
     if QuestieMap.manualFrames[typ] and (QuestieMap.manualFrames[typ][id]) then
         for _, frame in ipairs(QuestieMap:GetManualFrames(id, typ)) do
-            frame:Unload();
+            QuestieFramePool:UnloadFrame(frame);
         end
         QuestieMap.manualFrames[typ][id] = nil;
     end
@@ -332,7 +332,7 @@ function QuestieMap.ProcessQueue()
 
             mapDrawCall[2]._loaded = true
             if mapDrawCall[2]._needsUnload then
-                mapDrawCall[2]:Unload()
+                QuestieFramePool:UnloadFrame(mapDrawCall[2])
             end
         end
 
@@ -345,7 +345,7 @@ function QuestieMap.ProcessQueue()
 
             minimapDrawCall[2]._loaded = true
             if minimapDrawCall[2]._needsUnload then
-                minimapDrawCall[2]:Unload()
+                QuestieFramePool:UnloadFrame(minimapDrawCall[2])
             end
         end
     end

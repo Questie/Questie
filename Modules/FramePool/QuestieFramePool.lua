@@ -5,14 +5,14 @@ local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type MapIconTooltip
 local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieFrame
+local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -21,12 +21,16 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 local WAYPOINT_COLOR = { 1, 0.72, 0, 0.5}
 
-local _QuestieFramePool = {}
 local numberOfFrames = 0
 
+---@type IconFrame[]
 local unusedFrames = {}
+
+--- Not continuously indexed with numbers, treat it as a key
+---@type table<number, IconFrame>
 local usedFrames = {};
-local allFrames = {}
+
+local _ReinitFrame
 
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
@@ -55,61 +59,21 @@ function QuestieFramePool:GetFrame()
     --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
     ---@type IconFrame
-    local returnFrame = next(unusedFrames)
-    returnFrame = returnFrame and unusedFrames[returnFrame]
+    local frame = tremove(unusedFrames)
+    if (not frame) then
+        numberOfFrames = numberOfFrames + 1
 
-    if returnFrame and returnFrame.frameId and usedFrames[returnFrame.frameId] then
-        -- something went horribly wrong (desync bug?) don't use this frame since its already in use
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use. frameId:", returnFrame.frameId)
-        returnFrame = nil
-    end
-    if not returnFrame then
-        returnFrame = _QuestieFramePool:QuestieCreateFrame()
-    else
-        --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
-        unusedFrames[returnFrame.frameId] = nil
-    end
-    if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
-        returnFrame.hidden = false
-        returnFrame.Show = returnFrame._show;
-        returnFrame.Hide = returnFrame._hide;
-        returnFrame._show = nil
-        returnFrame._hide = nil
-    end
-    returnFrame.isManualIcon = false
-    returnFrame.FadeLogic = nil
-    returnFrame.faded = nil
-    returnFrame.miniMapIcon = nil
+        frame = QuestieFrame:New(numberOfFrames, MapIconTooltip.Show)
 
-    returnFrame.data = nil
-    returnFrame.x = nil;
-    returnFrame.y = nil;
-    returnFrame.AreaID = nil;
-    returnFrame.UiMapID = nil
-
-    if returnFrame.texture then
-        returnFrame.texture:SetVertexColor(1, 1, 1, 1)
-    end
-    returnFrame.loaded = true
-    returnFrame.shouldBeShowing = nil
-    returnFrame.hidden = nil
-
-    if returnFrame.BaseOnShow then
-        returnFrame:SetScript("OnShow", returnFrame.BaseOnShow)
+        if numberOfFrames > 5000 then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", numberOfFrames)
+        end
     end
 
-    if returnFrame.BaseOnUpdate then
-        returnFrame.glowLogicTimer = C_Timer.NewTicker(1, returnFrame.BaseOnUpdate);
-    else
-        returnFrame:SetScript("OnUpdate", nil)
-    end
+    _ReinitFrame(frame)
 
-    if returnFrame.BaseOnHide then
-        returnFrame:SetScript("OnHide", returnFrame.BaseOnHide)
-    end
-
-    usedFrames[returnFrame.frameId] = returnFrame
-    return returnFrame
+    usedFrames[frame.frameId] = frame
+    return frame
 end
 
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
@@ -148,21 +112,21 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
     end
 end
 
-function QuestieFramePool:RecycleFrame(frame)
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
-    usedFrames[frame.frameId] = nil
-    unusedFrames[frame.frameId] = frame
+---Unload a frame and return it to the pool.
+---@param frame IconFrame
+function QuestieFramePool:UnloadFrame(frame)
+    frame:Unload()
+
+    -- If the frame was queued for drawing but not yet processed by QuestieMap.ProcessQueue, Unload() defers and sets _needsUnload=true
+    -- instead of doing a full cleanup. In that case we must not recycle yet: the draw call still holds a reference to this frame,
+    -- and recycling now would allow GetFrame() to hand it out again before ProcessQueue consumes the stale draw call, causing it
+    -- to draw the wrong frame. ProcessQueue detects _needsUnload after the HBDPins add and calls Unload() + recycles directly once it
+    -- is safe to do so.
+    if (not frame._needsUnload) then
+        usedFrames[frame.frameId] = nil
+        tinsert(unusedFrames, frame)
+    end
 end
-
-function _QuestieFramePool:QuestieCreateFrame()
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
-    numberOfFrames = numberOfFrames + 1
-    local newFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
-
-    tinsert(allFrames, newFrame)
-    return newFrame
-end
-
 
 ---@param iconFrame IconFrame @The parent frame for the current line.
 ---@param waypointTable table<number, Point> @A table containing waypoints {{X, Y}, ...}
@@ -189,7 +153,9 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     return lineFrameList;
 end
 
+--Keep a total lineFrame count for names.
 local lineFrameCount = 1
+
 
 ---@param iconFrame IconFrame @The parent frame for the current line.
 ---@param startX number @A value between 0-100
@@ -199,7 +165,6 @@ local lineFrameCount = 1
 ---@param lineWidth number @Width of the line.
 ---@param color number[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame
----@class LineFrame @A frame that contains the line used in waypoints.
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color, areaId)
 
     --Create the framepool for lines if it does not already exist.
@@ -210,9 +175,12 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local frameName = "questieLineFrame".. lineFrameCount;
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
+    ---@class LineFrame @A frame that contains the line used in waypoints.
     local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Button", frameName, iconFrame);
     if not lineFrame.frameId then
         lineFrame.frameId = lineFrameCount;
+
+        lineFrameCount = lineFrameCount + 1;
     end
 
     local canvas = WorldMapFrame:GetCanvas()
@@ -371,16 +339,48 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     lineFrame:Hide();
 
-
-    --Should we keep these frames in the questIdFrames? Currently it is also a child of the icon.
-    --Maybe the unload of the parent should just unload the children.
-    --For safety we check this here too.
-    --if (QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] == nil) then
-    --    QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] = {}
-    --end
-    --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
-
-    --Keep a total lineFrame count for names.
-    lineFrameCount = lineFrameCount + 1;
     return lineFrame
 end
+
+---@param frame IconFrame @will be modified
+_ReinitFrame = function(frame)
+    if frame ~= nil and frame.hidden and frame._show ~= nil and frame._hide ~= nil then -- restore state to normal (toggle questie)
+        frame.hidden = false
+        frame.Show = frame._show;
+        frame.Hide = frame._hide;
+        frame._show = nil
+        frame._hide = nil
+    end
+    frame.isManualIcon = false
+    frame.FadeLogic = nil
+    frame.faded = nil
+    frame.miniMapIcon = nil
+
+    frame.data = nil
+    frame.x = nil;
+    frame.y = nil;
+    frame.AreaID = nil;
+    frame.UiMapID = nil
+
+    if frame.texture then
+        frame.texture:SetVertexColor(1, 1, 1, 1)
+    end
+    frame.shouldBeShowing = nil
+    frame.hidden = nil
+
+    if frame.BaseOnShow then
+        frame:SetScript("OnShow", frame.BaseOnShow)
+    end
+
+    if frame.BaseOnUpdate then
+        frame.glowLogicTimer = C_Timer.NewTicker(1, frame.BaseOnUpdate);
+    else
+        frame:SetScript("OnUpdate", nil)
+    end
+
+    if frame.BaseOnHide then
+        frame:SetScript("OnHide", frame.BaseOnHide)
+    end
+end
+
+return QuestieFramePool
