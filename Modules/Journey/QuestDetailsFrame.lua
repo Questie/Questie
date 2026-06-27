@@ -379,8 +379,6 @@ function QuestDetailsFrame:Draw(container, quest)
         container:AddChild(eligibilityTextLabel)
     end
 
-    QuestieJourneyUtils:Spacer(container)
-
     -- Pre Quests - two separate labeled sections
     if quest.preQuestSingle and next(quest.preQuestSingle) then
         QuestieJourneyUtils:Spacer(container)
@@ -450,10 +448,9 @@ function QuestDetailsFrame:Draw(container, quest)
             startNPCGroup:AddChild(tomTomButton)
         end
 
-        QuestieJourneyUtils:Spacer(startNPCGroup)
-
         -- Also Starts
         if startNpc.questStarts and #startNpc.questStarts >= 2 then
+            QuestieJourneyUtils:Spacer(startNPCGroup)
 
             local alsoStartsLabel = AceGUI:Create("Label")
             alsoStartsLabel:SetText(l10n('This NPC Also Starts the following quests:'))
@@ -462,6 +459,7 @@ function QuestDetailsFrame:Draw(container, quest)
             alsoStartsLabel:SetFullWidth(true)
             startNPCGroup:AddChild(alsoStartsLabel)
 
+            QuestieJourneyUtils:Spacer(startNPCGroup)
             for _, v in pairs(startNpc.questStarts) do
                 if v ~= quest.Id then
                     local startQuest = QuestieDB.GetQuest(v)
@@ -470,9 +468,6 @@ function QuestDetailsFrame:Draw(container, quest)
                 end
             end
         end
-
-        QuestieJourneyUtils:Spacer(startNPCGroup)
-
     end
 
     -- Get Quest Start GameObject
@@ -527,10 +522,9 @@ function QuestDetailsFrame:Draw(container, quest)
                 startObjectGroup:AddChild(tomTomButton)
             end
 
-            QuestieJourneyUtils:Spacer(startObjectGroup)
-
             -- Also Starts
             if startObj.questStarts and #startObj.questStarts >= 2 then
+                QuestieJourneyUtils:Spacer(startObjectGroup)
 
                 local alsoStartsLabel = AceGUI:Create("Label")
                 alsoStartsLabel:SetText(l10n('This Object Also Starts the following quests:'))
@@ -539,6 +533,7 @@ function QuestDetailsFrame:Draw(container, quest)
                 alsoStartsLabel:SetFullWidth(true)
                 startObjectGroup:AddChild(alsoStartsLabel)
 
+                QuestieJourneyUtils:Spacer(startObjectGroup)
                 for _, v in pairs(startObj.questStarts) do
                     if v ~= quest.Id then
                         local startQuest = QuestieDB.GetQuest(v)
@@ -547,8 +542,6 @@ function QuestDetailsFrame:Draw(container, quest)
                     end
                 end
             end
-
-            QuestieJourneyUtils:Spacer(startObjectGroup)
         end
     end
 
@@ -638,10 +631,10 @@ function QuestDetailsFrame:Draw(container, quest)
             end
         end
 
-        QuestieJourneyUtils:Spacer(endNPCGroup)
-
         -- Also ends
         if endNPC.questEnds and #endNPC.questEnds >= 2 then
+            QuestieJourneyUtils:Spacer(endNPCGroup)
+
             local alsoEndsLabel = AceGUI:Create("Label")
             alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
             alsoEndsLabel:SetFontObject(GameFontHighlight)
@@ -649,6 +642,7 @@ function QuestDetailsFrame:Draw(container, quest)
             alsoEndsLabel:SetFullWidth(true)
             endNPCGroup:AddChild(alsoEndsLabel)
 
+            QuestieJourneyUtils:Spacer(endNPCGroup)
             for _, v in ipairs(endNPC.questEnds) do
                 if v ~= quest.Id then
                     local endQuest = QuestieDB.GetQuest(v)
@@ -656,8 +650,6 @@ function QuestDetailsFrame:Draw(container, quest)
                     endNPCGroup:AddChild(label)
                 end
             end
-
-            QuestieJourneyUtils:Spacer(endNPCGroup)
         end
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
@@ -719,10 +711,10 @@ function QuestDetailsFrame:Draw(container, quest)
             end
         end
 
-        QuestieJourneyUtils:Spacer(endObjectGroup)
-
         -- Also ends
         if endObject.questEnds and #endObject.questEnds >= 2 then
+            QuestieJourneyUtils:Spacer(endObjectGroup)
+
             local alsoEndsLabel = AceGUI:Create("Label")
             alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
             alsoEndsLabel:SetFontObject(GameFontHighlight)
@@ -730,6 +722,7 @@ function QuestDetailsFrame:Draw(container, quest)
             alsoEndsLabel:SetFullWidth(true)
             endObjectGroup:AddChild(alsoEndsLabel)
 
+            QuestieJourneyUtils:Spacer(endObjectGroup)
             for _, v in ipairs(endObject.questEnds) do
                 if v ~= quest.Id then
                     local endQuest = QuestieDB.GetQuest(v)
@@ -737,8 +730,6 @@ function QuestDetailsFrame:Draw(container, quest)
                     endObjectGroup:AddChild(label)
                 end
             end
-
-            QuestieJourneyUtils:Spacer(endObjectGroup)
         end
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
@@ -746,6 +737,7 @@ function QuestDetailsFrame:Draw(container, quest)
     end
 
     if Questie.db.profile.debugEnabled then
+        QuestieJourneyUtils:Spacer(container)
         QuestieJourneyUtils:AddLine(container, recurseTable(quest, QuestieDB.questKeys))
     end
 end
