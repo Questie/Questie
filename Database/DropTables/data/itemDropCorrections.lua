@@ -197,6 +197,13 @@ QuestieItemDropCorrections.Era = {
         [2451] = DropKeys.WOWHEAD,
         [2503] = DropKeys.WOWHEAD,
     },
+    [3714] = { -- Worn Stone Token
+        [2271] = DropKeys.WOWHEAD,
+        [2272] = DropKeys.WOWHEAD,
+        [2358] = DropKeys.WOWHEAD,
+        [2415] = DropKeys.WOWHEAD,
+        [2628] = DropKeys.WOWHEAD,
+    },
     [3917] = { -- Singing Blue Crystal
         [674] = DropKeys.WOWHEAD,
         [675] = DropKeys.WOWHEAD,
@@ -215,6 +222,12 @@ QuestieItemDropCorrections.Era = {
     [4105] = { -- Elder Crocolisk Skin
         [2635] = 100.0,
     },
+    [4627] = { -- Large Stone Slab
+        [92] = 100,
+    },
+    [4628] = { -- Bracers of Rock Binding
+        [2736] = 20,
+    },
     [5026] = { -- Fire Tar
         [3267] = 75,
         [3268] = 75,
@@ -225,6 +238,13 @@ QuestieItemDropCorrections.Era = {
         [3256] = DropKeys.WOWHEAD,
         [3257] = DropKeys.WOWHEAD,
         [5842] = DropKeys.WOWHEAD,
+    },
+    [5078] = { -- Theramore Medal
+        [3385] = 100,
+        [3386] = 100,
+        [3393] = 100,
+        [3454] = 100,
+        [3455] = 100,
     },
     [5085] = { -- Bristleback Quilboar Tusk
         [3258] = 100,
@@ -252,6 +272,15 @@ QuestieItemDropCorrections.Era = {
     },
     [5669] = { -- Dust Devil Debris
         [832] = 50.0, -- not 100%, not 5%. Could be more than 50%
+    },
+    [5801] = { -- Kraul Guano
+        [4538] = 100,
+        [4539] = 100,
+    },
+    [5867] = { -- Etched Phial
+        -- Most comments on Wowhead are from players who didn't realize you have to be on the quest for it to drop.
+        -- That being said, cmangos claims 100% and it's definitely not 100%. Didn't sit farming them all day, but farmed a few and seems around 20%. -ytt
+        [4054] = 20,
     },
     [6250] = { -- Felhound Brain
         [4678] = 100,
@@ -318,6 +347,11 @@ QuestieItemDropCorrections.Era = {
     },
     [7291] = { -- Infernal Orb
         [4668] = 100,
+    },
+    [9369] = { -- Iridescent Sprite Darter Wing
+        -- this one is complicated; they drop 0-2, on average you get more than 1 per kill, but they occasionally don't drop any so 100% isn't accurate
+        [5278] = 95,
+        [7997] = 95,
     },
     [10458] = { -- Prayer to Elune
         [5860] = 20, -- empyrical value
@@ -432,6 +466,13 @@ QuestieItemDropCorrections.Era = {
         [14639] = 100,
         [14640] = 100,
     },
+    [20028] = { -- Glittering Dust
+        [6198] = 25,
+        [6199] = 25,
+    },
+    [20029] = { -- Enchanted Coral
+        [6195] = 25,
+    },
     [20373] = { -- Stonelash Scorpid Stinger
         [11735] = DropKeys.WOWHEAD,
     },
@@ -459,7 +500,7 @@ QuestieItemDropCorrections.Era = {
     },
 }
 
-QuestieItemDropCorrections.Tbc = {
+QuestieItemDropCorrections.Tbc = { -- Corrections for Old World data should only be put here if they change going from Era->TBC! Otherwise, put them in the Era section!
     [2633] = { -- Jungle Remedy
         [937] = DropKeys.WOWHEAD,
         [940] = DropKeys.WOWHEAD,
@@ -553,11 +594,32 @@ QuestieItemDropCorrections.Tbc = {
     [25891] = { -- Pristine Shimmerscale Eel
         [18750] = DropKeys.WOWHEAD,
     },
+    [28527] = { -- Mana Wraith Essence
+        [18864] = 60,
+    },
+    [28635] = { -- Sunfury Arcanist Robes
+        -- According to Wowhead comments these were very low in older versions of the game,
+        -- and wowhead's data shows very low because many non-quest kills, but in reality
+        -- they were among the quests to have drop rates significantly boosted around 2.4.0,
+        -- so in Classic versions they're pretty high. Buuut not the 100 cmangos claims.
+        [20134] = 50,
+    },
+    [28636] = { -- Sunfury Researcher Gloves
+        [20136] = 50,
+    },
+    [28637] = { -- Sunfury Guardsman Medallion
+        [18850] = 50,
+    },
     [28667] = { -- Flawless Greater Windroc Beak
         [17129] = DropKeys.WOWHEAD,
     },
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
+    },
+    [28970] = { -- Nether Dragon Essence
+        -- Drakes definitely have lower rates than Dragons, but Dragons are correctly
+        -- around 80% as cmangos claims, so only including a correction for Drakes
+        [18877] = 60,
     },
     [29161] = { -- Void Ridge Soul Shard
         [17014] = 100,
@@ -568,6 +630,13 @@ QuestieItemDropCorrections.Tbc = {
         [18886] = 100,
         [20202] = 100,
     },
+    [29338] = { -- Loathsome Remnant
+        [20512] = 50,
+        [21065] = 50,
+    },
+    [29365] = { -- Smithing Hammer
+        [20409] = 100,
+    },
     [29480] = { -- Parched Hydra Sample
         [20324] = DropKeys.WOWHEAD,
     },
@@ -577,6 +646,15 @@ QuestieItemDropCorrections.Tbc = {
     [29591] = { -- Prepared Ethereum Wrapping
         [20458] = DropKeys.WOWHEAD,
         [20459] = DropKeys.WOWHEAD,
+    },
+    [29797] = { -- Orders From Kael'thas
+        [18860] = DropKeys.WOWHEAD,
+        [20285] = DropKeys.WOWHEAD,
+        [20326] = DropKeys.WOWHEAD,
+    },
+    [29822] = { -- Fragment of Dimensius
+        [18869] = 40,
+        [18870] = 40,
     },
     [30184] = { -- Thunderlord Dire Wolf Tail
         [20748] = 100,
@@ -596,6 +674,16 @@ QuestieItemDropCorrections.Tbc = {
     [30783] = { -- Mature Nether Drake Essence
         [20021] = 100,
     },
+    [30791] = { -- Silkwing Cocoon
+        -- Lots of comments claim these have different rates depending on how you interact with the
+        -- mob, like it's a scripted thing. I tried every single way many many times and did not see
+        -- a difference in drop rate between methods. But it is definitely not the 80% cmangos claims. -ytt
+        [20747] = 30,
+    },
+    [30792] = { -- Iridescent Wing
+        [21373] = 60,
+        [21839] = 60,
+    },
     [30798] = { -- Extra Sharp Daggermaw Tooth
         [20751] = DropKeys.WOWHEAD,
     },
@@ -606,7 +694,7 @@ QuestieItemDropCorrections.Tbc = {
         [21462] = DropKeys.WOWHEAD,
     },
     [31119] = { -- Wyrmcult Net
-        [21809] = DropKeys.WOWHEAD,
+        [21809] = 70,
     },
     [31132] = { -- Crust Burster Venom Gland
         [21380] = DropKeys.WOWHEAD,
@@ -615,9 +703,14 @@ QuestieItemDropCorrections.Tbc = {
         [22466] = DropKeys.WOWHEAD,
     },
     [31316] = { -- Lianthe's Key
-        [19792] = DropKeys.WOWHEAD,
-        [19796] = DropKeys.WOWHEAD,
-        [19806] = DropKeys.WOWHEAD,
+        -- cmangos claims nearly 100%, definitely lower than that, but nowhere near as low as wowhead's ~3%. more like 20%, tested pretty well
+        [19792] = 20,
+        [19796] = 20,
+        [19806] = 20,
+    },
+    [31651] = { -- Bladespire Totem
+        [20765] = DropKeys.WOWHEAD,
+        [20766] = DropKeys.WOWHEAD,
     },
     [31812] = { -- Doom Skull
         [21242] = DropKeys.WOWHEAD,
