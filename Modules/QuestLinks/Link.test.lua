@@ -90,7 +90,7 @@ describe("QuestieLink", function()
 
             local result = QuestieLink:GetQuestLinkStringById(1234)
 
-            assert.are.same("[[15] Test Quest (1234)]", result)
+            assert.are_same("[[15] Test Quest (1234)]", result)
         end)
     end)
 
@@ -137,7 +137,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -184,7 +184,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -232,7 +232,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -278,7 +278,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -326,7 +326,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -377,7 +377,7 @@ describe("QuestieLink", function()
 
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678")
 
-            assert.are.same({
+            assert.are_same({
                 "Progress Quest",
                 "You are on this quest",
                 " ",
