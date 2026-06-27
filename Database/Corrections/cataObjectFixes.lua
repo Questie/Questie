@@ -273,10 +273,6 @@ function CataObjectFixes.Load()
             [objectKeys.name] = "Premium Grimm Tobacco",
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME] = {{53.6,69.83},{-1,-1}}},
         },
-        [175564] = { -- Brazier of the Herald
-            [objectKeys.name] = "Brazier of the Herald",
-            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.46,4.24}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
-        },
         [175632] = { -- Campfire
             [objectKeys.spawns] = {},
             [objectKeys.zoneID] = 0,

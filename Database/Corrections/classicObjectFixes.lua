@@ -245,6 +245,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{56.37,87.83}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
+        [175564] = { -- Brazier of the Herald
+            [objectKeys.name] = "Brazier of the Herald",
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.46,4.24}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.SCHOLOMANCE,
+        },
         [175584] = { -- Challenge to Urok
             [objectKeys.name] = "Challenge to Urok",
             [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},

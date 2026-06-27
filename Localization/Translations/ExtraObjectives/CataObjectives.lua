@@ -3686,18 +3686,6 @@ local cataObjectiveLocales = {
         ["zhCN"] = "打开它",
         ["zhTW"] = false,
     },
-    ["Summon Kirtonos"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "召唤基尔图诺斯",
-        ["zhTW"] = false,
-    },
     ["Get a ride to Astranaar"] = {
         ["enUS"] = true,
         ["deDE"] = false,

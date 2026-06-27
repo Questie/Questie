@@ -910,9 +910,21 @@ local classicObjectiveLocales = {
         ["frFR"] = "Parlez à Ecuyer Rowe",
         ["koKR"] = "수습기사 로우와 대화",
         ["ptBR"] = "Converse com Escudeiro Rui",
-        ["ruRU"] = "Поговорите с Оруженосец Роу",
+        ["ruRU"] = "Поговорите с Оруженосцем Роу",
         ["zhCN"] = "与侍卫洛文交谈",
         ["zhTW"] = "與侍衛洛義交談",
+    },
+    ["Summon Kirtonos"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "召唤基尔图诺斯",
+        ["zhTW"] = false,
     },
 }
 

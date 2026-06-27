@@ -3175,6 +3175,7 @@ function QuestieQuestFixes:Load()
         },
         [5384] = { -- Kirtonos the Herald
             [questKeys.nextQuestInChain] = 5461,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Kirtonos"), 0, {{"object", 175564}}}},
         },
         [5386] = { -- Catch of the Day
             [questKeys.childQuests] = {},
