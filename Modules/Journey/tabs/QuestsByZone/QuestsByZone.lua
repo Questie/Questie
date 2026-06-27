@@ -2,14 +2,15 @@
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 
+---@type QuestDetailsFrame
+local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieReputation
-local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieQuestBlacklist
@@ -18,8 +19,6 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
----@type QuestieProfessions
-local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -82,7 +81,7 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
                 scrollFrame:SetFullHeight(true)
                 master:AddChild(scrollFrame)
 
-                _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+                QuestDetailsFrame:Draw(scrollFrame, quest)
             end
         end)
     else
@@ -153,7 +152,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
             end
         end
 
-        _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+        QuestDetailsFrame:Draw(scrollFrame, quest)
     end)
 
     container:AddChild(zoneTreeFrame)
