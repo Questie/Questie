@@ -47,7 +47,20 @@ describe("WrappedText", function()
                 Hide = function() visible = false end,
                 IsVisible = function() return visible end,
                 GetWrappedWidth = function() return width end,
-                GetUnboundedStringWidth = function() return utf8.strlen(text) * (fontWidthMultipliers[font] or 1) end,
+                GetUnboundedStringWidth = function()
+                    local textureWidth = 0
+                    local measuredText = string.gsub(text, "|T.-|[tT]", function(textureEscape)
+                        local textureWidthText = string.match(textureEscape, "^|T.-:%d+%.?%d*:(%d+%.?%d*)")
+                            or string.match(textureEscape, "^|T.-:(%d+%.?%d*)|[tT]$")
+                        textureWidth = textureWidth + (tonumber(textureWidthText) or 0)
+                        return ""
+                    end)
+                    measuredText = string.gsub(measuredText, "|[cC]%x%x%x%x%x%x%x%x", "")
+                    measuredText = string.gsub(measuredText, "|[rR]", "")
+                    measuredText = string.gsub(measuredText, "||", "|")
+
+                    return (utf8.strlen(measuredText) + textureWidth) * (fontWidthMultipliers[font] or 1)
+                end,
                 CalculateScreenAreaFromCharacterSpan = function(_, leftIndex, rightIndex)
                     ---@type table[]
                     local areas = {}
@@ -74,7 +87,6 @@ describe("WrappedText", function()
                 CreateFontString = function() return CreateTextWrapFontStringMock() end,
             }
 
-            package.loaded["Modules.Libs.WrappedText"] = nil
             dofile("Modules/Libs/WrappedText.lua")
             WrappedText = QuestieLoader:ImportModule("WrappedText")
         end)
@@ -82,7 +94,6 @@ describe("WrappedText", function()
         after_each(function()
             _G.UIParent = originalUIParent
             _G["QuestLogObjectivesText"] = originalQuestLogObjectivesText
-            package.loaded["Modules.Libs.WrappedText"] = nil
         end)
 
         it("should add the prefix to each wrapped line", function()
@@ -183,6 +194,58 @@ describe("WrappedText", function()
             local lines = WrappedText:TextWrap("a||b|cFFFF0000cd|r", "", false, 3)
 
             assert.are_same({"a||b", "|cFFFF0000cd|r"}, lines)
+        end)
+
+        it("should keep leading texture escapes intact when wrapping reputation reward text", function()
+            local reputationTexture = "|TInterface\\Addons\\Questie\\Icons\\reputation.blp:14:14:2:0|t"
+            local text = reputationTexture .. " +150 Warsong Outriders / +100 Orgrimmar"
+            local lines = WrappedText:TextWrap(text, "", false, 20)
+
+            assert.are_same(reputationTexture .. " +150 ", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should use texture width when choosing wrap position", function()
+            local reputationTexture = "|TInterface\\Addons\\Questie\\Icons\\reputation.blp:14:4:2:0|t"
+            local text = reputationTexture .. "abcdef"
+            local lines = WrappedText:TextWrap(text, "", false, 6)
+
+            assert.are_same(reputationTexture .. "ab", lines[1])
+            assert.are_same(text, table.concat(lines, ""))
+        end)
+
+        it("should preserve color escapes around texture escapes", function()
+            local reputationTexture = "|TInterface\\Addons\\Questie\\Icons\\reputation.blp:14:14:2:0|t"
+            local lines = WrappedText:TextWrap("|cFFFF0000" .. reputationTexture .. "abcdef|r", "", false, 16)
+
+            assert.are_same({
+                "|cFFFF0000" .. reputationTexture .. "ab|r",
+                "|cFFFF0000cdef|r",
+            }, lines)
+        end)
+
+        it("should use single-size texture width when choosing wrap position", function()
+            local reputationTexture = "|TInterface\\Addons\\Questie\\Icons\\reputation.blp:14|t"
+            local text = reputationTexture .. "abcdef"
+            local lines = WrappedText:TextWrap(text, "", false, 16)
+
+            assert.are_same({reputationTexture .. "ab", "cdef"}, lines)
+        end)
+
+        it("should use raw texture width when combining a trailing word", function()
+            local reputationTexture = "|TInterface\\Addons\\Questie\\Icons\\reputation.blp:4:4:2:0|t"
+            local text = reputationTexture .. " alpha"
+            local lines = WrappedText:TextWrap(text, "", true, 5)
+
+            assert.are_same({text}, lines)
+        end)
+
+        it("should not combine a trailing texture as a single CJK glyph", function()
+            local reputationTexture = "|TInterface\\Addons\\Questie\\Icons\\reputation.blp:1:1:2:0|t"
+            local text = "ab" .. reputationTexture
+            local lines = WrappedText:TextWrap(text, "", true, 2)
+
+            assert.are_same({"ab", reputationTexture}, lines)
         end)
 
         it("should treat malformed color-like text as normal text", function()
