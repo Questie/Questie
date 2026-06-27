@@ -79,10 +79,10 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
-        assert.equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
 
         local secondIconData = QuestieMap.DrawWorldIcon.calls[2].vals[2]
-        assert.equal(Questie.ICON_TYPE_COMPLETE, secondIconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, secondIconData.Icon)
     end)
 
     it("should add object finisher", function()
@@ -115,10 +115,10 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
-        assert.equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
 
         local secondIconData = QuestieMap.DrawWorldIcon.calls[2].vals[2]
-        assert.equal(Questie.ICON_TYPE_COMPLETE, secondIconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, secondIconData.Icon)
     end)
 
     it("should add mixed finisher", function()
@@ -212,7 +212,7 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWaypoints).was.not_called()
 
         local iconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
-        assert.equal(Questie.ICON_TYPE_COMPLETE, iconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, iconData.Icon)
     end)
 
     it("should add NPC finisher for PvP quests", function()
@@ -240,7 +240,7 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
-        assert.equal(Questie.ICON_TYPE_PVPQUEST_COMPLETE, firstIconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_PVPQUEST_COMPLETE, firstIconData.Icon)
     end)
 
     it("should add NPC finisher for repeatable quests", function()
@@ -267,7 +267,7 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
-        assert.equal(Questie.ICON_TYPE_REPEATABLE_COMPLETE, firstIconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_REPEATABLE_COMPLETE, firstIconData.Icon)
     end)
 
     it("should not add finisher if quest is not in the players quest log", function()
@@ -365,7 +365,7 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
 
         local iconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
-        assert.equal(Questie.ICON_TYPE_EVENTQUEST_COMPLETE, iconData.Icon)
+        assert.is_equal(Questie.ICON_TYPE_EVENTQUEST_COMPLETE, iconData.Icon)
     end)
 
     it("should not add finisher when quest has no finisher", function()
