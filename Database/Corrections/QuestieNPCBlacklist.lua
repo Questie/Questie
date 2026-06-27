@@ -2,6 +2,8 @@
 local QuestieNPCBlacklist = QuestieLoader:CreateModule("QuestieNPCBlacklist")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 ---@return table<NpcId, boolean>
 function QuestieNPCBlacklist:Load()
@@ -19,9 +21,9 @@ function QuestieNPCBlacklist:Load()
         [13446] = Expansions.Current == Expansions.Era, -- Field Marshal Teravaine
         [13449] = Expansions.Current == Expansions.Era, -- Warmaster Garrick
         [15799] = Expansions.Current == Expansions.Era, -- Colossus Researcher Eazel (AQ Opening event)
-        [17544] = true, -- M'uru in Silvermoon City removed starting with SWP patch
+        [17544] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5) or (Expansions.Current >= Expansions.Wotlk), -- removed starting with SWP patch
         [21155] = true, -- Bloodelf War Effort Recruiter
         [30676] = Expansions.Current >= Expansions.Cata, -- Chronicler Bah'Kini (outside of dungeon version of this NPC)
-        [178420] = Expansions.Current >= Expansions.Wotlk,
+        [178420] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5) or (Expansions.Current >= Expansions.Wotlk), -- removed starting with SWP patch
     }
 end
