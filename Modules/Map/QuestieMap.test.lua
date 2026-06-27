@@ -35,8 +35,8 @@ describe("QuestieMap", function()
 
             QuestieMap:UnloadQuestFrames(1)
 
-            assert.spy(unloadFrame1).was_called()
-            assert.spy(unloadFrame2).was_called()
+            assert.spy(unloadFrame1).was.called()
+            assert.spy(unloadFrame2).was.called()
             assert.is_nil(_G.QuestieFrame1.data)
             assert.is_nil(_G.QuestieFrame2.data)
             assert.are.same({}, objective.AlreadySpawned)
@@ -63,8 +63,8 @@ describe("QuestieMap", function()
 
             QuestieMap.UpdateDrawnIcons(1)
 
-            assert.spy(UpdateTextureMock).was_called(2)
-            assert.spy(UpdateTextureMock).was_called_with(_, 11)
+            assert.spy(UpdateTextureMock).was.called(2)
+            assert.spy(UpdateTextureMock).was.called_with(_, 11)
         end)
 
         it("should do nothing when no frames are found", function()

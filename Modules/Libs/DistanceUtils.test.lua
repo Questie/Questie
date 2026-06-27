@@ -60,9 +60,9 @@ describe("DistanceUtils", function()
             assert.equals(0, bestDistance)
 
             assert.spy(HBDMock.GetPlayerWorldPosition).was.called()
-            assert.spy(ZoneDB.GetUiMapIdByAreaId).was_called_with(_, 1)
-            assert.spy(HBDMock.GetWorldCoordinatesFromZone).was_called_with(HBDMock, 0.5, 0.5, 200)
-            assert.spy(QuestieLib.Euclid).was_called_with(50, 50, 123, 456)
+            assert.spy(ZoneDB.GetUiMapIdByAreaId).was.called_with(_, 1)
+            assert.spy(HBDMock.GetWorldCoordinatesFromZone).was.called_with(HBDMock, 0.5, 0.5, 200)
+            assert.spy(QuestieLib.Euclid).was.called_with(50, 50, 123, 456)
         end)
 
         it("should compare dungeon location when spawn is in dungeon", function()
@@ -95,7 +95,7 @@ describe("DistanceUtils", function()
             assert.equals(3, bestSpawnZone)
             assert.equals(0, bestDistance)
 
-            assert.spy(ZoneDB.GetDungeonLocation).was_called_with(_, 2)
+            assert.spy(ZoneDB.GetDungeonLocation).was.called_with(_, 2)
         end)
 
         it("should use 0 values when player position can not be determined", function()
@@ -125,7 +125,7 @@ describe("DistanceUtils", function()
             assert.equals(2, bestSpawnZone)
             assert.equals(0, bestDistance)
 
-            assert.spy(QuestieLib.Euclid).was_called_with(0, 0, 123, 456)
+            assert.spy(QuestieLib.Euclid).was.called_with(0, 0, 123, 456)
         end)
 
         it("should error once when dungeon location is not found", function()
@@ -140,8 +140,8 @@ describe("DistanceUtils", function()
             DistanceUtils.GetNearestSpawn(spawns)
             DistanceUtils.GetNearestSpawn(spawns)
 
-            assert.spy(_G.Questie.Error).was_called(1)
-            assert.spy(_G.Questie.Error).was_called_with(_, "No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
+            assert.spy(_G.Questie.Error).was.called(1)
+            assert.spy(_G.Questie.Error).was.called_with(_, "No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
         end)
     end)
 
@@ -385,7 +385,7 @@ describe("DistanceUtils", function()
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({123})
             assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
         end)
 
@@ -410,7 +410,7 @@ describe("DistanceUtils", function()
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({123})
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({123})
             assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
         end)
 
@@ -436,7 +436,7 @@ describe("DistanceUtils", function()
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({456})
             assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
         end)
 
@@ -462,7 +462,7 @@ describe("DistanceUtils", function()
             assert.equals("Objective", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_called_with({456})
+            assert.spy(DistanceUtils.GetNearestObjective).was.called_with({456})
             assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
         end)
 

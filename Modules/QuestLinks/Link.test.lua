@@ -147,8 +147,8 @@ describe("QuestieLink", function()
                 " - Fierce Boar",
                 " - Argent Dawn",
             }, tooltipLines)
-            assert.spy(QuestieDB.QueryNPCSingle).was_called_with(101, "name")
-            assert.spy(QuestieReputation.GetFactionName).was_called_with(201)
+            assert.spy(QuestieDB.QueryNPCSingle).was.called_with(101, "name")
+            assert.spy(QuestieReputation.GetFactionName).was.called_with(201)
         end)
 
         it("should show Blizzard objective text when HaveQuestData returns true", function()
