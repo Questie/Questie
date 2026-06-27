@@ -581,5 +581,3 @@ QuestieProfessions.rankKeys = {
       [8] = 110393, -- 525-600
     },
 }
-
-return QuestieProfessions

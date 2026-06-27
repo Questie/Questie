@@ -1154,5 +1154,3 @@ function TrackerUtils.HasQuest()
     Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils.HasQuest] - ", hasQuest)
     return hasQuest
 end
-
-return TrackerUtils

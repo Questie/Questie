@@ -483,5 +483,3 @@ function QuestiePartyObjectives:ScheduleUpdate(questId)
     end
     _ScheduleProcessing()
 end
-
-return QuestiePartyObjectives

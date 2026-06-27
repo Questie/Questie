@@ -278,5 +278,3 @@ _OnClickAchieve = function(self, button)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
     end
 end
-
-return TrackerLine

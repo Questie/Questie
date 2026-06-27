@@ -598,5 +598,3 @@ function QuestEventHandler.PlayerInteractionManagerFrameHide(eventType)
 
     _QuestEventHandler:QuestRelatedFrameClosed(eventName)
 end
-
-return QuestEventHandler

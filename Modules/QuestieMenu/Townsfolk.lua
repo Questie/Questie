@@ -632,5 +632,3 @@ function Townsfolk.GetFactionSpecificMailboxes()
 
     return allianceMailBoxes, hordeMailBoxes
 end
-
-return Townsfolk

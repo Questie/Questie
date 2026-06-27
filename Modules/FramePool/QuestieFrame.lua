@@ -564,5 +564,3 @@ function _Qframe.ShouldBeHidden(self)
 
     return false
 end
-
-return _Qframe

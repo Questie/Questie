@@ -143,5 +143,3 @@ function _MinimapIcon.RepositionIcon()
         button.icon:SetPoint("CENTER", 0.5, 0.5)
     end
 end
-
-return MinimapIcon

@@ -798,5 +798,3 @@ _MinimapIconFadeLogic = function(self)
         end
     end
 end
-
-return QuestieMap

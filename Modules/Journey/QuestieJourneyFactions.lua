@@ -168,7 +168,3 @@ function QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKe
 
     return orderMap
 end
-
-return QuestieJourneyFactions
-
-

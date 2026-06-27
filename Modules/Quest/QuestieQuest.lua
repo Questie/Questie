@@ -1529,5 +1529,3 @@ function QuestieQuest.DrawDailyQuest(questId)
         AvailableQuests.DrawAvailableQuest(quest)
     end
 end
-
-return QuestieQuest

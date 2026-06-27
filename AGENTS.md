@@ -92,8 +92,6 @@ local _QuestieTooltips = QuestieTooltips.private
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ```
 
-All files must `return ModuleName` at the end.
-
 ### Standard File Boilerplate
 ```lua
 ---@class MyModule

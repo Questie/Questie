@@ -13,5 +13,3 @@ function BlacklistFilter.filterExpansion(blacklist)
 
     return blacklist
 end
-
-return BlacklistFilter

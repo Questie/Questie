@@ -307,5 +307,3 @@ function DailyQuests.ShouldBeHidden(questId, completedQuests, questLog)
 
     return true
 end
-
-return DailyQuests

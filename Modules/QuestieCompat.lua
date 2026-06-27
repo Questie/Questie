@@ -298,5 +298,3 @@ end
 function QuestieCompat.GetWatchFramePoint()
     return WatchFrame:GetPoint()
 end
-
-return QuestieCompat
