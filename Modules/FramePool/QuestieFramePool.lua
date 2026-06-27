@@ -3,6 +3,8 @@ local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool")
 -------------------------
 --Import modules.
 -------------------------
+---@type QuestieFrame
+local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
@@ -158,7 +160,7 @@ end
 function _QuestieFramePool:QuestieCreateFrame()
     --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
     numberOfFrames = numberOfFrames + 1
-    local newFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
+    local newFrame = QuestieFrame:New(numberOfFrames, MapIconTooltip.Show)
 
     tinsert(allFrames, newFrame)
     return newFrame
