@@ -214,5 +214,3 @@ _RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjecti
         end
     end
 end
-
-return QuestFinisher

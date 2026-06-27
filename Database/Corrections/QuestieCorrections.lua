@@ -444,5 +444,3 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
         end
     end
 end
-
-return QuestieCorrections

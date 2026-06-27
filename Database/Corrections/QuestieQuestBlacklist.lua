@@ -8599,5 +8599,3 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
 
     }
 end
-
-return QuestieQuestBlacklist

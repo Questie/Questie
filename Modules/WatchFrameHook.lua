@@ -10,5 +10,3 @@ function WatchFrameHook.Hide()
 
     QuestieCompat.HideWatchFrame()
 end
-
-return WatchFrameHook

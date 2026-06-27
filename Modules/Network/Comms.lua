@@ -76,5 +76,3 @@ function Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
         Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "PARTY")
     end
 end
-
-return Comms

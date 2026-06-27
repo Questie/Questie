@@ -3769,5 +3769,3 @@ function QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
         }
     end
 end
-
-return QuestieNPCFixes

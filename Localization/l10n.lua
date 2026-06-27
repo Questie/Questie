@@ -208,5 +208,3 @@ end
 function l10n:GetUILocale()
     return locale
 end
-
-return l10n

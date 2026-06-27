@@ -463,5 +463,3 @@ QuestieEvent.lunarFestival = {
         ["28"] = {startDate = "24/1", endDate = "14/2"},
     }
 }
-
-return QuestieEvent

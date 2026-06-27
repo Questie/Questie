@@ -748,5 +748,3 @@ function QuestieLib.GetFullObjectiveText(rawObjectiveText)
     -- First regex is for non-Chinese clients, second is for Chinese clients where the colon is a different character
     return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$")
 end
-
-return QuestieLib

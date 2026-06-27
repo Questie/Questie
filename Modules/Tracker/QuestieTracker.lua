@@ -2212,5 +2212,3 @@ end
 function QuestieTracker.UpdateScenarioLines(criteriaIndex)
     TrackerLinePool.UpdateScenarioLines(criteriaIndex)
 end
-
-return QuestieTracker

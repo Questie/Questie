@@ -141,5 +141,3 @@ function QuestiePlayer:GetPartyMemberByName(playerName)
     end
     return nil;
 end
-
-return QuestiePlayer

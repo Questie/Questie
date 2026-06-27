@@ -420,5 +420,3 @@ function QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
         end
     end
 end
-
-return QuestLogCache

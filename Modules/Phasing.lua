@@ -2486,5 +2486,3 @@ _Phasing.Kezan = function(phase, complete)
 
     return false
 end
-
-return Phasing

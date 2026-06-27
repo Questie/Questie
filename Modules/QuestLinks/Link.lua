@@ -467,5 +467,3 @@ else
         HandleHyperlinkClick(link, button)
     end)
 end
-
-return QuestieLink

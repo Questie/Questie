@@ -211,5 +211,3 @@ function TrackerItemButton.New(buttonName)
 
     return btn
 end
-
-return TrackerItemButton

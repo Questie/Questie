@@ -324,5 +324,3 @@ function TooltipLayout:Render(tooltip, rows)
     -- No rows require expansion, so render directly without measuring.
     _RenderTooltipRows(tooltip, rows)
 end
-
-return TooltipLayout

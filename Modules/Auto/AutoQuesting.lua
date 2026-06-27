@@ -263,5 +263,3 @@ _AllQuestWindowsClosed = function()
     end
     return false
 end
-
-return AutoQuesting

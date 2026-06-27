@@ -1111,5 +1111,3 @@ function QuestieComms:ResetAll()
     QuestieComms.remoteQuestLogs = {}
     QuestiePartyObjectives:ScheduleUpdate()
 end
-
-return QuestieComms

@@ -95,5 +95,3 @@ function AutoCompleteFrame.CheckAutoCompleteQuests()
         autoCompleteFrame:Hide()
     end
 end
-
-return AutoCompleteFrame

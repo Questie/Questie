@@ -470,5 +470,3 @@ function QuestieMenu:ShowVendors(hideDelay)
     tinsert(menuTable, {text= CANCEL, func=function() end})
     LibDropDown:EasyMenu(menuTable, QuestieMenu.menuVendors, "cursor", -60, -15, "MENU", hideDelay)
 end
-
-return QuestieMenu

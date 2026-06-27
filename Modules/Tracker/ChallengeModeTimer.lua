@@ -71,5 +71,3 @@ function ChallengeModeTimer.GetTimerString()
 
     return Questie:Colorize("00:00 / 00:00", "white")
 end
-
-return ChallengeModeTimer
