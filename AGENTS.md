@@ -194,19 +194,19 @@ Corrections load cumulatively in expansion order (Classic -> TBC -> WotLK -> Cat
 ```lua
 dofile("setupTests.lua")
 
-describe("ModuleName", function()
-    ---@type ModuleName
-    local ModuleName
+describe("ModuleToTest", function()
+    ---@type ModuleToTest
+    local ModuleToTest
     
     ---@type MockedModule
     local MockedModule
 
     before_each(function()
-        MockedModule = require("Modules.MockedModule")
+        MockedModule = QuestieLoader:ImportModule("Modules.MockedModule")
         -- Mock some default functions on the mocked module if needed
         MockedModule.SomeFunction = function() return "mocked value" end
     
-        ModuleName = require("Modules.ModuleName")
+        ModuleToTest = require("Modules.ModuleToTest")
     end)
 
     describe("MethodName", function()
@@ -217,7 +217,7 @@ describe("ModuleName", function()
             -- Override the mocked module's functions if needed for this test case
             MockedModule.SomeFunction = function() return "different mocked value" end
 
-            local result = ModuleName:Method()
+            local result = ModuleToTest:Method()
             assert.are.same(expected, result)
         end)
     end)
@@ -228,7 +228,12 @@ end)
 - Integration tests go in `cli/integrationTests/` named by issue number
 - Mocking: override `_G.*` globals; use `spy.new()` for call verification
 - Assertions: `assert.are.same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was_called_with()`, `assert.has_error()`
-- Default to mock Questie modules that are imported in the tested module instead of leaving the real one. Then override functions on the mocked module as needed for the test.
+- Use `QuestieLoader` to stub modules, then mock functions called by the module under test. Exceptions are:
+  - `l10n`, which should be required directly using `require("Localization.l10n")`
+  - `ContentPhases`, which should be required directly using `require("Database.Corrections.ContentPhases.ContentPhases")`
+  - `QuestieLib`, which CAN be required directly, when only pure function of it are required in the test case
+- Use `require` to load the module under test, not `QuestieLoader:ImportModule()`
+- Add `dofile("setupTests.lua")` on top of each unit test file, so that the WoW API globals are mocked and `QuestieLoader` is fresh and available.
 
 ## CI Pipeline
 CI runs on every push/PR: busted tests, database validators for each expansion, luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
