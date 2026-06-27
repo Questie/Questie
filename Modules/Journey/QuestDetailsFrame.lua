@@ -555,23 +555,19 @@ function QuestDetailsFrame:Draw(container, quest)
 
         QuestieJourneyUtils:Spacer(startItemGroup)
 
-        for _, iid in pairs(quest.Starts.Item) do
-            local startItem = QuestieDB:GetItem(iid)
+        local startItem = QuestieDB:GetItem(quest.Starts.Item[1])
 
-            local startItemNameLabel = AceGUI:Create("Label")
-            startItemNameLabel:SetText(startItem.name)
-            startItemNameLabel:SetFontObject(GameFontHighlight)
-            startItemNameLabel:SetColor(255, 165, 0)
-            startItemNameLabel:SetFullWidth(true)
-            startItemGroup:AddChild(startItemNameLabel)
+        local startItemNameLabel = AceGUI:Create("Label")
+        startItemNameLabel:SetText(startItem.name)
+        startItemNameLabel:SetFontObject(GameFontHighlight)
+        startItemNameLabel:SetColor(255, 165, 0)
+        startItemNameLabel:SetFullWidth(true)
+        startItemGroup:AddChild(startItemNameLabel)
 
-            local startItemIdLabel = AceGUI:Create("Label")
-            startItemIdLabel:SetText(l10n("Item ID") .. l10n(": ") .. startItem.Id)
-            startItemIdLabel:SetFullWidth(true)
-            startItemGroup:AddChild(startItemIdLabel)
-
-            QuestieJourneyUtils:Spacer(startItemGroup)
-        end
+        local startItemIdLabel = AceGUI:Create("Label")
+        startItemIdLabel:SetText(l10n("Item ID") .. l10n(": ") .. startItem.Id)
+        startItemIdLabel:SetFullWidth(true)
+        startItemGroup:AddChild(startItemIdLabel)
     end
 
     QuestieJourneyUtils:Spacer(container)
