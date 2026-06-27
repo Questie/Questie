@@ -1203,8 +1203,8 @@ function QuestieQuestBlacklist:Load()
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [9278] = true, -- Welcome!
-        --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch
-        --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch
+        --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch (old comment)
+        --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch (old comment)
         [9926] = true, -- FLAG Shadow Council/Warmaul Questline
         [10048] = true, -- A Handful of Magic Dust BETA
         [10049] = true, -- A Handful of Magic Dust BETA
@@ -1304,8 +1304,8 @@ function QuestieQuestBlacklist:Load()
         [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
 
         -- Paladin class quests with SWP patch
-        [64319] = true, -- removed in wotlk
-        [63866] = true, -- removed in wotlk
+        [63866] = Expansions.Current >= Expansions.Wotlk, -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
+        [64319] = Expansions.Current >= Expansions.Wotlk, -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
 
         -- Revered Among X quests
         [10459] = true,
@@ -5228,8 +5228,8 @@ function QuestieQuestBlacklist:Load()
         [9677] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9678] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9679] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [9681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [9684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9681] = Expansions.Current ~= Expansions.Wotlk, -- Removed with cata -- Check exactly what happens in TBC with these quests. Probably only present during SWP patch
+        [9684] = Expansions.Current ~= Expansions.Wotlk, -- Removed with cata -- Check exactly what happens in TBC with these quests. Probably only present during SWP patch
         [9685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
