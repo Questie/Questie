@@ -7,13 +7,22 @@ describe("QuestieCommsData", function()
     ---@type QuestieDB
     local QuestieDB
 
-    before_each(function()
-        QuestieComms = require("Modules.Network.QuestieComms")
+    local originalGetItem
 
-        QuestieDB = require("Database.QuestieDB")
+    before_each(function()
+        QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+        QuestieComms.data = {}
+
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        originalGetItem = QuestieDB.GetItem
         QuestieDB.GetItem = function() return nil end
 
-        require("Modules.Network.QuestieCommsData")
+        dofile("Modules/Network/QuestieCommsData.lua")
+        QuestieComms.data:ResetAll()
+    end)
+
+    after_each(function()
+        QuestieDB.GetItem = originalGetItem
         QuestieComms.data:ResetAll()
     end)
 
