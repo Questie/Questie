@@ -202,11 +202,12 @@ describe("ModuleToTest", function()
     local MockedModule
 
     before_each(function()
-        MockedModule = QuestieLoader:ImportModule("Modules.MockedModule")
+        MockedModule = QuestieLoader:ImportModule("MockedModule")
         -- Mock some default functions on the mocked module if needed
         MockedModule.SomeFunction = function() return "mocked value" end
     
-        ModuleToTest = require("Modules.ModuleToTest")
+        dofile("Modules/ModuleToTest.lua")
+        ModuleToTest = QuestieLoader:ImportModule("ModuleToTest")
     end)
 
     describe("MethodName", function()
@@ -228,11 +229,11 @@ end)
 - Integration tests go in `cli/integrationTests/` named by issue number
 - Mocking: override `_G.*` globals; use `spy.new()` for call verification
 - Assertions: `assert.are.same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was_called_with()`, `assert.has_error()`
+- Use `dofile` to load the module under test, not `require` any file
 - Use `QuestieLoader` to stub modules, then mock functions called by the module under test. Exceptions are:
-  - `l10n`, which should be required directly using `require("Localization.l10n")`
-  - `ContentPhases`, which should be required directly using `require("Database.Corrections.ContentPhases.ContentPhases")`
-  - `QuestieLib`, which CAN be required directly, when only pure function of it are required in the test case
-- Use `require` to load the module under test, not `QuestieLoader:ImportModule()`
+  - `l10n`, which should be loaded directly using `dofile("Localization/l10n.lua")`
+  - `ContentPhases`, which should be loaded directly using `dofile("Database/Corrections/ContentPhases/ContentPhases.lua")`
+  - `QuestieLib`, which CAN be loaded directly, when only pure function of it are required in the test case
 - Add `dofile("setupTests.lua")` on top of each unit test file, so that the WoW API globals are mocked and `QuestieLoader` is fresh and available.
 
 ## CI Pipeline

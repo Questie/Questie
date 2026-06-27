@@ -83,9 +83,10 @@ describe("AutoQuesting", function()
         }
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        require("Localization.l10n") -- We don't need the return value
+        dofile("Localization/l10n.lua")
 
-        AutoQuesting = require("Modules.Auto.AutoQuesting")
+        dofile("Modules/Auto/AutoQuesting.lua")
+        AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
         AutoQuesting.private.disallowedNPCs = {}
         AutoQuesting.private.disallowedQuests = {
             accept = {},

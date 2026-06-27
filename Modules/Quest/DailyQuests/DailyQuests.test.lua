@@ -7,7 +7,8 @@ describe("DailyQuests", function()
     before_each(function()
         _G["Questie"] = {db = {char = {complete = {}}}}
 
-        DailyQuests = require("Modules.Quest.DailyQuests.DailyQuests")
+        dofile("Modules/Quest/DailyQuests/DailyQuests.lua")
+        DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 
         DailyQuests.hubs = {
             TEST_HUB = {

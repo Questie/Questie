@@ -12,7 +12,8 @@ describe("Comms", function()
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
 
-        Comms = require("Modules.Network.Comms")
+        dofile("Modules/Network/Comms.lua")
+        Comms = QuestieLoader:ImportModule("Comms")
         Comms.Initialize()
     end)
 

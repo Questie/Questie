@@ -37,7 +37,8 @@ describe("Tooltip", function()
                 },
             }
         end)
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetColoredQuestName = spy.new(function()
             return "Quest Name"
         end)
@@ -56,9 +57,10 @@ describe("Tooltip", function()
         QuestiePlayer.GetPartyMemberByName = function() return nil end
         QuestiePlayer.currentQuestlog = {}
         QuestiePlayer.numberOfGroupMembers = 0
-        require("Localization.l10n")
+        dofile("Localization/l10n.lua")
 
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
+        dofile("Modules/Tooltips/Tooltip.lua")
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
     end)
 
     describe("GetTooltip", function()

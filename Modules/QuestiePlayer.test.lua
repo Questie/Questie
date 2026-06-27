@@ -5,7 +5,8 @@ describe("QuestiePlayer", function()
     local QuestiePlayer
 
     before_each(function()
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        dofile("Modules/QuestiePlayer.lua")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
     end)
 
     describe("GetPartyMemberByName", function()

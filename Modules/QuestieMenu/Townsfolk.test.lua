@@ -47,7 +47,8 @@ describe("Townsfolk", function()
             [9] = {factionID = factionIds.AllianceFaction2},
         }
 
-        Townsfolk = require("Modules.QuestieMenu.Townsfolk")
+        dofile("Modules/QuestieMenu/Townsfolk.lua")
+        Townsfolk = QuestieLoader:ImportModule("Townsfolk")
     end)
 
     describe("Townsfolk.GetFactionSpecificMailboxes", function()

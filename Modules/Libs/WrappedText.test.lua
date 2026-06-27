@@ -64,7 +64,8 @@ describe("WrappedText", function()
             originalUIParent = _G.UIParent
             originalQuestLogObjectivesText = _G["QuestLogObjectivesText"]
 
-            utf8 = require("Modules.Libs.utf8")
+            dofile("Modules/Libs/utf8.lua")
+            utf8 = QuestieLoader:ImportModule("utf8")
             _G["QuestLogObjectivesText"] = {
                 GetWidth = function() return 275 end,
                 GetFont = function() return "Font", 12, "" end,
@@ -74,7 +75,8 @@ describe("WrappedText", function()
             }
 
             package.loaded["Modules.Libs.WrappedText"] = nil
-            WrappedText = require("Modules.Libs.WrappedText")
+            dofile("Modules/Libs/WrappedText.lua")
+            WrappedText = QuestieLoader:ImportModule("WrappedText")
         end)
 
         after_each(function()

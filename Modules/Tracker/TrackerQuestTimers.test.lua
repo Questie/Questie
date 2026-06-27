@@ -6,7 +6,8 @@ describe("TrackerQuestTimers", function()
     local TrackerQuestTimers
 
     before_each(function()
-        TrackerQuestTimers = require("Modules.Tracker.TrackerQuestTimers")
+        dofile("Modules/Tracker/TrackerQuestTimers.lua")
+        TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
     end)
 
     describe("GetRemainingTimeByQuestId", function()

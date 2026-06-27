@@ -14,7 +14,8 @@ describe("QuestieCompat", function()
         _G.GetGossipAvailableQuests = nil
         _G.GetGossipActiveQuests = nil
 
-        QuestieCompat = require("Modules.QuestieCompat")
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = _G.QuestieCompat
     end)
 
     describe("GetAvailableQuests", function()

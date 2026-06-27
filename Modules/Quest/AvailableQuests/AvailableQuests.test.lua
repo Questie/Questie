@@ -1,4 +1,4 @@
-local TestUtils = require("setupTests")
+local TestUtils = dofile("setupTests.lua")
 
 describe("AvailableQuests", function()
     ---@type ZoneDB
@@ -21,7 +21,9 @@ describe("AvailableQuests", function()
     local NPC_ID = 456
 
     before_each(function()
+        Questie.db.global.unavailableQuestsDeterminedByTalking = {}
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        ZoneDB.GetDungeons = function() return {} end
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetNPC = function() return nil end
@@ -34,7 +36,9 @@ describe("AvailableQuests", function()
 
         Questie.db.profile.availableIconLimit = 10
 
-        AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
+        dofile("Modules/Quest/AvailableQuests/AvailableQuests.lua")
+        AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+        AvailableQuests.Initialize()
         TestUtils.clearTable(AvailableQuests.__availableQuests)
         TestUtils.clearTable(AvailableQuests.__availableQuestsByNpc)
         TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)

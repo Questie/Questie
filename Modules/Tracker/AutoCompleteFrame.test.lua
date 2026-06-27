@@ -4,7 +4,8 @@ local screenWidth = 1920
 _G.GetScreenWidth = function() return screenWidth end
 
 ---@type AutoCompleteFrame
-local AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
+dofile("Modules/Tracker/AutoCompleteFrame.lua")
+local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 
 describe("AutoCompleteFrame", function()
     before_each(function()

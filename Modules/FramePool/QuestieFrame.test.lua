@@ -47,7 +47,8 @@ describe("QuestieFrame", function()
 
         QuestieLoader:ImportModule("DailyQuests")
 
-        QuestieFrameHandler = require("Modules.FramePool.QuestieFrame")
+        dofile("Modules/FramePool/QuestieFrame.lua")
+        QuestieFrameHandler = QuestieLoader:ImportModule("QuestieFrameHandlers")
         QuestieFrame = {
             data = {
                 Type = "monster",

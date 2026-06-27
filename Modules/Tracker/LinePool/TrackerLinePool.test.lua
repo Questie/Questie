@@ -11,8 +11,11 @@ describe("TrackerLinePool", function()
     local _ = match._ -- any match
 
     before_each(function()
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+
+        dofile("Modules/Tracker/LinePool/TrackerLinePool.lua")
+        TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
     end)
 
     describe("UpdateQuestLines", function()

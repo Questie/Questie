@@ -65,7 +65,8 @@ describe("TooltipLayout", function()
 
     local function RequireTooltipLayout()
         package.loaded["Modules.Libs.WrappedText"] = nil
-        WrappedText = require("Modules.Libs.WrappedText")
+        dofile("Modules/Libs/WrappedText.lua")
+        WrappedText = QuestieLoader:ImportModule("WrappedText")
         originalTextWrap = WrappedText.TextWrap
         WrappedText.TextWrap = function(_, text, prefix, combineTrailing, desiredWidth, fontSource)
             capturedTextWrap = {
@@ -79,7 +80,8 @@ describe("TooltipLayout", function()
         end
 
         package.loaded["Modules.Tooltips.TooltipLayout"] = nil
-        TooltipLayout = require("Modules.Tooltips.TooltipLayout")
+        dofile("Modules/Tooltips/TooltipLayout.lua")
+        TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
     end
 
     before_each(function()

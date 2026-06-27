@@ -164,7 +164,8 @@ describe("Questie", function()
         end)
 
         it("should preserve RGB values through TooltipLayout description rows", function()
-            local TooltipLayout = require("Modules.Tooltips.TooltipLayout")
+            dofile("Modules/Tooltips/TooltipLayout.lua")
+            local TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
             local rows = TooltipLayout:CreateRows()
 
             rows:AddDescription("rep", "  ", Questie:ColorizeRGB("reputationBlue"))

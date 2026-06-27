@@ -31,10 +31,12 @@ describe("QuestieEvent", function()
         QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
         QuestieNPCFixes.LoadDarkmoonFixes = function() return {} end
 
-        ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
-        require("Localization.l10n")
+        dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
+        ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+        dofile("Localization/l10n.lua")
 
-        QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
+        dofile("Database/Corrections/Holidays/QuestieEvent.lua")
+        QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieEvent.eventQuests = {} -- This is done on top level in QuestieEvent.lua
         QuestieEvent.activeQuests = {} -- This is done on top level in QuestieEvent.lua
         dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
