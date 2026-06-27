@@ -1,6 +1,6 @@
----@type QuestieJourney
-local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
-local _QuestieJourney = QuestieJourney.private
+---@class QuestDetailsFrame
+local QuestDetailsFrame = QuestieLoader:CreateModule("QuestDetailsFrame")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -10,14 +10,54 @@ local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local AceGUI = LibStub("AceGUI-3.0")
+
+local stringrep = string.rep
+
+local function rec(theTable, ret, indent)
+    ret = ret..stringrep('    ', indent)..'{\n'
+    indent = indent + 1
+    for k, v in pairs(theTable) do
+        local t = type(v)
+        if t == 'nil' then
+            ret = ret..stringrep('    ', indent)..'['..k..']=nil'
+        elseif t == 'table' then
+            ret = rec(v, ret..stringrep('    ', indent)..'['..k..']=\n', indent)
+        else
+            ret = ret..stringrep('    ', indent)..'['..k..']='..v
+        end
+        ret = ret..'\n'
+    end
+    return ret..stringrep('    ', indent-1)..'},'
+end
+
+local function recurseTable(theTable, theKeys)
+    local ret = Questie:Colorize('Raw data (shown because debug is enabled):\n\n', 'red')
+    for key, _ in pairs(theKeys) do
+        ret = ret..Questie:Colorize(key, 'yellow')..': '
+        local t = type(theTable[key])
+        if t == 'nil' then
+            ret = ret..'nil'
+        elseif t == 'table' then
+            ret = rec(theTable[key], ret, 0)
+        else
+            ret = ret..theTable[key]
+        end
+        ret = ret..'\n'
+    end
+    return ret
+end
 
 ---Creates a TomTom waypoint button if TomTom is available and coordinates are valid, otherwise returns nil.
 ---@param name string
@@ -40,7 +80,7 @@ end
 
 ---@param questId QuestId
 ---@return string|nil
-function _QuestieJourney:GetReputationRewardString(questId)
+local function GetReputationRewardString(questId)
     if not questId then
         return nil
     end
@@ -53,12 +93,167 @@ function _QuestieJourney:GetReputationRewardString(questId)
     return QuestieReputation.GetReputationRewardString(reputationRewards)
 end
 
+---@param text string
+---@param fullWidth boolean
+---@return AceHeader
+local function CreateHeading(text, fullWidth)
+    ---@class AceHeader
+    local header = AceGUI:Create("Heading")
+    header:SetFullWidth(fullWidth)
+    header:SetText(text)
 
--- TODO remove again once the call in manageZoneTree was removed
+    return header
+end
+
+---@param text string
+---@param fullWidth boolean
+---@return AceLabel
+local function CreateLabel(text, fullWidth)
+    ---@class AceLabel
+    local header = AceGUI:Create("Label")
+    header:SetFullWidth(fullWidth)
+    header:SetText(text)
+
+    return header
+end
+
+---@param questLevel number
+---@param questMinLevel number
+---@return number|nil red
+---@return number|nil orange
+---@return number|nil yellow
+---@return number|nil green
+---@return number|nil gray
+local function GetLevelDifficultyRanges(questLevel, questMinLevel)
+    local charLevel = UnitLevel("player")
+    local red, orange, yellow, green, gray
+
+    -- Gray Level based on level range.
+    if (questLevel ~= -1) then
+        if (questLevel <= 5) then
+            gray =  questLevel + 5
+        elseif (questLevel <= 39) then
+            gray = (questLevel + math.ceil(questLevel / 10) + 5)
+        else
+            gray = (questLevel + math.ceil(questLevel / 5) + 1)
+        end
+    end
+
+    -- Calculate Base Values
+    if questLevel == -1 then
+        questLevel = (questMinLevel <= charLevel and charLevel) or (questMinLevel > charLevel and questMinLevel)
+        if questMinLevel == questLevel then
+            yellow = questLevel
+        elseif questMinLevel ~= questLevel then
+            yellow = questMinLevel .. "-" .. questLevel
+        end
+    else
+        red = questMinLevel
+        orange = questLevel - 4
+        yellow = questLevel - 2
+        green = questLevel + 3
+
+        -- Double check for negative values
+        if yellow <= 0 or yellow < questMinLevel then
+            yellow = questMinLevel
+        end
+
+        if orange and orange < questMinLevel then
+            orange = questMinLevel
+        end
+
+        if orange == yellow then
+            orange = nil
+        end
+
+        if red and (red == orange or not orange) then
+            red = nil
+        end
+
+        if green and green < questMinLevel then
+            green = questMinLevel
+        end
+
+        if gray and gray < questMinLevel then
+            gray = questMinLevel
+        end
+
+    end
+
+    return red, orange, yellow, green, gray
+end
+
+---@param questLevel number
+---@param questMinLevel number
+---@return string
+local function GetDifficultyString(questLevel, questMinLevel)
+    local red, orange, yellow, green, gray = GetLevelDifficultyRanges(questLevel, questMinLevel)
+    local diffStr = ''
+
+    if red then
+        diffStr = diffStr .. "|cFFFF1A1A[".. red .."]|r "
+    end
+
+    if orange then
+        diffStr = diffStr .. "|cFFFF8040[".. orange .."]|r "
+    end
+
+    diffStr = diffStr .. "|cFFFFFF00[".. yellow .."]|r "
+
+    if green then
+        diffStr = diffStr .. "|cFF40C040[".. green .."]|r "
+    end
+
+    if gray then
+        diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
+    end
+
+    return Questie:Colorize(l10n('Difficulty Range: %s', diffStr), 'yellow')
+end
+
+---Takes a frame and adds a paragraph with a header text and a list of links to other search results
+---@param frame ScrollFrame The frame to work on
+---@param linkType string The type of result to link to (npc|object|quest|item)
+---@param lookup table Table of IDs (npc|object|quest|item)
+---@param header string The text header to show above the links
+---@param query function The function used to get link name from
+local function AddLinkedParagraph(frame, linkType, lookup, header, query)
+    if lookup and #lookup > 0 then
+        local group = AceGUI:Create("InlineGroup")
+        group:SetFullWidth(true)
+        group:SetLayout("List")
+        group:SetTitle(header)
+        frame:AddChild(group)
+
+        for _, id in pairs(lookup) do
+            id = math.abs(id)
+            local link = AceGUI:Create("InteractiveLabel")
+            local name = query(id, "name")
+            local text
+            if linkType == 'quest' then
+                text = QuestieLib:GetColoredQuestName(id, true, true)
+            elseif linkType == 'npc' then
+                local lvl = query(id, 'maxLevel')
+                text = '['..lvl..'] '..name..' ('..id..')'
+            else
+                text = name.." ("..id..")"
+            end
+            link:SetText(text)
+            link:SetUserData("id", id)
+            link:SetUserData("type", linkType)
+            link:SetUserData("name", name)
+            link:SetCallback("OnClick", function() end) -- No-op; could be used for navigation
+            link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+            link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
+            group:AddChild(link)
+        end
+    end
+end
+
 ---@param container ScrollFrame
 ---@param quest Quest
-function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
-    local questNameHeader = _QuestieJourney:CreateHeading(quest.name, true)
+function QuestDetailsFrame:Draw(container, quest)
+    local questNameHeader = CreateHeading(quest.name, true)
     container:AddChild(questNameHeader)
 
     QuestieJourneyUtils:Spacer(container)
@@ -70,59 +265,134 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
-    local questInfoHeader = _QuestieJourney:CreateHeading(l10n('Quest Information'), true)
+    local questInfoHeader = CreateHeading(l10n('Quest Information'), true)
     container:AddChild(questInfoHeader)
+
+    -- Complete checkbox (disabled/read-only)
+    local completedCheckbox = AceGUI:Create("CheckBox")
+    completedCheckbox:SetValue(Questie.db.char.complete[quest.Id])
+    completedCheckbox:SetLabel(l10n("Complete"))
+    completedCheckbox:SetDisabled(true)
+    completedCheckbox:SetHeight(16)
+    completedCheckbox.text:SetFontObject(GameFontHighlightSmall)
+    completedCheckbox:SetFullWidth(true)
+    container:AddChild(completedCheckbox)
+
+    -- Hidden by Questie checkbox (disabled/read-only)
+    local hiddenByQuestieCheckbox = AceGUI:Create("CheckBox")
+    hiddenByQuestieCheckbox:SetValue(QuestieCorrections.hiddenQuests[quest.Id])
+    hiddenByQuestieCheckbox:SetLabel(l10n("Hidden by Questie"))
+    hiddenByQuestieCheckbox:SetDisabled(true)
+    hiddenByQuestieCheckbox:SetHeight(16)
+    hiddenByQuestieCheckbox.text:SetFontObject(GameFontHighlightSmall)
+    hiddenByQuestieCheckbox:SetFullWidth(true)
+    container:AddChild(hiddenByQuestieCheckbox)
+
+    -- Hidden checkbox (interactive with tooltip)
+    local hideQuestCheckbox = AceGUI:Create("CheckBox")
+    hideQuestCheckbox.questId = quest.Id
+    hideQuestCheckbox:SetLabel(l10n("Hidden"))
+    hideQuestCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil)
+    hideQuestCheckbox.text:SetFontObject(GameFontHighlightSmall)
+    hideQuestCheckbox:SetFullWidth(true)
+    hideQuestCheckbox:SetCallback("OnValueChanged", function(frame)
+        if Questie.db.char.hidden[frame.questId] ~= nil then
+            QuestieQuest:UnhideQuest(frame.questId)
+        else
+            QuestieQuest:HideQuest(frame.questId)
+        end
+    end)
+    hideQuestCheckbox:SetCallback("OnEnter", function()
+        if GameTooltip:IsShown() then
+            return
+        end
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
+        GameTooltip:AddLine(l10n("Quest is hidden"))
+        GameTooltip:AddLine(l10n("\nIf checked, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."), 1, 1, 1, true)
+        GameTooltip:SetFrameStrata("TOOLTIP")
+        GameTooltip:Show()
+    end)
+    hideQuestCheckbox:SetCallback("OnLeave", function()
+        if GameTooltip:IsShown() then
+            GameTooltip:Hide()
+        end
+    end)
+    container:AddChild(hideQuestCheckbox)
 
     -- Generic Quest Information
 
-    local questIdLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Quest ID") .. l10n(": "), 'yellow') .. quest.Id, true)
+    local questIdLabel = CreateLabel(Questie:Colorize(l10n("Quest ID") .. l10n(": "), 'yellow') .. quest.Id, true)
     container:AddChild(questIdLabel)
 
-    local levelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Quest Level") .. l10n(": "), 'yellow') .. quest.level, true)
+    local questLevel = QuestieLib.GetTbcLevel(quest.Id)
+    local levelLabel = CreateLabel(Questie:Colorize(l10n("Quest Level") .. l10n(": "), 'yellow') .. questLevel, true)
     container:AddChild(levelLabel)
 
     -- We need to query this so we don't get wrong results for -1 type quests
     local requiredLevel = QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel")
-    local questLevel = QuestieDB.QueryQuestSingle(quest.Id, "questLevel")
-    local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Required Level") .. l10n(": "), 'yellow') .. requiredLevel, true)
+    local questDbLevel = QuestieDB.QueryQuestSingle(quest.Id, "questLevel")
+    local minLevelLabel = CreateLabel(Questie:Colorize(l10n("Required Level") .. l10n(": "), 'yellow') .. requiredLevel, true)
     container:AddChild(minLevelLabel)
 
-    local levelDiffString = _QuestieJourney:GetDifficultyString(questLevel, requiredLevel)
-    local levelDiffLabel = _QuestieJourney:CreateLabel(levelDiffString, true)
+    -- Required Race
+    local requiredRaces = QuestieDB.QueryQuestSingle(quest.Id, "requiredRaces")
+    local reqRaces = QuestieLib:GetRaceString(requiredRaces)
+    if (reqRaces ~= "") then
+        local reqRacesLabel = CreateLabel(Questie:Colorize(l10n("Required Race") .. l10n(": "), 'yellow') .. reqRaces, true)
+        container:AddChild(reqRacesLabel)
+    end
+
+    -- Required Class
+    local requiredClasses = QuestieDB.QueryQuestSingle(quest.Id, "requiredClasses")
+    local reqClasses = QuestieLib:GetClassString(requiredClasses)
+    if (reqClasses ~= "") then
+        local reqClassesLabel = CreateLabel(Questie:Colorize(l10n("Required Class") .. l10n(": "), 'yellow') .. reqClasses, true)
+        container:AddChild(reqClassesLabel)
+    end
+
+    local levelDiffString = GetDifficultyString(questDbLevel, requiredLevel)
+    local levelDiffLabel = CreateLabel(levelDiffString, true)
     container:AddChild(levelDiffLabel)
 
-    local reputationRewardString = _QuestieJourney:GetReputationRewardString(quest.Id)
+    local reputationRewardString = GetReputationRewardString(quest.Id)
     if reputationRewardString then
         local labelText = Questie:Colorize(l10n("Reputation Reward") .. l10n(": "), 'yellow') .. Questie:Colorize(reputationRewardString, "reputationBlue")
-        local reputationRewardLabel = _QuestieJourney:CreateLabel(labelText, true)
+        local reputationRewardLabel = CreateLabel(labelText, true)
         container:AddChild(reputationRewardLabel)
     end
 
     local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(quest.Id, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
         local completedStatus = Questie.db.char.complete[quest.Id] and Questie:Colorize(YES, 'green') or Questie:Colorize(NO, 'red')
-        local completedLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Completed") .. l10n(": "), 'yellow') .. completedStatus, true)
+        local completedLabel = CreateLabel(Questie:Colorize(l10n("Completed") .. l10n(": "), 'yellow') .. completedStatus, true)
         container:AddChild(completedLabel)
     end
 
     if QuestieDB.IsRepeatable(quest.Id) then
-        local repeatableLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Repeatable"), 'yellow'), true)
+        local repeatableLabel = CreateLabel(Questie:Colorize(l10n("Repeatable"), 'yellow'), true)
         container:AddChild(repeatableLabel)
     end
 
     local eligibilityText, shouldShowDoableLabel = QuestieDB.IsDoableVerbose(quest.Id, false, true, true)
     if shouldShowDoableLabel then
-        local eligibilityTextLabel = _QuestieJourney:CreateLabel(Questie:Colorize(l10n("Doable") .. l10n(": "), 'yellow') .. eligibilityText, true)
+        local eligibilityTextLabel = CreateLabel(Questie:Colorize(l10n("Doable") .. l10n(": "), 'yellow') .. eligibilityText, true)
         container:AddChild(eligibilityTextLabel)
     end
 
     QuestieJourneyUtils:Spacer(container)
 
-    local preQuestCounter, preQuestInlineGroup = _QuestieJourney:CreatePreQuestGroup(quest)
-    if preQuestCounter > 1 then -- Don't add the group if it doesn't contain a pre quest
-        QuestieJourneyUtils:Spacer(preQuestInlineGroup)
-        container:AddChild(preQuestInlineGroup)
+    -- Pre Quests - two separate labeled sections
+    if quest.preQuestSingle and next(quest.preQuestSingle) then
+        QuestieJourneyUtils:Spacer(container)
+        AddLinkedParagraph(container, "quest", quest.preQuestSingle, l10n("Requires one of these quests to be finished"), QuestieDB.QueryQuestSingle)
     end
+
+    if quest.preQuestGroup and next(quest.preQuestGroup) then
+        QuestieJourneyUtils:Spacer(container)
+        AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle)
+    end
+
+    QuestieJourneyUtils:Spacer(container)
 
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
@@ -136,7 +406,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         local startNpc = QuestieDB:GetNPC(quest.Starts.NPC[1])
 
-        local startNPCNameLabel = _QuestieJourney:CreateLabel(startNpc.name, true)
+        local startNPCNameLabel = CreateLabel(startNpc.name, true)
         startNPCNameLabel:SetFontObject(GameFontHighlight)
         startNPCNameLabel:SetColor(255, 165, 0)
         startNPCGroup:AddChild(startNPCNameLabel)
@@ -474,94 +744,10 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         container.content:SetHeight(10000)
     end
+
+    if Questie.db.profile.debugEnabled then
+        QuestieJourneyUtils:AddLine(container, recurseTable(quest, QuestieDB.questKeys))
+    end
 end
 
----@param text string
----@param fullWidth boolean
----@return AceHeader
-function _QuestieJourney:CreateHeading(text, fullWidth)
-    ---@class AceHeader
-    local header = AceGUI:Create("Heading")
-    header:SetFullWidth(fullWidth)
-    header:SetText(text)
-
-    return header
-end
-
----@param text string
----@param fullWidth boolean
----@return AceLabel
-function _QuestieJourney:CreateLabel(text, fullWidth)
-    ---@class AceLabel
-    local header = AceGUI:Create("Label")
-    header:SetFullWidth(fullWidth)
-    header:SetText(text)
-
-    return header
-end
-
----@param questLevel number
----@param questMinLevel number
----@return string
-function _QuestieJourney:GetDifficultyString(questLevel, questMinLevel)
-    local red, orange, yellow, green, gray = _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
-    local diffStr = ''
-
-    if red then
-        diffStr = diffStr .. "|cFFFF1A1A[".. red .."]|r "
-    end
-
-    if orange then
-        diffStr = diffStr .. "|cFFFF8040[".. orange .."]|r "
-    end
-
-    diffStr = diffStr .. "|cFFFFFF00[".. yellow .."]|r "
-
-    if green then
-        diffStr = diffStr .. "|cFF40C040[".. green .."]|r "
-    end
-
-    if gray then
-        diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
-    end
-
-    return Questie:Colorize(l10n('Difficulty Range: %s', diffStr), 'yellow')
-end
-
----@param quest Quest
----@return number @The number of pre quests added to the group
----@return AceInlineGroup @The created Ace InlineGroup
-function _QuestieJourney:CreatePreQuestGroup(quest)
-    ---@class AceInlineGroup
-    local preQuestInlineGroup = AceGUI:Create("InlineGroup")
-    local preQuestCounter = 1
-
-    preQuestInlineGroup:SetLayout("List")
-    preQuestInlineGroup:SetTitle(l10n('Pre Quests'))
-    preQuestInlineGroup:SetFullWidth(true)
-
-    if (quest.preQuestSingle and next(quest.preQuestSingle)) then
-        for _, v in pairs(quest.preQuestSingle) do
-            if v ~= quest.Id then
-                local preQuest = QuestieDB.GetQuest(v)
-                local label = QuestieJourneyUtils.GetInteractiveQuestLabel(preQuest)
-                preQuestInlineGroup:AddChild(label)
-                preQuestCounter = preQuestCounter + 1
-            end
-        end
-    end
-
-    if (quest.preQuestGroup and next(quest.preQuestGroup)) then
-        for _, v in pairs(quest.preQuestGroup) do
-            v = math.abs(v)
-            if v ~= quest.Id then
-                local preQuest = QuestieDB.GetQuest(v)
-                local label = QuestieJourneyUtils.GetInteractiveQuestLabel(preQuest)
-                preQuestInlineGroup:AddChild(label)
-                preQuestCounter = preQuestCounter + 1
-            end
-        end
-    end
-
-    return preQuestCounter, preQuestInlineGroup
-end
+return QuestDetailsFrame
