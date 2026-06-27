@@ -437,7 +437,7 @@ describe("DistanceUtils", function()
             assert.is_equal(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was.called_with({456})
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called_with({123})
         end)
 
         it("should skip complete specialObjectives", function()
@@ -463,7 +463,7 @@ describe("DistanceUtils", function()
             assert.is_equal(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was.called_with({456})
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called_with({123})
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called_with({123})
         end)
 
         it("should skip special objectives that do not have a spawnList yet", function()
