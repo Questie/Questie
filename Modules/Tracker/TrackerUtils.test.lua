@@ -756,7 +756,7 @@ describe("TrackerUtils", function()
 
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
-            assert.are.same({8, 6, 1, 9, 10, 13, 12, 11, 4, 2, 5, 7, 3}, sortedIds)
+            assert.are_same({8, 6, 1, 9, 10, 13, 12, 11, 4, 2, 5, 7, 3}, sortedIds)
         end)
 
         it("should return quest IDs correctly sorted for 'byComplete' sorting", function()
@@ -783,7 +783,7 @@ describe("TrackerUtils", function()
 
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
-            assert.are.same({2, 8, 6, 7, 9, 3, 5, 4, 1}, sortedIds)
+            assert.are_same({2, 8, 6, 7, 9, 3, 5, 4, 1}, sortedIds)
         end)
 
         it("should return quest IDs correctly sorted for 'byCompleteReversed' sorting", function()
@@ -810,7 +810,7 @@ describe("TrackerUtils", function()
 
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
-            assert.are.same({1, 3, 5, 4, 9, 2, 8, 6, 7}, sortedIds)
+            assert.are_same({1, 3, 5, 4, 9, 2, 8, 6, 7}, sortedIds)
         end)
 
         it("should return quest IDs correctly sorted for 'byLevel' sorting", function()
@@ -834,7 +834,7 @@ describe("TrackerUtils", function()
 
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
-            assert.are.same({2, 6, 1, 5, 3, 4}, sortedIds)
+            assert.are_same({2, 6, 1, 5, 3, 4}, sortedIds)
         end)
 
         it("should return quest IDs correctly sorted for 'byLevelReversed' sorting", function()
@@ -858,7 +858,7 @@ describe("TrackerUtils", function()
 
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
-            assert.are.same({4, 1, 5, 3, 2, 6}, sortedIds)
+            assert.are_same({4, 1, 5, 3, 2, 6}, sortedIds)
         end)
     end)
 end)

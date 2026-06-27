@@ -39,7 +39,7 @@ describe("QuestieMap", function()
             assert.spy(unloadFrame2).was.called()
             assert.is_nil(_G.QuestieFrame1.data)
             assert.is_nil(_G.QuestieFrame2.data)
-            assert.are.same({}, objective.AlreadySpawned)
+            assert.are_same({}, objective.AlreadySpawned)
             assert.is_nil(QuestieMap.questIdFrames[1])
 
             _G.QuestieFrame1 = nil

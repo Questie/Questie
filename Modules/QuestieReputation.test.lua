@@ -160,7 +160,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "reputationReward")
-            assert.are.same({{909, 250}}, reputationReward)
+            assert.are_same({{909, 250}}, reputationReward)
         end)
 
         it("should return an empty table when a quest has no reputation reward", function()
@@ -173,7 +173,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "reputationReward")
-            assert.are.same({}, reputationReward)
+            assert.are_same({}, reputationReward)
         end)
 
         it("should return 10 as reward value for difficulty 1 when Questie.IsCata is true", function()
@@ -185,7 +185,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 10}}, reputationReward)
+            assert.are_same({{909, 10}}, reputationReward)
         end)
 
         it("should return 25 as reward value for difficulty 2 when Questie.IsCata is true", function()
@@ -197,7 +197,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 25}}, reputationReward)
+            assert.are_same({{909, 25}}, reputationReward)
         end)
 
         it("should return 75 as reward value for difficulty 3 when Questie.IsCata is true", function()
@@ -209,7 +209,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 75}}, reputationReward)
+            assert.are_same({{909, 75}}, reputationReward)
         end)
 
         it("should return 150 as reward value for difficulty 4 when Questie.IsCata is true", function()
@@ -221,7 +221,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 150}}, reputationReward)
+            assert.are_same({{909, 150}}, reputationReward)
         end)
 
         it("should return 250 as reward value for difficulty 5 when Questie.IsCata is true", function()
@@ -233,7 +233,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 250}}, reputationReward)
+            assert.are_same({{909, 250}}, reputationReward)
         end)
 
         it("should return 350 as reward value for difficulty 6 when Questie.IsCata is true", function()
@@ -245,7 +245,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 350}}, reputationReward)
+            assert.are_same({{909, 350}}, reputationReward)
         end)
 
         it("should return 500 as reward value for difficulty 7 when Questie.IsCata is true", function()
@@ -257,7 +257,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 500}}, reputationReward)
+            assert.are_same({{909, 500}}, reputationReward)
         end)
 
         it("should return 1000 as reward value for difficulty 8 when Questie.IsCata is true", function()
@@ -269,7 +269,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 1000}}, reputationReward)
+            assert.are_same({{909, 1000}}, reputationReward)
         end)
 
         it("should return 5 as reward value for difficulty 9 when Questie.IsCata is true", function()
@@ -281,7 +281,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 5}}, reputationReward)
+            assert.are_same({{909, 5}}, reputationReward)
         end)
 
         it("should return DB value for unknown difficulty when Questie.IsCata is true", function()
@@ -293,7 +293,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 99}}, reputationReward)
+            assert.are_same({{909, 99}}, reputationReward)
         end)
 
         it("should return -10 as reward value for difficulty -1 when Questie.IsCata is true", function()
@@ -305,7 +305,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, -10}}, reputationReward)
+            assert.are_same({{909, -10}}, reputationReward)
         end)
 
         it("should respect diplomacy bonus for WotLK and before", function()
@@ -317,7 +317,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.are_same({{909, 82.5}}, reputationReward)
             assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
@@ -330,7 +330,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.are_same({{909, 82.5}}, reputationReward)
             assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
@@ -343,7 +343,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, -75}}, reputationReward)
+            assert.are_same({{909, -75}}, reputationReward)
             assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
@@ -356,7 +356,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, -10}}, reputationReward)
+            assert.are_same({{909, -10}}, reputationReward)
             assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
@@ -372,7 +372,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 78.75}}, reputationReward)
+            assert.are_same({{909, 78.75}}, reputationReward)
             assert.spy(_G.IsPlayerSpell).was.called_with(78634)
         end)
 
@@ -388,7 +388,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.are_same({{909, 82.5}}, reputationReward)
             assert.spy(_G.IsPlayerSpell).was.called_with(78635)
         end)
 
@@ -405,7 +405,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.are_same({{909, 82.5}}, reputationReward)
             assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
@@ -422,7 +422,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.are_same({{909, 82.5}}, reputationReward)
             assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
@@ -439,7 +439,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 82.5}}, reputationReward)
+            assert.are_same({{909, 82.5}}, reputationReward)
             assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
@@ -459,7 +459,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.are.same({{909, 90}}, reputationReward)
+            assert.are_same({{909, 90}}, reputationReward)
             assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
@@ -476,7 +476,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_ALDOR, 1000},
                 {QuestieDB.factionIDs.THE_SHA_TAR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
@@ -497,7 +497,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_SCRYERS, 1000},
                 {QuestieDB.factionIDs.THE_SHA_TAR, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
@@ -518,7 +518,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_ALDOR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
             }, reputationReward)
@@ -538,7 +538,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_SCRYERS, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
             }, reputationReward)
@@ -555,7 +555,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_ALDOR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
             }, reputationReward)
@@ -572,7 +572,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_SCRYERS, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
             }, reputationReward)
@@ -589,7 +589,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_ALDOR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
             }, reputationReward)
@@ -606,7 +606,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({
+            assert.are_same({
                 {QuestieDB.factionIDs.THE_SCRYERS, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
             }, reputationReward)
@@ -625,7 +625,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({{QuestieDB.factionIDs.WINTERSABER_TRAINERS, 250}}, reputationReward)
+            assert.are_same({{QuestieDB.factionIDs.WINTERSABER_TRAINERS, 250}}, reputationReward)
             assert.spy(QuestieReputation.HasReputation).was.not_called()
         end)
 
@@ -642,7 +642,7 @@ describe("QuestieReputation", function()
             end)
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
-            assert.are.same({{QuestieDB.factionIDs.SHADO_PAN, 500}}, reputationReward)
+            assert.are_same({{QuestieDB.factionIDs.SHADO_PAN, 500}}, reputationReward)
         end)
     end)
 

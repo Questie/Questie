@@ -81,10 +81,10 @@ describe("l10n", function()
     it("should keep enUS names without lookup", function()
         _InitializeLocale("enUS")
 
-        assert.are.same("Tough Wolf Meat", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
-        assert.are.same("Morgaine the Sly", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
-        assert.are.same("WANTED: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
-        assert.are.same("Zinge's Delivery", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        assert.are_same("Tough Wolf Meat", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
+        assert.are_same("Morgaine the Sly", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
+        assert.are_same("WANTED: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
+        assert.are_same("Zinge's Delivery", QuestieDB.questData[1359][QuestieDB.questKeys.name])
     end)
 
     -- Generated lookup files are validated under Localization/lookups; these behavior tests only need one non-English locale.
@@ -95,7 +95,7 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same("Zähes Wolfsfleisch", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
+        assert.are_same("Zähes Wolfsfleisch", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
     end)
 
     it("should localize NPC names from string lookup values", function()
@@ -105,7 +105,7 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
+        assert.are_same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
     end)
 
     it("should localize NPC names and subnames from table lookup values", function()
@@ -115,8 +115,8 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
-        assert.are.same("Seltene Gegnerin", QuestieDB.npcData[99][QuestieDB.npcKeys.subName])
+        assert.are_same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
+        assert.are_same("Seltene Gegnerin", QuestieDB.npcData[99][QuestieDB.npcKeys.subName])
     end)
 
     it("should localize object names", function()
@@ -126,7 +126,7 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same("GESUCHT: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
+        assert.are_same("GESUCHT: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
     end)
 
     it("should localize quest names", function()
@@ -136,7 +136,7 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        assert.are_same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
     end)
 
     it("should apply current quest lookup rows as title and objective lines", function()
@@ -146,8 +146,8 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
-        assert.are.same({"Bringt die Lieferung zu Zinge."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
+        assert.are_same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        assert.are_same({"Bringt die Lieferung zu Zinge."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
     end)
 
     it("should preserve quest objective tables", function()
@@ -157,7 +157,7 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same({"Erster Schritt.", "", "Zweiter Schritt."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
+        assert.are_same({"Erster Schritt.", "", "Zweiter Schritt."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
     end)
 
     it("should let quest lookup overrides replace normal quest lookup data", function()
@@ -170,8 +170,8 @@ describe("l10n", function()
 
         _InitializeLocale("deDE")
 
-        assert.are.same("Überschriebene Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
-        assert.are.same({"Überschriebenes Ziel."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
+        assert.are_same("Überschriebene Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        assert.are_same({"Überschriebenes Ziel."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
     end)
 
     it("should ignore lookup rows for IDs missing from QuestieDB", function()
