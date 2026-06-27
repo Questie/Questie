@@ -461,6 +461,11 @@ function Townsfolk.Initialize()
 end
 
 function Townsfolk.PostBoot() -- post DB boot (use queries here)
+    -- Clear class-restricted vendor entries that may persist from saved variables
+    Questie.db.char.vendorList["Reagents"] = nil
+    Questie.db.char.vendorList["Poisons"] = nil
+    Questie.db.char.vendorList["Ammunition"] = nil
+
     local reagents = {
         17031, 17032, 17020, -- MAGE
         17030, -- SHAMAN
@@ -476,14 +481,18 @@ function Townsfolk.PostBoot() -- post DB boot (use queries here)
     end
 
     -- populate vendor IDs from db
-    if #reagents > 0 then
-        Questie.db.char.vendorList["Reagents"] = _reformatVendors(Townsfolk:PopulateVendors(reagents))
+    if playerClass == "MAGE" or playerClass == "WARLOCK" or playerClass == "PRIEST" or playerClass == "SHAMAN" or playerClass == "DRUID" or playerClass == "PALADIN" or playerClass == "DEATHKNIGHT" then
+        if #reagents > 0 then
+            Questie.db.char.vendorList["Reagents"] = _reformatVendors(Townsfolk:PopulateVendors(reagents))
+        end
     end
 
     if Expansions.Current < Expansions.MoP then
         -- Beginning with WotLK, all poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
         local poisons = Expansions.Current >= Expansions.Wotlk and {2892} or {5140,2928,8924,5173,2930,8923}
-        Questie.db.char.vendorList["Poisons"] = _reformatVendors(Townsfolk:PopulateVendors(poisons))
+        if playerClass == "ROGUE" then
+            Questie.db.char.vendorList["Poisons"] = _reformatVendors(Townsfolk:PopulateVendors(poisons))
+        end
     end
 
     Questie.db.char.vendorList["Trade Goods"] = _reformatVendors(Townsfolk:PopulateVendors({
@@ -534,25 +543,29 @@ local function _UpdateAmmoVendors() -- call on change weapon
         return
     end
 
-    Questie.db.char.vendorList["Ammo"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
+    Questie.db.char.vendorList["Ammunition"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
+    Questie.db.char.vendorList["Ammo"] = nil
 end
 
 local function _UpdateFoodDrink()
-    local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455} -- water item ids -- TO DO: update this?
-    local food = { -- food item ids (from wowhead) -- TO DO: update this?
+    local food = { -- food & drink item ids (from wowhead) -- TO DO: update this?
         8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
         2287,4601,422,16166,4537,4602,4542,4594,1707,4540,414,4538,4607,17119,19225,2070,21552,787,4544,18632,16167,4606,16170,
         4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223,
-        27857,27854,20857,27858,27856,29448,27855,29451,30355,28486,29450,29393,29394,29449,29452
+        27857,27854,20857,27858,27856,29448,27855,29451,30355,28486,29450,29393,29394,29449,29452,
+        159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455
     }
 
     Questie.db.char.vendorList["Food"] = _reformatVendors(Townsfolk:PopulateVendors(food, {}, true))
-    Questie.db.char.vendorList["Drink"] = _reformatVendors(Townsfolk:PopulateVendors(drink, {}, true))
+    Questie.db.char.vendorList["Drink"] = nil
 end
 
 function Townsfolk:UpdatePlayerVendors() -- call on levelup
     _UpdateFoodDrink()
-    _UpdateAmmoVendors()
+
+    if playerClass == "HUNTER" or playerClass == "ROGUE" or playerClass == "WARRIOR" then
+        _UpdateAmmoVendors()
+    end
 
     if playerClass == "HUNTER" then
         _UpdatePetFood()

@@ -373,7 +373,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     townsfolkOptions = {
                         type = "execute",
                         order = 2.12,
-                        name = function() return l10n("Townsfolk"); end,
+                        name = function() return _G["TOWNSFOLK_TRACKING_TEXT"]; end,
                         desc = function() return l10n("Allows to select which tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap."); end,
                         width = 0.8,
                         disabled = false,
@@ -384,7 +384,7 @@ function QuestieOptions.tabs.icons:Initialize()
                     professionOptions = {
                         type = "execute",
                         order = 2.13,
-                        name = function() return l10n("Profession Trainers"); end,
+                        name = function() return _G["MINIMAP_TRACKING_TRAINER_PROFESSION"]; end,
                         desc = function() return l10n("Allows to select which profession trainers to show on the map and minimap."); end,
                         width = 0.95,
                         disabled = false,

@@ -1809,31 +1809,12 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
                 listFrame:SetPoint(point, relativeTo, relativePoint, xOffset + xAddOffset, yOffset + yAddOffset);
             end
         else
-            -- Determine whether the menu is off the screen or not
-            local offscreenY, offscreenX;
+            -- Determine whether the menu is off the screen vertically
             if ((y - listFrame:GetHeight() / 2) < 0) then
-                offscreenY = 1;
-            end
-            if (listFrame:GetRight() > GetScreenWidth()) then
-                offscreenX = 1;
-            end
-            if (offscreenY and offscreenX) then
-                point = gsub(point, "TOP(.*)", "BOTTOM%1");
-                point = gsub(point, "(.*)LEFT", "%1RIGHT");
-                relativePoint = gsub(relativePoint, "TOP(.*)", "BOTTOM%1");
-                relativePoint = gsub(relativePoint, "(.*)RIGHT", "%1LEFT");
-                xOffset = -11;
-                yOffset = -14;
-            elseif (offscreenY) then
                 point = gsub(point, "TOP(.*)", "BOTTOM%1");
                 relativePoint = gsub(relativePoint, "TOP(.*)", "BOTTOM%1");
                 xOffset = 0;
                 yOffset = -14;
-            elseif (offscreenX) then
-                point = gsub(point, "(.*)LEFT", "%1RIGHT");
-                relativePoint = gsub(relativePoint, "(.*)RIGHT", "%1LEFT");
-                xOffset = -11;
-                yOffset = 14;
             else
                 xOffset = 0;
                 yOffset = 14;
@@ -1843,6 +1824,19 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
             listFrame.parentLevel = tonumber(strmatch(anchorFrame:GetName(), "L_DropDownListQuestie(%d+)"));
             listFrame.parentID = anchorFrame:GetID();
             listFrame:SetPoint(point, anchorFrame, relativePoint, xOffset, yOffset);
+
+            -- Shift the main menu left if the submenu extends past the right edge
+            if listFrame:GetRight() and (listFrame:GetRight() > GetScreenWidth()) then
+                local overflow = listFrame:GetRight() - GetScreenWidth();
+                local level1Frame = _G["L_DropDownListQuestie1"];
+                if level1Frame then
+                    local p, relTo, relPoint, xOfs, yOfs = level1Frame:GetPoint(1);
+                    if p then
+                        level1Frame:ClearAllPoints();
+                        level1Frame:SetPoint(p, relTo, relPoint, xOfs - overflow, yOfs);
+                    end
+                end
+            end
         end
 
         if (WoWClassicEra or WoWClassicTBC or WoWWOTLKC) then
