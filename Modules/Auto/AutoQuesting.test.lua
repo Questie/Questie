@@ -592,7 +592,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called_with(1)
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called_with(1)
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 

@@ -128,7 +128,7 @@ describe("TooltipHandler", function()
 
             assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF1 (10+)|r")
             assert.spy(QuestieTooltips.GetTooltip).was.called(10, PLAYER_ZONE)
-            assert.spy(QuestieTooltips.GetTooltip).was_not_called_with("o_11", PLAYER_ZONE)
+            assert.spy(QuestieTooltips.GetTooltip).was.not_called_with("o_11", PLAYER_ZONE)
         end)
     end)
 end)
