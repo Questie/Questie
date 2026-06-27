@@ -554,7 +554,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {188128},
         },
         [37736] = { -- 2021 Brewfest item (Alliance)
-            [itemKeys.name] = '"Brew of the Month" Club Membership Form',
+            [itemKeys.name] = "\"Brew of the Month\" Club Membership Form",
             [itemKeys.startQuest] = 12420,
             [itemKeys.itemLevel] = 1,
             [itemKeys.requiredLevel] = 1,
@@ -564,7 +564,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.vendors] = {23710,27478},
         },
         [37737] = { -- 2021 Brewfest item (Horde)
-            [itemKeys.name] = '"Brew of the Month" Club Membership Form',
+            [itemKeys.name] = "\"Brew of the Month\" Club Membership Form",
             [itemKeys.startQuest] = 12421,
             [itemKeys.itemLevel] = 1,
             [itemKeys.requiredLevel] = 1,
@@ -572,6 +572,10 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.subClass] = 0,
             [itemKeys.vendors] = {24495,27489},
+        },
+        [185956] = { -- Shimmering Vessel
+            [itemKeys.name] = "Shimmering Vessel",
+            [itemKeys.class] = itemClasses.QUEST,
         },
     }
 end

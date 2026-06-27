@@ -2725,14 +2725,20 @@ function QuestieTBCQuestFixes:Load()
         [9671] = {
             [questKeys.requiredLevel] = 15,
         },
-        [9678] = {
+        [9677] = { -- Summons from Knight-Lord Bloodvalor
+            [questKeys.breadcrumbForQuestId] = 9678,
+        },
+        [9678] = { -- The First Trial
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the brazier"), 0, {{"object", 181956}}}},
+            [questKeys.breadcrumbs] = {9677},
         },
         [9683] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Defile the Statue of Queen Azshara"), 0, {{"object", 181964}}}},
         },
-        [9685] = {
+        [9685] = { -- Redeeming the Dead
+            [questKeys.startedBy] = {{17717,178420}}, -- TO DO phase-based quest corrections (178420 won't be present in SWP patch)
             [questKeys.preQuestSingle] = {9684,63866},
+            [questKeys.objectives] = {{{17768,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7}}}},
@@ -7665,7 +7671,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
             [questKeys.objectives] = {nil,nil,{{24156}}},
-            [questKeys.sourceItemId] = 24157,
+            [questKeys.sourceItemId] = 185956,
             [questKeys.preQuestSingle] = {9681,64319},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 9685,
@@ -7778,7 +7784,7 @@ function QuestieTBCQuestFixes:Load()
         -------------
         [64319] = {
             [questKeys.name] = "A Study in Power",
-            [questKeys.startedBy] = {{17717}},
+            [questKeys.startedBy] = {{17717,178420}},
             [questKeys.finishedBy] = {{178420}},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,

@@ -869,6 +869,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{86,54}}},
             [npcKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
+        [17716] = { -- Sangrias Stillblade
+            [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{68.51,9.67}}},
+            [npcKeys.zoneID] = zoneIDs.GHOSTLANDS,
+        },
         [17717] = { -- Knight-Lord Bloodvalor
             [npcKeys.questStarts] = {9678,9681,9685,9690,9692,9707,9721,64139,64319},
             [npcKeys.questEnds] = {9677,9678,9684,9685,9691,9692,63866},
@@ -1967,14 +1971,14 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.questStarts] = {12513,12515},
             [npcKeys.questEnds] = {12513,12515},
         },
-        [178420] = {
+        [178420] = { -- Magister Astalor Bloodsworn
             [npcKeys.name] = "Magister Astalor Bloodsworn",
             [npcKeys.minLevel] = 60,
             [npcKeys.maxLevel] = 60,
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.33,36.49}}},
             [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
-            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.3,36.5}}},
             [npcKeys.friendlyToFaction] = "H",
-            [npcKeys.questStarts] = {63866},
+            [npcKeys.questStarts] = {9685,64319,63866},
             [npcKeys.questEnds] = {64319},
         },
     }
