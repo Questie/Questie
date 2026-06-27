@@ -204,10 +204,7 @@ function EventHandler:RegisterLateEvents()
                     QuestieCombatQueue:Queue(function()
                         QuestieTracker:Collapse()
                     end)
-                end
-
-                -- Handle complete hiding in instances
-                if Questie.db.profile.hideTrackerInInstances then
+                elseif Questie.db.profile.hideTrackerInInstances then
                     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
                     EventHandler.trackerHiddenByInstance = true
                     QuestieTracker:Hide()
@@ -226,10 +223,7 @@ function EventHandler:RegisterLateEvents()
                         end)
                     end
                 end)
-            end
-
-            -- Handle hiding when exiting instances
-            if EventHandler.trackerHiddenByInstance == true then
+            elseif EventHandler.trackerHiddenByInstance == true then
                 C_Timer.After(8, function()
                     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
                     if Questie.db.profile.hideTrackerInInstances then
