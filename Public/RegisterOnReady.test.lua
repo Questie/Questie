@@ -9,7 +9,8 @@ describe("RegisterOnReady", function()
         dofile("Public/Enums.lua")
         _G.Questie.API.isReady = true
 
-        QuestieAPI = require("Public.RegisterOnReady")
+        dofile("Public/RegisterOnReady.lua")
+        QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
     end)
 
     it("should error when callback is not a function", function()

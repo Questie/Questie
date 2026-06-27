@@ -31,7 +31,9 @@ describe("TrackerItemButton", function()
         CreateFrame.resetMockedFrames()
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        TrackerItemButton = require("Modules.Tracker.LinePool.TrackerItemButton")
+
+        dofile("Modules/Tracker/LinePool/TrackerItemButton.lua")
+        TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
     end)
 
     it("should return an item button", function()

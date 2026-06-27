@@ -50,9 +50,10 @@ describe("MinimapIcon", function()
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
         _G.LibStub = function() return LibDBIconMock end
-        require("Localization.l10n")
+        dofile("Localization/l10n.lua")
 
-        MinimapIcon = require("Modules.MinimapIcon")
+        dofile("Modules/MinimapIcon.lua")
+        MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
     end)
 
     it("should not do anything when Questie is not started yet", function()

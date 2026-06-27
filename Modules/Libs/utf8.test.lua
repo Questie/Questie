@@ -6,7 +6,8 @@ describe("utf8", function()
 
     before_each(function()
         package.loaded["Modules.Libs.utf8"] = nil
-        utf8 = require("Modules.Libs.utf8")
+        dofile("Modules/Libs/utf8.lua")
+        utf8 = QuestieLoader:ImportModule("utf8")
     end)
 
     it("should return the module table", function()

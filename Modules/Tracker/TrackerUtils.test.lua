@@ -39,13 +39,15 @@ describe("TrackerUtils", function()
         Expansions = QuestieLoader:ImportModule("Expansions")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         ZoneIDs = QuestieLoader:ImportModule("ZoneDB").zoneIDs
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         QuestieLoader:ImportModule("TrackerItemButton")
 
-        TrackerUtils = require("Modules.Tracker.TrackerUtils")
+        dofile("Modules/Tracker/TrackerUtils.lua")
+        TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
         rePositionLineMock = spy.new(function() end)
     end)

@@ -24,7 +24,8 @@ describe("QuestieQuest", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
 
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
+        dofile("Modules/Quest/QuestieQuest.lua")
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
     end)
 
     describe("UnhideQuest", function()

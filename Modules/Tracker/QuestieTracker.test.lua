@@ -28,7 +28,8 @@ describe("QuestieTracker", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ToggleNotes = spy.new(function() end)
 
-        QuestieTracker = require("Modules.Tracker.QuestieTracker")
+        dofile("Modules/Tracker/QuestieTracker.lua")
+        QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
     end)
 
     describe("RemoveQuest", function()

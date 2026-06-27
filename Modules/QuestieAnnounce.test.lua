@@ -22,8 +22,9 @@ describe("QuestieAnnounce", function()
 
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
-        require("Localization.l10n")
-        QuestieAnnounce = require("Modules.QuestieAnnounce")
+        dofile("Localization/l10n.lua")
+        dofile("Modules/QuestieAnnounce.lua")
+        QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
     end)
 
     describe("AnnounceObjectiveToChannel", function()

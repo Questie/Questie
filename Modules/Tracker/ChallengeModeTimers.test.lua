@@ -13,7 +13,8 @@ describe("ChallengeModeTimer", function()
             GetChallengeModeMapTimes = spy.new(function() return {400, 300, 200, 100} end)
         }
 
-        ChallengeModeTimer = require("Modules.Tracker.ChallengeModeTimer")
+        dofile("Modules/Tracker/ChallengeModeTimer.lua")
+        ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
     end)
 
     describe("GetTimerString", function()

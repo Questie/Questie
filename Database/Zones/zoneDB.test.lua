@@ -1,7 +1,5 @@
-dofile("Modules/Libs/QuestieLoader.lua")
-_G["Questie"] = {}
-_G.UnitFactionGroup = function() return "Horde" end
-dofile("Modules/Expansions.lua")
+dofile("setupTests.lua")
+
 dofile("Database/Zones/data/dungeons.lua")
 dofile("Database/Zones/data/zoneIds.lua")
 dofile("Database/Zones/data/areaIdToUiMapId.lua")
@@ -15,7 +13,9 @@ describe("ZoneDB", function()
 
     before_each(function()
         _G["Questie"] = {db={profile={}}}
-        ZoneDB = require("Database.Zones.zoneDB")
+
+        dofile("Database/Zones/zoneDB.lua")
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.Initialize()
     end)
 

@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+
 dofile("Database/questDB.lua")
 dofile("Database/itemDB.lua")
 dofile("Database/npcDB.lua")
@@ -29,7 +30,8 @@ describe("QuestieDB", function()
         QuestieCorrections.eventObjectiveFirst = {}
         QuestieCorrections.spellObjectiveFirst = {}
 
-        QuestieDB = require("Database.QuestieDB")
+        dofile("Database/QuestieDB.lua")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
         QuestieDB.private.itemCache = {}

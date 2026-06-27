@@ -18,7 +18,8 @@ describe("RegisterForQuestUpdates", function()
             return "Interface\\Addons\\Questie\\Icons\\slay.blp"
         end)
 
-        QuestieAPI = require("Public.RegisterForQuestUpdates")
+        dofile("Public/RegisterForQuestUpdates.lua")
+        QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
     end)
 
     it("should error when callback is not a function", function()

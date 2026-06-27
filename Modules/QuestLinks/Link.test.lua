@@ -62,7 +62,8 @@ describe("QuestieLink", function()
         QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
         QuestieReputation.GetFactionName = spy.new(function() return nil end)
 
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetTbcLevel = function() return 10 end
         QuestieLib.GetLevelString = function() return "[10] " end
         QuestieLib.PrintDifficultyColor = function(_, _, ...) return "|cffffffff" end
@@ -72,9 +73,10 @@ describe("QuestieLink", function()
 
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         QuestieLoader:ImportModule("ZoneDB")
-        require("Localization.l10n")
+        dofile("Localization/l10n.lua")
 
-        QuestieLink = require("Modules.QuestLinks.Link")
+        dofile("Modules/QuestLinks/Link.lua")
+        QuestieLink = QuestieLoader:ImportModule("QuestieLink")
     end)
 
     describe("GetQuestLinkStringById", function()

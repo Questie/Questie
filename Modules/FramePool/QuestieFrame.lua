@@ -18,7 +18,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 QuestieFramePool.Qframe = {}
 
 ---@class QuestieFrameHandlers
-local _Qframe = {}
+local _Qframe = QuestieLoader:CreateModule("QuestieFrameHandlers")
 
 ---@class IconData
 ---@field Id QuestId

@@ -12,9 +12,13 @@ describe("TooltipHandler", function()
     before_each(function()
         _G.Questie.db.profile.enableTooltips = true
 
-        l10n = require("Localization.l10n")
+        dofile("Localization/l10n.lua")
+        l10n = QuestieLoader:ImportModule("l10n")
+
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
-        _QuestieTooltips = require("Modules.Tooltips.TooltipHandler")
+
+        dofile("Modules/Tooltips/TooltipHandler.lua")
+        _QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips").private
     end)
 
     describe("AddObjectDataToTooltip", function()

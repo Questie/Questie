@@ -27,7 +27,8 @@ describe("DistanceUtils", function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
-        DistanceUtils = require("Modules.Libs.DistanceUtils")
+        dofile("Modules/Libs/DistanceUtils.lua")
+        DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
     end)
 
     describe("GetNearestSpawn", function()

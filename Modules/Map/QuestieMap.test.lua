@@ -12,7 +12,8 @@ describe("QuestieMap", function()
 
     before_each(function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-        QuestieMap = require("Modules.Map.QuestieMap")
+        dofile("Modules/Map/QuestieMap.lua")
+        QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.questIdFrames = {}
     end)
 

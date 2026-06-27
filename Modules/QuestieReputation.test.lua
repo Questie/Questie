@@ -38,7 +38,8 @@ describe("QuestieReputation", function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.raceKeys = {HUMAN = 1}
 
-        QuestieReputation = require("Modules.QuestieReputation")
+        dofile("Modules/QuestieReputation.lua")
+        QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
     end)
 
     describe("HasFactionAndReputationLevel", function()

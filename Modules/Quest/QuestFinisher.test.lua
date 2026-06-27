@@ -45,7 +45,8 @@ describe("QuestFinisher", function()
         end
         QuestieTooltips.lookupByKey = {}
 
-        QuestFinisher = require("Modules.Quest.QuestFinisher")
+        dofile("Modules/Quest/QuestFinisher.lua")
+        QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
     end)
 
     it("should add NPC finisher", function()
