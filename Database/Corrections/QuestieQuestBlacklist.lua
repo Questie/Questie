@@ -1304,8 +1304,8 @@ function QuestieQuestBlacklist:Load()
         [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
 
         -- Paladin class quests with SWP patch
-        [63866] = Expansions.Current >= Expansions.Wotlk, -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
-        [64319] = Expansions.Current >= Expansions.Wotlk, -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
+        [63866] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC == 5), -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
+        [64319] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC == 5), -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
 
         -- Revered Among X quests
         [10459] = true,
