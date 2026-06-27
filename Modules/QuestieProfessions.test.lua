@@ -69,7 +69,7 @@ describe("QuestieProfessions", function()
 
             assert.is_true(hasProfessionUpdate)
             assert.is_false(hasNewProfession)
-            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
         end)
 
         it("should detect skill updates that cross a 5 level threshold", function()
@@ -81,7 +81,7 @@ describe("QuestieProfessions", function()
 
             assert.is_true(hasProfessionUpdate)
             assert.is_false(hasNewProfession)
-            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
         end)
 
         it("should ignore skill updates that do not cross a 5 level threshold", function()
@@ -93,7 +93,7 @@ describe("QuestieProfessions", function()
 
             assert.is_false(hasProfessionUpdate)
             assert.is_false(hasNewProfession)
-            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
         end)
     end)
 

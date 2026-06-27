@@ -626,7 +626,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
             assert.are.same({{QuestieDB.factionIDs.WINTERSABER_TRAINERS, 250}}, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_not_called()
+            assert.spy(QuestieReputation.HasReputation).was.not_called()
         end)
 
         it("should respect Grand Commendation bonus", function()
@@ -659,7 +659,7 @@ describe("QuestieReputation", function()
 
             assert.are.equal("Jogu the Drunk", factionName)
             assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was.called_with(1273)
-            assert.spy(_G.GetFactionInfoByID).was_not_called()
+            assert.spy(_G.GetFactionInfoByID).was.not_called()
         end)
 
         it("should return faction name when not a friend", function()

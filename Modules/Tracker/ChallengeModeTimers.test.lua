@@ -25,7 +25,7 @@ describe("ChallengeModeTimer", function()
             local timer = ChallengeModeTimer.GetTimerString()
 
             assert.is_equal("00:00 / 00:00", timer)
-            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was_not_called()
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.not_called()
             assert.spy(Questie.Colorize).was.called_with(Questie, "00:00 / 00:00", "white")
         end)
 
@@ -36,7 +36,7 @@ describe("ChallengeModeTimer", function()
             local timer = ChallengeModeTimer.GetTimerString()
 
             assert.is_equal("00:00 / 00:00", timer)
-            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was_not_called()
+            assert.spy(_G.C_ChallengeMode.GetChallengeModeMapTimes).was.not_called()
             assert.spy(Questie.Colorize).was.called_with(Questie, "00:00 / 00:00", "white")
         end)
 

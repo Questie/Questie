@@ -33,13 +33,13 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill goblins", "1/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
         end)
 
         it("should not announce when not in the correct channel", function()
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill ogres", "1/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
         end)
 
         it("should announce to party chat when not in an instance group", function()
@@ -82,7 +82,7 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "3/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "3/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
         end)
 
@@ -95,7 +95,7 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "4/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "4/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
         end)
 
@@ -133,8 +133,8 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "6/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
-            assert.spy(Questie.Print).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
         end)
 
         it("should not announce at all when questieShutUp is active", function()
@@ -146,8 +146,8 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "7/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
-            assert.spy(Questie.Print).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
         end)
 
         it("should print locally only when questAnnounceLocally is true and channel is raid but player is in party", function()
@@ -167,7 +167,7 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "8/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "8/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
         end)
 
@@ -182,7 +182,7 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "9/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "9/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
         end)
 
@@ -196,8 +196,8 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "10/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
-            assert.spy(Questie.Print).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
         end)
 
         it("should not announce when questAnnounceLocally is false and channel is raid but player is in party", function()
@@ -216,8 +216,8 @@ describe("QuestieAnnounce", function()
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "11/10")
 
-            assert.spy(_G.SendChatMessage).was_not_called()
-            assert.spy(Questie.Print).was_not_called()
+            assert.spy(_G.SendChatMessage).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
         end)
 
         it("should print locally and announce to raid chat when questAnnounceLocally is true and channel is raid and player is in raid", function()

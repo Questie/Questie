@@ -61,7 +61,7 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(456)
 
-            assert.spy(line.label.SetText).was_not_called()
+            assert.spy(line.label.SetText).was.not_called()
         end)
     end)
 end)
