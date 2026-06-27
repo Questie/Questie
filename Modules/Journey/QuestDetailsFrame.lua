@@ -572,161 +572,175 @@ function QuestDetailsFrame:Draw(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
-    -- TODO: There can be multiple finishers
     if quest.Finisher.NPC then
         local endNPCGroup = AceGUI:Create("InlineGroup")
         endNPCGroup:SetLayout("List")
         endNPCGroup:SetTitle(l10n('Quest Turn-in NPC Information'))
         endNPCGroup:SetFullWidth(true)
         container:AddChild(endNPCGroup)
+
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
-        local endNPC = QuestieDB:GetNPC(quest.Finisher.NPC[1])
-
-        local endNPCNameLabel = AceGUI:Create("Label")
-        endNPCNameLabel:SetText(endNPC.name)
-        endNPCNameLabel:SetFontObject(GameFontHighlight)
-        endNPCNameLabel:SetColor(255, 165, 0)
-        endNPCNameLabel:SetFullWidth(true)
-        endNPCGroup:AddChild(endNPCNameLabel)
-
-        local endNPCIdLabel = AceGUI:Create("Label")
-        endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
-        endNPCIdLabel:SetFullWidth(true)
-        endNPCGroup:AddChild(endNPCIdLabel)
-
-        local endNPCZoneLabel = AceGUI:Create("Label")
-        local endindex = 0
-        if (not endNPC.spawns) then
-            return
-        end
-        for i in pairs(endNPC.spawns) do
-            endindex = i
-        end
-
-        local continent = QuestieJourneyUtils:GetZoneName(endindex)
-
-        endNPCZoneLabel:SetText(l10n(continent))
-        endNPCZoneLabel:SetFullWidth(true)
-        endNPCGroup:AddChild(endNPCZoneLabel)
-
-        if (next(endNPC.spawns)) then
-            local endx = endNPC.spawns[endindex][1][1]
-            local endy = endNPC.spawns[endindex][1][2]
-            if (endx ~= -1 or endy ~= -1) then
-                local endNPCLocLabel = AceGUI:Create("Label")
-                endNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
-                endNPCLocLabel:SetFullWidth(true)
-                endNPCGroup:AddChild(endNPCLocLabel)
-            end
-
-            local tomTomButton = CreateTomTomButton(endNPC.name, endindex, endx, endy)
-            if tomTomButton then
+        for i, npcId in ipairs(quest.Finisher.NPC) do
+            if i > 1 then
                 QuestieJourneyUtils:Spacer(endNPCGroup)
-                endNPCGroup:AddChild(tomTomButton)
             end
-        end
 
-        -- Also ends
-        if endNPC.questEnds and #endNPC.questEnds >= 2 then
-            QuestieJourneyUtils:Spacer(endNPCGroup)
+            local endNPC = QuestieDB:GetNPC(npcId)
 
-            local alsoEndsLabel = AceGUI:Create("Label")
-            alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
-            alsoEndsLabel:SetFontObject(GameFontHighlight)
-            alsoEndsLabel:SetColor(255, 165, 0)
-            alsoEndsLabel:SetFullWidth(true)
-            endNPCGroup:AddChild(alsoEndsLabel)
+            local endNPCNameLabel = AceGUI:Create("Label")
+            endNPCNameLabel:SetText(endNPC.name)
+            endNPCNameLabel:SetFontObject(GameFontHighlight)
+            endNPCNameLabel:SetColor(255, 165, 0)
+            endNPCNameLabel:SetFullWidth(true)
+            endNPCGroup:AddChild(endNPCNameLabel)
 
-            QuestieJourneyUtils:Spacer(endNPCGroup)
-            for _, v in ipairs(endNPC.questEnds) do
-                if v ~= quest.Id then
-                    local endQuest = QuestieDB.GetQuest(v)
-                    local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
-                    endNPCGroup:AddChild(label)
+            local endNPCIdLabel = AceGUI:Create("Label")
+            endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
+            endNPCIdLabel:SetFullWidth(true)
+            endNPCGroup:AddChild(endNPCIdLabel)
+
+            if endNPC.spawns then
+                local endNPCZoneLabel = AceGUI:Create("Label")
+                local endindex = 0
+                for zone in pairs(endNPC.spawns) do
+                    endindex = zone
+                end
+
+                local continent = QuestieJourneyUtils:GetZoneName(endindex)
+
+                endNPCZoneLabel:SetText(l10n(continent))
+                endNPCZoneLabel:SetFullWidth(true)
+                endNPCGroup:AddChild(endNPCZoneLabel)
+
+                if next(endNPC.spawns) then
+                    local endx = endNPC.spawns[endindex][1][1]
+                    local endy = endNPC.spawns[endindex][1][2]
+                    if (endx ~= -1 or endy ~= -1) then
+                        local endNPCLocLabel = AceGUI:Create("Label")
+                        endNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
+                        endNPCLocLabel:SetFullWidth(true)
+                        endNPCGroup:AddChild(endNPCLocLabel)
+                    end
+
+                    local tomTomButton = CreateTomTomButton(endNPC.name, endindex, endx, endy)
+                    if tomTomButton then
+                        QuestieJourneyUtils:Spacer(endNPCGroup)
+                        endNPCGroup:AddChild(tomTomButton)
+                    end
+                end
+            end
+
+            -- Also ends
+            if endNPC.questEnds and #endNPC.questEnds >= 2 then
+                QuestieJourneyUtils:Spacer(endNPCGroup)
+
+                local alsoEndsLabel = AceGUI:Create("Label")
+                alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
+                alsoEndsLabel:SetFontObject(GameFontHighlight)
+                alsoEndsLabel:SetColor(255, 165, 0)
+                alsoEndsLabel:SetFullWidth(true)
+                endNPCGroup:AddChild(alsoEndsLabel)
+
+                QuestieJourneyUtils:Spacer(endNPCGroup)
+                for _, v in ipairs(endNPC.questEnds) do
+                    if v ~= quest.Id then
+                        local endQuest = QuestieDB.GetQuest(v)
+                        local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
+                        endNPCGroup:AddChild(label)
+                    end
                 end
             end
         end
+
+        QuestieJourneyUtils:Spacer(endNPCGroup)
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         container.content:SetHeight(10000)
     end
 
-    -- TODO: There can be multiple finishers
     if quest.Finisher.GameObject then
         local endObjectGroup = AceGUI:Create("InlineGroup")
         endObjectGroup:SetLayout("List")
         endObjectGroup:SetTitle(l10n('Quest Turn-in Object Information'))
         endObjectGroup:SetFullWidth(true)
         container:AddChild(endObjectGroup)
+
         QuestieJourneyUtils:Spacer(endObjectGroup)
 
-        local endObject = QuestieDB:GetObject(quest.Finisher.GameObject[1])
-
-        local endObjectNameLabel = AceGUI:Create("Label")
-        endObjectNameLabel:SetText(endObject.name)
-        endObjectNameLabel:SetFontObject(GameFontHighlight)
-        endObjectNameLabel:SetColor(255, 165, 0)
-        endObjectNameLabel:SetFullWidth(true)
-        endObjectGroup:AddChild(endObjectNameLabel)
-
-        local endObjectIdLabel = AceGUI:Create("Label")
-        endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
-        endObjectIdLabel:SetFullWidth(true)
-        endObjectGroup:AddChild(endObjectIdLabel)
-
-        local endObjectZoneLabel = AceGUI:Create("Label")
-        local endindex = 0
-        if (not endObject.spawns) then
-            return
-        end
-        for i in pairs(endObject.spawns) do
-            endindex = i
-        end
-
-        local continent = QuestieJourneyUtils:GetZoneName(endindex)
-
-        endObjectZoneLabel:SetText(l10n(continent))
-        endObjectZoneLabel:SetFullWidth(true)
-        endObjectGroup:AddChild(endObjectZoneLabel)
-
-        if (next(endObject.spawns)) then
-            local endx = endObject.spawns[endindex][1][1]
-            local endy = endObject.spawns[endindex][1][2]
-            if (endx ~= -1 or endy ~= -1) then
-                local endObjectLocLabel = AceGUI:Create("Label")
-                endObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
-                endObjectLocLabel:SetFullWidth(true)
-                endObjectGroup:AddChild(endObjectLocLabel)
-            end
-
-            local tomTomButton = CreateTomTomButton(endObject.name, endindex, endx, endy)
-            if tomTomButton then
+        for i, objectId in ipairs(quest.Finisher.GameObject) do
+            if i > 1 then
                 QuestieJourneyUtils:Spacer(endObjectGroup)
-                endObjectGroup:AddChild(tomTomButton)
             end
-        end
 
-        -- Also ends
-        if endObject.questEnds and #endObject.questEnds >= 2 then
-            QuestieJourneyUtils:Spacer(endObjectGroup)
+            local endObject = QuestieDB:GetObject(objectId)
 
-            local alsoEndsLabel = AceGUI:Create("Label")
-            alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
-            alsoEndsLabel:SetFontObject(GameFontHighlight)
-            alsoEndsLabel:SetColor(255, 165, 0)
-            alsoEndsLabel:SetFullWidth(true)
-            endObjectGroup:AddChild(alsoEndsLabel)
+            local endObjectNameLabel = AceGUI:Create("Label")
+            endObjectNameLabel:SetText(endObject.name)
+            endObjectNameLabel:SetFontObject(GameFontHighlight)
+            endObjectNameLabel:SetColor(255, 165, 0)
+            endObjectNameLabel:SetFullWidth(true)
+            endObjectGroup:AddChild(endObjectNameLabel)
 
-            QuestieJourneyUtils:Spacer(endObjectGroup)
-            for _, v in ipairs(endObject.questEnds) do
-                if v ~= quest.Id then
-                    local endQuest = QuestieDB.GetQuest(v)
-                    local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
-                    endObjectGroup:AddChild(label)
+            local endObjectIdLabel = AceGUI:Create("Label")
+            endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
+            endObjectIdLabel:SetFullWidth(true)
+            endObjectGroup:AddChild(endObjectIdLabel)
+
+            if endObject.spawns then
+                local endObjectZoneLabel = AceGUI:Create("Label")
+                local endindex = 0
+                for zone in pairs(endObject.spawns) do
+                    endindex = zone
+                end
+
+                local continent = QuestieJourneyUtils:GetZoneName(endindex)
+
+                endObjectZoneLabel:SetText(l10n(continent))
+                endObjectZoneLabel:SetFullWidth(true)
+                endObjectGroup:AddChild(endObjectZoneLabel)
+
+                if next(endObject.spawns) then
+                    local endx = endObject.spawns[endindex][1][1]
+                    local endy = endObject.spawns[endindex][1][2]
+                    if (endx ~= -1 or endy ~= -1) then
+                        local endObjectLocLabel = AceGUI:Create("Label")
+                        endObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
+                        endObjectLocLabel:SetFullWidth(true)
+                        endObjectGroup:AddChild(endObjectLocLabel)
+                    end
+
+                    local tomTomButton = CreateTomTomButton(endObject.name, endindex, endx, endy)
+                    if tomTomButton then
+                        QuestieJourneyUtils:Spacer(endObjectGroup)
+                        endObjectGroup:AddChild(tomTomButton)
+                    end
+                end
+            end
+
+            -- Also ends
+            if endObject.questEnds and #endObject.questEnds >= 2 then
+                QuestieJourneyUtils:Spacer(endObjectGroup)
+
+                local alsoEndsLabel = AceGUI:Create("Label")
+                alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
+                alsoEndsLabel:SetFontObject(GameFontHighlight)
+                alsoEndsLabel:SetColor(255, 165, 0)
+                alsoEndsLabel:SetFullWidth(true)
+                endObjectGroup:AddChild(alsoEndsLabel)
+
+                QuestieJourneyUtils:Spacer(endObjectGroup)
+                for _, v in ipairs(endObject.questEnds) do
+                    if v ~= quest.Id then
+                        local endQuest = QuestieDB.GetQuest(v)
+                        local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
+                        endObjectGroup:AddChild(label)
+                    end
                 end
             end
         end
+
+        QuestieJourneyUtils:Spacer(endObjectGroup)
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         container.content:SetHeight(10000)
