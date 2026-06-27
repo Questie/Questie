@@ -144,8 +144,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.QuestLogUpdate()
 
         local cachedQuest = QuestLogCache.GetQuest(2822)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 0,
@@ -171,8 +171,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.QuestLogUpdate()
 
         cachedQuest = QuestLogCache.GetQuest(2822)
-        assert.equals(1, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(1, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = true,
             numFulfilled = 10,
@@ -191,7 +191,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(0, QuestLogCache.GetQuestCount())
+        assert.is_equal(0, QuestLogCache.GetQuestCount())
 
         mockedQuestLogTitle[2] = {"Improved Quality", 40, nil, false, false, nil, nil, 7734}
         mockedQuestObjectives = {
@@ -207,10 +207,10 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(1, QuestLogCache.GetQuestCount())
+        assert.is_equal(1, QuestLogCache.GetQuestCount())
         cachedQuest = QuestLogCache.GetQuest(7734)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 0,
@@ -234,10 +234,10 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(2, QuestLogCache.GetQuestCount())
+        assert.is_equal(2, QuestLogCache.GetQuestCount())
         cachedQuest = QuestLogCache.GetQuest(2863)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 0,
@@ -260,10 +260,10 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(2, QuestLogCache.GetQuestCount())
+        assert.is_equal(2, QuestLogCache.GetQuestCount())
         cachedQuest = QuestLogCache.GetQuest(2863)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 1,

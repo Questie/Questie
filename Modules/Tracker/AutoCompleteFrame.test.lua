@@ -28,7 +28,7 @@ describe("AutoCompleteFrame", function()
             AutoCompleteFrame.ShowAutoComplete(1)
 
             assert.spy(frame.questTitle.SetText).was.called_with(frame.questTitle, "Test Quest")
-            assert.equals(1, frame.questId)
+            assert.is_equal(1, frame.questId)
             assert.spy(frame.Show).was.called()
         end)
 
