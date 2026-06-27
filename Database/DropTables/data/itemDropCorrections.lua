@@ -552,6 +552,9 @@ QuestieItemDropCorrections.Tbc = { -- Corrections for Old World data should only
         [17192] = DropKeys.WOWHEAD,
         [17475] = DropKeys.WOWHEAD,
     },
+    [24156] = { -- Filled Shimmering Vessel
+        [17544] = 100,
+    },
     [24279] = { -- Vicious Teromoth Sample
         [18437] = DropKeys.WOWHEAD,
     },
