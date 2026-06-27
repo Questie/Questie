@@ -1,5 +1,4 @@
 dofile("setupTests.lua")
-dofile("Localization/l10n.lua")
 
 describe("QuestieEvent", function()
     ---@type QuestieEvent
@@ -32,7 +31,8 @@ describe("QuestieEvent", function()
         QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
         QuestieNPCFixes.LoadDarkmoonFixes = function() return {} end
 
-        ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+        ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
+        require("Localization.l10n")
 
         QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
         QuestieEvent.eventQuests = {} -- This is done on top level in QuestieEvent.lua
