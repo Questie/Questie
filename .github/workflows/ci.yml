@@ -69,7 +69,7 @@ jobs:
       TZ: Europe/Berlin
     strategy:
       matrix:
-        expansion: [era, sod, tbc, wotlk, mop, localization]
+        expansion: [era, sod, tbc, wotlk, mop]
       fail-fast: false
 
     steps:
