@@ -70,7 +70,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name"}, tooltip)
         end)
 
@@ -127,7 +127,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("m_123")
 
             assert.is_nil(QuestieComms.remotePlayerClasses["Local"])
-            assert.spy(Questie.GetClassColor).was_called_with(Questie, "WARRIOR")
+            assert.spy(Questie.GetClassColor).was.called_with(Questie, "WARRIOR")
             assert.are.same({
                 "Quest Name",
                 "   gold3/5 do it (|cFFC79C6EBob|rgold)|r (Nearby)",
@@ -151,8 +151,8 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("m_123")
 
-            assert.spy(QuestieDB.QueryItemSingle).was_called_with(5, "name")
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieDB.QueryItemSingle).was.called_with(5, "name")
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   goldItem Name"}, tooltip)
         end)
 
@@ -171,7 +171,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
         end)
 
@@ -192,9 +192,9 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
-            assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
+            assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
         end)
 
         it("should return nil for objects which are not in the zone of the player", function()
@@ -209,7 +209,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
             assert.is_nil(tooltip)
-            assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
+            assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
         end)
 
         it("should return quest name and objective description when players zone ID is 0", function()
@@ -227,7 +227,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_not_called()
         end)
@@ -247,10 +247,10 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("o_123", nil)
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was_not_called()
-            assert.spy(Questie.Debug).was_called_with(Questie, Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
+            assert.spy(Questie.Debug).was.called_with(Questie, Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
         end)
 
         it("should return quest name and objective description when object has no spawn", function()
@@ -270,9 +270,9 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   golddo it"}, tooltip)
-            assert.spy(QuestieDB.QueryObjectSingle).was_called_with(123, "spawns")
+            assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
         end)
 
         it("should only return quest name when tooltip has completed objective and showQuestsInNpcTooltip is true", function()
@@ -298,7 +298,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name"}, tooltip)
         end)
 
@@ -325,7 +325,7 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are.same({"Quest Name", "   gold3/5 do it"}, tooltip)
         end)
 
@@ -370,8 +370,8 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 1, nil, true)
-            assert.spy(QuestieLib.GetColoredQuestName).was_called_with(QuestieLib, 2, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 2, nil, true)
             assert.are.same({
                 "Quest Name", "   gold0/1 do something else", "   gold3/5 do it",
                 "Quest Name 2", "   gold10/10 do something"
@@ -430,7 +430,7 @@ describe("Tooltip", function()
 
             QuestieTooltips:RemoveQuest(1)
 
-            assert.spy(QuestieDB.GetQuest).was_called_with(1)
+            assert.spy(QuestieDB.GetQuest).was.called_with(1)
 
             assert.are.same(false, objective.hasRegisteredTooltips)
             assert.are.same(false, objective.registeredItemTooltips)

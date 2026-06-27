@@ -186,7 +186,7 @@ describe("QuestieDB", function()
 
             assert.are.same(81, questTagId)
             assert.are.same("Dungeon", questTagName)
-            assert.spy(_G.GetQuestTagInfo).was_called_with(123)
+            assert.spy(_G.GetQuestTagInfo).was.called_with(123)
         end)
 
         it("should return the corrected value", function()

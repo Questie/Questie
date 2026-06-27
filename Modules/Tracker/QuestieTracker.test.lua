@@ -47,8 +47,8 @@ describe("QuestieTracker", function()
 
             QuestieTracker:RemoveQuest(COLLECTING_KELP_ID)
 
-            assert.spy(TrackerUtils.UnFocus).was_called()
-            assert.spy(QuestieQuest.ToggleNotes).was_called_with(QuestieQuest, true)
+            assert.spy(TrackerUtils.UnFocus).was.called()
+            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
         end)
     end)
 end)

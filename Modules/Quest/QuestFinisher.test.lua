@@ -72,11 +72,11 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
         assert.spy(QuestieDB.GetObject).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
         assert.equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
@@ -108,11 +108,11 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "o_123", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "o_456", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "o_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "o_456", "Finisher")
         assert.spy(QuestieDB.GetNPC).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
         assert.equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
@@ -151,14 +151,14 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 3", 789, "o_789", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 4", 987, "o_987", "Finisher")
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 3, 70, 70, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 4, 80, 80, nil)
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 3", 789, "o_789", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 4", 987, "o_987", "Finisher")
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 3, 70, 70, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 4, 80, 80, nil)
     end)
 
     it("should add finisher with waypoints", function()
@@ -184,10 +184,10 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 10, 10)
-        assert.spy(QuestieMap.DrawWaypoints).was_called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 10, 10)
+        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
     end)
 
     it("should add finisher for dungeon location", function()
@@ -207,8 +207,8 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60)
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60)
         assert.spy(QuestieMap.DrawWaypoints).was_not_called()
 
         local iconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
@@ -235,9 +235,9 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
         assert.spy(QuestieDB.GetObject).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
         assert.equal(Questie.ICON_TYPE_PVPQUEST_COMPLETE, firstIconData.Icon)
@@ -262,9 +262,9 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
         assert.spy(QuestieDB.GetObject).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
 
         local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
         assert.equal(Questie.ICON_TYPE_REPEATABLE_COMPLETE, firstIconData.Icon)
@@ -360,9 +360,9 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
         assert.spy(QuestieDB.GetObject).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
 
         local iconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
         assert.equal(Questie.ICON_TYPE_EVENTQUEST_COMPLETE, iconData.Icon)

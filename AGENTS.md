@@ -226,7 +226,7 @@ end)
 - Tests live alongside source files as `*.test.lua`
 - Integration tests go in `cli/integrationTests/` named by issue number
 - Mocking: override `_G.*` globals; use `spy.new()` for call verification
-- Assertions: `assert.are.same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was_called_with()`, `assert.has_error()`
+- Assertions: `assert.are.same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was.called_with()`, `assert.has_error()`
 - Use `dofile` to load the module under test, not `require` any file
 - Use `QuestieLoader` to stub modules, then mock functions called by the module under test. Exceptions are:
   - `l10n`, which should be loaded directly using `dofile("Localization/l10n.lua")`

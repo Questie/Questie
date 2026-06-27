@@ -67,7 +67,7 @@ describe("Validators", function()
                 [1] = "sourceItemId in requiredSourceItems: 1",
                 [3] = "itemObjectiveId in requiredSourceItems: 3"
             })
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when requiredSourceItems are fine", function()
@@ -111,7 +111,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
 
             assert.are.same({[1] = true}, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when preQuestSingle and preQuestGroup are fine", function()
@@ -190,7 +190,7 @@ describe("Validators", function()
                 [3] = "quest has no childQuests. 4 is listing it as parent quest",
                 [5] = "quest 7 is missing in childQuests list",
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests which parent is missing in the database (e.g. blacklisted)", function()
@@ -211,7 +211,7 @@ describe("Validators", function()
             assert.are.same({
                 [3] = "parent quest 4 is missing/hidden in the database"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests which child quests are missing their parent entry", function()
@@ -233,7 +233,7 @@ describe("Validators", function()
             assert.are.same({
                 [4] = "quest has no parentQuest. 3 is listing it as child quest"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should ignore parent quests which were corrected to be 0", function()
@@ -268,7 +268,7 @@ describe("Validators", function()
                 [4] = "quest is missing/hidden in the database. parentQuest is 3",
                 [5] = "quest is missing/hidden in the database. parentQuest is 3",
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
     end)
 
@@ -288,7 +288,7 @@ describe("Validators", function()
             assert.are.same({
                 [1] = "NPC starter 2 is missing in the database"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests with NPC starters that don't have a name", function()
@@ -306,7 +306,7 @@ describe("Validators", function()
             assert.are.same({
                 [1] = "NPC starter 2 has no name"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests with non-existing object starters", function()
@@ -324,7 +324,7 @@ describe("Validators", function()
             assert.are.same({
                 [1] = "Object starter 2 is missing in the database"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests with non-existing item starters", function()
@@ -342,7 +342,7 @@ describe("Validators", function()
             assert.are.same({
                 [1] = "Item starter 2 is missing in the database"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when all quest starters are valid", function()
@@ -383,7 +383,7 @@ describe("Validators", function()
             assert.are.same({
                 [1] = "NPC finisher 2 is missing in the database"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests with non-existing object finisher", function()
@@ -400,7 +400,7 @@ describe("Validators", function()
             assert.are.same({
                 [1] = "Object finisher 2 is missing in the database"
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when all quest finisher are valid", function()
@@ -446,7 +446,7 @@ describe("Validators", function()
                     "NPC objective 5 is missing in the database"
                 }
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests which have object objectives that do not exist in the DB", function()
@@ -468,7 +468,7 @@ describe("Validators", function()
                     "Object objective 5 is missing in the database"
                 }
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests which have item objectives that do not exist in the DB", function()
@@ -490,7 +490,7 @@ describe("Validators", function()
                     "Item objective 5 is missing in the database"
                 }
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should find quests which have killCredit objectives that do not exist in the DB", function()
@@ -512,7 +512,7 @@ describe("Validators", function()
                     "NPC 5 for killCredit objective is missing in the database",
                 }
             }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when all objectives are valid", function()
@@ -1074,7 +1074,7 @@ describe("Validators", function()
             local invalidNpcs = Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
 
             assert.are.same({ [100] = { 9999 } }, invalidNpcs)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when all spawn areaIds are handled", function()
@@ -1119,7 +1119,7 @@ describe("Validators", function()
             local invalidObjects = Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAreaId)
 
             assert.are.same({ [100] = { 9999 } }, invalidObjects)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when all spawn areaIds are handled", function()
@@ -1168,7 +1168,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestExtraObjectiveSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same({ [10] = { 9999 } }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when all extraObjective spawnlist areaIds are handled", function()
@@ -1228,7 +1228,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same({ [10] = { 9999 } }, invalidQuests)
-            assert.spy(exitMock).was_called_with(1)
+            assert.spy(exitMock).was.called_with(1)
         end)
 
         it("should not report anything when all triggerEnd spawnlist areaIds are handled", function()

@@ -77,8 +77,8 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-            assert.spy(button.SetItem).was_called_with(_, 123, 1, 12)
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
+            assert.spy(button.SetItem).was.called_with(_, 123, 1, 12)
             assert.is_true(button:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
@@ -111,8 +111,8 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-            assert.spy(button.SetItem).was_called_with(_, 456, 1, 12)
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
+            assert.spy(button.SetItem).was.called_with(_, 456, 1, 12)
             assert.is_true(button:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
@@ -149,8 +149,8 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-            assert.spy(button.SetItem).was_called_with(_, 123, 1, 12)
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
+            assert.spy(button.SetItem).was.called_with(_, 123, 1, 12)
             assert.is_true(button:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
@@ -194,15 +194,15 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was_called_with(_, 123, 1, 12)
-            assert.spy(secondaryButton.SetItem).was_called_with(_, 456, 1, 12)
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
+            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12)
+            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12)
             assert.is_true(primaryButton:IsVisible())
             assert.is_true(secondaryButton:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was_called_with(1)
+            assert.spy(rePositionLineMock).was.called_with(1)
         end)
 
         it("should add sourceItemId as primary button and single objective item as secondary button", function()
@@ -245,15 +245,15 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was_called_with(_, 123, 1, 12)
-            assert.spy(secondaryButton.SetItem).was_called_with(_, 456, 1, 12)
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
+            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12)
+            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12)
             assert.is_true(primaryButton:IsVisible())
             assert.is_true(secondaryButton:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was_called_with(1)
+            assert.spy(rePositionLineMock).was.called_with(1)
         end)
 
         it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
@@ -292,15 +292,15 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was_called_with(_, 123, 1, 12)
-            assert.spy(secondaryButton.SetItem).was_called_with(_, 456, 1, 12)
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
+            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12)
+            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12)
             assert.is_true(primaryButton:IsVisible())
             assert.is_true(secondaryButton:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was_called_with(1)
+            assert.spy(rePositionLineMock).was.called_with(1)
         end)
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
@@ -329,8 +329,8 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was_called_with(_, 456, 1, 12)
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
+            assert.spy(primaryButton.SetItem).was.called_with(_, 456, 1, 12)
             assert.is_true(primaryButton:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())

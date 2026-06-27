@@ -89,7 +89,7 @@ describe("TooltipHandler", function()
 
             _QuestieTooltips.AddObjectDataToTooltip(name, PLAYER_ZONE)
 
-            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF" .. objectId .. "|r")
+            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF" .. objectId .. "|r")
         end)
 
         it("should add multiple object IDs", function()
@@ -107,7 +107,7 @@ describe("TooltipHandler", function()
 
             _QuestieTooltips.AddObjectDataToTooltip(name, PLAYER_ZONE)
 
-            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF1 (2)|r")
+            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF1 (2)|r")
         end)
 
         it("should stop counting after 10", function()

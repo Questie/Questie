@@ -159,7 +159,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "reputationReward")
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "reputationReward")
             assert.are.same({{909, 250}}, reputationReward)
         end)
 
@@ -172,7 +172,7 @@ describe("QuestieReputation", function()
 
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
-            assert.spy(QuestieDB.QueryQuestSingle).was_called_with(1, "reputationReward")
+            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "reputationReward")
             assert.are.same({}, reputationReward)
         end)
 
@@ -318,7 +318,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
-            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+            assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
         it("should respect diplomacy bonus", function()
@@ -331,7 +331,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
-            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+            assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
         it("should not apply diplomacy bonus to reputation losses for WotLK and before", function()
@@ -344,7 +344,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, -75}}, reputationReward)
-            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+            assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
         it("should not apply diplomacy bonus to reputation losses", function()
@@ -357,7 +357,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, -10}}, reputationReward)
-            assert.spy(QuestiePlayer.HasRequiredRace).was_called_with(QuestieDB.raceKeys.HUMAN)
+            assert.spy(QuestiePlayer.HasRequiredRace).was.called_with(QuestieDB.raceKeys.HUMAN)
         end)
 
         it("should respect Mr. Popularity rank 1 guild perk", function()
@@ -373,7 +373,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 78.75}}, reputationReward)
-            assert.spy(_G.IsPlayerSpell).was_called_with(78634)
+            assert.spy(_G.IsPlayerSpell).was.called_with(78634)
         end)
 
         it("should respect Mr. Popularity rank 2 guild perk", function()
@@ -389,7 +389,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
-            assert.spy(_G.IsPlayerSpell).was_called_with(78635)
+            assert.spy(_G.IsPlayerSpell).was.called_with(78635)
         end)
 
         it("should respect DMF buff bonus", function()
@@ -406,7 +406,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
-            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
         it("should respect Hallow's End Alliance buff bonus", function()
@@ -423,7 +423,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
-            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
         it("should respect Hallow's End Horde buff bonus", function()
@@ -440,7 +440,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 82.5}}, reputationReward)
-            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
         it("should respect DMF + Hallow's End buff bonus", function()
@@ -460,7 +460,7 @@ describe("QuestieReputation", function()
             local reputationReward = QuestieReputation.GetReputationReward(1)
 
             assert.are.same({{909, 90}}, reputationReward)
-            assert.spy(UnitAura).was_called_with("player", 1, "HELPFUL")
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
 
         it("should show Sha'tar reputation on Aldor quests when player is below honored reputation with Sha'tar", function()
@@ -481,7 +481,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_SHA_TAR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should show Sha'tar reputation on Scryers quests when player is below honored reputation with Sha'tar", function()
@@ -502,7 +502,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_SHA_TAR, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should not show Sha'tar reputation on Aldor quests when player is already honored with Sha'tar", function()
@@ -522,7 +522,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_ALDOR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should not show Sha'tar reputation on Scryers quests when player is already honored with Sha'tar", function()
@@ -542,7 +542,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_SCRYERS, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should show Scryers reputation penalty on Aldor quests for WotLK and before", function()
@@ -559,7 +559,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_ALDOR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should show Aldor reputation penalty on Scryers quests for WotLK and before", function()
@@ -576,7 +576,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_SCRYERS, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should show Scryers reputation penalty on Aldor quests for Cata and beyond", function()
@@ -593,7 +593,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_ALDOR, 1000},
                 {QuestieDB.factionIDs.THE_SCRYERS, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should show Aldor reputation penalty on Scryers quests for Cata and beyond", function()
@@ -610,7 +610,7 @@ describe("QuestieReputation", function()
                 {QuestieDB.factionIDs.THE_SCRYERS, 1000},
                 {QuestieDB.factionIDs.THE_ALDOR, -1100},
             }, reputationReward)
-            assert.spy(QuestieReputation.HasReputation).was_called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
+            assert.spy(QuestieReputation.HasReputation).was.called_with({QuestieDB.factionIDs.THE_SHA_TAR, 9000}, nil)
         end)
 
         it("should not check Sha'tar reputation for pre TBC", function()
@@ -658,7 +658,7 @@ describe("QuestieReputation", function()
             local factionName = QuestieReputation.GetFactionName(1273)
 
             assert.are.equal("Jogu the Drunk", factionName)
-            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was_called_with(1273)
+            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was.called_with(1273)
             assert.spy(_G.GetFactionInfoByID).was_not_called()
         end)
 
@@ -675,8 +675,8 @@ describe("QuestieReputation", function()
             local factionName = QuestieReputation.GetFactionName(589)
 
             assert.are.equal("Wintersaber Trainers", factionName)
-            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was_called_with(589)
-            assert.spy(_G.GetFactionInfoByID).was_called_with(589)
+            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was.called_with(589)
+            assert.spy(_G.GetFactionInfoByID).was.called_with(589)
         end)
 
         it("should return nil when factionId is unknown", function()
@@ -692,8 +692,8 @@ describe("QuestieReputation", function()
             local factionName = QuestieReputation.GetFactionName(1)
 
             assert.is_nil(factionName)
-            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was_called_with(1)
-            assert.spy(_G.GetFactionInfoByID).was_called_with(1)
+            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was.called_with(1)
+            assert.spy(_G.GetFactionInfoByID).was.called_with(1)
         end)
     end)
 
@@ -748,8 +748,8 @@ describe("QuestieReputation", function()
             local reputationString = QuestieReputation.GetReputationRewardString(reputationReward)
 
             assert.are.equal("+250 Darkmoon Faire", reputationString)
-            assert.spy(_G.GetFactionInfoByID).was_called_with(QuestieDB.factionIDs.DARKMOON_FAIRE)
-            assert.spy(_G.GetFactionInfoByID).was_called_with(12345)
+            assert.spy(_G.GetFactionInfoByID).was.called_with(QuestieDB.factionIDs.DARKMOON_FAIRE)
+            assert.spy(_G.GetFactionInfoByID).was.called_with(12345)
         end)
     end)
 end)
