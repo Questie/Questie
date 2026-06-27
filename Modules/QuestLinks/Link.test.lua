@@ -194,8 +194,8 @@ describe("QuestieLink", function()
                 " - Fierce Boar slain: 0/8",
                 " - Argent Dawn reputation: 0/1000",
             }, tooltipLines)
-            assert.spy(QuestieDB.QueryNPCSingle).was_not_called()
-            assert.spy(QuestieReputation.GetFactionName).was_not_called()
+            assert.spy(QuestieDB.QueryNPCSingle).was.not_called()
+            assert.spy(QuestieReputation.GetFactionName).was.not_called()
         end)
 
         it("should use NPC names from DB when Blizzard objective is missing it", function()

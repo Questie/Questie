@@ -89,7 +89,7 @@ describe("Validators", function()
             local matchingQuests = Validators.checkRequiredSourceItems(quests, questKeys)
 
             assert.are.same(matchingQuests, nil)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -128,7 +128,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should not report anything for quest 30277", function()
@@ -142,7 +142,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should not report anything for quest 30280", function()
@@ -156,7 +156,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkPreQuestExclusiveness(quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -246,7 +246,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkParentChildQuestRelations(quests, questKeys)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should find quests which child quests are missing in the database (e.g. blacklisted)", function()
@@ -364,7 +364,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -422,7 +422,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestStarters(quests, questKeys, npcs, objects, items)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -534,7 +534,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkObjectives(quests, questKeys, npcs, objects, items)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -1085,7 +1085,7 @@ describe("Validators", function()
             local invalidNpcs = Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidNpcs)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should not report NPCs without spawns", function()
@@ -1096,7 +1096,7 @@ describe("Validators", function()
             local invalidNpcs = Validators.checkNpcSpawnAreaIds(npcs, npcKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidNpcs)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -1130,7 +1130,7 @@ describe("Validators", function()
             local invalidObjects = Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidObjects)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should not report objects without spawns", function()
@@ -1141,7 +1141,7 @@ describe("Validators", function()
             local invalidObjects = Validators.checkObjectSpawnAreaIds(objects, objectKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidObjects)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -1181,7 +1181,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestExtraObjectiveSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should not report quests without extraObjectives", function()
@@ -1192,7 +1192,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestExtraObjectiveSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should not report extraObjectives with nil spawnlist", function()
@@ -1205,7 +1205,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestExtraObjectiveSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 
@@ -1239,7 +1239,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
 
         it("should not report quests without triggerEnd", function()
@@ -1250,7 +1250,7 @@ describe("Validators", function()
             local invalidQuests = Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMapIdByAreaId)
 
             assert.are.same(nil, invalidQuests)
-            assert.spy(exitMock).was_not_called()
+            assert.spy(exitMock).was.not_called()
         end)
     end)
 end)

@@ -73,7 +73,7 @@ describe("QuestieMap", function()
 
             QuestieMap.UpdateDrawnIcons(1)
 
-            assert.spy(QuestieLib.GetQuestIcon).was_not_called()
+            assert.spy(QuestieLib.GetQuestIcon).was.not_called()
         end)
     end)
 end)

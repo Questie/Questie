@@ -38,8 +38,8 @@ describe("QuestieTracker", function()
 
             QuestieTracker:RemoveQuest(RIVERPAW_GNOLL_BOUNTY_ID)
 
-            assert.spy(TrackerUtils.UnFocus).was_not_called()
-            assert.spy(QuestieQuest.ToggleNotes).was_not_called()
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
         end)
 
         it("should unfocus when the removed quest id matches the focused quest id", function()

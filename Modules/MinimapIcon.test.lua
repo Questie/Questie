@@ -62,12 +62,12 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieJourney.ToggleJourneyWindow).was_not_called()
-        assert.spy(QuestieMenu.Show).was_not_called()
-        assert.spy(QuestieQuest.SmoothReset).was_not_called()
-        assert.spy(QuestieQuest.ToggleNotes).was_not_called()
-        assert.spy(QuestieOptions.HideFrame).was_not_called()
-        assert.spy(QuestieOptions.ToggleConfigWindow).was_not_called()
+        assert.spy(QuestieJourney.ToggleJourneyWindow).was.not_called()
+        assert.spy(QuestieMenu.Show).was.not_called()
+        assert.spy(QuestieQuest.SmoothReset).was.not_called()
+        assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+        assert.spy(QuestieOptions.HideFrame).was.not_called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was.not_called()
     end)
 
     it("should open My Journey on left click", function()
@@ -125,7 +125,7 @@ describe("MinimapIcon", function()
         MinimapIcon.private:OnClick(button)
 
         assert.spy(QuestieMenu.Show).was.called()
-        assert.spy(QuestieMenu.Hide).was_not_called()
+        assert.spy(QuestieMenu.Hide).was.not_called()
     end)
 
     it("should hide drop down menu on right click when it is already shown", function()
@@ -135,7 +135,7 @@ describe("MinimapIcon", function()
         MinimapIcon.private:OnClick(button)
 
         assert.spy(QuestieMenu.Hide).was.called()
-        assert.spy(QuestieMenu.Show).was_not_called()
+        assert.spy(QuestieMenu.Show).was.not_called()
     end)
 
     it("should hide minimap icon on right click with CTRL key down", function()

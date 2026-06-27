@@ -226,7 +226,7 @@ describe("DistanceUtils", function()
             assert.equals("Finisher 2", bestSpawnName)
             assert.equals(0, bestDistance)
 
-            assert.spy(QuestieDB.GetObject).was_not_called()
+            assert.spy(QuestieDB.GetObject).was.not_called()
         end)
 
         it("should return the nearest object location", function()
@@ -262,7 +262,7 @@ describe("DistanceUtils", function()
             assert.equals("Finisher 2", bestSpawnName)
             assert.equals(0, bestDistance)
 
-            assert.spy(QuestieDB.GetNPC).was_not_called()
+            assert.spy(QuestieDB.GetNPC).was.not_called()
         end)
 
         it("should return the nearest location", function()
@@ -361,7 +361,7 @@ describe("DistanceUtils", function()
             assert.equals("Finisher", name)
             assert.equals(100, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called()
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called()
         end)
 
         it("should return nearest objective when quest is not complete", function()
@@ -386,7 +386,7 @@ describe("DistanceUtils", function()
             assert.equals(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was.called_with({123})
-            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was.not_called()
         end)
 
         it("should return nearest specialObjective when quest is not complete", function()
@@ -411,7 +411,7 @@ describe("DistanceUtils", function()
             assert.equals(100, distance)
 
             assert.spy(DistanceUtils.GetNearestObjective).was.called_with({123})
-            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was_not_called()
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was.not_called()
         end)
 
         it("should skip complete objectives", function()
@@ -484,7 +484,7 @@ describe("DistanceUtils", function()
             assert.is_nil(name)
             assert.equals(999999999, distance)
 
-            assert.spy(DistanceUtils.GetNearestObjective).was_not_called()
+            assert.spy(DistanceUtils.GetNearestObjective).was.not_called()
         end)
     end)
 end)

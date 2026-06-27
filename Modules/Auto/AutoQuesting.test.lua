@@ -112,7 +112,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should not accept quest when auto modifier is held", function()
@@ -121,7 +121,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should not accept quest when NPC is not allowed to accept quests from", function()
@@ -130,7 +130,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should not accept quest when quest is not allowed to accept", function()
@@ -139,7 +139,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should not accept quest when questId is 0 - happens when some other addon is faster", function()
@@ -150,10 +150,10 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
-            assert.spy(QuestieDB.IsRepeatable).was_not.called()
-            assert.spy(QuestieDB.IsRepeatable).was_not.called()
-            assert.spy(QuestieDB.IsPvPQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
+            assert.spy(QuestieDB.IsRepeatable).was.not_called()
+            assert.spy(QuestieDB.IsRepeatable).was.not_called()
+            assert.spy(QuestieDB.IsPvPQuest).was.not_called()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
@@ -172,7 +172,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should not re-allow trivial quest when repeatable and PvP checks pass", function()
@@ -186,7 +186,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should accept repeatable quest when setting is enabled", function()
@@ -198,7 +198,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
-            assert.spy(QuestieDB.IsRepeatable).was_not.called()
+            assert.spy(QuestieDB.IsRepeatable).was.not_called()
         end)
 
         it("should not accept repeatable quest when setting is disabled", function()
@@ -209,7 +209,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
             assert.spy(QuestieDB.IsRepeatable).was.called_with(123)
         end)
 
@@ -223,7 +223,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should accept PvP quest when setting is enabled", function()
@@ -235,7 +235,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
-            assert.spy(QuestieDB.IsPvPQuest).was_not.called()
+            assert.spy(QuestieDB.IsPvPQuest).was.not_called()
         end)
 
         it("should not accept PvP quest when setting is disabled", function()
@@ -246,7 +246,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
             assert.spy(QuestieDB.IsPvPQuest).was.called_with(123)
         end)
 
@@ -257,8 +257,8 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
-            assert.spy(QuestieDB.IsPvPQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
+            assert.spy(QuestieDB.IsPvPQuest).was.not_called()
         end)
 
         it("should decline quest if player is in battleground and quest was shared by another player when setting is enabled", function()
@@ -271,7 +271,7 @@ describe("AutoQuesting", function()
 
             assert.spy(_G.DeclineQuest).was.called()
             assert.spy(Questie.Print).was.called()
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
             assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
@@ -287,10 +287,10 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
-            assert.spy(_G.DeclineQuest).was_not.called()
-            assert.spy(Questie.Print).was_not.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
             assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
-            assert.spy(_G.UnitInBattleground).was_not.called()
+            assert.spy(_G.UnitInBattleground).was.not_called()
         end)
 
         it("should accept quest if player is in battleground and quest was not shared by another player when setting is enabled", function()
@@ -302,8 +302,8 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
-            assert.spy(_G.DeclineQuest).was_not.called()
-            assert.spy(Questie.Print).was_not.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
             assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
@@ -317,8 +317,8 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.called()
-            assert.spy(_G.DeclineQuest).was_not.called()
-            assert.spy(Questie.Print).was_not.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
             assert.spy(_G.UnitGUID).was_not.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
@@ -341,7 +341,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreeting()
 
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
         end)
 
         it("should not accept quest when auto modifier is held", function()
@@ -351,7 +351,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreeting()
 
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
         end)
 
         it("should not accept quest when NPC not allowed", function()
@@ -363,7 +363,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreeting()
 
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
         end)
 
         it("should turn in quest", function()
@@ -375,7 +375,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestGreeting()
 
             assert.spy(_G.SelectActiveQuest).was.called_with(1)
-            assert.spy(_G.GetNumAvailableQuests).was_not.called()
+            assert.spy(_G.GetNumAvailableQuests).was.not_called()
         end)
 
         it("should turn in second quest when first is not complete", function()
@@ -403,7 +403,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreeting()
 
-            assert.spy(_G.SelectActiveQuest).was_not.called()
+            assert.spy(_G.SelectActiveQuest).was.not_called()
         end)
 
         it("should not turn in quest when NPC not allowed", function()
@@ -415,7 +415,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreeting()
 
-            assert.spy(_G.SelectActiveQuest).was_not.called()
+            assert.spy(_G.SelectActiveQuest).was.not_called()
         end)
     end)
 
@@ -443,7 +443,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
 
             assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not accept available quest when auto accept is disabled", function()
@@ -454,7 +454,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should not accept available quest when auto modifier is held", function()
@@ -466,7 +466,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should not accept available quest when NPC is not allowed to accept quests from", function()
@@ -478,7 +478,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
@@ -499,7 +499,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should skip trivial quest when setting is disabled and accept non-trivial", function()
@@ -531,7 +531,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should skip repeatable quest when setting is disabled and accept non-repeatable", function()
@@ -566,7 +566,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should skip PvP quest when setting is disabled and accept non-PvP", function()
@@ -603,7 +603,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not turn in quest when auto turn in is disabled", function()
@@ -611,8 +611,8 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not turn in quest when auto modifier is held", function()
@@ -621,9 +621,9 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
-            assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not turn in or accept quest when auto accept and turn in are disabled", function()
@@ -632,9 +632,9 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.GetActiveQuests).was_not.called()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was_not.called()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
+            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
     end)
 
@@ -645,7 +645,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestProgress()
 
-            assert.spy(_G.CompleteQuest).was_not.called()
+            assert.spy(_G.CompleteQuest).was.not_called()
         end)
 
         it("should not complete quest when auto turn in is disabled", function()
@@ -653,7 +653,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestProgress()
 
-            assert.spy(_G.CompleteQuest).was_not.called()
+            assert.spy(_G.CompleteQuest).was.not_called()
         end)
 
         it("should not complete quest when quest is not completable", function()
@@ -661,7 +661,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestProgress()
 
-            assert.spy(_G.CompleteQuest).was_not.called()
+            assert.spy(_G.CompleteQuest).was.not_called()
         end)
 
         it("should not complete quest when NPC is not allowed for quest completion", function()
@@ -670,7 +670,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestProgress()
 
-            assert.spy(_G.CompleteQuest).was_not.called()
+            assert.spy(_G.CompleteQuest).was.not_called()
         end)
 
         it("should not complete quest when quest is not allowed", function()
@@ -679,7 +679,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestProgress()
 
-            assert.spy(_G.CompleteQuest).was_not.called()
+            assert.spy(_G.CompleteQuest).was.not_called()
         end)
     end)
 
@@ -690,7 +690,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestComplete()
 
-            assert.spy(_G.GetQuestReward).was_not.called()
+            assert.spy(_G.GetQuestReward).was.not_called()
         end)
 
         it("should not complete quest when manual mode is active and coming from gossip", function()
@@ -702,7 +702,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestComplete()
 
-            assert.spy(_G.GetQuestReward).was_not.called()
+            assert.spy(_G.GetQuestReward).was.not_called()
         end)
 
         it("should not complete quest when auto turn in is disabled", function()
@@ -710,7 +710,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestComplete()
 
-            assert.spy(_G.GetQuestReward).was_not.called()
+            assert.spy(_G.GetQuestReward).was.not_called()
         end)
 
         it("should not complete quest when NPC is not allowed for quest completion", function()
@@ -719,7 +719,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestComplete()
 
-            assert.spy(_G.GetQuestReward).was_not.called()
+            assert.spy(_G.GetQuestReward).was.not_called()
         end)
 
         it("should not complete quest when quest is not allowed", function()
@@ -728,7 +728,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestComplete()
 
-            assert.spy(_G.GetQuestReward).was_not.called()
+            assert.spy(_G.GetQuestReward).was.not_called()
         end)
 
         it("should not complete quest when quest has multiple rewards", function()
@@ -736,7 +736,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestComplete()
 
-            assert.spy(_G.GetQuestReward).was_not.called()
+            assert.spy(_G.GetQuestReward).was.not_called()
         end)
     end)
 
@@ -752,7 +752,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestAcceptConfirm()
 
-            assert.spy(_G.ConfirmAcceptQuest).was_not.called()
+            assert.spy(_G.ConfirmAcceptQuest).was.not_called()
         end)
     end)
 
@@ -773,7 +773,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when GossipFrame is visible", function()
@@ -787,7 +787,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when GossipFrameGreetingPanel is visible", function()
@@ -801,7 +801,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when QuestFrameGreetingPanel is visible", function()
@@ -815,7 +815,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when QuestFrameDetailPanel is visible", function()
@@ -829,7 +829,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when QuestFrameProgressPanel is visible", function()
@@ -843,7 +843,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when QuestFrameRewardPanel is visible", function()
@@ -857,7 +857,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when ImmersionFrame.TitleButtons is visible", function()
@@ -873,7 +873,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
 
         it("should not reset when ImmersionContentFrame is visible", function()
@@ -887,7 +887,7 @@ describe("AutoQuesting", function()
             AutoQuesting.OnGossipShow()
             AutoQuesting.OnQuestFinished()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
     end)
 
@@ -908,7 +908,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipClosed()
 
-            assert.spy(resetSpy).was_not.called()
+            assert.spy(resetSpy).was.not_called()
         end)
     end)
 
@@ -954,12 +954,12 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreeting()
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
         it("should not accept quest from greetings when auto modifier was held and manually accepting a quest", function()
@@ -969,7 +969,7 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreeting()
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestDetail()
@@ -977,7 +977,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnQuestGreeting()
 
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
         end)
 
         it("should not select available quest from greetings when coming from details and auto modifier was held", function()
@@ -986,15 +986,15 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreeting()
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestDetail()
 
-            assert.spy(_G.AcceptQuest).was_not.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
 
             AutoQuesting.OnQuestGreeting()
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
         end)
 
         it("should select available quest from greetings when re-talking to an NPC after auto modifier was held", function()
@@ -1004,7 +1004,7 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnQuestGreeting()
-            assert.spy(_G.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
 
             AutoQuesting.OnQuestFinished()
 
@@ -1021,13 +1021,13 @@ describe("AutoQuesting", function()
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestProgress()
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was_not.called()
+            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
     end)
 
@@ -1039,7 +1039,7 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
             assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(1)
-            assert.spy(_G.QuestieCompat.GetAvailableQuests).was_not.called()
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
 
             AutoQuesting.OnQuestProgress()
             assert.spy(_G.CompleteQuest).was.called()
