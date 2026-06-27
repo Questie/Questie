@@ -36,10 +36,23 @@ local objectiveTypePatterns = {
     object = QUEST_OBJECTS_FOUND,
 }
 
----@param questId number
----@return boolean @true if the local player currently has this quest in their log
-local function _PlayerHasQuest(questId)
-    return QuestLogCache.questLog_DO_NOT_MODIFY[questId] ~= nil
+-- Whether the party pipeline should draw a given objective index. When the local player doesn't
+-- have the quest (playerHasQuest == false) every needed index is the party pipeline's to draw. When
+-- the local player has the quest, their normal pipeline already draws the objectives they still
+-- need, so the party pipeline fills only the indices the local player has already finished - a
+-- party member helping with that quest still needs them, but the local pipeline has stopped drawing
+-- them. Indices the local player still needs are left to the normal pipeline to avoid drawing the
+-- same icons twice and fighting over the shared questId icon key.
+---@param playerHasQuest boolean
+---@param localObjectives QuestLogCacheObjectiveData[]?
+---@param objectiveIndex number
+---@return boolean
+local function _PartyDrawsIndex(playerHasQuest, localObjectives, objectiveIndex)
+    if not playerHasQuest then
+        return true
+    end
+    local localObjective = localObjectives and localObjectives[objectiveIndex]
+    return localObjective ~= nil and localObjective.finished == true
 end
 
 ---@param name string
@@ -157,23 +170,26 @@ end
 ---@param questId number
 ---@return PartyObjectiveQuestPlan?
 function PartyObjectivesProvider.BuildQuestPlan(questId)
-    -- Quests the local player has are drawn by the normal pipeline; don't double up.
-    if _PlayerHasQuest(questId) then
-        return nil
-    end
-
     local players = QuestieComms.remoteQuestLogs[questId]
     if not players then
         return nil
     end
 
-    -- An objective index is drawn if at least one online party member still needs it. Offline
-    -- members are ignored so their icons disappear until they reconnect.
+    -- The local player's own quest log entry, if they have this quest. The normal pipeline draws
+    -- the objectives the player still needs, so the party pipeline fills only the gaps (see
+    -- _PartyDrawsIndex) and skips special objectives, which the normal pipeline also draws.
+    local localData = QuestLogCache.questLog_DO_NOT_MODIFY[questId]
+    local playerHasQuest = localData ~= nil
+    local localObjectives = localData and localData.objectives
+
+    -- An objective index is drawn if at least one online party member still needs it and the local
+    -- player's normal pipeline isn't already drawing it. Offline members are ignored so their icons
+    -- disappear until they reconnect.
     local neededIndices = {}
     for playerName, objectives in pairs(players) do
         if _IsPlayerOnline(playerName) then
             for objectiveIndex, objective in pairs(objectives) do
-                if not objective.finished then
+                if (not objective.finished) and _PartyDrawsIndex(playerHasQuest, localObjectives, objectiveIndex) then
                     neededIndices[objectiveIndex] = objective
                 end
             end
@@ -248,27 +264,31 @@ function PartyObjectivesProvider.BuildQuestPlan(questId)
 
     -- The quest's extra/special objectives (DB-defined, e.g. "use item" custom spawns and required
     -- source items). They come from QuestieDB.GetQuest independent of comms data, and the drawer
-    -- draws them after the standard objectives, so they are kept in a separate list.
+    -- draws them after the standard objectives, so they are kept in a separate list. They're skipped
+    -- when the local player has the quest, because the normal pipeline already draws them (and we
+    -- can't tie them to a specific objective's completion, so the per-index gap fill can't either).
     local specialObjectives = {}
-    local specialCounter = 0
-    for _, special in pairs(quest.SpecialObjectives or {}) do
-        -- Always draw extras. RealObjectiveIndex is used loosely in the DB (it can be 0 or point
-        -- past the real objectives), so we can't reliably tie an extra to a standard objective's
-        -- completion for party members; matching Questie's own pipeline, we just draw them.
-        specialCounter = specialCounter + 1
-        specialObjectives[#specialObjectives + 1] = {
-            Id = special.Id,
-            Type = special.Type,
-            -- Offset past standard objective indices, matching PopulateQuestLogInfo.
-            Index = 64 + specialCounter,
-            questId = questId,
-            Description = special.Description or "Special objective",
-            Icon = special.Icon,
-            Coordinates = special.Coordinates,
-            -- Reuse the DB-built spawn list read-only; PopulateObjective builds it from
-            -- Type/Id when absent (the required-source-item case).
-            spawnList = special.spawnList,
-        }
+    if not playerHasQuest then
+        local specialCounter = 0
+        for _, special in pairs(quest.SpecialObjectives or {}) do
+            -- Always draw extras. RealObjectiveIndex is used loosely in the DB (it can be 0 or point
+            -- past the real objectives), so we can't reliably tie an extra to a standard objective's
+            -- completion for party members; matching Questie's own pipeline, we just draw them.
+            specialCounter = specialCounter + 1
+            specialObjectives[#specialObjectives + 1] = {
+                Id = special.Id,
+                Type = special.Type,
+                -- Offset past standard objective indices, matching PopulateQuestLogInfo.
+                Index = 64 + specialCounter,
+                questId = questId,
+                Description = special.Description or "Special objective",
+                Icon = special.Icon,
+                Coordinates = special.Coordinates,
+                -- Reuse the DB-built spawn list read-only; PopulateObjective builds it from
+                -- Type/Id when absent (the required-source-item case).
+                spawnList = special.spawnList,
+            }
+        end
     end
 
     if #objectives == 0 and #specialObjectives == 0 then

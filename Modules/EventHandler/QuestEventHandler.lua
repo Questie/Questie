@@ -506,6 +506,12 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
             QuestieQuest:UpdateQuest(questId)
             QuestieTracker.UpdateQuestLines(questId)
 
+            -- UpdateQuest unloads this quest's map icons by questId, which also clears any party
+            -- objective icons drawn under the same questId (they share QuestieMap.questIdFrames). When
+            -- the local player finishes an objective a party member still needs, redraw the party
+            -- objectives for this quest so those icons come back.
+            QuestiePartyObjectives:ScheduleUpdate(questId)
+
             QuestieAPI.PropagateQuestUpdate(questId, objIds, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
         end
         QuestieCombatQueue:Queue(function()

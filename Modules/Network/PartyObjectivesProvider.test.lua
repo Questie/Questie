@@ -84,10 +84,54 @@ describe("PartyObjectivesProvider", function()
     end)
 
     describe("BuildQuestPlan", function()
-        it("should return nil when the local player already has the quest", function()
+        it("should return nil when the local player has the quest and its objectives aren't cached", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = { [42] = {} }
             QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false } } } }
             assert.is_nil(PartyObjectivesProvider.BuildQuestPlan(42))
+        end)
+
+        it("should skip an objective the local player still needs (the normal pipeline draws it)", function()
+            -- The local player has the quest and hasn't finished objective 1, so their normal
+            -- pipeline owns it; the party pipeline must not double up.
+            QuestLogCache.questLog_DO_NOT_MODIFY = { [42] = { objectives = { [1] = { finished = false } } } }
+            QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "m" } } } }
+            QuestieDB.GetQuest = function()
+                return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Wolf" } } }
+            end
+            assert.is_nil(PartyObjectivesProvider.BuildQuestPlan(42))
+        end)
+
+        it("should draw an objective the local player finished but an online member still needs", function()
+            -- The local player completed objective 1 (their pipeline stopped drawing it), but Bob
+            -- still needs it, so the party pipeline fills the gap.
+            QuestLogCache.questLog_DO_NOT_MODIFY = { [42] = { objectives = { [1] = { finished = true } } } }
+            QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "m" } } } }
+            QuestieDB.GetQuest = function()
+                return { ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Wolf" } } }
+            end
+
+            local plan = PartyObjectivesProvider.BuildQuestPlan(42)
+            assert.equals(1, #plan.objectives)
+            assert.equals("Wolf", plan.objectives[1].Description)
+        end)
+
+        it("should not draw special objectives when the local player has the quest", function()
+            -- The normal pipeline already draws the local player's special objectives, so the party
+            -- pipeline only fills standard-objective gaps and skips the extras.
+            QuestLogCache.questLog_DO_NOT_MODIFY = { [42] = { objectives = { [1] = { finished = true } } } }
+            QuestieComms.remoteQuestLogs = { [42] = { Bob = { [1] = { finished = false, type = "m" } } } }
+            QuestieDB.GetQuest = function()
+                return {
+                    ObjectiveData = { [1] = { Type = "monster", Id = 5, Text = "Wolf" } },
+                    SpecialObjectives = {
+                        { Id = 7, Type = "item", Description = "Runestone", Icon = "ico2" },
+                    },
+                }
+            end
+
+            local plan = PartyObjectivesProvider.BuildQuestPlan(42)
+            assert.equals(1, #plan.objectives)
+            assert.equals(0, #plan.specialObjectives)
         end)
 
         it("should return nil when no party member has the quest", function()
