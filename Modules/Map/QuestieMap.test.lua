@@ -11,7 +11,7 @@ describe("QuestieMap", function()
     local _ = match._ -- any match
 
     before_each(function()
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieMap = require("Modules.Map.QuestieMap")
         QuestieMap.questIdFrames = {}
     end)

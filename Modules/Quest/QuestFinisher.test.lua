@@ -22,12 +22,12 @@ describe("QuestFinisher", function()
 
     before_each(function()
         Questie.db.char.complete = {}
-        QuestieDB = require("Database.QuestieDB")
-        ZoneDB = require("Database.Zones.zoneDB")
-        QuestiePlayer = require("Modules.QuestiePlayer")
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
-        QuestieMap = require("Modules.Map.QuestieMap")
-        QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+        QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+        QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
         _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = false
         QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)

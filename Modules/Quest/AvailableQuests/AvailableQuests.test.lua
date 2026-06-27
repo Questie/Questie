@@ -21,16 +21,16 @@ describe("AvailableQuests", function()
     local NPC_ID = 456
 
     before_each(function()
-        ZoneDB = require("Database.Zones.zoneDB")
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestieDB = require("Database.QuestieDB")
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetNPC = function() return nil end
         QuestieDB.GetQuest = function() return nil end
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
-        QuestieMap = require("Modules.Map.QuestieMap")
-        Comms = require("Modules.Network.Comms")
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+        QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+        Comms = QuestieLoader:ImportModule("Comms")
 
         Questie.db.profile.availableIconLimit = 10
 

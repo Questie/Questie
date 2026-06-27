@@ -47,7 +47,7 @@ describe("QuestieLink", function()
         _G.HaveQuestData = function() return false end
         _G.C_QuestLog.GetQuestObjectives = function() return nil end
 
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.DoableStates = {AVAILABLE = "AVAILABLE"}
         QuestieDB.IsComplete = function() return 0 end
         QuestieDB.IsRepeatable = function() return false end
@@ -56,10 +56,10 @@ describe("QuestieLink", function()
         QuestieDB.QueryObjectSingle = spy.new(function() return nil end)
         QuestieDB.QueryItemSingle = spy.new(function() return nil end)
 
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
 
-        QuestieReputation = require("Modules.QuestieReputation")
+        QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
         QuestieReputation.GetFactionName = spy.new(function() return nil end)
 
         QuestieLib = require("Modules.Libs.QuestieLib")
@@ -67,12 +67,12 @@ describe("QuestieLink", function()
         QuestieLib.GetLevelString = function() return "[10] " end
         QuestieLib.PrintDifficultyColor = function(_, _, ...) return "|cffffffff" end
 
-        QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
+        QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieEvent.IsEventQuest = function() return false end
 
-        TrackerUtils = require("Modules.Tracker.TrackerUtils")
+        TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        QuestieLoader:ImportModule("ZoneDB")
         require("Localization.l10n")
-        require("Database.Zones.zoneDB")
 
         QuestieLink = require("Modules.QuestLinks.Link")
     end)

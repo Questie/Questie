@@ -23,9 +23,10 @@ describe("DistanceUtils", function()
             __call = function() return HBDMock end
         })
 
-        ZoneDB = require("Database.Zones.zoneDB")
-        QuestieDB = require("Database.QuestieDB")
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+
         DistanceUtils = require("Modules.Libs.DistanceUtils")
     end)
 

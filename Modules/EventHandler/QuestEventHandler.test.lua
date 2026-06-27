@@ -33,33 +33,36 @@ describe("QuestEventHandler", function()
     local AutoCompleteFrame
     ---@type QuestieAPI
     local QuestieAPI
+    ---@type QuestiePartyObjectives
+    local QuestiePartyObjectives
     ---@type QuestEventHandler
     local QuestEventHandler
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
-        QuestieCombatQueue.Queue = function(_, callback) callback() end
-        QuestLogCache = require("Modules.Quest.QuestLogCache")
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
-        AutoQuesting = require("Modules.Auto.AutoQuesting")
-        QuestieJourney = require("Modules.Journey.QuestieJourney")
-        QuestieAnnounce = require("Modules.QuestieAnnounce")
-        QuestiePlayer = require("Modules.QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
-        QuestieTracker = require("Modules.Tracker.QuestieTracker")
-        QuestieDB = require("Database.QuestieDB")
-        QuestieNameplate = require("Modules.QuestieNameplate")
-        WatchFrameHook = require("Modules.WatchFrameHook")
-        AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
-        dofile("Public/Enums.lua")
-        QuestieAPI = require("Public.RegisterForQuestUpdates")
-        QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
-        require("Modules.Network.QuestiePartyObjectives")
-
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.CacheItemNames = spy.new(function() end)
+        QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+        QuestieCombatQueue.Queue = function(_, callback) callback() end
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+        AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
+        QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+        QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestiePlayer.currentQuestlog = {}
+        QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
+        WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
+        AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+        require("Public.Enums")
+        QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
+        QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
+        QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+        QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
 
+        QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
     end)
 

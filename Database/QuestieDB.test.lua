@@ -18,9 +18,9 @@ describe("QuestieDB", function()
 
     before_each(function()
         Questie.db.char.complete = {}
-        QuestiePlayer = require("Modules.QuestiePlayer")
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestieCorrections = require("Database.Corrections.QuestieCorrections")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
         QuestieCorrections.killCreditObjectiveFirst = {}
@@ -28,6 +28,7 @@ describe("QuestieDB", function()
         QuestieCorrections.itemObjectiveFirst = {}
         QuestieCorrections.eventObjectiveFirst = {}
         QuestieCorrections.spellObjectiveFirst = {}
+
         QuestieDB = require("Database.QuestieDB")
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}

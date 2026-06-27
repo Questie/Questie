@@ -36,14 +36,15 @@ describe("TrackerUtils", function()
         CreateFrame.resetMockedFrames()
         C_ItemMock = mock(_G.C_Item, true)
 
-        Expansions = require("Modules.Expansions")
-        QuestieDB = require("Database.QuestieDB")
-        ZoneIDs = require("Database.Zones.zoneDB").zoneIDs
+        Expansions = QuestieLoader:ImportModule("Expansions")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        ZoneIDs = QuestieLoader:ImportModule("ZoneDB").zoneIDs
         QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
-        TrackerLinePool = require("Modules.Tracker.LinePool.TrackerLinePool")
-        require("Modules.Tracker.LinePool.TrackerItemButton")
+        TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+        QuestieLoader:ImportModule("TrackerItemButton")
+
         TrackerUtils = require("Modules.Tracker.TrackerUtils")
 
         rePositionLineMock = spy.new(function() end)

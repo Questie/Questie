@@ -29,13 +29,14 @@ describe("QuestieReputation", function()
             return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
         end)
 
-        Expansions = require("Modules.Expansions")
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        Expansions = QuestieLoader:ImportModule("Expansions")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.HasRequiredRace = spy.new(function() return false end)
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
 
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.raceKeys = {HUMAN = 1}
 
         QuestieReputation = require("Modules.QuestieReputation")
     end)

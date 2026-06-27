@@ -13,7 +13,7 @@ describe("TooltipHandler", function()
         _G.Questie.db.profile.enableTooltips = true
 
         l10n = require("Localization.l10n")
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         _QuestieTooltips = require("Modules.Tooltips.TooltipHandler")
     end)
 

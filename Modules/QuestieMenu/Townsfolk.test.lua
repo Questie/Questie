@@ -23,7 +23,7 @@ describe("Townsfolk", function()
 
     before_each(function()
         _G["Questie"] = {db={profile={}},IsClassic=true, Debug = function() end}
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.objectKeys = {factionID = "factionID"}
         QuestieDB.factionTemplate = {
             [factionIds.NeutralFaction1] = 1,

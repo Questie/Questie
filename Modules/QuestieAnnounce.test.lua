@@ -20,7 +20,7 @@ describe("QuestieAnnounce", function()
             questieShutUp = false,
         }
 
-        QuestieLink = require("Modules.QuestLinks.Link")
+        QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
         require("Localization.l10n")
         QuestieAnnounce = require("Modules.QuestieAnnounce")

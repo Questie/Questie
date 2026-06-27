@@ -1,7 +1,5 @@
 dofile("setupTests.lua")
 
-require("Modules.Network.QuestieComms")
-
 describe("Tooltip", function()
     ---@type QuestieDB
     local QuestieDB
@@ -26,7 +24,8 @@ describe("Tooltip", function()
     before_each(function()
         Questie.db.profile = {}
 
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.GetItemDroprate = function () return nil end
         QuestieDB.GetQuest = spy.new(function(questId)
             return {
                 Id = questId,
@@ -45,14 +44,20 @@ describe("Tooltip", function()
         QuestieLib.GetRGBForObjective = spy.new(function()
             return "gold"
         end)
-        QuestieComms = require("Modules.Network.QuestieComms")
+        QuestieComms = QuestieLoader:ImportModule("QuestieComms")
         QuestieComms.remoteQuestLogs = {}
         QuestieComms.remotePlayerClasses = {}
         QuestieComms.remotePlayerEnabled = {}
-        QuestieComms.data.KeyExists = function() return false end
-        QuestieComms.data.GetTooltip = function() return {} end
+        QuestieComms.data = {
+            KeyExists = function() return false end,
+            GetTooltip = function() return {} end
+        }
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestiePlayer.GetPartyMemberByName = function() return nil end
+        QuestiePlayer.currentQuestlog = {}
+        QuestiePlayer.numberOfGroupMembers = 0
         require("Localization.l10n")
-        QuestiePlayer = require("Modules.QuestiePlayer")
+
         QuestieTooltips = require("Modules.Tooltips.Tooltip")
     end)
 

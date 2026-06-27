@@ -24,12 +24,16 @@ describe("QuestieEvent", function()
         _G.print = printMock
         _G.GetCVarBool = function() return true end
         _G.SetCVar = function() end
-        QuestieCorrections = require("Database.Corrections.QuestieCorrections")
+        QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
-        Expansions = require("Modules.Expansions")
-        QuestieNPCFixes = require("Database.Corrections.classicNPCFixes")
+
+        Expansions = QuestieLoader:ImportModule("Expansions")
+
+        QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
         QuestieNPCFixes.LoadDarkmoonFixes = function() return {} end
-        ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
+
+        ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+
         QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
         QuestieEvent.eventQuests = {} -- This is done on top level in QuestieEvent.lua
         QuestieEvent.activeQuests = {} -- This is done on top level in QuestieEvent.lua

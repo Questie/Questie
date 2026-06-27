@@ -4,8 +4,8 @@ dofile("Database/Corrections/ContentPhases/Anniversary.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfMastery.lua")
 dofile("Database/Corrections/ContentPhases/SeasonOfDiscovery.lua")
 
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 local QuestieQuestBlacklist = require("Database.Corrections.QuestieQuestBlacklist")
-local ContentPhases = require("Database.Corrections.ContentPhases.ContentPhases")
 
 describe("QuestieQuestBlacklist", function()
     before_each(function()
