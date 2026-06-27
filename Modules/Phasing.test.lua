@@ -19,7 +19,7 @@ describe("Phasing", function()
         _G["Questie"] = {db = {char = {complete = {}}}}
         Questie = _G["Questie"]
 
-        QuestLogCache = require("Modules.Quest.QuestLogCache")
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
         Phasing = require("Modules.Phasing")

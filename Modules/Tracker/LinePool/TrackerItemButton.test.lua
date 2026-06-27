@@ -30,7 +30,7 @@ describe("TrackerItemButton", function()
         Questie.db.profile = {}
         CreateFrame.resetMockedFrames()
 
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         TrackerItemButton = require("Modules.Tracker.LinePool.TrackerItemButton")
     end)
 

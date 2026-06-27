@@ -43,6 +43,7 @@ describe("QuestieProfessions", function()
         }
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
+
         QuestieProfessions = require("Modules.QuestieProfessions")
         QuestieProfessions:Init()
     end)

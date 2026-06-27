@@ -23,12 +23,12 @@ describe("QuestieTracker", function()
         }
         Questie.db.profile = {}
 
-        QuestieTracker = require("Modules.Tracker.QuestieTracker")
-        TrackerUtils = require("Modules.Tracker.TrackerUtils")
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
-
+        TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = spy.new(function() end)
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ToggleNotes = spy.new(function() end)
+
+        QuestieTracker = require("Modules.Tracker.QuestieTracker")
     end)
 
     describe("RemoveQuest", function()

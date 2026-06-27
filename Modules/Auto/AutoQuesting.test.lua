@@ -82,7 +82,7 @@ describe("AutoQuesting", function()
             end
         }
 
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         require("Localization.l10n") -- We don't need the return value
 
         AutoQuesting = require("Modules.Auto.AutoQuesting")

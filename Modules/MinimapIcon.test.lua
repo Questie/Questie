@@ -28,24 +28,29 @@ describe("MinimapIcon", function()
         _G.IsControlKeyDown = function() return false end
         _G.IsShiftKeyDown = function() return false end
 
-        QuestieJourney = require("Modules.Journey.QuestieJourney")
+        QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
         QuestieJourney.ToggleJourneyWindow = spy.new(function() end)
-        dofile("Modules/QuestieProfessions.lua")
-        dofile("Modules/Libs/QuestieLib.lua")
-        dofile("Localization/l10n.lua")
-        QuestieMenu = require("Modules.QuestieMenu.QuestieMenu")
+
+        QuestieLoader:ImportModule("QuestieProfessions")
+        QuestieLoader:ImportModule("QuestieLib")
+
+        QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
         QuestieMenu.Show = spy.new(function() end)
         QuestieMenu.Hide = spy.new(function() end)
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
+
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.SmoothReset = spy.new(function() end)
         QuestieQuest.ToggleNotes = spy.new(function() end)
-        QuestieOptions = require("Modules.Options.QuestieOptions")
+
+        QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
         QuestieOptions.HideFrame = spy.new(function() end)
         QuestieOptions.ToggleConfigWindow = spy.new(function() end)
-        QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
+
+        QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
         _G.LibStub = function() return LibDBIconMock end
+        require("Localization.l10n")
 
         MinimapIcon = require("Modules.MinimapIcon")
     end)

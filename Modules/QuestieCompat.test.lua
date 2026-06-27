@@ -1,7 +1,5 @@
 dofile("setupTests.lua")
 
-dofile("Modules/QuestieCompat.lua")
-
 describe("QuestieCompat", function()
     ---@type QuestieDB
     local QuestieDB
@@ -10,12 +8,13 @@ describe("QuestieCompat", function()
     local QuestieCompat
 
     before_each(function()
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-        QuestieCompat = _G.QuestieCompat
         _G.C_GossipInfo = nil
         _G.GetGossipAvailableQuests = nil
         _G.GetGossipActiveQuests = nil
+
+        QuestieCompat = require("Modules.QuestieCompat")
     end)
 
     describe("GetAvailableQuests", function()

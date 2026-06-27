@@ -12,7 +12,7 @@ describe("RegisterForQuestUpdates", function()
         dofile("Public/Enums.lua")
         _G.Questie.API.isReady = true
 
-        QuestieNameplate = require("Modules.QuestieNameplate")
+        QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
         ---@diagnostic disable-next-line: assign-type-mismatch
         QuestieNameplate.GetIcon = spy.new(function()
             return "Interface\\Addons\\Questie\\Icons\\slay.blp"

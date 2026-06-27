@@ -15,14 +15,15 @@ describe("QuestieQuest", function()
 
     before_each(function()
         Questie.db.char = {}
-        ZoneDB = require("Database.Zones.zoneDB")
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.GetDungeons = function() return {} end
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetQuest = spy.new(function() return {} end)
-        AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
+        AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+
         QuestieQuest = require("Modules.Quest.QuestieQuest")
     end)
 
