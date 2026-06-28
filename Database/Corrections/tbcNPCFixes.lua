@@ -881,7 +881,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HYJAL_SUMMIT] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HYJAL_SUMMIT,
         },
-        [17830] = {
+        [17830] = { -- Zelemar the Wrathful
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
         },
