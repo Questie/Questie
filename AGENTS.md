@@ -18,6 +18,9 @@ busted Modules/QuestiePlayer.test.lua
 
 # Run tests matching a description pattern
 busted -p ".test.lua" --filter "GetPartyMemberByName" .
+
+# Run localization lookup loadstring checks
+busted -p ".test.lua" Localization/lookups
 ```
 
 ### Linting (Luacheck)
@@ -32,7 +35,6 @@ lua cli/validate-tbc.lua
 lua cli/validate-wotlk.lua
 lua cli/validate-mop.lua
 lua cli/validate-sod.lua
-lua cli/validate-localization.lua
 ```
 
 > **Note:** Any change to `cli/validators.lua` must be accompanied by a matching test in `cli/validators.test.lua`.
