@@ -359,7 +359,7 @@ function QuestDetailsFrame:Draw(container, quest)
         local specializationName = requiredSpecialization and QuestieProfessions:GetSpecializationName(requiredSpecialization)
         local reqProfession = specializationName and l10n(specializationName) or l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
         if requiredSkill[2] and requiredSkill[2] > 1 then
-            reqProfession = reqProfession .. " (" .. requiredSkill[2] .. ")"
+            reqProfession = reqProfession .. " " .. l10n("(") .. requiredSkill[2] .. l10n(")")
         end
         local reqProfessionLabel = CreateLabel(Questie:Colorize(l10n("Required Profession") .. l10n(": "), 'yellow') .. reqProfession, true)
         container:AddChild(reqProfessionLabel)
