@@ -604,6 +604,13 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
 
         if entryCount ~= 0 then
             tinsert(blocks, rawQuestList) -- add the last block
+            -- [PARTYDEBUG] log how the sorted quests were split into blocks, so we can see which
+            -- block a missing quest landed in (and later whether that block was sent).
+            for blockIndex, block in ipairs(blocks) do
+                local ids = {}
+                for id in pairs(block) do ids[#ids + 1] = id end
+                Questie:Debug(Questie.DEBUG_CRITICAL, "[PARTYDEBUG] broadcast block", blockIndex, "of", #blocks, "quests:", table.concat(ids, ","))
+            end
             _QuestieComms._isBroadcasting = true
             -- hopefully reduce server load by staggering responses
             C_Timer.After(random() * 3, function()
@@ -629,6 +636,10 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
                                 questPacket.data.priority = "NORMAL"
                             end
                         end
+                        -- [PARTYDEBUG] confirm this block is actually being written out
+                        local sentIds = {}
+                        for id in pairs(block) do sentIds[#sentIds + 1] = id end
+                        Questie:Debug(Questie.DEBUG_CRITICAL, "[PARTYDEBUG] writing broadcast block, quests:", table.concat(sentIds, ","))
                         questPacket:write();
                     else
                         _QuestieComms._isBroadcasting = false
@@ -796,7 +807,10 @@ function QuestieComms:CreateQuestDataPacket(questId)
     }
 
     local rawObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
-    if (not rawObjectives) then return quest end
+    if (not rawObjectives) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[PARTYDEBUG] CreateQuestDataPacket EMPTY for quest", questId, "- QuestLogCache.GetQuestObjectives returned nil")
+        return quest
+    end
 
     if questObject and next(questObject.Objectives) then
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
@@ -812,7 +826,13 @@ function QuestieComms:CreateQuestDataPacket(questId)
                 Questie:Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
             end
         end
+    else
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[PARTYDEBUG] CreateQuestDataPacket EMPTY for quest", questId, "- questObject", tostring(questObject ~= nil), "but questObject.Objectives is empty (DB .Objectives not populated)")
     end
+    -- [PARTYDEBUG] report how many objectives actually made it into the packet
+    local builtCount = 0
+    for _ in pairs(quest.objectives) do builtCount = builtCount + 1 end
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[PARTYDEBUG] CreateQuestDataPacket quest", questId, "built", builtCount, "objectives")
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives)
     return quest;
 end
@@ -843,6 +863,10 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
                     fulfilled = objectiveData.ful,
                     required = objectiveData.req,
                 }
+            end
+            -- [PARTYDEBUG] flag when a received packet carries no objectives (would draw no icons)
+            if not next(objectives) then
+                Questie:Debug(Questie.DEBUG_CRITICAL, "[PARTYDEBUG] InsertQuestDataPacket received EMPTY objectives for quest", questPacket.id, "from", playerName, "- caching empty, no icons will draw")
             end
             QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
 
