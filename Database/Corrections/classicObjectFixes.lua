@@ -227,7 +227,7 @@ function QuestieObjectFixes:Load()
         },
         [175124] = { -- Rookery Egg
             [objectKeys.name] = "Rookery Egg",
-            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE_CHAMBER_OF_BATTLE] = {{-1,-1}},[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}}, -- no need for Rend room since no uimapid return there
             [objectKeys.zoneID] = zoneIDs.BLACKROCK_SPIRE,
         },
         [175264] = { -- Broodling Essence
@@ -245,9 +245,12 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{56.37,87.83}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
+        [175382] = { -- Doomrigger's Coffer
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_SPIRE_CHAMBER_OF_BATTLE] = {{-1,-1}},[zoneIDs.BLACKROCK_SPIRE] = {{-1,-1}}},
+        },
         [175564] = { -- Brazier of the Herald
             [objectKeys.name] = "Brazier of the Herald",
-            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.46,4.24}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{-1,-1}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.SCHOLOMANCE,
         },
         [175584] = { -- Challenge to Urok
