@@ -13,80 +13,8 @@ describe("l10n", function()
     local l10n
 
     local originalGetLocale
-
-    local expansions = {"Classic", "TBC", "Wotlk", "Cata", "MoP"}
-    local locales = {"deDE", "esES", "esMX", "frFR", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"}
-
-    -- These sentinel IDs are stable across supported expansions and verify lookup data flows into QuestieDB.
-    local classicExpected = {
-        deDE = {
-            item = "Zähes Wolfsfleisch",
-            npc = "Morgaine die Verschlagene",
-            object = "GESUCHT: Gath’Ilzogg",
-            quest = "Zinges Lieferung",
-        },
-        esES = {
-            item = "Carne de lobo dura",
-            npc = "Morgaine el Astuto",
-            object = "Se busca: Gath'Ilzogg",
-            quest = "Una entrega de Zinge",
-        },
-        esMX = {
-            item = "Carne de lobo dura",
-            npc = "Morgaine el Astuto",
-            object = "Se busca: Gath'Ilzogg",
-            quest = "Una entrega de Zinge",
-        },
-        frFR = {
-            item = "Viande de loup coriace",
-            npc = "Morgaine la rusée",
-            object = "Recherché : Gath'Ilzogg",
-            quest = "Une livraison pour Zinge",
-        },
-        koKR = {
-            item = "질긴 늑대 고기",
-            npc = "교활한 도적 몰게니",
-            object = "현상수배: 가스일조그",
-            quest = "진게의 소포",
-        },
-        ptBR = {
-            item = "Carne Dura de Lobo",
-            npc = "Morgana, a Dissimulada",
-            object = "Procura-se: Gath'Ilzogg",
-            quest = "Entrega para Zilda",
-        },
-        ruRU = {
-            item = "Жесткое волчье мясо",
-            npc = "Моргана Лукавая",
-            object = "Разыскивается: Гат'Илзогг",
-            quest = "Посылка для Зинг",
-        },
-        zhCN = {
-            item = "硬狼肉",
-            npc = "狡猾的莫加尼",
-            object = "通缉：加塞尔佐格",
-            quest = "给金格的货物",
-        },
-        zhTW = {
-            item = "硬狼肉",
-            npc = "狡猾的莫加尼",
-            object = "懸賞:加塞爾佐格",
-            quest = "給金格的貨物",
-        },
-    }
-
-    -- Known expansion-specific differences for the sentinel records above.
-    local tbcOverrides = {
-        deDE = {object = "GESUCHT: Gath'Ilzogg"},
-        esES = {npc = "Morgaine la Astuta"},
-        frFR = {object = "Avis de recherche : Gath'Ilzogg"},
-        koKR = {object = "현상 수배: 가스일조그"},
-        ruRU = {object = "Розыск: Гат'Илзогг"},
-    }
-
-    local wotlkAndLaterOverrides = {
-        esMX = {npc = "Morgaine la Astuta"},
-    }
+    local originalQuestieDBState
+    local originalL10nState
 
     local function _SetupEnglishData()
         QuestieDB.itemData = {[750] = {[QuestieDB.itemKeys.name] = "Tough Wolf Meat"}}
@@ -100,108 +28,181 @@ describe("l10n", function()
         l10n.questLookupOverrides = nil
     end
 
-    local function _CopyExpected(expected)
-        return {
-            item = expected.item,
-            npc = expected.npc,
-            object = expected.object,
-            quest = expected.quest,
+    local function _SaveModuleState()
+        originalQuestieDBState = {
+            itemData = QuestieDB.itemData,
+            npcData = QuestieDB.npcData,
+            objectData = QuestieDB.objectData,
+            questData = QuestieDB.questData,
+        }
+        originalL10nState = {
+            itemLookup = l10n.itemLookup,
+            questLookup = l10n.questLookup,
+            npcNameLookup = l10n.npcNameLookup,
+            objectLookup = l10n.objectLookup,
+            questLookupOverrides = l10n.questLookupOverrides,
         }
     end
 
-    local function _ApplyOverrides(expected, overrides)
-        if overrides then
-            for key, value in pairs(overrides) do
-                expected[key] = value
-            end
-        end
+    local function _RestoreModuleState()
+        QuestieDB.itemData = originalQuestieDBState.itemData
+        QuestieDB.npcData = originalQuestieDBState.npcData
+        QuestieDB.objectData = originalQuestieDBState.objectData
+        QuestieDB.questData = originalQuestieDBState.questData
+        l10n.itemLookup = originalL10nState.itemLookup
+        l10n.questLookup = originalL10nState.questLookup
+        l10n.npcNameLookup = originalL10nState.npcNameLookup
+        l10n.objectLookup = originalL10nState.objectLookup
+        l10n.questLookupOverrides = originalL10nState.questLookupOverrides
     end
 
-    local function _GetExpected(expansion, locale)
-        local expected = _CopyExpected(classicExpected[locale])
+    local function _InitializeLocale(locale)
+        _G.GetLocale = function() return locale end
 
-        if expansion ~= "Classic" then
-            _ApplyOverrides(expected, tbcOverrides[locale])
-        end
-
-        if expansion == "Wotlk" or expansion == "Cata" or expansion == "MoP" then
-            _ApplyOverrides(expected, wotlkAndLaterOverrides[locale])
-        end
-
-        return expected
-    end
-
-    local function _LoadExpansionLookups(expansion, locale)
-        dofile("Localization/lookups/" .. expansion .. "/lookupItems/" .. locale .. ".lua")
-        dofile("Localization/lookups/" .. expansion .. "/lookupNpcs/" .. locale .. ".lua")
-        dofile("Localization/lookups/" .. expansion .. "/lookupObjects/" .. locale .. ".lua")
-        dofile("Localization/lookups/" .. expansion .. "/lookupQuests/" .. locale .. ".lua")
-    end
-
-    local function _LookupPath(expansion, lookupType, locale)
-        return "Localization/lookups/" .. expansion .. "/" .. lookupType .. "/" .. locale .. ".lua"
-    end
-
-    local function _AssertLocalizedNames(expansion, locale, expected)
-        assert.are_same(
-            expected.item,
-            QuestieDB.itemData[750][QuestieDB.itemKeys.name],
-            "There is an error in " .. _LookupPath(expansion, "lookupItems", locale)
-        )
-        assert.are_same(
-            expected.npc,
-            QuestieDB.npcData[99][QuestieDB.npcKeys.name],
-            "There is an error in " .. _LookupPath(expansion, "lookupNpcs", locale)
-        )
-        assert.are_same(
-            expected.object,
-            QuestieDB.objectData[60][QuestieDB.objectKeys.name],
-            "There is an error in " .. _LookupPath(expansion, "lookupObjects", locale)
-        )
-        assert.are_same(
-            expected.quest,
-            QuestieDB.questData[1359][QuestieDB.questKeys.name],
-            "There is an error in " .. _LookupPath(expansion, "lookupQuests", locale)
-        )
+        l10n.InitializeUILocale()
+        l10n:Initialize()
     end
 
     before_each(function()
         originalGetLocale = _G.GetLocale
-        l10n = require("Localization.l10n")
-        QuestieDB = require("Database.QuestieDB")
+        dofile("Database/QuestieDB.lua")
+        dofile("Localization/l10n.lua")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        l10n = QuestieLoader:ImportModule("l10n")
+        _SaveModuleState()
         _SetupEnglishData()
     end)
 
     after_each(function()
         _G.GetLocale = originalGetLocale
+        _RestoreModuleState()
     end)
 
     it("should keep enUS names without lookup", function()
-        _G.GetLocale = function() return "enUS" end
+        _InitializeLocale("enUS")
 
-        l10n.InitializeUILocale()
-        l10n:Initialize()
-
-        assert.are_same("Tough Wolf Meat", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
-        assert.are_same("Morgaine the Sly", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
-        assert.are_same("WANTED: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
-        assert.are_same("Zinge's Delivery", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        assert.are.same("Tough Wolf Meat", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
+        assert.are.same("Morgaine the Sly", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
+        assert.are.same("WANTED: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
+        assert.are.same("Zinge's Delivery", QuestieDB.questData[1359][QuestieDB.questKeys.name])
     end)
 
-    for _, expansion in ipairs(expansions) do
-        describe(expansion .. " lookups", function()
-            for _, locale in ipairs(locales) do
-                it("should load " .. locale .. " lookups", function()
-                    local expected = _GetExpected(expansion, locale)
-                    _G.GetLocale = function() return locale end
+    -- Generated lookup files are validated under Localization/lookups; these behavior tests only need one non-English locale.
+    it("should localize item names", function()
+        l10n.itemLookup["deDE"] = function()
+            return {[750] = "Zähes Wolfsfleisch"}
+        end
 
-                    _LoadExpansionLookups(expansion, locale)
-                    l10n.InitializeUILocale()
-                    l10n:Initialize()
+        _InitializeLocale("deDE")
 
-                    _AssertLocalizedNames(expansion, locale, expected)
-                end)
-            end
-        end)
-    end
+        assert.are.same("Zähes Wolfsfleisch", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
+    end)
+
+    it("should localize NPC names from string lookup values", function()
+        l10n.npcNameLookup["deDE"] = function()
+            return {[99] = "Morgaine die Verschlagene"}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
+    end)
+
+    it("should localize NPC names and subnames from table lookup values", function()
+        l10n.npcNameLookup["deDE"] = function()
+            return {[99] = {"Morgaine die Verschlagene", "Seltene Gegnerin"}}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
+        assert.are.same("Seltene Gegnerin", QuestieDB.npcData[99][QuestieDB.npcKeys.subName])
+    end)
+
+    it("should localize object names", function()
+        l10n.objectLookup["deDE"] = function()
+            return {[60] = "GESUCHT: Gath'Ilzogg"}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same("GESUCHT: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
+    end)
+
+    it("should localize quest names", function()
+        l10n.questLookup["deDE"] = function()
+            return {[1359] = {"Zinges Lieferung"}}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+    end)
+
+    it("should apply current quest lookup rows as title and objective lines", function()
+        l10n.questLookup["deDE"] = function()
+            return {[1359] = {"Zinges Lieferung", {"Bringt die Lieferung zu Zinge."}}}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        assert.are.same({"Bringt die Lieferung zu Zinge."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
+    end)
+
+    it("should store quest objective strings as one-element tables", function()
+        l10n.questLookup["deDE"] = function()
+            return {[1359] = {"Zinges Lieferung", "Bringt die Lieferung zu Zinge."}}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same({"Bringt die Lieferung zu Zinge."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
+    end)
+
+    it("should preserve quest objective tables", function()
+        l10n.questLookup["deDE"] = function()
+            return {[1359] = {"Zinges Lieferung", {"Erster Schritt.", "", "Zweiter Schritt."}}}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same({"Erster Schritt.", "", "Zweiter Schritt."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
+    end)
+
+    it("should let quest lookup overrides replace normal quest lookup data", function()
+        l10n.questLookup["deDE"] = function()
+            return {[1359] = {"Normale Lieferung", "Normales Ziel."}}
+        end
+        l10n.questLookupOverrides = function()
+            return {[1359] = {"Überschriebene Lieferung", "Überschriebenes Ziel."}}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.are.same("Überschriebene Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        assert.are.same({"Überschriebenes Ziel."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
+    end)
+
+    it("should ignore lookup rows for IDs missing from QuestieDB", function()
+        l10n.itemLookup["deDE"] = function()
+            return {[999001] = "Missing Item"}
+        end
+        l10n.npcNameLookup["deDE"] = function()
+            return {[999002] = "Missing NPC"}
+        end
+        l10n.objectLookup["deDE"] = function()
+            return {[999003] = "Missing Object"}
+        end
+        l10n.questLookup["deDE"] = function()
+            return {[999004] = {"Missing Quest", "Missing objective."}}
+        end
+
+        _InitializeLocale("deDE")
+
+        assert.is_nil(QuestieDB.itemData[999001])
+        assert.is_nil(QuestieDB.npcData[999002])
+        assert.is_nil(QuestieDB.objectData[999003])
+        assert.is_nil(QuestieDB.questData[999004])
+    end)
 end)

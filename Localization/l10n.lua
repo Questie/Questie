@@ -48,7 +48,8 @@ function l10n:Initialize()
         end
     end
 
-    -- data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
+    -- Original data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
+    -- Cheeq changed this to {<questName>, {<questObjective>,...}} on February 7th, 2026
     -- Load quest locales
     for id, data in pairs(questLookup) do
         if QuestieDB.questData[id] then
