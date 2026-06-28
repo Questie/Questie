@@ -4,7 +4,9 @@
 ---|"ACCOUNT_CVARS_LOADED"
 ---|"ACCOUNT_MONEY"
 ---|"ACCOUNT_STORE_CURRENCY_AVAILABLE_UPDATED" # `currencyID`
+---|"ACCOUNT_STORE_FRONT_UPDATED" # `storeFrontID`
 ---|"ACCOUNT_STORE_ITEM_INFO_UPDATED" # `itemID`
+---|"ACCOUNT_STORE_TRANSACTION_ERROR" # `result`
 ---|"ACHIEVEMENT_EARNED" # `achievementID, alreadyEarned`
 ---|"ACHIEVEMENT_PLAYER_NAME" # `achievementID`
 ---|"ACHIEVEMENT_SEARCH_UPDATED"
@@ -30,6 +32,8 @@
 ---|"ADDON_ACTION_BLOCKED" # `isTainted, function`
 ---|"ADDON_ACTION_FORBIDDEN" # `isTainted, function`
 ---|"ADDON_LOADED" # `addOnName, containsBindings`
+---|"ADDON_RESTRICTION_STATE_CHANGED" # `type, state`
+---|"ADD_NEIGHBORHOOD_CHARTER_SIGNATURE" # `signature`
 ---|"ADVENTURE_MAP_CLOSE"
 ---|"ADVENTURE_MAP_OPEN" # `followerTypeID`
 ---|"ADVENTURE_MAP_QUEST_UPDATE" # `questID`
@@ -44,6 +48,7 @@
 ---|"AJ_PVP_RBG_ACTION"
 ---|"AJ_PVP_SKIRMISH_ACTION"
 ---|"AJ_PVP_SPECIAL_BG_ACTION"
+---|"AJ_PVP_TRAINING_GROUNDS_ACTION"
 ---|"AJ_QUEST_LOG_OPEN" # `questID, uiMapID`
 ---|"AJ_RAID_ACTION" # `lfgDungeonID`
 ---|"AJ_REFRESH_DISPLAY" # `newAdventureNotice`
@@ -62,7 +67,7 @@
 ---|"AREA_POIS_UPDATED"
 ---|"AREA_SPIRIT_HEALER_IN_RANGE"
 ---|"AREA_SPIRIT_HEALER_OUT_OF_RANGE"
----|"ARENA_COOLDOWNS_UPDATE" # `unitTarget`
+---|"ARENA_COOLDOWNS_UPDATE"
 ---|"ARENA_CROWD_CONTROL_SPELL_UPDATE" # `unitTarget, spellID`
 ---|"ARENA_OPPONENT_UPDATE" # `unitToken, updateReason`
 ---|"ARENA_PREP_OPPONENT_SPECIALIZATIONS"
@@ -108,8 +113,10 @@
 ---|"AUCTION_MULTISELL_FAILURE"
 ---|"AUCTION_MULTISELL_START" # `numRepetitions`
 ---|"AUCTION_MULTISELL_UPDATE" # `createdCount, totalToCreate`
+---|"AURA_DATA_PROVIDER_SWITCH" # `useRealDataProvider`
 ---|"AUTOFOLLOW_BEGIN" # `name`
 ---|"AUTOFOLLOW_END"
+---|"AVAILABLE_GAME_MODES_UPDATED"
 ---|"AVATAR_LIST_UPDATED" # `clubType`
 ---|"AVOIDANCE_UPDATE"
 ---|"AZERITE_EMPOWERED_ITEM_EQUIPPED_STATUS_CHANGED" # `isHeartEquipped`
@@ -159,6 +166,7 @@
 ---|"BEHAVIORAL_NOTIFICATION" # `notificationType, dbId`
 ---|"BIDS_UPDATED"
 ---|"BID_ADDED" # `bidID`
+---|"BINDINGS_LOADED"
 ---|"BIND_ENCHANT"
 ---|"BLACK_MARKET_BID_RESULT" # `marketID, resultCode`
 ---|"BLACK_MARKET_CLOSE"
@@ -191,6 +199,9 @@
 ---|"BONUS_ROLL_RESULT" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, currencyID, isSecondaryResult, corrupted`
 ---|"BONUS_ROLL_STARTED"
 ---|"BOSS_KILL" # `encounterID, encounterName`
+---|"BULK_PURCHASE_RESULT_RECEIVED" # `result, productResults, bestTopUpProductID, totalCost`
+---|"BULK_REFUND_RESULT_RECEIVED" # `result`
+---|"B_NET_NEIGHBORHOOD_LIST_UPDATED" # `result, neighborhoodInfos`
 ---|"CALENDAR_ACTION_PENDING" # `pending`
 ---|"CALENDAR_CLOSE_EVENT"
 ---|"CALENDAR_EVENT_ALARM" # `title, hour, minute`
@@ -207,12 +218,27 @@
 ---|"CANCEL_ALL_LOOT_ROLLS"
 ---|"CANCEL_GLYPH_CAST"
 ---|"CANCEL_LOOT_ROLL" # `rollID`
+---|"CANCEL_NEIGHBORHOOD_INVITE_RESPONSE" # `result, playerName`
 ---|"CANCEL_PLAYER_COUNTDOWN" # `initiatedBy, informChat, initiatedByName`
 ---|"CANCEL_SUMMON"
 ---|"CAN_LOCAL_WHISPER_TARGET_RESPONSE" # `whisperTarget, status`
 ---|"CAN_PLAYER_SPEAK_LANGUAGE_CHANGED" # `languageId, canSpeakLanguage`
 ---|"CAPTUREFRAMES_FAILED"
 ---|"CAPTUREFRAMES_SUCCEEDED"
+---|"CATALOG_SHOP_ADD_PENDING_PRODUCT" # `productID`
+---|"CATALOG_SHOP_DATA_REFRESH" # `shoppingSessionUUIDStr`
+---|"CATALOG_SHOP_DISABLED"
+---|"CATALOG_SHOP_FETCH_FAILURE" # `shoppingSessionUUIDStr`
+---|"CATALOG_SHOP_FETCH_SUCCESS" # `shoppingSessionUUIDStr`
+---|"CATALOG_SHOP_OPEN_SIMPLE_CHECKOUT" # `checkoutID`
+---|"CATALOG_SHOP_PURCHASE_SUCCESS" # `productID`
+---|"CATALOG_SHOP_REBUILD_SCROLL_BOX"
+---|"CATALOG_SHOP_REFUNDABLE_DECORS_UPDATED"
+---|"CATALOG_SHOP_REMOVE_PENDING_PRODUCT" # `productID`
+---|"CATALOG_SHOP_RESULT_ERROR"
+---|"CATALOG_SHOP_SPECIFIC_PRODUCT_REFRESH" # `productID`
+---|"CATALOG_SHOP_VIRTUAL_CURRENCY_BALANCE_UPDATE" # `currencyCode, balance`
+---|"CATALOG_SHOP_VIRTUAL_CURRENCY_BALANCE_UPDATE_FAILURE" # `currencyCode`
 ---|"CAUTIONARY_CHANNEL_MESSAGE" # `confirmNumber`
 ---|"CAUTIONARY_CHAT_MESSAGE" # `chatLineID, confirmNumber`
 ---|"CEMETERY_PREFERENCE_UPDATED"
@@ -221,6 +247,7 @@
 ---|"CHALLENGE_MODE_DEATH_COUNT_UPDATED"
 ---|"CHALLENGE_MODE_KEYSTONE_RECEPTABLE_OPEN"
 ---|"CHALLENGE_MODE_KEYSTONE_SLOTTED" # `keystoneID`
+---|"CHALLENGE_MODE_LEADERBOARD_RESULT" # `mapID, challengeModeID, page, results`
 ---|"CHALLENGE_MODE_LEADERS_UPDATE"
 ---|"CHALLENGE_MODE_LEAVER_TIMER_ENDED"
 ---|"CHALLENGE_MODE_LEAVER_TIMER_STARTED"
@@ -239,78 +266,78 @@
 ---|"CHARACTER_ITEM_FIXUP_NOTIFICATION" # `fixupVersion`
 ---|"CHARACTER_POINTS_CHANGED" # `change`
 ---|"CHARACTER_UPGRADE_SPELL_TIER_SET" # `tierIndex`
----|"CHAT_COMBAT_MSG_ARENA_POINTS_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_COMBAT_MSG_ARENA_POINTS_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
 ---|"CHAT_DISABLED_CHANGED" # `disabled`
 ---|"CHAT_DISABLED_CHANGE_FAILED" # `disabled`
 ---|"CHAT_LOGGING_CHANGED" # `whichLog, isEnabled`
----|"CHAT_MSG_ACHIEVEMENT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_ACHIEVEMENT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
 ---|"CHAT_MSG_ADDON" # `prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID`
 ---|"CHAT_MSG_ADDON_LOGGED" # `prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID`
----|"CHAT_MSG_AFK" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BG_SYSTEM_ALLIANCE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BG_SYSTEM_HORDE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BG_SYSTEM_NEUTRAL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN_INLINE_TOAST_ALERT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN_INLINE_TOAST_BROADCAST" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN_INLINE_TOAST_BROADCAST_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN_INLINE_TOAST_CONVERSATION" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN_WHISPER_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_BN_WHISPER_PLAYER_OFFLINE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_CHANNEL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_CHANNEL_JOIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_CHANNEL_LEAVE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_AFK" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BG_SYSTEM_ALLIANCE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BG_SYSTEM_HORDE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BG_SYSTEM_NEUTRAL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_ALERT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_BROADCAST" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_BROADCAST_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN_INLINE_TOAST_CONVERSATION" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN_WHISPER_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_BN_WHISPER_PLAYER_OFFLINE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_CHANNEL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_CHANNEL_JOIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_CHANNEL_LEAVE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
 ---|"CHAT_MSG_CHANNEL_LEAVE_PREVENTED" # `channelName`
----|"CHAT_MSG_CHANNEL_LIST" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_CHANNEL_NOTICE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_CHANNEL_NOTICE_USER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_COMBAT_FACTION_CHANGE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_COMBAT_HONOR_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_COMBAT_MISC_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_COMBAT_XP_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_COMMUNITIES_CHANNEL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_CURRENCY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_DND" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_FILTERED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_GUILD" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_GUILD_ACHIEVEMENT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_GUILD_ITEM_LOOTED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_IGNORED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_INSTANCE_CHAT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_INSTANCE_CHAT_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_LOOT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_MONEY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_MONSTER_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_MONSTER_PARTY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_MONSTER_SAY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_MONSTER_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_MONSTER_YELL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_OFFICER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_OPENING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_PARTY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_PARTY_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_PET_BATTLE_COMBAT_LOG" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_PET_BATTLE_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_PET_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_PING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_RAID" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_RAID_BOSS_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_RAID_BOSS_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_RAID_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_RAID_WARNING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_RESTRICTED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_SAY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_SKILL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_SYSTEM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_TARGETICONS" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_TEXT_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_TRADESKILLS" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_VOICE_TEXT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_WHISPER_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
----|"CHAT_MSG_YELL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons`
+---|"CHAT_MSG_CHANNEL_LIST" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_CHANNEL_NOTICE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_CHANNEL_NOTICE_USER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_COMBAT_FACTION_CHANGE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_COMBAT_HONOR_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_COMBAT_MISC_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_COMBAT_XP_GAIN" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_COMMUNITIES_CHANNEL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_CURRENCY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_DND" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_FILTERED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_GUILD" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_GUILD_ACHIEVEMENT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_GUILD_ITEM_LOOTED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_IGNORED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_INSTANCE_CHAT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_INSTANCE_CHAT_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_LOOT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_MONEY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_MONSTER_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_MONSTER_PARTY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_MONSTER_SAY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_MONSTER_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_MONSTER_YELL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_OFFICER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_OPENING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_PARTY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_PARTY_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_PET_BATTLE_COMBAT_LOG" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_PET_BATTLE_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_PET_INFO" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_PING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_RAID" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_RAID_BOSS_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_RAID_BOSS_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_RAID_LEADER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_RAID_WARNING" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_RESTRICTED" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_SAY" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_SKILL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_SYSTEM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_TARGETICONS" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_TEXT_EMOTE" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_TRADESKILLS" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_VOICE_TEXT" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_WHISPER" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_WHISPER_INFORM" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
+---|"CHAT_MSG_YELL" # `text, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, suppressRaidIcons`
 ---|"CHAT_REGIONAL_SEND_FAILED"
 ---|"CHAT_REGIONAL_STATUS_CHANGED" # `isServiceAvailable`
 ---|"CHAT_SERVER_DISCONNECTED" # `isInitialMessage`
@@ -318,13 +345,21 @@
 ---|"CHEST_REWARDS_UPDATED_FROM_SERVER"
 ---|"CINEMATIC_START" # `canBeCancelled, forcedAspectRatio`
 ---|"CINEMATIC_STOP"
+---|"CLASS_TALENTS_SWITCH_TO_LOADOUT_BY_INDEX" # `loadoutIndex`
+---|"CLASS_TALENTS_SWITCH_TO_LOADOUT_BY_NAME" # `loadoutName`
+---|"CLASS_TALENTS_SWITCH_TO_SPECIALIZATION_BY_INDEX" # `specIndex`
+---|"CLASS_TALENTS_SWITCH_TO_SPECIALIZATION_BY_NAME" # `specName`
 ---|"CLASS_TRIAL_TIMER_START"
 ---|"CLASS_TRIAL_UPGRADE_COMPLETE"
 ---|"CLEAR_BOSS_EMOTES"
 ---|"CLICKBINDINGS_SET_HIGHLIGHTS_SHOWN" # `showHighlights`
 ---|"CLIENT_SCENE_CLOSED"
 ---|"CLIENT_SCENE_OPENED" # `sceneType`
+---|"CLOSE_CHARTER_CONFIRMATION_UI"
+---|"CLOSE_CREATE_CHARTER_NEIGHBORHOOD_UI"
+---|"CLOSE_CREATE_GUILD_NEIGHBORHOOD_UI"
 ---|"CLOSE_INBOX_ITEM" # `mailIndex`
+---|"CLOSE_PLOT_CORNERSTONE"
 ---|"CLOSE_TABARD_FRAME"
 ---|"CLUB_ADDED" # `clubId`
 ---|"CLUB_ERROR" # `action, error, clubType`
@@ -370,11 +405,18 @@
 ---|"CLUB_UPDATED" # `clubId`
 ---|"COLOR_OVERRIDES_RESET"
 ---|"COLOR_OVERRIDE_UPDATED" # `overrideType`
+---|"COMBAT_LOG_APPLY_FILTER_SETTINGS" # `filterSettings`
+---|"COMBAT_LOG_ENTRIES_CLEARED"
 ---|"COMBAT_LOG_EVENT"
+---|"COMBAT_LOG_EVENT_INTERNAL_UNFILTERED"
 ---|"COMBAT_LOG_EVENT_UNFILTERED"
+---|"COMBAT_LOG_MESSAGE" # `message, colorR, colorG, colorB, order`
+---|"COMBAT_LOG_MESSAGE_LIMIT_CHANGED" # `messageLimit`
+---|"COMBAT_LOG_REFILTER_ENTRIES"
 ---|"COMBAT_RATING_UPDATE"
 ---|"COMBAT_TEXT_UPDATE" # `combatTextType`
 ---|"COMBO_TARGET_CHANGED"
+---|"COMMENTATOR_COMBAT_EVENT"
 ---|"COMMENTATOR_ENTER_WORLD"
 ---|"COMMENTATOR_HISTORY_FLUSHED"
 ---|"COMMENTATOR_IMMEDIATE_FOV_UPDATE" # `fov`
@@ -419,6 +461,7 @@
 ---|"CONTRIBUTION_COLLECTOR_UPDATE_SINGLE" # `contributionID`
 ---|"CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM"
 ---|"CONVERT_TO_RAID_CONFIRMATION"
+---|"COOLDOWN_VIEWER_DATA_LOADED"
 ---|"COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED" # `baseSpellID, overrideSpellID`
 ---|"COOLDOWN_VIEWER_TABLE_HOTFIXED"
 ---|"CORPSE_IN_INSTANCE"
@@ -455,6 +498,7 @@
 ---|"CRAFTINGORDERS_UPDATE_REWARDS" # `npcOrderRewards, orderID`
 ---|"CRAFTING_DETAILS_UPDATE"
 ---|"CRAFTING_HOUSE_DISABLED"
+---|"CREATE_NEIGHBORHOOD_RESULT" # `result, neighborhoodName`
 ---|"CRITERIA_COMPLETE" # `criteriaID`
 ---|"CRITERIA_EARNED" # `achievementID, description, achievementAlreadyEarnedOnAccount`
 ---|"CRITERIA_UPDATE"
@@ -463,10 +507,16 @@
 ---|"CURRENCY_TRANSFER_INITIATED"
 ---|"CURRENCY_TRANSFER_LOG_UPDATE"
 ---|"CURRENCY_TRANSFER_SUCCESS"
+---|"CURRENT_HOUSE_INFO_RECIEVED" # `houseInfo`
+---|"CURRENT_HOUSE_INFO_UPDATED" # `houseInfo`
 ---|"CURRENT_SPELL_CAST_CHANGED" # `cancelledCast`
 ---|"CURSOR_CHANGED" # `isDefault, newCursorType, oldCursorType, oldCursorVirtualID`
 ---|"CVAR_UPDATE" # `eventName, value`
 ---|"DAILY_RESET_INSTANCE_WELCOME" # `mapname, timeLeft`
+---|"DAMAGE_METER_COMBAT_SESSION_UPDATED" # `type, sessionID`
+---|"DAMAGE_METER_CURRENT_SESSION_UPDATED"
+---|"DAMAGE_METER_RESET"
+---|"DECLINE_NEIGHBORHOOD_INVITATION_RESPONSE" # `success`
 ---|"DELETE_ITEM_CONFIRM" # `itemName, qualityID, bonding, questWarn`
 ---|"DELVES_ACCOUNT_DATA_ELEMENT_CHANGED"
 ---|"DELVE_ASSIST_ACTION" # `data`
@@ -482,6 +532,8 @@
 ---|"DUEL_OUTOFBOUNDS"
 ---|"DUEL_REQUESTED" # `playerName`
 ---|"DUEL_TO_THE_DEATH_REQUESTED" # `playerName`
+---|"DYE_COLOR_CATEGORY_UPDATED" # `dyeColorCategoryID`
+---|"DYE_COLOR_UPDATED" # `dyeColorID`
 ---|"DYNAMIC_GOSSIP_POI_UPDATED"
 ---|"ECLIPSE_DIRECTION_CHANGE" # `direction`
 ---|"EDIT_MODE_LAYOUTS_UPDATED" # `layoutInfo, reconcileLayouts`
@@ -496,6 +548,18 @@
 ---|"ENCOUNTER_END" # `encounterID, encounterName, difficultyID, groupSize, success`
 ---|"ENCOUNTER_LOOT_RECEIVED" # `encounterID, itemID, itemLink, quantity, itemName, fileName`
 ---|"ENCOUNTER_START" # `encounterID, encounterName, difficultyID, groupSize`
+---|"ENCOUNTER_STATE_CHANGED" # `isInProgress`
+---|"ENCOUNTER_TIMELINE_EVENT_ADDED" # `eventInfo`
+---|"ENCOUNTER_TIMELINE_EVENT_BLOCK_STATE_CHANGED" # `eventID`
+---|"ENCOUNTER_TIMELINE_EVENT_HIGHLIGHT" # `eventID`
+---|"ENCOUNTER_TIMELINE_EVENT_REMOVED" # `eventID`
+---|"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED" # `eventID`
+---|"ENCOUNTER_TIMELINE_EVENT_TRACK_CHANGED" # `eventID`
+---|"ENCOUNTER_TIMELINE_LAYOUT_UPDATED"
+---|"ENCOUNTER_TIMELINE_STATE_UPDATED"
+---|"ENCOUNTER_TIMELINE_VIEW_ACTIVATED" # `viewType`
+---|"ENCOUNTER_TIMELINE_VIEW_DEACTIVATED" # `viewType`
+---|"ENCOUNTER_WARNING" # `encounterWarningInfo`
 ---|"END_BOUND_TRADEABLE" # `reason`
 ---|"ENTERED_DIFFERENT_INSTANCE_FROM_PARTY"
 ---|"ENTITLEMENT_DELIVERED" # `entitlementType, textureID, name, payloadID, showFancyToast`
@@ -509,15 +573,18 @@
 ---|"EVENT_SCHEDULER_UPDATE"
 ---|"EXPAND_BAG_BAR_CHANGED" # `expandBagBar`
 ---|"EXTRA_BROWSE_INFO_RECEIVED" # `itemID`
+---|"FACTION_STANDING_CHANGED" # `factionID, updatedStanding`
 ---|"FIRST_FRAME_RENDERED"
 ---|"FOG_OF_WAR_UPDATED"
 ---|"FORBIDDEN_NAME_PLATE_CREATED" # `namePlateFrame`
 ---|"FORBIDDEN_NAME_PLATE_UNIT_ADDED" # `unitToken`
 ---|"FORBIDDEN_NAME_PLATE_UNIT_REMOVED" # `unitToken`
+---|"FORCE_REFRESH_HOUSE_FINDER"
 ---|"FRAME_MANAGER_UPDATE_ALL"
 ---|"FRAME_MANAGER_UPDATE_FRAME" # `type, show`
 ---|"FRIENDLIST_UPDATE"
 ---|"GAME_MODE_DISPLAY_INFO_UPDATED"
+---|"GAME_MODE_DISPLAY_MODE_TOGGLE_DISABLED" # `gameModeRecordID, disabled`
 ---|"GAME_PAD_ACTIVE_CHANGED" # `isActive`
 ---|"GAME_PAD_CONFIGS_CHANGED"
 ---|"GAME_PAD_CONNECTED"
@@ -646,6 +713,87 @@
 ---|"HIDE_SUBTITLE"
 ---|"HONOR_LEVEL_UPDATE" # `isHigherLevel`
 ---|"HONOR_XP_UPDATE" # `unitTarget`
+---|"HOUSE_DECOR_ADDED_TO_CHEST" # `decorGUID, decorID`
+---|"HOUSE_EDITOR_AVAILABILITY_CHANGED"
+---|"HOUSE_EDITOR_MODE_CHANGED" # `currentEditMode`
+---|"HOUSE_EDITOR_MODE_CHANGE_FAILURE" # `result`
+---|"HOUSE_EXTERIOR_DECOR_HIDDEN_CHANGED" # `isDecorHidden`
+---|"HOUSE_EXTERIOR_POSITION_FAILURE" # `housingResult`
+---|"HOUSE_EXTERIOR_POSITION_SUCCESS"
+---|"HOUSE_EXTERIOR_TYPE_UNLOCKED" # `fixtureID`
+---|"HOUSE_FINDER_NEIGHBORHOOD_DATA_RECIEVED" # `neighborhoodPlots`
+---|"HOUSE_INFO_UPDATED"
+---|"HOUSE_LEVEL_CHANGED" # `newHouseLevelInfo`
+---|"HOUSE_LEVEL_FAVOR_UPDATED" # `houseLevelFavor`
+---|"HOUSE_PLOT_ENTERED"
+---|"HOUSE_PLOT_EXITED"
+---|"HOUSE_RESERVATION_RESPONSE_RECIEVED" # `result`
+---|"HOUSING_BASIC_MODE_HOVERED_TARGET_CHANGED" # `hasHoveredTarget, targetType`
+---|"HOUSING_BASIC_MODE_PLACEMENT_FLAGS_UPDATED" # `targetType, activeFlags`
+---|"HOUSING_BASIC_MODE_SELECTED_TARGET_CHANGED" # `hasSelectedTarget, targetType, isPreview`
+---|"HOUSING_CATALOG_CATEGORY_UPDATED" # `categoryID`
+---|"HOUSING_CATALOG_SUBCATEGORY_UPDATED" # `subcategoryID`
+---|"HOUSING_CLEANUP_MODE_HOVERED_TARGET_CHANGED" # `hasHoveredTarget, targetType`
+---|"HOUSING_CLEANUP_MODE_TARGET_SELECTED"
+---|"HOUSING_CORE_FIXTURE_CHANGED" # `coreFixtureType`
+---|"HOUSING_CUSTOMIZE_MODE_HOVERED_TARGET_CHANGED" # `hasHoveredTarget, targetType`
+---|"HOUSING_CUSTOMIZE_MODE_SELECTED_TARGET_CHANGED" # `hasSelectedTarget, targetType`
+---|"HOUSING_DECOR_ADD_TO_PREVIEW_LIST" # `previewItemData`
+---|"HOUSING_DECOR_CUSTOMIZATION_CHANGED" # `decorGUID`
+---|"HOUSING_DECOR_DYE_FAILURE" # `decorGUID, housingResult`
+---|"HOUSING_DECOR_FREE_PLACE_STATUS_CHANGED" # `isFreePlaceEnabled`
+---|"HOUSING_DECOR_GRID_SNAP_OCCURRED"
+---|"HOUSING_DECOR_GRID_SNAP_STATUS_CHANGED" # `isGridSnapEnabled`
+---|"HOUSING_DECOR_GRID_VISIBILITY_STATUS_CHANGED" # `isGridVisible`
+---|"HOUSING_DECOR_PLACE_FAILURE" # `housingResult`
+---|"HOUSING_DECOR_PLACE_SUCCESS" # `decorGUID, size, isNew, isPreview`
+---|"HOUSING_DECOR_PRECISION_MANIPULATION_EVENT" # `event`
+---|"HOUSING_DECOR_PRECISION_MANIPULATION_STATUS_CHANGED" # `isManipulatingSelection`
+---|"HOUSING_DECOR_PRECISION_SUBMODE_CHANGED" # `activeSubmode`
+---|"HOUSING_DECOR_PREVIEW_LIST_REMOVE_FROM_WORLD" # `decorGUID`
+---|"HOUSING_DECOR_PREVIEW_LIST_UPDATED"
+---|"HOUSING_DECOR_PREVIEW_STATE_CHANGED" # `isPreviewState`
+---|"HOUSING_DECOR_REMOVED" # `decorGUID`
+---|"HOUSING_DECOR_SELECT_RESPONSE" # `result`
+---|"HOUSING_EXPERT_MODE_HOVERED_TARGET_CHANGED" # `hasHoveredTarget, targetType`
+---|"HOUSING_EXPERT_MODE_PLACEMENT_FLAGS_UPDATED" # `targetType, activeFlags`
+---|"HOUSING_EXPERT_MODE_SELECTED_TARGET_CHANGED" # `hasSelectedTarget, targetType`
+---|"HOUSING_FIXTURE_HOVER_CHANGED" # `anyHovered`
+---|"HOUSING_FIXTURE_POINT_FRAMES_RELEASED"
+---|"HOUSING_FIXTURE_POINT_FRAME_ADDED" # `pointFrame`
+---|"HOUSING_FIXTURE_POINT_FRAME_RELEASED" # `pointFrame`
+---|"HOUSING_FIXTURE_POINT_SELECTION_CHANGED" # `hasSelection`
+---|"HOUSING_FIXTURE_UNLOCKED" # `fixtureID`
+---|"HOUSING_INSPECT_MODE_DECOR_HOVERED_CHANGED"
+---|"HOUSING_INSPECT_MODE_STATE_UPDATED"
+---|"HOUSING_LAYOUT_DOOR_SELECTED" # `roomGUID, componentID`
+---|"HOUSING_LAYOUT_DOOR_SELECTION_CHANGED" # `hasSelection`
+---|"HOUSING_LAYOUT_DRAG_TARGET_CHANGED" # `isDraggingRoom`
+---|"HOUSING_LAYOUT_FLOORPLAN_SELECTION_CHANGED" # `hasSelection, roomID`
+---|"HOUSING_LAYOUT_NUM_FLOORS_CHANGED" # `prevNumFloors, numFloors`
+---|"HOUSING_LAYOUT_PIN_FRAMES_RELEASED"
+---|"HOUSING_LAYOUT_PIN_FRAME_ADDED" # `pinFrame`
+---|"HOUSING_LAYOUT_PIN_FRAME_RELEASED" # `pinFrame`
+---|"HOUSING_LAYOUT_ROOM_COMPONENT_THEME_SET_CHANGED" # `roomGUID, componentID, newThemeSet, result`
+---|"HOUSING_LAYOUT_ROOM_MOVED"
+---|"HOUSING_LAYOUT_ROOM_MOVE_INVALID"
+---|"HOUSING_LAYOUT_ROOM_RECEIVED" # `prevNumFloors, currNumFloors, isUpstairs`
+---|"HOUSING_LAYOUT_ROOM_REMOVED"
+---|"HOUSING_LAYOUT_ROOM_RETURNED"
+---|"HOUSING_LAYOUT_ROOM_SELECTION_CHANGED" # `hasSelection`
+---|"HOUSING_LAYOUT_ROOM_SNAPPED"
+---|"HOUSING_LAYOUT_VIEWED_FLOOR_CHANGED" # `floor`
+---|"HOUSING_MARKET_AVAILABILITY_UPDATED"
+---|"HOUSING_NUM_DECOR_PLACED_CHANGED"
+---|"HOUSING_REFUND_LIST_UPDATED"
+---|"HOUSING_ROOM_COMPONENT_CUSTOMIZATION_CHANGED" # `roomGUID, componentID`
+---|"HOUSING_ROOM_COMPONENT_CUSTOMIZATION_CHANGE_FAILED" # `roomGUID, componentID, housingResult`
+---|"HOUSING_SERVICES_AVAILABILITY_UPDATED"
+---|"HOUSING_SET_EXTERIOR_HOUSE_SIZE_RESPONSE" # `result`
+---|"HOUSING_SET_EXTERIOR_HOUSE_TYPE_RESPONSE" # `result`
+---|"HOUSING_SET_FIXTURE_RESPONSE" # `result`
+---|"HOUSING_STORAGE_ENTRY_UPDATED" # `entryVariantID`
+---|"HOUSING_STORAGE_UPDATED"
 ---|"IGNORELIST_UPDATE"
 ---|"IMMERSIVE_INTERACTION_BEGIN"
 ---|"IMMERSIVE_INTERACTION_END"
@@ -653,6 +801,11 @@
 ---|"INCOMING_SUMMON_CHANGED" # `unitTarget`
 ---|"INITIAL_CLUBS_LOADED"
 ---|"INITIAL_HOTFIXES_APPLIED"
+---|"INITIATIVE_ACTIVITY_LOG_UPDATED"
+---|"INITIATIVE_COMPLETED" # `initiativeTitle`
+---|"INITIATIVE_TASKS_TRACKED_LIST_CHANGED" # `initiativeTaskID, added`
+---|"INITIATIVE_TASKS_TRACKED_UPDATED"
+---|"INITIATIVE_TASK_COMPLETED" # `taskName`
 ---|"INSPECT_ACHIEVEMENT_READY" # `guid`
 ---|"INSPECT_HONOR_UPDATE"
 ---|"INSPECT_READY" # `inspecteeGUID`
@@ -705,11 +858,13 @@
 ---|"KNOWN_TITLES_UPDATE" # `unitTarget`
 ---|"LANGUAGE_LIST_CHANGED"
 ---|"LEARNED_SPELL_IN_SKILL_LINE" # `spellID, skillLineIndex, isGuildPerkSpell`
----|"LEARNED_SPELL_IN_TAB" # `spellID, skillInfoIndex, isGuildPerkSpell`
 ---|"LEAVE_PARTY_CONFIRMATION" # `reason`
 ---|"LEAVING_TUTORIAL_AREA"
+---|"LEGACY_LOOT_RULES_CHANGED" # `isLegacyLootModeEnabled`
+---|"LET_RECENT_ALLIES_SEE_LOCATION_SETTING_UPDATED"
 ---|"LFG_BOOT_PROPOSAL_UPDATE"
 ---|"LFG_COMPLETION_REWARD"
+---|"LFG_COOLDOWNS_UPDATED"
 ---|"LFG_ENABLED_STATE_CHANGED"
 ---|"LFG_GROUP_DELISTED_LEADERSHIP_CHANGE" # `listingName, automaticDelistTimeRemaining`
 ---|"LFG_INVALID_ERROR_MESSAGE" # `reason, subReason1, subReason2`
@@ -725,6 +880,7 @@
 ---|"LFG_LIST_SEARCH_FAILED" # `reason`
 ---|"LFG_LIST_SEARCH_RESULTS_RECEIVED"
 ---|"LFG_LIST_SEARCH_RESULT_UPDATED" # `searchResultID`
+---|"LFG_LIST_UPDATE_SEARCH_RESULTS"
 ---|"LFG_LOCK_INFO_RECEIVED"
 ---|"LFG_OFFER_CONTINUE" # `name, lfgDungeonsID, typeID`
 ---|"LFG_OPEN_FROM_GOSSIP" # `dungeonID`
@@ -817,17 +973,28 @@
 ---|"MOUNT_EQUIPMENT_APPLY_RESULT" # `success`
 ---|"MOUNT_JOURNAL_SEARCH_UPDATED"
 ---|"MOUNT_JOURNAL_USABILITY_CHANGED"
+---|"MOVE_OUT_RESERVATION_UPDATED"
 ---|"MUTELIST_UPDATE"
 ---|"MYTHIC_PLUS_CURRENT_AFFIX_UPDATE"
 ---|"MYTHIC_PLUS_NEW_WEEKLY_RECORD" # `mapChallengeModeID, completionMilliseconds, level`
 ---|"NAME_PLATE_CREATED" # `namePlateFrame`
 ---|"NAME_PLATE_UNIT_ADDED" # `unitToken`
+---|"NAME_PLATE_UNIT_BEHIND_CAMERA_CHANGED" # `unitTarget, isBehindCamera`
 ---|"NAME_PLATE_UNIT_REMOVED" # `unitToken`
 ---|"NAVIGATION_DESTINATION_REACHED" # `isWaypoint`
 ---|"NAVIGATION_FRAME_CREATED" # `region`
 ---|"NAVIGATION_FRAME_DESTROYED"
+---|"NEIGHBORHOOD_GUILD_SIZE_VALIDATED" # `approved`
+---|"NEIGHBORHOOD_INFO_UPDATED" # `neighborhoodInfo`
+---|"NEIGHBORHOOD_INITIATIVE_UPDATED"
+---|"NEIGHBORHOOD_INVITE_RESPONSE" # `result`
+---|"NEIGHBORHOOD_LIST_UPDATED" # `result, neighborhoodInfos`
+---|"NEIGHBORHOOD_MAP_DATA_UPDATED"
+---|"NEIGHBORHOOD_NAME_UPDATED" # `neighborhoodGuid, neighborhoodName`
+---|"NEIGHBORHOOD_NAME_VALIDATED" # `approved`
 ---|"NEUTRAL_FACTION_SELECT_RESULT" # `success`
 ---|"NEWCOMER_GRADUATION"
+---|"NEW_HOUSING_ITEM_ACQUIRED" # `itemType, itemName, icon`
 ---|"NEW_MATCHMAKING_PARTY_INVITE"
 ---|"NEW_MOUNT_ADDED" # `mountID`
 ---|"NEW_PET_ADDED" # `battlePetGUID`
@@ -839,11 +1006,18 @@
 ---|"NOTCHED_DISPLAY_MODE_CHANGED"
 ---|"NOTIFY_CHAT_SUPPRESSED"
 ---|"NOTIFY_PVP_AFK_RESULT" # `offender, numBlackMarksOnOffender, numPlayersIHaveReported`
+---|"NOTIFY_TURN_STRAFE_CHANGE"
 ---|"NPE_TUTORIAL_UPDATE"
 ---|"OBJECT_ENTERED_AOI" # `guid`
 ---|"OBJECT_LEFT_AOI" # `guid`
 ---|"OBLITERUM_FORGE_PENDING_ITEM_CHANGED"
+---|"OPEN_CHARTER_CONFIRMATION_UI" # `neighborhoodName, locationName`
+---|"OPEN_CREATE_CHARTER_NEIGHBORHOOD_UI" # `locationName`
+---|"OPEN_CREATE_GUILD_NEIGHBORHOOD_UI" # `locationName`
 ---|"OPEN_MASTER_LOOT_LIST"
+---|"OPEN_NEIGHBORHOOD_CHARTER" # `neighborhoodInfo, signatures, requiredSignatures`
+---|"OPEN_NEIGHBORHOOD_CHARTER_SIGNATURE_REQUEST" # `neighborhoodInfo`
+---|"OPEN_PLOT_CORNERSTONE"
 ---|"OPEN_RECIPE_RESPONSE" # `recipeID, skillLineID, expansionSkillLineID`
 ---|"OPEN_SPLASH_SCREEN" # `info`
 ---|"OPEN_TABARD_FRAME"
@@ -852,12 +1026,14 @@
 ---|"PARTY_ELIGIBILITY_FOR_DELVE_TIERS_CHANGED" # `playerName, maxEligibleLevel`
 ---|"PARTY_INVITE_CANCEL"
 ---|"PARTY_INVITE_REQUEST" # `name, isTank, isHealer, isDamage, isNativeRealm, allowMultipleRoles, inviterGUID, questSessionActive`
+---|"PARTY_KILL" # `attackerGUID, targetGUID`
 ---|"PARTY_LEADER_CHANGED"
 ---|"PARTY_LFG_RESTRICTED"
 ---|"PARTY_LOOT_METHOD_CHANGED"
 ---|"PARTY_MEMBER_DISABLE" # `unitTarget`
 ---|"PARTY_MEMBER_ENABLE" # `unitTarget`
 ---|"PENDING_AZERITE_ESSENCE_CHANGED" # `essenceID`
+---|"PENDING_NEIGHBORHOOD_INVITES_RECIEVED" # `result, pendingInviteList`
 ---|"PERKS_ACTIVITIES_TRACKED_LIST_CHANGED" # `perksActivityID, added`
 ---|"PERKS_ACTIVITIES_TRACKED_UPDATED"
 ---|"PERKS_ACTIVITIES_UPDATED"
@@ -932,6 +1108,11 @@
 ---|"PET_STABLE_UPDATE"
 ---|"PET_UI_CLOSE"
 ---|"PET_UI_UPDATE"
+---|"PHOTO_SHARING_AUTHORIZATION_NEEDED"
+---|"PHOTO_SHARING_AUTHORIZATION_UPDATED" # `showNotification`
+---|"PHOTO_SHARING_PHOTO_UPLOAD_STATUS" # `uploadStatus`
+---|"PHOTO_SHARING_SCREENSHOT_READY"
+---|"PHOTO_SHARING_THIRD_PARTY_AUTHORIZATION_NEEDED" # `authUrl`
 ---|"PING_SYSTEM_ERROR" # `error`
 ---|"PLAYERBANKSLOTS_CHANGED" # `slot`
 ---|"PLAYER_ACCOUNT_BANK_TAB_SLOTS_CHANGED" # `slot`
@@ -939,6 +1120,7 @@
 ---|"PLAYER_AVG_ITEM_LEVEL_UPDATE"
 ---|"PLAYER_CAMPING"
 ---|"PLAYER_CAN_GLIDE_CHANGED" # `canGlide`
+---|"PLAYER_CHARACTER_LIST_UPDATED" # `characterInfos, ownerListIndex`
 ---|"PLAYER_CHOICE_CLOSE"
 ---|"PLAYER_CHOICE_UPDATE"
 ---|"PLAYER_CONTROL_GAINED"
@@ -955,6 +1137,7 @@
 ---|"PLAYER_FOCUS_CHANGED"
 ---|"PLAYER_GAINS_VEHICLE_DATA" # `unitTarget, vehicleUIIndicatorID`
 ---|"PLAYER_GUILD_UPDATE" # `unitTarget`
+---|"PLAYER_HOUSE_LIST_UPDATED" # `houseInfos`
 ---|"PLAYER_IMPULSE_APPLIED"
 ---|"PLAYER_INSIDE_QUEST_BLOB_STATE_CHANGED" # `questID, isInside`
 ---|"PLAYER_INTERACTION_MANAGER_FRAME_HIDE" # `type`
@@ -973,6 +1156,7 @@
 ---|"PLAYER_LOOT_SPEC_UPDATED"
 ---|"PLAYER_LOSES_VEHICLE_DATA" # `unitTarget`
 ---|"PLAYER_MAP_CHANGED" # `oldMapID, newMapID`
+---|"PLAYER_MAX_LEVEL_UPDATE" # `unitTarget`
 ---|"PLAYER_MONEY"
 ---|"PLAYER_MOUNT_DISPLAY_CHANGED"
 ---|"PLAYER_PVP_KILLS_CHANGED" # `unitTarget`
@@ -997,6 +1181,7 @@
 ---|"PLAYER_STOPPED_TURNING"
 ---|"PLAYER_TALENT_UPDATE"
 ---|"PLAYER_TARGET_CHANGED"
+---|"PLAYER_TARGET_DIED"
 ---|"PLAYER_TOTEM_UPDATE" # `totemSlot`
 ---|"PLAYER_TRADE_CURRENCY"
 ---|"PLAYER_TRADE_MONEY"
@@ -1011,6 +1196,7 @@
 ---|"PROFESSION_EQUIPMENT_CHANGED" # `skillLineID, isTool`
 ---|"PROFESSION_RESPEC_CONFIRMATION" # `skillName`
 ---|"PROVING_GROUNDS_SCORE_UPDATE" # `points`
+---|"PURCHASE_PLOT_RESULT" # `result`
 ---|"PVPQUEUE_ANYWHERE_SHOW"
 ---|"PVPQUEUE_ANYWHERE_UPDATE_AVAILABLE"
 ---|"PVP_BRAWL_INFO_UPDATED"
@@ -1031,7 +1217,7 @@
 ---|"PVP_WORLDSTATE_UPDATE"
 ---|"QUESTLINE_UPDATE" # `requestRequired`
 ---|"QUEST_ACCEPTED" # `questId`
----|"QUEST_ACCEPT_CONFIRM" # `name, questTitle`
+---|"QUEST_ACCEPT_CONFIRM" # `name, questTitle, questID`
 ---|"QUEST_AUTOCOMPLETE" # `questId`
 ---|"QUEST_BOSS_EMOTE" # `text, playerName, displayTime, enableBossEmoteWarningSound`
 ---|"QUEST_COMPLETE"
@@ -1077,12 +1263,21 @@
 ---|"READY_CHECK_FINISHED" # `preempted`
 ---|"RECEIVED_ACHIEVEMENT_LIST"
 ---|"RECEIVED_ACHIEVEMENT_MEMBER_LIST" # `achievementID`
+---|"RECEIVED_HOUSE_LEVEL_REWARDS" # `level, rewards`
+---|"RECENT_ALLIES_CACHE_UPDATE"
+---|"RECENT_ALLIES_DATA_READY"
+---|"RECENT_ALLIES_SYSTEM_STATUS_UPDATED"
+---|"RECENT_ALLY_DATA_UPDATED" # `characterGUID`
 ---|"REJECTED_MATCHMAKING_PARTY_INVITE" # `name`
+---|"REMIX_ARTIFACT_ITEM_SPECS_LOADED" # `success`
+---|"REMIX_ARTIFACT_UPDATE"
 ---|"REMIX_END_OF_EVENT"
+---|"REMOVE_NEIGHBORHOOD_CHARTER_SIGNATURE" # `signature`
 ---|"REPLACE_ENCHANT" # `existingStr, replacementStr`
 ---|"REPLACE_TRADESKILL_ENCHANT" # `existing, replacement`
 ---|"REPLICATE_ITEM_LIST_UPDATE"
 ---|"REPORT_PLAYER_RESULT" # `result, reportType`
+---|"REPORT_SCREENSHOT_READY"
 ---|"REQUESTED_GUILD_RENAME_RESULT" # `newName, status`
 ---|"REQUEST_CEMETERY_LIST_RESPONSE" # `isGossipTriggered`
 ---|"REQUEST_INVITE_CONFIRMATION" # `targetName, partyLevelLink, questSessionActive, tank, healer, dps`
@@ -1091,7 +1286,6 @@
 ---|"RESEARCH_ARTIFACT_DIG_SITE_UPDATED"
 ---|"RESEARCH_ARTIFACT_UPDATE"
 ---|"RESURRECT_REQUEST" # `inviter`
----|"RETURNING_PLAYER_PROMPT"
 ---|"ROLE_CHANGED_INFORM" # `changedName, fromName, oldRole, newRole`
 ---|"ROLE_POLL_BEGIN" # `fromName`
 ---|"RUNEFORGE_LEGENDARY_CRAFTING_CLOSED"
@@ -1118,32 +1312,42 @@
 ---|"SCRIPTED_ANIMATIONS_UPDATE"
 ---|"SEARCH_DB_LOADED"
 ---|"SECURE_TRANSFER_CANCEL"
+---|"SECURE_TRANSFER_CONFIRM_HOUSING_PURCHASE"
 ---|"SECURE_TRANSFER_CONFIRM_SEND_MAIL"
 ---|"SECURE_TRANSFER_CONFIRM_TRADE_ACCEPT"
+---|"SECURE_TRANSFER_HOUSING_CURRENCY_PURCHASE_CONFIRMATION"
 ---|"SELECTED_LOADOUT_CHANGED"
 ---|"SELF_RES_SPELL_CHANGED"
 ---|"SEND_MAIL_COD_CHANGED"
 ---|"SEND_MAIL_MONEY_CHANGED"
 ---|"SETTINGS_LOADED"
+---|"SETTINGS_PANEL_OPEN" # `openToCategoryID, scrollToElementName`
+---|"SET_SEEN_PRODUCTS" # `productIds`
 ---|"SHIPMENT_CRAFTER_CLOSED"
 ---|"SHIPMENT_CRAFTER_INFO" # `success, shipmentCount, maxShipments, ownedShipments, plotInstanceID`
 ---|"SHIPMENT_CRAFTER_OPENED" # `charShipmentContainerID`
 ---|"SHIPMENT_CRAFTER_REAGENT_UPDATE"
 ---|"SHIPMENT_UPDATE" # `shipmentStarted, hasAttachedFollower`
 ---|"SHOW_DELVES_COMPANION_CONFIGURATION_UI"
----|"SHOW_DELVES_DISPLAY_UI"
 ---|"SHOW_END_OF_MATCH_UI"
 ---|"SHOW_FACTION_SELECT_UI"
 ---|"SHOW_HYPERLINK_TOOLTIP" # `hyperlink`
+---|"SHOW_JOURNEYS_UI" # `factionID`
 ---|"SHOW_LFG_EXPAND_SEARCH_PROMPT"
 ---|"SHOW_LOOT_TOAST" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, toastMethod, lessAwesome, upgraded, corrupted`
 ---|"SHOW_LOOT_TOAST_LEGENDARY_LOOTED" # `itemLink`
 ---|"SHOW_LOOT_TOAST_UPGRADE" # `itemLink, quantity, specID, sex, baseQuality, personalLootToast, lessAwesome`
+---|"SHOW_NEIGHBORHOOD_OWNERSHIP_TRANSFER_DIALOG" # `neighborhoodName, cosmeticOwnerName`
+---|"SHOW_NEW_PRODUCT_NOTIFICATION"
 ---|"SHOW_PARTY_POSE_UI" # `mapID, won`
+---|"SHOW_PLAYER_EVICTED_DIALOG"
 ---|"SHOW_PVP_FACTION_LOOT_TOAST" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, lessAwesome`
 ---|"SHOW_RATED_PVP_REWARD_TOAST" # `typeIdentifier, itemLink, quantity, specID, sex, personalLootToast, lessAwesome`
+---|"SHOW_STAIR_DIRECTION_CONFIRMATION"
 ---|"SHOW_SUBSCRIPTION_INTERSTITIAL" # `type`
 ---|"SHOW_SUBTITLE" # `subtitle, sender`
+---|"SIMPLE_BROWSER_POPUP" # `url`
+---|"SIMPLE_BROWSER_SOCIAL_CALLBACK_INVOKED" # `url`
 ---|"SIMPLE_BROWSER_WEB_ERROR" # `errorCode`
 ---|"SIMPLE_BROWSER_WEB_PROXY_FAILED"
 ---|"SIMPLE_CHECKOUT_CLOSED"
@@ -1158,6 +1362,7 @@
 ---|"SOCKET_INFO_FAILURE"
 ---|"SOCKET_INFO_REFUNDABLE_CONFIRM"
 ---|"SOCKET_INFO_SUCCESS"
+---|"SOCKET_INFO_UI_EVENT_REGISTRATION_UPDATE" # `uiType`
 ---|"SOCKET_INFO_UPDATE"
 ---|"SOULBIND_ACTIVATED" # `soulbindID`
 ---|"SOULBIND_CONDUIT_COLLECTION_CLEARED"
@@ -1182,7 +1387,7 @@
 ---|"SPELL_ACTIVATION_OVERLAY_GLOW_SHOW" # `spellID`
 ---|"SPELL_ACTIVATION_OVERLAY_HIDE" # `spellID`
 ---|"SPELL_ACTIVATION_OVERLAY_SHOW" # `spellID, overlayFileDataID, locationType, scale, r, g, b`
----|"SPELL_CONFIRMATION_PROMPT" # `spellID, effectValue, message, duration, currencyTypesID, currencyCost, currentDifficulty`
+---|"SPELL_CONFIRMATION_PROMPT" # `spellID, effectValue, message, duration, currencyTypesID, currencyCost, currentDifficulty, displayItemID, itemContext, treasureContextLevel`
 ---|"SPELL_CONFIRMATION_TIMEOUT" # `spellID, effectValue`
 ---|"SPELL_DATA_LOAD_RESULT" # `spellID, success`
 ---|"SPELL_FLYOUT_UPDATE" # `flyoutID, spellID, isLearned`
@@ -1210,6 +1415,7 @@
 ---|"STURDINESS_UPDATE"
 ---|"SUPER_TRACKING_CHANGED"
 ---|"SUPER_TRACKING_PATH_UPDATED"
+---|"SURVEY_DELIVERED"
 ---|"SYSMSG" # `string, r, g, b`
 ---|"SYSTEM_VISIBILITY_CHANGED"
 ---|"TABARD_CANSAVE_CHANGED"
@@ -1239,10 +1445,12 @@
 ---|"TOKEN_SELL_RESULT" # `result`
 ---|"TOKEN_STATUS_CHANGED"
 ---|"TOOLTIP_DATA_UPDATE" # `dataInstanceID`
+---|"TOOLTIP_SHOW_ITEM_COMPARISON" # `comparisonItem, tooltip, anchorFrame`
 ---|"TOYS_UPDATED" # `itemID, isNew, hasFanfare`
 ---|"TRACKABLE_INFO_UPDATE" # `type, id`
 ---|"TRACKED_ACHIEVEMENT_LIST_CHANGED" # `achievementID, added`
 ---|"TRACKED_ACHIEVEMENT_UPDATE" # `achievementID, criteriaID, elapsed, duration`
+---|"TRACKED_HOUSE_CHANGED" # `trackedHouse`
 ---|"TRACKED_RECIPE_UPDATE" # `recipeID, tracked`
 ---|"TRACKING_TARGET_INFO_UPDATE" # `targetType, targetID`
 ---|"TRADE_ACCEPT_UPDATE" # `playerAccepted, targetAccepted`
@@ -1271,11 +1479,13 @@
 ---|"TRADE_SKILL_SHOW"
 ---|"TRADE_TARGET_ITEM_CHANGED" # `tradeSlotIndex`
 ---|"TRADE_UPDATE"
+---|"TRADE_UPDATE_WARNINGS"
 ---|"TRAINER_CLOSED"
 ---|"TRAINER_DESCRIPTION_UPDATE"
 ---|"TRAINER_SERVICE_INFO_NAME_UPDATE"
 ---|"TRAINER_SHOW"
 ---|"TRAINER_UPDATE"
+---|"TRAINING_GROUNDS_ENABLED_STATUS_UPDATED"
 ---|"TRAIT_COND_INFO_CHANGED" # `condID`
 ---|"TRAIT_CONFIG_CREATED" # `configInfo`
 ---|"TRAIT_CONFIG_DELETED" # `configID`
@@ -1301,12 +1511,16 @@
 ---|"TRANSMOG_COLLECTION_SOURCE_REMOVED" # `itemModifiedAppearanceID`
 ---|"TRANSMOG_COLLECTION_UPDATED" # `collectionIndex, modID, itemAppearanceID, reason`
 ---|"TRANSMOG_COSMETIC_COLLECTION_SOURCE_ADDED" # `itemModifiedAppearanceID`
----|"TRANSMOG_OUTFITS_CHANGED"
+---|"TRANSMOG_CUSTOM_SETS_CHANGED"
+---|"TRANSMOG_DISPLAYED_OUTFIT_CHANGED"
+---|"TRANSMOG_OUTFITS_CHANGED" # `newOutfitID`
 ---|"TRANSMOG_SEARCH_UPDATED" # `searchType, collectionType`
 ---|"TRANSMOG_SETS_UPDATE_FAVORITE"
 ---|"TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" # `itemModifiedAppearanceID, collectable`
 ---|"TREASURE_PICKER_CACHE_FLUSH"
 ---|"TRIAL_CAP_REACHED_MONEY"
+---|"TRY_PURCHASE_TO_NODE_PARTIAL_SUCCESS" # `nodeFinishedOn`
+---|"TUTORIAL_COMBAT_EVENT"
 ---|"TUTORIAL_HIGHLIGHT_SPELL" # `spellID, tutorialGlobalStringTag`
 ---|"TUTORIAL_TRIGGER" # `tutorialIndex, forceShow`
 ---|"TUTORIAL_UNHIGHLIGHT_SPELL"
@@ -1317,10 +1531,13 @@
 ---|"UI_SCALE_CHANGED"
 ---|"UNIT_ABSORB_AMOUNT_CHANGED" # `unitTarget`
 ---|"UNIT_AREA_CHANGED" # `unitTarget`
+---|"UNIT_ARENA_COOLDOWNS_UPDATE" # `unitTarget`
 ---|"UNIT_ATTACK" # `unitTarget`
 ---|"UNIT_ATTACK_POWER" # `unitTarget`
 ---|"UNIT_ATTACK_SPEED" # `unitTarget`
 ---|"UNIT_AURA" # `unitTarget, updateInfo`
+---|"UNIT_AURA_BLOCKED" # `unitTarget, auraInstanceID`
+---|"UNIT_AURA_BLOCK_LIST_CLEARED" # `unitTarget`
 ---|"UNIT_CHEAT_TOGGLE_EVENT"
 ---|"UNIT_CLASSIFICATION_CHANGED" # `unitTarget`
 ---|"UNIT_COMBAT" # `unitTarget, event, flagText, amount, schoolMask`
@@ -1328,6 +1545,7 @@
 ---|"UNIT_CTR_OPTIONS" # `unitTarget`
 ---|"UNIT_DAMAGE" # `unitTarget`
 ---|"UNIT_DEFENSE" # `unitTarget`
+---|"UNIT_DIED" # `unitGUID`
 ---|"UNIT_DISPLAYPOWER" # `unitTarget`
 ---|"UNIT_DISTANCE_CHECK_UPDATE" # `unitTarget, isInDistance`
 ---|"UNIT_ENTERED_VEHICLE" # `unitTarget, showVehicleFrame, isControlSeat, vehicleUIIndicatorID, vehicleGUID, mayChooseExit, hasPitch`
@@ -1344,6 +1562,7 @@
 ---|"UNIT_INVENTORY_CHANGED" # `unitTarget`
 ---|"UNIT_IN_RANGE_UPDATE" # `unitTarget, isInRange`
 ---|"UNIT_LEVEL" # `unitTarget`
+---|"UNIT_LOOT" # `unitGUID, hasLoot`
 ---|"UNIT_MANA" # `unitTarget`
 ---|"UNIT_MAXHEALTH" # `unitTarget`
 ---|"UNIT_MAXPOWER" # `unitTarget, powerType`
@@ -1365,24 +1584,25 @@
 ---|"UNIT_RANGEDDAMAGE" # `unitTarget`
 ---|"UNIT_RANGED_ATTACK_POWER" # `unitTarget`
 ---|"UNIT_RESISTANCES" # `unitTarget`
----|"UNIT_SPELLCAST_CHANNEL_START" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_CHANNEL_STOP" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_CHANNEL_UPDATE" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_DELAYED" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_EMPOWER_START" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_EMPOWER_STOP" # `unitTarget, castGUID, spellID, complete`
----|"UNIT_SPELLCAST_EMPOWER_UPDATE" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_FAILED" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_FAILED_QUIET" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_INTERRUPTED" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_CHANNEL_START" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_CHANNEL_STOP" # `unitTarget, castGUID, spellID, interruptedBy, castBarID`
+---|"UNIT_SPELLCAST_CHANNEL_UPDATE" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_DELAYED" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_EMPOWER_START" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_EMPOWER_STOP" # `unitTarget, castGUID, spellID, complete, interruptedBy, castBarID`
+---|"UNIT_SPELLCAST_EMPOWER_UPDATE" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_FAILED" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_FAILED_QUIET" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_INTERRUPTED" # `unitTarget, castGUID, spellID, interruptedBy, castBarID`
 ---|"UNIT_SPELLCAST_INTERRUPTIBLE" # `unitTarget`
 ---|"UNIT_SPELLCAST_NOT_INTERRUPTIBLE" # `unitTarget`
 ---|"UNIT_SPELLCAST_RETICLE_CLEAR" # `unitTarget, castGUID, spellID`
 ---|"UNIT_SPELLCAST_RETICLE_TARGET" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_SENT" # `unit, target, castGUID, spellID`
----|"UNIT_SPELLCAST_START" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_STOP" # `unitTarget, castGUID, spellID`
----|"UNIT_SPELLCAST_SUCCEEDED" # `unitTarget, castGUID, spellID`
+---|"UNIT_SPELLCAST_SENT" # `unitTarget, target, castGUID, spellID`
+---|"UNIT_SPELLCAST_START" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_STOP" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELLCAST_SUCCEEDED" # `unitTarget, castGUID, spellID, castBarID`
+---|"UNIT_SPELL_DIMINISH_CATEGORY_STATE_UPDATED" # `unitTarget, trackerInfo`
 ---|"UNIT_SPELL_HASTE" # `unitTarget`
 ---|"UNIT_STATS" # `unitTarget`
 ---|"UNIT_TARGET" # `unitTarget`
@@ -1395,6 +1615,9 @@
 ---|"UPDATE_BATTLEFIELD_STATUS" # `battleFieldIndex`
 ---|"UPDATE_BINDINGS"
 ---|"UPDATE_BONUS_ACTIONBAR"
+---|"UPDATE_BULLETIN_BOARD_MEMBER_TYPE" # `player, residentType`
+---|"UPDATE_BULLETIN_BOARD_ROSTER" # `neighborhoodInfo, rosterMemberList`
+---|"UPDATE_BULLETIN_BOARD_ROSTER_STATUSES" # `rosterMemberList`
 ---|"UPDATE_CHAT_COLOR" # `name, r, g, b`
 ---|"UPDATE_CHAT_COLOR_NAME_BY_CLASS" # `name, colorNameByClass`
 ---|"UPDATE_CHAT_WINDOWS"
@@ -1435,6 +1658,13 @@
 ---|"VEHICLE_PASSENGERS_CHANGED"
 ---|"VEHICLE_POWER_SHOW" # `shouldShow`
 ---|"VEHICLE_UPDATE"
+---|"VIEWED_TRANSMOG_OUTFIT_CHANGED"
+---|"VIEWED_TRANSMOG_OUTFIT_SECONDARY_SLOTS_CHANGED"
+---|"VIEWED_TRANSMOG_OUTFIT_SITUATIONS_CHANGED"
+---|"VIEWED_TRANSMOG_OUTFIT_SLOT_REFRESH"
+---|"VIEWED_TRANSMOG_OUTFIT_SLOT_SAVE_SUCCESS" # `slot, type, option`
+---|"VIEWED_TRANSMOG_OUTFIT_SLOT_WEAPON_OPTION_CHANGED" # `slot, weaponOption`
+---|"VIEW_HOUSES_LIST_RECIEVED" # `houseInfos`
 ---|"VIGNETTES_UPDATED"
 ---|"VIGNETTE_MINIMAP_UPDATED" # `vignetteGUID, onMinimap`
 ---|"VOICE_CHAT_ACTIVE_INPUT_DEVICE_UPDATED"
@@ -1477,9 +1707,10 @@
 ---|"VOICE_CHAT_SILENCED_CHANGED" # `isSilenced`
 ---|"VOICE_CHAT_SPEAK_FOR_ME_ACTIVE_STATUS_UPDATED"
 ---|"VOICE_CHAT_SPEAK_FOR_ME_FEATURE_STATUS_UPDATED"
----|"VOICE_CHAT_TTS_PLAYBACK_FAILED" # `status, utteranceID, destination`
----|"VOICE_CHAT_TTS_PLAYBACK_FINISHED" # `numConsumers, utteranceID, destination`
----|"VOICE_CHAT_TTS_PLAYBACK_STARTED" # `numConsumers, utteranceID, durationMS, destination`
+---|"VOICE_CHAT_TTS_PLAYBACK_BOOKMARK" # `utteranceID, bookmarkName`
+---|"VOICE_CHAT_TTS_PLAYBACK_FAILED" # `utteranceID, status`
+---|"VOICE_CHAT_TTS_PLAYBACK_FINISHED" # `utteranceID`
+---|"VOICE_CHAT_TTS_PLAYBACK_STARTED" # `utteranceID`
 ---|"VOICE_CHAT_TTS_SPEAK_TEXT_UPDATE" # `status, utteranceID`
 ---|"VOICE_CHAT_TTS_VOICES_UPDATE"
 ---|"VOICE_CHAT_VAD_SETTINGS_UPDATED"

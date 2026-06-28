@@ -1,11 +1,16 @@
 ---@meta _
---- not yet annotated, inherits NamePlateDriverMixin
----@class NamePlateDriverFrame
+---@meta _
+---@class NamePlateFrame : Frame, NamePlateBaseMixin
+local NamePlateFrame = {}
 
 ---@class NamePlateBaseMixin
+---@field UnitFrame Button
+---@field driverFrame NamePlateDriverFrame
+---@field namePlateUnitToken UnitToken
+---@field template string
 local NamePlateBaseMixin = {}
 
----@param namePlateUnitToken string
+---@param namePlateUnitToken UnitToken
 ---@param driverFrame NamePlateDriverFrame
 function NamePlateBaseMixin:OnAdded(namePlateUnitToken, driverFrame) end
 
@@ -29,8 +34,5 @@ function NamePlateBaseMixin:GetPreferredInsets() end
 
 function NamePlateBaseMixin:OnSizeChanged() end
 
----@class Nameplate : Frame, NamePlateBaseMixin
----@field UnitFrame Button
----@field driverFrame NamePlateDriverFrame
----@field namePlateUnitToken UnitToken
----@field template string
+--- not yet annotated, inherits NamePlateDriverMixin
+---@class NamePlateDriverFrame

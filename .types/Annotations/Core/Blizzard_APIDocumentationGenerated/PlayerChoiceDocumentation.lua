@@ -36,6 +36,7 @@ function C_PlayerChoice.SendPlayerChoiceResponse(responseID) end
 ---@field hideWarboardHeader boolean
 ---@field keepOpenAfterChoice boolean
 ---@field showChoicesAsList boolean
+---@field requiresSelection boolean
 ---@field options PlayerChoiceOptionInfo[]
 ---@field soundKitID number?
 ---@field closeUISoundKitID number?

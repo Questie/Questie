@@ -21,16 +21,16 @@ local AceGUITabGroup = {}
 function AceGUITabGroup:SetTitle(text) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-6-1)
----@param table AceGUITabGroupTab[]
-function AceGUITabGroup:SetTabs(table) end
+---@param tabsTable AceGUITabGroupTab[]
+function AceGUITabGroup:SetTabs(tabsTable) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-6-1)
 ---@param key string
 function AceGUITabGroup:SelectTab(key) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-6-1)
----@param table table
-function AceGUITabGroup:SetStatusTable(table) end
+---@param statusTable table
+function AceGUITabGroup:SetStatusTable(statusTable) end
 
 ---@protected
 function AceGUITabGroup:BuildTabs() end

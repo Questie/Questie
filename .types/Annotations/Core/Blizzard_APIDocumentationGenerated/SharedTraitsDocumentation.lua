@@ -77,6 +77,11 @@ function C_Traits.GetConfigIDByTreeID(treeID) end
 ---@return TraitConfigInfo configInfo
 function C_Traits.GetConfigInfo(configID) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.GetConfigVariationID)
+---@param systemID number
+---@return number variationID
+function C_Traits.GetConfigVariationID(systemID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.GetConfigsByType)
 ---@param configType Enum.TraitConfigType
 ---@return number[] configIDs
@@ -92,6 +97,12 @@ function C_Traits.GetDefinitionInfo(definitionID) end
 ---@param entryID number
 ---@return TraitEntryInfo entryInfo
 function C_Traits.GetEntryInfo(configID, entryID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.GetIncreasedTraitData)
+---@param nodeID number
+---@param entryID number
+---@return IncreasedTraitData[] itemName
+function C_Traits.GetIncreasedTraitData(nodeID, entryID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.GetLoadoutSerializationVersion)
 ---@return number serializationVersion
@@ -191,6 +202,13 @@ function C_Traits.HasValidInspectData() end
 ---@return boolean isReadyForCommit
 function C_Traits.IsReadyForCommit() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.PurchaseAllRanks)
+---@param configID number
+---@param nodeID number
+---@param ignoreCost boolean
+---@return boolean success
+function C_Traits.PurchaseAllRanks(configID, nodeID, ignoreCost) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.PurchaseRank)
 ---@param configID number
 ---@param nodeID number
@@ -243,6 +261,30 @@ function C_Traits.StageConfig(configID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.TalentTestUnlearnSpells)
 function C_Traits.TalentTestUnlearnSpells() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.TryPurchaseAllRanks)
+---@param configID number
+---@param nodeID number
+---@return boolean success
+function C_Traits.TryPurchaseAllRanks(configID, nodeID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.TryPurchaseToNode)
+---@param configID number
+---@param nodeID number
+---@return boolean success
+function C_Traits.TryPurchaseToNode(configID, nodeID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Traits.TryRefundToNode)
+---@param configID number
+---@param nodeID number
+---@param entryID number
+---@return boolean success
+function C_Traits.TryRefundToNode(configID, nodeID, entryID) end
+
+---@class IncreasedTraitData
+---@field itemNameIncreasing string
+---@field itemQualityIncreasing Enum.ItemQuality
+---@field numPointsIncreased number
 
 ---@class TraitCondInfo
 ---@field condID number
@@ -311,11 +353,14 @@ function C_Traits.TalentTestUnlearnSpells() end
 ---@field isVisible boolean
 ---@field isDisplayError boolean
 ---@field ranksPurchased number
+---@field ranksIncreased number
+---@field entryIDToRanksIncreased LuaValueVariant
 ---@field activeRank number
 ---@field currentRank number
 ---@field activeEntry TraitEntryRankInfo?
 ---@field nextEntry TraitEntryRankInfo?
 ---@field maxRanks number
+---@field totalMaxRanks number
 ---@field type Enum.TraitNodeType
 ---@field visibleEdges TraitOutEdgeInfo[]
 ---@field meetsEdgeRequirements boolean
@@ -360,6 +405,9 @@ function C_Traits.TalentTestUnlearnSpells() end
 ---@field ID number
 ---@field gates TraitGateInfo[]
 ---@field hideSingleRankNumbers boolean
+---@field rootNodeID number?
+---@field uiTextureKit textureKit
+---@field titleText string?
 
 ---@class TreeCurrencyInfo
 ---@field traitCurrencyID number

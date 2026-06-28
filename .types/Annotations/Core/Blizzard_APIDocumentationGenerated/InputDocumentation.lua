@@ -92,3 +92,34 @@ function IsUsingGamepad() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_IsUsingMouse)
 ---@return boolean down
 function IsUsingMouse() end
+
+---Insecure code can only call this once in response to gamepad input hardware events.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SetCursorPosition)
+---@param xPosition uiUnit
+---@param yPosition uiUnit
+function SetCursorPosition(xPosition, yPosition) end
+
+---Effectively the same as SimulateMouseDown plus SimulateMouseUp and consumes limited input for both.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SimulateMouseClick)
+---@param button mouseButton
+function SimulateMouseClick(button) end
+
+---Insecure code can only call this once in response to gamepad input hardware events.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SimulateMouseDown)
+---@param button mouseButton
+function SimulateMouseDown(button) end
+
+---Insecure code can only call this once in response to gamepad input hardware events.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SimulateMouseUp)
+---@param button mouseButton
+function SimulateMouseUp(button) end
+
+---Insecure code can only call this once in response to gamepad input hardware events.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SimulateMouseWheel)
+---@param delta number
+function SimulateMouseWheel(delta) end

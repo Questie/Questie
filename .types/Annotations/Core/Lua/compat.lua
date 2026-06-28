@@ -61,3 +61,4 @@ strupper = str.upper
 strtrim = str.trim
 strsplit = str.split
 strjoin = str.join
+strconcat = str.concat

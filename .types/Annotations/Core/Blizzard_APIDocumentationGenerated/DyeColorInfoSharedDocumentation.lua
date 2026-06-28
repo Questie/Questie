@@ -1,0 +1,14 @@
+---@meta _
+---@class DyeColorCategoryDisplayInfo
+---@field ID number
+---@field name string
+
+---@class DyeColorDisplayInfo
+---@field ID number
+---@field dyeColorCategoryID number
+---@field name string
+---@field sortOrder number
+---@field swatchColorStart colorRGB
+---@field swatchColorEnd colorRGB
+---@field itemID number?
+---@field numOwned number

@@ -19,6 +19,12 @@ function C_Spell.DoesSpellExist(spellIdentifier) end
 ---@param enable boolean
 function C_Spell.EnableSpellRangeCheck(spellIdentifier, enable) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetAuraStatChanges)
+---@param spellID number
+---@return number healthChange
+---@return PowerTypeChange[] powerTypeChanges
+function C_Spell.GetAuraStatChanges(spellID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetBaseSpell)
 ---@param spellIdentifier SpellIdentifier
 ---@param spec? number Default = 0
@@ -30,13 +36,18 @@ function C_Spell.GetBaseSpell(spellIdentifier, spec) end
 ---@return DeadlyDebuffInfo deadlyDebuffInfo
 function C_Spell.GetDeadlyDebuffInfo(spellIdentifier) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetMawPowerBorderAtlasBySpellID)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetItemModifiedAppearancesApplied)
 ---@param spellID number
+---@return number[] itemModifiedAppearanceIDs
+function C_Spell.GetItemModifiedAppearancesApplied(spellID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetMawPowerBorderAtlasBySpellID)
+---@param spellID SpellIdentifier
 ---@return textureAtlas rarityBorderAtlas
 function C_Spell.GetMawPowerBorderAtlasBySpellID(spellID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetMawPowerLinkBySpellID)
----@param spellID number
+---@param spellID SpellIdentifier
 ---@return string link
 function C_Spell.GetMawPowerLinkBySpellID(spellID) end
 
@@ -68,6 +79,13 @@ function C_Spell.GetSpellAutoCast(spellIdentifier) end
 ---@return number castCount
 function C_Spell.GetSpellCastCount(spellIdentifier) end
 
+---Returns a duration object describing the active recharge time for a spell.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellChargeDuration)
+---@param spellIdentifier SpellIdentifier
+---@return LuaDurationObject duration
+function C_Spell.GetSpellChargeDuration(spellIdentifier) end
+
 ---Returns a table of info about the charges of a charge-accumulating spell; May return nil if spell is not found or is not charge-based
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellCharges)
@@ -82,12 +100,29 @@ function C_Spell.GetSpellCharges(spellIdentifier) end
 ---@return SpellCooldownInfo spellCooldownInfo
 function C_Spell.GetSpellCooldown(spellIdentifier) end
 
+---Returns a duration object describing the active cooldown duration for a spell.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellCooldownDuration)
+---@param spellIdentifier SpellIdentifier
+---@param ignoreGCD? boolean Default = false
+---@return LuaDurationObject duration
+function C_Spell.GetSpellCooldownDuration(spellIdentifier, ignoreGCD) end
+
 ---Returns nil if spell is not found
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellDescription)
 ---@param spellIdentifier SpellIdentifier
 ---@return string description
 function C_Spell.GetSpellDescription(spellIdentifier) end
+
+---Depending on the spell, return a string that is either the use count or number of charges. If value is beyond the display count parameter, returns the replacementString (defaults to '*').
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellDisplayCount)
+---@param spellIdentifier SpellIdentifier
+---@param maxDisplayCount? number Default = 9999
+---@param replacementString? string Default = *
+---@return string displayCount
+function C_Spell.GetSpellDisplayCount(spellIdentifier, maxDisplayCount, replacementString) end
 
 ---Meant primarily for getting a spell id from a spell name or link; Returns nothing if spell does not exist
 ---
@@ -118,13 +153,24 @@ function C_Spell.GetSpellLevelLearned(spellIdentifier) end
 ---@return string spellLink
 function C_Spell.GetSpellLink(spellIdentifier, glyphID) end
 
+---Returns a duration object describing the active loss of control cooldown duration for a spell.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellLossOfControlCooldownDuration)
+---@param spellIdentifier SpellIdentifier
+---@return LuaDurationObject duration
+function C_Spell.GetSpellLossOfControlCooldownDuration(spellIdentifier) end
+
 ---Returns nil if spell is not found
 ---
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellLossOfControlCooldown)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellLossOfControlCooldownInfo)
 ---@param spellIdentifier SpellIdentifier
----@return number startTime
----@return number duration
-function C_Spell.GetSpellLossOfControlCooldown(spellIdentifier) end
+---@return SpellLossOfControlInfo lossOfControlInfo
+function C_Spell.GetSpellLossOfControlCooldownInfo(spellIdentifier) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetSpellMaxCumulativeAuraApplications)
+---@param spellID SpellIdentifier
+---@return number cumulativeAura
+function C_Spell.GetSpellMaxCumulativeAuraApplications(spellID) end
 
 ---Returns nil if spell is not found
 ---
@@ -173,6 +219,14 @@ function C_Spell.GetSpellTexture(spellIdentifier) end
 ---@return string spellLink
 function C_Spell.GetSpellTradeSkillLink(spellIdentifier) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.GetVisibilityInfo)
+---@param spellID number
+---@param visibilityType Enum.SpellAuraVisibilityType
+---@return boolean hasCustom
+---@return boolean alwaysShowMine
+---@return boolean showForMySpec
+function C_Spell.GetVisibilityInfo(spellID, visibilityType) end
+
 ---Returns true if the spell is the player's melee Auto Attack spell
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsAutoAttackSpell)
@@ -194,6 +248,11 @@ function C_Spell.IsAutoRepeatSpell(spellIdentifier) end
 ---@return boolean isAutoRepeat
 function C_Spell.IsClassTalentSpell(spellIdentifier) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsConsumableSpell)
+---@param spellIdentifier SpellIdentifier
+---@return boolean consumable
+function C_Spell.IsConsumableSpell(spellIdentifier) end
+
 ---Returns true if the spell is currently being cast or is queued to be cast
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsCurrentSpell)
@@ -201,12 +260,26 @@ function C_Spell.IsClassTalentSpell(spellIdentifier) end
 ---@return boolean isCurrentSpell
 function C_Spell.IsCurrentSpell(spellIdentifier) end
 
+---Returns true if an aura is considered an external defensive.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsExternalDefensive)
+---@param spellID number
+---@return boolean isExternalDefensive
+function C_Spell.IsExternalDefensive(spellID) end
+
 ---Returns true if the spell is an 'empower' type spell that is cast by pressing and holding, with the on-release cast typically being affected by time held
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsPressHoldReleaseSpell)
 ---@param spellIdentifier SpellIdentifier
 ---@return boolean isPressHoldRelease
 function C_Spell.IsPressHoldReleaseSpell(spellIdentifier) end
+
+---Returns true if an aura is considered high priority and should be ordered ahead of other auras in the UI.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsPriorityAura)
+---@param spellID number
+---@return boolean isHighPriority
+function C_Spell.IsPriorityAura(spellID) end
 
 ---Returns true if the spell comes from a PvP Talent
 ---
@@ -221,6 +294,20 @@ function C_Spell.IsPvPTalentSpell(spellIdentifier) end
 ---@param spellIdentifier SpellIdentifier
 ---@return boolean isRangedAutoAttack
 function C_Spell.IsRangedAutoAttackSpell(spellIdentifier) end
+
+---Returns true if an aura only applies effects to the player, and no other units.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsSelfBuff)
+---@param spellID number
+---@return boolean hasSelfEffectsOnly
+function C_Spell.IsSelfBuff(spellID) end
+
+---Returns true if the spell causes a crowd control effect when cast on a valid target.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsSpellCrowdControl)
+---@param spellIdentifier SpellIdentifier
+---@return boolean isCrowdControl
+function C_Spell.IsSpellCrowdControl(spellIdentifier) end
 
 ---Returns true if data for the spell has already been loaded and cached this session
 ---
@@ -247,6 +334,13 @@ function C_Spell.IsSpellHarmful(spellIdentifier) end
 ---@param spellIdentifier SpellIdentifier
 ---@return boolean isHelpful
 function C_Spell.IsSpellHelpful(spellIdentifier) end
+
+---Returns true if the spell is considered important. For example a spell that's lethal if not interrupted would be considered important.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Spell.IsSpellImportant)
+---@param spellIdentifier SpellIdentifier
+---@return boolean isImportant
+function C_Spell.IsSpellImportant(spellIdentifier) end
 
 ---Returns true if the current target is within range of the spell; False if out of range; Nil if range check was invalid
 ---
@@ -315,6 +409,10 @@ function C_Spell.ToggleSpellAutoCast(spellIdentifier) end
 ---@field priority number
 ---@field warningText string
 ---@field soundKitID number?
+
+---@class PowerTypeChange
+---@field powerType Enum.PowerType
+---@field amount number
 
 ---@class SpellInfo
 ---@field name string

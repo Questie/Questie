@@ -33,14 +33,14 @@ function TextureBase:GetHorizTile() end
 function TextureBase:GetRotation() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_GetTexCoord)
----@return number ULx
----@return number ULy
----@return number LLx
----@return number LLy
----@return number URx
----@return number URy
----@return number LRx
----@return number LRy 
+---@return number ulX
+---@return number ulY
+---@return number llX
+---@return number llY
+---@return number urX
+---@return number urY
+---@return number lrX
+---@return number lrY 
 function TextureBase:GetTexCoord() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_GetTexelSnappingBias)
@@ -92,12 +92,17 @@ function TextureBase:IsDesaturated() end
 ---@return boolean snap
 function TextureBase:IsSnappingToPixelGrid() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_ResetTexCoord)
+function TextureBase:ResetTexCoord() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_SetAtlas)
 ---@param atlas textureAtlas
 ---@param useAtlasSize? boolean Default = false
 ---@param filterMode? FilterMode
 ---@param resetTexCoords? boolean
-function TextureBase:SetAtlas(atlas, useAtlasSize, filterMode, resetTexCoords) end
+---@param wrapModeHorizontal? string
+---@param wrapModeVertical? string
+function TextureBase:SetAtlas(atlas, useAtlasSize, filterMode, resetTexCoords, wrapModeHorizontal, wrapModeVertical) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_SetBlendMode)
 ---@param blendMode BlendMode
@@ -145,12 +150,20 @@ function TextureBase:SetRotation(radians, normalizedRotationPoint) end
 ---@param snap? boolean Default = false
 function TextureBase:SetSnapToPixelGrid(snap) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_SetSpriteSheetCell)
+---@param cell number
+---@param numRows number
+---@param numColumns number
+---@param cellWidth? number
+---@param cellHeight? number
+function TextureBase:SetSpriteSheetCell(cell, numRows, numColumns, cellWidth, cellHeight) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_SetTexCoord)
 ---@param left number
 ---@param right number
 ---@param top number
 ---@param bottom number
----@overload fun(self, ULx:number, ULy:number, LLx:number, LLy:number, URx:number, URy:number, LRx:number, LRy:number)
+---@overload fun(self, ulX:number, ulY:number, llX:number, llY:number, urX:number, urY:number, lrX:number, lrY:number)
 function TextureBase:SetTexCoord(left, right, top, bottom) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_TextureBase_SetTexelSnappingBias)

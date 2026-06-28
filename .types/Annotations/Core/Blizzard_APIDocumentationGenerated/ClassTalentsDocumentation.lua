@@ -96,9 +96,10 @@ function C_ClassTalents.HasUnspentTalentPoints() end
 ---@param configID number
 ---@param entries ImportLoadoutEntryInfo[]
 ---@param name string
+---@param importString? string
 ---@return boolean success
 ---@return string importError
-function C_ClassTalents.ImportLoadout(configID, entries, name) end
+function C_ClassTalents.ImportLoadout(configID, entries, name, importString) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClassTalents.InitializeViewLoadout)
 ---@param specID number
@@ -146,6 +147,30 @@ function C_ClassTalents.SetStarterBuildActive(active) end
 ---@param usesShared boolean
 function C_ClassTalents.SetUsesSharedActionBars(configID, usesShared) end
 
+---Loads loadout for the current specialization by dropdown index. Indices start at 1.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClassTalents.SwitchToLoadoutByIndex)
+---@param loadoutIndex number
+function C_ClassTalents.SwitchToLoadoutByIndex(loadoutIndex) end
+
+---Loads loadout for the current specialization by name. Loads the first one found in the case of duplicate names.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClassTalents.SwitchToLoadoutByName)
+---@param loadoutName string
+function C_ClassTalents.SwitchToLoadoutByName(loadoutName) end
+
+---Activates specialization for the current class by index in the order within the Specializations tab. Indices start at 1.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClassTalents.SwitchToSpecializationByIndex)
+---@param specIndex number
+function C_ClassTalents.SwitchToSpecializationByIndex(specIndex) end
+
+---Activates specialization for the current class by spec name.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClassTalents.SwitchToSpecializationByName)
+---@param specName string
+function C_ClassTalents.SwitchToSpecializationByName(specName) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClassTalents.UpdateLastSelectedSavedConfigID)
 ---@param specID number
 ---@param configID? number
@@ -153,8 +178,9 @@ function C_ClassTalents.UpdateLastSelectedSavedConfigID(specID, configID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClassTalents.ViewLoadout)
 ---@param entries ImportLoadoutEntryInfo[]
+---@param importString? string
 ---@return boolean success
-function C_ClassTalents.ViewLoadout(entries) end
+function C_ClassTalents.ViewLoadout(entries, importString) end
 
 ---@class ImportLoadoutEntryInfo
 ---@field nodeID number

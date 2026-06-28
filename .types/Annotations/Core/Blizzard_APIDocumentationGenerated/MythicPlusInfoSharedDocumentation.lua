@@ -6,6 +6,14 @@
 ---@field durationSec number
 ---@field overTime boolean
 
+---@class MythicPlusLeaderboardPlayerResult
+---@field playerGUID WOWGUID
+---@field specID number
+
+---@class MythicPlusLeaderboardResult
+---@field completionTime number
+---@field players MythicPlusLeaderboardPlayerResult[]
+
 ---@class MythicPlusRatingLinkInfo
 ---@field mapChallengeModeID number
 ---@field level number

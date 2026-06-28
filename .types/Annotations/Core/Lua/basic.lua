@@ -137,12 +137,12 @@ function newproxy(proxy) end
 ---[View documents](command:extension.lua.doc?["en-us/51/manual.html/pdf-next"])
 ---
 ---@generic K, V
----@param table table<K, V>
+---@param tbl table<K, V>
 ---@param index? K
 ---@return K?
 ---@return V?
 ---@nodiscard
-function next(table, index) end
+function next(tbl, index) end
 
 ---
 ---If `t` has a metamethod `__pairs`, calls it with t as argument and returns the first three results from the call.
@@ -204,12 +204,11 @@ function rawequal(v1, v2) end
 ---
 ---[View documents](command:extension.lua.doc?["en-us/51/manual.html/pdf-rawget"])
 ---
----@param table table
+---@param tbl table
 ---@param index any
 ---@return any
 ---@nodiscard
-function rawget(table, index) end
-
+function rawget(tbl, index) end
 ---
 ---Sets the real value of `table[index]` to `value`, without using the `__newindex` metavalue. `table` must be a table, `index` any value different from `nil` and `NaN`, and `value` any Lua value.
 ---This function returns `table`.
@@ -217,12 +216,11 @@ function rawget(table, index) end
 ---
 ---[View documents](command:extension.lua.doc?["en-us/51/manual.html/pdf-rawset"])
 ---
----@param table table
+---@param tbl table
 ---@param index any
 ---@param value any
 ---@return table
-function rawset(table, index, value) end
-
+function rawset(tbl, index, value) end
 ---
 ---If `index` is a number, returns all arguments after argument number `index`; a negative number indexes from the end (`-1` is the last argument). Otherwise, `index` must be the string `"#"`, and `select` returns the total number of extra arguments it received.
 ---
@@ -239,9 +237,9 @@ function select(index, ...) end
 ---[View documents](command:extension.lua.doc?["en-us/51/manual.html/pdf-setfenv"])
 ---
 ---@param f     (async fun(...):...)|integer
----@param table table
+---@param tbl table
 ---@return function
-function setfenv(f, table) end
+function setfenv(f, tbl) end
 
 
 ---@class metatable
@@ -275,10 +273,10 @@ function setfenv(f, table) end
 ---
 ---[View documents](command:extension.lua.doc?["en-us/51/manual.html/pdf-setmetatable"])
 ---
----@param table      table
+---@param tbl table
 ---@param metatable? metatable|table
 ---@return table
-function setmetatable(table, metatable) end
+function setmetatable(tbl, metatable) end
 
 ---
 ---When called with no `base`, `tonumber` tries to convert its argument to a number. If the argument is already a number or a string convertible to a number, then `tonumber` returns this number; otherwise, it returns `fail`.

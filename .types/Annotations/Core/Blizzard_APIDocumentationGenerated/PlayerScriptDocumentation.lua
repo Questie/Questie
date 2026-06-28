@@ -86,6 +86,10 @@ function FollowUnit(name, exactMatch) end
 ---@return boolean result
 function GetAllowLowLevelRaid() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAllowRecentAlliesSeeLocation)
+---@return boolean allowRecentAlliesSeeLocation
+function GetAllowRecentAlliesSeeLocation() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAreaSpiritHealerTime)
 ---@return number result
 function GetAreaSpiritHealerTime() end
@@ -99,6 +103,10 @@ function GetAttackPowerForStat(stat, value) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAutoDeclineGuildInvites)
 ---@return boolean result
 function GetAutoDeclineGuildInvites() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAutoDeclineNeighborhoodInvites)
+---@return boolean result
+function GetAutoDeclineNeighborhoodInvites() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAvoidance)
 ---@return number result
@@ -115,6 +123,10 @@ function GetBlockChance() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetCemeteryPreference)
 ---@return number result
 function GetCemeteryPreference() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetCollapsingStarCost)
+---@return number cost
+function GetCollapsingStarCost() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetCombatRating)
 ---@param ratingIndex number
@@ -205,11 +217,6 @@ function GetMastery() end
 ---@return number masteryEffect
 ---@return number bonusCoefficient
 function GetMasteryEffect() end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GetMaxCombatRatingBonus)
----@param ratingIndex number
----@return number? result
-function GetMaxCombatRatingBonus(ratingIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetMaxPlayerLevel)
 ---@return number maxPlayerLevel
@@ -582,6 +589,10 @@ function PlayerGetTimerunningSeasonID() end
 ---@return boolean playerIsInCombat
 function PlayerIsInCombat() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_PlayerIsTimerunning)
+---@return boolean playerIsTimerunning
+function PlayerIsTimerunning() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_PortGraveyard)
 function PortGraveyard() end
 
@@ -619,9 +630,17 @@ function RetrieveCorpse() end
 ---@param allow? boolean Default = false
 function SetAllowLowLevelRaid(allow) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SetAllowRecentAlliesSeeLocation)
+---@param allowRecentAlliesSeeLocation boolean
+function SetAllowRecentAlliesSeeLocation(allowRecentAlliesSeeLocation) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_SetAutoDeclineGuildInvites)
 ---@param allow? boolean Default = false
 function SetAutoDeclineGuildInvites(allow) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SetAutoDeclineNeighborhoodInvites)
+---@param allow? boolean Default = false
+function SetAutoDeclineNeighborhoodInvites(allow) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_SetCemeteryPreference)
 ---@param cemetaryID number

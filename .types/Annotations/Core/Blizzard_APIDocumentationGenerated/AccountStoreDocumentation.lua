@@ -71,6 +71,7 @@ function C_AccountStore.RequestStoreFrontInfoUpdate(storeFrontID) end
 ---@class AccountStoreItemInfo
 ---@field id number
 ---@field status Enum.AccountStoreItemStatus
+---@field mode Enum.AccountStoreItemMode
 ---@field currencyID number
 ---@field flags Enum.AccountStoreItemFlag
 ---@field customUIModelSceneID number?

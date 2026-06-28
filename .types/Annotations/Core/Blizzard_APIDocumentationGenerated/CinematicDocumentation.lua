@@ -11,6 +11,10 @@ function CinematicFinished(movieType, userCanceled, didError) end
 ---@param canCancel? boolean Default = true
 function CinematicStarted(movieType, movieID, canCancel) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetCurrentCinematicSummary)
+---@return string summary
+function GetCurrentCinematicSummary() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_InCinematic)
 ---@return boolean inCinematic
 function InCinematic() end

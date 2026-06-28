@@ -68,10 +68,42 @@ function C_GameRules.GetNumDisplayedGameModes() end
 ---@return boolean active
 function C_GameRules.IsCharacterlessLoginActive() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsClassAllowedForGameMode)
+---@param classID number
+---@return boolean valid
+function C_GameRules.IsClassAllowedForGameMode(classID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsGameModeEnabled)
+---@param gameModeRecordID number
+---@return boolean enabled
+function C_GameRules.IsGameModeEnabled(gameModeRecordID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsGameRuleActive)
 ---@param gameRule Enum.GameRule
 ---@return boolean isActive
 function C_GameRules.IsGameRuleActive(gameRule) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsMultiActionBarVisibilityForced)
+---@return boolean valid
+function C_GameRules.IsMultiActionBarVisibilityForced() end
+
+---Checks the game rule as well as nameplateShowSelf
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsPersonalResourceDisplayEnabled)
+---@return boolean isPersonalResourceDisplayEnabled
+function C_GameRules.IsPersonalResourceDisplayEnabled() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsPlunderstorm)
+---@return boolean active
+function C_GameRules.IsPlunderstorm() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsStandard)
+---@return boolean active
+function C_GameRules.IsStandard() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GameRules.IsWoWHack)
+---@return boolean active
+function C_GameRules.IsWoWHack() end
 
 ---@class GameModeDisplayInfo
 ---@field logo fileID

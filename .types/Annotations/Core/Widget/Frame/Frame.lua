@@ -130,7 +130,7 @@ function Frame:GetAlpha() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_GetAttribute)
 ---@param attributeName string
----@return string value
+---@return any value
 function Frame:GetAttribute(attributeName) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_GetBoundsRect)
@@ -287,6 +287,10 @@ function Frame:IsGamePadStickEnabled() end
 ---@return boolean locked
 function Frame:IsHighlightLocked() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_IsIgnoringChildrenForBounds)
+---@return boolean ignore
+function Frame:IsIgnoringChildrenForBounds() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_IsIgnoringParentAlpha)
 ---@return boolean ignore
 function Frame:IsIgnoringParentAlpha() end
@@ -348,6 +352,12 @@ function Frame:RegisterAllEvents() end
 ---@return boolean registered
 function Frame:RegisterEvent(eventName) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_RegisterEventCallback)
+---@param eventName string
+---@param cb FrameEventCallbackType
+---@return boolean registered
+function Frame:RegisterEventCallback(eventName, cb) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_RegisterForDrag)
 ---@param ... MouseButton buttons
 function Frame:RegisterForDrag(...) end
@@ -357,6 +367,13 @@ function Frame:RegisterForDrag(...) end
 ---@param ... UnitToken units
 ---@return boolean registered
 function Frame:RegisterUnitEvent(eventName, ...) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_RegisterUnitEventCallback)
+---@param eventName string
+---@param cb FrameEventCallbackType
+---@param ... string units
+---@return boolean registered
+function Frame:RegisterUnitEventCallback(eventName, cb, ...) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_RotateTextures)
 ---@param radians number
@@ -459,6 +476,10 @@ function Frame:SetIgnoreParentAlpha(ignore) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_SetIgnoreParentScale)
 ---@param ignore boolean
 function Frame:SetIgnoreParentScale(ignore) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_SetIgnoringChildrenForBounds)
+---@param ignore boolean
+function Frame:SetIgnoringChildrenForBounds(ignore) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Frame_SetIsFrameBuffer)
 ---@param isFrameBuffer boolean

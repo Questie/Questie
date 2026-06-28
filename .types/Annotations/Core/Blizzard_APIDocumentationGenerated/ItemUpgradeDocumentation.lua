@@ -112,6 +112,7 @@ function C_ItemUpgrade.UpgradeItem(numUpgrades) end
 ---@field levelStats ItemUpgradeStat[]
 ---@field currencyCostsToUpgrade ItemUpgradeCurrencyCost[]
 ---@field itemCostsToUpgrade ItemUpgradeItemCost[]
+---@field moneyCost WOWMONEY?
 ---@field failureMessage string?
 
 ---@class ItemUpgradeSeasonalCostType

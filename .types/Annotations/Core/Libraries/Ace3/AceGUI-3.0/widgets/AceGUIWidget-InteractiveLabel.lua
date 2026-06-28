@@ -34,11 +34,11 @@ function AceGUIInteractiveLabel:SetImage(image, ...) end
 function AceGUIInteractiveLabel:SetImageSize(width, height) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-8-1)
----@param ... unknown
+---@param ... number Set the image of the highlight.
 function AceGUIInteractiveLabel:SetHighlight(...) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-8-1)
----@param ... unknown
+---@param ... number? Pass 4 or 8 SetTexCoords parameters
 function AceGUIInteractiveLabel:SetHighlightTexCoord(...) end
 
 ---@param disabled boolean

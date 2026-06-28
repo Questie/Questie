@@ -226,6 +226,13 @@ function Model:SetFogNear(fogNear) end
 ---@param glow number
 function Model:SetGlow(glow) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Model_SetGradientMask)
+---@param grad0 number
+---@param grad1 number
+---@param grad2 number
+---@param grad3 number
+function Model:SetGradientMask(grad0, grad1, grad2, grad3) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Model_SetLight)
 ---@param enabled boolean
 ---@param light ModelLight
@@ -288,6 +295,10 @@ function Model:SetShadowEffect(strength) end
 ---@param rotation? vector3
 ---@param scale? number
 function Model:SetTransform(translation, rotation, scale) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Model_SetUseGBuffer)
+---@param useGBuffer boolean
+function Model:SetUseGBuffer(useGBuffer) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Model_SetViewInsets)
 ---@param left uiUnit

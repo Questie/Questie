@@ -19,8 +19,8 @@ function AceGUIBlizOptionsGroup:SetGroup(key) end
 function AceGUIBlizOptionsGroup:SetDropdownWidth(width) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-1-1)
----@param table table
-function AceGUIBlizOptionsGroup:SetStatusTable(table) end
+---@param statusTable table
+function AceGUIBlizOptionsGroup:SetStatusTable(statusTable) end
 
 ---@protected
 ---@param width integer
