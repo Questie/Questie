@@ -9,6 +9,7 @@ describe("TBC localization lookup loadstrings", function()
     local type = type
     local tostring = tostring
     local error = error
+    local concat = table.concat
 
     local function _LoadRegisteredLookup(lookupTable, locale, filePath)
         -- Lookup files register one locale-specific function; load its generated table before schema validation.
@@ -69,68 +70,76 @@ describe("TBC localization lookup loadstrings", function()
     end
 
     local function _AssertQuestLookupShape(lookup, filePath)
+        local violations = {}
+
         -- Current quest lookups map numeric quest IDs to {title?, objectiveLines?}.
         -- The legacy format used {title?, descriptionLines?, objectiveLines?}; if that returns,
         -- l10n.lua and this schema validator must change together because field 3 is ignored today.
         for id, data in pairs(lookup) do
             if type(id) ~= "number" then
-                error(filePath .. " has a non-number lookup key: " .. tostring(id), 0)
+                violations[#violations + 1] = "ID " .. tostring(id) .. ": non-number lookup key"
             end
             if type(data) ~= "table" then
-                error(filePath .. " has invalid quest value type for ID " .. tostring(id) .. ": " .. type(data), 0)
-            end
-            -- Only fields 1 and 2 are valid today: title and objective lines. Field 3 must not be generated now.
-            for field in pairs(data) do
-                if field ~= 1 and field ~= 2 then
-                    error(filePath .. " has invalid quest field " .. tostring(field) .. " for ID " .. tostring(id), 0)
-                end
-            end
-            if data[1] ~= nil and type(data[1]) ~= "string" then
-                error(filePath .. " has invalid quest name value type: " .. type(data[1]), 0)
-            end
-            -- Objective lines must be a numeric-indexed string array when present.
-            if data[2] ~= nil then
-                if type(data[2]) ~= "table" then
-                    error(filePath .. " has invalid quest objective value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
-                end
-                for index, line in pairs(data[2]) do
-                    if type(index) ~= "number" then
-                        error(filePath .. " has a non-number quest objective line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
-                    end
-                    if type(line) ~= "string" then
-                        error(filePath .. " has invalid quest objective line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+                violations[#violations + 1] = "ID " .. tostring(id) .. ": invalid quest value type: " .. type(data)
+            else
+                -- Only fields 1 and 2 are valid today: title and objective lines. Field 3 must not be generated now.
+                for field in pairs(data) do
+                    if field ~= 1 and field ~= 2 then
+                        violations[#violations + 1] = "ID " .. tostring(id) .. ": invalid quest field " .. tostring(field)
                     end
                 end
+                if data[1] ~= nil and type(data[1]) ~= "string" then
+                    violations[#violations + 1] = "ID " .. tostring(id) .. ": invalid quest name value type: " .. type(data[1])
+                end
+                -- Objective lines must be a numeric-indexed string array when present.
+                if data[2] ~= nil then
+                    if type(data[2]) ~= "table" then
+                        violations[#violations + 1] = "ID " .. tostring(id) .. ": invalid quest objective value type: " .. type(data[2])
+                    else
+                        for index, line in pairs(data[2]) do
+                            if type(index) ~= "number" then
+                                violations[#violations + 1] = "ID " .. tostring(id) .. ": non-number quest objective line key: " .. tostring(index)
+                            end
+                            if type(line) ~= "string" then
+                                violations[#violations + 1] = "ID " .. tostring(id) .. ": invalid quest objective line type: " .. type(line)
+                            end
+                        end
+                    end
+                end
+                -- -- Description lines must be a numeric-indexed string array when present.
+                -- -- Cheeq removed Description lines from l10n, this is the "old" full structure
+                -- if data[2] ~= nil then
+                --     if type(data[2]) ~= "table" then
+                --         error(filePath .. " has invalid quest description value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
+                --     end
+                --     for index, line in pairs(data[2]) do
+                --         if type(index) ~= "number" then
+                --             error(filePath .. " has a non-number quest description line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
+                --         end
+                --         if type(line) ~= "string" then
+                --             error(filePath .. " has invalid quest description line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+                --         end
+                --     end
+                -- end
+                -- -- Objective lines must be a numeric-indexed string array when present.
+                -- if data[3] ~= nil then
+                --     if type(data[3]) ~= "table" then
+                --         error(filePath .. " has invalid quest objective value type for ID " .. tostring(id) .. ": " .. type(data[3]), 0)
+                --     end
+                --     for index, line in pairs(data[3]) do
+                --         if type(index) ~= "number" then
+                --             error(filePath .. " has a non-number quest objective line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
+                --         end
+                --         if type(line) ~= "string" then
+                --             error(filePath .. " has invalid quest objective line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+                --         end
+                --     end
+                -- end
             end
-            -- -- Description lines must be a numeric-indexed string array when present.
-            -- -- Cheeq removed Description lines from l10n, this is the "old" full structure
-            -- if data[2] ~= nil then
-            --     if type(data[2]) ~= "table" then
-            --         error(filePath .. " has invalid quest description value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
-            --     end
-            --     for index, line in pairs(data[2]) do
-            --         if type(index) ~= "number" then
-            --             error(filePath .. " has a non-number quest description line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
-            --         end
-            --         if type(line) ~= "string" then
-            --             error(filePath .. " has invalid quest description line type for ID " .. tostring(id) .. ": " .. type(line), 0)
-            --         end
-            --     end
-            -- end
-            -- -- Objective lines must be a numeric-indexed string array when present.
-            -- if data[3] ~= nil then
-            --     if type(data[3]) ~= "table" then
-            --         error(filePath .. " has invalid quest objective value type for ID " .. tostring(id) .. ": " .. type(data[3]), 0)
-            --     end
-            --     for index, line in pairs(data[3]) do
-            --         if type(index) ~= "number" then
-            --             error(filePath .. " has a non-number quest objective line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
-            --         end
-            --         if type(line) ~= "string" then
-            --             error(filePath .. " has invalid quest objective line type for ID " .. tostring(id) .. ": " .. type(line), 0)
-            --         end
-            --     end
-            -- end
+        end
+
+        if #violations > 0 then
+            error(filePath .. " has invalid quest lookup rows:\n" .. concat(violations, "\n"), 0)
         end
     end
 
