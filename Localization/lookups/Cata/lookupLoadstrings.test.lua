@@ -69,7 +69,9 @@ describe("Cata localization lookup loadstrings", function()
     end
 
     local function _AssertQuestLookupShape(lookup, filePath)
-        -- Quest lookups map numeric quest IDs to {title?, descriptionLines?, objectiveLines?}.
+        -- Current quest lookups map numeric quest IDs to {title?, objectiveLines?}.
+        -- The legacy format used {title?, descriptionLines?, objectiveLines?}; if that returns,
+        -- l10n.lua and this schema validator must change together because field 3 is ignored today.
         for id, data in pairs(lookup) do
             if type(id) ~= "number" then
                 error(filePath .. " has a non-number lookup key: " .. tostring(id), 0)
@@ -77,9 +79,9 @@ describe("Cata localization lookup loadstrings", function()
             if type(data) ~= "table" then
                 error(filePath .. " has invalid quest value type for ID " .. tostring(id) .. ": " .. type(data), 0)
             end
-            -- Only fields 1, 2, and 3 are valid: title, description lines, and objective lines.
+            -- Only fields 1 and 2 are valid today: title and objective lines. Field 3 must not be generated now.
             for field in pairs(data) do
-                if field ~= 1 and field ~= 2 and field ~= 3 then
+                if field ~= 1 and field ~= 2 then
                     error(filePath .. " has invalid quest field " .. tostring(field) .. " for ID " .. tostring(id), 0)
                 end
             end
@@ -89,19 +91,32 @@ describe("Cata localization lookup loadstrings", function()
             -- Objective lines must be a numeric-indexed string array when present.
             if data[2] ~= nil then
                 if type(data[2]) ~= "table" then
-                    error(filePath .. " has invalid quest description value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
+                    error(filePath .. " has invalid quest objective value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
                 end
                 for index, line in pairs(data[2]) do
                     if type(index) ~= "number" then
-                        error(filePath .. " has a non-number quest description line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
+                        error(filePath .. " has a non-number quest objective line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
                     end
                     if type(line) ~= "string" then
-                        error(filePath .. " has invalid quest description line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+                        error(filePath .. " has invalid quest objective line type for ID " .. tostring(id) .. ": " .. type(line), 0)
                     end
                 end
             end
             -- -- Description lines must be a numeric-indexed string array when present.
-            -- [...] Cheeq removed Description lines from l10n, this is the "old" full structure
+            -- -- Cheeq removed Description lines from l10n, this is the "old" full structure
+            -- if data[2] ~= nil then
+            --     if type(data[2]) ~= "table" then
+            --         error(filePath .. " has invalid quest description value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
+            --     end
+            --     for index, line in pairs(data[2]) do
+            --         if type(index) ~= "number" then
+            --             error(filePath .. " has a non-number quest description line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
+            --         end
+            --         if type(line) ~= "string" then
+            --             error(filePath .. " has invalid quest description line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+            --         end
+            --     end
+            -- end
             -- -- Objective lines must be a numeric-indexed string array when present.
             -- if data[3] ~= nil then
             --     if type(data[3]) ~= "table" then
