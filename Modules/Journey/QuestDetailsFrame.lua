@@ -302,11 +302,11 @@ function QuestDetailsFrame:Draw(container, quest)
             QuestieQuest:HideQuest(frame.questId)
         end
     end)
-    hideQuestCheckbox:SetCallback("OnEnter", function()
+    hideQuestCheckbox:SetCallback("OnEnter", function(widget)
         if GameTooltip:IsShown() then
             return
         end
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
+        GameTooltip:SetOwner(widget.frame, "ANCHOR_LEFT")
         GameTooltip:AddLine(l10n("Quest is hidden"))
         GameTooltip:AddLine(l10n("\nIf checked, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."), 1, 1, 1, true)
         GameTooltip:SetFrameStrata("TOOLTIP")
