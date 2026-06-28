@@ -53,6 +53,11 @@ function SellCursorItem() end
 ---@return boolean result
 function SetCursor(name) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SetCursorByMode)
+---@param mode Enum.Cursormode
+---@return boolean result
+function SetCursorByMode(mode) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_SetCursorHoveredItem)
 ---@param item ItemLocation
 function SetCursorHoveredItem(item) end

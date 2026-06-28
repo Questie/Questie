@@ -23,6 +23,11 @@ function C_PetJournal.GetDisplayIDByIndex(speciesID, index) end
 ---@return number? displayProbability
 function C_PetJournal.GetDisplayProbabilityByIndex(speciesID, index) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PetJournal.GetNonBattlePetLinkByIndex)
+---@param index number
+---@return string link
+function C_PetJournal.GetNonBattlePetLinkByIndex(index) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PetJournal.GetNumDisplays)
 ---@param speciesID number
 ---@return number? numDisplays

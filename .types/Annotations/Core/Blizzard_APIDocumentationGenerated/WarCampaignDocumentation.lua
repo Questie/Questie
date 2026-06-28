@@ -68,3 +68,4 @@ function C_CampaignInfo.SortAsNormalQuest(campaignID) end
 ---@field usesNormalQuestIcons boolean
 ---@field isContainerCampaign boolean
 ---@field sortAsNormalQuest boolean
+---@field hideFutureChapters boolean

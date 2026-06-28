@@ -22,13 +22,17 @@ function ClosestGameObjectPosition(gameObjectID) end
 ---@return number distance
 function ClosestUnitPosition(creatureID) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_CreateUnitHealPredictionCalculator)
+---@return UnitHealPredictionCalculator healPredictionCalculator
+function CreateUnitHealPredictionCalculator() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_EjectPassengerFromSeat)
 ---@param virtualSeatIndex number
 function EjectPassengerFromSeat(virtualSeatIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetComboPoints)
----@param unit UnitToken
----@param target UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
+---@param target UnitTokenPvPRestrictedForAddOns
 ---@return number result
 function GetComboPoints(unit, target) end
 
@@ -179,6 +183,13 @@ function IsUnitModelReadyForUI(unitToken) end
 ---@return boolean result
 function PlayerIsPVPInactive(unit) end
 
+---If the unit is currently casting a spell, returns whether spell's target unit is the player. Returns false if the unit is not casting a spell or the spell has no target.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_PlayerIsSpellTarget)
+---@param unit UnitToken
+---@return boolean result
+function PlayerIsSpellTarget(unit) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_PlayerVehicleHasComboPoints)
 ---@return boolean vehicleHasComboPoints
 function PlayerVehicleHasComboPoints() end
@@ -283,8 +294,13 @@ function UnitCanCooperate(unit, target) end
 ---@return boolean result
 function UnitCanPetBattle(unit, target) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitCastingDuration)
+---@param unit UnitTokenPvPRestrictedForAddOns
+---@return LuaDurationObject duration
+function UnitCastingDuration(unit) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitCastingInfo)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return string name
 ---@return string displayName
 ---@return fileID textureID
@@ -292,23 +308,31 @@ function UnitCanPetBattle(unit, target) end
 ---@return number endTimeMs
 ---@return boolean isTradeskill
 ---@return WOWGUID castID
----@return boolean notInterruptible
+---@return boolean? notInterruptible
 ---@return number castingSpellID
+---@return number? castBarID
+---@return number delayTimeMs
 function UnitCastingInfo(unit) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitChannelDuration)
+---@param unit UnitTokenPvPRestrictedForAddOns
+---@return LuaDurationObject duration
+function UnitChannelDuration(unit) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitChannelInfo)
----@param unitToken string
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return string name
 ---@return string displayName
 ---@return fileID textureID
 ---@return number startTimeMs
 ---@return number endTimeMs
 ---@return boolean isTradeskill
----@return boolean notInterruptible
+---@return boolean? notInterruptible
 ---@return number spellID
 ---@return boolean isEmpowered
 ---@return number numEmpowerStages
-function UnitChannelInfo(unitToken) end
+---@return number? castBarID
+function UnitChannelInfo(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitChromieTimeID)
 ---@param unit UnitToken
@@ -328,6 +352,13 @@ function UnitClass(unit) end
 ---@return number classID
 function UnitClassBase(unit) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitClassFromGUID)
+---@param unitGUID WOWGUID
+---@return string className
+---@return string classFilename
+---@return number classID
+function UnitClassFromGUID(unitGUID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitClassification)
 ---@param unit UnitToken
 ---@return string result
@@ -343,6 +374,11 @@ function UnitControllingVehicle(unit) end
 ---@return string name
 ---@return number id
 function UnitCreatureFamily(unit) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitCreatureID)
+---@param unit UnitToken
+---@return number? creatureID
+function UnitCreatureID(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitCreatureType)
 ---@param unit UnitToken
@@ -382,8 +418,31 @@ function UnitDistanceSquared(unit) end
 ---@return number result
 function UnitEffectiveLevel(name) end
 
+---Returns a duration object that includes the duration of an empowered cast channel.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitEmpoweredChannelDuration)
+---@param unit UnitToken
+---@param includeHoldAtMaxTime? boolean Default = true
+---@return LuaDurationObject duration
+function UnitEmpoweredChannelDuration(unit, includeHoldAtMaxTime) end
+
+---Returns a vector of duration objects that measure the time spans for each individual stage in an empowered channel, with hold-at-max time included as the last element.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitEmpoweredStageDurations)
+---@param unit UnitToken
+---@return LuaDurationObject[] duration
+function UnitEmpoweredStageDurations(unit) end
+
+---Returns a vector of percentages that describe how much of the total duration of an empowered channel is occupied by a stage.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitEmpoweredStagePercentages)
+---@param unit UnitToken
+---@param includeHoldAtMaxTime? boolean Default = true
+---@return number[] percentages
+function UnitEmpoweredStagePercentages(unit, includeHoldAtMaxTime) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitExists)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitExists(unit) end
 
@@ -395,39 +454,45 @@ function UnitExists(unit) end
 function UnitFactionGroup(unitName, checkDisplayRace) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitFullName)
----@param unit string
+---@param unit UnitToken
 ---@return string unitName
 ---@return string unitServer
 function UnitFullName(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitGUID)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return WOWGUID? result
 function UnitGUID(unit) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitGetDetailedHealPrediction)
+---@param unit UnitTokenPvPRestrictedForAddOns
+---@param healerUnit? UnitTokenPvPRestrictedForAddOns
+---@param healPredictionCalculator UnitHealPredictionCalculator
+function UnitGetDetailedHealPrediction(unit, healerUnit, healPredictionCalculator) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitGetIncomingHeals)
----@param unit UnitToken
----@param healerGUID? UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
+---@param healerGUID? UnitTokenPvPRestrictedForAddOns
 ---@return number? result
 function UnitGetIncomingHeals(unit, healerGUID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitGetTotalAbsorbs)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return number result
 function UnitGetTotalAbsorbs(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitGetTotalHealAbsorbs)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return number result
 function UnitGetTotalHealAbsorbs(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitGroupRolesAssigned)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return string result
 function UnitGroupRolesAssigned(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitGroupRolesAssignedEnum)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return number result
 function UnitGroupRolesAssignedEnum(unit) end
 
@@ -436,28 +501,51 @@ function UnitGroupRolesAssignedEnum(unit) end
 ---@return number result
 function UnitHPPerStamina(unit) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHasPowerType)
+---@param unitToken UnitTokenPvPRestrictedForAddOns
+---@param powerType Enum.PowerType
+---@return boolean hasPower
+function UnitHasPowerType(unitToken, powerType) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHasRelicSlot)
 ---@param unit UnitToken
 ---@return boolean result
 function UnitHasRelicSlot(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHasVehiclePlayerFrameUI)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitHasVehiclePlayerFrameUI(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHasVehicleUI)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitHasVehicleUI(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHealthMax)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return number result
 function UnitHealthMax(unit) end
 
+---Result of UnitHealthMax() - UnitHealth()
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHealthMissing)
+---@param unit UnitTokenPvPRestrictedForAddOns
+---@param usePredicted? boolean Default = true
+---@return number result
+function UnitHealthMissing(unit, usePredicted) end
+
+---Returns percent of health remaining - can be scaled via a curve for display purposes
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHealthPercent)
+---@param unit UnitTokenPvPRestrictedForAddOns
+---@param usePredicted? boolean Default = true
+---@param curve? LuaCurveObjectBase
+---@return LuaCurveEvaluatedResult result
+function UnitHealthPercent(unit, usePredicted, curve) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitHealth)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@param usePredicted? boolean Default = true
 ---@return number result
 function UnitHealth(unit, usePredicted) end
@@ -478,13 +566,13 @@ function UnitHonorLevel(unit) end
 function UnitHonorMax(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInAnyGroup)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return boolean result
 function UnitInAnyGroup(unit, partyIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInBattleground)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return number? result
 function UnitInBattleground(unit, partyIndex) end
@@ -497,13 +585,13 @@ function UnitInBattleground(unit, partyIndex) end
 function UnitInOtherParty(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInParty)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return boolean result
 function UnitInParty(unit, partyIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInPartyIsAI)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitInPartyIsAI(unit) end
 
@@ -513,7 +601,7 @@ function UnitInPartyIsAI(unit) end
 function UnitInPartyShard(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInRaid)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return number? result
 function UnitInRaid(unit, partyIndex) end
@@ -525,7 +613,7 @@ function UnitInRaid(unit, partyIndex) end
 function UnitInRange(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInSubgroup)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return boolean result
 function UnitInSubgroup(unit, partyIndex) end
@@ -536,12 +624,12 @@ function UnitInSubgroup(unit, partyIndex) end
 function UnitInVehicle(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInVehicleControlSeat)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitInVehicleControlSeat(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitInVehicleHidesPetFrame)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitInVehicleHidesPetFrame(unit) end
 
@@ -566,7 +654,7 @@ function UnitIsBattlePetCompanion(unit) end
 function UnitIsBossMob(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsCharmed)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsCharmed(unit) end
 
@@ -581,7 +669,7 @@ function UnitIsConnected(unit) end
 function UnitIsControlling(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsCorpse)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsCorpse(unit) end
 
@@ -618,7 +706,7 @@ function UnitIsFeignDeath(unit) end
 function UnitIsFriend(unit, target) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsGameObject)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsGameObject(unit) end
 
@@ -638,28 +726,51 @@ function UnitIsGroupAssistant(unit) end
 ---@return boolean isLeader
 function UnitIsGroupLeader(unit, partyCategory) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsHumanPlayer)
+---@param unit? UnitToken
+---@param partyIndex? number
+---@return boolean result
+function UnitIsHumanPlayer(unit, partyIndex) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsInMyGuild)
 ---@param unit string
 ---@return boolean result
 function UnitIsInMyGuild(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsInteractable)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsInteractable(unit) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsLieutenant)
+---@param unit UnitToken
+---@return boolean result
+function UnitIsLieutenant(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsMercenary)
 ---@param name string
 ---@return boolean result
 function UnitIsMercenary(name) end
 
+---Returns whether the unit is considered a minion of a player, such as a pet, totem, or guardian.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsMinion)
+---@param unit UnitToken
+---@return boolean result
+function UnitIsMinion(unit) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsNPCAsPlayer)
+---@param unit? UnitToken
+---@return boolean result
+function UnitIsNPCAsPlayer(unit) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsOtherPlayersBattlePet)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsOtherPlayersBattlePet(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsOtherPlayersPet)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsOtherPlayersPet(unit) end
 
@@ -680,18 +791,18 @@ function UnitIsPVP(unit) end
 function UnitIsPVPFreeForAll(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsPVPSanctuary)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsPVPSanctuary(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsPlayer)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return boolean result
 function UnitIsPlayer(unit, partyIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsPossessed)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsPossessed(unit) end
 
@@ -701,7 +812,7 @@ function UnitIsPossessed(unit) end
 function UnitIsQuestBoss(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsRaidOfficer)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsRaidOfficer(unit) end
 
@@ -726,13 +837,13 @@ function UnitIsTrivial(unit) end
 function UnitIsUnconscious(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsUnit)
----@param unitName1 string
----@param unitName2 string
+---@param unit1 UnitToken
+---@param unit2 UnitToken
 ---@return boolean result
-function UnitIsUnit(unitName1, unitName2) end
+function UnitIsUnit(unit1, unit2) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitIsVisible)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitIsVisible(unit) end
 
@@ -752,13 +863,19 @@ function UnitLeadsAnyGroup(unit) end
 function UnitLevel(name) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitName)
----@param unit string
+---@param unit UnitToken
 ---@return string unitName
 ---@return string unitServer
 function UnitName(unit) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitNameFromGUID)
+---@param unitGUID WOWGUID
+---@return string unitName
+---@return string unitServer
+function UnitNameFromGUID(unitGUID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitNameUnmodified)
----@param unit string
+---@param unit UnitToken
 ---@return string unitName
 ---@return string unitServer
 function UnitNameUnmodified(unit) end
@@ -779,7 +896,7 @@ function UnitNumPowerBarTimers(unit) end
 function UnitOnTaxi(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitOwnerGUID)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return WOWGUID ownerGUID
 function UnitOwnerGUID(unit) end
 
@@ -789,7 +906,7 @@ function UnitOwnerGUID(unit) end
 function UnitPVPName(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPartialPower)
----@param unitToken UnitToken
+---@param unitToken UnitTokenPvPRestrictedForAddOns
 ---@param powerType? Enum.PowerType
 ---@param unmodified? boolean Default = false
 ---@return number partialPower
@@ -806,18 +923,18 @@ function UnitPercentHealthFromGUID(unitGUID) end
 function UnitPhaseReason(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPlayerControlled)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitPlayerControlled(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPlayerOrPetInParty)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return boolean result
 function UnitPlayerOrPetInParty(unit, partyIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPlayerOrPetInRaid)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@param partyIndex? number
 ---@return boolean result
 function UnitPlayerOrPetInRaid(unit, partyIndex) end
@@ -831,7 +948,7 @@ function UnitPlayerOrPetInRaid(unit, partyIndex) end
 function UnitPosition(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPower)
----@param unitToken UnitToken
+---@param unitToken UnitTokenPvPRestrictedForAddOns
 ---@param powerType? Enum.PowerType
 ---@param unmodified? boolean Default = false
 ---@return number power
@@ -857,14 +974,33 @@ function UnitPowerBarTimerInfo(unit, index) end
 function UnitPowerDisplayMod(powerType) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPowerMax)
----@param unitToken UnitToken
+---@param unitToken UnitTokenPvPRestrictedForAddOns
 ---@param powerType? Enum.PowerType
 ---@param unmodified? boolean Default = false
 ---@return number maxPower
 function UnitPowerMax(unitToken, powerType, unmodified) end
 
+---Result of UnitPowerMax() - UnitPower()
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPowerMissing)
+---@param unitToken UnitTokenPvPRestrictedForAddOns
+---@param powerType? Enum.PowerType
+---@param unmodified? boolean Default = false
+---@return number result
+function UnitPowerMissing(unitToken, powerType, unmodified) end
+
+---Queries the percent of power remaining, optionally evaluating it against a supplied curve.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPowerPercent)
+---@param unitToken UnitTokenPvPRestrictedForAddOns
+---@param powerType? Enum.PowerType
+---@param unmodified? boolean Default = false
+---@param curve? LuaCurveObjectBase
+---@return LuaCurveEvaluatedResult result
+function UnitPowerPercent(unitToken, powerType, unmodified, curve) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPowerType)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@param index? number Default = 0
 ---@return Enum.PowerType powerType
 ---@return string powerTypeToken
@@ -874,7 +1010,7 @@ function UnitPowerMax(unitToken, powerType, unmodified) end
 function UnitPowerType(unit, index) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitPvpClassification)
----@param unit UnitToken
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return Enum.PvPUnitClassification? classification
 function UnitPvpClassification(unit) end
 
@@ -943,18 +1079,44 @@ function UnitSelectionType(unit, useExtendedColors) end
 ---@return number? sex
 function UnitSex(unit) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitSexBase)
+---@param unit UnitToken
+---@return Enum.UnitSex? sex
+function UnitSexBase(unit) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitShouldDisplayName)
 ---@param unit UnitToken
 ---@return boolean result
 function UnitShouldDisplayName(unit) end
+
+---If the unit is currently casting a spell, returns whether the target's name should be displayed. Returns false if the unit is not casting a spell or the spell has no target.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitShouldDisplaySpellTargetName)
+---@param unit UnitToken
+---@return boolean result
+function UnitShouldDisplaySpellTargetName(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitSpellHaste)
 ---@param unit UnitToken
 ---@return number result
 function UnitSpellHaste(unit) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_UnitStagger)
+---If the unit is currently casting a spell, returns the class of the spell's target unit. Returns nil if the unit is not casting a spell or the spell has no target.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitSpellTargetClass)
 ---@param unit UnitToken
+---@return string classFilename
+function UnitSpellTargetClass(unit) end
+
+---If the unit is currently casting a spell, returns the name of the spell's target unit. Returns nil if the unit is not casting a spell or the spell has no target.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitSpellTargetName)
+---@param unit UnitToken
+---@return string targetName
+function UnitSpellTargetName(unit) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitStagger)
+---@param unit UnitTokenPvPRestrictedForAddOns
 ---@return number result
 function UnitStagger(unit) end
 
@@ -973,9 +1135,17 @@ function UnitStat(unit, index) end
 function UnitSwitchToVehicleSeat(unit, virtualSeatIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitTargetsVehicleInRaidUI)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function UnitTargetsVehicleInRaidUI(unit) end
+
+---Returns a threat state (0-3; representing none, yellow, orange, red) that indicates how far the provided unit is above the secondmost threat on the provided mob. If the unit is not first on threat, will always return red. Can return nil if the provided mob does not exist.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitThreatLeadSituation)
+---@param unit UnitToken
+---@param mobGUID UnitToken
+---@return number? result
+function UnitThreatLeadSituation(unit, mobGUID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitThreatPercentageOfLead)
 ---@param unit UnitToken
@@ -1032,7 +1202,7 @@ function UnitVehicleSeatCount(unit) end
 function UnitVehicleSeatInfo(unit, virtualSeatIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitVehicleSkin)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return fileID result
 function UnitVehicleSkin(unit) end
 
@@ -1059,7 +1229,7 @@ function UnitXP(unit) end
 function UnitXPMax(unit) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_WorldLootObjectExists)
----@param unit? UnitToken Default = WOWGUID_NULL
+---@param unit? UnitToken
 ---@return boolean result
 function WorldLootObjectExists(unit) end
 
@@ -1076,8 +1246,10 @@ function WorldLootObjectExists(unit) end
 ---@field endTimeMs number
 ---@field isTradeskill boolean
 ---@field castID WOWGUID
----@field notInterruptible boolean
+---@field notInterruptible boolean?
 ---@field castingSpellID number
+---@field castBarID number?
+---@field delayTimeMs number
 
 ---@class UnitChannelInfoResult
 ---@field name string
@@ -1086,10 +1258,11 @@ function WorldLootObjectExists(unit) end
 ---@field startTimeMs number
 ---@field endTimeMs number
 ---@field isTradeskill boolean
----@field notInterruptible boolean
+---@field notInterruptible boolean?
 ---@field spellID number
 ---@field isEmpowered boolean
 ---@field numEmpowerStages number
+---@field castBarID number?
 
 ---@class UnitCreatureFamilyResult
 ---@field name string

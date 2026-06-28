@@ -8,10 +8,6 @@ function C_GossipInfo.CloseGossip() end
 ---@return boolean forceGossip
 function C_GossipInfo.ForceGossip() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_GossipInfo.GetActiveDelveGossip)
----@return GossipOptionUIInfo gossip
-function C_GossipInfo.GetActiveDelveGossip() end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GossipInfo.GetActiveQuests)
 ---@return GossipQuestUIInfo[] info
 function C_GossipInfo.GetActiveQuests() end
@@ -37,10 +33,6 @@ function C_GossipInfo.GetFriendshipReputation(friendshipFactionID) end
 ---@param friendshipFactionID number
 ---@return FriendshipReputationRankInfo rankInfo
 function C_GossipInfo.GetFriendshipReputationRanks(friendshipFactionID) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_GossipInfo.GetGossipDelveMapID)
----@return number mapID
-function C_GossipInfo.GetGossipDelveMapID() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GossipInfo.GetNumActiveQuests)
 ---@return number numQuests
@@ -155,3 +147,4 @@ function C_GossipInfo.SelectOptionByIndex(optionID, text, confirmed) end
 ---@field questID number
 ---@field isImportant boolean
 ---@field isMeta boolean
+---@field questInfoID number

@@ -39,6 +39,14 @@ function C_GuildInfo.GetGuildRankOrder(guid) end
 ---@return GuildTabardInfo? tabardInfo
 function C_GuildInfo.GetGuildTabardInfo(unit) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GuildInfo.GetInfoText)
+---@return string infoText
+function C_GuildInfo.GetInfoText() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GuildInfo.GetMOTD)
+---@return string motd
+function C_GuildInfo.GetMOTD() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GuildInfo.GuildControlGetRankFlags)
 ---@param rankOrder number
 ---@return boolean[] permissions
@@ -116,6 +124,10 @@ function C_GuildInfo.RequestRenameStatus() end
 ---@param guid WOWGUID
 ---@param rankOrder number
 function C_GuildInfo.SetGuildRankOrder(guid, rankOrder) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GuildInfo.SetInfoText)
+---@param infoText string
+function C_GuildInfo.SetInfoText(infoText) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_GuildInfo.SetLeader)
 ---@param name string

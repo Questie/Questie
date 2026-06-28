@@ -19,6 +19,10 @@ function C_Ping.GetDefaultPingOptions() end
 ---@return textureKit uiTextureKitID
 function C_Ping.GetTextureKitForType(type) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Ping.IsPingSystemEnabled)
+---@return boolean isEnabled
+function C_Ping.IsPingSystemEnabled() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Ping.SendMacroPing)
 ---@param type? Enum.PingSubjectType
 ---@param targetToken? string

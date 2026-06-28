@@ -67,6 +67,10 @@ function C_PaperDollInfo.GetStaggerPercentage(unit) end
 ---@return boolean isEnabled
 function C_PaperDollInfo.IsInventorySlotEnabled(slotName) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PaperDollInfo.IsRangedSlotShown)
+---@return boolean isShown
+function C_PaperDollInfo.IsRangedSlotShown() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PaperDollInfo.OffhandHasShield)
 ---@return boolean offhandHasShield
 function C_PaperDollInfo.OffhandHasShield() end

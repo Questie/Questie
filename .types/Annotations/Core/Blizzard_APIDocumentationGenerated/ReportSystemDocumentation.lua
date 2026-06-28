@@ -38,9 +38,22 @@ function C_ReportSystem.ReportServerLag() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ReportSystem.ReportStuckInCombat)
 function C_ReportSystem.ReportStuckInCombat() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ReportSystem.RequiresScreenshotForReportType)
+---@param reportType Enum.ReportType
+---@param majorCategory Enum.ReportMajorCategory
+---@return boolean requiresScreenshot
+function C_ReportSystem.RequiresScreenshotForReportType(reportType, majorCategory) end
+
 ---Not allowed to be called by addons
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ReportSystem.SendReport)
 ---@param reportInfo ReportInfo
 ---@param playerLocation? PlayerLocation
 function C_ReportSystem.SendReport(reportInfo, playerLocation) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ReportSystem.SetScreenshotPreviewTexture)
+---@param textureObject SimpleTexture
+function C_ReportSystem.SetScreenshotPreviewTexture(textureObject) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ReportSystem.TakeReportScreenshot)
+function C_ReportSystem.TakeReportScreenshot() end

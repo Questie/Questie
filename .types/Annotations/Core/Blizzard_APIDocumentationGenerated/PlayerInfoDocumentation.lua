@@ -9,10 +9,6 @@ function C_PlayerInfo.CanPlayerEnterChromieTime() end
 ---@return boolean canUseAreaLoot
 function C_PlayerInfo.CanPlayerUseAreaLoot() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.CanPlayerUseEventScheduler)
----@return boolean canUseEventScheduler
-function C_PlayerInfo.CanPlayerUseEventScheduler() end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.CanPlayerUseMountEquipment)
 ---@return boolean canUseMountEquipment
 ---@return string failureReason
@@ -95,11 +91,6 @@ function C_PlayerInfo.IsCharacterBankEnabled() end
 ---@return boolean isDisplayRaceNative
 function C_PlayerInfo.IsDisplayRaceNative() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsExpansionLandingPageUnlockedForPlayer)
----@param expansionID number
----@return boolean isUnlocked
-function C_PlayerInfo.IsExpansionLandingPageUnlockedForPlayer(expansionID) end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsMirrorImage)
 ---@return boolean isMirrorImage
 function C_PlayerInfo.IsMirrorImage() end
@@ -118,9 +109,21 @@ function C_PlayerInfo.IsPlayerEligibleForNPEv2() end
 ---@return boolean inChromieTime
 function C_PlayerInfo.IsPlayerInChromieTime() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsPlayerInRPE)
+---@return boolean isInRPE
+function C_PlayerInfo.IsPlayerInRPE() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsPlayerInTimerunningHeroicWorldTier)
+---@return boolean inTimerunningHeroicWorldTier
+function C_PlayerInfo.IsPlayerInTimerunningHeroicWorldTier() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsPlayerNPERestricted)
 ---@return boolean isRestricted
 function C_PlayerInfo.IsPlayerNPERestricted() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsReturningCharacter)
+---@return boolean isReturning
+function C_PlayerInfo.IsReturningCharacter() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsSelfFoundActive)
 ---@return boolean active
@@ -133,6 +136,10 @@ function C_PlayerInfo.IsTradingPostAvailable() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsTravelersLogAvailable)
 ---@return boolean isAvailable
 function C_PlayerInfo.IsTravelersLogAvailable() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PlayerInfo.IsTutorialsTabAvailable)
+---@return boolean isAvailable
+function C_PlayerInfo.IsTutorialsTabAvailable() end
 
 ---@class MythicPlusRatingMapSummary
 ---@field challengeModeID number

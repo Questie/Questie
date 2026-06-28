@@ -5,30 +5,27 @@ C_PvP = {}
 ---@return boolean arePvpTalentsUnlocked
 function C_PvP.ArePvpTalentsUnlocked() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanDisplayDamage)
----@return boolean canDisplay
-function C_PvP.CanDisplayDamage() end
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.AreTrainingGroundsEnabled)
+---@return boolean areTrainingGroundsEnabled
+function C_PvP.AreTrainingGroundsEnabled() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanDisplayDeaths)
 ---@return boolean canDisplay
 function C_PvP.CanDisplayDeaths() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanDisplayHealing)
----@return boolean canDisplay
-function C_PvP.CanDisplayHealing() end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanDisplayHonorableKills)
 ---@return boolean canDisplay
 function C_PvP.CanDisplayHonorableKills() end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanDisplayKillingBlows)
----@return boolean canDisplay
-function C_PvP.CanDisplayKillingBlows() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanPlayerUseRatedPVPUI)
 ---@return boolean canUse
 ---@return string failureReason
 function C_PvP.CanPlayerUseRatedPVPUI() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanPlayerUseTrainingGroundsUI)
+---@return boolean canUseTrainingGroundsUI
+---@return string failureReason
+function C_PvP.CanPlayerUseTrainingGroundsUI() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.CanToggleWarMode)
 ---@param toggle boolean
@@ -62,6 +59,11 @@ function C_PvP.GetActiveMatchState() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetActiveMatchWinner)
 ---@return number winner
 function C_PvP.GetActiveMatchWinner() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetArenaCrowdControlDuration)
+---@param playerToken UnitToken
+---@return LuaDurationObject duration
+function C_PvP.GetArenaCrowdControlDuration(playerToken) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetArenaCrowdControlInfo)
 ---@param playerToken UnitToken
@@ -116,6 +118,11 @@ function C_PvP.GetBattlefieldVehicleInfo(vehicleIndex, uiMapID) end
 ---@param uiMapID number
 ---@return BattlefieldVehicleInfo[] vehicles
 function C_PvP.GetBattlefieldVehicles(uiMapID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetBattlegroundInfo)
+---@param battlegroundIndex number
+---@return BattlegroundInfo? battlegroundInfo
+function C_PvP.GetBattlegroundInfo(battlegroundIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetBrawlRewards)
 ---@param brawlType Enum.BrawlType
@@ -236,6 +243,14 @@ function C_PvP.GetRandomEpicBGInfo() end
 ---@return RoleShortageReward? roleShortageBonus
 function C_PvP.GetRandomEpicBGRewards() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetRandomTrainingGroundRewards)
+---@return number honor
+---@return number experience
+---@return BattlefieldItemReward[]? itemRewards
+---@return BattlefieldCurrencyReward[]? currencyRewards
+---@return RoleShortageReward? roleShortageBonus
+function C_PvP.GetRandomTrainingGroundRewards() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetRatedBGRewards)
 ---@return number honor
 ---@return number experience
@@ -303,6 +318,10 @@ function C_PvP.GetSpecialEventBrawlInfo() end
 ---@return PVPTeamInfo? info
 function C_PvP.GetTeamInfo(factionIndex) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetTrainingGrounds)
+---@return BattlegroundInfo[] trainingGrounds
+function C_PvP.GetTrainingGrounds() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.GetUIDisplaySeason)
 ---@return number uiDisplaySeason
 function C_PvP.GetUIDisplaySeason() end
@@ -331,6 +350,16 @@ function C_PvP.GetZonePVPInfo() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.HasArenaSkirmishWinToday)
 ---@return boolean hasArenaSkirmishWinToday
 function C_PvP.HasArenaSkirmishWinToday() end
+
+---Returns true if a match is either active or complete.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.HasMatchStarted)
+---@return boolean hasStarted
+function C_PvP.HasMatchStarted() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.HasRandomTrainingGroundWinToday)
+---@return boolean hasRandomTrainingGroundWinToday
+function C_PvP.HasRandomTrainingGroundWinToday() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.IsActiveBattlefield)
 ---@return boolean isActiveBattlefield
@@ -433,12 +462,23 @@ function C_PvP.IsWarModeDesired() end
 ---@return boolean warModeEnabled
 function C_PvP.IsWarModeFeatureEnabled() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.JoinBattlefield)
+---@param battlemasterListId number
+function C_PvP.JoinBattlefield(battlemasterListId) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.JoinBrawl)
 ---@param isSpecialBrawl? boolean Default = false
 function C_PvP.JoinBrawl(isSpecialBrawl) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.JoinRandomTrainingGround)
+function C_PvP.JoinRandomTrainingGround() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.JoinRatedBGBlitz)
 function C_PvP.JoinRatedBGBlitz() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.JoinTrainingGround)
+---@param trainingGroundID number
+function C_PvP.JoinTrainingGround(trainingGroundID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PvP.RequestCrowdControlSpell)
 ---@param playerToken UnitToken
@@ -501,6 +541,22 @@ function C_PvP.ToggleWarMode() end
 ---@field isAlive boolean
 ---@field shouldDrawBelowPlayerBlips boolean
 
+---@class BattlegroundInfo
+---@field name string
+---@field icon fileID?
+---@field gameType string
+---@field shortDescription string
+---@field longDescription string
+---@field mapDescription string
+---@field maxPlayers number
+---@field battlegroundID number?
+---@field lfgDungeonID number?
+---@field mapID number?
+---@field isHoliday boolean
+---@field isRandom boolean
+---@field canEnter boolean
+---@field isTrainingGround boolean
+
 ---@class BattlemasterListInfo
 ---@field name string
 ---@field matchmakingType Enum.PvPMatchmakingType
@@ -544,6 +600,7 @@ function C_PvP.ToggleWarMode() end
 ---@field mapNames string[]
 ---@field includesAllArenas boolean? Default = false
 ---@field minItemLevel number? Default = 0
+---@field shouldHideRewardIcon boolean? Default = false
 
 ---@class PVPPersonalRatedInfo
 ---@field personalRating number

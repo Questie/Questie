@@ -15,3 +15,7 @@ function C_TradeInfo.PickupTradeMoney(amount) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TradeInfo.SetTradeMoney)
 ---@param amount WOWMONEY
 function C_TradeInfo.SetTradeMoney(amount) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TradeInfo.ShouldShowTradeOfferWarning)
+---@return boolean shouldShow
+function C_TradeInfo.ShouldShowTradeOfferWarning() end

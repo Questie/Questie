@@ -1,4 +1,8 @@
 ---@meta _
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsCollisionEnabled)
+---@return boolean result
+function IsCollisionEnabled() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_ToggleAnimKitDisplay)
 function ToggleAnimKitDisplay() end
 

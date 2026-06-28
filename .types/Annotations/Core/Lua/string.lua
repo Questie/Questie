@@ -36,6 +36,12 @@ function string.byte(s, i, j) end
 ---@nodiscard
 function string.char(byte, ...) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_string.concat)
+---@param ... string
+---@return string
+---@nodiscard
+function string.concat(...) end
+
 ---
 ---Looks for the first match of `pattern` (see [§6.4.1](command:extension.lua.doc?["en-us/51/manual.html/6.4.1"])) in the string.
 ---
@@ -226,12 +232,6 @@ function strcmputf8i(str1, str2) end
 ---@return number
 ---@nodiscard
 function strlenutf8(str) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_strconcat)
----@param ... string
----@return string
----@nodiscard
-function strconcat(...) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_tostringall)
 ---@param ... any

@@ -1,4 +1,16 @@
 ---@meta _
+---[Documentation](https://warcraft.wiki.gg/wiki/API_AbbreviateLargeNumbers)
+---@param number number
+---@param options? NumberAbbrevOptions
+---@return string result
+function AbbreviateLargeNumbers(number, options) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_AbbreviateNumbers)
+---@param number number
+---@param options? NumberAbbrevOptions
+---@return string result
+function AbbreviateNumbers(number, options) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_BreakUpLargeNumbers)
 ---@param largeNumber number
 ---@param natural? boolean Default = false
@@ -10,12 +22,22 @@ function BreakUpLargeNumbers(largeNumber, natural) end
 ---@return string result
 function CaseAccentInsensitiveParse(name) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_CreateAbbreviateConfig)
+---@param data NumberAbbreviationBreakpoint[]
+---@return AbbreviateConfig config
+function CreateAbbreviateConfig(data) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_DeclineName)
 ---@param name string
 ---@param gender? Enum.UnitSex
 ---@param declensionSet number
 ---@return string ... declinedNames
 function DeclineName(name, gender, declensionSet) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetDefaultAbbreviationBreakpoints)
+---@param locale? WowLocale
+---@return NumberAbbreviationBreakpoint[] breakpoints
+function GetDefaultAbbreviationBreakpoints(locale) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumDeclensionSets)
 ---@param name string
@@ -35,3 +57,8 @@ function LocalizedClassList(isFemale) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_SetEuropeanNumbers)
 ---@param enabled boolean
 function SetEuropeanNumbers(enabled) end
+
+---@class NumberAbbrevOptions
+---@field breakpointData NumberAbbreviationBreakpoint[]?
+---@field locale string?
+---@field config AbbreviateConfig?

@@ -2,7 +2,7 @@
 C_ClickBindings = {}
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ClickBindings.CanSpellBeClickBound)
----@param spellID number
+---@param spellID SpellIdentifier
 ---@return boolean canBeBound
 function C_ClickBindings.CanSpellBeClickBound(spellID) end
 

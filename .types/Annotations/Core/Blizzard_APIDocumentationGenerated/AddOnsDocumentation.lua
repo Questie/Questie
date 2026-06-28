@@ -48,7 +48,6 @@ function C_AddOns.GetAddOnEnableState(name, character) end
 ---@return boolean loadable
 ---@return string reason
 ---@return string security
----@return boolean updateAvailable
 function C_AddOns.GetAddOnInfo(name) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetAddOnInterfaceVersion)
@@ -66,13 +65,33 @@ function C_AddOns.GetAddOnLocalTable(name) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetAddOnMetadata)
 ---@param name uiAddon
 ---@param variable string
----@return string value
+---@return string? value
 function C_AddOns.GetAddOnMetadata(name, variable) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetAddOnName)
+---@param index uiAddon
+---@return string name
+function C_AddOns.GetAddOnName(index) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetAddOnNotes)
+---@param name uiAddon
+---@return string notes
+function C_AddOns.GetAddOnNotes(name) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetAddOnOptionalDependencies)
 ---@param name uiAddon
 ---@return string ... deps
 function C_AddOns.GetAddOnOptionalDependencies(name) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetAddOnSecurity)
+---@param name uiAddon
+---@return Enum.AddOnSecurityStatus security
+function C_AddOns.GetAddOnSecurity(name) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetAddOnTitle)
+---@param name uiAddon
+---@return string title
+function C_AddOns.GetAddOnTitle(name) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_AddOns.GetNumAddOns)
 ---@return number numAddOns
@@ -136,7 +155,6 @@ function C_AddOns.SetAddonVersionCheck(enabled) end
 ---@field loadable boolean
 ---@field reason string
 ---@field security string
----@field updateAvailable boolean
 
 ---@class AddOnLoadableInfo
 ---@field loadable boolean
