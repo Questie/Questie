@@ -150,16 +150,6 @@ describe("l10n", function()
         assert.are.same({"Bringt die Lieferung zu Zinge."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
     end)
 
-    it("should store quest objective strings as one-element tables", function()
-        l10n.questLookup["deDE"] = function()
-            return {[1359] = {"Zinges Lieferung", "Bringt die Lieferung zu Zinge."}}
-        end
-
-        _InitializeLocale("deDE")
-
-        assert.are.same({"Bringt die Lieferung zu Zinge."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
-    end)
-
     it("should preserve quest objective tables", function()
         l10n.questLookup["deDE"] = function()
             return {[1359] = {"Zinges Lieferung", {"Erster Schritt.", "", "Zweiter Schritt."}}}
@@ -172,10 +162,10 @@ describe("l10n", function()
 
     it("should let quest lookup overrides replace normal quest lookup data", function()
         l10n.questLookup["deDE"] = function()
-            return {[1359] = {"Normale Lieferung", "Normales Ziel."}}
+            return {[1359] = {"Normale Lieferung", {"Normales Ziel."}}}
         end
         l10n.questLookupOverrides = function()
-            return {[1359] = {"Überschriebene Lieferung", "Überschriebenes Ziel."}}
+            return {[1359] = {"Überschriebene Lieferung", {"Überschriebenes Ziel."}}}
         end
 
         _InitializeLocale("deDE")
@@ -195,7 +185,7 @@ describe("l10n", function()
             return {[999003] = "Missing Object"}
         end
         l10n.questLookup["deDE"] = function()
-            return {[999004] = {"Missing Quest", "Missing objective."}}
+            return {[999004] = {"Missing Quest", {"Missing objective."}}}
         end
 
         _InitializeLocale("deDE")

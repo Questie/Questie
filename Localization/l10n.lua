@@ -48,8 +48,7 @@ function l10n:Initialize()
         end
     end
 
-    -- Original data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
-    -- Cheeq changed this to {<questName>, {<questObjective>,...}} on February 7th, 2026
+    -- data is {<questName>, {<questObjective>, ...}}
     -- Load quest locales
     for id, data in pairs(questLookup) do
         if QuestieDB.questData[id] then
@@ -57,12 +56,7 @@ function l10n:Initialize()
                 QuestieDB.questData[id][QuestieDB.questKeys.name] = data[1]
             end
             if data[2] then
-                -- needs to be saved as a table for tooltips to have lines
-                if type(data[2]) == "string" then
-                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[2]}
-                else
-                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[2]
-                end
+                QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[2]
             end
         end
     end
