@@ -106,35 +106,6 @@ describe("Cata localization lookup loadstrings", function()
                         end
                     end
                 end
-                -- -- Description lines must be a numeric-indexed string array when present.
-                -- -- Cheeq removed Description lines from l10n, this is the "old" full structure
-                -- if data[2] ~= nil then
-                --     if type(data[2]) ~= "table" then
-                --         error(filePath .. " has invalid quest description value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
-                --     end
-                --     for index, line in pairs(data[2]) do
-                --         if type(index) ~= "number" then
-                --             error(filePath .. " has a non-number quest description line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
-                --         end
-                --         if type(line) ~= "string" then
-                --             error(filePath .. " has invalid quest description line type for ID " .. tostring(id) .. ": " .. type(line), 0)
-                --         end
-                --     end
-                -- end
-                -- -- Objective lines must be a numeric-indexed string array when present.
-                -- if data[3] ~= nil then
-                --     if type(data[3]) ~= "table" then
-                --         error(filePath .. " has invalid quest objective value type for ID " .. tostring(id) .. ": " .. type(data[3]), 0)
-                --     end
-                --     for index, line in pairs(data[3]) do
-                --         if type(index) ~= "number" then
-                --             error(filePath .. " has a non-number quest objective line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
-                --         end
-                --         if type(line) ~= "string" then
-                --             error(filePath .. " has invalid quest objective line type for ID " .. tostring(id) .. ": " .. type(line), 0)
-                --         end
-                --     end
-                -- end
             end
         end
 
