@@ -22,7 +22,28 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
+---@type fun(): table<string, string>
 local _GetLanguages
+---@type string|nil
+local pendingLocaleSelection
+
+---@return string locale
+local function _GetAutomaticLocale()
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        return l10n:GetFallbackLocale(QUESTIE_LOCALES_OVERRIDE.locale)
+    end
+
+    return l10n:GetFallbackLocale(GetLocale())
+end
+
+---@return nil
+local function _InvalidateCompiledDatabase()
+    if Questie.IsSoD then
+        Questie.db.global.sod.dbIsCompiled = false
+    else
+        Questie.db.global.dbIsCompiled = false
+    end
+end
 
 function QuestieOptions.tabs.advanced:Initialize()
     return {
@@ -204,27 +225,35 @@ function QuestieOptions.tabs.advanced:Initialize()
                 values = _GetLanguages,
                 style = "dropdown",
                 name = function() return l10n("Select UI Locale"); end,
+                ---@return string selectedLocale
                 get = function()
                     if not Questie.db.global.questieLocaleDiff then
                         return "auto"
-                    else
-                        return l10n:GetUILocale();
                     end
+
+                    return l10n:GetUILocale()
                 end,
+                ---@param lang string
                 set = function(_, lang)
-                    if lang == "auto" then
-                        local clientLocale = GetLocale()
-                        if QUESTIE_LOCALES_OVERRIDE ~= nil then
-                            clientLocale = QUESTIE_LOCALES_OVERRIDE.locale
-                        end
-                        l10n:SetUILocale(clientLocale)
-                        Questie.db.global.questieLocale = clientLocale
-                        Questie.db.global.questieLocaleDiff = false
-                    else
-                        l10n:SetUILocale(lang);
-                        Questie.db.global.questieLocale = lang;
-                        Questie.db.global.questieLocaleDiff = true;
+                    local currentSelectedLocale = Questie.db.global.questieLocaleDiff and l10n:GetUILocale() or "auto"
+                    if lang == currentSelectedLocale then
+                        return
                     end
+
+                    local currentEffectiveLocale = currentSelectedLocale == "auto" and _GetAutomaticLocale()
+                        or l10n:GetFallbackLocale(currentSelectedLocale)
+                    local newEffectiveLocale = lang == "auto" and _GetAutomaticLocale()
+                        or l10n:GetFallbackLocale(lang)
+
+                    if currentEffectiveLocale == newEffectiveLocale then
+                        l10n:SetUILocale(newEffectiveLocale)
+                        Questie.db.global.questieLocale = newEffectiveLocale
+                        Questie.db.global.questieLocaleDiff = lang ~= "auto"
+                        return
+                    end
+
+                    pendingLocaleSelection = lang
+                    StaticPopup_Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -462,11 +491,7 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
         Questie.db.profile.migrationVersion = nil
         Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
 
-        if Questie.IsSoD then
-            Questie.db.global.sod.dbIsCompiled = false
-        else
-            Questie.db.global.dbIsCompiled = false
-        end
+        _InvalidateCompiledDatabase()
 
         Questie.db.char.hidden = nil
         Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
@@ -506,17 +531,47 @@ StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     preferredIndex = 3,
 }
 
+StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+    text = "", -- we set it in OnShow
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        if not pendingLocaleSelection then
+            return
+        end
+
+        local effectiveLocale = pendingLocaleSelection == "auto" and _GetAutomaticLocale()
+            or l10n:GetFallbackLocale(pendingLocaleSelection)
+
+        l10n:SetUILocale(effectiveLocale)
+        Questie.db.global.questieLocale = effectiveLocale
+        Questie.db.global.questieLocaleDiff = pendingLocaleSelection ~= "auto"
+        _InvalidateCompiledDatabase()
+        pendingLocaleSelection = nil
+        ReloadUI()
+    end,
+    OnCancel = function(self)
+        pendingLocaleSelection = nil
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("This will reload the UI. Are you sure you want to change the language?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
 StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
     text = "", -- we set it in OnShow
     button1 = YES,
     button2 = NO,
     OnAccept = function(self)
-            if Questie.IsSoD then
-                Questie.db.global.sod.dbIsCompiled = false
-            else
-                Questie.db.global.dbIsCompiled = false
-            end
-            ReloadUI()
+        _InvalidateCompiledDatabase()
+        ReloadUI()
     end,
     OnShow = function(self)
         local confirmText = l10n("Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
@@ -532,7 +587,7 @@ StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
 
 _GetLanguages = function()
     local languages = {
-        ["auto"] = l10n("Automatic"),
+        ["auto"] = l10n("Automatic") .. " (" .. _GetAutomaticLocale() .. ")",
         ["enUS"] = "English",
         ["deDE"] = "Deutsch",
         ["esES"] = "Español",
