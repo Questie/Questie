@@ -20,6 +20,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -348,6 +350,19 @@ function QuestDetailsFrame:Draw(container, quest)
     if (reqClasses ~= "") then
         local reqClassesLabel = CreateLabel(Questie:Colorize(l10n("Required Class") .. l10n(": "), 'yellow') .. reqClasses, true)
         container:AddChild(reqClassesLabel)
+    end
+
+    -- Required Profession
+    local requiredSkill = QuestieDB.QueryQuestSingle(quest.Id, "requiredSkill")
+    local requiredSpecialization = QuestieDB.QueryQuestSingle(quest.Id, "requiredSpecialization")
+    if requiredSkill and requiredSkill[1] and QuestieProfessions:GetProfessionName(requiredSkill[1]) then
+        local specializationName = requiredSpecialization and QuestieProfessions:GetSpecializationName(requiredSpecialization)
+        local reqProfession = specializationName and l10n(specializationName) or l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
+        if requiredSkill[2] and requiredSkill[2] > 1 then
+            reqProfession = reqProfession .. " " .. l10n("(") .. requiredSkill[2] .. l10n(")")
+        end
+        local reqProfessionLabel = CreateLabel(Questie:Colorize(l10n("Required Profession") .. l10n(": "), 'yellow') .. reqProfession, true)
+        container:AddChild(reqProfessionLabel)
     end
 
     local levelDiffString = GetDifficultyString(questDbLevel, requiredLevel)
