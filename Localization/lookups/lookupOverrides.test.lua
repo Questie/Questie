@@ -7,6 +7,84 @@ describe("localization lookup overrides", function()
     local currentLookupFile
     local originalLoadstring
 
+    local pairs = pairs
+    local type = type
+    local tostring = tostring
+    local error = error
+
+    local function _LoadRegisteredLookup(lookupFunction, lookupName, filePath)
+        -- Override files register lookup-producing functions; load the generated table before schema validation.
+        assert.are.same("function", type(lookupFunction), filePath .. " did not register " .. lookupName)
+
+        local lookup = lookupFunction()
+        assert.are.same("table", type(lookup), filePath .. " " .. lookupName .. " did not return a table")
+
+        return lookup
+    end
+
+    local function _AssertObjectiveLines(value, filePath, id, fieldName)
+        if value == nil then
+            return
+        end
+
+        if type(value) ~= "table" then
+            error(filePath .. " has invalid " .. fieldName .. " value type for ID " .. tostring(id) .. ": " .. type(value), 0)
+        end
+        for index, line in pairs(value) do
+            if type(index) ~= "number" then
+                error(filePath .. " has a non-number " .. fieldName .. " line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
+            end
+            if type(line) ~= "string" then
+                error(filePath .. " has invalid " .. fieldName .. " line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+            end
+        end
+    end
+
+    local function _AssertQuestOverrideShape(lookup, filePath)
+        -- Current locale overrides use the same generated quest row contract as quest lookups: {title?, objectiveLines?}.
+        -- The legacy format used {title?, descriptionLines?, objectiveLines?}; if that returns, l10n.lua and this
+        -- schema validator must change together because field 3 is ignored today.
+        for id, data in pairs(lookup) do
+            if type(id) ~= "number" then
+                error(filePath .. " has a non-number lookup override key: " .. tostring(id), 0)
+            end
+            if type(data) ~= "table" then
+                error(filePath .. " has invalid lookup override value type for ID " .. tostring(id) .. ": " .. type(data), 0)
+            end
+            -- Only fields 1 and 2 are valid today: title and objective lines. Field 3 must not be generated now.
+            for field in pairs(data) do
+                if field ~= 1 and field ~= 2 then
+                    error(filePath .. " has invalid lookup override field " .. tostring(field) .. " for ID " .. tostring(id), 0)
+                end
+            end
+            if data[1] ~= nil and type(data[1]) ~= "string" then
+                error(filePath .. " has invalid lookup override title value type for ID " .. tostring(id) .. ": " .. type(data[1]), 0)
+            end
+            _AssertObjectiveLines(data[2], filePath, id, "lookup override objective")
+        end
+    end
+
+    local function _AssertTitanQuestOverrideShape(lookup, filePath)
+        -- Titan quest overrides are correction-style rows keyed by QuestieDB questKeys, not generated lookup rows.
+        for id, data in pairs(lookup) do
+            if type(id) ~= "number" then
+                error(filePath .. " has a non-number Titan override key: " .. tostring(id), 0)
+            end
+            if type(data) ~= "table" then
+                error(filePath .. " has invalid Titan override value type for ID " .. tostring(id) .. ": " .. type(data), 0)
+            end
+            for field in pairs(data) do
+                if field ~= QuestieDB.questKeys.name and field ~= QuestieDB.questKeys.objectivesText then
+                    error(filePath .. " has invalid Titan override field " .. tostring(field) .. " for ID " .. tostring(id), 0)
+                end
+            end
+            if data[QuestieDB.questKeys.name] ~= nil and type(data[QuestieDB.questKeys.name]) ~= "string" then
+                error(filePath .. " has invalid Titan override name value type for ID " .. tostring(id) .. ": " .. type(data[QuestieDB.questKeys.name]), 0)
+            end
+            _AssertObjectiveLines(data[QuestieDB.questKeys.objectivesText], filePath, id, "Titan override objectivesText")
+        end
+    end
+
     before_each(function()
         l10n = {}
         QuestieDB = {
@@ -72,8 +150,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -85,8 +163,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -98,8 +176,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -111,8 +189,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -124,8 +202,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -137,8 +215,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -150,8 +228,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -163,8 +241,8 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -176,8 +254,21 @@ describe("localization lookup overrides", function()
         it("validates lookupOverrides", function()
             currentLookupFile = "Localization/lookups/lookupOverrides.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookupOverrides))
-            assert.are.same("table", type(l10n.questLookupOverrides()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookupOverrides, "questLookupOverrides", currentLookupFile)
+            _AssertQuestOverrideShape(lookup, currentLookupFile)
+        end)
+    end)
+
+    describe("Titan quest overrides", function()
+        before_each(function()
+            _G.GetLocale = function() return "enUS" end
+        end)
+
+        it("validates correction-style lookup overrides", function()
+            currentLookupFile = "Localization/lookups/lookupOverrides.lua"
+            assert(loadfile(currentLookupFile))()
+            local lookup = _LoadRegisteredLookup(Questie.LoadTitanQuestLookupOverrides, "LoadTitanQuestLookupOverrides", currentLookupFile)
+            _AssertTitanQuestOverrideShape(lookup, currentLookupFile)
         end)
     end)
 end)
