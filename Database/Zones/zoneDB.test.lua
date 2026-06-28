@@ -22,10 +22,10 @@ describe("ZoneDB", function()
     describe("GetAreaIdByUiMapId", function()
         it("should correctly handle map ID for Kalimdor and EK", function()
             local areaId = ZoneDB:GetAreaIdByUiMapId(1414)
-            assert.are.equal(10073, areaId)
+            assert.is_equal(10073, areaId)
 
             areaId = ZoneDB:GetAreaIdByUiMapId(1415)
-            assert.are.equal(10074, areaId)
+            assert.is_equal(10074, areaId)
         end)
     end)
 

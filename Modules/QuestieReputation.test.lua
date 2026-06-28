@@ -657,7 +657,7 @@ describe("QuestieReputation", function()
 
             local factionName = QuestieReputation.GetFactionName(1273)
 
-            assert.are.equal("Jogu the Drunk", factionName)
+            assert.is_equal("Jogu the Drunk", factionName)
             assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was.called_with(1273)
             assert.spy(_G.GetFactionInfoByID).was.not_called()
         end)
@@ -674,7 +674,7 @@ describe("QuestieReputation", function()
 
             local factionName = QuestieReputation.GetFactionName(589)
 
-            assert.are.equal("Wintersaber Trainers", factionName)
+            assert.is_equal("Wintersaber Trainers", factionName)
             assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was.called_with(589)
             assert.spy(_G.GetFactionInfoByID).was.called_with(589)
         end)
@@ -708,7 +708,7 @@ describe("QuestieReputation", function()
 
             local reputationString = QuestieReputation.GetReputationRewardString(reputationReward)
 
-            assert.are.equal("+250 Darkmoon Faire", reputationString)
+            assert.is_equal("+250 Darkmoon Faire", reputationString)
         end)
 
         it("should return formatted reputation string with negative values", function()
@@ -730,7 +730,7 @@ describe("QuestieReputation", function()
 
             local reputationString = QuestieReputation.GetReputationRewardString(reputationReward)
 
-            assert.are.equal("+1000 The Aldor / +500 The Sha'tar / -1100 The Scryers", reputationString)
+            assert.is_equal("+1000 The Aldor / +500 The Sha'tar / -1100 The Scryers", reputationString)
         end)
 
         it("should skip factions without a name", function()
@@ -747,7 +747,7 @@ describe("QuestieReputation", function()
 
             local reputationString = QuestieReputation.GetReputationRewardString(reputationReward)
 
-            assert.are.equal("+250 Darkmoon Faire", reputationString)
+            assert.is_equal("+250 Darkmoon Faire", reputationString)
             assert.spy(_G.GetFactionInfoByID).was.called_with(QuestieDB.factionIDs.DARKMOON_FAIRE)
             assert.spy(_G.GetFactionInfoByID).was.called_with(12345)
         end)
