@@ -5,6 +5,120 @@ describe("Wotlk localization lookup loadstrings", function()
     local currentLookupFile
     local originalLoadstring
 
+    local pairs = pairs
+    local type = type
+    local tostring = tostring
+    local error = error
+
+    local function _LoadRegisteredLookup(lookupTable, locale, filePath)
+        -- Lookup files register one locale-specific function; load its generated table before schema validation.
+        assert.are.same("function", type(lookupTable[locale]), filePath .. " did not register lookup for " .. locale)
+
+        local lookup = lookupTable[locale]()
+        assert.are.same("table", type(lookup), filePath .. " lookup for " .. locale .. " did not return a table")
+
+        return lookup
+    end
+
+    local function _AssertItemLookupShape(lookup, filePath)
+        -- Item lookups map numeric item IDs to localized item names.
+        for id, name in pairs(lookup) do
+            if type(id) ~= "number" then
+                error(filePath .. " has a non-number lookup key: " .. tostring(id), 0)
+            end
+            if type(name) ~= "string" then
+                error(filePath .. " has invalid item name type for ID " .. tostring(id) .. ": " .. type(name), 0)
+            end
+        end
+    end
+
+    local function _AssertNpcLookupShape(lookup, filePath)
+        -- NPC lookups map numeric NPC IDs to {name?, subName?}; {nil, nil} collapses to an empty table.
+        for id, data in pairs(lookup) do
+            if type(id) ~= "number" then
+                error(filePath .. " has a non-number lookup key: " .. tostring(id), 0)
+            end
+            if type(data) ~= "table" then
+                error(filePath .. " has invalid NPC value type for ID " .. tostring(id) .. ": " .. type(data), 0)
+            end
+            -- Only fields 1 and 2 are valid: localized name and optional subname.
+            for field in pairs(data) do
+                if field ~= 1 and field ~= 2 then
+                    error(filePath .. " has invalid NPC field " .. tostring(field) .. " for ID " .. tostring(id), 0)
+                end
+            end
+            if data[1] ~= nil and type(data[1]) ~= "string" then
+                error(filePath .. " has invalid NPC name value type: " .. type(data[1]), 0)
+            end
+            if data[2] ~= nil and type(data[2]) ~= "string" then
+                error(filePath .. " has invalid NPC subname value type: " .. type(data[2]), 0)
+            end
+        end
+    end
+
+    local function _AssertObjectLookupShape(lookup, filePath)
+        -- Object lookups map numeric object IDs to localized object names.
+        for id, name in pairs(lookup) do
+            if type(id) ~= "number" then
+                error(filePath .. " has a non-number lookup key: " .. tostring(id), 0)
+            end
+            if type(name) ~= "string" then
+                error(filePath .. " has invalid object name type for ID " .. tostring(id) .. ": " .. type(name), 0)
+            end
+        end
+    end
+
+    local function _AssertQuestLookupShape(lookup, filePath)
+        -- Quest lookups map numeric quest IDs to {title?, descriptionLines?, objectiveLines?}.
+        for id, data in pairs(lookup) do
+            if type(id) ~= "number" then
+                error(filePath .. " has a non-number lookup key: " .. tostring(id), 0)
+            end
+            if type(data) ~= "table" then
+                error(filePath .. " has invalid quest value type for ID " .. tostring(id) .. ": " .. type(data), 0)
+            end
+            -- Only fields 1, 2, and 3 are valid: title, description lines, and objective lines.
+            for field in pairs(data) do
+                if field ~= 1 and field ~= 2 and field ~= 3 then
+                    error(filePath .. " has invalid quest field " .. tostring(field) .. " for ID " .. tostring(id), 0)
+                end
+            end
+            if data[1] ~= nil and type(data[1]) ~= "string" then
+                error(filePath .. " has invalid quest name value type: " .. type(data[1]), 0)
+            end
+            -- Objective lines must be a numeric-indexed string array when present.
+            if data[2] ~= nil then
+                if type(data[2]) ~= "table" then
+                    error(filePath .. " has invalid quest description value type for ID " .. tostring(id) .. ": " .. type(data[2]), 0)
+                end
+                for index, line in pairs(data[2]) do
+                    if type(index) ~= "number" then
+                        error(filePath .. " has a non-number quest description line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
+                    end
+                    if type(line) ~= "string" then
+                        error(filePath .. " has invalid quest description line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+                    end
+                end
+            end
+            -- -- Description lines must be a numeric-indexed string array when present.
+            -- [...] Cheeq removed Description lines from l10n, this is the "old" full structure
+            -- -- Objective lines must be a numeric-indexed string array when present.
+            -- if data[3] ~= nil then
+            --     if type(data[3]) ~= "table" then
+            --         error(filePath .. " has invalid quest objective value type for ID " .. tostring(id) .. ": " .. type(data[3]), 0)
+            --     end
+            --     for index, line in pairs(data[3]) do
+            --         if type(index) ~= "number" then
+            --             error(filePath .. " has a non-number quest objective line key for ID " .. tostring(id) .. ": " .. tostring(index), 0)
+            --         end
+            --         if type(line) ~= "string" then
+            --             error(filePath .. " has invalid quest objective line type for ID " .. tostring(id) .. ": " .. type(line), 0)
+            --         end
+            --     end
+            -- end
+        end
+    end
+
     before_each(function()
         l10n = {
             itemLookup = {},
@@ -59,29 +173,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/deDE.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["deDE"]))
-            assert.are.same("table", type(l10n.itemLookup["deDE"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "deDE", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/deDE.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["deDE"]))
-            assert.are.same("table", type(l10n.npcNameLookup["deDE"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "deDE", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/deDE.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["deDE"]))
-            assert.are.same("table", type(l10n.objectLookup["deDE"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "deDE", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/deDE.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["deDE"]))
-            assert.are.same("table", type(l10n.questLookup["deDE"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "deDE", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -93,29 +207,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/esES.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["esES"]))
-            assert.are.same("table", type(l10n.itemLookup["esES"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "esES", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/esES.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["esES"]))
-            assert.are.same("table", type(l10n.npcNameLookup["esES"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "esES", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/esES.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["esES"]))
-            assert.are.same("table", type(l10n.objectLookup["esES"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "esES", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/esES.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["esES"]))
-            assert.are.same("table", type(l10n.questLookup["esES"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "esES", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -127,29 +241,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/esMX.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["esMX"]))
-            assert.are.same("table", type(l10n.itemLookup["esMX"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "esMX", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/esMX.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["esMX"]))
-            assert.are.same("table", type(l10n.npcNameLookup["esMX"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "esMX", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/esMX.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["esMX"]))
-            assert.are.same("table", type(l10n.objectLookup["esMX"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "esMX", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/esMX.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["esMX"]))
-            assert.are.same("table", type(l10n.questLookup["esMX"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "esMX", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -161,29 +275,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/frFR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["frFR"]))
-            assert.are.same("table", type(l10n.itemLookup["frFR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "frFR", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/frFR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["frFR"]))
-            assert.are.same("table", type(l10n.npcNameLookup["frFR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "frFR", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/frFR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["frFR"]))
-            assert.are.same("table", type(l10n.objectLookup["frFR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "frFR", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/frFR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["frFR"]))
-            assert.are.same("table", type(l10n.questLookup["frFR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "frFR", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -195,29 +309,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/koKR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["koKR"]))
-            assert.are.same("table", type(l10n.itemLookup["koKR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "koKR", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/koKR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["koKR"]))
-            assert.are.same("table", type(l10n.npcNameLookup["koKR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "koKR", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/koKR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["koKR"]))
-            assert.are.same("table", type(l10n.objectLookup["koKR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "koKR", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/koKR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["koKR"]))
-            assert.are.same("table", type(l10n.questLookup["koKR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "koKR", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -229,29 +343,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/ptBR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["ptBR"]))
-            assert.are.same("table", type(l10n.itemLookup["ptBR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "ptBR", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/ptBR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["ptBR"]))
-            assert.are.same("table", type(l10n.npcNameLookup["ptBR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "ptBR", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/ptBR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["ptBR"]))
-            assert.are.same("table", type(l10n.objectLookup["ptBR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "ptBR", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/ptBR.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["ptBR"]))
-            assert.are.same("table", type(l10n.questLookup["ptBR"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "ptBR", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -263,29 +377,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/ruRU.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["ruRU"]))
-            assert.are.same("table", type(l10n.itemLookup["ruRU"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "ruRU", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/ruRU.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["ruRU"]))
-            assert.are.same("table", type(l10n.npcNameLookup["ruRU"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "ruRU", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/ruRU.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["ruRU"]))
-            assert.are.same("table", type(l10n.objectLookup["ruRU"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "ruRU", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/ruRU.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["ruRU"]))
-            assert.are.same("table", type(l10n.questLookup["ruRU"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "ruRU", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -297,29 +411,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/zhCN.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["zhCN"]))
-            assert.are.same("table", type(l10n.itemLookup["zhCN"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "zhCN", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/zhCN.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["zhCN"]))
-            assert.are.same("table", type(l10n.npcNameLookup["zhCN"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "zhCN", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/zhCN.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["zhCN"]))
-            assert.are.same("table", type(l10n.objectLookup["zhCN"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "zhCN", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/zhCN.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["zhCN"]))
-            assert.are.same("table", type(l10n.questLookup["zhCN"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "zhCN", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 
@@ -331,29 +445,29 @@ describe("Wotlk localization lookup loadstrings", function()
         it("validates lookupItems", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupItems/zhTW.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.itemLookup["zhTW"]))
-            assert.are.same("table", type(l10n.itemLookup["zhTW"]()))
+            local lookup = _LoadRegisteredLookup(l10n.itemLookup, "zhTW", currentLookupFile)
+            _AssertItemLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupNpcs", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupNpcs/zhTW.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.npcNameLookup["zhTW"]))
-            assert.are.same("table", type(l10n.npcNameLookup["zhTW"]()))
+            local lookup = _LoadRegisteredLookup(l10n.npcNameLookup, "zhTW", currentLookupFile)
+            _AssertNpcLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupObjects", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupObjects/zhTW.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.objectLookup["zhTW"]))
-            assert.are.same("table", type(l10n.objectLookup["zhTW"]()))
+            local lookup = _LoadRegisteredLookup(l10n.objectLookup, "zhTW", currentLookupFile)
+            _AssertObjectLookupShape(lookup, currentLookupFile)
         end)
 
         it("validates lookupQuests", function()
             currentLookupFile = "Localization/lookups/Wotlk/lookupQuests/zhTW.lua"
             assert(loadfile(currentLookupFile))()
-            assert.are.same("function", type(l10n.questLookup["zhTW"]))
-            assert.are.same("table", type(l10n.questLookup["zhTW"]()))
+            local lookup = _LoadRegisteredLookup(l10n.questLookup, "zhTW", currentLookupFile)
+            _AssertQuestLookupShape(lookup, currentLookupFile)
         end)
     end)
 end)
