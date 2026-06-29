@@ -8,7 +8,13 @@ local WrappedText = QuestieLoader:CreateModule("WrappedText")
 local utf8 = QuestieLoader:ImportModule("utf8")
 
 local math_max = math.max
+local strfind = string.find
+local strlen = string.len
+local strmatch = string.match
+local tconcat = table.concat
 local tinsert = table.insert
+
+local TEXTURE_PLACEHOLDER = "\239\191\188"
 
 -- The original frame which we use to fetch the data required
 --                           Classic                          Wotlk Classic
@@ -43,7 +49,7 @@ local NUMERIC_SEPARATORS = {
 ---@param character string Single UTF-8 character.
 ---@return boolean isDigit True for ASCII or full-width decimal digits.
 local function _IsNumericCharacter(character)
-    return string.match(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
+    return strmatch(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
 end
 
 ---Returns true for digits and numeric separators only when they are part of one number.
@@ -130,6 +136,52 @@ local function _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
     return lineLength, lineLength + 1, false
 end
 
+---Builds a measurement string from atomic visible indexes, preserving complete raw texture escapes.
+---@param rawCharactersByVisibleIndex table<number, string> Raw visible characters or atomic texture escapes.
+---@param visibleStartIndex number First visible token index.
+---@param visibleEndIndex number Last visible token index.
+---@return string measurementLine Complete raw markup for the visible token range.
+local function _BuildRawMeasurementLine(rawCharactersByVisibleIndex, visibleStartIndex, visibleEndIndex)
+    local measurementLine = {}
+
+    for index = visibleStartIndex, visibleEndIndex do
+        tinsert(measurementLine, rawCharactersByVisibleIndex[index])
+    end
+
+    return tconcat(measurementLine)
+end
+
+---Finds a wrap break by measuring atomic visible-token ranges rebuilt with complete raw texture escapes.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param visibleLine string Text used for visible token indexing.
+---@param rawCharactersByVisibleIndex table<number, string> Raw visible characters or atomic texture escapes.
+---@param visibleStartIndex number First visible token index of the current remaining segment.
+---@param remainingLineLength number UTF-8 visible token length of the current remaining segment.
+---@return number lineEndIndex UTF-8 visible token index, relative to the current remaining segment, where current line should end.
+---@return number nextStartIndex UTF-8 visible token index, relative to the current remaining segment, where next line should start.
+---@return boolean brokeAtSpace True when break was a space boundary.
+local function _GetTextWrapBreakByRawWidth(textWrapFontString, visibleLine, rawCharactersByVisibleIndex, visibleStartIndex, remainingLineLength)
+    local lastSpaceIndex
+
+    for relativeEndIndex = 1, remainingLineLength do
+        local absoluteEndIndex = visibleStartIndex + relativeEndIndex - 1
+        local character = utf8.sub(visibleLine, absoluteEndIndex, absoluteEndIndex)
+        -- Track the last ASCII space so Latin text can break at word boundaries.
+        if (character == " ") then
+            lastSpaceIndex = relativeEndIndex
+        end
+
+        textWrapFontString:SetText(_BuildRawMeasurementLine(rawCharactersByVisibleIndex, visibleStartIndex, absoluteEndIndex))
+
+        if (textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
+            local lineEndIndex = math_max(relativeEndIndex - 1, 1)
+            return _GetPreferredWrapIndex(lastSpaceIndex, lineEndIndex)
+        end
+    end
+
+    return remainingLineLength, remainingLineLength + 1, false
+end
+
 ---Finds a wrap break using WoW row spans, falling back to measured width for CJK edge cases.
 ---@param textWrapFontString FontString Hidden FontString used for measuring.
 ---@param line string UTF-8 text segment to wrap.
@@ -138,7 +190,7 @@ end
 ---@return number nextStartIndex UTF-8 character index where next line should start.
 ---@return boolean brokeAtSpace True when break was a space boundary.
 local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
-    if (not string.find(line, " ", 1, true) and textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
+    if (not strfind(line, " ", 1, true) and textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
         local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
         textWrapFontString:SetText(line)
         return lineEndIndex, nextStartIndex, brokeAtSpace
@@ -242,7 +294,60 @@ local function _ShouldCombineTrailingLine(textWrapFontString, remainingLine, nex
         return false
     end
 
-    return (brokeAtSpace and not string.find(lastLine, " ")) or (utf8.strlen(lastLine) == 1 and string.len(lastLine) > 1)
+    return (brokeAtSpace and not strfind(lastLine, " ")) or (utf8.strlen(lastLine) == 1 and strlen(lastLine) > 1)
+end
+
+---Counts how many visual rows remain after a candidate break for texture-containing text.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param rawCharactersByVisibleIndex table<number, string> Raw visible characters or atomic texture escapes.
+---@param visibleStartIndex number First visible token index of the current remaining segment.
+---@param nextStartIndex number UTF-8 visible token index where trailing text starts, relative to the current remaining segment.
+---@param remainingLineLength number UTF-8 visible token length of the current remaining segment.
+---@return number remainingRows Visual row count, approximated by raw texture-aware width.
+local function _GetRemainingRowsByRawWidth(textWrapFontString, rawCharactersByVisibleIndex, visibleStartIndex, nextStartIndex, remainingLineLength)
+    local absoluteTailStartIndex = visibleStartIndex + nextStartIndex - 1
+    local absoluteEndIndex = visibleStartIndex + remainingLineLength - 1
+    local remainingLine = _BuildRawMeasurementLine(rawCharactersByVisibleIndex, visibleStartIndex, absoluteEndIndex)
+    local lastLine = _BuildRawMeasurementLine(rawCharactersByVisibleIndex, absoluteTailStartIndex, absoluteEndIndex)
+
+    textWrapFontString:SetText(lastLine)
+    local remainingRows = textWrapFontString:GetUnboundedStringWidth() <= textWrapFontString:GetWrappedWidth() and 1 or 2
+    textWrapFontString:SetText(remainingLine)
+
+    return remainingRows
+end
+
+---Determines whether an orphan word or CJK glyph should be pulled into the previous line for texture-containing text.
+---@param textWrapFontString FontString Hidden FontString used for measuring.
+---@param visibleLine string Text used for visible token indexing.
+---@param rawCharactersByVisibleIndex table<number, string> Raw visible characters or atomic texture escapes.
+---@param visibleStartIndex number First visible token index of the current remaining segment.
+---@param nextStartIndex number UTF-8 visible token index where trailing text starts, relative to the current remaining segment.
+---@param remainingLineLength number UTF-8 visible token length of the current remaining segment.
+---@param brokeAtSpace boolean Whether the candidate break is a space boundary.
+---@return boolean shouldCombine True when combining improves trailing-line readability.
+local function _ShouldCombineTrailingLineByRawWidth(
+    textWrapFontString,
+    visibleLine,
+    rawCharactersByVisibleIndex,
+    visibleStartIndex,
+    nextStartIndex,
+    remainingLineLength,
+    brokeAtSpace
+)
+    if (nextStartIndex > remainingLineLength) then
+        return false
+    end
+
+    if (_GetRemainingRowsByRawWidth(textWrapFontString, rawCharactersByVisibleIndex, visibleStartIndex, nextStartIndex, remainingLineLength) ~= 1) then
+        return false
+    end
+
+    local absoluteTailStartIndex = visibleStartIndex + nextStartIndex - 1
+    local absoluteEndIndex = visibleStartIndex + remainingLineLength - 1
+    local lastLine = utf8.sub(visibleLine, absoluteTailStartIndex, absoluteEndIndex)
+
+    return (brokeAtSpace and not strfind(lastLine, " ")) or (lastLine ~= TEXTURE_PLACEHOLDER and utf8.strlen(lastLine) == 1 and strlen(lastLine) > 1)
 end
 
 ---@class WrappedTextColorEvent
@@ -250,48 +355,58 @@ end
 ---@field value string Original `|c...` or `|r` escape sequence.
 
 ---Builds the visible text used for measurement and records zero-width color controls.
----Escaped `||` stays visible and is rebuilt as `||` when color-aware rebuilding is needed.
----@param line string Source text that may contain WoW color escapes.
----@return string visibleLine Text with color escapes removed for width measurement.
----@return table<number, string> rawCharactersByVisibleIndex Raw visible characters, preserving escaped literal pipes.
+---Escaped `||` stays visible and is rebuilt as `||` when escape-aware rebuilding is needed.
+---Texture escapes are represented as one visible placeholder so wrapping cannot split their `|T...|t` markup.
+---@param line string Source text that may contain WoW color or texture escapes.
+---@return string visibleLine Text with color escapes removed and texture escapes collapsed for width measurement.
+---@return table<number, string> rawCharactersByVisibleIndex Raw visible characters, preserving escaped literal pipes and full texture escapes.
 ---@return table<number, WrappedTextColorEvent[]> colorEventsByVisibleIndex Color events keyed by the next visible character index.
----@return boolean hasRealColorEscapes True when a real `|c...` or `|r` escape was found.
-local function _ParseColorEscapes(line)
+---@return boolean hasRebuildEscapes True when output should be rebuilt from raw characters and color events.
+---@return boolean hasTextureEscapes True when wrapping measurement needs complete raw texture escapes.
+local function _ParseEscapes(line)
     local colorEventsByVisibleIndex = {}
     local visibleCharacters = {}
     local rawCharactersByVisibleIndex = {}
     local byteIndex = 1
-    local hasRealColorEscapes = false
+    local hasRebuildEscapes = false
+    local hasTextureEscapes = false
 
-    while (byteIndex <= string.len(line)) do
-        local escapedPipe = string.match(line, "^||", byteIndex)
-        local colorOpen = string.match(line, "^|[cC]%x%x%x%x%x%x%x%x", byteIndex)
-        local colorReset = string.match(line, "^|[rR]", byteIndex)
+    while (byteIndex <= strlen(line)) do
+        local escapedPipe = strmatch(line, "^||", byteIndex)
+        local colorOpen = strmatch(line, "^|[cC]%x%x%x%x%x%x%x%x", byteIndex)
+        local colorReset = strmatch(line, "^|[rR]", byteIndex)
+        local textureEscape = strmatch(line, "^|T.-|[tT]", byteIndex)
         if (escapedPipe) then
             tinsert(visibleCharacters, "|")
             tinsert(rawCharactersByVisibleIndex, escapedPipe)
-            byteIndex = byteIndex + string.len(escapedPipe)
+            byteIndex = byteIndex + strlen(escapedPipe)
         elseif (colorOpen) then
             local visibleIndex = #visibleCharacters + 1
             colorEventsByVisibleIndex[visibleIndex] = colorEventsByVisibleIndex[visibleIndex] or {}
             tinsert(colorEventsByVisibleIndex[visibleIndex], {kind = "open", value = colorOpen})
-            byteIndex = byteIndex + string.len(colorOpen)
-            hasRealColorEscapes = true
+            byteIndex = byteIndex + strlen(colorOpen)
+            hasRebuildEscapes = true
         elseif (colorReset) then
             local visibleIndex = #visibleCharacters + 1
             colorEventsByVisibleIndex[visibleIndex] = colorEventsByVisibleIndex[visibleIndex] or {}
             tinsert(colorEventsByVisibleIndex[visibleIndex], {kind = "reset", value = colorReset})
-            byteIndex = byteIndex + string.len(colorReset)
-            hasRealColorEscapes = true
+            byteIndex = byteIndex + strlen(colorReset)
+            hasRebuildEscapes = true
+        elseif (textureEscape) then
+            tinsert(visibleCharacters, TEXTURE_PLACEHOLDER)
+            tinsert(rawCharactersByVisibleIndex, textureEscape)
+            byteIndex = byteIndex + strlen(textureEscape)
+            hasRebuildEscapes = true
+            hasTextureEscapes = true
         else
             local character = utf8.sub(string.sub(line, byteIndex), 1, 1)
             tinsert(visibleCharacters, character)
             tinsert(rawCharactersByVisibleIndex, character)
-            byteIndex = byteIndex + string.len(character)
+            byteIndex = byteIndex + strlen(character)
         end
     end
 
-    return table.concat(visibleCharacters), rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRealColorEscapes
+    return tconcat(visibleCharacters), rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRebuildEscapes, hasTextureEscapes
 end
 
 ---Returns the color that is active before a visible character index is emitted.
@@ -415,7 +530,7 @@ local function _RebuildColorEscapedLine(
         tinsert(rebuiltLine, "|r")
     end
 
-    return table.concat(rebuiltLine)
+    return tconcat(rebuiltLine)
 end
 
 ---Emulates the wrapping of a quest description
@@ -451,24 +566,24 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
     textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
     textWrapObjectiveFontString:Show()
 
-    local visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRealColorEscapes
+    local visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRebuildEscapes, hasTextureEscapes
     -- Most lines have no WoW escapes; avoid parser overhead unless a pipe is present.
-    if (string.find(line, "|", 1, true)) then
-        visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRealColorEscapes = _ParseColorEscapes(line)
+    if (strfind(line, "|", 1, true)) then
+        visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRebuildEscapes, hasTextureEscapes = _ParseEscapes(line)
     end
 
-    local measuredLine = hasRealColorEscapes and visibleLine or line
+    local measuredLine = hasRebuildEscapes and visibleLine or line
     local lineLength = utf8.strlen(measuredLine)
 
     -- Fast path: unwrapped text can be returned without token policy checks.
-    textWrapObjectiveFontString:SetText(measuredLine)
+    textWrapObjectiveFontString:SetText(hasTextureEscapes and line or measuredLine)
     if (textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
         local lines = {}
         local startIndex = 1
 
         -- Centralizes the color-aware/plain output choice so the wrapping branches stay readable.
         local function _BuildWrappedLine(visibleStartIndex, visibleEndIndex, rawLine)
-            if (hasRealColorEscapes) then
+            if (hasRebuildEscapes) then
                 return _RebuildColorEscapedLine(
                     measuredLine,
                     rawCharactersByVisibleIndex,
@@ -487,21 +602,58 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
             local remainingLineLength = utf8.strlen(remainingLine)
 
             -- Recalculate each remaining line. Moving breaks over numeric tokens changes row geometry.
-            textWrapObjectiveFontString:SetText(remainingLine)
+            local rawRemainingLine
+            if (hasTextureEscapes) then
+                rawRemainingLine = _BuildRawMeasurementLine(rawCharactersByVisibleIndex, startIndex, lineLength)
+                textWrapObjectiveFontString:SetText(rawRemainingLine)
+            else
+                textWrapObjectiveFontString:SetText(remainingLine)
+            end
             if (textWrapObjectiveFontString:GetUnboundedStringWidth() <= textWrapObjectiveFontString:GetWrappedWidth()) then
                 tinsert(lines, _BuildWrappedLine(startIndex, lineLength, remainingLine))
                 break
             end
 
             -- Apply number-token post-processing after the raw break is found.
-            local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreak(textWrapObjectiveFontString, remainingLine, remainingLineLength)
+            local lineEndIndex, nextStartIndex, brokeAtSpace
+            if (hasTextureEscapes) then
+                lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByRawWidth(
+                    textWrapObjectiveFontString,
+                    measuredLine,
+                    rawCharactersByVisibleIndex,
+                    startIndex,
+                    remainingLineLength
+                )
+            else
+                lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreak(textWrapObjectiveFontString, remainingLine, remainingLineLength)
+            end
             lineEndIndex, nextStartIndex = _MoveNumberToPreviousLine(remainingLine, remainingLineLength, lineEndIndex, nextStartIndex)
 
             local newLine = utf8.sub(remainingLine, 1, lineEndIndex)
             local endIndex = startIndex + lineEndIndex - 1
 
             -- Combine a trailing word or glyph with the previous line when it would otherwise be alone.
-            if (combineTrailing and _ShouldCombineTrailingLine(textWrapObjectiveFontString, remainingLine, nextStartIndex, remainingLineLength, brokeAtSpace)) then
+            local shouldCombineTrailingLine
+            if (hasTextureEscapes) then
+                shouldCombineTrailingLine = combineTrailing and _ShouldCombineTrailingLineByRawWidth(
+                    textWrapObjectiveFontString,
+                    measuredLine,
+                    rawCharactersByVisibleIndex,
+                    startIndex,
+                    nextStartIndex,
+                    remainingLineLength,
+                    brokeAtSpace
+                )
+            else
+                shouldCombineTrailingLine = combineTrailing and _ShouldCombineTrailingLine(
+                    textWrapObjectiveFontString,
+                    remainingLine,
+                    nextStartIndex,
+                    remainingLineLength,
+                    brokeAtSpace
+                )
+            end
+            if (shouldCombineTrailingLine) then
                 tinsert(lines, _BuildWrappedLine(startIndex, lineLength, remainingLine))
                 break
             end
