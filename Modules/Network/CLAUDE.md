@@ -7,4 +7,4 @@ Also read the comms design documents before changing any network/comms module, h
 - `../../docs/questie-comms-design.md`
 - `../../docs/addon-channel-serialization-report.md`
 
-Preserve the documented contracts around absolute `remoteQuestLogs`, dumb `QuestieH1` prefix-state hello, module-owned prefix registration, and CBOR -> Blizzard Deflate -> LibDeflate addon-channel-safe modern payloads.
+Preserve the documented contracts around absolute `remoteQuestLogs`, dumb `QuestieH1` prefix-state hello, module-owned prefix registration, and CBOR -> Blizzard Deflate -> addon-channel-safe modern payloads via `CommsEncoding`.

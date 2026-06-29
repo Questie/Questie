@@ -7,48 +7,19 @@ describe("CommsHello", function()
     ---@type QuestiePlayer
     local QuestiePlayer
 
-    ---@type LibDeflate
-    local LibDeflate
+    ---@type CommsEncoding
+    local CommsEncoding
 
     local serializedPayload
 
     local function setupCodec(decodedPayload)
-        _G.Enum.CompressionMethod = {Deflate = 0}
-        _G.Enum.CompressionLevel = {Default = 0}
-
-        _G.C_EncodingUtil = {
-            SerializeCBOR = spy.new(function(payload)
-                serializedPayload = payload
-                return "cbor"
-            end),
-            CompressString = spy.new(function(payload, method, level)
-                return "compressed:" .. payload .. ":" .. method .. ":" .. level
-            end),
-            DecompressString = spy.new(function(payload, method)
-                if payload == "compressed" and method == Enum.CompressionMethod.Deflate then
-                    return "cbor"
-                end
-
-                return nil
-            end),
-            DeserializeCBOR = spy.new(function(payload)
-                if payload == "cbor" then
-                    return decodedPayload
-                end
-
-                return nil
-            end),
-        }
-
-        LibDeflate.EncodeForWoWAddonChannel = spy.new(function(_, payload)
-            return "wire:" .. payload
+        CommsEncoding.HasCodecSupport = spy.new(function() return true end)
+        CommsEncoding.EncodePayload = spy.new(function(_, payload)
+            serializedPayload = payload
+            return "wire"
         end)
-        LibDeflate.DecodeForWoWAddonChannel = spy.new(function(_, payload)
-            if payload == "wire" then
-                return "compressed"
-            end
-
-            return nil
+        CommsEncoding.DecodePayload = spy.new(function()
+            return decodedPayload
         end)
     end
 
@@ -79,7 +50,8 @@ describe("CommsHello", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.GetGroupType = function() return "party" end
 
-        LibDeflate = QuestieLoader:ImportModule("LibDeflate")
+        dofile("Modules/Network/CommsEncoding.lua")
+        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
         setupCodec({QuestieH1 = true, QuestieV1 = true, questie = true, Questie = true, REPUTABLE = true})
 
         dofile("Modules/Network/CommsHello.lua")
@@ -96,20 +68,8 @@ describe("CommsHello", function()
             assert.is_true(CommsHello:GetLocalPrefixState("QuestieH1"))
         end)
 
-        it("does not register when LibDeflate addon-channel encoding is unavailable", function()
-            LibDeflate.EncodeForWoWAddonChannel = nil
-            dofile("Modules/Network/CommsHello.lua")
-            CommsHello = QuestieLoader:ImportModule("CommsHello")
-
-            local initialized = CommsHello:Initialize()
-
-            assert.is_false(initialized)
-            assert.spy(Questie.RegisterComm).was.not_called()
-            assert.is_false(CommsHello:GetLocalPrefixState("QuestieH1"))
-        end)
-
-        it("does not register when Blizzard encoding is unavailable", function()
-            _G.C_EncodingUtil = nil
+        it("does not register when modern payload encoding is unavailable", function()
+            CommsEncoding.HasCodecSupport = spy.new(function() return false end)
             dofile("Modules/Network/CommsHello.lua")
             CommsHello = QuestieLoader:ImportModule("CommsHello")
 
@@ -169,7 +129,7 @@ describe("CommsHello", function()
     end)
 
     describe("SendHello", function()
-        it("sends the registered local prefix map to party using CBOR, Blizzard deflate, and addon-channel encoding", function()
+        it("sends the registered local prefix map to party using the modern payload encoder", function()
             CommsHello:Initialize()
             CommsHello:RegisterLocalPrefix("Questie")
             CommsHello:RegisterLocalPrefix("REPUTABLE")
@@ -178,21 +138,19 @@ describe("CommsHello", function()
 
             assert.is_true(sent)
             assert.are_same({QuestieH1 = true, QuestieV1 = false, questie = false, Questie = true, REPUTABLE = true}, serializedPayload)
-            assert.spy(_G.C_EncodingUtil.SerializeCBOR).was.called(1)
-            assert.spy(_G.C_EncodingUtil.CompressString).was.called_with("cbor", Enum.CompressionMethod.Deflate, Enum.CompressionLevel.Default)
-            assert.spy(LibDeflate.EncodeForWoWAddonChannel).was.called(1)
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire:compressed:cbor:0:0", "PARTY")
+            assert.spy(CommsEncoding.EncodePayload).was.called(1)
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "PARTY")
         end)
 
         it("uses raid and instance distributions based on the group type", function()
             QuestiePlayer.GetGroupType = function() return "raid" end
             CommsHello:SendHello()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire:compressed:cbor:0:0", "RAID")
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "RAID")
 
             Questie.SendCommMessage:clear()
             QuestiePlayer.GetGroupType = function() return "instance" end
             CommsHello:SendHello()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire:compressed:cbor:0:0", "INSTANCE_CHAT")
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "INSTANCE_CHAT")
         end)
 
         it("does not send outside a group", function()
@@ -225,14 +183,14 @@ describe("CommsHello", function()
         it("ignores messages from self", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsHello.peerPrefixes.Player)
         end)
 
         it("ignores messages from the local full name", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-HomeRealm")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsHello.peerPrefixes["Player-HomeRealm"])
         end)
 
@@ -247,7 +205,7 @@ describe("CommsHello", function()
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-MyRealm")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsHello.peerPrefixes["Player-MyRealm"])
         end)
 
@@ -258,7 +216,7 @@ describe("CommsHello", function()
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-MyRealm")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsHello.peerPrefixes["Player-MyRealm"])
         end)
 
@@ -290,19 +248,19 @@ describe("CommsHello", function()
         it("ignores whispers from non-group senders", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Stranger")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsHello.peerPrefixes.Stranger)
         end)
 
         it("ignores unsupported distributions", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "GUILD", "Friend")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsHello.peerPrefixes.Friend)
         end)
 
         it("ignores malformed payloads without throwing", function()
-            LibDeflate.DecodeForWoWAddonChannel = spy.new(function() error("bad wire") end)
+            CommsEncoding.DecodePayload = spy.new(function() return nil end)
 
             assert.has_no.errors(function()
                 CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend")

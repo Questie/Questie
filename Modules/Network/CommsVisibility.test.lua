@@ -22,48 +22,19 @@ describe("CommsVisibility", function()
     ---@type QuestieComms
     local QuestieComms
 
-    ---@type LibDeflate
-    local LibDeflate
+    ---@type CommsEncoding
+    local CommsEncoding
 
     local serializedPayload
 
     local function setupCodec(decodedPayload)
-        _G.Enum.CompressionMethod = {Deflate = 0}
-        _G.Enum.CompressionLevel = {Default = 0}
-
-        _G.C_EncodingUtil = {
-            SerializeCBOR = spy.new(function(payload)
-                serializedPayload = payload
-                return "cbor"
-            end),
-            CompressString = spy.new(function(payload, method, level)
-                return "compressed:" .. payload .. ":" .. method .. ":" .. level
-            end),
-            DecompressString = spy.new(function(payload, method)
-                if payload == "compressed" and method == Enum.CompressionMethod.Deflate then
-                    return "cbor"
-                end
-
-                return nil
-            end),
-            DeserializeCBOR = spy.new(function(payload)
-                if payload == "cbor" then
-                    return decodedPayload
-                end
-
-                return nil
-            end),
-        }
-
-        LibDeflate.EncodeForWoWAddonChannel = spy.new(function(_, payload)
-            return "wire:" .. payload
+        CommsEncoding.HasCodecSupport = spy.new(function() return true end)
+        CommsEncoding.EncodePayload = spy.new(function(_, payload)
+            serializedPayload = payload
+            return "wire"
         end)
-        LibDeflate.DecodeForWoWAddonChannel = spy.new(function(_, payload)
-            if payload == "wire" then
-                return "compressed"
-            end
-
-            return nil
+        CommsEncoding.DecodePayload = spy.new(function()
+            return decodedPayload
         end)
     end
 
@@ -114,7 +85,8 @@ describe("CommsVisibility", function()
         QuestieComms = QuestieLoader:ImportModule("QuestieComms")
         QuestieComms.remoteQuestLogs = {}
 
-        LibDeflate = QuestieLoader:ImportModule("LibDeflate")
+        dofile("Modules/Network/CommsEncoding.lua")
+        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
         setupCodec(decodedPayload or {[101] = true})
 
         dofile("Modules/Network/CommsVisibility.lua")
@@ -135,8 +107,8 @@ describe("CommsVisibility", function()
             assert.spy(CommsHello.RegisterLocalPrefix).was.called_with(CommsHello, "QuestieV1")
         end)
 
-        it("does not register when Blizzard encoding is unavailable", function()
-            _G.C_EncodingUtil = nil
+        it("does not register when modern payload encoding is unavailable", function()
+            CommsEncoding.HasCodecSupport = spy.new(function() return false end)
             dofile("Modules/Network/CommsVisibility.lua")
             CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
@@ -169,28 +141,26 @@ describe("CommsVisibility", function()
     end)
 
     describe("SendSnapshot", function()
-        it("sends the full visibility map to party using CBOR, Blizzard deflate, and addon-channel encoding", function()
+        it("sends the full visibility map to party using the modern payload encoder", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true, [202] = true}
 
             local sent = CommsVisibility:SendSnapshot()
 
             assert.is_true(sent)
             assert.are_same({[101] = true, [202] = false}, serializedPayload)
-            assert.spy(_G.C_EncodingUtil.SerializeCBOR).was.called(1)
-            assert.spy(_G.C_EncodingUtil.CompressString).was.called_with("cbor", Enum.CompressionMethod.Deflate, Enum.CompressionLevel.Default)
-            assert.spy(LibDeflate.EncodeForWoWAddonChannel).was.called(1)
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire:compressed:cbor:0:0", "PARTY")
+            assert.spy(CommsEncoding.EncodePayload).was.called(1)
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "PARTY")
         end)
 
         it("uses raid and instance distributions based on the group type", function()
             QuestiePlayer.GetGroupType = function() return "raid" end
             CommsVisibility:SendSnapshot()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire:compressed:cbor:0:0", "RAID")
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "RAID")
 
             Questie.SendCommMessage:clear()
             QuestiePlayer.GetGroupType = function() return "instance" end
             CommsVisibility:SendSnapshot()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire:compressed:cbor:0:0", "INSTANCE_CHAT")
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "INSTANCE_CHAT")
         end)
 
         it("does not send outside a group", function()
@@ -234,7 +204,7 @@ describe("CommsVisibility", function()
         it("rejects messages from self before decoding", function()
             CommsVisibility.OnCommReceived("QuestieV1", "wire", "PARTY", "Player")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsVisibility.remoteQuestVisibility.Player)
         end)
 
@@ -244,12 +214,12 @@ describe("CommsVisibility", function()
 
             CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Stranger-Realm")
 
-            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsVisibility.remoteQuestVisibility["Stranger-Realm"])
         end)
 
         it("ignores malformed payloads safely", function()
-            LibDeflate.DecodeForWoWAddonChannel = spy.new(function() return nil end)
+            CommsEncoding.DecodePayload = spy.new(function() return nil end)
 
             CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
 

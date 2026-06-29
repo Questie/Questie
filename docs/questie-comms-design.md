@@ -85,25 +85,25 @@ Future modern comm modules should follow the same pattern: define the prefix in 
 
 The future comms direction is typed prefixes with body-only payloads. The prefix should imply message type, schema, and codec. Modern packets should not carry `msgId`, `msgVer`, `codec`, or `schema` fields in every payload when the prefix already defines those things.
 
-The current `QuestieH1` wire path is:
+The current modern-prefix wire path is owned by `CommsEncoding`:
 
 ```text
 Lua table
 -> C_EncodingUtil.SerializeCBOR
 -> C_EncodingUtil.CompressString(..., Enum.CompressionMethod.Deflate)
--> LibDeflate:EncodeForWoWAddonChannel
--> Questie:SendCommMessage("QuestieH1", encodedPayload, distribution)
+-> addon-channel-safe byte encoding
+-> Questie:SendCommMessage(prefix, encodedPayload, distribution)
 ```
 
 The receive path reverses that process:
 
 ```text
-LibDeflate:DecodeForWoWAddonChannel
+addon-channel-safe byte decoding
 -> C_EncodingUtil.DecompressString(..., Enum.CompressionMethod.Deflate)
 -> C_EncodingUtil.DeserializeCBOR
 ```
 
-In this path, LibDeflate is used only for addon-channel-safe encoding and decoding. Compression is Blizzard's built-in Deflate through `C_EncodingUtil`, not LibDeflate compression.
+`CommsEncoding` contains only the trimmed addon-channel-safe codec pieces Questie needs, with LibDeflate/LibCompress attribution preserved. Compression is Blizzard's built-in Deflate through `C_EncodingUtil`, not LibDeflate compression.
 
 If a future prefix changes wire shape or codec incompatibly, create a new prefix instead of adding per-packet negotiation fields.
 

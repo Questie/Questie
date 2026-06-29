@@ -9,9 +9,7 @@ QuestieV1 visibility message, end-to-end:
 
     Wire path:
         payload
-            -> C_EncodingUtil.SerializeCBOR(payload)
-            -> C_EncodingUtil.CompressString(cbor, Enum.CompressionMethod.Deflate)
-            -> LibDeflate:EncodeForWoWAddonChannel(compressed)
+            -> CommsEncoding:EncodePayload(payload)
 
 QuestieV1 is a full snapshot of display intent. It is intentionally separate from
 QuestieComms.remoteQuestLogs, which remains the absolute quest-log/progress truth.
@@ -25,8 +23,8 @@ local CommsVisibility = QuestieLoader:CreateModule("CommsVisibility")
 -------------------------
 -- Import modules.
 -------------------------
----@type LibDeflate
-local LibDeflate = QuestieLoader:ImportModule("LibDeflate")
+---@type CommsEncoding
+local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestLogCache
@@ -53,74 +51,6 @@ CommsVisibility.remoteQuestVisibility = CommsVisibility.remoteQuestVisibility or
 
 local snapshotScheduled = false
 local initialized = false
-
--------------------------
--- Codec.
--------------------------
----@return boolean
-local function _HasCodecSupport()
-    return C_EncodingUtil
-        and C_EncodingUtil.SerializeCBOR
-        and C_EncodingUtil.DeserializeCBOR
-        and C_EncodingUtil.CompressString
-        and C_EncodingUtil.DecompressString
-        and Enum
-        and Enum.CompressionMethod
-        and Enum.CompressionMethod.Deflate ~= nil
-        and Enum.CompressionLevel
-        and Enum.CompressionLevel.Default ~= nil
-        and LibDeflate
-        and LibDeflate.EncodeForWoWAddonChannel
-        and LibDeflate.DecodeForWoWAddonChannel
-end
-
----@param payload table Plain Lua table accepted by Blizzard's CBOR serializer.
----@return string? encodedPayload Nil when serialization, compression, or channel encoding fails.
-local function _Encode(payload)
-    if not _HasCodecSupport() then
-        return nil
-    end
-
-    local ok, encoded = pcall(function()
-        local cbor = C_EncodingUtil.SerializeCBOR(payload)
-        local compressed = C_EncodingUtil.CompressString(cbor, Enum.CompressionMethod.Deflate, Enum.CompressionLevel.Default)
-        return LibDeflate:EncodeForWoWAddonChannel(compressed)
-    end)
-
-    if ok then
-        return encoded
-    end
-
-    return nil
-end
-
----@param message string Addon-channel-safe payload received under QuestieV1.
----@return table? payload Nil when any decode stage fails or the decoded value is not a table.
-local function _Decode(message)
-    if not _HasCodecSupport() then
-        return nil
-    end
-
-    local ok, decoded = pcall(function()
-        local compressed = LibDeflate:DecodeForWoWAddonChannel(message)
-        if not compressed then
-            return nil
-        end
-
-        local cbor = C_EncodingUtil.DecompressString(compressed, Enum.CompressionMethod.Deflate)
-        if not cbor then
-            return nil
-        end
-
-        return C_EncodingUtil.DeserializeCBOR(cbor)
-    end)
-
-    if ok and type(decoded) == "table" then
-        return decoded
-    end
-
-    return nil
-end
 
 -------------------------
 -- Group/send helpers.
@@ -217,7 +147,7 @@ function CommsVisibility:Initialize()
         return true
     end
 
-    if not _HasCodecSupport() then
+    if not CommsEncoding:HasCodecSupport() then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[CommsVisibility] Codec support unavailable, not registering QuestieV1")
         return false
     end
@@ -262,7 +192,7 @@ function CommsVisibility:SendSnapshot()
         return false
     end
 
-    local message = _Encode(CommsVisibility:BuildLocalSnapshot())
+    local message = CommsEncoding:EncodePayload(CommsVisibility:BuildLocalSnapshot())
     if not message then
         return false
     end
@@ -314,7 +244,7 @@ function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    local payload = _Decode(message)
+    local payload = CommsEncoding:DecodePayload(message)
     if not payload then
         return
     end
