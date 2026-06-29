@@ -3,18 +3,19 @@ QuestieV1 visibility message, end-to-end:
 
     Decoded payload:
         {
-            [questId] = true,   -- this player wants party members to draw objectives for the quest
-            [questId] = false,  -- this player wants party members to suppress objectives for the quest
+            [questId] = true,   -- this player wants party members to draw party objective pins for the quest
+            [questId] = false,  -- this player wants party members to suppress party objective pins for the quest
         }
 
     Wire path:
         payload
             -> CommsEncoding:EncodePayload(payload)
 
-QuestieV1 is a full snapshot of display intent. It is intentionally separate from
-QuestieComms.remoteQuestLogs, which remains the absolute quest-log/progress truth.
+QuestieV1 is a full snapshot of party-objective pin display intent. It is intentionally
+separate from QuestieComms.remoteQuestLogs, which remains the absolute quest-log/progress
+truth and can still feed contextual tooltip progress.
 ]]
----@alias QuestieCommsVisibilitySnapshot table<number, boolean> QuestId -> show party objectives.
+---@alias QuestieCommsVisibilitySnapshot table<number, boolean> QuestId -> show party objective pins.
 -- Missing quest IDs mean unknown and are treated as shown by readers.
 
 ---@class CommsVisibility : QuestieModule
@@ -44,8 +45,9 @@ local MAX_VISIBILITY_SNAPSHOT_QUESTS = 50
 
 CommsVisibility.prefix = VISIBILITY_PREFIX
 
--- remoteQuestVisibility["Friend-Realm"][questId] = true/false. Missing data means unknown and
--- defaults to shown for backward compatibility with clients that do not speak QuestieV1.
+-- remoteQuestVisibility["Friend-Realm"][questId] = true/false for party objective pins.
+-- Missing data means unknown and defaults to shown for backward compatibility with clients
+-- that do not speak QuestieV1.
 ---@type table<string, QuestieCommsVisibilitySnapshot>
 CommsVisibility.remoteQuestVisibility = CommsVisibility.remoteQuestVisibility or {}
 
@@ -161,8 +163,8 @@ end
 -------------------------
 -- Local snapshot.
 -------------------------
----Computes the local display intent that is shared with party members.
----This is deliberately UI intent, not quest-log membership or progress truth.
+---Computes the local party-objective pin intent that is shared with party members.
+---This is deliberately map/minimap UI intent, not quest-log membership or progress truth.
 ---@param questId QuestId
 ---@return boolean
 local function _ShouldShowQuestToParty(questId)
@@ -258,8 +260,9 @@ end
 -------------------------
 -- Peer state and queries.
 -------------------------
----Returns the remote player's display intent for party objective rendering.
+---Returns the remote player's display intent for party objective pin rendering.
 ---Unknown peers/quests default to shown so older clients keep existing behavior.
+---This does not hide contextual tooltip progress; remoteQuestLogs remains visible there.
 ---@param playerName string
 ---@param questId QuestId
 ---@return boolean

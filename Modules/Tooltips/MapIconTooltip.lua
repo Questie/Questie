@@ -21,8 +21,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
----@type CommsVisibility
-local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestXP
@@ -524,57 +522,53 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
             text = color .. tostring(iconData.ObjectiveData.Collected) .. "/" .. tostring(iconData.ObjectiveData.Needed) .. " " .. text
         end
     end
-    local hasRemotePartyObjectiveData = false
     if QuestieComms then
         local anotherPlayer = false;
         local quest = QuestieComms:GetQuest(iconData.Id)
         if quest then
-            hasRemotePartyObjectiveData = iconData.ObjectiveData.IsPartyObjective == true
             for playerName, objectiveData in pairs(quest) do
-                if CommsVisibility:ShouldShowPartyObjective(playerName, iconData.Id) then
-                    local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
-                    local playerColor
-                    local playerType = ""
-                    if playerInfo then
-                        playerColor = "|c" .. playerInfo.colorHex
-                    else
-                        playerColor = QuestieComms.remotePlayerClasses[playerName]
-                        if playerColor then
-                            playerColor = Questie:GetClassColor(playerColor)
-                            playerType = " " .. l10n("(") .. l10n("Nearby") .. l10n(")")
-                        end
-                    end
-                    if not playerColor then
-                        -- We have this player's objective data but can't resolve their class;
-                        -- show the name anyway instead of silently dropping the line.
-                        playerColor = "|cFFCCCCCC"
-                    end
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
+                local playerColor
+                local playerType = ""
+                if playerInfo then
+                    playerColor = "|c" .. playerInfo.colorHex
+                else
+                    playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
-                        local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
-                        if not objectiveEntry then
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "[_MapIconTooltip:GetObjectiveTooltip] No objective data for quest", quest.Id)
-                            objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
-                        end
-                        local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
-                        local colorizedPlayerName = " " .. l10n("(") .. playerColor .. playerName .. "|r" .. remoteColor .. l10n(")") .. "|r" .. playerType
-                        local remoteText = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
-
-                        if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
-                            local fulfilled = objectiveEntry.fulfilled;
-                            local required = objectiveEntry.required;
-                            remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
-                        else
-                            remoteText = remoteColor .. remoteText .. colorizedPlayerName;
-                        end
-                        local partyMemberTip = {
-                            [remoteText] = {},
-                        }
-                        if iconData.Name then
-                            partyMemberTip[remoteText][iconData.Name] = true;
-                        end
-                        tinsert(tooltips, partyMemberTip);
-                        anotherPlayer = true;
+                        playerColor = Questie:GetClassColor(playerColor)
+                        playerType = " " .. l10n("(") .. l10n("Nearby") .. l10n(")")
                     end
+                end
+                if not playerColor then
+                    -- We have this player's objective data but can't resolve their class;
+                    -- show the name anyway instead of silently dropping the line.
+                    playerColor = "|cFFCCCCCC"
+                end
+                if playerColor then
+                    local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
+                    if not objectiveEntry then
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[_MapIconTooltip:GetObjectiveTooltip] No objective data for quest", quest.Id)
+                        objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
+                    end
+                    local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
+                    local colorizedPlayerName = " " .. l10n("(") .. playerColor .. playerName .. "|r" .. remoteColor .. l10n(")") .. "|r" .. playerType
+                    local remoteText = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
+
+                    if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
+                        local fulfilled = objectiveEntry.fulfilled;
+                        local required = objectiveEntry.required;
+                        remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                    else
+                        remoteText = remoteColor .. remoteText .. colorizedPlayerName;
+                    end
+                    local partyMemberTip = {
+                        [remoteText] = {},
+                    }
+                    if iconData.Name then
+                        partyMemberTip[remoteText][iconData.Name] = true;
+                    end
+                    tinsert(tooltips, partyMemberTip);
+                    anotherPlayer = true;
                 end
             end
             -- Don't label the objective with the local player's name when it belongs to a
@@ -589,10 +583,10 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
         end
     end
 
-    -- For an icon that exists only for a party member's objective, skip the unattributed
-    -- fallback line when every remote player line was filtered out by visibility. If no remote
-    -- party-objective data exists, keep the fallback so the tooltip is never empty.
-    if (not iconData.ObjectiveData.IsPartyObjective) or (#tooltips == 0 and not hasRemotePartyObjectiveData) then
+    -- For a party member's objective the local player doesn't have, skip the unattributed
+    -- objective line; the per-player lines above already cover it. Keep it as a fallback if
+    -- no party lines were added, so the tooltip is never empty.
+    if (not iconData.ObjectiveData.IsPartyObjective) or (#tooltips == 0) then
         local t = {
             [text] = {},
         }

@@ -6,8 +6,6 @@ local _QuestieTooltips = QuestieTooltips.private
 -------------------------
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
----@type CommsVisibility
-local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestiePlayer
@@ -159,12 +157,10 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
                 }
             end
             for playerName, _ in pairs(playerList) do
-                if CommsVisibility:ShouldShowPartyObjective(playerName, questId) then
-                    local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
-                    if playerInfo or QuestieComms.remotePlayerEnabled[playerName] then
-                        anotherPlayer = true
-                        break
-                    end
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
+                if playerInfo or QuestieComms.remotePlayerEnabled[playerName] then
+                    anotherPlayer = true
+                    break
                 end
             end
             if anotherPlayer then
@@ -184,7 +180,7 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
             end
             for playerName, objectives in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
-                if CommsVisibility:ShouldShowPartyObjective(playerName, questId) and (playerInfo or QuestieComms.remotePlayerEnabled[playerName]) then
+                if playerInfo or QuestieComms.remotePlayerEnabled[playerName] then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
                         if (not objective) then
@@ -393,7 +389,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
-                elseif CommsVisibility:ShouldShowPartyObjective(objectivePlayerName, questId) and QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.profile.onlyPartyShared or UnitInParty(objectivePlayerName)) then
+                elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.profile.onlyPartyShared or UnitInParty(objectivePlayerName)) then
                     playerColor = QuestieComms.remotePlayerClasses[objectivePlayerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)

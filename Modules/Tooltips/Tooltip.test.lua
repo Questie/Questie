@@ -9,8 +9,6 @@ describe("Tooltip", function()
     local QuestieComms
     ---@type QuestiePlayer
     local QuestiePlayer
-    ---@type CommsVisibility
-    local CommsVisibility
     ---@type QuestieTooltips
     local QuestieTooltips
 
@@ -58,8 +56,6 @@ describe("Tooltip", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.GetPartyMemberByName = function() return nil end
         QuestiePlayer.currentQuestlog = {}
-        CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
-        CommsVisibility.ShouldShowPartyObjective = function() return true end
         QuestiePlayer.numberOfGroupMembers = 0
         dofile("Localization/l10n.lua")
 
@@ -138,12 +134,15 @@ describe("Tooltip", function()
             }, tooltip)
         end)
 
-        it("should hide remote tooltip objectives when visibility says the player's quest is hidden", function()
+        it("should show remote tooltip objectives even when party objective icons are hidden", function()
             _G.UnitName = function() return "Local" end
             _G.IsInGroup = function() return true end
-            CommsVisibility.ShouldShowPartyObjective = function(_, playerName, questId)
-                return not (playerName == "Bob" and questId == 1)
+            QuestieLoader:ImportModule("CommsVisibility").ShouldShowPartyObjective = function()
+                return false
             end
+            Questie.GetClassColor = spy.new(function()
+                return "|cFFC79C6E"
+            end)
             QuestieTooltips.lookupByKey = {}
             QuestieComms.remotePlayerEnabled["Bob"] = true
             QuestieComms.remotePlayerClasses["Bob"] = "WARRIOR"
@@ -171,7 +170,10 @@ describe("Tooltip", function()
 
             local tooltip = QuestieTooltips.GetTooltip("m_123")
 
-            assert.is_nil(tooltip)
+            assert.are_same({
+                "Quest Name",
+                "   gold3/5 do it (|cFFC79C6EBob|rgold)|r (Nearby)",
+            }, tooltip)
         end)
 
         it("should return quest name and objective when tooltip has spell objective", function()

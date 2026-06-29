@@ -936,7 +936,7 @@ _QuestieComms.packets = {
                 end
                 -- Full quest-log requests are also the reload/join convergence point for the
                 -- QuestieV1 side-channel. Send visibility separately so remoteQuestLogs stays
-                -- absolute progress state while peers can still suppress hidden/untracked quests.
+                -- absolute progress state while peers can still suppress hidden/untracked party objective pins.
                 CommsVisibility:ScheduleSnapshot("QC_ID_REQUEST_FULL_QUESTLIST")
             end
         end
