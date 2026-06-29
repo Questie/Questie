@@ -163,6 +163,69 @@ describe("CommsHello", function()
         end)
     end)
 
+    describe("ScheduleHello", function()
+        local timers
+
+        local function installTimerMock()
+            timers = {}
+            _G.C_Timer = {
+                NewTimer = spy.new(function(_, callback)
+                    local timer = {
+                        canceled = false,
+                        Cancel = spy.new(function(self)
+                            self.canceled = true
+                        end),
+                    }
+                    function timer:Fire()
+                        if not self.canceled then
+                            callback()
+                        end
+                    end
+                    table.insert(timers, timer)
+                    return timer
+                end),
+            }
+        end
+
+        before_each(function()
+            installTimerMock()
+        end)
+
+        it("debounces hello sends until the latest timer fires", function()
+            CommsHello:ScheduleHello("first")
+            CommsHello:ScheduleHello("second")
+
+            assert.are_equal(2, #timers)
+            assert.spy(timers[1].Cancel).was.called(1)
+            timers[1]:Fire()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "PARTY")
+        end)
+
+        it("cancels a queued hello on ResetAll", function()
+            CommsHello:ScheduleHello("test")
+            CommsHello:ResetAll()
+            timers[1]:Fire()
+
+            assert.spy(timers[1].Cancel).was.called(1)
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("clears the timer handle after sending so a later schedule can queue again", function()
+            CommsHello:ScheduleHello("first")
+            timers[1]:Fire()
+
+            CommsHello:ScheduleHello("second")
+
+            assert.are_equal(2, #timers)
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called(2)
+        end)
+    end)
+
     describe("OnCommReceived", function()
         it("stores only known boolean prefixes from group members", function()
             setupCodec({QuestieH1 = true, QuestieV1 = false, questie = true, Questie = "yes", REPUTABLE = false, QuestieZ9 = true})

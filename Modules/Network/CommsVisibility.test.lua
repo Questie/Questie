@@ -173,6 +173,69 @@ describe("CommsVisibility", function()
         end)
     end)
 
+    describe("ScheduleSnapshot", function()
+        local timers
+
+        local function installTimerMock()
+            timers = {}
+            _G.C_Timer = {
+                NewTimer = spy.new(function(_, callback)
+                    local timer = {
+                        canceled = false,
+                        Cancel = spy.new(function(self)
+                            self.canceled = true
+                        end),
+                    }
+                    function timer:Fire()
+                        if not self.canceled then
+                            callback()
+                        end
+                    end
+                    table.insert(timers, timer)
+                    return timer
+                end),
+            }
+        end
+
+        before_each(function()
+            installTimerMock()
+        end)
+
+        it("debounces snapshots until the latest timer fires", function()
+            CommsVisibility:ScheduleSnapshot("first")
+            CommsVisibility:ScheduleSnapshot("second")
+
+            assert.are_equal(2, #timers)
+            assert.spy(timers[1].Cancel).was.called(1)
+            timers[1]:Fire()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "PARTY")
+        end)
+
+        it("cancels a queued snapshot on ResetAll", function()
+            CommsVisibility:ScheduleSnapshot("test")
+            CommsVisibility:ResetAll()
+            timers[1]:Fire()
+
+            assert.spy(timers[1].Cancel).was.called(1)
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("clears the timer handle after sending so a later schedule can queue again", function()
+            CommsVisibility:ScheduleSnapshot("first")
+            timers[1]:Fire()
+
+            CommsVisibility:ScheduleSnapshot("second")
+
+            assert.are_equal(2, #timers)
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called(2)
+        end)
+    end)
+
     describe("OnCommReceived", function()
         it("stores only positive integer quest IDs with boolean visibility from grouped senders", function()
             setupCodec({[101] = true, [202] = false, ["303"] = true, [404] = "false", [0] = true, [-1] = true, [1.5] = true})

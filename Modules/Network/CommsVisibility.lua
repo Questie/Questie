@@ -51,7 +51,15 @@ CommsVisibility.prefix = VISIBILITY_PREFIX
 ---@type table<string, QuestieCommsVisibilitySnapshot>
 CommsVisibility.remoteQuestVisibility = CommsVisibility.remoteQuestVisibility or {}
 
-local snapshotScheduled = false
+-- Timer
+local snapshotTimer
+local function _CancelSnapshotTimer()
+    if snapshotTimer then
+        snapshotTimer:Cancel()
+        snapshotTimer = nil
+    end
+end
+
 local initialized = false
 
 -------------------------
@@ -212,21 +220,13 @@ end
 ---@param _reason string? Debug-only call-site label reserved for future logging.
 ---@return nil
 function CommsVisibility:ScheduleSnapshot(_reason)
-    if snapshotScheduled then
-        return
-    end
+    -- Send with timer debounce.
+    _CancelSnapshotTimer()
 
-    snapshotScheduled = true
-    local function send()
-        snapshotScheduled = false
+    snapshotTimer = C_Timer.NewTimer(math.random() * 2, function()
+        snapshotTimer = nil
         CommsVisibility:SendSnapshot()
-    end
-
-    if C_Timer and C_Timer.After then
-        C_Timer.After(math.random() * 2, send)
-    else
-        send()
-    end
+    end)
 end
 
 -------------------------
@@ -278,7 +278,7 @@ end
 ---@return nil
 function CommsVisibility:ResetAll()
     wipe(CommsVisibility.remoteQuestVisibility)
-    snapshotScheduled = false
+    _CancelSnapshotTimer()
 end
 
 ---@return nil

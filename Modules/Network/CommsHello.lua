@@ -81,7 +81,15 @@ CommsHello.peerPrefixes = CommsHello.peerPrefixes or {}
 ---@type table<string, number>
 CommsHello.peerLastSeen = CommsHello.peerLastSeen or {}
 
-local helloScheduled = false
+-- Timer
+local helloTimer
+local function _CancelHelloTimer()
+    if helloTimer then
+        helloTimer:Cancel()
+        helloTimer = nil
+    end
+end
+
 local initialized = false
 local undefinedPrefixWarnings = {}
 
@@ -154,21 +162,13 @@ end
 ---@param _reason string? Debug-only call-site label reserved for future logging.
 ---@return nil
 function CommsHello:ScheduleHello(_reason)
-    if helloScheduled then
-        return
-    end
+    -- Send with timer debounce.
+    _CancelHelloTimer()
 
-    helloScheduled = true
-    local function send()
-        helloScheduled = false
+    helloTimer = C_Timer.NewTimer(math.random() * 2, function()
+        helloTimer = nil
         CommsHello:SendHello()
-    end
-
-    if C_Timer and C_Timer.After then
-        C_Timer.After(math.random() * 2, send)
-    else
-        send()
-    end
+    end)
 end
 
 -------------------------
@@ -269,7 +269,7 @@ end
 function CommsHello:ResetAll()
     wipe(CommsHello.peerPrefixes)
     wipe(CommsHello.peerLastSeen)
-    helloScheduled = false
+    _CancelHelloTimer()
 end
 
 ---Drops capability records for peers no longer present in the current group roster.
