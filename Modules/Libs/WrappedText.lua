@@ -8,6 +8,10 @@ local WrappedText = QuestieLoader:CreateModule("WrappedText")
 local utf8 = QuestieLoader:ImportModule("utf8")
 
 local math_max = math.max
+local strfind = string.find
+local strlen = string.len
+local strmatch = string.match
+local tconcat = table.concat
 local tinsert = table.insert
 
 local TEXTURE_PLACEHOLDER = "\239\191\188"
@@ -45,7 +49,7 @@ local NUMERIC_SEPARATORS = {
 ---@param character string Single UTF-8 character.
 ---@return boolean isDigit True for ASCII or full-width decimal digits.
 local function _IsNumericCharacter(character)
-    return string.match(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
+    return strmatch(character, "^%d$") ~= nil or FULLWIDTH_DIGITS[character] == true
 end
 
 ---Returns true for digits and numeric separators only when they are part of one number.
@@ -144,7 +148,7 @@ local function _BuildRawMeasurementLine(rawCharactersByVisibleIndex, visibleStar
         tinsert(measurementLine, rawCharactersByVisibleIndex[index])
     end
 
-    return table.concat(measurementLine)
+    return tconcat(measurementLine)
 end
 
 ---Finds a wrap break by measuring atomic visible-token ranges rebuilt with complete raw texture escapes.
@@ -186,7 +190,7 @@ end
 ---@return number nextStartIndex UTF-8 character index where next line should start.
 ---@return boolean brokeAtSpace True when break was a space boundary.
 local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
-    if (not string.find(line, " ", 1, true) and textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
+    if (not strfind(line, " ", 1, true) and textWrapFontString:GetUnboundedStringWidth() > textWrapFontString:GetWrappedWidth()) then
         local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
         textWrapFontString:SetText(line)
         return lineEndIndex, nextStartIndex, brokeAtSpace
@@ -290,7 +294,7 @@ local function _ShouldCombineTrailingLine(textWrapFontString, remainingLine, nex
         return false
     end
 
-    return (brokeAtSpace and not string.find(lastLine, " ")) or (utf8.strlen(lastLine) == 1 and string.len(lastLine) > 1)
+    return (brokeAtSpace and not strfind(lastLine, " ")) or (utf8.strlen(lastLine) == 1 and strlen(lastLine) > 1)
 end
 
 ---Counts how many visual rows remain after a candidate break for texture-containing text.
@@ -343,7 +347,7 @@ local function _ShouldCombineTrailingLineByRawWidth(
     local absoluteEndIndex = visibleStartIndex + remainingLineLength - 1
     local lastLine = utf8.sub(visibleLine, absoluteTailStartIndex, absoluteEndIndex)
 
-    return (brokeAtSpace and not string.find(lastLine, " ")) or (lastLine ~= TEXTURE_PLACEHOLDER and utf8.strlen(lastLine) == 1 and string.len(lastLine) > 1)
+    return (brokeAtSpace and not strfind(lastLine, " ")) or (lastLine ~= TEXTURE_PLACEHOLDER and utf8.strlen(lastLine) == 1 and strlen(lastLine) > 1)
 end
 
 ---@class WrappedTextColorEvent
@@ -367,42 +371,42 @@ local function _ParseEscapes(line)
     local hasRebuildEscapes = false
     local hasTextureEscapes = false
 
-    while (byteIndex <= string.len(line)) do
-        local escapedPipe = string.match(line, "^||", byteIndex)
-        local colorOpen = string.match(line, "^|[cC]%x%x%x%x%x%x%x%x", byteIndex)
-        local colorReset = string.match(line, "^|[rR]", byteIndex)
-        local textureEscape = string.match(line, "^|T.-|[tT]", byteIndex)
+    while (byteIndex <= strlen(line)) do
+        local escapedPipe = strmatch(line, "^||", byteIndex)
+        local colorOpen = strmatch(line, "^|[cC]%x%x%x%x%x%x%x%x", byteIndex)
+        local colorReset = strmatch(line, "^|[rR]", byteIndex)
+        local textureEscape = strmatch(line, "^|T.-|[tT]", byteIndex)
         if (escapedPipe) then
             tinsert(visibleCharacters, "|")
             tinsert(rawCharactersByVisibleIndex, escapedPipe)
-            byteIndex = byteIndex + string.len(escapedPipe)
+            byteIndex = byteIndex + strlen(escapedPipe)
         elseif (colorOpen) then
             local visibleIndex = #visibleCharacters + 1
             colorEventsByVisibleIndex[visibleIndex] = colorEventsByVisibleIndex[visibleIndex] or {}
             tinsert(colorEventsByVisibleIndex[visibleIndex], {kind = "open", value = colorOpen})
-            byteIndex = byteIndex + string.len(colorOpen)
+            byteIndex = byteIndex + strlen(colorOpen)
             hasRebuildEscapes = true
         elseif (colorReset) then
             local visibleIndex = #visibleCharacters + 1
             colorEventsByVisibleIndex[visibleIndex] = colorEventsByVisibleIndex[visibleIndex] or {}
             tinsert(colorEventsByVisibleIndex[visibleIndex], {kind = "reset", value = colorReset})
-            byteIndex = byteIndex + string.len(colorReset)
+            byteIndex = byteIndex + strlen(colorReset)
             hasRebuildEscapes = true
         elseif (textureEscape) then
             tinsert(visibleCharacters, TEXTURE_PLACEHOLDER)
             tinsert(rawCharactersByVisibleIndex, textureEscape)
-            byteIndex = byteIndex + string.len(textureEscape)
+            byteIndex = byteIndex + strlen(textureEscape)
             hasRebuildEscapes = true
             hasTextureEscapes = true
         else
             local character = utf8.sub(string.sub(line, byteIndex), 1, 1)
             tinsert(visibleCharacters, character)
             tinsert(rawCharactersByVisibleIndex, character)
-            byteIndex = byteIndex + string.len(character)
+            byteIndex = byteIndex + strlen(character)
         end
     end
 
-    return table.concat(visibleCharacters), rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRebuildEscapes, hasTextureEscapes
+    return tconcat(visibleCharacters), rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRebuildEscapes, hasTextureEscapes
 end
 
 ---Returns the color that is active before a visible character index is emitted.
@@ -526,7 +530,7 @@ local function _RebuildColorEscapedLine(
         tinsert(rebuiltLine, "|r")
     end
 
-    return table.concat(rebuiltLine)
+    return tconcat(rebuiltLine)
 end
 
 ---Emulates the wrapping of a quest description
@@ -564,7 +568,7 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
 
     local visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRebuildEscapes, hasTextureEscapes
     -- Most lines have no WoW escapes; avoid parser overhead unless a pipe is present.
-    if (string.find(line, "|", 1, true)) then
+    if (strfind(line, "|", 1, true)) then
         visibleLine, rawCharactersByVisibleIndex, colorEventsByVisibleIndex, hasRebuildEscapes, hasTextureEscapes = _ParseEscapes(line)
     end
 
