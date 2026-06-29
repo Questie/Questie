@@ -84,3 +84,5 @@ function GroupEventHandler.GroupLeft()
     QuestiePartyObjectives:Clear()
     previousOnlineStatus = {}
 end
+
+return GroupEventHandler

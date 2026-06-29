@@ -205,6 +205,7 @@ Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 Modules\Map\Moonwell.lua
+Modules\Map\PartyObjectiveDrawer.lua
 
 # Quest
 Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua
@@ -225,6 +226,7 @@ Modules\QuestieCoordinates.lua
 Modules\Network\Comms.lua
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
+Modules\Network\PartyObjectivesProvider.lua
 Modules\Network\QuestiePartyObjectives.lua
 
 # Journey
