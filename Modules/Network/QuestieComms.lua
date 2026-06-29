@@ -24,6 +24,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type CommsHello
 local CommsHello = QuestieLoader:ImportModule("CommsHello")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -932,6 +934,10 @@ _QuestieComms.packets = {
                 else
                     _QuestieComms:BroadcastQuestLog("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
                 end
+                -- Full quest-log requests are also the reload/join convergence point for the
+                -- QuestieV1 side-channel. Send visibility separately so remoteQuestLogs stays
+                -- absolute progress state while peers can still suppress hidden/untracked quests.
+                CommsVisibility:ScheduleSnapshot("QC_ID_REQUEST_FULL_QUESTLIST")
             end
         end
     },

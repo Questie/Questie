@@ -7,6 +7,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 ---@type CommsHello
 local CommsHello = QuestieLoader:ImportModule("CommsHello")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
@@ -49,15 +51,13 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Evaluate unconditionally so the online snapshot stays current even when the size also changed.
     local onlineChanged = _OnlineStatusChanged()
 
-    -- Only redraw when the group size changed (crossing the draw threshold / members joining or
-    -- leaving) or a quest-sharing member changed online status. Pure zone changes also fire
-    -- GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
-    if sizeChanged then
-        CommsHello:PrunePeers()
-        CommsHello:ScheduleHello("GROUP_ROSTER_UPDATE")
-    end
-
+    -- Only resync comm state when group membership or a quest-sharing member's online state
+    -- changed. Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
     if sizeChanged or onlineChanged then
+        CommsHello:PrunePeers()
+        CommsVisibility:PrunePeers()
+        CommsHello:ScheduleHello("GROUP_ROSTER_UPDATE")
+        CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")
         QuestiePartyObjectives:ScheduleUpdate()
     end
 end
@@ -74,6 +74,7 @@ function GroupEventHandler.GroupJoined()
             if (isInParty or isInRaid) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
                 CommsHello:ScheduleHello("GROUP_JOINED")
+                CommsVisibility:ScheduleSnapshot("GROUP_JOINED")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
@@ -90,6 +91,7 @@ function GroupEventHandler.GroupLeft()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll()
     CommsHello:ResetAll()
+    CommsVisibility:ResetAll()
     QuestiePartyObjectives:Clear()
     previousOnlineStatus = {}
 end

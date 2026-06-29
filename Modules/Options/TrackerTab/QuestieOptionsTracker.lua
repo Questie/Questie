@@ -15,6 +15,8 @@ local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -148,6 +150,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             else
                                 Questie.db.char.AutoUntrackedQuests = {}
                             end
+                            -- Switching modes rewrites the meaning of tracked/untracked for every
+                            -- quest, so send one full QuestieV1 visibility snapshot.
+                            CommsVisibility:ScheduleSnapshot("AUTO_TRACK_QUESTS")
 
                             -- Update Quest Log and mark tracked Quests
                             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
