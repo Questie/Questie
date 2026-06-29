@@ -101,8 +101,8 @@ function QuestieOptions.tabs.general:Initialize()
                     showPartyQuestObjectives = {
                         type = "toggle",
                         order = 7.35,
-                        name = function() return l10n("Show party members' tracked quest objectives"); end,
-                        desc = function() return l10n("Show tracked quest objectives from party members on the map and minimap, even for quests you don't have or have already completed. Only your tracked quests will show for your party members."); end,
+                        name = function() return l10n("Show party members' quest objectives"); end,
+                        desc = function() return l10n("Show quest objectives from party members on the map and minimap, even for quests you don't have or have already completed."); end,
                         width = 2.5,
                         get = function () return Questie.db.profile.showPartyQuestObjectives end,
                         set = function (_, value)
