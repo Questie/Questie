@@ -63,6 +63,8 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 local Comms = QuestieLoader:ImportModule("Comms")
 ---@type CommsHello
 local CommsHello = QuestieLoader:ImportModule("CommsHello")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
@@ -263,6 +265,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     end
 
     CommsHello:Initialize()
+    CommsVisibility:Initialize()
     Comms.Initialize()
     QuestieComms:Initialize()
 

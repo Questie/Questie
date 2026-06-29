@@ -4,6 +4,7 @@ QuestieH1 hello message, end-to-end:
     Decoded payload:
         {
             QuestieH1 = true,    -- this module registered the hello receiver
+            QuestieV1 = true,    -- CommsVisibility registered the visibility receiver
             questie = true,      -- legacy party quest-log comms receiver is active
             Questie = true,      -- daily quest availability comms receiver is active
             REPUTABLE = true,    -- legacy reputable daily receiver is active
@@ -21,6 +22,7 @@ QuestieH1 hello message, end-to-end:
     Receive/store from "Friend-Realm":
         CommsHello.peerPrefixes["Friend-Realm"] = {
             QuestieH1 = true,
+            QuestieV1 = true,
             questie = true,
             Questie = true,
             REPUTABLE = true,
@@ -61,7 +63,7 @@ local LOCAL_PREFIXES = {
     QuestieH1 = false,
 
     -- Modern comms modules
-    -- (none yet)
+    QuestieV1 = false,
 
     -- Legacy comms modules
     questie = false,

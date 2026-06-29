@@ -80,7 +80,7 @@ describe("CommsHello", function()
         QuestiePlayer.GetGroupType = function() return "party" end
 
         LibDeflate = QuestieLoader:ImportModule("LibDeflate")
-        setupCodec({QuestieH1 = true, questie = true, Questie = true, REPUTABLE = true})
+        setupCodec({QuestieH1 = true, QuestieV1 = true, questie = true, Questie = true, REPUTABLE = true})
 
         dofile("Modules/Network/CommsHello.lua")
         CommsHello = QuestieLoader:ImportModule("CommsHello")
@@ -124,16 +124,19 @@ describe("CommsHello", function()
     describe("Local prefix states", function()
         it("defaults every known prefix to false until the owning receiver registers it", function()
             assert.is_false(CommsHello:GetLocalPrefixState("QuestieH1"))
+            assert.is_false(CommsHello:GetLocalPrefixState("QuestieV1"))
             assert.is_false(CommsHello:GetLocalPrefixState("questie"))
             assert.is_false(CommsHello:GetLocalPrefixState("Questie"))
             assert.is_false(CommsHello:GetLocalPrefixState("REPUTABLE"))
         end)
 
         it("marks only known local prefixes active", function()
+            assert.is_true(CommsHello:RegisterLocalPrefix("QuestieV1"))
             assert.is_true(CommsHello:RegisterLocalPrefix("Questie"))
             assert.is_true(CommsHello:RegisterLocalPrefix("questie"))
             assert.is_true(CommsHello:RegisterLocalPrefix("REPUTABLE"))
 
+            assert.is_true(CommsHello:GetLocalPrefixState("QuestieV1"))
             assert.is_true(CommsHello:GetLocalPrefixState("Questie"))
             assert.is_true(CommsHello:GetLocalPrefixState("questie"))
             assert.is_true(CommsHello:GetLocalPrefixState("REPUTABLE"))
@@ -174,7 +177,7 @@ describe("CommsHello", function()
             local sent = CommsHello:SendHello()
 
             assert.is_true(sent)
-            assert.are_same({QuestieH1 = true, questie = false, Questie = true, REPUTABLE = true}, serializedPayload)
+            assert.are_same({QuestieH1 = true, QuestieV1 = false, questie = false, Questie = true, REPUTABLE = true}, serializedPayload)
             assert.spy(_G.C_EncodingUtil.SerializeCBOR).was.called(1)
             assert.spy(_G.C_EncodingUtil.CompressString).was.called_with("cbor", Enum.CompressionMethod.Deflate, Enum.CompressionLevel.Default)
             assert.spy(LibDeflate.EncodeForWoWAddonChannel).was.called(1)
@@ -204,13 +207,14 @@ describe("CommsHello", function()
 
     describe("OnCommReceived", function()
         it("stores only known boolean prefixes from group members", function()
-            setupCodec({QuestieH1 = true, questie = true, Questie = "yes", REPUTABLE = false, QuestieZ9 = true})
+            setupCodec({QuestieH1 = true, QuestieV1 = false, questie = true, Questie = "yes", REPUTABLE = false, QuestieZ9 = true})
             _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend-Realm")
 
             assert.is_true(CommsHello:IsPeerListening("Friend-Realm", "QuestieH1"))
             assert.is_true(CommsHello:IsPeerListening("Friend-Realm", "questie"))
+            assert.is_true(CommsHello:DoesPeerRejectPrefix("Friend-Realm", "QuestieV1"))
             assert.is_true(CommsHello:DoesPeerRejectPrefix("Friend-Realm", "REPUTABLE"))
             assert.is_nil(CommsHello:GetPeerPrefixState("Friend-Realm", "Questie"))
             assert.is_nil(CommsHello:GetPeerPrefixState("Friend-Realm", "QuestieZ9"))

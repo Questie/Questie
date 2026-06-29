@@ -243,6 +243,7 @@ Modules\QuestieCoordinates.lua
 # Network
 Modules\Network\Comms.lua
 Modules\Network\CommsHello.lua
+Modules\Network\CommsVisibility.lua
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
 Modules\Network\QuestiePartyObjectives.lua
