@@ -2354,18 +2354,6 @@ local cataObjectiveLocales = {
         ["zhCN"] = "和萨赫特谈谈",
         ["zhTW"] = false,
     },
-    ["Start the event"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "开始事件",
-        ["zhTW"] = false,
-    },
     ["Talk to Commander Schnottz"] = {
         ["enUS"] = true,
         ["deDE"] = false,

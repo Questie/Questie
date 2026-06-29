@@ -2740,8 +2740,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9684,63866},
             [questKeys.objectives] = {{{17768,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9686] = {
-            [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7}}}},
+        [9686] = { -- The Second Trial
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17809,17810,17811,17812},17809}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Start the event"), 0, {{"object", 182052}}}},
         },
         [9688] = { -- Into the Dream
             [questKeys.nextQuestInChain] = 9689,

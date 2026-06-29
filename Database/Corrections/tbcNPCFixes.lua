@@ -881,6 +881,22 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HYJAL_SUMMIT] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HYJAL_SUMMIT,
         },
+        [17809] = { -- Champion Bloodwrath
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{43.17,28.8}}},
+            [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
+        },
+        [17810] = { -- Champion Lightrend
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{43.42,28.98}}},
+            [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
+        },
+        [17811] = { -- Champion Swiftblade
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{43.55,28.6}}},
+            [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
+        },
+        [17812] = { -- Champion Sunstriker
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{43.29,28.42}}},
+            [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
+        },
         [17830] = { -- Zelemar the Wrathful
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
