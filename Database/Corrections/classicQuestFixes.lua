@@ -2805,9 +2805,10 @@ function QuestieQuestFixes:Load()
         [4734] = { -- Egg Freezing
             [questKeys.objectives] = {nil,{{175124}}},
             [questKeys.breadcrumbs] = {4907},
+            [questKeys.nextQuestInChain] = 4735,
         },
         [4735] = { -- Egg Collection
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect eggs using the Collectronic Module."), 0, {{"object", 175124}}}},
+            [questKeys.objectives] = {nil,{{175124}}},
         },
         [4736] = { -- In Search of Menara Voidrender
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
