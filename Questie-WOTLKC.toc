@@ -38,6 +38,7 @@ Modules\VersionCheck.lua
 
 # Loader module
 Modules\Libs\QuestieLoader.lua
+Libs\LibDeflate\LibDeflate.lua
 Modules\Expansions.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
@@ -224,6 +225,7 @@ Modules\QuestieCoordinates.lua
 
 # Network
 Modules\Network\Comms.lua
+Modules\Network\CommsHello.lua
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
 Modules\Network\QuestiePartyObjectives.lua

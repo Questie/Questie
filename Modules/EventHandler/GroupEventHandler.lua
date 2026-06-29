@@ -5,6 +5,8 @@ local GroupEventHandler = QuestieLoader:CreateModule("GroupEventHandler")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+---@type CommsHello
+local CommsHello = QuestieLoader:ImportModule("CommsHello")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
@@ -50,6 +52,11 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Only redraw when the group size changed (crossing the draw threshold / members joining or
     -- leaving) or a quest-sharing member changed online status. Pure zone changes also fire
     -- GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
+    if sizeChanged then
+        CommsHello:PrunePeers()
+        CommsHello:ScheduleHello("GROUP_ROSTER_UPDATE")
+    end
+
     if sizeChanged or onlineChanged then
         QuestiePartyObjectives:ScheduleUpdate()
     end
@@ -66,6 +73,7 @@ function GroupEventHandler.GroupJoined()
         if partyPending then
             if (isInParty or isInRaid) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
+                CommsHello:ScheduleHello("GROUP_JOINED")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
@@ -81,6 +89,7 @@ end
 function GroupEventHandler.GroupLeft()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll()
+    CommsHello:ResetAll()
     QuestiePartyObjectives:Clear()
     previousOnlineStatus = {}
 end
