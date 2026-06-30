@@ -152,7 +152,6 @@ end
 ---Schedules a jittered hello so group roster events do not make every client speak at once.
 ---The timer is cancellable; ResetAll cancels it when group state is cleared.
 ---@param _reason string? Debug-only call-site label reserved for future logging.
----@return nil
 function CommsHello:ScheduleHello(_reason)
     -- Send with timer debounce.
     _CancelHelloTimer()
@@ -188,7 +187,6 @@ end
 ---@param message string
 ---@param distribution string
 ---@param sender string
----@return nil
 function CommsHello.OnCommReceived(prefix, message, distribution, sender)
     if prefix ~= HELLO_PREFIX then
         return
@@ -223,7 +221,6 @@ end
 -- Peer state and queries.
 -------------------------
 
----@return nil
 function CommsHello:ResetAll()
     wipe(CommsHello.peerPrefixes)
     wipe(CommsHello.peerLastSeen)
@@ -232,7 +229,6 @@ end
 
 ---Drops capability records for peers no longer present in the current group roster.
 ---QuestieH1 state is a routing cache, not durable player data.
----@return nil
 function CommsHello:PrunePeers()
     for playerName in pairs(CommsHello.peerPrefixes) do
         if not (UnitInParty(playerName) or UnitInRaid(playerName)) then

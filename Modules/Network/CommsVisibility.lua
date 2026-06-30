@@ -171,7 +171,6 @@ end
 --- accept/remove, hide/unhide, tracked/untracked, bulk tracker mode changes, and group
 --- convergence points such as roster changes or full quest-log responses.
 ---@param _reason string? Debug-only call-site label reserved for future logging.
----@return nil
 function CommsVisibility:ScheduleSnapshot(_reason)
     -- Send with timer debounce.
     _CancelSnapshotTimer()
@@ -193,7 +192,6 @@ end
 ---@param message string
 ---@param distribution string
 ---@param sender string
----@return nil
 function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
     if prefix ~= VISIBILITY_PREFIX then
         return
@@ -232,13 +230,11 @@ function CommsVisibility:ShouldShowPartyObjective(playerName, questId)
     return visibility[questId]
 end
 
----@return nil
 function CommsVisibility:ResetAll()
     wipe(CommsVisibility.remoteQuestVisibility)
     _CancelSnapshotTimer()
 end
 
----@return nil
 function CommsVisibility:PrunePeers()
     for playerName in pairs(CommsVisibility.remoteQuestVisibility) do
         if not (UnitInParty(playerName) or UnitInRaid(playerName)) then
