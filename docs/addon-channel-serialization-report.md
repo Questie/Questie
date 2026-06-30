@@ -338,6 +338,10 @@ false, 4
 
 ## Recommendations for Questie
 
+### Current modern runtime note
+
+The benchmark tables and transport tests in this report refer to LibDeflate's addon/chat-channel encoders because that was the tested source implementation. Questie's modern typed-prefix runtime now uses `Modules/Network/CommsEncoding.lua`, which preserves the needed LibDeflate/LibCompress addon-channel codec machinery and attribution, but does not load the full LibDeflate runtime library. Compression is Blizzard's built-in Deflate through `C_EncodingUtil`.
+
 ### Packet-shape direction
 
 Prefer hardening and reusing the existing QuestieComms V2 packet shape before inventing a V1 dictionary layer.

@@ -57,14 +57,29 @@ CommsHello:RegisterLocalPrefix("QuestieV1")
 
 Unknown prefixes cannot be added dynamically. If local code tries to register an undefined prefix, that is a programming error and should produce a visible delayed error. Remote hello payloads are also sanitized: only known prefixes with boolean values are stored.
 
-Peer state is stored separately from quest-log state. The hello module exposes prefix-state queries such as:
+Remote player prefix state is stored separately from quest-log state:
 
 ```lua
-CommsHello:IsPlayerListening(playerName, prefix)
-CommsHello:DoesPlayerRejectPrefix(playerName, prefix)
+CommsHello.remotePlayerPrefixes["Friend-Realm"] = {
+    QuestieH1 = true,
+    QuestieV1 = true,
+    questie = true,
+    Questie = true,
+    REPUTABLE = true,
+}
+CommsHello.remotePlayerLastSeen["Friend-Realm"] = GetTime()
 ```
 
-`QuestieH1` receive handling is group-gated. `PARTY`, `RAID`, `INSTANCE_CHAT`, and `WHISPER` are accepted only when the sender is a current group member. Whisper is useful for peer-specific negotiation, but it must not become an unrestricted external input channel.
+The hello module exposes prefix-state queries such as:
+
+```lua
+CommsHello:AcceptsPrefix(playerName, prefix)
+CommsHello:RejectsPrefix(playerName, prefix)
+```
+
+`QuestieH1` receive handling is group-gated. `PARTY`, `RAID`, `INSTANCE_CHAT`, and `WHISPER` are accepted only when the sender is a current group member. `CommsRouting` owns the shared modern comm routing mechanics: group broadcast distribution normalization, AceComm self filtering, and grouped-sender validation.
+
+A group-broadcast `QuestieH1` means the sender is announcing a join/reload and needs our current state. Receivers store the sender's state and answer only that sender with a `WHISPER` `QuestieH1`, avoiding raid-wide response fanout. Incoming whispered hellos are stored but not answered, preventing ping-pong.
 
 ## Module ownership
 
@@ -72,7 +87,7 @@ CommsHello:DoesPlayerRejectPrefix(playerName, prefix)
 
 - the static prefix manifest,
 - local prefix active/inactive state,
-- peer prefix state,
+- remote player prefix state,
 - hello send/receive mechanics.
 
 `CommsVisibility` owns `QuestieV1` party-objective pin display intent.
@@ -133,6 +148,8 @@ Receive-side rules:
 
 `QuestieV1` is not a privacy or progress-data filter. It gates only party objective pins created for quests the local player does not have or has already completed. Contextual tooltip progress can still be shown from `remoteQuestLogs` when the user hovers a relevant mob, item, object, or existing icon.
 
+`QuestieV1` snapshots are not scheduled or sent when `GetNumGroupMembers() > 5`. The prefix only affects party objective pins, and those pins are only useful in small party-sized groups, so suppressing snapshots in larger groups avoids raid/BG/formation churn traffic where the message cannot affect rendering.
+
 The local snapshot includes only quests currently in `QuestLogCache.questLog_DO_NOT_MODIFY`. For each such quest, local policy is:
 
 ```lua
@@ -152,9 +169,9 @@ So manually hidden quests and untracked quests suppress party objective pins, wh
 - A new schedule call cancels the pending timer and starts a fresh one.
 - The eventual send uses the latest full state.
 - `ResetAll()` cancels pending timers, so group-leave cleanup stops queued hello or visibility traffic.
-- Direct `SendHello()` and `SendSnapshot()` remain immediate APIs.
+- `ScheduleHello()` is the public group-broadcast hello path; direct visibility `SendSnapshot()` remains available for immediate snapshot sends.
 
-`QuestieV1` snapshots are intentionally full-state and small. They are scheduled at convergence points where peers may need fresh state:
+`QuestieV1` snapshots are intentionally full-state and small. They are scheduled at convergence points where remote players may need fresh state:
 
 - group join and meaningful roster changes,
 - responding to a full quest-log request,
@@ -186,7 +203,7 @@ When a known prefix is intentionally disabled or sunset, a client can advertise:
 }
 ```
 
-A peer that only understands `OldPrefix` can distinguish that from an unknown client and may show a clear update message if appropriate.
+A remote player that only understands `OldPrefix` can distinguish that from an unknown client and may show a clear update message if appropriate.
 
 When a prefix is unknown to this build, it remains `nil`. Unknown remote claims are ignored for behavior. Unknown local registration attempts are errors because every advertised prefix must be intentionally defined in the hello manifest first.
 
@@ -203,7 +220,7 @@ Tests should protect these contracts:
 - `WHISPER` hello and visibility messages are accepted only from current group members,
 - self echoes and cross-realm same-name players are handled correctly,
 - scheduled hello and visibility sends are debounced and canceled by `ResetAll()`,
-- detected group-size changes prune stale peers and schedule a new hello/snapshot; quest-sharing online-status changes schedule party objective redraws,
+- detected group-size changes prune stale remote players and schedule a new hello/snapshot; quest-sharing online-status changes schedule party objective redraws,
 - `remoteQuestLogs` remains absolute quest-log/progress state and is not filtered by visibility/tracking preferences,
 - visibility packets do not create or remove `remoteQuestLogs` entries,
 - `QuestieV1` affects party objective pins, not contextual tooltip progress.

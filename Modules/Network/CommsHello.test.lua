@@ -45,6 +45,12 @@ describe("CommsHello", function()
         }
     end
 
+    local function scheduleAndFireHello()
+        installTimerMock()
+        CommsHello:ScheduleHello("test")
+        timers[1]:Fire()
+    end
+
     before_each(function()
         Questie.RegisterComm = spy.new(function() end)
         Questie.SendCommMessage = spy.new(function() end)
@@ -90,7 +96,7 @@ describe("CommsHello", function()
             assert.is_true(initialized)
             assert.spy(Questie.RegisterComm).was.called_with(Questie, "QuestieH1", CommsHello.OnCommReceived)
 
-            CommsHello:SendHello()
+            scheduleAndFireHello()
             assert.is_true(serializedPayload.QuestieH1)
         end)
 
@@ -108,7 +114,7 @@ describe("CommsHello", function()
 
     describe("Local prefix states", function()
         it("defaults every known prefix to false until the owning receiver registers it", function()
-            CommsHello:SendHello()
+            scheduleAndFireHello()
 
             assert.are_same({QuestieH1 = false, QuestieV1 = false, questie = false, Questie = false, REPUTABLE = false}, serializedPayload)
         end)
@@ -119,24 +125,24 @@ describe("CommsHello", function()
             assert.is_true(CommsHello:RegisterLocalPrefix("questie"))
             assert.is_true(CommsHello:RegisterLocalPrefix("REPUTABLE"))
 
-            CommsHello:SendHello()
+            scheduleAndFireHello()
             assert.are_same({QuestieH1 = false, QuestieV1 = true, questie = true, Questie = true, REPUTABLE = true}, serializedPayload)
         end)
 
         it("reports undefined local prefixes once after a short delay", function()
             local scheduledDelay
             local scheduledCallback
-            _G.C_Timer = {
-                After = spy.new(function(delay, callback)
-                    scheduledDelay = delay
-                    scheduledCallback = callback
-                end),
-            }
+            installTimerMock()
+            _G.C_Timer.After = spy.new(function(delay, callback)
+                scheduledDelay = delay
+                scheduledCallback = callback
+            end)
 
             assert.is_false(CommsHello:RegisterLocalPrefix("QuestieZ9"))
             assert.is_false(CommsHello:RegisterLocalPrefix("QuestieZ9"))
 
-            CommsHello:SendHello()
+            CommsHello:ScheduleHello("test")
+            timers[1]:Fire()
             assert.is_nil(serializedPayload.QuestieZ9)
             assert.spy(_G.C_Timer.After).was.called(1)
             assert.are_equal(5, scheduledDelay)
@@ -147,41 +153,6 @@ describe("CommsHello", function()
 
             assert.spy(Questie.Error).was.called(1)
             assert.spy(Questie.Error).was.called_with(Questie, "[CommsHello] A module tried to register undefined Questie comm prefix 'QuestieZ9'. Add it to the QuestieH1 prefix manifest before registering support.")
-        end)
-    end)
-
-    describe("SendHello", function()
-        it("sends the registered local prefix map to party using the modern payload encoder", function()
-            CommsHello:Initialize()
-            CommsHello:RegisterLocalPrefix("Questie")
-            CommsHello:RegisterLocalPrefix("REPUTABLE")
-
-            local sent = CommsHello:SendHello()
-
-            assert.is_true(sent)
-            assert.are_same({QuestieH1 = true, QuestieV1 = false, questie = false, Questie = true, REPUTABLE = true}, serializedPayload)
-            assert.spy(CommsEncoding.EncodePayload).was.called(1)
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "PARTY")
-        end)
-
-        it("uses raid and instance distributions based on the group type", function()
-            QuestiePlayer.GetGroupType = function() return "raid" end
-            CommsHello:SendHello()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "RAID")
-
-            Questie.SendCommMessage:clear()
-            QuestiePlayer.GetGroupType = function() return "instance" end
-            CommsHello:SendHello()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "INSTANCE_CHAT")
-        end)
-
-        it("does not send outside a group", function()
-            QuestiePlayer.GetGroupType = function() return nil end
-
-            local sent = CommsHello:SendHello()
-
-            assert.is_false(sent)
-            assert.spy(Questie.SendCommMessage).was.not_called()
         end)
     end)
 
@@ -201,6 +172,28 @@ describe("CommsHello", function()
 
             timers[2]:Fire()
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "PARTY")
+        end)
+
+        it("uses raid and instance distributions based on the group type", function()
+            QuestiePlayer.GetGroupType = function() return "raid" end
+            CommsHello:ScheduleHello("raid")
+            timers[1]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "RAID")
+
+            Questie.SendCommMessage:clear()
+            QuestiePlayer.GetGroupType = function() return "instance" end
+            CommsHello:ScheduleHello("instance")
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "INSTANCE_CHAT")
+        end)
+
+        it("does not send outside a group", function()
+            QuestiePlayer.GetGroupType = function() return nil end
+
+            CommsHello:ScheduleHello("solo")
+            timers[1]:Fire()
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
         end)
 
         it("cancels a queued hello on ResetAll", function()
@@ -232,10 +225,10 @@ describe("CommsHello", function()
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend-Realm")
 
-            assert.is_true(CommsHello:IsPlayerListening("Friend-Realm", "QuestieH1"))
-            assert.is_true(CommsHello:IsPlayerListening("Friend-Realm", "questie"))
-            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-Realm", "QuestieV1"))
-            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-Realm", "REPUTABLE"))
+            assert.is_true(CommsHello:AcceptsPrefix("Friend-Realm", "QuestieH1"))
+            assert.is_true(CommsHello:AcceptsPrefix("Friend-Realm", "questie"))
+            assert.is_true(CommsHello:RejectsPrefix("Friend-Realm", "QuestieV1"))
+            assert.is_true(CommsHello:RejectsPrefix("Friend-Realm", "REPUTABLE"))
             assert.is_nil(CommsHello.remotePlayerPrefixes["Friend-Realm"].Questie)
             assert.is_nil(CommsHello.remotePlayerPrefixes["Friend-Realm"].QuestieZ9)
             assert.are_equal(123, CommsHello.remotePlayerLastSeen["Friend-Realm"])
@@ -274,7 +267,7 @@ describe("CommsHello", function()
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend-Realm")
 
-            assert.is_true(CommsHello:IsPlayerListening("Friend-Realm", "QuestieH1"))
+            assert.is_true(CommsHello:AcceptsPrefix("Friend-Realm", "QuestieH1"))
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
 
@@ -291,7 +284,7 @@ describe("CommsHello", function()
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-OtherRealm")
 
-            assert.is_true(CommsHello:IsPlayerListening("Player-OtherRealm", "QuestieH1"))
+            assert.is_true(CommsHello:AcceptsPrefix("Player-OtherRealm", "QuestieH1"))
         end)
 
         it("keeps same-name players from different realms separate", function()
@@ -305,10 +298,10 @@ describe("CommsHello", function()
             setupCodec({QuestieH1 = false, questie = false})
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend-RealmTwo")
 
-            assert.is_true(CommsHello:IsPlayerListening("Friend-RealmOne", "QuestieH1"))
-            assert.is_true(CommsHello:IsPlayerListening("Friend-RealmOne", "questie"))
-            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-RealmTwo", "QuestieH1"))
-            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-RealmTwo", "questie"))
+            assert.is_true(CommsHello:AcceptsPrefix("Friend-RealmOne", "QuestieH1"))
+            assert.is_true(CommsHello:AcceptsPrefix("Friend-RealmOne", "questie"))
+            assert.is_true(CommsHello:RejectsPrefix("Friend-RealmTwo", "QuestieH1"))
+            assert.is_true(CommsHello:RejectsPrefix("Friend-RealmTwo", "questie"))
             assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
         end)
 
@@ -334,6 +327,25 @@ describe("CommsHello", function()
             end)
             assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
         end)
+    end)
+
+    describe("Prefix queries", function()
+        it("distinguishes accepted, rejected, and unknown prefix states", function()
+            CommsHello.remotePlayerPrefixes["Friend-Realm"] = {
+                QuestieV1 = true,
+                questie = false,
+            }
+
+            assert.is_true(CommsHello:AcceptsPrefix("Friend-Realm", "QuestieV1"))
+            assert.is_false(CommsHello:RejectsPrefix("Friend-Realm", "QuestieV1"))
+            assert.is_false(CommsHello:AcceptsPrefix("Friend-Realm", "questie"))
+            assert.is_true(CommsHello:RejectsPrefix("Friend-Realm", "questie"))
+            assert.is_false(CommsHello:AcceptsPrefix("Friend-Realm", "REPUTABLE"))
+            assert.is_false(CommsHello:RejectsPrefix("Friend-Realm", "REPUTABLE"))
+            assert.is_false(CommsHello:AcceptsPrefix("Unknown-Realm", "QuestieV1"))
+            assert.is_false(CommsHello:RejectsPrefix("Unknown-Realm", "QuestieV1"))
+        end)
+
     end)
 
     describe("ResetAll and PruneRemotePlayers", function()

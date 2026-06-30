@@ -132,24 +132,7 @@ local function _BuildLocalPrefixMap()
 end
 
 
----Broadcasts this client's current prefix state to the active group channel.
----@return boolean sent False when not grouped or when the payload cannot be encoded.
-function CommsHello:SendHello()
-    local distribution = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
-    if not distribution then
-        return false
-    end
-
-    local message = CommsEncoding:EncodePayload(_BuildLocalPrefixMap())
-    if not message then
-        return false
-    end
-
-    Questie:SendCommMessage(HELLO_PREFIX, message, distribution)
-    return true
-end
-
----Schedules a jittered hello so group roster events do not make every client speak at once.
+---Schedules a jittered group-broadcast hello so roster events do not make every client speak at once.
 ---The timer is cancellable; ResetAll cancels it when group state is cleared.
 ---@param _reason string? Debug-only call-site label reserved for future logging.
 function CommsHello:ScheduleHello(_reason)
@@ -158,7 +141,18 @@ function CommsHello:ScheduleHello(_reason)
 
     helloTimer = C_Timer.NewTimer(math.random() * 2, function()
         helloTimer = nil
-        CommsHello:SendHello()
+
+        local distribution = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
+        if not distribution then
+            return
+        end
+
+        local message = CommsEncoding:EncodePayload(_BuildLocalPrefixMap())
+        if not message then
+            return
+        end
+
+        Questie:SendCommMessage(HELLO_PREFIX, message, distribution)
     end)
 end
 
@@ -238,20 +232,20 @@ function CommsHello:PruneRemotePlayers()
     end
 end
 
----Returns true when the remote player advertised that they listen on this prefix.
+---Returns true when the remote player advertised this prefix as accepted/supported.
 ---@param playerName string
 ---@param prefix string
 ---@return boolean
-function CommsHello:IsPlayerListening(playerName, prefix)
+function CommsHello:AcceptsPrefix(playerName, prefix)
     local remotePlayerPrefixes = CommsHello.remotePlayerPrefixes[playerName]
     return remotePlayerPrefixes and remotePlayerPrefixes[prefix] == true or false
 end
 
----Returns true when the remote player advertised this known prefix as intentionally disabled.
+---Returns true when the remote player advertised this known prefix as intentionally rejected/disabled.
 ---@param playerName string
 ---@param prefix string
 ---@return boolean
-function CommsHello:DoesPlayerRejectPrefix(playerName, prefix)
+function CommsHello:RejectsPrefix(playerName, prefix)
     local remotePlayerPrefixes = CommsHello.remotePlayerPrefixes[playerName]
     return remotePlayerPrefixes and remotePlayerPrefixes[prefix] == false or false
 end
