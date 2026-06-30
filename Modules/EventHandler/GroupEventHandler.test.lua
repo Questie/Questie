@@ -10,8 +10,8 @@ describe("GroupEventHandler", function()
     ---@type QuestieComms
     local QuestieComms
 
-    ---@type CommsHello
-    local CommsHello
+    ---@type CommsPrefixRegistry
+    local CommsPrefixRegistry
 
     ---@type CommsVisibility
     local CommsVisibility
@@ -24,15 +24,15 @@ describe("GroupEventHandler", function()
     local function loadGroupEventHandler()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestieComms = QuestieLoader:ImportModule("QuestieComms")
-        CommsHello = QuestieLoader:ImportModule("CommsHello")
+        CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
         QuestiePlayer.numberOfGroupMembers = 2
         QuestieComms.remoteQuestLogs = {}
-        CommsHello.PruneRemotePlayers = spy.new(function() end)
-        CommsHello.ScheduleHello = spy.new(function() end)
-        CommsHello.ResetAll = spy.new(function() end)
+        CommsPrefixRegistry.PruneRemotePlayers = spy.new(function() end)
+        CommsPrefixRegistry.ScheduleHello = spy.new(function() end)
+        CommsPrefixRegistry.ResetAll = spy.new(function() end)
         CommsVisibility.PruneRemotePlayers = spy.new(function() end)
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
         CommsVisibility.ResetAll = spy.new(function() end)
@@ -70,9 +70,9 @@ describe("GroupEventHandler", function()
 
             GroupEventHandler.GroupRosterUpdate()
 
-            assert.spy(CommsHello.PruneRemotePlayers).was.called(1)
+            assert.spy(CommsPrefixRegistry.PruneRemotePlayers).was.called(1)
             assert.spy(CommsVisibility.PruneRemotePlayers).was.called(1)
-            assert.spy(CommsHello.ScheduleHello).was.called_with(CommsHello, "GROUP_ROSTER_UPDATE")
+            assert.spy(CommsPrefixRegistry.ScheduleHello).was.called_with(CommsPrefixRegistry, "GROUP_ROSTER_UPDATE")
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called_with(CommsVisibility, "GROUP_ROSTER_UPDATE")
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called(1)
         end)
@@ -80,9 +80,9 @@ describe("GroupEventHandler", function()
         it("does not schedule hello when the group size is unchanged", function()
             GroupEventHandler.GroupRosterUpdate()
 
-            assert.spy(CommsHello.PruneRemotePlayers).was.not_called()
+            assert.spy(CommsPrefixRegistry.PruneRemotePlayers).was.not_called()
             assert.spy(CommsVisibility.PruneRemotePlayers).was.not_called()
-            assert.spy(CommsHello.ScheduleHello).was.not_called()
+            assert.spy(CommsPrefixRegistry.ScheduleHello).was.not_called()
             assert.spy(CommsVisibility.ScheduleSnapshot).was.not_called()
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
         end)
@@ -93,7 +93,7 @@ describe("GroupEventHandler", function()
             GroupEventHandler.GroupJoined()
             _G.C_Timer.groupJoinedTickerCallback()
 
-            assert.spy(CommsHello.ScheduleHello).was.called_with(CommsHello, "GROUP_JOINED")
+            assert.spy(CommsPrefixRegistry.ScheduleHello).was.called_with(CommsPrefixRegistry, "GROUP_JOINED")
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called_with(CommsVisibility, "GROUP_JOINED")
             assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_REQUEST_FULL_QUESTLIST")
         end)
@@ -104,7 +104,7 @@ describe("GroupEventHandler", function()
             GroupEventHandler.GroupLeft()
 
             assert.spy(QuestieComms.ResetAll).was.called(1)
-            assert.spy(CommsHello.ResetAll).was.called(1)
+            assert.spy(CommsPrefixRegistry.ResetAll).was.called(1)
             assert.spy(CommsVisibility.ResetAll).was.called(1)
             assert.spy(QuestiePartyObjectives.Clear).was.called(1)
         end)

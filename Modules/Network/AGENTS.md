@@ -13,6 +13,6 @@ Key contracts to preserve:
 - `QuestieH1` hello is a dumb boolean map of comm prefixes. Prefix meaning belongs to the owning modules, not the hello payload.
 - Known prefixes default to `false`; owning modules mark active support only after their receiver/parser is registered. Never trust or register prefixes dynamically from remote input.
 - Modern typed-prefix payloads use `CommsEncoding`: Lua table/body -> `C_EncodingUtil.SerializeCBOR` -> Blizzard Deflate via `C_EncodingUtil.CompressString` -> addon-channel-safe encoding.
-- Modern comm modules should register their static prefix receiver first, then call `CommsHello:RegisterLocalPrefix(prefix)`.
+- Modern comm modules should register their static prefix receiver first, then call `CommsPrefixRegistry:RegisterLocalPrefix(prefix)`.
 - `QuestieV1` is a full visibility snapshot `{ [questId] = boolean }` for party objective map/minimap pins only. It must not hide contextual tooltip progress and must not touch `remoteQuestLogs`.
 - Missing `QuestieV1` visibility for a peer/quest means unknown and defaults to shown for backward compatibility.

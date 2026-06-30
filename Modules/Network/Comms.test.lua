@@ -7,13 +7,13 @@ describe("Comms", function()
     ---@type Comms
     local Comms
 
-    ---@type CommsHello
-    local CommsHello
+    ---@type CommsPrefixRegistry
+    local CommsPrefixRegistry
 
     before_each(function()
         Questie.RegisterComm = function() end
-        CommsHello = QuestieLoader:ImportModule("CommsHello")
-        CommsHello.RegisterLocalPrefix = spy.new(function() return true end)
+        CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
+        CommsPrefixRegistry.RegisterLocalPrefix = spy.new(function() return true end)
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
 
@@ -24,7 +24,7 @@ describe("Comms", function()
 
     describe("Initialize", function()
         it("marks the daily quest comm prefix active for hello", function()
-            assert.spy(CommsHello.RegisterLocalPrefix).was.called_with(CommsHello, "Questie")
+            assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.called_with(CommsPrefixRegistry, "Questie")
         end)
     end)
 

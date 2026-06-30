@@ -13,8 +13,8 @@ describe("CommsVisibility", function()
     ---@type QuestieQuest
     local QuestieQuest
 
-    ---@type CommsHello
-    local CommsHello
+    ---@type CommsPrefixRegistry
+    local CommsPrefixRegistry
 
     ---@type QuestiePartyObjectives
     local QuestiePartyObjectives
@@ -77,8 +77,8 @@ describe("CommsVisibility", function()
             return questId ~= 202
         end
 
-        CommsHello = QuestieLoader:ImportModule("CommsHello")
-        CommsHello.RegisterLocalPrefix = spy.new(function() return true end)
+        CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
+        CommsPrefixRegistry.RegisterLocalPrefix = spy.new(function() return true end)
 
         QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
@@ -106,7 +106,7 @@ describe("CommsVisibility", function()
 
             assert.is_true(initialized)
             assert.spy(Questie.RegisterComm).was.called_with(Questie, "QuestieV1", CommsVisibility.OnCommReceived)
-            assert.spy(CommsHello.RegisterLocalPrefix).was.called_with(CommsHello, "QuestieV1")
+            assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.called_with(CommsPrefixRegistry, "QuestieV1")
         end)
 
         it("does not register when modern payload encoding is unavailable", function()
@@ -118,7 +118,7 @@ describe("CommsVisibility", function()
 
             assert.is_false(initialized)
             assert.spy(Questie.RegisterComm).was.not_called()
-            assert.spy(CommsHello.RegisterLocalPrefix).was.not_called()
+            assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.not_called()
         end)
     end)
 

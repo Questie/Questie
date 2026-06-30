@@ -5,8 +5,8 @@ local GroupEventHandler = QuestieLoader:CreateModule("GroupEventHandler")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
----@type CommsHello
-local CommsHello = QuestieLoader:ImportModule("CommsHello")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestiePartyObjectives
@@ -54,9 +54,9 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Only resync comm state when group membership or a quest-sharing member's online state
     -- changed. Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
     if sizeChanged or onlineChanged then
-        CommsHello:PruneRemotePlayers()
+        CommsPrefixRegistry:PruneRemotePlayers()
         CommsVisibility:PruneRemotePlayers()
-        CommsHello:ScheduleHello("GROUP_ROSTER_UPDATE")
+        CommsPrefixRegistry:ScheduleHello("GROUP_ROSTER_UPDATE")
         CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")
         QuestiePartyObjectives:ScheduleUpdate()
     end
@@ -73,7 +73,7 @@ function GroupEventHandler.GroupJoined()
         if partyPending then
             if (isInParty or isInRaid) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
-                CommsHello:ScheduleHello("GROUP_JOINED")
+                CommsPrefixRegistry:ScheduleHello("GROUP_JOINED")
                 CommsVisibility:ScheduleSnapshot("GROUP_JOINED")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
@@ -90,7 +90,7 @@ end
 function GroupEventHandler.GroupLeft()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll()
-    CommsHello:ResetAll()
+    CommsPrefixRegistry:ResetAll()
     CommsVisibility:ResetAll()
     QuestiePartyObjectives:Clear()
     previousOnlineStatus = {}

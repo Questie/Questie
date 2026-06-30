@@ -34,8 +34,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type CommsHello
-local CommsHello = QuestieLoader:ImportModule("CommsHello")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
@@ -90,7 +90,7 @@ function CommsVisibility:Initialize()
     end
 
     Questie:RegisterComm(VISIBILITY_PREFIX, CommsVisibility.OnCommReceived)
-    CommsHello:RegisterLocalPrefix(VISIBILITY_PREFIX)
+    CommsPrefixRegistry:RegisterLocalPrefix(VISIBILITY_PREFIX)
     initialized = true
     return true
 end

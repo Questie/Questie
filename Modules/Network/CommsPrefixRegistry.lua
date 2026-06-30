@@ -21,7 +21,7 @@ currently listening to.
         * whispered hellos are stored without answering to avoid ping-pong.
 
     Receive/store from "Friend-Realm":
-        CommsHello.remotePlayerPrefixes["Friend-Realm"] = {
+        CommsPrefixRegistry.remotePlayerPrefixes["Friend-Realm"] = {
             QuestieH1 = true,
             QuestieV1 = true,
             questie = true,
@@ -36,8 +36,8 @@ advertise false without letting remote payloads grow the protocol surface.
 ]]
 ---@alias QuestieCommsPrefixState table<string, boolean> Prefix -> listening state; false is an intentional local rejection/disabled state.
 
----@class CommsHello : QuestieModule
-local CommsHello = QuestieLoader:CreateModule("CommsHello")
+---@class CommsPrefixRegistry : QuestieModule
+local CommsPrefixRegistry = QuestieLoader:CreateModule("CommsPrefixRegistry")
 
 -------------------------
 -- Import modules.
@@ -73,15 +73,15 @@ local LOCAL_PREFIXES = {
     REPUTABLE = false,
 }
 
-CommsHello.prefix = HELLO_PREFIX
+CommsPrefixRegistry.prefix = HELLO_PREFIX
 
 -- Remote routing table for future modern comms. Keys intentionally use AceComm's sender
 -- string (for example "Friend-Realm") so same-name cross-realm players do not collide,
 -- and roster pruning compares against the same sender shape.
 ---@type table<string, QuestieCommsPrefixState>
-CommsHello.remotePlayerPrefixes = CommsHello.remotePlayerPrefixes or {}
+CommsPrefixRegistry.remotePlayerPrefixes = CommsPrefixRegistry.remotePlayerPrefixes or {}
 ---@type table<string, number>
-CommsHello.remotePlayerLastSeen = CommsHello.remotePlayerLastSeen or {}
+CommsPrefixRegistry.remotePlayerLastSeen = CommsPrefixRegistry.remotePlayerLastSeen or {}
 
 -- Debounced outbound broadcast. Roster events can cluster during joins/reloads, so the
 -- latest scheduled hello replaces any earlier pending one.
@@ -100,18 +100,18 @@ local undefinedPrefixWarnings = {}
 -- Initialization.
 -------------------------
 ---@return boolean
-function CommsHello:Initialize()
+function CommsPrefixRegistry:Initialize()
     if initialized then
         return true
     end
 
     if not CommsEncoding:HasCodecSupport() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[CommsHello] Codec support unavailable, not registering QuestieH1")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[CommsPrefixRegistry] Codec support unavailable, not registering QuestieH1")
         return false
     end
 
-    Questie:RegisterComm(HELLO_PREFIX, CommsHello.OnCommReceived)
-    CommsHello:RegisterLocalPrefix(HELLO_PREFIX)
+    Questie:RegisterComm(HELLO_PREFIX, CommsPrefixRegistry.OnCommReceived)
+    CommsPrefixRegistry:RegisterLocalPrefix(HELLO_PREFIX)
     initialized = true
     return true
 end
@@ -135,7 +135,7 @@ end
 ---Schedules a jittered group-broadcast hello so roster events do not make every client speak at once.
 ---The timer is cancellable; ResetAll cancels it when group state is cleared.
 ---@param _reason string? Debug-only call-site label reserved for future logging.
-function CommsHello:ScheduleHello(_reason)
+function CommsPrefixRegistry:ScheduleHello(_reason)
     -- Send with timer debounce.
     _CancelHelloTimer()
 
@@ -181,7 +181,7 @@ end
 ---@param message string
 ---@param distribution string
 ---@param sender string
-function CommsHello.OnCommReceived(prefix, message, distribution, sender)
+function CommsPrefixRegistry.OnCommReceived(prefix, message, distribution, sender)
     if prefix ~= HELLO_PREFIX then
         return
     end
@@ -196,8 +196,8 @@ function CommsHello.OnCommReceived(prefix, message, distribution, sender)
     end
 
     -- Store the remote player's state before replying so future modules can immediately route by prefix.
-    CommsHello.remotePlayerPrefixes[sender] = _SanitizePrefixMap(payload)
-    CommsHello.remotePlayerLastSeen[sender] = GetTime()
+    CommsPrefixRegistry.remotePlayerPrefixes[sender] = _SanitizePrefixMap(payload)
+    CommsPrefixRegistry.remotePlayerLastSeen[sender] = GetTime()
 
     -- A group-broadcast hello means the sender is announcing itself after a join/reload and
     -- needs our current state. Reply only to that sender so one hello does not cause a
@@ -215,19 +215,19 @@ end
 -- Remote player state and queries.
 -------------------------
 
-function CommsHello:ResetAll()
-    wipe(CommsHello.remotePlayerPrefixes)
-    wipe(CommsHello.remotePlayerLastSeen)
+function CommsPrefixRegistry:ResetAll()
+    wipe(CommsPrefixRegistry.remotePlayerPrefixes)
+    wipe(CommsPrefixRegistry.remotePlayerLastSeen)
     _CancelHelloTimer()
 end
 
 ---Drops capability records for remote players no longer present in the current group roster.
 ---QuestieH1 state is a routing cache, not durable player data.
-function CommsHello:PruneRemotePlayers()
-    for playerName in pairs(CommsHello.remotePlayerPrefixes) do
+function CommsPrefixRegistry:PruneRemotePlayers()
+    for playerName in pairs(CommsPrefixRegistry.remotePlayerPrefixes) do
         if not (UnitInParty(playerName) or UnitInRaid(playerName)) then
-            CommsHello.remotePlayerPrefixes[playerName] = nil
-            CommsHello.remotePlayerLastSeen[playerName] = nil
+            CommsPrefixRegistry.remotePlayerPrefixes[playerName] = nil
+            CommsPrefixRegistry.remotePlayerLastSeen[playerName] = nil
         end
     end
 end
@@ -236,8 +236,8 @@ end
 ---@param playerName string
 ---@param prefix string
 ---@return boolean
-function CommsHello:AcceptsPrefix(playerName, prefix)
-    local remotePlayerPrefixes = CommsHello.remotePlayerPrefixes[playerName]
+function CommsPrefixRegistry:AcceptsPrefix(playerName, prefix)
+    local remotePlayerPrefixes = CommsPrefixRegistry.remotePlayerPrefixes[playerName]
     return remotePlayerPrefixes and remotePlayerPrefixes[prefix] == true or false
 end
 
@@ -245,8 +245,8 @@ end
 ---@param playerName string
 ---@param prefix string
 ---@return boolean
-function CommsHello:RejectsPrefix(playerName, prefix)
-    local remotePlayerPrefixes = CommsHello.remotePlayerPrefixes[playerName]
+function CommsPrefixRegistry:RejectsPrefix(playerName, prefix)
+    local remotePlayerPrefixes = CommsPrefixRegistry.remotePlayerPrefixes[playerName]
     return remotePlayerPrefixes and remotePlayerPrefixes[prefix] == false or false
 end
 
@@ -254,13 +254,13 @@ end
 ---Undefined prefixes produce a delayed visible error because they indicate a local module/manifest mismatch.
 ---@param prefix string
 ---@return boolean registered
-function CommsHello:RegisterLocalPrefix(prefix)
+function CommsPrefixRegistry:RegisterLocalPrefix(prefix)
     if LOCAL_PREFIXES[prefix] == nil then
         local prefixName = tostring(prefix)
         if not undefinedPrefixWarnings[prefixName] then
             undefinedPrefixWarnings[prefixName] = true
             C_Timer.After(5, function()
-                Questie:Error("[CommsHello] A module tried to register undefined Questie comm prefix '" .. prefixName .. "'. Add it to the QuestieH1 prefix manifest before registering support.")
+                Questie:Error("[CommsPrefixRegistry] A module tried to register undefined Questie comm prefix '" .. prefixName .. "'. Add it to the QuestieH1 prefix manifest before registering support.")
             end)
         end
 

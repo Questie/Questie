@@ -4,8 +4,8 @@ describe("QuestieComms", function()
     ---@type QuestieComms
     local QuestieComms
 
-    ---@type CommsHello
-    local CommsHello
+    ---@type CommsPrefixRegistry
+    local CommsPrefixRegistry
 
     ---@type CommsVisibility
     local CommsVisibility
@@ -15,9 +15,9 @@ describe("QuestieComms", function()
         Questie.RegisterMessage = spy.new(function() end)
         Questie.RegisterBucketMessage = spy.new(function() end)
 
-        dofile("Modules/Network/CommsHello.lua")
-        CommsHello = QuestieLoader:ImportModule("CommsHello")
-        CommsHello.RegisterLocalPrefix = spy.new(function() return true end)
+        dofile("Modules/Network/CommsPrefixRegistry.lua")
+        CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
+        CommsPrefixRegistry.RegisterLocalPrefix = spy.new(function() return true end)
 
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
@@ -32,8 +32,8 @@ describe("QuestieComms", function()
 
             assert.spy(Questie.RegisterComm).was.called_with(Questie, "questie", QuestieComms.private.OnCommReceived)
             assert.spy(Questie.RegisterComm).was.called_with(Questie, "REPUTABLE", QuestieLoader:ImportModule("DailyQuests").FilterDailies)
-            assert.spy(CommsHello.RegisterLocalPrefix).was.called_with(CommsHello, "questie")
-            assert.spy(CommsHello.RegisterLocalPrefix).was.called_with(CommsHello, "REPUTABLE")
+            assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.called_with(CommsPrefixRegistry, "questie")
+            assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.called_with(CommsPrefixRegistry, "REPUTABLE")
         end)
     end)
 

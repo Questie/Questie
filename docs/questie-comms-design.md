@@ -48,11 +48,11 @@ Absence from `remoteQuestLogs` must not be overloaded to mean "hidden", "untrack
 
 The payload does not describe feature names, schemas, codecs, or semantic meaning. Local code decides what each prefix means.
 
-`CommsHello` owns a static local prefix manifest. Known prefixes default to `false`. The module that actually registers and parses a prefix marks that prefix active only after registering its AceComm receiver:
+`CommsPrefixRegistry` owns a static local prefix manifest. Known prefixes default to `false`. The module that actually registers and parses a prefix marks that prefix active only after registering its AceComm receiver:
 
 ```lua
 Questie:RegisterComm("QuestieV1", CommsVisibility.OnCommReceived)
-CommsHello:RegisterLocalPrefix("QuestieV1")
+CommsPrefixRegistry:RegisterLocalPrefix("QuestieV1")
 ```
 
 Unknown prefixes cannot be added dynamically. If local code tries to register an undefined prefix, that is a programming error and should produce a visible delayed error. Remote hello payloads are also sanitized: only known prefixes with boolean values are stored.
@@ -60,21 +60,21 @@ Unknown prefixes cannot be added dynamically. If local code tries to register an
 Remote player prefix state is stored separately from quest-log state:
 
 ```lua
-CommsHello.remotePlayerPrefixes["Friend-Realm"] = {
+CommsPrefixRegistry.remotePlayerPrefixes["Friend-Realm"] = {
     QuestieH1 = true,
     QuestieV1 = true,
     questie = true,
     Questie = true,
     REPUTABLE = true,
 }
-CommsHello.remotePlayerLastSeen["Friend-Realm"] = GetTime()
+CommsPrefixRegistry.remotePlayerLastSeen["Friend-Realm"] = GetTime()
 ```
 
 The hello module exposes prefix-state queries such as:
 
 ```lua
-CommsHello:AcceptsPrefix(playerName, prefix)
-CommsHello:RejectsPrefix(playerName, prefix)
+CommsPrefixRegistry:AcceptsPrefix(playerName, prefix)
+CommsPrefixRegistry:RejectsPrefix(playerName, prefix)
 ```
 
 `QuestieH1` receive handling is group-gated. `PARTY`, `RAID`, `INSTANCE_CHAT`, and `WHISPER` are accepted only when the sender is a current group member. `CommsRouting` owns the shared modern comm routing mechanics: group broadcast distribution normalization, AceComm self filtering, and grouped-sender validation.
@@ -83,7 +83,7 @@ A group-broadcast `QuestieH1` means the sender is announcing a join/reload and n
 
 ## Module ownership
 
-`CommsHello` owns only:
+`CommsPrefixRegistry` owns only:
 
 - the static prefix manifest,
 - local prefix active/inactive state,
@@ -94,9 +94,9 @@ A group-broadcast `QuestieH1` means the sender is announcing a join/reload and n
 
 `QuestieComms` continues to own the legacy absolute quest-log/progress transport and `remoteQuestLogs` semantics.
 
-The existing `Comms` module and the old `REPUTABLE` path register their current prefixes as active through `CommsHello` after their receivers are registered. That allows the hello payload to reflect reality instead of a hardcoded assumption.
+The existing `Comms` module and the old `REPUTABLE` path register their current prefixes as active through `CommsPrefixRegistry` after their receivers are registered. That allows the hello payload to reflect reality instead of a hardcoded assumption.
 
-Future modern comm modules should follow the same pattern: define the prefix in the hello manifest, register the AceComm receiver in the owning module, then call `CommsHello:RegisterLocalPrefix(prefix)`. If that module is later removed, the prefix will naturally remain false or disappear from the manifest, instead of being accidentally advertised as supported.
+Future modern comm modules should follow the same pattern: define the prefix in the hello manifest, register the AceComm receiver in the owning module, then call `CommsPrefixRegistry:RegisterLocalPrefix(prefix)`. If that module is later removed, the prefix will naturally remain false or disappear from the manifest, instead of being accidentally advertised as supported.
 
 ## Wire and codec direction
 
@@ -164,7 +164,7 @@ So manually hidden quests and untracked quests suppress party objective pins, wh
 
 ## Scheduling and convergence
 
-`CommsHello` and `CommsVisibility` schedule sends with cancellable `C_Timer.NewTimer` debounce.
+`CommsPrefixRegistry` and `CommsVisibility` schedule sends with cancellable `C_Timer.NewTimer` debounce.
 
 - A new schedule call cancels the pending timer and starts a fresh one.
 - The eventual send uses the latest full state.
