@@ -1,5 +1,7 @@
 --[[
-QuestieH1 hello message, end-to-end:
+QuestieH1 is the modern comms handshake. It does not describe features or packet
+schemas; it only advertises which fixed Questie addon prefixes this client is
+currently listening to.
 
     Decoded payload:
         {
@@ -11,11 +13,12 @@ QuestieH1 hello message, end-to-end:
         }
 
     Wire path:
-        payload
-            -> CommsEncoding:EncodePayload(payload)
+        payload -> CommsEncoding:EncodePayload(payload)
 
-    Send:
-        Questie:SendCommMessage("QuestieH1", encodedPayload, "PARTY" | "RAID" | "INSTANCE_CHAT")
+    Discovery pattern:
+        * joining/reloading clients broadcast QuestieH1 to announce themselves;
+        * receivers store that state and whisper their own QuestieH1 back;
+        * whispered hellos are stored without answering to avoid ping-pong.
 
     Receive/store from "Friend-Realm":
         CommsHello.peerPrefixes["Friend-Realm"] = {
@@ -26,15 +29,12 @@ QuestieH1 hello message, end-to-end:
             REPUTABLE = true,
         }
 
-QuestieH1 only says which Questie prefixes a peer listens to or intentionally rejects.
-The meaning of those prefixes lives in local code, not in the hello payload.
-
-Known prefixes default to false, meaning this client knows the prefix contract but is not
-currently listening/parsing it. The modules that actually register and parse a prefix mark
-that prefix true after registering their own receiver, so disabled or sunset handlers naturally
-advertise false without needing to keep this file in sync with deleted parser code.
+Known prefixes default to false. That means this client knows the prefix contract
+but is not currently listening/parsing it. Owning modules mark prefixes true only
+after registering their own receiver, so disabled or sunset handlers naturally
+advertise false without letting remote payloads grow the protocol surface.
 ]]
----@alias QuestieCommsPrefixState table<string, boolean>
+---@alias QuestieCommsPrefixState table<string, boolean> Prefix -> listening state; false is an intentional local rejection/disabled state.
 
 ---@class CommsHello : QuestieModule
 local CommsHello = QuestieLoader:CreateModule("CommsHello")
@@ -54,9 +54,9 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 -------------------------
 local HELLO_PREFIX = "QuestieH1"
 
--- Only prefixes defined here are meaningful to this client. Remote hello payloads are never allowed
--- to register or introduce new prefixes dynamically. False means the prefix contract is known, but
--- this client is not currently listening/parsing it.
+-- Local protocol manifest. This is the only place a prefix becomes meaningful to this
+-- client; remote hello payloads are filtered through this table and can never register
+-- or introduce prefixes dynamically.
 ---@type QuestieCommsPrefixState
 local LOCAL_PREFIXES = {
     -- Hello module
@@ -75,15 +75,16 @@ local LOCAL_PREFIXES = {
 
 CommsHello.prefix = HELLO_PREFIX
 
--- Peer state is keyed by the canonical comm sender exactly as AceComm gives it to us
--- (for example "Friend-Realm"). Do not strip realms here: same-name cross-realm players
--- must not collide, and GroupEventHandler prunes against the same full-name shape.
+-- Remote routing table for future modern comms. Keys intentionally use AceComm's sender
+-- string (for example "Friend-Realm") so same-name cross-realm players do not collide,
+-- and roster pruning compares against the same sender shape.
 ---@type table<string, QuestieCommsPrefixState>
 CommsHello.peerPrefixes = CommsHello.peerPrefixes or {}
 ---@type table<string, number>
 CommsHello.peerLastSeen = CommsHello.peerLastSeen or {}
 
--- Timer
+-- Debounced outbound broadcast. Roster events can cluster during joins/reloads, so the
+-- latest scheduled hello replaces any earlier pending one.
 local helloTimer
 local function _CancelHelloTimer()
     if helloTimer then
@@ -119,6 +120,7 @@ end
 -- Sending hello.
 -------------------------
 ---Builds the exact boolean map advertised in QuestieH1.
+---The payload stays deliberately dumb: prefix names are the contract; meanings live in local code.
 ---@return QuestieCommsPrefixState
 local function _BuildLocalPrefixMap()
     local prefixes = {}
@@ -130,11 +132,11 @@ local function _BuildLocalPrefixMap()
 end
 
 
-
----@return boolean
+---Broadcasts this client's current prefix state to the active group channel.
+---@return boolean sent False when not grouped or when the payload cannot be encoded.
 function CommsHello:SendHello()
-    local mode = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
-    if not mode then
+    local distribution = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
+    if not distribution then
         return false
     end
 
@@ -143,11 +145,12 @@ function CommsHello:SendHello()
         return false
     end
 
-    Questie:SendCommMessage(HELLO_PREFIX, message, mode)
+    Questie:SendCommMessage(HELLO_PREFIX, message, distribution)
     return true
 end
 
 ---Schedules a jittered hello so group roster events do not make every client speak at once.
+---The timer is cancellable; ResetAll cancels it when group state is cleared.
 ---@param _reason string? Debug-only call-site label reserved for future logging.
 ---@return nil
 function CommsHello:ScheduleHello(_reason)
@@ -164,27 +167,8 @@ end
 -- Receiving hello.
 -------------------------
 
----AceComm calls Ambiguate(sender, "none"), so our own sender is the short player name.
----@param sender string
----@return boolean
-local function _IsSelf(sender)
-    return sender == UnitName("player")
-end
-
----@param distribution string
----@param sender string Full sender name, including realm when AceComm provided one.
----@return boolean
-local function _CanAcceptHello(distribution, sender)
-    local allowedDistribution = distribution == "PARTY"
-        or distribution == "RAID"
-        or distribution == "INSTANCE_CHAT"
-        or distribution == "WHISPER"
-    local senderInGroup = UnitInParty(sender) or UnitInRaid(sender)
-
-    return allowedDistribution and senderInGroup
-end
-
 ---Copies only known boolean prefix states from an untrusted remote hello.
+---Unknown keys are ignored so remote clients cannot expand our known protocol set.
 ---@param payload table Decoded remote payload; unknown keys and non-booleans are ignored.
 ---@return QuestieCommsPrefixState prefixes Sanitized prefix map safe to store.
 local function _SanitizePrefixMap(payload)
@@ -198,7 +182,8 @@ local function _SanitizePrefixMap(payload)
     return prefixes
 end
 
----Accepts QuestieH1 only from current group members, including WHISPER senders.
+---Receives a peer's prefix state and performs first-contact convergence.
+---Trust boundary: only grouped senders on group channels or WHISPER are accepted.
 ---@param prefix string
 ---@param message string
 ---@param distribution string
@@ -209,7 +194,7 @@ function CommsHello.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    if _IsSelf(sender) or not _CanAcceptHello(distribution, sender) then
+    if CommsRouting:IsSelf(sender) or not CommsRouting:IsMessageFromGroupMember(distribution, sender) then
         return
     end
 
@@ -218,8 +203,20 @@ function CommsHello.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
+    -- Store peer state before replying so future modules can immediately route by prefix.
     CommsHello.peerPrefixes[sender] = _SanitizePrefixMap(payload)
     CommsHello.peerLastSeen[sender] = GetTime()
+
+    -- A group-broadcast hello means the sender is announcing itself after a join/reload and
+    -- needs our current state. Reply only to that sender so one hello does not cause a
+    -- raid-wide response fanout. Whispered hellos are already targeted replies, so storing
+    -- them without answering prevents ping-pong.
+    if CommsRouting:GetGroupBroadcastDistribution(distribution) then
+        local replyMessage = CommsEncoding:EncodePayload(_BuildLocalPrefixMap())
+        if replyMessage then
+            Questie:SendCommMessage(HELLO_PREFIX, replyMessage, "WHISPER", sender)
+        end
+    end
 end
 
 -------------------------
@@ -234,6 +231,7 @@ function CommsHello:ResetAll()
 end
 
 ---Drops capability records for peers no longer present in the current group roster.
+---QuestieH1 state is a routing cache, not durable player data.
 ---@return nil
 function CommsHello:PrunePeers()
     for playerName in pairs(CommsHello.peerPrefixes) do
@@ -244,34 +242,26 @@ function CommsHello:PrunePeers()
     end
 end
 
+---Returns true when the remote player advertised that they listen on this prefix.
 ---@param playerName string
 ---@param prefix string
----@return boolean?
-function CommsHello:GetPeerPrefixState(playerName, prefix)
+---@return boolean
+function CommsHello:IsPlayerListening(playerName, prefix)
     local peerPrefixes = CommsHello.peerPrefixes[playerName]
-    if peerPrefixes then
-        return peerPrefixes[prefix]
-    end
-
-    return nil
+    return peerPrefixes and peerPrefixes[prefix] == true or false
 end
 
+---Returns true when the remote player advertised this known prefix as intentionally disabled.
 ---@param playerName string
 ---@param prefix string
 ---@return boolean
-function CommsHello:IsPeerListening(playerName, prefix)
-    return self:GetPeerPrefixState(playerName, prefix) == true
-end
-
----@param playerName string
----@param prefix string
----@return boolean
-function CommsHello:DoesPeerRejectPrefix(playerName, prefix)
-    return self:GetPeerPrefixState(playerName, prefix) == false
+function CommsHello:DoesPlayerRejectPrefix(playerName, prefix)
+    local peerPrefixes = CommsHello.peerPrefixes[playerName]
+    return peerPrefixes and peerPrefixes[prefix] == false or false
 end
 
 ---Marks a known local prefix active after its receiver has registered with AceComm.
----Unknown prefixes are ignored so remote/local input cannot grow the protocol surface dynamically.
+---Undefined prefixes produce a delayed visible error because they indicate a local module/manifest mismatch.
 ---@param prefix string
 ---@return boolean registered
 function CommsHello:RegisterLocalPrefix(prefix)
@@ -289,10 +279,4 @@ function CommsHello:RegisterLocalPrefix(prefix)
 
     LOCAL_PREFIXES[prefix] = true
     return true
-end
-
----@param prefix string
----@return boolean?
-function CommsHello:GetLocalPrefixState(prefix)
-    return LOCAL_PREFIXES[prefix]
 end

@@ -60,9 +60,8 @@ Unknown prefixes cannot be added dynamically. If local code tries to register an
 Peer state is stored separately from quest-log state. The hello module exposes prefix-state queries such as:
 
 ```lua
-CommsHello:GetPeerPrefixState(playerName, prefix)
-CommsHello:IsPeerListening(playerName, prefix)
-CommsHello:DoesPeerRejectPrefix(playerName, prefix)
+CommsHello:IsPlayerListening(playerName, prefix)
+CommsHello:DoesPlayerRejectPrefix(playerName, prefix)
 ```
 
 `QuestieH1` receive handling is group-gated. `PARTY`, `RAID`, `INSTANCE_CHAT`, and `WHISPER` are accepted only when the sender is a current group member. Whisper is useful for peer-specific negotiation, but it must not become an unrestricted external input channel.

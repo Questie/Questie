@@ -11,6 +11,7 @@ describe("CommsHello", function()
     local CommsEncoding
 
     local serializedPayload
+    local timers
 
     local function setupCodec(decodedPayload)
         CommsEncoding.HasCodecSupport = spy.new(function() return true end)
@@ -21,6 +22,27 @@ describe("CommsHello", function()
         CommsEncoding.DecodePayload = spy.new(function()
             return decodedPayload
         end)
+    end
+
+    local function installTimerMock()
+        timers = {}
+        _G.C_Timer = {
+            NewTimer = spy.new(function(_, callback)
+                local timer = {
+                    canceled = false,
+                    Cancel = spy.new(function(self)
+                        self.canceled = true
+                    end),
+                }
+                function timer:Fire()
+                    if not self.canceled then
+                        callback()
+                    end
+                end
+                table.insert(timers, timer)
+                return timer
+            end),
+        }
     end
 
     before_each(function()
@@ -45,6 +67,7 @@ describe("CommsHello", function()
         _G.GetRealmName = function() return "HomeRealm" end
         _G.UnitInParty = function(unit) return unit == "Friend" end
         _G.UnitInRaid = function() return false end
+        _G.GetNumGroupMembers = function() return 2 end
         _G.C_Timer = nil
 
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
@@ -66,7 +89,9 @@ describe("CommsHello", function()
 
             assert.is_true(initialized)
             assert.spy(Questie.RegisterComm).was.called_with(Questie, "QuestieH1", CommsHello.OnCommReceived)
-            assert.is_true(CommsHello:GetLocalPrefixState("QuestieH1"))
+
+            CommsHello:SendHello()
+            assert.is_true(serializedPayload.QuestieH1)
         end)
 
         it("does not register when modern payload encoding is unavailable", function()
@@ -78,17 +103,14 @@ describe("CommsHello", function()
 
             assert.is_false(initialized)
             assert.spy(Questie.RegisterComm).was.not_called()
-            assert.is_false(CommsHello:GetLocalPrefixState("QuestieH1"))
         end)
     end)
 
     describe("Local prefix states", function()
         it("defaults every known prefix to false until the owning receiver registers it", function()
-            assert.is_false(CommsHello:GetLocalPrefixState("QuestieH1"))
-            assert.is_false(CommsHello:GetLocalPrefixState("QuestieV1"))
-            assert.is_false(CommsHello:GetLocalPrefixState("questie"))
-            assert.is_false(CommsHello:GetLocalPrefixState("Questie"))
-            assert.is_false(CommsHello:GetLocalPrefixState("REPUTABLE"))
+            CommsHello:SendHello()
+
+            assert.are_same({QuestieH1 = false, QuestieV1 = false, questie = false, Questie = false, REPUTABLE = false}, serializedPayload)
         end)
 
         it("marks only known local prefixes active", function()
@@ -97,10 +119,8 @@ describe("CommsHello", function()
             assert.is_true(CommsHello:RegisterLocalPrefix("questie"))
             assert.is_true(CommsHello:RegisterLocalPrefix("REPUTABLE"))
 
-            assert.is_true(CommsHello:GetLocalPrefixState("QuestieV1"))
-            assert.is_true(CommsHello:GetLocalPrefixState("Questie"))
-            assert.is_true(CommsHello:GetLocalPrefixState("questie"))
-            assert.is_true(CommsHello:GetLocalPrefixState("REPUTABLE"))
+            CommsHello:SendHello()
+            assert.are_same({QuestieH1 = false, QuestieV1 = true, questie = true, Questie = true, REPUTABLE = true}, serializedPayload)
         end)
 
         it("reports undefined local prefixes once after a short delay", function()
@@ -116,7 +136,8 @@ describe("CommsHello", function()
             assert.is_false(CommsHello:RegisterLocalPrefix("QuestieZ9"))
             assert.is_false(CommsHello:RegisterLocalPrefix("QuestieZ9"))
 
-            assert.is_nil(CommsHello:GetLocalPrefixState("QuestieZ9"))
+            CommsHello:SendHello()
+            assert.is_nil(serializedPayload.QuestieZ9)
             assert.spy(_G.C_Timer.After).was.called(1)
             assert.are_equal(5, scheduledDelay)
             assert.are_equal("function", type(scheduledCallback))
@@ -165,29 +186,6 @@ describe("CommsHello", function()
     end)
 
     describe("ScheduleHello", function()
-        local timers
-
-        local function installTimerMock()
-            timers = {}
-            _G.C_Timer = {
-                NewTimer = spy.new(function(_, callback)
-                    local timer = {
-                        canceled = false,
-                        Cancel = spy.new(function(self)
-                            self.canceled = true
-                        end),
-                    }
-                    function timer:Fire()
-                        if not self.canceled then
-                            callback()
-                        end
-                    end
-                    table.insert(timers, timer)
-                    return timer
-                end),
-            }
-        end
-
         before_each(function()
             installTimerMock()
         end)
@@ -234,14 +232,50 @@ describe("CommsHello", function()
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend-Realm")
 
-            assert.is_true(CommsHello:IsPeerListening("Friend-Realm", "QuestieH1"))
-            assert.is_true(CommsHello:IsPeerListening("Friend-Realm", "questie"))
-            assert.is_true(CommsHello:DoesPeerRejectPrefix("Friend-Realm", "QuestieV1"))
-            assert.is_true(CommsHello:DoesPeerRejectPrefix("Friend-Realm", "REPUTABLE"))
-            assert.is_nil(CommsHello:GetPeerPrefixState("Friend-Realm", "Questie"))
-            assert.is_nil(CommsHello:GetPeerPrefixState("Friend-Realm", "QuestieZ9"))
+            assert.is_true(CommsHello:IsPlayerListening("Friend-Realm", "QuestieH1"))
+            assert.is_true(CommsHello:IsPlayerListening("Friend-Realm", "questie"))
+            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-Realm", "QuestieV1"))
+            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-Realm", "REPUTABLE"))
+            assert.is_nil(CommsHello.peerPrefixes["Friend-Realm"].Questie)
+            assert.is_nil(CommsHello.peerPrefixes["Friend-Realm"].QuestieZ9)
             assert.are_equal(123, CommsHello.peerLastSeen["Friend-Realm"])
             assert.is_nil(CommsHello.peerPrefixes.Friend)
+        end)
+
+        it("whispers a direct reply for a peer's small-group broadcast hello", function()
+            _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
+            _G.GetNumGroupMembers = function() return 5 end
+
+            CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend-Realm")
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "WHISPER", "Friend-Realm")
+        end)
+
+        it("whispers a direct reply for a peer's large-group broadcast hello", function()
+            _G.UnitInRaid = function(unit) return unit == "Friend-Realm" end
+            _G.GetNumGroupMembers = function() return 40 end
+
+            CommsHello.OnCommReceived("QuestieH1", "wire", "RAID", "Friend-Realm")
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "WHISPER", "Friend-Realm")
+        end)
+
+        it("whispers a direct reply to known peers because broadcasts can mean reload", function()
+            _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
+            CommsHello.peerPrefixes["Friend-Realm"] = {QuestieH1 = true}
+
+            CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend-Realm")
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "WHISPER", "Friend-Realm")
+        end)
+
+        it("stores unknown whisper hellos without replying", function()
+            _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
+
+            CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend-Realm")
+
+            assert.is_true(CommsHello:IsPlayerListening("Friend-Realm", "QuestieH1"))
+            assert.spy(Questie.SendCommMessage).was.not_called()
         end)
 
         it("ignores messages from self", function()
@@ -252,14 +286,16 @@ describe("CommsHello", function()
         end)
 
         it("does not treat same-name cross-realm peers as self", function()
+            installTimerMock()
             _G.UnitInParty = function(unit) return unit == "Player-OtherRealm" end
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-OtherRealm")
 
-            assert.is_true(CommsHello:IsPeerListening("Player-OtherRealm", "QuestieH1"))
+            assert.is_true(CommsHello:IsPlayerListening("Player-OtherRealm", "QuestieH1"))
         end)
 
         it("keeps same-name peers from different realms separate", function()
+            installTimerMock()
             _G.UnitInParty = function(unit)
                 return unit == "Friend-RealmOne" or unit == "Friend-RealmTwo"
             end
@@ -269,10 +305,10 @@ describe("CommsHello", function()
             setupCodec({QuestieH1 = false, questie = false})
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend-RealmTwo")
 
-            assert.is_true(CommsHello:IsPeerListening("Friend-RealmOne", "QuestieH1"))
-            assert.is_true(CommsHello:IsPeerListening("Friend-RealmOne", "questie"))
-            assert.is_true(CommsHello:DoesPeerRejectPrefix("Friend-RealmTwo", "QuestieH1"))
-            assert.is_true(CommsHello:DoesPeerRejectPrefix("Friend-RealmTwo", "questie"))
+            assert.is_true(CommsHello:IsPlayerListening("Friend-RealmOne", "QuestieH1"))
+            assert.is_true(CommsHello:IsPlayerListening("Friend-RealmOne", "questie"))
+            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-RealmTwo", "QuestieH1"))
+            assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-RealmTwo", "questie"))
             assert.is_nil(CommsHello.peerPrefixes.Friend)
         end)
 
@@ -302,7 +338,7 @@ describe("CommsHello", function()
 
     describe("ResetAll and PrunePeers", function()
         it("clears stored peer state", function()
-            CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend")
+            CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend")
 
             CommsHello:ResetAll()
 
@@ -311,7 +347,7 @@ describe("CommsHello", function()
         end)
 
         it("removes peers no longer in the group", function()
-            CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend")
+            CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend")
             _G.UnitInParty = function() return false end
 
             CommsHello:PrunePeers()
