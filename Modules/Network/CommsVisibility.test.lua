@@ -63,6 +63,7 @@ describe("CommsVisibility", function()
         _G.GetRealmName = function() return "HomeRealm" end
         _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
         _G.UnitInRaid = function() return false end
+        _G.GetNumGroupMembers = function() return 5 end
         _G.C_Timer = nil
 
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
@@ -172,6 +173,16 @@ describe("CommsVisibility", function()
             assert.is_false(sent)
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
+
+        it("does not send in groups too large for party objective pins", function()
+            _G.GetNumGroupMembers = function() return 6 end
+
+            local sent = CommsVisibility:SendSnapshot()
+
+            assert.is_false(sent)
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
     end)
 
     describe("ScheduleSnapshot", function()
@@ -234,6 +245,15 @@ describe("CommsVisibility", function()
             assert.are_equal(2, #timers)
             timers[2]:Fire()
             assert.spy(Questie.SendCommMessage).was.called(2)
+        end)
+
+        it("does not queue a timer in groups too large for party objective pins", function()
+            _G.GetNumGroupMembers = function() return 6 end
+
+            CommsVisibility:ScheduleSnapshot("raid")
+
+            assert.are_equal(0, #timers)
+            assert.spy(_G.C_Timer.NewTimer).was.not_called()
         end)
     end)
 

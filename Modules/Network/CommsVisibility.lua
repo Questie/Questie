@@ -44,6 +44,7 @@ local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjective
 -------------------------
 local VISIBILITY_PREFIX = "QuestieV1"
 local MAX_VISIBILITY_SNAPSHOT_QUESTS = 50
+local MAX_VISIBILITY_GROUP_SIZE = 5
 
 CommsVisibility.prefix = VISIBILITY_PREFIX
 
@@ -67,24 +68,11 @@ local initialized = false
 -------------------------
 -- Group/send helpers.
 -------------------------
----AceComm calls Ambiguate(sender, "none"), so our own sender is the short player name.
----@param sender string
 ---@return boolean
-local function _IsSelf(sender)
-    return sender == UnitName("player")
-end
-
----@param distribution string
----@param sender string Full sender name, including realm when AceComm provided one.
----@return boolean
-local function _CanAcceptVisibility(distribution, sender)
-    local allowedDistribution = distribution == "PARTY"
-        or distribution == "RAID"
-        or distribution == "INSTANCE_CHAT"
-        or distribution == "WHISPER"
-    local senderInGroup = UnitInParty(sender) or UnitInRaid(sender)
-
-    return allowedDistribution and senderInGroup
+local function _CanSendVisibilitySnapshot()
+    -- QuestieV1 only controls party objective pins, and those are only drawn for small groups.
+    -- Avoid raid/BG/formation churn traffic where visibility snapshots cannot affect rendering.
+    return GetNumGroupMembers() <= MAX_VISIBILITY_GROUP_SIZE
 end
 
 ---@param payload table Decoded remote payload; invalid quest IDs and non-boolean values are ignored.
@@ -158,6 +146,10 @@ end
 
 ---@return boolean
 function CommsVisibility:SendSnapshot()
+    if not _CanSendVisibilitySnapshot() then
+        return false
+    end
+
     local mode = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
     if not mode then
         return false
@@ -184,6 +176,10 @@ function CommsVisibility:ScheduleSnapshot(_reason)
     -- Send with timer debounce.
     _CancelSnapshotTimer()
 
+    if not _CanSendVisibilitySnapshot() then
+        return
+    end
+
     snapshotTimer = C_Timer.NewTimer(math.random() * 2, function()
         snapshotTimer = nil
         CommsVisibility:SendSnapshot()
@@ -203,7 +199,7 @@ function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    if _IsSelf(sender) or not _CanAcceptVisibility(distribution, sender) then
+    if CommsRouting:IsSelf(sender) or not CommsRouting:IsMessageFromGroupMember(distribution, sender) then
         return
     end
 
