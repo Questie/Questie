@@ -22,6 +22,10 @@ describe("QuestieTracker", function()
     local QuestiePlayer
     ---@type QuestieDB
     local QuestieDB
+    ---@type TrackerBaseFrame
+    local TrackerBaseFrame
+    local trackerBaseFrame
+    local trackerHeaderFrame
 
     before_each(function()
         Questie.db.char = {
@@ -30,7 +34,9 @@ describe("QuestieTracker", function()
             AutoUntrackedQuests = {},
             TrackedQuests = {},
         }
-        Questie.db.profile = {}
+        Questie.db.profile = {
+            trackerEnabled = true,
+        }
         Questie.Debug = function() end
         _G.RemoveQuestWatch = spy.new(function() end)
 
@@ -41,7 +47,7 @@ describe("QuestieTracker", function()
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
-        QuestieCombatQueue.Queue = spy.new(function(_, callback) callback() end)
+        QuestieCombatQueue.Queue = spy.new(function() end)
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -49,48 +55,45 @@ describe("QuestieTracker", function()
 
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+        QuestieTracker.started = nil
+        QuestieTracker.alreadyHooked = nil
+
+        trackerBaseFrame = {
+            SetSize = spy.new(function() end),
+            Hide = spy.new(function() end),
+            IsShown = function() return false end,
+        }
+        trackerHeaderFrame = {
+            trackedQuests = {
+                SetMode = spy.new(function() end),
+            },
+        }
+
+        TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+        TrackerBaseFrame.Initialize = spy.new(function() return trackerBaseFrame end)
+        TrackerBaseFrame.SetSafePoint = spy.new(function() end)
+        QuestieLoader:ImportModule("TrackerHeaderFrame").Initialize = spy.new(function() return trackerHeaderFrame end)
+        QuestieLoader:ImportModule("TrackerQuestFrame").Initialize = spy.new(function() return {} end)
+        QuestieLoader:ImportModule("TrackerLinePool").Initialize = spy.new(function() end)
+        QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = spy.new(function() end)
+        QuestieLoader:ImportModule("AutoCompleteFrame").Initialize = spy.new(function() end)
+        QuestieTracker.HookBaseTracker = spy.new(function() end)
+        QuestieTracker.Update = spy.new(function() end)
+
+        QuestieTracker.Initialize()
+        QuestieCombatQueue.Queue = spy.new(function(_, callback) callback() end)
     end)
-
-    local function setFunctionUpvalue(fn, upvalueName, value)
-        local index = 1
-        while true do
-            local name = debug.getupvalue(fn, index)
-            if name == nil then
-                error("Missing upvalue " .. upvalueName)
-            end
-
-            if name == upvalueName then
-                debug.setupvalue(fn, index, value)
-                return
-            end
-
-            index = index + 1
-        end
-    end
 
     describe("tracking visibility sync", function()
         it("schedules a visibility snapshot after resetting tracker location", function()
-            local headerFrame = {
-                trackedQuests = {
-                    SetMode = spy.new(function() end),
-                },
-            }
-            local baseFrame = {
-                SetSize = spy.new(function() end),
-            }
-            local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
-            TrackerBaseFrame.SetSafePoint = spy.new(function() end)
-            QuestieTracker.Update = spy.new(function() end)
-            setFunctionUpvalue(QuestieTracker.ResetLocation, "trackerHeaderFrame", headerFrame)
-            setFunctionUpvalue(QuestieTracker.ResetLocation, "trackerBaseFrame", baseFrame)
             Questie.db.char.AutoUntrackedQuests[RIVERPAW_GNOLL_BOUNTY_ID] = true
 
             QuestieTracker:ResetLocation()
 
             assert.are_same({}, Questie.db.char.AutoUntrackedQuests)
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called_with(CommsVisibility, "RESET_TRACKER_LOCATION")
-            assert.spy(headerFrame.trackedQuests.SetMode).was.called_with(headerFrame.trackedQuests, 1)
-            assert.spy(baseFrame.SetSize).was.called_with(baseFrame, 25, 25)
+            assert.spy(trackerHeaderFrame.trackedQuests.SetMode).was.called_with(trackerHeaderFrame.trackedQuests, 1)
+            assert.spy(trackerBaseFrame.SetSize).was.called_with(trackerBaseFrame, 25, 25)
             assert.spy(TrackerBaseFrame.SetSafePoint).was.called_with(TrackerBaseFrame)
         end)
 
