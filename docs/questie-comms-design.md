@@ -4,7 +4,7 @@
 
 This is a design note for Questie's current and future party communication direction. It is not a complete rewrite specification and it does not replace the existing `QuestieComms` protocol in one step.
 
-The purpose of this document is to preserve the core decisions behind the `QuestieH1` hello module and the next communication layers we expect to build on top of it.
+The purpose of this document is to preserve the core decisions behind the modern comm modules that now start with `QuestieH1` hello, `CommsEncoding`, and `QuestieV1` party-objective visibility.
 
 ## Core principle: absolute remote party state
 
@@ -20,7 +20,7 @@ That table means: the remote player has this quest, and this is the objective pr
 
 Absence from `remoteQuestLogs` must not be overloaded to mean "hidden", "untracked", or "not shown". A missing entry should mean the quest is actually absent, removed, unknown, or not yet synchronized. UI/display preferences are a different kind of state.
 
-Future hidden/tracked/shown behavior should live in a separate store and protocol. For example, a later module may keep remote visibility state keyed by player and quest, but that state must not create, remove, or corrupt `remoteQuestLogs` entries by itself.
+`CommsVisibility` stores party-objective pin display intent separately. Visibility updates must never create, remove, or mutate `remoteQuestLogs` entries. This keeps "not shown as a party pin" distinct from "not in the quest log".
 
 ## Terms and semantics
 
@@ -39,6 +39,7 @@ Future hidden/tracked/shown behavior should live in a separate store and protoco
 ```lua
 {
     QuestieH1 = true,
+    QuestieV1 = true,
     questie = true,
     Questie = true,
     REPUTABLE = true,
@@ -50,8 +51,8 @@ The payload does not describe feature names, schemas, codecs, or semantic meanin
 `CommsHello` owns a static local prefix manifest. Known prefixes default to `false`. The module that actually registers and parses a prefix marks that prefix active only after registering its AceComm receiver:
 
 ```lua
-Questie:RegisterComm("questie", _QuestieComms.OnCommReceived)
-CommsHello:RegisterLocalPrefix("questie")
+Questie:RegisterComm("QuestieV1", CommsVisibility.OnCommReceived)
+CommsHello:RegisterLocalPrefix("QuestieV1")
 ```
 
 Unknown prefixes cannot be added dynamically. If local code tries to register an undefined prefix, that is a programming error and should produce a visible delayed error. Remote hello payloads are also sanitized: only known prefixes with boolean values are stored.
@@ -74,6 +75,8 @@ CommsHello:DoesPeerRejectPrefix(playerName, prefix)
 - local prefix active/inactive state,
 - peer prefix state,
 - hello send/receive mechanics.
+
+`CommsVisibility` owns `QuestieV1` party-objective pin display intent.
 
 `QuestieComms` continues to own the legacy absolute quest-log/progress transport and `remoteQuestLogs` semantics.
 
@@ -107,20 +110,60 @@ addon-channel-safe byte decoding
 
 If a future prefix changes wire shape or codec incompatibly, create a new prefix instead of adding per-packet negotiation fields.
 
-## Future visibility/show-hide design
+## `QuestieV1` visibility snapshot protocol
 
-Remote visibility, show/hide, and tracking intent should be implemented as a separate module and prefix when the receiver exists. Until then, no visibility prefix should be advertised as known support.
+`QuestieV1` is implemented by `CommsVisibility`. It is a full snapshot of party-objective map/minimap pin display intent:
 
-That future state should be stored separately from `remoteQuestLogs`, for example as a remote UI-state or visibility table keyed by player and quest. The exact name and shape should be chosen when the feature is implemented.
+```lua
+{
+    [questId] = true,   -- draw this player's party objective pins for the quest
+    [questId] = false,  -- suppress this player's party objective pins for the quest
+}
+```
 
-The important contract is:
+There are no incremental `QuestieV1` update packets, no count field, and no `msgId`/`msgVer`/`codec` fields. The prefix defines the schema.
 
-- visibility updates may influence party-objective display,
-- visibility updates must never create quest-log entries,
-- visibility updates must never remove quest-log entries,
-- quest-log remove/sync messages remain the source of truth for remote quest presence/progress.
+Receive-side rules:
 
-This keeps "not shown" distinct from "not in the quest log".
+- only positive integer quest IDs are accepted,
+- only boolean values are accepted,
+- at most 50 entries are stored from one snapshot,
+- malformed values are ignored,
+- missing quest IDs mean unknown and default to shown,
+- receiving visibility never creates, removes, or mutates `QuestieComms.remoteQuestLogs`.
+
+`QuestieV1` is not a privacy or progress-data filter. It gates only party objective pins created for quests the local player does not have or has already completed. Contextual tooltip progress can still be shown from `remoteQuestLogs` when the user hovers a relevant mob, item, object, or existing icon.
+
+The local snapshot includes only quests currently in `QuestLogCache.questLog_DO_NOT_MODIFY`. For each such quest, local policy is:
+
+```lua
+if Questie.db.char.hidden and Questie.db.char.hidden[questId] then
+    return false
+end
+
+return QuestieQuest:IsQuestTracked(questId)
+```
+
+So manually hidden quests and untracked quests suppress party objective pins, while quest-log/progress truth continues through the normal quest-log comms.
+
+## Scheduling and convergence
+
+`CommsHello` and `CommsVisibility` schedule sends with cancellable `C_Timer.NewTimer` debounce.
+
+- A new schedule call cancels the pending timer and starts a fresh one.
+- The eventual send uses the latest full state.
+- `ResetAll()` cancels pending timers, so group-leave cleanup stops queued hello or visibility traffic.
+- Direct `SendHello()` and `SendSnapshot()` remain immediate APIs.
+
+`QuestieV1` snapshots are intentionally full-state and small. They are scheduled at convergence points where peers may need fresh state:
+
+- group join and meaningful roster changes,
+- responding to a full quest-log request,
+- quest accept, completion, or abandonment,
+- quest hide/unhide,
+- track/untrack and bulk tracker mode changes.
+
+This avoids incremental visibility bookkeeping while keeping existing group members synchronized after reloads or quest/tracker state changes.
 
 ## Compatibility and sunsetting
 
@@ -158,9 +201,10 @@ Tests should protect these contracts:
 - owning modules flip prefixes to `true` only after registering their receivers,
 - unknown local prefixes are not added dynamically and produce a visible delayed error,
 - remote hello payloads store only known boolean prefix values,
-- `WHISPER` hello messages are accepted only from current group members,
+- `WHISPER` hello and visibility messages are accepted only from current group members,
 - self echoes and cross-realm same-name players are handled correctly,
-- same-size roster swaps prune stale peers and schedule a new hello,
-- `remoteQuestLogs` remains absolute quest-log/progress state and is not filtered by visibility/tracking preferences.
-
-Future visibility tests should explicitly verify that visibility packets do not create or remove `remoteQuestLogs` entries.
+- scheduled hello and visibility sends are debounced and canceled by `ResetAll()`,
+- detected group-size changes prune stale peers and schedule a new hello/snapshot; quest-sharing online-status changes schedule party objective redraws,
+- `remoteQuestLogs` remains absolute quest-log/progress state and is not filtered by visibility/tracking preferences,
+- visibility packets do not create or remove `remoteQuestLogs` entries,
+- `QuestieV1` affects party objective pins, not contextual tooltip progress.
