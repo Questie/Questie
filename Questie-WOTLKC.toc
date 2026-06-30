@@ -225,6 +225,7 @@ Modules\QuestieCoordinates.lua
 # Network
 Modules\Network\Comms.lua
 Modules\Network\CommsEncoding.lua
+Modules\Network\CommsRouting.lua
 Modules\Network\CommsHello.lua
 Modules\Network\CommsVisibility.lua
 Modules\Network\QuestieComms.lua

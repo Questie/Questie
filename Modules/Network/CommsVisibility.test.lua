@@ -86,6 +86,7 @@ describe("CommsVisibility", function()
         QuestieComms.remoteQuestLogs = {}
 
         dofile("Modules/Network/CommsEncoding.lua")
+        dofile("Modules/Network/CommsRouting.lua")
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
         setupCodec(decodedPayload or {[101] = true})
 

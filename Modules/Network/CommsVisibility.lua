@@ -26,6 +26,8 @@ local CommsVisibility = QuestieLoader:CreateModule("CommsVisibility")
 -------------------------
 ---@type CommsEncoding
 local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+---@type CommsRouting
+local CommsRouting = QuestieLoader:ImportModule("CommsRouting")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestLogCache
@@ -65,52 +67,11 @@ local initialized = false
 -------------------------
 -- Group/send helpers.
 -------------------------
----@return string?
-local function _GetSendMode()
-    local groupType = QuestiePlayer:GetGroupType()
-    if groupType == "raid" then
-        return "RAID"
-    elseif groupType == "instance" then
-        return "INSTANCE_CHAT"
-    elseif groupType == "party" then
-        return "PARTY"
-    end
-
-    return nil
-end
-
----Returns true only for our own short name or normalized full name.
----@param sender string Full sender name, including realm when AceComm provided one.
+---AceComm calls Ambiguate(sender, "none"), so our own sender is the short player name.
+---@param sender string
 ---@return boolean
 local function _IsSelf(sender)
-    local playerName = UnitName("player")
-    if sender == playerName then
-        return true
-    end
-
-    local fullName
-    if UnitFullName then
-        local name, realm = UnitFullName("player")
-        if name and realm and realm ~= "" then
-            fullName = name .. "-" .. realm
-        end
-    end
-
-    if not fullName and playerName and GetNormalizedRealmName then
-        local realmName = GetNormalizedRealmName()
-        if realmName and realmName ~= "" then
-            fullName = playerName .. "-" .. realmName
-        end
-    end
-
-    if not fullName and playerName and GetRealmName then
-        local realmName = GetRealmName()
-        if realmName and realmName ~= "" then
-            fullName = playerName .. "-" .. realmName
-        end
-    end
-
-    return fullName ~= nil and sender == fullName
+    return sender == UnitName("player")
 end
 
 ---@param distribution string
@@ -197,7 +158,7 @@ end
 
 ---@return boolean
 function CommsVisibility:SendSnapshot()
-    local mode = _GetSendMode()
+    local mode = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
     if not mode then
         return false
     end

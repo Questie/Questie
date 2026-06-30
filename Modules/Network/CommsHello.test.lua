@@ -51,6 +51,7 @@ describe("CommsHello", function()
         QuestiePlayer.GetGroupType = function() return "party" end
 
         dofile("Modules/Network/CommsEncoding.lua")
+        dofile("Modules/Network/CommsRouting.lua")
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
         setupCodec({QuestieH1 = true, QuestieV1 = true, questie = true, Questie = true, REPUTABLE = true})
 
@@ -248,39 +249,6 @@ describe("CommsHello", function()
 
             assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.is_nil(CommsHello.peerPrefixes.Player)
-        end)
-
-        it("ignores messages from the local full name", function()
-            CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-HomeRealm")
-
-            assert.spy(CommsEncoding.DecodePayload).was.not_called()
-            assert.is_nil(CommsHello.peerPrefixes["Player-HomeRealm"])
-        end)
-
-        it("uses UnitFullName instead of display realm for local full-name self checks", function()
-            _G.UnitFullName = function(unit)
-                if unit == "player" then
-                    return "Player", "MyRealm"
-                end
-            end
-            _G.GetNormalizedRealmName = function() return "WrongRealm" end
-            _G.GetRealmName = function() return "My Realm" end
-
-            CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-MyRealm")
-
-            assert.spy(CommsEncoding.DecodePayload).was.not_called()
-            assert.is_nil(CommsHello.peerPrefixes["Player-MyRealm"])
-        end)
-
-        it("uses normalized realm fallback for local full-name self checks", function()
-            _G.UnitFullName = nil
-            _G.GetNormalizedRealmName = function() return "MyRealm" end
-            _G.GetRealmName = function() return "My Realm" end
-
-            CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player-MyRealm")
-
-            assert.spy(CommsEncoding.DecodePayload).was.not_called()
-            assert.is_nil(CommsHello.peerPrefixes["Player-MyRealm"])
         end)
 
         it("does not treat same-name cross-realm peers as self", function()
