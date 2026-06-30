@@ -54,8 +54,8 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Only resync comm state when group membership or a quest-sharing member's online state
     -- changed. Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
     if sizeChanged or onlineChanged then
-        CommsHello:PrunePeers()
-        CommsVisibility:PrunePeers()
+        CommsHello:PruneRemotePlayers()
+        CommsVisibility:PruneRemotePlayers()
         CommsHello:ScheduleHello("GROUP_ROSTER_UPDATE")
         CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")
         QuestiePartyObjectives:ScheduleUpdate()

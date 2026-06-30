@@ -340,7 +340,7 @@ describe("CommsVisibility", function()
         end)
     end)
 
-    describe("ResetAll and PrunePeers", function()
+    describe("ResetAll and PruneRemotePlayers", function()
         it("clears all remote visibility", function()
             CommsVisibility.remoteQuestVisibility["Friend-Realm"] = {[101] = true}
 
@@ -349,12 +349,12 @@ describe("CommsVisibility", function()
             assert.are_same({}, CommsVisibility.remoteQuestVisibility)
         end)
 
-        it("drops peers that are no longer in the group", function()
+        it("drops remote players that are no longer in the group", function()
             CommsVisibility.remoteQuestVisibility["Friend-Realm"] = {[101] = true}
             CommsVisibility.remoteQuestVisibility["Gone-Realm"] = {[202] = false}
             _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
 
-            CommsVisibility:PrunePeers()
+            CommsVisibility:PruneRemotePlayers()
 
             assert.are_same({[101] = true}, CommsVisibility.remoteQuestVisibility["Friend-Realm"])
             assert.is_nil(CommsVisibility.remoteQuestVisibility["Gone-Realm"])

@@ -21,7 +21,7 @@ currently listening to.
         * whispered hellos are stored without answering to avoid ping-pong.
 
     Receive/store from "Friend-Realm":
-        CommsHello.peerPrefixes["Friend-Realm"] = {
+        CommsHello.remotePlayerPrefixes["Friend-Realm"] = {
             QuestieH1 = true,
             QuestieV1 = true,
             questie = true,
@@ -79,9 +79,9 @@ CommsHello.prefix = HELLO_PREFIX
 -- string (for example "Friend-Realm") so same-name cross-realm players do not collide,
 -- and roster pruning compares against the same sender shape.
 ---@type table<string, QuestieCommsPrefixState>
-CommsHello.peerPrefixes = CommsHello.peerPrefixes or {}
+CommsHello.remotePlayerPrefixes = CommsHello.remotePlayerPrefixes or {}
 ---@type table<string, number>
-CommsHello.peerLastSeen = CommsHello.peerLastSeen or {}
+CommsHello.remotePlayerLastSeen = CommsHello.remotePlayerLastSeen or {}
 
 -- Debounced outbound broadcast. Roster events can cluster during joins/reloads, so the
 -- latest scheduled hello replaces any earlier pending one.
@@ -181,7 +181,7 @@ local function _SanitizePrefixMap(payload)
     return prefixes
 end
 
----Receives a peer's prefix state and performs first-contact convergence.
+---Receives a remote player's prefix state and performs first-contact convergence.
 ---Trust boundary: only grouped senders on group channels or WHISPER are accepted.
 ---@param prefix string
 ---@param message string
@@ -201,9 +201,9 @@ function CommsHello.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    -- Store peer state before replying so future modules can immediately route by prefix.
-    CommsHello.peerPrefixes[sender] = _SanitizePrefixMap(payload)
-    CommsHello.peerLastSeen[sender] = GetTime()
+    -- Store the remote player's state before replying so future modules can immediately route by prefix.
+    CommsHello.remotePlayerPrefixes[sender] = _SanitizePrefixMap(payload)
+    CommsHello.remotePlayerLastSeen[sender] = GetTime()
 
     -- A group-broadcast hello means the sender is announcing itself after a join/reload and
     -- needs our current state. Reply only to that sender so one hello does not cause a
@@ -218,22 +218,22 @@ function CommsHello.OnCommReceived(prefix, message, distribution, sender)
 end
 
 -------------------------
--- Peer state and queries.
+-- Remote player state and queries.
 -------------------------
 
 function CommsHello:ResetAll()
-    wipe(CommsHello.peerPrefixes)
-    wipe(CommsHello.peerLastSeen)
+    wipe(CommsHello.remotePlayerPrefixes)
+    wipe(CommsHello.remotePlayerLastSeen)
     _CancelHelloTimer()
 end
 
----Drops capability records for peers no longer present in the current group roster.
+---Drops capability records for remote players no longer present in the current group roster.
 ---QuestieH1 state is a routing cache, not durable player data.
-function CommsHello:PrunePeers()
-    for playerName in pairs(CommsHello.peerPrefixes) do
+function CommsHello:PruneRemotePlayers()
+    for playerName in pairs(CommsHello.remotePlayerPrefixes) do
         if not (UnitInParty(playerName) or UnitInRaid(playerName)) then
-            CommsHello.peerPrefixes[playerName] = nil
-            CommsHello.peerLastSeen[playerName] = nil
+            CommsHello.remotePlayerPrefixes[playerName] = nil
+            CommsHello.remotePlayerLastSeen[playerName] = nil
         end
     end
 end
@@ -243,8 +243,8 @@ end
 ---@param prefix string
 ---@return boolean
 function CommsHello:IsPlayerListening(playerName, prefix)
-    local peerPrefixes = CommsHello.peerPrefixes[playerName]
-    return peerPrefixes and peerPrefixes[prefix] == true or false
+    local remotePlayerPrefixes = CommsHello.remotePlayerPrefixes[playerName]
+    return remotePlayerPrefixes and remotePlayerPrefixes[prefix] == true or false
 end
 
 ---Returns true when the remote player advertised this known prefix as intentionally disabled.
@@ -252,8 +252,8 @@ end
 ---@param prefix string
 ---@return boolean
 function CommsHello:DoesPlayerRejectPrefix(playerName, prefix)
-    local peerPrefixes = CommsHello.peerPrefixes[playerName]
-    return peerPrefixes and peerPrefixes[prefix] == false or false
+    local remotePlayerPrefixes = CommsHello.remotePlayerPrefixes[playerName]
+    return remotePlayerPrefixes and remotePlayerPrefixes[prefix] == false or false
 end
 
 ---Marks a known local prefix active after its receiver has registered with AceComm.

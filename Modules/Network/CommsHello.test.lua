@@ -236,13 +236,13 @@ describe("CommsHello", function()
             assert.is_true(CommsHello:IsPlayerListening("Friend-Realm", "questie"))
             assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-Realm", "QuestieV1"))
             assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-Realm", "REPUTABLE"))
-            assert.is_nil(CommsHello.peerPrefixes["Friend-Realm"].Questie)
-            assert.is_nil(CommsHello.peerPrefixes["Friend-Realm"].QuestieZ9)
-            assert.are_equal(123, CommsHello.peerLastSeen["Friend-Realm"])
-            assert.is_nil(CommsHello.peerPrefixes.Friend)
+            assert.is_nil(CommsHello.remotePlayerPrefixes["Friend-Realm"].Questie)
+            assert.is_nil(CommsHello.remotePlayerPrefixes["Friend-Realm"].QuestieZ9)
+            assert.are_equal(123, CommsHello.remotePlayerLastSeen["Friend-Realm"])
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
         end)
 
-        it("whispers a direct reply for a peer's small-group broadcast hello", function()
+        it("whispers a direct reply for a player's small-group broadcast hello", function()
             _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
             _G.GetNumGroupMembers = function() return 5 end
 
@@ -251,7 +251,7 @@ describe("CommsHello", function()
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "WHISPER", "Friend-Realm")
         end)
 
-        it("whispers a direct reply for a peer's large-group broadcast hello", function()
+        it("whispers a direct reply for a player's large-group broadcast hello", function()
             _G.UnitInRaid = function(unit) return unit == "Friend-Realm" end
             _G.GetNumGroupMembers = function() return 40 end
 
@@ -260,9 +260,9 @@ describe("CommsHello", function()
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieH1", "wire", "WHISPER", "Friend-Realm")
         end)
 
-        it("whispers a direct reply to known peers because broadcasts can mean reload", function()
+        it("whispers a direct reply to known players because broadcasts can mean reload", function()
             _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
-            CommsHello.peerPrefixes["Friend-Realm"] = {QuestieH1 = true}
+            CommsHello.remotePlayerPrefixes["Friend-Realm"] = {QuestieH1 = true}
 
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend-Realm")
 
@@ -282,10 +282,10 @@ describe("CommsHello", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Player")
 
             assert.spy(CommsEncoding.DecodePayload).was.not_called()
-            assert.is_nil(CommsHello.peerPrefixes.Player)
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Player)
         end)
 
-        it("does not treat same-name cross-realm peers as self", function()
+        it("does not treat same-name cross-realm players as self", function()
             installTimerMock()
             _G.UnitInParty = function(unit) return unit == "Player-OtherRealm" end
 
@@ -294,7 +294,7 @@ describe("CommsHello", function()
             assert.is_true(CommsHello:IsPlayerListening("Player-OtherRealm", "QuestieH1"))
         end)
 
-        it("keeps same-name peers from different realms separate", function()
+        it("keeps same-name players from different realms separate", function()
             installTimerMock()
             _G.UnitInParty = function(unit)
                 return unit == "Friend-RealmOne" or unit == "Friend-RealmTwo"
@@ -309,21 +309,21 @@ describe("CommsHello", function()
             assert.is_true(CommsHello:IsPlayerListening("Friend-RealmOne", "questie"))
             assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-RealmTwo", "QuestieH1"))
             assert.is_true(CommsHello:DoesPlayerRejectPrefix("Friend-RealmTwo", "questie"))
-            assert.is_nil(CommsHello.peerPrefixes.Friend)
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
         end)
 
         it("ignores whispers from non-group senders", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Stranger")
 
             assert.spy(CommsEncoding.DecodePayload).was.not_called()
-            assert.is_nil(CommsHello.peerPrefixes.Stranger)
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Stranger)
         end)
 
         it("ignores unsupported distributions", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "GUILD", "Friend")
 
             assert.spy(CommsEncoding.DecodePayload).was.not_called()
-            assert.is_nil(CommsHello.peerPrefixes.Friend)
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
         end)
 
         it("ignores malformed payloads without throwing", function()
@@ -332,28 +332,28 @@ describe("CommsHello", function()
             assert.has_no.errors(function()
                 CommsHello.OnCommReceived("QuestieH1", "wire", "PARTY", "Friend")
             end)
-            assert.is_nil(CommsHello.peerPrefixes.Friend)
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
         end)
     end)
 
-    describe("ResetAll and PrunePeers", function()
-        it("clears stored peer state", function()
+    describe("ResetAll and PruneRemotePlayers", function()
+        it("clears stored remote player state", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend")
 
             CommsHello:ResetAll()
 
-            assert.is_nil(CommsHello.peerPrefixes.Friend)
-            assert.is_nil(CommsHello.peerLastSeen.Friend)
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
+            assert.is_nil(CommsHello.remotePlayerLastSeen.Friend)
         end)
 
-        it("removes peers no longer in the group", function()
+        it("removes remote players no longer in the group", function()
             CommsHello.OnCommReceived("QuestieH1", "wire", "WHISPER", "Friend")
             _G.UnitInParty = function() return false end
 
-            CommsHello:PrunePeers()
+            CommsHello:PruneRemotePlayers()
 
-            assert.is_nil(CommsHello.peerPrefixes.Friend)
-            assert.is_nil(CommsHello.peerLastSeen.Friend)
+            assert.is_nil(CommsHello.remotePlayerPrefixes.Friend)
+            assert.is_nil(CommsHello.remotePlayerLastSeen.Friend)
         end)
     end)
 end)

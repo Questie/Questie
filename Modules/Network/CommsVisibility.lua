@@ -206,7 +206,7 @@ function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    -- Replace the peer's whole snapshot. QuestieV1 is full-state only; a missing quest ID
+    -- Replace the remote player's whole snapshot. QuestieV1 is full-state only; a missing quest ID
     -- means unknown/default-show, not an instruction to edit QuestieComms.remoteQuestLogs.
     CommsVisibility.remoteQuestVisibility[sender] = _SanitizeSnapshot(payload)
     QuestiePartyObjectives:ScheduleUpdate()
@@ -216,7 +216,7 @@ end
 -- Peer state and queries.
 -------------------------
 ---Returns the remote player's display intent for party objective pin rendering.
----Unknown peers/quests default to shown so older clients keep existing behavior.
+---Unknown remote players/quests default to shown so older clients keep existing behavior.
 ---This does not hide contextual tooltip progress; remoteQuestLogs remains visible there.
 ---@param playerName string
 ---@param questId QuestId
@@ -235,7 +235,7 @@ function CommsVisibility:ResetAll()
     _CancelSnapshotTimer()
 end
 
-function CommsVisibility:PrunePeers()
+function CommsVisibility:PruneRemotePlayers()
     for playerName in pairs(CommsVisibility.remoteQuestVisibility) do
         if not (UnitInParty(playerName) or UnitInRaid(playerName)) then
             CommsVisibility.remoteQuestVisibility[playerName] = nil

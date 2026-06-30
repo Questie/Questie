@@ -30,10 +30,10 @@ describe("GroupEventHandler", function()
 
         QuestiePlayer.numberOfGroupMembers = 2
         QuestieComms.remoteQuestLogs = {}
-        CommsHello.PrunePeers = spy.new(function() end)
+        CommsHello.PruneRemotePlayers = spy.new(function() end)
         CommsHello.ScheduleHello = spy.new(function() end)
         CommsHello.ResetAll = spy.new(function() end)
-        CommsVisibility.PrunePeers = spy.new(function() end)
+        CommsVisibility.PruneRemotePlayers = spy.new(function() end)
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
         CommsVisibility.ResetAll = spy.new(function() end)
         QuestieComms.ResetAll = spy.new(function() end)
@@ -65,13 +65,13 @@ describe("GroupEventHandler", function()
     end)
 
     describe("GroupRosterUpdate", function()
-        it("prunes peers and schedules hello when the group size changes", function()
+        it("prunes remote players and schedules hello when the group size changes", function()
             groupMembers = 3
 
             GroupEventHandler.GroupRosterUpdate()
 
-            assert.spy(CommsHello.PrunePeers).was.called(1)
-            assert.spy(CommsVisibility.PrunePeers).was.called(1)
+            assert.spy(CommsHello.PruneRemotePlayers).was.called(1)
+            assert.spy(CommsVisibility.PruneRemotePlayers).was.called(1)
             assert.spy(CommsHello.ScheduleHello).was.called_with(CommsHello, "GROUP_ROSTER_UPDATE")
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called_with(CommsVisibility, "GROUP_ROSTER_UPDATE")
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called(1)
@@ -80,8 +80,8 @@ describe("GroupEventHandler", function()
         it("does not schedule hello when the group size is unchanged", function()
             GroupEventHandler.GroupRosterUpdate()
 
-            assert.spy(CommsHello.PrunePeers).was.not_called()
-            assert.spy(CommsVisibility.PrunePeers).was.not_called()
+            assert.spy(CommsHello.PruneRemotePlayers).was.not_called()
+            assert.spy(CommsVisibility.PruneRemotePlayers).was.not_called()
             assert.spy(CommsHello.ScheduleHello).was.not_called()
             assert.spy(CommsVisibility.ScheduleSnapshot).was.not_called()
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
