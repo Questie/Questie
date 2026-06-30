@@ -7458,3 +7458,8 @@ function MopNpcFixes:LoadFactionFixes()
         return npcFixesAlliance
     end
 end
+
+-- Use `ContentPhases.activePhases` to apply corrections for specific content phases
+function MopNpcFixes:LoadContentPhaseFixes()
+    return {}
+end

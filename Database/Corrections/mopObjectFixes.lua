@@ -1386,3 +1386,8 @@ function MopObjectFixes:LoadFactionFixes()
         return objectFixesAlliance
     end
 end
+
+-- Use `ContentPhases.activePhases` to apply corrections for specific content phases
+function MopObjectFixes:LoadContentPhaseFixes()
+    return {}
+end
