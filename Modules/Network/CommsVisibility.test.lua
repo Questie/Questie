@@ -122,69 +122,6 @@ describe("CommsVisibility", function()
         end)
     end)
 
-    describe("BuildLocalSnapshot", function()
-        it("builds a visibility map from the current quest log only", function()
-            Questie.db.char.hidden = {[303] = true}
-            QuestLogCache.questLog_DO_NOT_MODIFY = {
-                [101] = true,
-                [202] = true,
-                [303] = true,
-                notAQuestId = true,
-            }
-
-            local snapshot = CommsVisibility:BuildLocalSnapshot()
-
-            assert.are_same({
-                [101] = true,
-                [202] = false,
-                [303] = false,
-            }, snapshot)
-        end)
-    end)
-
-    describe("SendSnapshot", function()
-        it("sends the full visibility map to party using the modern payload encoder", function()
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true, [202] = true}
-
-            local sent = CommsVisibility:SendSnapshot()
-
-            assert.is_true(sent)
-            assert.are_same({[101] = true, [202] = false}, serializedPayload)
-            assert.spy(CommsEncoding.EncodePayload).was.called(1)
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "PARTY")
-        end)
-
-        it("uses raid and instance distributions based on the group type", function()
-            QuestiePlayer.GetGroupType = function() return "raid" end
-            CommsVisibility:SendSnapshot()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "RAID")
-
-            Questie.SendCommMessage:clear()
-            QuestiePlayer.GetGroupType = function() return "instance" end
-            CommsVisibility:SendSnapshot()
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "INSTANCE_CHAT")
-        end)
-
-        it("does not send outside a group", function()
-            QuestiePlayer.GetGroupType = function() return nil end
-
-            local sent = CommsVisibility:SendSnapshot()
-
-            assert.is_false(sent)
-            assert.spy(Questie.SendCommMessage).was.not_called()
-        end)
-
-        it("does not send in groups too large for party objective pins", function()
-            _G.GetNumGroupMembers = function() return 6 end
-
-            local sent = CommsVisibility:SendSnapshot()
-
-            assert.is_false(sent)
-            assert.spy(CommsEncoding.EncodePayload).was.not_called()
-            assert.spy(Questie.SendCommMessage).was.not_called()
-        end)
-    end)
-
     describe("ScheduleSnapshot", function()
         local timers
 
@@ -211,6 +148,38 @@ describe("CommsVisibility", function()
 
         before_each(function()
             installTimerMock()
+        end)
+
+        it("sends the full visibility map to party when the debounce timer fires", function()
+            Questie.db.char.hidden = {[303] = true}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {
+                [101] = true,
+                [202] = true,
+                [303] = true,
+                notAQuestId = true,
+            }
+
+            CommsVisibility:ScheduleSnapshot("quest-state-changed")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1]:Fire()
+
+            assert.are_same({[101] = true, [202] = false, [303] = false}, serializedPayload)
+            assert.spy(CommsEncoding.EncodePayload).was.called(1)
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "PARTY")
+        end)
+
+        it("uses raid and instance distributions based on the group type", function()
+            QuestiePlayer.GetGroupType = function() return "raid" end
+            CommsVisibility:ScheduleSnapshot("raid")
+            timers[1]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "RAID")
+
+            Questie.SendCommMessage:clear()
+            QuestiePlayer.GetGroupType = function() return "instance" end
+            CommsVisibility:ScheduleSnapshot("instance")
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "INSTANCE_CHAT")
         end)
 
         it("debounces snapshots until the latest timer fires", function()
@@ -254,6 +223,26 @@ describe("CommsVisibility", function()
 
             assert.are_equal(0, #timers)
             assert.spy(_G.C_Timer.NewTimer).was.not_called()
+        end)
+
+        it("does not send if the player is no longer grouped when the timer fires", function()
+            CommsVisibility:ScheduleSnapshot("left-group")
+            QuestiePlayer.GetGroupType = function() return nil end
+
+            timers[1]:Fire()
+
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("re-checks the group size when the timer fires", function()
+            CommsVisibility:ScheduleSnapshot("raid-conversion")
+            _G.GetNumGroupMembers = function() return 6 end
+
+            timers[1]:Fire()
+
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
+            assert.spy(Questie.SendCommMessage).was.not_called()
         end)
     end)
 

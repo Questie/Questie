@@ -66,35 +66,13 @@ end
 local initialized = false
 
 -------------------------
--- Group/send helpers.
+-- Send eligibility.
 -------------------------
 ---@return boolean
 local function _CanSendVisibilitySnapshot()
     -- QuestieV1 only controls party objective pins, and those are only drawn for small groups.
     -- Avoid raid/BG/formation churn traffic where visibility snapshots cannot affect rendering.
     return GetNumGroupMembers() <= MAX_VISIBILITY_GROUP_SIZE
-end
-
----@param payload table Decoded remote payload; invalid quest IDs and non-boolean values are ignored.
----@return QuestieCommsVisibilitySnapshot snapshot Sanitized snapshot safe to store.
-local function _SanitizeSnapshot(payload)
-    local snapshot = {}
-    local acceptedQuestCount = 0
-
-    -- WoW quest logs are much smaller than this. The cap keeps hostile or malformed group
-    -- payloads from growing unbounded while leaving room for future client-side quest-log changes.
-    for questId, visible in pairs(payload) do
-        if acceptedQuestCount >= MAX_VISIBILITY_SNAPSHOT_QUESTS then
-            break
-        end
-
-        if type(questId) == "number" and questId > 0 and questId % 1 == 0 and type(visible) == "boolean" then
-            snapshot[questId] = visible
-            acceptedQuestCount = acceptedQuestCount + 1
-        end
-    end
-
-    return snapshot
 end
 
 -------------------------
@@ -118,50 +96,24 @@ function CommsVisibility:Initialize()
 end
 
 -------------------------
--- Local snapshot.
+-- Sending visibility.
 -------------------------
----Computes the local party-objective pin intent that is shared with party members.
----This is deliberately map/minimap UI intent, not quest-log membership or progress truth.
----@param questId QuestId
----@return boolean
-local function _ShouldShowQuestToParty(questId)
-    if Questie.db.char.hidden and Questie.db.char.hidden[questId] then
-        return false
-    end
-
-    return QuestieQuest:IsQuestTracked(questId)
-end
-
 ---@return QuestieCommsVisibilitySnapshot
-function CommsVisibility:BuildLocalSnapshot()
+local function _BuildLocalSnapshot()
     local snapshot = {}
     for questId in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do
         if type(questId) == "number" then
-            snapshot[questId] = _ShouldShowQuestToParty(questId)
+            -- Local policy: explicit Questie hidden state wins, otherwise party pins follow
+            -- the tracker state. This is map/minimap UI intent, not quest-log truth.
+            if Questie.db.char.hidden and Questie.db.char.hidden[questId] then
+                snapshot[questId] = false
+            else
+                snapshot[questId] = QuestieQuest:IsQuestTracked(questId)
+            end
         end
     end
 
     return snapshot
-end
-
----@return boolean
-function CommsVisibility:SendSnapshot()
-    if not _CanSendVisibilitySnapshot() then
-        return false
-    end
-
-    local mode = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
-    if not mode then
-        return false
-    end
-
-    local message = CommsEncoding:EncodePayload(CommsVisibility:BuildLocalSnapshot())
-    if not message then
-        return false
-    end
-
-    Questie:SendCommMessage(VISIBILITY_PREFIX, message, mode)
-    return true
 end
 
 ---Schedules a jittered full visibility snapshot. The full payload is tiny, so there is no
@@ -181,13 +133,50 @@ function CommsVisibility:ScheduleSnapshot(_reason)
 
     snapshotTimer = C_Timer.NewTimer(math.random() * 2, function()
         snapshotTimer = nil
-        CommsVisibility:SendSnapshot()
+
+        if not _CanSendVisibilitySnapshot() then
+            return
+        end
+
+        local distribution = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
+        if not distribution then
+            return
+        end
+
+        local message = CommsEncoding:EncodePayload(_BuildLocalSnapshot())
+        if not message then
+            return
+        end
+
+        Questie:SendCommMessage(VISIBILITY_PREFIX, message, distribution)
     end)
 end
 
 -------------------------
 -- Receiving visibility.
 -------------------------
+---@param payload table Decoded remote payload; invalid quest IDs and non-boolean values are ignored.
+---@return QuestieCommsVisibilitySnapshot snapshot Sanitized snapshot safe to store.
+local function _SanitizeSnapshot(payload)
+    local snapshot = {}
+    local acceptedQuestCount = 0
+
+    -- Receive trust boundary: WoW quest logs are much smaller than this. The cap keeps
+    -- hostile or malformed group payloads from growing unbounded while leaving room for
+    -- future client-side quest-log changes.
+    for questId, visible in pairs(payload) do
+        if acceptedQuestCount >= MAX_VISIBILITY_SNAPSHOT_QUESTS then
+            break
+        end
+
+        if type(questId) == "number" and questId > 0 and questId % 1 == 0 and type(visible) == "boolean" then
+            snapshot[questId] = visible
+            acceptedQuestCount = acceptedQuestCount + 1
+        end
+    end
+
+    return snapshot
+end
 ---@param prefix string
 ---@param message string
 ---@param distribution string
@@ -213,7 +202,7 @@ function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
 end
 
 -------------------------
--- Peer state and queries.
+-- Remote visibility state and queries.
 -------------------------
 ---Returns the remote player's display intent for party objective pin rendering.
 ---Unknown remote players/quests default to shown so older clients keep existing behavior.

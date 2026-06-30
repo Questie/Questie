@@ -169,7 +169,7 @@ So manually hidden quests and untracked quests suppress party objective pins, wh
 - A new schedule call cancels the pending timer and starts a fresh one.
 - The eventual send uses the latest full state.
 - `ResetAll()` cancels pending timers, so group-leave cleanup stops queued hello or visibility traffic.
-- `ScheduleHello()` is the public group-broadcast hello path; direct visibility `SendSnapshot()` remains available for immediate snapshot sends.
+- `ScheduleHello()` and `ScheduleSnapshot()` are the public outbound paths for group-broadcast hello and visibility state.
 
 `QuestieV1` snapshots are intentionally full-state and small. They are scheduled at convergence points where remote players may need fresh state:
 
