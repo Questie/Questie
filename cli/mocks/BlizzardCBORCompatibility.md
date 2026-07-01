@@ -13,6 +13,8 @@ local test only.
 Use Blizzard's API documentation as the source of truth:
 
 - `C_EncodingUtil.SerializeCBOR([value [, options]]) -> string`
+  - Live Classic Era fixtures show the value argument is required; explicit `nil`
+    serializes as CBOR null.
   - `options.ignoreSerializationErrors` may replace unsupported values with CBOR
     `undefined` where Blizzard supports doing so.
   - Serializes a limited RFC 8949 CBOR subset.
@@ -21,6 +23,8 @@ Use Blizzard's API documentation as the source of truth:
   - Serializes Lua strings as major type `2` byte strings, never text strings.
   - Does not serialize indefinite-length strings/tables.
   - Serializes tables as arrays or maps.
+  - Live fixtures show positive-integer-key sparse tables become arrays when at
+    least half of their slots are occupied; nil gaps serialize as CBOR null.
   - Does not sort map keys.
   - Does not preserve table references and errors on recursive tables.
   - Does not produce major type `6` tags.
@@ -43,7 +47,7 @@ Use Blizzard's API documentation as the source of truth:
 - `cli/mocks/BlizzardCBORCompatibilityCases.lua`
   - Shared case list for fixture capture.
 - `cli/mocks/BlizzardCBORCompatibilityFixtures.lua`
-  - Empty fixture file until real Blizzard captures are copied in.
+  - Live Blizzard fixture captures used by the compatibility test; refresh or extend it when new client captures are taken.
 - `cli/mocks/BlizzardCBORCompatibility.test.lua`
   - Compares populated Blizzard fixtures against the mock.
 - `ExternalScripts(DONOTINCLUDEINRELEASE)/BlizzardCBORCompat/`
@@ -149,7 +153,9 @@ Prioritize fixtures for:
 - NaN, infinities, negative zero, and representative float widths;
 - empty tables, dense arrays, sparse integer-keyed tables, and maps;
 - unsupported values with and without `ignoreSerializationErrors`;
-- unsupported map keys with `ignoreSerializationErrors`;
+- unsupported map keys with `ignoreSerializationErrors` (Blizzard emits CBOR
+  `undefined` for the key, which is serialize-compatible but may not
+  deserialize back into a Lua table);
 - recursive tables and depth `100` / `101` boundaries;
 - deserialization-only behavior for text strings, tags, indefinite lengths, and
   malformed inputs if deserialization fixture support is expanded later.
@@ -162,7 +168,8 @@ Classify it before changing code:
 2. Map key order difference.
 3. Sparse table array-vs-map heuristic mismatch.
 4. Float width or NaN canonicalization mismatch.
-5. Unsupported value/key policy mismatch.
+5. Unsupported value/key policy mismatch, especially ignored map keys encoding
+   as CBOR `undefined`.
 6. Lua 5.1 numeric representation limitation.
 
 Only tune the mock after the captured Blizzard fixture clearly identifies the

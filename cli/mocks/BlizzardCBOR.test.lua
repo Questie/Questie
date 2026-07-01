@@ -64,8 +64,15 @@ describe("BlizzardCBOR", function()
     end)
 
     describe("SerializeCBOR", function()
-        it("encodes nil and booleans as CBOR simple values", function()
+        it("requires a value argument but encodes explicit nil", function()
+            assert.has_error(function()
+                BlizzardCBOR.SerializeCBOR()
+            end)
+
             assert.are_same("f6", _BytesToHex(BlizzardCBOR.SerializeCBOR(nil)))
+        end)
+
+        it("encodes booleans as CBOR simple values", function()
             assert.are_same("f4", _BytesToHex(BlizzardCBOR.SerializeCBOR(false)))
             assert.are_same("f5", _BytesToHex(BlizzardCBOR.SerializeCBOR(true)))
         end)
@@ -103,26 +110,31 @@ describe("BlizzardCBOR", function()
             assert.are_same("83010203", _BytesToHex(BlizzardCBOR.SerializeCBOR({1, 2, 3})))
         end)
 
-        it("encodes non-dense or non-array keys as maps", function()
+        it("encodes dense-enough sparse positive integer keys as arrays with null gaps", function()
+            assert.are_same("834161f64163", _BytesToHex(BlizzardCBOR.SerializeCBOR({[1] = "a", [3] = "c"})))
+            assert.are_same("844161f6f6417a", _BytesToHex(BlizzardCBOR.SerializeCBOR({[1] = "a", [4] = "z"})))
+        end)
+
+        it("encodes low-density sparse or non-array keys as maps", function()
             assert.are_same("a100447a65726f", _BytesToHex(BlizzardCBOR.SerializeCBOR({[0] = "zero"})))
             assert.are_same("a143666f6f43626172", _BytesToHex(BlizzardCBOR.SerializeCBOR({foo = "bar"})))
 
-            local sparseMap = BlizzardCBOR.SerializeCBOR({[1] = "a", [3] = "c"})
+            local sparseMap = BlizzardCBOR.SerializeCBOR({[1] = "a", [5] = "z"})
             assert.are_same("a2", _BytesToHex(sparseMap):sub(1, 2))
-            assert.are_same({[1] = "a", [3] = "c"}, BlizzardCBOR.DeserializeCBOR(sparseMap))
+            assert.are_same({[1] = "a", [5] = "z"}, BlizzardCBOR.DeserializeCBOR(sparseMap))
 
             local twoKeyMap = BlizzardCBOR.SerializeCBOR({foo = "bar", baz = "qux"})
             assert.are_same("a2", _BytesToHex(twoKeyMap):sub(1, 2))
             assert.are_same({foo = "bar", baz = "qux"}, BlizzardCBOR.DeserializeCBOR(twoKeyMap))
         end)
 
-        it("encodes floats, infinities, NaN, and negative zero", function()
+        it("encodes floats, infinities, NaN, and normalizes negative zero", function()
             assert.are_same("f93800", _BytesToHex(BlizzardCBOR.SerializeCBOR(0.5)))
             assert.are_same("fb3ff199999999999a", _BytesToHex(BlizzardCBOR.SerializeCBOR(1.1)))
             assert.are_same("f97c00", _BytesToHex(BlizzardCBOR.SerializeCBOR(math.huge)))
             assert.are_same("f9fc00", _BytesToHex(BlizzardCBOR.SerializeCBOR(-math.huge)))
             assert.are_same("f97e00", _BytesToHex(BlizzardCBOR.SerializeCBOR(0 / 0)))
-            assert.are_same("f98000", _BytesToHex(BlizzardCBOR.SerializeCBOR(-1 / math.huge)))
+            assert.are_same("00", _BytesToHex(BlizzardCBOR.SerializeCBOR(-1 / math.huge)))
         end)
 
         it("replaces unsupported values with undefined only when requested", function()
@@ -137,12 +149,15 @@ describe("BlizzardCBOR", function()
             }, {ignoreSerializationErrors = true})))
         end)
 
-        it("rejects unsupported map keys even when serialization errors are ignored", function()
+        it("replaces unsupported map keys with undefined when requested", function()
             local unsupportedKey = function() end
 
             assert.has_error(function()
-                BlizzardCBOR.SerializeCBOR({[unsupportedKey] = "value"}, {ignoreSerializationErrors = true})
+                BlizzardCBOR.SerializeCBOR({[unsupportedKey] = "value"})
             end)
+            assert.are_same("a1f74576616c7565", _BytesToHex(BlizzardCBOR.SerializeCBOR({
+                [unsupportedKey] = "value",
+            }, {ignoreSerializationErrors = true})))
         end)
 
         it("rejects recursive tables", function()

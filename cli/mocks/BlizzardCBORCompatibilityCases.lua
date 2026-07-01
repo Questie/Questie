@@ -119,6 +119,7 @@ local function _BuildCases()
             description = "SerializeCBOR called without a value argument",
             argumentCount = 0,
             buildArguments = _BuildNoArguments,
+            expectSerializeError = true,
         },
         {
             id = "nil-value",
@@ -342,8 +343,7 @@ local function _BuildCases()
             description = "Integral keys with a small nil gap",
             argumentCount = 1,
             buildArguments = function() return {[1] = "a", [3] = "c"} end,
-            mapOrderUnstable = true,
-            notes = "Blizzard may choose array or map based on a sparse-table heuristic.",
+            notes = "Live fixtures serialize this dense-enough sparse table as an array with a CBOR null gap.",
         },
         {
             id = "table-sparse-large-gap",
@@ -468,8 +468,7 @@ local function _BuildCases()
             description = "Unsupported function map key with ignoreSerializationErrors enabled",
             argumentCount = 2,
             buildArguments = _BuildIgnoredFunctionKeyMap,
-            expectSerializeError = true,
-            notes = "Local policy keeps unsupported map keys as errors because CBOR undefined decodes to nil.",
+            notes = "Blizzard emits CBOR undefined for the unsupported key; that payload may not deserialize back into a Lua table.",
         },
     }
 end

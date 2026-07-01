@@ -84,7 +84,6 @@ end
 ---@return boolean isInteger True when the value is integral and within the exact double-integer range.
 local function _IsSafeInteger(value)
     return _IsFinite(value)
-        and not _IsNegativeZero(value)
         and value >= -MAX_SAFE_INTEGER
         and value <= MAX_SAFE_INTEGER
         and value % 1 == 0
@@ -400,7 +399,9 @@ local function _IsPositiveArrayKey(key)
     return type(key) == "number" and _IsFinite(key) and key >= 1 and key % 1 == 0
 end
 
----Classifies tables for Blizzard compatibility; tune this when sparse fixtures are captured.
+---Classifies tables for Blizzard compatibility.
+---Live fixtures show positive-integer-key tables serialize as arrays when at
+---least half of the array slots are occupied; nil gaps become CBOR null values.
 ---@param tableValue table Lua table to classify.
 ---@return "array"|"map" shape CBOR container shape.
 ---@return number entryCount Array length or map pair count.
@@ -423,7 +424,7 @@ local function _ClassifyTableShape(tableValue)
 
     if entryCount == 0 then
         return "array", 0
-    elseif hasOnlyArrayKeys and entryCount == maxArrayKey then
+    elseif hasOnlyArrayKeys and maxArrayKey <= entryCount * 2 then
         return "array", maxArrayKey
     end
 
@@ -438,8 +439,8 @@ end
 local Encode = {}
 
 ---Encodes a CBOR map key.
----Unsupported keys remain hard errors even when value errors are ignored: CBOR
----undefined deserializes to nil, which cannot be used as a Lua table key.
+---Blizzard applies ignoreSerializationErrors to unsupported keys too, even
+---though an undefined key cannot deserialize back into a Lua table key.
 ---@param key any Lua table key to encode.
 ---@param encodeState BlizzardCBOREncodeState Active serializer state.
 ---@param tableDepth number Current table nesting depth, with the root table counted as 1.
@@ -448,7 +449,7 @@ function Encode.MapKey(key, encodeState, tableDepth)
     local keyType = type(key)
 
     if keyType ~= "boolean" and keyType ~= "number" and keyType ~= "string" and keyType ~= "table" then
-        error("CBOR serialization does not support " .. keyType .. " map keys")
+        return Encode.UnsupportedValue(keyType, encodeState)
     end
 
     return Encode.Value(key, encodeState, tableDepth)
@@ -482,7 +483,6 @@ function Encode.Table(tableValue, encodeState, tableDepth)
     else
         parts[1] = _EncodeMajorArgument(MAJOR_MAP, entryCount)
         for key, value in pairs(tableValue) do
-            -- Unsupported values may become CBOR undefined, but unsupported keys cannot.
             parts[#parts + 1] = Encode.MapKey(key, encodeState, tableDepth + 1)
             parts[#parts + 1] = Encode.Value(value, encodeState, tableDepth + 1)
         end
@@ -742,7 +742,12 @@ end
 ---@param value any Lua value to serialize.
 ---@param options CBORSerializationOptions? Serialization options.
 ---@return string output CBOR byte string.
-function BlizzardCBOR.SerializeCBOR(value, options)
+function BlizzardCBOR.SerializeCBOR(...)
+    if select("#", ...) == 0 then
+        error("CBOR serialization requires a value")
+    end
+
+    local value, options = ...
     if options ~= nil and type(options) ~= "table" then
         error("CBOR serialization options must be a table")
     end

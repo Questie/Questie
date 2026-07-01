@@ -137,7 +137,9 @@ local function _BuildEmbeddedCompatibilityCases()
         -- The helper first uses the shared global when available, but keeping a
         -- standalone copy lets this addon run without modifying Questie's TOCs.
         return {
-            _Case("omitted-value", "primitive", "No value argument", 0, _BuildNoArguments),
+            _Case("omitted-value", "primitive", "No value argument", 0, _BuildNoArguments, {
+                expectSerializeError = true,
+            }),
             _Case("nil-value", "primitive", "Explicit nil", 1, _BuildNil),
             _Case("boolean-false", "primitive", "False", 1, function() return false end),
             _Case("boolean-true", "primitive", "True", 1, function() return true end),
@@ -186,7 +188,9 @@ local function _BuildEmbeddedCompatibilityCases()
             end),
             _Case("table-sparse-small-gap", "table", "Sparse small gap", 1, function()
                 return {[1] = "a", [3] = "c"}
-            end, {mapOrderUnstable = true}),
+            end, {
+                notes = "Live fixtures serialize this dense-enough sparse table as an array with a CBOR null gap.",
+            }),
             _Case("table-sparse-large-gap", "table", "Sparse large gap", 1, function()
                 return {[1] = "a", [100] = "z"}
             end, {mapOrderUnstable = true}),
@@ -230,8 +234,7 @@ local function _BuildEmbeddedCompatibilityCases()
             }),
             _Case("unsupported-function-map-key-ignored", "error", "Ignored function map key", 2,
                 _BuildIgnoredFunctionKeyMap, {
-                    expectSerializeError = true,
-                    notes = "Local policy keeps unsupported map keys as errors because CBOR undefined decodes to nil.",
+                    notes = "Blizzard emits CBOR undefined for the unsupported key; that payload may not deserialize back into a Lua table.",
                 }),
         }
     end
