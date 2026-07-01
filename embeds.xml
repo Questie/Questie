@@ -1,6 +1,6 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
     <Script file="Libs\LibStub\LibStub.lua"/>
-    <Include file="Libs\LibDeflate\lib.xml"/>
+    <Include file="Libs\LibDeflate\LibDeflate.lua"/>
     <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
     <!-- The order of Ace imports matter as they reference each other -->
     <Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>
