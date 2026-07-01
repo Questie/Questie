@@ -42,6 +42,12 @@ _G.GetCurrentRegion = function() return 3 end
 
 _G.Enum = {ItemQuality = {Poor = 0, Standard = 1}}
 
+-- Test-only CBOR mock: setupTests provides Blizzard's CBOR API in CLI runs,
+-- but intentionally leaves compression absent so runtime codec support checks
+-- still fail unless a test installs those functions explicitly.
+local BlizzardCBORMock = dofile("cli/mocks/BlizzardCBOR.lua")
+BlizzardCBORMock.InstallEncodingUtilMock(_G)
+
 _G.MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""

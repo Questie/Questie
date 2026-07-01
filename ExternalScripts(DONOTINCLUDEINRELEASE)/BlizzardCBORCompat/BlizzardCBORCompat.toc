@@ -1,0 +1,8 @@
+## Interface: 11507
+## Title: Questie Blizzard CBOR Compat
+## Notes: Captures C_EncodingUtil.SerializeCBOR bytes for Questie's pure Lua compatibility fixtures.
+## Author: Questie
+## Version: 1
+## SavedVariables: QuestieBlizzardCBORCompatDB
+
+BlizzardCBORCompat.lua
