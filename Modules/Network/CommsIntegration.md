@@ -513,17 +513,37 @@ The helper lives under `cli/mocks/` because it is test support. Avoid putting no
 
 The tests use the real CBOR mock and real addon-channel escaping, but compression is approximated with LibDeflate. Blizzard `C_EncodingUtil.CompressString` may produce a different valid Deflate stream. Therefore exact compressed message bytes/length should not be treated as production proof.
 
+This is still useful for message-size budget tests. Live Classic Era probes showed local
+
+```text
+CBOR mock -> LibDeflate:CompressDeflate -> LibDeflate:EncodeForWoWAddonChannel
+```
+
+tracks the production path closely enough to catch payloads that are likely to cross AceComm's 255-character single-message boundary, but it is an estimator, not an exact oracle. Prefer an assertion budget below the real limit, for example `<= 245` for conservative tests or `<= 250` when a little less margin is acceptable. If a future payload estimates near the budget or near 255, verify that specific payload live with `wow-lua-bridge` before relying on the local number.
+
+Representative live probes from Classic Era `1.15.8` / build `67156` illustrate the expected error size:
+
+| Payload | Live final length | Local estimate | Difference |
+| --- | ---: | ---: | ---: |
+| H1 payload | 39 | 38 | -1 |
+| V1 50 large quest IDs | 224 | 223 | -1 |
+| V1 50 mixed-width IDs | 190 | 194 | +4 |
+
+These examples are why the local estimator is useful for budget tests, but also why assertions should leave a small margin under AceComm's 255-character single-message limit.
+
 Useful claims from these tests:
 
 - payloads are serializable;
 - payloads round-trip through the modern encode/decode stack;
 - addon-channel-safe encoding/decoding is exercised;
-- AceComm and fake WoW event delivery are exercised.
+- AceComm and fake WoW event delivery are exercised;
+- payload-size budget checks can catch likely AceComm multipart regressions when they leave a small safety margin.
 
 Not proven:
 
 - exact production compressed byte length;
-- exact Blizzard compression byte output.
+- exact Blizzard compression byte output;
+- exact pass/fail behavior for payloads very close to the 255-character boundary.
 
 ### Same-runtime tests are not full cross-client isolation
 
