@@ -27,6 +27,10 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field Name string
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
+---@field isDungeonQuest boolean|nil
+---@field isRaidQuest boolean|nil
+---@field isHeroicQuest boolean|nil
+---@field isCelestialQuest boolean|nil
 
 ---@return IconFrame
 function QuestieFrame:New(frameId, OnEnter)
@@ -310,7 +314,11 @@ function _QuestieFrame.UpdateTexture(self, texture)
     --self.data.Icon = texture;
     local colors = { 1, 1, 1 }
 
-    if self.data.StarterType then
+    if self.data.isRaidQuest then
+        self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/raid_icon_overlay.png")
+    elseif self.data.isDungeonQuest or self.data.isHeroicQuest or self.data.isCelestialQuest then
+        self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/dungeon_icon_overlay.png")
+    elseif self.data.StarterType then
         if self.data.StarterType == "itemFromMonster" or self.data.StarterType == "itemFromObject" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
         elseif self.data.StarterType == "Object" then
