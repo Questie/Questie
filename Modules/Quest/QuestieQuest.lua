@@ -46,6 +46,8 @@ local QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -416,11 +418,13 @@ end
 function QuestieQuest:HideQuest(questId)
     Questie.db.char.hidden[questId] = true
     AvailableQuests.RemoveQuest(questId)
+    CommsVisibility:ScheduleSnapshot("HIDE_QUEST")
 end
 
 ---@param questId QuestId
 function QuestieQuest:UnhideQuest(questId)
     Questie.db.char.hidden[questId] = nil
+    CommsVisibility:ScheduleSnapshot("UNHIDE_QUEST")
 
     if QuestiePlayer.currentQuestlog[questId] then
         local quest = QuestieDB.GetQuest(questId)
@@ -513,6 +517,9 @@ function QuestieQuest:AcceptQuest(questId)
             if Questie.db.char.AutoUntrackedQuests[questId] then
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
             end
+            -- QuestieV1 snapshots are full-state maps. Re-accepting can clear a stale remote
+            -- false entry, so notify peers after the local quest-log/tracking state is updated.
+            CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
 
             QuestieQuest:PopulateQuestLogInfo(quest)
             -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
@@ -574,6 +581,8 @@ function QuestieQuest:CompleteQuest(questId)
 
     AvailableQuests.RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
+    -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
+    CommsVisibility:ScheduleSnapshot("COMPLETE_QUEST")
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
@@ -617,6 +626,8 @@ function QuestieQuest:AbandonedQuest(questId)
         end
 
         QuestieTracker:RemoveQuest(questId)
+        -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
+        CommsVisibility:ScheduleSnapshot("ABANDON_QUEST")
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)

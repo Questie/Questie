@@ -134,6 +134,48 @@ describe("Tooltip", function()
             }, tooltip)
         end)
 
+        it("should show remote tooltip objectives even when party objective icons are hidden", function()
+            _G.UnitName = function() return "Local" end
+            _G.IsInGroup = function() return true end
+            QuestieLoader:ImportModule("CommsVisibility").ShouldShowPartyObjective = function()
+                return false
+            end
+            Questie.GetClassColor = spy.new(function()
+                return "|cFFC79C6E"
+            end)
+            QuestieTooltips.lookupByKey = {}
+            QuestieComms.remotePlayerEnabled["Bob"] = true
+            QuestieComms.remotePlayerClasses["Bob"] = "WARRIOR"
+            QuestieComms.remoteQuestLogs[1] = { ["Bob"] = {} }
+            QuestieComms.data.KeyExists = function(_, key)
+                return key == "m_123"
+            end
+            QuestieComms.data.GetTooltip = function(_, key)
+                if key == "m_123" then
+                    return {
+                        [1] = {
+                            ["Bob"] = {
+                                [1] = {
+                                    fulfilled = 3,
+                                    required = 5,
+                                    text = "do it",
+                                }
+                            }
+                        }
+                    }
+                end
+
+                return {}
+            end
+
+            local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+            assert.are_same({
+                "Quest Name",
+                "   gold3/5 do it (|cFFC79C6EBob|rgold)|r (Nearby)",
+            }, tooltip)
+        end)
+
         it("should return quest name and objective when tooltip has spell objective", function()
             QuestieDB.QueryItemSingle = spy.new(function()
                 return "Item Name"
