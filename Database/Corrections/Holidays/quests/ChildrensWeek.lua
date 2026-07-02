@@ -39,7 +39,7 @@ tinsert(eventQuests, {"Children's Week", 10963}) -- Time to Visit the Caverns
 tinsert(eventQuests, {"Children's Week", 10966}) -- Back to the Orphanage
 tinsert(eventQuests, {"Children's Week", 10967}) -- Back to the Orphanage
 tinsert(eventQuests, {"Children's Week", 10968}) -- Call on the Farseer
-tinsert(eventQuests, {"Children's Week", 11975, nil, nil, Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 5)) -- Now, When I Grow Up...
+tinsert(eventQuests, {"Children's Week", 11975, nil, nil, Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 5}) -- Now, When I Grow Up...
 
 -- WotLK quests
 tinsert(eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
