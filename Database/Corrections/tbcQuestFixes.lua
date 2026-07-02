@@ -5277,7 +5277,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 11136,
         },
         [11135] = { -- The Headless Horseman
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- most likely breadcrumb
         },
         [11136] = { -- A Disturbing Development
             [questKeys.breadcrumbForQuestId] = 11137,
@@ -5394,7 +5394,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11220] = { -- The Headless Horseman
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- most likely breadcrumb
         },
         [11222] = { -- Warn Bolvar!
             [questKeys.nextQuestInChain] = 11223,
@@ -5496,6 +5496,16 @@ function QuestieTBCQuestFixes:Load()
         [11383] = { -- Wanted: Rift Lords
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17839,21140},17839}}},
             [questKeys.preQuestSingle] = {10296},
+        },
+        [11392] = { -- Call the Headless Horseman
+            [questKeys.startedBy] = {nil,{186267}}, -- alliance/horde? what about 11404/11405, probably phase specific?
+            [questKeys.finishedBy] = {nil,{186314}},
+            [questKeys.questLevel] = -1,
+        },
+        [11401] = { -- Call the Headless Horseman
+            [questKeys.startedBy] = {nil,{186267}}, -- alliance/horde? should this one be not repeatable? what about 11404/11405, probably phase specific?
+            [questKeys.finishedBy] = {nil,{186314}},
+            [questKeys.preQuestSingle] = {11135,11220},
         },
         [11403] = { -- Free at Last!
             [questKeys.startedBy] = {{23904}},

@@ -302,6 +302,12 @@ function QuestieTBCObjectFixes:Load()
         [186189] = {
             [objectKeys.name] = "Alcohol-Free Brewfest Sampler",
         },
+        [186267] = { -- Pumpkin Shrine
+            [objectKeys.questStarts] = {11392,11401,11405}, -- no 11404?
+        },
+        [186314] = { -- Loosely Turned Soil
+            [objectKeys.questEnds] = {11392,11401,11405}, -- no 11404?
+        },
         [186420] = { -- Syndicate Documents
             [objectKeys.questStarts] = {510,511},
         },

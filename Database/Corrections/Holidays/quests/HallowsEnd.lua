@@ -33,6 +33,7 @@ tinsert(eventQuests, {"Hallow's End", 11357}) -- Masked Orphan Matron
 tinsert(eventQuests, {"Hallow's End", 11360}) -- Fire Brigade Practice
 tinsert(eventQuests, {"Hallow's End", 11361}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, Expansions.Current == Expansions.Wotlk}) -- Call the Headless Horseman
 tinsert(eventQuests, {"Hallow's End", 11403, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Free at Last!
 tinsert(eventQuests, {"Hallow's End", 11449}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11450}) -- Fire Training
@@ -122,10 +123,6 @@ tinsert(eventQuests, {"Hallow's End", 12407}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12408}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12409}) -- Candy Bucket
 --tinsert(eventQuests, {"Hallow's End", 12410}) -- Candy Bucket -- doesn't exist
-tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, Expansions.Current == Expansions.Tbc}) -- Call the Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, Expansions.Current == Expansions.Tbc}) -- Call the Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11403}) -- Free at Last!
-tinsert(eventQuests, {"Hallow's End", 11242}) -- Free at Last!
 --tinsert(eventQuests, {"Hallow's End", 11404}) -- Call the Headless Horseman
 --tinsert(eventQuests, {"Hallow's End", 11405}) -- Call the Headless Horseman
 

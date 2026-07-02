@@ -1077,10 +1077,6 @@ function QuestieWotlkQuestFixes:Load()
         [11391] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 24418},}}},
         },
-        [11392] = {
-            [questKeys.startedBy] = {nil,{186267}},
-            [questKeys.finishedBy] = {nil,{186314}},
-        },
         [11393] = {
             [questKeys.exclusiveTo] = {11394,},
         },
@@ -1092,10 +1088,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11399] = {
             [questKeys.requiredSourceItems] = {},
-        },
-        [11401] = {
-            [questKeys.startedBy] = {nil,{186267}},
-            [questKeys.finishedBy] = {nil,{186314}},
         },
         [11409] = {
             [questKeys.preQuestSingle] = {},
