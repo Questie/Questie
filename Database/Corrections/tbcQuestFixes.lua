@@ -1860,6 +1860,13 @@ function QuestieTBCQuestFixes:Load()
         [8727] = {
             [questKeys.questLevel] = -1,
         },
+        [8767] = { -- A Gently Shaken Gift
+            [questKeys.questLevel] = -1,
+        },
+        [8788] = { -- A Gently Shaken Gift
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+        },
         [8860] = { -- New Year Celebrations!
             [questKeys.questLevel] = -1,
         },
@@ -2749,6 +2756,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9689] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Bundle of Dragon Bones at the Ever-burning Pyre"), 0, {{"object", 181988}}}},
+        },
+        [9692] = { -- The Path of the Adept
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open it"), 3, {{"object", 182024}}}},
         },
         [9693] = { -- What Argus Means to Me
             [questKeys.disabledByQuest] = 9668,
@@ -4716,6 +4726,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 10968,
         },
         [10960] = { -- When I Grow Up...
+            [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4753,6 +4764,7 @@ function QuestieTBCQuestFixes:Load()
         [10968] = { -- Call on the Farseer
             [questKeys.startedBy] = {{17538}},
             [questKeys.finishedBy] = {{17204}},
+            [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {{{17204,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
@@ -4851,11 +4863,15 @@ function QuestieTBCQuestFixes:Load()
         [11004] = { -- World of Shadows
             [questKeys.nextQuestInChain] = 11006,
         },
+        [11005] = { -- Secrets of the Talonpriests
+            [questKeys.requiredLevel] = 70,
+        },
         [11007] = {
             [questKeys.startedBy] = {nil,nil,{32405}},
         },
         [11008] = { -- Fires Over Skettis
             [questKeys.objectives] = {nil,{{185549}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11009] = { -- Ogre Heaven
             [questKeys.breadcrumbs] = {11022},
@@ -4864,6 +4880,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 70,
             [questKeys.requiredClasses] = classIDs.ALL_CLASSES - classIDs.DRUID,
             [questKeys.objectives] = {nil,{{185861}}},
+        },
+        [11011] = { -- Eternal Vigilance
+            [questKeys.requiredLevel] = 70,
         },
         [11012] = { -- Blood Oath of the Netherwing
             [questKeys.preQuestSingle] = {10870,10871},
@@ -4905,7 +4924,7 @@ function QuestieTBCQuestFixes:Load()
         [11022] = { -- Speak with Mog'dorg
             [questKeys.breadcrumbForQuestId] = 11009,
         },
-        [11023] = {
+        [11023] = { -- Bomb Them Again!
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010,11102},
             [questKeys.objectives] = {nil,{{185861}}},
@@ -4918,9 +4937,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
             [questKeys.nextQuestInChain] = 11051,
+            [questKeys.requiredLevel] = 70,
+        },
+        [11027] = { -- Yous Have Da Darkrune?
+            [questKeys.requiredLevel] = 70,
         },
         [11028] = { -- Countdown to Doom
             [questKeys.nextQuestInChain] = 11056,
+        },
+        [11029] = { -- A Shabby Disguise
+            [questKeys.requiredLevel] = 70,
+        },
+        [11030] = { -- Our Boy Wants To Be A Skyguard Ranger
+            [questKeys.requiredLevel] = 70,
         },
         [11031] = {
             [questKeys.preQuestSingle] = {10725},
@@ -5013,9 +5042,10 @@ function QuestieTBCQuestFixes:Load()
         [11050] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [11051] = {
+        [11051] = { -- Banish More Demons
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11052] = { -- Akama's Promise
             [questKeys.name] = "Akama's Promise",
@@ -5026,6 +5056,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
         },
+        [11056] = { -- Hazzik's Bargain
+            [questKeys.requiredLevel] = 70,
+        },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
             [questKeys.nextQuestInChain] = 10995,
@@ -5033,11 +5066,19 @@ function QuestieTBCQuestFixes:Load()
         [11058] = {
             [questKeys.objectives] = {nil,{{185890}}},
         },
-        [11059] = {
+        [11059] = { -- Guardian of the Monument
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Apexis Monument. Apexis Guardian will spawn after six rounds"), 0, {{"object", 185944}}}},
+            [questKeys.requiredLevel] = 70,
         },
-        [11060] = {
+        [11060] = { -- A Crystalforged Darkrune
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredLevel] = 70,
+        },
+        [11061] = { -- A Father's Duty
+            [questKeys.requiredLevel] = 70,
+        },
+        [11062] = { -- The Skyguard Outpost
+            [questKeys.requiredLevel] = 70,
         },
         [11063] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5046,12 +5087,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{23340,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [11065] = {
+        [11065] = { -- Wrangle Some Aether Rays!
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010, 11102},
             [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11066] = {
+        [11066] = { -- Wrangle More Aether Rays!
+            [questKeys.requiredLevel] = 70,
             [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [11067] = {
@@ -5076,6 +5118,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11072] = { -- Adversarial Blood
             [questKeys.name] = "Adversarial Blood",
+            [questKeys.requiredLevel] = 70,
         },
         [11073] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Time-Lost offering to summon Terokk"), 0, {{"object", 185928}}}},
@@ -5083,15 +5126,17 @@ function QuestieTBCQuestFixes:Load()
         [11077] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [11078] = {
+        [11078] = { -- To Rule The Skies
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Furywing's Egg"), 0, {{"object", 185937}}},
                                            {nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Insidion's Egg"), 0, {{"object", 185938}}},
                                            {nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Rivendark's Egg"), 0, {{"object", 185936}}},
                                            {nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Obsidia's Egg"), 0, {{"object", 185932}}},
             },
+            [questKeys.requiredLevel] = 70,
         },
-        [11079] = {
+        [11079] = { -- A Fel Whip For Gahk
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Fel Crystal Prism"), 0, {{"object", 185927}}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11080] = {
             [questKeys.objectives] = {nil,{{185890}}},
@@ -5106,9 +5151,10 @@ function QuestieTBCQuestFixes:Load()
         [11083] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [11085] = {
+        [11085] = { -- Escape from Skettis
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Rescue the Skyguard Prisoner.", {[zoneIDs.TEROKKAR_FOREST]={{69.77,75.98},{62.41,73.85},{73.94,88.3}}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11086] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5121,10 +5167,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{22357,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11093] = {
+        [11093] = { -- Hungry Nether Rays
             [questKeys.objectives] = {{{23219}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Nether Ray Cage and slay Blackwind Warp Chasers near the Hungry Nether Ray"), 0, {{"monster", 23219}}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11094] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5199,7 +5246,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Meeting with Illidan Stormrage", {[zoneIDs.SHADOWMOON_VALLEY]={{65.93,86.15}}}},
         },
-        [11119] = {
+        [11119] = { -- Assault on Bash'ir Landing!
             [questKeys.preQuestSingle] = {11102,11010},
             [questKeys.requiredLevel] = 70,
         },
@@ -5216,16 +5263,21 @@ function QuestieTBCQuestFixes:Load()
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11131] = {
+        [11131] = { -- Stop the Fires!
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.exclusiveTo] = {12133},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11133] = { -- Discrediting the Deserters
             [questKeys.objectives] = {{{4979,nil,Questie.ICON_TYPE_TALK}}},
         },
         [11134] = { -- The End of the Deserters
             [questKeys.nextQuestInChain] = 11136,
+        },
+        [11135] = { -- The Headless Horseman
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11136] = { -- A Disturbing Development
             [questKeys.breadcrumbForQuestId] = 11137,
@@ -5334,10 +5386,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 9825,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
-        [11219] = {
+        [11219] = { -- Stop the Fires!
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.exclusiveTo] = {12155},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11220] = { -- The Headless Horseman
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11222] = { -- Warn Bolvar!
             [questKeys.nextQuestInChain] = 11223,
@@ -5346,11 +5403,15 @@ function QuestieTBCQuestFixes:Load()
         [11225] = { -- The Hermit of Witch Hill
             [questKeys.requiredLevel] = 32,
         },
-        [11242] = {
+        [11242] = { -- Free at Last!
             [questKeys.startedBy] = {{23904}},
             [questKeys.finishedBy] = {{24519}},
+            [questKeys.requiredLevel] = 65,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {11135},
+        },
+        [11318] = { -- Now This is Ram Racing... Almost.
+            [questKeys.requiredLevel] = 1,
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
@@ -5404,19 +5465,27 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65}},
             }},
         },
-        [11356] = {
+        [11356] = { -- Costumed Orphan Matron
             [questKeys.exclusiveTo] = {11360,11439,11440},
+            [questKeys.requiredLevel] = 1,
         },
-        [11357] = {
+        [11357] = { -- Masked Orphan Matron
             [questKeys.exclusiveTo] = {11361,11449,11450},
+            [questKeys.requiredLevel] = 1,
         },
-        [11360] = {
+        [11360] = { -- Fire Brigade Practice
             [questKeys.exclusiveTo] = {11439,11440},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [11361] = {
+        [11361] = { -- Fire Training
+            [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {11449,11450},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11379] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains"), 0, {{"monster", 19973}}}},
@@ -5428,21 +5497,28 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17839,21140},17839}}},
             [questKeys.preQuestSingle] = {10296},
         },
-        [11403] = {
+        [11403] = { -- Free at Last!
             [questKeys.startedBy] = {{23904}},
             [questKeys.finishedBy] = {{23973}},
+            [questKeys.requiredLevel] = 65,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {11220},
         },
-        [11439] = {
+        [11439] = { -- Fire Brigade Practice
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11360,11440},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [11440] = {
+        [11440] = { -- Fire Brigade Practice
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11360,11439},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11441] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
@@ -5464,15 +5540,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{24711}},
             [questKeys.finishedBy] = {{24711}},
         },
-        [11449] = {
+        [11449] = { -- Fire Training
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11361,11450},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [11450] = {
+        [11450] = { -- Fire Training
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11361,11449},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11481] = {
             [questKeys.requiredMinRep] = {932,0},
@@ -5621,7 +5703,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
             [questKeys.requiredLevel] = 1,
         },
-        [11657] = {
+        [11657] = { -- Torch Catching
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.preQuestSingle] = {11731},
@@ -5661,7 +5743,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 65,
             [questKeys.breadcrumbForQuestId] = 11691,
         },
-        [11731] = {
+        [11731] = { -- Torch Tossing
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
@@ -6474,19 +6556,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 11073,
         },
         [11886] = { -- Unusual Activity
+            [questKeys.finishedBy] = {{25324}},
+            [questKeys.requiredLevel] = 16,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {nil,nil,{{35277}}},
-            [questKeys.finishedBy] = {{25324}},
             [questKeys.requiredSourceItems] = {35828},
-            [questKeys.requiredLevel] = 16,
         },
         [11891] = { -- An Innocent Disguise
-            [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41}}}},
             [questKeys.startedBy] = {{25324}},
             [questKeys.finishedBy] = {{25324}},
-            [questKeys.preQuestSingle] = {11886},
-            [questKeys.sourceItemId] = 35237,
             [questKeys.requiredLevel] = 16,
+            [questKeys.sourceItemId] = 35237,
+            [questKeys.preQuestSingle] = {11886},
+            [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41}}}},
         },
         [11915] = {
             [questKeys.startedBy] = {{25994}},
@@ -6500,7 +6582,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxLevel] = 28,
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
         },
-        [11921] = {
+        [11921] = { -- More Torch Tossing
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.preQuestSingle] = {11657},
@@ -6515,7 +6597,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredLevel] = 1,
         },
-        [11922] = {
+        [11922] = { -- Torch Tossing
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
@@ -6527,7 +6609,7 @@ function QuestieTBCQuestFixes:Load()
             }},
             [questKeys.requiredLevel] = 1,
         },
-        [11923] = {
+        [11923] = { -- Torch Catching
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
             [questKeys.preQuestSingle] = {11922},
@@ -6541,7 +6623,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredLevel] = 1,
         },
-        [11924] = {
+        [11924] = { -- More Torch Catching
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -6556,7 +6638,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredLevel] = 1,
         },
-        [11925] = {
+        [11925] = { -- More Torch Catching
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -6571,7 +6653,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredLevel] = 1,
         },
-        [11926] = {
+        [11926] = { -- More Torch Tossing
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -6654,6 +6736,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 65,
         },
         [11975] = { -- Now, When I Grow Up...
+            [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Take Salandria to visit the Elite Tauren Chieftain in Silvermoon City.", {[zoneIDs.SILVERMOON_CITY]={{76.6,81.2}}}},
             [questKeys.preQuestGroup] = {10945,10951,10953},
@@ -6664,11 +6747,11 @@ function QuestieTBCQuestFixes:Load()
         [12012] = { -- Inform the Elder
             [questKeys.startedBy] = {{25324}},
             [questKeys.finishedBy] = {{26221}},
+            [questKeys.requiredLevel] = 16,
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {nil,nil,{{35828}}},
             [questKeys.preQuestSingle] = {11891},
             [questKeys.requiredSourceItems] = {},
-            [questKeys.requiredLevel] = 16,
         },
         [12020] = {
             [questKeys.preQuestSingle] = {},

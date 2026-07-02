@@ -3662,18 +3662,6 @@ local cataObjectiveLocales = {
         ["zhCN"] = "翻找篮子",
         ["zhTW"] = false,
     },
-    ["Open it"] = {
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "打开它",
-        ["zhTW"] = false,
-    },
     ["Get a ride to Astranaar"] = {
         ["enUS"] = true,
         ["deDE"] = false,

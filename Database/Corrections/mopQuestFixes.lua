@@ -268,7 +268,7 @@ function MopQuestFixes.Load()
         [8564] = { -- Priest Training
             [questKeys.requiredLevel] = 2,
         },
-        [8788] = {
+        [8788] = { -- A Gently Shaken Gift
             [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.WARLOCK + classIDs.MAGE + classIDs.SHAMAN + classIDs.DRUID + classIDs.MONK,
         },
         [9392] = { -- Rogue Training

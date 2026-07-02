@@ -5433,12 +5433,12 @@ function QuestieQuestFixes:Load()
         [8762] = {
             [questKeys.requiredSourceItems] = {21314},
         },
-        [8767] = {
+        [8767] = { -- A Gently Shaken Gift
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN,
             [questKeys.exclusiveTo] = {8788},
         },
-        [8788] = {
+        [8788] = { -- A Gently Shaken Gift
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.WARLOCK + classIDs.MAGE + classIDs.SHAMAN + classIDs.DRUID,
             [questKeys.exclusiveTo] = {8767},
