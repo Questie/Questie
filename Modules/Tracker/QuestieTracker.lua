@@ -1573,6 +1573,12 @@ function QuestieTracker:Update()
                 end
             end
         end
+        -- Icons may have already spawned as visible on the map/minimap before the
+        -- HideIcons flags above were restored from the saved tracker state (e.g.
+        -- the quest log wasn't fully loaded yet on the first Update() after
+        -- login/reload). Force a re-check now so they get hidden retroactively.
+        QuestieQuest:HideQuestIcons()
+        
         isFirstRun = false
         C_Timer.After(1.0, function()
             QuestieCombatQueue:Queue(function()
