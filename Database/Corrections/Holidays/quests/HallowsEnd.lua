@@ -23,16 +23,19 @@ tinsert(eventQuests, {"Hallow's End", 8354}) -- Chicken Clucking for a Mint
 tinsert(eventQuests, {"Hallow's End", 8360}) -- Dancing for Marzipan
 
 -- TBC quests
-tinsert(eventQuests, {"Hallow's End", 11450}) -- Fire Training
+tinsert(eventQuests, {"Hallow's End", 11131}) -- Stop the Fires!
+tinsert(eventQuests, {"Hallow's End", 11135, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- The Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11219}) -- Stop the Fires!
+tinsert(eventQuests, {"Hallow's End", 11220, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- The Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11242, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Free at Last!
 tinsert(eventQuests, {"Hallow's End", 11356}) -- Costumed Orphan Matron
 tinsert(eventQuests, {"Hallow's End", 11357}) -- Masked Orphan Matron
-tinsert(eventQuests, {"Hallow's End", 11131}) -- Stop the Fires!
-tinsert(eventQuests, {"Hallow's End", 11135, nil, nil, Expansions.Current == Expansions.Tbc}) -- The Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11220, nil, nil, Expansions.Current == Expansions.Tbc}) -- The Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11219}) -- Stop the Fires!
-tinsert(eventQuests, {"Hallow's End", 11361}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11360}) -- Fire Brigade Practice
+tinsert(eventQuests, {"Hallow's End", 11361}) -- Fire Training
+tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11403, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Free at Last!
 tinsert(eventQuests, {"Hallow's End", 11449}) -- Fire Training
+tinsert(eventQuests, {"Hallow's End", 11450}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11440}) -- Fire Brigade Practice
 tinsert(eventQuests, {"Hallow's End", 11439}) -- Fire Brigade Practice
 tinsert(eventQuests, {"Hallow's End", 12133}) -- Smash the Pumpkin

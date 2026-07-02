@@ -447,7 +447,7 @@ function QuestieWotlkQuestFixes:Load()
         [8766] = { -- The Changing of Paths - Conqueror No More
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8767] = {
+        [8767] = { -- A Gently Shaken Gift
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
         },
         [8867] = { -- Lunar Fireworks

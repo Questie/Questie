@@ -1869,12 +1869,6 @@ function CataQuestFixes.Load()
         [11357] = { -- Masked Orphan Matron
             [questKeys.startedBy] = {{20102}},
         },
-        [11360] = { -- Fire Brigade Practice
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11361] = { -- Fire Training
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
         [11362] = { -- Wanted: Keli'dan's Feathered Stave
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.startedBy] = {},
@@ -1935,18 +1929,6 @@ function CataQuestFixes.Load()
         },
         [11408] = { -- Bark for T'chali's Voodoo Brewery!
             [questKeys.exclusiveTo] = {11407},
-        },
-        [11439] = { -- Fire Brigade Practice
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11440] = { -- Fire Brigade Practice
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11449] = { -- Fire Training
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11450] = { -- Fire Training
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11481] = { -- Crisis at the Sunwell
             [questKeys.nextQuestInChain] = 0,
