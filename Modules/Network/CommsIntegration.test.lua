@@ -3,414 +3,61 @@ dofile("setupTests.lua")
 local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
 
 --[[
-Single-runtime integration coverage for Questie's modern addon comms layer.
+Harness-level integration coverage for Questie's addon comms emulator.
 
-This suite uses real AceComm/AceEvent/ChatThrottleLib through an opt-in fake WoW
-client boundary. Keep QuestieH1/QuestieV1 behavior visible here; the shared
-harness owns only reusable client/Ace mechanics.
+Protocol behavior lives beside the owning module tests: H1 in
+CommsPrefixRegistry.test.lua, V1 in CommsVisibility.test.lua, legacy quest-log
+packets in QuestieComms.test.lua, daily `Questie` prefix messages in
+Comms.test.lua, and group lifecycle in GroupEventHandler.test.lua.
 
-Legacy Questie prefixes ("questie", "Questie", "REPUTABLE") are future extension
-points for this harness; these tests focus on the newer typed-prefix protocols.
+This file stays focused on the shared fake WoW/AceComm mechanics that those
+module-local tests trust.
 ]]
-describe("Comms integration", function()
-    ---@type CommsPrefixRegistry
-    local CommsPrefixRegistry
-
-    ---@type CommsVisibility
-    local CommsVisibility
-
-    ---@type QuestiePlayer
-    local QuestiePlayer
-
-    ---@type QuestLogCache
-    local QuestLogCache
-
-    ---@type QuestieQuest
-    local QuestieQuest
-
-    ---@type QuestiePartyObjectives
-    local QuestiePartyObjectives
-
-    ---@type QuestieComms
-    local QuestieComms
-
-    ---@type GroupEventHandler
-    local GroupEventHandler
-
-    local harness
-    local fullQuestLogRequestCount
-
-    local function installQuestieLoggingBoundary()
-        Questie.Debug = function() end
-        Questie.Error = function(_, message)
-            error(message)
-        end
+describe("Comms integration harness", function()
+    ---Fails the test if the isolated network cannot settle all timers and AceComm traffic.
+    ---@param network table Isolated comms network from AceCommTestHarness.
+    local function assertIsolatedNetworkFlushes(network)
+        -- Isolated tests should fail loudly if timers/AceComm traffic never
+        -- settle; otherwise assertions might pass after only partial delivery.
+        assert.is_true(network:FlushUntilIdle())
     end
 
-    local function installQuestStateBoundary()
-        Questie.db.char = {hidden = {}}
-        Questie.db.profile = {}
-
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.GetGroupType = function() return "party" end
-
-        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
-        QuestLogCache.questLog_DO_NOT_MODIFY = {}
-
-        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.IsQuestTracked = function(_, questId)
-            return questId ~= 202
-        end
-
-        QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
-        QuestiePartyObjectives.scheduleUpdateCount = 0
-        QuestiePartyObjectives.clearCount = 0
-        QuestiePartyObjectives.ScheduleUpdate = function()
-            QuestiePartyObjectives.scheduleUpdateCount = QuestiePartyObjectives.scheduleUpdateCount + 1
-        end
-        QuestiePartyObjectives.Clear = function()
-            QuestiePartyObjectives.clearCount = QuestiePartyObjectives.clearCount + 1
-        end
-
-        QuestieComms = QuestieLoader:ImportModule("QuestieComms")
-        QuestieComms.remoteQuestLogs = {}
-        QuestieComms.resetAllCount = 0
-        QuestieComms.ResetAll = function()
-            QuestieComms.resetAllCount = QuestieComms.resetAllCount + 1
-            QuestieComms.remoteQuestLogs = {}
-        end
-
-        fullQuestLogRequestCount = 0
-        Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", function()
-            fullQuestLogRequestCount = fullQuestLogRequestCount + 1
-        end)
-    end
-
-    local function loadModernCommsStack()
-        dofile("Modules/Network/CommsEncoding.lua")
-        dofile("Modules/Network/CommsRouting.lua")
-        dofile("Modules/Network/CommsPrefixRegistry.lua")
-        dofile("Modules/Network/CommsVisibility.lua")
-        dofile("Modules/EventHandler/GroupEventHandler.lua")
-
-        CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
-        CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
-        GroupEventHandler = QuestieLoader:ImportModule("GroupEventHandler")
-
-        CommsPrefixRegistry:Initialize()
-        CommsVisibility:Initialize()
-        CommsPrefixRegistry:ResetAll()
-        CommsVisibility:ResetAll()
-
-        Questie:RegisterEvent("GROUP_JOINED", GroupEventHandler.GroupJoined)
-        Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, GroupEventHandler.GroupRosterUpdate)
-        Questie:RegisterEvent("GROUP_LEFT", GroupEventHandler.GroupLeft)
-    end
-
-    local function initializeHarness()
-        harness = AceCommTestHarness.New()
-        harness:InstallWoWClient({
-            clock = 100,
+    it("boots the single-runtime harness path and restores captured state", function()
+        local singleHarness = AceCommTestHarness.New()
+        singleHarness:InstallWoWClient({
             playerName = "Player",
             realmName = "HomeRealm",
             groupMemberCount = 2,
             partyMembers = {["Friend-Realm"] = true},
-            raidMembers = {},
         })
-        harness:LoadRealAceCommInto(Questie)
-        harness:InstallBlizzardDeflateCompression()
+        singleHarness:LoadRealAceCommInto(Questie)
 
-        installQuestieLoggingBoundary()
-        installQuestStateBoundary()
-        loadModernCommsStack()
-    end
+        local receivedMessages = {}
+        Questie:RegisterComm("SingleT", function(prefix, message, distribution, sender)
+            receivedMessages[#receivedMessages + 1] = {
+                prefix = prefix,
+                message = message,
+                distribution = distribution,
+                sender = sender,
+            }
+        end)
 
-    local function countSentAddonMessages(prefix, distribution, target)
-        local count = 0
-        for _, message in ipairs(harness.sentAddonMessages) do
-            if message.prefix == prefix
-                and (not distribution or message.distribution == distribution)
-                and (target == nil or message.target == target)
-            then
-                count = count + 1
-            end
-        end
+        Questie:SendCommMessage("SingleT", "hello party", "PARTY")
+        singleHarness:FlushAddonTraffic()
+        singleHarness:DeliverAddonMessage({prefix = "SingleT", message = "hello player", distribution = "PARTY"}, "Friend-Realm", "PARTY")
 
-        return count
-    end
+        assert.is_table(singleHarness:FindSentAddonMessage("SingleT", "PARTY"))
+        assert.are_same({
+            prefix = "SingleT",
+            message = "hello player",
+            distribution = "PARTY",
+            sender = "Friend-Realm",
+        }, receivedMessages[1])
 
-    before_each(function()
-        initializeHarness()
+        singleHarness:Restore()
     end)
 
-    after_each(function()
-        harness:Restore()
-    end)
-
-    it("bootstraps the modern Questie comm prefixes through real AceComm", function()
-        assert.is_true(harness.registeredAddonPrefixes.QuestieH1)
-        assert.is_true(harness.registeredAddonPrefixes.QuestieV1)
-    end)
-
-    it("uses GROUP_JOINED as the first layer for modern comm convergence", function()
-        QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
-        harness:SetGroupRoster({
-            groupMemberCount = 2,
-            partyMembers = {
-                ["player"] = true,
-                ["party1"] = true,
-                ["Friend-Realm"] = true,
-            },
-            raidMembers = {},
-        })
-
-        harness:FireWoWEvent("GROUP_JOINED")
-        harness:RunTimers() -- GroupEventHandler's join ticker schedules the comm timers.
-        harness:RunTimers() -- The scheduled QuestieH1/QuestieV1 timers build and send addon messages.
-        harness:FlushAddonTraffic()
-
-        assert.is_table(harness:FindSentAddonMessage("QuestieH1", "PARTY"))
-        assert.is_table(harness:FindSentAddonMessage("QuestieV1", "PARTY"))
-        assert.are_equal(1, fullQuestLogRequestCount)
-    end)
-
-    it("uses GROUP_ROSTER_UPDATE as the first layer for modern comm resync", function()
-        QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
-        QuestiePlayer.numberOfGroupMembers = 1
-        harness:SetGroupRoster({
-            groupMemberCount = 2,
-            partyMembers = {["Friend-Realm"] = true},
-            raidMembers = {},
-        })
-
-        harness:FireWoWEvent("GROUP_ROSTER_UPDATE")
-        harness:RunTimers() -- AceBucket dispatches GroupEventHandler and schedules comm timers.
-        harness:RunTimers() -- The scheduled QuestieH1/QuestieV1 timers build and send addon messages.
-        harness:FlushAddonTraffic()
-
-        assert.is_table(harness:FindSentAddonMessage("QuestieH1", "PARTY"))
-        assert.is_table(harness:FindSentAddonMessage("QuestieV1", "PARTY"))
-        assert.are_equal(1, QuestiePartyObjectives.scheduleUpdateCount)
-        assert.are_equal(2, QuestiePlayer.numberOfGroupMembers)
-    end)
-
-    it("uses GROUP_ROSTER_UPDATE to resync when a quest-sharing member changes online status", function()
-        QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
-        QuestieComms.remoteQuestLogs = {[101] = {["Friend-Realm"] = {}}}
-        QuestiePlayer.numberOfGroupMembers = 2
-        harness:SetGroupRoster({
-            groupMemberCount = 2,
-            partyMembers = {["Friend-Realm"] = true},
-            raidMembers = {},
-            connectedMembers = {["Friend-Realm"] = true},
-        })
-
-        -- First roster event establishes GroupEventHandler's online-status snapshot.
-        harness:FireWoWEvent("GROUP_ROSTER_UPDATE")
-        harness:RunTimers() -- AceBucket dispatches GroupEventHandler and schedules comm timers.
-        harness:RunTimers() -- The scheduled QuestieH1/QuestieV1 timers build and send addon messages.
-        harness:FlushAddonTraffic()
-
-        assert.are_equal(1, countSentAddonMessages("QuestieH1", "PARTY"))
-        assert.are_equal(1, countSentAddonMessages("QuestieV1", "PARTY"))
-        assert.are_equal(1, QuestiePartyObjectives.scheduleUpdateCount)
-
-        -- Same group size and same online state should not resync. Zone changes can also fire
-        -- GROUP_ROSTER_UPDATE, and those must not churn comms or party-objective redraws.
-        harness:FireWoWEvent("GROUP_ROSTER_UPDATE")
-        harness:RunTimers()
-        harness:RunTimers()
-        harness:FlushAddonTraffic()
-
-        assert.are_equal(1, countSentAddonMessages("QuestieH1", "PARTY"))
-        assert.are_equal(1, countSentAddonMessages("QuestieV1", "PARTY"))
-        assert.are_equal(1, QuestiePartyObjectives.scheduleUpdateCount)
-
-        harness:SetGroupRoster({
-            groupMemberCount = 2,
-            partyMembers = {["Friend-Realm"] = true},
-            raidMembers = {},
-            connectedMembers = {["Friend-Realm"] = false},
-        })
-        harness:FireWoWEvent("GROUP_ROSTER_UPDATE")
-        harness:RunTimers() -- AceBucket dispatches GroupEventHandler and schedules comm timers.
-        harness:RunTimers() -- The scheduled QuestieH1/QuestieV1 timers build and send addon messages.
-        harness:FlushAddonTraffic()
-
-        assert.are_equal(2, countSentAddonMessages("QuestieH1", "PARTY"))
-        assert.are_equal(2, countSentAddonMessages("QuestieV1", "PARTY"))
-        assert.are_equal(2, QuestiePartyObjectives.scheduleUpdateCount)
-    end)
-
-    it("uses GROUP_LEFT as the first layer for comm state cleanup", function()
-        local craftedHello = harness:BuildEncodedAddonMessage("QuestieH1", {QuestieH1 = true, QuestieV1 = true})
-        local hiddenSnapshot = harness:BuildEncodedAddonMessage("QuestieV1", {[101] = false})
-
-        harness:DeliverAddonMessage(craftedHello, "Friend-Realm", "PARTY")
-        harness:DeliverAddonMessage(hiddenSnapshot, "Friend-Realm", "PARTY")
-
-        assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieH1"))
-        assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
-
-        local helloMessagesBeforeLeave = countSentAddonMessages("QuestieH1")
-        local visibilityMessagesBeforeLeave = countSentAddonMessages("QuestieV1")
-        CommsPrefixRegistry:ScheduleHello("integration-test")
-        CommsVisibility:ScheduleSnapshot("integration-test")
-
-        harness:FireWoWEvent("GROUP_LEFT")
-        harness:RunTimers()
-        harness:FlushAddonTraffic()
-
-        assert.are_equal(1, QuestieComms.resetAllCount)
-        assert.are_equal(1, QuestiePartyObjectives.clearCount)
-        assert.is_false(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieH1"))
-        assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
-        assert.are_equal(helloMessagesBeforeLeave, countSentAddonMessages("QuestieH1"))
-        assert.are_equal(visibilityMessagesBeforeLeave, countSentAddonMessages("QuestieV1"))
-    end)
-
-    it("round-trips a QuestieH1 hello through real AceComm and replies directly to the grouped sender", function()
-        CommsPrefixRegistry:ScheduleHello("integration-test")
-        harness:RunTimers()
-        harness:FlushAddonTraffic()
-
-        local broadcastHello = harness:FindSentAddonMessage("QuestieH1", "PARTY")
-        assert.is_table(broadcastHello)
-
-        harness:DeliverAddonMessage(broadcastHello, "Friend-Realm", "PARTY")
-
-        assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieH1"))
-        assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieV1"))
-        assert.is_false(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "questie"))
-
-        local reply = harness:FindSentAddonMessage("QuestieH1", "WHISPER", "Friend-Realm")
-        assert.is_table(reply)
-    end)
-
-    it("round-trips a QuestieV1 visibility snapshot and updates party objective visibility", function()
-        Questie.db.char.hidden = {[303] = true}
-        QuestLogCache.questLog_DO_NOT_MODIFY = {
-            [101] = true,
-            [202] = true,
-            [303] = true,
-        }
-
-        CommsVisibility:ScheduleSnapshot("integration-test")
-        harness:RunTimers()
-        harness:FlushAddonTraffic()
-
-        local broadcastSnapshot = harness:FindSentAddonMessage("QuestieV1", "PARTY")
-        assert.is_table(broadcastSnapshot)
-
-        harness:DeliverAddonMessage(broadcastSnapshot, "Friend-Realm", "PARTY")
-
-        assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
-        assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 202))
-        assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 303))
-        assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 404))
-        assert.are_equal(1, QuestiePartyObjectives.scheduleUpdateCount)
-    end)
-
-    it("ignores QuestieV1 snapshots from senders outside the group trust boundary", function()
-        QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
-        QuestieQuest.IsQuestTracked = function() return false end
-
-        CommsVisibility:ScheduleSnapshot("integration-test")
-        harness:RunTimers()
-        harness:FlushAddonTraffic()
-
-        local broadcastSnapshot = harness:FindSentAddonMessage("QuestieV1", "PARTY")
-        assert.is_table(broadcastSnapshot)
-
-        harness:SetGroupRoster({
-            groupMemberCount = 2,
-            partyMembers = {},
-            raidMembers = {},
-        })
-        harness:DeliverAddonMessage(broadcastSnapshot, "Stranger-Realm", "PARTY")
-
-        assert.is_true(CommsVisibility:ShouldShowPartyObjective("Stranger-Realm", 101))
-        assert.are_equal(0, QuestiePartyObjectives.scheduleUpdateCount)
-    end)
-
-    it("sanitizes crafted QuestieH1 payloads from grouped senders", function()
-        local craftedHello = harness:BuildEncodedAddonMessage("QuestieH1", {
-            QuestieH1 = true,
-            QuestieV1 = false,
-            questie = "yes",
-            Questie = true,
-            REPUTABLE = false,
-            QuestieZ9 = true,
-        })
-
-        harness:DeliverAddonMessage(craftedHello, "Friend-Realm", "PARTY")
-
-        assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieH1"))
-        assert.is_true(CommsPrefixRegistry:RejectsPrefix("Friend-Realm", "QuestieV1"))
-        assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "Questie"))
-        assert.is_true(CommsPrefixRegistry:RejectsPrefix("Friend-Realm", "REPUTABLE"))
-        assert.is_false(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "questie"))
-        assert.is_false(CommsPrefixRegistry:RejectsPrefix("Friend-Realm", "questie"))
-        assert.is_false(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieZ9"))
-        assert.is_false(CommsPrefixRegistry:RejectsPrefix("Friend-Realm", "QuestieZ9"))
-        assert.are_equal(1, countSentAddonMessages("QuestieH1", "WHISPER", "Friend-Realm"))
-    end)
-
-    it("stores whispered QuestieH1 payloads without replying", function()
-        local craftedHello = harness:BuildEncodedAddonMessage("QuestieH1", {
-            QuestieH1 = true,
-            QuestieV1 = true,
-        }, "WHISPER")
-
-        harness:DeliverAddonMessage(craftedHello, "Friend-Realm", "WHISPER")
-
-        assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieH1"))
-        assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieV1"))
-        assert.are_equal(0, countSentAddonMessages("QuestieH1", "WHISPER", "Friend-Realm"))
-    end)
-
-    it("ignores malformed QuestieH1 payloads", function()
-        harness:DeliverAddonMessage({prefix = "QuestieH1", message = "not-addon-channel-data", distribution = "PARTY"}, "Friend-Realm", "PARTY")
-
-        assert.is_false(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieH1"))
-        assert.is_false(CommsPrefixRegistry:RejectsPrefix("Friend-Realm", "QuestieH1"))
-        assert.are_equal(0, countSentAddonMessages("QuestieH1", "WHISPER", "Friend-Realm"))
-    end)
-
-    it("does not send QuestieV1 visibility snapshots in larger groups", function()
-        QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
-        harness:SetGroupRoster({groupMemberCount = 6})
-
-        CommsVisibility:ScheduleSnapshot("integration-test")
-        harness:RunTimers()
-        harness:FlushAddonTraffic()
-
-        assert.is_nil(harness:FindSentAddonMessage("QuestieV1", "PARTY"))
-    end)
-
-    it("replaces QuestieV1 visibility with each full remote snapshot", function()
-        local hiddenSnapshot = harness:BuildEncodedAddonMessage("QuestieV1", {[101] = false})
-        harness:DeliverAddonMessage(hiddenSnapshot, "Friend-Realm", "PARTY")
-
-        assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
-        assert.are_equal(1, QuestiePartyObjectives.scheduleUpdateCount)
-
-        local replacementSnapshot = harness:BuildEncodedAddonMessage("QuestieV1", {[202] = true})
-        harness:DeliverAddonMessage(replacementSnapshot, "Friend-Realm", "PARTY")
-
-        assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
-        assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 202))
-        assert.are_equal(2, QuestiePartyObjectives.scheduleUpdateCount)
-    end)
-
-    it("ignores malformed QuestieV1 payloads", function()
-        harness:DeliverAddonMessage({prefix = "QuestieV1", message = "not-addon-channel-data", distribution = "PARTY"}, "Friend-Realm", "PARTY")
-
-        assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
-        assert.are_equal(0, QuestiePartyObjectives.scheduleUpdateCount)
-    end)
-
-    it("round-trips QuestieH1 between two isolated clients", function()
+    it("does not share isolated AceComm or Questie module state between clients", function()
         local network = AceCommTestHarness.NewIsolatedNetwork()
         local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
         local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
@@ -421,23 +68,286 @@ describe("Comms integration", function()
 
         assert.are_not_equal(alice.CommsPrefixRegistry, bob.CommsPrefixRegistry)
         assert.are_not_equal(alice.env.LibStub("AceComm-3.0"), bob.env.LibStub("AceComm-3.0"))
+    end)
 
-        alice.CommsPrefixRegistry:ScheduleHello("integration-test")
-        network:Flush()
+    it("advances isolated timers deterministically without real waiting", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        network:SetParty({alice})
 
-        assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
-        assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
-        assert.are_equal(2, #network.trace)
+        alice:LoadModernHelloStack()
+
+        local firedEvents = {}
+        alice.env.C_Timer.NewTimer(1, function()
+            firedEvents[#firedEvents + 1] = "timer"
+        end)
+        alice.env.C_Timer.After(2, function()
+            firedEvents[#firedEvents + 1] = "after"
+        end)
+        alice.env.C_Timer.NewTicker(1, function()
+            firedEvents[#firedEvents + 1] = "ticker"
+        end, 2)
+
+        network:AdvanceTime(0.5)
+        assert.are_same({}, firedEvents)
+
+        network:AdvanceTime(0.5)
+        assert.are_same({"timer", "ticker"}, firedEvents)
+
+        network:AdvanceTime(1)
+        assert.are_same({"timer", "ticker", "after", "ticker"}, firedEvents)
+    end)
+
+    it("does not deliver a PARTY broadcast back to the isolated sender", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        local charlie = network:CreateClient({playerName = "Charlie", realmName = "TestRealm"})
+        network:SetParty({alice, bob, charlie})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+        charlie:LoadModernHelloStack()
+
+        local aliceReceivedCount = 0
+        local bobReceivedCount = 0
+        local charlieReceivedCount = 0
+        alice.env.Questie:RegisterComm("NoEcho", function()
+            aliceReceivedCount = aliceReceivedCount + 1
+        end)
+        bob.env.Questie:RegisterComm("NoEcho", function()
+            bobReceivedCount = bobReceivedCount + 1
+        end)
+        charlie.env.Questie:RegisterComm("NoEcho", function()
+            charlieReceivedCount = charlieReceivedCount + 1
+        end)
+
+        alice.env.Questie:SendCommMessage("NoEcho", "party broadcast", "PARTY")
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(0, aliceReceivedCount)
+        assert.are_equal(1, bobReceivedCount)
+        assert.are_equal(1, charlieReceivedCount)
+    end)
+
+    it("routes an isolated WHISPER to a same-realm short-name target", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        network:SetParty({alice, bob})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+
+        local bobReceivedCount = 0
+        bob.env.Questie:RegisterComm("ShortWh", function(prefix, message, distribution, sender)
+            bobReceivedCount = bobReceivedCount + 1
+            assert.are_equal("ShortWh", prefix)
+            assert.are_equal("short-name whisper", message)
+            assert.are_equal("WHISPER", distribution)
+            assert.are_equal("Alice-TestRealm", sender)
+        end)
+
+        alice.env.Questie:SendCommMessage("ShortWh", "short-name whisper", "WHISPER", "Bob")
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(1, bobReceivedCount)
+    end)
+
+    it("routes an isolated WHISPER only to the exact target", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        local charlie = network:CreateClient({playerName = "Charlie", realmName = "TestRealm"})
+        network:SetParty({alice, bob, charlie})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+        charlie:LoadModernHelloStack()
+
+        local aliceReceivedCount = 0
+        local bobReceivedCount = 0
+        local charlieReceivedCount = 0
+        alice.env.Questie:RegisterComm("WhisperT", function()
+            aliceReceivedCount = aliceReceivedCount + 1
+        end)
+        bob.env.Questie:RegisterComm("WhisperT", function(prefix, message, distribution, sender)
+            bobReceivedCount = bobReceivedCount + 1
+            assert.are_equal("WhisperT", prefix)
+            assert.are_equal("hello bob", message)
+            assert.are_equal("WHISPER", distribution)
+            assert.are_equal("Alice-TestRealm", sender)
+        end)
+        charlie.env.Questie:RegisterComm("WhisperT", function()
+            charlieReceivedCount = charlieReceivedCount + 1
+        end)
+
+        alice.env.Questie:SendCommMessage("WhisperT", "hello bob", "WHISPER", "Bob-TestRealm")
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(0, aliceReceivedCount)
+        assert.are_equal(1, bobReceivedCount)
+        assert.are_equal(0, charlieReceivedCount)
+    end)
+
+    it("drops isolated addon messages when the target did not register the prefix", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        network:SetParty({alice, bob})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+
+        local bobRegisteredPrefixCount = 0
+        bob.env.Questie:RegisterComm("Expected", function()
+            bobRegisteredPrefixCount = bobRegisteredPrefixCount + 1
+        end)
+
+        alice.env.Questie:SendCommMessage("Dropped", "bob has no Dropped receiver", "PARTY")
+        assertIsolatedNetworkFlushes(network)
+
+        -- The network records the send, but the fake WoW boundary must drop it
+        -- before Bob's AceComm callback because Bob never registered the prefix.
+        assert.are_equal(0, bobRegisteredPrefixCount)
+        assert.are_equal("Dropped", network.trace[1].prefix)
+    end)
+
+    it("rejects isolated PARTY sends from clients outside the party topology", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        local stranger = network:CreateClient({playerName = "Stranger", realmName = "TestRealm"})
+        network:SetParty({alice, bob})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+        stranger:LoadModernHelloStack()
+
+        local bobReceivedCount = 0
+        bob.env.Questie:RegisterComm("PartyOnly", function()
+            bobReceivedCount = bobReceivedCount + 1
+        end)
+
+        local sendResult = stranger.env.C_ChatInfo.SendAddonMessage("PartyOnly", "not really party", "PARTY")
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(stranger.env.Enum.SendAddonMessageResult.NotInGroup, sendResult)
+        assert.are_equal(0, #network.trace)
+        assert.are_equal(0, bobReceivedCount)
+    end)
+
+    it("does not deliver isolated addon messages to disconnected targets", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        network:SetParty({alice, bob})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+
+        local bobReceivedCount = 0
+        bob.env.Questie:RegisterComm("ConnectedOnly", function()
+            bobReceivedCount = bobReceivedCount + 1
+        end)
+        network:SetConnected(bob, false)
+
+        local sendResult = alice.env.C_ChatInfo.SendAddonMessage("ConnectedOnly", "bob is offline", "PARTY")
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(alice.env.Enum.SendAddonMessageResult.Success, sendResult)
+        assert.are_equal(1, #network.trace)
+        assert.are_equal(0, bobReceivedCount)
+    end)
+
+    it("rejects invalid isolated addon prefix and payload values before queueing", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        network:SetParty({alice})
+
+        alice:LoadModernHelloStack()
+
+        assert.is_false(alice.env.C_ChatInfo.RegisterAddonMessagePrefix(""))
+        assert.are_equal(alice.env.Enum.SendAddonMessageResult.InvalidPrefix, alice.env.C_ChatInfo.SendAddonMessage(nil, "message", "PARTY"))
+        assert.are_equal(alice.env.Enum.SendAddonMessageResult.InvalidPrefix, alice.env.C_ChatInfo.SendAddonMessage("", "message", "PARTY"))
+        assert.are_equal(alice.env.Enum.SendAddonMessageResult.InvalidPrefix, alice.env.C_ChatInfo.SendAddonMessage("PrefixLongerThan16", "message", "PARTY"))
+        assert.are_equal(alice.env.Enum.SendAddonMessageResult.InvalidMessage, alice.env.C_ChatInfo.SendAddonMessage("Valid", nil, "PARTY"))
+        assert.are_equal(alice.env.Enum.SendAddonMessageResult.InvalidMessage, alice.env.C_ChatInfo.SendAddonMessage("Valid", string.rep("x", 256), "PARTY"))
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(0, #network.trace)
+    end)
+
+    it("rejects isolated WHISPER sends without a target", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        network:SetParty({alice})
+
+        alice:LoadModernHelloStack()
+
+        local sendResult = alice.env.C_ChatInfo.SendAddonMessage("NeedsTarget", "missing target", "WHISPER")
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(alice.env.Enum.SendAddonMessageResult.TargetRequired, sendResult)
+        assert.are_equal(0, #network.trace)
+    end)
+
+    it("waits for ChatThrottleLib queues before reporting isolated traffic idle", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        network:SetParty({alice, bob})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+
+        local hugeMessage = string.rep("Questie throttled multipart payload ", 650)
+        local receivedMessages = {}
+        bob.env.Questie:RegisterComm("HugeMsg", function(_, message)
+            receivedMessages[#receivedMessages + 1] = message
+        end)
+
+        alice.env.Questie:SendCommMessage("HugeMsg", hugeMessage, "PARTY")
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal(1, #receivedMessages)
+        assert.are_equal(hugeMessage, receivedMessages[1])
+        assert.is_true(#network.trace > 10)
+        assert.is_false(network:HasPendingAddonTraffic())
+    end)
+
+    it("routes and reassembles an isolated multipart AceComm message once", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+        network:SetParty({alice, bob})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+
+        local longMessage = string.rep("Questie multipart payload ", 40)
+        local receivedMessages = {}
+        bob.env.Questie:RegisterComm("LongMsg", function(prefix, message, distribution, sender)
+            receivedMessages[#receivedMessages + 1] = {
+                prefix = prefix,
+                message = message,
+                distribution = distribution,
+                sender = sender,
+            }
+        end)
+
+        alice.env.Questie:SendCommMessage("LongMsg", longMessage, "PARTY")
+        assertIsolatedNetworkFlushes(network)
+
+        -- More than one low-level send proves AceComm chunked the payload; one
+        -- receive proves the emulator delivered the chunks through reassembly.
+        assert.is_true(#network.trace > 1)
+        assert.are_equal(1, #receivedMessages)
         assert.are_same({
-            sender = "Alice-TestRealm",
-            prefix = "QuestieH1",
+            prefix = "LongMsg",
+            message = longMessage,
             distribution = "PARTY",
-        }, network.trace[1])
-        assert.are_same({
-            sender = "Bob-TestRealm",
-            prefix = "QuestieH1",
-            distribution = "WHISPER",
-            target = "Alice-TestRealm",
-        }, network.trace[2])
+            sender = "Alice-TestRealm",
+        }, receivedMessages[1])
     end)
 end)
