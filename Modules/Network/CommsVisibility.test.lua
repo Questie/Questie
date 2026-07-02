@@ -1,5 +1,13 @@
 dofile("setupTests.lua")
 
+local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
+
+--[[
+CommsVisibility owns QuestieV1: local visibility snapshot policy, receive-side
+sanitization, party-objective visibility state, V1 emulator round-trips, and V1
+payload guardrails. Encoding helpers are used only to exercise the V1-owned
+payload shape.
+]]
 describe("CommsVisibility", function()
     ---@type CommsVisibility
     local CommsVisibility
@@ -349,4 +357,199 @@ describe("CommsVisibility", function()
             assert.is_nil(CommsVisibility.remoteQuestVisibility["Gone-Realm"])
         end)
     end)
+
+    describe("isolated QuestieV1 emulator and payload guardrails", function()
+        local CONSERVATIVE_SINGLE_MESSAGE_BUDGET = 245
+        local LARGEST_REAL_QUEST_IDS = {
+            34062, 34061, 34060, 33634, 33603, 33602, 33385, 33379, 33378, 33377,
+            33376, 33375, 33374, 33373, 33372, 33371, 33370, 33369, 33368, 33367,
+            33366, 33365, 33364, 33363, 33362, 33361, 33360, 33358, 33354, 33348,
+            33347, 33346, 33345, 33343, 33342, 33341, 33340, 33338, 33337, 33336,
+            33335, 33334, 33333, 33332, 33322, 33321, 33319, 33318, 33317, 33316,
+        }
+        local LOW_REAL_QUEST_IDS = {
+            1, 2, 5, 6, 7, 8, 9, 10, 11, 12,
+            13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+            23, 24, 25, 26, 27,
+        }
+
+        ---Fails the test if the isolated network cannot settle all timers and AceComm traffic.
+        ---@param network table Isolated comms network from AceCommTestHarness.
+        local function assertIsolatedNetworkFlushes(network)
+            assert.is_true(network:FlushUntilIdle())
+        end
+
+        ---Encodes a V1 snapshot through the local emulator codec and returns its final length.
+        ---@param questIds number[] Real quest IDs used as snapshot keys.
+        ---@return integer length Addon-channel-safe payload length.
+        local function estimateVisibilityPayloadLength(questIds)
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            network:SetParty({alice})
+            alice:LoadModernCommsStack()
+
+            local snapshot = {}
+            for index, questId in ipairs(questIds) do
+                snapshot[questId] = index % 2 == 0
+            end
+
+            local encodedPayload = alice.CommsEncoding:EncodePayload(snapshot)
+            assert.is_not_nil(encodedPayload)
+            return string.len(encodedPayload)
+        end
+
+        -- Required guardrail: update these real IDs when the database gains larger V1-relevant cases.
+        it("keeps a max QuestieV1 snapshot with the largest real quest IDs within the conservative single-message budget", function()
+            local estimatedLength = estimateVisibilityPayloadLength(LARGEST_REAL_QUEST_IDS)
+
+            assert.are_equal(50, #LARGEST_REAL_QUEST_IDS)
+            assert.is_true(estimatedLength <= CONSERVATIVE_SINGLE_MESSAGE_BUDGET)
+        end)
+
+        it("keeps a max QuestieV1 snapshot with mixed real quest ID widths within the conservative single-message budget", function()
+            local mixedQuestIds = {}
+            for _, questId in ipairs(LOW_REAL_QUEST_IDS) do
+                mixedQuestIds[#mixedQuestIds + 1] = questId
+            end
+            for index = 1, 25 do
+                mixedQuestIds[#mixedQuestIds + 1] = LARGEST_REAL_QUEST_IDS[index]
+            end
+
+            local estimatedLength = estimateVisibilityPayloadLength(mixedQuestIds)
+
+            assert.are_equal(50, #mixedQuestIds)
+            assert.is_true(estimatedLength <= CONSERVATIVE_SINGLE_MESSAGE_BUDGET)
+        end)
+
+        it("round-trips QuestieV1 visibility between two isolated clients", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {
+                [101] = true,
+                [202] = true,
+                [303] = true,
+            }
+            alice.trackedQuests = {
+                [101] = true,
+                [202] = false,
+                [303] = true,
+            }
+            alice.env.Questie.db.char.hidden = {[303] = true}
+
+            alice.CommsVisibility:ScheduleSnapshot("integration-test")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 303))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 404))
+            assert.are_equal(1, bob.QuestiePartyObjectives.scheduleUpdateCount)
+            assert.is_nil(next(bob.QuestieComms.remoteQuestLogs))
+        end)
+
+        it("replaces isolated QuestieV1 visibility with each full snapshot", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true, [202] = true}
+            alice.trackedQuests = {[101] = false, [202] = false}
+            alice.CommsVisibility:ScheduleSnapshot("first snapshot")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[303] = true}
+            alice.trackedQuests = {[303] = true}
+            alice.CommsVisibility:ScheduleSnapshot("replacement snapshot")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 303))
+            assert.are_equal(2, bob.QuestiePartyObjectives.scheduleUpdateCount)
+        end)
+
+        it("ignores isolated QuestieV1 visibility from senders outside the group trust boundary", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            local stranger = network:CreateClient({playerName = "Stranger", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+            stranger:LoadModernCommsStack()
+
+            local encodedSnapshot = stranger.CommsEncoding:EncodePayload({[101] = false})
+            stranger.env.Questie:SendCommMessage("QuestieV1", encodedSnapshot, "WHISPER", "Bob-TestRealm")
+            assertIsolatedNetworkFlushes(network)
+
+            -- WHISPER is a valid transport here, so this assertion protects Bob's
+            -- receive-side trust check rather than the harness send validator.
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Stranger-TestRealm", 101))
+            assert.are_equal(0, bob.QuestiePartyObjectives.scheduleUpdateCount)
+        end)
+
+        it("does not send isolated QuestieV1 visibility in larger groups", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            local charlie = network:CreateClient({playerName = "Charlie", realmName = "TestRealm"})
+            local dora = network:CreateClient({playerName = "Dora", realmName = "TestRealm"})
+            local erin = network:CreateClient({playerName = "Erin", realmName = "TestRealm"})
+            local finn = network:CreateClient({playerName = "Finn", realmName = "TestRealm"})
+            network:SetParty({alice, bob, charlie, dora, erin, finn})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
+            alice.CommsVisibility:ScheduleSnapshot("large group")
+            assertIsolatedNetworkFlushes(network)
+
+            for _, sentMessage in ipairs(network.trace) do
+                assert.are_not_equal("QuestieV1", sentMessage.prefix)
+            end
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+        end)
+
+        it("keeps isolated QuestieV1 visibility separate from legacy remoteQuestLogs", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadLegacyQuestieCommsStack()
+            bob:LoadLegacyQuestieCommsStack()
+
+            alice.trackedQuests = {[101] = false}
+            alice.CommsVisibility:ScheduleSnapshot("legacy separation")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_nil(next(bob.QuestieComms.remoteQuestLogs))
+
+            -- V1 and legacy packets intentionally update different state stores:
+            -- visibility affects party-objective drawing, while questie packets own
+            -- durable remote progress in QuestieComms.remoteQuestLogs.
+            alice.QuestieComms.private:BroadcastQuestUpdate(101)
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_table(bob.QuestieComms.remoteQuestLogs[101]["Alice-TestRealm"])
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+        end)
+    end)
+
 end)

@@ -1,92 +1,138 @@
-# Comms Integration Test Handoff
+# Comms Test Emulator Handoff
 
 ## Overview
 
-This document records the current state and design intent for the new Questie comms integration testing work. It is meant as a durable handoff note for continuing this work from a fresh context or another machine.
+Questie's comms tests now use a shared fake WoW/AceComm emulator, but the tests themselves live with the module or feature that owns the behavior under test.
 
-The short version: we are building an integration-style test suite for Questie's addon communication layer that uses as much real Questie and Ace code as possible while replacing the actual WoW client with a controlled emulator/fake boundary. The goal is to validate modern comms behavior (`QuestieH1`, `QuestieV1`) through realistic paths: Questie modules, AceComm/AceEvent/AceBucket/ChatThrottleLib, addon-channel encoding, fake `C_ChatInfo`, and fake `CHAT_MSG_ADDON` delivery.
-
-The current implementation is intentionally focused on the newer modern protocols. Legacy packet formats (`questie`, `Questie`, `REPUTABLE`) are kept in mind as future extension points, but they are not the main target yet.
-
-## Core Testing Philosophy
-
-The main decision we made was:
-
-> Use real Questie modules and the real Ace stack, and fake the WoW client boundary.
-
-Earlier versions of the test faked `Questie:RegisterComm` and `Questie:SendCommMessage` directly. That was useful as a tracer bullet, but it was too high-level: it skipped AceComm, ChatThrottleLib, frame event delivery, prefix registration, and `CHAT_MSG_ADDON` callback behavior.
-
-The current direction moves the fake boundary lower:
-
-```text
-Questie comm modules
-  -> real AceComm / AceEvent / AceTimer / AceBucket / ChatThrottleLib
-  -> fake WoW client APIs (`CreateFrame`, `C_ChatInfo`, timers, roster APIs)
-  -> fake `CHAT_MSG_ADDON` delivery
-  -> real Ace receive path
-  -> real Questie comm receive handlers
-```
-
-This gives better confidence that the code paths Questie actually uses in-game are wired correctly, while still keeping tests deterministic and runnable under Busted/Lua 5.1.
-
-## Current Files Involved
-
-### `Modules/Network/CommsIntegration.test.lua`
-
-This is the main integration test suite. It keeps protocol-specific policy and assertions visible:
-
-- modern comm module loading/reset order;
-- minimal Questie module fixtures;
-- `QuestieH1` and `QuestieV1` scenarios;
-- `GroupEventHandler` first-layer event scenarios;
-- the first two-client isolated `QuestieH1` handshake prototype.
-
-The test intentionally avoids hiding Questie protocol behavior inside the harness. The harness owns mechanics; this file owns behavior.
-
-### `cli/mocks/AceCommTestHarness.lua`
-
-This is the reusable, opt-in fake WoW/Ace test harness. It is loaded with:
+The emulator is test infrastructure:
 
 ```lua
 local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
 ```
 
-It returns a plain table, following the existing `cli/mocks` style. It is **not** installed from `setupTests.lua` because it enables real Ace behavior and full codec support; tests should opt into that deliberately.
+It provides isolated clients, real AceComm/AceEvent/AceTimer/AceBucket/ChatThrottleLib, real serializer libraries where needed, fake WoW APIs, deterministic timers, and fake addon-channel routing. Protocol assertions stay in the owning test files instead of being centralized in one large integration suite.
 
-It owns reusable mechanics:
+## Why This Emulator Exists
 
-- fake frame/event system;
-- fake `C_ChatInfo`;
-- fake timers and clock;
-- fake group/roster APIs;
-- real Ace library loading and embedding;
-- LibDeflate-backed compression glue;
-- cleanup/restore of globals and `Questie` state;
-- a small isolated two-client prototype using `setfenv`.
+Questie comms bugs often happen at the seams between modules, AceComm, serializers, timers, roster state, and WoW addon-channel delivery. These tests intentionally use the real Ace stack instead of mocking `Questie:RegisterComm` or `Questie:SendCommMessage`, so registration order, callback signatures, chunking, throttled delivery, and serializer boundaries are exercised together.
 
-### `cli/mocks/BlizzardCBOR.lua`
+The fake boundary sits below AceComm at the WoW client API layer:
 
-This mock provides `C_EncodingUtil.SerializeCBOR` and `C_EncodingUtil.DeserializeCBOR` in CLI/Busted runs. `setupTests.lua` installs these methods globally.
+- frames and events through `CreateFrame`;
+- addon prefix registration and sends through `C_ChatInfo`;
+- timers through `C_Timer`;
+- group/guild/trust state through roster APIs.
 
-For the purpose of the integration tests, we are assuming this CBOR mock is byte-compatible with Blizzard's CBOR serializer. Real Blizzard fixture captures can be added later to prove/maintain that compatibility.
+That shape catches integration mistakes in Questie module registration, routing, encoding, and state convergence while still running deterministically in Busted.
 
-Important: `setupTests.lua` intentionally does **not** install compression functions. The integration harness installs compression only for tests that opt into full codec support.
+The harness has two modes because they answer different questions:
 
-### `Modules/EventHandler/GroupEventHandler.lua`
+- the single-runtime harness is useful for focused module tests that want one Questie runtime with real Ace libraries and a fake WoW boundary;
+- the isolated network creates multiple independent Questie runtimes and is the right tool for cross-client state, trust-boundary, and addon-channel routing behavior.
 
-This is now used as the first real layer above modern comms in the integration test. Rather than only calling `CommsPrefixRegistry:ScheduleHello(...)` and `CommsVisibility:ScheduleSnapshot(...)` directly, some tests drive WoW-style group events through real AceEvent/AceBucket:
+## Background and Philosophy
 
-- `GROUP_JOINED`
-- `GROUP_ROSTER_UPDATE`
-- `GROUP_LEFT`
+The emulator is a deterministic lab for Questie comms, not a perfect clone of the WoW client or server. It should be realistic enough to catch addon-side mistakes in registration, routing, serialization, timers, and trust boundaries, while staying predictable enough that failures explain the Questie behavior under test.
 
-This proves that group events can trigger modern comm convergence through the production handler layer.
+Keep the ownership line clear: the harness supplies mechanics, and owner modules protect protocol behavior. H1 assertions belong with `CommsPrefixRegistry`, V1 assertions belong with `CommsVisibility`, legacy quest-log assertions belong with `QuestieComms`, and daily `Questie` assertions belong with `Comms`. `CommsIntegration.test.lua` should remain a harness-mechanics safety net, not a second protocol inventory.
 
-## What Is Real vs Faked
+Prefer real Ace libraries and real serializer paths over mocked `Questie:RegisterComm` / `Questie:SendCommMessage` flows. The bugs this suite is meant to catch often happen because the callback signature, prefix registration, chunking, compression, or timer boundary is slightly different from what a mock assumed.
 
-### Real Code Used
+Assert final observable protocol state when possible: remote prefix caches, visibility decisions, remote quest logs, received daily removals, and routed addon messages. Use captured sinks or spies at true side-effect boundaries, such as tooltip registration or daily removal callbacks, where there is no more meaningful state to inspect.
 
-The integration path currently uses real:
+Use real Questie data for payload guardrails. Synthetic maxima can look scary while missing the actual production shape, or compress unrealistically well compared with real quest IDs/objective IDs. If future data creates a larger realistic case, update the guardrail fixture to that new real case.
+
+## Current Test Organization
+
+### `Modules/Network/CommsIntegration.test.lua`
+
+Harness mechanics only:
+
+- isolated clients do not share Questie module state, LibStub, or AceComm instances;
+- deterministic fake timers advance without real waiting;
+- PARTY broadcasts do not echo to the sender;
+- WHISPER routes to exact full names and same-realm short names;
+- unregistered prefixes are dropped at delivery;
+- invalid prefixes, oversized messages, and invalid topology sends are rejected before trace/queue;
+- disconnected targets are skipped;
+- missing WHISPER targets are rejected;
+- large ChatThrottleLib queues are flushed before the network reports idle;
+- multipart AceComm chunks route and reassemble once.
+
+If a test asserts Questie protocol behavior, it belongs in that protocol's owning file instead.
+
+### `Modules/Network/CommsPrefixRegistry.test.lua`
+
+`QuestieH1` ownership:
+
+- local prefix manifest behavior;
+- H1 scheduling/debounce and reply behavior;
+- H1 sanitization and malformed payload handling;
+- isolated H1 round-trips over PARTY and INSTANCE_CHAT;
+- H1 payload budget guardrail.
+
+`REPUTABLE` is intentionally not part of H1 discovery. Production may still receive the old direct `REPUTABLE` callback for compatibility, but H1 does not advertise it.
+
+### `Modules/Network/CommsVisibility.test.lua`
+
+`QuestieV1` ownership:
+
+- local visibility snapshot building;
+- max group-size suppression;
+- receive sanitization/capping;
+- `ShouldShowPartyObjective` behavior;
+- isolated V1 round-trip, full snapshot replacement, trust-boundary rejection, and large-group suppression;
+- V1 separation from legacy `QuestieComms.remoteQuestLogs`;
+- V1 realistic payload budget guardrails using real Questie quest IDs.
+
+### `Modules/EventHandler/GroupEventHandler.test.lua`
+
+Group lifecycle ownership:
+
+- unit-level group join/roster/left behavior;
+- isolated GROUP_JOINED convergence through H1, V1, and full quest-log request messages;
+- isolated GROUP_ROSTER_UPDATE resync on size changes;
+- isolated online-status changes vs zone-change-like no-op roster updates;
+- isolated GROUP_LEFT reset and pending timer cancellation.
+
+### `Modules/Network/QuestieComms.test.lua`
+
+Legacy `questie` prefix ownership:
+
+- production initialization/register behavior;
+- full quest-list request/response;
+- quest update and remove packets;
+- malformed/incompatible packet rejection;
+- realistic 25-quest full-log guardrail built from real quest/objective IDs.
+
+The emulator loads real `QuestieStream`, `QuestieSerializer`, and `QuestieComms`, while fixture-stubbing broad DB/tooltip dependencies.
+
+### `Modules/Network/Comms.test.lua`
+
+Daily `Questie` prefix ownership:
+
+- unit-level daily message validation and routing decisions;
+- isolated AceSerializer-backed PARTY/RAID/GUILD routing;
+- guild+group duplicate delivery, matching production behavior;
+- self/malformed message rejection;
+- realistic high-count daily payload guardrail.
+
+### `Modules/Network/CommsEncoding.test.lua`
+
+Encoding implementation only:
+
+- real LibDeflate addon-channel escaping;
+- encode path: CBOR -> Deflate -> addon-channel-safe payload;
+- decode path and failure cases;
+- missing codec support behavior.
+
+Feature-specific payload budget tests live with the feature that owns the payload shape.
+
+## Emulator Boundary
+
+### Real code used
+
+The emulator can load real:
 
 - `LibStub`
 - `LibDeflate`
@@ -95,433 +141,146 @@ The integration path currently uses real:
 - `AceTimer-3.0`
 - `AceBucket-3.0`
 - `AceComm-3.0`
+- `AceSerializer-3.0`
 - `ChatThrottleLib`
 - `CommsEncoding`
 - `CommsRouting`
 - `CommsPrefixRegistry`
 - `CommsVisibility`
 - `GroupEventHandler`
+- `Comms`
+- `QuestieStream`
+- `QuestieSerializer`
+- `QuestieComms`
 
-The single-runtime tests embed Ace into the normal test `Questie` table via the harness.
+Each isolated client owns its own `_G`, QuestieLoader registry, LibStub registry, Ace singletons, fake frames, timers, and module state. The shared network owns only the deterministic clock, topology rosters, pending addon messages, and delivery trace.
 
-The isolated two-client prototype loads its own env-local copies of enough Questie/Ace state to test `QuestieH1` handshake isolation.
+### Fake WoW client APIs
 
-### Faked WoW Client Boundary
+The harness fakes the WoW client pieces that do not exist in Busted:
 
-The harness fakes the WoW client pieces that do not exist in CLI tests:
+- `CreateFrame` and frame scripts/events;
+- `C_ChatInfo.RegisterAddonMessagePrefix`;
+- `C_ChatInfo.SendAddonMessage` / `SendAddonMessageLogged`;
+- fake `CHAT_MSG_ADDON` delivery;
+- `C_Timer.NewTimer`, `NewTicker`, and `After`;
+- `GetTime`, `GetFramerate`;
+- roster APIs such as `UnitName`, `UnitFullName`, `GetNumGroupMembers`, `UnitInParty`, `UnitInRaid`, `UnitIsConnected`;
+- guild/group state helpers used by daily comms;
+- WoW-style `xpcall`, `securecallfunction`, `wipe`, and `DEFAULT_CHAT_FRAME`.
 
-- `CreateFrame`
-- frame scripts/events (`SetScript`, `RegisterEvent`, `UnregisterEvent`, `UnregisterAllEvents`)
-- `C_ChatInfo.RegisterAddonMessagePrefix`
-- `C_ChatInfo.SendAddonMessage`
-- `C_ChatInfo.SendAddonMessageLogged`
-- fake `CHAT_MSG_ADDON` delivery by firing registered frame `OnEvent` handlers
-- `C_Timer.NewTimer`
-- `C_Timer.NewTicker`
-- `C_Timer.After`
-- `GetTime`
-- `GetFramerate`
-- `UnitName`
-- `UnitFullName`
-- `GetRealmName`
-- `GetNormalizedRealmName`
-- `GetNumGroupMembers`
-- `UnitInParty`
-- `UnitInRaid`
-- `UnitIsConnected`
-- `Ambiguate`
-- `securecallfunction`
-- WoW-style `xpcall` vararg behavior
-- `DEFAULT_CHAT_FRAME`
-- `wipe` / `table.wipe`
+Invalid sends are rejected at the fake `C_ChatInfo` boundary before they enter `network.trace` or `pendingMessages`: invalid prefixes, non-string or oversized messages, missing whisper targets, and impossible topology all fail there. Valid sends may still be undelivered if the target is disconnected or has not registered the prefix.
 
-### Codec Boundary
+`INSTANCE_CHAT` has separate routing, but Questie's current receive trust checks still ask party/raid-style roster APIs. The emulator models instance members as party-like only for that trust boundary; it is not a full WoW unit-token emulator.
 
-The encoding path in production is:
+## Single-Runtime Harness API
 
-```text
-Lua payload table
-  -> C_EncodingUtil.SerializeCBOR(payload)
-  -> C_EncodingUtil.CompressString(cbor, Deflate, Default)
-  -> LibDeflate:EncodeForWoWAddonChannel(compressed)
-```
-
-and decode is the reverse.
-
-In tests:
-
-- `SerializeCBOR` / `DeserializeCBOR` come from `cli/mocks/BlizzardCBOR.lua` via `setupTests.lua`.
-- `CompressString` / `DecompressString` are installed by `AceCommTestHarness:InstallBlizzardDeflateCompression()` and are backed by `LibDeflate:CompressDeflate` / `LibDeflate:DecompressDeflate`.
-- `EncodeForWoWAddonChannel` / `DecodeForWoWAddonChannel` are real LibDeflate methods used by `CommsEncoding`.
-
-Important caveat: even if the CBOR mock is byte-for-byte with Blizzard, the final compressed wire bytes and exact compressed message length are not guaranteed to match Blizzard because the compression implementation is LibDeflate-backed, not Blizzard `CompressString`.
-
-## Current Test Coverage
-
-At the time this document was written, `Modules/Network/CommsIntegration.test.lua` contains 15 integration tests. Exact counts may change as more tests are added.
-
-### Modern Prefix Bootstrap
-
-- Verifies `QuestieH1` and `QuestieV1` register through real AceComm.
-- Uses the fake `C_ChatInfo.RegisterAddonMessagePrefix` capture exposed by the harness.
-
-### `GROUP_JOINED` First-Layer Convergence
-
-- Fires `GROUP_JOINED` through the fake WoW event system:
-
-  ```lua
-  harness:FireWoWEvent("GROUP_JOINED")
-  ```
-
-- Uses real AceEvent registration.
-- Exercises `GroupEventHandler.GroupJoined`.
-- Uses fake `C_Timer.NewTicker` to confirm group membership before scheduling comms.
-- Verifies:
-  - `QuestieH1` PARTY message is sent;
-  - `QuestieV1` PARTY message is sent;
-  - `QC_ID_REQUEST_FULL_QUESTLIST` is dispatched through real AceEvent message handling.
-
-### `GROUP_ROSTER_UPDATE` First-Layer Resync via AceBucket
-
-- Registers roster updates through real AceBucket:
-
-  ```lua
-  Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, GroupEventHandler.GroupRosterUpdate)
-  ```
-
-- Fires `GROUP_ROSTER_UPDATE` through the harness.
-- Verifies a group-size change schedules modern comm resync:
-  - `QuestieH1` sent;
-  - `QuestieV1` sent;
-  - party objective update scheduled;
-  - `QuestiePlayer.numberOfGroupMembers` updated.
-
-### Online/Offline Roster Resync
-
-- Seeds `QuestieComms.remoteQuestLogs` with a quest-sharing player.
-- Uses `connectedMembers` in the harness to control `UnitIsConnected`.
-- Verifies:
-  - first roster event establishes online snapshot and resyncs;
-  - repeated roster event with same group size and same online state does **not** churn comms/redraws;
-  - flipping the member offline with unchanged group size triggers modern comm resync and party objective update.
-
-This protects the intended behavior in `GroupEventHandler`: zone changes can fire `GROUP_ROSTER_UPDATE`, but they should not cause unnecessary comm churn unless group size or online status changed.
-
-### `GROUP_LEFT` Cleanup and Timer Cancellation
-
-- Delivers crafted H1/V1 remote state first.
-- Schedules pending `QuestieH1` / `QuestieV1` timers.
-- Fires `GROUP_LEFT` through real AceEvent/fake WoW event delivery.
-- Verifies:
-  - minimal `QuestieComms:ResetAll` stub was called;
-  - `QuestiePartyObjectives:Clear` stub was called;
-  - `CommsPrefixRegistry` remote state was cleared;
-  - `CommsVisibility` remote state was cleared/defaults back to shown;
-  - pending H1/V1 timers were canceled and did not emit stale addon traffic after leaving.
-
-### `QuestieH1` Hello Round-Trip
-
-- Directly schedules `CommsPrefixRegistry:ScheduleHello(...)` for protocol-specific coverage.
-- Runs timers and flushes Ace/ChatThrottle traffic.
-- Captures outbound `QuestieH1` PARTY message.
-- Delivers it as a grouped sender via fake `CHAT_MSG_ADDON`.
-- Verifies:
-  - remote `QuestieH1` accepted;
-  - remote `QuestieV1` accepted;
-  - legacy `questie` remains false/not accepted in this modern-only setup;
-  - a direct `WHISPER` reply is sent to the sender.
-
-### `QuestieV1` Visibility Snapshot Round-Trip
-
-- Sets local quest log/tracker/hidden state.
-- Schedules `CommsVisibility:ScheduleSnapshot(...)`.
-- Captures outbound `QuestieV1` PARTY message.
-- Delivers it as a grouped sender.
-- Verifies public visibility behavior via:
-
-  ```lua
-  CommsVisibility:ShouldShowPartyObjective(playerName, questId)
-  ```
-
-- Covers tracked, untracked, hidden, and unknown quest IDs.
-- Verifies `QuestiePartyObjectives.ScheduleUpdate` was called once.
-
-### Trust-Boundary Rejection
-
-- Sends a `QuestieV1` snapshot but then changes roster state so the sender is outside the group.
-- Delivers the message as `Stranger-Realm`.
-- Verifies it is ignored and no party objective update occurs.
-
-### Crafted Inbound `QuestieH1` Sanitization
-
-Uses:
+Use the single-runtime harness when a test needs one Questie runtime with real AceComm/AceEvent/AceTimer/AceBucket and a fake WoW client boundary:
 
 ```lua
-harness:BuildEncodedAddonMessage("QuestieH1", payload)
-```
-
-to craft a remote message rather than replaying our own outbound message.
-
-Covers:
-
-- known boolean prefixes are stored;
-- known `false` prefixes are stored as rejection;
-- invalid prefix values are ignored;
-- unknown prefixes are ignored;
-- broadcast H1 causes one WHISPER reply.
-
-Example payload shape tested:
-
-```lua
-{
-    QuestieH1 = true,
-    QuestieV1 = false,
-    questie = "yes",
-    Questie = true,
-    REPUTABLE = false,
-    QuestieZ9 = true,
-}
-```
-
-### `QuestieH1` WHISPER No-Ping-Pong
-
-- Delivers a crafted H1 payload over `WHISPER`.
-- Verifies remote state is stored.
-- Verifies no WHISPER reply is sent.
-
-This protects the no-ping-pong rule: group broadcasts are answered directly; direct whispers are not answered again.
-
-### Malformed `QuestieH1` Ignored
-
-- Delivers raw invalid addon-channel data.
-- Verifies no remote prefix state is stored and no reply is sent.
-
-### `QuestieV1` Large Group Suppression
-
-- Sets group size to 6.
-- Schedules visibility snapshot.
-- Verifies no `QuestieV1` PARTY message is sent.
-
-`QuestieV1` only affects small-group party objective pin visibility, so it should avoid raid/large-group churn.
-
-### `QuestieV1` Full Snapshot Replacement
-
-- Delivers a crafted snapshot with `[101] = false`.
-- Verifies quest 101 is hidden for that remote player.
-- Delivers a replacement snapshot that omits 101 and includes `[202] = true`.
-- Verifies quest 101 defaults back to shown.
-
-This protects the rule that `QuestieV1` is a full snapshot, not a patch stream.
-
-### Malformed `QuestieV1` Ignored
-
-- Delivers raw invalid addon-channel data.
-- Verifies default-show behavior and no party objective update.
-
-### Two-Client `setfenv` `QuestieH1` Handshake Prototype
-
-The harness now has a first isolated network prototype:
-
-```lua
-local network = AceCommTestHarness.NewIsolatedNetwork()
-local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
-local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
-network:SetParty({alice, bob})
-```
-
-Each client calls:
-
-```lua
-client:LoadModernHelloStack()
-```
-
-This loads enough env-local real code for `QuestieH1`:
-
-- `setupTests.lua`
-- env-local fake WoW APIs
-- real LibStub/LibDeflate/CallbackHandler/AceEvent/AceComm/ChatThrottleLib
-- CBOR mock and LibDeflate-backed compression
-- `CommsEncoding`
-- `CommsRouting`
-- `CommsPrefixRegistry`
-
-The test asserts:
-
-- Alice and Bob have different `CommsPrefixRegistry` tables;
-- Alice and Bob have different env-local AceComm libraries;
-- Alice broadcasts H1 to PARTY;
-- Bob stores Alice's H1 and replies by WHISPER;
-- Alice stores Bob's H1;
-- network trace contains exactly two messages and no ping-pong third message.
-
-Current prototype scope is **H1 only**. It does not yet load `CommsVisibility` or `GroupEventHandler` in isolated clients.
-
-## Current Harness API
-
-### Single-Runtime Harness
-
-Create a harness:
-
-```lua
-local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
 local harness = AceCommTestHarness.New()
-```
-
-Install fake WoW APIs and roster state:
-
-```lua
 harness:InstallWoWClient({
-    clock = 100,
     playerName = "Player",
     realmName = "HomeRealm",
     groupMemberCount = 2,
     partyMembers = {["Friend-Realm"] = true},
-    raidMembers = {},
-    connectedMembers = {["Friend-Realm"] = true},
 })
-```
-
-Load real Ace/AceComm stack into Questie:
-
-```lua
 harness:LoadRealAceCommInto(Questie)
-```
-
-This loads and embeds:
-
-- `LibStub`
-- `LibDeflate`
-- `CallbackHandler-1.0`
-- `AceEvent-3.0`
-- `AceTimer-3.0`
-- `AceBucket-3.0`
-- `ChatThrottleLib`
-- `AceComm-3.0`
-
-Install test compression:
-
-```lua
 harness:InstallBlizzardDeflateCompression()
 ```
 
-Build crafted inbound wire payloads:
+Common helpers:
 
 ```lua
 local envelope = harness:BuildEncodedAddonMessage("QuestieH1", {
     QuestieH1 = true,
     QuestieV1 = true,
 })
-```
 
-Timer and traffic helpers:
-
-```lua
-harness:RunTimers()
-harness:FlushAddonTraffic()
-```
-
-Event/message delivery helpers:
-
-```lua
 harness:FireWoWEvent("GROUP_JOINED")
 harness:DeliverAddonMessage(envelope, "Friend-Realm", "PARTY")
+harness:RunTimers()
+harness:FlushAddonTraffic()
+
+local sent = harness:FindSentAddonMessage("QuestieH1", "PARTY")
 ```
 
-Sent-message lookup:
-
-```lua
-local message = harness:FindSentAddonMessage("QuestieH1", "PARTY")
-```
-
-Roster mutation:
-
-```lua
-harness:SetGroupRoster({
-    groupMemberCount = 2,
-    partyMembers = {["Friend-Realm"] = true},
-    raidMembers = {},
-    connectedMembers = {["Friend-Realm"] = false},
-})
-```
-
-Cleanup:
+`Restore()` must run after a single-runtime harness test. It restores the globals the harness replaces, selected `Enum` fields, `table.wipe`, `C_EncodingUtil` compression hooks, and the captured top-level `Questie` table/settings leaves:
 
 ```lua
 harness:Restore()
 ```
 
-`Restore()` restores globals, `table.wipe`, selected `Enum` fields, `C_EncodingUtil` compression hooks, and the top-level `Questie` table/settings leaves captured before harness installation.
+Prefer the isolated network for multi-client behavior. Use the single-runtime harness for narrow tests that only need one client and where sharing the process-global Questie runtime is intentional.
 
-### Isolated Network Prototype API
+## Isolated Network API
 
-Create a network:
+Create a network and clients:
 
 ```lua
 local network = AceCommTestHarness.NewIsolatedNetwork()
-```
-
-Create clients:
-
-```lua
 local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
 local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
 ```
 
-Put clients in party:
+Configure topology:
 
 ```lua
 network:SetParty({alice, bob})
+network:SetRaid({alice, bob})
+network:SetInstance({alice, bob})
+network:SetGuild({alice, bob})
+network:SetConnected(bob, false)
 ```
 
-Load the current isolated H1 stack:
+Load the stack needed by the owning test:
 
 ```lua
-alice:LoadModernHelloStack()
-bob:LoadModernHelloStack()
+alice:LoadModernHelloStack()        -- H1 only
+alice:LoadModernCommsStack()        -- H1 + V1
+alice:LoadModernGroupStack()        -- H1 + V1 + GroupEventHandler
+alice:LoadLegacyQuestieCommsStack() -- legacy questie packets too
+alice:LoadDailyCommsStack()         -- daily Questie prefix too
 ```
 
-Drive network/timers:
+Drive time/events:
 
 ```lua
-alice.CommsPrefixRegistry:ScheduleHello("integration-test")
-network:Flush()
+network:FireAll("GROUP_JOINED")
+assert.is_true(network:FlushUntilIdle())
 ```
 
-The network has:
+`FlushUntilIdle()` advances fake time through timers, AceComm/ChatThrottleLib frame work, addon delivery, and receiver-side AceComm reassembly. It does not report idle while client timers, pending addon messages, or ChatThrottleLib priority queues still contain work. Tests should assert it returns `true` so partial delivery cannot masquerade as success.
 
-- `network.pendingMessages`
-- `network.trace`
-- `network:DeliverPendingAddonMessages()`
-- `network:Flush()`
+## Required realistic worst-case payload guardrails
 
-The current isolated network routes:
+These guardrails should remain required when comm payload schemas change. If new expansions add larger real cases, update the fixture to the newer real worst case rather than replacing it with synthetic oversized IDs.
 
-- PARTY-like messages to other party clients registered for the prefix;
-- WHISPER messages to the target full name, if registered for the prefix.
+- `CommsPrefixRegistry.test.lua` keeps the H1 manifest under the conservative local single-message budget.
+- `CommsVisibility.test.lua` builds max-size V1 snapshots from real Questie quest IDs, including the 50 largest MoP quest IDs currently in the DB, and keeps the local estimator under `<= 245`.
+- `QuestieComms.test.lua` builds a 25-quest legacy full-log fixture from real quests with large objective lists, verifies all 25 remote quest logs arrive, and requires every low-level AceComm chunk to stay `<= 255`.
+- `Comms.test.lua` sends a realistic high-count daily `Questie` payload for NPC `58646` and asserts the single low-level message stays within AceComm's `255` character limit while preserving the exact received quest ID list.
 
-## Important Implementation Caveats
+## Codec Setup Boundary
 
-### Helper is test-only and opt-in
+`setupTests.lua` installs the Blizzard CBOR mock so CLI tests can call `C_EncodingUtil.SerializeCBOR` and `C_EncodingUtil.DeserializeCBOR` without a live WoW client. It intentionally does **not** install compression support. Tests that need modern comm encoding must install Deflate hooks explicitly.
 
-`cli/mocks/AceCommTestHarness.lua` is intentionally not loaded by `setupTests.lua`. Tests should opt into the real Ace/fake WoW client behavior explicitly.
+The single-runtime harness uses `InstallBlizzardDeflateCompression()` to back `C_EncodingUtil.CompressString` and `C_EncodingUtil.DecompressString` with LibDeflate. Isolated clients install the same LibDeflate-backed compression through their stack loaders. This keeps codec support opt-in, so tests still notice when a comm module tries to initialize without the required compression boundary.
 
-### Do not move the helper into `Modules/`
+## Codec and length caveats
 
-The helper lives under `cli/mocks/` because it is test support. Avoid putting non-test helpers under `Modules/` unless release packaging behavior is considered carefully. Production/release builds should not include this harness.
-
-### Exact final wire length is not production-proof
-
-The tests use the real CBOR mock and real addon-channel escaping, but compression is approximated with LibDeflate. Blizzard `C_EncodingUtil.CompressString` may produce a different valid Deflate stream. Therefore exact compressed message bytes/length should not be treated as production proof.
-
-This is still useful for message-size budget tests. Live Classic Era probes showed local
+Production modern encoding is:
 
 ```text
-CBOR mock -> LibDeflate:CompressDeflate -> LibDeflate:EncodeForWoWAddonChannel
+Lua table
+  -> C_EncodingUtil.SerializeCBOR
+  -> C_EncodingUtil.CompressString(..., Deflate)
+  -> LibDeflate:EncodeForWoWAddonChannel
 ```
 
-tracks the production path closely enough to catch payloads that are likely to cross AceComm's 255-character single-message boundary, but it is an estimator, not an exact oracle. Prefer an assertion budget below the real limit, for example `<= 245` for conservative tests or `<= 250` when a little less margin is acceptable. If a future payload estimates near the budget or near 255, verify that specific payload live with `wow-lua-bridge` before relying on the local number.
+Busted uses the live-verified CBOR mock plus LibDeflate-backed Deflate. This is useful for conservative budget tests, but it is not exact Blizzard compression proof. Keep local assertions below the hard 255-character boundary, and verify any near-threshold production payload in a live WoW client.
 
-Representative live probes from Classic Era `1.15.8` / build `67156` illustrate the expected error size:
+Representative live Classic Era probes showed the local estimator is close but not exact:
 
 | Payload | Live final length | Local estimate | Difference |
 | --- | ---: | ---: | ---: |
@@ -529,176 +288,42 @@ Representative live probes from Classic Era `1.15.8` / build `67156` illustrate 
 | V1 50 large quest IDs | 224 | 223 | -1 |
 | V1 50 mixed-width IDs | 190 | 194 | +4 |
 
-These examples are why the local estimator is useful for budget tests, but also why assertions should leave a small margin under AceComm's 255-character single-message limit.
+## Maintenance Notes and Limits
 
-Useful claims from these tests:
+- `cli/mocks/AceCommTestHarness.lua` is opt-in test support. Do not move it into `Modules/` or another release-loaded path unless packaging behavior is reviewed.
+- Deterministic timers and AceBucket handling model convergence, not frame-perfect WoW timing. They are meant to prove ordered comm behavior without real waiting.
+- `INSTANCE_CHAT` support is intentionally narrow: routing is separate, and instance members are treated as party-like only where Questie's current receive trust checks require `UnitInParty` / `UnitInRaid` style answers.
+- Local payload lengths are guardrails, not exact production wire lengths. Use a live WoW client check when a payload approaches the 255-character addon-message boundary.
+- New protocol tests should live with the owning module or feature. Keep `CommsIntegration.test.lua` focused on shared emulator mechanics so it does not become a second protocol test inventory.
 
-- payloads are serializable;
-- payloads round-trip through the modern encode/decode stack;
-- addon-channel-safe encoding/decoding is exercised;
-- AceComm and fake WoW event delivery are exercised;
-- payload-size budget checks can catch likely AceComm multipart regressions when they leave a small safety margin.
+## Validation commands
 
-Not proven:
-
-- exact production compressed byte length;
-- exact Blizzard compression byte output;
-- exact pass/fail behavior for payloads very close to the 255-character boundary.
-
-### Same-runtime tests are not full cross-client isolation
-
-Most tests still run inside one Lua runtime and replay or craft inbound messages. That is useful and much more realistic now because real Ace and fake WoW events are involved, but it is not the same as two independent clients.
-
-The isolated two-client prototype exists for that purpose, but it currently covers only `QuestieH1`.
-
-### Two-client prototype is H1-only
-
-`LoadModernHelloStack()` currently loads:
-
-- setup/module basics;
-- AceComm path;
-- codec path;
-- `CommsEncoding`;
-- `CommsRouting`;
-- `CommsPrefixRegistry`.
-
-It does not load:
-
-- `CommsVisibility`;
-- `GroupEventHandler`;
-- `QuestieComms`;
-- legacy comm packet handling.
-
-### Minimal `QuestieComms` stub
-
-The integration test currently does **not** load full `QuestieComms.lua`. It stubs only the surface `GroupEventHandler` needs:
-
-- `QuestieComms.remoteQuestLogs`
-- `QuestieComms:ResetAll()`
-
-This keeps the modern comm suite focused and avoids pulling in broader legacy quest-log sharing dependencies too early.
-
-### AceBucket timing is deterministic, not fully realistic
-
-The harness has deterministic `C_Timer.After` / `NewTimer` / `NewTicker` behavior. For AceBucket, the goal is currently to prove the bucket path eventually dispatches, not to perfectly emulate real debounce timing. If future tests care about bucket coalescing or exact timing, the timer model may need refinement.
-
-## Future Plan / Suggested Next Slices
-
-### 1. Expand the isolated two-client prototype to `QuestieV1`
-
-A good next step is a true Alice/Bob visibility test:
-
-1. Alice and Bob load a modern stack including `CommsVisibility`.
-2. Alice has tracked/untracked/hidden quest state.
-3. Alice sends `QuestieV1` snapshot.
-4. Network routes it to Bob.
-5. Bob's `CommsVisibility:ShouldShowPartyObjective("Alice-Realm", questId)` reflects Alice's snapshot.
-
-This would validate the modern visibility side-channel with truly separate module state.
-
-### 2. Optionally route `GroupEventHandler` in isolated clients
-
-After H1/V1 isolated comms are stable, extend isolated clients to load/register `GroupEventHandler` and drive `GROUP_JOINED` / `GROUP_ROSTER_UPDATE` across the fake network.
-
-This is more complex because the isolated env would need more Questie fixtures and likely AceBucket/AceTimer support there too.
-
-### 3. Add legacy `questie` / `Questie` packet integration later
-
-Legacy packet formats should be added later when the modern harness is stable. Candidate paths:
-
-- old `questie` quest-log sharing packets;
-- daily quest availability prefix `Questie`;
-- `REPUTABLE` if still relevant.
-
-Do not rush this: full `QuestieComms.lua` has more dependencies and behavior surface.
-
-### 4. Load full `QuestieComms` only when needed
-
-Right now we use a minimal `QuestieComms` stub for `GroupEventHandler`. Load full `QuestieComms.lua` only for tests that actually need legacy quest-log sharing or full quest-list request/response behavior.
-
-### 5. Add real Blizzard CBOR fixtures when available
-
-`cli/mocks/BlizzardCBOR.lua` is assumed byte-compatible for current tests, but real fixture captures should be added when possible.
-
-Useful fixtures:
-
-- primitives;
-- binary strings;
-- dense arrays;
-- string-key maps;
-- numeric-key maps;
-- nested tables;
-- unsupported values with/without `ignoreSerializationErrors`;
-- malformed deserialize inputs.
-
-### 6. Test AceComm multipart/chunking if payloads grow
-
-Current modern payloads are small. If future modern comm payloads become large enough to trigger AceComm multipart behavior, add explicit tests for chunking/reassembly.
-
-This may require making the fake network deliver multipart chunks in order and possibly testing loss/out-of-order behavior separately.
-
-### 7. Consider splitting a lower-level `WowClientEmulator`
-
-`AceCommTestHarness` is already large. If it keeps growing, split mechanics into two layers:
-
-- lower-level `WowClientEmulator` owning frames/events/timers/`C_ChatInfo`/roster/network;
-- higher-level `AceCommTestHarness` owning Ace loading, codec glue, and Questie-facing conveniences.
-
-Do this only when the helper's size starts creating real maintenance friction. For now, one helper is acceptable and easier to evolve.
-
-## Validation Commands
-
-Current known passing commands at the time of this document:
+Focused owner files:
 
 ```bash
-busted -p ".test.lua" Modules/Network/CommsIntegration.test.lua
-# 15 successes / 0 failures / 0 errors / 0 pending
+busted -p ".test.lua" Modules/Network/CommsIntegration.test.lua Modules/Network/CommsPrefixRegistry.test.lua Modules/Network/CommsVisibility.test.lua Modules/EventHandler/GroupEventHandler.test.lua Modules/Network/QuestieComms.test.lua Modules/Network/Comms.test.lua Modules/Network/CommsEncoding.test.lua
 ```
+
+Broader comms suite, including the group lifecycle owner outside `Modules/Network`:
 
 ```bash
-busted -p ".test.lua" Modules/Network
-# 93 successes / 0 failures / 0 errors / 0 pending
+busted -p ".test.lua" Modules/Network Modules/EventHandler/GroupEventHandler.test.lua
 ```
+
+Full suite:
 
 ```bash
-luacheck -q -- cli/mocks/AceCommTestHarness.lua Modules/Network/CommsIntegration.test.lua
-# 0 warnings / 0 errors in 2 files
+busted -p ".test.lua" .
 ```
 
-These counts are informational and will change as more tests are added.
-
-## Git / Staging Note
-
-At the last check during implementation, these files showed partially staged status:
-
-```text
-AM Modules/Network/CommsIntegration.test.lua
-AM cli/mocks/AceCommTestHarness.lua
-```
-
-That means they were staged as added, but had additional unstaged modifications. Before committing, run:
+Targeted lint:
 
 ```bash
-git add Modules/Network/CommsIntegration.test.lua cli/mocks/AceCommTestHarness.lua Modules/Network/CommsIntegration.md
+luacheck -q -- cli/mocks/AceCommTestHarness.lua Modules/Network/CommsIntegration.test.lua Modules/Network/CommsPrefixRegistry.test.lua Modules/Network/CommsVisibility.test.lua Modules/EventHandler/GroupEventHandler.test.lua Modules/Network/QuestieComms.test.lua Modules/Network/Comms.test.lua Modules/Network/CommsEncoding.test.lua
 ```
 
-Then verify status and rerun the targeted validation if desired.
+Diff health:
 
-## Quick Mental Model for Continuing
-
-When adding a new modern comm integration scenario, ask:
-
-1. Is this testing protocol behavior directly?
-   - Keep it in `CommsIntegration.test.lua` and use `BuildEncodedAddonMessage`, `DeliverAddonMessage`, or direct scheduler calls where appropriate.
-
-2. Is this testing how WoW/group events trigger comm convergence?
-   - Drive it through `GroupEventHandler` with `FireWoWEvent` and real AceEvent/AceBucket.
-
-3. Is this testing cross-client independence?
-   - Use or extend `NewIsolatedNetwork()` and isolated clients.
-
-4. Is this just fake WoW/Ace plumbing?
-   - Put it in `AceCommTestHarness`, not in the test file.
-
-5. Does it require legacy quest-log sharing?
-   - Consider whether the minimal `QuestieComms` stub is enough. If not, plan a separate slice for loading full `QuestieComms.lua` and its dependencies.
+```bash
+git diff --check
+```

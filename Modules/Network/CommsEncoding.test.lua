@@ -1,5 +1,10 @@
 dofile("setupTests.lua")
 
+--[[
+CommsEncoding tests stay at the codec boundary: CBOR/compression/addon-channel
+mechanics, error handling, and support detection. Feature-specific payload size
+budgets live with the feature that owns each payload shape.
+]]
 describe("CommsEncoding", function()
     ---@type CommsEncoding
     local CommsEncoding
@@ -8,6 +13,7 @@ describe("CommsEncoding", function()
     local originalEncodeForAddonChannel
     local originalDecodeForAddonChannel
 
+    ---Loads real LibDeflate and remembers the addon-channel codec functions under test.
     local function loadRealLibDeflate()
         _G.LibStub = nil
         dofile("Libs/LibStub/LibStub.lua")
@@ -47,6 +53,7 @@ describe("CommsEncoding", function()
         local calls
         local decodedPayload
 
+        ---Installs spies around the production encode/decode phases CommsEncoding orchestrates.
         local function setupBlizzardCodec()
             calls = {}
             decodedPayload = {QuestieH1 = true}

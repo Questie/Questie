@@ -1,5 +1,12 @@
 dofile("setupTests.lua")
 
+local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
+
+--[[
+CommsPrefixRegistry owns QuestieH1: local prefix manifest policy, remote prefix
+sanitization, reply behavior, and H1 emulator round-trips. The shared harness
+only supplies fake WoW/Ace mechanics; H1 protocol assertions stay here.
+]]
 describe("CommsPrefixRegistry", function()
     ---@type CommsPrefixRegistry
     local CommsPrefixRegistry
@@ -82,7 +89,7 @@ describe("CommsPrefixRegistry", function()
         dofile("Modules/Network/CommsEncoding.lua")
         dofile("Modules/Network/CommsRouting.lua")
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
-        setupCodec({QuestieH1 = true, QuestieV1 = true, questie = true, Questie = true, REPUTABLE = true})
+        setupCodec({QuestieH1 = true, QuestieV1 = true, questie = true, Questie = true})
 
         dofile("Modules/Network/CommsPrefixRegistry.lua")
         CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
@@ -116,17 +123,16 @@ describe("CommsPrefixRegistry", function()
         it("defaults every known prefix to false until the owning receiver registers it", function()
             scheduleAndFireHello()
 
-            assert.are_same({QuestieH1 = false, QuestieV1 = false, questie = false, Questie = false, REPUTABLE = false}, serializedPayload)
+            assert.are_same({QuestieH1 = false, QuestieV1 = false, questie = false, Questie = false}, serializedPayload)
         end)
 
         it("marks only known local prefixes active", function()
             assert.is_true(CommsPrefixRegistry:RegisterLocalPrefix("QuestieV1"))
             assert.is_true(CommsPrefixRegistry:RegisterLocalPrefix("Questie"))
             assert.is_true(CommsPrefixRegistry:RegisterLocalPrefix("questie"))
-            assert.is_true(CommsPrefixRegistry:RegisterLocalPrefix("REPUTABLE"))
 
             scheduleAndFireHello()
-            assert.are_same({QuestieH1 = false, QuestieV1 = true, questie = true, Questie = true, REPUTABLE = true}, serializedPayload)
+            assert.are_same({QuestieH1 = false, QuestieV1 = true, questie = true, Questie = true}, serializedPayload)
         end)
 
         it("reports undefined local prefixes once after a short delay", function()
@@ -220,6 +226,8 @@ describe("CommsPrefixRegistry", function()
 
     describe("OnCommReceived", function()
         it("stores only known boolean prefixes from group members", function()
+            -- REPUTABLE may still exist as an old direct receiver, but it is not
+            -- part of QuestieH1 discovery and is ignored like any unknown claim.
             setupCodec({QuestieH1 = true, QuestieV1 = false, questie = true, Questie = "yes", REPUTABLE = false, QuestieZ9 = true})
             _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
 
@@ -228,8 +236,8 @@ describe("CommsPrefixRegistry", function()
             assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "QuestieH1"))
             assert.is_true(CommsPrefixRegistry:AcceptsPrefix("Friend-Realm", "questie"))
             assert.is_true(CommsPrefixRegistry:RejectsPrefix("Friend-Realm", "QuestieV1"))
-            assert.is_true(CommsPrefixRegistry:RejectsPrefix("Friend-Realm", "REPUTABLE"))
             assert.is_nil(CommsPrefixRegistry.remotePlayerPrefixes["Friend-Realm"].Questie)
+            assert.is_nil(CommsPrefixRegistry.remotePlayerPrefixes["Friend-Realm"].REPUTABLE)
             assert.is_nil(CommsPrefixRegistry.remotePlayerPrefixes["Friend-Realm"].QuestieZ9)
             assert.are_equal(123, CommsPrefixRegistry.remotePlayerLastSeen["Friend-Realm"])
             assert.is_nil(CommsPrefixRegistry.remotePlayerPrefixes.Friend)
@@ -368,4 +376,93 @@ describe("CommsPrefixRegistry", function()
             assert.is_nil(CommsPrefixRegistry.remotePlayerLastSeen.Friend)
         end)
     end)
+
+    describe("isolated QuestieH1 emulator", function()
+        local CONSERVATIVE_SINGLE_MESSAGE_BUDGET = 245
+
+        ---Fails the test if the isolated network cannot settle all timers and AceComm traffic.
+        ---@param network table Isolated comms network from AceCommTestHarness.
+        local function assertIsolatedNetworkFlushes(network)
+            assert.is_true(network:FlushUntilIdle())
+        end
+
+        -- H1 payload size belongs here because the prefix registry owns the manifest shape.
+        it("keeps the QuestieH1 manifest within the conservative single-message budget", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            network:SetParty({alice})
+
+            alice:LoadModernHelloStack()
+
+            local h1Manifest = {
+                QuestieH1 = true,
+                QuestieV1 = true,
+                questie = true,
+                Questie = true,
+            }
+            local encodedPayload = alice.CommsEncoding:EncodePayload(h1Manifest)
+
+            assert.is_not_nil(encodedPayload)
+            assert.is_true(string.len(encodedPayload) <= CONSERVATIVE_SINGLE_MESSAGE_BUDGET)
+        end)
+
+        it("round-trips QuestieH1 between two isolated clients", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernHelloStack()
+            bob:LoadModernHelloStack()
+
+            alice.CommsPrefixRegistry:ScheduleHello("integration-test")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
+            assert.are_equal(2, #network.trace)
+            assert.are_same({
+                sender = "Alice-TestRealm",
+                prefix = "QuestieH1",
+                distribution = "PARTY",
+            }, network.trace[1])
+            assert.are_same({
+                sender = "Bob-TestRealm",
+                prefix = "QuestieH1",
+                distribution = "WHISPER",
+                target = "Alice-TestRealm",
+            }, network.trace[2])
+        end)
+
+        it("round-trips QuestieH1 over isolated INSTANCE_CHAT topology", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetInstance({alice, bob})
+
+            -- INSTANCE_CHAT has separate routing, but Questie's receive trust still
+            -- checks party/raid-like membership. The emulator models instance members
+            -- as party-like only at that trust boundary.
+            alice:LoadModernHelloStack()
+            bob:LoadModernHelloStack()
+
+            alice.CommsPrefixRegistry:ScheduleHello("instance integration-test")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
+            assert.are_same({
+                sender = "Alice-TestRealm",
+                prefix = "QuestieH1",
+                distribution = "INSTANCE_CHAT",
+            }, network.trace[1])
+            assert.are_same({
+                sender = "Bob-TestRealm",
+                prefix = "QuestieH1",
+                distribution = "WHISPER",
+                target = "Alice-TestRealm",
+            }, network.trace[2])
+        end)
+    end)
+
 end)

@@ -42,7 +42,6 @@ Absence from `remoteQuestLogs` must not be overloaded to mean "hidden", "untrack
     QuestieV1 = true,
     questie = true,
     Questie = true,
-    REPUTABLE = true,
 }
 ```
 
@@ -65,7 +64,6 @@ CommsPrefixRegistry.remotePlayerPrefixes["Friend-Realm"] = {
     QuestieV1 = true,
     questie = true,
     Questie = true,
-    REPUTABLE = true,
 }
 CommsPrefixRegistry.remotePlayerLastSeen["Friend-Realm"] = GetTime()
 ```
@@ -94,7 +92,7 @@ A group-broadcast `QuestieH1` means the sender is announcing a join/reload and n
 
 `QuestieComms` continues to own the legacy absolute quest-log/progress transport and `remoteQuestLogs` semantics.
 
-The existing `Comms` module and the old `REPUTABLE` path register their current prefixes as active through `CommsPrefixRegistry` after their receivers are registered. That allows the hello payload to reflect reality instead of a hardcoded assumption.
+The existing `Comms` module registers the Questie-owned daily quest prefix as active through `CommsPrefixRegistry` after its receiver is registered. That allows the hello payload to reflect reality instead of a hardcoded assumption. The old `REPUTABLE` receiver can remain registered for backward compatibility, but it is intentionally outside QuestieH1 capability discovery.
 
 Future modern comm modules should follow the same pattern: define the prefix in the hello manifest, register the AceComm receiver in the owning module, then call `CommsPrefixRegistry:RegisterLocalPrefix(prefix)`. If that module is later removed, the prefix will naturally remain false or disappear from the manifest, instead of being accidentally advertised as supported.
 
@@ -207,7 +205,9 @@ A remote player that only understands `OldPrefix` can distinguish that from an u
 
 When a prefix is unknown to this build, it remains `nil`. Unknown remote claims are ignored for behavior. Unknown local registration attempts are errors because every advertised prefix must be intentionally defined in the hello manifest first.
 
-Legacy prefixes such as `questie`, `Questie`, and `REPUTABLE` are included so their support can eventually be sunset deliberately. As long as their parser modules exist and register receivers, they advertise `true`. If a handler is removed and no longer calls `RegisterLocalPrefix`, the prefix stops being advertised as active.
+Questie-owned prefixes such as `questie` and `Questie` are included so their support can eventually be sunset deliberately. As long as their parser modules exist and register receivers, they advertise `true`. If a handler is removed and no longer calls `RegisterLocalPrefix`, the prefix stops being advertised as active.
+
+`REPUTABLE` is different: it is an old compatibility receiver, not a QuestieH1 capability. Questie can still accept that old receiver path until production support is removed separately, but remote hello claims for it are ignored like any other unknown prefix.
 
 ## Testing and contracts
 
