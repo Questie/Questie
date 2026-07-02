@@ -14,11 +14,9 @@ local BlizzardCBORCompatibilityCases = {}
 local char = string.char
 local huge = math.huge
 
----@return nil
 local function _BuildNoArguments()
 end
 
----@return nil
 local function _BuildNil()
     return nil
 end

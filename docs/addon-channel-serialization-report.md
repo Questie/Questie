@@ -21,6 +21,7 @@ The report separates three concerns that are easy to conflate:
 - Main quest-update round trips used a debug AceComm prefix, `qstiedbgself`, and self `WHISPER` to `UnitName("player")`.
 - The debug helper built QuestieComms quest update packets, sent them via addon comms, decoded them on receive, and dispatched them through QuestieComms packet readers with a fake sender.
 - `SAY`, `YELL`, and `CHANNEL` behavior was tested directly with `C_ChatInfo.RegisterAddonMessagePrefix` and `C_ChatInfo.SendAddonMessage`.
+- AceSerializer follow-up measurements used a live Classic Era `1.15.8` client, build `67156` / interface `11508`, with `AceSerializer-3.0`, `LibDeflate`, `C_EncodingUtil`, and Questie modules available.
 
 ## Current quest log tested
 
@@ -186,6 +187,80 @@ Synthetic V1 quest-update shaped packets with many objectives showed Deflate bec
 
 Synthetic V2 objective-count packets were much smaller because they avoid repeated string keys. CBOR + Deflate remained smaller than CBOR alone, but the gains were less dramatic than the V1 synthetic table.
 
+### AceSerializer follow-up measurements
+
+A follow-up live probe checked `AceSerializer-3.0` because it is already embedded and is simple to use for structured addon events. The probe used the same current quest log and live Questie packet builders where practical: `QuestieComms.private:CreatePacket(...)`, `QuestieComms:CreateQuestDataPacket(...)`, `QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(...)`, `QuestieSerializer:Serialize(...)`, `AceSerializer:Serialize(...)`, `C_EncodingUtil` compression, and `LibDeflate:EncodeForWoWAddonChannel(...)`.
+
+These tables are a follow-up snapshot rather than a rewrite of the older baseline rows above. The live recompute for quest `62` differed from the original report because the current live packet omitted one objective ID.
+
+#### V1 single quest-update payloads with AceSerializer
+
+| Quest ID | Objectives | QuestieSerializer | Questie + Deflate safe | AceSerializer | Ace + Deflate safe | Ace + Zlib safe | Ace + Gzip safe | CBOR safe | CBOR + Deflate safe |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 47 | 1 | 91 | 91 | 126 | 102 | 108 | 129 | 82 | 81 |
+| 54 | 0 | 62 | 64 | 78 | 73 | 79 | 100 | 53 | 54 |
+| 60 | 1 | 91 | 88 | 125 | 101 | 107 | 128 | 82 | 81 |
+| 62 | 1 | 84 | 86 | 116 | 94 | 100 | 121 | 77 | 76 |
+| 2158 | 0 | 64 | 66 | 80 | 75 | 81 | 102 | 54 | 55 |
+
+AceSerializer is consistently larger than QuestieSerializer and CBOR for these small keyed V1 packets. Deflating AceSerializer helps, but still does not beat CBOR + Deflate. Deflating the existing QuestieSerializer payload is roughly break-even for these tiny single-quest packets.
+
+#### V1 full current quest-list packet with AceSerializer
+
+Five-quest full-list packet for quests `47`, `54`, `60`, `62`, and `2158`:
+
+| Variant | Bytes |
+| --- | ---: |
+| V1 QuestieSerializer full-list | 216 |
+| V1 AceSerializer full-list | 359 |
+| V1 AceSerializer + Deflate safe | 158 |
+| V1 AceSerializer + Zlib safe | 164 |
+| V1 AceSerializer + Gzip safe | 185 |
+| V1 CBOR full-list safe | 226 |
+| V1 CBOR + Deflate safe | 135 |
+
+For larger repeated keyed V1 packets, AceSerializer + Deflate becomes much smaller than raw AceSerializer, but still loses to CBOR + Deflate.
+
+#### V2 single quest-update payloads with AceSerializer
+
+| Quest ID | Tuple count | QuestieSerializer | Questie + Deflate safe | AceSerializer | Ace + Deflate safe | Ace + Zlib safe | Ace + Gzip safe | CBOR safe | CBOR + Deflate safe |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 47 | 1 | 45 | 46 | 93 | 73 | 79 | 100 | 43 | 41 |
+| 54 | 0 | 37 | 38 | 51 | 46 | 52 | 73 | 31 | 31 |
+| 60 | 1 | 45 | 46 | 92 | 77 | 83 | 104 | 43 | 41 |
+| 62 | 1 | 47 | 48 | 84 | 68 | 74 | 95 | 42 | 40 |
+| 2158 | 0 | 37 | 38 | 51 | 46 | 52 | 73 | 31 | 31 |
+
+AceSerializer is a poor size fit for compact positional V2 packets. The type/key overhead is large relative to the tiny payload. Deflating QuestieSerializer also slightly increases these compact single-update packets.
+
+#### V2 full quest-list blocks with AceSerializer
+
+Valid two-quest V2 block containing quests `47` and `60`:
+
+| Variant | Bytes |
+| --- | ---: |
+| V2 QuestieSerializer | 54 |
+| V2 AceSerializer | 144 |
+| V2 AceSerializer + Deflate safe | 95 |
+| V2 AceSerializer + Zlib safe | 101 |
+| V2 AceSerializer + Gzip safe | 122 |
+| V2 CBOR safe | 56 |
+| V2 CBOR + Deflate safe | 51 |
+
+Current five-quest V2 block:
+
+| Variant | Bytes |
+| --- | ---: |
+| V2 QuestieSerializer | 77 |
+| V2 AceSerializer | 182 |
+| V2 AceSerializer + Deflate safe | 110 |
+| V2 AceSerializer + Zlib safe | 116 |
+| V2 AceSerializer + Gzip safe | 137 |
+| V2 CBOR safe | 67 |
+| V2 CBOR + Deflate safe | 60 |
+
+The five-quest V2 numbers are size measurements only. They do not change the earlier decode caveat: the current full-log V2 block still has the known zero-objective quest count issue.
+
 ## Serializer and compression speed results
 
 ### V1 speed results
@@ -225,6 +300,79 @@ Benchmark: live V2 single quest update packet.
 | LibDeflate addon-channel decode | 1.6 |
 
 CBOR was much faster than Questie's custom serializer in both V1 and V2 tests. Blizzard's built-in compression was also much faster than LibDeflate's pure-Lua compression. LibDeflate remains useful as a safe text/binary transform for addon/chat channels.
+
+### AceSerializer follow-up speed results
+
+Benchmark: 20,000 iterations with `debugprofilestop()` in the same live client used for the AceSerializer size follow-up.
+
+V1 quest `47`:
+
+| Operation | Approx. microseconds per operation |
+| --- | ---: |
+| QuestieSerializer serialize | 79.5 |
+| QuestieSerializer deserialize | 81.5 |
+| AceSerializer serialize | 19.1 |
+| AceSerializer deserialize | 21.6 |
+| CBOR serialize | 1.9 |
+| CBOR deserialize | 2.2 |
+
+V2 quest `47`:
+
+| Operation | Approx. microseconds per operation |
+| --- | ---: |
+| QuestieSerializer serialize | 43.6 |
+| QuestieSerializer deserialize | 34.6 |
+| AceSerializer serialize | 18.6 |
+| AceSerializer deserialize | 18.4 |
+| CBOR serialize | 1.5 |
+| CBOR deserialize | 1.3 |
+
+AceSerializer was worth checking: it is much faster than QuestieSerializer, but much larger for QuestieComms packet shapes. AceSerializer + Deflate improves larger/repetitive packets, but still usually loses to CBOR + Deflate. AceSerializer remains reasonable for simple daily `Questie` structured events where simplicity matters; it is a poor size fit for legacy/V2 quest-log packets where addon-channel budget matters most.
+
+## Realistic worst-case guardrail fixture
+
+The earlier full-list tables use two small/live samples:
+
+| Sample | Meaning |
+| --- | --- |
+| `47 + 60` block | Small valid V2 full-list block containing two quests. |
+| Current five-quest block | The live character quest log used in this report: `47`, `54`, `60`, `62`, `2158`. |
+
+The 25-quest numbers below are a different sample. They come from the local comms emulator guardrail in `Modules/Network/QuestieComms.test.lua`: a full 25-quest log built from real Questie quest IDs and real objective IDs with synthetic progress values. It is meant to stress the worst realistic packet shape Questie should protect in tests. It is **not** the `47 + 60` block and **not** the live five-quest log.
+
+| Objective count | Quest IDs |
+| ---: | --- |
+| 6 | `14106`, `9246`, `9243`, `9236` |
+| 5 | `32317` |
+| 4 | `33161`, `33100`, `32872`, `32862`, `32819`, `32816`, `32811`, `32809`, `32805`, `32588`, `32586`, `32537`, `32492`, `32418`, `32411`, `32330`, `32255`, `32209`, `32208`, `31776` |
+
+Total: **25 quests and 109 objective entries**. The quest/objective IDs are real data; the progress counts are synthetic because the size stress is driven by packet shape and objective count.
+
+### Actual legacy AceComm path for the 25-quest fixture
+
+The current legacy path block-splits and then sends through AceComm. In the local emulator guardrail, Bob received all 25 remote quest logs.
+
+| Metric | Value |
+| --- | ---: |
+| Quests received | 25 |
+| Low-level AceComm chunks | 26 |
+| Total low-level chunk bytes | 5230 |
+| Max chunk length | 248 |
+
+### Hypothetical unsplit 25-quest serializer comparison
+
+The next two tables compare serializers against the same 25-quest data as one unsplit full-list payload. Production legacy sending block-splits before AceComm, so these are serializer-efficiency comparisons from the local harness, not live WoW transport proof.
+
+Lower percentages are smaller/better, with the current QuestieSerializer path as the `100% (<bytes>)` baseline.
+
+| 25-quest full-list fixture | Questie baseline | Questie + Deflate | Ace | Ace + Deflate | CBOR | CBOR + Deflate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| V1 keyed shape | 100% (3862) | 18% (701) | 167% (6441) | 20% (779) | 104% (4012) | 17% (673) |
+| V2 compact positional shape | 100% (962) | 50% (477) | 487% (4685) | 169% (1627) | 132% (1266) | 50% (477) |
+
+For big keyed V1 packets, compression dominates and AceSerializer + Deflate gets close to the compressed alternatives. For compact positional V2 packets, AceSerializer remains a poor size fit: raw AceSerializer is almost five times the QuestieSerializer payload, and AceSerializer + Deflate is still larger than the uncompressed QuestieSerializer baseline.
+
+These 25-quest values are local emulator measurements. Any exact near-limit transport behavior should still be verified in a live WoW client before relying on byte counts for production decisions.
 
 ## Raw binary over addon channels
 

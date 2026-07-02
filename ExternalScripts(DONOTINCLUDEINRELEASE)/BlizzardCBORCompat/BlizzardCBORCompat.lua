@@ -8,11 +8,9 @@ local MAX_STORED_RUNS = 5
 local char = string.char
 local huge = math.huge
 
----@return nil
 local function _BuildNoArguments()
 end
 
----@return nil
 local function _BuildNil()
     return nil
 end
@@ -389,7 +387,6 @@ local function _SummarizeRun(run)
 end
 
 ---@param run table Completed run to persist.
----@return nil
 local function _StoreRun(run)
     local db = _EnsureDB()
 
@@ -401,7 +398,6 @@ local function _StoreRun(run)
     end
 end
 
----@return nil
 local function _RunCapture()
     local compatibilityCases, casesSource = _GetCompatibilityCases()
     local buildMetadata = _GetBuildMetadata()
@@ -467,7 +463,6 @@ local function _RunCapture()
         .. "QuestieBlizzardCBORCompatDB.latestRun from SavedVariables.")
 end
 
----@return nil
 local function _PrintCases()
     local compatibilityCases, casesSource = _GetCompatibilityCases()
 
@@ -478,7 +473,6 @@ local function _PrintCases()
 end
 
 ---@param message string? Slash command arguments.
----@return nil
 local function _SlashCommand(message)
     message = string.lower(message or "")
 
