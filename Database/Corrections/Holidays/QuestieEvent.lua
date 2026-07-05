@@ -454,6 +454,12 @@ _WithinDates = function(startDay, startMonth, startHour, startMinute, endDay, en
     local day = date.monthDay
     local month = date.month
 
+    -- For missing HH:MM entries we default to 00:00 start HH:MM, and 23:59 end HH:MM
+    startHour = startHour or 0
+    startMinute = startMinute or 0
+    endHour = endHour or 23
+    endMinute = endMinute or 59
+
     -- Convert each date into a sortable value: MMDDHHMM
     local current = month * 1000000 + day * 10000 + hour * 100 + minute
     local start = startMonth * 1000000 + startDay * 10000 + startHour * 100 + startMinute
