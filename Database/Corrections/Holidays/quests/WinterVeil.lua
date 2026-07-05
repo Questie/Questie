@@ -63,5 +63,5 @@ tinsert(eventQuests, {"Winter Veil", 13966, "25/12", "2/1", nil, nil, Expansions
 tinsert(eventQuests, {"Winter Veil", 29385, "25/12", "2/1", nil, nil, Expansions.Current >= Expansions.MoP}) -- A Winter Veil Gift -- only offered in cata
 
 -- MoP quests
--- tinsert(eventQuests, {"Winter Veil", 32106, "25/12", "2/1", Expansions.Current >= Expansions.MoP}) -- A Winter Veil Gift -- not offered in classic servers, bad timing?
+-- tinsert(eventQuests, {"Winter Veil", 32106, "25/12", "2/1", nil, nil, Expansions.Current >= Expansions.MoP}) -- A Winter Veil Gift -- not offered in classic servers, bad timing?
 tinsert(eventQuests, {"Winter Veil", 33252, "25/12", "2/1"}) -- A Winter Veil Gift
