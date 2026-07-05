@@ -171,7 +171,7 @@ function QuestieEvent:Load()
     for eventName, eventData in pairs(QuestieEvent.eventDates) do
         local startDay, startMonth = strsplit("/", eventData.startDate)
         local endDay, endMonth = strsplit("/", eventData.endDate)
-        local startHour, startMinute, endHour, endMinute = nil, nil, nil, nil
+        local startHour, startMinute, endHour, endMinute
 
         startDay = tonumber(startDay)
         startMonth = tonumber(startMonth)
