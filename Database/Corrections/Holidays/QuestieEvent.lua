@@ -539,7 +539,7 @@ QuestieEvent.eventDates = {
             startHour = 4,
             startMinute = 0,
             endDate = "5/7",
-            endHour = 18,
+            endHour = 4,
             endMinute = 0,
         } or { -- Titan servers
         startDate = "28/6",
