@@ -57,8 +57,10 @@ local _QuestieEvent = QuestieEvent.private
 ---[2] = QuestId
 ---[3] = Start Date (format: "DD/MM")
 ---[4] = End Date (format: "DD/MM")
----[5] = Hide Quest even during event (optional, default: false)
----@alias EventQuestEntry {[1]: string, [2]: QuestId, [3]: string?, [4]: string?, [5]: boolean?}
+---[5] = Start Hour and Minute (format: "HH:MM")
+---[6] = End Hour and Minute (format: "HH:MM")
+---[7] = Hide Quest even during event (optional, default: false)
+---@alias EventQuestEntry {[1]: string, [2]: QuestId, [3]: string?, [4]: string?, [5]: string?, [6]: string?, [7]: boolean?}
 
 -- This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
 ---@type EventQuestEntry[]
