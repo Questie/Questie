@@ -605,12 +605,42 @@ QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
-        ["Noblegarden"] = {startDate = "28/3", startHour = 0, startMinute = 1, endDate = "28/3", endHour = 23, endMinute = 59}, -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
-        ["Love is in the Air"] = {startDate = "11/2", startHour = 10, startMinute = 0, endDate = "15/2", endHour = 10, endMinute = 0}, -- WARNING THIS DATE VARIES!!!!
+        ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
+            -- Date is set for 2027. Please update this every year.
+            startDate = "28/3",
+            startHour = 0,
+            startMinute = 1,
+            endDate = "28/3",
+            endHour = 23,
+            endMinute = 59
+        },
+        ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
+            startDate = "11/2",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "15/2",
+            endHour = 10,
+            endMinute = 0
+        },
     },
     ["TBC"] = {
-        ["Noblegarden"] = {startDate = "28/3", startHour = 0, startMinute = 1, endDate = "28/3", endHour = 23, endMinute = 59}, -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
-        ["Love is in the Air"] = {startDate = "11/2", startHour = 10, startMinute = 0, endDate = "15/2", endHour = 10, endMinute = 0}, -- WARNING THIS DATE VARIES!!!!
+        ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
+            -- Date is set for 2027. Please update this every year.
+            startDate = "28/3",
+            startHour = 0,
+            startMinute = 1,
+            endDate = "28/3",
+            endHour = 23,
+            endMinute = 59
+        },
+        ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
+            startDate = "11/2",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "15/2",
+            endHour = 10,
+            endMinute = 0
+        },
     },
 }
 
