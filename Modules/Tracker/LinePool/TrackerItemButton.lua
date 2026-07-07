@@ -132,7 +132,7 @@ function TrackerItemButton.New(buttonName)
         local charges = GetItemCount(self.itemId, nil, true)
         if (not charges or charges ~= self.charges) then
             self.count:Hide()
-            self.charges = GetItemCount(self.itemId, nil, true)
+            self.charges = charges
             if self.charges > 1 then
                 self.count:SetText(self.charges)
                 self.count:Show()
