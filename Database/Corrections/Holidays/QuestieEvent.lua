@@ -371,21 +371,6 @@ _LoadDarkmoonFaire = function()
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
     local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    if isInTerokkar then
-        QuestieCorrections.hiddenQuests[7905] = nil
-        QuestieEvent.activeQuests[7905] = true
-        QuestieCorrections.hiddenQuests[7926] = nil
-        QuestieEvent.activeQuests[7926] = true
-    else
-        -- The faire is setting up right now or is already up
-        local announcingQuestId = 7905 -- Alliance announcement quest
-        if isInMulgore then
-            announcingQuestId = 7926 -- Horde announcement quest
-        end
-        QuestieCorrections.hiddenQuests[announcingQuestId] = nil
-        QuestieEvent.activeQuests[announcingQuestId] = true
-    end
-
     local npcFixes
     if Questie.IsTBC then
         npcFixes = QuestieTBCNpcFixes:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
@@ -405,6 +390,32 @@ _LoadDarkmoonFaire = function()
                 QuestieDB.npcDataOverrides[id] = data
             end
         end
+    end
+
+    local hordeAnnouncingQuestId = 7926 -- Horde announcement quest
+    local allianceAnnouncingQuestId = 7905 -- Alliance announcement quest
+
+    if isInTerokkar then
+        -- Show both announcing quests
+        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = true
+
+        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = true
+    elseif isInMulgore then
+        -- Show only Horde announcing quest
+        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = true
+
+        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = true
+        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = nil
+    else
+        -- Show only Alliance announcing quest
+        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = true
+
+        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = true
+        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = nil
     end
 
     print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The Darkmoon Faire is up in %s!", l10n(DMF_LOCATION_NAMES[eventLocation])))

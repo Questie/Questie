@@ -559,6 +559,8 @@ describe("QuestieEvent", function()
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
+            assert.is_true(QuestieEvent.activeQuests[7905] == true)
+            assert.is_nil(QuestieEvent.activeQuests[7926])
             assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, false)
         end)
 
