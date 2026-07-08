@@ -444,21 +444,21 @@ function _EventHandler:ChatMsgSystem(message)
     end
 end
 
+local _QuestProgressMessages = {
+    ["ERR_QUEST_OBJECTIVE_COMPLETE_S"] = true,
+    ["ERR_QUEST_UNKNOWN_COMPLETE"] = true,
+    ["ERR_QUEST_ADD_KILL_SII"] = true,
+    ["ERR_QUEST_ADD_FOUND_SII"] = true,
+    ["ERR_QUEST_ADD_ITEM_SII"] = true,
+    ["ERR_QUEST_ADD_PLAYER_KILL_SII"] = true,
+    ["ERR_QUEST_FAILED_S"] = true,
+}
+
 --- Fires when a UI Info Message (yellow text) appears near the top of the screen
 ---@param errorType number The error type value from the UI_INFO_MESSAGE event
 ---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
-    local messages = {
-        ["ERR_QUEST_OBJECTIVE_COMPLETE_S"] = true,
-        ["ERR_QUEST_UNKNOWN_COMPLETE"] = true,
-        ["ERR_QUEST_ADD_KILL_SII"] = true,
-        ["ERR_QUEST_ADD_FOUND_SII"] = true,
-        ["ERR_QUEST_ADD_ITEM_SII"] = true,
-        ["ERR_QUEST_ADD_PLAYER_KILL_SII "] = true,
-        ["ERR_QUEST_FAILED_S"] = true,
-    }
-
-    if messages[GetGameMessageInfo(errorType)] then
+    if _QuestProgressMessages[GetGameMessageInfo(errorType)] then
         MinimapIcon:UpdateText(message)
     end
 end
