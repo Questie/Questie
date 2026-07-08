@@ -299,11 +299,11 @@ _GetDarkmoonFaireLocationTBC = function(currentDate)
 
     local remainder = currentDate.month % 3
     if remainder == 1 then
-        return DMF_LOCATIONS.TEROKKAR_FOREST
+        return DMF_LOCATIONS.MULGORE
     elseif remainder == 2 then
         return DMF_LOCATIONS.ELWYNN_FOREST
     end
-    return DMF_LOCATIONS.MULGORE
+    return DMF_LOCATIONS.TEROKKAR_FOREST
 end
 
 ---@param currentDate CalendarTime

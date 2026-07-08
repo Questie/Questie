@@ -492,7 +492,7 @@ describe("QuestieEvent", function()
             assert.spy(getNumDayEventsMock).was.called_with(0, 23)
         end)
 
-        it("should load for TBC servers when faire is in Terokkar Forest and activate both announcement quests", function()
+        it("should load for TBC servers when faire is in Mulgore and activate Horde announcement quest", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
                     return {
@@ -522,10 +522,10 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
-            assert.is_true(QuestieEvent.activeQuests[7905] == true)
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_true(QuestieEvent.activeQuests[7926] == true)
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, true)
+            assert.is_nil(QuestieEvent.activeQuests[7905])
+            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, true, false)
         end)
 
         it("should load for TBC servers when faire is in Elwynn Forest", function()
@@ -562,7 +562,7 @@ describe("QuestieEvent", function()
             assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, false)
         end)
 
-        it("should load for TBC servers when faire is in Mulgore", function()
+        it("should load for TBC servers when faire is in Terokkar Forest and activate both announcement quests", function()
             _G.QuestieCompat = {
                 GetCurrentCalendarTime = function()
                     return {
@@ -592,8 +592,10 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, true, false)
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
+            assert.is_true(QuestieEvent.activeQuests[7905] == true)
+            assert.is_true(QuestieEvent.activeQuests[7926] == true)
+            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, true)
         end)
 
         it("should not load for TBC servers when faire is not active", function()
