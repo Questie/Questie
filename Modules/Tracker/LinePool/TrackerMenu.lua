@@ -379,7 +379,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         local quest_wow = QuestieDB.GetQuest(questID)
         local name = quest_wow.name
 
-        textFrame:SetFont("GameFontNormal", 12)
+        textFrame:SetFont(GameFontNormal:GetFont(), 12)
         textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
         local wowheadLink = _GetWowheadLinkForLanguage() .. "quest=" .. questID -- all expansions follow this system as of 2024 start of Cata
@@ -542,7 +542,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
         local achieveID = textFrame.text_arg1
         local name = select(2, GetAchievementInfo(achieveID))
 
-        textFrame:SetFont("GameFontNormal", 12)
+        textFrame:SetFont(GameFontNormal:GetFont(), 12)
         textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
         local wowheadLink = _GetWowheadLinkForLanguage() .. "achievement=" .. achieveID
