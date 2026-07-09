@@ -175,6 +175,11 @@ function QuestieTracker.Initialize()
             QuestieQuest:ToggleNotes(false)
         elseif focusType == "string" then
             local questId, objectiveIndex = string.match(Questie.db.char.TrackerFocus, "(%d+) (%d+)")
+            questId = tonumber(questId)
+            objectiveIndex = tonumber(objectiveIndex)
+
+            ---@cast questId number
+            ---@cast objectiveIndex number
             TrackerUtils:FocusObjective(questId, objectiveIndex)
             QuestieQuest:ToggleNotes(false)
         end
