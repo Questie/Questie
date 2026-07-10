@@ -779,6 +779,22 @@ function QuestieQuest:GetAllQuestIds()
                     QuestieQuest:CheckQuestSourceItem(questId, true)
                     QuestieQuest:PopulateQuestLogInfo(quest)
 
+                    -- Restore HideIcons flags from saved tracker state before spawning icons,
+                    -- so they are created in the correct hidden/visible state from the start.
+                    if Questie.db.char.TrackerHiddenQuests[questId] then
+                        quest.HideIcons = true
+                    end
+                    for _, objective in pairs(quest.Objectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                            objective.HideIcons = true
+                        end
+                    end
+                    for _, objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                            objective.HideIcons = true
+                        end
+                    end
+
                     if QuestieQuest:ShouldShowQuestNotes(questId) then
                         QuestieQuest:PopulateObjectiveNotes(quest)
                     else

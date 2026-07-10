@@ -177,6 +177,11 @@ function QuestieTracker.Initialize()
             QuestieQuest:ToggleNotes(false)
         elseif focusType == "string" then
             local questId, objectiveIndex = string.match(Questie.db.char.TrackerFocus, "(%d+) (%d+)")
+            questId = tonumber(questId)
+            objectiveIndex = tonumber(objectiveIndex)
+
+            ---@cast questId number
+            ---@cast objectiveIndex number
             TrackerUtils:FocusObjective(questId, objectiveIndex)
             QuestieQuest:ToggleNotes(false)
         end
@@ -1547,37 +1552,7 @@ function QuestieTracker:Update()
     -- First run clean up
     if isFirstRun then
         trackerBaseFrame:Hide()
-        for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
-            if quest then
-                if Questie.db.char.TrackerHiddenQuests[questId] then
-                    quest.HideIcons = true
-                end
 
-                if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then -- quest focus
-                    TrackerUtils:FocusQuest(quest.Id)
-                end
-
-                for _, objective in pairs(quest.Objectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
-                        objective.HideIcons = true
-                    end
-
-                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-                        TrackerUtils:FocusObjective(quest.Id, objective.Index)
-                    end
-                end
-
-                for _, objective in pairs(quest.SpecialObjectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
-                        objective.HideIcons = true
-                    end
-
-                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-                        TrackerUtils:FocusObjective(quest.Id, objective.Index)
-                    end
-                end
-            end
-        end
         isFirstRun = false
         C_Timer.After(1.0, function()
             QuestieCombatQueue:Queue(function()

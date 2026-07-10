@@ -712,6 +712,8 @@ function QuestieQuestBlacklist:Load()
         --- Brewfest
         [12193] = true,
         [12194] = true,
+        [12491] = true,
+        [12492] = true,
         [13931] = true,
         [13932] = true,
 
@@ -8435,7 +8437,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8072] = true, -- Paragons of Power: The Madcap's Mantle
         [8071] = true, -- Paragons of Power: The Confessor's Mantle
         -- [8240] = true, -- A Bijou for Zanza
-        [8246] = true, -- Signets of the Zandalar
+        -- [8246] = true, -- Signets of the Zandalar
         [8064] = true, -- Paragons of Power: The Haruspex's Belt
         [8058] = true, -- Paragons of Power: The Vindicator's Armguards
         [8142] = true, -- Zandalarian Shadow Talisman
