@@ -110,6 +110,19 @@ function QuestieQuest:ToggleNotes(showIcons)
     end
 end
 
+---Updates all quest icons to ensure they are correctly shown/hidden
+---@param showIcons boolean @ Whether to show or hide the icons
+function QuestieQuest.ToggleQuestNotes(showIcons)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest.ToggleQuestNotes] showIcons:", showIcons)
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+    if showIcons then
+        QuestieQuest:ShowQuestIcons()
+    else
+        QuestieQuest:HideQuestIcons()
+    end
+end
+
 function QuestieQuest:ShowQuestIcons()
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do

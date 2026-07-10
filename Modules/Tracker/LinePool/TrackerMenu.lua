@@ -126,7 +126,7 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
                 LibDropDown:CloseDropDownMenus()
                 objective.HideIcons = nil
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
-                QuestieQuest:ToggleNotes(true)
+                QuestieQuest.ToggleQuestNotes(true)
             end
         })
     else
@@ -136,7 +136,7 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
                 LibDropDown:CloseDropDownMenus()
                 objective.HideIcons = true
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
-                QuestieQuest:ToggleNotes(false)
+                QuestieQuest.ToggleQuestNotes(false)
             end
         })
     end
@@ -149,7 +149,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
             func = function()
                 quest.HideIcons = nil
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
-                QuestieQuest:ToggleNotes(true)
+                QuestieQuest.ToggleQuestNotes(true)
             end
         })
     else
@@ -158,7 +158,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
             func = function()
                 quest.HideIcons = true
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = true
-                QuestieQuest:ToggleNotes(false)
+                QuestieQuest.ToggleQuestNotes(false)
             end
         })
     end
@@ -188,7 +188,7 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
             end
 
             if needHiddenUpdate then
-                QuestieQuest:ToggleNotes(true)
+                QuestieQuest.ToggleQuestNotes(true)
             end
 
             TrackerUtils:ShowObjectiveOnMap(objective)
