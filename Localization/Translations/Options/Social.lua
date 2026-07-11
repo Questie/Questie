@@ -289,7 +289,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Anunciar atualizações de missões para si mesmo",
         ["ruRU"] = "Сообщать себе об обновлениях заданий",
         ["zhCN"] = "向自己通告任务更新",
-        ["zhTW"] = false,
+        ["zhTW"] = "向自己通報任務更新",
     },
     ["Questie will print your update messages to chat. Other players will NOT be able to see this."] = {
         ["enUS"] = true,
@@ -301,7 +301,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Questie mostrará suas mensagens de atualização no bate-papo. Os outros jogadores NÃO poderão vê-las.",
         ["ruRU"] = "Questie будет выводить в чат ваши сообщения об обновлениях. Другие игроки НЕ будут их видеть",
         ["zhCN"] = "Questie会将你的更新消息打印到聊天框中，其他玩家无法看到这些消息",
-        ["zhTW"] = false,
+        ["zhTW"] = "Questie會將你的更新訊息顯示在聊天視窗中，其他玩家無法看到這些訊息",
     },
     -- Kept intentionally: this comms revert is temporary and these strings will be reused
     -- when tracked party objectives are re-enabled.
@@ -315,7 +315,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Mostrar objetivos de missão rastreados dos membros do grupo",
         ["ruRU"] = "Цели отслеживаемых заданий группы",
         ["zhCN"] = "显示小队成员追踪的任务目标",
-        ["zhTW"] = false,
+        ["zhTW"] = "顯示隊伍成員追蹤的任務目標",
     },
     ["Show tracked quest objectives from party members on the map and minimap, even for quests you don't have or have already completed. Only your tracked quests will show for your party members."] = {
         ["enUS"] = true,
@@ -327,7 +327,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Mostra no mapa e no minimapa os objetivos de missão rastreados dos membros do grupo, mesmo para missões que você não tenha ou já tenha concluído. Apenas as suas missões rastreadas serão mostradas para os membros do seu grupo",
         ["ruRU"] = "Показывать на карте и миникарте цели отслеживаемых заданий членов группы, даже для заданий, которые у вас отсутствуют или уже выполнены вами. Для членов вашей группы будут показываться только ваши отслеживаемые задания",
         ["zhCN"] = "在地图和小地图上显示小队成员跟踪的任务目标，即使是你没有或已经完成的任务。只有你跟踪的任务才会显示给你的小队成员",
-        ["zhTW"] = false,
+        ["zhTW"] = "在地圖和小地圖上顯示隊伍成員追蹤的任務目標，即使是你尚未接取或已完成的任務也會顯示。只有你追蹤的任務才會顯示給你的隊伍成員",
     },
     ["Show party members' quest objectives"] = {
         ["enUS"] = true,
@@ -339,7 +339,7 @@ local socialOptionsLocales = {
         ["ptBR"] = "Mostrar objetivos de missão dos membros do grupo",
         ["ruRU"] = "Цели заданий группы",
         ["zhCN"] = "显示小队成员的任务目标",
-        ["zhTW"] = false,
+        ["zhTW"] = "顯示隊伍成員的任務目標",
     },
     ["Show quest objectives from party members on the map and minimap, even for quests you don't have or have already completed."] = {
         ["enUS"] = true,
@@ -350,8 +350,8 @@ local socialOptionsLocales = {
         ["koKR"] = false,
         ["ptBR"] = "Mostra no mapa e no minimapa os objetivos de missão dos membros do grupo, mesmo para missões que você não tenha ou já tenha concluído.",
         ["ruRU"] = "Показывать на карте и миникарте цели заданий членов группы, даже для заданий, которых у вас нет или которые вы уже выполнили.",
-        ["zhCN"] = "在地图和小地图上显示小队成员的任务目标，即使是你没有或已经完成的任务。",
-        ["zhTW"] = false,
+        ["zhCN"] = "在地图和小地图上显示小队成员的任务目标，即使是你没有或已经完成的任务",
+        ["zhTW"] = "在地圖和小地圖上顯示隊伍成員的任務目標，即使是你尚未接取或已完成的任務也會顯示",
     },
 }
 
