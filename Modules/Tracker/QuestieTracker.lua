@@ -812,7 +812,7 @@ function QuestieTracker:Update()
                     if timedQuest then
                         coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel, false)
                     else
-                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel, (Questie.db.profile.collapseCompletedQuests and isMinimizable))
+                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel, ((isMinimizable and Questie.db.profile.collapseCompletedQuests) or Questie.db.char.collapsedQuests[quest.Id] ~= nil))
                     end
 
                     line.label:SetText(coloredQuestName)
