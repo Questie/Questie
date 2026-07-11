@@ -182,58 +182,67 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) and ((not questIdsToCheck) or questIdsToCheck[questId]) then -- check all quests if no list what to check, otherwise just ones in the list
+            ---@cast questId number
             questIdsChecked[questId] = true
 
             if HaveQuestData(questId) then
                 local cachedQuest = cache[questId]
                 local cachedObjectives = cachedQuest and cachedQuest.objectives or {}
 
-                local newObjectives, changedObjIds, isComplete = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard)
+                -- During zone transitions (e.g. entering/leaving a dungeon) GetQuestLogTitle temporarily
+                -- returns incorrect values (e.g. isCompleteAccordingToBlizzard being nil for quests that are actually complete).
+                -- To avoid caching incorrect values, we skip the update entirely and set cacheMiss so we retry next QUEST_LOG_UPDATE.
+                local blizzardCacheIncorrect = (not isCompleteAccordingToBlizzard) and cachedQuest and cachedQuest.isComplete == 1
+                if blizzardCacheIncorrect then
+                    cacheMiss = true
+                else
+                    local newObjectives, changedObjIds, isComplete = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard)
 
-                if newObjectives then
-                    if (not cachedQuest) or (#cachedObjectives == #newObjectives and #cachedObjectives > 0 and
-                        (cachedQuest.title ~= title or cachedQuest.questTag ~= questTag or cachedQuest.isComplete ~= isComplete)) then
-                        -- Mark all objectives changed to force update those too.
+                    if newObjectives then
+                        if (not cachedQuest) or (#cachedObjectives == #newObjectives and #cachedObjectives > 0 and
+                            (cachedQuest.title ~= title or cachedQuest.questTag ~= questTag or cachedQuest.isComplete ~= isComplete)) then
+                            -- Mark all objectives changed to force update those too.
 
-                        -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
-                        changedObjIds = {}
-                        for i=1, #newObjectives do
-                            changedObjIds[i] = i
-                        end
-
-                        if isComplete == 1 then
-                            -- Set all objectives finished if whole quest isComplete.
-                            -- Because of: Game API returns "event" type objectives as unfinished while whole quest isComplete.
-
-                            local o
+                            -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
+                            changedObjIds = {}
                             for i=1, #newObjectives do
-                                o = newObjectives[i]
-                                o.finished = true
-                                o.numFulfilled = o.numRequired
+                                changedObjIds[i] = i
+                            end
+
+                            if isComplete == 1 then
+                                -- Set all objectives finished if whole quest isComplete.
+                                -- Because of: Game API returns "event" type objectives as unfinished while whole quest isComplete.
+
+                                local o
+                                for i=1, #newObjectives do
+                                    o = newObjectives[i]
+                                    o.finished = true
+                                    o.numFulfilled = o.numRequired
+                                end
                             end
                         end
-                    end
 
-                    if cachedQuest and cachedQuest.isComplete == 0 and isComplete == 1 then
-                        Sounds.PlayQuestComplete()
-                    end
-
-                    if changedObjIds then
-                        if (not cache[questId]) then
-                            -- Quest is new to cache
-                            questCount = questCount + 1
+                        if cachedQuest and cachedQuest.isComplete == 0 and isComplete == 1 then
+                            Sounds.PlayQuestComplete()
                         end
-                        -- Save to cache
-                        cache[questId] = {
-                            title = title,
-                            questTag = questTag,
-                            isComplete = isComplete,
-                            objectives = newObjectives,
-                        }
-                        changes[questId] = changedObjIds
+
+                        if changedObjIds then
+                            if (not cache[questId]) then
+                                -- Quest is new to cache
+                                questCount = questCount + 1
+                            end
+                            -- Save to cache
+                            cache[questId] = {
+                                title = title,
+                                questTag = questTag,
+                                isComplete = isComplete,
+                                objectives = newObjectives,
+                            }
+                            changes[questId] = changedObjIds
+                        end
+                    else
+                        cacheMiss = true
                     end
-                else
-                    cacheMiss = true
                 end
             else
                 Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestLogCache.CheckForChanges] HaveQuestData() == false. questId, index:", questId, questLogIndex)
