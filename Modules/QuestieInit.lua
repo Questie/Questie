@@ -344,6 +344,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- register events that rely on questie being initialized
     EventHandler:RegisterLateEvents()
 
+    -- Check existing quests in the log for incomplete breadcrumbs (QUEST_ACCEPTED doesn't fire at login)
+    QuestEventHandler.CheckExistingQuestBreadcrumbs()
+
     -- ! Never implemented
     if (Questie.IsWotlk or Questie.IsTBC) and QuestiePlayer.IsMaxLevel() then
         local lastRequestWasYesterday = Questie.db.global.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
