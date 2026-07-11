@@ -688,6 +688,9 @@ function QuestieWotlkQuestFixes:Load()
         [10776] = {
             [questKeys.objectives] = {{{19823}},nil,{{31310}}},
         },
+        [10842] = { -- Vengeful Souls
+            [questKeys.objectives] = {{{21636}}},
+        },
         [10888] = {
             [questKeys.exclusiveTo] = {13430},
         },

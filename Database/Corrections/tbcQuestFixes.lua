@@ -1317,6 +1317,9 @@ function QuestieTBCQuestFixes:Load()
         [7868] = {
             [questKeys.requiredMinRep] = {889,21000},
         },
+        [7946] = { -- Spawn of Jubjub
+            [questKeys.questLevel] = -1,
+        },
         [8114] = {
             [questKeys.triggerEnd] = {"Take Four Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{45.9,45.8}}}},
         },
