@@ -26,7 +26,7 @@ local eventsLocales = {
         ["ptBR"] = "A Feira de Negraluna está em %s!",
         ["ruRU"] = "Ярмарка Новолуния проходит в %s!",
         ["zhCN"] = "暗月马戏团正在 %s 举行！",
-        ["zhTW"] = false,
+        ["zhTW"] = "暗月馬戲團正在%s舉行！",
     },
     ["Darkmoon Faire"] = {
         ["enUS"] = true,
