@@ -2417,7 +2417,7 @@ function QuestieQuestFixes:Load()
         [3641] = { -- Show Your Work
             [questKeys.exclusiveTo] = {3638,3639},
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.nextQuestInChain] = 3645,
+            [questKeys.nextQuestInChain] = 3647,
         },
         [3642] = { -- The Pledge of Secrecy
             [questKeys.exclusiveTo] = {3638,3640},
