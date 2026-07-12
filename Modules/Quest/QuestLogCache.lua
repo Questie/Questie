@@ -77,6 +77,12 @@ local cache = {
 local cache = {}
 local questCount = 0
 
+-- Tracks quests where objectives regressed on the last scan (e.g. due to zone transition stale data).
+-- On the first regression, we set cacheMiss and skip the update so no sounds/announces fire.
+-- On the second consecutive regression of the same quest, we accept it as legitimate (e.g. item deletion).
+---@type table<QuestId, boolean>
+local consecutiveRegressions = {}
+
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
 ---@type table<QuestId, QuestLogCacheData>
 QuestLogCache.questLog_DO_NOT_MODIFY = cache
@@ -105,6 +111,18 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                     newObjectives[objIndex] = oldObj
                     allObjectivesFinished = allObjectivesFinished and oldObj.finished -- if any objective is not finished, whole quest is not complete
                 else
+                    -- Detect a regression: numFulfilled went down from what we had cached.
+                    -- This can happen during zone transitions when Blizzard temporarily returns incorrect data.
+                    -- On the first sighting we treat it as a cache miss so no sounds/announces fire.
+                    -- On the second consecutive sighting we accept it as a legitimate change (e.g. player deleted a collected item).
+                    if oldObj and newObj.numFulfilled < oldObj.raw_numFulfilled then
+                        if (not consecutiveRegressions[questId]) then
+                            consecutiveRegressions[questId] = true
+                            return nil, nil, isCompleteAccordingToBlizzard
+                        end
+                        -- Second consecutive regression — fall through and accept it
+                    end
+
                     -- objective has changed, add it to list of change ones
                     if (not changedObjIds) then
                         changedObjIds = { objIndex }
@@ -116,7 +134,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         Sounds.PlayObjectiveComplete()
                     end
 
-                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled then
+                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled and newObj.numFulfilled > oldObj.raw_numFulfilled then
                         Sounds.PlayObjectiveProgress()
                     end
 
@@ -157,6 +175,9 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         -- Blizzard keeps adding invalid empty objectives to quests and therefore not marking them as complete, so we need to work around that.
         isComplete = allObjectivesFinished and 1 or 0
     end
+
+    -- Completed a full scan without a first-sighting regression, so any previously recorded regression is resolved.
+    consecutiveRegressions[questId] = nil
 
     return newObjectives, changedObjIds, isComplete
 end
@@ -283,6 +304,7 @@ function QuestLogCache.RemoveQuest(questId)
         cache[questId] = nil
         questCount = questCount - 1
     end
+    consecutiveRegressions[questId] = nil
 end
 
 
