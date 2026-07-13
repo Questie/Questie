@@ -378,7 +378,8 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_GORDOK_COMMONS] = {{-1,-1}},[zoneIDs.DIRE_MAUL_PRISON_OF_IMMOLTHAR] = {{-1,-1}}},
         },
         [179553] = { -- Core Fragment
-            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS_SHADOWFORGE_CITY] = {{-1,-1}},[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
         },
         [179559] = { -- Felvine Shard
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{-1,-1}}},
