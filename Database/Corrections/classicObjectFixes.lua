@@ -286,6 +286,12 @@ function QuestieObjectFixes:Load()
         [176344] = { -- Document Chest
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{31.79,32.58}}},
         },
+        [176544] = { -- Remains of Eva Sarkhoff
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{-1,-1}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
+        [176545] = { -- Remains of Lucien Sarkhoff
+            [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_THE_UPPER_STUDY] = {{-1,-1}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
+        },
         [176589] = { -- Black Lotus
             [objectKeys.spawns] = {
                 [zoneIDs.BURNING_STEPPES] = {{13.2,30.8},{15.1,30.3},{18.8,48.7},{20.9,46.6},{21,46.4},{25.1,62.5},{26.4,59.2},{28.8,62.6},{31.4,61.7},{31.5,61.7},{31.9,69.4},{35.4,49.1},{35.5,49.1},{42.6,37.6},{43.1,34.4},{43.1,34.5},{44.2,57.1},{51,61.9},{54.3,63.4},{54.7,36.4},{56.3,53.7},{57.4,61.5},{57.6,61.6},{63.2,36.9},{63.7,60.8},{66.5,40},{76.4,47.2},{76.4,47.5},{76.5,47.2},{76.5,47.5},{82.5,34.2},{83,38},{92.1,53.2}},
