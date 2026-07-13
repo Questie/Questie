@@ -26,6 +26,8 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
 
+---@param frameId number
+---@param OnEnter function
 ---@return IconFrame
 function QuestieFrame:New(frameId, OnEnter)
     ---@class IconFrame : Button
