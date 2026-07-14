@@ -80,7 +80,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
 
     local noteButton = AceGUI:Create("Button");
     noteButton:SetText(l10n('Add New Adventure Note'));
-    noteButton:SetPoint("RIGHT");
+    noteButton:SetAutoWidth(true);
     noteButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup);
     container:AddChild(noteButton);
 

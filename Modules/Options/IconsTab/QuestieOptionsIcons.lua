@@ -360,48 +360,47 @@ function QuestieOptions.tabs.icons:Initialize()
                         width = "normal",
                         name = function() return l10n("Other Icons"); end,
                     },
-                    townsfolkSpacer1 = {
-                        type = "description",
+                    townsfolkGroup = {
+                        type = "group",
                         order = 2.11,
+                        inline = true,
+                        width = "full",
                         name = "",
-                        desc = "",
-                        image = "",
-                        imageWidth = 0.32,
-                        width = 0.32,
-                        func = function() end,
-                    },
-                    townsfolkOptions = {
-                        type = "execute",
-                        order = 2.12,
-                        name = function() return l10n("Townsfolk"); end,
-                        desc = function() return l10n("Allows to select which tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap."); end,
-                        width = 0.8,
-                        disabled = false,
-                        func = function(info, value)
-                            QuestieMenu:ShowTownsfolk(1)
-                        end
-                    },
-                    professionOptions = {
-                        type = "execute",
-                        order = 2.13,
-                        name = function() return l10n("Profession Trainers"); end,
-                        desc = function() return l10n("Allows to select which profession trainers to show on the map and minimap."); end,
-                        width = 0.95,
-                        disabled = false,
-                        func = function(info, value)
-                            QuestieMenu:ShowProfessions(1)
-                        end
-                    },
-                    vendorOptions = {
-                        type = "execute",
-                        order = 2.14,
-                        name = function() return l10n("Vendors"); end,
-                        desc = function() return l10n("Allows to select which vendors to show on the map and minimap."); end,
-                        width = 0.8,
-                        disabled = false,
-                        func = function(info, value)
-                            QuestieMenu:ShowVendors(1)
-                        end
+                        args = {
+                            townsfolkOptions = {
+                                type = "execute",
+                                order = 1,
+                                name = function() return l10n("Townsfolk"); end,
+                                desc = function() return l10n("Allows to select which tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap."); end,
+                                width = 0.8,
+                                disabled = false,
+                                func = function(info, value)
+                                    QuestieMenu:ShowTownsfolk(1)
+                                end
+                            },
+                            professionOptions = {
+                                type = "execute",
+                                order = 2,
+                                name = function() return l10n("Profession Trainers"); end,
+                                desc = function() return l10n("Allows to select which profession trainers to show on the map and minimap."); end,
+                                width = 0.95,
+                                disabled = false,
+                                func = function(info, value)
+                                    QuestieMenu:ShowProfessions(1)
+                                end
+                            },
+                            vendorOptions = {
+                                type = "execute",
+                                order = 3,
+                                name = function() return l10n("Vendors"); end,
+                                desc = function() return l10n("Allows to select which vendors to show on the map and minimap."); end,
+                                width = 0.8,
+                                disabled = false,
+                                func = function(info, value)
+                                    QuestieMenu:ShowVendors(1)
+                                end
+                            },
+                        },
                     },
                 },
             },
