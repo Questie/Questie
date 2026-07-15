@@ -276,6 +276,17 @@ QuestieProfessions.rankNames = {
     ZEN_MASTER = 8,
 }
 
+local rankNameStrings = {
+    [QuestieProfessions.rankNames.APPRENTICE] = "Apprentice",
+    [QuestieProfessions.rankNames.JOURNEYMAN] = "Journeyman",
+    [QuestieProfessions.rankNames.EXPERT] = "Expert",
+    [QuestieProfessions.rankNames.ARTISAN] = "Artisan",
+    [QuestieProfessions.rankNames.MASTER] = "Master",
+    [QuestieProfessions.rankNames.GRAND_MASTER] = "Grand Master",
+    [QuestieProfessions.rankNames.ILLUSTRIOUS_GRAND_MASTER] = "Illustrious Grand Master",
+    [QuestieProfessions.rankNames.ZEN_MASTER] = "Zen Master",
+}
+
 professionNames = {
     [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid",
     [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing",
@@ -361,6 +372,12 @@ specializationNames = {
 ---@return string
 function QuestieProfessions:GetProfessionName(professionKey)
     return professionNames[professionKey]
+end
+
+---@param rankLevel number
+---@return string?
+function QuestieProfessions:GetRankName(rankLevel)
+    return rankNameStrings[rankLevel]
 end
 
 local trainerNames = {
