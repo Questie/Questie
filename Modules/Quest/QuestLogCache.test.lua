@@ -141,31 +141,49 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayQuestComplete).was.not_called()
         end)
 
-        it("should play PlayObjectiveComplete when an objective reaches its required count", function()
+        it("should play PlayObjectiveComplete when an objective reaches its required count and quest is still incomplete", function()
             questLogTitles = {
                 [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
-                [QUEST_ID] = {{
-                    type = "item",
-                    numRequired = 5,
-                    text = "Item: 0/5",
-                    finished = false,
-                    numFulfilled = 0,
-                }}
+                [QUEST_ID] = {
+                    {
+                        type = "item",
+                        numRequired = 5,
+                        text = "Item: 0/5",
+                        finished = false,
+                        numFulfilled = 0,
+                    },
+                    {
+                        type = "monster",
+                        numRequired = 3,
+                        text = "Enemy slain: 0/3",
+                        finished = false,
+                        numFulfilled = 0,
+                    },
+                }
             }
 
             -- Step 1: Initial scan
             QuestLogCache.CheckForChanges(nil)
 
-            -- Step 2: Objective finishes
-            questObjectives[QUEST_ID] = {{
-                type = "item",
-                numRequired = 5,
-                text = "Item: 5/5",
-                finished = true,
-                numFulfilled = 5,
-            }}
+            -- Step 2: First objective finishes, second still incomplete
+            questObjectives[QUEST_ID] = {
+                {
+                    type = "item",
+                    numRequired = 5,
+                    text = "Item: 5/5",
+                    finished = true,
+                    numFulfilled = 5,
+                },
+                {
+                    type = "monster",
+                    numRequired = 3,
+                    text = "Enemy slain: 0/3",
+                    finished = false,
+                    numFulfilled = 0,
+                },
+            }
 
             local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
 
@@ -287,7 +305,7 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
         end)
 
-        it("should not play sounds when objective numFulfilled regresses once (zone transition)", function()
+        it("should not play sounds when objective numFulfilled regresses during zone transition", function()
             questLogTitles = {
                 [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
@@ -305,7 +323,8 @@ describe("QuestLogCache", function()
             QuestLogCache.CheckForChanges(nil)
             assert.is_equal(3, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].objectives[1].raw_numFulfilled)
 
-            -- Step 2: Zone transition — Blizzard returns stale 0/5
+            -- Step 2: Zone transition — Blizzard returns stale 0/5 (first QUEST_LOG_UPDATE)
+            QuestLogCache.OnLoadingScreenEnabled()
             questObjectives[QUEST_ID] = {{
                 type = "item",
                 numRequired = 5,
@@ -315,10 +334,34 @@ describe("QuestLogCache", function()
             }}
 
             local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
-
             assert.is_true(cacheMiss)
             assert.is_nil(changes[QUEST_ID])
-            -- Cache must NOT be updated with the stale value
+            assert.is_equal(3, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].objectives[1].raw_numFulfilled)
+            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            -- Step 3: Second QUEST_LOG_UPDATE still stale — must NOT be accepted
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_true(cacheMiss)
+            assert.is_nil(changes[QUEST_ID])
+            assert.is_equal(3, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].objectives[1].raw_numFulfilled)
+            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            -- Step 4: Blizzard restores 3/5 — must not look like forward progress
+            questObjectives[QUEST_ID] = {{
+                type = "item",
+                numRequired = 5,
+                text = "Item: 3/5",
+                finished = false,
+                numFulfilled = 3,
+            }}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_nil(changes[QUEST_ID])
             assert.is_equal(3, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].objectives[1].raw_numFulfilled)
             assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
             assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
@@ -343,6 +386,7 @@ describe("QuestLogCache", function()
             QuestLogCache.CheckForChanges(nil)
 
             -- Step 2: First zone transition (enter dungeon) — Blizzard returns stale 0/5
+            QuestLogCache.OnLoadingScreenEnabled()
             questObjectives[QUEST_ID] = {{
                 type = "item",
                 numRequired = 5,
@@ -365,6 +409,7 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
 
             -- Step 4: Second zone transition (leave dungeon) — stale 0/5 again
+            QuestLogCache.OnLoadingScreenEnabled()
             questObjectives[QUEST_ID] = {{
                 type = "item",
                 numRequired = 5,
@@ -381,7 +426,7 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayQuestComplete).was.not_called()
         end)
 
-        it("should accept a regression on second consecutive sighting (item deletion)", function()
+        it("should accept a regression outside of zone transition (e.g. item deletion)", function()
             questLogTitles = {
                 [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
@@ -398,7 +443,7 @@ describe("QuestLogCache", function()
             -- Step 1: Initial scan — objective cached at 3/5
             QuestLogCache.CheckForChanges(nil)
 
-            -- Step 2: First sighting of regression (1/5) — treated as cache miss
+            -- Step 2: Player deletes items — regression accepted because blizzardQuestCacheStale is false
             questObjectives[QUEST_ID] = {{
                 type = "item",
                 numRequired = 5,
@@ -408,16 +453,48 @@ describe("QuestLogCache", function()
             }}
 
             local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
-            assert.is_true(cacheMiss)
-            assert.is_nil(changes[QUEST_ID])
-            assert.is_equal(3, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].objectives[1].raw_numFulfilled)
-
-            -- Step 3: Second consecutive sighting of same regression — accepted as legitimate
-            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
 
             assert.is_false(cacheMiss)
             assert.is_not_nil(changes[QUEST_ID])
             assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].objectives[1].raw_numFulfilled)
+            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+        end)
+
+        it("should not accept a regression during zone transition even on repeated scans", function()
+            questLogTitles = {
+                [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
+            }
+            questObjectives = {
+                [QUEST_ID] = {{
+                    type = "item",
+                    numRequired = 5,
+                    text = "Item: 3/5",
+                    finished = false,
+                    numFulfilled = 3,
+                }}
+            }
+
+            -- Step 1: Initial scan — objective cached at 3/5
+            QuestLogCache.CheckForChanges(nil)
+
+            QuestLogCache.OnLoadingScreenEnabled()
+            questObjectives[QUEST_ID] = {{
+                type = "item",
+                numRequired = 5,
+                text = "Item: 0/5",
+                finished = false,
+                numFulfilled = 0,
+            }}
+
+            -- Repeated stale scans — all must be cache misses
+            for _ = 1, 5 do
+                local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+                assert.is_true(cacheMiss)
+                assert.is_nil(changes[QUEST_ID])
+                assert.is_equal(3, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].objectives[1].raw_numFulfilled)
+            end
             assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
             assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
             assert.spy(Sounds.PlayQuestComplete).was.not_called()

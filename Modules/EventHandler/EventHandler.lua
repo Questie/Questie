@@ -9,6 +9,8 @@ local _EventHandler = {}
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type AchievementEventHandler
 local AchievementEventHandler = QuestieLoader:ImportModule("AchievementEventHandler")
 ---@type GroupEventHandler
@@ -163,6 +165,10 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, eventType) QuestEventHandler.PlayerInteractionManagerFrameHide(eventType) end)
+
+    Questie:RegisterEvent("LOADING_SCREEN_ENABLED", function()
+        QuestLogCache.OnLoadingScreenEnabled()
+    end)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
