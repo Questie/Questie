@@ -21,9 +21,11 @@ function QuestieNPCBlacklist:Load()
         [13446] = Expansions.Current == Expansions.Era, -- Field Marshal Teravaine
         [13449] = Expansions.Current == Expansions.Era, -- Warmaster Garrick
         [15799] = Expansions.Current == Expansions.Era, -- Colossus Researcher Eazel (AQ Opening event)
-        [17544] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5) or (Expansions.Current >= Expansions.Wotlk), -- removed starting with SWP patch
-        [21155] = true, -- Bloodelf War Effort Recruiter
+        [17076] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5) or (Expansions.Current >= Expansions.Wotlk), -- Lady Liadrin - removed starting with SWP patch
+        [17544] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5) or (Expansions.Current >= Expansions.Wotlk), -- M'uru - removed starting with SWP patch
+        [21155] = true, -- Senior Sergeant Eveningshade
+        [25223] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 5), -- Lord Solanar Bloodwrath - added with SWP patch
         [30676] = Expansions.Current >= Expansions.Cata, -- Chronicler Bah'Kini (outside of dungeon version of this NPC)
-        [178420] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5) or (Expansions.Current >= Expansions.Wotlk), -- removed starting with SWP patch
+        [178420] = (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5) or (Expansions.Current >= Expansions.Wotlk), -- Magister Astalor Bloodsworn - removed starting with SWP patch
     }
 end
