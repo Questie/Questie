@@ -112,14 +112,14 @@ _GetBuffMultiplier = function()
         if spellId == 377749 then
             buffMultiplier = buffMultiplier + (Questie.IsTitanReforged and 1 or 0.5) -- Joyous Journeys
         elseif spellId == 436412 then
-            buffMultiplier = buffMultiplier + (UnitLevel("player") < 50 and 1.5 or 0.5) -- Discoverer's Delight
+            buffMultiplier = buffMultiplier + (UnitLevel("player") < 50 and 1.5 or 0.5) -- Discoverer's Delight - 150% bonus XP till level 50 and 50% after
             isDiscovererDelightActive = true
         elseif spellId == 46668 then
             buffMultiplier = buffMultiplier + 0.1 -- Darkmoon Faire
         elseif spellId == 95987 then
-            buffMultiplier = buffMultiplier + 0.1 -- Unburdened (Hallow's End)
+            buffMultiplier = buffMultiplier + 0.1 -- Unburdened (Hallow's End Alliance)
         elseif spellId == 24705 then
-            buffMultiplier = buffMultiplier + 0.1 -- Grim Visage (Hallow's End)
+            buffMultiplier = buffMultiplier + 0.1 -- Grim Visage (Hallow's End Horde)
         end
     end
 
