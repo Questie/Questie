@@ -103,7 +103,7 @@ local exclusions = {
 
 function QuestXP.GetQuestRewardMoney(questId)
     local modifier = 1
-    if HasDiscoverersDelight() and (not exclusions[questId]) then
+    if Questie.IsSoD and HasDiscoverersDelight() and (not exclusions[questId]) then
         modifier = 3
     end
     return floor(GetQuestLogRewardMoney(questId) * modifier)
@@ -121,7 +121,7 @@ _GetBuffMultiplier = function()
 
         if spellId == 377749 then
             buffMultiplier = buffMultiplier + (Questie.IsTitanReforged and 1 or 0.5) -- Joyous Journeys
-        elseif spellId == 436412 then
+        elseif Questie.IsSoD and spellId == 436412 then
             buffMultiplier = buffMultiplier + (UnitLevel("player") < 50 and 1.5 or 0.5) -- Discoverer's Delight - 150% bonus XP till level 50 and 50% after
         elseif spellId == 46668 then
             buffMultiplier = buffMultiplier + 0.1 -- Darkmoon Faire
