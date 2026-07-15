@@ -12,7 +12,6 @@ local floor = floor
 local UnitLevel = UnitLevel
 
 local globalXPMultiplier = 1
-local isDiscovererDelightActive = false
 
 local _GetBuffMultiplier
 
@@ -25,6 +24,17 @@ function QuestXP.Init()
             globalXPMultiplier = globalXPMultiplier + 0.1 -- 10% bonus XP
         end
     end
+
+end
+
+---@return boolean
+local function HasDiscoverersDelight()
+    for i = 1, 40 do
+        local _, _, _, _, _, _, _, _, _, spellId = UnitAura("player", i, "HELPFUL")
+        if spellId == nil then break end
+        if spellId == 436412 then return true end
+    end
+    return false
 end
 
 ---@param xp XP
@@ -93,7 +103,7 @@ local exclusions = {
 
 function QuestXP.GetQuestRewardMoney(questId)
     local modifier = 1
-    if isDiscovererDelightActive and (not exclusions[questId]) then
+    if HasDiscoverersDelight() and (not exclusions[questId]) then
         modifier = 3
     end
     return floor(GetQuestLogRewardMoney(questId) * modifier)
@@ -113,7 +123,6 @@ _GetBuffMultiplier = function()
             buffMultiplier = buffMultiplier + (Questie.IsTitanReforged and 1 or 0.5) -- Joyous Journeys
         elseif spellId == 436412 then
             buffMultiplier = buffMultiplier + (UnitLevel("player") < 50 and 1.5 or 0.5) -- Discoverer's Delight - 150% bonus XP till level 50 and 50% after
-            isDiscovererDelightActive = true
         elseif spellId == 46668 then
             buffMultiplier = buffMultiplier + 0.1 -- Darkmoon Faire
         elseif spellId == 95987 then
