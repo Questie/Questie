@@ -43,7 +43,7 @@ describe("QuestLogCache", function()
     describe("CheckForChanges", function()
         it("should add a new quest to the cache on first scan without playing any sounds", function()
             questLogTitles = {
-                [1] = {"Kill the Boss", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {{
@@ -68,7 +68,7 @@ describe("QuestLogCache", function()
 
         it("should play PlayQuestComplete when quest transitions from incomplete to complete", function()
             questLogTitles = {
-                [1] = {"Kill the Boss", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {{
@@ -108,7 +108,7 @@ describe("QuestLogCache", function()
 
         it("should play PlayObjectiveProgress when an objective partially progresses", function()
             questLogTitles = {
-                [1] = {"Collect Items", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {{
@@ -143,7 +143,7 @@ describe("QuestLogCache", function()
 
         it("should play PlayObjectiveComplete when an objective reaches its required count", function()
             questLogTitles = {
-                [1] = {"Collect Items", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {{
@@ -178,7 +178,7 @@ describe("QuestLogCache", function()
 
         it("should return cacheMiss=true and no changes when HaveQuestData returns false", function()
             questLogTitles = {
-                [1] = {"Kill the Boss", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             _G.HaveQuestData = function() return false end
 
@@ -193,8 +193,8 @@ describe("QuestLogCache", function()
 
         it("should skip header entries", function()
             questLogTitles = {
-                [1] = {"Zone Header", 0, nil, true, false, 0, nil, 0},
-                [2] = {"Kill the Boss", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Zone Header", 0, nil, true, false, nil, nil, 0},
+                [2] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {}
@@ -210,8 +210,8 @@ describe("QuestLogCache", function()
         it("should only process quests listed in questIdsToCheck", function()
             local OTHER_QUEST_ID = 5678
             questLogTitles = {
-                [1] = {"Kill the Boss", 60, nil, false, false, 0, nil, QUEST_ID},
-                [2] = {"Collect Items", 60, nil, false, false, 0, nil, OTHER_QUEST_ID},
+                [1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID},
+                [2] = {"Collect Items", 60, nil, false, false, nil, nil, OTHER_QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {},
@@ -289,7 +289,7 @@ describe("QuestLogCache", function()
 
         it("should not play sounds when objective numFulfilled regresses once (zone transition)", function()
             questLogTitles = {
-                [1] = {"Collect Items", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {{
@@ -327,7 +327,7 @@ describe("QuestLogCache", function()
 
         it("should not play sounds on second zone transition when no objective progress was made", function()
             questLogTitles = {
-                [1] = {"Collect Items", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {{
@@ -383,7 +383,7 @@ describe("QuestLogCache", function()
 
         it("should accept a regression on second consecutive sighting (item deletion)", function()
             questLogTitles = {
-                [1] = {"Collect Items", 60, nil, false, false, 0, nil, QUEST_ID},
+                [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
             }
             questObjectives = {
                 [QUEST_ID] = {{
