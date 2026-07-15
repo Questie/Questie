@@ -33,13 +33,13 @@ tinsert(eventQuests, {"Children's Week", 10952}) -- A Trip to the Dark Portal
 tinsert(eventQuests, {"Children's Week", 10953}) -- Visit the Throne of the Elements
 tinsert(eventQuests, {"Children's Week", 10954}) -- Jheel is at Aeris Landing!
 tinsert(eventQuests, {"Children's Week", 10956}) -- The Seat of the Naaru
-tinsert(eventQuests, {"Children's Week", 10960, nil, nil, Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5)}) -- When I Grow Up...
+tinsert(eventQuests, {"Children's Week", 10960, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5)}) -- When I Grow Up...
 tinsert(eventQuests, {"Children's Week", 10962}) -- Time to Visit the Caverns
 tinsert(eventQuests, {"Children's Week", 10963}) -- Time to Visit the Caverns
 tinsert(eventQuests, {"Children's Week", 10966}) -- Back to the Orphanage
 tinsert(eventQuests, {"Children's Week", 10967}) -- Back to the Orphanage
 tinsert(eventQuests, {"Children's Week", 10968}) -- Call on the Farseer
-tinsert(eventQuests, {"Children's Week", 11975, nil, nil, Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 5}) -- Now, When I Grow Up...
+tinsert(eventQuests, {"Children's Week", 11975, nil, nil, nil, nil, Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 5}) -- Now, When I Grow Up...
 
 -- WotLK quests
 tinsert(eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
