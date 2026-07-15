@@ -567,6 +567,10 @@ function QuestieWotlkQuestFixes:Load()
         [9681] = {
             [questKeys.startedBy] = {{17717,17718}},
         },
+        [9737] = { -- True Masters of the Light
+            [questKeys.startedBy] = {{25223}}, -- TBC p1/p2 offered by 17076
+            [questKeys.finishedBy] = {{25223}}, -- TBC p1/p2 finished by 17076
+        },
         [9876] = {
             [questKeys.nextQuestInChain] = 9738,
         },
