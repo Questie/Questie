@@ -395,7 +395,9 @@ describe("QuestieEvent", function()
                         weekDay = 4,
                         monthDay = 3,
                         month = 12,
-                        year = 2025
+                        year = 2025,
+                        hour = 12,
+                        minute = 0,
                     }
                 end
             }
@@ -421,7 +423,9 @@ describe("QuestieEvent", function()
                         weekDay = 4,
                         monthDay = 3,
                         month = 12,
-                        year = 2025
+                        year = 2025,
+                        hour = 12,
+                        minute = 0,
                     }
                 end
             }
@@ -447,7 +451,9 @@ describe("QuestieEvent", function()
                         weekDay = 4,
                         monthDay = 3,
                         month = 12,
-                        year = 2025
+                        year = 2025,
+                        hour = 12,
+                        minute = 0,
                     }
                 end
             }
@@ -473,7 +479,9 @@ describe("QuestieEvent", function()
                         weekDay = 1,
                         monthDay = 23,
                         month = 11,
-                        year = 2025
+                        year = 2025,
+                        hour = 12,
+                        minute = 0,
                     }
                 end
             }
@@ -633,6 +641,33 @@ describe("QuestieEvent", function()
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
 
+        it("should not activate DMF for MoP servers when GetNumDayEvents returns 0 events", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {
+                        minute = 0,
+                        hour = 12,
+                        weekDay = 1,
+                        monthDay = 23,
+                        month = 11,
+                        year = 2025
+                    }
+                end
+            }
+            local getNumDayEventsMock = spy.new(function() return 0 end)
+            Expansions.Current = Expansions.MoP
+            _G.C_Calendar = {
+                GetNumDayEvents = getNumDayEventsMock,
+                GetHolidayInfo = function() return nil end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.not_called()
+            assert.is_nil(QuestieEvent.eventQuests)
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
         it("should hide DMF events if user had them hidden before", function()
             local getCvarBoolMock = spy.new(function() return false end)
             _G.GetCVarBool = getCvarBoolMock
@@ -643,6 +678,179 @@ describe("QuestieEvent", function()
 
             assert.spy(getCvarBoolMock).was.called_with("calendarShowDarkmoon")
             assert.spy(setCvarMock).was.called_with("calendarShowDarkmoon", "0")
+        end)
+    end)
+
+    describe("General event HH:MM gating", function()
+        before_each(function()
+            Expansions.Current = Expansions.Tbc
+
+            QuestieEvent.lunarFestival = {DEFAULT = {}, TITAN = {}}
+            -- Clear corrections so tests fully control eventDates without expansion overrides
+            QuestieEvent.eventDateCorrections = {TBC = {}}
+        end)
+
+        it("should not activate an event before its start hour", function()
+            -- Event starts 10:00 on 9 Feb, ends 10:00 on 23 Feb
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 9, month = 2, year = 2025, hour = 9, minute = 59}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
+            }
+            QuestieEvent.eventQuests = {
+                {"Love is in the Air", 9032},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.not_called()
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("should activate an event at exactly its start hour", function()
+            -- Event starts 10:00 on 9 Feb, ends 10:00 on 23 Feb
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 9, month = 2, year = 2025, hour = 10, minute = 0}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
+            }
+            QuestieEvent.eventQuests = {
+                {"Love is in the Air", 9032},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Love is in the Air' world event is active!")
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
+        it("should not activate an event after its end hour on the end day", function()
+            -- Event ends at 10:00 on 23 Feb; 10:01 should be inactive
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 23, month = 2, year = 2025, hour = 10, minute = 1}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
+            }
+            QuestieEvent.eventQuests = {
+                {"Love is in the Air", 9032},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.not_called()
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("should activate a cross-year event in December (Winter Veil)", function()
+            -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Dec 20
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 6, monthDay = 20, month = 12, year = 2025, hour = 12, minute = 0}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
+            }
+            QuestieEvent.eventQuests = {
+                {"Winter Veil", 8763},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Winter Veil' world event is active!")
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
+        it("should activate a cross-year event in January (Winter Veil)", function()
+            -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Jan 1
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 3, monthDay = 1, month = 1, year = 2026, hour = 12, minute = 0}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
+            }
+            QuestieEvent.eventQuests = {
+                {"Winter Veil", 8763},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Winter Veil' world event is active!")
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
+        it("should not activate a cross-year event outside its window (Winter Veil)", function()
+            -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Jun 15
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 15, month = 6, year = 2025, hour = 12, minute = 0}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
+            }
+            QuestieEvent.eventQuests = {
+                {"Winter Veil", 8763},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.not_called()
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("should not activate a quest outside its own HH:MM window during an active event", function()
+            -- Event is active for the whole day; quest has its own narrower window
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 5, month = 4, year = 2025, hour = 14, minute = 0}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
+            }
+            -- Quest has its own date/time sub-window: 6 Apr 10:00 - 10 Apr 10:00 (quest is NOT active on Apr 5)
+            QuestieEvent.eventQuests = {
+                {"Noblegarden", 13479, "6/4", "10/4", "10:00", "10:00"},
+            }
+
+            QuestieEvent:Load()
+
+            -- Event itself prints active
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Noblegarden' world event is active!")
+            -- But quest sub-window (Apr 6-10) does not include Apr 5, so quest should not be active
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("should activate a quest with its own HH:MM window when inside the sub-window", function()
+            -- Event is active; quest sub-window also covers the current date/time
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 8, month = 4, year = 2025, hour = 14, minute = 0}
+                end
+            }
+            QuestieEvent.eventDates = {
+                ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
+            }
+            QuestieEvent.eventQuests = {
+                {"Noblegarden", 13479, "6/4", "10/4", "10:00", "10:00"},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Noblegarden' world event is active!")
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
     end)
 end)

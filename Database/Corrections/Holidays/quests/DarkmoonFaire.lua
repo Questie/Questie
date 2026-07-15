@@ -6,52 +6,52 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
 
-tinsert(eventQuests, {"Darkmoon Faire", 7881, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Carnival Boots
-tinsert(eventQuests, {"Darkmoon Faire", 7882, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Carnival Jerkins
-tinsert(eventQuests, {"Darkmoon Faire", 7883, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- The World's Largest Gnome!
-tinsert(eventQuests, {"Darkmoon Faire", 7884, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Crocolisk Boy and the Bearded Murloc
-tinsert(eventQuests, {"Darkmoon Faire", 7885, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Armor Kits
-tinsert(eventQuests, {"Darkmoon Faire", 7889, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Coarse Weightstone
-tinsert(eventQuests, {"Darkmoon Faire", 7890, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Heavy Grinding Stone
-tinsert(eventQuests, {"Darkmoon Faire", 7891, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Green Iron Bracers
-tinsert(eventQuests, {"Darkmoon Faire", 7892, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Big Black Mace
-tinsert(eventQuests, {"Darkmoon Faire", 7893, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Rituals of Strength
-tinsert(eventQuests, {"Darkmoon Faire", 7894, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Copper Modulator
-tinsert(eventQuests, {"Darkmoon Faire", 7895, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Whirring Bronze Gizmo
-tinsert(eventQuests, {"Darkmoon Faire", 7896, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Green Fireworks
-tinsert(eventQuests, {"Darkmoon Faire", 7897, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Mechanical Repair Kits
-tinsert(eventQuests, {"Darkmoon Faire", 7898, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Thorium Widget
-tinsert(eventQuests, {"Darkmoon Faire", 7899, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Small Furry Paws
-tinsert(eventQuests, {"Darkmoon Faire", 7900, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Torn Bear Pelts
-tinsert(eventQuests, {"Darkmoon Faire", 7901, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Soft Bushy Tails
-tinsert(eventQuests, {"Darkmoon Faire", 7902, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Vibrant Plumes
-tinsert(eventQuests, {"Darkmoon Faire", 7903, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Evil Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 7881, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Carnival Boots
+tinsert(eventQuests, {"Darkmoon Faire", 7882, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Carnival Jerkins
+tinsert(eventQuests, {"Darkmoon Faire", 7883, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- The World's Largest Gnome!
+tinsert(eventQuests, {"Darkmoon Faire", 7884, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Crocolisk Boy and the Bearded Murloc
+tinsert(eventQuests, {"Darkmoon Faire", 7885, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7889, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Coarse Weightstone
+tinsert(eventQuests, {"Darkmoon Faire", 7890, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Heavy Grinding Stone
+tinsert(eventQuests, {"Darkmoon Faire", 7891, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Green Iron Bracers
+tinsert(eventQuests, {"Darkmoon Faire", 7892, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Big Black Mace
+tinsert(eventQuests, {"Darkmoon Faire", 7893, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Rituals of Strength
+tinsert(eventQuests, {"Darkmoon Faire", 7894, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Copper Modulator
+tinsert(eventQuests, {"Darkmoon Faire", 7895, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Whirring Bronze Gizmo
+tinsert(eventQuests, {"Darkmoon Faire", 7896, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Green Fireworks
+tinsert(eventQuests, {"Darkmoon Faire", 7897, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Mechanical Repair Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7898, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Thorium Widget
+tinsert(eventQuests, {"Darkmoon Faire", 7899, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Small Furry Paws
+tinsert(eventQuests, {"Darkmoon Faire", 7900, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Torn Bear Pelts
+tinsert(eventQuests, {"Darkmoon Faire", 7901, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Soft Bushy Tails
+tinsert(eventQuests, {"Darkmoon Faire", 7902, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Vibrant Plumes
+tinsert(eventQuests, {"Darkmoon Faire", 7903, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Evil Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 7905}) -- The Darkmoon Faire
 tinsert(eventQuests, {"Darkmoon Faire", 7907}) -- Darkmoon Beast Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7926}) -- The Darkmoon Faire
 tinsert(eventQuests, {"Darkmoon Faire", 7927}) -- Darkmoon Portals Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7928}) -- Darkmoon Warlords Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7929}) -- Darkmoon Elementals Deck
-tinsert(eventQuests, {"Darkmoon Faire", 7930, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Darkmoon Flower
-tinsert(eventQuests, {"Darkmoon Faire", 7931, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Minor Darkmoon Prize
-tinsert(eventQuests, {"Darkmoon Faire", 7932, nil, nil, Expansions.Current >= Expansions.Cata}) -- 12 Tickets - Lesser Darkmoon Prize
-tinsert(eventQuests, {"Darkmoon Faire", 7933, nil, nil, Expansions.Current >= Expansions.Cata}) -- 40 Tickets - Greater Darkmoon Prize
-tinsert(eventQuests, {"Darkmoon Faire", 7934, nil, nil, Expansions.Current >= Expansions.Cata}) -- 50 Tickets - Darkmoon Storage Box
-tinsert(eventQuests, {"Darkmoon Faire", 7935, nil, nil, Expansions.Current >= Expansions.Cata}) -- 10 Tickets - Last Month's Mutton
-tinsert(eventQuests, {"Darkmoon Faire", 7936, nil, nil, Expansions.Current >= Expansions.Cata}) -- 50 Tickets - Last Year's Mutton
-tinsert(eventQuests, {"Darkmoon Faire", 7937, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
-tinsert(eventQuests, {"Darkmoon Faire", 7938, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
-tinsert(eventQuests, {"Darkmoon Faire", 7939, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Dense Grinding Stones
-tinsert(eventQuests, {"Darkmoon Faire", 7940, nil, nil, Expansions.Current >= Expansions.Cata}) -- 1200 Tickets - Orb of the Darkmoon
-tinsert(eventQuests, {"Darkmoon Faire", 7941, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Armor Kits
-tinsert(eventQuests, {"Darkmoon Faire", 7942, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Thorium Widgets
-tinsert(eventQuests, {"Darkmoon Faire", 7943, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Bat Eyes
-tinsert(eventQuests, {"Darkmoon Faire", 7944, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
-tinsert(eventQuests, {"Darkmoon Faire", 7945, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
-tinsert(eventQuests, {"Darkmoon Faire", 7946, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Spawn of Jubjub
-tinsert(eventQuests, {"Darkmoon Faire", 7981, nil, nil, Expansions.Current >= Expansions.Cata}) -- 1200 Tickets - Amulet of the Darkmoon
-tinsert(eventQuests, {"Darkmoon Faire", 8222, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Glowing Scorpid Blood
-tinsert(eventQuests, {"Darkmoon Faire", 8223, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 7930, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Darkmoon Flower
+tinsert(eventQuests, {"Darkmoon Faire", 7931, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Minor Darkmoon Prize
+tinsert(eventQuests, {"Darkmoon Faire", 7932, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 12 Tickets - Lesser Darkmoon Prize
+tinsert(eventQuests, {"Darkmoon Faire", 7933, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 40 Tickets - Greater Darkmoon Prize
+tinsert(eventQuests, {"Darkmoon Faire", 7934, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 50 Tickets - Darkmoon Storage Box
+tinsert(eventQuests, {"Darkmoon Faire", 7935, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 10 Tickets - Last Month's Mutton
+tinsert(eventQuests, {"Darkmoon Faire", 7936, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 50 Tickets - Last Year's Mutton
+tinsert(eventQuests, {"Darkmoon Faire", 7937, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
+tinsert(eventQuests, {"Darkmoon Faire", 7938, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
+tinsert(eventQuests, {"Darkmoon Faire", 7939, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Dense Grinding Stones
+tinsert(eventQuests, {"Darkmoon Faire", 7940, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 1200 Tickets - Orb of the Darkmoon
+tinsert(eventQuests, {"Darkmoon Faire", 7941, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Armor Kits
+tinsert(eventQuests, {"Darkmoon Faire", 7942, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Thorium Widgets
+tinsert(eventQuests, {"Darkmoon Faire", 7943, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Bat Eyes
+tinsert(eventQuests, {"Darkmoon Faire", 7944, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
+tinsert(eventQuests, {"Darkmoon Faire", 7945, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Your Fortune Awaits You...
+tinsert(eventQuests, {"Darkmoon Faire", 7946, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Spawn of Jubjub
+tinsert(eventQuests, {"Darkmoon Faire", 7981, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 1200 Tickets - Amulet of the Darkmoon
+tinsert(eventQuests, {"Darkmoon Faire", 8222, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Glowing Scorpid Blood
+tinsert(eventQuests, {"Darkmoon Faire", 8223, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- More Glowing Scorpid Blood
 
 -- SoD quests
 tinsert(eventQuests, {"Darkmoon Faire", 79588}) -- Small Furry Paws
@@ -82,7 +82,7 @@ tinsert(eventQuests, {"Darkmoon Faire", 82282}) -- Armor Kits
 tinsert(eventQuests, {"Darkmoon Faire", 82283}) -- Crocolisk Boy and the Bearded Murloc
 
 -- TBC quests
-tinsert(eventQuests, {"Darkmoon Faire", 9249, nil, nil, Expansions.Current >= Expansions.Cata}) -- 40 Tickets - Schematic: Steam Tonk Controller
+tinsert(eventQuests, {"Darkmoon Faire", 9249, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 40 Tickets - Schematic: Steam Tonk Controller
 tinsert(eventQuests, {"Darkmoon Faire", 10938}) -- Darkmoon Blessings Deck
 tinsert(eventQuests, {"Darkmoon Faire", 10939}) -- Darkmoon Storms Deck
 tinsert(eventQuests, {"Darkmoon Faire", 10940}) -- Darkmoon Furies Deck
