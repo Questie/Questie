@@ -3072,7 +3072,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {12812},
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,270},
         },
-        [5122] = {
+        [5122] = { -- The Medallion of Faith
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1140
         },
         [5123] = { -- The Final Piece
