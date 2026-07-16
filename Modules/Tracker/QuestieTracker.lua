@@ -90,41 +90,6 @@ function QuestieTracker.Initialize()
         return
     end
 
-    -- These values might also be accessed by other modules, so we need to make sure they exist. Even when the Tracker is disabled
-    if (not Questie.db.char.TrackerHiddenQuests) then
-        Questie.db.char.TrackerHiddenQuests = {}
-    end
-    if (not Questie.db.char.TrackerHiddenObjectives) then
-        Questie.db.char.TrackerHiddenObjectives = {}
-    end
-    if (not Questie.db.char.TrackedQuests) then
-        Questie.db.char.TrackedQuests = {}
-    end
-    if (not Questie.db.char.AutoUntrackedQuests) then
-        Questie.db.char.AutoUntrackedQuests = {}
-    end
-    if (not Questie.db.char.collapsedZones) then
-        Questie.db.char.collapsedZones = {}
-    end
-    if (not Questie.db.char.minAllQuestsInZone) then
-        Questie.db.char.minAllQuestsInZone = {}
-    end
-    if (not Questie.db.char.collapsedQuests) then
-        Questie.db.char.collapsedQuests = {}
-    end
-    if (not Questie.db.char.trackedAchievementIds) then
-        Questie.db.char.trackedAchievementIds = {}
-    end
-    if (not Questie.db.profile.TrackerWidth) then
-        Questie.db.profile.TrackerWidth = 0
-    end
-    if (not Questie.db.profile.TrackerHeight) then
-        Questie.db.profile.TrackerHeight = 0
-    end
-    if (not Questie.db.profile.trackerSetpoint) then
-        Questie.db.profile.trackerSetpoint = "TOPLEFT"
-    end
-
     if (not Questie.db.profile.trackerEnabled) then
         -- The Tracker is disabled, no need to continue
         return
