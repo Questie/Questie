@@ -132,10 +132,6 @@ local DMF_START_DAY_BY_FIRST_WEEKDAY = {
 }
 
 function QuestieEvent.Initialize()
-    if (not Questie.db.profile.showEventQuests) then
-        return
-    end
-
     Questie:RegisterEvent("CALENDAR_UPDATE_EVENT_LIST", function()
         QuestieEvent:Load()
         Questie:UnregisterEvent("CALENDAR_UPDATE_EVENT_LIST")
@@ -187,7 +183,9 @@ function QuestieEvent:Load()
         endMinute = eventData.endMinute
 
         if _WithinDates(startDay, startMonth, startHour, startMinute, endDay, endMonth, endHour, endMinute) and (eventCorrections[eventName] ~= false) then
-            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
+            if Questie.db.profile.showEventQuests then
+                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
+            end
             activeEvents[eventName] = true
         end
     end
@@ -248,7 +246,9 @@ function QuestieEvent:Load()
     end
 
     if dmfIsActive then
-        print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+        if Questie.db.profile.showEventQuests then
+            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+        end
     end
 
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
@@ -436,7 +436,9 @@ _LoadDarkmoonFaire = function()
         QuestieEvent.activeQuests[hordeAnnouncingQuestId] = nil
     end
 
-    print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The Darkmoon Faire is up in %s!", l10n(DMF_LOCATION_NAMES[eventLocation])))
+    if Questie.db.profile.showEventQuests then
+        print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The Darkmoon Faire is up in %s!", l10n(DMF_LOCATION_NAMES[eventLocation])))
+    end
 end
 
 --- Checks wheather the current date is within the given date range
