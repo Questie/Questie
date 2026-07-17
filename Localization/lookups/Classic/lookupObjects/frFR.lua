@@ -236,6 +236,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [3767] = "Marché de Drizzlik",
 [3768] = "Fragile – Ne pas jeter",
 [3972] = "ON RECHERCHE",
+[4004] = "Lac de Lave de la Crête de la Fournaise",
 [4072] = "Valve de commande principale",
 [4096] = "Coffre de l'Alliance",
 [4141] = "Console de contrôle",

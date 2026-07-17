@@ -231,6 +231,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [3767] = "Empório de Drizzlik",
 [3768] = "Frágil - Não Deixe Cair",
 [3972] = "PROCURA-SE",
+[4004] = "Lago de Lava do Pico Penacho de Fogo",
 [4072] = "Válvula Principal",
 [4096] = "Baú da Aliança",
 [4141] = "Painel de Controle",
