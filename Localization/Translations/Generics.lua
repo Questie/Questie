@@ -550,7 +550,7 @@ local genericsLocales = {
         ["frFR"] = "Sans",
         ["koKR"] = "아니다",
         ["ptBR"] = "Sem",
-        ["ruRU"] = "Нет",
+        ["ruRU"] = "Не",
         ["zhCN"] = "不是",
         ["zhTW"] = "不是",
     },
