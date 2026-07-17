@@ -195,14 +195,6 @@ function l10n:GetFallbackLocale(lang)
 
     if supportedLocals[lang] then
         return lang
-    elseif lang == 'enGB' then
-        return 'enUS'
-    elseif lang == 'enCN' then
-        return 'zhCN'
-    elseif lang == 'enTW' then
-        return 'zhTW'
-    elseif lang == 'ptPT' then
-        return 'ptBR'
     else
         return 'enUS'
     end
