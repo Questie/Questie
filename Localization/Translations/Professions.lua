@@ -618,7 +618,7 @@ local professionLocals = {
     },
     ["Illustrious Grand Master"] = {
         ["enUS"] = true,
-        ["deDE"] = "Erhabener großmeister",
+        ["deDE"] = "Erhabener Großmeister",
         ["esES"] = "Ilustre gran maestro",
         ["esMX"] = "Ilustre gran maestro",
         ["frFR"] = "Illustre grand maître",
