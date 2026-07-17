@@ -22,6 +22,7 @@ describe("QuestieEvent", function()
         Questie.IsAnniversaryEra = false
         Questie.IsAnniversaryHardcore = false
         Questie.IsTBC = false
+        Questie.db.profile.showEventQuests = true
         _G.Questie.Colorize = function(_, str) return str end
         printMock = spy.new(function() end)
         _G.print = printMock
