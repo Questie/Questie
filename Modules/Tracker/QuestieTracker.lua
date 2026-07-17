@@ -732,7 +732,7 @@ function QuestieTracker:Update()
                     local completionText = TrackerUtils:GetCompletionText(quest)
 
                     -- Clear Blizzard Completion Text
-                    if ((Questie.db.profile.hideBlizzardCompletionText or objectiveColor == "minimal") and not timedQuest) or complete == -1 then
+                    if (Questie.db.profile.hideBlizzardCompletionText or objectiveColor == "minimal") and (not timedQuest or complete ~= 0) or complete == -1 then
                         completionText = nil
                     end
 
