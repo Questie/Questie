@@ -3961,7 +3961,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 8922,
         },
         [10493] = { -- An Earnest Proposition
-            [questKeys.nextQuestInChain] = 8922,
+            [questKeys.nextQuestInChain] = 8923,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,nil,Questie.ICON_TYPE_INTERACT}}},
