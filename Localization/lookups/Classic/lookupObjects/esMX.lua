@@ -984,6 +984,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [3967] = "Llamaradas feroces",
 [3968] = "Llamaradas feroces",
 [3972] = "SE BUSCA",
+[4004] = "Lago de lava de la Cresta del Penacho en Llamas",
 [4072] = "Válvula de control principal",
 [4087] = "Yunque",
 [4088] = "Yunque",
