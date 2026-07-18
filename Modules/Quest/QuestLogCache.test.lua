@@ -499,5 +499,120 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
             assert.spy(Sounds.PlayQuestComplete).was.not_called()
         end)
+
+        it("should update isComplete to -1 when quest fails after being complete with incomplete inbetween", function()
+            -- Sequence: accepted -> 1 -> fails -> nil -> 1 -> -1 -> -1
+            questLogTitles = {
+                [1] = {"Kill the Boss", 60, nil, false, false, 1, nil, QUEST_ID},
+            }
+            questObjectives = {
+                [QUEST_ID] = {{
+                    type = "monster",
+                    numRequired = 1,
+                    text = "Boss slain: 1/1",
+                    finished = true,
+                    numFulfilled = 1,
+                }}
+            }
+
+            -- Step 1: Quest is complete — enters cache as isComplete=1
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_not_nil(changes[QUEST_ID])
+            assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+            -- Step 2: Quest fails — Blizzard temporarily returns nil, objectives unchanged
+            questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_true(cacheMiss)
+            assert.is_nil(changes[QUEST_ID])
+            assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+            -- Step 3: Blizzard returns 1 briefly before settling on -1, objectives still unchanged
+            questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, 1, nil, QUEST_ID}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_nil(changes[QUEST_ID])
+            assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+            -- Step 4: Blizzard settles on -1 (failed), objectives still unchanged
+            questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, -1, nil, QUEST_ID}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_not_nil(changes[QUEST_ID])
+            assert.is_equal(-1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+        end)
+
+        it("should update isComplete to -1 when quest fails after being complete", function()
+            -- Sequence: accepted -> 1 -> fails -> -1 -> -1
+            questLogTitles = {
+                [1] = {"Kill the Boss", 60, nil, false, false, 1, nil, QUEST_ID},
+            }
+            questObjectives = {
+                [QUEST_ID] = {{
+                    type = "monster",
+                    numRequired = 1,
+                    text = "Boss slain: 1/1",
+                    finished = true,
+                    numFulfilled = 1,
+                }}
+            }
+
+            -- Step 1: Quest is complete — enters cache as isComplete=1
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_not_nil(changes[QUEST_ID])
+            assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+            -- Step 2: Quest fails — Blizzard directly settles on -1 (failed)
+            questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, -1, nil, QUEST_ID}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_not_nil(changes[QUEST_ID])
+            assert.is_equal(-1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+        end)
+
+        it("should update isComplete to -1 when quest with no objectives fails after being complete", function()
+            questLogTitles = {
+                [1] = {"Kill the Boss", 60, nil, false, false, 1, nil, QUEST_ID},
+            }
+            questObjectives = {
+                [QUEST_ID] = {}
+            }
+
+            -- Step 1: Quest is complete — enters cache as isComplete=1
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_not_nil(changes[QUEST_ID])
+            assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+            -- Step 2: Quest fails — Blizzard temporarily returns nil
+            questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_true(cacheMiss)
+            assert.is_nil(changes[QUEST_ID])
+            assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+            -- Step 3: Blizzard briefly returns 1
+            questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, 1, nil, QUEST_ID}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_nil(changes[QUEST_ID])
+            assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+            -- Step 4: Blizzard settles on -1 (failed)
+            questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, -1, nil, QUEST_ID}
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.is_not_nil(changes[QUEST_ID])
+            assert.is_equal(-1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+        end)
     end)
 end)
