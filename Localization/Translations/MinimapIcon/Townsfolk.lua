@@ -110,7 +110,7 @@ local townsfolkLocales = {
         ["ptBR"] = "Comida",
         ["ruRU"] = "Еда",
         ["zhCN"] = "食物",
-        ["zhTW"] = "麵包",
+        ["zhTW"] = "食物",
     },
     ["Innkeeper"] = {
         ["enUS"] = true,
