@@ -30,7 +30,6 @@
 ## X-Wago-ID: qv634BKb
 
 Modules\QuestieCompat.lua
-Modules\WorldMapTaintWorkaround.lua
 
 embeds.xml
 
