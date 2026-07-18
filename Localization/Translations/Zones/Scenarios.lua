@@ -239,7 +239,7 @@ local dungeonLocales = {
         ["koKR"] = false,
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "半山场景",
         ["zhTW"] = false,
     },
 }
