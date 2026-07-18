@@ -13,6 +13,8 @@ describe("AvailableQuests", function()
     local QuestieMap
     ---@type Comms
     local Comms
+    ---@type CommsBlacklist
+    local CommsBlacklist
 
     ---@type AvailableQuests
     local AvailableQuests
@@ -33,6 +35,8 @@ describe("AvailableQuests", function()
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         Comms = QuestieLoader:ImportModule("Comms")
+        CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
+        CommsBlacklist.IsBlacklisted = function() return false end
 
         Questie.db.profile.availableIconLimit = 10
 
@@ -331,6 +335,29 @@ describe("AvailableQuests", function()
             assert.are_same(AvailableQuests.__unavailableQuestsDeterminedByTalking, {})
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
         end)
+
+        it("should not hide blacklisted daily quests", function()
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.IsDailyQuest = function() return true end
+            CommsBlacklist.IsBlacklisted = function() return true end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            _G.QuestieCompat = {
+                GetAvailableQuests = spy.new(function() return {} end),
+                GetActiveQuests = spy.new(function() return {} end),
+            }
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
+            assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
+            assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+            assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
+        end)
     end)
 
     describe("ValidateAvailableQuestsFromQuestDetail", function()
@@ -458,6 +485,30 @@ describe("AvailableQuests", function()
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
+        end)
+
+        it("should not hide blacklisted daily quests", function()
+            local availableQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local blacklistedQuest = QUEST_ID
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.IsDailyQuest = function() return true end
+            _G.GetQuestID = function() return availableQuest end
+            CommsBlacklist.IsBlacklisted = function(questId) return questId == blacklistedQuest end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[availableQuest] = true
+            AvailableQuests.__availableQuests[blacklistedQuest] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuest] = true, [blacklistedQuest] = true}
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, blacklistedQuest)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, blacklistedQuest)
+            assert.is_true(AvailableQuests.__availableQuests[blacklistedQuest])
+            assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][blacklistedQuest])
+            assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[blacklistedQuest])
         end)
     end)
 
@@ -622,6 +673,36 @@ describe("AvailableQuests", function()
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
+        end)
+
+        it("should not hide blacklisted daily quests", function()
+            local availableQuestId = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local blacklistedQuestId = QUEST_ID
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetQuestIDFromName = spy.new(function() return availableQuestId end)
+            _G.QuestTitleButton1 = {
+                IsVisible = function() return true end,
+                isActive = 0,
+                GetID = function() return 1 end,
+            }
+            _G.GetAvailableTitle = spy.new(function() return "Available Quest" end)
+            QuestieDB.IsDailyQuest = function() return true end
+            CommsBlacklist.IsBlacklisted = function(questId) return questId == blacklistedQuestId end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[availableQuestId] = true
+            AvailableQuests.__availableQuests[blacklistedQuestId] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [blacklistedQuestId] = true}
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, blacklistedQuestId)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, blacklistedQuestId)
+            assert.is_true(AvailableQuests.__availableQuests[blacklistedQuestId])
+            assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][blacklistedQuestId])
+            assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[blacklistedQuestId])
         end)
     end)
 
