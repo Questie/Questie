@@ -240,6 +240,7 @@ Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 
 # Network
+Modules\Network\CommsBlacklist.lua
 Modules\Network\Comms.lua
 Modules\Network\CommsEncoding.lua
 Modules\Network\CommsRouting.lua

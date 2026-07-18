@@ -5,6 +5,8 @@ local Comms = QuestieLoader:CreateModule("Comms")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type CommsEncoding
 local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+---@type CommsBlacklist
+local CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
 
 ---@class HideDailyQuestsEvent
 ---@field eventName "HideDailyQuests"
@@ -112,8 +114,15 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             return
         end
 
+        -- User with an outdated version might send incorrect data, so we filter according to our version
+        local filteredQuestIds = CommsBlacklist.FilterQuestIds(questIds)
+
+        if #filteredQuestIds == 0 then
+            return
+        end
+
         -- Track the quest IDs this peer is broadcasting
-        for _, questId in ipairs(questIds) do
+        for _, questId in ipairs(filteredQuestIds) do
             broadcastedQuestIds[questId] = true
         end
 
@@ -125,7 +134,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             pendingResponseDistribution = nil
         end
 
-        AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+        AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
     elseif event.eventName == "RequestUnavailableDailyQuests" then
         -- A peer just logged in and is asking for unavailable daily quests.
         -- Only respond if we have NPC data they don't know about.
@@ -139,7 +148,11 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         local localData = AvailableQuests.GetUnavailableDailyQuests()
         for npcId, questIds in pairs(eventData) do
             if (not localData[npcId]) and type(questIds) == "table" then
-                AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+                -- User with an outdated version might send incorrect data, so we filter according to our version
+                local filteredQuestIds = CommsBlacklist.FilterQuestIds(questIds)
+                if #filteredQuestIds > 0 then
+                    AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
+                end
             end
         end
 

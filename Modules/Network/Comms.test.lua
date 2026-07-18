@@ -6,6 +6,9 @@ describe("Comms", function()
     ---@type CommsEncoding
     local CommsEncoding
 
+    ---@type CommsBlacklist
+    local CommsBlacklist
+
     ---@type Comms
     local Comms
 
@@ -35,6 +38,9 @@ describe("Comms", function()
         }
 
         _G.math.random = function() return 0 end
+
+        CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
+        CommsBlacklist.FilterQuestIds = function(questIds) return questIds end
 
         dofile("Modules/Network/Comms.lua")
         Comms = QuestieLoader:ImportModule("Comms")
@@ -638,6 +644,38 @@ describe("Comms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.called(1)
         end)
 
+        it("should filter out blacklisted questIds from RequestUnavailableDailyQuests events", function()
+            local senderNpcId = 9999
+            CommsBlacklist.FilterQuestIds = function() return {100} end
+            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+
+            local event = {
+                eventName = "RequestUnavailableDailyQuests",
+                data = {[senderNpcId] = {100, 200}}
+            }
+            CommsEncoding.DecodePayload = function() return event end
+
+            Comms.OnCommReceived("QuestieDailiesV1", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(senderNpcId, {100})
+        end)
+
+        it("should not call RemoveQuestsForToday when all request questIds are blacklisted", function()
+            local senderNpcId = 9999
+            CommsBlacklist.FilterQuestIds = function() return {} end
+            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+
+            local event = {
+                eventName = "RequestUnavailableDailyQuests",
+                data = {[senderNpcId] = {100, 200}}
+            }
+            CommsEncoding.DecodePayload = function() return event end
+
+            Comms.OnCommReceived("QuestieDailiesV1", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
         it("should not call RemoveQuestsForToday when sender data is empty", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
@@ -653,6 +691,44 @@ describe("Comms", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = "not a table"}
+            CommsEncoding.DecodePayload = function() return event end
+
+            Comms.OnCommReceived("QuestieDailiesV1", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should filter out blacklisted questIds from HideDailyQuests events", function()
+            CommsBlacklist.FilterQuestIds = function() return {5678, 91011} end
+            local npcId = 1234
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = {5678, 84348, 91011, 84360}
+                }
+            }
+            CommsEncoding.DecodePayload = function() return event end
+
+            Comms.OnCommReceived("QuestieDailiesV1", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, {5678, 91011})
+        end)
+
+        it("should not call RemoveQuestsForToday when all questIds are blacklisted", function()
+            CommsBlacklist.FilterQuestIds = function() return {} end
+            local npcId = 1234
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = {84348, 84349, 84360}
+                }
+            }
             CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailiesV1", "eventAsSerializedString", "GUILD", "SomeSender")
