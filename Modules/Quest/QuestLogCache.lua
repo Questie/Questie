@@ -222,8 +222,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                     local newObjectives, changedObjIds, isComplete, suppressedRegression = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
 
                     if newObjectives then
-                        if (not cachedQuest) or (#cachedObjectives == #newObjectives and #cachedObjectives > 0 and
-                            (cachedQuest.title ~= title or cachedQuest.questTag ~= questTag or cachedQuest.isComplete ~= isComplete)) then
+                        if (not cachedQuest) or (#cachedObjectives == #newObjectives and cachedQuest.isComplete ~= isComplete) then
                             -- Mark all objectives changed to force update those too.
 
                             -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
