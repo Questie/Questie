@@ -775,7 +775,8 @@ function QuestieTracker:Update()
                     local coloredQuestName
 
                     if timedQuest then
-                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel, false)
+                        local showTimedState = isMinimizable and (Questie.db.profile.collapseCompletedQuests or Questie.db.char.collapsedQuests[quest.Id] ~= nil)
+                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel, showTimedState)
                     else
                         coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel, ((isMinimizable and Questie.db.profile.collapseCompletedQuests) or Questie.db.char.collapsedQuests[quest.Id] ~= nil))
                     end
@@ -947,7 +948,7 @@ function QuestieTracker:Update()
 
                             -- Add complete/failed Quest Objectives and tag them as either complete or failed so as to always have at least one objective.
                             -- Some quests have "Blizzard Completion Text" that is displayed to show where to go next or where to turn in the quest.
-                        elseif complete == 1 or complete == -1 or quest.isComplete == true then
+                        elseif (complete == 1 or complete == -1 or quest.isComplete == true) and (not (timedQuest and isMinimizable and Questie.db.profile.collapseCompletedQuests)) then
                             line = TrackerLinePool.GetQuestObjectiveLine(quest, nil, lineWidthQBC)
                             if not line then break end
 
