@@ -557,9 +557,10 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
     if unboundedWidth + objectiveMarginLeft < contentMaxWidth then
         trackerLineWidth = math.max(trackerLineWidth, unboundedWidth + objectiveMarginLeft)
     else
-         -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent
+        -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent.
+        -- We add an extra pixel per line to account for WoW's internal line spacing on top of the raw font size.
         local _, fontSize = line.label:GetFont()
-        local lineHeight = (fontSize * line.label:GetNumLines()) + 1 -- add an extra pixel to make sure it really wraps
+        local lineHeight = ((fontSize + 1) * line.label:GetNumLines()) + 1 -- add an extra pixel to make sure it really wraps
         line.label:SetHeight(lineHeight)
         line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
 
