@@ -857,60 +857,60 @@ function QuestieTracker:Update()
                     line:Show()
                     line.label:Show()
 
-                    -- Add quest Objectives (if applicable)
-                    if (not Questie.db.char.collapsedQuests[quest.Id]) then
-                        -- Add Quest Timers (if applicable)
-                        if timedQuest then
-                            local timerText = nil
-                            local activeTimer = false
+                    -- Add Quest Timers (if applicable) - always shown for timed quests, even when collapsed
+                    if timedQuest then
+                        local timerText = nil
+                        local activeTimer = false
 
-                            if quest.timedBlizzardQuest then
-                                timerText = Questie:Colorize(l10n("Blizzard Timer Active!"), "lightBlue")
-                            else
-                                local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
-                                if timeRemaining then
-                                    if timeRemaining <= 1 then
-                                        timerText = Questie:Colorize(l10n("Time's up"), "lightBlue")
-                                    else
-                                        timerText = Questie:Colorize(timeRemainingString, "lightBlue")
-                                        activeTimer = true
-                                    end
+                        if quest.timedBlizzardQuest then
+                            timerText = Questie:Colorize(l10n("Blizzard Timer Active!"), "lightBlue")
+                        else
+                            local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
+                            if timeRemaining then
+                                if timeRemaining <= 1 then
+                                    timerText = Questie:Colorize(l10n("Time's up"), "lightBlue")
+                                else
+                                    timerText = Questie:Colorize(timeRemainingString, "lightBlue")
+                                    activeTimer = true
                                 end
-                            end
-
-                            if timerText then
-                                line = TrackerLinePool.GetQuestObjectiveLine(quest, nil, lineWidthQBC)
-                                if not line then break end
-
-                                -- Set Timer font
-                                line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
-
-                                -- Set Timer Title
-                                line.label.activeTimer = activeTimer
-                                line.label:SetText(timerText)
-
-                                if activeTimer then
-                                    TrackerQuestTimers:UpdateAndGetRemainingTime(quest, line, false)
-                                end
-
-                                -- Check and measure Timer text width and update tracker width
-                                QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
-
-                                -- Set Timer Label and Line widths. We add 40 pixels, because timers start with "15 Minutes" and will then be "14 Minutes 59 Seconds" right after.
-                                line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC + 40)
-                                line:SetWidth(line.label:GetWidth() + lineWidthQBC)
-
-                                -- Compare largest text Label in the tracker with current Label, then save widest width
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
-
-                                line:SetHeight(line.label:GetHeight() + 1)
-
-                                -- Set Timer states
-                                line:Show()
-                                line.label:Show()
                             end
                         end
 
+                        if timerText then
+                            line = TrackerLinePool.GetQuestObjectiveLine(quest, nil, lineWidthQBC)
+                            if not line then break end
+
+                            -- Set Timer font
+                            line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
+
+                            -- Set Timer Title
+                            line.label.activeTimer = activeTimer
+                            line.label:SetText(timerText)
+
+                            if activeTimer then
+                                TrackerQuestTimers:UpdateAndGetRemainingTime(quest, line, false)
+                            end
+
+                            -- Check and measure Timer text width and update tracker width
+                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
+
+                            -- Set Timer Label and Line widths. We add 40 pixels, because timers start with "15 Minutes" and will then be "14 Minutes 59 Seconds" right after.
+                            line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC + 40)
+                            line:SetWidth(line.label:GetWidth() + lineWidthQBC)
+
+                            -- Compare largest text Label in the tracker with current Label, then save widest width
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
+
+                            line:SetHeight(line.label:GetHeight() + 1)
+
+                            -- Set Timer states
+                            line:Show()
+                            line.label:Show()
+                        end
+                    end
+
+                    -- Add quest Objectives (if applicable)
+                    if (not Questie.db.char.collapsedQuests[quest.Id]) then
                         -- Add incomplete Quest Objectives
                         if complete == 0 and quest.isComplete ~= true then
                             for _, objective in pairs(quest.Objectives) do
