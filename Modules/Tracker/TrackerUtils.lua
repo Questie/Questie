@@ -1044,7 +1044,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
             -- If the Quest is minimized show the Expand Quest button
             if Questie.db.char.collapsedQuests[questId] then
-                if Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest) then
+                if Questie.db.profile.collapseCompletedQuests and isMinimizable then
                     line.expandQuest:Hide()
                 else
                     line.expandQuest:Show()
@@ -1106,7 +1106,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             line.expandQuest:Show()
         end
     -- Hide button if quest complete or failed
-    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest)) then
+    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable) then
         line.expandQuest:Hide()
     else
         line.expandQuest:Show()
