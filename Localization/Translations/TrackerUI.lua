@@ -517,7 +517,7 @@ local trackerUILocales = {
         ["frFR"] = "Le temps est écoulé",
         ["koKR"] = "시간 종료",
         ["ptBR"] = "O tempo acabou",
-        ["ruRU"] = false,
+        ["ruRU"] = "Время закончилось",
         ["zhCN"] = "计时结束",
         ["zhTW"] = false,
     },
