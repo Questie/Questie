@@ -51,11 +51,14 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Evaluate unconditionally so the online snapshot stays current even when the size also changed.
     local onlineChanged = _OnlineStatusChanged()
 
-    -- Only resync comm state when group membership or a quest-sharing member's online state
+    -- Modern comm state is independent of legacy quest sharing, so prune it on every bucketed
+    -- roster event. Same-size replacements otherwise leave stale H1/V1-only players cached.
+    CommsPrefixRegistry:PruneRemotePlayers()
+    CommsVisibility:PruneRemotePlayers()
+
+    -- Only resync visibility when group membership or a quest-sharing member's online state
     -- changed. Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
     if sizeChanged or onlineChanged then
-        CommsPrefixRegistry:PruneRemotePlayers()
-        CommsVisibility:PruneRemotePlayers()
         -- H1 announces only a local join/reload. Roster updates happen on every client,
         -- so broadcasting here would multiply one membership change into raid-wide traffic.
         CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")

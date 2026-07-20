@@ -84,11 +84,11 @@ describe("GroupEventHandler", function()
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called(1)
         end)
 
-        it("does not schedule hello when the group size is unchanged", function()
+        it("prunes modern caches without scheduling comms or a redraw when the roster is unchanged", function()
             GroupEventHandler.GroupRosterUpdate()
 
-            assert.spy(CommsPrefixRegistry.PruneRemotePlayers).was.not_called()
-            assert.spy(CommsVisibility.PruneRemotePlayers).was.not_called()
+            assert.spy(CommsPrefixRegistry.PruneRemotePlayers).was.called(1)
+            assert.spy(CommsVisibility.PruneRemotePlayers).was.called(1)
             assert.spy(CommsPrefixRegistry.ScheduleHello).was.not_called()
             assert.spy(CommsVisibility.ScheduleSnapshot).was.not_called()
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
@@ -190,6 +190,42 @@ describe("GroupEventHandler", function()
             assert.are_equal(1, countIsolatedSentAddonMessages(alice, "QuestieV1", "PARTY"))
             assert.are_equal(1, alice.QuestiePartyObjectives.scheduleUpdateCount)
             assert.are_equal(2, alice.QuestiePlayer.numberOfGroupMembers)
+        end)
+
+        it("prunes H1/V1-only state after a same-size member replacement without resyncing or redrawing", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            local charlie = network:CreateClient({playerName = "Charlie", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernGroupStack()
+            bob:LoadModernGroupStack()
+
+            bob.QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
+            bob.trackedQuests = {[101] = false}
+            bob.CommsPrefixRegistry:ScheduleHello("seed H1-only state")
+            bob.CommsVisibility:ScheduleSnapshot("seed V1-only state")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
+            assert.is_false(alice.CommsVisibility:ShouldShowPartyObjective("Bob-TestRealm", 101))
+            assert.is_nil(next(alice.QuestieComms.remoteQuestLogs))
+
+            alice.QuestiePlayer.numberOfGroupMembers = 2
+            local helloMessagesBeforeReplacement = countIsolatedSentAddonMessages(alice, "QuestieH1")
+            local visibilityMessagesBeforeReplacement = countIsolatedSentAddonMessages(alice, "QuestieV1")
+            local redrawsBeforeReplacement = alice.QuestiePartyObjectives.scheduleUpdateCount
+            network:SetParty({alice, charlie})
+
+            alice:FireWoWEvent("GROUP_ROSTER_UPDATE")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_false(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
+            assert.is_true(alice.CommsVisibility:ShouldShowPartyObjective("Bob-TestRealm", 101))
+            assert.are_equal(helloMessagesBeforeReplacement, countIsolatedSentAddonMessages(alice, "QuestieH1"))
+            assert.are_equal(visibilityMessagesBeforeReplacement, countIsolatedSentAddonMessages(alice, "QuestieV1"))
+            assert.are_equal(redrawsBeforeReplacement, alice.QuestiePartyObjectives.scheduleUpdateCount)
         end)
 
         it("resyncs V1 on online-status changes without broadcasting H1", function()
