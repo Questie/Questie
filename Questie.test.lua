@@ -1,11 +1,81 @@
 dofile("setupTests.lua")
 
+local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
+
 describe("Questie", function()
     before_each(function()
         local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
         QuestieValidateGameCache.StartCheck = function() end
 
         dofile("Questie.lua")
+    end)
+
+    describe("RefreshConfig", function()
+        it("publishes visibility after AceDB activates an automatic-tracking profile", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+
+            -- Load the real AceDB profile boundary with only the two WoW identity APIs it requires.
+            alice.env.UnitRace = function() return "Human", "HUMAN" end
+            alice.env.GetLocale = function() return "enUS" end
+            alice:DoFile("Libs/AceDB-3.0/AceDB-3.0.lua")
+
+            local QuestieOptionsDefaults = alice.env.QuestieLoader:ImportModule("QuestieOptionsDefaults")
+            QuestieOptionsDefaults.Load = function()
+                return {profile = {autoTrackQuests = true}}
+            end
+            local EventHandler = alice.env.QuestieLoader:ImportModule("EventHandler")
+            EventHandler.RegisterEarlyEvents = function() end
+            local QuestieInit = alice.env.QuestieLoader:ImportModule("QuestieInit")
+            QuestieInit.OnAddonLoaded = function() end
+            local QuestieValidateGameCache = alice.env.QuestieLoader:ImportModule("QuestieValidateGameCache")
+            QuestieValidateGameCache.StartCheck = function() end
+            local TrackerBaseFrame = alice.env.QuestieLoader:ImportModule("TrackerBaseFrame")
+            TrackerBaseFrame.OnProfileChange = function() end
+            alice.QuestieQuest.SmoothReset = function() end
+
+            alice:DoFile("Questie.lua")
+            alice.env.Questie:OnInitialize()
+
+            local questId = 101
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[questId] = true}
+            alice.QuestieQuest.IsQuestTracked = function()
+                return alice.env.Questie.db.profile.autoTrackQuests
+            end
+
+            alice.env.Questie.db.profile.autoTrackQuests = false
+            alice.CommsVisibility:ScheduleSnapshot("INITIAL_PROFILE")
+            assert.is_true(network:FlushUntilIdle())
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", questId))
+
+            -- SetProfile activates the new table before AceDB fires OnProfileChanged.
+            local refreshCount = 0
+            local refreshConfig = alice.env.Questie.RefreshConfig
+            alice.env.Questie.RefreshConfig = function(...)
+                refreshCount = refreshCount + 1
+                return refreshConfig(...)
+            end
+
+            alice.env.Questie.db:SetProfile("Automatic Tracking")
+            assert.are_equal("Automatic Tracking", alice.env.Questie.db:GetCurrentProfile())
+            assert.is_true(alice.env.Questie.db.profile.autoTrackQuests)
+            assert.is_true(network:FlushUntilIdle())
+
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", questId))
+            assert.are_equal(2, bob.QuestiePartyObjectives.scheduleUpdateCount)
+            assert.are_equal(1, refreshCount)
+
+            -- Exercise the other public AceDB profile callbacks without emulating callback internals.
+            alice.env.Questie.db:CopyProfile("Default")
+            assert.are_equal(2, refreshCount)
+            alice.env.Questie.db:ResetProfile()
+            assert.are_equal(3, refreshCount)
+        end)
     end)
 
     describe("Colorize", function()
