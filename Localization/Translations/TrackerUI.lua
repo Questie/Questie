@@ -519,7 +519,7 @@ local trackerUILocales = {
         ["ptBR"] = "O tempo acabou",
         ["ruRU"] = "Время закончилось",
         ["zhCN"] = "计时结束",
-        ["zhTW"] = false,
+        ["zhTW"] = "計時結束",
     },
 }
 
