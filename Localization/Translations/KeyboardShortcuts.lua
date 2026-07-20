@@ -112,7 +112,7 @@ local keyboardShortcutLocales = {
     },
     ["Shift"] = {
         ["enUS"] = true,
-        ["deDE"] = "Umschalt",
+        ["deDE"] = true,
         ["esES"] = "Mayús",
         ["esMX"] = "Mayús",
         ["frFR"] = "Maj",
