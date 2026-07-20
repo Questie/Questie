@@ -10,9 +10,19 @@ Compression/CBOR are Blizzard-owned APIs. LibDeflate is used only for its proven
 addon-channel-safe byte escaping so binary compressed payloads can travel through AceComm.
 ]]
 ---@class CommsEncoding : QuestieModule
+---@field MAX_ENCODED_PAYLOAD_BYTES number
 local CommsEncoding = QuestieLoader:CreateModule("CommsEncoding")
 
 local type = type
+
+-- AceComm reserves one byte per multipart message, leaving 254 bytes for payload.
+-- All modern protocols share this ceiling so an unexpected size increase remains
+-- survivable without adding per-prefix resource policy.
+local ACE_COMM_MULTIPART_PAYLOAD_BYTES = 254
+local MAX_ACE_COMM_MESSAGE_COUNT = 3
+local MAX_ENCODED_PAYLOAD_BYTES = ACE_COMM_MULTIPART_PAYLOAD_BYTES * MAX_ACE_COMM_MESSAGE_COUNT
+
+CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES = MAX_ENCODED_PAYLOAD_BYTES
 
 -- LibDeflate is embedded in production, but keep the modern comms optional when an
 -- incomplete installation or test environment does not provide it.
@@ -52,7 +62,7 @@ function CommsEncoding:EncodePayload(payload)
         return LibDeflate:EncodeForWoWAddonChannel(compressed)
     end)
 
-    if ok then
+    if ok and type(encoded) == "string" and #encoded <= MAX_ENCODED_PAYLOAD_BYTES then
         return encoded
     end
 
@@ -62,6 +72,10 @@ end
 ---@param message string Addon-channel-safe wire payload.
 ---@return table? payload Nil when any decode stage fails or the decoded value is not a table.
 function CommsEncoding:DecodePayload(message)
+    if type(message) ~= "string" or #message > MAX_ENCODED_PAYLOAD_BYTES then
+        return nil
+    end
+
     if not CommsEncoding:HasCodecSupport() then
         return nil
     end

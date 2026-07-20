@@ -124,7 +124,8 @@ Encoding implementation only:
 - real LibDeflate addon-channel escaping;
 - encode path: CBOR -> Deflate -> addon-channel-safe payload;
 - decode path and failure cases;
-- missing codec support behavior.
+- missing codec support behavior;
+- the shared 762-byte encoded ceiling, including acceptance at the boundary and rejection before decode work above it.
 
 Feature-specific payload budget tests live with the feature that owns the payload shape.
 
@@ -256,6 +257,8 @@ assert.is_true(network:FlushUntilIdle())
 
 These guardrails should remain required when comm payload schemas change. If new expansions add larger real cases, update the fixture to the newer real worst case rather than replacing it with synthetic oversized IDs.
 
+The H1 and V1 `<= 245` limits are outbound performance targets that keep expected traffic within one low-level addon message. They are deliberately separate from `CommsEncoding`'s 762-byte validity ceiling, which allows at most three AceComm multipart payloads before encoding or decoding fails.
+
 - `CommsPrefixRegistry.test.lua` keeps the H1 manifest under the conservative local single-message budget.
 - `CommsVisibility.test.lua` builds max-size V1 snapshots from real Questie quest IDs, including the 50 largest MoP quest IDs currently in the DB, and keeps the local estimator under `<= 245`.
 - `QuestieComms.test.lua` builds a 25-quest legacy full-log fixture from real quests with large objective lists, verifies all 25 remote quest logs arrive, and requires every low-level AceComm chunk to stay `<= 255`.
@@ -278,7 +281,7 @@ Lua table
   -> LibDeflate:EncodeForWoWAddonChannel
 ```
 
-Busted uses the live-verified CBOR mock plus LibDeflate-backed Deflate. This is useful for conservative budget tests, but it is not exact Blizzard compression proof. Keep local assertions below the hard 255-character boundary, and verify any near-threshold production payload in a live WoW client.
+Busted uses the live-verified CBOR mock plus LibDeflate-backed Deflate. This is useful for conservative budget tests, but it is not exact Blizzard compression proof. Keep expected single-message payload assertions below the hard 255-character low-level boundary, and verify any near-threshold production payload in a live WoW client. The shared modern codec ceiling is separately fixed at three 254-byte multipart payloads.
 
 Representative live Classic Era probes showed the local estimator is close but not exact:
 

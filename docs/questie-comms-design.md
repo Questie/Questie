@@ -120,6 +120,10 @@ addon-channel-safe byte decoding
 
 Questie embeds the full LibDeflate library for its proven addon-channel-safe byte encoding and decoding. `CommsEncoding` uses only `EncodeForWoWAddonChannel` and `DecodeForWoWAddonChannel`; compression is Blizzard's built-in Deflate through `C_EncodingUtil`, not LibDeflate compression.
 
+All protocols using `CommsEncoding` share a maximum final encoded payload of 762 bytes. AceComm reserves one byte from each 255-byte multipart message, so 762 bytes is exactly three multipart payloads of 254 bytes. Encoding returns nil above that ceiling, and decoding rejects oversized input before addon-channel decoding, decompression, or CBOR deserialization. AceComm may still reassemble incoming multipart traffic before calling Questie.
+
+The existing `<= 245` H1 and V1 output guardrails remain intentionally stricter: they keep normal traffic within one message, while the global three-message ceiling is the validity and resource boundary for unexpected growth. If a future modern protocol needs more than three messages, changing that shared transport contract should be an explicit design decision.
+
 If a future prefix changes wire shape or codec incompatibly, create a new prefix instead of adding per-packet negotiation fields.
 
 ## `QuestieV1` visibility snapshot protocol
