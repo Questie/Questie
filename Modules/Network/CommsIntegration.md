@@ -91,8 +91,8 @@ Group lifecycle ownership:
 
 - unit-level group join/roster/left behavior;
 - isolated GROUP_JOINED convergence through H1, V1, and full quest-log request messages;
-- isolated GROUP_ROSTER_UPDATE resync on size changes;
-- isolated online-status changes vs zone-change-like no-op roster updates;
+- isolated GROUP_ROSTER_UPDATE V1 resync on size changes without H1 broadcasts;
+- isolated online-status changes resend V1 without H1 broadcasts, while zone-change-like no-op roster updates stay quiet;
 - isolated GROUP_LEFT reset and pending timer cancellation.
 
 ### `Modules/Network/QuestieComms.test.lua`

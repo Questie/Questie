@@ -168,6 +168,7 @@ So manually hidden quests and untracked quests suppress party objective pins, wh
 - The eventual send uses the latest full state.
 - `ResetAll()` cancels pending timers, so group-leave cleanup stops queued hello or visibility traffic.
 - `ScheduleHello()` and `ScheduleSnapshot()` are the public outbound paths for group-broadcast hello and visibility state.
+- `ScheduleHello()` belongs to the joining or reloading client (`GROUP_JOINED`, including the already-grouped login/reload path). `GROUP_ROSTER_UPDATE` runs on every client, so it must not schedule H1.
 
 `QuestieV1` snapshots are intentionally full-state and small. They are scheduled at convergence points where remote players may need fresh state:
 
@@ -220,7 +221,7 @@ Tests should protect these contracts:
 - `WHISPER` hello and visibility messages are accepted only from current group members,
 - self echoes and cross-realm same-name players are handled correctly,
 - scheduled hello and visibility sends are debounced and canceled by `ResetAll()`,
-- detected group-size changes prune stale remote players and schedule a new hello/snapshot; quest-sharing online-status changes schedule party objective redraws,
+- detected group-size changes prune stale remote players, resend visibility, and redraw party objectives without broadcasting H1; quest-sharing online-status changes do the same,
 - `remoteQuestLogs` remains absolute quest-log/progress state and is not filtered by visibility/tracking preferences,
 - visibility packets do not create or remove `remoteQuestLogs` entries,
 - `QuestieV1` affects party objective pins, not contextual tooltip progress.

@@ -56,7 +56,8 @@ function GroupEventHandler.GroupRosterUpdate()
     if sizeChanged or onlineChanged then
         CommsPrefixRegistry:PruneRemotePlayers()
         CommsVisibility:PruneRemotePlayers()
-        CommsPrefixRegistry:ScheduleHello("GROUP_ROSTER_UPDATE")
+        -- H1 announces only a local join/reload. Roster updates happen on every client,
+        -- so broadcasting here would multiply one membership change into raid-wide traffic.
         CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")
         QuestiePartyObjectives:ScheduleUpdate()
     end
