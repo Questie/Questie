@@ -4,9 +4,7 @@ local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
 
 --[[
 CommsVisibility owns QuestieV1: local visibility snapshot policy, receive-side
-sanitization, party-objective visibility state, V1 emulator round-trips, and V1
-payload guardrails. Encoding helpers are used only to exercise the V1-owned
-payload shape.
+full-payload validation, party-objective visibility state, and V1 emulator round-trips.
 ]]
 describe("CommsVisibility", function()
     ---@type CommsVisibility
@@ -255,31 +253,28 @@ describe("CommsVisibility", function()
     end)
 
     describe("OnCommReceived", function()
-        it("stores only positive integer quest IDs with boolean visibility from grouped senders", function()
-            setupCodec({[101] = true, [202] = false, ["303"] = true, [404] = "false", [0] = true, [-1] = true, [1.5] = true})
-
-            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
-
-            assert.are_same({[101] = true, [202] = false}, CommsVisibility.remoteQuestVisibility["Friend-Realm"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called(1)
-        end)
-
-        it("caps accepted visibility entries", function()
-            local payload = {}
-            for questId = 1, 55 do
-                payload[questId] = true
-            end
+        local function receiveSnapshot(payload)
             setupCodec(payload)
-
             CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
+        end
 
-            local count = 0
-            for questId, visible in pairs(CommsVisibility.remoteQuestVisibility["Friend-Realm"]) do
-                assert.is_true(questId > 0 and questId % 1 == 0)
-                assert.are_equal("boolean", type(visible))
-                count = count + 1
-            end
-            assert.are_equal(50, count)
+        local function receivePriorValidSnapshot()
+            receiveSnapshot({[99] = true})
+            QuestiePartyObjectives.ScheduleUpdate:clear()
+        end
+
+        local function assertPriorValidSnapshotWasPreserved()
+            assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 99))
+            assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
+        end
+
+        it("preserves the prior valid snapshot when any entry is invalid", function()
+            receivePriorValidSnapshot()
+
+            receiveSnapshot({[101] = true, [202] = false, ["303"] = true, [404] = "false", [0] = true, [-1] = true, [1.5] = true})
+
+            assertPriorValidSnapshotWasPreserved()
         end)
 
         it("rejects messages from self before decoding", function()
@@ -299,38 +294,55 @@ describe("CommsVisibility", function()
             assert.is_nil(CommsVisibility.remoteQuestVisibility["Stranger-Realm"])
         end)
 
-        it("ignores malformed payloads safely", function()
+        it("preserves the prior valid snapshot when the decoded payload is malformed", function()
+            receivePriorValidSnapshot()
+
+            receiveSnapshot("not-a-snapshot")
+
+            assertPriorValidSnapshotWasPreserved()
+        end)
+
+        it("preserves the prior valid snapshot when the payload cannot be decoded", function()
+            receivePriorValidSnapshot()
             CommsEncoding.DecodePayload = spy.new(function() return nil end)
 
             CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
 
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["Friend-Realm"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
+            assertPriorValidSnapshotWasPreserved()
         end)
 
-        it("does not mutate remoteQuestLogs", function()
+        it("accepts an empty snapshot without mutating stale remoteQuestLogs", function()
             local remoteQuestLogs = {
                 [101] = {
                     ["Friend-Realm"] = {{finished = false}},
                 },
             }
             QuestieComms.remoteQuestLogs = remoteQuestLogs
-            setupCodec({[101] = false})
+            setupCodec({})
 
             CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
 
+            assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
             assert.are_equal(remoteQuestLogs, QuestieComms.remoteQuestLogs)
             assert.are_same({[101] = { ["Friend-Realm"] = {{finished = false}} }}, QuestieComms.remoteQuestLogs)
         end)
     end)
 
     describe("ShouldShowPartyObjective", function()
-        it("defaults to showing when visibility is unknown", function()
+        it("defaults to showing when the player has not sent a snapshot", function()
             assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
         end)
 
-        it("returns explicit remote visibility", function()
-            CommsVisibility.remoteQuestVisibility["Friend-Realm"] = {[101] = false, [202] = true}
+        it("suppresses an omitted quest after receiving a valid snapshot", function()
+            setupCodec({[202] = true})
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
+
+            assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
+        end)
+
+        it("returns explicit true and false from a valid snapshot", function()
+            setupCodec({[101] = false, [202] = true})
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
 
             assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
             assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 202))
@@ -358,68 +370,12 @@ describe("CommsVisibility", function()
         end)
     end)
 
-    describe("isolated QuestieV1 emulator and payload guardrails", function()
-        local CONSERVATIVE_SINGLE_MESSAGE_BUDGET = 245
-        local LARGEST_REAL_QUEST_IDS = {
-            34062, 34061, 34060, 33634, 33603, 33602, 33385, 33379, 33378, 33377,
-            33376, 33375, 33374, 33373, 33372, 33371, 33370, 33369, 33368, 33367,
-            33366, 33365, 33364, 33363, 33362, 33361, 33360, 33358, 33354, 33348,
-            33347, 33346, 33345, 33343, 33342, 33341, 33340, 33338, 33337, 33336,
-            33335, 33334, 33333, 33332, 33322, 33321, 33319, 33318, 33317, 33316,
-        }
-        local LOW_REAL_QUEST_IDS = {
-            1, 2, 5, 6, 7, 8, 9, 10, 11, 12,
-            13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-            23, 24, 25, 26, 27,
-        }
-
+    describe("isolated QuestieV1 emulator", function()
         ---Fails the test if the isolated network cannot settle all timers and AceComm traffic.
         ---@param network table Isolated comms network from AceCommTestHarness.
         local function assertIsolatedNetworkFlushes(network)
             assert.is_true(network:FlushUntilIdle())
         end
-
-        ---Encodes a V1 snapshot through the local emulator codec and returns its final length.
-        ---@param questIds number[] Real quest IDs used as snapshot keys.
-        ---@return integer length Addon-channel-safe payload length.
-        local function estimateVisibilityPayloadLength(questIds)
-            local network = AceCommTestHarness.NewIsolatedNetwork()
-            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
-            network:SetParty({alice})
-            alice:LoadModernCommsStack()
-
-            local snapshot = {}
-            for index, questId in ipairs(questIds) do
-                snapshot[questId] = index % 2 == 0
-            end
-
-            local encodedPayload = alice.CommsEncoding:EncodePayload(snapshot)
-            assert.is_not_nil(encodedPayload)
-            return string.len(encodedPayload)
-        end
-
-        -- Required guardrail: update these real IDs when the database gains larger V1-relevant cases.
-        it("keeps a max QuestieV1 snapshot with the largest real quest IDs within the conservative single-message budget", function()
-            local estimatedLength = estimateVisibilityPayloadLength(LARGEST_REAL_QUEST_IDS)
-
-            assert.are_equal(50, #LARGEST_REAL_QUEST_IDS)
-            assert.is_true(estimatedLength <= CONSERVATIVE_SINGLE_MESSAGE_BUDGET)
-        end)
-
-        it("keeps a max QuestieV1 snapshot with mixed real quest ID widths within the conservative single-message budget", function()
-            local mixedQuestIds = {}
-            for _, questId in ipairs(LOW_REAL_QUEST_IDS) do
-                mixedQuestIds[#mixedQuestIds + 1] = questId
-            end
-            for index = 1, 25 do
-                mixedQuestIds[#mixedQuestIds + 1] = LARGEST_REAL_QUEST_IDS[index]
-            end
-
-            local estimatedLength = estimateVisibilityPayloadLength(mixedQuestIds)
-
-            assert.are_equal(50, #mixedQuestIds)
-            assert.is_true(estimatedLength <= CONSERVATIVE_SINGLE_MESSAGE_BUDGET)
-        end)
 
         it("round-trips QuestieV1 visibility between two isolated clients", function()
             local network = AceCommTestHarness.NewIsolatedNetwork()
@@ -448,7 +404,7 @@ describe("CommsVisibility", function()
             assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
             assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
             assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 303))
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 404))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 404))
             assert.are_equal(1, bob.QuestiePartyObjectives.scheduleUpdateCount)
             assert.is_nil(next(bob.QuestieComms.remoteQuestLogs))
         end)
@@ -475,8 +431,8 @@ describe("CommsVisibility", function()
             alice.CommsVisibility:ScheduleSnapshot("replacement snapshot")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
             assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 303))
             assert.are_equal(2, bob.QuestiePartyObjectives.scheduleUpdateCount)
         end)

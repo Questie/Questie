@@ -79,11 +79,10 @@ If a test asserts Questie protocol behavior, it belongs in that protocol's ownin
 
 - local visibility snapshot building;
 - max group-size suppression;
-- receive sanitization/capping;
+- receive-side full-payload schema validation and atomic replacement;
 - `ShouldShowPartyObjective` behavior;
 - isolated V1 round-trip, full snapshot replacement, trust-boundary rejection, and large-group suppression;
-- V1 separation from legacy `QuestieComms.remoteQuestLogs`;
-- V1 realistic payload budget guardrails using real Questie quest IDs.
+- V1 separation from legacy `QuestieComms.remoteQuestLogs`.
 
 ### `Modules/EventHandler/GroupEventHandler.test.lua`
 
@@ -257,10 +256,9 @@ assert.is_true(network:FlushUntilIdle())
 
 These guardrails should remain required when comm payload schemas change. If new expansions add larger real cases, update the fixture to the newer real worst case rather than replacing it with synthetic oversized IDs.
 
-The H1 and V1 `<= 245` limits are outbound performance targets that keep expected traffic within one low-level addon message. They are deliberately separate from `CommsEncoding`'s 762-byte validity ceiling, which allows at most three AceComm multipart payloads before encoding or decoding fails.
+The H1 `<= 245` limit is an outbound performance target that keeps expected hello traffic within one low-level addon message. V1 relies on `CommsEncoding`'s shared 762-byte validity ceiling, which allows at most three AceComm multipart payloads before encoding or decoding fails.
 
 - `CommsPrefixRegistry.test.lua` keeps the H1 manifest under the conservative local single-message budget.
-- `CommsVisibility.test.lua` builds max-size V1 snapshots from real Questie quest IDs, including the 50 largest MoP quest IDs currently in the DB, and keeps the local estimator under `<= 245`.
 - `QuestieComms.test.lua` builds a 25-quest legacy full-log fixture from real quests with large objective lists, verifies all 25 remote quest logs arrive, and requires every low-level AceComm chunk to stay `<= 255`.
 - `Comms.test.lua` sends a realistic high-count daily `Questie` payload for NPC `58646` and asserts the single low-level message stays within AceComm's `255` character limit while preserving the exact received quest ID list.
 
@@ -283,13 +281,11 @@ Lua table
 
 Busted uses the live-verified CBOR mock plus LibDeflate-backed Deflate. This is useful for conservative budget tests, but it is not exact Blizzard compression proof. Keep expected single-message payload assertions below the hard 255-character low-level boundary, and verify any near-threshold production payload in a live WoW client. The shared modern codec ceiling is separately fixed at three 254-byte multipart payloads.
 
-Representative live Classic Era probes showed the local estimator is close but not exact:
+A representative live Classic Era H1 probe showed the local estimator is close but not exact:
 
 | Payload | Live final length | Local estimate | Difference |
 | --- | ---: | ---: | ---: |
 | H1 payload | 39 | 38 | -1 |
-| V1 50 large quest IDs | 224 | 223 | -1 |
-| V1 50 mixed-width IDs | 190 | 194 | +4 |
 
 ## Maintenance Notes and Limits
 

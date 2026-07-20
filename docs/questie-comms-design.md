@@ -122,7 +122,7 @@ Questie embeds the full LibDeflate library for its proven addon-channel-safe byt
 
 All protocols using `CommsEncoding` share a maximum final encoded payload of 762 bytes. AceComm reserves one byte from each 255-byte multipart message, so 762 bytes is exactly three multipart payloads of 254 bytes. Encoding returns nil above that ceiling, and decoding rejects oversized input before addon-channel decoding, decompression, or CBOR deserialization. AceComm may still reassemble incoming multipart traffic before calling Questie.
 
-The existing `<= 245` H1 and V1 output guardrails remain intentionally stricter: they keep normal traffic within one message, while the global three-message ceiling is the validity and resource boundary for unexpected growth. If a future modern protocol needs more than three messages, changing that shared transport contract should be an explicit design decision.
+The existing `<= 245` H1 output guardrail remains intentionally stricter so normal hello traffic stays within one message. QuestieV1 relies on the shared three-message ceiling instead of defining a separate entry-count or encoded-size policy. If a future modern protocol needs more than three messages, changing that shared transport contract should be an explicit design decision.
 
 If a future prefix changes wire shape or codec incompatibly, create a new prefix instead of adding per-packet negotiation fields.
 
@@ -141,11 +141,11 @@ There are no incremental `QuestieV1` update packets, no count field, and no `msg
 
 Receive-side rules:
 
-- only positive integer quest IDs are accepted,
-- only boolean values are accepted,
-- at most 50 entries are stored from one snapshot,
-- malformed values are ignored,
-- missing quest IDs mean unknown and default to shown,
+- every key must be a positive integer quest ID,
+- every value must be boolean,
+- the complete payload is validated before atomically replacing the player's prior snapshot; malformed or otherwise invalid payloads leave prior state unchanged,
+- no stored snapshot for a player means unknown and defaults to shown for backward compatibility,
+- after a valid full snapshot is stored, omitted quest IDs are authoritatively suppressed for that player's party pins,
 - receiving visibility never creates, removes, or mutates `QuestieComms.remoteQuestLogs`.
 
 `QuestieV1` is not a privacy or progress-data filter. It gates only party objective pins created for quests the local player does not have or has already completed. Contextual tooltip progress can still be shown from `remoteQuestLogs` when the user hovers a relevant mob, item, object, or existing icon.
@@ -228,4 +228,6 @@ Tests should protect these contracts:
 - detected group-size changes prune stale remote players, resend visibility, and redraw party objectives without broadcasting H1; quest-sharing online-status changes do the same,
 - `remoteQuestLogs` remains absolute quest-log/progress state and is not filtered by visibility/tracking preferences,
 - visibility packets do not create or remove `remoteQuestLogs` entries,
-- `QuestieV1` affects party objective pins, not contextual tooltip progress.
+- no QuestieV1 snapshot defaults to shown, while omission from a valid full snapshot suppresses that player's party pins,
+- invalid QuestieV1 snapshots preserve the player's prior valid visibility state,
+- `QuestieV1` affects party objective pins, not quest-log inclusion or contextual tooltip progress.
