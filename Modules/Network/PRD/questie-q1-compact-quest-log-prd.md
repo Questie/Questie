@@ -11,7 +11,8 @@ We want a new Questie-owned, prefix-versioned quest-log sharing format that can 
 - Add a new modern quest-log sharing protocol that coexists with the legacy `questie` protocol.
 - Use a versioned addon prefix, provisionally `QuestieQ1`, instead of per-message `ver`, `msgVer`, or `msgId` fields.
 - Advertise support through `QuestieH1` prefix discovery.
-- Send full quest-log snapshots rather than incremental update/remove packet families.
+- Send absolute full quest-log snapshots rather than incremental update/remove packet families.
+- Include every quest the sender currently has, independent of tracking or display policy.
 - Preserve exact fulfilled progress counts and explicit objective completion state.
 - Preserve whole-quest completion state, including quests with no objectives.
 - Keep the realistic 25-quest worst-case payload comfortably within one addon-channel message after CBOR + Deflate + addon-channel-safe encoding.
@@ -65,7 +66,7 @@ The payload body does not contain codec, message type, schema, addon version, or
 
 ## Payload contract
 
-A `QuestieQ1` payload is a full snapshot of the sender's current quest log:
+A `QuestieQ1` payload is a complete, absolute snapshot of the sender's current quest log:
 
 ```lua
 {
@@ -133,12 +134,17 @@ This preserves quest presence and whole-quest state even when there are no objec
 
 ## Snapshot semantics
 
-`QuestieQ1` is full-state only:
+`QuestieQ1` is absolute full-state only:
 
-- Quest present in the snapshot means the sender currently has that quest.
-- Quest missing from the next snapshot means the sender no longer has that quest, or no longer wants it represented as current remote quest-log state.
-- Receiver replaces the sender's prior `QuestieQ1` snapshot with the new snapshot.
-- Incremental quest-update and quest-remove packets are intentionally not part of this protocol version.
+- The sender MUST include every quest currently in its quest log.
+- A present quest means the sender currently has that quest.
+- A quest missing from the next complete, validated snapshot means the sender no longer has that quest. No other meaning is permitted.
+- Tracking, hidden state, display preference, UI policy, or whether the sender wants a quest represented MUST NOT affect inclusion.
+- The receiver MUST decode, validate, and prepare the entire snapshot before changing the sender's prior state. It MUST then replace that state atomically.
+- An incomplete, malformed, oversized, or truncated snapshot MUST NOT change prior state. The receiver MUST NOT apply rows incrementally.
+- Incremental quest-update and quest-remove packets are not part of this protocol version.
+
+`QuestieV1` remains the separate display-intent protocol for party objective pins. `QuestieV1` state and all other display policy MUST NOT affect `QuestieQ1` inclusion or mutate absolute remote quest-log state.
 
 Full snapshots reduce packet-family complexity and avoid ambiguity around missed updates, reloads, and roster convergence.
 
@@ -150,7 +156,7 @@ The sender omits per-objective metadata that should be recoverable by compatible
 - objective type;
 - required count.
 
-On receive, Questie reconstructs the existing rich objective rows before writing to `remoteQuestLogs` or tooltip sinks:
+On receive, Questie prepares the existing rich objective rows before atomically replacing the sender's state in `remoteQuestLogs`. UI and tooltip consumers read the committed state:
 
 ```lua
 {
@@ -209,10 +215,12 @@ Tests should live with the owning modules, not in a centralized integration pile
 Required guardrails:
 
 - `CommsPrefixRegistry` tests should cover H1 advertisement of `QuestieQ1` once the receiver exists.
-- Quest-log protocol tests should cover encoding, decoding, full-snapshot replacement, missing quest removal, and fallback to legacy `questie` when a peer does not advertise `QuestieQ1`.
+- Quest-log protocol tests should cover encoding, decoding, atomic full-snapshot replacement, authoritative missing-quest removal, and fallback to legacy `questie` when a peer does not advertise `QuestieQ1`.
+- Sender tests must prove every current quest is included despite tracked, untracked, hidden, shown, or other display-policy state.
+- Receiver tests must prove incomplete or invalid snapshots leave the prior sender state unchanged and never apply partial rows.
 - Reconstruction tests should prove that the compact payload produces rich `remoteQuestLogs` rows with reconstructed ID/type/required fields.
 - Tooltip-side tests should cover available required counts and degraded/missing required counts.
-- Party-objective tests should prove objective completion and V1 visibility interact correctly.
+- Party-objective tests should prove `QuestieV1` affects only display intent and never `QuestieQ1` inclusion or absolute remote quest-log state.
 - Realistic 25-quest payload guardrails must be kept or updated when quest data or schema changes.
 - Zero-objective quest tests must cover complete, incomplete, and failed quest states.
 - Trust-boundary tests must reject unsupported distributions and non-group senders.

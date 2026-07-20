@@ -10,7 +10,7 @@ The purpose of this document is to preserve the core decisions behind the modern
 
 Questie needs an up-to-date, factual view of party members' quest-log and objective-progress state.
 
-Today that state is represented by `QuestieComms.remoteQuestLogs`:
+The canonical state is represented by `QuestieComms.remoteQuestLogs`:
 
 ```lua
 remoteQuestLogs[questId][playerName] = objectives
@@ -18,9 +18,11 @@ remoteQuestLogs[questId][playerName] = objectives
 
 That table means: the remote player has this quest, and this is the objective progress Questie knows for that player.
 
-Absence from `remoteQuestLogs` must not be overloaded to mean "hidden", "untracked", or "not shown". A missing entry should mean the quest is actually absent, removed, unknown, or not yet synchronized. UI/display preferences are a different kind of state.
+Quest-log transports MUST derive inclusion only from factual quest-log presence. Tracking, hidden state, display preference, UI policy, or whether the sender wants a quest represented MUST NOT affect inclusion.
 
-`CommsVisibility` stores party-objective pin display intent separately. Visibility updates must never create, remove, or mutate `remoteQuestLogs` entries. This keeps "not shown as a party pin" distinct from "not in the quest log".
+For a complete, validated full snapshot, a present quest means the sender currently has it, and an omitted quest means the sender no longer has it. The receiver MUST validate the complete snapshot before atomically replacing prior sender state. Invalid or incomplete snapshots must leave prior state unchanged. Before any valid synchronization, absence may still mean unknown.
+
+`QuestieQ1` preserves this absolute contract in a compact full snapshot. `QuestieV1`, owned by `CommsVisibility`, remains the separate party-objective pin display-intent protocol. Visibility updates must never create, remove, or mutate `remoteQuestLogs` entries. This keeps "not shown as a party pin" distinct from "not in the quest log".
 
 ## Terms and semantics
 
@@ -226,7 +228,9 @@ Tests should protect these contracts:
 - self echoes and cross-realm same-name players are handled correctly,
 - scheduled hello and visibility sends are debounced and canceled by `ResetAll()`,
 - detected group-size changes prune stale remote players, resend visibility, and redraw party objectives without broadcasting H1; quest-sharing online-status changes do the same,
-- `remoteQuestLogs` remains absolute quest-log/progress state and is not filtered by visibility/tracking preferences,
+- full quest-log snapshots include every current quest regardless of tracking, hidden state, display preference, or UI policy,
+- complete validated snapshots replace prior sender state atomically, while invalid or incomplete snapshots leave it unchanged,
+- `remoteQuestLogs` remains absolute quest-log/progress state,
 - visibility packets do not create or remove `remoteQuestLogs` entries,
 - no QuestieV1 snapshot defaults to shown, while omission from a valid full snapshot suppresses that player's party pins,
 - invalid QuestieV1 snapshots preserve the player's prior valid visibility state,
