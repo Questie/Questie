@@ -1,5 +1,10 @@
 dofile("setupTests.lua")
 
+--[[
+CommsEncoding tests stay at the codec boundary: CBOR/compression/addon-channel
+mechanics, the shared transport ceiling, error handling, and support detection.
+Stricter feature-specific output budgets live with each payload owner.
+]]
 describe("CommsEncoding", function()
     ---@type CommsEncoding
     local CommsEncoding
@@ -8,6 +13,7 @@ describe("CommsEncoding", function()
     local originalEncodeForAddonChannel
     local originalDecodeForAddonChannel
 
+    ---Loads real LibDeflate and remembers the addon-channel codec functions under test.
     local function loadRealLibDeflate()
         _G.LibStub = nil
         dofile("Libs/LibStub/LibStub.lua")
@@ -25,6 +31,18 @@ describe("CommsEncoding", function()
 
         _G.Enum.CompressionMethod = {Deflate = 0}
         _G.Enum.CompressionLevel = {Default = 0}
+    end)
+
+    it("loads without LibDeflate and reports that modern codec support is unavailable", function()
+        _G.LibStub = nil
+        dofile("Libs/LibStub/LibStub.lua")
+
+        assert.has_no.errors(function()
+            dofile("Modules/Network/CommsEncoding.lua")
+        end)
+
+        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+        assert.is_false(CommsEncoding:HasCodecSupport())
     end)
 
     describe("real LibDeflate addon-channel codec", function()
@@ -47,6 +65,7 @@ describe("CommsEncoding", function()
         local calls
         local decodedPayload
 
+        ---Installs spies around the production encode/decode phases CommsEncoding orchestrates.
         local function setupBlizzardCodec()
             calls = {}
             decodedPayload = {QuestieH1 = true}
@@ -108,6 +127,56 @@ describe("CommsEncoding", function()
 
             assert.are_same({"addonDecode", "decompress", "deserialize"}, calls)
             assert.are_equal(decodedPayload, payload)
+        end)
+
+        it("sets the shared ceiling to three 254-byte AceComm multipart payloads", function()
+            assert.are_equal(762, CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES)
+        end)
+
+        it("accepts an encoded payload that fits exactly three AceComm messages", function()
+            local maxPayloadBytes = CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES
+            LibDeflate.EncodeForWoWAddonChannel = spy.new(function()
+                return string.rep("x", maxPayloadBytes)
+            end)
+
+            local wire = CommsEncoding:EncodePayload({QuestieV1 = true})
+
+            assert.are_equal(maxPayloadBytes, #wire)
+        end)
+
+        it("rejects an encoded payload that would require a fourth AceComm message", function()
+            local oversizedPayloadBytes = CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES + 1
+            LibDeflate.EncodeForWoWAddonChannel = spy.new(function()
+                return string.rep("x", oversizedPayloadBytes)
+            end)
+
+            assert.is_nil(CommsEncoding:EncodePayload({QuestieV1 = true}))
+        end)
+
+        it("decodes a wire payload that fits exactly three AceComm messages", function()
+            local maxPayloadBytes = CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES
+            LibDeflate.DecodeForWoWAddonChannel = spy.new(function(libDeflate, payload)
+                calls[#calls + 1] = "addonDecode"
+                assert.are_equal(LibDeflate, libDeflate)
+                assert.are_equal(maxPayloadBytes, #payload)
+                return "compressed\000payload"
+            end)
+
+            local payload = CommsEncoding:DecodePayload(string.rep("x", maxPayloadBytes))
+
+            assert.are_same({"addonDecode", "decompress", "deserialize"}, calls)
+            assert.are_equal(decodedPayload, payload)
+        end)
+
+        it("rejects oversized and non-string wire payloads before decode work", function()
+            local oversizedPayload = string.rep("x", CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES + 1)
+
+            assert.is_nil(CommsEncoding:DecodePayload(oversizedPayload))
+            assert.is_nil(CommsEncoding:DecodePayload({}))
+            assert.are_same({}, calls)
+            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.not_called()
+            assert.spy(C_EncodingUtil.DecompressString).was.not_called()
+            assert.spy(C_EncodingUtil.DeserializeCBOR).was.not_called()
         end)
 
         it("returns nil when Blizzard codec support is unavailable", function()

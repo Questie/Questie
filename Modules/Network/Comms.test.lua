@@ -1,5 +1,12 @@
 dofile("setupTests.lua")
 
+local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
+
+--[[
+Comms owns the daily `Questie` prefix. Unit tests cover validation and routing
+choices; the isolated emulator block uses real AceSerializer and fake group/guild
+transport to prove the Questie-owned daily message path end to end.
+]]
 describe("Comms", function()
     ---@type AvailableQuests
     local AvailableQuests
@@ -242,4 +249,207 @@ describe("Comms", function()
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
     end)
+
+    describe("isolated daily Questie emulator", function()
+        ---Fails the test if the isolated network cannot settle all timers and AceComm traffic.
+        ---@param network table Isolated comms network from AceCommTestHarness.
+        local function assertIsolatedNetworkFlushes(network)
+            assert.is_true(network:FlushUntilIdle())
+        end
+
+        ---Counts low-level sends from one isolated client matching the requested envelope fields.
+        ---@param client table Isolated client under inspection.
+        ---@param prefix string Addon prefix to count.
+        ---@param distribution string? Optional AceComm distribution filter.
+        ---@param target string? Optional whisper target filter.
+        ---@return integer count Matching sent message count.
+        local function countIsolatedSentAddonMessages(client, prefix, distribution, target)
+            local count = 0
+            for _, message in ipairs(client.sentAddonMessages) do
+                if message.prefix == prefix
+                    and (not distribution or message.distribution == distribution)
+                    and (target == nil or message.target == target)
+                then
+                    count = count + 1
+                end
+            end
+
+            return count
+        end
+
+        ---Finds the largest low-level AceComm payload sent for one prefix.
+        ---@param client table Isolated client under inspection.
+        ---@param prefix string Addon prefix to inspect.
+        ---@return integer maxLength Longest sent message length.
+        ---@return integer matchingMessageCount Number of matching sends.
+        local function findMaxSentMessageLength(client, prefix)
+            local maxLength = 0
+            local matchingMessageCount = 0
+            for _, message in ipairs(client.sentAddonMessages) do
+                if message.prefix == prefix then
+                    matchingMessageCount = matchingMessageCount + 1
+                    maxLength = math.max(maxLength, string.len(message.message))
+                end
+            end
+
+            return maxLength, matchingMessageCount
+        end
+
+        it("initializes daily Questie prefix and advertises it through QuestieH1", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadDailyCommsStack()
+            bob:LoadDailyCommsStack()
+
+            assert.is_true(alice.registeredAddonPrefixes.Questie)
+
+            alice.CommsPrefixRegistry:ScheduleHello("daily prefix advertisement")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "Questie"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
+        end)
+
+        it("broadcasts unavailable daily quests to party members", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadDailyCommsStack()
+            bob:LoadDailyCommsStack()
+
+            alice.Comms.BroadcastUnavailableDailyQuests(7001, {8001, 8002})
+            assertIsolatedNetworkFlushes(network)
+
+            assert.are_equal(1, countIsolatedSentAddonMessages(alice, "Questie", "PARTY"))
+            assert.are_equal(1, #bob.dailyQuestRemovals)
+            assert.are_same({npcId = 7001, questIds = {8001, 8002}}, bob.dailyQuestRemovals[1])
+        end)
+
+        it("broadcasts unavailable daily quests to raid members", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetRaid({alice, bob})
+
+            alice:LoadDailyCommsStack()
+            bob:LoadDailyCommsStack()
+
+            alice.Comms.BroadcastUnavailableDailyQuests(7002, {8003})
+            assertIsolatedNetworkFlushes(network)
+
+            assert.are_equal(1, countIsolatedSentAddonMessages(alice, "Questie", "RAID"))
+            assert.are_equal(1, #bob.dailyQuestRemovals)
+            assert.are_same({npcId = 7002, questIds = {8003}}, bob.dailyQuestRemovals[1])
+        end)
+
+        it("broadcasts unavailable daily quests to guild members", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetGuild({alice, bob})
+
+            alice:LoadDailyCommsStack()
+            bob:LoadDailyCommsStack()
+
+            alice.Comms.BroadcastUnavailableDailyQuests(7003, {8004, 8005})
+            assertIsolatedNetworkFlushes(network)
+
+            assert.are_equal(1, countIsolatedSentAddonMessages(alice, "Questie", "GUILD"))
+            assert.are_equal(1, #bob.dailyQuestRemovals)
+            assert.are_same({npcId = 7003, questIds = {8004, 8005}}, bob.dailyQuestRemovals[1])
+        end)
+
+        it("broadcasts unavailable daily quests to both guild and party when both apply", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetGuild({alice, bob})
+            network:SetParty({alice, bob})
+
+            alice:LoadDailyCommsStack()
+            bob:LoadDailyCommsStack()
+
+            alice.Comms.BroadcastUnavailableDailyQuests(7004, {8006})
+            assertIsolatedNetworkFlushes(network)
+
+            -- Production Comms.lua sends to guild first, then the current group.
+            -- The emulator preserves that duplicate-delivery behavior instead of
+            -- deduplicating it in the test harness.
+            assert.are_equal(1, countIsolatedSentAddonMessages(alice, "Questie", "GUILD"))
+            assert.are_equal(1, countIsolatedSentAddonMessages(alice, "Questie", "PARTY"))
+            assert.are_equal(2, #bob.dailyQuestRemovals)
+            assert.are_same({npcId = 7004, questIds = {8006}}, bob.dailyQuestRemovals[1])
+            assert.are_same({npcId = 7004, questIds = {8006}}, bob.dailyQuestRemovals[2])
+        end)
+
+        -- Required guardrail: NPC 58646 currently gives a realistic high-count
+        -- daily payload that should remain a single AceComm message.
+        it("keeps a realistic high-count daily Questie payload within the single-message limit", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadDailyCommsStack()
+            bob:LoadDailyCommsStack()
+
+            local dailyQuestIds = {
+                31943, 31942, 31941, 31675, 31674,
+                31673, 31672, 31671, 31670, 31669,
+                30337, 30336, 30335, 30334, 30333,
+            }
+            alice.Comms.BroadcastUnavailableDailyQuests(58646, dailyQuestIds)
+            assertIsolatedNetworkFlushes(network)
+
+            local maxMessageLength, questieMessageCount = findMaxSentMessageLength(alice, "Questie")
+            assert.are_equal(1, questieMessageCount)
+            -- Upper bound protects addon-channel correctness. Lower bound protects
+            -- the test fixture: this DB-derived daily set should stay a near-limit
+            -- stress case unless a deliberate serializer/compression improvement changes it.
+            assert.is_true(maxMessageLength >= 200)
+            assert.is_true(maxMessageLength <= 255)
+            assert.are_equal(1, #bob.dailyQuestRemovals)
+            assert.are_same({npcId = 58646, questIds = dailyQuestIds}, bob.dailyQuestRemovals[1])
+        end)
+
+        it("ignores daily Questie messages from self", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+
+            bob:LoadDailyCommsStack()
+
+            local serializedEvent = bob.env.Questie:Serialize({
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = 7005,
+                    questIds = {8007},
+                },
+            })
+            bob.env.Questie:SendCommMessage("Questie", serializedEvent, "WHISPER", "Bob-TestRealm")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.are_equal(0, #bob.dailyQuestRemovals)
+        end)
+
+        it("ignores malformed daily Questie messages", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadDailyCommsStack()
+            bob:LoadDailyCommsStack()
+
+            alice.env.Questie:SendCommMessage("Questie", "not an AceSerializer event", "PARTY")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.are_equal(0, #bob.dailyQuestRemovals)
+        end)
+    end)
+
 end)

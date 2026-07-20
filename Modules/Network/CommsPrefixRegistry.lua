@@ -9,7 +9,6 @@ currently listening to.
             QuestieV1 = true,    -- CommsVisibility registered the visibility receiver
             questie = true,      -- legacy party quest-log comms receiver is active
             Questie = true,      -- daily quest availability comms receiver is active
-            REPUTABLE = true,    -- legacy reputable daily receiver is active
         }
 
     Wire path:
@@ -26,13 +25,15 @@ currently listening to.
             QuestieV1 = true,
             questie = true,
             Questie = true,
-            REPUTABLE = true,
         }
 
 Known prefixes default to false. That means this client knows the prefix contract
 but is not currently listening/parsing it. Owning modules mark prefixes true only
 after registering their own receiver, so disabled or sunset handlers naturally
 advertise false without letting remote payloads grow the protocol surface.
+
+Legacy compatibility receivers that should not participate in Questie-owned
+capability discovery stay out of this manifest entirely.
 ]]
 ---@alias QuestieCommsPrefixState table<string, boolean> Prefix -> listening state; false is an intentional local rejection/disabled state.
 
@@ -54,9 +55,9 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 -------------------------
 local HELLO_PREFIX = "QuestieH1"
 
--- Local protocol manifest. This is the only place a prefix becomes meaningful to this
--- client; remote hello payloads are filtered through this table and can never register
--- or introduce prefixes dynamically.
+-- Local protocol manifest. This is the only place a prefix becomes meaningful to
+-- QuestieH1; remote hello payloads are filtered through this table and can never
+-- register or introduce prefixes dynamically.
 ---@type QuestieCommsPrefixState
 local LOCAL_PREFIXES = {
     -- Hello module
@@ -65,12 +66,9 @@ local LOCAL_PREFIXES = {
     -- Modern comms modules
     QuestieV1 = false,
 
-    -- Legacy comms modules
+    -- Legacy quest-log sharing and Questie-owned daily quest availability.
     questie = false,
     Questie = false,
-
-    -- Old Reputable module
-    REPUTABLE = false,
 }
 
 CommsPrefixRegistry.prefix = HELLO_PREFIX

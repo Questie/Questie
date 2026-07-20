@@ -170,8 +170,9 @@ function QuestieComms:Initialize()
 
     -- TODO: replace with getting data over own comms in properly throttled manner
     -- see: https://github.com/Questie/Questie/issues/3540
+    -- Keep accepting old REPUTABLE messages for now, but do not advertise that legacy
+    -- callback through QuestieH1. The Questie-owned daily comms path uses the "Questie" prefix.
     Questie:RegisterComm("REPUTABLE", DailyQuests.FilterDailies);
-    CommsPrefixRegistry:RegisterLocalPrefix("REPUTABLE");
 
     -- Events to be used to broadcast updates to other people
     Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);

@@ -16,7 +16,7 @@ separate from QuestieComms.remoteQuestLogs, which remains the absolute quest-log
 truth and can still feed contextual tooltip progress.
 ]]
 ---@alias QuestieCommsVisibilitySnapshot table<number, boolean> QuestId -> show party objective pins.
--- Missing quest IDs mean unknown and are treated as shown by readers.
+-- No snapshot for a player means unknown. Within a stored full snapshot, omission means suppressed.
 
 ---@class CommsVisibility : QuestieModule
 local CommsVisibility = QuestieLoader:CreateModule("CommsVisibility")
@@ -43,14 +43,13 @@ local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjective
 -- Protocol contract.
 -------------------------
 local VISIBILITY_PREFIX = "QuestieV1"
-local MAX_VISIBILITY_SNAPSHOT_QUESTS = 50
 local MAX_VISIBILITY_GROUP_SIZE = 5
 
 CommsVisibility.prefix = VISIBILITY_PREFIX
 
 -- remoteQuestVisibility["Friend-Realm"][questId] = true/false for party objective pins.
--- Missing data means unknown and defaults to shown for backward compatibility with clients
--- that do not speak QuestieV1.
+-- A missing player means unknown and defaults to shown for clients that do not speak QuestieV1.
+-- Once a player's full snapshot is stored, omitted quest IDs are authoritatively suppressed.
 ---@type table<string, QuestieCommsVisibilitySnapshot>
 CommsVisibility.remoteQuestVisibility = CommsVisibility.remoteQuestVisibility or {}
 
@@ -120,8 +119,8 @@ end
 ---incremental QuestieV1 update path.
 ---
 --- Call this whenever local visibility policy can change for the current quest log: quest
---- accept/remove, hide/unhide, tracked/untracked, bulk tracker mode changes, and group
---- convergence points such as roster changes or full quest-log responses.
+--- accept/remove, hide/unhide, tracked/untracked, bulk tracker mode changes, profile changes,
+--- and group convergence points such as roster changes or full quest-log responses.
 ---@param _reason string? Debug-only call-site label reserved for future logging.
 function CommsVisibility:ScheduleSnapshot(_reason)
     -- Send with timer debounce.
@@ -155,28 +154,28 @@ end
 -------------------------
 -- Receiving visibility.
 -------------------------
----@param payload table Decoded remote payload; invalid quest IDs and non-boolean values are ignored.
----@return QuestieCommsVisibilitySnapshot snapshot Sanitized snapshot safe to store.
-local function _SanitizeSnapshot(payload)
-    local snapshot = {}
-    local acceptedQuestCount = 0
+---Rejects the whole payload instead of sanitizing partial authoritative state.
+---@param payload any Decoded remote payload.
+---@return QuestieCommsVisibilitySnapshot? snapshot Complete validated snapshot safe to store.
+local function _ValidateSnapshot(payload)
+    if type(payload) ~= "table" then
+        return nil
+    end
 
-    -- Receive trust boundary: WoW quest logs are much smaller than this. The cap keeps
-    -- hostile or malformed group payloads from growing unbounded while leaving room for
-    -- future client-side quest-log changes.
     for questId, visible in pairs(payload) do
-        if acceptedQuestCount >= MAX_VISIBILITY_SNAPSHOT_QUESTS then
-            break
-        end
-
-        if type(questId) == "number" and questId > 0 and questId % 1 == 0 and type(visible) == "boolean" then
-            snapshot[questId] = visible
-            acceptedQuestCount = acceptedQuestCount + 1
+        if type(questId) ~= "number"
+            or questId <= 0
+            or questId % 1 ~= 0
+            or type(visible) ~= "boolean"
+        then
+            return nil
         end
     end
 
-    return snapshot
+    return payload
 end
+
+---Validates a complete V1 snapshot before atomically replacing the sender's prior state.
 ---@param prefix string
 ---@param message string
 ---@param distribution string
@@ -191,13 +190,14 @@ function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
     end
 
     local payload = CommsEncoding:DecodePayload(message)
-    if not payload then
+    local snapshot = _ValidateSnapshot(payload)
+    if not snapshot then
         return
     end
 
-    -- Replace the remote player's whole snapshot. QuestieV1 is full-state only; a missing quest ID
-    -- means unknown/default-show, not an instruction to edit QuestieComms.remoteQuestLogs.
-    CommsVisibility.remoteQuestVisibility[sender] = _SanitizeSnapshot(payload)
+    -- Commit only after validating the complete payload. QuestieV1 is full-state only;
+    -- omission suppresses that player's party pins and never edits remoteQuestLogs.
+    CommsVisibility.remoteQuestVisibility[sender] = snapshot
     QuestiePartyObjectives:ScheduleUpdate()
 end
 
@@ -205,18 +205,19 @@ end
 -- Remote visibility state and queries.
 -------------------------
 ---Returns the remote player's display intent for party objective pin rendering.
----Unknown remote players/quests default to shown so older clients keep existing behavior.
+---Players without a snapshot default to shown for compatibility. Once a complete snapshot
+---exists, only quests explicitly marked true are shown; false and omission are suppressed.
 ---This does not hide contextual tooltip progress; remoteQuestLogs remains visible there.
 ---@param playerName string
 ---@param questId QuestId
 ---@return boolean
 function CommsVisibility:ShouldShowPartyObjective(playerName, questId)
     local visibility = CommsVisibility.remoteQuestVisibility[playerName]
-    if not visibility or visibility[questId] == nil then
+    if not visibility then
         return true
     end
 
-    return visibility[questId]
+    return visibility[questId] == true
 end
 
 function CommsVisibility:ResetAll()
