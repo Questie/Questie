@@ -33,6 +33,7 @@ describe("CommsVisibility", function()
 
     local serializedPayload
 
+    ---@param decodedPayload any Value returned by the mocked decoder.
     local function setupCodec(decodedPayload)
         CommsEncoding.HasCodecSupport = spy.new(function() return true end)
         CommsEncoding.EncodePayload = spy.new(function(_, payload)
@@ -44,6 +45,7 @@ describe("CommsVisibility", function()
         end)
     end
 
+    ---@param decodedPayload any Value returned by the mocked decoder.
     local function loadCommsVisibility(decodedPayload)
         serializedPayload = nil
 
@@ -253,6 +255,7 @@ describe("CommsVisibility", function()
     end)
 
     describe("OnCommReceived", function()
+        ---@param payload any Decoded snapshot value to deliver.
         local function receiveSnapshot(payload)
             setupCodec(payload)
             CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")

@@ -119,8 +119,8 @@ end
 ---incremental QuestieV1 update path.
 ---
 --- Call this whenever local visibility policy can change for the current quest log: quest
---- accept/remove, hide/unhide, tracked/untracked, bulk tracker mode changes, and group
---- convergence points such as roster changes or full quest-log responses.
+--- accept/remove, hide/unhide, tracked/untracked, bulk tracker mode changes, profile changes,
+--- and group convergence points such as roster changes or full quest-log responses.
 ---@param _reason string? Debug-only call-site label reserved for future logging.
 function CommsVisibility:ScheduleSnapshot(_reason)
     -- Send with timer debounce.
@@ -154,6 +154,7 @@ end
 -------------------------
 -- Receiving visibility.
 -------------------------
+---Rejects the whole payload instead of sanitizing partial authoritative state.
 ---@param payload any Decoded remote payload.
 ---@return QuestieCommsVisibilitySnapshot? snapshot Complete validated snapshot safe to store.
 local function _ValidateSnapshot(payload)
@@ -173,6 +174,8 @@ local function _ValidateSnapshot(payload)
 
     return payload
 end
+
+---Validates a complete V1 snapshot before atomically replacing the sender's prior state.
 ---@param prefix string
 ---@param message string
 ---@param distribution string

@@ -14,6 +14,7 @@ describe("QuestiePartyObjectives", function()
     local renderedObjectives
     local renderedMapIcons
 
+    ---@return integer count
     local function countActiveMapIcons()
         local count = 0
         for _, mapIcon in ipairs(renderedMapIcons) do
@@ -24,6 +25,8 @@ describe("QuestiePartyObjectives", function()
         return count
     end
 
+    ---@param playerName string
+    ---@param finished boolean
     local function setRemoteObjective(playerName, finished)
         onlinePlayers[playerName] = true
         QuestieComms.remoteQuestLogs[QUEST_ID] = QuestieComms.remoteQuestLogs[QUEST_ID] or {}

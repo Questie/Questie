@@ -43,6 +43,8 @@ local function _OnlineStatusChanged()
     return changed
 end
 
+---Always prunes modern roster caches, then resyncs V1 and redraws only for group-size or
+---legacy quest-sharing online-state changes.
 function GroupEventHandler.GroupRosterUpdate()
     local currentMembers = GetNumGroupMembers()
     local sizeChanged = currentMembers ~= QuestiePlayer.numberOfGroupMembers
@@ -56,8 +58,8 @@ function GroupEventHandler.GroupRosterUpdate()
     CommsPrefixRegistry:PruneRemotePlayers()
     CommsVisibility:PruneRemotePlayers()
 
-    -- Only resync visibility when group membership or a quest-sharing member's online state
-    -- changed. Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
+    -- Only resync visibility when group size or a quest-sharing member's online state changed.
+    -- Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
     if sizeChanged or onlineChanged then
         -- H1 announces only a local join/reload. Roster updates happen on every client,
         -- so broadcasting here would multiply one membership change into raid-wide traffic.

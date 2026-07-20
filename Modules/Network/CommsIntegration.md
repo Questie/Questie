@@ -90,9 +90,15 @@ Group lifecycle ownership:
 
 - unit-level group join/roster/left behavior;
 - isolated GROUP_JOINED convergence through H1, V1, and full quest-log request messages;
-- isolated GROUP_ROSTER_UPDATE V1 resync on size changes without H1 broadcasts;
-- isolated online-status changes resend V1 without H1 broadcasts, while zone-change-like no-op roster updates stay quiet;
+- every bucketed GROUP_ROSTER_UPDATE prunes H1/V1 caches, including an isolated same-size replacement represented only in those modern caches;
+- only group-size or quest-sharing online-state changes resend V1 and redraw party objectives, never H1; the H1/V1-only replacement and zone-like no-ops otherwise stay quiet;
 - isolated GROUP_LEFT reset and pending timer cancellation.
+
+### `Questie.test.lua`
+
+Top-level profile callback ownership:
+
+- AceDB activates the switched, copied, or reset profile first; `RefreshConfig` calls the local icon, quest, and tracker refresh paths, then schedules V1 from that profile's tracking policy. `QuestieQuest:SmoothReset` may continue asynchronously.
 
 ### `Modules/Network/QuestieComms.test.lua`
 

@@ -220,15 +220,18 @@ So manually hidden quests and untracked quests suppress party objective pins, wh
 - `ScheduleHello()` and `ScheduleSnapshot()` are the public outbound paths for group-broadcast hello and visibility state.
 - `ScheduleHello()` belongs to the joining or reloading client (`GROUP_JOINED`, including the already-grouped login/reload path). `GROUP_ROSTER_UPDATE` runs on every client, so it must not schedule H1.
 
+Every bucketed `GROUP_ROSTER_UPDATE` prunes remote H1 and V1 caches. This includes a same-size replacement represented only in those modern caches, which is pruned without resending V1 or redrawing party objectives. Only a detected group-size change or a quest-sharing member's online-state change resends V1 and redraws; roster updates never schedule H1.
+
 `QuestieV1` snapshots are intentionally full-state and small. They are scheduled at convergence points where remote players may need fresh state:
 
-- group join and meaningful roster changes,
+- group join, group-size changes, and quest-sharing online-state changes,
 - responding to a full quest-log request,
 - quest accept, completion, or abandonment,
 - quest hide/unhide,
-- track/untrack and bulk tracker mode changes.
+- track/untrack and bulk tracker mode changes,
+- AceDB profile switch, copy, or reset after AceDB activates the new profile; `RefreshConfig` calls the local icon, quest, and tracker refresh paths, then schedules V1 from that profile's tracking policy. `QuestieQuest:SmoothReset` may continue asynchronously.
 
-This avoids incremental visibility bookkeeping while keeping existing group members synchronized after reloads or quest/tracker state changes.
+This avoids incremental visibility bookkeeping while keeping existing group members synchronized after reloads, profile changes, or quest/tracker state changes.
 
 ## Compatibility and sunsetting
 
@@ -271,12 +274,13 @@ Tests should protect these contracts:
 - `WHISPER` hello and visibility messages are accepted only from current group members,
 - self echoes and cross-realm same-name players are handled correctly,
 - scheduled hello and visibility sends are debounced and canceled by `ResetAll()`,
-- detected group-size changes prune stale remote players, resend visibility, and redraw party objectives without broadcasting H1; quest-sharing online-status changes do the same,
+- every bucketed roster update prunes stale H1/V1 players, including a same-size H1/V1-only replacement; only group-size or quest-sharing online-state changes resend V1 and redraw, and roster updates never broadcast H1,
 - full quest-log snapshots include every current quest regardless of tracking, hidden state, display preference, or UI policy,
 - complete validated snapshots replace prior sender state atomically, while invalid or incomplete snapshots leave it unchanged,
 - `remoteQuestLogs` remains absolute quest-log/progress state,
 - visibility packets do not create or remove `remoteQuestLogs` entries,
 - no QuestieV1 snapshot defaults to shown, while omission from a valid full snapshot suppresses that player's party pins,
 - invalid QuestieV1 snapshots preserve the player's prior valid visibility state,
+- AceDB activates the switched, copied, or reset profile before `RefreshConfig` calls the local icon, quest, and tracker refresh paths and then schedules V1 from that profile's tracking policy; `QuestieQuest:SmoothReset` may continue asynchronously,
 - `QuestieV1` affects party objective pins, not quest-log inclusion or contextual tooltip progress,
 - live multi-client smoke tests remain deferred follow-up validation outside the automated Milestone 1 suite.
