@@ -118,7 +118,7 @@ addon-channel-safe byte decoding
 -> C_EncodingUtil.DeserializeCBOR
 ```
 
-`CommsEncoding` contains only the trimmed addon-channel-safe codec pieces Questie needs, with LibDeflate/LibCompress attribution preserved. Compression is Blizzard's built-in Deflate through `C_EncodingUtil`, not LibDeflate compression.
+Questie embeds the full LibDeflate library for its proven addon-channel-safe byte encoding and decoding. `CommsEncoding` uses only `EncodeForWoWAddonChannel` and `DecodeForWoWAddonChannel`; compression is Blizzard's built-in Deflate through `C_EncodingUtil`, not LibDeflate compression.
 
 If a future prefix changes wire shape or codec incompatibly, create a new prefix instead of adding per-packet negotiation fields.
 
