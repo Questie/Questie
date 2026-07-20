@@ -33,6 +33,7 @@ Use Blizzard's API documentation as the source of truth:
   - Does not support indefinite-length items.
   - Does not support major type `6` tags.
   - Treats major type `3` text strings like byte strings; no UTF-8 validation.
+  - Preserves the sign of decoded half-precision positive and negative zero.
   - Errors when nested table depth exceeds `100` levels.
 
 ## Files

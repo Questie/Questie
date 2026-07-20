@@ -139,7 +139,11 @@ local function _DecodeHalfBits(bits)
 
     if exponent == 0 then
         if mantissa == 0 then
-            return sign * 0.0
+            if sign < 0 then
+                return -1 / huge
+            end
+
+            return 0.0
         end
 
         return sign * ldexp(mantissa, -24)

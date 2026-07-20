@@ -216,6 +216,7 @@ describe("BlizzardCBOR", function()
             assert.are_same(math.huge, BlizzardCBOR.DeserializeCBOR(_HexToBytes("f97c00")))
             assert.are_same(-math.huge, BlizzardCBOR.DeserializeCBOR(_HexToBytes("f9fc00")))
             assert.is_true(BlizzardCBOR.DeserializeCBOR(_HexToBytes("f97e00")) ~= BlizzardCBOR.DeserializeCBOR(_HexToBytes("f97e00")))
+            assert.are_same(math.huge, 1 / BlizzardCBOR.DeserializeCBOR(_HexToBytes("f90000")))
             assert.are_same(-math.huge, 1 / BlizzardCBOR.DeserializeCBOR(_HexToBytes("f98000")))
         end)
 
