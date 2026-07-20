@@ -33,6 +33,18 @@ describe("CommsEncoding", function()
         _G.Enum.CompressionLevel = {Default = 0}
     end)
 
+    it("loads without LibDeflate and reports that modern codec support is unavailable", function()
+        _G.LibStub = nil
+        dofile("Libs/LibStub/LibStub.lua")
+
+        assert.has_no.errors(function()
+            dofile("Modules/Network/CommsEncoding.lua")
+        end)
+
+        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+        assert.is_false(CommsEncoding:HasCodecSupport())
+    end)
+
     describe("real LibDeflate addon-channel codec", function()
         it("round-trips binary data and removes null bytes", function()
             local original = "Questie\000\001binary" .. string.char(128) .. string.char(255)

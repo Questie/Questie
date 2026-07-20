@@ -14,7 +14,9 @@ local CommsEncoding = QuestieLoader:CreateModule("CommsEncoding")
 
 local type = type
 
-local LibDeflate = LibStub("LibDeflate")
+-- LibDeflate is embedded in production, but keep the modern comms optional when an
+-- incomplete installation or test environment does not provide it.
+local LibDeflate = LibStub("LibDeflate", true)
 
 ---@return boolean
 function CommsEncoding:HasCodecSupport()
