@@ -1253,8 +1253,8 @@ function QuestieQuestBlacklist:Load()
         [64141] = true, -- Horde pala mount quest chain
         [64142] = true, -- Horde pala mount quest chain
         [64143] = true, -- Horde pala mount quest chain
-        [64144] = true, -- Horde pala mount quest chain
-        [64145] = true, -- Horde pala mount quest chain]]
+        [64144] = true, -- Horde pala mount quest chain]]
+        [64145] = true, -- Horde pala mount quest chain -- was not offered in p1/p2, instead was 9737
         [64217] = true, -- Boosted character quest
         [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
         [65284] = true, -- Boosted character quest

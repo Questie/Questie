@@ -567,6 +567,10 @@ function QuestieWotlkQuestFixes:Load()
         [9681] = {
             [questKeys.startedBy] = {{17717,17718}},
         },
+        [9737] = { -- True Masters of the Light
+            [questKeys.startedBy] = {{25223}}, -- TBC p1/p2 offered by 17076
+            [questKeys.finishedBy] = {{25223}}, -- TBC p1/p2 finished by 17076
+        },
         [9876] = {
             [questKeys.nextQuestInChain] = 9738,
         },
@@ -687,6 +691,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10776] = {
             [questKeys.objectives] = {{{19823}},nil,{{31310}}},
+        },
+        [10842] = { -- Vengeful Souls
+            [questKeys.objectives] = {{{21636}}},
         },
         [10888] = {
             [questKeys.exclusiveTo] = {13430},

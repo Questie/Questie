@@ -2343,7 +2343,8 @@ function QuestieQuestFixes:Load()
         },
         [3526] = { -- Goblin Engineering (Undercity)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3633,3642},
+            [questKeys.exclusiveTo] = {3629,3633,4181,3640,3642},
+            [questKeys.nextQuestInChain] = 3638,
         },
         [3528] = { -- The God Hakkar
             [questKeys.nextQuestInChain] = 5065,
@@ -2367,60 +2368,86 @@ function QuestieQuestFixes:Load()
         [3629] = { -- Goblin Engineering (Stormwind)
             [questKeys.specialFlags] = specialFlags.NONE,
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3633,3640,4181},
+            [questKeys.exclusiveTo] = {3526,3633,4181,3640,3642},
+            [questKeys.nextQuestInChain] = 3638,
         },
         [3630] = { -- Gnome Engineering (Stormwind)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3632,3634,3638},
+            [questKeys.exclusiveTo] = {3632,3634,3635,3637,3638,3642},
+            [questKeys.nextQuestInChain] = 3640,
         },
         [3632] = { -- Gnome Engineering (Ironforge)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3630,3634,3638},
+            [questKeys.exclusiveTo] = {3630,3634,3635,3637,3638,3642},
+            [questKeys.nextQuestInChain] = 3640,
         },
         [3633] = { -- Goblin Engineering (Ratchet Neutral)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3526,3629,3640,3642,4181},
+            [questKeys.exclusiveTo] = {3526,3629,4181,3640,3642},
+            [questKeys.nextQuestInChain] = 3638,
         },
         [3634] = { -- Gnome Engineering (Ratchet Alliance)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3630,3632,3638}
+            [questKeys.exclusiveTo] = {3630,3632,3635,3637,3638,3642},
+            [questKeys.nextQuestInChain] = 3640,
         },
         [3635] = { -- Gnome Engineering (Undercity)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3637,3638},
+            [questKeys.exclusiveTo] = {3630,3632,3634,3637,3638,3640},
+            [questKeys.nextQuestInChain] = 3642,
         },
         [3637] = { -- Gnome Engineering (Ratchet Horde)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3635,3638},
+            [questKeys.exclusiveTo] = {3630,3632,3634,3635,3638,3640},
+            [questKeys.nextQuestInChain] = 3642,
         },
-        [3639] = {
-            [questKeys.exclusiveTo] = {3641,3643},
+        [3638] = { -- The Pledge of Secrecy
+            [questKeys.exclusiveTo] = {3640,3642},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
         },
-        [3641] = {
-            [questKeys.exclusiveTo] = {3639},
+        [3639] = { -- Show Your Work
+            [questKeys.exclusiveTo] = {3640,3641,3642,3643},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.nextQuestInChain] = 3644,
         },
-        [3643] = {
-            [questKeys.exclusiveTo] = {3639},
+        [3640] = { -- The Pledge of Secrecy
+            [questKeys.exclusiveTo] = {3638,3642},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
         },
-        [3644] = {
+        [3641] = { -- Show Your Work
+            [questKeys.exclusiveTo] = {3638,3639},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.nextQuestInChain] = 3647,
+        },
+        [3642] = { -- The Pledge of Secrecy
+            [questKeys.exclusiveTo] = {3638,3640},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+        },
+        [3643] = { -- Show Your Work
+            [questKeys.exclusiveTo] = {3638,3639},
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
+            [questKeys.nextQuestInChain] = 3645,
+        },
+        [3644] = { -- Membership Card Renewal
             [questKeys.preQuestSingle] = {3639,3641,3643},
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
         },
-        [3645] = {
+        [3645] = { -- Membership Card Renewal
             [questKeys.preQuestSingle] = {3639,3641,3643},
             [questKeys.startedBy] = {{7406}},
             [questKeys.finishedBy] = {{7406}},
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
         },
-        [3646] = {
+        [3646] = { -- Membership Card Renewal
             [questKeys.preQuestSingle] = {3639,3641,3643},
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GOBLIN,
         },
-        [3647] = {
+        [3647] = { -- Membership Card Renewal
             [questKeys.preQuestSingle] = {3639,3641,3643},
             [questKeys.startedBy] = {{7944}},
             [questKeys.finishedBy] = {{7944}},
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING_GNOMISH,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [3661] = { -- Favored of Elune?
             [questKeys.nextQuestInChain] = 978,
@@ -2639,7 +2666,8 @@ function QuestieQuestFixes:Load()
         },
         [4181] = { -- Goblin Engineering (Ironforge)
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING, -- engineering skill, no specializations
-            [questKeys.exclusiveTo] = {3629,3633,3640},
+            [questKeys.exclusiveTo] = {3526,3629,3633,3640,3642},
+            [questKeys.nextQuestInChain] = 3638,
         },
         [4185] = {
             [questKeys.objectives] = {{{1749,nil,Questie.ICON_TYPE_TALK}}},
@@ -3044,7 +3072,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {12812},
             [questKeys.requiredSkill] = {profKeys.BLACKSMITHING,270},
         },
-        [5122] = {
+        [5122] = { -- The Medallion of Faith
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1140
         },
         [5123] = { -- The Final Piece

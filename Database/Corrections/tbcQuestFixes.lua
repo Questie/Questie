@@ -1317,6 +1317,9 @@ function QuestieTBCQuestFixes:Load()
         [7868] = {
             [questKeys.requiredMinRep] = {889,21000},
         },
+        [7946] = { -- Spawn of Jubjub
+            [questKeys.questLevel] = -1,
+        },
         [8114] = {
             [questKeys.triggerEnd] = {"Take Four Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{45.9,45.8}}}},
         },
@@ -2803,6 +2806,18 @@ function QuestieTBCQuestFixes:Load()
         [9720] = {
             [questKeys.objectives] = {{{17998,nil,Questie.ICON_TYPE_EVENT},{18002,nil,Questie.ICON_TYPE_EVENT},{18000,nil,Questie.ICON_TYPE_EVENT},{17999,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [9721] = { -- A Summons from Lord Solanar
+            [questKeys.exclusiveTo] = {64139},
+        },
+        [9722] = { -- The Master's Path
+            [questKeys.exclusiveTo] = {64140},
+        },
+        [9723] = { -- A Gesture of Commitment
+            [questKeys.exclusiveTo] = {64141},
+        },
+        [9725] = { -- A Demonstration of Loyalty
+            [questKeys.exclusiveTo] = {64142},
+        },
         [9728] = { -- A Warm Welcome
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9778},
@@ -2815,9 +2830,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9718},
             [questKeys.nextQuestInChain] = 9724,
         },
-        [9737] = {
+        [9735] = { -- True Masters of the Light
+            [questKeys.exclusiveTo] = {64143},
+        },
+        [9736] = { -- True Masters of the Light
+            [questKeys.exclusiveTo] = {64144},
+        },
+        [9737] = { -- True Masters of the Light
+            [questKeys.startedBy] = {{17076,25223}}, -- p1/p2 offered by 17076
+            [questKeys.finishedBy] = {{17076,25223}}, -- p1/p2 finished by 17076
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17910,17911,17912,17913,17914},17910}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Extinguishing Mixture near the eternal flame"), 0, {{"object", 182068}}}},
+            [questKeys.exclusiveTo] = {64145}, -- not sure when this one gets introduced in classic
+            [questKeys.preQuestSingle] = {9736,64144},
         },
         [9738] = { -- Lost in Action
             [questKeys.preQuestSingle] = {},
@@ -3936,7 +3961,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 8922,
         },
         [10493] = { -- An Earnest Proposition
-            [questKeys.nextQuestInChain] = 8922,
+            [questKeys.nextQuestInChain] = 8923,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -7783,6 +7808,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64140,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9721},
         },
         [64140] = {
             [questKeys.name] = "The Master's Path",
@@ -7797,6 +7823,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64141,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9722},
         },
         [64141] = {
             [questKeys.name] = "A Gesture of Commitment",
@@ -7813,6 +7840,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64142,
             [questKeys.questFlags] = 128,
+            [questKeys.exclusiveTo] = {9723},
         },
         [64142] = {
             [questKeys.name] = "A Demonstration of Loyalty",
@@ -7828,6 +7856,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64143,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9725},
         },
         [64143] = {
             [questKeys.name] = "True Masters of the Light",
@@ -7843,6 +7872,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64144,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9735},
         },
         [64144] = {
             [questKeys.name] = "True Masters of the Light",
@@ -7852,12 +7882,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring him 1 Arcane Catalyst, 1 Crepuscular Powder, 1 Azerothian Diamond, and 1 Pristine Black Diamond."},
+            [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring her 1 Arcane Catalyst, 1 Crepuscular Powder, 1 Azerothian Diamond, and 1 Pristine Black Diamond."},
             [questKeys.objectives] = {nil,nil,{{24286},{24285},{12800},{18335}}},
             [questKeys.preQuestSingle] = {64143},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
-            [questKeys.nextQuestInChain] = 64145,
+            [questKeys.nextQuestInChain] = 9737, -- 64145 not offered in p1/p2
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9736},
         },
         [64145] = {
             [questKeys.name] = "True Masters of the Light",
@@ -7874,6 +7905,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64144},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.questFlags] = 128,
+            [questKeys.exclusiveTo] = {9737},
         },
         -------------
         [64319] = {

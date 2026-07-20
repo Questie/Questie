@@ -1,7 +1,7 @@
 ---@class QuestieProfessions
-local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
+local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions")
 ---@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
@@ -13,6 +13,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
+---@type table<SpecializationKeys, string>
 local specializationNames
 local alternativeProfessionNames = {}
 
@@ -275,6 +276,17 @@ QuestieProfessions.rankNames = {
     ZEN_MASTER = 8,
 }
 
+local rankNameStrings = {
+    [QuestieProfessions.rankNames.APPRENTICE] = "Apprentice",
+    [QuestieProfessions.rankNames.JOURNEYMAN] = "Journeyman",
+    [QuestieProfessions.rankNames.EXPERT] = "Expert",
+    [QuestieProfessions.rankNames.ARTISAN] = "Artisan",
+    [QuestieProfessions.rankNames.MASTER] = "Master",
+    [QuestieProfessions.rankNames.GRAND_MASTER] = "Grand Master",
+    [QuestieProfessions.rankNames.ILLUSTRIOUS_GRAND_MASTER] = "Illustrious Grand Master",
+    [QuestieProfessions.rankNames.ZEN_MASTER] = "Zen Master",
+}
+
 professionNames = {
     [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid",
     [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing",
@@ -313,6 +325,7 @@ local sortIds = {
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
 
+---@enum SpecializationKeys
 QuestieProfessions.specializationKeys = { -- specializations use spellID, professions use skillID
     ALCHEMY = QuestieProfessions.professionKeys.ALCHEMY,
     ALCHEMY_ELIXIR = 28677,
@@ -361,6 +374,12 @@ function QuestieProfessions:GetProfessionName(professionKey)
     return professionNames[professionKey]
 end
 
+---@param rankLevel number
+---@return string?
+function QuestieProfessions:GetRankName(rankLevel)
+    return rankNameStrings[rankLevel]
+end
+
 local trainerNames = {
     [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid Trainer",
     [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing Trainer",
@@ -385,9 +404,9 @@ function QuestieProfessions.GetTrainerName(professionKey)
     return trainerNames[professionKey]
 end
 
----@return string
+---@param specializationKey SpecializationKeys
+---@return string?
 function QuestieProfessions:GetSpecializationName(specializationKey)
-    -- TODO: this function is as of yet unused, if you plan on using it add translations for the specializationNames table
     return specializationNames[specializationKey]
 end
 

@@ -422,6 +422,18 @@ local advancedOptionsLocales = {
         ["zhCN"] = "自动选择",
         ["zhTW"] = "自動",
     },
+    ["This will reload the UI. Are you sure you want to change the language?"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Dies wird die Benutzeroberfläche neu laden. Bist du sicher, dass du die Sprache ändern möchtest?",
+        ["esES"] = "Esto recargará la interfaz. ¿Estás seguro de que quieres cambiar el idioma?",
+        ["esMX"] = "Esto recargará la interfaz. ¿Estás seguro de que quieres cambiar el idioma?",
+        ["frFR"] = "Cela va recharger l'interface. Êtes-vous sûr de vouloir changer la langue ?",
+        ["koKR"] = "UI를 다시 로드합니다. 언어를 변경하시겠습니까?",
+        ["ptBR"] = "Isso recarregará a interface. Tem certeza de que deseja alterar o idioma?",
+        ["ruRU"] = "Это приведет к перезагрузке интерфейса. Вы уверены, что хотите изменить язык?",
+        ["zhCN"] = "这将重载界面。你确定要更改语言吗？",
+        ["zhTW"] = "這將重新載入介面。你確定要更改語言嗎？",
+    },
     ["Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"] = {
         ["enUS"] = true,
         ["deDE"] = "Questie befindet sich noch aktiv in der Entwicklungsphase für World of Warcraft: Classic. Für Neuigkeiten und aktuelle Versionen schau auf Github vorbei oder trete unserem Discord Server bei! (( https://github.com/Questie/Questie/ ))",

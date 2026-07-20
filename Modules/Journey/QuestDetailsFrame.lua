@@ -20,6 +20,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -348,6 +350,52 @@ function QuestDetailsFrame:Draw(container, quest)
     if (reqClasses ~= "") then
         local reqClassesLabel = CreateLabel(Questie:Colorize(l10n("Required Class") .. l10n(": "), 'yellow') .. reqClasses, true)
         container:AddChild(reqClassesLabel)
+    end
+
+    -- Required Profession
+    local requiredSkill = QuestieDB.QueryQuestSingle(quest.Id, "requiredSkill")
+    local requiredSpecialization = QuestieDB.QueryQuestSingle(quest.Id, "requiredSpecialization")
+    local requiredRanks = QuestieDB.QueryQuestSingle(quest.Id, "requiredRanks")
+    local professionParts = {}
+
+    if requiredSkill and requiredSkill[1] and QuestieProfessions:GetProfessionName(requiredSkill[1]) then
+        local specializationName = requiredSpecialization and QuestieProfessions:GetSpecializationName(requiredSpecialization)
+        local entry = specializationName and l10n(specializationName) or l10n(QuestieProfessions:GetProfessionName(requiredSkill[1]))
+        if requiredSkill[2] and requiredSkill[2] >= 1 then
+            entry = entry .. " " .. l10n("(") .. requiredSkill[2] .. l10n(")")
+        end
+        professionParts[#professionParts + 1] = entry
+    end
+
+    if requiredRanks then
+        for i = 1, #requiredRanks do
+            local professionId = requiredRanks[i][1]
+            local rankLevel = requiredRanks[i][2]
+            local professionName = QuestieProfessions:GetProfessionName(professionId)
+            if professionName then
+                local absRankLevel = math.abs(rankLevel)
+                local rankName = QuestieProfessions:GetRankName(absRankLevel)
+                local entry = l10n(professionName)
+                if rankName then
+                    entry = entry .. " " .. l10n("(") .. l10n(rankName) .. l10n(")")
+                end
+                if rankLevel < 0 then
+                    entry = l10n("Not") .. " " .. entry
+                end
+                professionParts[#professionParts + 1] = entry
+            end
+        end
+    end
+
+    if #professionParts > 0 then
+        local label = Questie:Colorize(l10n("Required Profession") .. l10n(": "), 'yellow')
+        local professionString
+        if #professionParts == 1 then
+            professionString = label .. professionParts[1]
+        else
+            professionString = label .. "\n  " .. table.concat(professionParts, "\n  ")
+        end
+        container:AddChild(CreateLabel(professionString, true))
     end
 
     local levelDiffString = GetDifficultyString(questDbLevel, requiredLevel)
