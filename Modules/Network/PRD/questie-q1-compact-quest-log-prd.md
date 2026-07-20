@@ -6,6 +6,10 @@ Questie currently shares party quest-log progress through the legacy `questie` p
 
 We want a new Questie-owned, prefix-versioned quest-log sharing format that can carry a full player quest-log snapshot in one message for realistic worst cases, or at most two addon-channel messages if future data grows. The new format should preserve high-fidelity objective progress while omitting data the receiver can reconstruct from its local Questie database or quest API/cache.
 
+## Status
+
+`QuestieQ1` is post-Milestone 1 work. Milestone 1 delivers `QuestieH1`, the shared modern encoding/routing foundation, and `QuestieV1` visibility only. This PRD remains the working Q1 design and rolls forward into a later milestone; it does not describe an implemented protocol. Implementation is blocked until the remote quest state model is decided in `docs/issues/define-q1-remote-quest-state-model.md`.
+
 ## Goals
 
 - Add a new modern quest-log sharing protocol that coexists with the legacy `questie` protocol.
@@ -156,7 +160,7 @@ The sender omits per-objective metadata that should be recoverable by compatible
 - objective type;
 - required count.
 
-On receive, Questie prepares the existing rich objective rows before atomically replacing the sender's state in `remoteQuestLogs`. UI and tooltip consumers read the committed state:
+The blocking HITL issue in `docs/issues/define-q1-remote-quest-state-model.md` decides canonical remote quest-state storage, ownership, and the atomic commit API. On receive, Questie reconstructs rich objective rows before committing through that approved owner. Existing UI and tooltip consumers may receive the familiar `remoteQuestLogs` shape through a compatibility projection or adapter rather than treating it as the canonical storage sink:
 
 ```lua
 {
@@ -218,7 +222,7 @@ Required guardrails:
 - Quest-log protocol tests should cover encoding, decoding, atomic full-snapshot replacement, authoritative missing-quest removal, and fallback to legacy `questie` when a peer does not advertise `QuestieQ1`.
 - Sender tests must prove every current quest is included despite tracked, untracked, hidden, shown, or other display-policy state.
 - Receiver tests must prove incomplete or invalid snapshots leave the prior sender state unchanged and never apply partial rows.
-- Reconstruction tests should prove that the compact payload produces rich `remoteQuestLogs` rows with reconstructed ID/type/required fields.
+- Reconstruction tests should prove that the compact payload produces rich objective rows with reconstructed ID/type/required fields through the approved canonical API or `remoteQuestLogs` compatibility projection.
 - Tooltip-side tests should cover available required counts and degraded/missing required counts.
 - Party-objective tests should prove `QuestieV1` affects only display intent and never `QuestieQ1` inclusion or absolute remote quest-log state.
 - Realistic 25-quest payload guardrails must be kept or updated when quest data or schema changes.

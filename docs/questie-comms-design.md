@@ -2,9 +2,51 @@
 
 ## Status and scope
 
-This is a design note for Questie's current and future party communication direction. It is not a complete rewrite specification and it does not replace the existing `QuestieComms` protocol in one step.
+This is the canonical design note for Questie's modern party communication direction. It does not replace the legacy `QuestieComms` protocol in one step.
 
-The purpose of this document is to preserve the core decisions behind the modern comm modules that now start with `QuestieH1` hello, `CommsEncoding`, and `QuestieV1` party-objective visibility.
+Milestone 1 delivers `QuestieH1` prefix discovery, the shared modern codec and routing foundation, and `QuestieV1` party-objective visibility as its first typed-prefix feature. Later milestones may add compact quest-log sharing through `QuestieQ1` or a successor, along with other typed prefixes. The existing Q1 design documents remain valid future work and roll forward beyond Milestone 1.
+
+## Milestones
+
+### Milestone 1 — Hello + visibility foundation (current)
+
+Milestone 1 includes:
+
+- `QuestieH1` static prefix discovery with `true`, `false`, and `nil` states,
+- `CommsPrefixRegistry` ownership and group-gated hello convergence,
+- the `CommsEncoding` CBOR -> Blizzard Deflate -> addon-channel-safe wire path with a shared 762-byte ceiling,
+- shared group distribution and trust mechanics in `CommsRouting`,
+- `QuestieV1` full visibility snapshots as the first modern typed-prefix feature,
+- a party-objective pin consumer that respects V1 without mutating `remoteQuestLogs` or factual tooltip progress,
+- automated unit and isolated-client tests for these contracts.
+
+`QuestieH1` exposes `AcceptsPrefix` and `RejectsPrefix` for future capability-aware routing, fallback, and protocol migrations. Milestone 1 V1 broadcasts do not gate sends on `AcceptsPrefix`: V1 is a small-group broadcast limited to five members, a broadcast cannot exclude non-accepting members, and requiring known acceptance could lose initial convergence while H1 state is still unknown. Unknown must not be treated as rejection during bootstrap. An explicit `false` remains meaningful for known-but-disabled or sunset prefixes and future version negotiation; it does not merely mean that all knowledge of the prefix was removed. Receive paths do not gate otherwise valid incoming packets on the sender's advertised receive capability.
+
+The following are outside Milestone 1:
+
+- `QuestieQ1` and replacement of legacy quest-log sharing,
+- capability-gated targeted routing or fallback selection in production send paths,
+- live two-client or multi-client smoke testing in WoW; this remains deferred follow-up validation,
+- a freshness or expiry policy for `remotePlayerLastSeen` beyond roster pruning,
+- automatic H1 re-announcement when a prefix becomes active after initial startup, which is not required while H1/V1 initialization ordering is fixed,
+- raising the shared 762-byte, three-message transport ceiling.
+
+Milestone 1 is accepted when the design contracts in this document are implemented for H1, encoding/routing, and V1, and their owning automated tests cover the applicable items in [Testing and contracts](#testing-and-contracts). Live-client smoke testing is acknowledged follow-up validation, not a Milestone 1 blocker.
+
+### Milestone 2+ — Compact quest-log sharing and capability-aware use (later)
+
+Later milestones may include:
+
+- `QuestieQ1`, or a successor, for absolute compact quest-log snapshots,
+- H1-driven fallback between Q1 and legacy `questie` where needed,
+- broader production use of `AcceptsPrefix` and `RejectsPrefix` for version and fallback selection,
+- an optional V1 optimization after discovery converges, such as skipping its broadcast when every current member explicitly rejects V1; unknown state must still allow bootstrap sends,
+- live multi-client validation as part of rollout confidence for new protocols.
+
+The Q1 work rolls forward in:
+
+- `Modules/Network/PRD/questie-q1-compact-quest-log-prd.md`,
+- `docs/issues/define-q1-remote-quest-state-model.md`, the blocking design issue for Q1 implementation.
 
 ## Core principle: absolute remote party state
 
@@ -22,7 +64,7 @@ Quest-log transports MUST derive inclusion only from factual quest-log presence.
 
 For a complete, validated full snapshot, a present quest means the sender currently has it, and an omitted quest means the sender no longer has it. The receiver MUST validate the complete snapshot before atomically replacing prior sender state. Invalid or incomplete snapshots must leave prior state unchanged. Before any valid synchronization, absence may still mean unknown.
 
-`QuestieQ1` preserves this absolute contract in a compact full snapshot. `QuestieV1`, owned by `CommsVisibility`, remains the separate party-objective pin display-intent protocol. Visibility updates must never create, remove, or mutate `remoteQuestLogs` entries. This keeps "not shown as a party pin" distinct from "not in the quest log".
+The planned `QuestieQ1` protocol would preserve this absolute contract in a compact full snapshot in a later milestone. The current `QuestieV1` protocol, owned by `CommsVisibility`, is the separate party-objective pin display-intent protocol. Visibility updates must never create, remove, or mutate `remoteQuestLogs` entries. This keeps "not shown as a party pin" distinct from "not in the quest log".
 
 ## Terms and semantics
 
@@ -76,6 +118,8 @@ The hello module exposes prefix-state queries such as:
 CommsPrefixRegistry:AcceptsPrefix(playerName, prefix)
 CommsPrefixRegistry:RejectsPrefix(playerName, prefix)
 ```
+
+Milestone 1 exposes these queries for later capability-aware routing; V1 group broadcasts do not consult them yet, as described in [Milestones](#milestones).
 
 `QuestieH1` receive handling is group-gated. `PARTY`, `RAID`, `INSTANCE_CHAT`, and `WHISPER` are accepted only when the sender is a current group member. `CommsRouting` owns the shared modern comm routing mechanics: group broadcast distribution normalization, AceComm self filtering, and grouped-sender validation.
 
@@ -234,4 +278,5 @@ Tests should protect these contracts:
 - visibility packets do not create or remove `remoteQuestLogs` entries,
 - no QuestieV1 snapshot defaults to shown, while omission from a valid full snapshot suppresses that player's party pins,
 - invalid QuestieV1 snapshots preserve the player's prior valid visibility state,
-- `QuestieV1` affects party objective pins, not quest-log inclusion or contextual tooltip progress.
+- `QuestieV1` affects party objective pins, not quest-log inclusion or contextual tooltip progress,
+- live multi-client smoke tests remain deferred follow-up validation outside the automated Milestone 1 suite.
