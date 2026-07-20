@@ -7,6 +7,8 @@ local band = bit.band
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type EventHandler
 local EventHandler = QuestieLoader:ImportModule("EventHandler")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type TrackerBaseFrame
@@ -49,10 +51,17 @@ function Questie:OnDisable()
     end
 end
 
-function Questie:RefreshConfig(_, db, profileName)
+---AceDB has already activated the new profile before this callback. RefreshConfig calls the
+---local icon, quest, and tracker refresh paths, then schedules V1 from the newly active profile's
+---tracking policy. QuestieQuest:SmoothReset may continue asynchronously.
+---@param _event "OnProfileChanged"|"OnProfileCopied"|"OnProfileReset" AceDB callback name.
+---@param _database AceDBObject-3.0 AceDB database whose new profile data is already active.
+---@param _profileName string? New or source profile name; absent for profile reset.
+function Questie:RefreshConfig(_event, _database, _profileName)
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
+    CommsVisibility:ScheduleSnapshot("PROFILE_CHANGED")
     Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 

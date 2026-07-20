@@ -19,6 +19,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 local NOP_FUNCTION = function() end
 
@@ -226,11 +228,12 @@ local function _DrawQuest(questId)
         return
     end
 
-    -- An objective index is drawn if at least one online party member still needs it. Offline
-    -- members are ignored so their icons disappear until they reconnect.
+    -- An objective index is drawn if at least one visible, online party member still needs it.
+    -- Offline members disappear until they reconnect, and CommsVisibility can suppress members
+    -- who hid or untracked the quest locally.
     local neededIndices = {}
     for playerName, objectives in pairs(players) do
-        if _IsPlayerOnline(playerName) then
+        if _IsPlayerOnline(playerName) and CommsVisibility:ShouldShowPartyObjective(playerName, questId) then
             for objectiveIndex, objective in pairs(objectives) do
                 if not objective.finished then
                     neededIndices[objectiveIndex] = objective

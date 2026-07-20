@@ -12,9 +12,12 @@ local realmName
 
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
 
 function Comms.Initialize()
     Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
+    CommsPrefixRegistry:RegisterLocalPrefix(COMM_PREFIX)
 
     playerName = UnitName("player")
     realmName = GetRealmName()

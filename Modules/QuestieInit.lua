@@ -61,6 +61,10 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type Comms
 local Comms = QuestieLoader:ImportModule("Comms")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
@@ -260,6 +264,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         ChallengeModeTimer.Initialize()
     end
 
+    CommsPrefixRegistry:Initialize()
+    CommsVisibility:Initialize()
     Comms.Initialize()
     QuestieComms:Initialize()
 

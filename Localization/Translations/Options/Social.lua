@@ -303,8 +303,6 @@ local socialOptionsLocales = {
         ["zhCN"] = "Questie会将你的更新消息打印到聊天框中，其他玩家无法看到这些消息",
         ["zhTW"] = "Questie會將你的更新訊息顯示在聊天視窗中，其他玩家無法看到這些訊息",
     },
-    -- Kept intentionally: this comms revert is temporary and these strings will be reused
-    -- when tracked party objectives are re-enabled.
     ["Show party members' tracked quest objectives"] = {
         ["enUS"] = true,
         ["deDE"] = "Zeige Questziele von Gruppenmitgliedern",

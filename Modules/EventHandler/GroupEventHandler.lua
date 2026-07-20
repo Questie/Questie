@@ -5,6 +5,10 @@ local GroupEventHandler = QuestieLoader:CreateModule("GroupEventHandler")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
@@ -39,6 +43,8 @@ local function _OnlineStatusChanged()
     return changed
 end
 
+---Always prunes modern roster caches, then resyncs V1 and redraws only for group-size or
+---legacy quest-sharing online-state changes.
 function GroupEventHandler.GroupRosterUpdate()
     local currentMembers = GetNumGroupMembers()
     local sizeChanged = currentMembers ~= QuestiePlayer.numberOfGroupMembers
@@ -47,10 +53,17 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Evaluate unconditionally so the online snapshot stays current even when the size also changed.
     local onlineChanged = _OnlineStatusChanged()
 
-    -- Only redraw when the group size changed (crossing the draw threshold / members joining or
-    -- leaving) or a quest-sharing member changed online status. Pure zone changes also fire
-    -- GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
+    -- Modern comm state is independent of legacy quest sharing, so prune it on every bucketed
+    -- roster event. Same-size replacements otherwise leave stale H1/V1-only players cached.
+    CommsPrefixRegistry:PruneRemotePlayers()
+    CommsVisibility:PruneRemotePlayers()
+
+    -- Only resync visibility when group size or a quest-sharing member's online state changed.
+    -- Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
     if sizeChanged or onlineChanged then
+        -- H1 announces only a local join/reload. Roster updates happen on every client,
+        -- so broadcasting here would multiply one membership change into raid-wide traffic.
+        CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")
         QuestiePartyObjectives:ScheduleUpdate()
     end
 end
@@ -66,6 +79,8 @@ function GroupEventHandler.GroupJoined()
         if partyPending then
             if (isInParty or isInRaid) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
+                CommsPrefixRegistry:ScheduleHello("GROUP_JOINED")
+                CommsVisibility:ScheduleSnapshot("GROUP_JOINED")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
@@ -81,6 +96,8 @@ end
 function GroupEventHandler.GroupLeft()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll()
+    CommsPrefixRegistry:ResetAll()
+    CommsVisibility:ResetAll()
     QuestiePartyObjectives:Clear()
     previousOnlineStatus = {}
 end
