@@ -447,7 +447,7 @@ function QuestieWotlkQuestFixes:Load()
         [8766] = { -- The Changing of Paths - Conqueror No More
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8767] = {
+        [8767] = { -- A Gently Shaken Gift
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
         },
         [8867] = { -- Lunar Fireworks
@@ -566,6 +566,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [9681] = {
             [questKeys.startedBy] = {{17717,17718}},
+        },
+        [9737] = { -- True Masters of the Light
+            [questKeys.startedBy] = {{25223}}, -- TBC p1/p2 offered by 17076
+            [questKeys.finishedBy] = {{25223}}, -- TBC p1/p2 finished by 17076
         },
         [9876] = {
             [questKeys.nextQuestInChain] = 9738,
@@ -687,6 +691,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10776] = {
             [questKeys.objectives] = {{{19823}},nil,{{31310}}},
+        },
+        [10842] = { -- Vengeful Souls
+            [questKeys.objectives] = {{{21636}}},
         },
         [10888] = {
             [questKeys.exclusiveTo] = {13430},
@@ -1077,10 +1084,6 @@ function QuestieWotlkQuestFixes:Load()
         [11391] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 24418},}}},
         },
-        [11392] = {
-            [questKeys.startedBy] = {nil,{186267}},
-            [questKeys.finishedBy] = {nil,{186314}},
-        },
         [11393] = {
             [questKeys.exclusiveTo] = {11394,},
         },
@@ -1092,10 +1095,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11399] = {
             [questKeys.requiredSourceItems] = {},
-        },
-        [11401] = {
-            [questKeys.startedBy] = {nil,{186267}},
-            [questKeys.finishedBy] = {nil,{186314}},
         },
         [11409] = {
             [questKeys.preQuestSingle] = {},
@@ -8945,6 +8944,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.requiredClasses] = classIDs.SHAMAN + classIDs.MAGE + classIDs.WARLOCK + classIDs.PRIEST + classIDs.DRUID,
         },
         [11007] = { -- Kael'thas and the Verdant Sphere
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11178] = { -- Blood of the Warlord
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },

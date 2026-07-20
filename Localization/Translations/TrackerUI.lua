@@ -509,6 +509,18 @@ local trackerUILocales = {
         ["zhCN"] = "暴雪计时器启动！",
         ["zhTW"] = "暴雪計時器啟動！",
     },
+    ["Time's up"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Zeit abgelaufen",
+        ["esES"] = "Se acabó el tiempo",
+        ["esMX"] = "Se acabó el tiempo",
+        ["frFR"] = "Le temps est écoulé",
+        ["koKR"] = "시간 종료",
+        ["ptBR"] = "O tempo acabou",
+        ["ruRU"] = "Время закончилось",
+        ["zhCN"] = "计时结束",
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(trackerUILocales) do

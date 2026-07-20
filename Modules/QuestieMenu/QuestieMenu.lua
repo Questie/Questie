@@ -77,6 +77,26 @@ local _townsfolk_texturemap = {
     [professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
 }
 
+local _townsfolk_order = {
+    "Repair",
+    "Innkeeper",
+    "Mailbox",
+    "Class Trainer",
+    "Weapon Master",
+    "Auctioneer",
+    "Banker",
+    "Flight Master",
+    "Stable Master",
+    "Battlemaster",
+    "Portal Trainer",
+    "Meeting Stones",
+    "Battle Pet Trainer",
+    "Barber",
+    "Arcane Reforger",
+    "Transmogrifier",
+    "Spirit Healer",
+}
+
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
 
 ---@param id NpcId
@@ -336,11 +356,10 @@ end
 
 function QuestieMenu.buildTownsfolkMenu()
     local townsfolkMenu = {}
-    for key in pairs(Questie.db.global.townsfolk) do
-        tinsert(townsfolkMenu, build(key))
-    end
-    for key in pairs(Questie.db.char.townsfolk) do
-        tinsert(townsfolkMenu, build(key))
+    for _, key in ipairs(_townsfolk_order) do
+        if Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] then
+            tinsert(townsfolkMenu, build(key))
+        end
     end
     return townsfolkMenu
 end

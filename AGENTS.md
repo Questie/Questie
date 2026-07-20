@@ -72,6 +72,7 @@ Libs/                - Third-party libraries (Ace3, LibStub, etc.)
 cli/                 - CLI validation scripts and integration tests
 cli/integrationTests/- Integration tests named by GitHub issue number
 setupTests.lua       - Test environment setup (mocks WoW API globals)
+*.toc                - These expansion specific files contain a list of all files relevant to the Addon. On startup the files are run from top to bottom
 ```
 
 ## Code Style
@@ -108,6 +109,9 @@ local OtherModule = QuestieLoader:ImportModule("OtherModule")
 local tinsert = table.insert
 local band = bit.band
 ```
+
+Creating new modules to split concerns and logic in general is preferred over adding more functions to existing modules. This keeps the codebase maintainable and testable. Always
+make sure new modules are added to the TOC files. Test files must never be added to the TOC files.
 
 ### Formatting
 - Indent: 4 spaces (no tabs)

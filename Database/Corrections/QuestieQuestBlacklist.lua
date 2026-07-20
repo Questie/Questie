@@ -712,6 +712,8 @@ function QuestieQuestBlacklist:Load()
         --- Brewfest
         [12193] = true,
         [12194] = true,
+        [12491] = true,
+        [12492] = true,
         [13931] = true,
         [13932] = true,
 
@@ -1251,8 +1253,8 @@ function QuestieQuestBlacklist:Load()
         [64141] = true, -- Horde pala mount quest chain
         [64142] = true, -- Horde pala mount quest chain
         [64143] = true, -- Horde pala mount quest chain
-        [64144] = true, -- Horde pala mount quest chain
-        [64145] = true, -- Horde pala mount quest chain]]
+        [64144] = true, -- Horde pala mount quest chain]]
+        [64145] = true, -- Horde pala mount quest chain -- was not offered in p1/p2, instead was 9737
         [64217] = true, -- Boosted character quest
         [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
         [65284] = true, -- Boosted character quest
@@ -8435,7 +8437,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8072] = true, -- Paragons of Power: The Madcap's Mantle
         [8071] = true, -- Paragons of Power: The Confessor's Mantle
         -- [8240] = true, -- A Bijou for Zanza
-        [8246] = true, -- Signets of the Zandalar
+        -- [8246] = true, -- Signets of the Zandalar
         [8064] = true, -- Paragons of Power: The Haruspex's Belt
         [8058] = true, -- Paragons of Power: The Vindicator's Armguards
         [8142] = true, -- Zandalarian Shadow Talisman

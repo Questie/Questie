@@ -18,6 +18,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
@@ -109,6 +111,19 @@ function QuestieQuest:ToggleNotes(showIcons)
     else
         QuestieQuest:HideQuestIcons()
         _QuestieQuest:HideManualIcons()
+    end
+end
+
+---Updates all quest icons to ensure they are correctly shown/hidden
+---@param showIcons boolean @ Whether to show or hide the icons
+function QuestieQuest.ToggleQuestNotes(showIcons)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest.ToggleQuestNotes] showIcons:", showIcons)
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+    if showIcons then
+        QuestieQuest:ShowQuestIcons()
+    else
+        QuestieQuest:HideQuestIcons()
     end
 end
 
@@ -217,7 +232,7 @@ function QuestieQuest:ClearAllNotes()
         for _, frameName in pairs(frameList) do
             local icon = _G[frameName]
             if icon and icon.Unload then
-                icon:Unload()
+                QuestieFramePool:UnloadFrame(icon)
             end
         end
     end
@@ -779,6 +794,22 @@ function QuestieQuest:GetAllQuestIds()
                     QuestieQuest:CheckQuestSourceItem(questId, true)
                     QuestieQuest:PopulateQuestLogInfo(quest)
 
+                    -- Restore HideIcons flags from saved tracker state before spawning icons,
+                    -- so they are created in the correct hidden/visible state from the start.
+                    if Questie.db.char.TrackerHiddenQuests[questId] then
+                        quest.HideIcons = true
+                    end
+                    for _, objective in pairs(quest.Objectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                            objective.HideIcons = true
+                        end
+                    end
+                    for _, objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                            objective.HideIcons = true
+                        end
+                    end
+
                     if QuestieQuest:ShouldShowQuestNotes(questId) then
                         QuestieQuest:PopulateObjectiveNotes(quest)
                     else
@@ -1116,10 +1147,10 @@ _UnloadAlreadySpawnedIcons = function(objective)
             local spawn = objective.AlreadySpawned[id]
             if spawn then
                 for _, mapIcon in pairs(spawn.mapRefs) do
-                    mapIcon:Unload()
+                    QuestieFramePool:UnloadFrame(mapIcon)
                 end
                 for _, minimapIcon in pairs(spawn.minimapRefs) do
-                    minimapIcon:Unload()
+                    QuestieFramePool:UnloadFrame(minimapIcon)
                 end
                 spawn.mapRefs = {}
                 spawn.minimapRefs = {}

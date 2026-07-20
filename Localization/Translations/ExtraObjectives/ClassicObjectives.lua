@@ -242,18 +242,6 @@ local classicObjectiveLocales = {
         ["zhCN"] = "使用格里什皇后诱引剂",
         ["zhTW"] = "使用格里什皇后誘引劑",
     },
-    ["Collect eggs using the Collectronic Module."] = { -- 4735
-        ["enUS"] = true,
-        ["deDE"] = "Sammle Eier mit dem Kollektronischen Modul",
-        ["esES"] = "Recoge huevos con el Módulo colectrónico",
-        ["esMX"] = "Recoge huevos con el Módulo colectrónico",
-        ["frFR"] = "Collectez les œufs en utilisant le Module Collectronique",
-        ["koKR"] = "수집전자 모듈을 사용하여 용의 알을 수집하세요",
-        ["ptBR"] = "Coleta ovos usando o Módulo Colectrônico",
-        ["ruRU"] = "Соберите яйца используя Устройство-коллекционер",
-        ["zhCN"] = "使用电动采集模块收集蛋",
-        ["zhTW"] = "使用電動採集模組收集蛋",
-    },
     ["Summon Xabraxxis once you have the required items from the Blackwood Stores."] = { -- 4763
         ["enUS"] = true,
         ["deDE"] = "Beschwöre Xabraxxis sobald Ihr die benötigten Gegenstände von den Lager der Schwarzfelle habt",

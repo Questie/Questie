@@ -128,6 +128,11 @@ function MapIconTooltip:Show()
             return
         end
 
+        -- Skip icons that are hidden (FakeHide'd or faded out), unless it's the hovered icon itself
+        if icon ~= self and (icon.hidden or icon.texture.a == 0) then
+            return
+        end
+
         -- Do not recolor MiniMap, Available and Completed Quest Icons.
         if (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}

@@ -413,7 +413,8 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{84.19,43.03}}},
         },
         [17076] = { -- Lady Liadrin
-            [npcKeys.questEnds] = {10960,64139,64140,64141,64142,64143,64144,64145},
+            [npcKeys.questStarts] = {64140,64141,64142,64143,64144,64145}, -- TO DO figure these out for wotlk
+            [npcKeys.questEnds] = {10960,64139,64140,64141,64142,64143,64144,64145}, -- TO DO figure these out for wotlk
         },
         [17219] = { -- Sulaa
             [npcKeys.questStarts] = {8410,9462,9502,9551,14111},
