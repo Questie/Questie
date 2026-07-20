@@ -140,6 +140,8 @@ local function _DecodeHalfBits(bits)
     if exponent == 0 then
         if mantissa == 0 then
             if sign < 0 then
+                -- Supported LuaJIT loses the negative-zero sign when multiplying by zero;
+                -- reciprocal negative infinity intentionally reconstructs signed zero.
                 return -1 / huge
             end
 

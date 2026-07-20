@@ -20,6 +20,7 @@ Use Blizzard's API documentation as the source of truth:
   - Serializes a limited RFC 8949 CBOR subset.
   - Uses preferred serialization for numbers.
   - Supports NaN and infinities.
+  - Encode behavior normalizes negative zero to integer zero, matching captured Blizzard fixtures.
   - Serializes Lua strings as major type `2` byte strings, never text strings.
   - Does not serialize indefinite-length strings/tables.
   - Serializes tables as arrays or maps.
@@ -33,7 +34,7 @@ Use Blizzard's API documentation as the source of truth:
   - Does not support indefinite-length items.
   - Does not support major type `6` tags.
   - Treats major type `3` text strings like byte strings; no UTF-8 validation.
-  - Preserves the sign of decoded half-precision positive and negative zero.
+  - Decode behavior preserves the sign of half-precision positive and negative zero.
   - Errors when nested table depth exceeds `100` levels.
 
 ## Files
@@ -63,8 +64,9 @@ busted cli/mocks/BlizzardCBOR.test.lua cli/mocks/BlizzardCBORCompatibility.test.
 busted Modules/Network/CommsEncoding.test.lua
 ```
 
-With no captured Blizzard fixtures, the compatibility test has one pending case.
-That is expected.
+Fixtures are populated in this repository, so the compatibility test is expected to compare
+against the captured Blizzard bytes and pass. If fixtures are absent in another checkout, the
+test reports one pending case until captures are added.
 
 Also confirm the mock is not loaded by normal Questie TOCs:
 
