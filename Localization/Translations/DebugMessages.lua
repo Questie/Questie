@@ -266,6 +266,18 @@ local debugMessagesLocales = {
         ["zhCN"] = "图标限制值设置为 %s：重新绘制中！",
         ["zhTW"] = "圖示數量限制為 %s：重新繪製中！",
     },
+    ["Setting filter distance to %s : Redrawing!"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Questie DB is updating — "] = {
         ["enUS"] = true,
         ["deDE"] = "Questie DB wird aktualisiert — ",

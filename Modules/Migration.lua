@@ -191,6 +191,10 @@ local migrationFunctions = {
     [31] = function()
         Questie.db.profile.showPartyQuestObjectives = true
     end,
+    [32] = function()
+        Questie.db.profile.partyObjectiveFilterDistance = 2
+        Questie.db.profile.partyIconLimit = 500
+    end,
 }
 
 function Migration:Migrate()
