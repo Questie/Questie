@@ -1039,7 +1039,7 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
             if(decompressedData and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId]) then
 
                 --If a new version exist, tell them!
-                if(suggestUpdate) then
+                if ((suggestUpdate) and not Questie.db.profile.debugEnabled) then
                     local major, minor, patch = strsplit(".", decompressedData.ver);
                     local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
                     if(majorOwn < tonumber(major) or (majorOwn == tonumber(major) and minorOwn < tonumber(minor)) or (majorOwn == tonumber(major) and minorOwn == tonumber(minor) and patchOwn < tonumber(patch)) and (not UnitAffectingCombat("player"))) then
