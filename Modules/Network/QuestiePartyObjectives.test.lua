@@ -1,10 +1,14 @@
 dofile("setupTests.lua")
 
+local match = require("luassert.match")
+
 describe("QuestiePartyObjectives", function()
     local QUEST_ID = 101
 
     ---@type QuestiePartyObjectives
     local QuestiePartyObjectives
+    ---@type QuestieFramePool
+    local QuestieFramePool
     ---@type QuestieComms
     local QuestieComms
     ---@type CommsVisibility
@@ -80,17 +84,17 @@ describe("QuestiePartyObjectives", function()
             end
         end
 
-        -- Keep QuestiePartyObjectives aggregation real; replace only the map-rendering boundary
-        -- with icon refs that make draw and unload behavior observable.
+        -- Keep QuestiePartyObjectives aggregation real; replace only frame creation and release
+        -- with observable map-icon references and the owning frame-pool boundary.
+        QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+        QuestieFramePool.UnloadFrame = spy.new(function(_questieFramePool, frame)
+            frame.data = nil
+        end)
+
         local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.PopulateObjective = spy.new(function(_questieQuest, _quest, _objectiveIndex, objective)
             local iconData = {ObjectiveData = objective}
-            local mapIcon = {
-                data = iconData,
-                Unload = spy.new(function(self)
-                    self.data = nil
-                end),
-            }
+            local mapIcon = {data = iconData}
             objective.AlreadySpawned[1] = {
                 data = iconData,
                 mapRefs = {mapIcon},
@@ -176,7 +180,8 @@ describe("QuestiePartyObjectives", function()
 
         assert.are_equal(0, countActiveMapIcons())
         assert.are_equal(1, #renderedObjectives)
-        assert.spy(priorMapIcon.Unload).was.called(1)
+        assert.spy(QuestieFramePool.UnloadFrame).was.called(1)
+        assert.spy(QuestieFramePool.UnloadFrame).was.called_with(match.ref(QuestieFramePool), match.ref(priorMapIcon))
         assert.is_nil(priorMapIcon.data)
     end)
 
