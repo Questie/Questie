@@ -5306,6 +5306,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11136] = { -- A Disturbing Development
             [questKeys.breadcrumbForQuestId] = 11137,
+            [questKeys.preQuestSingle] = {11134,11198}, -- double check 11198
         },
         [11137] = { -- Defias in Dustwallow?
             [questKeys.breadcrumbs] = {11136},
@@ -5370,6 +5371,7 @@ function QuestieTBCQuestFixes:Load()
         [11177] = { -- The Hermit of Swamplight Manor
             [questKeys.nextQuestInChain] = 1218,
             [questKeys.breadcrumbForQuestId] = 1218,
+            [questKeys.preQuestSingle] = {11134,11198}, -- double check 11198
         },
         [11180] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861}}},
