@@ -1743,6 +1743,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
         },
+        [24868] = { -- Niobe Whizzlespark
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [24885] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{55.8,53.8}}},
         },
