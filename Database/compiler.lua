@@ -18,9 +18,17 @@ local coYield = coroutine.yield
 local abs, min, floor = math.abs, math.min, math.floor
 local InCombatLockdown = InCombatLockdown
 
--- how fast to run operations (lower = slower but less lag)
-local TICKS_PER_YIELD = 48
-local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 10
+-- this variable defines how many operations to run (batched at a time) before yielding for a frame.
+-- 1 would mean yielding every operation (so lower = slower but less lag)
+-- this variable is not a hard limit when invoked, but rather a guideline;
+-- each code block may put a modifier on it, for instance 10x  if the loop is lightweight
+local TICKS_PER_YIELD = 60
+
+if Questie.IsHardcore then
+    -- The addon timing restrictions from the Blizzard watchdog are much higher for HC servers.
+    -- Therefore we need a quite low tick rate to make sure we don't get bitten on less performant machines.
+    TICKS_PER_YIELD = 30
+end
 
 ---@alias CompilerTypes
 ---| "u8"
@@ -915,10 +923,16 @@ function QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
     stream:reset()
     stream:WriteInt24(0) -- placeholder
     local count = 0
+    local yieldCount = 0
     for id, ptrs in pairs(pointerMap) do
         stream:WriteInt24(id)
         stream:WriteInt24(ptrs)
         count = count + 1
+        yieldCount = yieldCount + 1
+        if yieldCount >= (TICKS_PER_YIELD * 100) then
+            yieldCount = 0
+            coYield()
+        end
     end
     stream._pointer = 1
     stream:WriteInt24(count)
@@ -956,17 +970,29 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local indexLookup = {};
 
     local max_id = 0
+    local yieldCount = 0
     for id in pairs(tbl) do
         assert(type(id) == "number", "CompileTableCoroutine: tbl id is not a number")
         if id > max_id then
             max_id = id
         end
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD * 100 then
+            yieldCount = 0
+            coYield()
+        end
     end
+    yieldCount = 0
     -- iterate table tbl in numerical order to get ids in order to indexLoopup list. iterating over pairs(tbl) gives ids in non determined order
     for id=0,max_id do
         if tbl[id] then
             count = count + 1
             indexLookup[count] = id
+        end
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD * 100 then
+            yieldCount = 0
+            coYield()
         end
     end
     count = count + 1
@@ -983,10 +1009,8 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     while true do
         coYield()
 
-        local ticks = TICKS_PER_YIELD
-        if Questie.db.profile.debugEnabled then
-            ticks = TICKS_PER_YIELD_DEBUG
-        elseif entriesPerTick then
+        local ticks = TICKS_PER_YIELD * 10
+        if entriesPerTick then
             ticks = entriesPerTick
         end
 
@@ -1123,7 +1147,7 @@ function QuestieDBCompiler:ValidateNPCs()
     end
     local validator = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
-    local count = 0
+    local yieldCount = 0
     for npcId, nonCompiledData in pairs(QuestieDB.npcData) do
         local compiledData = validator.QueryValidator(npcId, QuestieDB.npcCompilerOrder)
 
@@ -1149,11 +1173,11 @@ function QuestieDBCompiler:ValidateNPCs()
             end
         end
 
-        if count == TICKS_PER_YIELD_DEBUG then
-            count = 0
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD * 10 then
+            yieldCount = 0
             coYield()
         end
-        count = count + 1
     end
 
     validator.stream:finished()
@@ -1171,7 +1195,7 @@ function QuestieDBCompiler:ValidateObjects()
     end
     local validator = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
-    local count = 0
+    local yieldCount = 0
     for objectId, nonCompiledData in pairs(QuestieDB.objectData) do
         local compiledData = validator.QueryValidator(objectId, QuestieDB.objectCompilerOrder)
 
@@ -1197,11 +1221,11 @@ function QuestieDBCompiler:ValidateObjects()
             end
         end
 
-    if count == TICKS_PER_YIELD_DEBUG then
-        count = 0
-        coYield()
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD then
+            yieldCount = 0
+            coYield()
         end
-        count = count + 1
     end
 
     validator.stream:finished()
@@ -1231,7 +1255,7 @@ function QuestieDBCompiler:ValidateItems()
     local obj = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
     local npc = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
-    local count = 0
+    local yieldCount = 0
     for id, _ in pairs(validator.pointers) do
         local objDrops, npcDrops = validator.QuerySingle(id, "objectDrops"), validator.QuerySingle(id, "npcDrops")
         if objDrops then -- validate object drops
@@ -1282,13 +1306,12 @@ function QuestieDBCompiler:ValidateItems()
         --        end
         --    end
         --end
-        if count == TICKS_PER_YIELD_DEBUG then
-            count = 0
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD then
+            yieldCount = 0
             coYield()
         end
-        count = count + 1
     end
-    count = 0
     for itemId, nonCompiledData in pairs(QuestieDB.itemData) do
         local compiledData = validator.QueryValidator(itemId, QuestieDB.itemCompilerOrder)
 
@@ -1314,11 +1337,11 @@ function QuestieDBCompiler:ValidateItems()
             end
         end
 
-        if count == TICKS_PER_YIELD_DEBUG then
-            count = 0
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD then
+            yieldCount = 0
             coYield()
         end
-        count = count + 1
     end
 
     validator.stream:finished()
@@ -1356,7 +1379,7 @@ function QuestieDBCompiler:ValidateQuests()
     end
 
     -- We now only compare the nonCompiled data and the compiled data without overrides, it'll have to do.
-    local count = 0
+    local yieldCount = 0
     for questId, nonCompiledData in pairs(QuestieDB.questData) do
         local compiledData = validator.QueryValidator(questId, QuestieDB.questCompilerOrder)
 
@@ -1411,11 +1434,11 @@ function QuestieDBCompiler:ValidateQuests()
             end
         end
 
-        if count == TICKS_PER_YIELD_DEBUG then
-            count = 0
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD then
+            yieldCount = 0
             coYield()
         end
-        count = count + 1
     end
 
     validator.stream:finished()
