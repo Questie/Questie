@@ -57,23 +57,29 @@ function QuestieReputation:Update(isInit)
             -- so we check for these individually
             if not playerReputations[aldor] then
                 playerReputations[aldor] = {2, -3500} -- standingID 2, -3500 reputation (Hostile)
+                newFaction = true
             end
             if not playerReputations[scryers] then
                 playerReputations[scryers] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
+                newFaction = true
             end
-        elseif raceId == 11 then -- Draenei
+        elseif id == 11 then -- Draenei
             if not playerReputations[aldor] then
                 playerReputations[aldor] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
+                newFaction = true
             end
             if not playerReputations[scryers] then
                 playerReputations[scryers] = {2, -3500} -- standingID 2, -3500 reputation (Hostile)
+                newFaction = true
             end
         else -- every other race
             if not playerReputations[aldor] then
                 playerReputations[aldor] = {4, 0} -- standingID 4, 0 reputation (Neutral)
+                newFaction = true
             end
             if not playerReputations[scryers] then
                 playerReputations[scryers] = {4, 0} -- standingID 4, 0 reputation (Neutral)
+                newFaction = true
             end
         end
     end
