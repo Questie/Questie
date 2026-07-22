@@ -162,9 +162,6 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 148, -- #1173
             [questKeys.nextQuestInChain] = 148,
         },
-        [179] = { -- Dwarven Outfitters
-            [questKeys.nextQuestInChain] = 233,
-        },
         [189] = { -- Bloodscalp Ears
             [questKeys.nextQuestInChain] = 209,
         },
