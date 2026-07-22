@@ -49,10 +49,10 @@ function QuestieReputation:Update(isInit)
 
     -- Handle Scyers/Aldor standing when they are not in reputation tab yet for TBC or later
     if Expansions.Current >= Expansions.Tbc then
-        local _, _, id = UnitRace("player")
+        local _, _, raceId = UnitRace("player")
         local scryers = QuestieDB.factionIDs.THE_SCRYERS
         local aldor = QuestieDB.factionIDs.THE_ALDOR
-        if id == 10 then -- Blood Elf
+        if raceId == 10 then -- Blood Elf
             -- Sometimes you can have one faction discovered, but not the other
             -- so we check for these individually
             if not playerReputations[aldor] then
@@ -61,7 +61,7 @@ function QuestieReputation:Update(isInit)
             if not playerReputations[scryers] then
                 playerReputations[scryers] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
             end
-        elseif id == 11 then -- Draenei
+        elseif raceId == 11 then -- Draenei
             if not playerReputations[aldor] then
                 playerReputations[aldor] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
             end
