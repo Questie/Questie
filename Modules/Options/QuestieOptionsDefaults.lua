@@ -209,8 +209,6 @@ function QuestieOptionsDefaults:Load()
             debugEnabled = false,
             debugEnabledPrint = false,
             debugLevel = 0,
-            skipValidation = false,
-
             -- TBC Isle of Quel'Danas
             isleOfQuelDanasPhase = 1,
             isIsleOfQuelDanasPhaseReminderDisabled = false,

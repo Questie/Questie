@@ -191,6 +191,9 @@ local migrationFunctions = {
     [31] = function()
         Questie.db.profile.showPartyQuestObjectives = true
     end,
+    [32] = function()
+        Questie.db.profile.skipValidation = nil
+    end,
 }
 
 function Migration:Migrate()

@@ -134,29 +134,6 @@ local function loadFullDatabase()
     QuestieCorrections:PreCompile()
 end
 
----Run the validator
-local function runValidator()
-    if type(QuestieDB.questData) == "string" or type(QuestieDB.npcData) == "string" or type(QuestieDB.objectData) == "string" or type(QuestieDB.itemData) == "string" then
-        Questie:Error("Cannot run the validator on string data, load database first")
-        return
-    end
-    -- Run validator
-    if Questie.db.profile.debugEnabled then
-        coYield()
-        print("Validating NPCs...")
-        QuestieDBCompiler:ValidateNPCs()
-        coYield()
-        print("Validating objects...")
-        QuestieDBCompiler:ValidateObjects()
-        coYield()
-        print("Validating items...")
-        QuestieDBCompiler:ValidateItems()
-        coYield()
-        print("Validating quests...")
-        QuestieDBCompiler:ValidateQuests()
-    end
-end
-
 -- ********************************************************************************
 -- Start of QuestieInit.Stages ******************************************************
 
@@ -169,8 +146,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] UI Locale initializing.")
     -- This needs to happen after ADDON_LOADED
     l10n.InitializeUILocale()
-
-    local dbCompiled = false
 
     local dbIsCompiled, dbCompiledOnVersion, dbCompiledLang
     if Questie.IsSoD then
@@ -190,7 +165,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
             l10n("Questie DB is updating — ") .. "\124r\124cFFFF6F22" .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
-        dbCompiled = true
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile completed.")
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loading...")
@@ -221,17 +195,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
     Tutorial.Initialize()
     coYield()
-
-    --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
-    if Questie.db.profile.debugEnabled and dbCompiled then
-        if Questie.db.profile.skipValidation ~= true then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Validator running...")
-            runValidator()
-            print("\124cFF4DDBFF Load and Validation complete.")
-        else
-            print("\124cFF4DDBFF Validation skipped, load complete.")
-        end
-    end
 
     QuestieCleanup:Run()
 end

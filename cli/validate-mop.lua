@@ -79,14 +79,6 @@ local function _CheckMoPDatabase()
 
     QuestieDB:Initialize()
 
-    print("\n\27[36mValidating objects...\27[0m")
-    QuestieDBCompiler:ValidateObjects()
-    print("\n\27[36mValidating items...\27[0m")
-    QuestieDBCompiler:ValidateItems()
-    print("\n\27[36mValidating NPCs...\27[0m")
-    QuestieDBCompiler:ValidateNPCs()
-    print("\n\27[36mValidating quests...\27[0m")
-    QuestieDBCompiler:ValidateQuests()
 
     print("\n\27[32mMoP database compiled successfully\27[0m")
 
