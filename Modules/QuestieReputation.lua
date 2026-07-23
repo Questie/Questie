@@ -48,7 +48,7 @@ function QuestieReputation:Update(isInit)
     end
 
     -- Handle Scyers/Aldor standing when they are not in reputation tab yet for TBC or later
-    if Expansions.Current >= Expansions.Tbc then
+    if isInit and Expansions.Current >= Expansions.Tbc then
         local _, _, raceId = UnitRace("player")
         local scryers = QuestieDB.factionIDs.THE_SCRYERS
         local aldor = QuestieDB.factionIDs.THE_ALDOR
