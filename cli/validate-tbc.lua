@@ -77,8 +77,6 @@ local function _CheckTBCDatabase()
     QuestieDBCompiler:Compile(function() end)
 
     QuestieDB:Initialize()
-
-
     print("\n\27[32mTBC database compiled successfully\27[0m\n")
 
     -- We accept blacklisted quests as questStarts and questEnds for now
@@ -91,6 +89,8 @@ local function _CheckTBCDatabase()
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil
     end
+
+    Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
 
     Validators.checkRequiredRaces(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.raceKeys)
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
