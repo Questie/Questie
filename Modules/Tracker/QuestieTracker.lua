@@ -868,7 +868,7 @@ function QuestieTracker:Update()
                             local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
                             if timeRemaining then
                                 if timeRemaining <= 1 then
-                                    timerText = Questie:Colorize(l10n("Time's up"), "lightBlue")
+                                    timerText = Questie:Colorize(l10n("Time's up!"), "lightBlue")
                                 else
                                     timerText = Questie:Colorize(timeRemainingString, "lightBlue")
                                     activeTimer = true
