@@ -13,6 +13,11 @@ describe("ZoneDB", function()
 
     before_each(function()
         _G["Questie"] = {db={profile={}}}
+        _G.Questie.Debug = function() end
+        _G.C_Map = {
+            GetMapInfo = function() return nil end,
+            GetAreaInfo = function() return nil end,
+        }
 
         dofile("Database/Zones/zoneDB.lua")
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
@@ -26,6 +31,49 @@ describe("ZoneDB", function()
 
             areaId = ZoneDB:GetAreaIdByUiMapId(1415)
             assert.is_equal(10074, areaId)
+        end)
+
+        it("should return 0 for continent-suppressed map IDs", function()
+            -- uiMapIdToAreaId contains entries mapped to 0 (e.g. Northrend, Outland)
+            -- to suppress icons when the player is on a continent map
+            local areaId = ZoneDB:GetAreaIdByUiMapId(113) -- Northrend
+            assert.is_equal(0, areaId)
+
+            areaId = ZoneDB:GetAreaIdByUiMapId(1945) -- Outland
+            assert.is_equal(0, areaId)
+        end)
+
+        it("should fall back to name-based matching when uiMapId is not in the table", function()
+            _G.C_Map = {
+                GetMapInfo = function(uiMapId)
+                    if uiMapId == 99999 then
+                        return { name = "Dun Morogh" }
+                    end
+                end,
+                GetAreaInfo = function(areaId)
+                    if areaId == ZoneDB.zoneIDs.DUN_MOROGH then
+                        return "Dun Morogh"
+                    end
+                end,
+            }
+
+            local areaId = ZoneDB:GetAreaIdByUiMapId(99999)
+            assert.is_equal(ZoneDB.zoneIDs.DUN_MOROGH, areaId)
+        end)
+
+        it("should error when uiMapId cannot be resolved", function()
+            _G.C_Map = {
+                GetMapInfo = function(_uiMapId)
+                    return { name = "Unknown Zone" }
+                end,
+                GetAreaInfo = function(_areaId)
+                    return "Something Else"
+                end,
+            }
+
+            assert.has_error(function()
+                ZoneDB:GetAreaIdByUiMapId(99999)
+            end)
         end)
     end)
 
