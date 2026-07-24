@@ -53,6 +53,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
+local coYield = coroutine.yield;
 
 local NOP_FUNCTION = function()
 end
@@ -758,7 +759,15 @@ function QuestieQuest:GetAllQuestIds()
 
     QuestiePlayer.currentQuestlog = {}
 
-    for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
+    -- We store a snapshot to be save against unexpected changes to QuestLogCache.questLog_DO_NOT_MODIFY
+    -- which can cause problems because we are yielding
+    local questTitles = {}
+    for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do
+        questTitles[questId] = data.title
+    end
+
+    local yieldCounter = 0
+    for questId, title in pairs(questTitles) do
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then
@@ -775,7 +784,7 @@ function QuestieQuest:GetAllQuestIds()
                 local complete = quest:IsComplete()
 
                 QuestiePlayer.currentQuestlog[questId] = quest
-                quest.LocalizedName = data.title
+                quest.LocalizedName = title
 
                 if complete == -1 then
                     QuestieQuest:UpdateQuest(questId)
@@ -810,6 +819,12 @@ function QuestieQuest:GetAllQuestIds()
             end
 
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
+        end
+
+        yieldCounter = yieldCounter + 1
+        if yieldCounter >= 5 and coroutine.running() then
+            yieldCounter = 0
+            coYield()
         end
     end
 
