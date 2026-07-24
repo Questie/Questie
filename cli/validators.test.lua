@@ -26,6 +26,9 @@ local objectKeys = {
     spawns = "spawns",
     questStarts = "questStarts",
     questEnds = "questEnds",
+    zoneID = "zoneID",
+    factionID = "factionID",
+    waypoints = "waypoints",
 }
 
 local raceKeys = {
@@ -1251,6 +1254,163 @@ describe("Validators", function()
 
             assert.are_same(nil, invalidQuests)
             assert.spy(exitMock).was.not_called()
+        end)
+    end)
+
+    describe("checkObjectFieldTypes", function()
+        it("should not report anything when all object fields have correct types", function()
+            local objects = {
+                [1] = {
+                    name = "Treasure Chest",
+                    questStarts = {10, 20},
+                    questEnds = {30},
+                    spawns = {[1519] = {{51.2, 27.4}}},
+                    zoneID = 1519,
+                    factionID = 0,
+                    waypoints = {[1519] = {{{51.2, 27.4}, {52.0, 28.0}}}},
+                },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same(nil, invalidObjects)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should not report anything when optional fields are nil", function()
+            local objects = {
+                [1] = { name = "Simple Object" },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same(nil, invalidObjects)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should find object with missing name", function()
+            local objects = {
+                [1] = {},
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'name' is required but nil" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with name that is not a string", function()
+            local objects = {
+                [1] = { name = 42 },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'name' expected string but got number" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with questStarts that is not a table", function()
+            local objects = {
+                [1] = { name = "Chest", questStarts = "invalid" },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'questStarts' expected table but got string" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with questEnds that is not a table", function()
+            local objects = {
+                [1] = { name = "Chest", questEnds = 99 },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'questEnds' expected table but got number" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with spawns that is not a table", function()
+            local objects = {
+                [1] = { name = "Chest", spawns = "not a table" },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'spawns' expected table but got string" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with spawn coord pair that is not a table", function()
+            local objects = {
+                [1] = { name = "Chest", spawns = {[1519] = {51.2, 27.4}} },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "spawns[1519][1] expected table (coord pair) but got number" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with zoneID that is not a number", function()
+            local objects = {
+                [1] = { name = "Chest", zoneID = "Stormwind" },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'zoneID' expected number but got string" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with factionID that is not a number", function()
+            local objects = {
+                [1] = { name = "Chest", factionID = true },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'factionID' expected number but got boolean" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with waypoints that is not a table", function()
+            local objects = {
+                [1] = { name = "Chest", waypoints = 12345 },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "field 'waypoints' expected table but got number" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find object with waypoints coord pair that is not a table", function()
+            local objects = {
+                [1] = { name = "Chest", waypoints = {[1519] = {{51.2, 27.4}, {52.0, 28.0}}} },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({ [1] = "waypoints[1519][1][1] expected table (coord pair) but got number" }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find multiple objects with invalid field types", function()
+            local objects = {
+                [1] = { name = nil },
+                [2] = { name = "Chest", zoneID = "wrong" },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({
+                [1] = "field 'name' is required but nil",
+                [2] = "field 'zoneID' expected number but got string",
+            }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
         end)
     end)
 end)

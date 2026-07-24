@@ -79,8 +79,6 @@ local function _CheckCataDatabase()
     QuestieDBCompiler:Compile(function() end)
 
     QuestieDB:Initialize()
-
-
     print("\n\27[32mCata database compiled successfully\27[0m")
 
     -- We accept blacklisted quests as questStarts and questEnds for now
@@ -93,6 +91,8 @@ local function _CheckCataDatabase()
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil
     end
+
+    Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
 
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)

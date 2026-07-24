@@ -479,6 +479,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC. Not there in Era
         },
         [188135] = { -- Ice Stone
+            [objectKeys.name] = "Ice Stone",
             [objectKeys.spawns] = {[zoneIDs.DESOLACE] = {{39.24,30.39}}},
         },
         [190483] = { -- Document Chest
