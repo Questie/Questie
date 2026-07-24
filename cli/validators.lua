@@ -1034,4 +1034,107 @@ function Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMap
     end
 end
 
+---Checks that spawns has the structure {[zoneId] = {{x, y, ...}, ...}}
+---Returns an error string if invalid, nil if valid.
+---@param spawns table
+---@param zoneId number|string
+---@return string|nil
+local function _checkSpawnZoneStructure(spawns, zoneId)
+    local coordPairs = spawns[zoneId]
+    for coordIndex, coord in pairs(coordPairs) do
+        if type(coord) ~= "table" then
+            return "spawns[" .. zoneId .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
+        end
+    end
+    return nil
+end
+
+---@param objects table<ObjectId, Object>
+---@param objectKeys DatabaseObjectKeys
+---@return table<ObjectId, string>
+function Validators.checkObjectFieldTypes(objects, objectKeys)
+    print("\n\27[36mChecking object field types...\27[0m")
+
+    local fieldRules = {
+        { key = objectKeys.name,        name = "name",        expectedType = "string",  required = true },
+        { key = objectKeys.questStarts, name = "questStarts", expectedType = "table",   required = false },
+        { key = objectKeys.questEnds,   name = "questEnds",   expectedType = "table",   required = false },
+        { key = objectKeys.spawns,      name = "spawns",      expectedType = "table",   required = false },
+        { key = objectKeys.zoneID,      name = "zoneID",      expectedType = "number",  required = false },
+        { key = objectKeys.factionID,   name = "factionID",   expectedType = "number",  required = false },
+        { key = objectKeys.waypoints,   name = "waypoints",   expectedType = "table",   required = false },
+    }
+
+    local invalidObjects = {}
+    for objectId, objectData in pairs(objects) do
+        for _, rule in ipairs(fieldRules) do
+            local value = objectData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidObjects[objectId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidObjects[objectId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+
+        if not invalidObjects[objectId] then
+            local spawns = objectData[objectKeys.spawns]
+            if spawns then
+                for zoneId in pairs(spawns) do
+                    local err = _checkSpawnZoneStructure(spawns, zoneId)
+                    if err then
+                        invalidObjects[objectId] = err
+                        break
+                    end
+                end
+            end
+        end
+
+        if not invalidObjects[objectId] then
+            local waypoints = objectData[objectKeys.waypoints]
+            if waypoints then
+                for zoneId, paths in pairs(waypoints) do
+                    for pathIndex, path in pairs(paths) do
+                        if type(path) ~= "table" then
+                            invalidObjects[objectId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "] expected table (path) but got " .. type(path)
+                            break
+                        end
+                        for coordIndex, coord in pairs(path) do
+                            if type(coord) ~= "table" then
+                                invalidObjects[objectId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
+                                break
+                            end
+                        end
+                        if invalidObjects[objectId] then
+                            break
+                        end
+                    end
+                    if invalidObjects[objectId] then
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidObjects) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " objects with invalid field types:\27[0m")
+        for objectId, reason in pairsByKeys(invalidObjects) do
+            print("\27[31m- Object " .. objectId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidObjects
+    else
+        print("\27[32mNo objects found with invalid field types\27[0m")
+        return nil
+    end
+end
+
 return Validators
