@@ -69,6 +69,18 @@ local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
+-- this variable defines how many operations to run (batched at a time) before yielding for a frame.
+-- 1 would mean yielding every operation (so lower = slower but less lag)
+-- this variable is not a hard limit when invoked, but rather a guideline;
+-- each code block may put a modifier on it, for instance 10x  if the loop is lightweight
+local TICKS_PER_YIELD = 60
+
+if Questie.IsHardcore then
+    -- The addon timing restrictions from the Blizzard watchdog are much higher for HC servers.
+    -- Therefore we need a quite low tick rate to make sure we don't get bitten on less performant machines.
+    TICKS_PER_YIELD = 30
+end
+
 function QuestieQuest:Initialize()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
     Questie.db.char.complete = GetQuestsCompleted()
@@ -824,7 +836,7 @@ function QuestieQuest:GetAllQuestIds()
         end
 
         yieldCounter = yieldCounter + 1
-        if yieldCounter >= 5 and coroutine.running() then
+        if yieldCounter >= (TICKS_PER_YIELD / 6) and coroutine.running() then -- 5 quests processed per frame in hardcore, 10 otherwise
             yieldCounter = 0
             coYield()
         end
@@ -1176,6 +1188,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
     local iconsToDraw = {}
     local spawnItemId
 
+    local yieldCount = 0
     for id, spawnData in pairs(objective.spawnList) do
         if spawnData.ItemId then
             spawnItemId = spawnData.ItemId
@@ -1245,6 +1258,11 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                 end
             end
         end
+        yieldCount = yieldCount + 1
+        if yieldCount >= (TICKS_PER_YIELD) then
+            yieldCount = 0
+            coYield()
+        end
     end
 
     return iconsToDraw, spawnItemId
@@ -1289,6 +1307,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         tinsert(alreadyPlacedByZone[zoneKey], coords)
     end
 
+    --local yieldCount = 0
     for i = 1, iconCount do
         icon = orderedList[i]
         if spawnedIconCount > maxPerType then
@@ -1347,6 +1366,11 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
             _MarkCoordsAsAlready(zoneKey, coords)
             spawnedIconCount = spawnedIconCount + 1
         end
+        --yieldCount = yieldCount + 1
+        --if yieldCount >= (TICKS_PER_YIELD*2) then
+        --    yieldCount = 0
+        --coYield()
+        --end
     end
 
     return icon, iconPerZone
@@ -1382,6 +1406,8 @@ _GetIconsSortedByDistance = function(icons)
 end
 
 _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
+
+    local yieldCount = 0
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
         if spawnData.Waypoints then
             for zone, waypoints in pairs(spawnData.Waypoints) do
@@ -1402,6 +1428,11 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
 
                 if ipz then
                     QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1, 0.2, 0, 0.7} or nil)
+                end
+                yieldCount = yieldCount + 1
+                if yieldCount >= (TICKS_PER_YIELD) then
+                    yieldCount = 0
+                    coYield() -- We declare the yieldCount at the top level, but increment it every time we try to draw a point, because otherwise we could draw 29x 29-point paths and never call a coYield when TICKS_PER_YIELD is 30.
                 end
             end
 
