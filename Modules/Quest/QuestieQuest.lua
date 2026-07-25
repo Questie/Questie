@@ -991,21 +991,12 @@ end
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
     for objectiveIndex, objective in pairs(quest.Objectives) do
-        local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, objectiveIndex, objective, false)
-        if (not result) then
-            Questie:Debug(Questie.DEBUG_ELEVATED, "[QuestieQuest] There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err)
-        end
+        QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false)
     end
 
     if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
-            if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] " ..
-                    l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id",
-                        0 or "No objective",
-                        err or "No error"));
-            end
+            QuestieQuest:PopulateObjective(quest, 0, objective, true)
         end
     end
 end
@@ -1060,7 +1051,7 @@ end
 ---@param objectiveIndex ObjectiveIndex
 ---@param objective QuestObjective
 ---@param blockItemTooltips any
-function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be p-called
+function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjective]", objective.Description)
 
     if (not objective.Update) then
