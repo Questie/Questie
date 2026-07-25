@@ -275,7 +275,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestEventHandler.InitQuestLogStates(questIdsChecked)
 
     coYield()
-    QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestieQuest:GetAllQuestIds()
     coYield()
 
