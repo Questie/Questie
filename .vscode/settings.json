@@ -6153,7 +6153,9 @@
         "C_Item",
         "StaticPopup_ForEachShownDialog",
         "StaticPopup_ResizeShownDialogs",
-        "WEEKLY"
+        "WEEKLY",
+        "SELF_HIGHLIGHT_MODE_OUTLINE",
+        "RESET"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/Cata/**",
