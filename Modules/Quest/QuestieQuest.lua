@@ -797,13 +797,15 @@ function QuestieQuest:GetAllQuestIds()
                     if Questie.db.char.TrackerHiddenQuests[questId] then
                         quest.HideIcons = true
                     end
+
+                    local questIdStr = tostring(questId)
                     for _, objective in pairs(quest.Objectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                        if Questie.db.char.TrackerHiddenObjectives[questIdStr .. " " .. tostring(objective.Index)] then
                             objective.HideIcons = true
                         end
                     end
                     for _, objective in pairs(quest.SpecialObjectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                        if Questie.db.char.TrackerHiddenObjectives[questIdStr .. " " .. tostring(objective.Index)] then
                             objective.HideIcons = true
                         end
                     end
