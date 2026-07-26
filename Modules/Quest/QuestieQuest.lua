@@ -1245,14 +1245,15 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         else
                             iconsToDraw[distance] = {drawIcon}
                         end
+
+                        yieldCount = yieldCount + 1
+                        if yieldCount >= TICKS_PER_YIELD and coroutine.running() then
+                            yieldCount = 0
+                            coYield()
+                        end
                     end
                 end
             end
-        end
-        yieldCount = yieldCount + 1
-        if yieldCount >= (TICKS_PER_YIELD) and coroutine.running() then
-            yieldCount = 0
-            coYield()
         end
     end
 
