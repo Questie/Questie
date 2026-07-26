@@ -415,9 +415,6 @@ function CataItemFixes.Load()
         [46397] = { -- Oracle Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [46471] = { -- Furbolg Ear
-            [itemKeys.npcDrops] = {3743,3745,3750},
-        },
         [46543] = { -- Laughing Sister's Corpse
             [itemKeys.npcDrops] = {34426},
         },
@@ -429,6 +426,9 @@ function CataItemFixes.Load()
         },
         [46702] = { -- Ancient Device Fragment
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [46741] = { -- Furbolg Ear
+            [itemKeys.npcDrops] = {3743,3745,3750},
         },
         [46827] = { -- Ship Schematics
             [itemKeys.npcDrops] = {34754},

@@ -92,6 +92,7 @@ local function _CheckClassicDatabase()
     end
 
     Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
+    Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)
 
     Validators.checkRequiredRaces(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.raceKeys)
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)

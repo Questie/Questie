@@ -93,6 +93,7 @@ local function _CheckCataDatabase()
     end
 
     Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
+    Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)
 
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)

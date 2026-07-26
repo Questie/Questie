@@ -1379,6 +1379,7 @@ function MopItemFixes.Load()
             [itemKeys.npcDrops] = {71271},
         },
         [102225] = { -- Rolo's Riddle
+            [itemKeys.name] = "Rolo's Riddle",
             [itemKeys.startQuest] = 32974,
             [itemKeys.objectDrops] = {222684},
         },
