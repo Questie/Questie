@@ -3577,9 +3577,9 @@ function QuestieQuestBlacklist:Load()
         [3804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3823] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3824] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3825] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3823] = Expansions.Current >= Expansions.Wotlk, -- Removed with 3.4.5
+        [3824] = Expansions.Current >= Expansions.Wotlk, -- Removed with 3.4.5
+        [3825] = Expansions.Current >= Expansions.Wotlk, -- Removed with 3.4.5
         [3841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
