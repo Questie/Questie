@@ -1250,7 +1250,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
             end
         end
         yieldCount = yieldCount + 1
-        if yieldCount >= (TICKS_PER_YIELD) then
+        if yieldCount >= (TICKS_PER_YIELD) and coroutine.running() then
             yieldCount = 0
             coYield()
         end
@@ -1298,7 +1298,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         tinsert(alreadyPlacedByZone[zoneKey], coords)
     end
 
-    --local yieldCount = 0
+    local yieldCount = 0
     for i = 1, iconCount do
         icon = orderedList[i]
         if spawnedIconCount > maxPerType then
@@ -1357,11 +1357,11 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
             _MarkCoordsAsAlready(zoneKey, coords)
             spawnedIconCount = spawnedIconCount + 1
         end
-        --yieldCount = yieldCount + 1
-        --if yieldCount >= (TICKS_PER_YIELD*2) then
-        --    yieldCount = 0
-        --coYield()
-        --end
+        yieldCount = yieldCount + 1
+        if yieldCount >= (TICKS_PER_YIELD*2) and coroutine.running() then
+            yieldCount = 0
+            coYield()
+        end
     end
 
     return icon, iconPerZone
@@ -1421,7 +1421,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                     QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1, 0.2, 0, 0.7} or nil)
                 end
                 yieldCount = yieldCount + 1
-                if yieldCount >= (TICKS_PER_YIELD) then
+                if yieldCount >= (TICKS_PER_YIELD) and coroutine.running() then
                     yieldCount = 0
                     coYield() -- We declare the yieldCount at the top level, but increment it every time we try to draw a point, because otherwise we could draw 29x 29-point paths and never call a coYield when TICKS_PER_YIELD is 30.
                 end
