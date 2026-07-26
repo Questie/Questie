@@ -30,7 +30,24 @@ local objectKeys = {
     factionID = "factionID",
     waypoints = "waypoints",
 }
-
+local itemKeys = {
+    name = "name",
+    npcDrops = "npcDrops",
+    objectDrops = "objectDrops",
+    itemDrops = "itemDrops",
+    startQuest = "startQuest",
+    questRewards = "questRewards",
+    flags = "flags",
+    foodType = "foodType",
+    itemLevel = "itemLevel",
+    requiredLevel = "requiredLevel",
+    ammoType = "ammoType",
+    class = "class",
+    subClass = "subClass",
+    vendors = "vendors",
+    relatedQuests = "relatedQuests",
+    teachesSpell = "teachesSpell",
+}
 local raceKeys = {
     ALL_ALLIANCE = 18875469,
     ALL_HORDE = 33555378,
@@ -1410,6 +1427,249 @@ describe("Validators", function()
                 [1] = "field 'name' is required but nil",
                 [2] = "field 'zoneID' expected number but got string",
             }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+    end)
+
+    describe("checkItemFieldTypes", function()
+        it("should not report anything when all item fields have correct types", function()
+            local items = {
+                [1] = {
+                    name = "Hearthstone",
+                    npcDrops = {100, 200},
+                    objectDrops = {10, 20},
+                    itemDrops = {5, 6},
+                    startQuest = 42,
+                    questRewards = {1, 2, 3},
+                    flags = 0,
+                    foodType = 2,
+                    itemLevel = 1,
+                    requiredLevel = 1,
+                    ammoType = 0,
+                    class = 12,
+                    subClass = 0,
+                    vendors = {300, 400},
+                    relatedQuests = {7, 8},
+                    teachesSpell = 9999,
+                },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same(nil, invalidItems)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should not report anything when optional fields are nil", function()
+            local items = {
+                [1] = { name = "Simple Item" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same(nil, invalidItems)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should find item with missing name", function()
+            local items = {
+                [1] = { name = nil},
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'name' is required but nil" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with name that is not a string", function()
+            local items = {
+                [1] = { name = 123 },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'name' expected string but got number" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with npcDrops that is not a table", function()
+            local items = {
+                [1] = { name = "Item", npcDrops = 5 },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'npcDrops' expected table but got number" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with objectDrops that is not a table", function()
+            local items = {
+                [1] = { name = "Item", objectDrops = "invalid" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'objectDrops' expected table but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with itemDrops that is not a table", function()
+            local items = {
+                [1] = { name = "Item", itemDrops = true },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'itemDrops' expected table but got boolean" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with startQuest that is not a number", function()
+            local items = {
+                [1] = { name = "Item", startQuest = "42" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'startQuest' expected number but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with questRewards that is not a table", function()
+            local items = {
+                [1] = { name = "Item", questRewards = 99 },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'questRewards' expected table but got number" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with flags that is not a number", function()
+            local items = {
+                [1] = { name = "Item", flags = {} },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'flags' expected number but got table" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with foodType that is not a number", function()
+            local items = {
+                [1] = { name = "Item", foodType = "bread" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'foodType' expected number but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with itemLevel that is not a number", function()
+            local items = {
+                [1] = { name = "Item", itemLevel = "high" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'itemLevel' expected number but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with requiredLevel that is not a number", function()
+            local items = {
+                [1] = { name = "Item", requiredLevel = true },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'requiredLevel' expected number but got boolean" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with ammoType that is not a number", function()
+            local items = {
+                [1] = { name = "Item", ammoType = "arrow" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'ammoType' expected number but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with class that is not a number", function()
+            local items = {
+                [1] = { name = "Item", class = "weapon" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'class' expected number but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with subClass that is not a number", function()
+            local items = {
+                [1] = { name = "Item", subClass = {} },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'subClass' expected number but got table" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with vendors that is not a table", function()
+            local items = {
+                [1] = { name = "Item", vendors = 500 },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'vendors' expected table but got number" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with relatedQuests that is not a table", function()
+            local items = {
+                [1] = { name = "Item", relatedQuests = "quest" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'relatedQuests' expected table but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find item with teachesSpell that is not a number", function()
+            local items = {
+                [1] = { name = "Item", teachesSpell = "fireball" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({ [1] = "field 'teachesSpell' expected number but got string" }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find multiple items with invalid field types", function()
+            local items = {
+                [1] = {},
+                [2] = { name = "Item", requiredLevel = "ten" },
+            }
+
+            local invalidItems = Validators.checkItemFieldTypes(items, itemKeys)
+
+            assert.are_same({
+                [1] = "field 'name' is required but nil",
+                [2] = "field 'requiredLevel' expected number but got string",
+            }, invalidItems)
             assert.spy(exitMock).was.called_with(1)
         end)
     end)
