@@ -1137,4 +1137,62 @@ function Validators.checkObjectFieldTypes(objects, objectKeys)
     end
 end
 
+---@param items table<ItemId, Item>
+---@param itemKeys DatabaseItemKeys
+---@return table<ItemId, string>
+function Validators.checkItemFieldTypes(items, itemKeys)
+    print("\n\27[36mChecking item field types...\27[0m")
+
+    local fieldRules = {
+        { key = itemKeys.name,          name = "name",          expectedType = "string",  required = true },
+        { key = itemKeys.npcDrops,      name = "npcDrops",      expectedType = "table",   required = false },
+        { key = itemKeys.objectDrops,   name = "objectDrops",   expectedType = "table",   required = false },
+        { key = itemKeys.itemDrops,     name = "itemDrops",     expectedType = "table",   required = false },
+        { key = itemKeys.startQuest,    name = "startQuest",    expectedType = "number",  required = false },
+        { key = itemKeys.questRewards,  name = "questRewards",  expectedType = "table",   required = false },
+        { key = itemKeys.flags,         name = "flags",         expectedType = "number",  required = false },
+        { key = itemKeys.foodType,      name = "foodType",      expectedType = "number",  required = false },
+        { key = itemKeys.itemLevel,     name = "itemLevel",     expectedType = "number",  required = false },
+        { key = itemKeys.requiredLevel, name = "requiredLevel", expectedType = "number",  required = false },
+        { key = itemKeys.ammoType,      name = "ammoType",      expectedType = "number",  required = false },
+        { key = itemKeys.class,         name = "class",         expectedType = "number",  required = false },
+        { key = itemKeys.subClass,      name = "subClass",      expectedType = "number",  required = false },
+        { key = itemKeys.vendors,       name = "vendors",       expectedType = "table",   required = false },
+        { key = itemKeys.relatedQuests, name = "relatedQuests", expectedType = "table",   required = false },
+        { key = itemKeys.teachesSpell,  name = "teachesSpell",  expectedType = "number",  required = false },
+    }
+
+    local invalidItems = {}
+    for itemId, itemData in pairs(items) do
+        for _, rule in ipairs(fieldRules) do
+            local value = itemData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidItems[itemId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidItems[itemId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidItems) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " items with invalid field types:\27[0m")
+        for itemId, reason in pairsByKeys(invalidItems) do
+            print("\27[31m- Item " .. itemId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidItems
+    else
+        print("\27[32mNo items found with invalid field types\27[0m")
+        return nil
+    end
+end
+
 return Validators

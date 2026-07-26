@@ -97,6 +97,7 @@ local function _CheckSoDDatabase()
         QuestieDB.questData[questId] = nil
     end
 
+    Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)
     Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
 
     Validators.checkRequiredRaces(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.raceKeys)
