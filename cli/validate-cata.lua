@@ -92,6 +92,7 @@ local function _CheckCataDatabase()
         QuestieDB.questData[questId] = nil
     end
 
+    Validators.checkNpcFieldTypes(QuestieDB.npcData, QuestieDB.npcKeys)
     Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
     Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)
 

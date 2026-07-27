@@ -92,6 +92,7 @@ local function _CheckWotlkDatabase()
     end
 
     Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)
+    Validators.checkNpcFieldTypes(QuestieDB.npcData, QuestieDB.npcKeys)
     Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
 
     Validators.checkRequiredRaces(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.raceKeys)
