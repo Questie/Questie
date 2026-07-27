@@ -1233,6 +1233,123 @@ function Validators.checkObjectFieldTypes(objects, objectKeys)
     end
 end
 
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@return table<QuestId, string>
+function Validators.checkQuestFieldTypes(quests, questKeys)
+    print("\n\27[36mChecking quest field types...\27[0m")
+
+    local fieldRules = {
+        { key = questKeys.name,                   name = "name",                   expectedType = "string",  required = true },
+        { key = questKeys.startedBy,              name = "startedBy",              expectedType = "table",   required = false },
+        { key = questKeys.finishedBy,             name = "finishedBy",             expectedType = "table",   required = false },
+        { key = questKeys.requiredLevel,          name = "requiredLevel",          expectedType = "number",  required = false },
+        { key = questKeys.questLevel,             name = "questLevel",             expectedType = "number",  required = false },
+        { key = questKeys.requiredRaces,          name = "requiredRaces",          expectedType = "number",  required = false },
+        { key = questKeys.requiredClasses,        name = "requiredClasses",        expectedType = "number",  required = false },
+        { key = questKeys.objectivesText,         name = "objectivesText",         expectedType = "table",   required = false },
+        { key = questKeys.triggerEnd,             name = "triggerEnd",             expectedType = "table",   required = false },
+        { key = questKeys.objectives,             name = "objectives",             expectedType = "table",   required = false },
+        { key = questKeys.sourceItemId,           name = "sourceItemId",           expectedType = "number",  required = false },
+        { key = questKeys.preQuestGroup,          name = "preQuestGroup",          expectedType = "table",   required = false },
+        { key = questKeys.preQuestSingle,         name = "preQuestSingle",         expectedType = "table",   required = false },
+        { key = questKeys.childQuests,            name = "childQuests",            expectedType = "table",   required = false },
+        { key = questKeys.inGroupWith,            name = "inGroupWith",            expectedType = "table",   required = false },
+        { key = questKeys.exclusiveTo,            name = "exclusiveTo",            expectedType = "table",   required = false },
+        { key = questKeys.zoneOrSort,             name = "zoneOrSort",             expectedType = "number",  required = false },
+        { key = questKeys.requiredSkill,          name = "requiredSkill",          expectedType = "table",   required = false },
+        { key = questKeys.requiredMinRep,         name = "requiredMinRep",         expectedType = "table",   required = false },
+        { key = questKeys.requiredMaxRep,         name = "requiredMaxRep",         expectedType = "table",   required = false },
+        { key = questKeys.requiredSourceItems,    name = "requiredSourceItems",    expectedType = "table",   required = false },
+        { key = questKeys.nextQuestInChain,       name = "nextQuestInChain",       expectedType = "number",  required = false },
+        { key = questKeys.questFlags,             name = "questFlags",             expectedType = "number",  required = false },
+        { key = questKeys.specialFlags,           name = "specialFlags",           expectedType = "number",  required = false },
+        { key = questKeys.parentQuest,            name = "parentQuest",            expectedType = "number",  required = false },
+        { key = questKeys.reputationReward,       name = "reputationReward",       expectedType = "table",   required = false },
+        { key = questKeys.breadcrumbForQuestId,   name = "breadcrumbForQuestId",   expectedType = "number",  required = false },
+        { key = questKeys.breadcrumbs,            name = "breadcrumbs",            expectedType = "table",   required = false },
+        { key = questKeys.extraObjectives,        name = "extraObjectives",        expectedType = "table",   required = false },
+        { key = questKeys.requiredSpell,          name = "requiredSpell",          expectedType = "number",  required = false },
+        { key = questKeys.requiredSpecialization, name = "requiredSpecialization", expectedType = "number",  required = false },
+        { key = questKeys.requiredMaxLevel,       name = "requiredMaxLevel",       expectedType = "number",  required = false },
+        { key = questKeys.availableUntilCompleted,name = "availableUntilCompleted",expectedType = "number",  required = false },
+        { key = questKeys.availableStartingWith,  name = "availableStartingWith",  expectedType = "number",  required = false },
+        { key = questKeys.requiredRanks,          name = "requiredRanks",          expectedType = "table",   required = false },
+        { key = questKeys.disabledByQuest,        name = "disabledByQuest",        expectedType = "number",  required = false },
+    }
+
+    local invalidQuests = {}
+    for questId, questData in pairs(quests) do
+        for _, rule in ipairs(fieldRules) do
+            local value = questData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidQuests[questId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidQuests[questId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+
+        if not invalidQuests[questId] then
+            local extraObjectives = questData[questKeys.extraObjectives]
+            if extraObjectives then
+                for entryIndex, entry in pairs(extraObjectives) do
+                    if type(entry) ~= "table" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "] expected table but got " .. type(entry)
+                        break
+                    end
+                    local spawnlist = entry[1]
+                    if spawnlist ~= nil and type(spawnlist) ~= "table" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "][1] (spawnlist) expected table or nil but got " .. type(spawnlist)
+                        break
+                    end
+                    if spawnlist then
+                        for zoneId in pairs(spawnlist) do
+                            local err = _checkSpawnZoneStructure(spawnlist, zoneId)
+                            if err then
+                                invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "]." .. err
+                                break
+                            end
+                        end
+                    end
+                    if invalidQuests[questId] then
+                        break
+                    end
+                    local text = entry[3]
+                    if text ~= nil and type(text) ~= "string" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "][3] (text) expected string or nil but got " .. type(text)
+                        break
+                    end
+                    local objectiveIndex = entry[4]
+                    if objectiveIndex ~= nil and type(objectiveIndex) ~= "number" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "][4] (objectiveIndex) expected number or nil but got " .. type(objectiveIndex)
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid field types:\27[0m")
+        for questId, reason in pairsByKeys(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid field types\27[0m")
+        return nil
+    end
+end
+
 ---@param items table<ItemId, Item>
 ---@param itemKeys DatabaseItemKeys
 ---@return table<ItemId, string>
