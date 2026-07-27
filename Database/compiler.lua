@@ -877,19 +877,33 @@ QuestieDBCompiler.statics = {
 }
 
 function QuestieDBCompiler:CompileNPCs()
-    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.npcData, QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder, QuestieDB.npcKeys, "npc", "NPC")
+    local entriesPerTick = Questie.IsHardcore and 80 or nil
+
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.npcData, QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder, QuestieDB.npcKeys, "npc", "NPC", entriesPerTick)
 end
 
 function QuestieDBCompiler:CompileObjects()
-    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.objectData, QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder, QuestieDB.objectKeys, "obj", "Object")
+    local entriesPerTick = Questie.IsHardcore and 80 or nil
+
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.objectData, QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder, QuestieDB.objectKeys, "obj", "Object", entriesPerTick)
 end
 
 function QuestieDBCompiler:CompileQuests()
-    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, "quest", "Quest", 28)
+    local entriesPerTick = Questie.IsHardcore and 25 or 50
+    if Questie.db.profile.debugEnabled then
+        entriesPerTick = nil
+    end
+
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, "quest", "Quest", entriesPerTick)
 end
 
 function QuestieDBCompiler:CompileItems()
-    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, "item", "Item", 128)
+    local entriesPerTick = Questie.IsHardcore and 100 or 150
+    if Questie.db.profile.debugEnabled then
+        entriesPerTick = nil
+    end
+
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, "item", "Item", entriesPerTick)
 end
 
 
