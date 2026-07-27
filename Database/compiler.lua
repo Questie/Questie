@@ -1095,6 +1095,10 @@ function QuestieDBCompiler:Compile()
     QuestieDBCompiler:CompileItems()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
+    if Questie.db.profile.debugEnabled then
+        print("\124cFFAAEEFF" .. "Compiling took " .. (GetTime() - QuestieDBCompiler.startTime) .. " seconds")
+    end
+
     Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
 
     if Questie.IsSoD then
