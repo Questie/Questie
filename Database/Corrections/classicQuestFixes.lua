@@ -125,7 +125,8 @@ function QuestieQuestFixes:Load()
         [112] = {
             [questKeys.nextQuestInChain] = 114,
         },
-        [117] = {
+        [117] = { -- Thunderbrew
+            [questKeys.requiredLevel] = 10,
             [questKeys.name] = "Thunderbrew",
         },
         [121] = { -- Messenger to Stormwind
