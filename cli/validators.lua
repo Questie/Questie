@@ -1049,6 +1049,102 @@ local function _checkSpawnZoneStructure(spawns, zoneId)
     return nil
 end
 
+---@param npcs table<NpcId, Npc>
+---@param npcKeys DatabaseNpcKeys
+---@return table<NpcId, string>
+function Validators.checkNpcFieldTypes(npcs, npcKeys)
+    print("\n\27[36mChecking NPC field types...\27[0m")
+
+    local fieldRules = {
+        { key = npcKeys.name,             name = "name",             expectedType = "string",  required = true },
+        { key = npcKeys.minLevelHealth,   name = "minLevelHealth",   expectedType = "number",  required = false },
+        { key = npcKeys.maxLevelHealth,   name = "maxLevelHealth",   expectedType = "number",  required = false },
+        { key = npcKeys.minLevel,         name = "minLevel",         expectedType = "number",  required = false },
+        { key = npcKeys.maxLevel,         name = "maxLevel",         expectedType = "number",  required = false },
+        { key = npcKeys.rank,             name = "rank",             expectedType = "number",  required = false },
+        { key = npcKeys.spawns,           name = "spawns",           expectedType = "table",   required = false },
+        { key = npcKeys.waypoints,        name = "waypoints",        expectedType = "table",   required = false },
+        { key = npcKeys.zoneID,           name = "zoneID",           expectedType = "number",  required = false },
+        { key = npcKeys.questStarts,      name = "questStarts",      expectedType = "table",   required = false },
+        { key = npcKeys.questEnds,        name = "questEnds",        expectedType = "table",   required = false },
+        { key = npcKeys.factionID,        name = "factionID",        expectedType = "number",  required = false },
+        { key = npcKeys.friendlyToFaction,name = "friendlyToFaction",expectedType = "string",  required = false },
+        { key = npcKeys.subName,          name = "subName",          expectedType = "string",  required = false },
+        { key = npcKeys.npcFlags,         name = "npcFlags",         expectedType = "number",  required = false },
+    }
+
+    local invalidNpcs = {}
+    for npcId, npcData in pairs(npcs) do
+        for _, rule in ipairs(fieldRules) do
+            local value = npcData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidNpcs[npcId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidNpcs[npcId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+
+        if not invalidNpcs[npcId] then
+            local waypoints = npcData[npcKeys.waypoints]
+            if waypoints then
+                for zoneId, paths in pairs(waypoints) do
+                    for pathIndex, path in pairs(paths) do
+                        if type(path) ~= "table" then
+                            invalidNpcs[npcId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "] expected table (path) but got " .. type(path)
+                            break
+                        end
+                        for coordIndex, coord in pairs(path) do
+                            if type(coord) ~= "table" then
+                                invalidNpcs[npcId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
+                                break
+                            end
+                        end
+                        if invalidNpcs[npcId] then
+                            break
+                        end
+                    end
+                    if invalidNpcs[npcId] then
+                        break
+                    end
+                end
+            end
+        end
+
+        if not invalidNpcs[npcId] then
+            local spawns = npcData[npcKeys.spawns]
+            if spawns then
+                for zoneId in pairs(spawns) do
+                    local err = _checkSpawnZoneStructure(spawns, zoneId)
+                    if err then
+                        invalidNpcs[npcId] = err
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidNpcs) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " NPCs with invalid field types:\27[0m")
+        for npcId, reason in pairsByKeys(invalidNpcs) do
+            print("\27[31m- NPC " .. npcId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidNpcs
+    else
+        print("\27[32mNo NPCs found with invalid field types\27[0m")
+        return nil
+    end
+end
+
 ---@param objects table<ObjectId, Object>
 ---@param objectKeys DatabaseObjectKeys
 ---@return table<ObjectId, string>
