@@ -91,6 +91,7 @@ local function _CheckClassicDatabase()
         QuestieDB.questData[questId] = nil
     end
 
+    Validators.checkQuestFieldTypes(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkNpcFieldTypes(QuestieDB.npcData, QuestieDB.npcKeys)
     Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
     Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)

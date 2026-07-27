@@ -2,18 +2,42 @@ local Validators = require("cli.validators")
 local exitMock
 
 local questKeys = {
+    name = "name",
     startedBy = "startedBy",
     finishedBy = "finishedBy",
+    requiredLevel = "requiredLevel",
+    questLevel = "questLevel",
     requiredRaces = "requiredRaces",
-    sourceItemId = "sourceItemId",
-    requiredSourceItems = "requiredSourceItems",
-    objectives = "objectives",
-    preQuestSingle = "preQuestSingle",
-    preQuestGroup = "preQuestGroup",
-    parentQuest = "parentQuest",
-    childQuests = "childQuests",
-    extraObjectives = "extraObjectives",
+    requiredClasses = "requiredClasses",
+    objectivesText = "objectivesText",
     triggerEnd = "triggerEnd",
+    objectives = "objectives",
+    sourceItemId = "sourceItemId",
+    preQuestGroup = "preQuestGroup",
+    preQuestSingle = "preQuestSingle",
+    childQuests = "childQuests",
+    inGroupWith = "inGroupWith",
+    exclusiveTo = "exclusiveTo",
+    zoneOrSort = "zoneOrSort",
+    requiredSkill = "requiredSkill",
+    requiredMinRep = "requiredMinRep",
+    requiredMaxRep = "requiredMaxRep",
+    requiredSourceItems = "requiredSourceItems",
+    nextQuestInChain = "nextQuestInChain",
+    questFlags = "questFlags",
+    specialFlags = "specialFlags",
+    parentQuest = "parentQuest",
+    reputationReward = "reputationReward",
+    breadcrumbForQuestId = "breadcrumbForQuestId",
+    breadcrumbs = "breadcrumbs",
+    extraObjectives = "extraObjectives",
+    requiredSpell = "requiredSpell",
+    requiredSpecialization = "requiredSpecialization",
+    requiredMaxLevel = "requiredMaxLevel",
+    availableUntilCompleted = "availableUntilCompleted",
+    availableStartingWith = "availableStartingWith",
+    requiredRanks = "requiredRanks",
+    disabledByQuest = "disabledByQuest",
 }
 local npcKeys = {
     name = "name",
@@ -1857,6 +1881,386 @@ describe("Validators", function()
                 [1] = "field 'name' is required but nil",
                 [2] = "field 'minLevel' expected number but got string",
             }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+    end)
+
+    describe("checkQuestFieldTypes", function()
+        it("should not report anything when all quest fields have correct types", function()
+            local quests = {
+                [1] = {
+                    name = "The Test Quest",
+                    requiredLevel = 10,
+                    questLevel = 12,
+                    requiredRaces = 0,
+                    requiredClasses = 0,
+                    objectivesText = {"Kill 10 boars"},
+                    startedBy = {{1234}},
+                    finishedBy = {{1234}},
+                    objectives = {},
+                    sourceItemId = 5678,
+                    preQuestGroup = {99},
+                    preQuestSingle = {100},
+                    childQuests = {101},
+                    inGroupWith = {102},
+                    exclusiveTo = {103},
+                    zoneOrSort = 1519,
+                    requiredSkill = {186, 50},
+                    requiredMinRep = {72, 3000},
+                    requiredMaxRep = {72, 42000},
+                    requiredSourceItems = {9999},
+                    nextQuestInChain = 200,
+                    questFlags = 0,
+                    specialFlags = 1,
+                    parentQuest = 300,
+                    reputationReward = {{72, 500}},
+                    breadcrumbForQuestId = 400,
+                    breadcrumbs = {401},
+                    extraObjectives = {
+                        {nil, 1, "Kill the boss", 0, {{"monster", 1234}}},
+                        {{[1519] = {{50.0, 60.0}}}, 2, "Use the cannon", 1, {{"object", 5678}}},
+                    },
+                    requiredSpell = 12345,
+                    requiredSpecialization = 1,
+                    requiredMaxLevel = 60,
+                    availableUntilCompleted = 500,
+                    availableStartingWith = 501,
+                    requiredRanks = {{186, 150}},
+                    disabledByQuest = 600,
+                    triggerEnd = {"text", {[1519] = {{50.0, 50.0}}}},
+                },
+            }
+
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+
+            assert.are_same(nil, invalidQuests)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should not report anything when optional fields are nil", function()
+            local quests = {
+                [1] = { name = "Minimal Quest" },
+            }
+
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+
+            assert.are_same(nil, invalidQuests)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should find quest with missing name", function()
+            local quests = { [1] = {} }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'name' is required but nil" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with name that is not a string", function()
+            local quests = { [1] = { name = 42 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'name' expected string but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredLevel that is not a number", function()
+            local quests = { [1] = { name = "Quest", requiredLevel = "ten" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredLevel' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with questLevel that is not a number", function()
+            local quests = { [1] = { name = "Quest", questLevel = "high" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'questLevel' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredRaces that is not a number", function()
+            local quests = { [1] = { name = "Quest", requiredRaces = "human" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredRaces' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredClasses that is not a number", function()
+            local quests = { [1] = { name = "Quest", requiredClasses = "warrior" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredClasses' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with objectivesText that is not a table", function()
+            local quests = { [1] = { name = "Quest", objectivesText = "kill stuff" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'objectivesText' expected table but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with startedBy that is not a table", function()
+            local quests = { [1] = { name = "Quest", startedBy = 1234 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'startedBy' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with finishedBy that is not a table", function()
+            local quests = { [1] = { name = "Quest", finishedBy = 1234 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'finishedBy' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with objectives that is not a table", function()
+            local quests = { [1] = { name = "Quest", objectives = "kill boars" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'objectives' expected table but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with sourceItemId that is not a number", function()
+            local quests = { [1] = { name = "Quest", sourceItemId = "sword" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'sourceItemId' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with preQuestGroup that is not a table", function()
+            local quests = { [1] = { name = "Quest", preQuestGroup = 99 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'preQuestGroup' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with preQuestSingle that is not a table", function()
+            local quests = { [1] = { name = "Quest", preQuestSingle = 99 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'preQuestSingle' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with childQuests that is not a table", function()
+            local quests = { [1] = { name = "Quest", childQuests = 101 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'childQuests' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with inGroupWith that is not a table", function()
+            local quests = { [1] = { name = "Quest", inGroupWith = 102 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'inGroupWith' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with exclusiveTo that is not a table", function()
+            local quests = { [1] = { name = "Quest", exclusiveTo = 103 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'exclusiveTo' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with zoneOrSort that is not a number", function()
+            local quests = { [1] = { name = "Quest", zoneOrSort = "Elwynn" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'zoneOrSort' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredSkill that is not a table", function()
+            local quests = { [1] = { name = "Quest", requiredSkill = 186 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredSkill' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredMinRep that is not a table", function()
+            local quests = { [1] = { name = "Quest", requiredMinRep = 3000 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredMinRep' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredMaxRep that is not a table", function()
+            local quests = { [1] = { name = "Quest", requiredMaxRep = 42000 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredMaxRep' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredSourceItems that is not a table", function()
+            local quests = { [1] = { name = "Quest", requiredSourceItems = 9999 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredSourceItems' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with nextQuestInChain that is not a number", function()
+            local quests = { [1] = { name = "Quest", nextQuestInChain = "next" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'nextQuestInChain' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with questFlags that is not a number", function()
+            local quests = { [1] = { name = "Quest", questFlags = "flag" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'questFlags' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with specialFlags that is not a number", function()
+            local quests = { [1] = { name = "Quest", specialFlags = "repeatable" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'specialFlags' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with parentQuest that is not a number", function()
+            local quests = { [1] = { name = "Quest", parentQuest = "parent" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'parentQuest' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with reputationReward that is not a table", function()
+            local quests = { [1] = { name = "Quest", reputationReward = 500 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'reputationReward' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with breadcrumbForQuestId that is not a number", function()
+            local quests = { [1] = { name = "Quest", breadcrumbForQuestId = "crumb" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'breadcrumbForQuestId' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with breadcrumbs that is not a table", function()
+            local quests = { [1] = { name = "Quest", breadcrumbs = 401 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'breadcrumbs' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with extraObjectives that is not a table", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = "extra" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'extraObjectives' expected table but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with extraObjectives entry that is not a table", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = {"bad entry"} } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "extraObjectives[1] expected table but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with extraObjectives spawnlist that is not a table", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = {{123, 2, "text"}} } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "extraObjectives[1][1] (spawnlist) expected table or nil but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with extraObjectives spawnlist coord pair that is not a table", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = {{{[1519] = {50.0, 60.0}}, 2, "text"}} } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "extraObjectives[1].spawns[1519][1] expected table (coord pair) but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with extraObjectives text that is not a string", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = {{nil, 2, 42}} } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "extraObjectives[1][3] (text) expected string or nil but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with extraObjectives objectiveIndex that is not a number", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = {{nil, 2, "text", "bad"}} } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "extraObjectives[1][4] (objectiveIndex) expected number or nil but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should not report extraObjectives with nil spawnlist and nil optional fields", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = {{nil, 2, "text"}} } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same(nil, invalidQuests)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should find quest with requiredSpell that is not a number", function()
+            local quests = { [1] = { name = "Quest", requiredSpell = "fireball" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredSpell' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredSpecialization that is not a number", function()
+            local quests = { [1] = { name = "Quest", requiredSpecialization = "mining" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredSpecialization' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredMaxLevel that is not a number", function()
+            local quests = { [1] = { name = "Quest", requiredMaxLevel = "sixty" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredMaxLevel' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with availableUntilCompleted that is not a number", function()
+            local quests = { [1] = { name = "Quest", availableUntilCompleted = "yes" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'availableUntilCompleted' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with availableStartingWith that is not a number", function()
+            local quests = { [1] = { name = "Quest", availableStartingWith = "after" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'availableStartingWith' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with requiredRanks that is not a table", function()
+            local quests = { [1] = { name = "Quest", requiredRanks = 150 } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'requiredRanks' expected table but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with disabledByQuest that is not a number", function()
+            local quests = { [1] = { name = "Quest", disabledByQuest = "blocker" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'disabledByQuest' expected number but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with triggerEnd that is not a table", function()
+            local quests = { [1] = { name = "Quest", triggerEnd = "end" } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "field 'triggerEnd' expected table but got string" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find multiple quests with invalid field types", function()
+            local quests = {
+                [1] = {},
+                [2] = { name = "Quest", zoneOrSort = "Elwynn" },
+            }
+
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+
+            assert.are_same({
+                [1] = "field 'name' is required but nil",
+                [2] = "field 'zoneOrSort' expected number but got string",
+            }, invalidQuests)
             assert.spy(exitMock).was.called_with(1)
         end)
     end)
