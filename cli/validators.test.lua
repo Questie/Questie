@@ -17,9 +17,20 @@ local questKeys = {
 }
 local npcKeys = {
     name = "name",
+    minLevelHealth = "minLevelHealth",
+    maxLevelHealth = "maxLevelHealth",
+    minLevel = "minLevel",
+    maxLevel = "maxLevel",
+    rank = "rank",
     spawns = "spawns",
+    waypoints = "waypoints",
+    zoneID = "zoneID",
     questStarts = "questStarts",
     questEnds = "questEnds",
+    factionID = "factionID",
+    friendlyToFaction = "friendlyToFaction",
+    subName = "subName",
+    npcFlags = "npcFlags",
 }
 local objectKeys = {
     name = "name",
@@ -1670,6 +1681,182 @@ describe("Validators", function()
                 [1] = "field 'name' is required but nil",
                 [2] = "field 'requiredLevel' expected number but got string",
             }, invalidItems)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+    end)
+
+    describe("checkNpcFieldTypes", function()
+        it("should not report anything when all NPC fields have correct types", function()
+            local npcs = {
+                [1] = {
+                    name = "Hogger",
+                    minLevelHealth = 100,
+                    maxLevelHealth = 200,
+                    minLevel = 10,
+                    maxLevel = 11,
+                    rank = 1,
+                    spawns = {[1429] = {{45.0, 55.0}}},
+                    waypoints = {[1429] = {{{45.0, 55.0}, {46.0, 56.0}}}},
+                    zoneID = 1429,
+                    questStarts = {1, 2},
+                    questEnds = {3},
+                    factionID = 14,
+                    friendlyToFaction = "A",
+                    subName = "Gnoll Warlord",
+                    npcFlags = 0,
+                },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same(nil, invalidNpcs)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should not report anything when optional fields are nil", function()
+            local npcs = {
+                [1] = { name = "Simple NPC" },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same(nil, invalidNpcs)
+            assert.spy(exitMock).was.not_called()
+        end)
+
+        it("should find NPC with missing name", function()
+            local npcs = {
+                [1] = {},
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'name' is required but nil" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with name that is not a string", function()
+            local npcs = {
+                [1] = { name = 42 },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'name' expected string but got number" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with spawns that is not a table", function()
+            local npcs = {
+                [1] = { name = "NPC", spawns = "invalid" },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'spawns' expected table but got string" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with spawn coord pair that is not a table", function()
+            local npcs = {
+                [1] = { name = "NPC", spawns = {[1429] = {45.0, 55.0}} },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "spawns[1429][1] expected table (coord pair) but got number" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with questStarts that is not a table", function()
+            local npcs = {
+                [1] = { name = "NPC", questStarts = 99 },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'questStarts' expected table but got number" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with questEnds that is not a table", function()
+            local npcs = {
+                [1] = { name = "NPC", questEnds = "done" },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'questEnds' expected table but got string" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with zoneID that is not a number", function()
+            local npcs = {
+                [1] = { name = "NPC", zoneID = "Elwynn" },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'zoneID' expected number but got string" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with factionID that is not a number", function()
+            local npcs = {
+                [1] = { name = "NPC", factionID = true },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'factionID' expected number but got boolean" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with friendlyToFaction that is not a string", function()
+            local npcs = {
+                [1] = { name = "NPC", friendlyToFaction = 1 },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'friendlyToFaction' expected string but got number" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with subName that is not a string", function()
+            local npcs = {
+                [1] = { name = "NPC", subName = 5 },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'subName' expected string but got number" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find NPC with npcFlags that is not a number", function()
+            local npcs = {
+                [1] = { name = "NPC", npcFlags = "vendor" },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({ [1] = "field 'npcFlags' expected number but got string" }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find multiple NPCs with invalid field types", function()
+            local npcs = {
+                [1] = {},
+                [2] = { name = "NPC", minLevel = "ten" },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({
+                [1] = "field 'name' is required but nil",
+                [2] = "field 'minLevel' expected number but got string",
+            }, invalidNpcs)
             assert.spy(exitMock).was.called_with(1)
         end)
     end)
