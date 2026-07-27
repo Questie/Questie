@@ -2357,6 +2357,12 @@ function QuestieTBCQuestFixes:Load()
         [9437] = { -- Twilight of the Dawn Runner
             [questKeys.objectives] = {{{17119,nil,Questie.ICON_TYPE_TALK}},nil,{{23657}}},
         },
+        [9438] = { -- Messenger to Thrall
+            [questKeys.nextQuestInChain] = 9441,
+        },
+        [9441] = { -- Envoy to the Mag'har
+            [questKeys.nextQuestInChain] = 9442,
+        },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26}}}},
         },
@@ -3313,8 +3319,11 @@ function QuestieTBCQuestFixes:Load()
         [10079] = { -- When This Mine's a-Rockin'
             [questKeys.preQuestSingle] = {10143,10483},
         },
-        [10085] = {
+        [10085] = { -- A Visit With The Ancestors
             [questKeys.objectives] = {{{18840,nil,Questie.ICON_TYPE_EVENT},{18841,nil,Questie.ICON_TYPE_EVENT},{18842,nil,Questie.ICON_TYPE_EVENT},{18843,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10087] = { -- Burn It Up... For the Horde!
+            [questKeys.objectives] = {{{18849,nil,Questie.ICON_TYPE_EVENT},{19008,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10091] = { -- The Soul Devices
             [questKeys.preQuestSingle] = {10178},
@@ -3395,8 +3404,9 @@ function QuestieTBCQuestFixes:Load()
         [10160] = { -- Know your Enemy
             [questKeys.breadcrumbForQuestId] = 10482,
         },
-        [10162] = {
+        [10162] = { -- Mission: The Abyssal Shelf
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
+            [questKeys.nextQuestInChain] = 10347,
         },
         [10163] = { -- Mission: The Abyssal Shelf
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
@@ -3495,8 +3505,9 @@ function QuestieTBCQuestFixes:Load()
         [10241] = { -- Distraction at Manaforge B'naar
             [questKeys.breadcrumbs] = {11038},
         },
-        [10242] = {
+        [10242] = { -- Spinebreaker Post
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Spinebreaker Post"), 0, {{"monster", 19401}}}},
+            [questKeys.nextQuestInChain] = 10538,
         },
         [10243] = {
             [questKeys.preQuestSingle] = {10241},
@@ -3741,8 +3752,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{16576,19273}},
             [questKeys.preQuestSingle] = {10129},
         },
-        [10389] = {
+        [10389] = { -- The Agony and the Darkness
             [questKeys.preQuestSingle] = {10392},
+        },
+        [10392] = { -- Doorway to the Abyss
+            [questKeys.nextQuestInChain] = 10136,
         },
         [10403] = { -- Naladu
             [questKeys.startedBy] = {{20677,20678,20679}},
@@ -3834,6 +3848,9 @@ function QuestieTBCQuestFixes:Load()
         [10447] = { -- The Final Code
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 10006,
+        },
+        [10449] = { -- Apothecary Zelana
+            [questKeys.nextQuestInChain] = 10242,
         },
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.17}}}},
@@ -4400,10 +4417,10 @@ function QuestieTBCQuestFixes:Load()
         [10791] = {
             [questKeys.objectives] = {{{18384,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [10792] = {
+        [10792] = { -- Zeth'Gor Must Burn!
             [questKeys.requiredSourceItems] = {31347,31346},
             [questKeys.objectives] = {{{20813,nil, Questie.ICON_TYPE_EVENT},{20815,nil, Questie.ICON_TYPE_EVENT},{20816,nil, Questie.ICON_TYPE_EVENT},{20814,nil, Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Light the torches"), 0, {{"object", 185144}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the torches"), 0, {{"object", 185144}}}},
         },
         [10793] = {
             [questKeys.startedBy] = {nil,nil,{31345}},
@@ -4435,6 +4452,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10808] = {
             [questKeys.objectives] = {{{22137,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10809] = { -- Wanted: Worg Master Kruush
+            [questKeys.nextQuestInChain] = 10792,
         },
         [10813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19440,22177},22177,nil,Questie.ICON_TYPE_INTERACT}}},
