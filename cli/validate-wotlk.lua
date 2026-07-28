@@ -74,7 +74,7 @@ local function _CheckWotlkDatabase()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
-    Questie.db.global.debugEnabled = true
+    Questie.db.profile.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
 
     QuestieDB:Initialize()
