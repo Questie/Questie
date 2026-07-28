@@ -463,7 +463,7 @@ _CalculateAndDrawAvailableQuests = function()
         _CheckAvailability(questId)
     end
 
-    local questCount = 0
+    local yieldCount = 0
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
             -- We already drew this quest so we might need to update the icon (config changed/level up)
@@ -472,10 +472,10 @@ _CalculateAndDrawAvailableQuests = function()
             _DrawAvailableQuest(questId)
         end
 
-        -- Reset the questCount
-        questCount = questCount + 1
-        if questCount > QUESTS_PER_YIELD then
-            questCount = 0
+        -- Reset the yieldCount
+        yieldCount = yieldCount + 1
+        if yieldCount > QUESTS_PER_YIELD then
+            yieldCount = 0
             yield()
         end
     end
