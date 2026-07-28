@@ -9,13 +9,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
-
 
 local pcall, type, next = pcall, type, next
 local coYield = coroutine.yield
-local abs, min, floor = math.abs, math.min, math.floor
+local min, floor = math.min, math.floor
 local InCombatLockdown = InCombatLockdown
 
 -- this variable defines how many operations to run (batched at a time) before yielding for a frame.
