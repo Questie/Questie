@@ -36,6 +36,9 @@ end
 GetTime = function()
     return os.time(os.date("!*t")) - 1616930000 -- convert unix time to wow time (actually accurate)
 end
+GetTimePreciseSec = function()
+    return os.time(os.date("!*t")) - 1616930000 -- convert unix time to wow time (actually accurate)
+end
 InCombatLockdown = function()
     return false
 end
