@@ -410,16 +410,6 @@ _CalculateAndDrawAvailableQuests = function()
     -- We create a local function here to improve readability but use the localized variables above.
     -- The order of checks is important here to bring the speed to a max
     local function _CheckAvailability(questId)
-        if (autoBlacklist[questId] or -- Don't show autoBlacklist quests marked as such by IsDoable
-                completedQuests[questId] or -- Don't show completed quests
-                hiddenQuests[questId] or -- Don't show blacklisted quests
-                hidden[questId] or -- Don't show quests hidden by the player
-                unavailableQuestsDeterminedByTalking[questId] -- Don't show quests hidden after talking to an NPC
-            ) then
-            availableQuests[questId] = nil
-            return
-        end
-
         if currentQuestlog[questId] then
             _DrawChildQuests(questId, currentQuestlog, completedQuests, hiddenQuests)
 
@@ -460,7 +450,16 @@ _CalculateAndDrawAvailableQuests = function()
     end
 
     for questId in pairs(questData) do
-        _CheckAvailability(questId)
+        if (autoBlacklist[questId] or -- Don't show autoBlacklist quests marked as such by IsDoable
+                completedQuests[questId] or -- Don't show completed quests
+                hiddenQuests[questId] or -- Don't show blacklisted quests
+                hidden[questId] or -- Don't show quests hidden by the player
+                unavailableQuestsDeterminedByTalking[questId] -- Don't show quests hidden after talking to an NPC
+            ) then
+            availableQuests[questId] = nil
+        else
+            _CheckAvailability(questId)
+        end
     end
 
     local yieldCount = 0
