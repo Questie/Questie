@@ -1035,7 +1035,7 @@ function QuestieDBCompiler:Compile()
 
     QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
 
-    QuestieDBCompiler.startTime = GetTime()
+    local startTime = GetTimePreciseSec()
     QuestieDBCompiler.totalSize = 0
 
     print("\124cFF4DDBFF [6/9] " .. l10n("Updating NPCs") .. l10n("..."))
@@ -1049,7 +1049,7 @@ function QuestieDBCompiler:Compile()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
     if Questie.db.profile.debugEnabled then
-        print("\124cFFAAEEFF" .. "Compiling took " .. (GetTime() - QuestieDBCompiler.startTime) .. " seconds")
+        print("\124cFFAAEEFF" .. "Compiling took " .. (GetTimePreciseSec() - startTime) .. " seconds")
     end
 
     Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
