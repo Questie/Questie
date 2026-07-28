@@ -994,6 +994,21 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local writers = QuestieDBCompiler.writers
     local supportedTypes = QuestieDBCompiler.supportedTypes
 
+    -- Pre-compute per-field lookup keys and writers once for the entire compile run.
+    -- This removes all string-keyed table lookups from the hot inner loop.
+    local fieldCount = #order
+    local fieldKeys = {}    -- fieldKeys[i]    = lookup[order[i]]  (raw data field index)
+    local fieldWriters = {} -- fieldWriters[i] = writers[types[order[i]]]
+    for i = 1, fieldCount do
+        local key = order[i]
+        local t = types[key]
+        if not writers[t] then
+            error("Invalid datatype: " .. key .. " " .. tostring(t))
+        end
+        fieldKeys[i] = lookup[key]
+        fieldWriters[i] = writers[t]
+    end
+
     while true do
         coYield()
 
@@ -1026,28 +1041,22 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
             local entry = tbl[id]
 
             pointerMap[id] = stream._pointer--pointerStart
-            for i=1, #order do
+            for i=1, fieldCount do
                 -- If combat starts mid-entry, pause before processing next field
                 while InCombatLockdown() do
                     coYield()
                 end
 
-                local key = order[i]
-                local v = entry[lookup[key]]
-                local t = types[key]
+                local v = entry[fieldKeys[i]]
 
-                if v and not supportedTypes[type(v)][t] then
-                    error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
+                if v and not supportedTypes[type(v)][fieldTypes[i]] then
+                    error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..fieldNames[i]..": \"" .. type(v) .. "\" is not compatible with type \"" .. fieldTypes[i] .."\"")
                     return
                 end
-                if not writers[t] then
-                    error("Invalid datatype: " .. key .. " " .. tostring(t))
-                end
-                --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                local result, errorMessage = pcall(writers[t], stream, v)
-                if not result then
-                    error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    error(errorMessage)
+
+                local result, errorMessage = pcall(fieldWriters[i], stream, v)
+                if (not result) then
+                    error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..order[i].."\":\n"..tostring(errorMessage))
                 end
             end
             -- tbl[id] = nil -- quicker gabage collection later
