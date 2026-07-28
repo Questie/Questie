@@ -10,7 +10,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local pcall, type, next = pcall, type, next
+local type, next = type, next
 local coYield = coroutine.yield
 local min, floor = math.min, math.floor
 local InCombatLockdown = InCombatLockdown
@@ -1001,12 +1001,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                     coYield()
                 end
 
-                local v = entry[fieldKeys[i]]
-
-                local result, errorMessage = pcall(fieldWriters[i], stream, v)
-                if (not result) then
-                    error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..order[i].."\":\n"..tostring(errorMessage))
-                end
+                fieldWriters[i](stream, entry[fieldKeys[i]])
             end
             -- tbl[id] = nil -- quicker gabage collection later
         end
