@@ -617,8 +617,7 @@ QuestieDBCompiler.writers = {
                 for i=1, #killobjectives do -- iterate over all killobjectives
                     local killobjective = killobjectives[i]
                     local npcIds = killobjective[1]
-                    assert(type(npcIds) == "table", "killobjective's npcids is not a table.")
-                    assert(#npcIds > 0, "killobjective has 0 npcIDs.")
+
                     stream:WriteByte(#npcIds) -- write count of creatureIDs
                     for j=1, #npcIds do
                         stream:WriteInt24(npcIds[j]) -- write creatureID
@@ -917,7 +916,6 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local max_id = 0
     local yieldCount = 0
     for id in pairs(tbl) do
-        assert(type(id) == "number", "CompileTableCoroutine: tbl id is not a number")
         if id > max_id then
             max_id = id
         end
