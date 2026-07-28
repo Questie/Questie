@@ -59,46 +59,6 @@ end
 ---| "reflist"
 ---| "extraobjective
 
-
-QuestieDBCompiler.supportedTypes = {
-    ["table"] = {
-        ["u12pair"] = true,
-        ["u24pair"] = true,
-        ["s24pair"] = true,
-        ["u8u16array"] = true,
-        ["u16u16array"] = true,
-        ["u8s16pairs"] = true,
-        ["u8s24pairs"] = true,
-        ["spawnlist"] = true,
-        ["trigger"] = true,
-        ["questgivers"] = true,
-        ["objective"] = true,
-        ["spellobjective"] = true,
-        ["objectives"] = true,
-        ["waypointlist"] = true,
-        ["u8u16stringarray"] = true,
-        ["u8u24array"] = true,
-        ["u8s24array"] = true,
-        ["u16u24array"] = true,
-        ["extraobjectives"] = true,
-        ["reflist"] = true
-    },
-    ["number"] = {
-        ["s8"] = true,
-        ["u8"] = true,
-        ["u16"] = true,
-        ["s16"] = true,
-        ["u24"] = true,
-        ["s24"] = true,
-        ["u32"] = true
-    },
-    ["string"] = {
-        ["u8string"] = true,
-        ["u16string"] = true,
-        ["faction"] = true
-    }
-}
-
 local refTypes = {
     "monster",
     "item",
@@ -992,7 +952,6 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
 
     -- Localize functions
     local writers = QuestieDBCompiler.writers
-    local supportedTypes = QuestieDBCompiler.supportedTypes
 
     -- Pre-compute per-field lookup keys and writers once for the entire compile run.
     -- This removes all string-keyed table lookups from the hot inner loop.
@@ -1048,11 +1007,6 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                 end
 
                 local v = entry[fieldKeys[i]]
-
-                if v and not supportedTypes[type(v)][fieldTypes[i]] then
-                    error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..fieldNames[i]..": \"" .. type(v) .. "\" is not compatible with type \"" .. fieldTypes[i] .."\"")
-                    return
-                end
 
                 local result, errorMessage = pcall(fieldWriters[i], stream, v)
                 if (not result) then
