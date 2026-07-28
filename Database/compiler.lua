@@ -913,31 +913,17 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local count = 0
     local indexLookup = {};
 
-    local max_id = 0
     local yieldCount = 0
     for id in pairs(tbl) do
-        if id > max_id then
-            max_id = id
-        end
+        count = count + 1
+        indexLookup[count] = id
         yieldCount = yieldCount + 1
         if yieldCount >= TICKS_PER_YIELD * 100 then
             yieldCount = 0
             coYield()
         end
     end
-    yieldCount = 0
-    -- iterate table tbl in numerical order to get ids in order to indexLoopup list. iterating over pairs(tbl) gives ids in non determined order
-    for id=0,max_id do
-        if tbl[id] then
-            count = count + 1
-            indexLookup[count] = id
-        end
-        yieldCount = yieldCount + 1
-        if yieldCount >= TICKS_PER_YIELD * 100 then
-            yieldCount = 0
-            coYield()
-        end
-    end
+    table.sort(indexLookup)
     count = count + 1
 
     local index = 0
