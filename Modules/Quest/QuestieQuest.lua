@@ -111,11 +111,13 @@ function QuestieQuest.ToggleAvailableQuests(showIcons)
         function()
             AvailableQuests.CalculateAndDrawAll()
 
-            if showIcons then
-                QuestieQuest:ShowQuestIcons()
-            else
-                QuestieQuest:HideQuestIcons()
-            end
+            ThreadLib.ThreadInstant(function()
+                if showIcons then
+                    QuestieQuest:ShowQuestIcons()
+                else
+                    QuestieQuest:HideQuestIcons()
+                end
+            end)
         end
     )
 end
@@ -152,44 +154,43 @@ function QuestieQuest.ToggleQuestNotes(showIcons)
     end)
 end
 
---- Shows all quest icons. Runs asynchronously to avoid "script ran too long" errors
---- when many icons need to be shown at once.
+--- Shows all quest icons. Needs to be called from a coroutine.
 function QuestieQuest:ShowQuestIcons()
-    ThreadLib.Thread(function()
-        local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
-        local questCount = 0
-        for questId, frameList in pairs(QuestieMap.questIdFrames) do
-            if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
-                for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-                    ---@type IconFrame
-                    local icon = _G[frameName];
-                    local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                    if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
-                        if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                            icon:FakeShow()
+    assert(coroutine.running(), "ShowQuestIcons must be called from a coroutine")
 
-                            if icon.data.lineFrames then
-                                for _, lineIcon in pairs(icon.data.lineFrames) do
-                                    lineIcon:FakeShow()
-                                end
+    local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
+    local questCount = 0
+    for questId, frameList in pairs(QuestieMap.questIdFrames) do
+        if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
+            for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+                ---@type IconFrame
+                local icon = _G[frameName];
+                local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
+                if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
+                    if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
+                        icon:FakeShow()
+
+                        if icon.data.lineFrames then
+                            for _, lineIcon in pairs(icon.data.lineFrames) do
+                                lineIcon:FakeShow()
                             end
                         end
-                        if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
-                            icon:FadeOut()
-                        else
-                            icon:FadeIn()
-                        end
+                    end
+                    if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                        icon:FadeOut()
+                    else
+                        icon:FadeIn()
                     end
                 end
             end
-
-            questCount = questCount + 1
-            if questCount >= TICKS_PER_YIELD then
-                questCount = 0
-                coYield()
-            end
         end
-    end, 0, "Error in QuestieQuest.ShowQuestIcons")
+
+        questCount = questCount + 1
+        if questCount >= TICKS_PER_YIELD then
+            questCount = 0
+            coYield()
+        end
+    end
 end
 
 function _QuestieQuest:ShowManualIcons()
@@ -205,38 +206,37 @@ function _QuestieQuest:ShowManualIcons()
     end
 end
 
---- Hides all quest icons. Runs asynchronously to avoid "script ran too long" errors
---- when many icons need to be hidden at once.
+--- Hides all quest icons. Needs to be called from a coroutine
 function QuestieQuest:HideQuestIcons()
-    ThreadLib.Thread(function()
-        local questCount = 0
-        for _, frameList in pairs(QuestieMap.questIdFrames) do
-            for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-                local icon = _G[frameName];
-                if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
-                    -- Hides Objective Icons
-                    icon:FakeHide()
+    assert(coroutine.running(), "HideQuestIcons must be called from a coroutine")
 
-                    if icon.data.lineFrames then
-                        for _, lineIcon in pairs(icon.data.lineFrames) do
-                            lineIcon:FakeHide()
-                        end
+    local questCount = 0
+    for _, frameList in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+            local icon = _G[frameName];
+            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
+                -- Hides Objective Icons
+                icon:FakeHide()
+
+                if icon.data.lineFrames then
+                    for _, lineIcon in pairs(icon.data.lineFrames) do
+                        lineIcon:FakeHide()
                     end
                 end
-                if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
-                    icon:FadeOut()
-                else
-                    icon:FadeIn()
-                end
             end
-
-            questCount = questCount + 1
-            if questCount >= TICKS_PER_YIELD then
-                questCount = 0
-                coYield()
+            if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                icon:FadeOut()
+            else
+                icon:FadeIn()
             end
         end
-    end, 0, "Error in QuestieQuest.HideQuestIcons")
+
+        questCount = questCount + 1
+        if questCount >= TICKS_PER_YIELD then
+            questCount = 0
+            coYield()
+        end
+    end
 end
 
 function _QuestieQuest:HideManualIcons()
