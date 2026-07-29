@@ -398,18 +398,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "在联盟战旗附近吹响顽强战斗号角",
         ["zhTW"] = false,
     },
-    ["Use the Cenarion Antidote on a Hulking Helboar"] = { -- 10255
-        ["enUS"] = true,
-        ["deDE"] = "Benutzt das Cenarische Gegengift an einem Hölleneber.",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "对笨拙的地狱野猪使用塞纳里奥解毒剂",
-        ["zhTW"] = false,
-    },
     ["Communicate with Wind Trader Marid"] = { -- 10270
         ["enUS"] = true,
         ["deDE"] = false,

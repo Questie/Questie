@@ -66,8 +66,10 @@ function QuestieTBCItemFixes:Load()
         [23217] = {
             [itemKeys.npcDrops] = {16933},
         },
-        [23339] = {
+        [23339] = { -- Arelion's Journal
             [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {},
+            [itemKeys.itemDrops] = {31955},
         },
         [23361] = {
             [itemKeys.class] = itemClasses.QUEST,
@@ -412,6 +414,9 @@ function QuestieTBCItemFixes:Load()
         },
         [31951] = {
             [itemKeys.vendors] = {21643},
+        },
+        [31955] = { -- Arelion's Knapsack
+            [itemKeys.objectDrops] = {184115},
         },
         [31957] = {
             [itemKeys.npcDrops] = {20520},
