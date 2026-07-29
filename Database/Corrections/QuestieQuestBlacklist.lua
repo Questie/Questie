@@ -7976,8 +7976,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- [14108] = true, -- Get Kraken!
 
         -- Quel'Delar
-        [24554] = true, -- The Battered Hilt (H)
-        [14443] = true, -- The Battered Hilt (A)
+        -- [24554] = true, -- The Battered Hilt (H)
+        -- [14443] = true, -- The Battered Hilt (A)
         [24555] = true, -- What The Dragons Know (H)
         [14444] = true, -- What The Dragons Know (A)
         [24557] = true, -- The Silver Covenant's Scheme (H)
@@ -8494,7 +8494,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [11171] = true, -- Hex Lord? Hah!
         [11195] = true, -- Playin' With Dolls
         [11130] = true, -- Oooh, Shinies!
-        [11178] = true, -- Blood of the Warlord
+        -- [11178] = true, -- Blood of the Warlord
         [11132] = true, -- Promises, Promises...
         [11163] = true, -- Undercover Sister
         [11164] = true, -- Tuskin' Raiders
@@ -8502,35 +8502,35 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [11196] = true, -- TEMP X
 
         -- Isle of Quel'Danas
-        [11526] = true, -- The Missing Magistrix
+        -- [11526] = true, -- The Missing Magistrix
         [11549] = true, -- A Magnanimous Benefactor
         [11481] = true, -- Crisis at the Sunwell
         [11482] = true, -- Duty Calls
-        [11524] = true, -- Erratic Behavior
-        [11536] = true, -- Don't Stop Now....
-        [11525] = true, -- Further Conversions
-        [11496] = true, -- The Sanctum Wards
+        -- [11524] = true, -- Erratic Behavior
+        -- [11536] = true, -- Don't Stop Now....
+        -- [11525] = true, -- Further Conversions
+        -- [11496] = true, -- The Sanctum Wards
         [11557] = true, -- Exalted Among All Combatants
         [11556] = true, -- Revered in the Field of Battle
         [11555] = true, -- Honored by Your Allies
         [11550] = true, -- Enter, the Deceiver...
-        [11548] = true, -- Your Continued Support
-        [11535] = true, -- Making Ready
+        -- [11548] = true, -- Your Continued Support
+        -- [11535] = true, -- Making Ready
         [11554] = true, -- A Friend in the Frontlines
-        [11542] = true, -- Intercept the Reinforcements
-        [11546] = true, -- Open for Business
-        [11532] = true, -- Distraction at the Dead Scar
-        [11541] = true, -- Disrupt the Greengill Coast
-        [11543] = true, -- Keeping the Enemy at Bay
-        [11523] = true, -- Arm the Wards!
-        [11545] = true, -- A Charitable Donation
-        [11540] = true, -- Crush the Dawnblade
-        [11538] = true, -- The Battle for the Sun's Reach Armory
-        [11537] = true, -- The Battle Must Go On
-        [11521] = true, -- Rediscovering Your Roots
-        [11533] = true, -- The Air Strikes Must Continue
-        [11547] = true, -- Know Your Ley Lines
-        [11544] = true, -- Ata'mal Armaments
+        -- [11542] = true, -- Intercept the Reinforcements
+        -- [11546] = true, -- Open for Business
+        -- [11532] = true, -- Distraction at the Dead Scar
+        -- [11541] = true, -- Disrupt the Greengill Coast
+        -- [11543] = true, -- Keeping the Enemy at Bay
+        -- [11523] = true, -- Arm the Wards!
+        -- [11545] = true, -- A Charitable Donation
+        -- [11540] = true, -- Crush the Dawnblade
+        -- [11538] = true, -- The Battle for the Sun's Reach Armory
+        -- [11537] = true, -- The Battle Must Go On
+        -- [11521] = true, -- Rediscovering Your Roots
+        -- [11533] = true, -- The Air Strikes Must Continue
+        -- [11547] = true, -- Know Your Ley Lines
+        -- [11544] = true, -- Ata'mal Armaments
 
         -- Magisters' Terrace
         [11492] = true, -- Hard to Kill
