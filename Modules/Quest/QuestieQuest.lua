@@ -103,41 +103,53 @@ end
 
 function QuestieQuest.ToggleAvailableQuests(showIcons)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleAvailableQuests] showIcons:", showIcons)
-    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
-    AvailableQuests.CalculateAndDrawAll()
+    ThreadLib.ThreadCallbackInstant(
+        function()
+            QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+        end,
+        function()
+            AvailableQuests.CalculateAndDrawAll()
 
-    if showIcons then
-        QuestieQuest:ShowQuestIcons()
-    else
-        QuestieQuest:HideQuestIcons()
-    end
+            if showIcons then
+                QuestieQuest:ShowQuestIcons()
+            else
+                QuestieQuest:HideQuestIcons()
+            end
+        end
+    )
 end
 
 function QuestieQuest:ToggleNotes(showIcons)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleNotes] showIcons:", showIcons)
-    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
-    if showIcons then
-        QuestieQuest:ShowQuestIcons()
-        _QuestieQuest:ShowManualIcons()
-    else
-        QuestieQuest:HideQuestIcons()
-        _QuestieQuest:HideManualIcons()
-    end
+    ThreadLib.ThreadInstant(function()
+        QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+        if showIcons then
+            QuestieQuest:ShowQuestIcons()
+            _QuestieQuest:ShowManualIcons()
+        else
+            QuestieQuest:HideQuestIcons()
+            _QuestieQuest:HideManualIcons()
+        end
+    end)
 end
 
 ---Updates all quest icons to ensure they are correctly shown/hidden
 ---@param showIcons boolean @ Whether to show or hide the icons
 function QuestieQuest.ToggleQuestNotes(showIcons)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest.ToggleQuestNotes] showIcons:", showIcons)
-    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
-    if showIcons then
-        QuestieQuest:ShowQuestIcons()
-    else
-        QuestieQuest:HideQuestIcons()
-    end
+    ThreadLib.ThreadInstant(function()
+        QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+        if showIcons then
+            QuestieQuest:ShowQuestIcons()
+        else
+            QuestieQuest:HideQuestIcons()
+        end
+    end)
 end
 
 --- Shows all quest icons. Runs asynchronously to avoid "script ran too long" errors
@@ -785,9 +797,12 @@ function QuestieQuest:SetObjectivesDirty(questId)
     end
 end
 
---Run this if you want to update the entire table
+-- Run this if you want to re-create QuestiePlayer.currentQuestlog.
+-- This function needs to be called from within a coroutine.
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Getting all quests")
+
+    assert(coroutine.running(), "GetAllQuestIds must be called from a coroutine")
 
     QuestiePlayer.currentQuestlog = {}
 
@@ -856,7 +871,7 @@ function QuestieQuest:GetAllQuestIds()
         end
 
         yieldCounter = yieldCounter + 1
-        if yieldCounter >= (TICKS_PER_YIELD / 6) and coroutine.running() then -- 5 quests processed per frame in hardcore, 10 otherwise
+        if yieldCounter >= (TICKS_PER_YIELD / 6) then -- 5 quests processed per frame in hardcore, 10 otherwise
             yieldCounter = 0
             coYield()
         end
