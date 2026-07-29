@@ -193,27 +193,38 @@ function _QuestieQuest:ShowManualIcons()
     end
 end
 
+--- Hides all quest icons. Runs asynchronously to avoid "script ran too long" errors
+--- when many icons need to be hidden at once.
 function QuestieQuest:HideQuestIcons()
-    for _, frameList in pairs(QuestieMap.questIdFrames) do
-        for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-            local icon = _G[frameName];
-            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
-                -- Hides Objective Icons
-                icon:FakeHide()
+    ThreadLib.Thread(function()
+        local questCount = 0
+        for _, frameList in pairs(QuestieMap.questIdFrames) do
+            for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+                local icon = _G[frameName];
+                if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
+                    -- Hides Objective Icons
+                    icon:FakeHide()
 
-                if icon.data.lineFrames then
-                    for _, lineIcon in pairs(icon.data.lineFrames) do
-                        lineIcon:FakeHide()
+                    if icon.data.lineFrames then
+                        for _, lineIcon in pairs(icon.data.lineFrames) do
+                            lineIcon:FakeHide()
+                        end
                     end
                 end
+                if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                    icon:FadeOut()
+                else
+                    icon:FadeIn()
+                end
             end
-            if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
-                icon:FadeOut()
-            else
-                icon:FadeIn()
+
+            questCount = questCount + 1
+            if questCount >= TICKS_PER_YIELD then
+                questCount = 0
+                coYield()
             end
         end
-    end
+    end, 0, "Error in QuestieQuest.HideQuestIcons")
 end
 
 function _QuestieQuest:HideManualIcons()
