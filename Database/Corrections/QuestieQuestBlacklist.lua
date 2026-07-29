@@ -1716,7 +1716,7 @@ function QuestieQuestBlacklist:Load()
         [95106] = not Questie.IsTitanReforged, -- Naturalist's Embodiment
         [95205] = not Questie.IsTitanReforged, -- Greater Inscrptions of the Zandalar
         [96211] = not Questie.IsTitanReforged, -- Heart of the Eredar
-        [96312] = true, -- Brutallus Must Die! not open now
+        [96312] = not Questie.IsTitanReforged, -- Brutallus Must Die!
         [96315] = true, -- XT-002 Deconstructor Must Die! not open now
         [96318] = true, -- Shade of Aran Must Die! not open now
         [98183] = not Questie.IsTitanReforged, -- A Ritual Renewed
