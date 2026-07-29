@@ -409,6 +409,7 @@ _CalculateAndDrawAvailableQuests = function()
 
     -- We create a local function here to improve readability but use the localized variables above.
     -- The order of checks is important here to bring the speed to a max
+    local questsToRemove = {}
     local function _CheckAvailability(questId)
         if currentQuestlog[questId] then
             _DrawChildQuests(questId, currentQuestlog, completedQuests, hiddenQuests)
@@ -429,7 +430,7 @@ _CalculateAndDrawAvailableQuests = function()
                 (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId)) -- Don't show SoD Rune quests with the option disabled
             ) then
             if availableQuests[questId] then
-                AvailableQuests.RemoveQuest(questId)
+                questsToRemove[#questsToRemove + 1] = questId
             end
             availableQuests[questId] = nil
             return
@@ -440,7 +441,7 @@ _CalculateAndDrawAvailableQuests = function()
             --(This is for when people level up or change settings etc)
 
             if availableQuests[questId] then
-                AvailableQuests.RemoveQuest(questId)
+                questsToRemove[#questsToRemove + 1] = questId
             end
             availableQuests[questId] = nil
             return
@@ -462,7 +463,20 @@ _CalculateAndDrawAvailableQuests = function()
         end
     end
 
+    -- Process removals in a separate yielding loop to avoid a spike when many quests
+    -- are unloaded at once (e.g. switching from "show all levels" to default).
     local yieldCount = 0
+    for i = 1, #questsToRemove do
+        AvailableQuests.RemoveQuest(questsToRemove[i])
+
+        yieldCount = yieldCount + 1
+        if yieldCount >= QUESTS_PER_YIELD then
+            yieldCount = 0
+            yield()
+        end
+    end
+
+    yieldCount = 0
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
             -- We already drew this quest so we might need to update the icon (config changed/level up)
