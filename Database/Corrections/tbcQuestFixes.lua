@@ -2273,6 +2273,9 @@ function QuestieTBCQuestFixes:Load()
         [9372] = { -- Demonic Contamination
             [questKeys.breadcrumbs] = {10442,10443},
         },
+        [9374] = { -- Arelion's Journal
+            [questKeys.requiredSourceItems] = {31955},
+        },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92}}}},
         },
@@ -2365,6 +2368,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26}}}},
+        },
+        [9447] = { -- Administering the Salve
+            [questKeys.objectives] = {{{16847,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9454] = { -- The Great Moongraze Hunt
             [questKeys.preQuestSingle] = {},
@@ -2803,13 +2809,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17664,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Call for help from Trackers of the Hand"), 0, {{"monster", 17664}}}},
         },
-        [9716] = {
+        [9715] = { -- Bring Me A Shrubbery!
+            [questKeys.nextQuestInChain] = 9714,
+        },
+        [9716] = { -- Disturbance at Umbrafen Lake
             [questKeys.triggerEnd] = {"Umbrafen Lake Investigated", {[zoneIDs.ZANGARMARSH]={{70.89,80.51}}}},
         },
-        [9718] = {
-            [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{76.8,44.1}}}},
+        [9718] = { -- As the Crow Flies
+            [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{78.4,62.02}}}},
         },
-        [9720] = {
+        [9720] = { -- Balance Must Be Preserved
             [questKeys.objectives] = {{{17998,nil,Questie.ICON_TYPE_EVENT},{18002,nil,Questie.ICON_TYPE_EVENT},{18000,nil,Questie.ICON_TYPE_EVENT},{17999,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [9721] = { -- A Summons from Lord Solanar
@@ -2833,7 +2842,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9731] = { -- Drain Schematics
             [questKeys.triggerEnd] = {"Drain Located", {[zoneIDs.ZANGARMARSH]={{50.44,40.91}}}},
-            [questKeys.preQuestSingle] = {9718},
+            [questKeys.preQuestSingle] = {9718}, -- confirmed dropping after this quest. check if drops after 9716
             [questKeys.nextQuestInChain] = 9724,
         },
         [9735] = { -- True Masters of the Light
@@ -2856,16 +2865,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
             [questKeys.breadcrumbs] = {9876},
         },
-        [9739] = {
+        [9739] = { -- The Sporelings' Plight
             [questKeys.requiredMinRep] = {},
             [questKeys.requiredMaxRep] = {},
+            [questKeys.nextQuestInChain] = 9742,
         },
         [9740] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Destroy all 4 Sunhawk Portal Controller"), 0, {{"object", 184850}}}},
         },
-        [9743] = {
+        [9743] = { -- Natural Enemies
             [questKeys.requiredMinRep] = {},
             [questKeys.requiredMaxRep] = {},
+            [questKeys.nextQuestInChain] = 9744,
         },
         [9752] = {
             [questKeys.triggerEnd] = {"Escort Kayra Longmane to safety", {[zoneIDs.ZANGARMARSH]={{79.76,71.09}}}},
@@ -2916,8 +2927,12 @@ function QuestieTBCQuestFixes:Load()
         [9805] = {
             [questKeys.objectives] = {{{18110,nil,Questie.ICON_TYPE_EVENT},{18142,nil,Questie.ICON_TYPE_EVENT},{18143,nil,Questie.ICON_TYPE_EVENT},{18144,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [9808] = {
+        [9806] = { -- Fertile Spores
+            [questKeys.nextQuestInChain] = 9807,
+        },
+        [9808] = { -- Glowcap Mushrooms
             [questKeys.requiredMinRep] = {970,0},
+            [questKeys.nextQuestInChain] = 9809,
         },
         [9816] = {
             [questKeys.objectives] = {nil,{{182164,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2964,7 +2979,7 @@ function QuestieTBCQuestFixes:Load()
         [9844] = {
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
-        [9847] = {
+        [9847] = { -- A Spirit Ally?
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Feralfen Totem on the ground"), 0, {{"object", 182176}}}},
         },
         [9849] = {
@@ -3525,7 +3540,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 10164,
         },
         [10255] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Cenarion Antidote on a Hulking Helboar"), 0, {{"monster", 16880}}}},
             [questKeys.objectives] = {{{16880,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10256] = {
@@ -3680,6 +3694,9 @@ function QuestieTBCQuestFixes:Load()
         [10344] = { -- Wing Commander Gryphongar
             [questKeys.breadcrumbForQuestId] = 10163,
             [questKeys.nextQuestInChain] = 10163,
+        },
+        [10349] = { -- The Earthbinder
+            [questKeys.nextQuestInChain] = 10351,
         },
         [10350] = { -- Behomat
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},

@@ -981,6 +981,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{29.05,25.04}}},
             [npcKeys.zoneID] = zoneIDs.NAGRAND,
         },
+        [18185] = { -- Feralfen Serpent Spirit
+            [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{44.29,66.9}}},
+            [npcKeys.zoneID] = zoneIDs.ZANGARMARSH,
+        },
         [18238] = {
             [npcKeys.npcFlags] = QuestieDB.npcFlags.QUEST_GIVER,
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{32.27,58.41},{37.92,27.53}}},
