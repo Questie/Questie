@@ -151,25 +151,21 @@ function QuestieQuest:ShowQuestIcons()
                 for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                     ---@type IconFrame
                     local icon = _G[frameName];
-                    if not icon.data then
-                        error("Desync! Icon has not been removed correctly, but has already been reset. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
-                    else
-                        local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                        if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
-                            if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                                icon:FakeShow()
+                    local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
+                    if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
+                        if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
+                            icon:FakeShow()
 
-                                if icon.data.lineFrames then
-                                    for _, lineIcon in pairs(icon.data.lineFrames) do
-                                        lineIcon:FakeShow()
-                                    end
+                            if icon.data.lineFrames then
+                                for _, lineIcon in pairs(icon.data.lineFrames) do
+                                    lineIcon:FakeShow()
                                 end
                             end
-                            if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
-                                icon:FadeOut()
-                            else
-                                icon:FadeIn()
-                            end
+                        end
+                        if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                            icon:FadeOut()
+                        else
+                            icon:FadeIn()
                         end
                     end
                 end
