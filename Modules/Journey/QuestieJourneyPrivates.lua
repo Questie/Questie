@@ -8,6 +8,8 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 _QuestieJourney.containerCache = nil
 _QuestieJourney.treeCache = nil
@@ -31,7 +33,9 @@ function _QuestieJourney:HandleTabChange(container, group)
         _QuestieJourney.lastOpenWindow = "zone"
         return nil
     elseif group == "faction" then
-        _QuestieJourney.questsByFaction:DrawTab(container)
+        ThreadLib.ThreadInstant(function()
+            _QuestieJourney.questsByFaction:DrawTab(container)
+        end)
         _QuestieJourney.lastOpenWindow = "faction"
         return nil
     elseif group == "search" then
