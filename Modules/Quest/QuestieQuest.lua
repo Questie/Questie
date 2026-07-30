@@ -338,13 +338,9 @@ local function _UpdateSpecials(questId)
     local quest = QuestieDB.GetQuest(questId)
     if quest and next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
-            if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] " ..
-                    l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id",
-                        0 or "No objective",
-                        err or "No error"));
-            end
+            ThreadLib.ThreadInstant(function()
+                QuestieQuest:PopulateObjective(quest, 0, objective, true)
+            end)
         end
     end
 end
@@ -1026,12 +1022,16 @@ end
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
     for objectiveIndex, objective in pairs(quest.Objectives) do
-        QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false)
+        ThreadLib.ThreadInstant(function()
+            QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false)
+        end)
     end
 
     if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
-            QuestieQuest:PopulateObjective(quest, 0, objective, true)
+            ThreadLib.ThreadInstant(function()
+                QuestieQuest:PopulateObjective(quest, 0, objective, true)
+            end)
         end
     end
 end
@@ -1088,6 +1088,8 @@ end
 ---@param blockItemTooltips any
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjective]", objective.Description)
+
+    assert(coroutine.running(), "PopulateObjective must be called from a coroutine")
 
     if (not objective.Update) then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjective] - Quest is already updated. --> Exiting!")
@@ -1282,7 +1284,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         end
 
                         yieldCount = yieldCount + 1
-                        if yieldCount >= TICKS_PER_YIELD and coroutine.running() then
+                        if yieldCount >= TICKS_PER_YIELD then
                             yieldCount = 0
                             coYield()
                         end
@@ -1394,7 +1396,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
             spawnedIconCount = spawnedIconCount + 1
         end
         yieldCount = yieldCount + 1
-        if yieldCount >= (TICKS_PER_YIELD*2) and coroutine.running() then
+        if yieldCount >= (TICKS_PER_YIELD * 2) then
             yieldCount = 0
             coYield()
         end
@@ -1457,7 +1459,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                     QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1, 0.2, 0, 0.7} or nil)
                 end
                 yieldCount = yieldCount + 1
-                if yieldCount >= (TICKS_PER_YIELD) and coroutine.running() then
+                if yieldCount >= TICKS_PER_YIELD then
                     yieldCount = 0
                     coYield() -- We declare the yieldCount at the top level, but increment it every time we try to draw a point, because otherwise we could draw 29x 29-point paths and never call a coYield when TICKS_PER_YIELD is 30.
                 end
