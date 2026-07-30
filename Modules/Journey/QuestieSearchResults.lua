@@ -153,14 +153,30 @@ local function CreateShowHideButton(id)
         end
     end
     button.ShowOnMap = function(self)
+        self:SetText(l10n("Remove from Map"))
+        self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
+
         if self.idsToShow then
+            local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
-                if spawnId > 0 then
-                    QuestieMap:ShowNPC(spawnId)
-                else
-                    QuestieMap:ShowObject(-spawnId)
-                end
+                ids[#ids + 1] = spawnId
             end
+
+            ThreadLib.ThreadInstant(function()
+                local yieldCount = 0
+                for i = 1, #ids do
+                    if ids[i] > 0 then
+                        QuestieMap:ShowNPC(ids[i])
+                    else
+                        QuestieMap:ShowObject(-ids[i])
+                    end
+                    yieldCount = yieldCount + 1
+                    if yieldCount >= TICKS_PER_YIELD then
+                        yieldCount = 0
+                        coroutine.yield()
+                    end
+                end
+            end)
         else
             if self.id > 0 then
                 QuestieMap:ShowNPC(self.id)
@@ -168,8 +184,6 @@ local function CreateShowHideButton(id)
                 QuestieMap:ShowObject(-self.id)
             end
         end
-        self:SetText(l10n("Remove from Map"))
-        self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
     end
     return button
 end
