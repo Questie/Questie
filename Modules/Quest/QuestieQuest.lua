@@ -692,13 +692,15 @@ function QuestieQuest:UpdateQuest(questId)
     if quest and (not Questie.db.char.complete[questId]) then
         QuestieQuest:PopulateQuestLogInfo(quest)
 
-        if QuestieQuest:ShouldShowQuestNotes(questId) then
-            QuestieQuest:UpdateObjectiveNotes(quest)
-        else
-            QuestieTooltips:RemoveQuest(questId)
-        end
-
         local isComplete = quest:IsComplete()
+
+        if isComplete ~= 1 then
+            if QuestieQuest:ShouldShowQuestNotes(questId) then
+                QuestieQuest:UpdateObjectiveNotes(quest)
+            else
+                QuestieTooltips:RemoveQuest(questId)
+            end
+        end
 
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] QuestDB:IsComplete() flag is: " .. isComplete)
 
