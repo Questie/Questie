@@ -271,11 +271,17 @@ function QuestieQuest:ClearAllNotes()
         end
     end
 
+    local yieldCount = 0
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do
             local icon = _G[frameName]
             if icon and icon.Unload then
                 QuestieFramePool:UnloadFrame(icon)
+                yieldCount = yieldCount + 1
+                if yieldCount >= (TICKS_PER_YIELD / 6) then
+                    yieldCount = 0
+                    coYield()
+                end
             end
         end
     end
@@ -365,9 +371,17 @@ function QuestieQuest:SmoothReset()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
         function()
-            QuestieQuest:ClearAllNotes()
+            QuestieQuest._clearAllNotesDone = false
+            ThreadLib.ThreadCallbackInstant(function()
+                QuestieQuest:ClearAllNotes()
+            end, function()
+                QuestieQuest._clearAllNotesDone = true
+            end)
             QuestieQuest:ClearAllToolTips()
             return true
+        end,
+        function()
+            return QuestieQuest._clearAllNotesDone == true
         end,
         function()
             QuestieMenu:OnLogin(true) -- remove icons
