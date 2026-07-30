@@ -120,4 +120,23 @@ describe("QuestieQuest", function()
             end, "GetAllQuestIds must be called from a coroutine")
         end)
     end)
+
+    describe("PopulateObjective", function()
+        it("should not throw an error when called from a coroutine", function()
+            local quest = {ObjectiveData = {}}
+            local objective = {Description = "test"}
+
+            local co = coroutine.create(function()
+                QuestieQuest:PopulateObjective(quest, 1, objective, false)
+            end)
+
+            assert.is_true(coroutine.resume(co))
+        end)
+
+        it("should throw an error when not called from a coroutine", function()
+            assert.has_error(function()
+                QuestieQuest:PopulateObjective({}, 1, {Description = "test"}, false)
+            end, "PopulateObjective must be called from a coroutine")
+        end)
+    end)
 end)

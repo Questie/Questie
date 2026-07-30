@@ -19,6 +19,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 local NOP_FUNCTION = function() end
 
@@ -304,13 +306,13 @@ local function _DrawQuest(questId)
                 registeredItemTooltips = true,
             }
 
-            -- must be p-called (matches how QuestieQuest calls it internally)
-            local ok, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objectiveIndex, objective, true)
-            if ok then
+            ThreadLib.ThreadInstant(function()
+                QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, true)
+
                 local objectiveIconCount = _CountIcons(objective)
                 if drawnIconCount + iconCount + objectiveIconCount > MAX_PARTY_ICONS then
                     _UnloadObjective(objective)
-                    break
+                    return
                 end
                 if (not cachedSpawnList) and objective.spawnList and next(objective.spawnList) then
                     if not spawnListCache[questId] then
@@ -320,9 +322,7 @@ local function _DrawQuest(questId)
                 end
                 objectives[#objectives + 1] = objective
                 iconCount = iconCount + objectiveIconCount
-            else
-                Questie:Debug(Questie.DEBUG_ELEVATED, "[QuestiePartyObjectives] Error populating party objective for quest", questId, "objective", objectiveIndex, err)
-            end
+            end)
         end
     end
 
@@ -358,11 +358,12 @@ local function _DrawQuest(questId)
             registeredItemTooltips = true,
         }
 
-        local ok = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, objective.Index, objective, true)
-        if ok then
+        ThreadLib.ThreadInstant(function()
+            QuestieQuest:PopulateObjective(quest, objective.Index, objective, true)
+
             objectives[#objectives + 1] = objective
             iconCount = iconCount + _CountIcons(objective)
-        end
+        end)
     end
 
     if #objectives > 0 then
