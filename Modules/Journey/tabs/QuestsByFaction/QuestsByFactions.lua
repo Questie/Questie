@@ -121,7 +121,7 @@ local function _CollectReferencedFactionIds()
 
     for questId in pairs(QuestieDB.QuestPointers) do
         yieldCounter = yieldCounter + 1
-        if yieldCounter >= 1000 and coroutine.running() then
+        if yieldCounter >= 1000 then
             yieldCounter = 0
             coroutine.yield()
         end
@@ -256,7 +256,7 @@ function _EnsureFactionQuestData()
     local yieldCounter = 0
     for questId in pairs(QuestieDB.QuestPointers) do
         yieldCounter = yieldCounter + 1
-        if yieldCounter >= 1000 and coroutine.running() then
+        if yieldCounter >= 1000 then
             yieldCounter = 0
             coroutine.yield()
         end
