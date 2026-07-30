@@ -732,8 +732,7 @@ function QuestieQuest:UpdateQuest(questId)
             -- Failed quests should be shown as available again
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has: Failed!")
 
-            AvailableQuests.RemoveQuest(questId)
-            AvailableQuests.DrawAvailableQuest(quest)
+            AvailableQuests.RecreateFailedQuest(quest)
 
             -- Reset any collapsed quest flags
             if Questie.db.char.collapsedQuests then

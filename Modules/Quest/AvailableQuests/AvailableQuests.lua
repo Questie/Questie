@@ -170,6 +170,19 @@ function AvailableQuests.RemoveQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
 end
 
+---@param quest Quest
+function AvailableQuests.RecreateFailedQuest(quest)
+    local questId = quest.Id
+    availableQuests[questId] = nil
+
+    ThreadLib.ThreadCallbackInstant(function()
+        QuestieMap:UnloadQuestFrames(questId)
+    end, function()
+        QuestieTooltips:RemoveQuest(questId)
+        AvailableQuests.DrawAvailableQuest(quest)
+    end)
+end
+
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
 ---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
 function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
