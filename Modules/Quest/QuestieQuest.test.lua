@@ -14,6 +14,10 @@ describe("QuestieQuest", function()
     local QuestiePlayer
     ---@type QuestieMap
     local QuestieMap
+    ---@type QuestLogCache
+    local QuestLogCache
+    ---@type QuestieCombatQueue
+    local QuestieCombatQueue
 
     before_each(function()
         Questie.db.char = {}
@@ -26,6 +30,9 @@ describe("QuestieQuest", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+        QuestieCombatQueue.Queue = function() end
 
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -93,6 +100,24 @@ describe("QuestieQuest", function()
             assert.has_error(function()
                 QuestieQuest:HideQuestIcons()
             end, "HideQuestIcons must be called from a coroutine")
+        end)
+    end)
+
+    describe("GetAllQuestIds", function()
+        it("should not throw an error when called from a coroutine", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            local co = coroutine.create(function()
+                QuestieQuest:GetAllQuestIds()
+            end)
+
+            assert.is_true(coroutine.resume(co))
+        end)
+
+        it("should throw an error when not called from a coroutine", function()
+            assert.has_error(function()
+                QuestieQuest:GetAllQuestIds()
+            end, "GetAllQuestIds must be called from a coroutine")
         end)
     end)
 end)
