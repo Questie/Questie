@@ -13,6 +13,8 @@ describe("AvailableQuests", function()
     local QuestieMap
     ---@type Comms
     local Comms
+    ---@type TheadLib
+    local TheadLib
 
     ---@type AvailableQuests
     local AvailableQuests
@@ -33,6 +35,8 @@ describe("AvailableQuests", function()
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         Comms = QuestieLoader:ImportModule("Comms")
+        TheadLib = QuestieLoader:ImportModule("ThreadLib")
+        TheadLib.ThreadInstant = function(fun) fun() end
 
         Questie.db.profile.availableIconLimit = 10
 

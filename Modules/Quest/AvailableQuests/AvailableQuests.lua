@@ -164,7 +164,9 @@ end
 ---@param questId QuestId
 function AvailableQuests.RemoveQuest(questId)
     availableQuests[questId] = nil
-    QuestieMap:UnloadQuestFrames(questId)
+    ThreadLib.ThreadInstant(function()
+        QuestieMap:UnloadQuestFrames(questId)
+    end)
     QuestieTooltips:RemoveQuest(questId)
 end
 

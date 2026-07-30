@@ -58,6 +58,15 @@ local pairs = pairs;
 local ipairs = ipairs;
 local tremove = table.remove;
 local tunpack = unpack;
+local coYield = coroutine.yield
+
+-- How many frames to unload per coroutine tick.
+local TICKS_PER_YIELD = 30
+if Questie.IsHardcore then
+    -- The addon timing restrictions from the Blizzard watchdog are much higher for HC servers.
+    -- Therefore we need a quite low tick rate to make sure we don't get bitten on less performant machines.
+    TICKS_PER_YIELD = 1
+end
 
 
 local drawTimer
@@ -83,7 +92,10 @@ function QuestieMap:GetFramesForQuest(questId)
 end
 
 function QuestieMap:UnloadQuestFrames(questId, iconType)
+    assert(coroutine.running(), "UnloadQuestFrames must be called from a coroutine")
+
     if QuestieMap.questIdFrames[questId] then
+        local yieldCount = 0
         if not iconType then
             for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
                 -- Capture this before Unload() because it clears frame.data.
@@ -94,6 +106,12 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                 if objective then
                     objective.AlreadySpawned = {}
                 end
+
+                yieldCount = yieldCount + 1
+                if yieldCount >= TICKS_PER_YIELD then
+                    yieldCount = 0
+                    coYield()
+                end
             end
 
             QuestieMap.questIdFrames[questId] = nil;
@@ -103,6 +121,12 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                     QuestieFramePool:UnloadFrame(frame)
                     QuestieMap.questIdFrames[questId][name] = nil
                     _G[name] = nil
+
+                    yieldCount = yieldCount + 1
+                    if yieldCount >= TICKS_PER_YIELD then
+                        yieldCount = 0
+                        coYield()
+                    end
                 end
             end
         end
