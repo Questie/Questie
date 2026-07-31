@@ -271,9 +271,6 @@ function CataItemFixes.Load()
         [23797] = { -- Diabolical Plans
             [itemKeys.startQuest] = 26447,
         },
-        [23901] = { -- Nazan's Head
-            [itemKeys.npcDrops] = {17307},
-        },
         [24025] = { -- Deathclaw's Paw
             [itemKeys.npcDrops] = {17661},
         },
