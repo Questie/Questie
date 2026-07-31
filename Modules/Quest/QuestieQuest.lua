@@ -109,14 +109,14 @@ function QuestieQuest.ToggleAvailableQuests(showIcons)
             QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
         end,
         function()
-            AvailableQuests.CalculateAndDrawAll()
-
-            ThreadLib.ThreadInstant(function()
-                if showIcons then
-                    QuestieQuest:ShowQuestIcons()
-                else
-                    QuestieQuest:HideQuestIcons()
-                end
+            AvailableQuests.CalculateAndDrawAll(function()
+                ThreadLib.ThreadInstant(function()
+                    if showIcons then
+                        QuestieQuest:ShowQuestIcons()
+                    else
+                        QuestieQuest:HideQuestIcons()
+                    end
+                end)
             end)
         end
     )
