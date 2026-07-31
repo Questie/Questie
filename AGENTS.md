@@ -277,3 +277,7 @@ Localization files are in `Localization/`.
         ["zhTW"] = false,
     },
 ```
+
+## Coding specifics
+
+- Never use `coroutine.running()` to guard `coroutine.yield()` calls. If code is as expensive that it needs yielding, every caller should acknowledge that and use the ThreadLib to wrap the call in a coroutine.
