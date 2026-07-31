@@ -446,6 +446,18 @@ local myJourneyLocales = {
         ["zhCN"] = "种族要求",
         ["zhTW"] = "種族要求",
     },
+    ["Faction requirement"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Fraktionsanforderung",
+        ["esES"] = "Requisito de facción",
+        ["esMX"] = "Requisito de facción",
+        ["frFR"] = "Condition de faction",
+        ["koKR"] = "진영 조건",
+        ["ptBR"] = "Requisito de facção",
+        ["ruRU"] = "Требование фракции",
+        ["zhCN"] = "阵营要求",
+        ["zhTW"] = "陣營要求",
+    },
     ["Incomplete pre-quest"] = {
         ["enUS"] = true,
         ["deDE"] = "Prequest nicht abgeschlossen",
