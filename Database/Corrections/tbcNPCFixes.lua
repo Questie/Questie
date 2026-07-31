@@ -741,6 +741,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
         },
+        [17307] = { -- Nazan
+            [npcKeys.name] = "Nazan", -- Vazruden the Herald when both NPCs are flying around, Nazan after dismount
+        },
         [17311] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{16.6,94.4}}},
             [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,

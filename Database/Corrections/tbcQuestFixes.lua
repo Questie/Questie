@@ -3172,6 +3172,9 @@ function QuestieTBCQuestFixes:Load()
         [9973] = {
             [questKeys.nextQuestInChain] = 9977,
         },
+        [9978] = { -- By Any Means Necessary
+            [questKeys.nextQuestInChain] = 9979,
+        },
         [9982] = { -- He Called Himself Altruis...
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.nextQuestInChain] = 9991,
@@ -3187,8 +3190,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05}}}},
             [questKeys.preQuestSingle] = {},
         },
-        [10000] = {
+        [10000] = { -- An Unwelcome Presence
             [questKeys.requiredLevel] = 62,
+            [questKeys.nextQuestInChain] = 10003,
         },
         [10004] = {
             [questKeys.objectives] = {{{18584}}},
@@ -3238,11 +3242,11 @@ function QuestieTBCQuestFixes:Load()
         [10039] = {
             [questKeys.requiredLevel] = 62,
         },
-        [10040] = {
+        [10040] = { -- Who Are They?
             [questKeys.objectives] = {{{18716,nil,Questie.ICON_TYPE_TALK},{18717,nil,Questie.ICON_TYPE_TALK},{18719,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18714}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18715}}}},
         },
-        [10041] = {
+        [10041] = { -- Who Are They?
             [questKeys.objectives] = {{{18716,nil,Questie.ICON_TYPE_TALK},{18717,nil,Questie.ICON_TYPE_TALK},{18719,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18714}}}},
         },
@@ -3602,10 +3606,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {10289},
             [questKeys.nextQuestInChain] = 0,
         },
-        [10296] = {
+        [10296] = { -- The Black Morass
             [questKeys.startedBy] = {{20130}},
         },
-        [10297] = {
+        [10297] = { -- The Opening of the Dark Portal
             [questKeys.objectives] = {{{15608,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10299] = {
@@ -4406,6 +4410,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10755] = {
             [questKeys.startedBy] = {{22037}},
+        },
+        [10758] = { -- Hotter than Hell
+            [questKeys.objectives] = {nil,nil,{{31252,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10764] = { -- Hotter than Hell
             [questKeys.objectives] = {nil,nil,{{31252,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -5559,7 +5566,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11383] = { -- Wanted: Rift Lords
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17839,21140},17839}}},
-            [questKeys.preQuestSingle] = {10296},
         },
         [11392] = { -- Call the Headless Horseman
             [questKeys.startedBy] = {nil,{186267}}, -- alliance/horde? what about 11404/11405, probably phase specific?
