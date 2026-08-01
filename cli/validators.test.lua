@@ -1464,6 +1464,19 @@ describe("Validators", function()
             }, invalidObjects)
             assert.spy(exitMock).was.called_with(1)
         end)
+
+        it("should report an object whose spawns zone value is not a table", function()
+            local objects = {
+                [42] = { name = "Old Chest", spawns = { [1519] = true } },
+            }
+
+            local invalidObjects = Validators.checkObjectFieldTypes(objects, objectKeys)
+
+            assert.are_same({
+                [42] = "spawns[1519] expected table but got boolean",
+            }, invalidObjects)
+            assert.spy(exitMock).was.called_with(1)
+        end)
     end)
 
     describe("checkItemFieldTypes", function()
@@ -1883,6 +1896,19 @@ describe("Validators", function()
             }, invalidNpcs)
             assert.spy(exitMock).was.called_with(1)
         end)
+
+        it("should report an NPC whose spawns zone value is not a table", function()
+            local npcs = {
+                [42] = { name = "Guard", spawns = { [1519] = true } },
+            }
+
+            local invalidNpcs = Validators.checkNpcFieldTypes(npcs, npcKeys)
+
+            assert.are_same({
+                [42] = "spawns[1519] expected table but got boolean",
+            }, invalidNpcs)
+            assert.spy(exitMock).was.called_with(1)
+        end)
     end)
 
     describe("checkQuestFieldTypes", function()
@@ -2169,6 +2195,13 @@ describe("Validators", function()
             local quests = { [1] = { name = "Quest", extraObjectives = {{{[1519] = {50.0, 60.0}}, 2, "text"}} } }
             local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
             assert.are_same({ [1] = "extraObjectives[1].spawns[1519][1] expected table (coord pair) but got number" }, invalidQuests)
+            assert.spy(exitMock).was.called_with(1)
+        end)
+
+        it("should find quest with extraObjectives spawnlist zone value that is not a table", function()
+            local quests = { [1] = { name = "Quest", extraObjectives = {{{[1519] = true}, 2, "text"}} } }
+            local invalidQuests = Validators.checkQuestFieldTypes(quests, questKeys)
+            assert.are_same({ [1] = "extraObjectives[1].spawns[1519] expected table but got boolean" }, invalidQuests)
             assert.spy(exitMock).was.called_with(1)
         end)
 
