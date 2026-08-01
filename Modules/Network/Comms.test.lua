@@ -4,6 +4,9 @@ describe("Comms", function()
     ---@type AvailableQuests
     local AvailableQuests
 
+    ---@type CommsBlacklist
+    local CommsBlacklist
+
     ---@type Comms
     local Comms
 
@@ -11,6 +14,9 @@ describe("Comms", function()
         Questie.RegisterComm = function() end
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
+
+        CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
+        CommsBlacklist.FilterQuestIds = function(questIds) return questIds end
 
         dofile("Modules/Network/Comms.lua")
         Comms = QuestieLoader:ImportModule("Comms")
@@ -146,6 +152,44 @@ describe("Comms", function()
                 data = {
                     npcId = npcId,
                     questIds = "notATable"
+                }
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should filter out blacklisted questIds from HideDailyQuests events", function()
+            CommsBlacklist.FilterQuestIds = function() return {5678, 91011} end
+            local npcId = 1234
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = {5678, 84348, 91011, 84360}
+                }
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, {5678, 91011})
+        end)
+
+        it("should not call RemoveQuestsForToday when all questIds are blacklisted", function()
+            CommsBlacklist.FilterQuestIds = function() return {} end
+            local npcId = 1234
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = {84348, 84349, 84360}
                 }
             }
             Questie.Deserialize = function() return true, event end

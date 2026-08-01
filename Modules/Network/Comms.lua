@@ -12,6 +12,8 @@ local realmName
 
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type CommsBlacklist
+local CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
 
 function Comms.Initialize()
     Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
@@ -49,7 +51,13 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             return
         end
 
-        AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+        local filteredQuestIds = CommsBlacklist.FilterQuestIds(questIds)
+
+        if #filteredQuestIds == 0 then
+            return
+        end
+
+        AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
     end
 end
 
