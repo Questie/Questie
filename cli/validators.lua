@@ -1045,6 +1045,9 @@ end
 ---@return string|nil
 local function _checkSpawnZoneStructure(spawns, zoneId)
     local coordPairs = spawns[zoneId]
+    if type(coordPairs) ~= "table" then
+        return "spawns[" .. zoneId .. "] expected table but got " .. type(coordPairs)
+    end
     for coordIndex, coord in pairs(coordPairs) do
         if type(coord) ~= "table" then
             return "spawns[" .. zoneId .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
