@@ -1056,6 +1056,29 @@ local function _checkSpawnZoneStructure(spawns, zoneId)
     return nil
 end
 
+---Checks that waypoints has the structure {[zoneId] = {{path}, ...}} where each path is {{x, y, ...}, ...}
+---Returns an error string if invalid, nil if valid.
+---@param waypoints table
+---@return string|nil
+local function _checkWaypointStructure(waypoints)
+    for zoneId, paths in pairs(waypoints) do
+        if type(paths) ~= "table" then
+            return "waypoints[" .. zoneId .. "] expected table but got " .. type(paths)
+        end
+        for pathIndex, path in pairs(paths) do
+            if type(path) ~= "table" then
+                return "waypoints[" .. zoneId .. "][" .. pathIndex .. "] expected table (path) but got " .. type(path)
+            end
+            for coordIndex, coord in pairs(path) do
+                if type(coord) ~= "table" then
+                    return "waypoints[" .. zoneId .. "][" .. pathIndex .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
+                end
+            end
+        end
+    end
+    return nil
+end
+
 ---@param npcs table<NpcId, NPC>
 ---@param npcKeys DatabaseNpcKeys
 ---@return table<NpcId, string>|nil
@@ -1098,26 +1121,7 @@ function Validators.checkNpcFieldTypes(npcs, npcKeys)
         if not invalidNpcs[npcId] then
             local waypoints = npcData[npcKeys.waypoints]
             if waypoints then
-                for zoneId, paths in pairs(waypoints) do
-                    for pathIndex, path in pairs(paths) do
-                        if type(path) ~= "table" then
-                            invalidNpcs[npcId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "] expected table (path) but got " .. type(path)
-                            break
-                        end
-                        for coordIndex, coord in pairs(path) do
-                            if type(coord) ~= "table" then
-                                invalidNpcs[npcId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
-                                break
-                            end
-                        end
-                        if invalidNpcs[npcId] then
-                            break
-                        end
-                    end
-                    if invalidNpcs[npcId] then
-                        break
-                    end
-                end
+                invalidNpcs[npcId] = _checkWaypointStructure(waypoints)
             end
         end
 
@@ -1199,26 +1203,7 @@ function Validators.checkObjectFieldTypes(objects, objectKeys)
         if not invalidObjects[objectId] then
             local waypoints = objectData[objectKeys.waypoints]
             if waypoints then
-                for zoneId, paths in pairs(waypoints) do
-                    for pathIndex, path in pairs(paths) do
-                        if type(path) ~= "table" then
-                            invalidObjects[objectId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "] expected table (path) but got " .. type(path)
-                            break
-                        end
-                        for coordIndex, coord in pairs(path) do
-                            if type(coord) ~= "table" then
-                                invalidObjects[objectId] = "waypoints[" .. zoneId .. "][" .. pathIndex .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
-                                break
-                            end
-                        end
-                        if invalidObjects[objectId] then
-                            break
-                        end
-                    end
-                    if invalidObjects[objectId] then
-                        break
-                    end
-                end
+                invalidObjects[objectId] = _checkWaypointStructure(waypoints)
             end
         end
     end
