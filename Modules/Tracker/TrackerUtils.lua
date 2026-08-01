@@ -35,6 +35,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 local GetItemCount = C_Item.GetItemCount or GetItemCount
 local GetItemSpell = C_Item.GetItemSpell or GetItemSpell
@@ -225,14 +227,13 @@ function TrackerUtils:FlashObjective(objective)
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
-                                            if icon.data.lineFrames then
-                                                for _, line in pairs(icon.data.lineFrames) do
-                                                    line:Show() -- Use raw Show
-                                                end
-                                            end
+                                            -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                         end
                                     end
                                 end
+                                -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
+                                HBDPins.worldmapProvider.forceUpdate = true
+                                HBDPins.worldmapProvider:RefreshAllData()
                             end)
                         end
                         flashDone = flashDone + 1
@@ -314,14 +315,13 @@ function TrackerUtils:FlashFinisher(quest)
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
-                                        if icon.data.lineFrames then
-                                            for _, line in pairs(icon.data.lineFrames) do
-                                                line:Show() -- Use raw Show
-                                            end
-                                        end
+                                        -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                     end
                                 end
                             end
+                            -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
+                            HBDPins.worldmapProvider.forceUpdate = true
+                            HBDPins.worldmapProvider:RefreshAllData()
                         end)
                     end
                     flashDone = flashDone + 1
