@@ -32,8 +32,6 @@ QuestieCorrections.killCreditObjectiveFirst[24498] = true
 QuestieCorrections.killCreditObjectiveFirst[24507] = true
 
 function QuestieWotlkQuestFixes:Load()
-    _QuestieWotlkQuestFixes:InsertMissingQuestIds()
-
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
@@ -8956,67 +8954,4 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.requiredLevel] = 80,
         },
     }
-end
-
-function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
-
-    -- Alliance boosted quests
-    QuestieDB.questData[70395] = {} -- A New Beginning
-    QuestieDB.questData[70397] = {} -- Tools for Survival
-    QuestieDB.questData[70398] = {} -- Combat Training
-    QuestieDB.questData[70401] = {} -- Talented
-    QuestieDB.questData[70411] = {} -- To the Dockmaster
-    QuestieDB.questData[70870] = {} -- Talented
-    QuestieDB.questData[78136] = {} -- A New Beginning
-    QuestieDB.questData[78140] = {} -- Tools for Survival
-    QuestieDB.questData[78157] = {} -- Combat Training
-    QuestieDB.questData[78164] = {} -- Talented
-    QuestieDB.questData[78166] = {} -- To Northrend
-    QuestieDB.questData[78222] = {} -- Talented DK
-    QuestieDB.questData[78223] = {} -- To Northrend DK
-
-    -- Horde boosted quests
-    QuestieDB.questData[70396] = {} -- A New Beginning
-    QuestieDB.questData[70734] = {} -- Tools for Survival
-    QuestieDB.questData[70735] = {} -- Combat Training
-    QuestieDB.questData[70736] = {} -- Talented
-    QuestieDB.questData[70737] = {} -- To the Zeppelin Master
-    QuestieDB.questData[70761] = {} -- Tools for Survival
-    QuestieDB.questData[70762] = {} -- A New Beginning
-    QuestieDB.questData[70764] = {} -- Combat Training
-    QuestieDB.questData[70765] = {} -- Talented
-    QuestieDB.questData[70869] = {} -- Talented
-    QuestieDB.questData[78137] = {} -- A New Beginning
-    QuestieDB.questData[78138] = {} -- A New Beginning
-    QuestieDB.questData[78151] = {} -- Tools for Survival
-    QuestieDB.questData[78158] = {} -- Combat Training
-    QuestieDB.questData[78167] = {} -- Talented
-    QuestieDB.questData[78168] = {} -- To Northrend
-    QuestieDB.questData[78224] = {} -- Talented DK
-    QuestieDB.questData[78225] = {} -- To Northrend DK
-
-    -- Neutral boosted quests
-    QuestieDB.questData[70865] = {} -- To Shattrath City
-    QuestieDB.questData[78219] = {} -- A New Beginning
-    QuestieDB.questData[78220] = {} -- Tools for Survival
-    QuestieDB.questData[78221] = {} -- Combat Training
-
-    -- P4 quests
-    QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma
-    QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth
-
-    -- Titan reforged quests
-    QuestieDB.questData[93950] = {} -- A Message From The Stars
-    QuestieDB.questData[94376] = {} -- Titanic Power
-    QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
-    QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
-    QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
-    QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
-    QuestieDB.questData[95845] = {} -- Another Shot at the Scarab
-    QuestieDB.questData[95037] = {} -- Lord Jaraxxus Must Die!
-    QuestieDB.questData[96211] = {} -- Heart of the Eredar
-    QuestieDB.questData[96312] = {} -- Brutallus Must Die!
-    QuestieDB.questData[96315] = {} -- XT-002 Deconstructor Must Die!
-    QuestieDB.questData[96318] = {} -- Shade of Aran Must Die!
-    QuestieDB.questData[98183] = {} -- A Ritual Renewed
 end
