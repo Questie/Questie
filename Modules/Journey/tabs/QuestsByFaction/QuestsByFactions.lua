@@ -450,7 +450,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
             temp.text = questName
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
-            local _, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+            local _, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, false)
 
             -- Breadcrumb quests
             if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
