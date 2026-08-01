@@ -194,6 +194,14 @@ local migrationFunctions = {
     [32] = function()
         Questie.db.profile.skipValidation = nil
     end,
+    [33] = function()
+        -- trackerFontOutline was previously stored as a localized string (e.g. "None", "无")
+        -- because the dropdown used the localized WoW global NONE as a key.
+        local outline = Questie.db.profile.trackerFontOutline
+        if outline ~= "" and outline ~= "OUTLINE" then
+            Questie.db.profile.trackerFontOutline = ""
+        end
+    end,
 }
 
 function Migration:Migrate()
