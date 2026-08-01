@@ -45,7 +45,7 @@ end
 
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkRequiredSourceItems(quests, questKeys)
     print("\n\27[36mSearching for sourceItemId and itemObjectiveId entries in quest.requiredSourceItems...\27[0m")
     local matchingQuests = {}
@@ -103,7 +103,7 @@ local preQuestExclusions = {
 
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkPreQuestExclusiveness(quests, questKeys)
     print("\n\27[36mSearching for quests with preQuestSingle and preQuestGroup entries...\27[0m")
     local invalidQuests = {}
@@ -136,7 +136,7 @@ end
 ---This also must hold vice versa: If a quest has child quests, then each child quest must have the parent quest set.
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkParentChildQuestRelations(quests, questKeys)
     print("\n\27[36mSearching for parent and child quest relations...\27[0m")
     local invalidQuests = {}
@@ -200,7 +200,7 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param objects table<ObjectId, Object>
 ---@param items table<ItemId, Item>
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
     print("\n\27[36mSearching for quest starters...\27[0m")
     local invalidQuests = {}
@@ -248,7 +248,7 @@ end
 ---@param questKeys DatabaseQuestKeys
 ---@param npcs table<NpcId, NPC>
 ---@param objects table<ObjectId, Object>
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
     print("\n\27[36mSearching for quest finishers...\27[0m")
     local invalidQuests = {}
@@ -290,7 +290,7 @@ end
 ---@param npcs table<NpcId, NPC>
 ---@param objects table<ObjectId, Object>
 ---@param items table<ItemId, Item>
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
     print("\n\27[36mSearching for invalid quest objectives...\27[0m")
     local invalidQuests = {}
@@ -362,7 +362,8 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>, table<NpcId, QuestId[]>
+---@return table<NpcId, string>|nil
+---@return table<NpcId, QuestId[]>|nil
 function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questStarts in NPCs...\27[0m")
 
@@ -476,7 +477,8 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>|nil
+---@return table<NpcId, QuestId>|nil
 function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in NPCs...\27[0m")
 
@@ -593,7 +595,8 @@ end
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<ObjectId, string>, table<ObjectId, QuestId[]>
+---@return table<ObjectId, string>|nil
+---@return table<ObjectId, QuestId[]>|nil
 function Validators.checkObjectQuestStarts(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questStarts in objects...\27[0m")
 
@@ -707,7 +710,8 @@ end
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>|nil
+---@return table<NpcId, QuestId>|nil
 function Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in objects...\27[0m")
 
@@ -823,7 +827,7 @@ end
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@param raceKeys RaceKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
     print("\n\27[36mSearching for quests with invalid requiredRaces entries...\27[0m")
     local invalidQuests = {}
@@ -860,7 +864,7 @@ function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
     end
 end
 
----@param npcs table<NpcId, Npc>
+---@param npcs table<NpcId, NPC>
 ---@param npcKeys DatabaseNpcKeys
 ---@param getUiMapIdByAreaId fun(areaId: AreaId): number|nil
 ---@return table<NpcId, AreaId[]>|nil
@@ -1049,9 +1053,9 @@ local function _checkSpawnZoneStructure(spawns, zoneId)
     return nil
 end
 
----@param npcs table<NpcId, Npc>
+---@param npcs table<NpcId, NPC>
 ---@param npcKeys DatabaseNpcKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>|nil
 function Validators.checkNpcFieldTypes(npcs, npcKeys)
     print("\n\27[36mChecking NPC field types...\27[0m")
 
@@ -1147,7 +1151,7 @@ end
 
 ---@param objects table<ObjectId, Object>
 ---@param objectKeys DatabaseObjectKeys
----@return table<ObjectId, string>
+---@return table<ObjectId, string>|nil
 function Validators.checkObjectFieldTypes(objects, objectKeys)
     print("\n\27[36mChecking object field types...\27[0m")
 
@@ -1235,7 +1239,7 @@ end
 
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkQuestFieldTypes(quests, questKeys)
     print("\n\27[36mChecking quest field types...\27[0m")
 
@@ -1352,7 +1356,7 @@ end
 
 ---@param items table<ItemId, Item>
 ---@param itemKeys DatabaseItemKeys
----@return table<ItemId, string>
+---@return table<ItemId, string>|nil
 function Validators.checkItemFieldTypes(items, itemKeys)
     print("\n\27[36mChecking item field types...\27[0m")
 
