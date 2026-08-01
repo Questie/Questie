@@ -475,7 +475,7 @@ function _QuestieFrame.FakeHide(self)
         self:Hide();
         if self.data.lineFrames then
             for _, line in pairs(self.data.lineFrames) do
-                line:Hide()
+                line:FakeHide()
             end
         end
         self._hide = self.Hide;
@@ -499,7 +499,7 @@ function _QuestieFrame.FakeShow(self)
             self:Show();
             if self.data.lineFrames then
                 for _, line in pairs(self.data.lineFrames) do
-                    line:Show()
+                    line:FakeShow()
                 end
             end
         end
