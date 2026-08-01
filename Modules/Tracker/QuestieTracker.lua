@@ -104,7 +104,7 @@ function QuestieTracker.Initialize()
     trackerHeaderFrame = TrackerHeaderFrame.Initialize(trackerBaseFrame, QuestieTracker.Update)
     trackerQuestFrame = TrackerQuestFrame.Initialize(trackerBaseFrame, trackerHeaderFrame)
 
-    if Expansions.Current >= Expansions.Cata then
+    if Expansions.Current >= Expansions.Cata or Questie.IsTitanReforged then
         AutoCompleteFrame.Initialize(trackerBaseFrame)
     end
 
