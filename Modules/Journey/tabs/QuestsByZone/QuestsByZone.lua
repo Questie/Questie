@@ -247,8 +247,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             end
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
-            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
-            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId, {"breadcrumbForQuestId"})[1] or {}
+            local _, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, false)
 
             -- Breadcrumb quests
             if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
