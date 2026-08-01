@@ -1355,19 +1355,22 @@ function QuestieTBCNpcFixes:Load()
                 {49.48,15.54,phases.BEM_NEXUS_KING},
             }},
         },
-        [20912] = {
+        [20912] = { -- Harbinger Skyriss
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
         },
-        [21181] = {
-            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{43.2,46.2}}},
+        [21007] = { -- Sergeant Chawni
+            [npcKeys.waypoints] = {},
         },
-        [21118] = {
+        [21118] = { -- Razak Ironsides
             [npcKeys.waypoints] = {},
         },
         [21140] = { -- Rift Lord
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
+        },
+        [21181] = { -- Cyrukh the Firelord
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{43.2,46.2}}},
         },
         [21209] = { -- Dumphry
             [npcKeys.waypoints] = {},
