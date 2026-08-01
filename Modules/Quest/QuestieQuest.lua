@@ -169,12 +169,6 @@ function QuestieQuest:ShowQuestIcons()
                 if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
                     if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
                         icon:FakeShow()
-
-                        if icon.data.lineFrames then
-                            for _, lineIcon in pairs(icon.data.lineFrames) do
-                                lineIcon:FakeShow()
-                            end
-                        end
                     end
                     if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                         icon:FadeOut()
@@ -217,12 +211,6 @@ function QuestieQuest:HideQuestIcons()
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 -- Hides Objective Icons
                 icon:FakeHide()
-
-                if icon.data.lineFrames then
-                    for _, lineIcon in pairs(icon.data.lineFrames) do
-                        lineIcon:FakeHide()
-                    end
-                end
             end
             if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                 icon:FadeOut()
