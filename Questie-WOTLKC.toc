@@ -1,4 +1,4 @@
-## Interface: 38000, 38001
+## Interface: 38000, 38002
 ## Title: Questie|cFF00FF00 v11.33.3|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
@@ -248,6 +248,7 @@ Modules\Journey\QuestieSearch.lua
 Modules\Journey\QuestieSearchResults.lua
 
 # Tracker
+Modules\Tracker\AutoCompleteFrame.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\Sorter\Sorter.lua
 Modules\Tracker\Sorter\byComplete.lua
