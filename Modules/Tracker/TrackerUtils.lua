@@ -156,7 +156,7 @@ function TrackerUtils:FlashObjective(objective)
                         icon:Hide()
                         if icon.data.lineFrames then
                             for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide()
+                                line:Hide() -- Use raw Hide, not FakeHide
                             end
                         end
                     end
@@ -176,6 +176,13 @@ function TrackerUtils:FlashObjective(objective)
                     -- todo: move into frame.session
                     frame._hidden_by_flash = nil
                     frame._size = frame:GetWidth()
+
+                    -- Show line frames for the objective being flashed
+                    if frame.data and frame.data.lineFrames then
+                        for _, line in pairs(frame.data.lineFrames) do
+                            line:Show() -- Use raw Show to restore
+                        end
+                    end
                 end
             end
         end
@@ -220,7 +227,7 @@ function TrackerUtils:FlashObjective(objective)
                                             icon:Show()
                                             if icon.data.lineFrames then
                                                 for _, line in pairs(icon.data.lineFrames) do
-                                                    line:Show()
+                                                    line:Show() -- Use raw Show
                                                 end
                                             end
                                         end
@@ -251,7 +258,7 @@ function TrackerUtils:FlashFinisher(quest)
                         icon:Hide()
                         if icon.data.lineFrames then
                             for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide()
+                                line:Hide() -- Use raw Hide, not FakeHide
                             end
                         end
                     end
@@ -309,7 +316,7 @@ function TrackerUtils:FlashFinisher(quest)
                                         icon:Show()
                                         if icon.data.lineFrames then
                                             for _, line in pairs(icon.data.lineFrames) do
-                                                line:Show()
+                                                line:Show() -- Use raw Show
                                             end
                                         end
                                     end
