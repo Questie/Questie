@@ -47,31 +47,31 @@ local zoneCache = {}
 local questProximityTimer
 local questZoneProximityTimer
 local bindTruthTable = {
-    ['left'] = function(button)
+    ["left"] = function(button)
         return "LeftButton" == button
     end,
-    ['right'] = function(button)
+    ["right"] = function(button)
         return "RightButton" == button
     end,
-    ['shiftleft'] = function(button)
+    ["shiftleft"] = function(button)
         return "LeftButton" == button and IsShiftKeyDown()
     end,
-    ['shiftright'] = function(button)
+    ["shiftright"] = function(button)
         return "RightButton" == button and IsShiftKeyDown()
     end,
-    ['ctrlleft'] = function(button)
+    ["ctrlleft"] = function(button)
         return "LeftButton" == button and IsControlKeyDown()
     end,
-    ['ctrlright'] = function(button)
+    ["ctrlright"] = function(button)
         return "RightButton" == button and IsControlKeyDown()
     end,
-    ['altleft'] = function(button)
+    ["altleft"] = function(button)
         return "LeftButton" == button and IsAltKeyDown()
     end,
-    ['altright'] = function(button)
+    ["altright"] = function(button)
         return "RightButton" == button and IsAltKeyDown()
     end,
-    ['disabled'] = function() return false end,
+    ["disabled"] = function() return false end,
 }
 
 local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
@@ -115,7 +115,7 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
             TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
         end
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, { title = title, crazy = true, from = "Questie" })
+        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, {title = title, crazy = true, from = "Questie"})
     end
 end
 
@@ -1101,12 +1101,12 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     end
                 end
             end
-        -- Show button when primary button was not added (e.g. the requiredSourceItems are not in the bag yet)
         else
+            -- Show button when primary button was not added (e.g. the requiredSourceItems are not in the bag yet)
             line.expandQuest:Show()
         end
-    -- Hide button if quest complete or failed
     elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable) then
+        -- Hide button if quest complete or failed
         line.expandQuest:Hide()
     else
         line.expandQuest:Show()
