@@ -257,8 +257,6 @@ end
 
 ---@param validationTables table? Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 function QuestieCorrections:Initialize(validationTables)
-    QuestieQuestFixes:LoadMissingQuests()
-
     -- Classic Corrections
     if Questie.IsClassic then
         -- This data is only correct for Era/SoX, for the other expansions we trust the base DB
