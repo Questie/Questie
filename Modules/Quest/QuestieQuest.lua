@@ -723,10 +723,12 @@ function QuestieQuest:UpdateQuest(questId)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
             -- Only remove the map icons, but keep the tooltips
-            ThreadLib.ThreadInstant(function()
+            ThreadLib.ThreadCallbackInstant(function()
                 QuestieMap:UnloadQuestFrames(questId)
+            end, function()
+                QuestFinisher.AddFinisher(quest)
             end)
-            QuestFinisher.AddFinisher(quest)
+
             quest.WasComplete = true
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
@@ -782,10 +784,11 @@ function QuestieQuest:UpdateQuest(questId)
                             "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
 
                         -- Only remove the map icons, but keep the tooltips
-                        ThreadLib.ThreadInstant(function()
+                        ThreadLib.ThreadCallbackInstant(function()
                             QuestieMap:UnloadQuestFrames(questId)
+                        end, function()
+                            QuestFinisher.AddFinisher(quest)
                         end)
-                        QuestFinisher.AddFinisher(quest)
                         quest.WasComplete = true
                         quest.isComplete = true
                     else
