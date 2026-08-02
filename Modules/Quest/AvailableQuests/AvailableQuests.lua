@@ -166,7 +166,9 @@ end
 ---@param questId QuestId
 function AvailableQuests.RemoveQuest(questId)
     availableQuests[questId] = nil
-    MapIconDrawer:UnloadQuest(questId)
+    -- Do not set the UNLOADING guard: this quest is often re-accepted immediately and
+    -- its objective icons need to be drawn right after. A sticky guard would suppress them.
+    MapIconDrawer:UnloadQuest(questId, nil, false)
     QuestieTooltips:RemoveQuest(questId)
 end
 
