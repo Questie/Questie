@@ -252,11 +252,20 @@ local function _DrawQuest(questId)
         quest.Color = QuestieLib:ColorWheel()
     end
 
-    local objectives = {}
-    local iconCount = 0
+    -- Register the entry before scheduling any drawing. PopulateObjective runs inside a coroutine
+    -- whose first resume happens on a later frame, so the icons it draws must already be reachable
+    -- from drawnByQuest by the time they appear, otherwise _ClearQuest/Clear can never unload them
+    -- and the icons survive leaving a group.
+    local entry = { objectives = {}, iconCount = 0 }
+    drawnByQuest[questId] = entry
+
+    -- The quest may be cleared (or the group left) while a coroutine is queued or yielding.
+    local function _IsStale()
+        return drawnByQuest[questId] ~= entry or (not _ShouldDraw())
+    end
 
     for objectiveIndex, remoteObjective in pairs(neededIndices) do
-        if drawnIconCount + iconCount >= MAX_PARTY_ICONS then
+        if drawnIconCount + entry.iconCount >= MAX_PARTY_ICONS then
             break
         end
 
@@ -307,10 +316,20 @@ local function _DrawQuest(questId)
             }
 
             ThreadLib.ThreadInstant(function()
+                if _IsStale() then
+                    return
+                end
+
                 QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, true)
 
+                -- PopulateObjective yields, so re-check before adopting the icons it drew.
+                if _IsStale() then
+                    _UnloadObjective(objective)
+                    return
+                end
+
                 local objectiveIconCount = _CountIcons(objective)
-                if drawnIconCount + iconCount + objectiveIconCount > MAX_PARTY_ICONS then
+                if drawnIconCount + objectiveIconCount > MAX_PARTY_ICONS then
                     _UnloadObjective(objective)
                     return
                 end
@@ -320,8 +339,9 @@ local function _DrawQuest(questId)
                     end
                     spawnListCache[questId][objectiveIndex] = objective.spawnList
                 end
-                objectives[#objectives + 1] = objective
-                iconCount = iconCount + objectiveIconCount
+                entry.objectives[#entry.objectives + 1] = objective
+                entry.iconCount = entry.iconCount + objectiveIconCount
+                drawnIconCount = drawnIconCount + objectiveIconCount
             end)
         end
     end
@@ -330,7 +350,7 @@ local function _DrawQuest(questId)
     -- and required source items). These come from QuestieDB.GetQuest, independent of comms data.
     local specialCounter = 0
     for _, special in pairs(quest.SpecialObjectives or {}) do
-        if drawnIconCount + iconCount >= MAX_PARTY_ICONS then
+        if drawnIconCount + entry.iconCount >= MAX_PARTY_ICONS then
             break
         end
 
@@ -359,16 +379,22 @@ local function _DrawQuest(questId)
         }
 
         ThreadLib.ThreadInstant(function()
+            if _IsStale() then
+                return
+            end
+
             QuestieQuest:PopulateObjective(quest, objective.Index, objective, true)
 
-            objectives[#objectives + 1] = objective
-            iconCount = iconCount + _CountIcons(objective)
-        end)
-    end
+            if _IsStale() then
+                _UnloadObjective(objective)
+                return
+            end
 
-    if #objectives > 0 then
-        drawnByQuest[questId] = { objectives = objectives, iconCount = iconCount }
-        drawnIconCount = drawnIconCount + iconCount
+            local objectiveIconCount = _CountIcons(objective)
+            entry.objectives[#entry.objectives + 1] = objective
+            entry.iconCount = entry.iconCount + objectiveIconCount
+            drawnIconCount = drawnIconCount + objectiveIconCount
+        end)
     end
 end
 
