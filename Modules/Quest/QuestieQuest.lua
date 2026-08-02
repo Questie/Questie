@@ -50,24 +50,18 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type MapIconDrawer
+local MapIconDrawer = QuestieLoader:ImportModule("MapIconDrawer")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
-local tinsert = table.insert;
 local pairs = pairs;
 local coYield = coroutine.yield;
 
-local NOP_FUNCTION = function()
-end
-local ERR_FUNCTION = function(err)
-    print(err)
-    print(debugstack())
-end
+local NOP_FUNCTION = function() end
 
 -- forward declaration
-local _UnloadAlreadySpawnedIcons
-local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
-local _DrawObjectiveIcons, _DrawObjectiveWaypoints
+local _RegisterObjectiveTooltips, _DetermineIconsToDraw
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -603,7 +597,8 @@ function QuestieQuest:CompleteQuest(questId)
 
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId) or QuestieDB.IsMonthlyQuest(questId);
+    Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId) or
+    QuestieDB.IsMonthlyQuest(questId);
 
     if Expansions.Current >= Expansions.Wotlk then
         if allianceChampionMarkerQuests[questId] then
@@ -1120,7 +1115,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     _RegisterObjectiveTooltips(objective, quest.Id, blockItemTooltips)
 
     if completed then
-        _UnloadAlreadySpawnedIcons(objective)
+        MapIconDrawer:UnloadObjectiveIcons(objective)
         return
     end
 
@@ -1162,57 +1157,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         end
 
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
-        local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
-        _DrawObjectiveWaypoints(objective, icon, iconPerZone)
-    end
-end
-
-_RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
-    Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for", objective.Description)
-
-    if objective.spawnList then
-        if (not objective.hasRegisteredTooltips) then
-            for _, spawnData in pairs(objective.spawnList) do
-                if spawnData.TooltipKey then
-                    QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
-                end
-            end
-
-            objective.hasRegisteredTooltips = true
-        end
-    else
-        Questie:Error("[QuestieQuest]: [Tooltips] " ..
-            l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id",
-                0 or "No objective", "No error"));
-    end
-
-    if (not objective.registeredItemTooltips) and objective.Type == "item" and (not blockItemTooltips) and objective.Id then
-        local itemName = QuestieDB.QueryItemSingle(objective.Id, "name")
-
-        if itemName then
-            QuestieTooltips:RegisterObjectiveTooltip(questId, "i_" .. objective.Id, objective)
-        end
-
-        objective.registeredItemTooltips = true
-    end
-end
-
-_UnloadAlreadySpawnedIcons = function(objective)
-    if next(objective.spawnList) then
-        for id, _ in pairs(objective.spawnList) do
-            local spawn = objective.AlreadySpawned[id]
-            if spawn then
-                for _, mapIcon in pairs(spawn.mapRefs) do
-                    QuestieFramePool:UnloadFrame(mapIcon)
-                end
-                for _, minimapIcon in pairs(spawn.minimapRefs) do
-                    QuestieFramePool:UnloadFrame(minimapIcon)
-                end
-                spawn.mapRefs = {}
-                spawn.minimapRefs = {}
-            end
-        end
-        objective.AlreadySpawned = {}
+        local lastIcon, iconPerZone = MapIconDrawer:DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
+        MapIconDrawer:DrawObjectiveWaypoints(objective, lastIcon, iconPerZone)
     end
 end
 
@@ -1285,7 +1231,6 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         local distance = QuestieLib.Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x, y);
                         drawIcon.distance = distance or 0 -- cache for clustering
                         -- there can be multiple icons at same distance at different directions
-                        --local distance = floor(distance)
                         local iconList = iconsToDraw[distance]
                         if iconList then
                             iconList[#iconList + 1] = drawIcon
@@ -1307,176 +1252,33 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
     return iconsToDraw, spawnItemId
 end
 
----Returns true if coords are far enough from every already-placed icon in the same zone.
----@param coords table  {x, y} in zone-local coordinates (numeric indices)
----@param placed table  array of {x, y} coords already placed in this zone
----@return boolean
-local function _HasProperDistanceToAlreadyPlacedObjectives(coords, placed)
-    local minDist = Questie.db.profile.objectiveFilterDistance
-    if minDist == 0 then
-        return true
-    end
-    for _, placedCoords in ipairs(placed) do
-        if QuestieLib.GetSpawnDistance(coords, placedCoords) < minDist then
-            return false
-        end
-    end
-    return true
-end
+_RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
+    Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for", objective.Description)
 
-_DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveIcons] Adding Icons for quest:", questId)
-
-    local spawnedIconCount = 0
-    local icon
-    local iconPerZone = {}
-
-    local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
-
-    local alreadyPlacedByZone = {}
-    ---@param zoneKey number?
-    ---@param coords CoordPair
-    local function _MarkCoordsAsAlready(zoneKey, coords)
-        if (not zoneKey) then
-            return
-        end
-        if (not alreadyPlacedByZone[zoneKey]) then
-            alreadyPlacedByZone[zoneKey] = {}
-        end
-        tinsert(alreadyPlacedByZone[zoneKey], coords)
-    end
-
-    local yieldCount = 0
-    for i = 1, iconCount do
-        icon = orderedList[i]
-        if spawnedIconCount > maxPerType then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Too many icons for quest:", questId)
-            break
-        end
-
-        local zoneKey = icon.UiMapID
-        if (not alreadyPlacedByZone[zoneKey]) then
-            alreadyPlacedByZone[zoneKey] = {}
-        end
-
-        local coords = {icon.x, icon.y}
-        if _HasProperDistanceToAlreadyPlacedObjectives(coords, alreadyPlacedByZone[zoneKey]) then
-            local spawnsMapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs
-            local spawnsMinimapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs
-
-            local x, y = icon.x, icon.y
-            local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
-
-            if dungeonLocation and x == -1 and y == -1 then
-                if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
-                    local secondDungeonLocation = dungeonLocation[2]
-                    icon.zone = secondDungeonLocation[1]
-                    icon.UiMapID = ZoneDB:GetUiMapIdByAreaId(icon.zone)
-                    zoneKey = icon.UiMapID
-                    local dX, dY = secondDungeonLocation[2], secondDungeonLocation[3]
-
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, dX, dY)
-                    if iconMap and iconMini then
-                        iconPerZone[icon.zone] = {iconMap, dX, dY}
-                        spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
-                        spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
-                    end
-
-                    _MarkCoordsAsAlready(zoneKey, {dX, dY})
-                    spawnedIconCount = spawnedIconCount + 1
-                end
-
-                local firstDungeonLocation = dungeonLocation[1]
-                icon.zone = firstDungeonLocation[1]
-                icon.UiMapID = ZoneDB:GetUiMapIdByAreaId(icon.zone)
-                zoneKey = icon.UiMapID
-                x = firstDungeonLocation[2]
-                y = firstDungeonLocation[3]
-                coords = {x, y}
-            end
-
-            local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, x, y)
-            if iconMap and iconMini then
-                iconPerZone[icon.zone] = {iconMap, x, y}
-                spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
-                spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
-            end
-
-            _MarkCoordsAsAlready(zoneKey, coords)
-            spawnedIconCount = spawnedIconCount + 1
-        end
-        yieldCount = yieldCount + 1
-        if yieldCount >= (TICKS_PER_YIELD * 2) then
-            yieldCount = 0
-            coYield()
-        end
-    end
-
-    return icon, iconPerZone
-end
-
-_GetIconsSortedByDistance = function(icons)
-    local iconCount = 0;
-    local orderedList = {}
-    local distances = {}
-
-    local i = 0
-
-    for distance in pairs(icons) do
-        i = i + 1
-        distances[i] = distance
-    end
-
-    table.sort(distances)
-
-    -- use the keys to retrieve the values in the sorted order
-    for distIndex = 1, #distances do
-        local iconsAtDistance = icons[distances[distIndex]]
-
-        for iconIndex = 1, #iconsAtDistance do
-            local icon = iconsAtDistance[iconIndex]
-
-            iconCount = iconCount + 1
-            orderedList[iconCount] = icon
-        end
-    end
-
-    return iconCount, orderedList
-end
-
-_DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
-
-    local yieldCount = 0
-    for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
-        if spawnData.Waypoints then
-            for zone, waypoints in pairs(spawnData.Waypoints) do
-                local firstWaypoint = waypoints[1][1]
-
-                if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then -- spawn an icon in this zone for the mob
-                    -- Phase is already checked in _DetermineIconsToDraw
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as min-dist is more than 0
-
-                    if iconMap and iconMini then
-                        iconPerZone[zone] = {iconMap, firstWaypoint[1], firstWaypoint[2]}
-                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-                    end
-                end
-
-                local ipz = iconPerZone[zone]
-
-                if ipz then
-                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1, 0.2, 0, 0.7} or nil)
-                end
-                yieldCount = yieldCount + 1
-                if yieldCount >= TICKS_PER_YIELD then
-                    yieldCount = 0
-                    coYield() -- We declare the yieldCount at the top level, but increment it every time we try to draw a point, because otherwise we could draw 29x 29-point paths and never call a coYield when TICKS_PER_YIELD is 30.
+    if objective.spawnList then
+        if (not objective.hasRegisteredTooltips) then
+            for _, spawnData in pairs(objective.spawnList) do
+                if spawnData.TooltipKey then
+                    QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
                 end
             end
 
-            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveWaypoints]")
+            objective.hasRegisteredTooltips = true
         end
+    else
+        Questie:Error("[QuestieQuest]: [Tooltips] " ..
+            l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id",
+                0 or "No objective", "No error"));
+    end
+
+    if (not objective.registeredItemTooltips) and objective.Type == "item" and (not blockItemTooltips) and objective.Id then
+        local itemName = QuestieDB.QueryItemSingle(objective.Id, "name")
+
+        if itemName then
+            QuestieTooltips:RegisterObjectiveTooltip(questId, "i_" .. objective.Id, objective)
+        end
+
+        objective.registeredItemTooltips = true
     end
 end
 
