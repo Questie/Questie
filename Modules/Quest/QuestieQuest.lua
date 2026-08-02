@@ -1120,8 +1120,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     if objective.spawnList and next(objective.spawnList) then
         local maxPerType = Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit or 1500
-        local objectiveCenter = ObjectiveIconProvider:GetObjectiveCenter(quest, objective)
-        local iconsToDraw = ObjectiveIconProvider:BuildIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
+        local iconsToDraw = ObjectiveIconProvider:BuildIconsToDraw(quest, objective, objectiveIndex)
         local lastIcon, iconPerZone = MapIconDrawer:DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
         MapIconDrawer:DrawObjectiveWaypoints(quest.Id, objective, lastIcon, iconPerZone)
     end

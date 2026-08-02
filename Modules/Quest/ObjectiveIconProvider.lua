@@ -23,6 +23,40 @@ if Questie.IsHardcore then
     TICKS_PER_YIELD = 30
 end
 
+--- Computes the objective center point used for clustering (closest-first ordering).
+--- Returns a world-coordinate {x, y} table. Falls back to {x=0, y=0} if unavailable.
+--- Pure data — no drawing, no coroutine required.
+---@param quest Quest
+---@param objective QuestObjective
+---@return {x:number, y:number}
+local function _GetObjectiveCenter(quest, objective)
+    local zoneCount = 0
+    local objectiveZone
+
+    for _, spawnData in pairs(objective.spawnList) do
+        for zone in pairs(spawnData.Spawns) do
+            if (not objectiveZone) or objectiveZone ~= zone then
+                objectiveZone = zone
+                zoneCount = zoneCount + 1
+            end
+        end
+    end
+
+    local objectiveCenter
+    if zoneCount == 1 then
+        local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
+        objectiveCenter = {x = x, y = y}
+    else
+        objectiveCenter = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
+    end
+
+    if (not objectiveCenter) or (not objectiveCenter.x) or (not objectiveCenter.y) then
+        objectiveCenter = {x = 0, y = 0}
+    end
+
+    return objectiveCenter
+end
+
 --- Resolves the spawn list for an objective if not already populated.
 --- Pure data — no drawing, no coroutine required.
 --- Mutates objective.spawnList and objective.Icon as a side effect.
@@ -43,10 +77,10 @@ end
 ---@param quest Quest
 ---@param objective QuestObjective
 ---@param objectiveIndex ObjectiveIndex
----@param objectiveCenter {x:number, y:number}
 ---@return table iconsToDraw   keyed by distance; value is array of drawIcon entries
-function ObjectiveIconProvider:BuildIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
+function ObjectiveIconProvider:BuildIconsToDraw(quest, objective, objectiveIndex)
     local iconsToDraw = {}
+    local objectiveCenter = _GetObjectiveCenter(quest, objective)
 
     local yieldCount = 0
     for id, spawnData in pairs(objective.spawnList) do
@@ -124,36 +158,3 @@ function ObjectiveIconProvider:BuildIconsToDraw(quest, objective, objectiveIndex
     return iconsToDraw
 end
 
---- Computes the objective center point used for clustering (closest-first ordering).
---- Returns a world-coordinate {x, y} table. Falls back to {x=0, y=0} if unavailable.
---- Pure data — no drawing, no coroutine required.
----@param quest Quest
----@param objective QuestObjective
----@return {x:number, y:number}
-function ObjectiveIconProvider:GetObjectiveCenter(quest, objective)
-    local zoneCount = 0
-    local objectiveZone
-
-    for _, spawnData in pairs(objective.spawnList) do
-        for zone in pairs(spawnData.Spawns) do
-            if (not objectiveZone) or objectiveZone ~= zone then
-                objectiveZone = zone
-                zoneCount = zoneCount + 1
-            end
-        end
-    end
-
-    local objectiveCenter
-    if zoneCount == 1 then
-        local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
-        objectiveCenter = {x = x, y = y}
-    else
-        objectiveCenter = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
-    end
-
-    if (not objectiveCenter) or (not objectiveCenter.x) or (not objectiveCenter.y) then
-        objectiveCenter = {x = 0, y = 0}
-    end
-
-    return objectiveCenter
-end
