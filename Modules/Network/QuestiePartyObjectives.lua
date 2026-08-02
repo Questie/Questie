@@ -391,6 +391,10 @@ local function _DrawQuest(questId)
             end
 
             local objectiveIconCount = _CountIcons(objective)
+            if drawnIconCount + objectiveIconCount > MAX_PARTY_ICONS then
+                _UnloadObjective(objective)
+                return
+            end
             entry.objectives[#entry.objectives + 1] = objective
             entry.iconCount = entry.iconCount + objectiveIconCount
             drawnIconCount = drawnIconCount + objectiveIconCount
