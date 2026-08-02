@@ -706,9 +706,7 @@ function QuestieQuest:UpdateQuest(questId)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
             -- Only remove the map icons, but keep the tooltips
-            ThreadLib.ThreadCallbackInstant(function()
-                QuestieMap:UnloadQuestFrames(questId)
-            end, function()
+            MapIconDrawer:UnloadQuest(questId, function()
                 QuestFinisher.AddFinisher(quest)
             end)
 
@@ -767,9 +765,7 @@ function QuestieQuest:UpdateQuest(questId)
                             "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
 
                         -- Only remove the map icons, but keep the tooltips
-                        ThreadLib.ThreadCallbackInstant(function()
-                            QuestieMap:UnloadQuestFrames(questId)
-                        end, function()
+                        MapIconDrawer:UnloadQuest(questId, function()
                             QuestFinisher.AddFinisher(quest)
                         end)
                         quest.WasComplete = true
@@ -1158,7 +1154,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
         local lastIcon, iconPerZone = MapIconDrawer:DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
-        MapIconDrawer:DrawObjectiveWaypoints(objective, lastIcon, iconPerZone)
+        MapIconDrawer:DrawObjectiveWaypoints(quest.Id, objective, lastIcon, iconPerZone)
     end
 end
 

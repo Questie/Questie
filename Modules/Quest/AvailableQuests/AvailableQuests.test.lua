@@ -9,8 +9,6 @@ describe("AvailableQuests", function()
     local QuestieDB
     ---@type QuestieTooltips
     local QuestieTooltips
-    ---@type QuestieMap
-    local QuestieMap
     ---@type Comms
     local Comms
     ---@type TheadLib
@@ -18,6 +16,8 @@ describe("AvailableQuests", function()
 
     ---@type AvailableQuests
     local AvailableQuests
+    ---@type MapIconDrawer
+    local MapIconDrawer
 
     local QUEST_ID = 123
     local NPC_ID = 456
@@ -33,10 +33,11 @@ describe("AvailableQuests", function()
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
-        QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         Comms = QuestieLoader:ImportModule("Comms")
         TheadLib = QuestieLoader:ImportModule("ThreadLib")
         TheadLib.ThreadInstant = function(fun) fun() end
+        MapIconDrawer = QuestieLoader:ImportModule("MapIconDrawer")
+        MapIconDrawer.UnloadQuest = spy.new(function() end)
 
         Questie.db.profile.availableIconLimit = 10
 
@@ -132,7 +133,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
@@ -141,7 +142,7 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
             assert.is_nil(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -158,7 +159,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
@@ -167,7 +168,7 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
             assert.is_nil(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -184,7 +185,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {{questID = QUEST_ID}} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
@@ -193,7 +194,7 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -209,7 +210,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {{questID = QUEST_ID}} end),
             }
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
@@ -218,7 +219,7 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -234,7 +235,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
@@ -243,7 +244,7 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -259,7 +260,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {{questID = QUEST_ID}} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
@@ -268,7 +269,7 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -282,7 +283,7 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -320,7 +321,7 @@ describe("AvailableQuests", function()
                 GetAvailableQuests = spy.new(function() return {} end),
                 GetActiveQuests = spy.new(function() return {} end),
             }
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
 
             AvailableQuests.ValidateAvailableQuestsFromGossipShow()
@@ -328,7 +329,7 @@ describe("AvailableQuests", function()
             assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called()
             assert.spy(_G.QuestieCompat.GetActiveQuests).was.called()
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called()
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
             assert.are_same(AvailableQuests.__availableQuests, {})
             assert.are_same(AvailableQuests.__availableQuestsByNpc, {})
@@ -347,20 +348,20 @@ describe("AvailableQuests", function()
             _G.GetQuestID = function() return availableQuest end
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             AvailableQuests.__availableQuests[availableQuest] = true
             AvailableQuests.__availableQuests[unavailableQuest] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuest] = true, [unavailableQuest] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuest)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, unavailableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuest])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuest])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuest])
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuest)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, availableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, availableQuest)
             assert.is_true(AvailableQuests.__availableQuests[availableQuest])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuest])
@@ -378,20 +379,20 @@ describe("AvailableQuests", function()
             _G.GetQuestID = function() return availableQuest end
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             AvailableQuests.__availableQuests[availableQuest] = true
             AvailableQuests.__availableQuests[unavailableQuest] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuest] = true, [unavailableQuest] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuest)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, unavailableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuest])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuest])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuest])
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuest)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, availableQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, availableQuest)
             assert.is_true(AvailableQuests.__availableQuests[availableQuest])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuest])
@@ -405,12 +406,12 @@ describe("AvailableQuests", function()
             QuestieDB.IsDailyQuest = function() return false end
             _G.GetQuestID = function() return QUEST_ID + 1 end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
         end)
@@ -420,12 +421,12 @@ describe("AvailableQuests", function()
             QuestieDB.IsDailyQuest = function() return true end
             _G.GetQuestID = spy.new(function() return 0 end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
         end)
@@ -453,13 +454,13 @@ describe("AvailableQuests", function()
             _G.GetQuestID = function() return QUEST_ID end
             QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called()
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
         end)
@@ -481,7 +482,7 @@ describe("AvailableQuests", function()
             _G.GetAvailableTitle = spy.new(function() return "Available Quest" end)
             QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             AvailableQuests.__availableQuests[availableQuestId] = true
             AvailableQuests.__availableQuests[unavailableQuestId] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [unavailableQuestId] = true}
@@ -490,13 +491,13 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.GetAvailableTitle).was.called_with(1)
             assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Available Quest", "Creature-0-0-0-0-" .. NPC_ID .. "-0", true)
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuestId)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, availableQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, availableQuestId)
             assert.is_true(AvailableQuests.__availableQuests[availableQuestId])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuestId])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[availableQuestId])
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuestId)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, unavailableQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuestId)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuestId])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuestId])
@@ -520,7 +521,7 @@ describe("AvailableQuests", function()
             _G.GetAvailableTitle = spy.new(function() return "Available Quest" end)
             QuestieDB.IsWeeklyQuest = function() return true end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             AvailableQuests.__availableQuests[availableQuestId] = true
             AvailableQuests.__availableQuests[unavailableQuestId] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [unavailableQuestId] = true}
@@ -529,13 +530,13 @@ describe("AvailableQuests", function()
 
             assert.spy(_G.GetAvailableTitle).was.called_with(1)
             assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Available Quest", "Creature-0-0-0-0-" .. NPC_ID .. "-0", true)
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuestId)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, availableQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, availableQuestId)
             assert.is_true(AvailableQuests.__availableQuests[availableQuestId])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuestId])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[availableQuestId])
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, unavailableQuestId)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, unavailableQuestId)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuestId)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuestId])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuestId])
@@ -549,14 +550,14 @@ describe("AvailableQuests", function()
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieDB.IsDailyQuest = function() return false end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
@@ -575,14 +576,14 @@ describe("AvailableQuests", function()
             _G.GetActiveTitle = spy.new(function() return "Active Quest" end)
             QuestieDB.IsDailyQuest = function() return true end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
         end)
@@ -616,14 +617,14 @@ describe("AvailableQuests", function()
             _G.GetAvailableTitle = spy.new(function() end)
             QuestieDB.GetQuestIDFromName = spy.new(function() end)
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
 
             AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
             assert.spy(_G.GetAvailableTitle).was.not_called()
             assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called()
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
             assert.spy(Comms.BroadcastUnavailableDailyQuests).was.not_called()
         end)
@@ -637,16 +638,16 @@ describe("AvailableQuests", function()
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
             AvailableQuests.__availableQuests[firstQuest] = true
             AvailableQuests.__availableQuests[secondQuest] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[firstQuest] = true, [secondQuest] = true}
 
             AvailableQuests.RemoveQuestsForToday(NPC_ID, {firstQuest, secondQuest})
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, firstQuest)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, firstQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, firstQuest)
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, secondQuest)
+            assert.spy(MapIconDrawer.UnloadQuest).was.called_with(MapIconDrawer, secondQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, secondQuest)
             assert.is_nil(AvailableQuests.__availableQuests[firstQuest])
             assert.is_nil(AvailableQuests.__availableQuests[secondQuest])
@@ -660,11 +661,11 @@ describe("AvailableQuests", function()
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
             QuestieTooltips.RegisterQuestStartTooltip = function() end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
-            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            MapIconDrawer.UnloadQuest = spy.new(function() end)
 
             AvailableQuests.RemoveQuestsForToday(NPC_ID, {QUEST_ID})
 
-            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(MapIconDrawer.UnloadQuest).was.not_called_with(MapIconDrawer, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
             assert.are_same(AvailableQuests.__availableQuests, {})
             assert.are_same(AvailableQuests.__availableQuestsByNpc, {})

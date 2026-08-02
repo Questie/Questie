@@ -11,6 +11,8 @@ describe("MapIconDrawer", function()
     local ZoneDB
     ---@type QuestieLib
     local QuestieLib
+    ---@type ThreadLib
+    local ThreadLib
 
     local function makeObjective(spawnListIds)
         local spawnList = {}
@@ -49,6 +51,7 @@ describe("MapIconDrawer", function()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.DrawWorldIcon = spy.new(function() return {}, {} end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
+        QuestieMap.UnloadQuestFrames = spy.new(function() end)
 
         QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
         QuestieFramePool.UnloadFrame = spy.new(function() end)
@@ -59,6 +62,18 @@ describe("MapIconDrawer", function()
 
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetSpawnDistance = function() return 0 end
+
+        -- ThreadLib: run the thread function synchronously and immediately call the callback,
+        -- so tests don't need real timers and state transitions are observable.
+        -- Note: ThreadLib functions use dot-notation (no self).
+        ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+        ThreadLib.ThreadCallbackInstant = function(threadFn, callbackFn)
+            local co = coroutine.create(threadFn)
+            coroutine.resume(co)
+            if callbackFn then
+                callbackFn()
+            end
+        end
 
         dofile("Modules/Map/MapIconDrawer.lua")
         MapIconDrawer = QuestieLoader:ImportModule("MapIconDrawer")
@@ -120,6 +135,31 @@ describe("MapIconDrawer", function()
         end)
     end)
 
+    describe("UnloadQuest", function()
+        it("should call UnloadQuestFrames for the given questId", function()
+            MapIconDrawer:UnloadQuest(42)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, 42)
+        end)
+
+        it("should clear _questState after the unload completes", function()
+            -- After UnloadQuest, a draw for the same quest should proceed (state is nil again)
+            MapIconDrawer:UnloadQuest(42)
+
+            local objective = {
+                spawnList = {[1] = {}},
+                AlreadySpawned = {[1] = {mapRefs = {}, minimapRefs = {}}},
+            }
+            local iconsToDraw = makeIconsToDraw({{dist = 1.0, id = 1}})
+
+            local co = coroutine.create(function()
+                MapIconDrawer:DrawObjectiveIcons(42, iconsToDraw, objective, 100)
+            end)
+            coroutine.resume(co)
+
+            assert.spy(QuestieMap.DrawWorldIcon).was.called()
+        end)
+    end)
+
     describe("DrawObjectiveIcons", function()
         it("should assert when not called from a coroutine", function()
             assert.has_error(function()
@@ -149,7 +189,6 @@ describe("MapIconDrawer", function()
         end)
 
         it("should draw icons in closest-first order", function()
-            -- verifies _GetIconsSortedByDistance is applied: icon at dist=1 drawn before dist=100
             local drawnZones = {}
             QuestieMap.DrawWorldIcon = spy.new(function(_, _, zone)
                 table.insert(drawnZones, zone)
@@ -160,7 +199,6 @@ describe("MapIconDrawer", function()
                 spawnList = {[1] = {}},
                 AlreadySpawned = {[1] = {mapRefs = {}, minimapRefs = {}}},
             }
-            -- Two icons at different distances in different zones so we can tell them apart
             local iconsToDraw = makeIconsToDraw({
                 {dist = 100.0, id = 1, zone = 999},
                 {dist = 1.0, id = 1, zone = 111},
@@ -200,9 +238,7 @@ describe("MapIconDrawer", function()
 
         it("should stop drawing after maxPerType + 1 icons (pre-existing behaviour)", function()
             -- The loop guard is `> maxPerType`, so it draws one extra before breaking.
-            QuestieMap.DrawWorldIcon = spy.new(function()
-                return {}, {}
-            end)
+            QuestieMap.DrawWorldIcon = spy.new(function() return {}, {} end)
 
             local iconsToDraw = {}
             for i = 1, 5 do
@@ -229,19 +265,15 @@ describe("MapIconDrawer", function()
         end)
 
         it("should skip icons that are too close to already placed icons in the same zone", function()
-            -- objectiveFilterDistance > 0 and GetSpawnDistance returns a small value
             Questie.db.profile.objectiveFilterDistance = 10
             QuestieLib.GetSpawnDistance = function() return 1 end -- always too close
 
-            QuestieMap.DrawWorldIcon = spy.new(function()
-                return {}, {}
-            end)
+            QuestieMap.DrawWorldIcon = spy.new(function() return {}, {} end)
 
             local objective = {
                 spawnList = {[1] = {}},
                 AlreadySpawned = {[1] = {mapRefs = {}, minimapRefs = {}}},
             }
-            -- Two icons in the same zone: first is drawn, second is filtered out
             local iconsToDraw = makeIconsToDraw({
                 {dist = 1.0, id = 1, zone = 100, x = 10, y = 10},
                 {dist = 2.0, id = 1, zone = 100, x = 11, y = 11},
@@ -252,7 +284,6 @@ describe("MapIconDrawer", function()
             end)
             coroutine.resume(co)
 
-            -- Only the first icon passes the distance filter; second is skipped
             assert.spy(QuestieMap.DrawWorldIcon).was.called(1)
         end)
 
@@ -282,13 +313,71 @@ describe("MapIconDrawer", function()
 
             assert.are_equal(2, #drawCalls)
         end)
+
+        it("[race condition] should not draw when UnloadQuest was called before the draw coroutine runs", function()
+            -- Simulates: unload is requested, then a previously-scheduled draw coroutine resumes.
+            -- The draw must be suppressed.
+            local questId = 55
+
+            -- ThreadCallbackInstant won't clear state until after the coroutine finishes,
+            -- so we override it here to NOT clear state, simulating the window where
+            -- _questState is still "UNLOADING" when the draw thread runs.
+            ThreadLib.ThreadCallbackInstant = function(threadFn, _callbackFn)
+                local co = coroutine.create(threadFn)
+                coroutine.resume(co)
+                -- intentionally do NOT call _callbackFn so state stays "UNLOADING"
+            end
+
+            MapIconDrawer:UnloadQuest(questId)
+
+            local objective = {
+                spawnList = {[1] = {}},
+                AlreadySpawned = {[1] = {mapRefs = {}, minimapRefs = {}}},
+            }
+            local iconsToDraw = makeIconsToDraw({{dist = 1.0, id = 1}})
+
+            local co = coroutine.create(function()
+                MapIconDrawer:DrawObjectiveIcons(questId, iconsToDraw, objective, 100)
+            end)
+            coroutine.resume(co)
+
+            assert.spy(QuestieMap.DrawWorldIcon).was_not.called()
+        end)
+
+        it("[race condition] should not draw waypoints when UnloadQuest was called before the waypoint coroutine runs", function()
+            local questId = 55
+
+            ThreadLib.ThreadCallbackInstant = function(threadFn, _callbackFn)
+                local co = coroutine.create(threadFn)
+                coroutine.resume(co)
+            end
+
+            MapIconDrawer:UnloadQuest(questId)
+
+            local objective = {
+                spawnList = {
+                    [1] = {
+                        Waypoints = {[100] = {{{50, 50}}}},
+                        Hostile = false,
+                    }
+                },
+                AlreadySpawned = {[1] = {mapRefs = {}, minimapRefs = {}}}
+            }
+
+            local co = coroutine.create(function()
+                MapIconDrawer:DrawObjectiveWaypoints(questId, objective, nil, {[100] = {{}, 50, 50}})
+            end)
+            coroutine.resume(co)
+
+            assert.spy(QuestieMap.DrawWaypoints).was_not.called()
+        end)
     end)
 
     describe("DrawObjectiveWaypoints", function()
         it("should assert when not called from a coroutine", function()
             local objective = {spawnList = {}}
             assert.has_error(function()
-                MapIconDrawer:DrawObjectiveWaypoints(objective, nil, {})
+                MapIconDrawer:DrawObjectiveWaypoints(1, objective, nil, {})
             end)
         end)
 
@@ -305,7 +394,7 @@ describe("MapIconDrawer", function()
             }
 
             local co = coroutine.create(function()
-                MapIconDrawer:DrawObjectiveWaypoints(objective, nil, {[100] = {fakeIconMap, 50, 50}})
+                MapIconDrawer:DrawObjectiveWaypoints(1, objective, nil, {[100] = {fakeIconMap, 50, 50}})
             end)
             coroutine.resume(co)
 
@@ -316,7 +405,7 @@ describe("MapIconDrawer", function()
             local objective = {spawnList = {[1] = {Spawns = {}}}}
 
             local co = coroutine.create(function()
-                MapIconDrawer:DrawObjectiveWaypoints(objective, nil, {})
+                MapIconDrawer:DrawObjectiveWaypoints(1, objective, nil, {})
             end)
             coroutine.resume(co)
 
@@ -341,7 +430,7 @@ describe("MapIconDrawer", function()
             local iconPerZone = {}
 
             local co = coroutine.create(function()
-                MapIconDrawer:DrawObjectiveWaypoints(objective, lastIcon, iconPerZone)
+                MapIconDrawer:DrawObjectiveWaypoints(1, objective, lastIcon, iconPerZone)
             end)
             coroutine.resume(co)
 

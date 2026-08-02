@@ -12,6 +12,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 local tinsert = table.insert
 local coYield = coroutine.yield
@@ -27,6 +29,12 @@ if Questie.IsHardcore then
     -- Therefore we need a quite low tick rate to make sure we don't get bitten on less performant machines.
     TICKS_PER_YIELD = 30
 end
+
+--- Tracks per-quest draw state to make draw/unload ordering deterministic.
+--- "UNLOADING" means an unload has been requested; pending draws for that quest must be suppressed.
+--- nil means no active state (quest can be drawn freely).
+---@type table<QuestId, "UNLOADING">
+local _questState = {}
 
 ---@param icons table  keyed by distance (number), value is array of drawIcon entries
 ---@return number iconCount
@@ -98,10 +106,30 @@ function MapIconDrawer:UnloadObjectiveIcons(objective)
     objective.AlreadySpawned = {}
 end
 
+--- Requests an unload of all map frames for a quest.
+--- Sets the UNLOADING flag synchronously so any draw coroutines that resume afterwards
+--- will see it and skip drawing — regardless of ticker ordering.
+--- Safe to call outside a coroutine.
+---@param questId QuestId
+---@param onComplete function? Optional callback invoked after the unload coroutine finishes.
+function MapIconDrawer:UnloadQuest(questId, onComplete)
+    Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:UnloadQuest] Unloading:", questId)
+    _questState[questId] = "UNLOADING"
+
+    ThreadLib.ThreadCallbackInstant(function()
+        QuestieMap:UnloadQuestFrames(questId)
+    end, function()
+        _questState[questId] = nil
+        if onComplete then
+            onComplete()
+        end
+    end)
+end
+
 --- Draws icons for a set of pre-computed candidates (output of ObjectiveIconProvider).
 --- Owns AlreadySpawned map/minimap ref bookkeeping.
 --- Must be called from a coroutine.
----@param questId number
+---@param questId QuestId
 ---@param iconsToDraw table        keyed by distance; value is array of drawIcon entries
 ---@param objective QuestObjective
 ---@param maxPerType number
@@ -109,6 +137,14 @@ end
 ---@return table  iconPerZone      zone -> {iconMap, x, y}
 function MapIconDrawer:DrawObjectiveIcons(questId, iconsToDraw, objective, maxPerType)
     assert(coroutine.running(), "DrawObjectiveIcons must be called from a coroutine")
+
+    -- Determinism guard: if an unload was requested for this quest after this draw was
+    -- scheduled, skip drawing entirely. Mirrors the _needsUnload pattern in QuestieFrame
+    -- but lifted to the quest level so late-arriving draw threads produce no frames.
+    if _questState[questId] == "UNLOADING" then
+        Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:DrawObjectiveIcons] Skipping draw, quest is unloading:", questId)
+        return nil, {}
+    end
 
     Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:DrawObjectiveIcons] Adding Icons for quest:", questId)
 
@@ -203,11 +239,17 @@ end
 
 --- Draws waypoints for an objective based on previously drawn icons.
 --- Must be called from a coroutine.
+---@param questId QuestId
 ---@param objective QuestObjective
 ---@param lastIcon table?     the last drawn icon entry returned by DrawObjectiveIcons
 ---@param iconPerZone table   zone -> {iconMap, x, y}
-function MapIconDrawer:DrawObjectiveWaypoints(objective, lastIcon, iconPerZone)
+function MapIconDrawer:DrawObjectiveWaypoints(questId, objective, lastIcon, iconPerZone)
     assert(coroutine.running(), "DrawObjectiveWaypoints must be called from a coroutine")
+
+    if _questState[questId] == "UNLOADING" then
+        Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:DrawObjectiveWaypoints] Skipping waypoints, quest is unloading:", questId)
+        return
+    end
 
     local yieldCount = 0
     for _, spawnData in pairs(objective.spawnList) do

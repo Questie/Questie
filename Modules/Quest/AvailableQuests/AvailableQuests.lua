@@ -23,6 +23,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type Comms
 local Comms = QuestieLoader:ImportModule("Comms")
+---@type MapIconDrawer
+local MapIconDrawer = QuestieLoader:ImportModule("MapIconDrawer")
 
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
@@ -164,9 +166,7 @@ end
 ---@param questId QuestId
 function AvailableQuests.RemoveQuest(questId)
     availableQuests[questId] = nil
-    ThreadLib.ThreadInstant(function()
-        QuestieMap:UnloadQuestFrames(questId)
-    end)
+    MapIconDrawer:UnloadQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
 end
 
@@ -175,9 +175,7 @@ function AvailableQuests.RecreateFailedQuest(quest)
     local questId = quest.Id
     availableQuests[questId] = nil
 
-    ThreadLib.ThreadCallbackInstant(function()
-        QuestieMap:UnloadQuestFrames(questId)
-    end, function()
+    MapIconDrawer:UnloadQuest(questId, function()
         QuestieTooltips:RemoveQuest(questId)
         AvailableQuests.DrawAvailableQuest(quest)
     end)
