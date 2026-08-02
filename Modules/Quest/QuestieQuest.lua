@@ -26,8 +26,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieAnnounce
@@ -40,12 +38,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
----@type Phasing
-local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type QuestFinisher
 local QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
----@type DistanceUtils
-local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
@@ -64,8 +58,6 @@ local NOP_FUNCTION = function() end
 
 -- forward declaration
 local _RegisterObjectiveTooltips
-
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 -- this variable defines how many operations to run (batched at a time) before yielding for a frame.
 -- 1 would mean yielding every operation (so lower = slower but less lag)
@@ -643,7 +635,8 @@ end
 function QuestieQuest:AbandonedQuest(questId)
     if (QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
-        AvailableQuests.RemoveQuest(questId)
+        QuestieTooltips:RemoveQuest(questId)
+
         local quest = QuestieDB.GetQuest(questId)
 
         if quest then
@@ -676,7 +669,9 @@ function QuestieQuest:AbandonedQuest(questId)
             QuestieTracker:Update()
         end)
 
-        AvailableQuests.CalculateAndDrawAll()
+        MapIconDrawer:UnloadAllFrames(questId, function()
+            AvailableQuests.CalculateAndDrawAll()
+        end)
 
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Abandoned Quest:", questId)
     end
@@ -707,8 +702,7 @@ function QuestieQuest:UpdateQuest(questId)
             -- Quest is complete
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
-            -- Only remove the map icons, but keep the tooltips
-            MapIconDrawer:UnloadQuest(questId, function()
+            MapIconDrawer:UnloadObjectives(questId, function()
                 QuestFinisher.AddFinisher(quest)
             end)
 
@@ -766,8 +760,7 @@ function QuestieQuest:UpdateQuest(questId)
                         Questie:Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
 
-                        -- Only remove the map icons, but keep the tooltips
-                        MapIconDrawer:UnloadQuest(questId, function()
+                        MapIconDrawer:UnloadObjectives(questId, function()
                             QuestFinisher.AddFinisher(quest)
                         end)
                         quest.WasComplete = true

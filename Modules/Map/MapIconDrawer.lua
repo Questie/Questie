@@ -106,25 +106,60 @@ function MapIconDrawer:UnloadObjectiveIcons(objective)
     objective.AlreadySpawned = {}
 end
 
---- Requests an unload of all map frames for a quest.
---- By default sets the UNLOADING flag synchronously so any draw coroutines that resume afterwards
---- will see it and skip drawing — regardless of ticker ordering. Pass false for `setUnloadingFlag`
---- when the same quest is about to be redrawn (e.g. an available quest that was accepted and now
---- needs its objective icons drawn), so the guard does not suppress the legitimate redraw.
+--- Requests an unload of ALL map frames for a quest (objectives, starter, finisher, waypoints, etc).
+--- Sets the UNLOADING guard to block any stale objective draws during the unload window.
 --- Safe to call outside a coroutine.
 ---@param questId QuestId
 ---@param onComplete function? Optional callback invoked after the unload coroutine finishes.
----@param setUnloadingFlag boolean? Defaults to true. Set to false to skip the UNLOADING guard.
-function MapIconDrawer:UnloadQuest(questId, onComplete, setUnloadingFlag)
-    Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:UnloadQuest] Unloading:", questId)
-    if setUnloadingFlag ~= false then
-        _questState[questId] = "UNLOADING"
-    end
+function MapIconDrawer:UnloadAllFrames(questId, onComplete)
+    Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:UnloadAllFrames] Unloading all frames for:", questId)
+
+    _questState[questId] = "UNLOADING"
 
     ThreadLib.ThreadCallbackInstant(function()
-        QuestieMap:UnloadQuestFrames(questId)
+        QuestieMap:UnloadAllQuestFrames(questId)
     end, function()
         _questState[questId] = nil
+        if onComplete then
+            onComplete()
+        end
+    end)
+end
+
+--- Requests an unload of all objective map frames for a quest.
+--- Sets the UNLOADING guard synchronously so any in-flight objective draw coroutines that
+--- resume afterwards are suppressed (e.g. on abandon, when a stale draw must not re-add
+--- objective icons for a quest the player no longer has).
+--- Safe to call outside a coroutine.
+---@param questId QuestId
+---@param onComplete function? Optional callback invoked after the unload coroutine finishes.
+function MapIconDrawer:UnloadObjectives(questId, onComplete)
+    Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:UnloadObjectives] Unloading objectives for:", questId)
+
+    _questState[questId] = "UNLOADING"
+
+    ThreadLib.ThreadCallbackInstant(function()
+        QuestieMap:UnloadObjectiveFrames(questId)
+    end, function()
+        _questState[questId] = nil
+        if onComplete then
+            onComplete()
+        end
+    end)
+end
+
+--- Requests an unload of the available-starter and finisher map frames for a quest.
+--- Does not set the UNLOADING guard: objective draw coroutines for this quest must still
+--- be able to draw (e.g. the accept flow removes the starter and then draws objectives).
+--- Safe to call outside a coroutine.
+---@param questId QuestId
+---@param onComplete function? Optional callback invoked after the unload coroutine finishes.
+function MapIconDrawer:UnloadStarterOrFinisher(questId, onComplete)
+    Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:UnloadStarterOrFinisher] Unloading starter/finisher for:", questId)
+
+    ThreadLib.ThreadCallbackInstant(function()
+        QuestieMap:UnloadStarterOrFinisherFrames(questId)
+    end, function()
         if onComplete then
             onComplete()
         end

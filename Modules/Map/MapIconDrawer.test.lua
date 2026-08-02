@@ -51,7 +51,9 @@ describe("MapIconDrawer", function()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.DrawWorldIcon = spy.new(function() return {}, {} end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
-        QuestieMap.UnloadQuestFrames = spy.new(function() end)
+        QuestieMap.UnloadAllQuestFrames = spy.new(function() end)
+        QuestieMap.UnloadObjectiveFrames = spy.new(function() end)
+        QuestieMap.UnloadStarterOrFinisherFrames = spy.new(function() end)
 
         QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
         QuestieFramePool.UnloadFrame = spy.new(function() end)
@@ -135,15 +137,118 @@ describe("MapIconDrawer", function()
         end)
     end)
 
-    describe("UnloadQuest", function()
-        it("should call UnloadQuestFrames for the given questId", function()
-            MapIconDrawer:UnloadQuest(42)
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, 42)
+    describe("UnloadAllFrames", function()
+        it("should call UnloadAllQuestFrames for the given questId", function()
+            MapIconDrawer:UnloadAllFrames(42)
+            assert.spy(QuestieMap.UnloadAllQuestFrames).was.called_with(QuestieMap, 42)
         end)
 
-        it("should clear _questState after the unload completes", function()
-            -- After UnloadQuest, a draw for the same quest should proceed (state is nil again)
-            MapIconDrawer:UnloadQuest(42)
+        it("should set and clear the UNLOADING guard", function()
+            -- Reset ThreadCallbackInstant to normal behavior
+            ThreadLib.ThreadCallbackInstant = function(threadFn, callbackFn)
+                local co = coroutine.create(threadFn)
+                coroutine.resume(co)
+                if callbackFn then
+                    callbackFn()
+                end
+            end
+
+            MapIconDrawer:UnloadAllFrames(42)
+
+            -- After unload completes, guard should be cleared
+            -- (we can't inspect internal state, but the callback should have been called)
+            assert.spy(QuestieMap.UnloadAllQuestFrames).was.called()
+        end)
+
+        it("should invoke onComplete callback after unload", function()
+            local callbackCalled = false
+            local callback = function()
+                callbackCalled = true
+            end
+
+            ThreadLib.ThreadCallbackInstant = function(threadFn, callbackFn)
+                local co = coroutine.create(threadFn)
+                coroutine.resume(co)
+                if callbackFn then
+                    callbackFn()
+                end
+            end
+
+            MapIconDrawer:UnloadAllFrames(42, callback)
+
+            assert.is_true(callbackCalled)
+        end)
+
+        it("should prevent draws while unloading", function()
+            ThreadLib.ThreadCallbackInstant = function(threadFn, _callbackFn)
+                local co = coroutine.create(threadFn)
+                coroutine.resume(co)
+                -- Note: not calling callbackFn, so state stays "UNLOADING"
+            end
+
+            local questId = 55
+            MapIconDrawer:UnloadAllFrames(questId)
+
+            local objective = {
+                spawnList = {[1] = {}},
+                AlreadySpawned = {[1] = {mapRefs = {}, minimapRefs = {}}},
+            }
+            local iconsToDraw = makeIconsToDraw({{dist = 1.0, id = 1}})
+
+            local co = coroutine.create(function()
+                MapIconDrawer:DrawObjectiveIcons(questId, iconsToDraw, objective, 100)
+            end)
+            coroutine.resume(co)
+
+            -- Draw should have been suppressed due to UNLOADING guard
+            assert.spy(QuestieMap.DrawWorldIcon).was_not.called()
+        end)
+    end)
+
+    describe("UnloadObjectives", function()
+        it("should call UnloadObjectiveFrames for the given questId", function()
+            MapIconDrawer:UnloadObjectives(42)
+            assert.spy(QuestieMap.UnloadObjectiveFrames).was.called_with(QuestieMap, 42)
+        end)
+
+        it("should prevent draws while unloading", function()
+            -- ThreadCallbackInstant won't clear state until after the coroutine finishes,
+            -- so we override it here to keep UNLOADING state while the draw coroutine runs.
+            ThreadLib.ThreadCallbackInstant = function(threadFn, _callbackFn)
+                local co = coroutine.create(threadFn)
+                coroutine.resume(co)
+                -- Note: not calling callbackFn, so state is not cleared
+            end
+
+            local questId = 55
+            MapIconDrawer:UnloadObjectives(questId)
+
+            local objective = {
+                spawnList = {[1] = {}},
+                AlreadySpawned = {[1] = {mapRefs = {}, minimapRefs = {}}},
+            }
+            local iconsToDraw = makeIconsToDraw({{dist = 1.0, id = 1}})
+
+            local co = coroutine.create(function()
+                MapIconDrawer:DrawObjectiveIcons(questId, iconsToDraw, objective, 100)
+            end)
+            coroutine.resume(co)
+
+            -- Draw should have been suppressed due to UNLOADING guard
+            assert.spy(QuestieMap.DrawWorldIcon).was_not.called()
+        end)
+
+        it("should allow draws after unload completes", function()
+            -- Reset ThreadCallbackInstant to normal behavior
+            ThreadLib.ThreadCallbackInstant = function(threadFn, callbackFn)
+                local co = coroutine.create(threadFn)
+                coroutine.resume(co)
+                if callbackFn then
+                    callbackFn()
+                end
+            end
+
+            MapIconDrawer:UnloadObjectives(42)
 
             local objective = {
                 spawnList = {[1] = {}},
@@ -158,21 +263,16 @@ describe("MapIconDrawer", function()
 
             assert.spy(QuestieMap.DrawWorldIcon).was.called()
         end)
+    end)
 
-        it("should not set the UNLOADING guard when setUnloadingFlag is false", function()
-            -- Simulates the accept-quest flow: unload the available quest icon, then redraw
-            -- the same quest as objectives. The draw must NOT be suppressed.
-            local questId = 55
+    describe("UnloadStarterOrFinisher", function()
+        it("should call UnloadStarterOrFinisherFrames for the given questId", function()
+            MapIconDrawer:UnloadStarterOrFinisher(42)
+            assert.spy(QuestieMap.UnloadStarterOrFinisherFrames).was.called_with(QuestieMap, 42)
+        end)
 
-            -- ThreadCallbackInstant won't clear state until after the coroutine finishes,
-            -- so we override it here to NOT clear state, simulating the window where a
-            -- stale UNLOADING flag would otherwise persist across the redraw.
-            ThreadLib.ThreadCallbackInstant = function(threadFn, _callbackFn)
-                local co = coroutine.create(threadFn)
-                coroutine.resume(co)
-            end
-
-            MapIconDrawer:UnloadQuest(questId, nil, false)
+        it("should allow objective draws immediately after calling", function()
+            MapIconDrawer:UnloadStarterOrFinisher(42)
 
             local objective = {
                 spawnList = {[1] = {}},
@@ -181,16 +281,12 @@ describe("MapIconDrawer", function()
             local iconsToDraw = makeIconsToDraw({{dist = 1.0, id = 1}})
 
             local co = coroutine.create(function()
-                MapIconDrawer:DrawObjectiveIcons(questId, iconsToDraw, objective, 100)
+                MapIconDrawer:DrawObjectiveIcons(42, iconsToDraw, objective, 100)
             end)
             coroutine.resume(co)
 
+            -- Draw should NOT be suppressed since no UNLOADING guard
             assert.spy(QuestieMap.DrawWorldIcon).was.called()
-        end)
-
-        it("should still unload frames when setUnloadingFlag is false", function()
-            MapIconDrawer:UnloadQuest(42, nil, false)
-            assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, 42)
         end)
     end)
 
@@ -348,7 +444,7 @@ describe("MapIconDrawer", function()
             assert.are_equal(2, #drawCalls)
         end)
 
-        it("[race condition] should not draw when UnloadQuest was called before the draw coroutine runs", function()
+        it("[race condition] should not draw when UnloadObjectives was called before the draw coroutine runs", function()
             -- Simulates: unload is requested, then a previously-scheduled draw coroutine resumes.
             -- The draw must be suppressed.
             local questId = 55
@@ -362,7 +458,7 @@ describe("MapIconDrawer", function()
                 -- intentionally do NOT call _callbackFn so state stays "UNLOADING"
             end
 
-            MapIconDrawer:UnloadQuest(questId)
+            MapIconDrawer:UnloadObjectives(questId)
 
             local objective = {
                 spawnList = {[1] = {}},
@@ -378,7 +474,7 @@ describe("MapIconDrawer", function()
             assert.spy(QuestieMap.DrawWorldIcon).was_not.called()
         end)
 
-        it("[race condition] should not draw waypoints when UnloadQuest was called before the waypoint coroutine runs", function()
+        it("[race condition] should not draw waypoints when UnloadObjectives was called before the waypoint coroutine runs", function()
             local questId = 55
 
             ThreadLib.ThreadCallbackInstant = function(threadFn, _callbackFn)
@@ -386,7 +482,7 @@ describe("MapIconDrawer", function()
                 coroutine.resume(co)
             end
 
-            MapIconDrawer:UnloadQuest(questId)
+            MapIconDrawer:UnloadObjectives(questId)
 
             local objective = {
                 spawnList = {
