@@ -39,8 +39,8 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieQuestPrivate
-local _QuestieQuest = QuestieQuest.private
+---@type SpawnListBuilders
+local SpawnListBuilders = QuestieLoader:ImportModule("SpawnListBuilders")
 
 --- A list of quests that will never be available, used to quickly skip quests.
 ---@alias AutoBlacklistString "rep"|"skill"|"race"|"class"|"rank"
@@ -1716,7 +1716,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 local spawnList = {}
 
                 for _, ref in pairs(o[5]) do
-                    for k, v in pairs(_QuestieQuest.objectiveSpawnListCallTable[ref[1]](ref[2], specialObjective)) do
+                    for k, v in pairs(SpawnListBuilders.builders[ref[1]](ref[2], specialObjective)) do
                         -- we want to be able to override the icon in the corrections (e.g. Questie.ICON_TYPE_OBJECT on objects instead of Questie.ICON_TYPE_LOOT)
                         v.Icon = o[2]
                         spawnList[k] = v

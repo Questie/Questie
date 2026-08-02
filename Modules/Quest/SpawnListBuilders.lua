@@ -1,39 +1,24 @@
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieQuestPrivate
-QuestieQuest.private = QuestieQuest.private or {}
----@class QuestieQuestPrivate
-local _QuestieQuest = QuestieQuest.private
+---@class SpawnListBuilders
+local SpawnListBuilders = QuestieLoader:CreateModule("SpawnListBuilders")
 
+-------------------------
+--Import modules.
+-------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
-local function _GetIconScaleForMonster()
-    return Questie.db.profile.monsterScale or 1
-end
-
-local function _GetIconScaleForObject()
-    return Questie.db.profile.objectScale or 1
-end
-
-local function _GetIconScaleForEvent()
-    return Questie.db.profile.eventScale or 1.35
-end
-
-local function _GetIconScaleForLoot()
-    return Questie.db.profile.lootScale or 1
-end
-
+-------------------------
+-- Type annotations
+-------------------------
 
 ---@class SpawnListBase
 ---@field Name string
----@field Spawns table<AreaId, CoordPair[]>>
----@field Icon string @Icon path
+---@field Spawns table<AreaId, CoordPair[]>
+---@field Icon string|number @Icon path
 ---@field GetIconScale function Function to get the iconScale
 ---@field IconScale number Initial value returned by the GetIconScale function
-
 
 ---@class SpawnListTooltip
 ---@field TooltipKey string
@@ -51,19 +36,40 @@ end
 ---@field ItemId ItemId The ID of the item that the spawn drops
 
 ---@class SpawnListEvent : SpawnListBase
----@field Id number The ID of the Event (Is this even used?)
+---@field Id number The ID of the Event
 
+-------------------------
+-- Icon scale helpers (file-local)
+-------------------------
+local function _GetIconScaleForMonster()
+    return Questie.db.profile.monsterScale or 1
+end
+
+local function _GetIconScaleForObject()
+    return Questie.db.profile.objectScale or 1
+end
+
+local function _GetIconScaleForEvent()
+    return Questie.db.profile.eventScale or 1.35
+end
+
+local function _GetIconScaleForLoot()
+    return Questie.db.profile.lootScale or 1
+end
+
+-------------------------
+-- Builders (forward declarations needed for mutual references)
+-------------------------
 local killcredit, monster, object, event, item, spell
 
----@type table<"killcredit"|"monster"|"object"|"event"|"item", function>
-_QuestieQuest.objectiveSpawnListCallTable = {}
----comment
+---@type table<string, function>
+SpawnListBuilders.builders = {}
+
 ---@param npcId NpcId
----@param objective any
+---@param objective QuestObjective
 ---@param objectiveData KillObjective
----@return table<NpcId, SpawnListNPC>[]
+---@return table<NpcId, SpawnListNPC>
 killcredit = function(npcId, objective, objectiveData)
-    ---@type SpawnListNPC[]
     local ret = {}
     for npcIdIndex = 1, #objectiveData.IdList do
         local killCreditNpcId = objectiveData.IdList[npcIdIndex]
@@ -75,13 +81,13 @@ killcredit = function(npcId, objective, objectiveData)
     return ret
 end
 
----@param npcId any
----@param objective any
+---@param npcId NpcId
+---@param objective QuestObjective
 ---@return table<NpcId, SpawnListNPC>?
 monster = function(npcId, objective)
     if (not npcId) then
         Questie:Error(
-            "Corrupted objective data handed to objectiveSpawnListCallTable['monster']:",
+            "Corrupted objective data handed to SpawnListBuilders['monster']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."
         )
@@ -103,10 +109,10 @@ monster = function(npcId, objective)
     local rank = QuestieDB.QueryNPCSingle(npcId, "rank")
 
     local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
-    local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
+    local enableWaypoints = enableSpawns and 2 ~= rank
 
     ---@type SpawnListNPC
-    local monster = {
+    local monsterEntry = {
         Id = npcId,
         Name = name,
         Spawns = enableSpawns and spawns or {},
@@ -115,22 +121,19 @@ monster = function(npcId, objective)
         Icon = objective.Icon or Questie.ICON_TYPE_SLAY,
         GetIconScale = _GetIconScaleForMonster,
         IconScale = _GetIconScaleForMonster(),
-        TooltipKey = "m_" .. npcId, -- todo: use ID based keys
+        TooltipKey = "m_" .. npcId,
     }
 
-    return {
-        [npcId] = monster
-    }
+    return {[npcId] = monsterEntry}
 end
 
----comment
----@param objectId any
----@param objective any
+---@param objectId ObjectId
+---@param objective QuestObjective
 ---@return table<ObjectId, SpawnListObject>?
 object = function(objectId, objective)
     if (not objectId) then
         Questie:Error(
-            "Corrupted objective data handed to objectiveSpawnListCallTable['object']:",
+            "Corrupted objective data handed to SpawnListBuilders['object']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."
         )
@@ -149,7 +152,6 @@ object = function(objectId, objective)
         spawns = {}
     end
 
-
     ---@type SpawnListObject
     local retObject = {
         Id = objectId,
@@ -162,14 +164,11 @@ object = function(objectId, objective)
         TooltipKey = "o_" .. objectId,
     }
 
-    return {
-        [objectId] = retObject
-    }
+    return {[objectId] = retObject}
 end
 
----comment
----@param eventId any
----@param objective any
+---@param eventId number
+---@param objective QuestObjective
 ---@return { [1]: SpawnListEvent }?
 event = function(eventId, objective)
     local spawns = objective.Coordinates
@@ -188,19 +187,16 @@ event = function(eventId, objective)
         IconScale = _GetIconScaleForEvent(),
     }
 
-    return {
-        [1] = retEvent
-    }
+    return {[1] = retEvent}
 end
 
----comment
----@param itemId any
----@param objective any
+---@param itemId ItemId
+---@param objective QuestObjective
 ---@return table<ItemId, SpawnListItem>?
 item = function(itemId, objective)
     if (not itemId) then
         Questie:Error(
-            "Corrupted objective data handed to objectiveSpawnListCallTable['item']:",
+            "Corrupted objective data handed to SpawnListBuilders['item']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."
         )
@@ -208,11 +204,12 @@ item = function(itemId, objective)
     end
 
     local ret = {}
-    local item = QuestieDB:GetItem(itemId)
-    if item and item.Sources and (not item.Hidden) then
-        for _, source in pairs(item.Sources) do
-            if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
-                local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective)
+    local itemEntry = QuestieDB:GetItem(itemId)
+    if itemEntry and itemEntry.Sources and (not itemEntry.Hidden) then
+        for _, source in pairs(itemEntry.Sources) do
+            -- anti-recursive-loop check: items cannot source from items
+            if SpawnListBuilders.builders[source.Type] and source.Type ~= "item" then
+                local sourceList = SpawnListBuilders.builders[source.Type](source.Id, objective)
                 if not sourceList then
                     Questie:Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
                 else
@@ -231,7 +228,7 @@ item = function(itemId, objective)
                                 Id = id,
                                 Name = sourceData.Name,
                                 Hostile = true,
-                                ItemId = item.Id,
+                                ItemId = itemEntry.Id,
                                 TooltipKey = sourceData.TooltipKey,
                                 Spawns = {},
                                 Waypoints = {},
@@ -246,23 +243,21 @@ item = function(itemId, objective)
                                 if (not itemSpawns[zone]) then
                                     itemSpawns[zone] = {}
                                 end
-
                                 local itemSpawnsInZone = itemSpawns[zone]
                                 for _, spawn in pairs(spawns) do
-                                    itemSpawnsInZone[#itemSpawnsInZone+1] = spawn
+                                    itemSpawnsInZone[#itemSpawnsInZone + 1] = spawn
                                 end
                             end
                         end
                         if sourceData.Waypoints then
                             local itemWaypoints = ret[id].Waypoints
-                            for zone, spawns in pairs(sourceData.Waypoints) do
+                            for zone, waypoints in pairs(sourceData.Waypoints) do
                                 if (not itemWaypoints[zone]) then
                                     itemWaypoints[zone] = {}
                                 end
-
                                 local itemWaypointsInZone = itemWaypoints[zone]
-                                for _, spawn in pairs(spawns) do
-                                    itemWaypointsInZone[#itemWaypointsInZone+1] = spawn
+                                for _, waypoint in pairs(waypoints) do
+                                    itemWaypointsInZone[#itemWaypointsInZone + 1] = waypoint
                                 end
                             end
                         end
@@ -274,28 +269,26 @@ item = function(itemId, objective)
     return ret
 end
 
----comment
 ---@param spellId number
----@param objective any
+---@param objective QuestObjective
+---@param objectiveData table
 ---@return table<ItemId, SpawnListItem>?
 spell = function(spellId, objective, objectiveData)
     if (not spellId) then
         Questie:Error(
-            "Corrupted objective data handed to objectiveSpawnListCallTable['spell']:",
+            "Corrupted objective data handed to SpawnListBuilders['spell']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."
         )
         return nil
     end
 
-    local itemSource = objectiveData.ItemSourceId
-
-    return item(itemSource, objective)
+    return item(objectiveData.ItemSourceId, objective)
 end
 
-_QuestieQuest.objectiveSpawnListCallTable["killcredit"] = killcredit
-_QuestieQuest.objectiveSpawnListCallTable["monster"] = monster
-_QuestieQuest.objectiveSpawnListCallTable["object"] = object
-_QuestieQuest.objectiveSpawnListCallTable["event"] = event
-_QuestieQuest.objectiveSpawnListCallTable["item"] = item
-_QuestieQuest.objectiveSpawnListCallTable["spell"] = spell
+SpawnListBuilders.builders["killcredit"] = killcredit
+SpawnListBuilders.builders["monster"]    = monster
+SpawnListBuilders.builders["object"]     = object
+SpawnListBuilders.builders["event"]      = event
+SpawnListBuilders.builders["item"]       = item
+SpawnListBuilders.builders["spell"]      = spell

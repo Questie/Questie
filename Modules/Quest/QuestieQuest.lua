@@ -52,6 +52,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type MapIconDrawer
 local MapIconDrawer = QuestieLoader:ImportModule("MapIconDrawer")
+---@type ObjectiveIconProvider
+local ObjectiveIconProvider = QuestieLoader:ImportModule("ObjectiveIconProvider")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -61,7 +63,7 @@ local coYield = coroutine.yield;
 local NOP_FUNCTION = function() end
 
 -- forward declaration
-local _RegisterObjectiveTooltips, _DetermineIconsToDraw
+local _RegisterObjectiveTooltips
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -598,7 +600,7 @@ function QuestieQuest:CompleteQuest(questId)
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId) or
-    QuestieDB.IsMonthlyQuest(questId);
+        QuestieDB.IsMonthlyQuest(questId);
 
     if Expansions.Current >= Expansions.Wotlk then
         if allianceChampionMarkerQuests[questId] then
@@ -1102,12 +1104,9 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     local objectiveData = quest.ObjectiveData[objective.Index] or
         objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
 
-    if (not objective.spawnList or (not next(objective.spawnList))) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
-        objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
-    end
+    ObjectiveIconProvider:BuildSpawnList(objective, objectiveData)
 
-    -- Tooltips should always show.
-    -- For completed and uncompleted objectives
+    -- Tooltips should always show. For completed and uncompleted objectives
     _RegisterObjectiveTooltips(objective, quest.Id, blockItemTooltips)
 
     if completed then
@@ -1121,131 +1120,11 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     if objective.spawnList and next(objective.spawnList) then
         local maxPerType = Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit or 1500
-
-        local zoneCount = 0
-        local zones = {}
-        local objectiveZone
-
-        for _, spawnData in pairs(objective.spawnList) do
-            for zone in pairs(spawnData.Spawns) do
-                zones[zone] = true
-            end
-        end
-
-        for zone in pairs(zones) do
-            objectiveZone = zone
-            zoneCount = zoneCount + 1
-        end
-
-        local objectiveCenter
-        if zoneCount == 1 then -- this objective happens in 1 zone, clustering should be relative to that zone
-            local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
-            objectiveCenter = {x = x, y = y}
-        else
-            objectiveCenter = DistanceUtils.GetNearestFinisherOrStarter(quest.Starts)
-        end
-
-        if (not objectiveCenter) or (not objectiveCenter.x) or (not objectiveCenter.y) then
-            -- When an NPC doesn't have any spawns objectiveCenter will be nil.
-            -- Also for some areas HBD will return nil for the world coordinates.
-            -- This will create a distance of 0 but it doesn't matter.
-            objectiveCenter = {x = 0, y = 0}
-        end
-
-        local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
+        local objectiveCenter = ObjectiveIconProvider:GetObjectiveCenter(quest, objective)
+        local iconsToDraw = ObjectiveIconProvider:BuildIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
         local lastIcon, iconPerZone = MapIconDrawer:DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
         MapIconDrawer:DrawObjectiveWaypoints(quest.Id, objective, lastIcon, iconPerZone)
     end
-end
-
----@param quest Quest
----@param objective QuestObjective
----@param objectiveIndex ObjectiveIndex
----@param objectiveCenter {x:X, y:Y}
-_DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter)
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DetermineIconsToDraw]")
-
-    local iconsToDraw = {}
-    local spawnItemId
-
-    local yieldCount = 0
-    for id, spawnData in pairs(objective.spawnList) do
-        if spawnData.ItemId then
-            spawnItemId = spawnData.ItemId
-        end
-
-        if (not objective.Icon) and spawnData.Icon then
-            objective.Icon = spawnData.Icon
-        end
-
-        if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.profile.enableObjectives then
-            local data = {
-                Id = quest.Id,
-                ObjectiveIndex = objectiveIndex,
-                QuestData = quest,
-                ObjectiveData = objective,
-                Icon = spawnData.Icon,
-                IconColor = quest.Color,
-                GetIconScale = spawnData.GetIconScale,
-                IconScale = spawnData.GetIconScale(),
-                Name = spawnData.Name,
-                Type = objective.Type,
-                ObjectiveTargetId = spawnData.Id
-            }
-
-            objective.AlreadySpawned[id] = {
-                data = data,
-                minimapRefs = {},
-                mapRefs = {},
-            }
-
-            for zone, spawns in pairs(spawnData.Spawns) do
-                local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                for _, spawn in pairs(spawns) do
-                    if spawn[1] and spawn[2] and Phasing.IsSpawnVisible(spawn[3]) then
-                        local drawIcon = {
-                            AlreadySpawnedId = id,
-                            data = data,
-                            zone = zone,
-                            AreaID = zone,
-                            UiMapID = uiMapId,
-                            x = spawn[1],
-                            y = spawn[2],
-                            worldX = 0,
-                            worldY = 0,
-                            distance = 0,
-                            touched = nil, -- TODO change. This is meant to let lua reserve memory for all keys needed for sure.
-                        }
-                        local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x / 100, drawIcon.y / 100, uiMapId)
-                        if (not x) or (not y) then
-                            x, y = 0, 0 -- Fallback to 0,0 if no coordinates are found
-                        end
-
-                        -- Cache world coordinates for clustering calculations
-                        drawIcon.worldX = x
-                        drawIcon.worldY = y
-                        local distance = QuestieLib.Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x, y);
-                        drawIcon.distance = distance or 0 -- cache for clustering
-                        -- there can be multiple icons at same distance at different directions
-                        local iconList = iconsToDraw[distance]
-                        if iconList then
-                            iconList[#iconList + 1] = drawIcon
-                        else
-                            iconsToDraw[distance] = {drawIcon}
-                        end
-
-                        yieldCount = yieldCount + 1
-                        if yieldCount >= TICKS_PER_YIELD then
-                            yieldCount = 0
-                            coYield()
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    return iconsToDraw, spawnItemId
 end
 
 _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)

@@ -222,7 +222,8 @@ Modules\Quest\IsleOfQuelDanas.lua
 Modules\Quest\QuestFinisher.lua
 Modules\Quest\QuestgiverFrame.lua
 Modules\Quest\QuestieQuest.lua
-Modules\Quest\QuestieQuestPrivates.lua
+Modules\Quest\SpawnListBuilders.lua
+Modules\Quest\ObjectiveIconProvider.lua
 
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
