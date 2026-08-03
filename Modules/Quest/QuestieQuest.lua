@@ -697,14 +697,6 @@ function QuestieQuest:UpdateQuest(questId)
 
         local isComplete = quest:IsComplete()
 
-        if isComplete ~= 1 then
-            if QuestieQuest:ShouldShowQuestNotes(questId) then
-                QuestieQuest:UpdateObjectiveNotes(quest)
-            else
-                QuestieTooltips:RemoveQuest(questId)
-            end
-        end
-
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] QuestDB:IsComplete() flag is: " .. isComplete)
 
         if isComplete == 1 then
@@ -743,8 +735,6 @@ function QuestieQuest:UpdateQuest(questId)
                 quest.WasComplete = nil
                 quest.isComplete = nil
 
-                AvailableQuests.RemoveQuest(questId)
-
                 QuestieQuest:CheckQuestSourceItem(questId, true)
 
                 -- Reset any collapsed quest flags
@@ -752,9 +742,11 @@ function QuestieQuest:UpdateQuest(questId)
                     Questie.db.char.collapsedQuests[questId] = nil
                 end
 
-                QuestieQuest:PopulateQuestLogInfo(quest)
-                QuestieQuest:PopulateObjectiveNotes(quest)
-                AvailableQuests.CalculateAndDrawAll()
+                AvailableQuests.RemoveQuest(questId, function()
+                    QuestieQuest:PopulateQuestLogInfo(quest)
+                    QuestieQuest:PopulateObjectiveNotes(quest)
+                    AvailableQuests.CalculateAndDrawAll()
+                end)
             else
                 -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
                 -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
@@ -784,6 +776,11 @@ function QuestieQuest:UpdateQuest(questId)
                         Questie:Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] Quest Objective Status is: " ..
                             numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
+
+                        -- Update objective notes only when quest is genuinely in-progress (not all objectives complete)
+                        if QuestieQuest:ShouldShowQuestNotes(questId) then
+                            QuestieQuest:UpdateObjectiveNotes(quest)
+                        end
                     end
                 end
             end
