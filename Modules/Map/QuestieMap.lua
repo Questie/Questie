@@ -111,7 +111,6 @@ local function _UnloadQuestFramesInternal(questId, shouldUnloadFrame)
                 end
 
                 QuestieMap.questIdFrames[questId][name] = nil
-                _G[name] = nil
 
                 yieldCount = yieldCount + 1
                 if yieldCount >= TICKS_PER_YIELD then
