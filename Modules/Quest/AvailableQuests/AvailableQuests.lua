@@ -164,10 +164,11 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 end
 
 ---@param questId QuestId
-function AvailableQuests.RemoveQuest(questId)
+---@param onComplete function? Optional callback invoked after the starter/finisher frames are unloaded.
+function AvailableQuests.RemoveQuest(questId, onComplete)
     availableQuests[questId] = nil
 
-    MapIconDrawer:UnloadStarterOrFinisher(questId)
+    MapIconDrawer:UnloadStarterOrFinisher(questId, onComplete)
     QuestieTooltips:RemoveQuest(questId)
 end
 
