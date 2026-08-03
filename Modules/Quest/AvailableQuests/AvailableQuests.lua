@@ -162,10 +162,15 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 end
 
 ---@param questId QuestId
-function AvailableQuests.RemoveQuest(questId)
+---@param onComplete function? Optional callback invoked after the starter/finisher frames are unloaded.
+function AvailableQuests.RemoveQuest(questId, onComplete)
     availableQuests[questId] = nil
-    ThreadLib.ThreadInstant(function()
+    ThreadLib.ThreadCallbackInstant(function()
         QuestieMap:UnloadQuestFrames(questId)
+    end, function()
+        if onComplete then
+            onComplete()
+        end
     end)
     QuestieTooltips:RemoveQuest(questId)
 end

@@ -36,7 +36,10 @@ describe("AvailableQuests", function()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         Comms = QuestieLoader:ImportModule("Comms")
         TheadLib = QuestieLoader:ImportModule("ThreadLib")
-        TheadLib.ThreadInstant = function(fun) fun() end
+        TheadLib.ThreadCallbackInstant = function(fun, callback)
+            fun()
+            callback()
+        end
 
         Questie.db.profile.availableIconLimit = 10
 
