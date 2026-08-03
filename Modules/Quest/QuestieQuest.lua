@@ -561,8 +561,6 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie.db.char.complete[30087] = true -- Xiao's Breadcrumbs Hidden Prequest
             end
 
-            AvailableQuests.RemoveQuest(questId)
-
             -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
             if Questie.db.char.collapsedQuests then
                 Questie.db.char.collapsedQuests[questId] = nil
@@ -572,16 +570,17 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
             end
 
-            QuestieQuest:PopulateQuestLogInfo(quest)
-            -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
-            Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-            QuestieQuest:PopulateObjectiveNotes(quest)
+            -- Remove the starter/finisher frames first, then draw objective notes once the
+            -- unload coroutine has finished. This prevents the draw coroutines from racing
+            -- with the unload coroutine and leaving stale entries in questIdFrames.
+            AvailableQuests.RemoveQuest(questId, function()
+                QuestieQuest:PopulateQuestLogInfo(quest)
+                -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
+                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+                QuestieQuest:PopulateObjectiveNotes(quest)
 
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
+                AvailableQuests.CalculateAndDrawAll()
             end)
-
-            AvailableQuests.CalculateAndDrawAll()
         else
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already exists, not adding")
         end
@@ -1030,15 +1029,23 @@ end
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
     for objectiveIndex, objective in pairs(quest.Objectives) do
-        ThreadLib.ThreadInstant(function()
+        ThreadLib.ThreadCallbackInstant(function()
             QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false)
+        end, function()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
         end)
     end
 
     if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
-            ThreadLib.ThreadInstant(function()
+            ThreadLib.ThreadCallbackInstant(function()
                 QuestieQuest:PopulateObjective(quest, 0, objective, true)
+            end, function()
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                end)
             end)
         end
     end
@@ -1586,8 +1593,9 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil. This
         -- check assumes the Quest should have been flagged questLogEngtry.isComplete == 1. We're specifically looking for a quest.triggerEnd or
         -- a quest.Finisher because this might throw an error if there is nothing to populate when we call QuestFinisher.AddFinisher().
-        AvailableQuests.RemoveQuest(quest.Id)
-        QuestFinisher.AddFinisher(quest)
+        AvailableQuests.RemoveQuest(quest.Id, function()
+            QuestFinisher.AddFinisher(quest)
+        end)
         quest.isComplete = true
     end
 end
