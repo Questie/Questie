@@ -177,7 +177,7 @@ function AvailableQuests.RecreateFailedQuest(quest)
     local questId = quest.Id
     availableQuests[questId] = nil
 
-    MapIconDrawer:UnloadAllFrames(questId, function()
+    MapIconDrawer:UnloadQuest(questId, function()
         QuestieTooltips:RemoveQuest(questId)
         AvailableQuests.DrawAvailableQuest(quest)
     end)

@@ -623,7 +623,7 @@ function QuestieQuest:CompleteQuest(questId)
         QuestieTracker:Update()
     end)
 
-    MapIconDrawer:UnloadAllFrames(questId, function()
+    MapIconDrawer:UnloadQuest(questId, function()
         AvailableQuests.CalculateAndDrawAll()
     end)
 
@@ -668,7 +668,7 @@ function QuestieQuest:AbandonedQuest(questId)
             QuestieTracker:Update()
         end)
 
-        MapIconDrawer:UnloadAllFrames(questId, function()
+        MapIconDrawer:UnloadQuest(questId, function()
             AvailableQuests.CalculateAndDrawAll()
         end)
 

@@ -130,9 +130,9 @@ describe("MapIconDrawer", function()
         end)
     end)
 
-    describe("UnloadAllFrames", function()
+    describe("UnloadQuest", function()
         it("should call UnloadAllQuestFrames for the given questId", function()
-            MapIconDrawer:UnloadAllFrames(42)
+            MapIconDrawer:UnloadQuest(42)
             assert.spy(QuestieMap.UnloadAllQuestFrames).was.called_with(QuestieMap, 42)
         end)
 
@@ -146,7 +146,7 @@ describe("MapIconDrawer", function()
                 end
             end
 
-            MapIconDrawer:UnloadAllFrames(42)
+            MapIconDrawer:UnloadQuest(42)
 
             -- After unload completes, guard should be cleared
             -- (we can't inspect internal state, but the callback should have been called)
@@ -167,7 +167,7 @@ describe("MapIconDrawer", function()
                 end
             end
 
-            MapIconDrawer:UnloadAllFrames(42, callback)
+            MapIconDrawer:UnloadQuest(42, callback)
 
             assert.is_true(callbackCalled)
         end)
@@ -180,7 +180,7 @@ describe("MapIconDrawer", function()
             end
 
             local questId = 55
-            MapIconDrawer:UnloadAllFrames(questId)
+            MapIconDrawer:UnloadQuest(questId)
 
             local objective = {
                 spawnList = {[1] = {}},

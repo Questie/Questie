@@ -108,8 +108,8 @@ end
 --- Safe to call outside a coroutine.
 ---@param questId QuestId
 ---@param onComplete function? Optional callback invoked after the unload coroutine finishes.
-function MapIconDrawer:UnloadAllFrames(questId, onComplete)
-    Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:UnloadAllFrames] Unloading all frames for:", questId)
+function MapIconDrawer:UnloadQuest(questId, onComplete)
+    Questie:Debug(Questie.DEBUG_INFO, "[MapIconDrawer:UnloadQuest] Unloading all frames for:", questId)
 
     _questState[questId] = "UNLOADING"
 
