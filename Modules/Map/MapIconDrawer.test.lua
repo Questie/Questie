@@ -81,7 +81,7 @@ describe("MapIconDrawer", function()
         MapIconDrawer = QuestieLoader:ImportModule("MapIconDrawer")
     end)
 
-    describe("UnloadObjectiveIcons", function()
+    describe("UnloadObjective", function()
         it("should unload all map and minimap frames for all spawns and reset AlreadySpawned", function()
             local mapFrame = {}
             local minimapFrame = {}
@@ -94,7 +94,7 @@ describe("MapIconDrawer", function()
             }
 
             local co = coroutine.create(function()
-                MapIconDrawer:UnloadObjectiveIcons(objective)
+                MapIconDrawer:UnloadObjective(objective)
             end)
             coroutine.resume(co)
 
@@ -107,7 +107,7 @@ describe("MapIconDrawer", function()
             local objective = {spawnList = {}, AlreadySpawned = {}}
 
             local co = coroutine.create(function()
-                MapIconDrawer:UnloadObjectiveIcons(objective)
+                MapIconDrawer:UnloadObjective(objective)
             end)
             coroutine.resume(co)
 
@@ -121,7 +121,7 @@ describe("MapIconDrawer", function()
             }
 
             local co = coroutine.create(function()
-                MapIconDrawer:UnloadObjectiveIcons(objective)
+                MapIconDrawer:UnloadObjective(objective)
             end)
             local ok, err = coroutine.resume(co)
 

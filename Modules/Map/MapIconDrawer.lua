@@ -81,7 +81,7 @@ end
 
 --- Unloads all map and minimap frames for an objective and resets AlreadySpawned.
 ---@param objective QuestObjective
-function MapIconDrawer:UnloadObjectiveIcons(objective)
+function MapIconDrawer:UnloadObjective(objective)
     if (not next(objective.spawnList)) then
         return
     end

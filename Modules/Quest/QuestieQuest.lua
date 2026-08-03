@@ -1110,7 +1110,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     _RegisterObjectiveTooltips(objective, quest.Id, blockItemTooltips)
 
     if completed then
-        MapIconDrawer:UnloadObjectiveIcons(objective)
+        MapIconDrawer:UnloadObjective(objective)
         return
     end
 
