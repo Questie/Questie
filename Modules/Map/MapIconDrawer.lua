@@ -80,11 +80,8 @@ local function _HasProperDistanceToAlreadyPlacedObjectives(coords, placed)
 end
 
 --- Unloads all map and minimap frames for an objective and resets AlreadySpawned.
---- Must be called from a coroutine.
 ---@param objective QuestObjective
 function MapIconDrawer:UnloadObjectiveIcons(objective)
-    assert(coroutine.running(), "UnloadObjectiveIcons must be called from a coroutine")
-
     if (not next(objective.spawnList)) then
         return
     end

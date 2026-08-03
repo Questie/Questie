@@ -128,13 +128,6 @@ describe("MapIconDrawer", function()
             assert.is_true(ok, err)
             assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
         end)
-
-        it("should assert when not running in a coroutine", function()
-            local objective = makeObjective({1})
-            assert.has_error(function()
-                MapIconDrawer:UnloadObjectiveIcons(objective)
-            end)
-        end)
     end)
 
     describe("UnloadAllFrames", function()
