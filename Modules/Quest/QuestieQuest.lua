@@ -630,14 +630,14 @@ function QuestieQuest:CompleteQuest(questId)
         end
     end
 
-    AvailableQuests.RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
 
-    -- TODO: Should this be done first? Because CalculateAndDrawAll looks at QuestieMap.questIdFrames[QuestId] to add available
-    AvailableQuests.CalculateAndDrawAll()
+    AvailableQuests.RemoveQuest(questId, function()
+        AvailableQuests.CalculateAndDrawAll()
+    end)
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Completed Quest:", questId)
 end
