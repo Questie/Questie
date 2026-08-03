@@ -646,7 +646,7 @@ end
 function QuestieQuest:AbandonedQuest(questId)
     if (QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
-        AvailableQuests.RemoveQuest(questId)
+
         local quest = QuestieDB.GetQuest(questId)
 
         if quest then
@@ -679,7 +679,9 @@ function QuestieQuest:AbandonedQuest(questId)
             QuestieTracker:Update()
         end)
 
-        AvailableQuests.CalculateAndDrawAll()
+        AvailableQuests.RemoveQuest(questId, function()
+            AvailableQuests.CalculateAndDrawAll()
+        end)
 
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Abandoned Quest:", questId)
     end
