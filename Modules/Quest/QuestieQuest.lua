@@ -730,8 +730,6 @@ function QuestieQuest:UpdateQuest(questId)
                 quest.WasComplete = nil
                 quest.isComplete = nil
 
-                AvailableQuests.RemoveQuest(questId)
-
                 QuestieQuest:CheckQuestSourceItem(questId, true)
 
                 -- Reset any collapsed quest flags
@@ -739,9 +737,11 @@ function QuestieQuest:UpdateQuest(questId)
                     Questie.db.char.collapsedQuests[questId] = nil
                 end
 
-                QuestieQuest:PopulateQuestLogInfo(quest)
-                QuestieQuest:PopulateObjectiveNotes(quest)
-                AvailableQuests.CalculateAndDrawAll()
+                AvailableQuests.RemoveQuest(questId, function()
+                    QuestieQuest:PopulateQuestLogInfo(quest)
+                    QuestieQuest:PopulateObjectiveNotes(quest)
+                    AvailableQuests.CalculateAndDrawAll()
+                end)
             else
                 -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
                 -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
