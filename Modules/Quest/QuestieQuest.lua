@@ -603,7 +603,8 @@ function QuestieQuest:CompleteQuest(questId)
 
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId) or QuestieDB.IsMonthlyQuest(questId);
+    Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId) or
+        QuestieDB.IsMonthlyQuest(questId);
 
     if Expansions.Current >= Expansions.Wotlk then
         if allianceChampionMarkerQuests[questId] then
@@ -1445,7 +1446,6 @@ _GetIconsSortedByDistance = function(icons)
 end
 
 _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
-
     local yieldCount = 0
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
         if spawnData.Waypoints then
