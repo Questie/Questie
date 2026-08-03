@@ -97,6 +97,7 @@ end
 ---@param shouldUnloadFrame fun(frame: IconFrame): boolean @Function returning true if frame should be unloaded
 local function _UnloadQuestFramesInternal(questId, shouldUnloadFrame)
     if QuestieMap.questIdFrames[questId] then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Unloading quest frames for questid:", questId)
         local yieldCount = 0
         for name, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
             if shouldUnloadFrame(frame) then
@@ -124,7 +125,6 @@ local function _UnloadQuestFramesInternal(questId, shouldUnloadFrame)
         if not next(QuestieMap.questIdFrames[questId]) then
             QuestieMap.questIdFrames[questId] = nil
         end
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Unloading quest frames for questid:", questId)
     end
 end
 
