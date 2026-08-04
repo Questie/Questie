@@ -704,6 +704,8 @@ function QuestieQuest:UpdateQuest(questId)
             -- Quest is complete
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
 
+            quest.WasComplete = true
+
             -- Only remove the map icons, but keep the tooltips
             ThreadLib.ThreadCallbackInstant(function()
                 QuestieMap:UnloadQuestFrames(questId)
@@ -711,8 +713,6 @@ function QuestieQuest:UpdateQuest(questId)
                 QuestFinisher.AddFinisher(quest)
                 Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
             end)
-
-            quest.WasComplete = true
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has: Failed!")
@@ -730,10 +730,8 @@ function QuestieQuest:UpdateQuest(questId)
             if quest and (quest.WasComplete or (quest.sourceItemId > 0 and QuestieQuest:CheckQuestSourceItem(questId, false) == false)) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete or Quest Item(s) were removed. Resetting quest.")
 
-                -- Reset quest objectives
+                -- Reset quest objectives and quest flags
                 quest.Objectives = {}
-
-                -- Reset quest flags
                 quest.WasComplete = nil
                 quest.isComplete = nil
 
@@ -767,6 +765,9 @@ function QuestieQuest:UpdateQuest(questId)
                         Questie:Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
 
+                        quest.WasComplete = true
+                        quest.isComplete = true
+
                         -- Only remove the map icons, but keep the tooltips
                         ThreadLib.ThreadCallbackInstant(function()
                             QuestieMap:UnloadQuestFrames(questId)
@@ -774,8 +775,6 @@ function QuestieQuest:UpdateQuest(questId)
                             QuestFinisher.AddFinisher(quest)
                             Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                         end)
-                        quest.WasComplete = true
-                        quest.isComplete = true
                     else
                         Questie:Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] Quest Objective Status is: " ..
