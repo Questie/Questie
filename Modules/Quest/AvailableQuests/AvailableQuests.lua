@@ -185,6 +185,7 @@ function AvailableQuests.RecreateFailedQuest(quest)
     end, function()
         QuestieTooltips:RemoveQuest(questId)
         AvailableQuests.DrawAvailableQuest(quest)
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questId)
     end)
 end
 

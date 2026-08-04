@@ -709,6 +709,7 @@ function QuestieQuest:UpdateQuest(questId)
                 QuestieMap:UnloadQuestFrames(questId)
             end, function()
                 QuestFinisher.AddFinisher(quest)
+                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
             end)
 
             quest.WasComplete = true
@@ -745,6 +746,7 @@ function QuestieQuest:UpdateQuest(questId)
 
                 AvailableQuests.RemoveQuest(questId, function()
                     QuestieQuest:PopulateQuestLogInfo(quest)
+                    Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                     QuestieQuest:PopulateObjectiveNotes(quest)
                     AvailableQuests.CalculateAndDrawAll()
                 end)
@@ -770,6 +772,7 @@ function QuestieQuest:UpdateQuest(questId)
                             QuestieMap:UnloadQuestFrames(questId)
                         end, function()
                             QuestFinisher.AddFinisher(quest)
+                            Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                         end)
                         quest.WasComplete = true
                         quest.isComplete = true
@@ -782,12 +785,11 @@ function QuestieQuest:UpdateQuest(questId)
                         if QuestieQuest:ShouldShowQuestNotes(questId) then
                             QuestieQuest:UpdateObjectiveNotes(quest)
                         end
+                        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                     end
                 end
             end
         end
-
-        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
     end
 end
 
