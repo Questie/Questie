@@ -1006,9 +1006,13 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check character race
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
-        local msg = "Race requirement not fulfilled for quest " .. questId
+        local requirementLabel = "Race requirement"
+        if requiredRaces == QuestieDB.raceKeys.ALL_ALLIANCE or requiredRaces == QuestieDB.raceKeys.ALL_HORDE then
+            requirementLabel = "Faction requirement"
+        end
+        local msg = requirementLabel .. " not fulfilled for quest " .. questId
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Race requirement"), true, DoableStates.WRONG_RACE
+            return l10n("Unavailable")..l10n(": ")..l10n(requirementLabel), true, DoableStates.WRONG_RACE
         elseif returnText and not returnBrief then
             return msg, true, DoableStates.WRONG_RACE
         end
