@@ -264,6 +264,51 @@ local function _DrawQuest(questId)
         return drawnByQuest[questId] ~= entry or (not _ShouldDraw())
     end
 
+    -- Draw one objective and adopt the icons it produced. The body is queued, not run here: it
+    -- first resumes on a later frame, so everything it depends on is revalidated inside it.
+    ---@param objective table @Synthetic party objective; PopulateObjective fills its AlreadySpawned
+    ---@param objectiveIndex number @Index handed to PopulateObjective
+    ---@param cacheSpawnListAt number? @Objective index to cache the built spawn list under; nil skips caching
+    local function _ScheduleObjectiveDraw(objective, objectiveIndex, cacheSpawnListAt)
+        ThreadLib.ThreadInstant(function()
+            -- Nothing has been drawn yet, so an already-cleared quest can bail without cleanup.
+            if _IsStale() then
+                return
+            end
+
+            QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, true)
+
+            -- PopulateObjective yields, so re-check before adopting the icons it drew.
+            if _IsStale() then
+                _UnloadObjective(objective)
+                return
+            end
+
+            -- The budget is global and only grows as objectives are adopted, so the check in the
+            -- scheduling loop is already out of date by now and has to be repeated against the
+            -- count this objective actually produced.
+            local objectiveIconCount = _CountIcons(objective)
+            if drawnIconCount + objectiveIconCount > MAX_PARTY_ICONS then
+                _UnloadObjective(objective)
+                return
+            end
+
+            -- Only standard objectives build a spawn list worth caching (see spawnListCache).
+            if cacheSpawnListAt and objective.spawnList and next(objective.spawnList) then
+                if not spawnListCache[questId] then
+                    spawnListCache[questId] = {}
+                end
+                spawnListCache[questId][cacheSpawnListAt] = objective.spawnList
+            end
+
+            -- Commit point: past here the icons belong to the entry and count against the budget,
+            -- so _ClearQuest/Clear can find and release them.
+            entry.objectives[#entry.objectives + 1] = objective
+            entry.iconCount = entry.iconCount + objectiveIconCount
+            drawnIconCount = drawnIconCount + objectiveIconCount
+        end)
+    end
+
     for objectiveIndex, remoteObjective in pairs(neededIndices) do
         if drawnIconCount + entry.iconCount >= MAX_PARTY_ICONS then
             break
@@ -315,34 +360,8 @@ local function _DrawQuest(questId)
                 registeredItemTooltips = true,
             }
 
-            ThreadLib.ThreadInstant(function()
-                if _IsStale() then
-                    return
-                end
-
-                QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, true)
-
-                -- PopulateObjective yields, so re-check before adopting the icons it drew.
-                if _IsStale() then
-                    _UnloadObjective(objective)
-                    return
-                end
-
-                local objectiveIconCount = _CountIcons(objective)
-                if drawnIconCount + objectiveIconCount > MAX_PARTY_ICONS then
-                    _UnloadObjective(objective)
-                    return
-                end
-                if (not cachedSpawnList) and objective.spawnList and next(objective.spawnList) then
-                    if not spawnListCache[questId] then
-                        spawnListCache[questId] = {}
-                    end
-                    spawnListCache[questId][objectiveIndex] = objective.spawnList
-                end
-                entry.objectives[#entry.objectives + 1] = objective
-                entry.iconCount = entry.iconCount + objectiveIconCount
-                drawnIconCount = drawnIconCount + objectiveIconCount
-            end)
+            -- Only ask for caching when this objective had no cached spawn list to start with.
+            _ScheduleObjectiveDraw(objective, objectiveIndex, (not cachedSpawnList) and objectiveIndex or nil)
         end
     end
 
@@ -378,27 +397,8 @@ local function _DrawQuest(questId)
             registeredItemTooltips = true,
         }
 
-        ThreadLib.ThreadInstant(function()
-            if _IsStale() then
-                return
-            end
-
-            QuestieQuest:PopulateObjective(quest, objective.Index, objective, true)
-
-            if _IsStale() then
-                _UnloadObjective(objective)
-                return
-            end
-
-            local objectiveIconCount = _CountIcons(objective)
-            if drawnIconCount + objectiveIconCount > MAX_PARTY_ICONS then
-                _UnloadObjective(objective)
-                return
-            end
-            entry.objectives[#entry.objectives + 1] = objective
-            entry.iconCount = entry.iconCount + objectiveIconCount
-            drawnIconCount = drawnIconCount + objectiveIconCount
-        end)
+        -- Special objectives reuse the DB-built spawn list, so there is nothing to cache.
+        _ScheduleObjectiveDraw(objective, objective.Index, nil)
     end
 end
 
