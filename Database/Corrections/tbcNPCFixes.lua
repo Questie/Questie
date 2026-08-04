@@ -1608,6 +1608,9 @@ function QuestieTBCNpcFixes:Load()
         [23035] = {
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
         },
+        [23042] = { -- Severin
+            [npcKeys.waypoints] = {},
+        },
         [23053] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{55.78,46.39}}},
             [npcKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
