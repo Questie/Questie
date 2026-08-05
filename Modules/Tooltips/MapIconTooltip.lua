@@ -245,7 +245,7 @@ function MapIconTooltip:Show()
                         if breadcrumbs then
                             local breadcrumbCount = 0
                             for _, breadcrumbId in ipairs(breadcrumbs) do
-                                if not QuestieCorrections.hiddenQuests[breadcrumbId] then
+                                if not QuestieCorrections.hiddenQuests[breadcrumbId] and not Questie.db.char.complete[breadcrumbId] then
                                     local breadcrumbQuest = QuestieDB.GetQuest(breadcrumbId)
                                     if breadcrumbQuest then
                                         local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbQuest.level, "")
