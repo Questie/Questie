@@ -2,6 +2,7 @@
 
 ---@alias AnimationDataEnum number
 ---@alias ArtifactTiers number
+---@alias AuraFilters string
 ---@alias BigInteger number
 ---@alias BigUInteger number
 ---@alias CalendarEventID number
@@ -9,8 +10,11 @@
 ---@alias ClubInvitationId string
 ---@alias ClubStreamId string
 ---@alias ConnectionIptype number 1=IPv4, 2=IPv6
+---@alias DurationSeconds number
+---@alias EncounterTimelineEventID number
 ---@alias FileAsset string
 ---@alias fileID integer
+---@alias FrameTime number
 ---@alias GarrisonFollower string
 ---@alias HTMLTextType string
 ---@alias IDOrLink number|string
@@ -19,7 +23,9 @@
 ---@alias kstringClubMessage string
 ---@alias kstringLfgListApplicant string
 ---@alias kstringLfgListSearch string
+---@alias LuaCurveEvaluatedResult number|colorRGBA
 ---@alias luaFunction function
+---@alias LuaValueReference any
 ---@alias LuaValueVariant table
 ---@alias ModelAsset number FileID
 ---@alias normalizedValue number [0.0 - 1.0]
@@ -28,7 +34,9 @@
 ---@alias RecruitAcceptanceID string
 ---@alias SingleColorValue number
 ---@alias size number
+---@alias SoundHandle number
 ---@alias SpellIdentifier number|string
+---@alias StoreError number
 ---@alias stringView string
 ---@alias TextureAsset fileID|string|Texture
 ---@alias TextureAssetDisk fileID|string
@@ -37,7 +45,19 @@
 ---@alias time_t number
 ---@alias uiAddon string|number
 ---@alias uiFontHeight number
+---@alias UISoundSubType number
 ---@alias uiUnit number
 ---@alias WeeklyRewardItemDBID string
 ---@alias WOWGUID string
 ---@alias WOWMONEY number
+
+-- scriptobjects
+---@alias LuaCurveObjectBase CurveObjectBase
+---@alias LuaCurveObject CurveObject
+---@alias LuaColorCurveObject ColorCurveObject
+---@alias LuaDurationObject DurationObject
+
+-- backwards compat
+---@alias UnitId UnitToken
+---@alias WowEvent FrameEvent
+---@alias Nameplate NamePlateFrame

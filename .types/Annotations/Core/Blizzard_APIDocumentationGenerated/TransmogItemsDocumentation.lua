@@ -29,9 +29,9 @@ function C_TransmogCollection.ClearNewAppearance(visualID) end
 ---@return boolean completed
 function C_TransmogCollection.ClearSearch(searchType) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.DeleteOutfit)
----@param outfitID number
-function C_TransmogCollection.DeleteOutfit(outfitID) end
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.DeleteCustomSet)
+---@param customSetID number
+function C_TransmogCollection.DeleteCustomSet(customSetID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.EndSearch)
 function C_TransmogCollection.EndSearch() end
@@ -73,15 +73,7 @@ function C_TransmogCollection.GetAppearanceSourceDrops(itemModifiedAppearanceID)
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetAppearanceSourceInfo)
 ---@param itemModifiedAppearanceID number
----@return Enum.TransmogCollectionType category
----@return number itemAppearanceID
----@return boolean canHaveIllusion
----@return fileID icon
----@return boolean isCollected
----@return string itemLink
----@return string transmoglink
----@return number? sourceType
----@return number itemSubClass
+---@return TransmogAppearanceSourceInfoData info
 function C_TransmogCollection.GetAppearanceSourceInfo(itemModifiedAppearanceID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetAppearanceSources)
@@ -136,6 +128,26 @@ function C_TransmogCollection.GetClassFilter() end
 ---@return boolean shown
 function C_TransmogCollection.GetCollectedShown() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetCustomSetHyperlinkFromItemTransmogInfoList)
+---@param itemTransmogInfoList ItemTransmogInfo[]
+---@return string hyperlink
+function C_TransmogCollection.GetCustomSetHyperlinkFromItemTransmogInfoList(itemTransmogInfoList) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetCustomSetInfo)
+---@param customSetID number
+---@return string name
+---@return fileID icon
+function C_TransmogCollection.GetCustomSetInfo(customSetID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetCustomSetItemTransmogInfoList)
+---@param customSetID number
+---@return ItemTransmogInfo[] list
+function C_TransmogCollection.GetCustomSetItemTransmogInfoList(customSetID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetCustomSets)
+---@return number[] customSetID
+function C_TransmogCollection.GetCustomSets() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetFallbackWeaponAppearance)
 ---@return number? appearanceID
 function C_TransmogCollection.GetFallbackWeaponAppearance() end
@@ -163,8 +175,9 @@ function C_TransmogCollection.GetIllusionInfo(illusionID) end
 function C_TransmogCollection.GetIllusionStrings(illusionID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetIllusions)
+---@param category? Enum.TransmogCollectionType
 ---@return TransmogIllusionInfo[] illusions
-function C_TransmogCollection.GetIllusions() end
+function C_TransmogCollection.GetIllusions(category) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetInspectItemTransmogInfoList)
 ---@return ItemTransmogInfo[] list
@@ -181,43 +194,23 @@ function C_TransmogCollection.GetIsAppearanceFavorite(itemAppearanceID) end
 ---@return number itemModifiedAppearanceID
 function C_TransmogCollection.GetItemInfo(itemInfo) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetItemTransmogInfoListFromOutfitHyperlink)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetItemTransmogInfoListFromCustomSetHyperlink)
 ---@param hyperlink string
 ---@return ItemTransmogInfo[] list
-function C_TransmogCollection.GetItemTransmogInfoListFromOutfitHyperlink(hyperlink) end
+function C_TransmogCollection.GetItemTransmogInfoListFromCustomSetHyperlink(hyperlink) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetLatestAppearance)
 ---@return number visualID
 ---@return Enum.TransmogCollectionType category
 function C_TransmogCollection.GetLatestAppearance() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetNumMaxOutfits)
----@return number maxOutfits
-function C_TransmogCollection.GetNumMaxOutfits() end
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetNumMaxCustomSets)
+---@return number maxCustomSets
+function C_TransmogCollection.GetNumMaxCustomSets() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetNumTransmogSources)
 ---@return number count
 function C_TransmogCollection.GetNumTransmogSources() end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetOutfitHyperlinkFromItemTransmogInfoList)
----@param itemTransmogInfoList ItemTransmogInfo[]
----@return string hyperlink
-function C_TransmogCollection.GetOutfitHyperlinkFromItemTransmogInfoList(itemTransmogInfoList) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetOutfitInfo)
----@param outfitID number
----@return string name
----@return fileID icon
-function C_TransmogCollection.GetOutfitInfo(outfitID) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetOutfitItemTransmogInfoList)
----@param outfitID number
----@return ItemTransmogInfo[] list
-function C_TransmogCollection.GetOutfitItemTransmogInfoList(outfitID) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetOutfits)
----@return number[] outfitID
-function C_TransmogCollection.GetOutfits() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.GetPairedArtifactAppearance)
 ---@param itemModifiedAppearanceID number
@@ -290,21 +283,36 @@ function C_TransmogCollection.IsSearchInProgress(searchType) end
 ---@return boolean checked
 function C_TransmogCollection.IsSourceTypeFilterChecked(index) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.IsSpellItemEnchantmentHiddenVisual)
+---@param spellItemEnchantmentID number
+---@return boolean isHiddenVisual
+function C_TransmogCollection.IsSpellItemEnchantmentHiddenVisual(spellItemEnchantmentID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.IsUsingDefaultFilters)
 ---@return boolean isUsingDefaultFilters
 function C_TransmogCollection.IsUsingDefaultFilters() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.ModifyOutfit)
----@param outfitID number
----@param itemTransmogInfoList ItemTransmogInfo[]
-function C_TransmogCollection.ModifyOutfit(outfitID, itemTransmogInfoList) end
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.IsValidCustomSetName)
+---@param name string
+---@return boolean isApproved
+function C_TransmogCollection.IsValidCustomSetName(name) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.NewOutfit)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.IsValidTransmogSource)
+---@param source Enum.TransmogSource
+---@return boolean valid
+function C_TransmogCollection.IsValidTransmogSource(source) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.ModifyCustomSet)
+---@param customSetID number
+---@param itemTransmogInfoList ItemTransmogInfo[]
+function C_TransmogCollection.ModifyCustomSet(customSetID, itemTransmogInfoList) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.NewCustomSet)
 ---@param name string
 ---@param icon fileID
 ---@param itemTransmogInfoList ItemTransmogInfo[]
----@return number? outfitID
-function C_TransmogCollection.NewOutfit(name, icon, itemTransmogInfoList) end
+---@return number? customSetID
+function C_TransmogCollection.NewCustomSet(name, icon, itemTransmogInfoList) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.PlayerCanCollectSource)
 ---@param sourceID number
@@ -333,10 +341,10 @@ function C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance(itemModifi
 ---@return boolean isKnown
 function C_TransmogCollection.PlayerKnowsSource(sourceID) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.RenameOutfit)
----@param outfitID number
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.RenameCustomSet)
+---@param customSetID number
 ---@param name string
-function C_TransmogCollection.RenameOutfit(outfitID, name) end
+function C_TransmogCollection.RenameCustomSet(customSetID, name) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TransmogCollection.SearchProgress)
 ---@param searchType Enum.TransmogSearchType
@@ -433,7 +441,8 @@ function C_TransmogCollection.UpdateUsableAppearances() end
 ---@field itemLink string
 ---@field transmoglink string
 ---@field sourceType number?
----@field itemSubClass number
+---@field itemSubclass number
+---@field ignoreModelAttachmentChecksForIllusion boolean
 
 ---@class TransmogCategoryAppearanceInfo
 ---@field visualID number
@@ -454,6 +463,11 @@ function C_TransmogCollection.UpdateUsableAppearances() end
 ---@field canHaveIllusions boolean? Default = false
 ---@field canMainHand boolean? Default = false
 ---@field canOffHand boolean? Default = false
+---@field canRanged boolean? Default = false
+
+---@class TransmogCustomSetInfo
+---@field name string
+---@field icon fileID
 
 ---@class TransmogIllusionInfo
 ---@field visualID number
@@ -462,7 +476,3 @@ function C_TransmogCollection.UpdateUsableAppearances() end
 ---@field isCollected boolean
 ---@field isUsable boolean
 ---@field isHideVisual boolean
-
----@class TransmogOutfitInfo
----@field name string
----@field icon fileID

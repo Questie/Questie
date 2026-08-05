@@ -15,7 +15,7 @@ function C_Item.CanBeRefunded(itemLocation) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.CanItemTransmogAppearance)
 ---@param itemLoc ItemLocation
 ---@return boolean canTransmog
----@return number errorCode
+---@return Enum.TransmogOutfitSlotError errorCode
 function C_Item.CanItemTransmogAppearance(itemLoc) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.CanScrapItem)
@@ -236,6 +236,7 @@ function C_Item.GetItemIconByID(itemInfo) end
 ---@return number expansionID
 ---@return number? setID
 ---@return boolean isCraftingReagent
+---@return string itemDescription
 function C_Item.GetItemInfo(itemInfo) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.GetItemInfoInstant)
@@ -459,6 +460,13 @@ function C_Item.IsCurioItem(itemInfo) end
 ---@return boolean result
 function C_Item.IsCurrentItem(itemInfo) end
 
+---Returns whether the item is a consumable decor item.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.IsDecorItem)
+---@param itemInfo ItemInfo
+---@return boolean? isDecor
+function C_Item.IsDecorItem(itemInfo) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.IsDressableItemByID)
 ---@param itemInfo ItemInfo
 ---@return boolean isDressableItem
@@ -488,6 +496,11 @@ function C_Item.IsHarmfulItem(itemInfo) end
 ---@param itemInfo ItemInfo
 ---@return boolean result
 function C_Item.IsHelpfulItem(itemInfo) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.IsItemBindToAccount)
+---@param itemInfo ItemInfo
+---@return boolean isItemBindToAccount
+function C_Item.IsItemBindToAccount(itemInfo) end
 
 ---You can use IsBoundToAccountUntilEquip instead if the item exists in your inventory
 ---
@@ -556,6 +569,13 @@ function C_Item.IsItemSpecificToPlayerClass(itemInfo) end
 ---@param itemLocation ItemLocation
 ---@return boolean isLocked
 function C_Item.IsLocked(itemLocation) end
+
+---Returns whether the item is a consumable relic  that can be applied to an artifact weapon.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.IsRelicItem)
+---@param itemInfo ItemInfo
+---@return boolean? result
+function C_Item.IsRelicItem(itemInfo) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Item.IsUsableItem)
 ---@param itemInfo ItemInfo
@@ -628,6 +648,7 @@ function C_Item.UseItemByName(itemInfo, target) end
 ---@field expansionID number
 ---@field setID number?
 ---@field isCraftingReagent boolean
+---@field itemDescription string
 
 ---@class ItemUpgradeInfo
 ---@field currentLevel number

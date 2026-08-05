@@ -279,6 +279,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.CAVERNS_OF_TIME_TIMELESS_TUNNEL] = {{55.26,27.93}}},
             [npcKeys.zoneID] = zoneIDs.CAVERNS_OF_TIME_TIMELESS_TUNNEL,
         },
+        [26401] = { -- Summer Scorchling
+            [npcKeys.spawns] = {[1] = {{53.8,45.14}},[3] = {{18.97,56.32}},[4] = {{55.55,14.76}},[8] = {{70.13,15.73}},[10] = {{73.77,54.5}},[11] = {{13.5,46.97}},[12] = {{43.48,62.5}},[15] = {{61.87,40.5}},[28] = {{43.43,82.24}},[38] = {{32.59,41.1}},[40] = {{44.8,62.18}},[44] = {{25.64,53.48}},[45] = {{44.22,46}},[46] = {{68.32,60.78}},[47] = {{14.93,50.5}},[65] = {{75.24,43.78}},[66] = {{40.38,61.39}},[67] = {{41.42,86.74}},[141] = {{54.83,52.77}},[148] = {{48.69,22.7}},[331] = {{86.89,41.85}},[357] = {{46.78,43.67}},[394] = {{33.94,60.51}},[405] = {{66.19,17.1}},[406] = {{49.35,51.34}},[440] = {{52.67,30.22}},[490] = {{59.78,63.26}},[495] = {{57.84,16.17}},[618] = {{61.36,47.31}},[1377] = {{60.38,33.5}},[2817] = {{78.07,74.91}},[3483] = {{62.45,57.99}},[3518] = {{49.57,69.4}},[3519] = {{54.01,55.57}},[3520] = {{39.63,54.56}},[3521] = {{68.73,51.95}},[3522] = {{41.52,65.87}},[3523] = {{31.16,62.65}},[3524] = {{44.41,52.47}},[3525] = {{55.82,67.75}},[3537] = {{55.15,19.91}},[3711] = {{48.37,65.53}},[4709] = {{48.34,72.29}},[4922] = {{47.32,28.94}},[5034] = {{53.6,31.92}},[5287] = {{52.03,67.71}},[33] = {{51.44,40.96}},[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{79.67,37.44}}},
+        },
+        [26520] = { -- Festival Scorchling
+            [npcKeys.spawns] = {[3] = {{23.19,37.42}},[4] = {{46.3,13.74}},[8] = {{76.29,13.59}},[14] = {{52.15,47.25}},[15] = {{33.49,30.92}},[16] = {{60.8,53.55}},[17] = {{49.96,54.54}},[28] = {{29.23,57.34}},[33] = {{40.51,50.96}},[45] = {{69.41,42.46}},[46] = {{51.2,29.24}},[47] = {{76.66,75.07}},[65] = {{38.31,48.45}},[66] = {{43.42,71.81}},[67] = {{40.27,85.41}},[85] = {{57.29,51.75}},[130] = {{49.59,38.31}},[215] = {{51.77,59.21}},[267] = {{54.71,50.15}},[331] = {{51.35,66.23}},[357] = {{72.41,47.75}},[394] = {{19.26,61.17}},[405] = {{26.13,77.01}},[406] = {{52.95,62.4}},[440] = {{49.8,27.93}},[490] = {{56.24,66.33}},[495] = {{48.64,13.08}},[618] = {{58.16,47.43}},[1377] = {{50.82,41.4}},[2817] = {{80.08,53.21}},[3430] = {{46.41,50.51}},[3433] = {{46.89,26.48}},[3483] = {{57.16,42}},[3518] = {{50.97,34.13}},[3519] = {{51.97,42.96}},[3520] = {{33.65,30.78}},[3521] = {{35.47,51.69}},[3522] = {{49.92,58.75}},[3523] = {{32.16,68.33}},[3537] = {{51.16,11.47}},[3711] = {{47.4,61.75}},[4709] = {{40.85,67.73}},[4922] = {{52.96,45.93}},[5034] = {{53.1,34.54}},[5287] = {{50.34,70.33}},[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{77.88,34.02}}},
+        },
         [29259] = { -- Spirit Healer
             [npcKeys.spawns] = {
                 -- NOT verified ingame spawns, these are the CataDB spawns
@@ -1166,7 +1172,8 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{81.31,6.84}}},
         },
         [58408] = { -- Leven Dawnblade
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.7,43.59,phases.GOLDEN_LOTUS_LEVEN_AT_PAGODA}}},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.7,43.59,phases.GOLDEN_LOTUS_LEVEN_AT_PAGODA}}}, -- pre-SoO do not delete
+            [npcKeys.spawns] = {},
         },
         [58410] = { -- Yi-Mo Longbrow
             [npcKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{76.49,8.78}}},
@@ -1224,16 +1231,18 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{24.54,74.63}}},
         },
         [58465] = { -- Anji Autumnlight
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {33.97,38.11,phases.GOLDEN_LOTUS_DAILY_LOCKED},
-                {56.56,43.61,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
-            }},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = { -- pre-So0 do not delete
+            --    {33.97,38.11,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+            --    {56.56,43.61,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            --}},
+            [npcKeys.spawns] = {},
         },
         [58468] = { -- Sun Tenderheart
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {56.74,42.64,phases.GOLDEN_LOTUS_DAILY_LOCKED},
-                {56.5,43.39,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
-            }},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = { -- pre-SoO do not delete
+            --    {56.74,42.64,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+            --    {56.5,43.39,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            --}},
+            [npcKeys.spawns] = {},
         },
         [58469] = { -- Ren Firetongue
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.68,43.15}}},
@@ -1242,10 +1251,11 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{56.54,43.22}}},
         },
         [58471] = { -- Kun Autumnlight
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {
-                {33.66,38.4,phases.GOLDEN_LOTUS_DAILY_LOCKED},
-                {56.52,43.63,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
-            }},
+            --[npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = { -- pre-So0 do not delete
+            --    {33.66,38.4,phases.GOLDEN_LOTUS_DAILY_LOCKED},
+            --    {56.52,43.63,phases.GOLDEN_LOTUS_DAILY_UNLOCKED},
+            --}},
+            [npcKeys.spawns] = {},
         },
         [58497] = { -- Azure Cloud Serpent
             [npcKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{58.58,43.5}}},
@@ -2493,6 +2503,10 @@ function MopNpcFixes.Load()
         },
         [61625] = { -- Provisioner Bamfu
             [npcKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{49.14,71.32}}},
+        },
+        [61636] = { -- Trial Master Rotun
+            [npcKeys.name] = "Trial Master Rotun",
+            [npcKeys.spawns] = {[zoneIDs.PROVING_GROUNDS_SCENARIO] = {{50.26,82.69}}},
         },
         [61680] = { -- Kor'kron Scout
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{51.99,26.09},{61.04,43.06},{64.58,71.16},{67.97,60.23},{43.09,66.3},{36.72,84.38},{36.24,84.61},{35.79,84.91},{-1,-1}}},
@@ -4422,8 +4436,9 @@ function MopNpcFixes.Load()
         [66738] = { -- Courageous Yon
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{35.86,73.62}}},
         },
-        [66741] = { -- Aki the Chosen - Remove with Patch 5.4
-            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{67.56,40.65}}},
+        [66741] = { -- Aki the Chosen
+            -- [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{67.56,40.65}}}, -- preSoO
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{31.27,74.1}}},
         },
         [66744] = { -- Master Hight
             [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{48.32,41.52}}},
@@ -6756,10 +6771,12 @@ function MopNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{38,90.8},{38.4,93.2},{39,93.2},{39.2,91.4},{39.2,91.6},{39.8,93.6},{40,93}}},
         },
         [71939] = { -- Chi-Ro the Skytamer
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{21.92,39.75}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
         },
         [71940] = { -- Michi Windblossom
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.08,71.05}}},
+            [npcKeys.npcFlags] = npcFlags.FLIGHT_MASTER,
         },
         [71986] = { -- Cove Shark
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6776,6 +6793,39 @@ function MopNpcFixes.Load()
         [72095] = { -- Fishgorged Crane
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{43.8,69.4},{43.8,69.6},{43.8,83},{44,83.8},{44.8,85.2},{45.2,83.8},{46,85},{46.2,85.6},{46.6,84.6}}},
+        },
+        [72426] = { -- Lin Chao-Wei
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{41.15,73.78}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [72536] = { -- Trial Master Rotun
+            [npcKeys.minLevel] = 90,
+            [npcKeys.maxLevel] = 90,
+            [npcKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{69.02,44.82}}},
+        },
+        [72695] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.48,53.77}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [72723] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{83.24,29.6}}},
+            [npcKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [72726] = { -- Ghost of Lin Da-Gu
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT] = {{73.27,65.24},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
+        },
+        [72751] = { -- Mound of Dirt
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{49.37,69.42}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [72754] = { -- Mound of Dirt
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.57,26.68}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [72755] = { -- Rolo's Treasure
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{66.06,23.27}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
         },
         [72761] = { -- Windfeather Nestkeeper
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6804,6 +6854,10 @@ function MopNpcFixes.Load()
         [72809] = { -- Eroded Cliffdweller
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{52.2,57},{52.4,56.2},{52.6,56.8},{52.8,55.6},{53.4,55},{53.6,55},{54.4,54.4},{54.8,54.6},{55.2,54.2},{55.2,67},{55.2,67.6},{55.6,53.6},{55.6,67.8},{55.8,53.4},{56,67.2},{56.2,45.6},{56.4,47.2},{56.4,48.2},{56.4,48.8},{56.4,49.8},{56.4,51},{56.4,51.6},{56.6,46.8},{56.6,48},{56.6,50.8},{56.6,53.4},{56.8,48.6},{56.8,50.4},{56.8,51.8},{56.8,67.8},{57.2,67},{57.8,66.6},{57.8,68.4},{58.2,66.4},{58.6,65.8},{59.2,53.4},{59.2,64.4},{59.4,64.6},{59.6,53.2},{59.6,64.6},{60.2,53.8},{60.2,63.2},{60.2,64.2},{60.8,63.4},{60.8,63.6},{61.2,54.6},{61.4,54.4},{61.6,54.4},{62,55.2},{62.2,57.2},{62.2,59.2},{62.4,56.2},{62.4,58.2},{62.4,59.6},{62.4,60.6},{62.6,55.4},{62.6,56},{62.6,57.4},{62.6,57.6},{62.6,59},{62.6,60.4},{62.8,61},{63,61.8},{63,62.8},{63.6,62.4},{64,63},{65.2,58}}},
+        },
+        [72870] = { -- Ordon Candlekeeper
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.55,53.62}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
         },
         [72875] = { -- Ordon Candlekeeper
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6837,6 +6891,10 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{33.4,33.4},{33.4,33.8},{33.6,31.4},{35.2,32},{36.4,31.6},{36.6,31.4},{36.6,31.8},{39.8,26},{39.8,26.6},{43.4,26.4},{43.4,26.6},{43.4,33.8},{43.6,25.4},{43.6,26.6},{43.6,33.4},{43.6,33.8},{43.8,25.6},{44.2,30.8},{45.4,22.6},{45.6,22.6},{46,36.2},{46.4,29.8},{47,26.8},{47.4,23.4},{48.4,36.4},{48.4,36.6},{48.4,41.4},{48.4,41.6},{48.6,36.4},{48.6,36.6},{48.6,41.4},{48.6,41.6},{48.8,30.4},{48.8,30.6},{48.8,38.4},{49.4,27.4},{49.4,27.8},{49.6,27.2},{49.6,27.6},{50.8,31.2},{50.8,31.6},{51.4,26.4},{51.4,27},{51.6,26.4},{51.6,26.8},{53.2,30.4},{53.2,30.6},{54.4,60.8},{54.6,60.8},{54.8,60.4},{55.2,33.4},{55.2,33.8},{55.4,27.8},{55.6,27.8},{55.6,34},{57,31},{57,31.6},{57.4,28.2},{57.4,28.6},{57.8,61.2},{57.8,61.6},{65.4,35},{65.6,34.8},{65.8,34.4},{67.2,33.8},{67.2,36},{67.6,35.8},{67.8,34.8},{68.2,34.4},{68.6,35},{69,33.4},{69,34.2},{69.6,34.6}}},
         },
+        [72900] = { -- Grain Gathered
+            [npcKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{52.21,63.34}}},
+            [npcKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
         [72908] = { -- Spotted Swarmer
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{30.8,71},{31.4,72.2},{32.4,74.6},{32.6,75.2},{33.8,78},{34.8,77.8},{37.4,69.4},{38.4,83},{38.6,83},{40.4,76.8},{40.4,80.8},{40.6,75},{40.6,78.8},{40.6,79.8},{40.6,81},{40.8,75.8},{41.8,75.6},{41.8,76.8},{42,72.4},{42.2,74.6},{42.6,75.4}}},
@@ -6857,6 +6915,13 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.4,83.8},{34.8,83.2},{34.8,83.6},{35,78},{35.4,77},{35.6,77.2},{36,75.4},{36.2,75.6},{36.6,75.6},{37.4,74},{37.6,74},{37.6,81},{38.6,72.6},{39.2,74.6},{39.2,79.4},{39.4,74.4},{39.6,79.4}}},
         },
+        [73082] = { -- Master Li
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.68,57.67}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73138] = { -- Wrathion
+            [npcKeys.spawns] = {[zoneIDs.THE_VEILED_STAIR] = {{54.8,72.4}}},
+        },
         [73167] = { -- Huolon
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{57.4,57.8},{57.6,57.8},{57.8,58.8},{58,57.4},{65,57.2},{65.4,36.2},{65.6,57},{66,58.8},{66.4,59.8},{66.6,57.6},{67.2,57.4},{67.2,59},{68,58.8},{68.2,58.4},{68.6,58.4},{68.6,58.6},{72.4,54.4},{73,50.8},{73,53.6},{73.8,50.8},{74.2,41.6},{74.4,43.6}}},
@@ -6869,18 +6934,49 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{67.2,44},{67.6,44.2}}},
         },
+        [73303] = { -- Emperor Shaohao
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{42.71,55.22}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73305] = { -- Mistweaver Ai
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{42.71,55.73}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73306] = { -- Mistweaver Ku
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{42.71,54.69}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
         [73307] = { -- Speaker Gulan
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{75,44.8}}},
         },
+        [73348] = { -- Watcher Lara
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.13,71.64}}},
+        },
+        [73353] = { -- Watcher Alundra
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22,40.94}}},
+        },
+        [73386] = { -- Sentry Jienfo
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.3,71.8}}},
+        },
+        [73398] = { -- Sentry Mimao
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.3,41.11}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+        },
+        [73399] = { -- Sentry "Big Belly" Fong
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.06,72.23}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR,
+        },
         [73401] = { -- Sentry Yinli
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{23.58,71.03}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR + npcFlags.REPAIR,
         },
         [73403] = { -- Sentry Dondao
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.16,40.21}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR + npcFlags.REPAIR,
         },
         [73422] = { -- Miss Jadepaw
-            [npcKeys.spawns] = {[5840]={{26.2,30.6},{26.4,32.2},{27,32},{27,33},{27,36.4},{27.4,33.6},{27.6,31.8},{27.6,32.6},{27.8,33.8}},[6141]={{27,32.2},{27.4,32.6},{27.8,32.6}}},
+            [npcKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{26.2,30.6},{26.4,32.2},{27,32},{27,33},{27,36.4},{27.4,33.6},{27.6,31.8},{27.6,32.6},{27.8,33.8}},[6141]={{27,32.2},{27.4,32.6},{27.8,32.6}}},
         },
         [73531] = { -- Highwind Albatross
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
@@ -6902,19 +6998,57 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{28.6,71},{30.8,73.2},{35.4,67.8},{35.8,66.8},{38,82.8},{39.2,81.6},{39.4,81.4},{41.2,72.6},{41.2,83},{42.4,74.4},{42.4,74.6},{42.8,69.6},{43.6,84.4},{43.8,55.4},{43.8,56},{44.2,45.6},{44.2,74.6},{44.4,44.2},{44.6,75},{45.4,58.8},{45.4,83},{46.4,72},{46.6,73.2},{46.8,45.4},{46.8,46.6},{46.8,72.4},{47,45.8},{48,49.8},{48.4,60.4},{49.8,53.4},{56,68},{56.6,51.4},{58.6,52.2},{59.8,71.6},{60,71.4},{62.4,52.4},{62.4,76.4},{62.6,76},{63,56},{63.8,50.4},{64,50.8},{64.8,72.6},{65,64.2},{65.2,72},{65.4,67.4},{65.6,71.8},{65.8,67.6},{66.8,68},{66.8,68.6}}},
         },
+        [73574] = { -- [DND] Timeless Isle Quest Credit Explore Old Pi'jiu
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{38.66,75.63}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73575] = { -- [DND] Timeless Isle Quest Credit Explore Red Stone Run
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{62.18,54.9}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73576] = { -- [DND] Timeless Isle Quest Credit Explore Croaking Hollow
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{65.58,67.94}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73577] = { -- [DND] Timeless Isle Quest Credit Explore Cavern of Lost Spirits
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{43.26,40.78}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73578] = { -- [DND] Timeless Isle Quest Credit Explore Misty Strand
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{26.23,30.15}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73579] = { -- [DND] Timeless Isle Quest Credit Explore Firewalker Ruins
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{53.21,76.24}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
         [73615] = { -- Historian Llore
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
-            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{65,50.4},{65,50.6}}},
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{65,50.5}}},
         },
         [73616] = { -- Historian Ju'pa
             [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
             [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{65,50.6},{65.2,49.4},{65.4,50.4},{65.6,49.4},{65.6,49.6}}},
         },
         [73622] = { -- Graceful Swan
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{36.58,46.84}}},
+            [npcKeys.npcFlags] = npcFlags.INNKEEPER,
+        },
+        [73626] = { -- Little Tommy Newcomer
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{34.6,60.39}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [73632] = { -- Cowardly Zue
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{37.33,46.6}}},
+            [npcKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+            [npcKeys.npcFlags] = npcFlags.STABLEMASTER,
         },
         [73656] = { -- Crafter Kwon
-            [npcKeys.spawns] = {}, -- added with a later phase
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{38.56,46.54}}},
+            [npcKeys.npcFlags] = npcFlags.VENDOR + npcFlags.REPAIR,
+        },
+        [73657] = { -- Great Chef Woo
+            [npcKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{41.78,63.72}}},
         },
         [73674] = { -- Blizzix Sparkshiv
             [npcKeys.spawns] = {[5840]={{41.4,77.8},{42,74.6},{42.4,74.4},{42.8,75.6},{43,74.2},{43.4,74.8},{43.6,74.6}},[6141]={{42.4,74.4},{42.4,74.6},{43.2,73.4},{43.2,74.4},{43.2,74.6},{43.2,76.8},{43.4,75.6},{43.6,74},{43.6,74.8},{43.6,75.6}}},
@@ -6947,6 +7081,10 @@ function MopNpcFixes.Load()
         },
         [74027] = { -- Lorry Warmheart
             [npcKeys.spawns] = {[5840]={{43,47.2},{43.2,46.4}},[6142]={{41,47.6},{41.4,47},{43,46.8},{43.2,46.4},{43.6,46.4}}},
+        },
+        [74094] = { -- Vision of Time Kill Credit
+            [npcKeys.spawns] = {[zoneIDs.SIEGE_OF_ORGRIMMAR] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.SIEGE_OF_ORGRIMMAR,
         },
         [244975] = { -- Aetha
             [npcKeys.name] = "Aetha",
@@ -7154,6 +7292,18 @@ function MopNpcFixes.Load()
             [npcKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [npcKeys.questEnds] = {32507},
         },
+        [110019] = { -- Bad Feeling, Worse Result
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT] = {{73.27,65.24},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
+            [npcKeys.questEnds] = {33107},
+        },
+        [110020] = { -- Secrets Lost, Forever?
+            [npcKeys.name] = "?",
+            [npcKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT] = {{73.27,65.24},{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
+            [npcKeys.questStarts] = {33021},
+        },
     }
 end
 
@@ -7307,4 +7457,9 @@ function MopNpcFixes:LoadFactionFixes()
     else
         return npcFixesAlliance
     end
+end
+
+-- Use `ContentPhases.activePhases` to apply corrections for specific content phases
+function MopNpcFixes:LoadContentPhaseFixes()
+    return {}
 end

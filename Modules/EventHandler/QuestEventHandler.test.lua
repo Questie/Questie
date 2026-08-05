@@ -33,32 +33,37 @@ describe("QuestEventHandler", function()
     local AutoCompleteFrame
     ---@type QuestieAPI
     local QuestieAPI
+    ---@type QuestiePartyObjectives
+    local QuestiePartyObjectives
     ---@type QuestEventHandler
     local QuestEventHandler
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
-        QuestieCombatQueue.Queue = function(_, callback) callback() end
-        QuestLogCache = require("Modules.Quest.QuestLogCache")
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
-        AutoQuesting = require("Modules.Auto.AutoQuesting")
-        QuestieJourney = require("Modules.Journey.QuestieJourney")
-        QuestieAnnounce = require("Modules.QuestieAnnounce")
-        QuestiePlayer = require("Modules.QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
-        QuestieTracker = require("Modules.Tracker.QuestieTracker")
-        QuestieDB = require("Database.QuestieDB")
-        QuestieNameplate = require("Modules.QuestieNameplate")
-        WatchFrameHook = require("Modules.WatchFrameHook")
-        AutoCompleteFrame = require("Modules.Tracker.AutoCompleteFrame")
-        dofile("Public/Enums.lua")
-        QuestieAPI = require("Public.RegisterForQuestUpdates")
-        QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
-
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.CacheItemNames = spy.new(function() end)
+        QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+        QuestieCombatQueue.Queue = function(_, callback) callback() end
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+        AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
+        QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+        QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestiePlayer.currentQuestlog = {}
+        QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
+        WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
+        AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+        dofile("Public/Enums.lua")
+        QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
+        QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
+        QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+        QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
 
+        dofile("Modules/EventHandler/QuestEventHandler.lua")
+        QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
     end)
 
@@ -73,12 +78,12 @@ describe("QuestEventHandler", function()
 
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
-        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
-        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
-        assert.spy(QuestieJourney.AcceptQuest).was_called_with(QuestieJourney, QUEST_ID)
-        assert.spy(QuestieAnnounce.AcceptedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
-        assert.spy(QuestieQuest.AcceptQuest).was_called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
+        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(QuestieQuest.AcceptQuest).was.called_with(QuestieQuest, QUEST_ID)
     end)
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
@@ -95,14 +100,14 @@ describe("QuestEventHandler", function()
         _G.GetTime = function() return 1000 end
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
-        assert.spy(QuestLogCache.CheckForChanges).was_called_with({[QUEST_ID] = true})
+        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
         assert.spy(QuestieAPI.PropagateQuestUpdate).was.not_called()
-        assert.spy(QuestieLib.CacheItemNames).was_called_with(QuestieLib, QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_not_called()
-        assert.spy(QuestieJourney.AcceptQuest).was_not_called()
-        assert.spy(QuestieAnnounce.AcceptedQuest).was_not_called()
-        assert.spy(QuestieQuest.AcceptQuest).was_not_called()
-        assert.spy(QuestieTracker.Update).was_not_called()
+        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.not_called()
+        assert.spy(QuestieJourney.AcceptQuest).was.not_called()
+        assert.spy(QuestieAnnounce.AcceptedQuest).was.not_called()
+        assert.spy(QuestieQuest.AcceptQuest).was.not_called()
+        assert.spy(QuestieTracker.Update).was.not_called()
 
         QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
         callbacks[1]()
@@ -148,7 +153,7 @@ describe("QuestEventHandler", function()
 
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
-        assert.spy(ImmersionFrameHideMock).was_not_called()
+        assert.spy(ImmersionFrameHideMock).was.not_called()
     end)
 
     it("should mark quest as abandoned on quest accept after QUEST_REMOVED", function()
@@ -173,11 +178,11 @@ describe("QuestEventHandler", function()
         }
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
-        assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
-        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, QUEST_ID)
-        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, QUEST_ID)
-        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieQuest.AbandonedQuest).was.called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
         assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
@@ -205,12 +210,12 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestRemoved(QUEST_ID)
         callbacks[1]()
 
-        assert.spy(Questie.SendMessage).was_called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", QUEST_ID)
-        assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
-        assert.spy(QuestieQuest.AbandonedQuest).was_called_with(QuestieQuest, QUEST_ID)
-        assert.spy(QuestieJourney.AbandonQuest).was_called_with(QuestieJourney, QUEST_ID)
-        assert.spy(QuestieAnnounce.AbandonedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", QUEST_ID)
+        assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieQuest.AbandonedQuest).was.called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
     end)
 
     it("should handle quest turn in", function()
@@ -250,11 +255,11 @@ describe("QuestEventHandler", function()
 
         QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
 
-        assert.spy(QuestLogCache.RemoveQuest).was_called_with(QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was_called_with(QuestieQuest, QUEST_ID)
-        assert.spy(QuestieQuest.CompleteQuest).was_called_with(QuestieQuest, QUEST_ID)
-        assert.spy(QuestieJourney.CompleteQuest).was_called_with(QuestieJourney, QUEST_ID)
-        assert.spy(QuestieAnnounce.CompletedQuest).was_called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieQuest.CompleteQuest).was.called_with(QuestieQuest, QUEST_ID)
+        assert.spy(QuestieJourney.CompleteQuest).was.called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieAnnounce.CompletedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
     end)
 
     it("should do full quest log scan after QUEST_WATCH_UPDATE", function()

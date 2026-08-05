@@ -12,9 +12,9 @@ local AceGUIDropdownGroup = {}
 function AceGUIDropdownGroup:SetTitle(text) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-1-1)
----@param table table<unknown, string>
+---@param groupList table<unknown, string>
 ---@param order? unknown[]
-function AceGUIDropdownGroup:SetGroupList(table, order) end
+function AceGUIDropdownGroup:SetGroupList(groupList, order) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-1-1)
 ---@param key unknown
@@ -25,8 +25,8 @@ function AceGUIDropdownGroup:SetGroup(key) end
 function AceGUIDropdownGroup:SetDropdownWidth(width) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-1-1)
----@param table table
-function AceGUIDropdownGroup:SetStatusTable(table) end
+---@param statusTable table
+function AceGUIDropdownGroup:SetStatusTable(statusTable) end
 
 ---@protected
 ---@param width integer

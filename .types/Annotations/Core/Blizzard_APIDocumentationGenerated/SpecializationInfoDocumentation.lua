@@ -86,6 +86,7 @@ function C_SpecializationInfo.GetSpecialization(isInspect, isPet, specGroupIndex
 ---@param inspectTarget? string
 ---@param sex? number
 ---@param groupIndex? number
+---@param classID? number
 ---@return number? specId Default = 0
 ---@return string? name
 ---@return string? description
@@ -96,7 +97,7 @@ function C_SpecializationInfo.GetSpecialization(isInspect, isPet, specGroupIndex
 ---@return string? background
 ---@return number? previewPointsSpent Default = 0
 ---@return boolean? isUnlocked Default = true
-function C_SpecializationInfo.GetSpecializationInfo(specializationIndex, isInspect, isPet, inspectTarget, sex, groupIndex) end
+function C_SpecializationInfo.GetSpecializationInfo(specializationIndex, isInspect, isPet, inspectTarget, sex, groupIndex, classID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpecializationInfo.GetSpecializationMasterySpells)
 ---@param specializationIndex number
@@ -182,6 +183,7 @@ function C_SpecializationInfo.SetSpecialization(specIndex) end
 ---@field inspectTarget string?
 ---@field sex number?
 ---@field groupIndex number?
+---@field classID number?
 
 ---@class TalentInfoQuery
 ---@field groupIndex number?

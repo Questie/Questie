@@ -5,6 +5,8 @@ local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type WrappedText
+local WrappedText = QuestieLoader:ImportModule("WrappedText")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -95,7 +97,7 @@ function QuestieJourneyUtils.ShowJourneyTooltip(self)
         GameTooltip:AddLine("["..quest.level.."] "..quest.name.." ("..id..")")
         if quest.Description and quest.Description ~= {} then
             for _, line in pairs(quest.Description) do
-                for _, text in pairs(QuestieLib:TextWrap(line, '    ', true, 360)) do
+                for _, text in pairs(WrappedText:TextWrap(line, '    ', false, 360)) do
                     GameTooltip:AddLine("|cFFFFFFFF" .. text .. "|r")
                 end
             end

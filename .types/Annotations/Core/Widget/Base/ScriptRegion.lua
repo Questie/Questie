@@ -125,6 +125,10 @@ function ScriptRegion:Intersects(region) end
 ---@return boolean isRestricted
 function ScriptRegion:IsAnchoringRestricted() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ScriptRegion_IsAnchoringSecret)
+---@return boolean isSecret
+function ScriptRegion:IsAnchoringSecret() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_ScriptRegion_IsCollapsed)
 ---@return boolean isCollapsed
 function ScriptRegion:IsCollapsed() end

@@ -12,6 +12,10 @@ function C_ScenarioInfo.GetCriteriaInfo(criteriaIndex) end
 ---@return ScenarioCriteriaInfo scenarioCriteriaInfo
 function C_ScenarioInfo.GetCriteriaInfoByStep(stepID, criteriaIndex) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ScenarioInfo.GetDisplayInfo)
+---@return ScenarioDisplayInfo info
+function C_ScenarioInfo.GetDisplayInfo() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ScenarioInfo.GetJailersTowerTypeString)
 ---@param runType Enum.JailersTowerType
 ---@return string? typeString
@@ -25,6 +29,23 @@ function C_ScenarioInfo.GetScenarioInfo() end
 ---@param scenarioStepID? number
 ---@return ScenarioStepInfo scenarioStepInfo
 function C_ScenarioInfo.GetScenarioStepInfo(scenarioStepID) end
+
+---Returns list of active challenge spells if inside a tiered entrance scenario
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ScenarioInfo.GetTieredEntranceActiveSpells)
+---@return number[]? spellIDs
+function C_ScenarioInfo.GetTieredEntranceActiveSpells() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ScenarioInfo.GetUnitCriteriaProgressValues)
+---@param unit UnitToken
+---@return number actualValue
+---@return number percentValue
+---@return string percentValueString
+function C_ScenarioInfo.GetUnitCriteriaProgressValues(unit) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_ScenarioInfo.IsTieredEntranceScenario)
+---@return boolean isTieredEntrance
+function C_ScenarioInfo.IsTieredEntranceScenario() end
 
 ---@class ScenarioCriteriaInfo
 ---@field description string
@@ -41,6 +62,9 @@ function C_ScenarioInfo.GetScenarioStepInfo(scenarioStepID) end
 ---@field isWeightedProgress boolean? Default = false
 ---@field isFormatted boolean? Default = false
 ---@field quantityString string
+
+---@class ScenarioDisplayInfo
+---@field themeColor colorRGB
 
 ---@class ScenarioInformation
 ---@field name string

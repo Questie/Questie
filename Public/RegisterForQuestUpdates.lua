@@ -29,5 +29,3 @@ function QuestieAPI.PropagateQuestUpdate(questId, objectiveIndices, triggerReaso
         end
     end
 end
-
-return QuestieAPI

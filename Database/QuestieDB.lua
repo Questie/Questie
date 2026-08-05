@@ -289,10 +289,15 @@ function QuestieDB:Initialize()
         itemPtrs = Questie.db.global.itemPtrs
     end
 
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Begin GetDBHandles")
     QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder), QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] NPC GetDBHandles Complete")
     QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(questBin, questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder), QuestieDB.questKeys, QuestieDB.questDataOverrides)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Quest GetDBHandles Complete")
     QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder), QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Object GetDBHandles Complete")
     QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(itemBin, itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder), QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Item GetDBHandles Complete")
 
     QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
     QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
@@ -1001,9 +1006,13 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check character race
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
-        local msg = "Race requirement not fulfilled for quest " .. questId
+        local requirementLabel = "Race requirement"
+        if requiredRaces == QuestieDB.raceKeys.ALL_ALLIANCE or requiredRaces == QuestieDB.raceKeys.ALL_HORDE then
+            requirementLabel = "Faction requirement"
+        end
+        local msg = requirementLabel .. " not fulfilled for quest " .. questId
         if returnText and returnBrief then
-            return l10n("Unavailable")..l10n(": ")..l10n("Race requirement"), true, DoableStates.WRONG_RACE
+            return l10n("Unavailable")..l10n(": ")..l10n(requirementLabel), true, DoableStates.WRONG_RACE
         elseif returnText and not returnBrief then
             return msg, true, DoableStates.WRONG_RACE
         end
@@ -1542,15 +1551,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         objectObjective[3] = nil
                     end
                     ---@type ObjectObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local objectObjectiveData = {
                         Type = "object",
                         Id = objectObjective[1],
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
                     if QuestieCorrections.objectObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-                        tremove(QO.ObjectiveData)
+                        tinsert(QO.ObjectiveData, 1, objectObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
                     end
                 end
             end
@@ -1562,15 +1572,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         itemObjective[3] = nil
                     end
                     ---@type ItemObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local itemObjectiveData = {
                         Type = "item",
                         Id = itemObjective[1],
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
                     if QuestieCorrections.itemObjectiveFirst[questId] then
-                        tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-                        tremove(QO.ObjectiveData)
+                        tinsert(QO.ObjectiveData, 1, itemObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
                     end
                 end
             end
@@ -1600,48 +1611,49 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 --? There are quest(s) which have the killCredit first so we need to switch them
                 -- Place the kill credit objective first
                 if QuestieCorrections.killCreditObjectiveFirst[questId] then
-                    tinsert(QO.ObjectiveData, 1, killCreditObjective);
+                    tinsert(QO.ObjectiveData, 1, killCreditObjective)
                 else
-                    tinsert(QO.ObjectiveData, killCreditObjective);
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
                 end
             end
         end
         if objectives[6] then
-            for index, spellObjective in pairs(objectives[6]) do
+            for _, spellObjective in pairs(objectives[6]) do
                 if spellObjective then
                     ---@type SpellObjective
-                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
+                    local spellObjectiveData = {
                         Type = "spell",
                         Id = spellObjective[1],
                         Text = spellObjective[2],
                         ItemSourceId = spellObjective[3],
                     }
                     QO.SpellItemId = spellObjective[3]
-                end
 
-                --? There are quest(s) which have the spellObjective first so we need to switch them
-                -- Place the spell objective first
-                if QuestieCorrections.spellObjectiveFirst[questId] then
-                    tinsert(QO.ObjectiveData, 1, spellObjective);
-                else
-                    tinsert(QO.ObjectiveData, spellObjective);
+                    --? There are quest(s) which have the spellObjective first so we need to switch them
+                    -- Place the spell objective first
+                    if QuestieCorrections.spellObjectiveFirst[questId] then
+                        tinsert(QO.ObjectiveData, 1, spellObjectiveData)
+                    else
+                        QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
+                    end
                 end
             end
         end
     end
 
-    -- Events need to be added at the end of ObjectiveData
+    -- Events are usually added at the end of ObjectiveData, unless corrected below.
     local triggerEnd = QO.triggerEnd
     if triggerEnd then
         ---@type TriggerEndObjective
-        QO.ObjectiveData[#QO.ObjectiveData+1] = {
+        local triggerEndObjective = {
             Type = "event",
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
         if QuestieCorrections.eventObjectiveFirst[questId] then
-            tinsert(QO.ObjectiveData, 1, QO.ObjectiveData[#QO.ObjectiveData])
-            tremove(QO.ObjectiveData)
+            tinsert(QO.ObjectiveData, 1, triggerEndObjective)
+        else
+            QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective
         end
     end
 
@@ -1660,7 +1672,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 -- TODO: This is not required anymore since we validate the database for this case
                 -- Make sure requiredSourceItems aren't already an objective
                 local itemObjPresent = false
-                if objectives[3] then
+                if objectives and objectives[3] then
                     for _, itemObjective in pairs(objectives[3]) do
                         if itemObjective then
                             if itemId == itemObjective[1] then
@@ -2110,5 +2122,3 @@ QuestieDB.waypointPresets = {
     THE_SKYBREAKER = {[ZoneDB.zoneIDs.ICECROWN]={{{63.59,52.34},{63.44,51.88},{63.30,51.52},{63.15,51.19},{63.01,50.85},{62.85,50.52},{62.68,50.17},{62.50,49.78},{62.31,49.36},{62.09,48.88},{61.86,48.33},{61.81,48.20},{61.67,47.88},{61.52,47.52},{61.37,47.13},{61.19,46.74},{61.02,46.32},{60.84,45.88},{60.65,45.44},{60.46,44.99},{60.28,44.53},{60.09,44.08},{59.90,43.63},{59.72,43.18},{59.54,42.75},{59.36,42.34},{59.20,41.94},{59.04,41.56},{58.89,41.22},{58.75,40.87},{58.52,40.30},{58.32,39.77},{58.14,39.27},{57.97,38.80},{57.81,38.39},{57.65,38.03},{57.49,37.72},{57.31,37.50},{57.12,37.34},{56.87,37.29},{56.57,37.39},{56.27,37.60},{55.97,37.88},{55.72,38.23},{55.53,38.61},{55.43,38.95},{55.43,39.09},{55.46,39.49},{55.52,39.92},{55.62,40.39},{55.76,40.88},{55.89,41.38},{56.02,41.85},{56.17,42.25},{56.33,42.68},{56.51,43.13},{56.70,43.56},{56.88,43.99},{57.05,44.39},{57.22,44.74},{57.42,45.15},{57.64,45.52},{57.83,45.81},{58.03,46.14},{58.23,46.56},{58.41,46.90},{58.60,47.25},{58.80,47.62},{59.00,48.03},{59.19,48.46},{59.36,48.84},{59.53,49.22},{59.69,49.63},{59.86,50.04},{60.03,50.46},{60.19,50.90},{60.36,51.32},{60.51,51.74},{60.65,52.17},{60.79,52.59},{60.94,53.02},{61.07,53.46},{61.23,53.89},{61.39,54.30},{61.55,54.72},{61.70,55.18},{61.88,55.65},{62.05,56.14},{62.23,56.58},{62.43,56.95},{62.65,57.21},{62.87,57.30},{62.95,57.27},{63.22,57.16},{63.52,56.97},{63.81,56.68},{64.07,56.32},{64.26,55.91},{64.33,55.47},{64.30,55.11},{64.25,54.72},{64.16,54.30},{64.04,53.84},{63.91,53.36},{63.76,52.88},{63.59,52.34}}}},
     ALLIANCE_GUNSHIP = {[ZoneDB.zoneIDs.DEEPHOLM]={{{61.79,46.28},{61.68,45.72},{61.55,45.10},{61.45,44.56},{61.34,43.97},{61.22,43.46},{61.13,42.90},{61.06,42.23},{60.98,41.63},{60.90,40.98},{60.84,40.28},{60.81,39.59},{60.84,38.98},{60.99,38.55},{61.33,38.23},{61.75,38.04},{62.21,38.04},{62.62,38.33},{62.82,38.82},{62.95,39.32},{63.07,39.93},{63.19,40.61},{63.30,41.31},{63.40,41.98},{63.49,42.57},{63.60,43.23},{63.69,43.90},{63.77,44.48},{63.85,44.98},{63.95,45.61},{64.05,46.15},{64.22,46.69},{64.31,47.26},{64.40,47.87},{64.47,48.40},{64.54,49.02},{64.62,49.71},{64.69,50.29},{64.76,50.96},{64.82,51.65},{64.84,52.29},{64.77,52.81},{64.59,53.41},{64.29,53.74},{63.93,53.82},{63.58,53.79},{63.15,53.70},{62.72,53.51},{62.42,53.16},{62.32,52.68},{62.27,52.08},{62.23,51.41},{62.20,50.75},{62.18,50.12},{62.22,49.50},{62.23,48.90},{62.19,48.31},{62.09,47.73},{61.97,47.12},{61.83,46.50},{61.79,46.28}}}},
 }
-
-return QuestieDB

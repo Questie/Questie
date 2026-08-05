@@ -22,6 +22,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
         journeyTreeFrame = AceGUI:Create("TreeGroup");
         journeyTreeFrame:SetFullWidth(true);
         journeyTreeFrame:SetFullHeight(true);
+        journeyTreeFrame:EnableButtonTooltips(false)
 
         journeyTreeFrame.treeframe:SetWidth(415);
 

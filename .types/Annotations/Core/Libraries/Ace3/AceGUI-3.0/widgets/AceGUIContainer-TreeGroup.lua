@@ -41,8 +41,8 @@ function AceGUITreeGroup:SelectByValue(uniquevalue) end
 function AceGUITreeGroup:EnableButtonTooltips(flag) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-7-1)
----@param table table
-function AceGUITreeGroup:SetStatusTable(table) end
+---@param statusTable table
+function AceGUITreeGroup:SetStatusTable(statusTable) end
 
 ---@param show boolean
 function AceGUITreeGroup:ShowScroll(show) end

@@ -91,6 +91,9 @@ function C_EncounterJournal.SetSlotFilter(filterSlot) end
 ---@param tabIdx number
 function C_EncounterJournal.SetTab(tabIdx) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_EncounterJournal.StartArathiRPE)
+function C_EncounterJournal.StartArathiRPE() end
+
 ---@class DungeonEntranceMapInfo
 ---@field areaPoiID number
 ---@field position vector2

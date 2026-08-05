@@ -32,8 +32,6 @@ QuestieCorrections.killCreditObjectiveFirst[24498] = true
 QuestieCorrections.killCreditObjectiveFirst[24507] = true
 
 function QuestieWotlkQuestFixes:Load()
-    _QuestieWotlkQuestFixes:InsertMissingQuestIds()
-
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
@@ -50,6 +48,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [75] = {
             [questKeys.specialFlags] = specialFlags.NONE,
+        },
+        [105] = { -- Alas, Andorhal
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350},{factionIDs.ARGENT_DAWN,700}},
         },
         [171] = {
             [questKeys.startedBy] = {{14305}},
@@ -226,9 +227,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{5111}},
             [questKeys.exclusiveTo] = {3763,3789},
         },
-        [4127] = {
-            [questKeys.startedBy] = {nil,{164909,186419}},
-        },
         [4144] = {
             [questKeys.specialFlags] = specialFlags.NONE,
         },
@@ -368,6 +366,12 @@ function QuestieWotlkQuestFixes:Load()
         [7042] = {
             [questKeys.startedBy] = {{13433}},
         },
+        [7490] = { -- Victory for the Horde
+            [questKeys.preQuestSingle] = {},
+        },
+        [7495] = { -- Victory for the Alliance
+            [questKeys.preQuestSingle] = {},
+        },
         [7641] = {
             [questKeys.preQuestSingle] = {7638,7670},
         },
@@ -377,6 +381,15 @@ function QuestieWotlkQuestFixes:Load()
         },
         [7704] = {
             [questKeys.startedBy] = {nil,nil,{18950}},
+        },
+        [7781] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {},
+        },
+        [7783] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {},
+        },
+        [7838] = { -- Arena Grandmaster
+            [questKeys.requiredLevel] = 1,
         },
         [8149] = {
             [questKeys.objectives] = {nil,{{1323}}},
@@ -413,12 +426,6 @@ function QuestieWotlkQuestFixes:Load()
         [8552] = {
             [questKeys.specialFlags] = specialFlags.NONE,
         },
-        [8553] = {
-            [questKeys.requiredRaces] = raceIDs.NONE,
-        },
-        [8554] = {
-            [questKeys.requiredRaces] = raceIDs.NONE,
-        },
         [8579] = { -- Mortal Champions
             [questKeys.startedBy] = {{15503}},
             [questKeys.finishedBy] = {{15503}},
@@ -438,7 +445,7 @@ function QuestieWotlkQuestFixes:Load()
         [8766] = { -- The Changing of Paths - Conqueror No More
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8767] = {
+        [8767] = { -- A Gently Shaken Gift
             [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.WARRIOR + classIDs.HUNTER + classIDs.PALADIN + classIDs.DEATH_KNIGHT,
         },
         [8867] = { -- Lunar Fireworks
@@ -471,6 +478,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [9078] = {
             [questKeys.requiredClasses] = classIDs.ROGUE,
+        },
+        [9121] = { -- The Dread Citadel - Naxxramas
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,1000}},
+        },
+        [9122] = { -- The Dread Citadel - Naxxramas
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,1000}},
         },
         [9154] = {
             [questKeys.startedBy] = {{16241,16255}},
@@ -551,6 +564,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [9681] = {
             [questKeys.startedBy] = {{17717,17718}},
+        },
+        [9737] = { -- True Masters of the Light
+            [questKeys.startedBy] = {{25223}}, -- TBC p1/p2 offered by 17076
+            [questKeys.finishedBy] = {{25223}}, -- TBC p1/p2 finished by 17076
         },
         [9876] = {
             [questKeys.nextQuestInChain] = 9738,
@@ -672,6 +689,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10776] = {
             [questKeys.objectives] = {{{19823}},nil,{{31310}}},
+        },
+        [10842] = { -- Vengeful Souls
+            [questKeys.objectives] = {{{21636}}},
         },
         [10888] = {
             [questKeys.exclusiveTo] = {13430},
@@ -1062,10 +1082,6 @@ function QuestieWotlkQuestFixes:Load()
         [11391] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 24418},}}},
         },
-        [11392] = {
-            [questKeys.startedBy] = {nil,{186267}},
-            [questKeys.finishedBy] = {nil,{186314}},
-        },
         [11393] = {
             [questKeys.exclusiveTo] = {11394,},
         },
@@ -1077,10 +1093,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11399] = {
             [questKeys.requiredSourceItems] = {},
-        },
-        [11401] = {
-            [questKeys.startedBy] = {nil,{186267}},
-            [questKeys.finishedBy] = {nil,{186314}},
         },
         [11409] = {
             [questKeys.preQuestSingle] = {},
@@ -1371,9 +1383,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Bring the kodos to Farmer Torp"), 0, {{"monster", 25607}}}},
             [questKeys.requiredSourceItems] = {},
         },
+        [11691] = { -- Summon Ahune
+            [questKeys.requiredLevel] = 75,
+        },
         [11694] = {
             [questKeys.objectives] = {nil,{{187879}}},
             [questKeys.requiredSourceItems] = {},
+        },
+        [11696] = { -- Ahune is Here!
+            [questKeys.requiredLevel] = 75,
         },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},
@@ -1480,7 +1498,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11891] = {
             [questKeys.requiredSourceItems] = {35828},
-            [questKeys.sourceItemId] = 35237,
         },
         [11892] = {
             [questKeys.requiredSourceItems] = {},
@@ -1567,6 +1584,9 @@ function QuestieWotlkQuestFixes:Load()
         [11951] = {
             [questKeys.requiredSourceItems] = {35671},
         },
+        [11955] = { -- Ahune, the Frost Lord
+            [questKeys.requiredLevel] = 75,
+        },
         [11956] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}},
@@ -1592,6 +1612,9 @@ function QuestieWotlkQuestFixes:Load()
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
             [questKeys.requiredSourceItems] = {},
+        },
+        [11972] = { -- Shards of Ahune
+            [questKeys.requiredLevel] = 75,
         },
         [11982] = {
             [questKeys.objectives] = {{{26270,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4802,41 +4825,49 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194032}},
             [questKeys.finishedBy] = {nil,{194032}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13441] = {
             [questKeys.startedBy] = {nil,{194033}},
             [questKeys.finishedBy] = {nil,{194033}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13442] = {
             [questKeys.startedBy] = {nil,{194035}},
             [questKeys.finishedBy] = {nil,{194035}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13443] = {
             [questKeys.startedBy] = {nil,{194036}},
             [questKeys.finishedBy] = {nil,{194036}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13444] = {
             [questKeys.startedBy] = {nil,{194038}},
             [questKeys.finishedBy] = {nil,{194038}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13445] = {
             [questKeys.startedBy] = {nil,{194040}},
             [questKeys.finishedBy] = {nil,{194040}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13446] = {
             [questKeys.startedBy] = {nil,{194044}},
             [questKeys.finishedBy] = {nil,{194044}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13447] = {
             [questKeys.startedBy] = {nil,{194045}},
             [questKeys.finishedBy] = {nil,{194045}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13448] = {
             [questKeys.startedBy] = {nil,{194063}},
@@ -4847,16 +4878,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194049}},
             [questKeys.finishedBy] = {nil,{194049}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13450] = {
             [questKeys.startedBy] = {nil,{194034}},
             [questKeys.finishedBy] = {nil,{194034}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13451] = {
             [questKeys.startedBy] = {nil,{194037}},
             [questKeys.finishedBy] = {nil,{194037}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13452] = {
             [questKeys.startedBy] = {nil,{194065}},
@@ -4867,16 +4901,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194039}},
             [questKeys.finishedBy] = {nil,{194039}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13454] = {
             [questKeys.startedBy] = {nil,{194042}},
             [questKeys.finishedBy] = {nil,{194042}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13455] = {
             [questKeys.startedBy] = {nil,{194043}},
             [questKeys.finishedBy] = {nil,{194043}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13456] = {
             [questKeys.startedBy] = {nil,{194066}},
@@ -4887,11 +4924,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{194046}},
             [questKeys.finishedBy] = {nil,{194046}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13458] = {
             [questKeys.startedBy] = {nil,{194048}},
             [questKeys.finishedBy] = {nil,{194048}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [13459] = {
             [questKeys.startedBy] = {nil,{194067}},
@@ -8012,6 +8051,455 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {93975,94577,94579,96312,96315,96318},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
+        [95072] = { -- Hoodoo Embodiment
+            [questKeys.name] = "Hoodoo Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectives] = {nil,nil,{{274994},{19819}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95074] = { -- Falcon's Prophecy
+            [questKeys.name] = "Falcon's Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
+            [questKeys.objectives] = {nil,nil,{{274994},{19816}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95075] = { -- Destructive Prophecy
+            [questKeys.name] = "Destructive Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectives] = {nil,nil,{{274994},{19820}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95076] = { -- Divine Prophecy
+            [questKeys.name] = "Divine Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19815}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95077] = { -- Redeemer's Prophecy
+            [questKeys.name] = "Redeemer's Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19815}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95078] = { -- Prophecy of Protection
+            [questKeys.name] = "Prophecy of Protection",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectives] = {nil,nil,{{274994},{19813}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95079] = { -- Stormcaller's Prophecy
+            [questKeys.name] = "Stormcaller's Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19817}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95080] = { -- Witchdoctor's Prophecy
+            [questKeys.name] = "Witchdoctor's Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19817}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95081] = { -- Guardian's Prophecy
+            [questKeys.name] = "Guardian's Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95082] = { -- Lunar Prophecy
+            [questKeys.name] = "Lunar Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95083] = { -- Naturalist's Prophecy
+            [questKeys.name] = "Naturalist's Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95084] = { -- Dread Prophecy
+            [questKeys.name] = "Dread Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectives] = {nil,nil,{{274994},{268145}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95085] = { -- Desecrator's Prophecy
+            [questKeys.name] = "Desecrator's Prophecy",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectives] = {nil,nil,{{274994},{268145}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95088] = { -- Death's Embodiment
+            [questKeys.name] = "Death's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
+            [questKeys.objectives] = {nil,nil,{{274994},{19814}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95089] = { -- Arcanist's Embodiment
+            [questKeys.name] = "Arcanist's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.MAGE,
+            [questKeys.objectives] = {nil,nil,{{274994},{19818}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95090] = { -- Embodiment of Desecration
+            [questKeys.name] = "Embodiment of Desecration",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectives] = {nil,nil,{{274994},{268145}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95092] = { -- Embodiment of Dread
+            [questKeys.name] = "Embodiment of Dread",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DEATH_KNIGHT,
+            [questKeys.objectives] = {nil,nil,{{274994},{268145}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95093] = { -- Embodiment of Protection
+            [questKeys.name] = "Embodiment of Protection",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectives] = {nil,nil,{{274994},{19813}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95094] = { -- Embodiment of Wrath
+            [questKeys.name] = "Embodiment of Wrath",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
+            [questKeys.objectives] = {nil,nil,{{274994},{19813}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95095] = { -- Auratic Embodiment
+            [questKeys.name] = "Auratic Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectives] = {nil,nil,{{274994},{19820}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95096] = { -- Destructive Embodiment
+            [questKeys.name] = "Destructive Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectives] = {nil,nil,{{274994},{19820}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95097] = { -- Syncretist's Embodiment
+            [questKeys.name] = "Syncretist's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19815}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95098] = { -- Divine Embodiment
+            [questKeys.name] = "Divine Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19815}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95099] = { -- Redeemer's Embodiment
+            [questKeys.name] = "Redeemer's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19815}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95100] = { -- Witchdoctor's Embodiment
+            [questKeys.name] = "Witchdoctor's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19817}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95101] = { -- Vodouisant's Embodiment
+            [questKeys.name] = "Vodouisant's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19817}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95102] = { -- Stormcaller's Embodiment
+            [questKeys.name] = "Stormcaller's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.objectives] = {nil,nil,{{274994},{19817}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95103] = { -- Guardian's Embodiment
+            [questKeys.name] = "Guardian's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95104] = { -- Animist's Embodiment
+            [questKeys.name] = "Animist's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95105] = { -- Lunar Embodiment
+            [questKeys.name] = "Lunar Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95106] = { -- Naturalist's Embodiment
+            [questKeys.name] = "Naturalist's Embodiment",
+            [questKeys.startedBy] = {{15042}},
+            [questKeys.finishedBy] = {{15042}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,3000},
+            [questKeys.reputationReward] = {{factionIDs.ZANDALAR_TRIBE,250}},
+        },
+        [95205] = { -- Greater Inscrptions of the Zandalar -- only present on titan reforged
+            [questKeys.name] = "Greater Inscrptions of the Zandalar",
+            [questKeys.startedBy] = {{14921}},
+            [questKeys.finishedBy] = {{14921}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {},
+            [questKeys.objectives] = {nil,nil,{{19858},{43127}},{270,42000}}, -- TO FIX: need to do {item - rep - item} objective format
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.NONE,
+            [questKeys.requiredMinRep] = {factionIDs.ZANDALAR_TRIBE,42000},
+            [questKeys.requiredSkill] = {profKeys.INSCRIPTION,450},
+        },
         [95705] = { -- Gobb's Grand Opening! -- only present on titan reforged
             [questKeys.name] = "Gobb's Grand Opening!",
             [questKeys.startedBy] = {{262258}},
@@ -8123,7 +8611,186 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {93975,94577,94579,95037,96312,96315},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR,75}},
         },
+        [98183] = { -- A Ritual Renewed -- only present on titan reforged
+            [questKeys.name] = "A Ritual Renewed",
+            [questKeys.startedBy] = {{14910}},
+            [questKeys.finishedBy] = {{14910}},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Accept The Empowered Zandalari Bijou."},
+            [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
     }
+end
+
+function QuestieWotlkQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+    local factionIDs = QuestieDB.factionIDs
+
+    local questFixesHorde = {
+        [13012] = { -- Sardis the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13013] = { -- Beldak the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13014] = { -- Morthie the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13015] = { -- Fargal the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13016] = { -- Northal the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13017] = { -- Jarten the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13018] = { -- Sandrene the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13019] = { -- Thoim the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13020] = { -- Stonebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13021] = { -- Igasho the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13022] = { -- Nurgen the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13023] = { -- Kilias the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13024] = { -- Wanikaya the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13025] = { -- Lunaro the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13026] = { -- Bluewolf the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13027] = { -- Tauros the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13028] = { -- Graymane the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13029] = { -- Pamuya the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13030] = { -- Whurain the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13031] = { -- Skywarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13032] = { -- Muraco the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13033] = { -- Arp the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13065] = { -- Ohanzee the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13066] = { -- Yurauk the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [13067] = { -- Chogan'gada the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+    }
+
+    local questFixesAlliance = {
+        [13012] = { -- Sardis the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13013] = { -- Beldak the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13014] = { -- Morthie the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13015] = { -- Fargal the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13016] = { -- Northal the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13017] = { -- Jarten the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13018] = { -- Sandrene the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13019] = { -- Thoim the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13020] = { -- Stonebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13021] = { -- Igasho the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13022] = { -- Nurgen the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13023] = { -- Kilias the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13024] = { -- Wanikaya the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13025] = { -- Lunaro the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13026] = { -- Bluewolf the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13027] = { -- Tauros the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13028] = { -- Graymane the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13029] = { -- Pamuya the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13030] = { -- Whurain the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13031] = { -- Skywarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13032] = { -- Muraco the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13033] = { -- Arp the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13065] = { -- Ohanzee the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13066] = { -- Yurauk the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [13067] = { -- Chogan'gada the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
 end
 
 function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
@@ -8165,6 +8832,100 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.preQuestSingle] = {},
             [questKeys.nextQuestInChain] = 94576,
         },
+        [8183] = { -- The Heart of Hakkar
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8184] = { -- Prophecy of Wrath
+            [questKeys.name] = "Prophecy of Wrath",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19813}}},
+        },
+        [8185] = { -- Syncretist's Prophecy
+            [questKeys.name] = "Syncretist's Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19815}}},
+        },
+        [8186] = { -- Death's Prophecy
+            [questKeys.name] = "Death's Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19814}}},
+        },
+        [8187] = { -- Falcon's Embodiment
+            [questKeys.name] = "Falcon's Embodiment",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19816}}},
+        },
+        [8188] = { -- Vodouisant's Prophecy
+            [questKeys.name] = "Vodouisant's Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19817}}},
+        },
+        [8189] = { -- Arcanist's Prophecy
+            [questKeys.name] = "Arcanist's Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19818}}},
+        },
+        [8190] = { -- Hoodoo Prophecy
+            [questKeys.name] = "Hoodoo Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19819}}},
+        },
+        [8191] = { -- Auratic Prophecy
+            [questKeys.name] = "Auratic Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19820}}},
+        },
+        [8192] = { -- Animist's Prophecy
+            [questKeys.name] = "Animist's Prophecy",
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+            [questKeys.objectives] = {nil,nil,{{274994},{19821}}},
+        },
+        [8195] = { -- Zulian, Razzashi, and Hakkari Coins
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8196] = { -- Essence Mangoes
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8201] = { -- A Collection of Heads
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8227] = { -- Nat's Measuring Tape
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8238] = { -- Gurubashi, Vilebranch, and Witherbark Coins
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8239] = { -- Sandfury, Skullsplitter, and Bloodscalp Coins
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8240] = { -- A Bijou for Zanza
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8243] = { -- Zanza's Potent Potables
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [8246] = { -- Signets of the Zandalar
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [9250] = { -- Frame of Atiesh
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
@@ -8184,71 +8945,13 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11178] = { -- Blood of the Warlord
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [13432] = { -- The Vials of Eternity
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
     }
-end
-
-function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
-
-    -- Alliance boosted quests
-    QuestieDB.questData[70395] = {} -- A New Beginning
-    QuestieDB.questData[70397] = {} -- Tools for Survival
-    QuestieDB.questData[70398] = {} -- Combat Training
-    QuestieDB.questData[70401] = {} -- Talented
-    QuestieDB.questData[70411] = {} -- To the Dockmaster
-    QuestieDB.questData[70870] = {} -- Talented
-    QuestieDB.questData[78136] = {} -- A New Beginning
-    QuestieDB.questData[78140] = {} -- Tools for Survival
-    QuestieDB.questData[78157] = {} -- Combat Training
-    QuestieDB.questData[78164] = {} -- Talented
-    QuestieDB.questData[78166] = {} -- To Northrend
-    QuestieDB.questData[78222] = {} -- Talented DK
-    QuestieDB.questData[78223] = {} -- To Northrend DK
-
-    -- Horde boosted quests
-    QuestieDB.questData[70396] = {} -- A New Beginning
-    QuestieDB.questData[70734] = {} -- Tools for Survival
-    QuestieDB.questData[70735] = {} -- Combat Training
-    QuestieDB.questData[70736] = {} -- Talented
-    QuestieDB.questData[70737] = {} -- To the Zeppelin Master
-    QuestieDB.questData[70761] = {} -- Tools for Survival
-    QuestieDB.questData[70762] = {} -- A New Beginning
-    QuestieDB.questData[70764] = {} -- Combat Training
-    QuestieDB.questData[70765] = {} -- Talented
-    QuestieDB.questData[70869] = {} -- Talented
-    QuestieDB.questData[78137] = {} -- A New Beginning
-    QuestieDB.questData[78138] = {} -- A New Beginning
-    QuestieDB.questData[78151] = {} -- Tools for Survival
-    QuestieDB.questData[78158] = {} -- Combat Training
-    QuestieDB.questData[78167] = {} -- Talented
-    QuestieDB.questData[78168] = {} -- To Northrend
-    QuestieDB.questData[78224] = {} -- Talented DK
-    QuestieDB.questData[78225] = {} -- To Northrend DK
-
-    -- Neutral boosted quests
-    QuestieDB.questData[70865] = {} -- To Shattrath City
-    QuestieDB.questData[78219] = {} -- A New Beginning
-    QuestieDB.questData[78220] = {} -- Tools for Survival
-    QuestieDB.questData[78221] = {} -- Combat Training
-
-    -- P4 quests
-    QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma
-    QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth
-
-    -- Titan reforged quests
-    QuestieDB.questData[93950] = {} -- A Message From The Stars
-    QuestieDB.questData[94376] = {} -- Titanic Power
-    QuestieDB.questData[94579] = {} -- Patchwerk Must Die!
-    QuestieDB.questData[95705] = {} -- Gobb's Grand Opening!
-    QuestieDB.questData[95706] = {} -- Gobb's Weekly Greed Deal
-    QuestieDB.questData[95844] = {} -- Gobb's Grand Tank Temptation
-    QuestieDB.questData[95845] = {} -- Another Shot at the Scarab
-    QuestieDB.questData[95037] = {} -- Lord Jaraxxus Must Die!
-    QuestieDB.questData[96211] = {} -- Heart of the Eredar
-    QuestieDB.questData[96312] = {} -- Brutallus Must Die!
-    QuestieDB.questData[96315] = {} -- XT-002 Deconstructor Must Die!
-    QuestieDB.questData[96318] = {} -- Shade of Aran Must Die!
 end

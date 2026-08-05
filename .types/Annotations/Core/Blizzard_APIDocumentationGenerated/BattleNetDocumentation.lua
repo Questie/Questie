@@ -1,6 +1,10 @@
 ---@meta _
 C_BattleNet = {}
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.BNCheckBattleTagInviteToRecentAlly)
+---@param recentAllyGUID WOWGUID
+function C_BattleNet.BNCheckBattleTagInviteToRecentAlly(recentAllyGUID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.GetAccountInfoByGUID)
 ---@param guid WOWGUID
 ---@return BNetAccountInfo? accountInfo
@@ -42,6 +46,32 @@ function C_BattleNet.GetGameAccountInfoByID(id) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.InstallHighResTextures)
 function C_BattleNet.InstallHighResTextures() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.SendGameData)
+---@param gameAccountID number
+---@param prefix stringView
+---@param data stringView
+---@return Enum.SendAddonMessageResult result
+function C_BattleNet.SendGameData(gameAccountID, prefix, data) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.SendWhisper)
+---@param bnetAccountID number
+---@param text stringView
+---@return boolean success
+function C_BattleNet.SendWhisper(bnetAccountID, text) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.SetAFK)
+---@param isAFK? boolean Default = true
+function C_BattleNet.SetAFK(isAFK) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.SetCustomMessage)
+---@param text string
+---@return boolean success
+function C_BattleNet.SetCustomMessage(text) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_BattleNet.SetDND)
+---@param isDND? boolean Default = true
+function C_BattleNet.SetDND(isDND) end
+
 ---@class BNetAccountInfo
 ---@field bnetAccountID number
 ---@field accountName string
@@ -72,6 +102,7 @@ function C_BattleNet.InstallHighResTextures() end
 ---@field realmID number?
 ---@field factionName string?
 ---@field raceName string?
+---@field classID number?
 ---@field className string?
 ---@field areaName string?
 ---@field characterLevel number?

@@ -1,4 +1,4 @@
-local TestUtils = require("setupTests")
+local TestUtils = dofile("setupTests.lua")
 
 describe("AvailableQuests", function()
     ---@type ZoneDB
@@ -13,6 +13,8 @@ describe("AvailableQuests", function()
     local QuestieMap
     ---@type Comms
     local Comms
+    ---@type TheadLib
+    local TheadLib
 
     ---@type AvailableQuests
     local AvailableQuests
@@ -21,20 +23,29 @@ describe("AvailableQuests", function()
     local NPC_ID = 456
 
     before_each(function()
-        ZoneDB = require("Database.Zones.zoneDB")
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestieDB = require("Database.QuestieDB")
+        Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        ZoneDB.GetDungeons = function() return {} end
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetNPC = function() return nil end
         QuestieDB.GetQuest = function() return nil end
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
-        QuestieMap = require("Modules.Map.QuestieMap")
-        Comms = require("Modules.Network.Comms")
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+        QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+        Comms = QuestieLoader:ImportModule("Comms")
+        TheadLib = QuestieLoader:ImportModule("ThreadLib")
+        TheadLib.ThreadCallbackInstant = function(fun, callback)
+            fun()
+            callback()
+        end
 
         Questie.db.profile.availableIconLimit = 10
 
-        AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
+        dofile("Modules/Quest/AvailableQuests/AvailableQuests.lua")
+        AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+        AvailableQuests.Initialize()
         TestUtils.clearTable(AvailableQuests.__availableQuests)
         TestUtils.clearTable(AvailableQuests.__availableQuestsByNpc)
         TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)

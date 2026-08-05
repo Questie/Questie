@@ -12,7 +12,7 @@ QuestieJourneyFactions.expansionFactionCandidates = {
     classic = {
         factionIDs.BOOTY_BAY,
         factionIDs.IRONFORGE,
-        factionIDs.GNOMEREGAN,
+        factionIDs.GNOMEREGAN_EXILES,
         factionIDs.THORIUM_BROTHERHOOD,
         factionIDs.HORDE,
         factionIDs.UNDERCITY,
@@ -21,6 +21,7 @@ QuestieJourneyFactions.expansionFactionCandidates = {
         factionIDs.STORMWIND,
         factionIDs.ORGRIMMAR,
         factionIDs.THUNDER_BLUFF,
+        factionIDs.BLOODSAIL_BUCCANEERS,
         factionIDs.GELKIS_CLAN_CENTAUR,
         factionIDs.MAGRAM_CLAN_CENTAUR,
         factionIDs.STEAMWHEEDLE_CARTEL,
@@ -167,7 +168,3 @@ function QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKe
 
     return orderMap
 end
-
-return QuestieJourneyFactions
-
-

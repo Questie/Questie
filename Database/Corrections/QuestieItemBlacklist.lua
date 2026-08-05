@@ -1,5 +1,7 @@
 ---@class QuestieItemBlacklist
 local QuestieItemBlacklist = QuestieLoader:CreateModule("QuestieItemBlacklist")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@return table<ItemId, boolean>
 function QuestieItemBlacklist:Load()
@@ -48,6 +50,8 @@ function QuestieItemBlacklist:Load()
         [7079] = true, -- globe of water
         [7909] = true, -- aquamarine
         [7910] = true, -- star ruby
+        [7923] = Expansions.Current >= Expansions.Cata, -- Defias Tower Key
+        [8072] = Expansions.Current >= Expansions.Cata, -- Silixiz's Tower Key
         [8153] = true, -- wildvine
         [8169] = true, -- Thick Hide
         [8170] = true, -- Rugged Leather
@@ -64,6 +68,7 @@ function QuestieItemBlacklist:Load()
         [9061] = true, -- Goblin Rocket Fuel
         [10561] = true, -- Mithril Casing
         [10593] = true, -- imperfect-draenethyst-fragment
+        [10757] = Expansions.Current >= Expansions.Cata, -- Ward of the Defiler
         [11178] = true, -- Large Radiant Shard
         [12207] = true, -- giant egg
         [12361] = true, -- blue sapphire

@@ -6,35 +6,41 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local tinsert = table.insert
 local eventQuests = QuestieEvent.eventQuests
 
-tinsert(eventQuests, {"Hallow's End", 8373}) -- The Power of Pine
+tinsert(eventQuests, {"Hallow's End", 1657}) -- Stinking Up Southshore
 tinsert(eventQuests, {"Hallow's End", 1658}) -- Crashing the Wickerman Festival
 tinsert(eventQuests, {"Hallow's End", 8311}) -- Hallow's End Treats for Jesper!
 tinsert(eventQuests, {"Hallow's End", 8312}) -- Hallow's End Treats for Spoops!
 tinsert(eventQuests, {"Hallow's End", 8322}) -- Rotten Eggs
-tinsert(eventQuests, {"Hallow's End", 1657}) -- Stinking Up Southshore
-tinsert(eventQuests, {"Hallow's End", 8409}) -- Ruined Kegs
-tinsert(eventQuests, {"Hallow's End", 8357}) -- Dancing for Marzipan
+tinsert(eventQuests, {"Hallow's End", 8353}) -- Chicken Clucking for a Mint
+tinsert(eventQuests, {"Hallow's End", 8354}) -- Chicken Clucking for a Mint
 tinsert(eventQuests, {"Hallow's End", 8355}) -- Incoming Gumdrop
 tinsert(eventQuests, {"Hallow's End", 8356}) -- Flexing for Nougat
+tinsert(eventQuests, {"Hallow's End", 8357}) -- Dancing for Marzipan
 tinsert(eventQuests, {"Hallow's End", 8358}) -- Incoming Gumdrop
-tinsert(eventQuests, {"Hallow's End", 8353}) -- Chicken Clucking for a Mint
 tinsert(eventQuests, {"Hallow's End", 8359}) -- Flexing for Nougat
-tinsert(eventQuests, {"Hallow's End", 8354}) -- Chicken Clucking for a Mint
 tinsert(eventQuests, {"Hallow's End", 8360}) -- Dancing for Marzipan
+tinsert(eventQuests, {"Hallow's End", 8373}) -- The Power of Pine
+tinsert(eventQuests, {"Hallow's End", 8409}) -- Ruined Kegs
 
 -- TBC quests
-tinsert(eventQuests, {"Hallow's End", 11450}) -- Fire Training
+tinsert(eventQuests, {"Hallow's End", 11131}) -- Stop the Fires!
+tinsert(eventQuests, {"Hallow's End", 11135, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- The Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11219}) -- Stop the Fires!
+tinsert(eventQuests, {"Hallow's End", 11220, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- The Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11242, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Free at Last!
 tinsert(eventQuests, {"Hallow's End", 11356}) -- Costumed Orphan Matron
 tinsert(eventQuests, {"Hallow's End", 11357}) -- Masked Orphan Matron
-tinsert(eventQuests, {"Hallow's End", 11131}) -- Stop the Fires!
-tinsert(eventQuests, {"Hallow's End", 11135, nil, nil, Expansions.Current == Expansions.Tbc}) -- The Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11220, nil, nil, Expansions.Current == Expansions.Tbc}) -- The Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11219}) -- Stop the Fires!
-tinsert(eventQuests, {"Hallow's End", 11361}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11360}) -- Fire Brigade Practice
-tinsert(eventQuests, {"Hallow's End", 11449}) -- Fire Training
-tinsert(eventQuests, {"Hallow's End", 11440}) -- Fire Brigade Practice
+tinsert(eventQuests, {"Hallow's End", 11361}) -- Fire Training
+tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, nil, nil, Expansions.Current == Expansions.Wotlk}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11403, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Free at Last!
+--tinsert(eventQuests, {"Hallow's End", 11404}) -- Call the Headless Horseman -- phase gated?
+--tinsert(eventQuests, {"Hallow's End", 11405}) -- Call the Headless Horseman -- phase gated?
 tinsert(eventQuests, {"Hallow's End", 11439}) -- Fire Brigade Practice
+tinsert(eventQuests, {"Hallow's End", 11440}) -- Fire Brigade Practice
+tinsert(eventQuests, {"Hallow's End", 11449}) -- Fire Training
+tinsert(eventQuests, {"Hallow's End", 11450}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 12133}) -- Smash the Pumpkin
 tinsert(eventQuests, {"Hallow's End", 12135}) -- Let the Fires Come!
 tinsert(eventQuests, {"Hallow's End", 12139}) -- Let the Fires Come!
@@ -47,7 +53,7 @@ tinsert(eventQuests, {"Hallow's End", 12334}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12335}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12336}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12337}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12338, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12338, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12339}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12340}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12341}) -- Candy Bucket
@@ -55,7 +61,7 @@ tinsert(eventQuests, {"Hallow's End", 12342}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12343}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12344}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12345}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12346, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12346, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12347}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12348}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12349}) -- Candy Bucket
@@ -83,17 +89,17 @@ tinsert(eventQuests, {"Hallow's End", 12370}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12371}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12373}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12374}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12375, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12375, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12376}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12377}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12378}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12379, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12379, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12380}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12381}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12382}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12383}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12384}) -- Candy Bucket
-tinsert(eventQuests, {"Hallow's End", 12385, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
+tinsert(eventQuests, {"Hallow's End", 12385, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12386}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12387}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12388}) -- Candy Bucket
@@ -119,12 +125,6 @@ tinsert(eventQuests, {"Hallow's End", 12407}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12408}) -- Candy Bucket
 tinsert(eventQuests, {"Hallow's End", 12409}) -- Candy Bucket
 --tinsert(eventQuests, {"Hallow's End", 12410}) -- Candy Bucket -- doesn't exist
-tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, Expansions.Current == Expansions.Tbc}) -- Call the Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, Expansions.Current == Expansions.Tbc}) -- Call the Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11403}) -- Free at Last!
-tinsert(eventQuests, {"Hallow's End", 11242}) -- Free at Last!
---tinsert(eventQuests, {"Hallow's End", 11404}) -- Call the Headless Horseman
---tinsert(eventQuests, {"Hallow's End", 11405}) -- Call the Headless Horseman
 
 -- WoTLK quests
 tinsert(eventQuests, {"Hallow's End", 12940}) -- Candy Bucket

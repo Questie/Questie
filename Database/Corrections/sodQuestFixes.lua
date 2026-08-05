@@ -4326,7 +4326,6 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
         },
         [87459] = { -- Scarlet Activities
-            [questKeys.preQuestSingle] = {9121,9122,9123},
             [questKeys.nextQuestInChain] = 87493,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },

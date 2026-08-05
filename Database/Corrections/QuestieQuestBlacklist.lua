@@ -15,6 +15,7 @@ function QuestieQuestBlacklist:Load()
         [7462] = true, -- Duplicate of 7877. See #1583
         [7487] = true, -- Duplicate of 7848
         [7908] = true, -- Duplicate of 7810
+        [10708] = true, -- Duplicate of 11052
         [11072] = true, -- Duplicate of 11885
         [2358] = Expansions.Current == Expansions.Era or Expansions.Current >= Expansions.Wotlk, -- available in TBC anniversary (!)
         [787] = true, -- The New Horde is not in the game. See #830
@@ -711,6 +712,8 @@ function QuestieQuestBlacklist:Load()
         --- Brewfest
         [12193] = true,
         [12194] = true,
+        [12491] = true,
+        [12492] = true,
         [13931] = true,
         [13932] = true,
 
@@ -1198,13 +1201,12 @@ function QuestieQuestBlacklist:Load()
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
-        [2881] = Expansions.Current >= Expansions.Tbc, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [8329] = Expansions.Current < Expansions.Cata, --* Warrior Training (https://www.wowhead.com/wotlk/quest=8329) (Retail Data)
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [9278] = true, -- Welcome!
-        --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch
-        --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch
+        --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch (old comment)
+        --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch (old comment)
         [9926] = true, -- FLAG Shadow Council/Warmaul Questline
         [10048] = true, -- A Handful of Magic Dust BETA
         [10049] = true, -- A Handful of Magic Dust BETA
@@ -1251,8 +1253,8 @@ function QuestieQuestBlacklist:Load()
         [64141] = true, -- Horde pala mount quest chain
         [64142] = true, -- Horde pala mount quest chain
         [64143] = true, -- Horde pala mount quest chain
-        [64144] = true, -- Horde pala mount quest chain
-        [64145] = true, -- Horde pala mount quest chain]]
+        [64144] = true, -- Horde pala mount quest chain]]
+        [64145] = true, -- Horde pala mount quest chain -- was not offered in p1/p2, instead was 9737
         [64217] = true, -- Boosted character quest
         [64845] = Expansions.Current >= Expansions.Tbc, -- Alliance War Effort
         [65284] = true, -- Boosted character quest
@@ -1304,8 +1306,8 @@ function QuestieQuestBlacklist:Load()
         [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
 
         -- Paladin class quests with SWP patch
-        [64319] = true, -- removed in wotlk
-        [63866] = true, -- removed in wotlk
+        [63866] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC == 5), -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
+        [64319] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC == 5), -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
 
         -- Revered Among X quests
         [10459] = true,
@@ -1343,20 +1345,20 @@ function QuestieQuestBlacklist:Load()
         [10377] = true,
 
         -- Marks of Honor PvP quests - All of them should only be available in Era
-        [8367] = Expansions.Current >= Expansions.Tbc,
+        [8367] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 2), -- enabled in tbc P2
         [8368] = Expansions.Current >= Expansions.Tbc,
         [8369] = Expansions.Current >= Expansions.Tbc,
         [8370] = Expansions.Current >= Expansions.Tbc,
-        [8371] = Expansions.Current >= Expansions.Wotlk, -- enabled in tbc P2
+        [8371] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 2), -- enabled in tbc P2
         [8372] = Expansions.Current >= Expansions.Tbc,
         [8374] = Expansions.Current >= Expansions.Tbc,
         [8375] = Expansions.Current >= Expansions.Tbc,
         [8383] = Expansions.Current >= Expansions.Tbc,
         [8384] = Expansions.Current >= Expansions.Tbc,
-        [8385] = Expansions.Current >= Expansions.Wotlk, -- enabled in tbc P2
+        [8385] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 2), -- enabled in tbc P2
         [8386] = Expansions.Current >= Expansions.Tbc,
         [8387] = Expansions.Current >= Expansions.Tbc,
-        [8388] = Expansions.Current >= Expansions.Tbc,
+        [8388] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 2), -- enabled in tbc P2
         [8389] = Expansions.Current >= Expansions.Tbc,
         [8390] = Expansions.Current >= Expansions.Tbc,
         [8391] = Expansions.Current >= Expansions.Tbc,
@@ -1681,10 +1683,43 @@ function QuestieQuestBlacklist:Load()
         [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
         [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
         [95037] = not Questie.IsTitanReforged, -- Lord Jaraxxus Must Die!
+        [95072] = not Questie.IsTitanReforged, -- Hoodoo Embodiment
+        [95074] = not Questie.IsTitanReforged, -- Falcon's Prophecy
+        [95075] = not Questie.IsTitanReforged, -- Destructive Prophecy
+        [95076] = not Questie.IsTitanReforged, -- Divine Prophecy
+        [95077] = not Questie.IsTitanReforged, -- Redeemer's Prophecy
+        [95078] = not Questie.IsTitanReforged, -- Prophecy of Protection
+        [95079] = not Questie.IsTitanReforged, -- Stormcaller's Prophecy
+        [95080] = not Questie.IsTitanReforged, -- Witchdoctor's Prophecy
+        [95081] = not Questie.IsTitanReforged, -- Guardian's Prophecy
+        [95082] = not Questie.IsTitanReforged, -- Lunar Prophecy
+        [95083] = not Questie.IsTitanReforged, -- Naturalist's Prophecy
+        [95084] = not Questie.IsTitanReforged, -- Dread Prophecy
+        [95085] = not Questie.IsTitanReforged, -- Desecrator's Prophecy
+        [95088] = not Questie.IsTitanReforged, -- Death's Embodiment
+        [95089] = not Questie.IsTitanReforged, -- Arcanist's Embodiment
+        [95090] = not Questie.IsTitanReforged, -- Embodiment of Desecration
+        [95092] = not Questie.IsTitanReforged, -- Embodiment of Dread
+        [95093] = not Questie.IsTitanReforged, -- Embodiment of Protection
+        [95094] = not Questie.IsTitanReforged, -- Embodiment of Wrath
+        [95095] = not Questie.IsTitanReforged, -- Auratic Embodiment
+        [95096] = not Questie.IsTitanReforged, -- Destructive Embodiment
+        [95097] = not Questie.IsTitanReforged, -- Syncretist's Embodiment
+        [95098] = not Questie.IsTitanReforged, -- Divine Embodiment
+        [95099] = not Questie.IsTitanReforged, -- Redeemer's Embodiment
+        [95100] = not Questie.IsTitanReforged, -- Witchdoctor's Embodiment
+        [95101] = not Questie.IsTitanReforged, -- Vodouisant's Embodiment
+        [95102] = not Questie.IsTitanReforged, -- Stormcaller's Embodiment
+        [95103] = not Questie.IsTitanReforged, -- Guardian's Embodiment
+        [95104] = not Questie.IsTitanReforged, -- Animist's Embodiment
+        [95105] = not Questie.IsTitanReforged, -- Lunar Embodiment
+        [95106] = not Questie.IsTitanReforged, -- Naturalist's Embodiment
+        [95205] = not Questie.IsTitanReforged, -- Greater Inscrptions of the Zandalar
         [96211] = not Questie.IsTitanReforged, -- Heart of the Eredar
         [96312] = true, -- Brutallus Must Die! not open now
         [96315] = true, -- XT-002 Deconstructor Must Die! not open now
         [96318] = true, -- Shade of Aran Must Die! not open now
+        [98183] = not Questie.IsTitanReforged, -- A Ritual Renewed
 
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
@@ -3282,6 +3317,7 @@ function QuestieQuestBlacklist:Load()
         [2877] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2879] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2880] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [2881] = Expansions.Current >= Expansions.Cata, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [2882] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2902] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [2903] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -3541,9 +3577,9 @@ function QuestieQuestBlacklist:Load()
         [3804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3823] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3824] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3825] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3823] = Expansions.Current >= Expansions.Wotlk, -- Removed with wotlk
+        [3824] = Expansions.Current >= Expansions.Wotlk, -- Removed with wotlk
+        [3825] = Expansions.Current >= Expansions.Wotlk, -- Removed with wotlk
         [3841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5194,8 +5230,8 @@ function QuestieQuestBlacklist:Load()
         [9677] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9678] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9679] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [9681] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [9684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [9681] = Expansions.Current ~= Expansions.Wotlk, -- Removed with cata -- Check exactly what happens in TBC with these quests. Probably only present during SWP patch
+        [9684] = Expansions.Current ~= Expansions.Wotlk, -- Removed with cata -- Check exactly what happens in TBC with these quests. Probably only present during SWP patch
         [9685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [9690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -6282,7 +6318,7 @@ function QuestieQuestBlacklist:Load()
         [31278] = true, -- Hidden quest
         [31280] = true, -- Hidden quest
         [31284] = true, -- Hidden quest
-        [31289] = true, -- Not in the game
+        [31289] = not Questie.IsChinaRegion, -- Seems available on Chinese MoP
         [31292] = true, -- Hidden quest
         [31304] = true, -- Hidden quest
         [31305] = true, -- Hidden quest
@@ -6485,8 +6521,6 @@ function QuestieQuestBlacklist:Load()
         [33008] = true, -- Not in the game
         [33019] = true, -- Not in the game
         [33023] = true, -- Not in the game
-        [33024] = true, -- Not in the game
-        [33026] = true, -- Not in the game
         [33110] = true, -- Not in the game
         [65593] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [65597] = Expansions.Current >= Expansions.Cata, -- Not in the game
@@ -8376,11 +8410,11 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8073] = true, -- Paragons of Power: The Madcap's Tunic
         [8111] = true, -- Enchanted South Seas Kelp
         [9209] = true, -- The Savage Guard - Arcanum of Rapidity
-        [8243] = true, -- Zanza's Potent Potables
-        [8192] = true, -- Animist's Caress
-        [8227] = true, -- Nat's Measuring Tape
-        [8195] = true, -- Zulian, Razzashi, and Hakkari Coins
-        [8183] = true, -- The Heart of Hakkar
+        -- [8243] = true, -- Zanza's Potent Potables
+        -- [8192] = true, -- Animist's Caress
+        -- [8227] = true, -- Nat's Measuring Tape
+        -- [8195] = true, -- Zulian, Razzashi, and Hakkari Coins
+        -- [8183] = true, -- The Heart of Hakkar
         [8143] = true, -- Zandalarian Shadow Talisman
         [8077] = true, -- Paragons of Power: The Demoniac's Robes
         [9210] = true, -- The Savage Guard - Arcanum of Focus
@@ -8395,21 +8429,21 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8079] = true, -- Paragons of Power: The Vindicator's Breastplate
         [8141] = true, -- Zandalarian Shadow Talisman
         [8147] = true, -- The Maelstrom's Tendril
-        [8187] = true, -- Falcon's Call
+        -- [8187] = true, -- Falcon's Call
         [8053] = true, -- Paragons of Power: The Freethinker's Armguards
         [8106] = true, -- Kezan's Taint
         [8078] = true, -- Paragons of Power: The Vindicator's Belt
-        [8201] = true, -- A Collection of Heads
+        -- [8201] = true, -- A Collection of Heads
         [8072] = true, -- Paragons of Power: The Madcap's Mantle
         [8071] = true, -- Paragons of Power: The Confessor's Mantle
-        [8240] = true, -- A Bijou for Zanza
-        [8246] = true, -- Signets of the Zandalar
+        -- [8240] = true, -- A Bijou for Zanza
+        -- [8246] = true, -- Signets of the Zandalar
         [8064] = true, -- Paragons of Power: The Haruspex's Belt
         [8058] = true, -- Paragons of Power: The Vindicator's Armguards
         [8142] = true, -- Zandalarian Shadow Talisman
         [8117] = true, -- Vision of Voodress
-        [8186] = true, -- Death's Embrace
-        [8189] = true, -- Presence of Sight
+        -- [8186] = true, -- Death's Embrace
+        -- [8189] = true, -- Presence of Sight
         [8109] = true, -- Kezan's Unstoppable Taint
         [8069] = true, -- Paragons of Power: The Illusionist's Robes
         [8045] = true, -- The Heathen's Brand
@@ -8438,19 +8472,19 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8057] = true, -- Paragons of Power: The Haruspex's Bracers
         [8062] = true, -- Paragons of Power: The Predator's Bracers
         [8050] = true, -- The Eye of Zuldazar
-        [8185] = true, -- Syncretist's Sigil
+        -- [8185] = true, -- Syncretist's Sigil
         [8116] = true, -- Vision of Voodress
         [8054] = true, -- Paragons of Power: The Freethinker's Belt
-        [8238] = true, -- Gurubashi, Vilebranch, and Witherbark Coins
+        -- [8238] = true, -- Gurubashi, Vilebranch, and Witherbark Coins
         [8061] = true, -- Paragons of Power: The Confessor's Wraps
         [8043] = true, -- Strength of Mount Mugamba
-        [8191] = true, -- Prophetic Aura
-        [8188] = true, -- Vodouisant's Vigilant Embrace
+        -- [8191] = true, -- Prophetic Aura
+        -- [8188] = true, -- Vodouisant's Vigilant Embrace
         [8118] = true, -- Vision of Voodress
-        [8196] = true, -- Essence Mangoes
-        [8239] = true, -- Sandfury, Skullsplitter, and Bloodscalp Coins
-        [8190] = true, -- Hoodoo Hex
-        [8184] = true, -- Presence of Might
+        -- [8196] = true, -- Essence Mangoes
+        -- [8239] = true, -- Sandfury, Skullsplitter, and Bloodscalp Coins
+        -- [8190] = true, -- Hoodoo Hex
+        -- [8184] = true, -- Presence of Might
         [8048] = true, -- The Hero's Brand
         [8146] = true, -- The Maelstrom's Tendril
         [8119] = true, -- The Unmarred Vision of Voodress
@@ -8567,5 +8601,3 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
 
     }
 end
-
-return QuestieQuestBlacklist

@@ -444,7 +444,7 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
         },
         [211863] = { -- Krik'thik Limb
-            [objectKeys.name] = "Krik\'thik Limb",
+            [objectKeys.name] = "Krik'thik Limb",
             [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{77.19,88.74},{76.93,88.98},{76.72,88.92},{76.3,90.03},{74.87,82.69},{74.28,83.72},{74.33,83.81},{74.39,84.01},{74.19,84.34},{74.17,84.36},{74.27,85.47},{73.85,84.98},{73.34,84.29},{71.54,85.1}}},
             [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
         },
@@ -666,6 +666,10 @@ function MopObjectFixes.Load()
             [objectKeys.name] = "Potent Dream Brew",
             [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{54.68,92.06}}},
             [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [213756] = { -- Wagon
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{54.44,59.9}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
         [213767] = { -- Hidden Treasure
             [objectKeys.spawns] = {[zoneIDs.CAVERN_OF_ENDLESS_ECHOES] = {{31.36,52.86}}},
@@ -1124,6 +1128,38 @@ function MopObjectFixes.Load()
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{35.2,41.4},{35.3,41.6},{36.2,45.3},{36.4,41.6},{36.4,43.3},{36.4,43.5},{36.4,47.1},{36.5,41.5},{36.5,43.3},{36.5,43.5},{37.2,45.4},{37.2,45.5},{37.3,46.7},{37.4,35.7},{37.4,41.1},{37.5,41.1},{37.5,42.3},{37.5,42.5},{37.6,39.3},{37.7,37.6},{38.2,44.9},{38.4,34.2},{38.4,40.3},{38.5,34.2},{38.5,39},{38.5,47.3},{38.6,40.4},{38.7,49.3},{38.8,40.6},{38.9,43.2},{39,48.3},{39.1,45.8},{39.5,38.8},{40.1,37.7},{40.2,41},{40.2,46.4},{40.2,46.5},{40.8,39.3},{41,40.4},{41,40.5},{41,46.1},{41,47.6},{41.2,44.4},{41.2,44.6},{42.1,46.7},{42.2,47.6},{42.7,44.6},{43.1,42},{43.2,43.7},{43.4,46.4},{43.6,46.4},{43.6,46.5},{44.2,44.9},{44.8,47.6},{45.9,46.2}}},
         },
+        [217845] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{56.06,69.43}}},
+            [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
+        },
+        [217846] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.THE_JADE_FOREST] = {{47.16,47.09}}},
+            [objectKeys.zoneID] = zoneIDs.THE_JADE_FOREST,
+        },
+        [217847] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{73.95,9.38}}},
+            [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [217848] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.KUN_LAI_SUMMIT] = {{71.1,90.97}}},
+            [objectKeys.zoneID] = zoneIDs.KUN_LAI_SUMMIT,
+        },
+        [217849] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.TOWNLONG_STEPPES] = {{71.43,56.31}}},
+            [objectKeys.zoneID] = zoneIDs.TOWNLONG_STEPPES,
+        },
+        [217850] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{51.82,51.2}}},
+            [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
+        },
+        [217851] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{79.89,37.35}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [217852] = { -- Midsummer Bonfire
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{77.79,33.61}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
         [218055] = { -- Loa-Infused Blade
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_THUNDER] = {{55.2,50.5},{55.3,48.8},{55.3,50.4},{55.4,47.9},{55.6,54.1},{55.7,48.5},{55.7,50.7},{55.8,48.4},{55.8,50.4},{56.6,52.3},{57.1,46.9},{57.3,48.9},{57.8,50},{57.9,47.9},{58.1,54.2},{58.3,48.5},{58.5,48.2},{58.5,50},{58.8,56.6},{59.3,55.8},{59.5,55.9},{61.3,51.1}}},
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_THUNDER,
@@ -1252,16 +1288,32 @@ function MopObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.DUROTAR] = {{53.09,43.59}}}, -- has more spawns
             [objectKeys.zoneID] = zoneIDs.DUROTAR,
         },
-        [221268] = { -- Meeting Stone (Siege of Orgrimmar) TODO: Enable correct spawns, once SoO is available
-            [objectKeys.zoneID] = 0,
-            [objectKeys.spawns] = {},
-            --[objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
-            --[objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{69.8,45.5}}},
+        [221268] = { -- Meeting Stone (Siege of Orgrimmar)
+            [objectKeys.spawns] = {[zoneIDs.VALE_OF_ETERNAL_BLOSSOMS] = {{69.01,44.87}}},
+            [objectKeys.zoneID] = zoneIDs.VALE_OF_ETERNAL_BLOSSOMS,
+        },
+        [221376] = { -- Old Sign Fragment
+            [objectKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{52.09,46.15}}},
+            [objectKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+        },
+        [221413] = { -- Lin Family Scroll
+            [objectKeys.spawns] = {[zoneIDs.TEMPLE_OF_THE_JADE_SERPENT] = {{69.1,57.46},{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.TEMPLE_OF_THE_JADE_SERPENT,
         },
         [223819] = { -- Traps for quest Tread Lightly
             [objectKeys.name] = "Riverblade Spike Trap", -- DB says "unk name" and wowhead does not know this object, so we reuse it.
             [objectKeys.spawns] = {[zoneIDs.KRASARANG_WILDS] = {{51.58,33.08},{47.24,29.63},{47.30,30.53},{48.61,33.45},{46.66,36.47},{47.22,38.36},{46.59,38.07},{41.29,41.19},{41.98,42.24},{40.14,41.87},{39.16,39.98},{38.83,38.51},{37.11,39.04},{37.14,37.00},{37.89,34.22},{43.55,32.98}}},
             [objectKeys.zoneID] = zoneIDs.KRASARANG_WILDS,
+        },
+        [227893] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.18,41.39}}},
+            [objectKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+            [objectKeys.factionID] = 1735, -- horde only
+        },
+        [227894] = { -- Mailbox
+            [objectKeys.spawns] = {[zoneIDs.TIMELESS_ISLE] = {{22.94,71.35}}},
+            [objectKeys.zoneID] = zoneIDs.TIMELESS_ISLE,
+            [objectKeys.factionID] = 1732, -- alliance only
         },
 
         -- Below are fake objects
@@ -1272,39 +1324,39 @@ function MopObjectFixes.Load()
         },
 
         -- For MoP fixes 440001-449999
-        [440001] = { -- For Fresh Pots 31181
+        [440001] = { -- Empty Crab Pot
             [objectKeys.name] = "Empty Crab Pot",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{58.41,81.83},{58.91,82.32},{59.07,83.39},{59.93,83.38},{60.23,83.06},{60,82.56},{60.6,82.5},{61.18,82.9},{61.44,84.22},{61.24,84.5},{60.52,84.82},{61.51,82.01},{62.16,81.84},{62.06,81.2},{61.1,80.89},{61.49,79.62},{59.84,79.62},{59.56,80.92},{59.54,81.25},{58.15,80.47}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
-        [440002] = { -- For Evie Stormstout 31077
+        [440002] = { -- Evie Stormstout
             [objectKeys.name] = "Evie Stormstout",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{50.22,10.14}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
-        [440003] = { -- For Fires and Fears of Old 31085
+        [440003] = { -- Enormous Landslide
             [objectKeys.name] = "Enormous Landslide",
             [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{29.91,31.27}}},
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
-        [440004] = {
+        [440004] = { -- Lesser Charm of Good Fortune
             [objectKeys.name] = "Lesser Charm of Good Fortune",
         },
-        [440005] = {
+        [440005] = { -- Elder Charm of Good Fortune
             [objectKeys.name] = "Elder Charm of Good Fortune",
         },
-        [440006] = {
+        [440006] = { -- Mogu Archaeology Fragment
             [objectKeys.name] = "Mogu Archaeology Fragment",
         },
-        [440007] = {
+        [440007] = { -- Pandaren Archaeology Fragment
             [objectKeys.name] = "Pandaren Archaeology Fragment",
         },
-        [440008] = {
+        [440008] = { -- Golden Falls
             [objectKeys.name] = "Golden Falls",
             [objectKeys.spawns] = {[zoneIDs.VALLEY_OF_THE_FOUR_WINDS] = {{56.71,21.87}}},
             [objectKeys.zoneID] = zoneIDs.VALLEY_OF_THE_FOUR_WINDS,
         },
-        [440009] = {
+        [440009] = { -- Timeless Coin
             [objectKeys.name] = "Timeless Coin",
         },
     }
@@ -1333,4 +1385,9 @@ function MopObjectFixes:LoadFactionFixes()
     else
         return objectFixesAlliance
     end
+end
+
+-- Use `ContentPhases.activePhases` to apply corrections for specific content phases
+function MopObjectFixes:LoadContentPhaseFixes()
+    return {}
 end

@@ -22,7 +22,8 @@ describe("QuestieProfessions", function()
             return "Cooking", nil, nil, mockedProfessionSkill
         end
 
-        l10n = require("Localization.l10n")
+        dofile("Localization/l10n.lua")
+        l10n = QuestieLoader:ImportModule("l10n")
         l10n.translations = {
             ["First Aid"] = {["enUS"] = true},
             ["Blacksmithing"] = {["enUS"] = true},
@@ -41,9 +42,11 @@ describe("QuestieProfessions", function()
             ["Inscription"] = {["enUS"] = true},
             ["Riding"] = {["enUS"] = true},
         }
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
-        QuestieProfessions = require("Modules.QuestieProfessions")
+
+        dofile("Modules/QuestieProfessions.lua")
+        QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
         QuestieProfessions:Init()
     end)
 
@@ -59,35 +62,66 @@ describe("QuestieProfessions", function()
 
         it("should detect skill updates that reach the 5 level threshold", function()
             QuestieProfessions:Update()
+            QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
             mockedProfessionSkill = 5
 
             local hasProfessionUpdate, hasNewProfession = QuestieProfessions:Update()
 
             assert.is_true(hasProfessionUpdate)
             assert.is_false(hasNewProfession)
-            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
         end)
 
         it("should detect skill updates that cross a 5 level threshold", function()
             QuestieProfessions:Update()
+            QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
             mockedProfessionSkill = 6
 
             local hasProfessionUpdate, hasNewProfession = QuestieProfessions:Update()
 
             assert.is_true(hasProfessionUpdate)
             assert.is_false(hasNewProfession)
-            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
         end)
 
         it("should ignore skill updates that do not cross a 5 level threshold", function()
             QuestieProfessions:Update()
+            QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
             mockedProfessionSkill = 2
 
             local hasProfessionUpdate, hasNewProfession = QuestieProfessions:Update()
 
             assert.is_false(hasProfessionUpdate)
             assert.is_false(hasNewProfession)
-            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was_not.called()
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
+        end)
+    end)
+
+    describe("AbandonSkill", function()
+        it("should reset the skill blacklist and recalculate available quests when a profession is abandoned", function()
+            _G.AbandonSkill = function() end
+            local abandonSkillCallback
+            _G.hooksecurefunc = function(name, callback)
+                if name == "AbandonSkill" then
+                    abandonSkillCallback = callback
+                end
+            end
+
+            local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+            AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
+
+            -- Force a fresh load so the hooksecurefunc("AbandonSkill", ...) registration re-runs and is captured
+            dofile("Modules/QuestieProfessions.lua")
+            QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+            QuestieProfessions:Init()
+
+            -- Register the profession so the abandon hook acts on it
+            QuestieProfessions:Update()
+
+            abandonSkillCallback(1)
+
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)
     end)
 end)

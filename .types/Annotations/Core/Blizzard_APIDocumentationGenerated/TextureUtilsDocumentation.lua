@@ -14,6 +14,11 @@ function C_Texture.GetAtlasElementID(atlas) end
 ---@return textureAtlas[] atlases
 function C_Texture.GetAtlasElements() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Texture.GetAtlasExists)
+---@param atlas textureAtlas
+---@return boolean atlasExists
+function C_Texture.GetAtlasExists(atlas) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Texture.GetAtlasID)
 ---@param atlas textureAtlas
 ---@return number atlasID
@@ -23,11 +28,6 @@ function C_Texture.GetAtlasID(atlas) end
 ---@param atlas textureAtlas
 ---@return AtlasInfo info
 function C_Texture.GetAtlasInfo(atlas) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_Texture.GetCraftingReagentQualityChatIcon)
----@param quality number
----@return string textureMarkup
-function C_Texture.GetCraftingReagentQualityChatIcon(quality) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Texture.GetFilenameFromFileDataID)
 ---@param fileDataID number
@@ -51,6 +51,11 @@ function C_Texture.IsTitleIconTextureReady(titleID, version) end
 ---@param titleID string
 ---@param version Enum.TitleIconVersion
 function C_Texture.SetTitleIconTexture(texture, titleID, version) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Texture.SetURLTexture)
+---@param texture SimpleTexture
+---@param url string
+function C_Texture.SetURLTexture(texture, url) end
 
 ---@class AtlasInfo
 ---@field elementName string

@@ -43,10 +43,10 @@ local _townsfolk_texturemap = {
     ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
-    ["Mailbox"] = QuestieLib.AddonPath.."Icons\\mailbox.blp",
+    ["Mailbox"] = "Interface\\Minimap\\tracking\\mailbox",
     ["Moonwell"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
     ["Profession Trainers"] = "Interface\\Minimap\\tracking\\profession",
-    ["Ammo"] = 132382,--select(10, GetItemInfo(2515)) -- sharp arrow
+    ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
     ["Potions"] = 134831,--select(10, GetItemInfo(929)) -- Healing Potion
     ["Trade Goods"] = 132912,--select(10, GetItemInfo(2321)) -- thread
@@ -54,11 +54,11 @@ local _townsfolk_texturemap = {
     ["Food"] = 133964,--select(10, GetItemInfo(4540)) -- bread
     ["Pet Food"] = 132165,--select(3, GetSpellInfo(6991)) -- feed pet
     ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
-    ["Barber"] = QuestieLib.AddonPath.."Icons\\barber.png",
+    ["Barber"] = QuestieLib.AddonPath.."Icons\\barbershop.png",
     ["Arcane Reforger"] = QuestieLib.AddonPath.."Icons\\reforge.png",
-    ["Transmogrifier"] = QuestieLib.AddonPath.."Icons\\transmogrify.png",
+    ["Transmogrifier"] = "Interface\\Minimap\\tracking\\transmogrifier",
     ["Battle Pet Trainer"] = QuestieLib.AddonPath.."Icons\\petbattle.png",
-    ["Reagents"] = QuestieLib.AddonPath.."Icons\\reagents.blp",
+    ["Reagents"] = "Interface\\Minimap\\tracking\\reagents",
     ["Poisons"] = "Interface\\Minimap\\tracking\\poisons",
     [professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
     [professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
@@ -75,6 +75,26 @@ local _townsfolk_texturemap = {
     [professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
     [professionKeys.ARCHAEOLOGY] = "Interface\\Icons\\trade_archaeology",
     [professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
+}
+
+local _townsfolk_order = {
+    "Repair",
+    "Innkeeper",
+    "Mailbox",
+    "Class Trainer",
+    "Weapon Master",
+    "Auctioneer",
+    "Banker",
+    "Flight Master",
+    "Stable Master",
+    "Battlemaster",
+    "Portal Trainer",
+    "Meeting Stones",
+    "Battle Pet Trainer",
+    "Barber",
+    "Arcane Reforger",
+    "Transmogrifier",
+    "Spirit Healer",
 }
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
@@ -336,11 +356,10 @@ end
 
 function QuestieMenu.buildTownsfolkMenu()
     local townsfolkMenu = {}
-    for key in pairs(Questie.db.global.townsfolk) do
-        tinsert(townsfolkMenu, build(key))
-    end
-    for key in pairs(Questie.db.char.townsfolk) do
-        tinsert(townsfolkMenu, build(key))
+    for _, key in ipairs(_townsfolk_order) do
+        if Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] then
+            tinsert(townsfolkMenu, build(key))
+        end
     end
     return townsfolkMenu
 end
@@ -470,5 +489,3 @@ function QuestieMenu:ShowVendors(hideDelay)
     tinsert(menuTable, {text= CANCEL, func=function() end})
     LibDropDown:EasyMenu(menuTable, QuestieMenu.menuVendors, "cursor", -60, -15, "MENU", hideDelay)
 end
-
-return QuestieMenu

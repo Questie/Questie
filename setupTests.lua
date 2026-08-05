@@ -1,7 +1,3 @@
--- TODO: Remove me!
-Questie = {
-    TBC = false
-}
 dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
@@ -9,7 +5,6 @@ dofile("Modules/Expansions.lua")
 dofile("Database/itemDB.lua")
 dofile("Database/questDB.lua")
 dofile("Database/Zones/data/zoneIds.lua")
-dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
 
 local EMTPY_FUNC = function() end
 
@@ -74,6 +69,7 @@ _G.C_Item = {
     GetItemCount = function() return 0 end,
     GetItemSpell = function() return nil end,
 }
+_G.ItemRefTooltip = {}
 _G.GetNumQuestWatches = function() return 0 end
 _G.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
@@ -94,6 +90,8 @@ _G.GetRealmName = function() return "Ook Ook" end
 _G.QUEST_MONSTERS_KILLED = "%s slain: %d/%d"
 _G.QUEST_ITEMS_NEEDED = "%s: %d/%d"
 _G.QUEST_OBJECTS_FOUND = "%s: %d/%d"
+
+_G.StaticPopupDialogs = {}
 
 local mockedFrames = {}
 _G.CreateFrame = {

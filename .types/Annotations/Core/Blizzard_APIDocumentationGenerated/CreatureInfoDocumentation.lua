@@ -15,6 +15,11 @@ function C_CreatureInfo.GetCreatureFamilyIDs() end
 ---@return CreatureFamilyInfo? creatureFamilyInfo
 function C_CreatureInfo.GetCreatureFamilyInfo(creatureFamilyID) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_CreatureInfo.GetCreatureID)
+---@param creatureGUID WOWGUID
+---@return number? creatureID
+function C_CreatureInfo.GetCreatureID(creatureGUID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_CreatureInfo.GetCreatureTypeIDs)
 ---@return number[] creatureTypeIDs
 function C_CreatureInfo.GetCreatureTypeIDs() end

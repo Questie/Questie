@@ -92,13 +92,14 @@ function QuestiePlayer.HasRequiredClass(requiredClasses)
     return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % playerClassFlagX2) >= playerClassFlag)
 end
 
+---@return AreaId
 function QuestiePlayer:GetCurrentZoneId()
     local uiMapId = C_Map.GetBestMapForUnit("player")
     if uiMapId then
         return ZoneDB:GetAreaIdByUiMapId(uiMapId)
     end
 
-    return ZoneDB.instanceIdToUiMapId[select(8, GetInstanceInfo())]
+    return ZoneDB.instanceIdToAreaId[select(8, GetInstanceInfo())]
 end
 
 ---@return number
@@ -121,30 +122,22 @@ function QuestiePlayer:GetCurrentContinentId()
 end
 
 function QuestiePlayer:GetPartyMemberByName(playerName)
-    if(UnitInParty("player") or UnitInRaid("player")) then
-        local player = {}
-        for index=1, 40 do
-            local name, realmName = UnitName("party"..index);
-            if realmName then
-                name = name .. "-" .. realmName
-            end
-            local _, classFilename = UnitClass("party"..index);
-            if name == playerName then
-                player.name = playerName;
-                player.class = classFilename;
-                local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
-                player.r = rPerc;
-                player.g = gPerc;
-                player.b = bPerc;
-                player.colorHex = argbHex;
-                return player;
-            end
-            if(index > 6 and not UnitInRaid("player")) then
-                break;
-            end
+    -- Resolve the name through the unit API instead of string-comparing against names built
+    -- from UnitName: comms sender names are normalized full names (e.g. "Bob-OldBlanchy"),
+    -- which don't reliably match a manual "name-realm" concatenation for cross-realm members.
+    if(UnitInParty(playerName) or UnitInRaid(playerName)) then
+        local _, classFilename = UnitClass(playerName);
+        if classFilename then
+            local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
+            return {
+                name = playerName,
+                class = classFilename,
+                r = rPerc,
+                g = gPerc,
+                b = bPerc,
+                colorHex = argbHex,
+            };
         end
     end
     return nil;
 end
-
-return QuestiePlayer

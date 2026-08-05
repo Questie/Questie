@@ -55,8 +55,9 @@ function C_MythicPlus.GetRewardLevelFromKeystoneLevel(keystoneLevel) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_MythicPlus.GetRunHistory)
 ---@param includePreviousWeeks? boolean Default = false
 ---@param includeIncompleteRuns? boolean Default = false
+---@param currentSeasonOnly? boolean Default = false
 ---@return MythicPlusRunInfo[] runs
-function C_MythicPlus.GetRunHistory(includePreviousWeeks, includeIncompleteRuns) end
+function C_MythicPlus.GetRunHistory(includePreviousWeeks, includeIncompleteRuns, currentSeasonOnly) end
 
 ---Gets the active players best runs by the seasonal tracked affixes as well as their overall score for the current season.
 ---
@@ -121,6 +122,7 @@ function C_MythicPlus.RequestRewards() end
 ---@field day number
 ---@field hour number
 ---@field minute number
+---@field weekday number
 
 ---@class MythicPlusKeystoneAffix
 ---@field id number
@@ -137,6 +139,9 @@ function C_MythicPlus.RequestRewards() end
 ---@field thisWeek boolean
 ---@field completed boolean
 ---@field runScore number
+---@field durationSec number
+---@field completionDate MythicPlusDate
+---@field season number
 
 ---@class SeasonTimeInfo
 ---@field bestTime number

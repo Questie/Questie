@@ -1,8 +1,8 @@
 --DBM HudMap integration written by MysticalOS
 --All code here executes functions from https://github.com/DeadlyBossMods/DBM-Unified/blob/master/DBM-Core/DBM-HudMap.lua
-----------------------
---  Globals/Locals  --
-----------------------
+------------------------
+--   Globals/Locals   --
+------------------------
 ---@class QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
 
@@ -22,9 +22,9 @@ local AddedHudIds = {}--Tracking table of all active hud markers
 local playerName = UnitName("player")
 local QuestieHUDEnabled = false
 
---------------------------------------------
---  Local function used by entire module  --
---------------------------------------------
+----------------------------------------------
+--   Local function used by entire module   --
+----------------------------------------------
 --Adds icons to actual hud display
 local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
     if tableString and not AddedHudIds[tableString] then
@@ -71,9 +71,9 @@ local function RemoveHudQuestIcon(tableString)
     end
 end
 
--------------------------------------
---  Event/Enable/Disable Handlers  --
--------------------------------------
+---------------------------------------
+--   Event/Enable/Disable Handlers   --
+---------------------------------------
 do
     local eventFrame = CreateFrame("frame", "QuestieDBMIntegration", UIParent)
     local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
@@ -116,7 +116,7 @@ do
             for tableString, points in pairs(KalimdorPoints) do
                 AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
             end
-        elseif LastInstanceMapID == 530 then--It means we are now in Kalimdor (but weren't before)
+        elseif LastInstanceMapID == 530 then--It means we are now in Outland (but weren't before)
             for tableString, points in pairs(OutlandPoints) do
                 AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
             end
@@ -201,11 +201,25 @@ do
             DBM:Schedule(1, DelayedMapCheck)--Well, since DBM is loaded, might as well use DBM scheduler instead of creating a ticker
         end
     end)
+
+    if UIParent then
+        UIParent:HookScript("OnHide", function()
+            if QuestieHUDEnabled then
+                CleanupPoints(9999)
+            end
+        end)
+
+        UIParent:HookScript("OnShow", function()
+            if QuestieHUDEnabled then
+                ReAddHudIcons()
+            end
+        end)
+    end
 end
 
-------------------------
---  Global Functions  --
-------------------------
+--------------------------
+--   Global Functions   --
+--------------------------
 --Called in QuestieMap in DrawWorldIcon function right after QuestieMap:QueueDraw
 --QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, ZoneDB:GetUiMapIdByAreaId(AreaID), x, y, colors[1], colors[2], colors[3])
 --Take note of x, y. do not /100 the coords sent to this itegration, since HudMap expects unmodified values
@@ -314,7 +328,7 @@ function QuestieDBMIntegration:UnregisterHudQuestIcon(tableString)
         if KalimdorPoints[tableString] then KalimdorPoints[tableString] = nil end
         if EKPoints[tableString] then EKPoints[tableString] = nil end
         if OutlandPoints[tableString] then OutlandPoints[tableString] = nil end
-        if NorthrendPoints[tableString] then OutlandPoints[tableString] = nil end
+        if NorthrendPoints[tableString] then NorthrendPoints[tableString] = nil end
         if PandariaPoints[tableString] then PandariaPoints[tableString] = nil end
         if AddedHudIds[tableString] then
             RemoveHudQuestIcon(tableString)
@@ -337,18 +351,17 @@ end
 
 --Creates a line between player and a specific point
 function QuestieDBMIntegration:EdgeTo(tableString)
-    if DBM and DBM.HudMap and tableString then
-        if not AddedHudIds[tableString.."edge"] then
-            --Request Marker table from DBM for specific tableString
-            local marker2 = DBM.HudMap:GetEncounterMarker(tableString.."Questie")
-            if marker2 and type(marker2) == "table" then
-                --Now, create a practically invisible point on player to establish edge from location
-                local marker1 = DBM.HudMap:RegisterRangeMarkerOnPartyMember(tableString, "party", playerName, 0.1, nil, 0, 1, 0, 1, nil, false):Appear()--objectId, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf
-                marker2:EdgeTo(marker1, nil, hudDuration, 0, 1, 0, 1)--point_or_unit_or_x, from_y, duration, r, g, b, a, w, texfile, extend
-                AddedHudIds[tableString..playerName] = true
-            --else
-            --    print("attempted to create an edge with an invalid target marker")
-            end
+    if not UIParent or not DBM or not DBM.HudMap or not tableString then return end
+    if not AddedHudIds[tableString.."edge"] then
+        --Request Marker table from DBM for specific tableString
+        local marker2 = DBM.HudMap:GetEncounterMarker(tableString.."Questie")
+        if marker2 and type(marker2) == "table" then
+            --Now, create a practically invisible point on player to establish edge from location
+            local marker1 = DBM.HudMap:RegisterRangeMarkerOnPartyMember(tableString, "party", playerName, 0.1, nil, 0, 1, 0, 1, nil, false):Appear()--objectId, texture, person, radius, duration, r, g, b, a, blend, canFilterSelf
+            marker2:EdgeTo(marker1, nil, hudDuration, 0, 1, 0, 1)--point_or_unit_or_x, from_y, duration, r, g, b, a, w, texfile, extend
+            AddedHudIds[tableString..playerName] = true
+        --else
+        --    print("attempted to create an edge with an invalid target marker")
         end
     end
 end
@@ -362,7 +375,6 @@ function QuestieDBMIntegration:ClearHudEdge(tableString)
         end
     end
 end
-
 --TODO
 ----HUD
 --more fancy functions similar to drawing lines/arrows to objectives. Current edge code works, but there are still more cool things HUD can do

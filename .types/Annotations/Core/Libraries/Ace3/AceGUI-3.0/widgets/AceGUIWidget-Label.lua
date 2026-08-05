@@ -26,7 +26,7 @@ function AceGUILabel:SetFontObject(font) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-10-1)
 ---@param image string|number
----@param ... unknown
+---@param ... number? Pass 4 or 8 SetTexCoords parameters
 function AceGUILabel:SetImage(image, ...) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-10-1)

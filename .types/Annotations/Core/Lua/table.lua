@@ -25,6 +25,13 @@ table = {}
 ---@nodiscard
 function table.concat(list, sep, i, j) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_table.count)
+---@param tbl table
+---@return number numTableNodes Total number of elements within the table
+---@return number numArrayNodes Total number of elements within the table that had integral keys in the range [1..numTableNodes]" 
+---@return number maxArrayIndex Largest integral key within the table, or zero if no such keys were found"
+function table.count(tbl) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_table.create)
 ---@param arraySizeHint number
 ---@param nodeSizeHint? number
@@ -47,10 +54,10 @@ function table.insert(list, pos, value) end
 ---
 ---[View documents](command:extension.lua.doc?["en-us/51/manual.html/pdf-table.maxn"])
 ---
----@param table table
+---@param tbl table
 ---@return integer
 ---@nodiscard
-function table.maxn(table) end
+function table.maxn(tbl) end
 
 ---
 ---Removes from `list` the element at position `pos`, returning the value of the removed element.

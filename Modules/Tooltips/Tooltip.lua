@@ -93,13 +93,11 @@ function QuestieTooltips:RemoveQuest(questId)
 
     if quest then
         for _, objective in pairs(quest.Objectives) do
-            objective.AlreadySpawned = {}
             objective.hasRegisteredTooltips = false
             objective.registeredItemTooltips = false
         end
 
         for _, objective in pairs(quest.SpecialObjectives) do
-            objective.AlreadySpawned = {}
             objective.hasRegisteredTooltips = false
             objective.registeredItemTooltips = false
         end
@@ -228,8 +226,8 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     end
 
     local isObjectTooltip = key:sub(1, 2) == "o_"
-    if isObjectTooltip and (not IsInInstance()) then
-        -- Outside of dungeons we want to only show object tooltips for objects that are in the current zone.
+    if isObjectTooltip then
+        -- We want to only show object tooltips for objects that are in the current player zone.
         -- Otherwise quests from Wanted! posters and Midsummer Bonfires will show up incorrectly.
         local objectIsInCurrentZone = false
         if playerZone == 0 then
@@ -311,9 +309,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
                         elseif tooltip.type == "Finisher" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_complete.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
-                        elseif tooltip.type == "itemFromMonster" then
+                        elseif tooltip.type == "itemFromMonster" or tooltip.type == "itemFromObject" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\available_mobdrop.png:14|t" .. questString
-                        elseif tooltip.type == "itemFromObject" or tooltip.type == "Object" then
+                        elseif tooltip.type == "Object" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\available_object.png:14|t" .. questString
                         end
                     end
@@ -392,7 +390,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
                 elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.profile.onlyPartyShared or UnitInParty(objectivePlayerName)) then
-                    playerColor = QuestieComms.remotePlayerClasses[playerName]
+                    playerColor = QuestieComms.remotePlayerClasses[objectivePlayerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
                         playerType = " (" .. l10n("Nearby") .. ")"
@@ -527,5 +525,3 @@ function QuestieTooltips:Initialize()
         end
     end)
 end
-
-return QuestieTooltips

@@ -22,6 +22,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -86,14 +88,26 @@ function QuestieOptions.tabs.general:Initialize()
                     printLocalMessages = {
                         type = "toggle",
                         order = 7.3,
-                        name = function() return l10n("Display announcements locally when outside of a group"); end,
-                        desc = function() return l10n("Questie will print your progress messages to chat when not in a group. Other players will NOT be able to see this."); end,
+                        name = function() return l10n("Announce quest updates to yourself"); end,
+                        desc = function() return l10n("Questie will print your update messages to chat. Other players will NOT be able to see this."); end,
                         disabled = function() return Questie.db.profile.questieShutUp end,
                         width = 2.5,
                         get = function () return Questie.db.profile.questAnnounceLocally end,
                         set = function (_, value)
                             Questie.db.profile.questAnnounceLocally = value
                             Questie:Debug(Questie.DEBUG_DEVELOP, "Quest announce locally changed to:", value)
+                        end,
+                    },
+                    showPartyQuestObjectives = {
+                        type = "toggle",
+                        order = 7.35,
+                        name = function() return l10n("Show party members' quest objectives"); end,
+                        desc = function() return l10n("Show quest objectives from party members on the map and minimap, even for quests you don't have or have already completed."); end,
+                        width = 2.5,
+                        get = function () return Questie.db.profile.showPartyQuestObjectives end,
+                        set = function (_, value)
+                            Questie.db.profile.showPartyQuestObjectives = value
+                            QuestiePartyObjectives:Update()
                         end,
                     },
                     shareQuestsNearby = {
@@ -771,7 +785,7 @@ _GetObjectiveSoundChoices = function()
         ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
         ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Tbc then
         options["Explosion"] = l10n("Explosion")
         options["Shing!"] = l10n("Shing!")
         options["Wham!"] = l10n("Wham!")
@@ -801,7 +815,7 @@ _GetObjectiveProgressSoundChoices = function()
         ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
         ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Tbc then
         options["Explosion"] = l10n("Explosion")
         options["Shing!"] = l10n("Shing!")
         options["Wham!"] = l10n("Wham!")

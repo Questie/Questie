@@ -19,6 +19,10 @@ function ModelScene:CreateActor(name, template) end
 ---@return ModelSceneActor actor
 function ModelScene:GetActorAtIndex(index) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ModelScene_GetAllowOverlappedModels)
+---@return boolean allowOverlappedModels
+function ModelScene:GetAllowOverlappedModels() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_ModelScene_GetCameraFarClip)
 ---@return number farClip
 function ModelScene:GetCameraFarClip() end
@@ -131,6 +135,10 @@ function ModelScene:IsLightVisible() end
 ---@return number point2DY
 ---@return number depth
 function ModelScene:Project3DPointTo2D(pointX, pointY, pointZ) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ModelScene_SetAllowOverlappedModels)
+---@param allowOverlappedModels boolean
+function ModelScene:SetAllowOverlappedModels(allowOverlappedModels) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_ModelScene_SetCameraFarClip)
 ---@param farClip number

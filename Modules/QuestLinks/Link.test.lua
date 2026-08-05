@@ -47,7 +47,7 @@ describe("QuestieLink", function()
         _G.HaveQuestData = function() return false end
         _G.C_QuestLog.GetQuestObjectives = function() return nil end
 
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.DoableStates = {AVAILABLE = "AVAILABLE"}
         QuestieDB.IsComplete = function() return 0 end
         QuestieDB.IsRepeatable = function() return false end
@@ -56,25 +56,42 @@ describe("QuestieLink", function()
         QuestieDB.QueryObjectSingle = spy.new(function() return nil end)
         QuestieDB.QueryItemSingle = spy.new(function() return nil end)
 
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
 
-        QuestieReputation = require("Modules.QuestieReputation")
+        QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
         QuestieReputation.GetFactionName = spy.new(function() return nil end)
 
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetTbcLevel = function() return 10 end
         QuestieLib.GetLevelString = function() return "[10] " end
         QuestieLib.PrintDifficultyColor = function(_, _, ...) return "|cffffffff" end
 
-        QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
+        QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieEvent.IsEventQuest = function() return false end
 
-        TrackerUtils = require("Modules.Tracker.TrackerUtils")
-        require("Localization.l10n")
-        require("Database.Zones.zoneDB")
+        TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        QuestieLoader:ImportModule("ZoneDB")
+        dofile("Localization/l10n.lua")
 
-        QuestieLink = require("Modules.QuestLinks.Link")
+        dofile("Modules/QuestLinks/Link.lua")
+        QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+    end)
+
+    describe("GetQuestLinkStringById", function()
+        it("should return a formatted link string with level and name from the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetTbcLevel = function()
+                return 15
+            end
+
+            local result = QuestieLink:GetQuestLinkStringById(1234)
+
+            assert.are_same("[[15] Test Quest (1234)]", result)
+        end)
     end)
 
     describe("CreateQuestTooltip", function()
@@ -120,7 +137,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -130,8 +147,8 @@ describe("QuestieLink", function()
                 " - Fierce Boar",
                 " - Argent Dawn",
             }, tooltipLines)
-            assert.spy(QuestieDB.QueryNPCSingle).was_called_with(101, "name")
-            assert.spy(QuestieReputation.GetFactionName).was_called_with(201)
+            assert.spy(QuestieDB.QueryNPCSingle).was.called_with(101, "name")
+            assert.spy(QuestieReputation.GetFactionName).was.called_with(201)
         end)
 
         it("should show Blizzard objective text when HaveQuestData returns true", function()
@@ -167,7 +184,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -177,8 +194,8 @@ describe("QuestieLink", function()
                 " - Fierce Boar slain: 0/8",
                 " - Argent Dawn reputation: 0/1000",
             }, tooltipLines)
-            assert.spy(QuestieDB.QueryNPCSingle).was_not_called()
-            assert.spy(QuestieReputation.GetFactionName).was_not_called()
+            assert.spy(QuestieDB.QueryNPCSingle).was.not_called()
+            assert.spy(QuestieReputation.GetFactionName).was.not_called()
         end)
 
         it("should use NPC names from DB when Blizzard objective is missing it", function()
@@ -215,7 +232,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -261,7 +278,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -309,7 +326,7 @@ describe("QuestieLink", function()
             local questId = 1234
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -360,7 +377,7 @@ describe("QuestieLink", function()
 
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678")
 
-            assert.are.same({
+            assert.are_same({
                 "Progress Quest",
                 "You are on this quest",
                 " ",

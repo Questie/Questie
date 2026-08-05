@@ -268,7 +268,7 @@ function MopQuestFixes.Load()
         [8564] = { -- Priest Training
             [questKeys.requiredLevel] = 2,
         },
-        [8788] = {
+        [8788] = { -- A Gently Shaken Gift
             [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.WARLOCK + classIDs.MAGE + classIDs.SHAMAN + classIDs.DRUID + classIDs.MONK,
         },
         [9392] = { -- Rogue Training
@@ -2746,7 +2746,6 @@ function MopQuestFixes.Load()
         [30280] = { -- The Thunder Below
             [questKeys.startedBy] = {{58503,59332}},
             [questKeys.finishedBy] = {{58503,59332}},
-            --[questKeys.objectives] = {{{64965}}}, -- TO DO: check ID and Milau needs spawn anyway
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,21000},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.preQuestGroup] = {30642},
@@ -7797,10 +7796,10 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {30181},
         },
         [32108] = { -- Domination Point
-            [questKeys.reputationReward] = {{factionIDs.HUOJIN_PANDAREN,5},{factionIDs.DOMINANCE_OFFENSIVE,7}},
+            [questKeys.reputationReward] = {{factionIDs.HORDE,5},{factionIDs.DOMINANCE_OFFENSIVE,7}},
         },
         [32109] = { -- Lion's Landing
-            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3},{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,5},{factionIDs.OPERATION_SHIELDWALL,7}},
         },
         [32115] = { -- Shackles of the Past
             [questKeys.preQuestSingle] = {32109}, -- TO DO add spawns to cave map
@@ -8338,19 +8337,19 @@ function MopQuestFixes.Load()
         [32247] = { -- A King Among Men
             [questKeys.preQuestSingle] = {32246},
             [questKeys.objectives] = {{{68331,nil,Questie.ICON_TYPE_EVENT},{68312,nil,Questie.ICON_TYPE_EVENT}},nil,nil,nil,{{{68332,68333,68334},68332}}},
-            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3},{factionIDs.OPERATION_SHIELDWALL,12}},
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,5},{factionIDs.OPERATION_SHIELDWALL,12}},
         },
         [32248] = { -- A Little Patience
             [questKeys.preQuestSingle] = {32109},
             [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,4}},
         },
         [32249] = { -- Meet the Scout
-            [questKeys.reputationReward] = {{factionIDs.HUOJIN_PANDAREN,1},{factionIDs.DOMINANCE_OFFENSIVE,4}},
+            [questKeys.reputationReward] = {{factionIDs.HORDE,1},{factionIDs.DOMINANCE_OFFENSIVE,4}},
         },
         [32250] = { -- The Might of the Warchief
             [questKeys.objectives] = {{{67927,nil,Questie.ICON_TYPE_EVENT},{67926,nil,Questie.ICON_TYPE_TALK}},nil,nil,nil,{{{67900,67901,67902},67900}}},
             [questKeys.preQuestSingle] = {32249},
-            [questKeys.reputationReward] = {{factionIDs.HUOJIN_PANDAREN,5},{factionIDs.DOMINANCE_OFFENSIVE,12}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,12},{factionIDs.HORDE,5}},
         },
         [32251] = { -- Dagger in the Dark
             [questKeys.objectives] = {},
@@ -8391,28 +8390,28 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{70567}},
             [questKeys.finishedBy] = {{70567}},
             [questKeys.reputationReward] = {},
-            [questKeys.preQuestSingle] = {32212},
+            [questKeys.preQuestSingle] = {32212,32279},
             [questKeys.exclusiveTo] = {32259},
         },
         [32259] = { -- Horde Quest Choice: PvE
             [questKeys.startedBy] = {{70567}},
             [questKeys.finishedBy] = {{70567}},
             [questKeys.reputationReward] = {},
-            [questKeys.preQuestSingle] = {32212},
+            [questKeys.preQuestSingle] = {32212,32279},
             [questKeys.exclusiveTo] = {32258},
         },
         [32260] = { -- Alliance Quest Choice: PvE
             [questKeys.startedBy] = {{70561}},
             [questKeys.finishedBy] = {{70561}},
             [questKeys.reputationReward] = {},
-            [questKeys.preQuestSingle] = {32644},
+            [questKeys.preQuestSingle] = {32644,32656},
             [questKeys.exclusiveTo] = {32261},
         },
         [32261] = { -- Alliance Quest Choice: PvP
             [questKeys.startedBy] = {{70561}},
             [questKeys.finishedBy] = {{70561}},
             [questKeys.reputationReward] = {},
-            [questKeys.preQuestSingle] = {32644},
+            [questKeys.preQuestSingle] = {32644,32656},
             [questKeys.exclusiveTo] = {32260},
         },
         [32262] = { -- Captive Audience
@@ -8536,13 +8535,13 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,19750},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Shrine"),0,{{"monster",68741}}}},
             [questKeys.objectives] = {{{67948,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31},{factionIDs.ALLIANCE,3}},
         },
         [32316] = { -- Heart Of The Alliance
             [questKeys.preQuestSingle] = {32315},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,19750},
             [questKeys.objectives] = {{{68006,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7},{factionIDs.ALLIANCE,7}},
         },
         [32317] = { -- Seeking the Soulstones
             [questKeys.objectives] = {nil,nil,{{92494},{92495},{92496},{92497}}},
@@ -8696,7 +8695,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32351},
             [questKeys.requiredMinRep] = {factionIDs.DOMINANCE_OFFENSIVE,19750},
             [questKeys.objectives] = {{{68284,nil,Questie.ICON_TYPE_INTERACT}}},
-            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7},{factionIDs.HUOJIN_PANDAREN,27}},
+            [questKeys.reputationReward] = {{factionIDs.DOMINANCE_OFFENSIVE,7},{factionIDs.HORDE,7}},
         },
         [32355] = { -- The Harmonic Mallet
             [questKeys.preQuestSingle] = {32423},
@@ -8709,7 +8708,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32331},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,11850},
             [questKeys.objectives] = {{{68108,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,6},{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7},{factionIDs.ALLIANCE,6}},
         },
         [32363] = { -- The Kun-Lai Expedition
             [questKeys.preQuestSingle] = {32330},
@@ -8839,14 +8838,14 @@ function MopQuestFixes.Load()
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,27650},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Fly to the Ruins of Korune"),0,{{"monster",68741}}}},
             [questKeys.objectives] = {{{67734,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,31},{factionIDs.ALLIANCE,1}},
         },
         [32394] = { -- The Divine Bell
             [questKeys.preQuestSingle] = {32393},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,27650},
             [questKeys.finishedBy] = {{67951}},
             [questKeys.objectives] = {{{68504}},{{216678}}},
-            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,7},{factionIDs.ALLIANCE,6}},
         },
         [32397] = { -- He Won't Even Miss It
             [questKeys.preQuestSingle] = {32382},
@@ -9086,6 +9085,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32401},
             [questKeys.requiredMinRep] = {factionIDs.OPERATION_SHIELDWALL,42000},
             [questKeys.objectives] = {{{68928,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.OPERATION_SHIELDWALL,6},{factionIDs.ALLIANCE,6}},
         },
         [32457] = { -- The Thunder King
             [questKeys.startedBy] = {{64616}},
@@ -9140,6 +9140,32 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {32259},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT,4}},
         },
+        [32496] = { -- Desecrate this Fire!
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [32497] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217845}}},
+        },
+        [32498] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217846}}},
+        },
+        [32499] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217847}}},
+        },
+        [32500] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217848}}},
+        },
+        [32501] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217849}}},
+        },
+        [32502] = { -- Honor the Flame
+            [questKeys.objectives] = {nil,{{217850}}},
+        },
+        [32503] = { -- Desecrate this Fire!
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [32505] = { -- The Crumbled Chamberlain
             [questKeys.preQuestSingle] = {32680,32681},
             [questKeys.requiredLevel] = 90,
@@ -9157,6 +9183,12 @@ function MopQuestFixes.Load()
             [questKeys.finishedBy] = {{110018}},
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
             [questKeys.preQuestSingle] = {32259},
+        },
+        [32509] = { -- Honor the Flame
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+        },
+        [32510] = { -- Honor the Flame
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [32517] = { -- The Conquest of Stone
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
@@ -10000,6 +10032,9 @@ function MopQuestFixes.Load()
             [questKeys.startedBy] = {{71426}},
             [questKeys.preQuestSingle] = {32861},
             [questKeys.objectives] = {{{69782,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.breadcrumbForQuestId] = 33088,
+            [questKeys.nextQuestInChain] = 33088,
+            [questKeys.exclusiveTo] = {33087},
         },
         [32871] = { -- Vol'jin of the Darkspear
             [questKeys.startedBy] = {{71320}},
@@ -10047,9 +10082,62 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.objectives] = {nil,nil,{{74841}},nil,{{{63154,63156,63158},63154,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [32974] = { -- Rolo's Riddle
+            [questKeys.startedBy] = {nil,nil,{102225}},
+            [questKeys.objectives] = {{{72751,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [32975] = { -- Rolo's Riddle
+            [questKeys.objectives] = {{{72754,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [32976] = { -- Rolo's Riddle
+            [questKeys.objectives] = {{{72755,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [33018] = { -- Noodle Secrets Long Forgotten
+            [questKeys.preQuestGroup] = {31467,31471,31474,31476,31477,31480},
+        },
+        [33021] = { -- Secrets Lost, Forever?
+            [questKeys.startedBy] = {{110020}},
+        },
+        [33022] = { -- Catch and Carry
+            [questKeys.startedBy] = {{64231}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Bring the sacks here"),0,{{"object",213756}}}},
+            [questKeys.objectives] = {nil,{{213756}}},
+        },
+        [33024] = { -- Is That A Real Measurement?
+            [questKeys.preQuestSingle] = {33022},
+        },
+        [33027] = { -- The Secret Ingredient Is...
+            [questKeys.objectives] = {{{64231,nil,Questie.ICON_TYPE_TALK},{72984}}},
+        },
+        [33087] = { -- Meet Me Back at the Inn
+            [questKeys.startedBy] = {{71426}},
+            [questKeys.preQuestSingle] = {32861},
+            [questKeys.breadcrumbForQuestId] = 33088,
+            [questKeys.nextQuestInChain] = 33088,
+            [questKeys.exclusiveTo] = {32870},
+        },
+        [33088] = { -- A Timeless Discovery
+            [questKeys.startedBy] = {{69782}},
+            [questKeys.preQuestSingle] = {32861},
+            [questKeys.breadcrumbs] = {32870,33087},
+        },
         [33098] = { -- Secrets of the Timeless Isle
+            [questKeys.startedBy] = {{72695}},
+            [questKeys.preQuestSingle] = {33088},
             [questKeys.objectivesText] = {"Collect 5000 Timeless Coins from creatures and events on the Timeless Isle."},
             [questKeys.objectives] = {nil,{{440009}}},
+        },
+        [33100] = { -- The Emperor's Way
+            [questKeys.preQuestSingle] = {33088},
+        },
+        [33104] = { -- A Pandaren Legend
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {33098,33100},
+            [questKeys.objectives] = {{{72723,nil,Questie.ICON_TYPE_EVENT},{72723,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [33107] = { -- Bad Feeling, Worse Result
+            [questKeys.finishedBy] = {{110019}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Get in"),0,{{"object",221413}}}},
         },
         [33133] = { -- Warforged Seals
             [questKeys.objectives] = {nil,{{440004}}},
@@ -10073,14 +10161,22 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.WEEKLY,
             [questKeys.objectives] = {{{73082,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
+        [33146] = { -- Noodle Time
+            [questKeys.preQuestSingle] = {33027},
+        },
         [33161] = { -- A Timeless Tour
+            [questKeys.preQuestSingle] = {33156,33160},
             [questKeys.objectives] = {{{73577,nil,Questie.ICON_TYPE_EVENT},{73576,nil,Questie.ICON_TYPE_EVENT},{73579,nil,Questie.ICON_TYPE_EVENT},{73578,nil,Questie.ICON_TYPE_EVENT},{73574,nil,Questie.ICON_TYPE_EVENT},{73575,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [33211] = { -- A Timeless Question
+            [questKeys.objectives] = {{{73570,nil,Questie.ICON_TYPE_TALK}}},
         },
         [33222] = { -- Little Tommy Newcomer
             [questKeys.requiredSpell] = 119467,
             [questKeys.objectives] = {{{73626,nil,Questie.ICON_TYPE_PET_BATTLE}}},
         },
         [33228] = { -- Time In Your Hands
+            [questKeys.preQuestSingle] = {33156,33160},
             [questKeys.objectivesText] = {"Gather 1000 Timeless Coins and introduce yourself to Mistweaver Ai and Mistweaver Ku."},
             [questKeys.objectives] = {{{73305,nil,Questie.ICON_TYPE_TALK},{73306,nil,Questie.ICON_TYPE_TALK}},{{440009}}},
         },
@@ -10098,10 +10194,44 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {33230},
         },
+        [33234] = { -- Meaty Crane Leg
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33235] = { -- Great Turtle Meat
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33236] = { -- Heavy Yak Flank
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33238] = { -- Thick Tiger Haunch
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33239] = { -- Pristine Firestorm Egg
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
+        [33248] = { -- Proving Grounds
+            [questKeys.objectives] = {{{72536,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [33249] = { -- Proving Grounds
+            [questKeys.objectives] = {{{72536,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [33250] = { -- A Time-Lost Treasure
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [33252] = { -- A Winter Veil Gift
             [questKeys.startedBy] = {nil,{187236}},
         },
+        [33332] = { -- Hints From The Past
+            [questKeys.preQuestSingle] = {33228},
+        },
+        [33333] = { -- Timeless Treasures
+            [questKeys.preQuestSingle] = {33332},
+        },
+        [33334] = { -- Strong Enough To Survive
+            [questKeys.preQuestSingle] = {33333},
+        },
         [33335] = { -- The Last Emperor
+            [questKeys.preQuestSingle] = {33228},
             [questKeys.objectives] = {{{73303,nil,Questie.ICON_TYPE_TALK}}},
         },
         [33336] = { -- The Essence of Time
@@ -10109,16 +10239,35 @@ function MopQuestFixes.Load()
         },
         [33337] = { -- A Vision in Time
             [questKeys.preQuestSingle] = {33338},
+            [questKeys.objectives] = {{{74094,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [33338] = { -- Empowering the Hourglass
             [questKeys.preQuestSingle] = {33336},
         },
         [33340] = { -- Timeless Nutriment
+            [questKeys.preQuestSingle] = {33335},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Use it"),0,{{"object",221689},{"object",221690},{"object",221725},{"object",221747},{"object",221763},{"object",221764}}}},
+        },
+        [33341] = { -- Wayshrines Of The Celestials
+            [questKeys.preQuestSingle] = {33340},
+        },
+        [33342] = { -- Drive Back The Flame
+            [questKeys.preQuestSingle] = {33374},
+        },
+        [33343] = { -- The Archiereus Of Flame
+            [questKeys.preQuestSingle] = {33342},
+            [questKeys.requiredSourceItems] = {103684},
         },
         [33354] = { -- Den Mother's Demise
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.WEEKLY,
+        },
+        [33358] = { -- Noodle Time: Bonus
+            [questKeys.preQuestSingle] = {33027},
+        },
+        [33374] = { -- Path of the Mistwalker
+            [questKeys.preQuestSingle] = {33341},
+            [questKeys.questFlags] = questFlags.DAILY,
         },
         [33375] = { -- Refining The Vision
             [questKeys.preQuestSingle] = {33337},
@@ -10719,4 +10868,9 @@ function MopQuestFixes:LoadFactionFixes()
     else
         return questFixesAlliance
     end
+end
+
+-- Use ContentPhases to apply corrections specific to the current content phase
+function MopQuestFixes:LoadContentPhaseFixes()
+    return {}
 end

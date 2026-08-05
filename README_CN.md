@@ -4,13 +4,14 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.29.2/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.33.5/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
 ## 语言版本
-- [中文版本](README_CN.md)
-- [English version](README.md)
+- [English](README.md)
+- [Español](README_ES.md)
+- [简体中文](README_CN.md)
 
 ## 下载
 我们一般建议您使用 [CurseForge 客户端](https://curseforge.overwolf.com/) 来管理您的《魔兽世界》插件。您可以在 [CurseForge 上的此链接](https://www.curseforge.com/wow/addons/questie) 找到 Questie 插件。

@@ -85,6 +85,9 @@ function QuestieTBCObjectFixes:Load()
         [182116] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{61.5,56.1},{62.4,53.0},{62.4,59.2},{62.5,53.0},{62.5,59.2},{62.9,45.5},{63.0,45.4},{64.1,51.2},{64.8,49.3},{64.8,49.5},{65.0,53.8},{65.4,50.6},{65.6,50.7},{65.8,47.5},{65.9,47.4},{66.0,62.2},{66.1,46.4},{66.4,52.1},{66.5,52.1},{66.6,47.9},{67.3,50.1},{67.3,54.7},{67.7,53.4},{68.0,48.3},{68.3,44.7},{68.3,53.7},{68.6,54.4},{68.6,54.5},{68.8,47.8},{70.2,47.9},{70.7,50.2},{71.0,53.9},{71.1,51.7},{71.2,47.2},{71.6,45.4},{71.6,45.5},{73.1,46.8}}},
         },
+        [182068] = { -- Alonsus Chapel Eternal Flame
+            [objectKeys.spawns] = {[zoneIDs.STRATHOLME_THE_GAUNTLET] = {{-1,-1}},[zoneIDs.STRATHOLME] = {{-1,-1}}},
+        },
         [182198] = {
             [objectKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
@@ -112,8 +115,8 @@ function QuestieTBCObjectFixes:Load()
         [182950] = {
             [objectKeys.factionID] = 80,
         },
-        [183050] = {
-            [objectKeys.spawns] = {[zoneIDs.SETHEKK_HALLS]={{-1,-1}}},
+        [183050] = { -- The Saga of Terokk
+            [objectKeys.spawns] = {[zoneIDs.SETHEKK_HALLS_HALLS_OF_MOURNING]={{-1,-1}},[zoneIDs.SETHEKK_HALLS]={{-1,-1}}},
         },
         [183933] = {
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{18.54,73.68},{35.53,57.98},{34.93,58.48},{36.56,59.4},{37.25,57.88},{19.82,75.69},{20.31,77.36},{19.39,78.38},{22.24,78.14},{24.42,78.22},{23.75,79.38},{31.73,71.52},{32.94,79.62},{32.9,78.28},{33.92,79.24},{34.81,78.16},{33.83,77.23},{34.73,77.5},{35.4,76.08},{39.09,77.34},{39.08,78.19},{40.81,77.3},{41.87,77.04},{19.61,75.08},{19.59,78.58},{21.6,78.4},{23.42,77.77},{19.44,74.0},{32.3,79.15},{32.43,79.37},{33.91,75.74},{34.14,78.13},{41.26,77.05},{40.37,78.64},{33.97,75.64}}},
@@ -302,6 +305,12 @@ function QuestieTBCObjectFixes:Load()
         [186189] = {
             [objectKeys.name] = "Alcohol-Free Brewfest Sampler",
         },
+        [186267] = { -- Pumpkin Shrine
+            [objectKeys.questStarts] = {11392,11401,11405}, -- no 11404?
+        },
+        [186314] = { -- Loosely Turned Soil
+            [objectKeys.questEnds] = {11392,11401,11405}, -- no 11404?
+        },
         [186420] = { -- Syndicate Documents
             [objectKeys.questStarts] = {510,511},
         },
@@ -325,11 +334,13 @@ function QuestieTBCObjectFixes:Load()
         },
         [187559] = { -- Horde Bonfire
             [objectKeys.questStarts] = {11580},
+            [objectKeys.questEnds] = {11580},
         },
         [187564] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11581},
+            [objectKeys.questEnds] = {11581},
         },
-        [187578] = {
+        [187578] = { -- Scrying Orb
             [objectKeys.name] = "Scrying Orb",
             [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
@@ -337,10 +348,10 @@ function QuestieTBCObjectFixes:Load()
         [187892] = { -- Ice Chest
             [objectKeys.spawns] = {[zoneIDs.THE_SLAVE_PENS] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_SLAVE_PENS,
-            [objectKeys.questStarts] = {11972},
         },
         [187914] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11732},
+            [objectKeys.questEnds] = {11732},
         },
         [187917] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -364,12 +375,14 @@ function QuestieTBCObjectFixes:Load()
         },
         [187928] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11745},
+            [objectKeys.questEnds] = {11745},
         },
         [187929] = {
             [objectKeys.spawns] = {[zoneIDs.FERALAS]={{28.2,44.1}}},
         },
         [187932] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11749},
+            [objectKeys.questEnds] = {11749},
         },
         [187933] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -388,6 +401,7 @@ function QuestieTBCObjectFixes:Load()
         },
         [187938] = { -- Alliance Bonfire
             [objectKeys.questStarts] = {11755},
+            [objectKeys.questEnds] = {11755},
         },
         [187939] = {
             [objectKeys.name] = "Alliance Bonfire",
@@ -408,6 +422,9 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Horde Bonfire",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{32.3,68.3}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [187954] = {
+            [objectKeys.questEnds] = {11766},
         },
         [187955] = {
             [objectKeys.name] = "Horde Bonfire",
@@ -441,6 +458,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Horde Bonfire",
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{57.0,51.7}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+            [objectKeys.questEnds] = {11786},
         },
         [188123] = {
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{67.18,16.47}}}, -- TBC only Mailbox
@@ -454,6 +472,15 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.name] = "Flame of Silvermoon",
             [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{69.1,43.5}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+        },
+        [188130] = { -- Ice Stone
+            [objectKeys.name] = "Ice Stone",
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.23,31.37}}},
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+        },
+        [188139] = { -- Ice Stone
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.25,24.27}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
         [189303] = { -- Candy Bucket
             [objectKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{43.74,65.89}}},

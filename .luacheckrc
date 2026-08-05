@@ -2476,6 +2476,7 @@ globals = {
     "table.removemulti",
     "table.setn",
     "table.sort",
+    "table.unpack",
     "table.wipe",
     "tan",
     "time",

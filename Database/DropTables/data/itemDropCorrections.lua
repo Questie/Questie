@@ -136,8 +136,22 @@ QuestieItemDropCorrections.Era = {
         [787] = DropKeys.WOWHEAD,
         [1110] = DropKeys.WOWHEAD,
     },
+    [2633] = { -- Jungle Remedy
+        [940] = DropKeys.WOWHEAD,
+        [941] = DropKeys.WOWHEAD,
+        [942] = DropKeys.WOWHEAD,
+    },
     [2676] = { -- Shimmerweed
         [1397] = DropKeys.WOWHEAD,
+    },
+    [2843] = { -- Dirty Knucklebones
+        [2252] = DropKeys.WOWHEAD,
+        [2253] = DropKeys.WOWHEAD,
+        [2254] = DropKeys.WOWHEAD,
+        [2255] = DropKeys.WOWHEAD,
+        [2256] = DropKeys.WOWHEAD,
+        [2287] = DropKeys.WOWHEAD,
+        [2416] = DropKeys.WOWHEAD,
     },
     [3297] = { -- Fel Moss
         [1988] = DropKeys.WOWHEAD,
@@ -183,6 +197,13 @@ QuestieItemDropCorrections.Era = {
         [2451] = DropKeys.WOWHEAD,
         [2503] = DropKeys.WOWHEAD,
     },
+    [3714] = { -- Worn Stone Token
+        [2271] = DropKeys.WOWHEAD,
+        [2272] = DropKeys.WOWHEAD,
+        [2358] = DropKeys.WOWHEAD,
+        [2415] = DropKeys.WOWHEAD,
+        [2628] = DropKeys.WOWHEAD,
+    },
     [3917] = { -- Singing Blue Crystal
         [674] = DropKeys.WOWHEAD,
         [675] = DropKeys.WOWHEAD,
@@ -198,6 +219,15 @@ QuestieItemDropCorrections.Era = {
         [1550] = DropKeys.WOWHEAD,
         [1551] = DropKeys.WOWHEAD,
     },
+    [4105] = { -- Elder Crocolisk Skin
+        [2635] = 100.0,
+    },
+    [4627] = { -- Large Stone Slab
+        [92] = 100,
+    },
+    [4628] = { -- Bracers of Rock Binding
+        [2736] = 20,
+    },
     [5026] = { -- Fire Tar
         [3267] = 75,
         [3268] = 75,
@@ -208,6 +238,13 @@ QuestieItemDropCorrections.Era = {
         [3256] = DropKeys.WOWHEAD,
         [3257] = DropKeys.WOWHEAD,
         [5842] = DropKeys.WOWHEAD,
+    },
+    [5078] = { -- Theramore Medal
+        [3385] = 100,
+        [3386] = 100,
+        [3393] = 100,
+        [3454] = 100,
+        [3455] = 100,
     },
     [5085] = { -- Bristleback Quilboar Tusk
         [3258] = 100,
@@ -235,6 +272,45 @@ QuestieItemDropCorrections.Era = {
     },
     [5669] = { -- Dust Devil Debris
         [832] = 50.0, -- not 100%, not 5%. Could be more than 50%
+    },
+    [5801] = { -- Kraul Guano
+        [4538] = 100,
+        [4539] = 100,
+    },
+    [5867] = { -- Etched Phial
+        -- Most comments on Wowhead are from players who didn't realize you have to be on the quest for it to drop.
+        -- That being said, cmangos claims 100% and it's definitely not 100%. Didn't sit farming them all day, but farmed a few and seems around 20%. -ytt
+        [4054] = 20,
+    },
+    [6250] = { -- Felhound Brain
+        [4678] = 100,
+        [4681] = 100,
+        [4685] = 100,
+    },
+    [6251] = { -- Nether Wing
+        [4679] = 100,
+        [4682] = 100,
+        [4684] = 100,
+    },
+    [6252] = { -- Doomwarder Blood
+        [4680] = 100,
+        [5760] = 100,
+        [14226] = 100,
+    },
+    [6257] = { -- Roc Gizzard
+        [5428] = DropKeys.WOWHEAD,
+        [5429] = DropKeys.WOWHEAD,
+        [5430] = DropKeys.WOWHEAD,
+    },
+    [6258] = { -- Ironfur Liver
+        [5268] = DropKeys.WOWHEAD,
+        [5272] = DropKeys.WOWHEAD,
+        [5274] = DropKeys.WOWHEAD,
+        [5352] = DropKeys.WOWHEAD,
+    },
+    [6259] = { -- Groddoc Liver
+        [5260] = DropKeys.WOWHEAD,
+        [5262] = DropKeys.WOWHEAD,
     },
     [6443] = { -- Deviate Hide
         [3630] = DropKeys.WOWHEAD,
@@ -272,11 +348,44 @@ QuestieItemDropCorrections.Era = {
     [7291] = { -- Infernal Orb
         [4668] = 100,
     },
+    [9369] = { -- Iridescent Sprite Darter Wing
+        -- this one is complicated; they drop 0-2, on average you get more than 1 per kill, but they occasionally don't drop any so 100% isn't accurate
+        [5278] = 95,
+        [7997] = 95,
+    },
+    [10458] = { -- Prayer to Elune
+        [5860] = 20, -- empyrical value
+        [5861] = 20, -- empyrical value
+        [5862] = 20, -- empyrical value
+        [8419] = 20, -- empyrical value
+    },
+    [10552] = { -- Symbol of Ragnaros
+        [5860] = DropKeys.WOWHEAD,
+        [5861] = DropKeys.WOWHEAD,
+        [5862] = DropKeys.WOWHEAD,
+        [8419] = DropKeys.WOWHEAD,
+    },
     [10639] = { -- Hyacinth Mushroom
         [1988] = 80,
     },
+    [11405] = { -- Giant Silver Vein
+        [6146] = 100,
+        [6147] = 100,
+        [6148] = 100,
+    },
+    [11478] = { -- Un'Goro Gorilla Pelt
+        [6514] = DropKeys.WOWHEAD,
+    },
     [11479] = { -- Un'Goro Stomper Pelt
         [6513] = DropKeys.WOWHEAD,
+    },
+    [11480] = { -- Un'Goro Thunderer Pelt
+        [6516] = DropKeys.WOWHEAD,
+    },
+    [11503] = { -- Blood Amber
+        [7100] = 100,
+        [7101] = 100,
+        [7104] = 100,
     },
     [11829] = { -- Un'Goro Ash
         [6520] = 100.0,
@@ -285,9 +394,84 @@ QuestieItemDropCorrections.Era = {
         [14460] = 100.0,
         [14461] = 10.0,
     },
+    [12335] = { -- Gemstone of Smolderthorn
+        [9237] = 10,
+    },
+    [12336] = { -- Gemstone of Spirestone
+        [9196] = 10,
+    },
+    [12337] = { -- Gemstone of Bloodaxe
+        [9568] = 10,
+    },
+    [12524] = { -- Blue-feathered Amulet
+        [7452] = 50,
+        [7453] = 50,
+        [7454] = 50,
+    },
+    [12733] = { -- Sacred Frostsaber Meat
+        [7430] = 10,
+        [7431] = 10,
+        [7432] = 10,
+        [7433] = 10,
+        [7434] = 10,
+    },
+    [15849] = { -- Ghost-o-plasm
+        [11560] = 100,
+    },
     [15852] = { -- Kodo Horn
         [3234] = 100,
         [3236] = 100,
+    },
+    [15881] = { -- Rackmore's Golden Key
+        [4711] = DropKeys.WOWHEAD,
+        [4712] = DropKeys.WOWHEAD,
+        [4713] = DropKeys.WOWHEAD,
+        [4714] = DropKeys.WOWHEAD,
+        [4715] = DropKeys.WOWHEAD,
+        [4716] = DropKeys.WOWHEAD,
+        [4718] = DropKeys.WOWHEAD,
+        [4719] = DropKeys.WOWHEAD,
+        [14229] = DropKeys.WOWHEAD,
+    },
+    [17309] = { -- Discordant Bracers
+        [8519] = 100,
+        [8520] = 100,
+        [8521] = 100,
+        [8522] = 100,
+    },
+    [17761] = { -- Gem of the First Khan
+        [12240] = 100,
+    },
+    [17762] = { -- Gem of the Second Khan
+        [12239] = 100,
+    },
+    [17763] = { -- Gem of the Third Khan
+        [12241] = 100,
+    },
+    [17764] = { -- Gem of the Fourth Khan
+        [12242] = 100,
+    },
+    [17765] = { -- Gem of the Fifth Khan
+        [12243] = 100,
+    },
+    [18956] = { -- Miniaturization Residue
+        [5357] = 100,
+        [5358] = 100,
+        [5359] = 100,
+        [5360] = 100,
+        [5361] = 100,
+        [14603] = 100,
+        [14604] = 100,
+        [14638] = 100,
+        [14639] = 100,
+        [14640] = 100,
+    },
+    [20028] = { -- Glittering Dust
+        [6198] = 25,
+        [6199] = 25,
+    },
+    [20029] = { -- Enchanted Coral
+        [6195] = 25,
     },
     [20373] = { -- Stonelash Scorpid Stinger
         [11735] = DropKeys.WOWHEAD,
@@ -316,9 +500,29 @@ QuestieItemDropCorrections.Era = {
     },
 }
 
-QuestieItemDropCorrections.Tbc = {
+QuestieItemDropCorrections.Tbc = { -- Corrections for Old World data should only be put here if they change going from Era->TBC! Otherwise, put them in the Era section!
+    [2633] = { -- Jungle Remedy
+        [937] = DropKeys.WOWHEAD,
+        [940] = DropKeys.WOWHEAD,
+        [941] = DropKeys.WOWHEAD,
+        [942] = DropKeys.WOWHEAD,
+    },
     [6487] = { -- Vile Familiar Head
-        [3101] = 100,
+        [3101] = 100, -- TO DO double check this. strange that it's TBC only
+    },
+    [12334] = { -- Frostmaul Shards
+        [7428] = 20,
+        [7429] = 20,
+        [10198] = 100,
+    },
+    [12335] = { -- Gemstone of Smolderthorn
+        [9237] = 100,
+    },
+    [12336] = { -- Gemstone of Spirestone
+        [9196] = 100,
+    },
+    [12337] = { -- Gemstone of Bloodaxe
+        [9568] = 100,
     },
     [20934] = { -- Wraith Essence
         [15273] = 100,
@@ -347,6 +551,12 @@ QuestieItemDropCorrections.Tbc = {
         [17191] = DropKeys.WOWHEAD,
         [17192] = DropKeys.WOWHEAD,
         [17475] = DropKeys.WOWHEAD,
+    },
+    [24156] = { -- Filled Shimmering Vessel
+        [17544] = 100,
+    },
+    [24226] = { -- Blood Knight Insignia
+        [17832] = 100,
     },
     [24279] = { -- Vicious Teromoth Sample
         [18437] = DropKeys.WOWHEAD,
@@ -390,11 +600,32 @@ QuestieItemDropCorrections.Tbc = {
     [25891] = { -- Pristine Shimmerscale Eel
         [18750] = DropKeys.WOWHEAD,
     },
+    [28527] = { -- Mana Wraith Essence
+        [18864] = 60,
+    },
+    [28635] = { -- Sunfury Arcanist Robes
+        -- According to Wowhead comments these were very low in older versions of the game,
+        -- and wowhead's data shows very low because many non-quest kills, but in reality
+        -- they were among the quests to have drop rates significantly boosted around 2.4.0,
+        -- so in Classic versions they're pretty high. Buuut not the 100 cmangos claims.
+        [20134] = 50,
+    },
+    [28636] = { -- Sunfury Researcher Gloves
+        [20136] = 50,
+    },
+    [28637] = { -- Sunfury Guardsman Medallion
+        [18850] = 50,
+    },
     [28667] = { -- Flawless Greater Windroc Beak
         [17129] = DropKeys.WOWHEAD,
     },
     [28668] = { -- Aged Clefthoof Blubber
         [17133] = DropKeys.WOWHEAD,
+    },
+    [28970] = { -- Nether Dragon Essence
+        -- Drakes definitely have lower rates than Dragons, but Dragons are correctly
+        -- around 80% as cmangos claims, so only including a correction for Drakes
+        [18877] = 60,
     },
     [29161] = { -- Void Ridge Soul Shard
         [17014] = 100,
@@ -405,6 +636,13 @@ QuestieItemDropCorrections.Tbc = {
         [18886] = 100,
         [20202] = 100,
     },
+    [29338] = { -- Loathsome Remnant
+        [20512] = 50,
+        [21065] = 50,
+    },
+    [29365] = { -- Smithing Hammer
+        [20409] = 100,
+    },
     [29480] = { -- Parched Hydra Sample
         [20324] = DropKeys.WOWHEAD,
     },
@@ -414,6 +652,15 @@ QuestieItemDropCorrections.Tbc = {
     [29591] = { -- Prepared Ethereum Wrapping
         [20458] = DropKeys.WOWHEAD,
         [20459] = DropKeys.WOWHEAD,
+    },
+    [29797] = { -- Orders From Kael'thas
+        [18860] = DropKeys.WOWHEAD,
+        [20285] = DropKeys.WOWHEAD,
+        [20326] = DropKeys.WOWHEAD,
+    },
+    [29822] = { -- Fragment of Dimensius
+        [18869] = 40,
+        [18870] = 40,
     },
     [30184] = { -- Thunderlord Dire Wolf Tail
         [20748] = 100,
@@ -433,6 +680,16 @@ QuestieItemDropCorrections.Tbc = {
     [30783] = { -- Mature Nether Drake Essence
         [20021] = 100,
     },
+    [30791] = { -- Silkwing Cocoon
+        -- Lots of comments claim these have different rates depending on how you interact with the
+        -- mob, like it's a scripted thing. I tried every single way many many times and did not see
+        -- a difference in drop rate between methods. But it is definitely not the 80% cmangos claims. -ytt
+        [20747] = 30,
+    },
+    [30792] = { -- Iridescent Wing
+        [21373] = 60,
+        [21839] = 60,
+    },
     [30798] = { -- Extra Sharp Daggermaw Tooth
         [20751] = DropKeys.WOWHEAD,
     },
@@ -443,7 +700,7 @@ QuestieItemDropCorrections.Tbc = {
         [21462] = DropKeys.WOWHEAD,
     },
     [31119] = { -- Wyrmcult Net
-        [21809] = DropKeys.WOWHEAD,
+        [21809] = 70,
     },
     [31132] = { -- Crust Burster Venom Gland
         [21380] = DropKeys.WOWHEAD,
@@ -452,9 +709,14 @@ QuestieItemDropCorrections.Tbc = {
         [22466] = DropKeys.WOWHEAD,
     },
     [31316] = { -- Lianthe's Key
-        [19792] = DropKeys.WOWHEAD,
-        [19796] = DropKeys.WOWHEAD,
-        [19806] = DropKeys.WOWHEAD,
+        -- cmangos claims nearly 100%, definitely lower than that, but nowhere near as low as wowhead's ~3%. more like 20%, tested pretty well
+        [19792] = 20,
+        [19796] = 20,
+        [19806] = 20,
+    },
+    [31651] = { -- Bladespire Totem
+        [20765] = DropKeys.WOWHEAD,
+        [20766] = DropKeys.WOWHEAD,
     },
     [31812] = { -- Doom Skull
         [21242] = DropKeys.WOWHEAD,
@@ -462,6 +724,11 @@ QuestieItemDropCorrections.Tbc = {
     },
     [31814] = { -- Mature Bone Sifter Carcass
         [22482] = 100,
+    },
+    [33087] = { -- Black Dragonkin Essence
+        [4328] = 100,
+        [4329] = 100,
+        [4331] = 100,
     },
 }
 

@@ -1,7 +1,0 @@
----@meta _
----@class BountyInfo
----@field questID number
----@field factionID number
----@field icon fileID
----@field numObjectives number
----@field turninRequirementText string?

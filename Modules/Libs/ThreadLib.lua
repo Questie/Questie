@@ -37,7 +37,8 @@ function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction)
         local success, ret = coResume(thread)
         -- Something in the coroutine went wrong, print the error and stop the timer
         if not success then
-            Questie:Error(errorMessage or "Error in thread", ret)
+            local stack = debugstack(thread)
+            Questie:Error(errorMessage or "Error in thread", ret, "\n", stack)
             timer:Cancel();
         end
       elseif (coStatus(thread) == "dead") then --It's faster not to lookup the value but instead have it here
@@ -82,6 +83,23 @@ end
 ---@return thread Thread @The coroutine thread
 function ThreadLib.ThreadSimple(threadFunction, delay)
   return ThreadLib.Thread(threadFunction, delay)
+end
+
+---Thread a function and start it instantly
+---@param threadFunction function @The function to thread
+---@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return thread Thread @The coroutine thread
+function ThreadLib.ThreadInstant(threadFunction)
+  return ThreadLib.Thread(threadFunction, 0)
+end
+
+---Thread a function and start it instantly. Callback function is called when the thread is done.
+---@param threadFunction function @The function to thread
+---@param callbackFunction function @Function to call when the thread is done
+---@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return thread Thread @The coroutine thread
+function ThreadLib.ThreadCallbackInstant(threadFunction, callbackFunction)
+  return ThreadLib.Thread(threadFunction, 0, nil, callbackFunction)
 end
 
 

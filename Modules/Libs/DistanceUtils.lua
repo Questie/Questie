@@ -165,5 +165,3 @@ _GetDistance = function(zoneId, spawnX, spawnY, playerX, playerY, playerZone)
     end
     return dist
 end
-
-return DistanceUtils

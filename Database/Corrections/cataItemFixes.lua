@@ -98,9 +98,6 @@ function CataItemFixes.Load()
         [5847] = { -- Mirefin Head
             [itemKeys.npcDrops] = {4358,4359,4360,4361,4362,4363,23841},
         },
-        [5883] = { -- Forked Mudrock Tongue
-            [itemKeys.npcDrops] = {4397},
-        },
         [8170] = { -- Rugged Leather
             [itemKeys.vendors] = {},
         },
@@ -166,6 +163,9 @@ function CataItemFixes.Load()
             [itemKeys.npcDrops] = {7092,14345},
         },
         [12283] = { -- Broodling Essence
+            [itemKeys.npcDrops] = {},
+        },
+        [12741] = { -- Sixth Mosh'aru Tablet
             [itemKeys.npcDrops] = {},
         },
         [12842] = { -- Crudely-Written Log
@@ -270,9 +270,6 @@ function CataItemFixes.Load()
         },
         [23797] = { -- Diabolical Plans
             [itemKeys.startQuest] = 26447,
-        },
-        [23901] = { -- Nazan's Head
-            [itemKeys.npcDrops] = {17307},
         },
         [24025] = { -- Deathclaw's Paw
             [itemKeys.npcDrops] = {17661},
@@ -418,9 +415,6 @@ function CataItemFixes.Load()
         [46397] = { -- Oracle Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [46471] = { -- Furbolg Ear
-            [itemKeys.npcDrops] = {3743,3745,3750},
-        },
         [46543] = { -- Laughing Sister's Corpse
             [itemKeys.npcDrops] = {34426},
         },
@@ -432,6 +426,9 @@ function CataItemFixes.Load()
         },
         [46702] = { -- Ancient Device Fragment
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [46741] = { -- Furbolg Ear
+            [itemKeys.npcDrops] = {3743,3745,3750},
         },
         [46827] = { -- Ship Schematics
             [itemKeys.npcDrops] = {34754},

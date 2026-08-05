@@ -284,6 +284,7 @@ function TrackerBaseFrame.ShrinkToMinSize(minSize)
 end
 
 ---@param button string @The mouse button that is pressed when dragging starts
+---@return boolean? startedMoving @True if tracker movement started.
 function TrackerBaseFrame.OnDragStart(frame, button)
     if GameTooltip:IsShown() then
         GameTooltip:Hide()
@@ -314,7 +315,10 @@ function TrackerBaseFrame.OnDragStart(frame, button)
                     TrackerBaseFrame.baseFrame.isMoving = true
 
                     baseFrame:StartMoving()
+                    SetCursor("UI_MOVE_CURSOR")
                     TrackerBaseFrame:Update()
+
+                    return true
                 else
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is not movable!")
                 end
@@ -358,13 +362,13 @@ end
 
 function TrackerBaseFrame.OnDragStop(frame, button)
     if IsShiftKeyDown() or IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Shift key or alt key detected! --> Exiting.")
-        return
-    else
-        if TrackerBaseFrame.isMoving ~= true or TrackerBaseFrame.isSizing == true then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Frame isn't moving or frame is resizing! --> Exiting.")
+        if TrackerBaseFrame.isMoving ~= true then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Shift key or alt key detected! --> Exiting.")
             return
         end
+    elseif TrackerBaseFrame.isMoving ~= true or TrackerBaseFrame.isSizing == true then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Frame isn't moving or frame is resizing! --> Exiting.")
+        return
     end
 
     if TrackerBaseFrame.isMoving ~= false and TrackerBaseFrame.isSizing ~= true then
@@ -374,6 +378,7 @@ function TrackerBaseFrame.OnDragStop(frame, button)
         TrackerBaseFrame.baseFrame.isMoving = false
 
         baseFrame:StopMovingOrSizing()
+        SetCursor(nil)
         QuestieCombatQueue:Queue(_UpdateTrackerPosition)
     end
 end

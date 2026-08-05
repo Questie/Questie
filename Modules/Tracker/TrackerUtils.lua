@@ -35,6 +35,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 local GetItemCount = C_Item.GetItemCount or GetItemCount
 local GetItemSpell = C_Item.GetItemSpell or GetItemSpell
@@ -47,31 +49,31 @@ local zoneCache = {}
 local questProximityTimer
 local questZoneProximityTimer
 local bindTruthTable = {
-    ['left'] = function(button)
+    ["left"] = function(button)
         return "LeftButton" == button
     end,
-    ['right'] = function(button)
+    ["right"] = function(button)
         return "RightButton" == button
     end,
-    ['shiftleft'] = function(button)
+    ["shiftleft"] = function(button)
         return "LeftButton" == button and IsShiftKeyDown()
     end,
-    ['shiftright'] = function(button)
+    ["shiftright"] = function(button)
         return "RightButton" == button and IsShiftKeyDown()
     end,
-    ['ctrlleft'] = function(button)
+    ["ctrlleft"] = function(button)
         return "LeftButton" == button and IsControlKeyDown()
     end,
-    ['ctrlright'] = function(button)
+    ["ctrlright"] = function(button)
         return "RightButton" == button and IsControlKeyDown()
     end,
-    ['altleft'] = function(button)
+    ["altleft"] = function(button)
         return "LeftButton" == button and IsAltKeyDown()
     end,
-    ['altright'] = function(button)
+    ["altright"] = function(button)
         return "RightButton" == button and IsAltKeyDown()
     end,
-    ['disabled'] = function() return false end,
+    ["disabled"] = function() return false end,
 }
 
 local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
@@ -115,7 +117,7 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
             TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
         end
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, { title = title, crazy = true, from = "Questie" })
+        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, {title = title, crazy = true, from = "Questie"})
     end
 end
 
@@ -156,7 +158,7 @@ function TrackerUtils:FlashObjective(objective)
                         icon:Hide()
                         if icon.data.lineFrames then
                             for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide()
+                                line:Hide() -- Use raw Hide, not FakeHide
                             end
                         end
                     end
@@ -176,6 +178,13 @@ function TrackerUtils:FlashObjective(objective)
                     -- todo: move into frame.session
                     frame._hidden_by_flash = nil
                     frame._size = frame:GetWidth()
+
+                    -- Show line frames for the objective being flashed
+                    if frame.data and frame.data.lineFrames then
+                        for _, line in pairs(frame.data.lineFrames) do
+                            line:Show() -- Use raw Show to restore
+                        end
+                    end
                 end
             end
         end
@@ -218,14 +227,13 @@ function TrackerUtils:FlashObjective(objective)
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
-                                            if icon.data.lineFrames then
-                                                for _, line in pairs(icon.data.lineFrames) do
-                                                    line:Show()
-                                                end
-                                            end
+                                            -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                         end
                                     end
                                 end
+                                -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
+                                HBDPins.worldmapProvider.forceUpdate = true
+                                HBDPins.worldmapProvider:RefreshAllData()
                             end)
                         end
                         flashDone = flashDone + 1
@@ -251,7 +259,7 @@ function TrackerUtils:FlashFinisher(quest)
                         icon:Hide()
                         if icon.data.lineFrames then
                             for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide()
+                                line:Hide() -- Use raw Hide, not FakeHide
                             end
                         end
                     end
@@ -307,14 +315,13 @@ function TrackerUtils:FlashFinisher(quest)
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
-                                        if icon.data.lineFrames then
-                                            for _, line in pairs(icon.data.lineFrames) do
-                                                line:Show()
-                                            end
-                                        end
+                                        -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                     end
                                 end
                             end
+                            -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
+                            HBDPins.worldmapProvider.forceUpdate = true
+                            HBDPins.worldmapProvider:RefreshAllData()
                         end)
                     end
                     flashDone = flashDone + 1
@@ -1044,7 +1051,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
             -- If the Quest is minimized show the Expand Quest button
             if Questie.db.char.collapsedQuests[questId] then
-                if Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest) then
+                if Questie.db.profile.collapseCompletedQuests and isMinimizable then
                     line.expandQuest:Hide()
                 else
                     line.expandQuest:Show()
@@ -1101,12 +1108,12 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     end
                 end
             end
-        -- Show button when primary button was not added (e.g. the requiredSourceItems are not in the bag yet)
         else
+            -- Show button when primary button was not added (e.g. the requiredSourceItems are not in the bag yet)
             line.expandQuest:Show()
         end
-    -- Hide button if quest complete or failed
-    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable and (not isTimedQuest)) then
+    elseif (Questie.db.profile.collapseCompletedQuests and isMinimizable) then
+        -- Hide button if quest complete or failed
         line.expandQuest:Hide()
     else
         line.expandQuest:Show()
@@ -1154,5 +1161,3 @@ function TrackerUtils.HasQuest()
     Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils.HasQuest] - ", hasQuest)
     return hasQuest
 end
-
-return TrackerUtils

@@ -36,6 +36,7 @@ function C_Reputation.GetFactionDataByIndex(factionSortIndex) end
 ---@return number rewardQuestID
 ---@return boolean hasRewardPending
 ---@return boolean tooLowLevelForParagon
+---@return number paragonStorageLevel
 function C_Reputation.GetFactionParagonInfo(factionID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Reputation.GetGuildFactionData)
@@ -74,8 +75,13 @@ function C_Reputation.IsFactionActive(factionSortIndex) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Reputation.IsFactionParagon)
 ---@param factionID number
----@return boolean hasParagon
+---@return boolean factionIsParagon
 function C_Reputation.IsFactionParagon(factionID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Reputation.IsFactionParagonForCurrentPlayer)
+---@param factionID number
+---@return boolean currentPlayerHasParagon
+function C_Reputation.IsFactionParagonForCurrentPlayer(factionID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_Reputation.IsMajorFaction)
 ---@param factionID number

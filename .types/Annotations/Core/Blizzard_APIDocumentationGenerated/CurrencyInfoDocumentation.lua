@@ -136,6 +136,12 @@ function C_CurrencyInfo.GetFactionGrantedByCurrency(currencyID) end
 ---@return number? maxTransferableAmount
 function C_CurrencyInfo.GetMaxTransferableAmountFromQuantity(currencyID, requestedQuantity) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_CurrencyInfo.GetPlayerCurrencyCategoryInfo)
+---@param categoryID number
+---@param includeAccountWide? boolean Default = true
+---@return PlayerCurrencyCategoryInfo info
+function C_CurrencyInfo.GetPlayerCurrencyCategoryInfo(categoryID, includeAccountWide) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_CurrencyInfo.GetWarResourcesCurrencyID)
 ---@return number warResourceCurrencyID
 function C_CurrencyInfo.GetWarResourcesCurrencyID() end
@@ -269,3 +275,8 @@ function C_CurrencyInfo.SetCurrencyUnused(index, unused) end
 ---@field quantityTransferred number
 ---@field totalQuantityConsumed number
 ---@field timestamp time_t
+
+---@class PlayerCurrencyCategoryInfo
+---@field categoryName string
+---@field currencyTypes number[]
+---@field childCategories number[]

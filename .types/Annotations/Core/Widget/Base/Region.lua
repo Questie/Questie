@@ -44,6 +44,12 @@ function Region:IsObjectLoaded() end
 ---@param alpha SingleColorValue
 function Region:SetAlpha(alpha) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Region_SetAlphaFromBoolean)
+---@param value boolean
+---@param alphaIfTrue? SingleColorValue Default = 255
+---@param alphaIfFalse? SingleColorValue Default = 0
+function Region:SetAlphaFromBoolean(value, alphaIfTrue, alphaIfFalse) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Region_SetDrawLayer)
 ---@param layer DrawLayer
 ---@param sublevel? number Default = 0
@@ -67,3 +73,9 @@ function Region:SetScale(scale) end
 ---@param colorB number
 ---@param a? SingleColorValue
 function Region:SetVertexColor(colorR, colorG, colorB, a) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Region_SetVertexColorFromBoolean)
+---@param value boolean
+---@param colorIfTrue colorRGBA
+---@param colorIfFalse colorRGBA
+function Region:SetVertexColorFromBoolean(value, colorIfTrue, colorIfFalse) end

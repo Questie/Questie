@@ -113,7 +113,7 @@
 ---@field professionName string
 
 ---@class CraftingOrderReagentInfo
----@field reagent CraftingReagentInfo
+---@field reagentInfo CraftingReagentInfo
 ---@field slotIndex number
 ---@field source Enum.CraftingOrderReagentSource
 ---@field isBasicReagent boolean
@@ -133,7 +133,7 @@
 ---@field orderDuration Enum.CraftingOrderDuration
 ---@field tipAmount WOWMONEY
 ---@field customerNotes string
----@field reagentItems RegularReagentInfo[]
+---@field reagentInfos RegularReagentInfo[]
 ---@field craftingReagentItems CraftingReagentInfo[]
 ---@field minCraftingQualityID number?
 ---@field orderTarget string?

@@ -5,7 +5,6 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.areaIdToUiMapIdOverride = [[return {
     [0] = 0, -- fail safe
-    [1977] = 233, -- Zul'Gurub - Dungeon old ZG
     [2257] = 0, -- Deeprun Tram
     [2917] = 0, -- Hall of Legends
     [2918] = 0, -- Champions' Hall
@@ -180,6 +179,7 @@ ZoneDB.private.areaIdToUiMapId = [[return {
     [1637] = 1454, -- Orgrimmar
     [1638] = 1456, -- Thunder Bluff
     [1657] = 1457, -- Darnassus
+    [1977] = 233, -- Zul'Gurub - Dungeon pre-cata ZG
     [2017] = 317, -- Stratholme - Dungeon
     [2057] = 306, -- Scholomance - Dungeon
     [2100] = 280, -- Maraudon - Dungeon

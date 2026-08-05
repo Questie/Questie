@@ -126,7 +126,7 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
                 LibDropDown:CloseDropDownMenus()
                 objective.HideIcons = nil
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
-                QuestieQuest:ToggleNotes(true)
+                QuestieQuest.ToggleQuestNotes(true)
             end
         })
     else
@@ -136,7 +136,7 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
                 LibDropDown:CloseDropDownMenus()
                 objective.HideIcons = true
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
-                QuestieQuest:ToggleNotes(false)
+                QuestieQuest.ToggleQuestNotes(false)
             end
         })
     end
@@ -149,7 +149,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
             func = function()
                 quest.HideIcons = nil
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
-                QuestieQuest:ToggleNotes(true)
+                QuestieQuest.ToggleQuestNotes(true)
             end
         })
     else
@@ -158,7 +158,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
             func = function()
                 quest.HideIcons = true
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = true
-                QuestieQuest:ToggleNotes(false)
+                QuestieQuest.ToggleQuestNotes(false)
             end
         })
     end
@@ -188,7 +188,7 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
             end
 
             if needHiddenUpdate then
-                QuestieQuest:ToggleNotes(true)
+                QuestieQuest.ToggleQuestNotes(true)
             end
 
             TrackerUtils:ShowObjectiveOnMap(objective)
@@ -222,13 +222,13 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
 
             if (not ChatFrame1EditBox:IsVisible()) then
                 if Questie.db.profile.trackerShowQuestLevel then
-                    ChatFrame_OpenChat(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
+                    ChatFrame_OpenChat(QuestieLink:GetQuestLinkStringById(quest.Id))
                 else
                     ChatFrame_OpenChat("[" .. quest.name .. " (" .. quest.Id .. ")]")
                 end
             else
                 if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(quest.Id))
                 else
                     ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
                 end
@@ -379,7 +379,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         local quest_wow = QuestieDB.GetQuest(questID)
         local name = quest_wow.name
 
-        textFrame:SetFont("GameFontNormal", 12)
+        textFrame:SetFont(GameFontNormal:GetFont(), 12)
         textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
         local wowheadLink = _GetWowheadLinkForLanguage() .. "quest=" .. questID -- all expansions follow this system as of 2024 start of Cata
@@ -542,7 +542,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
         local achieveID = textFrame.text_arg1
         local name = select(2, GetAchievementInfo(achieveID))
 
-        textFrame:SetFont("GameFontNormal", 12)
+        textFrame:SetFont(GameFontNormal:GetFont(), 12)
         textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
 
         local wowheadLink = _GetWowheadLinkForLanguage() .. "achievement=" .. achieveID

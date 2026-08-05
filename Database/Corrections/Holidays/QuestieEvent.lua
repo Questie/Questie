@@ -53,11 +53,32 @@ local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
 ---@class QuestieEventPrivate
 local _QuestieEvent = QuestieEvent.private
 
+---[1] = Event Name
+---[2] = QuestId
+---[3] = Start Date (format: "DD/MM")
+---[4] = End Date (format: "DD/MM")
+---[5] = Start Hour and Minute (format: "HH:MM")
+---[6] = End Hour and Minute (format: "HH:MM")
+---[7] = Hide Quest even during event (optional, default: false)
+---@alias EventQuestEntry {[1]: string, [2]: QuestId, [3]: string?, [4]: string?, [5]: string?, [6]: string?, [7]: boolean?}
+
 -- This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
+---@type EventQuestEntry[]
 QuestieEvent.eventQuests = {}
+
+---@type table<QuestId, boolean>
 QuestieEvent.activeQuests = {}
 QuestieEvent.calendarDataCached = false
-_QuestieEvent.eventNamesForQuests = {}
+
+---@type table<QuestId, string>
+local eventNamesForQuests = {}
+
+local alwaysTurnInAbleQuests = {
+    [7937] = true, -- Your Fortune Awaits You...
+    [7938] = true, -- Your Fortune Awaits You...
+    [7944] = true, -- Your Fortune Awaits You...
+    [7945] = true, -- Your Fortune Awaits You...
+}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -69,30 +90,48 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
+---@type QuestieTBCNpcFixes
+local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetLunarFestivalDates
+local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
 
+---@enum DMFLocation
 local DMF_LOCATIONS = {
     NONE = 0,
     MULGORE = 1,
     ELWYNN_FOREST = 2,
+    TEROKKAR_FOREST = 3,
+}
+
+local DMF_LOCATION_NAMES = {
+    [1] = "Mulgore",
+    [2] = "Elwynn Forest",
+    [3] = "Terokkar Forest",
 }
 
 -- The ingame calender adds a texture to the DMF event.
 -- We use this to identify the event without relying on dates or localized event titles.
-local DMF_CALENDER_ICON_TEXTURES = {
+local DMF_CALENDAR_ICON_TEXTURES = {
     [235446] = true, -- End Texture
     [235447] = true, -- Ongoing Texture
     [235448] = true, -- Start Texture
 }
 
-function QuestieEvent.Initialize()
-    if (not Questie.db.profile.showEventQuests) then
-        return
-    end
+-- Determine the DMF start day for the month based on what weekday the 1st is.
+-- We also require the Monday start to have reached 03:00 server time before considering the event active.
+local DMF_START_DAY_BY_FIRST_WEEKDAY = {
+    [1] = 9,  -- 1st is a Sunday -> Monday is 9th
+    [2] = 8,  -- 1st is a Monday -> Monday is 8th
+    [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
+    [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
+    [5] = 5,  -- 1st is a Thursday -> Monday is 5th
+    [6] = 4,  -- 1st is a Friday -> Monday is 4th
+    [7] = 10, -- 1st is a Saturday -> Monday is 10th
+}
 
+function QuestieEvent.Initialize()
     Questie:RegisterEvent("CALENDAR_UPDATE_EVENT_LIST", function()
         QuestieEvent:Load()
         Questie:UnregisterEvent("CALENDAR_UPDATE_EVENT_LIST")
@@ -132,14 +171,21 @@ function QuestieEvent:Load()
     for eventName, eventData in pairs(QuestieEvent.eventDates) do
         local startDay, startMonth = strsplit("/", eventData.startDate)
         local endDay, endMonth = strsplit("/", eventData.endDate)
+        local startHour, startMinute, endHour, endMinute
 
         startDay = tonumber(startDay)
         startMonth = tonumber(startMonth)
+        startHour = eventData.startHour
+        startMinute = eventData.startMinute
         endDay = tonumber(endDay)
         endMonth = tonumber(endMonth)
+        endHour = eventData.endHour
+        endMinute = eventData.endMinute
 
-        if _WithinDates(startDay, startMonth, endDay, endMonth) and (eventCorrections[eventName] ~= false) then
-            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
+        if _WithinDates(startDay, startMonth, startHour, startMinute, endDay, endMonth, endHour, endMinute) and (eventCorrections[eventName] ~= false) then
+            if Questie.db.profile.showEventQuests then
+                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
+            end
             activeEvents[eventName] = true
         end
     end
@@ -155,7 +201,7 @@ function QuestieEvent:Load()
 
         for i = 1, numDayEvents do
             local event = C_Calendar.GetHolidayInfo(0, currentDate.monthDay, i)
-            if event and DMF_CALENDER_ICON_TEXTURES[event.texture] then
+            if event and DMF_CALENDAR_ICON_TEXTURES[event.texture] then
                 dmfIsActive = true
                 break
             end
@@ -165,9 +211,11 @@ function QuestieEvent:Load()
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local eventName = questData[1]
         local questId = questData[2]
-        local hideQuest = questData[5]
+        local hideQuest = questData[7]
         local startDay, startMonth = nil, nil
         local endDay, endMonth = nil, nil
+        local startHour, startMinute = nil, nil
+        local endHour, endMinute = nil, nil
 
         if questData[3] and questData[4] then
             startDay, startMonth = strsplit("/", questData[3])
@@ -178,10 +226,19 @@ function QuestieEvent:Load()
             endMonth = tonumber(endMonth)
         end
 
-        if (not hideQuest) then
-            _QuestieEvent.eventNamesForQuests[questId] = eventName
+        if questData[5] and questData[6] then
+            startHour, startMinute = strsplit(":", questData[5])
+            endHour, endMinute = strsplit(":", questData[6])
+            startHour = tonumber(startHour)
+            startMinute = tonumber(startMinute)
+            endHour = tonumber(endHour)
+            endMinute = tonumber(endMinute)
+        end
 
-            if (activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth)) or (dmfIsActive and eventName == "Darkmoon Faire") then
+        if (not hideQuest) then
+            eventNamesForQuests[questId] = eventName
+
+            if (activeEvents[eventName] == true and _WithinDates(startDay, startMonth, startHour, startMinute, endDay, endMonth, endHour, endMinute)) or (dmfIsActive and eventName == "Darkmoon Faire") then
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
             end
@@ -189,13 +246,16 @@ function QuestieEvent:Load()
     end
 
     if dmfIsActive then
-        print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+        if Questie.db.profile.showEventQuests then
+            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+        end
     end
 
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)) then
+    if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
+            or Questie.IsTBC then
         _LoadDarkmoonFaire()
     end
 
@@ -213,80 +273,92 @@ _GetLunarFestivalDates = function(year)
     return QuestieEvent.lunarFestival.DEFAULT[year]
 end
 
----@return boolean
+---@return DMFLocation
 _GetDarkmoonFaireLocation = function()
     if C_Calendar == nil then
         -- This is a band aid fix for private servers which do not support the `C_Calendar` API.
         -- They won't see Darkmoon Faire quests, but that's the price to pay.
-        return false
+        return DMF_LOCATIONS.NONE
     end
 
     local currentDate = QuestieCompat.GetCurrentCalendarTime()
 
     if Questie.IsSoD then
         return _GetDarkmoonFaireLocationSoD(currentDate)
+    elseif Questie.IsTBC then
+        return _GetDarkmoonFaireLocationTBC(currentDate)
     else
         return _GetDarkmoonFaireLocationEra(currentDate)
     end
 end
 
+---@param currentDate CalendarTime
+---@return DMFLocation
 _GetDarkmoonFaireLocationEra = function(currentDate)
-    local baseInfo = C_Calendar.GetMonthInfo() -- In Era+SoD this returns `GetMinDate` (November 2004)
-    -- Calculate the offset in months from GetMinDate to make C_Calendar.GetMonthInfo return the correct month
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local remainder = currentDate.month % 2
+    if remainder == 1 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
+    return DMF_LOCATIONS.MULGORE
+end
+
+--- DMF in TBC rotates monthly through three locations: Mulgore, Terokkar Forest, and Elwynn Forest.
+--- The timing follows the same Monday-start, 7-day schedule as Classic Era.
+---@param currentDate CalendarTime
+---@return DMFLocation
+_GetDarkmoonFaireLocationTBC = function(currentDate)
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local remainder = currentDate.month % 3
+    if remainder == 1 then
+        return DMF_LOCATIONS.MULGORE
+    elseif remainder == 2 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
+    return DMF_LOCATIONS.TEROKKAR_FOREST
+end
+
+---@param currentDate CalendarTime
+---@return boolean
+_IsDarkmoonFaireWeek = function(currentDate)
+    local baseInfo = C_Calendar.GetMonthInfo()
+    -- Calculate the offset in months from baseInfo to make C_Calendar.GetMonthInfo return the correct month
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
-    local eventLocation = (currentDate.month % 2) == 0 and DMF_LOCATIONS.MULGORE or DMF_LOCATIONS.ELWYNN_FOREST
-
+    local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
+    local endDay = startDay + 7
     local dayOfMonth = currentDate.monthDay
-    if firstWeekday == 1 then
-        -- The 1st is a Sunday
-        if dayOfMonth >= 9 and dayOfMonth < 15 then
-            return eventLocation
-        end
-    elseif firstWeekday == 2 then
-        -- The 1st is a Monday
-        if dayOfMonth >= 8 and dayOfMonth < 14 then
-            return eventLocation
-        end
-    elseif firstWeekday == 3 then
-        -- The 1st is a Tuesday
-        if dayOfMonth >= 7 and dayOfMonth < 13 then
-            return eventLocation
-        end
-    elseif firstWeekday == 4 then
-        -- The 1st is a Wednesday
-        if dayOfMonth >= 6 and dayOfMonth < 12 then
-            return eventLocation
-        end
-    elseif firstWeekday == 5 then
-        -- The 1st is a Thursday
-        if dayOfMonth >= 5 and dayOfMonth < 11 then
-            return eventLocation
-        end
-    elseif firstWeekday == 6 then
-        -- The 1st is a Friday
-        if dayOfMonth >= 4 and dayOfMonth < 10 then
-            return eventLocation
-        end
-    elseif firstWeekday == 7 then
-        -- The 1st is a Saturday
-        if dayOfMonth >= 10 and dayOfMonth < 16 then
-            return eventLocation
-        end
+
+    -- If we're on the first day (Monday) require hour >= 3
+    if dayOfMonth == startDay and currentDate.hour < 3 then
+        return false
     end
 
-    return DMF_LOCATIONS.NONE
+    -- The event ends at 03:00 on the following Monday
+    if dayOfMonth == endDay and currentDate.hour >= 3 then
+        return false
+    end
+
+    return dayOfMonth >= startDay and dayOfMonth <= endDay
 end
 
 -- DMF in SoD is every second week, starting on the 4th of December 2023
+---@param currentDate CalendarTime
+---@return DMFLocation
 _GetDarkmoonFaireLocationSoD = function(currentDate)
     local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
     local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
-    currentDate = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
+    local currentDateTimestamp = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
 
     local eventDuration = initialEndDate - initialStartDate
-    local timeSinceStart = currentDate - initialStartDate
+    local timeSinceStart = currentDateTimestamp - initialStartDate
 
     local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
 
@@ -314,32 +386,59 @@ _LoadDarkmoonFaire = function()
         return
     end
 
-    -- TODO: Also handle Terrokar Forest starting with TBC
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
+    local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    -- The faire is setting up right now or is already up
-    local announcingQuestId = 7905 -- Alliance announcement quest
-    if isInMulgore then
-        announcingQuestId = 7926 -- Horde announcement quest
+    local npcFixes
+    if Questie.IsTBC then
+        npcFixes = QuestieTBCNpcFixes:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
+    else
+        npcFixes = QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
     end
-    QuestieCorrections.hiddenQuests[announcingQuestId] = nil
-    QuestieEvent.activeQuests[announcingQuestId] = true
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
-        local hideQuest = questData[5]
+        local hideQuest = questData[7]
         if questData[1] == "Darkmoon Faire" and (not hideQuest) then
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
 
             -- Update the NPC spawns based on the place of the faire
-            for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
+            for id, data in pairs(npcFixes) do
                 QuestieDB.npcDataOverrides[id] = data
             end
         end
     end
 
-    print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+    local hordeAnnouncingQuestId = 7926 -- Horde announcement quest
+    local allianceAnnouncingQuestId = 7905 -- Alliance announcement quest
+
+    if isInTerokkar then
+        -- Show both announcing quests
+        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = true
+
+        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = true
+    elseif isInMulgore then
+        -- Show only Horde announcing quest
+        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = true
+
+        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = true
+        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = nil
+    else
+        -- Show only Alliance announcing quest
+        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = nil
+        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = true
+
+        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = true
+        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = nil
+    end
+
+    if Questie.db.profile.showEventQuests then
+        print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The Darkmoon Faire is up in %s!", l10n(DMF_LOCATION_NAMES[eventLocation])))
+    end
 end
 
 --- Checks wheather the current date is within the given date range
@@ -348,34 +447,47 @@ end
 ---@param endDay number?
 ---@param endMonth number?
 ---@return boolean @True if the current date is between the given, false otherwise
-_WithinDates = function(startDay, startMonth, endDay, endMonth)
-    if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
+_WithinDates = function(startDay, startMonth, startHour, startMinute, endDay, endMonth, endHour, endMinute)
+    -- there are corrections that are missing the HH:MM entries (unknown), but we still want to show those correctly
+    if (not startDay) and (not startMonth) and (not endMonth) and (not endDay) then
         return true
     end
     local date = QuestieCompat.GetCurrentCalendarTime()
+    local minute = date.minute
+    local hour = date.hour
     local day = date.monthDay
     local month = date.month
-    if (startMonth <= endMonth) -- Event start and end during same year
-        and ((month < startMonth) or (month > endMonth)) -- Too early or late in the year
-        or ((month < startMonth) and (month > endMonth)) -- Event span across year change
-        or (month == startMonth and day < startDay) -- Too early in the correct month
-        or (month == endMonth and day > endDay) then -- Too late in the correct month
-        return false
+
+    -- For missing HH:MM entries we default to 00:00 start HH:MM, and 23:59 end HH:MM
+    startHour = startHour or 0
+    startMinute = startMinute or 0
+    endHour = endHour or 23
+    endMinute = endMinute or 59
+
+    -- Convert each date into a sortable value: MMDDHHMM
+    local current = month * 1000000 + day * 10000 + hour * 100 + minute
+    local start = startMonth * 1000000 + startDay * 10000 + startHour * 100 + startMinute
+    local finish = endMonth * 1000000 + endDay * 10000 + endHour * 100 + endMinute
+
+    if start <= finish then
+        -- Normal interval (e.g. Mar 10 -> Jul 5)
+        return current >= start and current <= finish
     else
-        return true
+        -- Crosses New Year (e.g. Dec 20 -> Jan 10)
+        return current >= start or current <= finish
     end
 end
 
 ---@param questId QuestId
 ---@return string
 function QuestieEvent.GetEventNameFor(questId)
-    return _QuestieEvent.eventNamesForQuests[questId] or ""
+    return eventNamesForQuests[questId] or ""
 end
 
 ---@param questId QuestId
 ---@return boolean @True if the quest is part of an event, false otherwise
 function QuestieEvent.IsEventQuest(questId)
-    return _QuestieEvent.eventNamesForQuests[questId] ~= nil
+    return eventNamesForQuests[questId] ~= nil
 end
 
 ---@param questId QuestId
@@ -384,27 +496,111 @@ function QuestieEvent.IsEventActiveForQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
 end
 
+---@param questId QuestId
+---@return boolean @True if the quest can be turned in outside of the event, false otherwise
+function QuestieEvent.CanQuestBeTurnedInOutsideOfEvent(questId)
+    return alwaysTurnInAbleQuests[questId] == true
+end
+
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
+    ["Winter Veil"] = {
+        startDate = "15/12",
+        startHour = 10,
+        startMinute = 0,
+        endDate = "2/1",
+        endHour = 10,
+        endMinute = 0,
+    },
     ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "09/2",
-        endDate = "23/2"
+        startDate = "9/2",
+        startHour = 10,
+        startMinute = 0,
+        endDate = "23/2",
+        endHour = 10,
+        endMinute = 0,
     },
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "5/4",
-        endDate = "11/4"
+        startHour = 0,
+        startMinute = 1,
+        endDate = "11/4",
+        endHour = 23,
+        endMinute = 59,
     },
-    ["Children's Week"] = {startDate = "27/4", endDate = "4/5"}, -- TODO: Usually it is only a week long
-    ["Midsummer"] = (Questie.IsTitanReforged) and {startDate = "28/6", endDate = "12/7"} or {startDate = "21/6", endDate = "5/7"},
-    ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
+    ["Children's Week"] = { -- TODO: Usually it is only a week long
+        startDate = "27/4",
+        startHour = 10,
+        startMinute = 0,
+        endDate = "4/5",
+        endHour = 10,
+        endMinute = 0,
+    },
+    ["Midsummer"] = 
+        -- Fixed calendar days: 21 Jun 4 AM - 4 Jul 4 AM
+        not Questie.IsTitanReforged and { -- regular servers
+            startDate = "21/6",
+            startHour = 4,
+            startMinute = 0,
+            endDate = "5/7",
+            endHour = 4,
+            endMinute = 0,
+        } or { -- Titan servers
+        startDate = "28/6",
+        startHour = 4,
+        startMinute = 0,
+        endDate = "12/7",
+        endHour = 4,
+        endMinute = 0,
+    },
+    ["Pirates' Day"] = { -- no quests associated with it, but listed here to have a reminder in chat
+        startDate = "19/9",
+        startHour = 10,
+        startMinute = 0,
+        endDate = "20/10",
+        endHour = 10,
+        endMinute = 0,
+    },
+    ["Brewfest"] = { -- TODO: This might be different (retail date)
+        startDate = "20/9",
+        startHour = 10,
+        startMinute = 0,
+        endDate = "6/10",
+        endHour = 10,
+        endMinute = 0,
+    },
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "2/10",
-        endDate = "8/10"
+        startDate = "21/9",
+        startHour = 0,
+        startMinute = 1,
+        endDate = "27/9",
+        endHour = 23,
+        endMinute = 59,
     },
-    ["Pilgrim's Bounty"] = {startDate = "25/11", endDate = "1/12"},
-    ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
-    ["Winter Veil"] = {startDate = "15/12", endDate = "2/1"},
-    ["Day of the Dead"] = {startDate = "1/11", endDate = "2/11"},
+    ["Hallow's End"] = { -- WARNING THIS DATE VARIES!!!!
+        startDate = "18/10",
+        startHour = 10,
+        startMinute = 0,
+        endDate = "1/11",
+        endHour = 11,
+        endMinute = 0,
+    },
+    ["Day of the Dead"] = {
+        startDate = "1/11",
+        startHour = 10,
+        startMinute = 0,
+        endDate = "3/11",
+        endHour = 10,
+        endMinute = 0,
+    },
+    ["Pilgrim's Bounty"] = { -- WARNING THIS DATE VARIES!!!!
+        startDate = "24/11",
+        startHour = 1,
+        startMinute = 0,
+        endDate = "30/11",
+        endHour = 23,
+        endMinute = 59,
+    },
 }
 
 -- ["EventName"] = false -> event doesn't exists in expansion
@@ -413,12 +609,42 @@ QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
-        ["Noblegarden"] = {startDate = "28/3", endDate = "28/3"}, -- One day event on Era, on the actual day of Easter. Date is set for 2027. Please update this every year.
-        ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"}, -- WARNING THIS DATE VARIES!!!!
+        ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
+            -- Date is set for 2027. Please update this every year.
+            startDate = "28/3",
+            startHour = 0,
+            startMinute = 1,
+            endDate = "28/3",
+            endHour = 23,
+            endMinute = 59
+        },
+        ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
+            startDate = "11/2",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "15/2",
+            endHour = 10,
+            endMinute = 0
+        },
     },
     ["TBC"] = {
-        ["Noblegarden"] = {startDate = "28/3", endDate = "28/3"}, -- One day event on TBC, on the actual day of Easter. Date is set for 2027. Please update this every year.
-        ["Love is in the Air"] = {startDate = "11/2", endDate = "15/2"}, -- WARNING THIS DATE VARIES!!!!
+        ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
+            -- Date is set for 2027. Please update this every year.
+            startDate = "28/3",
+            startHour = 0,
+            startMinute = 1,
+            endDate = "28/3",
+            endHour = 23,
+            endMinute = 59
+        },
+        ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
+            startDate = "11/2",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "15/2",
+            endHour = 10,
+            endMinute = 0
+        },
     },
 }
 
@@ -431,22 +657,20 @@ QuestieEvent.eventDateCorrections = {
 ---@field TITAN table<string, QuestieEventDateRange>
 QuestieEvent.lunarFestival = {
     DEFAULT = { -- Global default (US/EU, etc.)
-        ["19"] = {startDate = "5/2", endDate = "19/2"},
-        ["20"] = {startDate = "23/1", endDate = "10/2"},
-        ["21"] = {startDate = "5/2", endDate = "19/2"},
-        ["22"] = {startDate = "30/1", endDate = "18/2"},
-        ["23"] = {startDate = "20/1", endDate = "10/2"},
-        ["24"] = {startDate = "3/2", endDate = "23/2"},
-        ["25"] = {startDate = "28/1", endDate = "17/2"},
-        ["26"] = {startDate = "16/2", endDate = "9/3"},
-        ["27"] = {startDate = "5/2", endDate = "19/2"},
-        ["28"] = {startDate = "24/1", endDate = "14/2"},
+        ["19"] = {startDate = "5/2", startHour = 6, startMinute = 0, endDate = "19/2", endHour = 6, endMinute = 0},
+        ["20"] = {startDate = "23/1", startHour = 6, startMinute = 0,  endDate = "10/2", endHour = 6, endMinute = 0},
+        ["21"] = {startDate = "5/2", startHour = 6, startMinute = 0,  endDate = "19/2", endHour = 6, endMinute = 0},
+        ["22"] = {startDate = "30/1", startHour = 6, startMinute = 0,  endDate = "18/2", endHour = 6, endMinute = 0},
+        ["23"] = {startDate = "20/1", startHour = 6, startMinute = 0,  endDate = "10/2", endHour = 6, endMinute = 0},
+        ["24"] = {startDate = "3/2", startHour = 6, startMinute = 0,  endDate = "23/2", endHour = 6, endMinute = 0},
+        ["25"] = {startDate = "28/1", startHour = 6, startMinute = 0,  endDate = "17/2", endHour = 6, endMinute = 0},
+        ["26"] = {startDate = "16/2", startHour = 6, startMinute = 0,  endDate = "9/3", endHour = 6, endMinute = 0},
+        ["27"] = {startDate = "5/2", startHour = 6, startMinute = 0,  endDate = "19/2", endHour = 6, endMinute = 0},
+        ["28"] = {startDate = "24/1", startHour = 6, startMinute = 0,  endDate = "14/2", endHour = 6, endMinute = 0},
     },
     TITAN = { -- Chinese Titan Reforged
-        ["26"] = {startDate = "29/1", endDate = "25/2"},
-        ["27"] = {startDate = "5/2", endDate = "19/2"},
-        ["28"] = {startDate = "24/1", endDate = "14/2"},
+        ["26"] = {startDate = "29/1", startHour = 6, startMinute = 0,  endDate = "25/2", endHour = 6, endMinute = 0},
+        ["27"] = {startDate = "5/2", startHour = 6, startMinute = 0,  endDate = "19/2", endHour = 6, endMinute = 0},
+        ["28"] = {startDate = "24/1", startHour = 6, startMinute = 0,  endDate = "14/2", endHour = 6, endMinute = 0},
     }
 }
-
-return QuestieEvent

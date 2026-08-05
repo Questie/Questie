@@ -1,6 +1,12 @@
 ---@meta _
 C_EventScheduler = {}
 
+---Returns true if there are any events eligible to show for the player.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_EventScheduler.CanShowEvents)
+---@return boolean canShow
+function C_EventScheduler.CanShowEvents() end
+
 ---Clears reminder on a scheduled event. Must use endTime to identify which specific instance in the case of repeating ones.
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_EventScheduler.ClearReminder)
@@ -62,15 +68,24 @@ function C_EventScheduler.RequestEvents() end
 ---@param eventKey string
 function C_EventScheduler.SetReminder(eventKey) end
 
+---@class EventDisplayInfo
+---@field hideTimeLeft boolean? Default = false
+---@field hideDescription boolean? Default = false
+---@field overrideAtlas textureAtlas?
+---@field overrideTooltipWidgetSetID number?
+
 ---@class OngoingEventInfo
 ---@field areaPoiID number
 ---@field rewardsClaimed boolean? Default = false
+---@field displayInfo EventDisplayInfo
 
 ---@class ScheduledEventInfo
 ---@field eventKey string
+---@field eventID number
 ---@field areaPoiID number
 ---@field startTime time_t
 ---@field endTime time_t
 ---@field duration time_t
 ---@field hasReminder boolean? Default = false
 ---@field rewardsClaimed boolean? Default = false
+---@field displayInfo EventDisplayInfo

@@ -355,5 +355,3 @@ function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the 
         end
     end
 end
-
-return QuestieNameplate

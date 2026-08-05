@@ -9,10 +9,11 @@ describe("Comms", function()
 
     before_each(function()
         Questie.RegisterComm = function() end
-        AvailableQuests = require("Modules.Quest.AvailableQuests.AvailableQuests")
+        AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
 
-        Comms = require("Modules.Network.Comms")
+        dofile("Modules/Network/Comms.lua")
+        Comms = QuestieLoader:ImportModule("Comms")
         Comms.Initialize()
     end)
 

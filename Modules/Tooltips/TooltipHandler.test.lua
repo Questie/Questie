@@ -12,9 +12,13 @@ describe("TooltipHandler", function()
     before_each(function()
         _G.Questie.db.profile.enableTooltips = true
 
-        l10n = require("Localization.l10n")
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
-        _QuestieTooltips = require("Modules.Tooltips.TooltipHandler")
+        dofile("Localization/l10n.lua")
+        l10n = QuestieLoader:ImportModule("l10n")
+
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+
+        dofile("Modules/Tooltips/TooltipHandler.lua")
+        _QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips").private
     end)
 
     describe("AddObjectDataToTooltip", function()
@@ -85,7 +89,7 @@ describe("TooltipHandler", function()
 
             _QuestieTooltips.AddObjectDataToTooltip(name, PLAYER_ZONE)
 
-            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF" .. objectId .. "|r")
+            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF" .. objectId .. "|r")
         end)
 
         it("should add multiple object IDs", function()
@@ -103,7 +107,7 @@ describe("TooltipHandler", function()
 
             _QuestieTooltips.AddObjectDataToTooltip(name, PLAYER_ZONE)
 
-            assert.spy(GameTooltip.AddDoubleLine).was_called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF1 (2)|r")
+            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF1 (2)|r")
         end)
 
         it("should stop counting after 10", function()
@@ -124,7 +128,7 @@ describe("TooltipHandler", function()
 
             assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, l10n("Object ID"), "|cFFFFFFFF1 (10+)|r")
             assert.spy(QuestieTooltips.GetTooltip).was.called(10, PLAYER_ZONE)
-            assert.spy(QuestieTooltips.GetTooltip).was_not_called_with("o_11", PLAYER_ZONE)
+            assert.spy(QuestieTooltips.GetTooltip).was.not_called_with("o_11", PLAYER_ZONE)
         end)
     end)
 end)

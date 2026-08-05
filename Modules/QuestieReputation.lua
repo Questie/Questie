@@ -32,8 +32,7 @@ function QuestieReputation:Update(isInit)
         if factionID and description then -- we use description instead of isHeader because some factions are header (e.g. The Tillers)
             local previousValues = playerReputations[factionID]
             if (not previousValues) then
-                --? Reset all autoBlacklisted quests if a faction gets discovered
-                QuestieQuest.ResetAutoblacklistCategory("rep")
+                -- This is a faction the player encountered for the first time
                 newFaction = true
             end
 
@@ -48,6 +47,44 @@ function QuestieReputation:Update(isInit)
         end
     end
 
+    -- Handle Scyers/Aldor standing when they are not in reputation tab yet for TBC or later
+    if isInit and Expansions.Current >= Expansions.Tbc then
+        local _, _, raceId = UnitRace("player")
+        local scryers = QuestieDB.factionIDs.THE_SCRYERS
+        local aldor = QuestieDB.factionIDs.THE_ALDOR
+        if raceId == 10 then -- Blood Elf
+            -- Sometimes you can have one faction discovered, but not the other
+            -- so we check for these individually
+            if not playerReputations[aldor] then
+                playerReputations[aldor] = {2, -3500} -- standingID 2, -3500 reputation (Hostile)
+                newFaction = true
+            end
+            if not playerReputations[scryers] then
+                playerReputations[scryers] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
+                newFaction = true
+            end
+        elseif raceId == 11 then -- Draenei
+            if not playerReputations[aldor] then
+                playerReputations[aldor] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
+                newFaction = true
+            end
+            if not playerReputations[scryers] then
+                playerReputations[scryers] = {2, -3500} -- standingID 2, -3500 reputation (Hostile)
+                newFaction = true
+            end
+        else -- every other race
+            if not playerReputations[aldor] then
+                playerReputations[aldor] = {4, 0} -- standingID 4, 0 reputation (Neutral)
+                newFaction = true
+            end
+            if not playerReputations[scryers] then
+                playerReputations[scryers] = {4, 0} -- standingID 4, 0 reputation (Neutral)
+                newFaction = true
+            end
+        end
+    end
+
+    -- Handle hidden faction Nomi for MoP
     if Expansions.Current >= Expansions.MoP then
         local nomiFactionId = QuestieDB.factionIDs.NOMI
         playerReputations[nomiFactionId] = {4, 0} -- Nomi, Neutral 0 rep
@@ -67,6 +104,11 @@ function QuestieReputation:Update(isInit)
             end
             playerReputations[nomiFactionId] = {standingId, repInfo.standing}
         end
+    end
+
+    if factionChanged or newFaction then
+        -- Reset all autoBlacklisted quests, so availability is checked correctly again
+        QuestieQuest.ResetAutoblacklistCategory("rep")
     end
 
     return factionChanged, newFaction
@@ -258,7 +300,7 @@ function QuestieReputation.GetReputationReward(questId)
         end
 
         if reward then
-            reward = reward * reputationMultiplier
+            reward = reward * (reward > 0 and reputationMultiplier or 1)
             -- faction bonus commendation check
             if select(15, GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
@@ -278,8 +320,8 @@ _GetRewardMultiplier = function()
     local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
     local multiplier = 1 + buffMultiplier
 
-    if playerIsHuman then
-        multiplier = multiplier + 0.1 -- 10% bonus reputation from Human Racial
+    if playerIsHuman and not Questie.IsTitanReforged then
+        multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
     end
 
     if knowsMrPopularityRank2 then
@@ -371,5 +413,3 @@ function QuestieReputation.GetReputationRewardString(reputationReward)
 
     return table.concat(rewardTable, " / ")
 end
-
-return QuestieReputation

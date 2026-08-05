@@ -38,6 +38,10 @@ function C_StableInfo.GetStabledPetList() end
 ---@return boolean isAtStableMaster
 function C_StableInfo.IsAtStableMaster() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_StableInfo.IsBonusPetSlotAvailable)
+---@return boolean isAvailable
+function C_StableInfo.IsBonusPetSlotAvailable() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_StableInfo.IsPetFavorite)
 ---@param slot number
 ---@return boolean isFavorite

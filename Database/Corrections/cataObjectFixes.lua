@@ -134,7 +134,7 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{63.72,58.80}}},
         },
         [148503] = { -- Fire Plume Ridge Hot Spot
-            [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.48}}},
+            [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.48}}}, -- only showing it here so we can put the tooltip on it
         },
         [150075] = { -- Wanted Poster
             [objectKeys.questStarts] = {2781,2875},
@@ -274,7 +274,6 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.STRATHOLME] = {{53.6,69.83},{-1,-1}}},
         },
         [175564] = { -- Brazier of the Herald
-            [objectKeys.name] = "Brazier of the Herald",
             [objectKeys.spawns] = {[zoneIDs.SCHOLOMANCE_CHAMBER_OF_SUMMONING] = {{49.46,4.24}},[zoneIDs.SCHOLOMANCE] = {{-1,-1}}},
         },
         [175632] = { -- Campfire
@@ -349,6 +348,10 @@ function CataObjectFixes.Load()
         },
         [179559] = { -- Felvine Shard
             [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL_THE_SHRINE_OF_ELDRETHARR] = {{54.89,26.81},{54.97,26.85},{55.03,26.97},{55.02,26.71},{55.12,26.87},{-1,-1}}},
+        },
+        [179697] = { -- Arena Treasure Chest
+            [objectKeys.spawns] = {[zoneIDs.THE_CAPE_OF_STRANGLETHORN] = {{46.42,26.17}}},
+            [objectKeys.zoneID] = zoneIDs.THE_CAPE_OF_STRANGLETHORN,
         },
         [179832] = { -- Pillaclencher's Ornate Pillow
             [objectKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{45.86,29.54}}},
@@ -663,6 +666,10 @@ function CataObjectFixes.Load()
         },
         [188123] = { -- Mailbox
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{62.36,33.35}}},
+        },
+        [188139] = { -- Ice Stone
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.44,43.34}}},
+            [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
         [189989] = { -- Dark Iron Mole Machine Wreckage
             [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{56.01,37.07}}},

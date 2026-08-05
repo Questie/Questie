@@ -1869,12 +1869,6 @@ function CataQuestFixes.Load()
         [11357] = { -- Masked Orphan Matron
             [questKeys.startedBy] = {{20102}},
         },
-        [11360] = { -- Fire Brigade Practice
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11361] = { -- Fire Training
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
         [11362] = { -- Wanted: Keli'dan's Feathered Stave
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.startedBy] = {},
@@ -1935,18 +1929,6 @@ function CataQuestFixes.Load()
         },
         [11408] = { -- Bark for T'chali's Voodoo Brewery!
             [questKeys.exclusiveTo] = {11407},
-        },
-        [11439] = { -- Fire Brigade Practice
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11440] = { -- Fire Brigade Practice
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11449] = { -- Fire Training
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
-        },
-        [11450] = { -- Fire Training
-            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11481] = { -- Crisis at the Sunwell
             [questKeys.nextQuestInChain] = 0,
@@ -2021,7 +2003,6 @@ function CataQuestFixes.Load()
         },
         [11917] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
         },
         [11921] = { -- More Torch Tossing
             [questKeys.triggerEnd] = {"Hit 20 braziers", {
@@ -2076,23 +2057,18 @@ function CataQuestFixes.Load()
         },
         [11947] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188130},{"object",188134},{"object",188135}}}},
         },
         [11948] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188139},{"object",188143},{"object",188144}}}},
         },
         [11952] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188145},{"object",188146},{"object",188147}}}},
         },
         [11953] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188148},{"object",188149},{"object",188150}}}},
         },
         [11954] = { -- Striking Back
             [questKeys.preQuestSingle] = {12012,29092},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Summon one of Ahune's templars"),0,{{"object",188151},{"object",188152},{"object",188153},{"object",188154}}}},
         },
         [11956] = { -- Finding the Phylactery
             [questKeys.preQuestSingle] = {},
@@ -4467,7 +4443,6 @@ function CataQuestFixes.Load()
         },
         [24733] = { -- The Bait for Lar'korwi
             [questKeys.requiredSourceItems] = {11569,11570},
-            [questKeys.sourceItemId] = 11568,
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_OBJECT,l10n("Place the meat"),0,{{"object",300246}}},
                 {nil,Questie.ICON_TYPE_OBJECT,l10n("Apply the pheromones"),0,{{"object",169216}}},
@@ -5401,6 +5376,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {25309,25496},
         },
+        [25314] = { -- Speech Writing for Dummies
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {25308,25310,25311},
+        },
         [25315] = { -- Graduation Speech
             [questKeys.objectives] = {nil,{{202996}}},
         },
@@ -5408,13 +5387,10 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {25317,25370,25460},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Get on Aronus"),0,{{"monster",39140}}}},
+            [questKeys.breadcrumbs] = {27721,27726},
         },
         [25317] = { -- Protect the World Tree
             [questKeys.preQuestSingle] = {},
-        },
-        [25314] = { -- Speech Writing for Dummies
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {25308,25310,25311},
         },
         [25323] = { -- Flamebreaker
             [questKeys.objectives] = {{{40080}}},
@@ -10636,6 +10612,7 @@ function CataQuestFixes.Load()
         [27721] = { -- Warchief's Command: Mount Hyjal!
             [questKeys.objectives] = {{{15188, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.nextQuestInChain] = 25316,
+            [questKeys.breadcrumbForQuestId] = 25316,
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [27722] = { -- Warchief's Command: Deepholm!
@@ -10654,6 +10631,7 @@ function CataQuestFixes.Load()
             [questKeys.objectives] = {{{15187, nil, Questie.ICON_TYPE_TALK}}},
             [questKeys.startedBy] = {nil,{206111,206294,207320,207321,207322}},
             [questKeys.nextQuestInChain] = 25316,
+            [questKeys.breadcrumbForQuestId] = 25316,
             [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [27727] = { -- Hero's Call: Deepholm!
@@ -15321,6 +15299,10 @@ function CataQuestFixes.Load()
         [30112] = { -- A Score to Settle
             [questKeys.exclusiveTo] = {11272},
         },
+        [30120] = { -- Cleansing Drak'Tharon
+            [questKeys.requiredSourceItems] = {38303},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
+        },
         [64845] = { -- Alliance War Effort
             [questKeys.triggerEnd] = {"Victory in a battleground match", {
                 [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
@@ -15648,6 +15630,7 @@ end
 
 function CataQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
+    local factionIDs = QuestieDB.factionIDs
 
     local questFixesHorde = {
         [2280] = { -- The Platinum Discs
@@ -15683,7 +15666,7 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.preQuestGroup] = {26072,26096},
         },
         [26191] = { -- The Culmination of Our Efforts
-            [questKeys.nextQuestInChain] = {25967},
+            [questKeys.nextQuestInChain] = 25967,
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45244}},
@@ -15745,6 +15728,33 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{3347}},
             [questKeys.finishedBy] = {{3347,3009,4611,16642}},
         },
+        [29734] = { -- Deepforge the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29735] = { -- Stonebrand the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29736] = { -- Darkfeather the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29737] = { -- Firebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29738] = { -- Moonlance the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29739] = { -- Windsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29740] = { -- Evershade the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29741] = { -- Sekhemi the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
+        [29742] = { -- Menkhaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,3}},
+        },
         [29836] = { -- Just Checkin'
             [questKeys.nextQuestInChain] = 29840,
             [questKeys.exclusiveTo] = {13098},
@@ -15791,7 +15801,7 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.preQuestGroup] = {26072,26096},
         },
         [26191] = { -- The Culmination of Our Efforts
-            [questKeys.nextQuestInChain] = {25892},
+            [questKeys.nextQuestInChain] = 25892,
         },
         [27203] = { -- The Maelstrom
             [questKeys.startedBy] = {{45226}},
@@ -15850,13 +15860,36 @@ function CataQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{5499}},
             [questKeys.finishedBy] = {{5499,1537,4160,16723}},
         },
+        [29734] = { -- Deepforge the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29735] = { -- Stonebrand the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29736] = { -- Darkfeather the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29737] = { -- Firebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29738] = { -- Moonlance the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29739] = { -- Windsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29740] = { -- Evershade the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29741] = { -- Sekhemi the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
+        [29742] = { -- Menkhaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,3}},
+        },
         [29836] = { -- Just Checkin'
             [questKeys.nextQuestInChain] = 29844,
             [questKeys.exclusiveTo] = {13098},
-        },
-        [30120] = { -- Cleansing Drak'Tharon
-            [questKeys.requiredSourceItems] = {35797,38303},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
         },
     }
 

@@ -42,7 +42,7 @@ function QuestieItemFixes:Load()
         [1262] = { -- Keg of Thunderbrew
             [itemKeys.relatedQuests] = {116, 117},
             [itemKeys.vendors] = {239},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.name] = "Keg of Thunderbrew",
         },
         [1357] = { -- Captain Sander's Treasure Map
@@ -477,7 +477,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {4130, 4131, 4133},
         },
         [5880] = { -- Crate With Holes
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [5942] = { -- Jeweled Pendant
             [itemKeys.npcDrops] = {4405, 4401, 4404, 4402, 4403, 14236},
@@ -492,6 +492,9 @@ function QuestieItemFixes:Load()
         },
         [6065] = { -- Khadgar's Essays on Dimensional Convergence
             [itemKeys.npcDrops] = {764, 765, 766, 1081},
+        },
+        [6074] = { -- War Horn Mouthpiece
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [6193] = { -- Bundle of Atal'ai Artifacts
             [itemKeys.relatedQuests] = {1429},
@@ -594,7 +597,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [7297] = { -- Morbent's Bane
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [7628] = { -- Nondescript Letter
             [itemKeys.relatedQuests] = {8},
@@ -776,8 +779,12 @@ function QuestieItemFixes:Load()
         [10639] = { -- Hyacinth Mushroom
             [itemKeys.npcDrops] = {1988, 1989},
         },
+        [10660] = { -- First Mosh'aru Tablet
+            [itemKeys.npcDrops] = {7272},
+        },
         [10663] = { -- Essence of Hakkar
             [itemKeys.class] = itemClasses.QUEST,
+            [itemKeys.npcDrops] = {8440},
         },
         [10691] = { -- Filled Vial Labeled #1 (#1396)
             [itemKeys.relatedQuests] = {3568},
@@ -800,7 +807,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {152606},
         },
         [10757] = { -- Ward of the Defiler
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11018] = { -- Un'Goro Soil
             [itemKeys.npcDrops] = {},
@@ -811,7 +818,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [11078] = { -- Relic Coffer Key
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11113] = { -- Crate of Foodstuffs
             [itemKeys.objectDrops] = {161526},
@@ -825,7 +832,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {174793},
         },
         [11148] = { -- Samophlange Manual Page
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11149] = { -- Samophlange Manual
             [itemKeys.relatedQuests] = {3924},
@@ -844,6 +851,9 @@ function QuestieItemFixes:Load()
         [11188] = { -- Yellow Power Crystal
             [itemKeys.npcDrops] = {},
         },
+        [11230] = { -- Encased Fiery Essence
+            [itemKeys.npcDrops] = {9016},
+        },
         [11243] = { -- Videre Elixir
             [itemKeys.npcDrops] = {7775},
         },
@@ -860,6 +870,12 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {165678},
         },
+        [11446] = { -- A Crumpled Up Note
+            [itemKeys.startQuest] = 4264,
+        },
+        [11463] = { -- Undelivered Parcel
+            [itemKeys.objectDrops] = {164953},
+        },
         [11470] = { -- Tablet Transcript
             [itemKeys.relatedQuests] = {4296},
             [itemKeys.npcDrops] = {},
@@ -869,13 +885,20 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4005},
             [itemKeys.npcDrops] = {9453},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [11569] = { -- Preserved Threshadon Meat
+            [itemKeys.itemDrops] = {11568},
+        },
+        [11570] = { -- Preserved Pheromone Mixture
+            [itemKeys.itemDrops] = {11568},
         },
         [11818] = { -- Grimesilt Outhouse Key
             [itemKeys.npcDrops] = {5840, 5844, 5846, 8504, 8566, 15692},
         },
         [11914] = { -- Empty Cursed Ooze Jar
             [itemKeys.npcDrops] = {},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11947] = { -- Filled Cursed Ooze Jar (#1315)
             [itemKeys.relatedQuests] = {4512},
@@ -884,7 +907,7 @@ function QuestieItemFixes:Load()
         },
         [11948] = { -- Empty Tainted Ooze Jar
             [itemKeys.npcDrops] = {},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [11949] = { -- Filled Tainted Ooze Jar (#1315)
             [itemKeys.relatedQuests] = {4512},
@@ -892,7 +915,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [11953] = { -- Empty Pure Sample Jar
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
             [itemKeys.npcDrops] = {},
         },
         [11954] = { -- Filled Pure Sample Jar (#1070)
@@ -991,7 +1014,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [12886] = { -- Pamela's Doll's Head
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [12907] = { -- Corrupt Moonwell Water (#1083)
             [itemKeys.relatedQuests] = {5157},
@@ -1002,10 +1025,10 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {5157},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [13156] = { -- Mystic Crystal
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [13172] = { -- Grimm's Premium Tobacco
             [itemKeys.name] = "Grimm's Premium Tobacco",
@@ -1207,7 +1230,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {332,918,3327,3328,3401,4163,4214,4215,4582,4583,4584,5165,5166,5167},
         },
         [17309] = { -- Discordant Bracers
-            [itemKeys.npcDrops] = {8519, 8520, 8521, 8522},
+            [itemKeys.npcDrops] = {8519,8520,8521,8522},
         },
         [17684] = { -- Theradric Crystal Carving
             [itemKeys.npcDrops] = {11688, 11790, 11791, 11792, 11793, 11794, 12201, 12203, 12206, 12207, 12216, 12218, 12219, 12220, 12221, 12222, 12223, 12224, 12225, 12236, 12237, 12239, 12240, 12241, 12242, 12243, 12258, 13282, 13596, 13601, 13696, 13718},
@@ -1246,7 +1269,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [18335] = { -- Pristine Black Diamond
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [18401] = { -- Nostro's Compendium of Dragon Slaying
             [itemKeys.name] = "Nostro's Compendium of Dragon Slaying",
@@ -1344,7 +1367,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [20464] = { -- Glyphs of Calling
-            [itemKeys.class] = 12,
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [20490] = { -- Ironforge Mint
             [itemKeys.npcDrops] = {5111},
@@ -1581,7 +1604,7 @@ function QuestieItemFixes:Load()
     }
 end
 
--- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
+-- some quest items are shared across factions but require different sources for each faction
 function QuestieItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 

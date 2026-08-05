@@ -162,10 +162,31 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 end
 
 ---@param questId QuestId
-function AvailableQuests.RemoveQuest(questId)
+---@param onComplete function? Optional callback invoked after the starter/finisher frames are unloaded.
+function AvailableQuests.RemoveQuest(questId, onComplete)
     availableQuests[questId] = nil
-    QuestieMap:UnloadQuestFrames(questId)
+    ThreadLib.ThreadCallbackInstant(function()
+        QuestieMap:UnloadQuestFrames(questId)
+    end, function()
+        if onComplete then
+            onComplete()
+        end
+    end)
     QuestieTooltips:RemoveQuest(questId)
+end
+
+---@param quest Quest
+function AvailableQuests.RecreateFailedQuest(quest)
+    local questId = quest.Id
+    availableQuests[questId] = nil
+
+    ThreadLib.ThreadCallbackInstant(function()
+        QuestieMap:UnloadQuestFrames(questId)
+    end, function()
+        QuestieTooltips:RemoveQuest(questId)
+        AvailableQuests.DrawAvailableQuest(quest)
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questId)
+    end)
 end
 
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
@@ -409,17 +430,8 @@ _CalculateAndDrawAvailableQuests = function()
 
     -- We create a local function here to improve readability but use the localized variables above.
     -- The order of checks is important here to bring the speed to a max
+    local questsToRemove = {}
     local function _CheckAvailability(questId)
-        if (autoBlacklist[questId] or -- Don't show autoBlacklist quests marked as such by IsDoable
-                completedQuests[questId] or -- Don't show completed quests
-                hiddenQuests[questId] or -- Don't show blacklisted quests
-                hidden[questId] or -- Don't show quests hidden by the player
-                unavailableQuestsDeterminedByTalking[questId] -- Don't show quests hidden after talking to an NPC
-            ) then
-            availableQuests[questId] = nil
-            return
-        end
-
         if currentQuestlog[questId] then
             _DrawChildQuests(questId, currentQuestlog, completedQuests, hiddenQuests)
 
@@ -439,7 +451,7 @@ _CalculateAndDrawAvailableQuests = function()
                 (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId)) -- Don't show SoD Rune quests with the option disabled
             ) then
             if availableQuests[questId] then
-                AvailableQuests.RemoveQuest(questId)
+                questsToRemove[#questsToRemove + 1] = questId
             end
             availableQuests[questId] = nil
             return
@@ -450,7 +462,7 @@ _CalculateAndDrawAvailableQuests = function()
             --(This is for when people level up or change settings etc)
 
             if availableQuests[questId] then
-                AvailableQuests.RemoveQuest(questId)
+                questsToRemove[#questsToRemove + 1] = questId
             end
             availableQuests[questId] = nil
             return
@@ -460,10 +472,32 @@ _CalculateAndDrawAvailableQuests = function()
     end
 
     for questId in pairs(questData) do
-        _CheckAvailability(questId)
+        if (autoBlacklist[questId] or -- Don't show autoBlacklist quests marked as such by IsDoable
+                completedQuests[questId] or -- Don't show completed quests
+                hiddenQuests[questId] or -- Don't show blacklisted quests
+                hidden[questId] or -- Don't show quests hidden by the player
+                unavailableQuestsDeterminedByTalking[questId] -- Don't show quests hidden after talking to an NPC
+            ) then
+            availableQuests[questId] = nil
+        else
+            _CheckAvailability(questId)
+        end
     end
 
-    local questCount = 0
+    -- Process removals in a separate yielding loop to avoid a spike when many quests
+    -- are unloaded at once (e.g. switching from "show all levels" to default).
+    local yieldCount = 0
+    for i = 1, #questsToRemove do
+        AvailableQuests.RemoveQuest(questsToRemove[i])
+
+        yieldCount = yieldCount + 1
+        if yieldCount >= QUESTS_PER_YIELD then
+            yieldCount = 0
+            yield()
+        end
+    end
+
+    yieldCount = 0
     for questId in pairs(availableQuests) do
         if QuestieMap.questIdFrames[questId] then
             -- We already drew this quest so we might need to update the icon (config changed/level up)
@@ -472,10 +506,10 @@ _CalculateAndDrawAvailableQuests = function()
             _DrawAvailableQuest(questId)
         end
 
-        -- Reset the questCount
-        questCount = questCount + 1
-        if questCount > QUESTS_PER_YIELD then
-            questCount = 0
+        -- Reset the yieldCount
+        yieldCount = yieldCount + 1
+        if yieldCount > QUESTS_PER_YIELD then
+            yieldCount = 0
             yield()
         end
     end
@@ -553,7 +587,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
         return 0
     end
 
-    -- Need to know when this quest starts from an item, so we save it later
+    -- Need to know when this quest starts from an item or object, so we save it later
     ---@type string|nil
     local starterType
 
@@ -678,5 +712,3 @@ _MarkQuestAsUnavailableFromNPC = function(questId, npcId)
     unavailableQuestsDeterminedByTalking[questId] = true
     availableQuestsByNpc[npcId][questId] = nil
 end
-
-return AvailableQuests

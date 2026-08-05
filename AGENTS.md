@@ -18,6 +18,9 @@ busted Modules/QuestiePlayer.test.lua
 
 # Run tests matching a description pattern
 busted -p ".test.lua" --filter "GetPartyMemberByName" .
+
+# Run localization lookup loadstring checks
+busted -p ".test.lua" Localization/lookups
 ```
 
 ### Linting (Luacheck)
@@ -32,8 +35,9 @@ lua cli/validate-tbc.lua
 lua cli/validate-wotlk.lua
 lua cli/validate-mop.lua
 lua cli/validate-sod.lua
-lua cli/validate-localization.lua
 ```
+
+> **Note:** Any change to `cli/validators.lua` must be accompanied by a matching test in `cli/validators.test.lua`.
 
 ### Build (release packaging)
 ```bash
@@ -41,6 +45,17 @@ python3 build.py --all          # all expansions
 python3 build.py --classic      # era only
 python3 build.py --release      # omit commit hash from name
 ```
+
+### Commit Message Prefixes (Changelog)
+Commits are automatically categorized in the changelog based on their prefix. Use one of these prefixes at the start of your commit message (case-insensitive):
+
+- `[feature]` - New features → "## New Features"
+- `[fix]` - General bug fixes → "## General Fixes"
+- `[quest]` - Quest-related fixes → "## Quest Fixes"
+- `[db]` - Database fixes → "## Database Fixes"
+- `[locale]` - Localization fixes → "## Localization Fixes"
+
+Example: `[fix] Fix journey keybind not working`
 
 ## Project Structure
 
@@ -57,6 +72,7 @@ Libs/                - Third-party libraries (Ace3, LibStub, etc.)
 cli/                 - CLI validation scripts and integration tests
 cli/integrationTests/- Integration tests named by GitHub issue number
 setupTests.lua       - Test environment setup (mocks WoW API globals)
+*.toc                - These expansion specific files contain a list of all files relevant to the Addon. On startup the files are run from top to bottom
 ```
 
 ## Code Style
@@ -77,8 +93,6 @@ local _QuestieTooltips = QuestieTooltips.private
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ```
 
-All files must `return ModuleName` at the end.
-
 ### Standard File Boilerplate
 ```lua
 ---@class MyModule
@@ -95,6 +109,9 @@ local OtherModule = QuestieLoader:ImportModule("OtherModule")
 local tinsert = table.insert
 local band = bit.band
 ```
+
+Creating new modules to split concerns and logic in general is preferred over adding more functions to existing modules. This keeps the codebase maintainable and testable. Always
+make sure new modules are added to the TOC files. Test files must never be added to the TOC files.
 
 ### Formatting
 - Indent: 4 spaces (no tabs)
@@ -155,6 +172,13 @@ end
 ```
 Constants: `Era=1, Tbc=2, Wotlk=3, Cata=4, MoP=5`. Boolean flags on `Questie`: `IsSoD`, `IsEra`, `IsTBC`, `IsWotlk`, `IsCata`, `IsMoP`, `IsHardcore`.
 
+### Settings
+
+Questie comes with a lot of settings a user can adjust to their liking. All the default values are stored in `Modules/Options/QuestieOptionsDefaults.lua`.
+
+Whenever a new default value is added or an existing setting is adjusted, a matching change function in the `Modules/Migration.lua` is needed. This ensures that existing user
+configurations are migrated and correctly updated to the new values.
+
 ### Database Corrections
 Corrections are keyed by entity ID and use `*Keys` enum tables:
 ```lua
@@ -172,19 +196,20 @@ Corrections load cumulatively in expansion order (Classic -> TBC -> WotLK -> Cat
 ```lua
 dofile("setupTests.lua")
 
-describe("ModuleName", function()
-    ---@type ModuleName
-    local ModuleName
+describe("ModuleToTest", function()
+    ---@type ModuleToTest
+    local ModuleToTest
     
     ---@type MockedModule
     local MockedModule
 
     before_each(function()
-        MockedModule = require("Modules.MockedModule")
+        MockedModule = QuestieLoader:ImportModule("MockedModule")
         -- Mock some default functions on the mocked module if needed
         MockedModule.SomeFunction = function() return "mocked value" end
     
-        ModuleName = require("Modules.ModuleName")
+        dofile("Modules/ModuleToTest.lua")
+        ModuleToTest = QuestieLoader:ImportModule("ModuleToTest")
     end)
 
     describe("MethodName", function()
@@ -195,8 +220,8 @@ describe("ModuleName", function()
             -- Override the mocked module's functions if needed for this test case
             MockedModule.SomeFunction = function() return "different mocked value" end
 
-            local result = ModuleName:Method()
-            assert.are.same(expected, result)
+            local result = ModuleToTest:Method()
+            assert.are_same(expected, result)
         end)
     end)
 end)
@@ -205,8 +230,13 @@ end)
 - Tests live alongside source files as `*.test.lua`
 - Integration tests go in `cli/integrationTests/` named by issue number
 - Mocking: override `_G.*` globals; use `spy.new()` for call verification
-- Assertions: `assert.are.same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was_called_with()`, `assert.has_error()`
-- Default to mock Questie modules that are imported in the tested module instead of leaving the real one. Then override functions on the mocked module as needed for the test.
+- Assertions: `assert.are_same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was.called_with()`, `assert.has_error()`
+- Use `dofile` to load the module under test, not `require` any file
+- Use `QuestieLoader` to stub modules, then mock functions called by the module under test. Exceptions are:
+  - `l10n`, which should be loaded directly using `dofile("Localization/l10n.lua")`
+  - `ContentPhases`, which should be loaded directly using `dofile("Database/Corrections/ContentPhases/ContentPhases.lua")`
+  - `QuestieLib`, which CAN be loaded directly, when only pure function of it are required in the test case
+- Add `dofile("setupTests.lua")` on top of each unit test file, so that the WoW API globals are mocked and `QuestieLoader` is fresh and available.
 
 ## CI Pipeline
 CI runs on every push/PR: busted tests, database validators for each expansion, luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
@@ -247,3 +277,7 @@ Localization files are in `Localization/`.
         ["zhTW"] = false,
     },
 ```
+
+## Coding specifics
+
+- Never use `coroutine.running()` to guard `coroutine.yield()` calls. If code is as expensive that it needs yielding, every caller should acknowledge that and use the ThreadLib to wrap the call in a coroutine.

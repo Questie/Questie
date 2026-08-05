@@ -56,46 +56,97 @@ function Questie:RefreshConfig(_, db, profileName)
     Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 
---- Colorize a string with a color code
----@param str string @The string colorize
---Name or string in the format "RRGGBB" i.e "FF0000" for red
----@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"repeatableBlue"|"yellow"|"orange"|"green"|"white"|"gold"|"lime"|"pvpRed"|string
----@return string
-function Questie:Colorize(str, color)
-    if not color then color = "yellow" end
-    local c = "|cFF" .. color;
+---@class QuestieColor
+---@field hex string Six-character RGB hex color used in WoW color escape sequences.
+---@field rgb number[] Normalized RGB components, ordered as `{r, g, b}` for WoW tooltip APIs.
 
-    if color == "red" then
-        c = "|cFFff0000";
-    elseif color == "gray" then
-        c = "|cFFa6a6a6";
-    elseif color == "purple" then
-        c = "|cFFB900FF";
-    elseif color == "blue" then
-        c = "|cFF0000FF";
-    elseif color == "lightBlue" then
-        c = "|cFF00BBFF";
-    elseif color == "reputationBlue" then
-        c = "|cFF8080ff";
-    elseif color == "repeatableBlue" then
-        c = "|cFF21CCE7";
-    elseif color == "yellow" then
-        c = "|cFFffff00";
-    elseif color == "orange" then
-        c = "|cFFFF6F22";
-    elseif color == "green" then
-        c = "|cFF00ff00";
-    elseif color == "white" then
-        c = "|cFFffffff";
-    elseif color == "gold" then
-        c = "|cFFffd100"; -- this is the default game color
-    elseif color == "lime" then
-        c = "|cFF6ce314"; -- holiday green
-    elseif color == "pvpRed" then
-        c = "|cFFE35639";
+---@alias QuestieNamedColor
+---| "red"
+---| "gray"
+---| "purple"
+---| "blue"
+---| "lightBlue"
+---| "reputationBlue"
+---| "repeatableBlue"
+---| "yellow"
+---| "orange"
+---| "green"
+---| "white"
+---| "gold"
+---| "lime"
+---| "pvpRed"
+
+---Creates a named color entry from a six-character RGB hex string.
+---@param hex string Six-character RGB hex color.
+---@return QuestieColor color
+local function Color(hex)
+    local r, g, b = string.match(hex, "^(%x%x)(%x%x)(%x%x)$")
+
+    return {
+        hex = hex,
+        rgb = {tonumber(r, 16) / 255, tonumber(g, 16) / 255, tonumber(b, 16) / 255},
+    }
+end
+
+---@type table<QuestieNamedColor, QuestieColor>
+local COLORS = {
+    red = Color("ff0000"),
+    gray = Color("a6a6a6"),
+    purple = Color("B900FF"),
+    blue = Color("0000FF"),
+    lightBlue = Color("00BBFF"),
+    reputationBlue = Color("8080ff"),
+    repeatableBlue = Color("21CCE7"),
+    yellow = Color("ffff00"),
+    orange = Color("FF6F22"),
+    green = Color("00ff00"),
+    white = Color("ffffff"),
+    gold = Color("ffd100"), -- this is the default game color
+    lime = Color("6ce314"), -- holiday green
+    pvpRed = Color("E35639"),
+}
+
+---Colorizes a string with a color code.
+---@param str string @The string to colorize.
+---@param color QuestieNamedColor|string? @Named color or hex string in the format "RRGGBB".
+---@return string colorizedText
+function Questie:Colorize(str, color)
+    if not color then
+        color = "yellow"
     end
 
-    return c .. str .. "|r"
+    local namedColor = COLORS[color]
+    local hex = namedColor and namedColor.hex or color
+
+    return "|cFF" .. hex .. str .. "|r"
+end
+
+---Returns the requested color as normalized RGB components.
+---@param color string? @Named color, "RRGGBB", "AARRGGBB", or "|cAARRGGBB..." color string.
+---@return number? r @Red component, or nil for invalid input.
+---@return number? g @Green component, or nil for invalid input.
+---@return number? b @Blue component, or nil for invalid input.
+function Questie:ColorizeRGB(color)
+    if color == nil then
+        color = "yellow"
+    end
+
+    local namedColor = COLORS[color]
+    if namedColor then
+        return namedColor.rgb[1], namedColor.rgb[2], namedColor.rgb[3]
+    end
+
+    if type(color) ~= "string" then
+        return nil, nil, nil
+    end
+
+    local hex = string.match(color, "^|[cC]%x%x(%x%x%x%x%x%x)") or string.match(color, "^%x%x(%x%x%x%x%x%x)$") or color
+    if not string.match(hex, "^%x%x%x%x%x%x$") then
+        return nil, nil, nil
+    end
+
+    local rgb = Color(hex).rgb
+    return rgb[1], rgb[2], rgb[3]
 end
 
 function Questie:GetClassColor(class)

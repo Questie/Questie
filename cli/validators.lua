@@ -45,7 +45,7 @@ end
 
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkRequiredSourceItems(quests, questKeys)
     print("\n\27[36mSearching for sourceItemId and itemObjectiveId entries in quest.requiredSourceItems...\27[0m")
     local matchingQuests = {}
@@ -103,7 +103,7 @@ local preQuestExclusions = {
 
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkPreQuestExclusiveness(quests, questKeys)
     print("\n\27[36mSearching for quests with preQuestSingle and preQuestGroup entries...\27[0m")
     local invalidQuests = {}
@@ -136,7 +136,7 @@ end
 ---This also must hold vice versa: If a quest has child quests, then each child quest must have the parent quest set.
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkParentChildQuestRelations(quests, questKeys)
     print("\n\27[36mSearching for parent and child quest relations...\27[0m")
     local invalidQuests = {}
@@ -200,7 +200,7 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param objects table<ObjectId, Object>
 ---@param items table<ItemId, Item>
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkQuestStarters(quests, questKeys, npcs, npcKeys, objects, items)
     print("\n\27[36mSearching for quest starters...\27[0m")
     local invalidQuests = {}
@@ -248,7 +248,7 @@ end
 ---@param questKeys DatabaseQuestKeys
 ---@param npcs table<NpcId, NPC>
 ---@param objects table<ObjectId, Object>
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkQuestFinishers(quests, questKeys, npcs, objects)
     print("\n\27[36mSearching for quest finishers...\27[0m")
     local invalidQuests = {}
@@ -290,7 +290,7 @@ end
 ---@param npcs table<NpcId, NPC>
 ---@param objects table<ObjectId, Object>
 ---@param items table<ItemId, Item>
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkObjectives(quests, questKeys, npcs, objects, items)
     print("\n\27[36mSearching for invalid quest objectives...\27[0m")
     local invalidQuests = {}
@@ -362,7 +362,8 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>, table<NpcId, QuestId[]>
+---@return table<NpcId, string>|nil
+---@return table<NpcId, QuestId[]>|nil
 function Validators.checkNpcQuestStarts(npcs, npcKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questStarts in NPCs...\27[0m")
 
@@ -476,7 +477,8 @@ end
 ---@param npcKeys DatabaseNpcKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>|nil
+---@return table<NpcId, QuestId>|nil
 function Validators.checkNpcQuestEnds(npcs, npcKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in NPCs...\27[0m")
 
@@ -593,7 +595,8 @@ end
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<ObjectId, string>, table<ObjectId, QuestId[]>
+---@return table<ObjectId, string>|nil
+---@return table<ObjectId, QuestId[]>|nil
 function Validators.checkObjectQuestStarts(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questStarts in objects...\27[0m")
 
@@ -707,7 +710,8 @@ end
 ---@param objectKeys DatabaseObjectKeys
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
----@return table<NpcId, string>
+---@return table<NpcId, string>|nil
+---@return table<NpcId, QuestId>|nil
 function Validators.checkObjectQuestEnds(objects, objectKeys, quests, questKeys)
     print("\n\27[36mSearching for invalid questEnds in objects...\27[0m")
 
@@ -823,7 +827,7 @@ end
 ---@param quests table<QuestId, Quest>
 ---@param questKeys DatabaseQuestKeys
 ---@param raceKeys RaceKeys
----@return table<QuestId, string>
+---@return table<QuestId, string>|nil
 function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
     print("\n\27[36mSearching for quests with invalid requiredRaces entries...\27[0m")
     local invalidQuests = {}
@@ -860,7 +864,7 @@ function Validators.checkRequiredRaces(quests, questKeys, raceKeys)
     end
 end
 
----@param npcs table<NpcId, Npc>
+---@param npcs table<NpcId, NPC>
 ---@param npcKeys DatabaseNpcKeys
 ---@param getUiMapIdByAreaId fun(areaId: AreaId): number|nil
 ---@return table<NpcId, AreaId[]>|nil
@@ -1030,6 +1034,368 @@ function Validators.checkQuestTriggerEndSpawnAreaIds(quests, questKeys, getUiMap
         return invalidQuests
     else
         print("\27[32mNo quests found with unhandled triggerEnd spawnlist areaIds\27[0m")
+        return nil
+    end
+end
+
+---Checks that spawns has the structure {[zoneId] = {{x, y, ...}, ...}}
+---Returns an error string if invalid, nil if valid.
+---@param spawns table
+---@param zoneId number|string
+---@return string|nil
+local function _checkSpawnZoneStructure(spawns, zoneId)
+    local coordPairs = spawns[zoneId]
+    if type(coordPairs) ~= "table" then
+        return "spawns[" .. zoneId .. "] expected table but got " .. type(coordPairs)
+    end
+    for coordIndex, coord in pairs(coordPairs) do
+        if type(coord) ~= "table" then
+            return "spawns[" .. zoneId .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
+        end
+    end
+    return nil
+end
+
+---Checks that waypoints has the structure {[zoneId] = {{path}, ...}} where each path is {{x, y, ...}, ...}
+---Returns an error string if invalid, nil if valid.
+---@param waypoints table
+---@return string|nil
+local function _checkWaypointStructure(waypoints)
+    for zoneId, paths in pairs(waypoints) do
+        if type(paths) ~= "table" then
+            return "waypoints[" .. zoneId .. "] expected table but got " .. type(paths)
+        end
+        for pathIndex, path in pairs(paths) do
+            if type(path) ~= "table" then
+                return "waypoints[" .. zoneId .. "][" .. pathIndex .. "] expected table (path) but got " .. type(path)
+            end
+            for coordIndex, coord in pairs(path) do
+                if type(coord) ~= "table" then
+                    return "waypoints[" .. zoneId .. "][" .. pathIndex .. "][" .. coordIndex .. "] expected table (coord pair) but got " .. type(coord)
+                end
+            end
+        end
+    end
+    return nil
+end
+
+---@param npcs table<NpcId, NPC>
+---@param npcKeys DatabaseNpcKeys
+---@return table<NpcId, string>|nil
+function Validators.checkNpcFieldTypes(npcs, npcKeys)
+    print("\n\27[36mChecking NPC field types...\27[0m")
+
+    local fieldRules = {
+        { key = npcKeys.name,             name = "name",             expectedType = "string",  required = true },
+        { key = npcKeys.minLevelHealth,   name = "minLevelHealth",   expectedType = "number",  required = false },
+        { key = npcKeys.maxLevelHealth,   name = "maxLevelHealth",   expectedType = "number",  required = false },
+        { key = npcKeys.minLevel,         name = "minLevel",         expectedType = "number",  required = false },
+        { key = npcKeys.maxLevel,         name = "maxLevel",         expectedType = "number",  required = false },
+        { key = npcKeys.rank,             name = "rank",             expectedType = "number",  required = false },
+        { key = npcKeys.spawns,           name = "spawns",           expectedType = "table",   required = false },
+        { key = npcKeys.waypoints,        name = "waypoints",        expectedType = "table",   required = false },
+        { key = npcKeys.zoneID,           name = "zoneID",           expectedType = "number",  required = false },
+        { key = npcKeys.questStarts,      name = "questStarts",      expectedType = "table",   required = false },
+        { key = npcKeys.questEnds,        name = "questEnds",        expectedType = "table",   required = false },
+        { key = npcKeys.factionID,        name = "factionID",        expectedType = "number",  required = false },
+        { key = npcKeys.friendlyToFaction,name = "friendlyToFaction",expectedType = "string",  required = false },
+        { key = npcKeys.subName,          name = "subName",          expectedType = "string",  required = false },
+        { key = npcKeys.npcFlags,         name = "npcFlags",         expectedType = "number",  required = false },
+    }
+
+    local invalidNpcs = {}
+    for npcId, npcData in pairs(npcs) do
+        for _, rule in ipairs(fieldRules) do
+            local value = npcData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidNpcs[npcId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidNpcs[npcId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+
+        if not invalidNpcs[npcId] then
+            local waypoints = npcData[npcKeys.waypoints]
+            if waypoints then
+                invalidNpcs[npcId] = _checkWaypointStructure(waypoints)
+            end
+        end
+
+        if not invalidNpcs[npcId] then
+            local spawns = npcData[npcKeys.spawns]
+            if spawns then
+                for zoneId in pairs(spawns) do
+                    local err = _checkSpawnZoneStructure(spawns, zoneId)
+                    if err then
+                        invalidNpcs[npcId] = err
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidNpcs) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " NPCs with invalid field types:\27[0m")
+        for npcId, reason in pairsByKeys(invalidNpcs) do
+            print("\27[31m- NPC " .. npcId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidNpcs
+    else
+        print("\27[32mNo NPCs found with invalid field types\27[0m")
+        return nil
+    end
+end
+
+---@param objects table<ObjectId, Object>
+---@param objectKeys DatabaseObjectKeys
+---@return table<ObjectId, string>|nil
+function Validators.checkObjectFieldTypes(objects, objectKeys)
+    print("\n\27[36mChecking object field types...\27[0m")
+
+    local fieldRules = {
+        { key = objectKeys.name,        name = "name",        expectedType = "string",  required = true },
+        { key = objectKeys.questStarts, name = "questStarts", expectedType = "table",   required = false },
+        { key = objectKeys.questEnds,   name = "questEnds",   expectedType = "table",   required = false },
+        { key = objectKeys.spawns,      name = "spawns",      expectedType = "table",   required = false },
+        { key = objectKeys.zoneID,      name = "zoneID",      expectedType = "number",  required = false },
+        { key = objectKeys.factionID,   name = "factionID",   expectedType = "number",  required = false },
+        { key = objectKeys.waypoints,   name = "waypoints",   expectedType = "table",   required = false },
+    }
+
+    local invalidObjects = {}
+    for objectId, objectData in pairs(objects) do
+        for _, rule in ipairs(fieldRules) do
+            local value = objectData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidObjects[objectId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidObjects[objectId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+
+        if not invalidObjects[objectId] then
+            local spawns = objectData[objectKeys.spawns]
+            if spawns then
+                for zoneId in pairs(spawns) do
+                    local err = _checkSpawnZoneStructure(spawns, zoneId)
+                    if err then
+                        invalidObjects[objectId] = err
+                        break
+                    end
+                end
+            end
+        end
+
+        if not invalidObjects[objectId] then
+            local waypoints = objectData[objectKeys.waypoints]
+            if waypoints then
+                invalidObjects[objectId] = _checkWaypointStructure(waypoints)
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidObjects) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " objects with invalid field types:\27[0m")
+        for objectId, reason in pairsByKeys(invalidObjects) do
+            print("\27[31m- Object " .. objectId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidObjects
+    else
+        print("\27[32mNo objects found with invalid field types\27[0m")
+        return nil
+    end
+end
+
+---@param quests table<QuestId, Quest>
+---@param questKeys DatabaseQuestKeys
+---@return table<QuestId, string>|nil
+function Validators.checkQuestFieldTypes(quests, questKeys)
+    print("\n\27[36mChecking quest field types...\27[0m")
+
+    local fieldRules = {
+        { key = questKeys.name,                   name = "name",                   expectedType = "string",  required = true },
+        { key = questKeys.startedBy,              name = "startedBy",              expectedType = "table",   required = false },
+        { key = questKeys.finishedBy,             name = "finishedBy",             expectedType = "table",   required = false },
+        { key = questKeys.requiredLevel,          name = "requiredLevel",          expectedType = "number",  required = false },
+        { key = questKeys.questLevel,             name = "questLevel",             expectedType = "number",  required = false },
+        { key = questKeys.requiredRaces,          name = "requiredRaces",          expectedType = "number",  required = false },
+        { key = questKeys.requiredClasses,        name = "requiredClasses",        expectedType = "number",  required = false },
+        { key = questKeys.objectivesText,         name = "objectivesText",         expectedType = "table",   required = false },
+        { key = questKeys.triggerEnd,             name = "triggerEnd",             expectedType = "table",   required = false },
+        { key = questKeys.objectives,             name = "objectives",             expectedType = "table",   required = false },
+        { key = questKeys.sourceItemId,           name = "sourceItemId",           expectedType = "number",  required = false },
+        { key = questKeys.preQuestGroup,          name = "preQuestGroup",          expectedType = "table",   required = false },
+        { key = questKeys.preQuestSingle,         name = "preQuestSingle",         expectedType = "table",   required = false },
+        { key = questKeys.childQuests,            name = "childQuests",            expectedType = "table",   required = false },
+        { key = questKeys.inGroupWith,            name = "inGroupWith",            expectedType = "table",   required = false },
+        { key = questKeys.exclusiveTo,            name = "exclusiveTo",            expectedType = "table",   required = false },
+        { key = questKeys.zoneOrSort,             name = "zoneOrSort",             expectedType = "number",  required = false },
+        { key = questKeys.requiredSkill,          name = "requiredSkill",          expectedType = "table",   required = false },
+        { key = questKeys.requiredMinRep,         name = "requiredMinRep",         expectedType = "table",   required = false },
+        { key = questKeys.requiredMaxRep,         name = "requiredMaxRep",         expectedType = "table",   required = false },
+        { key = questKeys.requiredSourceItems,    name = "requiredSourceItems",    expectedType = "table",   required = false },
+        { key = questKeys.nextQuestInChain,       name = "nextQuestInChain",       expectedType = "number",  required = false },
+        { key = questKeys.questFlags,             name = "questFlags",             expectedType = "number",  required = false },
+        { key = questKeys.specialFlags,           name = "specialFlags",           expectedType = "number",  required = false },
+        { key = questKeys.parentQuest,            name = "parentQuest",            expectedType = "number",  required = false },
+        { key = questKeys.reputationReward,       name = "reputationReward",       expectedType = "table",   required = false },
+        { key = questKeys.breadcrumbForQuestId,   name = "breadcrumbForQuestId",   expectedType = "number",  required = false },
+        { key = questKeys.breadcrumbs,            name = "breadcrumbs",            expectedType = "table",   required = false },
+        { key = questKeys.extraObjectives,        name = "extraObjectives",        expectedType = "table",   required = false },
+        { key = questKeys.requiredSpell,          name = "requiredSpell",          expectedType = "number",  required = false },
+        { key = questKeys.requiredSpecialization, name = "requiredSpecialization", expectedType = "number",  required = false },
+        { key = questKeys.requiredMaxLevel,       name = "requiredMaxLevel",       expectedType = "number",  required = false },
+        { key = questKeys.availableUntilCompleted,name = "availableUntilCompleted",expectedType = "number",  required = false },
+        { key = questKeys.availableStartingWith,  name = "availableStartingWith",  expectedType = "number",  required = false },
+        { key = questKeys.requiredRanks,          name = "requiredRanks",          expectedType = "table",   required = false },
+        { key = questKeys.disabledByQuest,        name = "disabledByQuest",        expectedType = "number",  required = false },
+    }
+
+    local invalidQuests = {}
+    for questId, questData in pairs(quests) do
+        for _, rule in ipairs(fieldRules) do
+            local value = questData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidQuests[questId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidQuests[questId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+
+        if not invalidQuests[questId] then
+            local extraObjectives = questData[questKeys.extraObjectives]
+            if extraObjectives then
+                for entryIndex, entry in pairs(extraObjectives) do
+                    if type(entry) ~= "table" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "] expected table but got " .. type(entry)
+                        break
+                    end
+                    local spawnlist = entry[1]
+                    if spawnlist ~= nil and type(spawnlist) ~= "table" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "][1] (spawnlist) expected table or nil but got " .. type(spawnlist)
+                        break
+                    end
+                    if spawnlist then
+                        for zoneId in pairs(spawnlist) do
+                            local err = _checkSpawnZoneStructure(spawnlist, zoneId)
+                            if err then
+                                invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "]." .. err
+                                break
+                            end
+                        end
+                    end
+                    if invalidQuests[questId] then
+                        break
+                    end
+                    local text = entry[3]
+                    if text ~= nil and type(text) ~= "string" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "][3] (text) expected string or nil but got " .. type(text)
+                        break
+                    end
+                    local objectiveIndex = entry[4]
+                    if objectiveIndex ~= nil and type(objectiveIndex) ~= "number" then
+                        invalidQuests[questId] = "extraObjectives[" .. entryIndex .. "][4] (objectiveIndex) expected number or nil but got " .. type(objectiveIndex)
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidQuests) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " quests with invalid field types:\27[0m")
+        for questId, reason in pairsByKeys(invalidQuests) do
+            print("\27[31m- Quest " .. questId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidQuests
+    else
+        print("\27[32mNo quests found with invalid field types\27[0m")
+        return nil
+    end
+end
+
+---@param items table<ItemId, Item>
+---@param itemKeys DatabaseItemKeys
+---@return table<ItemId, string>|nil
+function Validators.checkItemFieldTypes(items, itemKeys)
+    print("\n\27[36mChecking item field types...\27[0m")
+
+    local fieldRules = {
+        { key = itemKeys.name,          name = "name",          expectedType = "string",  required = true },
+        { key = itemKeys.npcDrops,      name = "npcDrops",      expectedType = "table",   required = false },
+        { key = itemKeys.objectDrops,   name = "objectDrops",   expectedType = "table",   required = false },
+        { key = itemKeys.itemDrops,     name = "itemDrops",     expectedType = "table",   required = false },
+        { key = itemKeys.startQuest,    name = "startQuest",    expectedType = "number",  required = false },
+        { key = itemKeys.questRewards,  name = "questRewards",  expectedType = "table",   required = false },
+        { key = itemKeys.flags,         name = "flags",         expectedType = "number",  required = false },
+        { key = itemKeys.foodType,      name = "foodType",      expectedType = "number",  required = false },
+        { key = itemKeys.itemLevel,     name = "itemLevel",     expectedType = "number",  required = false },
+        { key = itemKeys.requiredLevel, name = "requiredLevel", expectedType = "number",  required = false },
+        { key = itemKeys.ammoType,      name = "ammoType",      expectedType = "number",  required = false },
+        { key = itemKeys.class,         name = "class",         expectedType = "number",  required = false },
+        { key = itemKeys.subClass,      name = "subClass",      expectedType = "number",  required = false },
+        { key = itemKeys.vendors,       name = "vendors",       expectedType = "table",   required = false },
+        { key = itemKeys.relatedQuests, name = "relatedQuests", expectedType = "table",   required = false },
+        { key = itemKeys.teachesSpell,  name = "teachesSpell",  expectedType = "number",  required = false },
+    }
+
+    local invalidItems = {}
+    for itemId, itemData in pairs(items) do
+        for _, rule in ipairs(fieldRules) do
+            local value = itemData[rule.key]
+            if value == nil then
+                if rule.required then
+                    invalidItems[itemId] = "field '" .. rule.name .. "' is required but nil"
+                    break
+                end
+            elseif type(value) ~= rule.expectedType then
+                invalidItems[itemId] = "field '" .. rule.name .. "' expected " .. rule.expectedType .. " but got " .. type(value)
+                break
+            end
+        end
+    end
+
+    local count = 0
+    for _ in pairs(invalidItems) do count = count + 1 end
+
+    if count > 0 then
+        print("\27[31mFound " .. count .. " items with invalid field types:\27[0m")
+        for itemId, reason in pairsByKeys(invalidItems) do
+            print("\27[31m- Item " .. itemId .. ": " .. reason .. "\27[0m")
+        end
+
+        os.exit(1)
+        return invalidItems
+    else
+        print("\27[32mNo items found with invalid field types\27[0m")
         return nil
     end
 end

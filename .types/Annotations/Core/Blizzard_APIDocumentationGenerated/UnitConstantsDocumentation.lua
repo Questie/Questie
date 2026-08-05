@@ -5,6 +5,7 @@
 ---@field parent SimpleFrame
 ---@field showCountdownFrame boolean
 ---@field showCountdownNumbers boolean
+---@field isContainer boolean
 ---@field iconInfo PrivateAuraIconInfo?
 ---@field durationAnchor AnchorBinding?
 
@@ -12,6 +13,7 @@
 ---@field iconAnchor AnchorBinding
 ---@field iconWidth uiUnit
 ---@field iconHeight uiUnit
+---@field borderScale uiUnit?
 
 ---@class UnitAuraUpdateInfo
 ---@field isFullUpdate boolean? Default = false
@@ -27,6 +29,9 @@
 ---@field showCountdownNumbers boolean
 ---@field iconWidth uiUnit?
 ---@field iconHeight uiUnit?
+---@field borderScale uiUnit?
+---@field isContainer boolean?
+---@field parent SimpleFrame
 
 ---@class UnitPrivateAuraAppliedSoundInfo
 ---@field unitToken string

@@ -22,12 +22,12 @@ describe("QuestFinisher", function()
 
     before_each(function()
         Questie.db.char.complete = {}
-        QuestieDB = require("Database.QuestieDB")
-        ZoneDB = require("Database.Zones.zoneDB")
-        QuestiePlayer = require("Modules.QuestiePlayer")
-        QuestieTooltips = require("Modules.Tooltips.Tooltip")
-        QuestieMap = require("Modules.Map.QuestieMap")
-        QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+        QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+        QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
         _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = false
         QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
@@ -35,6 +35,8 @@ describe("QuestFinisher", function()
         QuestieDB.IsPvPQuest = function() return false end
         ZoneDB.IsDungeonZone = function() return false end
         QuestieEvent.IsEventQuest = function() return false end
+        QuestieEvent.IsEventActiveForQuest = function() return false end
+        QuestieEvent.CanQuestBeTurnedInOutsideOfEvent = function() return false end
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
         QuestiePlayer.currentQuestlog = {}
@@ -43,7 +45,8 @@ describe("QuestFinisher", function()
         end
         QuestieTooltips.lookupByKey = {}
 
-        QuestFinisher = require("Modules.Quest.QuestFinisher")
+        dofile("Modules/Quest/QuestFinisher.lua")
+        QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
     end)
 
     it("should add NPC finisher", function()
@@ -69,11 +72,17 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
-        assert.spy(QuestieDB.GetObject).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60, nil)
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
+        assert.spy(QuestieDB.GetObject).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
+
+        local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
+
+        local secondIconData = QuestieMap.DrawWorldIcon.calls[2].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, secondIconData.Icon)
     end)
 
     it("should add object finisher", function()
@@ -99,11 +108,17 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "o_123", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "o_456", "Finisher")
-        assert.spy(QuestieDB.GetNPC).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60, nil)
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "o_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "o_456", "Finisher")
+        assert.spy(QuestieDB.GetNPC).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
+
+        local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, firstIconData.Icon)
+
+        local secondIconData = QuestieMap.DrawWorldIcon.calls[2].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, secondIconData.Icon)
     end)
 
     it("should add mixed finisher", function()
@@ -136,14 +151,14 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 3", 789, "o_789", "Finisher")
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher 4", 987, "o_987", "Finisher")
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 3, 70, 70, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 4, 80, 80, nil)
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 2", 456, "m_456", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 3", 789, "o_789", "Finisher")
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher 4", 987, "o_987", "Finisher")
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 3, 70, 70, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 4, 80, 80, nil)
     end)
 
     it("should add finisher with waypoints", function()
@@ -169,10 +184,10 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 1, 10, 10)
-        assert.spy(QuestieMap.DrawWaypoints).was_called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 10, 10)
+        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
     end)
 
     it("should add finisher for dungeon location", function()
@@ -192,9 +207,67 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
-        assert.spy(QuestieMap.DrawWorldIcon).was_called_with(QuestieMap, _, 2, 60, 60)
-        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 2, 60, 60)
+        assert.spy(QuestieMap.DrawWaypoints).was.not_called()
+
+        local iconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_COMPLETE, iconData.Icon)
+    end)
+
+    it("should add NPC finisher for PvP quests", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function()
+            return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
+        end)
+        QuestieDB.GetObject = spy.new(function() end)
+        QuestieDB.IsPvPQuest = spy.new(function() return true end)
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+            IsRepeatable = false
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieDB.GetObject).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+
+        local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_PVPQUEST_COMPLETE, firstIconData.Icon)
+    end)
+
+    it("should add NPC finisher for repeatable quests", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function()
+            return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
+        end)
+        QuestieDB.GetObject = spy.new(function() end)
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+            IsRepeatable = true
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieDB.GetObject).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+
+        local firstIconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_REPEATABLE_COMPLETE, firstIconData.Icon)
     end)
 
     it("should not add finisher if quest is not in the players quest log", function()
@@ -205,9 +278,9 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
-        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was.not_called()
     end)
 
     it("should not add finisher when IsQuestFlaggedCompleted is true", function()
@@ -219,9 +292,9 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
-        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was.not_called()
     end)
 
     it("should not add finisher when quest is already complete", function()
@@ -236,9 +309,9 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
-        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was.not_called()
     end)
 
     it("should not add finisher when quest is an event quest but event is not active", function()
@@ -259,11 +332,40 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
-        assert.spy(QuestieDB.GetNPC).was_not_called()
-        assert.spy(QuestieDB.GetObject).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
-        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieDB.GetNPC).was.not_called()
+        assert.spy(QuestieDB.GetObject).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was.not_called()
+    end)
+
+    it("should add finisher when quest is an event quest and event is not active but can be turned in outside of event", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function()
+            return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
+        end)
+        QuestieDB.GetObject = spy.new(function() end)
+        QuestieEvent.IsEventQuest = function() return true end
+        QuestieEvent.IsEventActiveForQuest = function() return false end
+        QuestieEvent.CanQuestBeTurnedInOutsideOfEvent = function() return true end
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
+        assert.spy(QuestieDB.GetObject).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+
+        local iconData = QuestieMap.DrawWorldIcon.calls[1].vals[2]
+        assert.is_equal(Questie.ICON_TYPE_EVENTQUEST_COMPLETE, iconData.Icon)
     end)
 
     it("should not add finisher when quest has no finisher", function()
@@ -280,11 +382,11 @@ describe("QuestFinisher", function()
 
         QuestFinisher.AddFinisher(quest)
 
-        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was_not_called()
-        assert.spy(QuestieDB.GetNPC).was_not_called()
-        assert.spy(QuestieDB.GetObject).was_not_called()
-        assert.spy(QuestieMap.DrawWorldIcon).was_not_called()
-        assert.spy(QuestieMap.DrawWaypoints).was_not_called()
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieDB.GetNPC).was.not_called()
+        assert.spy(QuestieDB.GetObject).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+        assert.spy(QuestieMap.DrawWaypoints).was.not_called()
     end)
 
     it("should not add finisher when finisher NPC is missing in DB", function()

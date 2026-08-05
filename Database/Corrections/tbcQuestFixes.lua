@@ -18,8 +18,6 @@ QuestieCorrections.killCreditObjectiveFirst[10503] = true -- The Bladespire Thre
 
 
 function QuestieTBCQuestFixes:Load()
-    _QuestieTBCQuestFixes:InsertMissingQuestIds()
-
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
@@ -32,6 +30,9 @@ function QuestieTBCQuestFixes:Load()
     local rankKeys = QuestieProfessions.rankNames
 
     return {
+        [32] = { -- Rise of the Silithid
+            [questKeys.reputationReward] = {{factionIDs.GADGETZAN,350},{factionIDs.HORDE,350}},
+        },
         [54] = { -- Report to Goldshire
             [questKeys.requiredLevel] = 1,
         },
@@ -50,11 +51,16 @@ function QuestieTBCQuestFixes:Load()
         [123] = { -- The Collector
             [questKeys.nextQuestInChain] = 147,
         },
+        [162] = { -- Rise of the Silithid
+            [questKeys.reputationReward] = {{factionIDs.GADGETZAN,150},{factionIDs.ALLIANCE,150}},
+        },
         [171] = { -- A Warden of the Alliance
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
         },
         [172] = { -- Children's Week
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,10}},
         },
         [176] = { -- Wanted:  "Hogger"
             [questKeys.startedBy] = {nil,{68,156561}},
@@ -63,17 +69,26 @@ function QuestieTBCQuestFixes:Load()
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.73,10.82}}}},
         },
+        [211] = { -- Alas, Andorhal
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,350},{factionIDs.ARGENT_DAWN,700}},
+        },
         [233] = {
             [questKeys.preQuestSingle] = {179},
         },
         [225] = {
             [questKeys.requiredLevel] = 25,
         },
+        [253] = { -- Bride of the Embalmer
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
         [254] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [275] = {
             [questKeys.objectivesText] = {"Kill 8 Fen Creepers, then return to Rethiel the Greenwarden in the Wetlands."}, -- override classic correction
+        },
+        [281] = { -- Reclaiming Goods
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,25}},
         },
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2}}}},
@@ -108,14 +123,21 @@ function QuestieTBCQuestFixes:Load()
         [511] = {
             [questKeys.startedBy] = {nil,{1740,186420}}, -- in TBC, 1738 and 1739 are removed, but 186420 is added to a nearby camp
         },
+        [512] = { -- Noble Deaths
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250}},
+        },
         [532] = { -- Battle of Hillsbrad
             [questKeys.objectivesText] = {"Kill Magistrate Burnside and 4 Hillsbrad Councilmen. Destroy the Hillsbrad Proclamation. Steal the Hillsbrad Town Registry. Report back to Darthalia in Tarren Mill afterwards."},
+        },
+        [542] = { -- Return to Milton
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,350}},
         },
         [549] = { -- WANTED: Syndicate Personnel
             [questKeys.requiredLevel] = 17,
         },
-        [558] = {
+        [558] = { -- Jaina's Autograph
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,150}},
         },
         [566] = { -- WANTED: Baron Vardus
             [questKeys.requiredLevel] = 17,
@@ -144,18 +166,25 @@ function QuestieTBCQuestFixes:Load()
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56}}}},
         },
-        [910] = {
-            [questKeys.questLevel] = -1,
+        [891] = { -- The Guns of Northwatch
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,250},{factionIDs.HORDE,75}},
         },
-        [911] = {
+        [910] = { -- Down at the Docks
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
         },
-        [915] = {
+        [911] = { -- Down at the Docks
+            [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [915] = { -- You Scream, I Scream...
             [questKeys.questLevel] = -1,
             [questKeys.preQuestGroup] = {910,911,1800},
+            [questKeys.reputationReward] = {{factionIDs.HORDE,150}},
         },
-        [925] = {
+        [925] = { -- Cairne's Hoofprint
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,150}},
         },
         [926] = { -- Flawed Power Stone
             [questKeys.startedBy] = {nil,{5619,5620,5621}},
@@ -207,6 +236,9 @@ function QuestieTBCQuestFixes:Load()
         [1049] = { -- Compendium of the Fallen
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.UNDEAD,
         },
+        [1081] = { -- Reception from Tyrande
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
         [1090] = { -- Gerenzo's Orders
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
@@ -239,6 +271,9 @@ function QuestieTBCQuestFixes:Load()
         [1206] = { -- Jarl Needs Eyes
             [questKeys.objectivesText] = {"Bring 20 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
         },
+        [1218] = { -- Marsh Frog Legs
+            [questKeys.breadcrumbs] = {11177},
+        },
         [1220] = {
             [questKeys.startedBy] = {{23951}},
         },
@@ -247,6 +282,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1253] = { -- The Black Shield
             [questKeys.preQuestSingle] = {11123},
+        },
+        [1267] = { -- The Missing Diplomat
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
         },
         [1268] = { -- Suspicious Hoofprints
             [questKeys.startedBy] = {nil,{187273}},
@@ -258,20 +296,36 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {nil,{187273}},
             [questKeys.preQuestSingle] = {11123},
         },
-        [1287] = { -- The Deserters
-            [questKeys.nextQuestInChain] = 11143,
-        },
         [1322] = {
             [questKeys.objectivesText] = {"Acquire 5 Acidic Venom Sacs for Do'gol in Brackenwall Village."},
         },
         [1361] = {
             [questKeys.startedBy] = {{2229,4485,10540}},
         },
+        [1367] = { -- Magram Alliance
+            [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-250},{factionIDs.MAGRAM_CLAN_CENTAUR,250}},
+        },
+        [1368] = { -- Gelkis Alliance
+            [questKeys.reputationReward] = {{factionIDs.MAGRAM_CLAN_CENTAUR,-250},{factionIDs.GELKIS_CLAN_CENTAUR,250}},
+        },
+        [1382] = { -- Strange Alliance
+            [questKeys.reputationReward] = {{factionIDs.MAGRAM_CLAN_CENTAUR,-500},{factionIDs.GELKIS_CLAN_CENTAUR,250}},
+        },
+        [1385] = { -- Brutal Politics
+            [questKeys.reputationReward] = {{factionIDs.GELKIS_CLAN_CENTAUR,-500},{factionIDs.MAGRAM_CLAN_CENTAUR,250}},
+        },
+        [1394] = { -- Final Passage
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
+        [1396] = { -- Encroaching Wildlife
+            [questKeys.breadcrumbs] = {9609},
+        },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
         },
-        [1468] = {
+        [1468] = { -- Children's Week
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,10}},
         },
         [1470] = { -- Piercing the Veil
             [questKeys.exclusiveTo] = {1485,8344},
@@ -283,7 +337,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
         },
-        [1479] = {
+        [1479] = { -- The Bough of the Eternals
             [questKeys.questLevel] = -1,
         },
         [1485] = { -- Vile Familiars
@@ -291,6 +345,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [1488] = { -- The Corrupter
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350}},
         },
         [1499] = { -- Vile Familiars
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -328,7 +385,7 @@ function QuestieTBCQuestFixes:Load()
         [1529] = { -- Call of Water
             [questKeys.exclusiveTo] = {1528,2985,2986},
         },
-        [1558] = {
+        [1558] = { -- The Stonewrought Dam
             [questKeys.questLevel] = -1,
         },
         [1598] = { -- The Stolen Tome
@@ -350,6 +407,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1640] = { -- Beat Bartleby
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
+        },
+        [1658] = { -- Crashing the Wickerman Festival
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
         },
         [1661] = { -- The Tome of Nobility
             [questKeys.name] = "The Tome of Nobility",
@@ -393,7 +453,7 @@ function QuestieTBCQuestFixes:Load()
         [1686] = { -- The Shade of Elura
             [questKeys.preQuestSingle] = {1683,1678,1639,9582},
         },
-        [1687] = {
+        [1687] = { -- Spooky Lighthouse
             [questKeys.questLevel] = -1,
         },
         [1698] = { -- Yorus Barleybrew
@@ -422,8 +482,9 @@ function QuestieTBCQuestFixes:Load()
         [1782] = { -- Furen's Armor
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [1800] = {
+        [1800] = { -- Lordaeron Throne Room
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
         },
         [1801] = { -- Tome of the Cabal
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
@@ -505,6 +566,9 @@ function QuestieTBCQuestFixes:Load()
         [1999] = { -- Tools of the Trade
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [2040] = { -- Underground Assault
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,500},{factionIDs.GNOMEREGAN_EXILES,500}},
+        },
         [2205] = { -- Seek out SI: 7
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -563,9 +627,12 @@ function QuestieTBCQuestFixes:Load()
         [2880] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [2881] = {
+        [2881] = { -- Troll Necklace Bounty
+            [questKeys.startedBy] = {{7884}},
+            [questKeys.finishedBy] = {{7884}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {2880},
         },
         [2985] = { -- Call of Water
             [questKeys.exclusiveTo] = {1528,1529,2986},
@@ -659,8 +726,29 @@ function QuestieTBCQuestFixes:Load()
         [3803] = { -- Morrowgrain to Darnassus
             [questKeys.startedBy] = {{4217}},
         },
+        [3921] = { -- Wenikee Boltbucket
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,75},{factionIDs.HORDE,25}},
+        },
+        [3922] = { -- Nugget Slugs
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,250},{factionIDs.HORDE,75}},
+        },
+        [3923] = { -- Rilli Greasygob
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,25},{factionIDs.HORDE,10}},
+        },
+        [3924] = { -- Samophlange Manual
+            [questKeys.reputationReward] = {{factionIDs.RATCHET,350},{factionIDs.HORDE,150}},
+        },
+        [4004] = { -- The Princess Saved?
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
+        },
+        [4146] = { -- Zapper Fuel
+            [questKeys.zoneOrSort] = zoneIDs.SUNKEN_TEMPLE,
+        },
+        [4266] = { -- A Hero's Welcome
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
         },
         [4485] = { -- The Tome of Nobility
             [questKeys.nextQuestInChain] = 1661,
@@ -693,6 +781,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [4510] = { -- Calm Before the Storm
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
+        [4511] = { -- Calm Before the Storm
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
+        [4726] = { -- Broodling Essence
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
+        },
+        [4734] = { -- Egg Freezing
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,500}},
+        },
+        [4735] = { -- Egg Collection
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,500}},
+        },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461,16646}},
             [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.GNOME + raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF, -- was available for orc + blood elf, safe to assume also available for undead
@@ -704,12 +807,16 @@ function QuestieTBCQuestFixes:Load()
         [4813] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [4822] = {
+        [4822] = { -- You Scream, I Scream...
             [questKeys.questLevel] = -1,
             [questKeys.preQuestGroup] = {1479,1558,1687},
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,150}},
         },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44}}}},
+        },
+        [4902] = { -- Wildkin of Elune
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
         },
         [4968] = { -- Knowledge of the Orb of Orahil
             [questKeys.startedBy] = {{461,16646}},
@@ -728,6 +835,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5056] = { -- Shy-Rotam
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [5057] = { -- Past Endeavors
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5066] = { -- A Call to Arms: The Plaguelands!
@@ -754,11 +864,66 @@ function QuestieTBCQuestFixes:Load()
         [5096] = { -- Scarlet Diversions
             [questKeys.breadcrumbs] = {5093,5094,5095,10374},
         },
+        [5097] = { -- All Along the Watchtowers
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250}},
+        },
+        [5102] = { -- General Drakkisath's Demise
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
         [5149] = { -- Pamela's Doll
             [questKeys.reputationReward] = {},
         },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
+        },
+        [5216] = { -- Target: Felstone Field
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5217] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
+        },
+        [5219] = { -- Target: Dalson's Tears
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5220] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
+        },
+        [5222] = { -- Target: Writhing Haunt
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5223] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
+        },
+        [5225] = { -- Target: Gahrron's Withering
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,250},{factionIDs.ARGENT_DAWN,250}},
+        },
+        [5226] = { -- Return to Chillwind Camp
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,75},{factionIDs.ARGENT_DAWN,75}},
+        },
+        [5237] = { -- Mission Accomplished!
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500},{factionIDs.ARGENT_DAWN,1000}},
+        },
+        [5238] = { -- Mission Accomplished!
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500},{factionIDs.ARGENT_DAWN,1000}},
+        },
+        [5245] = { -- Troubled Spirits of Kel'Theril
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,25}},
+        },
+        [5246] = { -- Fragments of the Past
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,25}},
+        },
+        [5247] = { -- Fragments of the Past
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
+            [questKeys.nextQuestInChain] = 5248,
+        },
+        [5248] = { -- Tormented By the Past
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,25}},
+        },
+        [5252] = { -- Remorseful Highborne
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,25}},
+        },
+        [5253] = { -- The Crystal of Zin-Malor
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
         },
         [5401] = { -- Argent Dawn Commission
             [questKeys.exclusiveTo] = {5405,5503},
@@ -784,13 +949,20 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{10839}},
             [questKeys.finishedBy] = {{10839}},
         },
-        [5502] = {
+        [5502] = { -- A Warden of the Horde
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
         },
         [5503] = { -- Argent Dawn Commission
             [questKeys.startedBy] = {{11039}},
             [questKeys.finishedBy] = {{11039}},
             [questKeys.exclusiveTo] = {5401,5405},
+        },
+        [5518] = { -- The Gordok Ogre Suit
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
+        },
+        [5519] = { -- The Gordok Ogre Suit
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
         },
         [5621] = { -- Garments of the Moon
             [questKeys.requiredLevel] = 5,
@@ -996,14 +1168,38 @@ function QuestieTBCQuestFixes:Load()
         [6344] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
+        [6403] = { -- The Great Masquerade
+            [questKeys.reputationReward] = {{factionIDs.STORMWIND,500}},
+        },
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16}}}},
         },
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047},
         },
+        [6962] = { -- Treats for Great-father Winter
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [6963] = { -- Stolen Winter Veil Treats
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,75}},
+        },
         [6983] = { -- You're a Mean One...
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [6984] = { -- A Smokywood Pastures' Thank You!
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
+        },
+        [7003] = { -- Zapped Giants
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,350}},
+        },
+        [7025] = { -- Treats for Greatfather Winter
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [7045] = { -- A Smokywood Pastures' Thank You!
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,250}},
+        },
+        [7282] = { -- Brotherly Love
+            [questKeys.reputationReward] = {{factionIDs.STORMPIKE_GUARD,250},{factionIDs.IRONFORGE,250},{factionIDs.STORMWIND,250}},
         },
         [7483] = { -- Libram of Rapidity
             [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
@@ -1014,6 +1210,12 @@ function QuestieTBCQuestFixes:Load()
         [7485] = { -- Libram of Protection
             [questKeys.reputationReward] = {{factionIDs.SHEN_DRALAR,500}},
         },
+        [7488] = { -- Lethtendris's Web
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
+        [7489] = { -- Lethtendris's Web
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [7508] = { -- The Forging of Quel'Serrar
             [questKeys.requiredLevel] = 60,
         },
@@ -1023,8 +1225,35 @@ function QuestieTBCQuestFixes:Load()
         [7623] = { -- Lord Banehollow
             [questKeys.preQuestSingle] = {},
         },
+        [7642] = { -- Collection of Goods
+            [questKeys.reputationReward] = {{factionIDs.IRONFORGE,500}},
+        },
+        [7667] = { -- Material Assistance
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350}},
+        },
+        [7668] = { -- The Darkreaver Menace
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [7670] = { -- Lord Grayson Shadowbreaker
             [questKeys.startedBy] = {{5149,17509}},
+        },
+        [7721] = { -- Fuel for the Zapping
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,350}},
+        },
+        [7725] = { -- Again With the Zapped Giants
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [7726] = { -- Refuel for the Zapping
+            [questKeys.reputationReward] = {{factionIDs.STEAMWHEEDLE_CARTEL,25}},
+        },
+        [7730] = { -- Zukk'ash Infestation
+            [questKeys.reputationReward] = {{factionIDs.HORDE,250}},
+        },
+        [7731] = { -- Stinglasher
+            [questKeys.reputationReward] = {{factionIDs.HORDE,350}},
+        },
+        [7732] = { -- Zukk'ash Report
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
         },
         [7792] = {
             [questKeys.startedBy] = {{20604}},
@@ -1086,6 +1315,9 @@ function QuestieTBCQuestFixes:Load()
         [7868] = {
             [questKeys.requiredMinRep] = {889,21000},
         },
+        [7946] = { -- Spawn of Jubjub
+            [questKeys.questLevel] = -1,
+        },
         [8114] = {
             [questKeys.triggerEnd] = {"Take Four Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{45.9,45.8}}}},
         },
@@ -1097,6 +1329,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [8122] = {
             [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
+        },
+        [8149] = { -- Honoring a Hero
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
+        [8150] = { -- Honoring a Hero
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
         },
         [8151] = { -- The Hunter's Charm
             [questKeys.startedBy] = {{3039,3352,4205,5116,5516,16673,17505}},
@@ -1137,16 +1375,24 @@ function QuestieTBCQuestFixes:Load()
         [8254] = { -- Cenarion Aid
             [questKeys.startedBy] = {{3045,5489,6018,11406,16658,16756}},
         },
+        [8258] = { -- The Darkreaver Menace
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
+        },
         [8259] = { -- A More Fitting Reward
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {8258},
         },
-        [8311] = {
+        [8311] = { -- Hallow's End Treats for Jesper!
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = -1,
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
         },
-        [8312] = {
+        [8312] = { -- Hallow's End Treats for Spoops!
             [questKeys.requiredLevel] = 10,
+            [questKeys.reputationReward] = {{factionIDs.HORDE,250}},
+        },
+        [8322] = { -- Rotten Eggs
+            [questKeys.reputationReward] = {{factionIDs.HORDE,25}},
         },
         [8325] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -1219,14 +1465,26 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = -1,
         },
-        [8367] = {
+        [8367] = { -- For Great Honor
             [questKeys.requiredLevel] = 61,
         },
-        [8371] = {
+        [8371] = { -- Concerted Efforts
             [questKeys.requiredLevel] = 61,
+        },
+        [8373] = { -- The Power of Pine
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
         },
         [8381] = { -- Armaments of War
             [questKeys.requiredClasses] = classIDs.MAGE + classIDs.WARLOCK,
+        },
+        [8385] = { -- Concerted Efforts
+            [questKeys.requiredLevel] = 61,
+        },
+        [8388] = { -- For Great Honor
+            [questKeys.requiredLevel] = 61,
+        },
+        [8409] = { -- Ruined Kegs
+            [questKeys.reputationReward] = {{factionIDs.HORDE,250}},
         },
         [8410] = { -- Elemental Mastery
             [questKeys.startedBy] = {{3032,13417,17219,20407,23127}},
@@ -1267,8 +1525,11 @@ function QuestieTBCQuestFixes:Load()
         [8482] = {
             [questKeys.startedBy] = {nil,nil,{20765}},
         },
-        [8484] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        [8484] = { -- The Brokering of Peace
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
+        },
+        [8485] = { -- The Brokering of Peace
+            [questKeys.reputationReward] = {{factionIDs.HORDE,500}},
         },
         [8487] = { -- Corrupted Soil
             [questKeys.preQuestSingle] = {},
@@ -1291,8 +1552,14 @@ function QuestieTBCQuestFixes:Load()
         [8548] = {
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8551] = {
+        [8551] = { -- The Captain's Chest
             [questKeys.questLevel] = 42,
+        },
+        [8553] = { -- The Captain's Cutlass
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8554] = { -- Facing Negolash
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8559] = { -- Conqueror's Greaves
             [questKeys.preQuestSingle] = {8579},
@@ -1594,6 +1861,13 @@ function QuestieTBCQuestFixes:Load()
         [8727] = {
             [questKeys.questLevel] = -1,
         },
+        [8767] = { -- A Gently Shaken Gift
+            [questKeys.questLevel] = -1,
+        },
+        [8788] = { -- A Gently Shaken Gift
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+        },
         [8860] = { -- New Year Celebrations!
             [questKeys.questLevel] = -1,
         },
@@ -1683,6 +1957,30 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.nextQuestInChain] = 0, -- no followup in TBC
         },
+        [8962] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8963] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8964] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8965] = { -- Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8966] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8967] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8968] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8969] = { -- The Left Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
         [8979] = { -- Fenstad's Hunch
             [questKeys.questLevel] = -1,
             [questKeys.preQuestSingle] = {11558},
@@ -1705,6 +2003,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [8984] = { -- The Source Revealed
             [questKeys.questLevel] = -1,
+        },
+        [8985] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8986] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8987] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8988] = { -- More Components of Importance
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8989] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8990] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8991] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
+        },
+        [8992] = { -- The Right Piece of Lord Valthalak's Amulet
+            [questKeys.requiredClasses] = classIDs.NONE,
         },
         [8993] = { -- Gift Giving
             [questKeys.questLevel] = -1,
@@ -1851,6 +2173,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
+        [9272] = { -- Dressing the Part
+            [questKeys.reputationReward] = {{factionIDs.BLOODSAIL_BUCCANEERS,10},{factionIDs.BOOTY_BAY,-250}},
+        },
         [9279] = { -- You Survived!
             [questKeys.breadcrumbForQuestId] = 9280,
         },
@@ -1922,9 +2247,6 @@ function QuestieTBCQuestFixes:Load()
         [9337] = {
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
-        [9339] = {
-            [questKeys.objectivesText] = {},
-        },
         [9340] = { -- The Great Fissure
             [questKeys.breadcrumbs] = {9498,9499},
         },
@@ -1940,9 +2262,6 @@ function QuestieTBCQuestFixes:Load()
         [9360] = {
             [questKeys.startedBy] = {nil,nil,{23249}},
         },
-        [9365] = {
-            [questKeys.objectivesText] = {},
-        },
         [9370] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Signaling Gem"), 0, {{"object", 181449}}}},
         },
@@ -1951,6 +2270,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9372] = { -- Demonic Contamination
             [questKeys.breadcrumbs] = {10442,10443},
+        },
+        [9374] = { -- Arelion's Journal
+            [questKeys.requiredSourceItems] = {31955},
         },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92}}}},
@@ -2036,8 +2358,17 @@ function QuestieTBCQuestFixes:Load()
         [9437] = { -- Twilight of the Dawn Runner
             [questKeys.objectives] = {{{17119,nil,Questie.ICON_TYPE_TALK}},nil,{{23657}}},
         },
+        [9438] = { -- Messenger to Thrall
+            [questKeys.nextQuestInChain] = 9441,
+        },
+        [9441] = { -- Envoy to the Mag'har
+            [questKeys.nextQuestInChain] = 9442,
+        },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26}}}},
+        },
+        [9447] = { -- Administering the Salve
+            [questKeys.objectives] = {{{16847,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [9454] = { -- The Great Moongraze Hunt
             [questKeys.preQuestSingle] = {},
@@ -2320,6 +2651,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
         },
+        [9609] = { -- Help Watcher Biggs
+            [questKeys.breadcrumbForQuestId] = 1396,
+        },
         [9616] = { -- Bandits!
             [questKeys.startedBy] = {nil,nil,{23910}},
         },
@@ -2411,23 +2745,33 @@ function QuestieTBCQuestFixes:Load()
         [9671] = {
             [questKeys.requiredLevel] = 15,
         },
-        [9678] = {
+        [9677] = { -- Summons from Knight-Lord Bloodvalor
+            [questKeys.breadcrumbForQuestId] = 9678,
+        },
+        [9678] = { -- The First Trial
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the brazier"), 0, {{"object", 181956}}}},
+            [questKeys.breadcrumbs] = {9677},
         },
         [9683] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Defile the Statue of Queen Azshara"), 0, {{"object", 181964}}}},
         },
-        [9685] = {
+        [9685] = { -- Redeeming the Dead
+            [questKeys.startedBy] = {{17717,178420}}, -- TO DO phase-based quest corrections (178420 won't be present in SWP patch)
             [questKeys.preQuestSingle] = {9684,63866},
+            [questKeys.objectives] = {{{17768,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [9686] = {
-            [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7}}}},
+        [9686] = { -- The Second Trial
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17809,17810,17811,17812},17809}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Start the event"), 0, {{"object", 182052}}}},
         },
         [9688] = { -- Into the Dream
             [questKeys.nextQuestInChain] = 9689,
         },
         [9689] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Bundle of Dragon Bones at the Ever-burning Pyre"), 0, {{"object", 181988}}}},
+        },
+        [9692] = { -- The Path of the Adept
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open it"), 3, {{"object", 182024}}}},
         },
         [9693] = { -- What Argus Means to Me
             [questKeys.disabledByQuest] = 9668,
@@ -2463,14 +2807,29 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17664,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Call for help from Trackers of the Hand"), 0, {{"monster", 17664}}}},
         },
-        [9716] = {
+        [9715] = { -- Bring Me A Shrubbery!
+            [questKeys.nextQuestInChain] = 9714,
+        },
+        [9716] = { -- Disturbance at Umbrafen Lake
             [questKeys.triggerEnd] = {"Umbrafen Lake Investigated", {[zoneIDs.ZANGARMARSH]={{70.89,80.51}}}},
         },
-        [9718] = {
-            [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{76.8,44.1}}}},
+        [9718] = { -- As the Crow Flies
+            [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{78.4,62.02}}}},
         },
-        [9720] = {
+        [9720] = { -- Balance Must Be Preserved
             [questKeys.objectives] = {{{17998,nil,Questie.ICON_TYPE_EVENT},{18002,nil,Questie.ICON_TYPE_EVENT},{18000,nil,Questie.ICON_TYPE_EVENT},{17999,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [9721] = { -- A Summons from Lord Solanar
+            [questKeys.exclusiveTo] = {64139},
+        },
+        [9722] = { -- The Master's Path
+            [questKeys.exclusiveTo] = {64140},
+        },
+        [9723] = { -- A Gesture of Commitment
+            [questKeys.exclusiveTo] = {64141},
+        },
+        [9725] = { -- A Demonstration of Loyalty
+            [questKeys.exclusiveTo] = {64142},
         },
         [9728] = { -- A Warm Welcome
             [questKeys.preQuestSingle] = {},
@@ -2481,12 +2840,22 @@ function QuestieTBCQuestFixes:Load()
         },
         [9731] = { -- Drain Schematics
             [questKeys.triggerEnd] = {"Drain Located", {[zoneIDs.ZANGARMARSH]={{50.44,40.91}}}},
-            [questKeys.preQuestSingle] = {9718},
+            [questKeys.preQuestSingle] = {9718}, -- confirmed dropping after this quest. check if drops after 9716
             [questKeys.nextQuestInChain] = 9724,
         },
-        [9737] = {
+        [9735] = { -- True Masters of the Light
+            [questKeys.exclusiveTo] = {64143},
+        },
+        [9736] = { -- True Masters of the Light
+            [questKeys.exclusiveTo] = {64144},
+        },
+        [9737] = { -- True Masters of the Light
+            [questKeys.startedBy] = {{17076,25223}}, -- p1/p2 offered by 17076
+            [questKeys.finishedBy] = {{17076,25223}}, -- p1/p2 finished by 17076
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17910,17911,17912,17913,17914},17910}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Extinguishing Mixture near the eternal flame"), 0, {{"object", 182068}}}},
+            [questKeys.exclusiveTo] = {64145}, -- not sure when this one gets introduced in classic
+            [questKeys.preQuestSingle] = {9736,64144},
         },
         [9738] = { -- Lost in Action
             [questKeys.preQuestSingle] = {},
@@ -2494,16 +2863,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.COILFANG_RESERVOIR,
             [questKeys.breadcrumbs] = {9876},
         },
-        [9739] = {
+        [9739] = { -- The Sporelings' Plight
             [questKeys.requiredMinRep] = {},
             [questKeys.requiredMaxRep] = {},
+            [questKeys.nextQuestInChain] = 9742,
         },
         [9740] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Destroy all 4 Sunhawk Portal Controller"), 0, {{"object", 184850}}}},
         },
-        [9743] = {
+        [9743] = { -- Natural Enemies
             [questKeys.requiredMinRep] = {},
             [questKeys.requiredMaxRep] = {},
+            [questKeys.nextQuestInChain] = 9744,
         },
         [9752] = {
             [questKeys.triggerEnd] = {"Escort Kayra Longmane to safety", {[zoneIDs.ZANGARMARSH]={{79.76,71.09}}}},
@@ -2554,8 +2925,12 @@ function QuestieTBCQuestFixes:Load()
         [9805] = {
             [questKeys.objectives] = {{{18110,nil,Questie.ICON_TYPE_EVENT},{18142,nil,Questie.ICON_TYPE_EVENT},{18143,nil,Questie.ICON_TYPE_EVENT},{18144,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [9808] = {
+        [9806] = { -- Fertile Spores
+            [questKeys.nextQuestInChain] = 9807,
+        },
+        [9808] = { -- Glowcap Mushrooms
             [questKeys.requiredMinRep] = {970,0},
+            [questKeys.nextQuestInChain] = 9809,
         },
         [9816] = {
             [questKeys.objectives] = {nil,{{182164,nil,Questie.ICON_TYPE_EVENT}}},
@@ -2602,7 +2977,7 @@ function QuestieTBCQuestFixes:Load()
         [9844] = {
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
-        [9847] = {
+        [9847] = { -- A Spirit Ally?
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Feralfen Totem on the ground"), 0, {{"object", 182176}}}},
         },
         [9849] = {
@@ -2795,6 +3170,9 @@ function QuestieTBCQuestFixes:Load()
         [9973] = {
             [questKeys.nextQuestInChain] = 9977,
         },
+        [9978] = { -- By Any Means Necessary
+            [questKeys.nextQuestInChain] = 9979,
+        },
         [9982] = { -- He Called Himself Altruis...
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.nextQuestInChain] = 9991,
@@ -2810,8 +3188,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05}}}},
             [questKeys.preQuestSingle] = {},
         },
-        [10000] = {
+        [10000] = { -- An Unwelcome Presence
             [questKeys.requiredLevel] = 62,
+            [questKeys.nextQuestInChain] = 10003,
         },
         [10004] = {
             [questKeys.objectives] = {{{18584}}},
@@ -2861,11 +3240,11 @@ function QuestieTBCQuestFixes:Load()
         [10039] = {
             [questKeys.requiredLevel] = 62,
         },
-        [10040] = {
+        [10040] = { -- Who Are They?
             [questKeys.objectives] = {{{18716,nil,Questie.ICON_TYPE_TALK},{18717,nil,Questie.ICON_TYPE_TALK},{18719,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18714}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18715}}}},
         },
-        [10041] = {
+        [10041] = { -- Who Are They?
             [questKeys.objectives] = {{{18716,nil,Questie.ICON_TYPE_TALK},{18717,nil,Questie.ICON_TYPE_TALK},{18719,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a disguise"), 0, {{"monster", 18714}}}},
         },
@@ -2957,8 +3336,11 @@ function QuestieTBCQuestFixes:Load()
         [10079] = { -- When This Mine's a-Rockin'
             [questKeys.preQuestSingle] = {10143,10483},
         },
-        [10085] = {
+        [10085] = { -- A Visit With The Ancestors
             [questKeys.objectives] = {{{18840,nil,Questie.ICON_TYPE_EVENT},{18841,nil,Questie.ICON_TYPE_EVENT},{18842,nil,Questie.ICON_TYPE_EVENT},{18843,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10087] = { -- Burn It Up... For the Horde!
+            [questKeys.objectives] = {{{18849,nil,Questie.ICON_TYPE_EVENT},{19008,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10091] = { -- The Soul Devices
             [questKeys.preQuestSingle] = {10178},
@@ -3039,8 +3421,9 @@ function QuestieTBCQuestFixes:Load()
         [10160] = { -- Know your Enemy
             [questKeys.breadcrumbForQuestId] = 10482,
         },
-        [10162] = {
+        [10162] = { -- Mission: The Abyssal Shelf
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
+            [questKeys.nextQuestInChain] = 10347,
         },
         [10163] = { -- Mission: The Abyssal Shelf
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
@@ -3139,8 +3522,9 @@ function QuestieTBCQuestFixes:Load()
         [10241] = { -- Distraction at Manaforge B'naar
             [questKeys.breadcrumbs] = {11038},
         },
-        [10242] = {
+        [10242] = { -- Spinebreaker Post
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Take a ride to Spinebreaker Post"), 0, {{"monster", 19401}}}},
+            [questKeys.nextQuestInChain] = 10538,
         },
         [10243] = {
             [questKeys.preQuestSingle] = {10241},
@@ -3158,7 +3542,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 10164,
         },
         [10255] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Cenarion Antidote on a Hulking Helboar"), 0, {{"monster", 16880}}}},
             [questKeys.objectives] = {{{16880,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [10256] = {
@@ -3221,10 +3604,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {10289},
             [questKeys.nextQuestInChain] = 0,
         },
-        [10296] = {
+        [10296] = { -- The Black Morass
             [questKeys.startedBy] = {{20130}},
         },
-        [10297] = {
+        [10297] = { -- The Opening of the Dark Portal
             [questKeys.objectives] = {{{15608,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [10299] = {
@@ -3314,6 +3697,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 10163,
             [questKeys.nextQuestInChain] = 10163,
         },
+        [10349] = { -- The Earthbinder
+            [questKeys.nextQuestInChain] = 10351,
+        },
         [10350] = { -- Behomat
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
         },
@@ -3385,8 +3771,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{16576,19273}},
             [questKeys.preQuestSingle] = {10129},
         },
-        [10389] = {
+        [10389] = { -- The Agony and the Darkness
             [questKeys.preQuestSingle] = {10392},
+        },
+        [10392] = { -- Doorway to the Abyss
+            [questKeys.nextQuestInChain] = 10136,
         },
         [10403] = { -- Naladu
             [questKeys.startedBy] = {{20677,20678,20679}},
@@ -3478,6 +3867,9 @@ function QuestieTBCQuestFixes:Load()
         [10447] = { -- The Final Code
             [questKeys.objectives] = {nil,{{184725,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.nextQuestInChain] = 10006,
+        },
+        [10449] = { -- Apothecary Zelana
+            [questKeys.nextQuestInChain] = 10242,
         },
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.17}}}},
@@ -3605,7 +3997,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 8922,
         },
         [10493] = { -- An Earnest Proposition
-            [questKeys.nextQuestInChain] = 8922,
+            [questKeys.nextQuestInChain] = 8923,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3885,12 +4277,12 @@ function QuestieTBCQuestFixes:Load()
         [10707] = { -- The Ata'mal Terrace
             [questKeys.objectivesText] = {"Go to the top of the Ata'mal Terrace in Shadowmoon Valley and obtain the Heart of Fury. Return to Akama at the Warden's Cage in Shadowmoon Valley when you've completed this task."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"), 0, {{"object", 185125}}}},
+            [questKeys.nextQuestInChain] = 11052,
         },
         [10708] = { -- Akama's Promise
             [questKeys.exclusiveTo] = {11052},
             [questKeys.requiredLevel] = 68,
             [questKeys.nextQuestInChain] = 10944,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [10710] = { -- Test Flight: The Singing Ridge
             [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.17,68.8}}}},
@@ -4017,6 +4409,9 @@ function QuestieTBCQuestFixes:Load()
         [10755] = {
             [questKeys.startedBy] = {{22037}},
         },
+        [10758] = { -- Hotter than Hell
+            [questKeys.objectives] = {nil,nil,{{31252,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [10764] = { -- Hotter than Hell
             [questKeys.objectives] = {nil,nil,{{31252,nil,Questie.ICON_TYPE_INTERACT}}},
         },
@@ -4044,10 +4439,10 @@ function QuestieTBCQuestFixes:Load()
         [10791] = {
             [questKeys.objectives] = {{{18384,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [10792] = {
+        [10792] = { -- Zeth'Gor Must Burn!
             [questKeys.requiredSourceItems] = {31347,31346},
             [questKeys.objectives] = {{{20813,nil, Questie.ICON_TYPE_EVENT},{20815,nil, Questie.ICON_TYPE_EVENT},{20816,nil, Questie.ICON_TYPE_EVENT},{20814,nil, Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Light the torches"), 0, {{"object", 185144}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the torches"), 0, {{"object", 185144}}}},
         },
         [10793] = {
             [questKeys.startedBy] = {nil,nil,{31345}},
@@ -4079,6 +4474,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10808] = {
             [questKeys.objectives] = {{{22137,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10809] = { -- Wanted: Worg Master Kruush
+            [questKeys.nextQuestInChain] = 10792,
         },
         [10813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19440,22177},22177,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -4395,6 +4793,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 10968,
         },
         [10960] = { -- When I Grow Up...
+            [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -4432,6 +4831,7 @@ function QuestieTBCQuestFixes:Load()
         [10968] = { -- Call on the Farseer
             [questKeys.startedBy] = {{17538}},
             [questKeys.finishedBy] = {{17204}},
+            [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {{{17204,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
@@ -4530,11 +4930,15 @@ function QuestieTBCQuestFixes:Load()
         [11004] = { -- World of Shadows
             [questKeys.nextQuestInChain] = 11006,
         },
+        [11005] = { -- Secrets of the Talonpriests
+            [questKeys.requiredLevel] = 70,
+        },
         [11007] = {
             [questKeys.startedBy] = {nil,nil,{32405}},
         },
         [11008] = { -- Fires Over Skettis
             [questKeys.objectives] = {nil,{{185549}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11009] = { -- Ogre Heaven
             [questKeys.breadcrumbs] = {11022},
@@ -4543,6 +4947,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 70,
             [questKeys.requiredClasses] = classIDs.ALL_CLASSES - classIDs.DRUID,
             [questKeys.objectives] = {nil,{{185861}}},
+        },
+        [11011] = { -- Eternal Vigilance
+            [questKeys.requiredLevel] = 70,
         },
         [11012] = { -- Blood Oath of the Netherwing
             [questKeys.preQuestSingle] = {10870,10871},
@@ -4584,7 +4991,7 @@ function QuestieTBCQuestFixes:Load()
         [11022] = { -- Speak with Mog'dorg
             [questKeys.breadcrumbForQuestId] = 11009,
         },
-        [11023] = {
+        [11023] = { -- Bomb Them Again!
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010,11102},
             [questKeys.objectives] = {nil,{{185861}}},
@@ -4597,9 +5004,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
             [questKeys.nextQuestInChain] = 11051,
+            [questKeys.requiredLevel] = 70,
+        },
+        [11027] = { -- Yous Have Da Darkrune?
+            [questKeys.requiredLevel] = 70,
         },
         [11028] = { -- Countdown to Doom
             [questKeys.nextQuestInChain] = 11056,
+        },
+        [11029] = { -- A Shabby Disguise
+            [questKeys.requiredLevel] = 70,
+        },
+        [11030] = { -- Our Boy Wants To Be A Skyguard Ranger
+            [questKeys.requiredLevel] = 70,
         },
         [11031] = {
             [questKeys.preQuestSingle] = {10725},
@@ -4692,18 +5109,22 @@ function QuestieTBCQuestFixes:Load()
         [11050] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [11051] = {
+        [11051] = { -- Banish More Demons
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204},{"monster", 22304},{"monster", 23174}}}},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{20557,22195,22291,19973,22204,22304,23174},20557}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11052] = { -- Akama's Promise
             [questKeys.name] = "Akama's Promise",
-            [questKeys.exclusiveTo] = {10708},
             [questKeys.startedBy] = {{21700}},
             [questKeys.finishedBy] = {{18481}},
             [questKeys.requiredLevel] = 68,
+            [questKeys.preQuestSingle] = {11707},
+            [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11056] = { -- Hazzik's Bargain
+            [questKeys.requiredLevel] = 70,
         },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
@@ -4712,11 +5133,19 @@ function QuestieTBCQuestFixes:Load()
         [11058] = {
             [questKeys.objectives] = {nil,{{185890}}},
         },
-        [11059] = {
+        [11059] = { -- Guardian of the Monument
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Apexis Monument. Apexis Guardian will spawn after six rounds"), 0, {{"object", 185944}}}},
+            [questKeys.requiredLevel] = 70,
         },
-        [11060] = {
+        [11060] = { -- A Crystalforged Darkrune
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.requiredLevel] = 70,
+        },
+        [11061] = { -- A Father's Duty
+            [questKeys.requiredLevel] = 70,
+        },
+        [11062] = { -- The Skyguard Outpost
+            [questKeys.requiredLevel] = 70,
         },
         [11063] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4725,12 +5154,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{23340,nil,Questie.ICON_TYPE_EVENT}}},
         },
-        [11065] = {
+        [11065] = { -- Wrangle Some Aether Rays!
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010, 11102},
             [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11066] = {
+        [11066] = { -- Wrangle More Aether Rays!
+            [questKeys.requiredLevel] = 70,
             [questKeys.objectives] = {{{22181,nil,Questie.ICON_TYPE_INTERACT}}},
         },
         [11067] = {
@@ -4755,6 +5185,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11072] = { -- Adversarial Blood
             [questKeys.name] = "Adversarial Blood",
+            [questKeys.requiredLevel] = 70,
         },
         [11073] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Time-Lost offering to summon Terokk"), 0, {{"object", 185928}}}},
@@ -4762,15 +5193,17 @@ function QuestieTBCQuestFixes:Load()
         [11077] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [11078] = {
+        [11078] = { -- To Rule The Skies
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Furywing's Egg"), 0, {{"object", 185937}}},
                                            {nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Insidion's Egg"), 0, {{"object", 185938}}},
                                            {nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Rivendark's Egg"), 0, {{"object", 185936}}},
                                            {nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to open Obsidia's Egg"), 0, {{"object", 185932}}},
             },
+            [questKeys.requiredLevel] = 70,
         },
-        [11079] = {
+        [11079] = { -- A Fel Whip For Gahk
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Fel Crystal Prism"), 0, {{"object", 185927}}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11080] = {
             [questKeys.objectives] = {nil,{{185890}}},
@@ -4785,9 +5218,10 @@ function QuestieTBCQuestFixes:Load()
         [11083] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
-        [11085] = {
+        [11085] = { -- Escape from Skettis
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Rescue the Skyguard Prisoner.", {[zoneIDs.TEROKKAR_FOREST]={{69.77,75.98},{62.41,73.85},{73.94,88.3}}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11086] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4800,10 +5234,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{22357,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11093] = {
+        [11093] = { -- Hungry Nether Rays
             [questKeys.objectives] = {{{23219}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Nether Ray Cage and slay Blackwind Warp Chasers near the Hungry Nether Ray"), 0, {{"monster", 23219}}}},
+            [questKeys.requiredLevel] = 70,
         },
         [11094] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4878,7 +5313,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Meeting with Illidan Stormrage", {[zoneIDs.SHADOWMOON_VALLEY]={{65.93,86.15}}}},
         },
-        [11119] = {
+        [11119] = { -- Assault on Bash'ir Landing!
             [questKeys.preQuestSingle] = {11102,11010},
             [questKeys.requiredLevel] = 70,
         },
@@ -4889,13 +5324,18 @@ function QuestieTBCQuestFixes:Load()
         [11126] = { -- Traitors Among Us
             [questKeys.objectives] = {{{23602,nil,Questie.ICON_TYPE_TALK}}},
         },
+        [11128] = { -- Propaganda War
+            [questKeys.nextQuestInChain] = 11133,
+        },
         [11129] = { -- Kyle's Gone Missing!
             [questKeys.objectives] = {{{23616,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11131] = {
+        [11131] = { -- Stop the Fires!
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{44.8,52.1},{47.5,51.6}},[zoneIDs.ELWYNN_FOREST]={{41.3,65.2},{43.6,65.8}},[zoneIDs.AZUREMYST_ISLE]={{49.8,52.3},{48.8,50}}}},
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.exclusiveTo] = {12133},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11133] = { -- Discrediting the Deserters
             [questKeys.objectives] = {{{4979,nil,Questie.ICON_TYPE_TALK}}},
@@ -4903,12 +5343,26 @@ function QuestieTBCQuestFixes:Load()
         [11134] = { -- The End of the Deserters
             [questKeys.nextQuestInChain] = 11136,
         },
+        [11135] = { -- The Headless Horseman
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE, -- most likely breadcrumb
+        },
+        [11136] = { -- A Disturbing Development
+            [questKeys.breadcrumbForQuestId] = 11137,
+            [questKeys.preQuestSingle] = {11134,11198}, -- double check 11198
+        },
+        [11137] = { -- Defias in Dustwallow?
+            [questKeys.breadcrumbs] = {11136},
+        },
         [11140] = { -- Recover the Cargo!
             [questKeys.requiredSourceItems] = {33040},
             [questKeys.nextQuestInChain] = 11141,
         },
         [11142] = {
             [questKeys.objectives] = {{{23704,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [11143] = { -- A Grim Connection
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1284,1287,1320},
         },
         [11145] = {
             [questKeys.requiredSourceItems] = {33061},
@@ -4918,8 +5372,15 @@ function QuestieTBCQuestFixes:Load()
         [11146] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [11147] = { -- Unleash the Raptors
+            [questKeys.objectives] = {{{23727,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [11149] = { -- Tabetha's Assistance
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {11144,11148},
+        },
         [11150] = { -- Raze Direhorn Post!
-            [questKeys.objectives] = {{{23751,nil,Questie.ICON_TYPE_INTERACT},{23752,nil,Questie.ICON_TYPE_INTERACT},{23753,nil,Questie.ICON_TYPE_INTERACT}}}
+            [questKeys.objectives] = {{{23751,nil,Questie.ICON_TYPE_EVENT},{23752,nil,Questie.ICON_TYPE_EVENT},{23753,nil,Questie.ICON_TYPE_EVENT}}}
         },
         [11152] = {
             [questKeys.objectives] = {nil,{{186322,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4938,7 +5399,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11132},
         },
         [11169] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344}}},
         },
         [11172] = { -- The Zeppelin Crash
             [questKeys.nextQuestInChain] = 11174,
@@ -4949,11 +5410,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {11172},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4392,4393,4394},4392,nil,Questie.ICON_TYPE_INTERACT}}},
         },
-        [11177] = {
+        [11177] = { -- The Hermit of Swamplight Manor
             [questKeys.nextQuestInChain] = 1218,
+            [questKeys.breadcrumbForQuestId] = 1218,
+            [questKeys.preQuestSingle] = {11134,11198}, -- double check 11198
         },
         [11180] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861}}},
         },
         [11183] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{55.2,26.6}}}, Questie.ICON_TYPE_EVENT, l10n("Plant the torch at the end of the dock")}},
@@ -4972,9 +5435,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {11200,11201},
         },
-        [11208] = {
-            [questKeys.exclusiveTo] = {11158},
-        },
         [11209] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{56.38,62.42}}}, Questie.ICON_TYPE_EVENT, l10n("Smear the Fish Paste on yourself and swim to the ship wreck")}},
         },
@@ -4988,29 +5448,39 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11158,11211,11215},
         },
         [11215] = {
-            [questKeys.exclusiveTo] = {11158,11214,11211},
+            [questKeys.exclusiveTo] = {11158,11211,11214},
         },
         [11216] = { -- Archmage Alturus
             [questKeys.nextQuestInChain] = 9825,
             [questKeys.breadcrumbForQuestId] = 9825,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
         },
-        [11219] = {
+        [11219] = { -- Stop the Fires!
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
             [questKeys.requiredSourceItems] = {32971},
             [questKeys.exclusiveTo] = {12155},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11220] = { -- The Headless Horseman
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- most likely breadcrumb
         },
         [11222] = { -- Warn Bolvar!
             [questKeys.nextQuestInChain] = 11223,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Jaina"), 0, {{"monster",4968}}}},
         },
         [11225] = { -- The Hermit of Witch Hill
             [questKeys.requiredLevel] = 32,
         },
-        [11242] = {
+        [11242] = { -- Free at Last!
             [questKeys.startedBy] = {{23904}},
             [questKeys.finishedBy] = {{24519}},
+            [questKeys.requiredLevel] = 65,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {11135},
+        },
+        [11318] = { -- Now This is Ram Racing... Almost.
+            [questKeys.requiredLevel] = 1,
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
@@ -5064,19 +5534,27 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65}},
             }},
         },
-        [11356] = {
+        [11356] = { -- Costumed Orphan Matron
             [questKeys.exclusiveTo] = {11360,11439,11440},
+            [questKeys.requiredLevel] = 1,
         },
-        [11357] = {
+        [11357] = { -- Masked Orphan Matron
             [questKeys.exclusiveTo] = {11361,11449,11450},
+            [questKeys.requiredLevel] = 1,
         },
-        [11360] = {
+        [11360] = { -- Fire Brigade Practice
             [questKeys.exclusiveTo] = {11439,11440},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [11361] = {
+        [11361] = { -- Fire Training
+            [questKeys.questLevel] = -1,
             [questKeys.exclusiveTo] = {11449,11450},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11379] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains"), 0, {{"monster", 19973}}}},
@@ -5086,23 +5564,39 @@ function QuestieTBCQuestFixes:Load()
         },
         [11383] = { -- Wanted: Rift Lords
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17839,21140},17839}}},
-            [questKeys.preQuestSingle] = {10296},
         },
-        [11403] = {
+        [11392] = { -- Call the Headless Horseman
+            [questKeys.startedBy] = {nil,{186267}}, -- alliance/horde? what about 11404/11405, probably phase specific?
+            [questKeys.finishedBy] = {nil,{186314}},
+            [questKeys.questLevel] = -1,
+        },
+        [11401] = { -- Call the Headless Horseman
+            [questKeys.startedBy] = {nil,{186267}}, -- alliance/horde? should this one be not repeatable? what about 11404/11405, probably phase specific?
+            [questKeys.finishedBy] = {nil,{186314}},
+            [questKeys.preQuestSingle] = {11135,11220},
+        },
+        [11403] = { -- Free at Last!
             [questKeys.startedBy] = {{23904}},
             [questKeys.finishedBy] = {{23973}},
+            [questKeys.requiredLevel] = 65,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {11220},
         },
-        [11439] = {
+        [11439] = { -- Fire Brigade Practice
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11360,11440},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [11440] = {
+        [11440] = { -- Fire Brigade Practice
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11360,11439},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11441] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
@@ -5124,15 +5618,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{24711}},
             [questKeys.finishedBy] = {{24711}},
         },
-        [11449] = {
+        [11449] = { -- Fire Training
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11361,11450},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [11450] = {
+        [11450] = { -- Fire Training
             [questKeys.startedBy] = {},
             [questKeys.exclusiveTo] = {11361,11449},
             [questKeys.requiredSourceItems] = {32971},
+            [questKeys.objectives] = {{{23537,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11481] = {
             [questKeys.requiredMinRep] = {932,0},
@@ -5255,21 +5755,33 @@ function QuestieTBCQuestFixes:Load()
         [11558] = { -- Dangerous Love
             [questKeys.requiredSourceItems] = {21815,21829,22163},
         },
-        [11580] = {
+        [11580] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187559}},
+            [questKeys.finishedBy] = {nil,{187559}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11581] = {
+        [11581] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187564}},
+            [questKeys.finishedBy] = {nil,{187564}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11583] = {
+        [11583] = { -- Honor the Flame
             [questKeys.startedBy] = {{25910}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11584] = {
+        [11584] = { -- Honor the Flame
             [questKeys.startedBy] = {{25939}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11657] = {
+        [11657] = { -- Torch Catching
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.preQuestSingle] = {11731},
@@ -5280,6 +5792,7 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.15,27.58}},
                 [zoneIDs.UNDERCITY]={{64.58,8.08}},
             }},
+            [questKeys.requiredLevel] = 1,
         },
         [11665] = { -- Crocolisks in the City
             [questKeys.extraObjectives] = {
@@ -5299,7 +5812,16 @@ function QuestieTBCQuestFixes:Load()
         [11669] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{39.4,43}},[zoneIDs.SHADOWMOON_VALLEY]={{24,32.5},{31.9,29.9},{40.1,60.1}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish here for Monstrous Felblood Snapper")}},
         },
-        [11731] = {
+        [11691] = { -- Summon Ahune
+            [questKeys.requiredLevel] = 65,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {11696},
+        },
+        [11696] = { -- Ahune is Here!
+            [questKeys.requiredLevel] = 65,
+            [questKeys.breadcrumbForQuestId] = 11691,
+        },
+        [11731] = { -- Torch Tossing
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
@@ -5309,546 +5831,787 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.73}},
                 [zoneIDs.UNDERCITY]={{68.58,7.88}},
             }},
+            [questKeys.requiredLevel] = 1,
         },
-        [11732] = {
+        [11732] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187914}},
+            [questKeys.finishedBy] = {nil,{187914}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11734] = {
+        [11734] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187916}},
+            [questKeys.finishedBy] = {nil,{187916}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11735] = {
+        [11735] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187917}},
+            [questKeys.finishedBy] = {nil,{187917}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11736] = {
+        [11736] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187919}},
+            [questKeys.finishedBy] = {nil,{187919}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11737] = {
+        [11737] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187920}},
+            [questKeys.finishedBy] = {nil,{187920}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11738] = {
+        [11738] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187921}},
+            [questKeys.finishedBy] = {nil,{187921}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11739] = {
+        [11739] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187922}},
+            [questKeys.finishedBy] = {nil,{187922}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11740] = {
+        [11740] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187923}},
+            [questKeys.finishedBy] = {nil,{187923}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11741] = {
+        [11741] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187924}},
+            [questKeys.finishedBy] = {nil,{187924}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11742] = {
+        [11742] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187925}},
+            [questKeys.finishedBy] = {nil,{187925}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11743] = {
+        [11743] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187926}},
+            [questKeys.finishedBy] = {nil,{187926}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11744] = {
+        [11744] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187927}},
+            [questKeys.finishedBy] = {nil,{187927}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11745] = {
+        [11745] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187928}},
+            [questKeys.finishedBy] = {nil,{187928}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11746] = {
+        [11746] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187929}},
+            [questKeys.finishedBy] = {nil,{187929}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11747] = {
+        [11747] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187930}},
+            [questKeys.finishedBy] = {nil,{187930}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11748] = {
+        [11748] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187931}},
+            [questKeys.finishedBy] = {nil,{187931}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11749] = {
+        [11749] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187932}},
+            [questKeys.finishedBy] = {nil,{187932}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11750] = {
+        [11750] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187933}},
+            [questKeys.finishedBy] = {nil,{187933}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11751] = {
+        [11751] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187934}},
+            [questKeys.finishedBy] = {nil,{187934}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11752] = {
+        [11752] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187935}},
+            [questKeys.finishedBy] = {nil,{187935}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11753] = {
+        [11753] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187936}},
+            [questKeys.finishedBy] = {nil,{187936}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11754] = {
+        [11754] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187937}},
+            [questKeys.finishedBy] = {nil,{187937}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11755] = {
+        [11755] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187938}},
+            [questKeys.finishedBy] = {nil,{187938}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11756] = {
+        [11756] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187939}},
+            [questKeys.finishedBy] = {nil,{187939}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11757] = {
+        [11757] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187940}},
+            [questKeys.finishedBy] = {nil,{187940}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11758] = {
+        [11758] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187941}},
+            [questKeys.finishedBy] = {nil,{187941}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11759] = {
+        [11759] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187942}},
+            [questKeys.finishedBy] = {nil,{187942}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11760] = {
+        [11760] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187943}},
+            [questKeys.finishedBy] = {nil,{187943}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11761] = {
+        [11761] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187944}},
+            [questKeys.finishedBy] = {nil,{187944}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11762] = {
+        [11762] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187945}},
+            [questKeys.finishedBy] = {nil,{187945}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11763] = {
+        [11763] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187946}},
+            [questKeys.finishedBy] = {nil,{187946}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11764] = {
+        [11764] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187947}},
+            [questKeys.finishedBy] = {nil,{187947}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11765] = {
+        [11765] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187948}},
+            [questKeys.finishedBy] = {nil,{187948}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11766] = {
+        [11766] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187954}},
+            [questKeys.finishedBy] = {nil,{187954}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11767] = {
+        [11767] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187955}},
+            [questKeys.finishedBy] = {nil,{187955}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11768] = {
+        [11768] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187956}},
+            [questKeys.finishedBy] = {nil,{187956}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11769] = {
+        [11769] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187957}},
+            [questKeys.finishedBy] = {nil,{187957}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11770] = {
+        [11770] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187958}},
+            [questKeys.finishedBy] = {nil,{187958}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11771] = {
+        [11771] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187959}},
+            [questKeys.finishedBy] = {nil,{187959}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11772] = {
+        [11772] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187960}},
+            [questKeys.finishedBy] = {nil,{187960}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11773] = {
+        [11773] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187961}},
+            [questKeys.finishedBy] = {nil,{187961}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11774] = {
+        [11774] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187962}},
+            [questKeys.finishedBy] = {nil,{187962}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11775] = {
+        [11775] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187963}},
+            [questKeys.finishedBy] = {nil,{187963}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11776] = {
+        [11776] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187964}},
+            [questKeys.finishedBy] = {nil,{187964}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11777] = {
+        [11777] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187965}},
+            [questKeys.finishedBy] = {nil,{187965}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11778] = {
+        [11778] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187966}},
+            [questKeys.finishedBy] = {nil,{187966}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11779] = {
+        [11779] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187967}},
+            [questKeys.finishedBy] = {nil,{187967}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11780] = {
+        [11780] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187968}},
+            [questKeys.finishedBy] = {nil,{187968}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11781] = {
+        [11781] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187969}},
+            [questKeys.finishedBy] = {nil,{187969}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11782] = {
+        [11782] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187970}},
+            [questKeys.finishedBy] = {nil,{187970}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11783] = {
+        [11783] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187971}},
+            [questKeys.finishedBy] = {nil,{187971}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11784] = {
+        [11784] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187972}},
+            [questKeys.finishedBy] = {nil,{187972}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11785] = {
+        [11785] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187973}},
+            [questKeys.finishedBy] = {nil,{187973}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11786] = {
+        [11786] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187974}},
+            [questKeys.finishedBy] = {nil,{187974}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11787] = {
+        [11787] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187975}},
+            [questKeys.finishedBy] = {nil,{187975}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11799] = {
+        [11799] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187949}},
+            [questKeys.finishedBy] = {nil,{187949}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11800] = {
+        [11800] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187950}},
+            [questKeys.finishedBy] = {nil,{187950}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11801] = {
+        [11801] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187951}},
+            [questKeys.finishedBy] = {nil,{187951}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11802] = {
+        [11802] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187952}},
+            [questKeys.finishedBy] = {nil,{187952}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11803] = {
+        [11803] = { -- Desecrate this Fire!
             [questKeys.startedBy] = {nil,{187953}},
+            [questKeys.finishedBy] = {nil,{187953}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11804] = {
+        [11804] = { -- Honor the Flame
             [questKeys.startedBy] = {{25887}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11805] = {
+        [11805] = { -- Honor the Flame
             [questKeys.startedBy] = {{25883}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11806] = {
+        [11806] = { -- Honor the Flame
             [questKeys.startedBy] = {{25888}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11807] = {
+        [11807] = { -- Honor the Flame
             [questKeys.startedBy] = {{25889}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11808] = {
+        [11808] = { -- Honor the Flame
             [questKeys.startedBy] = {{25890}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11809] = {
+        [11809] = { -- Honor the Flame
             [questKeys.startedBy] = {{25891}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11810] = {
+        [11810] = { -- Honor the Flame
             [questKeys.startedBy] = {{25892}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11811] = {
+        [11811] = { -- Honor the Flame
             [questKeys.startedBy] = {{25893}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11812] = {
+        [11812] = { -- Honor the Flame
             [questKeys.startedBy] = {{25894}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11813] = {
+        [11813] = { -- Honor the Flame
             [questKeys.startedBy] = {{25895}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11814] = {
+        [11814] = { -- Honor the Flame
             [questKeys.startedBy] = {{25896}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11815] = {
+        [11815] = { -- Honor the Flame
             [questKeys.startedBy] = {{25897}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11816] = {
+        [11816] = { -- Honor the Flame
             [questKeys.startedBy] = {{25898}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11817] = {
+        [11817] = { -- Honor the Flame
             [questKeys.startedBy] = {{25899}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11818] = {
+        [11818] = { -- Honor the Flame
             [questKeys.startedBy] = {{25900}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11819] = {
+        [11819] = { -- Honor the Flame
             [questKeys.startedBy] = {{25901}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11820] = {
+        [11820] = { -- Honor the Flame
             [questKeys.startedBy] = {{25902}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11821] = {
+        [11821] = { -- Honor the Flame
             [questKeys.startedBy] = {{25903}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11822] = {
+        [11822] = { -- Honor the Flame
             [questKeys.startedBy] = {{25904}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11823] = {
+        [11823] = { -- Honor the Flame
             [questKeys.startedBy] = {{25905}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11824] = {
+        [11824] = { -- Honor the Flame
             [questKeys.startedBy] = {{25906}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11825] = {
+        [11825] = { -- Honor the Flame
             [questKeys.startedBy] = {{25907}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11826] = {
+        [11826] = { -- Honor the Flame
             [questKeys.startedBy] = {{25908}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11827] = {
+        [11827] = { -- Honor the Flame
             [questKeys.startedBy] = {{25909}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11828] = {
+        [11828] = { -- Honor the Flame
             [questKeys.startedBy] = {{25911}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11829] = {
+        [11829] = { -- Honor the Flame
             [questKeys.startedBy] = {{25912}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11830] = {
+        [11830] = { -- Honor the Flame
             [questKeys.startedBy] = {{25913}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11831] = {
+        [11831] = { -- Honor the Flame
             [questKeys.startedBy] = {{25914}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11832] = {
+        [11832] = { -- Honor the Flame
             [questKeys.startedBy] = {{25915}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11833] = {
+        [11833] = { -- Honor the Flame
             [questKeys.startedBy] = {{25916}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11834] = {
+        [11834] = { -- Honor the Flame
             [questKeys.startedBy] = {{25917}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11835] = {
+        [11835] = { -- Honor the Flame
             [questKeys.startedBy] = {{25918}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11836] = {
+        [11836] = { -- Honor the Flame
             [questKeys.startedBy] = {{25919}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11837] = {
+        [11837] = { -- Honor the Flame
             [questKeys.startedBy] = {{25920}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11838] = {
+        [11838] = { -- Honor the Flame
             [questKeys.startedBy] = {{25921}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11839] = {
+        [11839] = { -- Honor the Flame
             [questKeys.startedBy] = {{25922}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11840] = {
+        [11840] = { -- Honor the Flame
             [questKeys.startedBy] = {{25923}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11841] = {
+        [11841] = { -- Honor the Flame
             [questKeys.startedBy] = {{25884}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11842] = {
+        [11842] = { -- Honor the Flame
             [questKeys.startedBy] = {{25925}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11843] = {
+        [11843] = { -- Honor the Flame
             [questKeys.startedBy] = {{25926}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11844] = {
+        [11844] = { -- Honor the Flame
             [questKeys.startedBy] = {{25927}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11845] = {
+        [11845] = { -- Honor the Flame
             [questKeys.startedBy] = {{25928}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11846] = {
+        [11846] = { -- Honor the Flame
             [questKeys.startedBy] = {{25929}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11847] = {
+        [11847] = { -- Honor the Flame
             [questKeys.startedBy] = {{25930}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11848] = {
+        [11848] = { -- Honor the Flame
             [questKeys.startedBy] = {{25931}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11849] = {
+        [11849] = { -- Honor the Flame
             [questKeys.startedBy] = {{25932}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11850] = {
+        [11850] = { -- Honor the Flame
             [questKeys.startedBy] = {{25933}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11851] = {
+        [11851] = { -- Honor the Flame
             [questKeys.startedBy] = {{25934}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11852] = {
+        [11852] = { -- Honor the Flame
             [questKeys.startedBy] = {{25936}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11853] = {
+        [11853] = { -- Honor the Flame
             [questKeys.startedBy] = {{25935}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11854] = {
+        [11854] = { -- Honor the Flame
             [questKeys.startedBy] = {{25937}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11855] = {
+        [11855] = { -- Honor the Flame
             [questKeys.startedBy] = {{25938}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11856] = {
+        [11856] = { -- Honor the Flame
             [questKeys.startedBy] = {{25940}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11857] = {
+        [11857] = { -- Honor the Flame
             [questKeys.startedBy] = {{25941}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11858] = {
+        [11858] = { -- Honor the Flame
             [questKeys.startedBy] = {{25942}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11859] = {
+        [11859] = { -- Honor the Flame
             [questKeys.startedBy] = {{25943}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11860] = {
+        [11860] = { -- Honor the Flame
             [questKeys.startedBy] = {{25944}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11861] = {
+        [11861] = { -- Honor the Flame
             [questKeys.startedBy] = {{25945}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11862] = {
+        [11862] = { -- Honor the Flame
             [questKeys.startedBy] = {{25946}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
-        [11863] = {
+        [11863] = { -- Honor the Flame
             [questKeys.startedBy] = {{25947}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
+            [questKeys.requiredLevel] = 1,
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
@@ -5870,38 +6633,34 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon and defeat each of the descendants by using 10 Time-Lost Scrolls"), 0, {{"object", 185913}}}},
             [questKeys.nextQuestInChain] = 11073,
         },
-        [11886] = {
+        [11886] = { -- Unusual Activity
+            [questKeys.finishedBy] = {{25324}},
+            [questKeys.requiredLevel] = 16,
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {nil,nil,{{35277}}},
-            [questKeys.finishedBy] = {{25324}},
+            [questKeys.requiredSourceItems] = {35828},
         },
-        [11891] = {
-            [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41}}}},
+        [11891] = { -- An Innocent Disguise
             [questKeys.startedBy] = {{25324}},
             [questKeys.finishedBy] = {{25324}},
+            [questKeys.requiredLevel] = 16,
+            [questKeys.sourceItemId] = 35237,
             [questKeys.preQuestSingle] = {11886},
+            [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41}}}},
         },
         [11915] = {
             [questKeys.startedBy] = {{25994}},
         },
-        [11917] = {
+        [11917] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 16,
             [questKeys.requiredMaxLevel] = 28,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188049},{"object",188137},{"object",188138}}}},
         },
-        [11922] = {
-            [questKeys.startedBy] = {{26113}},
-            [questKeys.finishedBy] = {{26113}},
-            [questKeys.triggerEnd] = {"Hit 8 braziers.", {
-                [zoneIDs.TELDRASSIL]={{56.59,92.06}},
-                [zoneIDs.ORGRIMMAR]={{46.65,38.17}},
-                [zoneIDs.STORMWIND_CITY]={{39.21,61.71}},
-                [zoneIDs.IRONFORGE]={{65,23.73}},
-                [zoneIDs.UNDERCITY]={{68.58,7.88}},
-            }},
-        },
-        [11921] = {
+        [11921] = { -- More Torch Tossing
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.preQuestSingle] = {11657},
@@ -5913,8 +6672,22 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.68}},
                 [zoneIDs.UNDERCITY]={{68.62,8.01}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredLevel] = 1,
         },
-        [11923] = {
+        [11922] = { -- Torch Tossing
+            [questKeys.startedBy] = {{26113}},
+            [questKeys.finishedBy] = {{26113}},
+            [questKeys.triggerEnd] = {"Hit 8 braziers.", {
+                [zoneIDs.TELDRASSIL]={{56.59,92.06}},
+                [zoneIDs.ORGRIMMAR]={{46.65,38.17}},
+                [zoneIDs.STORMWIND_CITY]={{39.21,61.71}},
+                [zoneIDs.IRONFORGE]={{65,23.73}},
+                [zoneIDs.UNDERCITY]={{68.58,7.88}},
+            }},
+            [questKeys.requiredLevel] = 1,
+        },
+        [11923] = { -- Torch Catching
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
             [questKeys.preQuestSingle] = {11922},
@@ -5925,8 +6698,10 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.15,27.58}},
                 [zoneIDs.UNDERCITY]={{64.58,8.08}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredLevel] = 1,
         },
-        [11924] = {
+        [11924] = { -- More Torch Catching
             [questKeys.startedBy] = {{25975}},
             [questKeys.finishedBy] = {{25975}},
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -5938,8 +6713,10 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.04,27.83}},
                 [zoneIDs.THUNDER_BLUFF]={{22.17,26.94}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredLevel] = 1,
         },
-        [11925] = {
+        [11925] = { -- More Torch Catching
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -5951,8 +6728,10 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{62.04,27.83}},
                 [zoneIDs.THUNDER_BLUFF]={{22.17,26.94}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredLevel] = 1,
         },
-        [11926] = {
+        [11926] = { -- More Torch Tossing
             [questKeys.startedBy] = {{26113}},
             [questKeys.finishedBy] = {{26113}},
             [questKeys.specialFlags] = specialFlags.NONE,
@@ -5964,64 +6743,78 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.68}},
                 [zoneIDs.UNDERCITY]={{68.62,8.01}},
             }},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredLevel] = 1,
         },
-        [11933] = {
+        [11933] = { -- Stealing the Exodar's Flame
             [questKeys.startedBy] = {nil,nil,{35569}},
         },
-        [11935] = {
+        [11935] = { -- Stealing Silvermoon's Flame
             [questKeys.startedBy] = {nil,nil,{35568}},
         },
-        [11947] = {
+        [11947] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 29,
             [questKeys.requiredMaxLevel] = 38,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188130},{"object",188134},{"object",188135}}}},
         },
-        [11948] = {
+        [11948] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 39,
             [questKeys.requiredMaxLevel] = 48,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188139},{"object",188143},{"object",188144}}}},
         },
-        [11952] = {
+        [11952] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 49,
             [questKeys.requiredMaxLevel] = 55,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188145},{"object",188146},{"object",188147}}}},
         },
-        [11953] = {
+        [11953] = { -- Striking Back
+            [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.requiredLevel] = 56,
             [questKeys.requiredMaxLevel] = 63,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's lieutenants"),0,{{"object",188148},{"object",188149},{"object",188150}}}},
         },
-        [11954] = {
+        [11954] = { -- Striking Back
             [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{26221}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.requiredLevel] = 64,
             [questKeys.specialFlags] = specialFlags.NONE,
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Summon one of Ahune's templars"),0,{{"object",188151},{"object",188152},{"object",188153},{"object",188154}}}},
         },
-        [11955] = {
+        [11955] = { -- Ahune, the Frost Lord
             [questKeys.startedBy] = {{26221}},
             [questKeys.finishedBy] = {{25710}},
             [questKeys.preQuestSingle] = {12012},
             [questKeys.requiredLevel] = 65,
         },
-        [11964] = {
-            [questKeys.startedBy] = {{16817}},
+        [11970] = { -- The Master of Summer Lore
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}}, -- it's one random quest starter per layer (probably)
         },
-        [11970] = {
-            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+        [11971] = { -- The Spinner of Summer Tales
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}}, -- it's one random quest starter per layer (probably)
         },
-        [11971] = {
-            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
-        },
-        [11972] = {
-            [questKeys.startedBy] = {nil,{187892},{35723}},
+        [11972] = { -- Shards of Ahune
+            [questKeys.startedBy] = {nil,nil,{35723}},
             [questKeys.finishedBy] = {{25697}},
+            [questKeys.requiredLevel] = 65,
         },
         [11975] = { -- Now, When I Grow Up...
+            [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Take Salandria to visit the Elite Tauren Chieftain in Silvermoon City.", {[zoneIDs.SILVERMOON_CITY]={{76.6,81.2}}}},
             [questKeys.preQuestGroup] = {10945,10951,10953},
@@ -6029,9 +6822,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredSourceItems] = {31880},
         },
-        [12012] = {
+        [12012] = { -- Inform the Elder
             [questKeys.startedBy] = {{25324}},
             [questKeys.finishedBy] = {{26221}},
+            [questKeys.requiredLevel] = 16,
             [questKeys.questLevel] = -1,
             [questKeys.objectives] = {nil,nil,{{35828}}},
             [questKeys.preQuestSingle] = {11891},
@@ -7039,7 +7833,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
             [questKeys.objectives] = {nil,nil,{{24156}}},
-            [questKeys.sourceItemId] = 24157,
+            [questKeys.sourceItemId] = 185956,
             [questKeys.preQuestSingle] = {9681,64319},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 9685,
@@ -7057,6 +7851,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64140,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9721},
         },
         [64140] = {
             [questKeys.name] = "The Master's Path",
@@ -7071,6 +7866,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64141,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9722},
         },
         [64141] = {
             [questKeys.name] = "A Gesture of Commitment",
@@ -7087,6 +7883,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64142,
             [questKeys.questFlags] = 128,
+            [questKeys.exclusiveTo] = {9723},
         },
         [64142] = {
             [questKeys.name] = "A Demonstration of Loyalty",
@@ -7102,6 +7899,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64143,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9725},
         },
         [64143] = {
             [questKeys.name] = "True Masters of the Light",
@@ -7117,6 +7915,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64144,
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9735},
         },
         [64144] = {
             [questKeys.name] = "True Masters of the Light",
@@ -7126,12 +7925,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring him 1 Arcane Catalyst, 1 Crepuscular Powder, 1 Azerothian Diamond, and 1 Pristine Black Diamond."},
+            [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring her 1 Arcane Catalyst, 1 Crepuscular Powder, 1 Azerothian Diamond, and 1 Pristine Black Diamond."},
             [questKeys.objectives] = {nil,nil,{{24286},{24285},{12800},{18335}}},
             [questKeys.preQuestSingle] = {64143},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
-            [questKeys.nextQuestInChain] = 64145,
+            [questKeys.nextQuestInChain] = 9737, -- 64145 not offered in p1/p2
             [questKeys.questFlags] = 136,
+            [questKeys.exclusiveTo] = {9736},
         },
         [64145] = {
             [questKeys.name] = "True Masters of the Light",
@@ -7148,11 +7948,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64144},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.questFlags] = 128,
+            [questKeys.exclusiveTo] = {9737},
         },
         -------------
         [64319] = {
             [questKeys.name] = "A Study in Power",
-            [questKeys.startedBy] = {{17717}},
+            [questKeys.startedBy] = {{17717,178420}},
             [questKeys.finishedBy] = {{178420}},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,
@@ -7441,135 +8242,17 @@ function QuestieTBCQuestFixes:Load()
     }
 end
 
-function _QuestieTBCQuestFixes:InsertMissingQuestIds()
-    QuestieDB.questData[12192] = {} -- This One Time, When I Was Drunk... (Horde)
-    QuestieDB.questData[12420] = {} -- Brew of the Month Club (Alliance)
-    QuestieDB.questData[12421] = {} -- Brew of the Month Club (Horde)
-    QuestieDB.questData[63866] = {} -- Claiming the Light
-    QuestieDB.questData[64139] = {} -- A Summons from Lady Liadrin
-    QuestieDB.questData[64140] = {} -- The Master's Path
-    QuestieDB.questData[64141] = {} -- A Gesture of Commitment
-    QuestieDB.questData[64142] = {} -- A Demonstration of Loyalty
-    QuestieDB.questData[64143] = {} -- True Masters of the Light
-    QuestieDB.questData[64144] = {} -- True Masters of the Light
-    QuestieDB.questData[64145] = {} -- True Masters of the Light
-    QuestieDB.questData[64319] = {} -- A Study in Power
-    QuestieDB.questData[64845] = {} -- Alliance War Effort
-
-    -- Alliance boosted quests
-    QuestieDB.questData[64028] = {} -- A New Beginning
-    QuestieDB.questData[64031] = {} -- Tools for Survival
-    QuestieDB.questData[64034] = {} -- Combat Training
-    QuestieDB.questData[64035] = {} -- Talented
-    QuestieDB.questData[64037] = {} -- Eastern Plaguelands
-    QuestieDB.questData[64038] = {} -- The Dark Portal
-    -- Horde boosted quests
-    QuestieDB.questData[64046] = {} -- A New Beginning
-    QuestieDB.questData[64047] = {} -- A New Beginning
-    QuestieDB.questData[64048] = {} -- Tools for Survival
-    QuestieDB.questData[64049] = {} -- Tools for Survival
-    QuestieDB.questData[64050] = {} -- Combat Training
-    QuestieDB.questData[64051] = {} -- Combat Training
-    QuestieDB.questData[64052] = {} -- Talented
-    QuestieDB.questData[64053] = {} -- Talented
-    QuestieDB.questData[64063] = {} -- The Dark Portal
-    QuestieDB.questData[64064] = {} -- Eastern Plaguelands
-    QuestieDB.questData[64128] = {} -- Eastern Plaguelands
-    QuestieDB.questData[64217] = {} -- The Dark Portal
-
-    -- Halloween Candy quests
-    QuestieDB.questData[12133] = {} -- Smash the Pumpkin
-    QuestieDB.questData[12135] = {} -- Let the Fires Come!
-    QuestieDB.questData[12139] = {} -- Let the Fires Come!
-    QuestieDB.questData[12155] = {} -- Smash the Pumpkin
-
-    QuestieDB.questData[12286] = {} -- Candy Bucket
-    QuestieDB.questData[12331] = {} -- Candy Bucket
-    QuestieDB.questData[12332] = {} -- Candy Bucket
-    QuestieDB.questData[12333] = {} -- Candy Bucket
-    QuestieDB.questData[12334] = {} -- Candy Bucket
-    QuestieDB.questData[12335] = {} -- Candy Bucket
-    QuestieDB.questData[12336] = {} -- Candy Bucket
-    QuestieDB.questData[12337] = {} -- Candy Bucket
-    QuestieDB.questData[12338] = {} -- Candy Bucket
-    QuestieDB.questData[12339] = {} -- Candy Bucket
-    QuestieDB.questData[12340] = {} -- Candy Bucket
-    QuestieDB.questData[12341] = {} -- Candy Bucket
-    QuestieDB.questData[12342] = {} -- Candy Bucket
-    QuestieDB.questData[12343] = {} -- Candy Bucket
-    QuestieDB.questData[12344] = {} -- Candy Bucket
-    QuestieDB.questData[12345] = {} -- Candy Bucket
-    QuestieDB.questData[12346] = {} -- Candy Bucket
-    QuestieDB.questData[12347] = {} -- Candy Bucket
-    QuestieDB.questData[12348] = {} -- Candy Bucket
-    QuestieDB.questData[12349] = {} -- Candy Bucket
-    QuestieDB.questData[12350] = {} -- Candy Bucket
-    QuestieDB.questData[12351] = {} -- Candy Bucket
-    QuestieDB.questData[12352] = {} -- Candy Bucket
-    QuestieDB.questData[12353] = {} -- Candy Bucket
-    QuestieDB.questData[12354] = {} -- Candy Bucket
-    QuestieDB.questData[12355] = {} -- Candy Bucket
-    QuestieDB.questData[12356] = {} -- Candy Bucket
-    QuestieDB.questData[12357] = {} -- Candy Bucket
-    QuestieDB.questData[12358] = {} -- Candy Bucket
-    QuestieDB.questData[12359] = {} -- Candy Bucket
-    QuestieDB.questData[12360] = {} -- Candy Bucket
-    QuestieDB.questData[12361] = {} -- Candy Bucket
-    QuestieDB.questData[12362] = {} -- Candy Bucket
-    QuestieDB.questData[12363] = {} -- Candy Bucket
-    QuestieDB.questData[12364] = {} -- Candy Bucket
-    QuestieDB.questData[12365] = {} -- Candy Bucket
-    QuestieDB.questData[12366] = {} -- Candy Bucket
-    QuestieDB.questData[12367] = {} -- Candy Bucket
-    QuestieDB.questData[12368] = {} -- Candy Bucket
-    QuestieDB.questData[12369] = {} -- Candy Bucket
-    QuestieDB.questData[12370] = {} -- Candy Bucket
-    QuestieDB.questData[12371] = {} -- Candy Bucket
-    QuestieDB.questData[12373] = {} -- Candy Bucket
-    QuestieDB.questData[12374] = {} -- Candy Bucket
-    QuestieDB.questData[12375] = {} -- Candy Bucket
-    QuestieDB.questData[12376] = {} -- Candy Bucket
-    QuestieDB.questData[12377] = {} -- Candy Bucket
-    QuestieDB.questData[12378] = {} -- Candy Bucket
-    QuestieDB.questData[12379] = {} -- Candy Bucket
-    QuestieDB.questData[12380] = {} -- Candy Bucket
-    QuestieDB.questData[12381] = {} -- Candy Bucket
-    QuestieDB.questData[12382] = {} -- Candy Bucket
-    QuestieDB.questData[12383] = {} -- Candy Bucket
-    QuestieDB.questData[12384] = {} -- Candy Bucket
-    QuestieDB.questData[12385] = {} -- Candy Bucket
-    QuestieDB.questData[12386] = {} -- Candy Bucket
-    QuestieDB.questData[12387] = {} -- Candy Bucket
-    QuestieDB.questData[12388] = {} -- Candy Bucket
-    QuestieDB.questData[12389] = {} -- Candy Bucket
-    QuestieDB.questData[12390] = {} -- Candy Bucket
-    QuestieDB.questData[12391] = {} -- Candy Bucket
-    QuestieDB.questData[12392] = {} -- Candy Bucket
-    QuestieDB.questData[12393] = {} -- Candy Bucket
-    QuestieDB.questData[12394] = {} -- Candy Bucket
-    QuestieDB.questData[12395] = {} -- Candy Bucket
-    QuestieDB.questData[12396] = {} -- Candy Bucket
-    QuestieDB.questData[12397] = {} -- Candy Bucket
-    QuestieDB.questData[12398] = {} -- Candy Bucket
-    QuestieDB.questData[12399] = {} -- Candy Bucket
-    QuestieDB.questData[12400] = {} -- Candy Bucket
-    QuestieDB.questData[12401] = {} -- Candy Bucket
-    QuestieDB.questData[12402] = {} -- Candy Bucket
-    QuestieDB.questData[12403] = {} -- Candy Bucket
-    QuestieDB.questData[12404] = {} -- Candy Bucket
-    QuestieDB.questData[12406] = {} -- Candy Bucket
-    QuestieDB.questData[12407] = {} -- Candy Bucket
-    QuestieDB.questData[12408] = {} -- Candy Bucket
-    QuestieDB.questData[12409] = {} -- Candy Bucket
-end
-
 function QuestieTBCQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local playerClass = UnitClassBase("player")
     local playerRace = select(2, UnitRace("player"))
+    local factionIDs = QuestieDB.factionIDs
 
     local questFixesHorde = {
+        [1393] = { -- Galen's Escape
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
         [1718] = { -- The Islander
             [questKeys.startedBy] = {{3041,3354,4595}},
         },
@@ -7605,6 +8288,156 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{3326,4563,16647}},
+        },
+        [8619] = { -- Morndeep the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8635] = { -- Splitrock the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8636] = { -- Rumblerock the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8642] = { -- Silvervein the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8643] = { -- Highpeak the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8644] = { -- Stonefort the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8645] = { -- Obsidian the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8646] = { -- Hammershout the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8647] = { -- Bellowrage the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8648] = { -- Darkcore the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8649] = { -- Stormbrow the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8650] = { -- Snowcrown the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8651] = { -- Ironband the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8652] = { -- Graveborn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8653] = { -- Goldwell the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8654] = { -- Primestone the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8670] = { -- Runetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8671] = { -- Ragetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8672] = { -- Stonespire the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8673] = { -- Bloodhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8674] = { -- Winterhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8675] = { -- Skychaser the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8676] = { -- Wildmane the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8677] = { -- Darkhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8678] = { -- Proudhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8679] = { -- Grimtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8680] = { -- Windtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8681] = { -- Thunderhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8682] = { -- Skyseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8683] = { -- Dawnstrider the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8684] = { -- Dreamseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8685] = { -- Mistwalker the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8686] = { -- High Mountain the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8688] = { -- Windrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8713] = { -- Starsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8714] = { -- Moonstrike the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8715] = { -- Bladeleaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8716] = { -- Starglade the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8717] = { -- Moonwarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8718] = { -- Bladeswift the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8719] = { -- Bladesing the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8720] = { -- Skygleam the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8721] = { -- Starweave the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8722] = { -- Meadowrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8723] = { -- Nightwind the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8724] = { -- Morningdew the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8725] = { -- Riversong the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8726] = { -- Brightspear the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8727] = { -- Farwhisper the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
+        },
+        [8866] = { -- Bronzebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.HORDE,75}},
         },
         [8978] = { -- Return to Mokvar
             [questKeys.nextQuestInChain] = ({
@@ -7651,15 +8484,15 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9995,
         },
-        [10707] = { -- The Ata'mal Terrace
-            [questKeys.nextQuestInChain] = 10708,
-        },
         [10858] = { -- Karynaku
             [questKeys.nextQuestInChain] = 10866,
         },
     }
 
     local questFixesAlliance = {
+        [1393] = { -- Galen's Escape
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
         [1718] = { -- The Islander
             [questKeys.startedBy] = {{5113,5479,16771}},
         },
@@ -7674,6 +8507,12 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [4738] = { -- In Search of Menara Voidrender
             [questKeys.startedBy] = {{461}},
+        },
+        [5054] = { -- Ursius of the Shardtooth
+            [questKeys.reputationReward] = {},
+        },
+        [5057] = { -- Past Endeavors
+            [questKeys.reputationReward] = {},
         },
         [8151] = { -- The Hunter's Charm
             [questKeys.startedBy] = {{4205,5116,5516,17505}},
@@ -7692,6 +8531,156 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [8419] = { -- An Imp's Request
             [questKeys.startedBy] = {{461,5172}},
+        },
+        [8619] = { -- Morndeep the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8635] = { -- Splitrock the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8636] = { -- Rumblerock the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8642] = { -- Silvervein the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8643] = { -- Highpeak the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8644] = { -- Stonefort the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8645] = { -- Obsidian the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8646] = { -- Hammershout the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8647] = { -- Bellowrage the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8648] = { -- Darkcore the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8649] = { -- Stormbrow the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8650] = { -- Snowcrown the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8651] = { -- Ironband the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8652] = { -- Graveborn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8653] = { -- Goldwell the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8654] = { -- Primestone the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8670] = { -- Runetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8671] = { -- Ragetotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8672] = { -- Stonespire the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8673] = { -- Bloodhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8674] = { -- Winterhoof the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8675] = { -- Skychaser the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8676] = { -- Wildmane the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8677] = { -- Darkhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8678] = { -- Proudhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8679] = { -- Grimtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8680] = { -- Windtotem the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8681] = { -- Thunderhorn the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8682] = { -- Skyseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8683] = { -- Dawnstrider the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8684] = { -- Dreamseer the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8685] = { -- Mistwalker the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8686] = { -- High Mountain the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8688] = { -- Windrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8713] = { -- Starsong the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8714] = { -- Moonstrike the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8715] = { -- Bladeleaf the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8716] = { -- Starglade the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8717] = { -- Moonwarden the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8718] = { -- Bladeswift the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8719] = { -- Bladesing the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8720] = { -- Skygleam the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8721] = { -- Starweave the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8722] = { -- Meadowrun the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8723] = { -- Nightwind the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8724] = { -- Morningdew the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8725] = { -- Riversong the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8726] = { -- Brightspear the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8727] = { -- Farwhisper the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
+        },
+        [8866] = { -- Bronzebeard the Elder
+            [questKeys.reputationReward] = {{factionIDs.ALLIANCE,75}},
         },
         [8977] = { -- Return to Deliana
             [questKeys.nextQuestInChain] = ({
@@ -7737,9 +8726,6 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
         },
         [9990] = { -- Investigate Tuurem
             [questKeys.nextQuestInChain] = 9994,
-        },
-        [10707] = { -- The Ata'mal Terrace
-            [questKeys.nextQuestInChain] = 11052,
         },
         [10858] = { -- Karynaku
             [questKeys.nextQuestInChain] = playerRace == "Human" and 10872 or 10866,

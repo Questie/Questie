@@ -48,7 +48,7 @@ function BackdropTemplateMixin:ClearBackdrop() end
 ---[FrameXML](https://www.townlong-yak.com/framexml/go/BackdropTemplateMixin:ApplyBackdrop)
 function BackdropTemplateMixin:ApplyBackdrop() end
 
----@param backdropInfo backdropInfo
+---@param backdropInfo? backdropInfo
 ---[FrameXML](https://www.townlong-yak.com/framexml/go/BackdropTemplateMixin:SetBackdrop)
 function BackdropTemplateMixin:SetBackdrop(backdropInfo) end
 

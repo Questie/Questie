@@ -20,6 +20,10 @@ function C_VideoOptions.GetGameWindowSizes(monitor, fullscreen) end
 ---@return GxAdapterInfoDetails[] adapters
 function C_VideoOptions.GetGxAdapterInfo() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VideoOptions.IsSpellVisualDensitySystemSupported)
+---@return boolean isSupported
+function C_VideoOptions.IsSpellVisualDensitySystemSupported() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VideoOptions.SetGameWindowSize)
 ---@param x number
 ---@param y number

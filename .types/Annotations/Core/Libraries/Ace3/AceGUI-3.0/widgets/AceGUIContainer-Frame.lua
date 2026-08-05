@@ -20,8 +20,8 @@ function AceGUIFrame:SetTitle(text) end
 function AceGUIFrame:SetStatusText(text) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-2-1)
----@param table table
-function AceGUIFrame:SetStatusTable(table) end
+---@param statusTable table
+function AceGUIFrame:SetStatusTable(statusTable) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-2-1)
 function AceGUIFrame:ApplyStatus() end

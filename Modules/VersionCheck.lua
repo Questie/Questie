@@ -107,3 +107,7 @@ Questie.IsHardcore = C_GameRules and C_GameRules.IsHardcoreActive()
 --- Addon is running on a Chinese realm
 ---@type boolean
 Questie.IsChinaRegion = GetCurrentRegion() == 5
+
+--- Addon is running on EU realm
+---@type boolean
+Questie.IsEURegion = GetCurrentRegion() == 3

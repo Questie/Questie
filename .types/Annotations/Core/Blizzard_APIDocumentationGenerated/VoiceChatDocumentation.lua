@@ -55,18 +55,18 @@ function C_VoiceChat.GetAvailableOutputDevices() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VoiceChat.GetChannel)
 ---@param channelID number
----@return VoiceChatChannel? channel
+---@return VoiceChatChannel channel
 function C_VoiceChat.GetChannel(channelID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VoiceChat.GetChannelForChannelType)
 ---@param channelType Enum.ChatChannelType
----@return VoiceChatChannel? channel
+---@return VoiceChatChannel channel
 function C_VoiceChat.GetChannelForChannelType(channelType) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VoiceChat.GetChannelForCommunityStream)
 ---@param clubId ClubId
 ---@param streamId ClubStreamId
----@return VoiceChatChannel? channel
+---@return VoiceChatChannel channel
 function C_VoiceChat.GetChannelForCommunityStream(clubId, streamId) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VoiceChat.GetCommunicationMode)
@@ -334,13 +334,15 @@ function C_VoiceChat.ShouldDiscoverChannels() end
 ---@param text string
 function C_VoiceChat.SpeakRemoteTextSample(text) end
 
+---SpeakText also supports XML TTS tags on Windows including bookmarks - see SAPI XML TTS Tutorial in Microsoft's online documentation for more information.
+---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VoiceChat.SpeakText)
 ---@param voiceID number
 ---@param text string
----@param destination Enum.VoiceTtsDestination
 ---@param rate number
 ---@param volume number
-function C_VoiceChat.SpeakText(voiceID, text, destination, rate, volume) end
+---@param overlap? boolean Default = false
+function C_VoiceChat.SpeakText(voiceID, text, rate, volume, overlap) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_VoiceChat.StopSpeakingText)
 function C_VoiceChat.StopSpeakingText() end

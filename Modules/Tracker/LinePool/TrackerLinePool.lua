@@ -517,5 +517,3 @@ function TrackerLinePool.UpdateScenarioLines(criteriaIndex)
         line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
     end
 end
-
-return TrackerLinePool

@@ -9,6 +9,8 @@ local _EventHandler = {}
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type AchievementEventHandler
 local AchievementEventHandler = QuestieLoader:ImportModule("AchievementEventHandler")
 ---@type GroupEventHandler
@@ -33,8 +35,6 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type AutoQuesting
 local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
@@ -165,6 +165,10 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, eventType) QuestEventHandler.PlayerInteractionManagerFrameHide(eventType) end)
+
+    Questie:RegisterEvent("LOADING_SCREEN_ENABLED", function()
+        QuestLogCache.OnLoadingScreenEnabled()
+    end)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
@@ -347,6 +351,12 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("GROUP_JOINED", GroupEventHandler.GroupJoined)
     Questie:RegisterEvent("GROUP_LEFT", GroupEventHandler.GroupLeft)
 
+    -- On a /reload (or login) while already in a group, GROUP_JOINED does not fire, so request party quest logs now;
+    -- otherwise we never receive party members' objectives until the group changes.
+    if IsInGroup() then
+        GroupEventHandler.GroupJoined()
+    end
+
     -- Nameplate / Target Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
@@ -429,25 +439,32 @@ function _EventHandler:ChatMsgSystem(message)
     if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
         MinimapIcon:UpdateText(message)
     elseif string.find(message, FACTION_STANDING_CHANGED_PATTERN) then -- When you discover a new faction or increase standing eg. Neutral -> Friendly
-        QuestieReputation:Update()
+        local factionChanged, newFaction = QuestieReputation:Update(false)
+        if factionChanged or newFaction then
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+
+            AvailableQuests.CalculateAndDrawAll()
+        end
     end
 end
+
+local _QuestProgressMessages = {
+    ["ERR_QUEST_OBJECTIVE_COMPLETE_S"] = true,
+    ["ERR_QUEST_UNKNOWN_COMPLETE"] = true,
+    ["ERR_QUEST_ADD_KILL_SII"] = true,
+    ["ERR_QUEST_ADD_FOUND_SII"] = true,
+    ["ERR_QUEST_ADD_ITEM_SII"] = true,
+    ["ERR_QUEST_ADD_PLAYER_KILL_SII"] = true,
+    ["ERR_QUEST_FAILED_S"] = true,
+}
 
 --- Fires when a UI Info Message (yellow text) appears near the top of the screen
 ---@param errorType number The error type value from the UI_INFO_MESSAGE event
 ---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
-    local messages = {
-        ["ERR_QUEST_OBJECTIVE_COMPLETE_S"] = true,
-        ["ERR_QUEST_UNKNOWN_COMPLETE"] = true,
-        ["ERR_QUEST_ADD_KILL_SII"] = true,
-        ["ERR_QUEST_ADD_FOUND_SII"] = true,
-        ["ERR_QUEST_ADD_ITEM_SII"] = true,
-        ["ERR_QUEST_ADD_PLAYER_KILL_SII "] = true,
-        ["ERR_QUEST_FAILED_S"] = true,
-    }
-
-    if messages[GetGameMessageInfo(errorType)] then
+    if _QuestProgressMessages[GetGameMessageInfo(errorType)] then
         MinimapIcon:UpdateText(message)
     end
 end

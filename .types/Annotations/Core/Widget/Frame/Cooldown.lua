@@ -49,6 +49,10 @@ function Cooldown:GetCooldownDuration() end
 ---@return number duration
 function Cooldown:GetCooldownTimes() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_GetCountdownFontString)
+---@return SimpleFontString countdownString
+function Cooldown:GetCountdownFontString() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_GetDrawBling)
 ---@return boolean drawBling
 function Cooldown:GetDrawBling() end
@@ -68,6 +72,10 @@ function Cooldown:GetEdgeScale() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_GetHideCountdownNumbers)
 ---@return boolean hideNumbers
 function Cooldown:GetHideCountdownNumbers() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_GetMinimumCountdownDuration)
+---@return number milliseconds
+function Cooldown:GetMinimumCountdownDuration() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_GetReverse)
 ---@return boolean reverse
@@ -109,6 +117,17 @@ function Cooldown:SetCooldown(start, duration, modRate) end
 ---@param duration number
 ---@param modRate? number Default = 1
 function Cooldown:SetCooldownDuration(duration, modRate) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_SetCooldownFromDurationObject)
+---@param duration LuaDurationObject
+---@param clearIfZero? boolean Default = true
+function Cooldown:SetCooldownFromDurationObject(duration, clearIfZero) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_SetCooldownFromExpirationTime)
+---@param expirationTime DurationSeconds
+---@param duration DurationSeconds
+---@param modRate? number Default = 1
+function Cooldown:SetCooldownFromExpirationTime(expirationTime, duration, modRate) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_SetCooldownUNIX)
 ---@param start number
@@ -158,6 +177,16 @@ function Cooldown:SetEdgeTexture(texture, colorR, colorG, colorB, colorA) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_SetHideCountdownNumbers)
 ---@param hideNumbers? boolean Default = false
 function Cooldown:SetHideCountdownNumbers(hideNumbers) end
+
+---Controls the minimum duration above which countdown text will be shown. This is applied based upon the total duration of the cooldown, not the remaining duration as it ticks down.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_SetMinimumCountdownDuration)
+---@param milliseconds number
+function Cooldown:SetMinimumCountdownDuration(milliseconds) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_SetPaused)
+---@param paused boolean
+function Cooldown:SetPaused(paused) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_Cooldown_SetReverse)
 ---@param reverse? boolean Default = false

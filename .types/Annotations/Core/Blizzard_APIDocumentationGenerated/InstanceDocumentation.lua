@@ -25,6 +25,7 @@ function CanShowResetInstances() end
 ---@return boolean isLFR
 ---@return number? minPlayers
 ---@return number? maxPlayers
+---@return boolean isUserSelectable
 function GetDifficultyInfo(difficultyID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetDungeonDifficultyID)
@@ -109,6 +110,7 @@ function SetRaidDifficultyID(difficultyID, force) end
 ---@field isLFR boolean
 ---@field minPlayers number?
 ---@field maxPlayers number?
+---@field isUserSelectable boolean
 
 ---@class DungeonEncounterInfo
 ---@field encounterName string

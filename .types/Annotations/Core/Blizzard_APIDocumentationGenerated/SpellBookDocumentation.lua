@@ -13,6 +13,16 @@ function C_SpellBook.CastSpellBookItem(spellBookItemSlotIndex, spellBookItemSpel
 ---@return boolean contains
 function C_SpellBook.ContainsAnyDisenchantSpell() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.FindBaseSpellByID)
+---@param spellID number
+---@return number? baseSpellID
+function C_SpellBook.FindBaseSpellByID(spellID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.FindFlyoutSlotBySpellID)
+---@param spellID number
+---@return number flyoutSlot
+function C_SpellBook.FindFlyoutSlotBySpellID(spellID) end
+
 ---If found, returns the first slot position of a SpellBookItem matching the specified spell and criteria
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.FindSpellBookSlotForSpell)
@@ -24,6 +34,11 @@ function C_SpellBook.ContainsAnyDisenchantSpell() end
 ---@return number spellBookItemSlotIndex
 ---@return Enum.SpellBookSpellBank spellBookItemSpellBank
 function C_SpellBook.FindSpellBookSlotForSpell(spellIdentifier, includeHidden, includeFlyouts, includeFutureSpells, includeOffSpec) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.FindSpellOverrideByID)
+---@param spellID number
+---@return number? overrideSpellID
+function C_SpellBook.FindSpellOverrideByID(spellID) end
 
 ---Returns general, class, and active spec spells that are learned at the specified level
 ---
@@ -58,6 +73,14 @@ function C_SpellBook.GetSpellBookItemAutoCast(spellBookItemSlotIndex, spellBookI
 ---@return number castCount
 function C_SpellBook.GetSpellBookItemCastCount(spellBookItemSlotIndex, spellBookItemSpellBank) end
 
+---Returns a duration object describing the active recharge time for a spellbook item.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemChargeDuration)
+---@param spellBookItemSlotIndex number
+---@param spellBookItemSpellBank Enum.SpellBookSpellBank
+---@return LuaDurationObject duration
+function C_SpellBook.GetSpellBookItemChargeDuration(spellBookItemSlotIndex, spellBookItemSpellBank) end
+
 ---Returns a table of info about the charges of a charge-accumulating SpellBookItem; May return nil if item is not found or is not charge-based
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemCharges)
@@ -73,6 +96,15 @@ function C_SpellBook.GetSpellBookItemCharges(spellBookItemSlotIndex, spellBookIt
 ---@param spellBookItemSpellBank Enum.SpellBookSpellBank
 ---@return SpellCooldownInfo spellCooldownInfo
 function C_SpellBook.GetSpellBookItemCooldown(spellBookItemSlotIndex, spellBookItemSpellBank) end
+
+---Returns a duration object describing the active cooldown duration for a spellbook item.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemCooldownDuration)
+---@param spellBookItemSlotIndex number
+---@param spellBookItemSpellBank Enum.SpellBookSpellBank
+---@param ignoreGCD? boolean Default = false
+---@return LuaDurationObject duration
+function C_SpellBook.GetSpellBookItemCooldownDuration(spellBookItemSlotIndex, spellBookItemSpellBank, ignoreGCD) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemDescription)
 ---@param spellBookItemSlotIndex number
@@ -101,14 +133,21 @@ function C_SpellBook.GetSpellBookItemLevelLearned(spellBookItemSlotIndex, spellB
 ---@return string spellLink
 function C_SpellBook.GetSpellBookItemLink(spellBookItemSlotIndex, spellBookItemSpellBank, glyphID) end
 
----Returns nil if item doesn't exist or if this kind of item doesn't display cooldowns (ex: future or offspec spells)
+---Returns a duration object describing the active loss of control cooldown duration for a spellbook item.
 ---
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemLossOfControlCooldown)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemLossOfControlCooldownDuration)
 ---@param spellBookItemSlotIndex number
 ---@param spellBookItemSpellBank Enum.SpellBookSpellBank
----@return number startTime
----@return number duration
-function C_SpellBook.GetSpellBookItemLossOfControlCooldown(spellBookItemSlotIndex, spellBookItemSpellBank) end
+---@return LuaDurationObject duration
+function C_SpellBook.GetSpellBookItemLossOfControlCooldownDuration(spellBookItemSlotIndex, spellBookItemSpellBank) end
+
+---Returns nil if item doesn't exist or if this kind of item doesn't display cooldowns (ex: future or offspec spells)
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemLossOfControlCooldownInfo)
+---@param spellBookItemSlotIndex number
+---@param spellBookItemSpellBank Enum.SpellBookSpellBank
+---@return SpellLossOfControlInfo lossOfControlInfo
+function C_SpellBook.GetSpellBookItemLossOfControlCooldownInfo(spellBookItemSlotIndex, spellBookItemSpellBank) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SpellBook.GetSpellBookItemName)
 ---@param spellBookItemSlotIndex number

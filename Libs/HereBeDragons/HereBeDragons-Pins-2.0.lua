@@ -1,10 +1,8 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
-local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 15
+local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 16
 assert(LibStub, MAJOR .. " requires LibStub")
 
----@class HereBeDragonsQuestie-Pins-2.0
----@field MinimapGroup Frame
 local pins, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not pins then return end
 
@@ -84,7 +82,6 @@ local minimap_size = {
     },
 }
 
----@class MinimapShapes
 local minimap_shapes = {
     -- { upper-left, lower-left, upper-right, lower-right }
     ["SQUARE"]                = { false, false, false, false },
@@ -128,7 +125,6 @@ local rotateMinimap = GetCVar("rotateMinimap") == "1"
 local indoors = GetCVar("minimapZoom")+0 == pins.Minimap:GetZoom() and "outdoor" or "indoor"
 
 local minimapPinCount, queueFullUpdate = 0, false
----@type unknown, MinimapShapes?
 local minimapScale, minimapShape, mapRadius, minimapWidth, minimapHeight, mapSin, mapCos
 local lastZoom, lastFacing, lastXY, lastYY
 
@@ -147,7 +143,6 @@ local function drawMinimapPin(pin, data)
     local diffY = yDist / mapRadius
 
     -- different minimap shapes
-    ---@type boolean|number
     local isRound = true
     if minimapShape and not (xDist == 0 or yDist == 0) then
         isRound = (xDist < 0) and 1 or 3
@@ -445,14 +440,14 @@ function worldmapProvider:HandlePin(icon, data)
             x, y = HBD:GetAzerothWorldMapCoordinatesFromWorld(data.x, data.y, data.instanceID)
         end
     else
-        -- check that it matches the instance
-        if not HBD.mapData[uiMapID] or HBD.mapData[uiMapID].instance ~= data.instanceID then return end
+        -- check that there is data
+        if not HBD.mapData[uiMapID] then return end
 
         if uiMapID ~= data.uiMapID then
             local mapType = HBD.mapData[uiMapID].mapType
             if not data.uiMapID then
                 if mapType == Enum.UIMapType.Continent and data.worldMapShowFlag >= HBD_PINS_WORLDMAP_SHOW_CONTINENT then
-                    --pass
+                    -- pass
                 elseif mapType ~= Enum.UIMapType.Zone and mapType ~= Enum.UIMapType.Dungeon and mapType ~= Enum.UIMapType.Micro then
                     -- fail
                     return
@@ -487,7 +482,7 @@ function worldmapProvider:HandlePin(icon, data)
         end
 
         -- translate coordinates
-        x, y = HBD:GetZoneCoordinatesFromWorld(data.x, data.y, uiMapID)
+        x, y = HBD:GetZoneCoordinatesFromWorldInstance(data.x, data.y, data.instanceID, uiMapID)
     end
     if x and y then
         self:GetMap():AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, x, y, data.frameLevelType)
@@ -539,6 +534,11 @@ end
 local last_update = 0
 local function OnUpdateHandler(frame, elapsed)
     last_update = last_update + elapsed
+
+    -- skip updates while the minimap is hidden
+    if pins.Minimap and not pins.Minimap:IsVisible() then return end
+
+    -- check for a full update every second, so pins coming in range get properly rendered
     if last_update > 1 or queueFullUpdate then
         UpdateMinimapPins(queueFullUpdate)
         last_update = 0
@@ -574,8 +574,6 @@ pins.updateFrame:RegisterEvent("MINIMAP_UPDATE_ZOOM")
 pins.updateFrame:RegisterEvent("PLAYER_LOGIN")
 pins.updateFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
---- Fuck adding too much emmy support to libs.
----@diagnostic disable-next-line: undefined-field
 HBD.RegisterCallback(pins, "PlayerZoneChanged", UpdateMinimap)
 
 
