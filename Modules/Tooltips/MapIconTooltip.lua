@@ -675,10 +675,7 @@ function _MapIconTooltip.GetLevelString(creatureLevels, name)
     return levelString
 end
 
----@param questId QuestId
----@param questLevel number
----@param indent string
----@return string, string
+---@type fun(questId: QuestId, questLevel: number, indent: string): (string, string)
 function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel, indent)
     local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false);
 
