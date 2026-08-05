@@ -706,6 +706,9 @@ function QuestieQuest:UpdateQuest(questId)
 
             quest.WasComplete = true
 
+            -- Populate objectives to register tooltips
+            QuestieQuest:UpdateObjectiveNotes(quest)
+
             -- Only remove the map icons, but keep the tooltips
             ThreadLib.ThreadCallbackInstant(function()
                 QuestieMap:UnloadQuestFrames(questId)
