@@ -203,7 +203,7 @@ local migrationFunctions = {
         end
     end,
     [34] = function()
-        Questie.db.profile.enableTooltipsBreadcrumbQuests = true
+        Questie.db.profile.enableTooltipsBreadcrumbQuests = false
     end,
 }
 

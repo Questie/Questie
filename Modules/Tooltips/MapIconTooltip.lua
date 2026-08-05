@@ -240,7 +240,7 @@ function MapIconTooltip:Show()
                 if questData.title ~= nil then
                     local quest = QuestieDB.GetQuest(questData.questId)
 
-                    if Questie.db.profile.enableTooltipsNextInChain and Questie.db.profile.enableTooltipsBreadcrumbQuests and shift then
+                    if Questie.db.profile.enableTooltipsBreadcrumbQuests and shift then
                         local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
                         if breadcrumbs then
                             local breadcrumbCount = 0
