@@ -691,6 +691,5 @@ function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel, indent)
         nextQuestMoneyRewardString = Questie:Colorize(l10n("(") .. GetCoinTextureString(moneyReward) .. l10n(")") .. " ", "white")
     end
 
-    local prefix = indent or "      "
-    return prefix .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString
+    return indent .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString
 end
