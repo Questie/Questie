@@ -64,6 +64,62 @@ describe("Comms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
+        it("should reject messages from disallowed distributions", function()
+            Questie.Deserialize = spy.new(function() end)
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "WHISPER", "SomeSender")
+
+            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should reject messages from SAY distribution", function()
+            Questie.Deserialize = spy.new(function() end)
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "SAY", "SomeSender")
+
+            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should process messages from RAID distribution", function()
+            local npcId = 1234
+            local questIds = {5678, 91011}
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = questIds
+                }
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "RAID", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, questIds)
+        end)
+
+        it("should process messages from PARTY distribution", function()
+            local npcId = 1234
+            local questIds = {5678, 91011}
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = npcId,
+                    questIds = questIds
+                }
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "PARTY", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, questIds)
+        end)
+
         it("should reject malformed HideDailyQuests events", function()
             Questie.Deserialize = function() return false, nil end
 
