@@ -29,6 +29,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestLifecycle
+local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
@@ -321,7 +323,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     if Expansions.Current >= Expansions.Tbc and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
         QuestieQuest:SmoothReset()
     else
-        QuestieQuest:AcceptQuest(questId)
+        QuestLifecycle:AcceptQuest(questId)
 
         if Questie.db.profile.autoAccept.enabled and (not AutoQuesting.IsModifierHeld()) and ImmersionFrame and ImmersionFrame:IsShown() then
             ImmersionFrame:Hide()
