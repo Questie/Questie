@@ -632,6 +632,36 @@ describe("AvailableQuests", function()
         end)
     end)
 
+    describe("RecreateFailedQuest", function()
+        it("should reset lastNpcGuid so the same NPC can be validated again", function()
+            local npcGuid = "Creature-0-0-0-0-" .. NPC_ID .. "-0"
+            _G.UnitGUID = function() return npcGuid end
+            QuestieDB.IsDailyQuest = function() return true end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            _G.QuestieCompat = {
+                GetAvailableQuests = spy.new(function() return {} end),
+                GetActiveQuests = spy.new(function() return {} end),
+            }
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            Comms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+
+            -- First validation caches lastNpcGuid
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called(1)
+
+            -- RecreateFailedQuest should reset lastNpcGuid
+            ---@diagnostic disable-next-line: missing-fields
+            AvailableQuests.RecreateFailedQuest({Id = QUEST_ID, Starts = {}})
+
+            -- Second validation with the same NPC GUID should now run again
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.called(2)
+        end)
+    end)
+
     describe("RemoveQuestsForToday", function()
         it("should remove quests", function()
             local firstQuest = QUEST_ID

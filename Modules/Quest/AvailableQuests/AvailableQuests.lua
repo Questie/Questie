@@ -161,6 +161,16 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
     end
 end
 
+---@type string|nil
+local lastNpcGuid
+
+---This re-enables available quest validation when re-talking to the same NPC. A common case is, when a user talks to an NPC to accept
+---a daily quest while still having the one from yesterday in the quest log. Abandoning yesterdays quest will then re-calculate the
+---unavailable quests when directly talking to the same NPC again.
+function AvailableQuests.ResetLastNpcGuid()
+    lastNpcGuid = nil
+end
+
 ---@param questId QuestId
 ---@param onComplete function? Optional callback invoked after the starter/finisher frames are unloaded.
 function AvailableQuests.RemoveQuest(questId, onComplete)
@@ -179,6 +189,7 @@ end
 function AvailableQuests.RecreateFailedQuest(quest)
     local questId = quest.Id
     availableQuests[questId] = nil
+    lastNpcGuid = nil
 
     ThreadLib.ThreadCallbackInstant(function()
         QuestieMap:UnloadQuestFrames(questId)
@@ -199,16 +210,6 @@ function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
         end
         unavailableQuestsDeterminedByTalking[questId] = true
     end
-end
-
----@type string|nil
-local lastNpcGuid
-
----This re-enables available quest validation when re-talking to the same NPC. A common case is, when a user talks to an NPC to accept
----a daily quest while still having the one from yesterday in the quest log. Abandoning yesterdays quest will then re-calculate the
----unavailable quests when directly talking to the same NPC again.
-function AvailableQuests.ResetLastNpcGuid()
-    lastNpcGuid = nil
 end
 
 --- Called on GOSSIP_SHOW to hide all quests that are not available from the NPC.
