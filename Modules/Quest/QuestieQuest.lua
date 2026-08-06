@@ -46,8 +46,6 @@ local Phasing = QuestieLoader:ImportModule("Phasing")
 local QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
@@ -512,61 +510,6 @@ local hordeTournamentMarkerQuests = {
     [13710] = true,
     [13711] = true
 }
-
-local allianceChampionMarkerQuests = {[13699] = true, [13713] = true, [13723] = true, [13724] = true, [13725] = true}
-local hordeChampionMarkerQuests = {[13726] = true, [13727] = true, [13728] = true, [13729] = true, [13731] = true}
-
----@param questId number
-function QuestieQuest:CompleteQuest(questId)
-    -- Skip quests which are turn in only and are not added to the quest log in the first place
-    if QuestiePlayer.currentQuestlog[questId] then
-        -- Reset quest flags of
-        QuestiePlayer.currentQuestlog[questId].WasComplete = nil
-        QuestiePlayer.currentQuestlog[questId].isComplete = nil
-        QuestiePlayer.currentQuestlog[questId] = nil;
-    end
-
-    -- Only quests that are daily quests or aren't repeatable should be marked complete,
-    -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId) or
-        QuestieDB.IsMonthlyQuest(questId);
-
-    if Expansions.Current >= Expansions.Wotlk then
-        if allianceChampionMarkerQuests[questId] then
-            Questie.db.char.complete[13700] = true -- Alliance Champion Marker
-            Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
-        elseif hordeChampionMarkerQuests[questId] then
-            Questie.db.char.complete[13701] = true -- Horde Champion Marker
-            Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
-        end
-    end
-    if Expansions.Current >= Expansions.MoP then
-        if questId == 31450 then -- A New Fate (Pandaren faction quest)
-            QuestiePlayer:Initialize() -- Reinitialize to update player race flags
-        end
-    end
-
-    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
-    if childQuests then
-        for _, childQuestId in pairs(childQuests) do
-            if not QuestiePlayer.currentQuestlog[childQuestId] then
-                -- Make sure all other childQuests are unloaded: all exclusives, chains etc
-                AvailableQuests.RemoveQuest(childQuestId)
-            end
-        end
-    end
-
-    QuestieTracker:RemoveQuest(questId)
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
-
-    AvailableQuests.RemoveQuest(questId, function()
-        AvailableQuests.CalculateAndDrawAll()
-    end)
-
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Completed Quest:", questId)
-end
 
 ---@param questId number
 function QuestieQuest:AbandonedQuest(questId)

@@ -373,7 +373,7 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
 
     QuestLogCache.RemoveQuest(questId)
     QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
-    QuestieQuest:CompleteQuest(questId)
+    QuestLifecycle:CompleteQuest(questId)
     QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_TURNED_IN)
 
     QuestieJourney:CompleteQuest(questId)

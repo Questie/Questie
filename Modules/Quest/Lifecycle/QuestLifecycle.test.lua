@@ -13,8 +13,13 @@ describe("QuestLifecycle", function()
     local QuestiePlayer
     ---@type QuestieTooltips
     local QuestieTooltips
+    ---@type QuestieTracker
+    local QuestieTracker
+    ---@type QuestieCombatQueue
+    local QuestieCombatQueue
 
     before_each(function()
+        _G.WOW_PROJECT_ID = nil
         Questie.db.char = {
             complete = {},
             collapsedQuests = {},
@@ -26,6 +31,9 @@ describe("QuestLifecycle", function()
         QuestieDB.GetQuest = spy.new(function() return nil end)
         QuestieDB.QueryQuestSingle = spy.new(function() return nil end)
         QuestieDB.IsDailyQuest = spy.new(function() return false end)
+        QuestieDB.IsRepeatable = spy.new(function() return false end)
+        QuestieDB.IsWeeklyQuest = spy.new(function() return false end)
+        QuestieDB.IsMonthlyQuest = spy.new(function() return false end)
 
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.RemoveQuest = spy.new(function() end)
@@ -36,6 +44,13 @@ describe("QuestLifecycle", function()
 
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieTooltips.RemoveQuest = spy.new(function() end)
+
+        QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+        QuestieTracker.RemoveQuest = spy.new(function() end)
+        QuestieTracker.Update = spy.new(function() end)
+
+        QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+        QuestieCombatQueue.Queue = function(_, callback) callback() end
 
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
@@ -180,6 +195,153 @@ describe("QuestLifecycle", function()
             QuestLifecycle:AcceptQuest(questId)
 
             assert.is_nil(Questie.db.char.complete[childQuestId])
+        end)
+    end)
+
+    describe("CompleteQuest", function()
+        it("should remove quest from currentQuestlog", function()
+            local questId = 100
+            QuestiePlayer.currentQuestlog[questId] = {WasComplete = true, isComplete = true}
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
+        end)
+
+        it("should reset WasComplete and isComplete flags before removing from log", function()
+            local questId = 100
+            local quest = {WasComplete = true, isComplete = true}
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.is_nil(quest.WasComplete)
+            assert.is_nil(quest.isComplete)
+        end)
+
+        it("should mark non-repeatable quest as complete", function()
+            local questId = 100
+            QuestieDB.IsRepeatable = spy.new(function() return false end)
+            QuestieDB.IsDailyQuest = spy.new(function() return false end)
+            QuestieDB.IsWeeklyQuest = spy.new(function() return false end)
+            QuestieDB.IsMonthlyQuest = spy.new(function() return false end)
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.is_true(Questie.db.char.complete[questId])
+        end)
+
+        it("should not mark repeatable non-daily quest as complete", function()
+            local questId = 100
+            QuestieDB.IsRepeatable = spy.new(function() return true end)
+            QuestieDB.IsDailyQuest = spy.new(function() return false end)
+            QuestieDB.IsWeeklyQuest = spy.new(function() return false end)
+            QuestieDB.IsMonthlyQuest = spy.new(function() return false end)
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.is_false(Questie.db.char.complete[questId])
+        end)
+
+        it("should mark repeatable daily quest as complete", function()
+            local questId = 100
+            QuestieDB.IsRepeatable = spy.new(function() return true end)
+            QuestieDB.IsDailyQuest = spy.new(function() return true end)
+            QuestieDB.IsWeeklyQuest = spy.new(function() return false end)
+            QuestieDB.IsMonthlyQuest = spy.new(function() return false end)
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.is_true(Questie.db.char.complete[questId])
+        end)
+
+        it("should set Alliance champion marker and clear tournament eligibility marker on WotLK+", function()
+            _G.WOW_PROJECT_ID = 11 -- WotLK
+            dofile("Modules/Expansions.lua")
+            local questId = 13699 -- in allianceChampionMarkerQuests
+            Questie.db.char.complete[13686] = true
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            _G.WOW_PROJECT_ID = nil
+            dofile("Modules/Expansions.lua")
+            assert.is_true(Questie.db.char.complete[13700])
+            assert.is_nil(Questie.db.char.complete[13686])
+        end)
+
+        it("should set Horde champion marker and clear tournament eligibility marker on WotLK+", function()
+            _G.WOW_PROJECT_ID = 11 -- WotLK
+            dofile("Modules/Expansions.lua")
+            local questId = 13726 -- in hordeChampionMarkerQuests
+            Questie.db.char.complete[13687] = true
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            _G.WOW_PROJECT_ID = nil
+            dofile("Modules/Expansions.lua")
+            assert.is_true(Questie.db.char.complete[13701])
+            assert.is_nil(Questie.db.char.complete[13687])
+        end)
+
+        it("should remove child quests that are not in the quest log", function()
+            local questId = 100
+            local childQuestId = 200
+            QuestieDB.QueryQuestSingle = spy.new(function(_, key)
+                if key == "childQuests" then
+                    return {childQuestId}
+                end
+            end)
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.spy(AvailableQuests.RemoveQuest).was.called_with(childQuestId)
+        end)
+
+        it("should not remove child quest if it is in the quest log", function()
+            local questId = 100
+            local childQuestId = 200
+            QuestiePlayer.currentQuestlog[childQuestId] = {}
+            QuestieDB.QueryQuestSingle = spy.new(function(_, key)
+                if key == "childQuests" then
+                    return {childQuestId}
+                end
+            end)
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            -- RemoveQuest is called for the parent quest itself, but not for the child
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called_with(childQuestId)
+        end)
+
+        it("should remove quest from tracker", function()
+            local questId = 100
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.spy(QuestieTracker.RemoveQuest).was.called_with(QuestieTracker, questId)
+        end)
+
+        it("should call AvailableQuests.RemoveQuest with callback that calls CalculateAndDrawAll", function()
+            local questId = 100
+            AvailableQuests.RemoveQuest = spy.new(function(_questId, callback)
+                if callback then
+                    callback()
+                end
+            end)
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.spy(AvailableQuests.RemoveQuest).was.called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+        end)
+
+        it("should work when quest is not in currentQuestlog", function()
+            local questId = 999
+
+            -- Should not error
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
         end)
     end)
 end)
