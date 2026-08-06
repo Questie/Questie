@@ -8490,33 +8490,33 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8119] = true, -- The Unmarred Vision of Voodress
 
         -- Zul'Aman
-        [11166] = true, -- X Marks... Your Doom!
-        [11171] = true, -- Hex Lord? Hah!
+        -- [11166] = true, -- X Marks... Your Doom!
+        -- [11171] = true, -- Hex Lord? Hah!
         [11195] = true, -- Playin' With Dolls
-        [11130] = true, -- Oooh, Shinies!
+        -- [11130] = true, -- Oooh, Shinies!
         -- [11178] = true, -- Blood of the Warlord
-        [11132] = true, -- Promises, Promises...
-        [11163] = true, -- Undercover Sister
-        [11164] = true, -- Tuskin' Raiders
+        -- [11132] = true, -- Promises, Promises...
+        -- [11163] = true, -- Undercover Sister
+        -- [11164] = true, -- Tuskin' Raiders
         [11165] = true, -- A Troll Among Trolls
         [11196] = true, -- TEMP X
 
         -- Isle of Quel'Danas
         -- [11526] = true, -- The Missing Magistrix
         [11549] = true, -- A Magnanimous Benefactor
-        [11481] = true, -- Crisis at the Sunwell
-        [11482] = true, -- Duty Calls
+        -- [11481] = true, -- Crisis at the Sunwell
+        -- [11482] = true, -- Duty Calls
         -- [11524] = true, -- Erratic Behavior
         -- [11536] = true, -- Don't Stop Now....
         -- [11525] = true, -- Further Conversions
         -- [11496] = true, -- The Sanctum Wards
-        [11557] = true, -- Exalted Among All Combatants
-        [11556] = true, -- Revered in the Field of Battle
-        [11555] = true, -- Honored by Your Allies
-        [11550] = true, -- Enter, the Deceiver...
+        -- [11557] = true, -- Exalted Among All Combatants
+        -- [11556] = true, -- Revered in the Field of Battle
+        -- [11555] = true, -- Honored by Your Allies
+        -- [11550] = true, -- Enter, the Deceiver...
         -- [11548] = true, -- Your Continued Support
         -- [11535] = true, -- Making Ready
-        [11554] = true, -- A Friend in the Frontlines
+        -- [11554] = true, -- A Friend in the Frontlines
         -- [11542] = true, -- Intercept the Reinforcements
         -- [11546] = true, -- Open for Business
         -- [11532] = true, -- Distraction at the Dead Scar
