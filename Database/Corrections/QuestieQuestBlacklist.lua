@@ -7740,7 +7740,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         -- Eastern Kingdoms -> Isle Of Queldanas (0 -> 4080)
         [11517] = true, --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11517) (Retail Data)
-        [11534] = true, --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11534) (Retail Data)
+        [11534] = not Questie.IsTitanReforged , --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11534) (Retail Data)
         [11552] = true, --* Rohendor, the Second Gate (https://www.wowhead.com/wotlk/quest=11552) (Retail Data)
         [11553] = true, --* Archonisus, the Final Gate (https://www.wowhead.com/wotlk/quest=11553) (Retail Data)
 --      [24522] = true, --* Journey To The Sunwell (https://www.wowhead.com/wotlk/quest=24522) (Retail Data)
@@ -8533,11 +8533,11 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- [11544] = true, -- Ata'mal Armaments
 
         -- Magisters' Terrace
-        [11492] = true, -- Hard to Kill
-        [11500] = true, -- Wanted: Sisters of Torment
-        [11499] = true, -- Wanted: The Signet Ring of Prince Kael'thas
-        [11490] = true, -- The Scryer's Scryer
-        [11488] = true, -- Magisters' Terrace
+        -- [11492] = true, -- Hard to Kill
+        -- [11500] = true, -- Wanted: Sisters of Torment
+        -- [11499] = true, -- Wanted: The Signet Ring of Prince Kael'thas
+        -- [11490] = true, -- The Scryer's Scryer
+        -- [11488] = true, -- Magisters' Terrace
 
         -- Magtheridon's Lair
         [10888] = true, -- Trial of the Naaru: Magtheridon
