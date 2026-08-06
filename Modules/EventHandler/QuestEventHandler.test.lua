@@ -36,6 +36,8 @@ describe("QuestEventHandler", function()
     local QuestieAPI
     ---@type QuestiePartyObjectives
     local QuestiePartyObjectives
+    ---@type AvailableQuests
+    local AvailableQuests
     ---@type QuestEventHandler
     local QuestEventHandler
 
@@ -62,6 +64,8 @@ describe("QuestEventHandler", function()
         QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
         QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
+        AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+        AvailableQuests.ResetLastNpcGuid = spy.new(function() end)
 
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -184,6 +188,7 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieQuest.AbandonedQuest).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
         assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
@@ -217,6 +222,7 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieQuest.AbandonedQuest).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
     end)
 
     it("should handle quest turn in", function()

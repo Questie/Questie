@@ -423,6 +423,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 
         QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ABANDONED)
 
+        AvailableQuests.ResetLastNpcGuid()
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
 
