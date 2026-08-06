@@ -9023,6 +9023,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11539] = { -- Taking the Harbor
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [11540] = { -- Crush the Dawnblade
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
