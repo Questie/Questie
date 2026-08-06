@@ -23,7 +23,7 @@ function AvailableQuests.IsLevelRequirementsFulfilled(questId, minLevel, maxLeve
         return levelRequirementCache[questId]
     end
 
-    local level, requiredLevel, requiredMaxLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
+    local level, requiredLevel, requiredMaxLevel = QuestieLib.GetEffectiveQuestLevel(questId, playerLevel)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuestId and QuestiePlayer.currentQuestlog[parentQuestId] then

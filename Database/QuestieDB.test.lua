@@ -56,7 +56,7 @@ describe("QuestieDB", function()
     describe("GetQuest", function()
         it("should return a quest", function()
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 
@@ -87,7 +87,7 @@ describe("QuestieDB", function()
                 [6] = {{12345, "Cast the spell", 67890}}
             }
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 
@@ -107,7 +107,7 @@ describe("QuestieDB", function()
             }
             QuestieCorrections.spellObjectiveFirst[123] = true
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 
@@ -132,7 +132,7 @@ describe("QuestieDB", function()
             testQuest[questKeys.requiredSourceItems] = {67890}
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
             QuestieDB.QueryItemSingle = spy.new(function() return "Required Item" end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 

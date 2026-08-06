@@ -65,15 +65,15 @@ end
 ---@return string
 function QuestieLink:GetQuestLinkStringById(questId)
     local questName = QuestieDB.QueryQuestSingle(questId, "name")
-    local questLevel, _ = QuestieLib.GetTbcLevel(questId)
+    local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
 
-    return "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]"
+    return "[[" .. tostring(questLevel) .. "] " .. questName .. " (" .. tostring(questId) .. ")]"
 end
 
 ---@return string
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.trackerShowQuestLevel, true)
-    local questLevel, _ = QuestieLib.GetTbcLevel(questId)
+    local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
     local isRepeatable = QuestieDB.IsRepeatable(questId)
 
     if (not senderGUID) then
@@ -130,7 +130,7 @@ end
 _AddQuestTitle = function(quest)
     local questId = quest.Id
     local questName = quest.name
-    local questLevel = QuestieLib.GetTbcLevel(questId)
+    local questLevel = QuestieLib.GetEffectiveQuestLevel(questId)
 
     local questLevelString = QuestieLib:GetLevelString(questId, questLevel)
     local titleColor = string.sub(QuestieLib:PrintDifficultyColor(questLevel, "", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)), 5, 10)
@@ -431,7 +431,7 @@ local function HandleHyperlinkClick(link, button)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkClick] Relinking Quest Link to chat:", link)
             questId = tonumber(questId)
 
-            local questLevel = QuestieLib.GetTbcLevel(questId)
+            local questLevel = QuestieLib.GetEffectiveQuestLevel(questId)
             local questName = QuestieDB.QueryQuestSingle(questId, "name")
             if questLevel and questName then
                 local activeWindow = ChatEdit_GetActiveWindow()

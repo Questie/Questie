@@ -293,7 +293,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 if Questie.db.profile.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
                     if tooltip.type then
-                        local level, _ = QuestieLib.GetTbcLevel(questId)
+                        local level, _ = QuestieLib.GetEffectiveQuestLevel(questId)
                         local colorText
                         if QuestieEvent.IsEventQuest(questId) then
                             colorText = ":108:227:20"
