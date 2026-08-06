@@ -64,7 +64,7 @@ describe("QuestieLink", function()
 
         dofile("Modules/Libs/QuestieLib.lua")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-        QuestieLib.GetTbcLevel = function() return 10 end
+        QuestieLib.GetEffectiveQuestLevel = function() return 10 end
         QuestieLib.GetLevelString = function() return "[10] " end
         QuestieLib.PrintDifficultyColor = function(_, _, ...) return "|cffffffff" end
 
@@ -84,7 +84,7 @@ describe("QuestieLink", function()
             QuestieDB.QueryQuestSingle = function()
                 return "Test Quest"
             end
-            QuestieLib.GetTbcLevel = function()
+            QuestieLib.GetEffectiveQuestLevel = function()
                 return 15
             end
 
