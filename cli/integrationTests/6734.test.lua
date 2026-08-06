@@ -91,13 +91,13 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieQuest.UpdateQuest = spy.new(function() end)
-        QuestieQuest.CompleteQuest = spy.new(function() end)
 
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
         QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
             QuestiePlayer.currentQuestlog[questId] = {}
         end)
+        QuestLifecycle.CompleteQuest = spy.new(function() end)
 
         dofile("Modules/QuestiePlayer.lua")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
