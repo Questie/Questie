@@ -56,7 +56,7 @@ function QuestieOptionsDefaults:Load()
             enableTooltips = true,
             enableTooltipsItemID = false,
             enableTooltipsNPCID = false,
-            enableTooltipsBreadcrumbQuests = true,
+            enableTooltipsBreadcrumbQuests = false,
             enableTooltipsObjectID = false,
             enableTooltipsQuestID = false,
             enableTooltipsQuestLevel = true,
