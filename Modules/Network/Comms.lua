@@ -29,6 +29,10 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
+    if distribution ~= "GUILD" and distribution ~= "RAID" and distribution ~= "PARTY" then
+        return
+    end
+
     if sender == playerName or sender == (playerName .. "-" .. realmName) then
         return
     end
