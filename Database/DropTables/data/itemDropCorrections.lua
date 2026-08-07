@@ -597,6 +597,15 @@ QuestieItemDropCorrections.Tbc = { -- Corrections for Old World data should only
     [25463] = { -- Pair of Ivory Tusks
         [18334] = 100,
     },
+    [25767] = { -- Raliq's Debt
+        [18585] = 100,
+    },
+    [25768] = { -- Coosh'coosh's Debt
+        [18586] = 100,
+    },
+    [25769] = { -- Floon's Debt
+        [18588] = 100,
+    },
     [25891] = { -- Pristine Shimmerscale Eel
         [18750] = DropKeys.WOWHEAD,
     },
