@@ -40,6 +40,10 @@ local NEXT_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\nextquest.blp"
 local NEXT_QUEST_ICON_TEXTURE_SIZE = 16
 local NEXT_QUEST_ICON_TEXTURE = "|T" .. NEXT_QUEST_ICON_PATH .. ":" .. NEXT_QUEST_ICON_TEXTURE_SIZE .. ":" .. NEXT_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
+local BREADCRUMB_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\breadcrumbtooltip.png"
+local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
+local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
+
 local DEFAULT_WAYPOINT_HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
 
 local lastTooltipShowTimestamp = GetTime()
@@ -207,6 +211,8 @@ function MapIconTooltip:Show()
     local indentReputation = TooltipLayout.CreateIndentUI(REPUTATION_ICON_TEXTURE_SIZE) -- 14
     local nextQuestLabelPrefix = indentTwo .. NEXT_QUEST_ICON_TEXTURE .. indentHalf -- Keep this in sync with nextQuestTitleIndent.
     local nextQuestTitleIndent = TooltipLayout.CreateIndentUI(indentTwoWidth + NEXT_QUEST_ICON_TEXTURE_SIZE + indentHalfWidth)
+    local breadcrumbLabelPrefix = indentTwo .. BREADCRUMB_QUEST_ICON_TEXTURE .. indentHalf -- Keep this in sync with breadcrumbTitleIndent.
+    local breadcrumbTitleIndent = TooltipLayout.CreateIndentUI(indentTwoWidth + BREADCRUMB_QUEST_ICON_TEXTURE_SIZE + indentHalfWidth)
 
 
     Tooltip._Rebuild = function(self)
@@ -239,26 +245,6 @@ function MapIconTooltip:Show()
 
                 if questData.title ~= nil then
                     local quest = QuestieDB.GetQuest(questData.questId)
-
-                    if Questie.db.profile.enableTooltipsBreadcrumbQuests and shift then
-                        local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
-                        if breadcrumbs then
-                            local breadcrumbCount = 0
-                            for _, breadcrumbId in ipairs(breadcrumbs) do
-                                if (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) then
-                                    local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
-                                    local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, "")
-                                    tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
-                                    breadcrumbCount = breadcrumbCount + 1
-                                end
-                            end
-                            if breadcrumbCount > 0 then
-                                tooltipRows:AddLine("|TInterface\\Addons\\Questie\\Icons\\breadcrumbtooltip.png:16|t " .. l10n("Breadcrumb Quests"), 0.86, 0.86,
-                                    0.86)
-                            end
-                        end
-                    end
-
                     local rewardString = ""
                     if (quest and shift) then
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.profile.showQuestXpAtMaxLevel)
@@ -310,6 +296,24 @@ function MapIconTooltip:Show()
                     local rewardString = QuestieReputation.GetReputationRewardString(reputationReward)
                     -- Apply color through AddLine args so description wrapping cannot split color escape sequences.
                     tooltipRows:AddDescription(REPUTATION_ICON_TEXTURE .. " " .. rewardString, indentTwo, Questie:ColorizeRGB("reputationBlue"))
+                end
+                
+                if Questie.db.profile.enableTooltipsBreadcrumbQuests then
+                    local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
+                    if breadcrumbs then
+                        local firstBreadcrumb = true
+                        for _, breadcrumbId in ipairs(breadcrumbs) do
+                            if shift and (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) then
+                                if firstBreadcrumb then
+                                    local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
+                                    local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, breadcrumbTitleIndent)
+                                    tooltipRows:AddLine(breadcrumbLabelPrefix .. l10n("Breadcrumb Quests") .. l10n(":"), 0.86, 0.86, 0.86)
+                                    tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
+                                    firstBreadcrumb = false
+                                end
+                            end
+                        end
+                    end
                 end
 
                 if Questie.db.profile.enableTooltipsNextInChain then
