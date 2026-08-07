@@ -104,13 +104,9 @@ function QuestLifecycle:AcceptQuest(questId)
     end
 
     -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
-    if Questie.db.char.collapsedQuests then
-        Questie.db.char.collapsedQuests[questId] = nil
-    end
+    Questie.db.char.collapsedQuests[questId] = nil
     -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
-    if Questie.db.char.AutoUntrackedQuests[questId] then
-        Questie.db.char.AutoUntrackedQuests[questId] = nil
-    end
+    Questie.db.char.AutoUntrackedQuests[questId] = nil
 
     -- Remove the starter/finisher frames first, then draw objective notes once the
     -- unload coroutine has finished. This prevents the draw coroutines from racing
