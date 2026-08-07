@@ -109,9 +109,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local MyModule = QuestieLoader:CreateModule("MyModule")
 local _MyModule = MyModule.private
 
--------------------------
---Import modules.
--------------------------
 ---@type OtherModule
 local OtherModule = QuestieLoader:ImportModule("OtherModule")
 
