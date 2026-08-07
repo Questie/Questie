@@ -53,73 +53,76 @@ local hordeChampionMarkerQuests = {[13726] = true, [13727] = true, [13728] = tru
 function QuestLifecycle:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
 
-    if quest then
-        local complete = quest:IsComplete()
-        -- If any of these flags exist then this quest has already once been accepted and is probably in a failed state
-        if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
-            Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
+    if (not quest) then
+        return
+    end
 
-            -- Reset quest log
-            QuestiePlayer.currentQuestlog[questId] = nil
+    local complete = quest:IsComplete()
+    -- If any of these flags exist then this quest has already once been accepted and is probably in a failed state
+    if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
 
-            -- Reset quest objectives
-            quest.Objectives = {}
+        -- Reset quest log
+        QuestiePlayer.currentQuestlog[questId] = nil
 
-            -- Reset quest flags
-            quest.WasComplete = nil
-            quest.isComplete = nil
+        -- Reset quest objectives
+        quest.Objectives = {}
 
-            -- Reset tooltips
-            QuestieTooltips:RemoveQuest(questId)
-        end
+        -- Reset quest flags
+        quest.WasComplete = nil
+        quest.isComplete = nil
 
-        local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
-        if childQuests then
-            for _, childQuestId in pairs(childQuests) do
-                -- Daily quest status is reset after parent accept
-                if QuestieDB.IsDailyQuest(childQuestId) then
-                    Questie.db.char.complete[childQuestId] = nil
-                end
+        -- Reset tooltips
+        QuestieTooltips:RemoveQuest(questId)
+    end
+
+    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+    if childQuests then
+        for _, childQuestId in pairs(childQuests) do
+            -- Daily quest status is reset after parent accept
+            if QuestieDB.IsDailyQuest(childQuestId) then
+                Questie.db.char.complete[childQuestId] = nil
             end
-        end
-
-        if (not QuestiePlayer.currentQuestlog[questId]) then
-            Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
-
-            QuestiePlayer.currentQuestlog[questId] = quest
-
-            if allianceTournamentMarkerQuests[questId] then
-                Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
-            elseif hordeTournamentMarkerQuests[questId] then
-                Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
-            elseif xiaoFollowUpQuests[questId] then
-                Questie.db.char.complete[30087] = true -- Xiao's Breadcrumbs Hidden Prequest
-            end
-
-            -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
-            if Questie.db.char.collapsedQuests then
-                Questie.db.char.collapsedQuests[questId] = nil
-            end
-            -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
-            if Questie.db.char.AutoUntrackedQuests[questId] then
-                Questie.db.char.AutoUntrackedQuests[questId] = nil
-            end
-
-            -- Remove the starter/finisher frames first, then draw objective notes once the
-            -- unload coroutine has finished. This prevents the draw coroutines from racing
-            -- with the unload coroutine and leaving stale entries in questIdFrames.
-            AvailableQuests.RemoveQuest(questId, function()
-                QuestieQuest:PopulateQuestLogInfo(quest)
-                -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
-                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-                QuestieQuest:PopulateObjectiveNotes(quest)
-
-                AvailableQuests.CalculateAndDrawAll()
-            end)
-        else
-            Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
         end
     end
+
+    if QuestiePlayer.currentQuestlog[questId] then
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
+        return
+    end
+
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
+
+    QuestiePlayer.currentQuestlog[questId] = quest
+
+    if allianceTournamentMarkerQuests[questId] then
+        Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
+    elseif hordeTournamentMarkerQuests[questId] then
+        Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
+    elseif xiaoFollowUpQuests[questId] then
+        Questie.db.char.complete[30087] = true -- Xiao's Breadcrumbs Hidden Prequest
+    end
+
+    -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
+    if Questie.db.char.collapsedQuests then
+        Questie.db.char.collapsedQuests[questId] = nil
+    end
+    -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
+    if Questie.db.char.AutoUntrackedQuests[questId] then
+        Questie.db.char.AutoUntrackedQuests[questId] = nil
+    end
+
+    -- Remove the starter/finisher frames first, then draw objective notes once the
+    -- unload coroutine has finished. This prevents the draw coroutines from racing
+    -- with the unload coroutine and leaving stale entries in questIdFrames.
+    AvailableQuests.RemoveQuest(questId, function()
+        QuestieQuest:PopulateQuestLogInfo(quest)
+        -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+        QuestieQuest:PopulateObjectiveNotes(quest)
+
+        AvailableQuests.CalculateAndDrawAll()
+    end)
 end
 
 ---@param questId number
@@ -176,45 +179,49 @@ end
 
 ---@param questId number
 function QuestLifecycle:AbandonQuest(questId)
-    if QuestiePlayer.currentQuestlog[questId] then
-        QuestiePlayer.currentQuestlog[questId] = nil
+    if (not QuestiePlayer.currentQuestlog[questId]) then
+        return
+    end
 
-        local quest = QuestieDB.GetQuest(questId)
+    QuestiePlayer.currentQuestlog[questId] = nil
 
-        if quest then
-            -- Reset quest objectives
-            quest.Objectives = {}
+    local quest = QuestieDB.GetQuest(questId)
 
-            -- Reset quest flags
-            quest.WasComplete = nil
-            quest.isComplete = nil
+    if (not quest) then
+        return
+    end
 
-            if allianceTournamentMarkerQuests[questId] then
-                Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
-            elseif hordeTournamentMarkerQuests[questId] then
-                Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
-            end
+    -- Reset quest objectives
+    quest.Objectives = {}
 
-            local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
-            if childQuests then
-                for _, childQuestId in pairs(childQuests) do
-                    if (not QuestiePlayer.currentQuestlog[childQuestId]) then
-                        -- Make sure all other childQuests are unloaded: all exclusives, chains etc
-                        AvailableQuests.RemoveQuest(childQuestId)
-                    end
-                end
+    -- Reset quest flags
+    quest.WasComplete = nil
+    quest.isComplete = nil
+
+    if allianceTournamentMarkerQuests[questId] then
+        Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+    elseif hordeTournamentMarkerQuests[questId] then
+        Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+    end
+
+    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+    if childQuests then
+        for _, childQuestId in pairs(childQuests) do
+            if (not QuestiePlayer.currentQuestlog[childQuestId]) then
+                -- Make sure all other childQuests are unloaded: all exclusives, chains etc
+                AvailableQuests.RemoveQuest(childQuestId)
             end
         end
-
-        QuestieTracker:RemoveQuest(questId)
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-
-        AvailableQuests.RemoveQuest(questId, function()
-            AvailableQuests.CalculateAndDrawAll()
-        end)
-
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonQuest]", questId)
     end
+
+    QuestieTracker:RemoveQuest(questId)
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
+
+    AvailableQuests.RemoveQuest(questId, function()
+        AvailableQuests.CalculateAndDrawAll()
+    end)
+
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonQuest]", questId)
 end

@@ -355,7 +355,9 @@ describe("QuestLifecycle", function()
 
         it("should remove quest from currentQuestlog", function()
             local questId = 100
-            QuestiePlayer.currentQuestlog[questId] = {}
+            local quest = {}
+            QuestiePlayer.currentQuestlog[questId] = quest
+            QuestieDB.GetQuest = spy.new(function() return quest end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
 
             QuestLifecycle:AbandonQuest(questId)
