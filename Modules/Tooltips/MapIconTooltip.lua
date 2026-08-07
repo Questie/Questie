@@ -315,9 +315,9 @@ function MapIconTooltip:Show()
                             end
                         end
                         for _, breadcrumbId in ipairs(breadcrumbs) do
-                            local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredRaces")
-                            local requiredClasses = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredClasses")
-                            local availableUntilCompleted = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "availableUntilCompleted")
+                            local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbId, "requiredRaces")
+                            local requiredClasses = QuestieDB.QueryQuestSingle(breadcrumbId, "requiredClasses")
+                            local availableUntilCompleted = QuestieDB.QueryQuestSingle(breadcrumbId, "availableUntilCompleted")
                             if shift and (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) and
                                 QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and
                                 (not exclusiveQuestCompleted) and (not Questie.db.char.complete[availableUntilCompleted]) then
