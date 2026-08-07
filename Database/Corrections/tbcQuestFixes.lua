@@ -4626,6 +4626,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10886] = {
             [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.THE_ARCATRAZ]={{-1,-1}}}},
+            [questKeys.reputationReward] = {{factionIDs.THE_SHATAR,500}},
         },
         [10887] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.77,51.61}}}, Questie.ICON_TYPE_EVENT, l10n("Help Akuno find his way to the Refugee Caravan in Terokkar Forest.")}},
