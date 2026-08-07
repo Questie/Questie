@@ -3095,8 +3095,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17138,18064},17138,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
-        [9932] = {
+        [9932] = { -- Body of Evidence
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Make smoke signals"), 0, {{"object", 182369}}}},
+            [questKeys.objectives] = {{{18395,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9933] = {
