@@ -333,10 +333,10 @@ function MapIconTooltip:Show()
                     end
                 end
 
-                if Questie.db.profile.enableTooltipsNextInChain then
+                if shift and Questie.db.profile.enableTooltipsNextInChain then
                     local DoableStates = QuestieDB.DoableStates
                     local nextQuestId = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
-                    if shift and nextQuestId > 0 and (not QuestieCorrections.hiddenQuests[nextQuestId]) then
+                    if nextQuestId > 0 and (not QuestieCorrections.hiddenQuests[nextQuestId]) then
                         local _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
                         local firstInChain = true;
                         while nextQuestId ~= nil and (not QuestieCorrections.hiddenQuests[nextQuestId]) and (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS) do
