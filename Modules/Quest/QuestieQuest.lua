@@ -55,12 +55,7 @@ local tinsert = table.insert;
 local pairs = pairs;
 local coYield = coroutine.yield;
 
-local NOP_FUNCTION = function()
-end
-local ERR_FUNCTION = function(err)
-    print(err)
-    print(debugstack())
-end
+local NOP_FUNCTION = function() end
 
 -- forward declaration
 local _UnloadAlreadySpawnedIcons
