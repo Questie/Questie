@@ -298,7 +298,7 @@ function MapIconTooltip:Show()
                     tooltipRows:AddDescription(REPUTATION_ICON_TEXTURE .. " " .. rewardString, indentTwo, Questie:ColorizeRGB("reputationBlue"))
                 end
                 
-                if Questie.db.profile.enableTooltipsBreadcrumbQuests then
+                if shift and Questie.db.profile.enableTooltipsBreadcrumbQuests then
                     local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
                     if breadcrumbs then
                         local firstBreadcrumb = true
@@ -318,7 +318,7 @@ function MapIconTooltip:Show()
                             local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbId, "requiredRaces")
                             local requiredClasses = QuestieDB.QueryQuestSingle(breadcrumbId, "requiredClasses")
                             local availableUntilCompleted = QuestieDB.QueryQuestSingle(breadcrumbId, "availableUntilCompleted")
-                            if shift and (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) and
+                            if (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) and
                                 QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and
                                 (not exclusiveQuestCompleted) and (not Questie.db.char.complete[availableUntilCompleted]) then
                                 if firstBreadcrumb then
