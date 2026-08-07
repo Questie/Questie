@@ -246,7 +246,7 @@ function MapIconTooltip:Show()
                             local breadcrumbCount = 0
                             for _, breadcrumbId in ipairs(breadcrumbs) do
                                 if (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) then
-                                    local breadcrumbLevel, _ = QuestieLib.GetTbcLevel(breadcrumbId)
+                                    local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
                                     local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, "")
                                     tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
                                     breadcrumbCount = breadcrumbCount + 1
@@ -323,7 +323,7 @@ function MapIconTooltip:Show()
                                 tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                                 firstInChain = false
                             end
-                            local nextQuestLevel, _ = QuestieLib.GetTbcLevel(nextQuestId)
+                            local nextQuestLevel, _ = QuestieLib.GetEffectiveQuestLevel(nextQuestId)
                             local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuestId, nextQuestLevel, nextQuestTitleIndent)
                             tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
 
