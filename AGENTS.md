@@ -250,13 +250,18 @@ end)
 - Tests live alongside source files as `*.test.lua`
 - Integration tests go in `cli/integrationTests/` named by issue number
 - Mocking: override `_G.*` globals; use `spy.new()` for call verification
-- Assertions: `assert.are_same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was.called_with()`, `assert.has_error()`
 - Use `dofile` to load the module under test, not `require` any file
 - Use `QuestieLoader` to stub modules, then mock functions called by the module under test. Exceptions are:
     - `l10n`, which should be loaded directly using `dofile("Localization/l10n.lua")`
     - `ContentPhases`, which should be loaded directly using `dofile("Database/Corrections/ContentPhases/ContentPhases.lua")`
     - `QuestieLib`, which CAN be loaded directly, when only pure function of it are required in the test case
 - Add `dofile("setupTests.lua")` on top of each unit test file, so that the WoW API globals are mocked and `QuestieLoader` is fresh and available.
+
+### Assertions
+
+- Examples: `assert.are_same()`, `assert.is_true()`, `assert.is_nil()`, `assert.spy().was.called_with()`, `assert.has_error()`
+- Do use `.was.called*` and `.was.not_called*`
+- Do not use `.was_called*` or `.was_not_called*`.
 
 ## CI Pipeline
 
