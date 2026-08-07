@@ -359,7 +359,7 @@ end
 ---@param reputationReward ReputationPair[]
 ---@param factionIDs table
 _FilterShaTarRewards = function(reputationReward, factionIDs)
-    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ factionIDs.THE_SHA_TAR, 9000 }, nil)
+    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ factionIDs.THE_SHATAR, 9000 }, nil)
     -- filter out Sha'Tar reputation rewards when quest also rewards Aldor/Scryer reputation and the player is already honored with them Sha'Tar
     if playerIsHonoredWithShaTar then
         local hasAldorOrScryer = false
@@ -375,7 +375,7 @@ _FilterShaTarRewards = function(reputationReward, factionIDs)
             local filteredReputationReward = {}
             for _, entry in pairs(reputationReward) do
                 local factionId = entry[1]
-                if factionId ~= factionIDs.THE_SHA_TAR then
+                if factionId ~= factionIDs.THE_SHATAR then
                     tinsert(filteredReputationReward, entry)
                 end
             end
