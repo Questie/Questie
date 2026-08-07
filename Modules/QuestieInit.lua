@@ -233,25 +233,14 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieTooltips initializing.")
     QuestieTooltips:Initialize()
+
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] DropDB initializing.")
     DropDB:Initialize()
+
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Timers initializing.")
     TrackerQuestTimers:Initialize()
     if Expansions.Current >= Expansions.MoP then
         ChallengeModeTimer.Initialize()
-    end
-
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieComms initializing.")
-    Comms.Initialize()
-    QuestieComms:Initialize()
-
-    QuestieAnnounce:InitializeLogoFilter()
-
-    coYield()
-
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieDBM initializing.")
-    if Questie.db.profile.dbmHUDEnable then
-        QuestieDBMIntegration:EnableHUD()
     end
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieMap initializing.")
@@ -259,9 +248,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     coYield()
     QuestieQuest:Initialize()
-    coYield()
-    WorldMapButton.Initialize()
-    Townsfolk.PostBoot()
     coYield()
 
     -- Fill the QuestLogCache for first time
@@ -273,21 +259,37 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     end
 
     QuestEventHandler.InitQuestLogStates(questIdsChecked)
-
     coYield()
+
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Hydrating quest log for the first time.")
     QuestieQuest:GetAllQuestIds()
     coYield()
 
-    QuestEventHandler:Initialize()
-
-    coYield()
     QuestieCombatQueue.Initialize()
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieTracker initializing.")
-    -- Initialize the tracker
     QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
     coYield()
+
+    QuestEventHandler:Initialize()
+    coYield()
+
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieComms initializing.")
+    Comms.Initialize()
+    QuestieComms:Initialize()
+    coYield()
+
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieDBM initializing.")
+    if Questie.db.profile.dbmHUDEnable then
+        QuestieDBMIntegration:EnableHUD()
+    end
+
+    WorldMapButton.Initialize()
+    Townsfolk.PostBoot()
+    coYield()
+
+    QuestieAnnounce:InitializeLogoFilter()
     ChatFilter:RegisterEvents()
 
     local dateToday = date("%y-%m-%d")
