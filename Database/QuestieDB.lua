@@ -1474,6 +1474,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@field public extraObjectives ExtraObjective[]
     ---@field public requiredMaxLevel Level
     ---@field public isComplete boolean
+    ---@field public WasComplete boolean?
     ---@field public Color Color
     ---@field public breacrumbForQuestId number
     ---@field public breacrumbs QuestId[]
