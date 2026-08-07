@@ -307,7 +307,7 @@ function MapIconTooltip:Show()
                                 if firstBreadcrumb then
                                     local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
                                     local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, breadcrumbTitleIndent)
-                                    tooltipRows:AddLine(breadcrumbLabelPrefix .. l10n("Breadcrumb Quests") .. l10n(":"), 0.86, 0.86, 0.86)
+                                    tooltipRows:AddLine(breadcrumbLabelPrefix .. l10n("Breadcrumb Quests") .. l10n(": "), 0.86, 0.86, 0.86)
                                     tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
                                     firstBreadcrumb = false
                                 end
