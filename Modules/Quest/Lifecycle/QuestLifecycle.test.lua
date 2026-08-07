@@ -344,4 +344,96 @@ describe("QuestLifecycle", function()
             assert.is_nil(QuestiePlayer.currentQuestlog[questId])
         end)
     end)
+
+    describe("AbandonedQuest", function()
+        it("should do nothing when quest is not in currentQuestlog", function()
+            QuestLifecycle:AbandonedQuest(999)
+
+            assert.spy(QuestieDB.GetQuest).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+        end)
+
+        it("should remove quest from currentQuestlog", function()
+            local questId = 100
+            QuestiePlayer.currentQuestlog[questId] = {}
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
+
+            QuestLifecycle:AbandonedQuest(questId)
+
+            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
+
+            assert.spy(QuestieTracker.RemoveQuest).was.called_with(QuestieTracker, questId)
+
+            assert.spy(AvailableQuests.RemoveQuest).was.called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+        end)
+
+        it("should reset quest objectives and flags", function()
+            local questId = 100
+            local quest = {WasComplete = true, isComplete = true, Objectives = {{}}}
+            QuestiePlayer.currentQuestlog[questId] = quest
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+
+            QuestLifecycle:AbandonedQuest(questId)
+
+            assert.are_same({}, quest.Objectives)
+            assert.is_nil(quest.WasComplete)
+            assert.is_nil(quest.isComplete)
+        end)
+
+        it("should clear Alliance tournament eligibility marker", function()
+            local questId = 13684 -- in allianceTournamentMarkerQuests
+            QuestiePlayer.currentQuestlog[questId] = {}
+            QuestieDB.GetQuest = spy.new(function() return {} end)
+            Questie.db.char.complete[13686] = true
+
+            QuestLifecycle:AbandonedQuest(questId)
+
+            assert.is_nil(Questie.db.char.complete[13686])
+        end)
+
+        it("should clear Horde tournament eligibility marker", function()
+            local questId = 13691 -- in hordeTournamentMarkerQuests
+            QuestiePlayer.currentQuestlog[questId] = {}
+            QuestieDB.GetQuest = spy.new(function() return {} end)
+            Questie.db.char.complete[13687] = true
+
+            QuestLifecycle:AbandonedQuest(questId)
+
+            assert.is_nil(Questie.db.char.complete[13687])
+        end)
+
+        it("should remove child quests that are not in the quest log", function()
+            local questId = 100
+            local childQuestId = 200
+            QuestiePlayer.currentQuestlog[questId] = {}
+            QuestieDB.GetQuest = spy.new(function() return {} end)
+            QuestieDB.QueryQuestSingle = spy.new(function(_id, key)
+                if key == "childQuests" then
+                    return {childQuestId}
+                end
+            end)
+
+            QuestLifecycle:AbandonedQuest(questId)
+
+            assert.spy(AvailableQuests.RemoveQuest).was.called_with(childQuestId)
+        end)
+
+        it("should not remove child quest if it is in the quest log", function()
+            local questId = 100
+            local childQuestId = 200
+            QuestiePlayer.currentQuestlog[questId] = {}
+            QuestiePlayer.currentQuestlog[childQuestId] = {}
+            QuestieDB.GetQuest = spy.new(function() return {} end)
+            QuestieDB.QueryQuestSingle = spy.new(function(_id, key)
+                if key == "childQuests" then
+                    return {childQuestId}
+                end
+            end)
+
+            QuestLifecycle:AbandonedQuest(questId)
+
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called_with(childQuestId)
+        end)
+    end)
 end)
