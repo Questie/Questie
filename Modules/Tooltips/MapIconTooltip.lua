@@ -302,8 +302,23 @@ function MapIconTooltip:Show()
                     local breadcrumbs = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbs")
                     if breadcrumbs then
                         local firstBreadcrumb = true
+                        local exclusiveQuestCompleted = false
                         for _, breadcrumbId in ipairs(breadcrumbs) do
-                            if shift and (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) then
+                            local exclusiveQuests = QuestieDB.QueryQuestSingle(breadcrumbId, "exclusiveTo")
+                            local exclusiveQuestCompleted = false
+                            if exclusiveQuests then
+                                for _, exclusiveQuestId in pairs(exclusiveQuests) do
+                                    if Questie.db.char.complete[exclusiveQuestId] or QuestiePlayer.currentQuestlog[exclusiveQuestId] then
+                                        exclusiveQuestCompleted = true
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                        for _, breadcrumbId in ipairs(breadcrumbs) do
+                            if shift and (not QuestieCorrections.hiddenQuests[breadcrumbId]) and (not Questie.db.char.complete[breadcrumbId]) and
+                                QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and
+                                (not exclusiveQuestCompleted) and (not Questie.db.char.complete[availableUntilCompleted]) then
                                 if firstBreadcrumb then
                                     local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
                                     local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, breadcrumbTitleIndent)
