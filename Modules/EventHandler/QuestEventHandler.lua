@@ -395,7 +395,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 
         QuestLogCache.RemoveQuest(questId)
         QuestieQuest:SetObjectivesDirty(questId)
-        QuestieQuest:AbandonedQuest(questId)
+        QuestLifecycle:AbandonedQuest(questId)
         questLog[questId] = nil
 
         QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ABANDONED)

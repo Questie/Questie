@@ -173,3 +173,48 @@ function QuestLifecycle:CompleteQuest(questId)
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:CompleteQuest]", questId)
 end
+
+---@param questId number
+function QuestLifecycle:AbandonedQuest(questId)
+    if QuestiePlayer.currentQuestlog[questId] then
+        QuestiePlayer.currentQuestlog[questId] = nil
+
+        local quest = QuestieDB.GetQuest(questId)
+
+        if quest then
+            -- Reset quest objectives
+            quest.Objectives = {}
+
+            -- Reset quest flags
+            quest.WasComplete = nil
+            quest.isComplete = nil
+
+            if allianceTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+            elseif hordeTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+            end
+
+            local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+            if childQuests then
+                for _, childQuestId in pairs(childQuests) do
+                    if (not QuestiePlayer.currentQuestlog[childQuestId]) then
+                        -- Make sure all other childQuests are unloaded: all exclusives, chains etc
+                        AvailableQuests.RemoveQuest(childQuestId)
+                    end
+                end
+            end
+        end
+
+        QuestieTracker:RemoveQuest(questId)
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+
+        AvailableQuests.RemoveQuest(questId, function()
+            AvailableQuests.CalculateAndDrawAll()
+        end)
+
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonedQuest]", questId)
+    end
+end
