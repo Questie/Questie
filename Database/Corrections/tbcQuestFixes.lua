@@ -3432,7 +3432,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbs] = {10344},
             [questKeys.nextQuestInChain] = 10382,
         },
-        [10168] = {
+        [10168] = { -- What the Soul Sees
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits."), 0, {{"monster", 18688}}}},
         },
         [10172] = {
