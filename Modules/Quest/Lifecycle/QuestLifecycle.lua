@@ -175,7 +175,7 @@ function QuestLifecycle:CompleteQuest(questId)
 end
 
 ---@param questId number
-function QuestLifecycle:AbandonedQuest(questId)
+function QuestLifecycle:AbandonQuest(questId)
     if QuestiePlayer.currentQuestlog[questId] then
         QuestiePlayer.currentQuestlog[questId] = nil
 
@@ -215,6 +215,6 @@ function QuestLifecycle:AbandonedQuest(questId)
             AvailableQuests.CalculateAndDrawAll()
         end)
 
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonedQuest]", questId)
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonQuest]", questId)
     end
 end

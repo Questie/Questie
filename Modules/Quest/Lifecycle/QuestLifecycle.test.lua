@@ -345,9 +345,9 @@ describe("QuestLifecycle", function()
         end)
     end)
 
-    describe("AbandonedQuest", function()
+    describe("AbandonQuest", function()
         it("should do nothing when quest is not in currentQuestlog", function()
-            QuestLifecycle:AbandonedQuest(999)
+            QuestLifecycle:AbandonQuest(999)
 
             assert.spy(QuestieDB.GetQuest).was.not_called()
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
@@ -358,7 +358,7 @@ describe("QuestLifecycle", function()
             QuestiePlayer.currentQuestlog[questId] = {}
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
 
-            QuestLifecycle:AbandonedQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
 
             assert.is_nil(QuestiePlayer.currentQuestlog[questId])
 
@@ -374,7 +374,7 @@ describe("QuestLifecycle", function()
             QuestiePlayer.currentQuestlog[questId] = quest
             QuestieDB.GetQuest = spy.new(function() return quest end)
 
-            QuestLifecycle:AbandonedQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
 
             assert.are_same({}, quest.Objectives)
             assert.is_nil(quest.WasComplete)
@@ -387,7 +387,7 @@ describe("QuestLifecycle", function()
             QuestieDB.GetQuest = spy.new(function() return {} end)
             Questie.db.char.complete[13686] = true
 
-            QuestLifecycle:AbandonedQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
 
             assert.is_nil(Questie.db.char.complete[13686])
         end)
@@ -398,7 +398,7 @@ describe("QuestLifecycle", function()
             QuestieDB.GetQuest = spy.new(function() return {} end)
             Questie.db.char.complete[13687] = true
 
-            QuestLifecycle:AbandonedQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
 
             assert.is_nil(Questie.db.char.complete[13687])
         end)
@@ -414,7 +414,7 @@ describe("QuestLifecycle", function()
                 end
             end)
 
-            QuestLifecycle:AbandonedQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
 
             assert.spy(AvailableQuests.RemoveQuest).was.called_with(childQuestId)
         end)
@@ -431,7 +431,7 @@ describe("QuestLifecycle", function()
                 end
             end)
 
-            QuestLifecycle:AbandonedQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
 
             assert.spy(AvailableQuests.RemoveQuest).was.not_called_with(childQuestId)
         end)
