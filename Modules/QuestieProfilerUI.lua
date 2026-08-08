@@ -896,8 +896,6 @@ local function AcquireRow(index)
 
     row.heat = row:CreateTexture(nil, "BACKGROUND")
     row.heat:SetTexture("Interface\\Buttons\\WHITE8X8")
-    row.heat:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0)
-    row.heat:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", 0, 0)
 
     row.stripe = row:CreateTexture(nil, "ARTWORK")
     row.stripe:SetTexture("Interface\\Buttons\\WHITE8X8")
@@ -1015,6 +1013,14 @@ local function LayoutRowColumns(row, listWidth)
 
     row.nameText:SetWidth(mmax(40,
         listWidth - numericWidth - COLUMN_GAP - ACCENT_STRIPE_WIDTH - ROW_ICON_SIZE - 7))
+
+    -- The heat bar lives in the numeric band and never reaches the name. Anchored at the band's left edge so
+    -- it grows rightward, which is the direction length is read in. The band is mostly whitespace - five
+    -- right-aligned short numbers - so a tint there covers far less ink than it did behind a long name.
+    row.heatBandWidth = numericWidth
+    row.heat:ClearAllPoints()
+    row.heat:SetPoint("TOPLEFT", row, "TOPLEFT", listWidth - numericWidth, 0)
+    row.heat:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", listWidth - numericWidth, 0)
 end
 
 ---@param index integer
@@ -1199,7 +1205,7 @@ function RenderRows()
 
             local share = HeatShare(reportRow, currentReport, displayState.sortKey)
             local band = HeatBand(share)
-            row.heat:SetWidth(mmax(1, share * listWidth))
+            row.heat:SetWidth(mmax(1, share * (row.heatBandWidth or 0)))
             if row.heat.SetColorTexture then
                 row.heat:SetColorTexture(band.r, band.g, band.b, band.a)
             else
