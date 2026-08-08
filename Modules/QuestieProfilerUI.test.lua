@@ -455,6 +455,60 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("heat scaling", function()
+        ---@return number share @0-1 of the row's own species maximum for the active sort metric
+        local function HeatShare(report, lookupKey, sortKey)
+            return ProfilerUI.private.HeatShare(FindRow(report, lookupKey), report, sortKey or "total")
+        end
+
+        it("never draws a bar longer than the row above it, whatever the species mix", function()
+            -- The staircase: sorted by cost, bar length has to agree with row order. A per-species scale was
+            -- tried and broke exactly this, drawing a mid-sized file longer than a larger function above it.
+            Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"] = 200
+            Profiler.fileLoadTime["Questie.lua"] = 76
+            AddFunctionEntry("QuestieDB.GetQuest", 90, 1)
+            AddFunctionEntry("QuestieDB.GetNPC", 62, 1)
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 300, 3, 40)
+
+            local report = BuildReport({sortKey = "total", descending = true})
+
+            local previous = 1
+            for _, row in ipairs(report.rows) do
+                local share = ProfilerUI.private.HeatShare(row, report, "total")
+                assert.is_true(share <= previous)
+                previous = share
+            end
+        end)
+
+        it("gives the most expensive visible row a full bar and scales the rest against it", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 1)
+            AddFunctionEntry("QuestieDB.GetNPC", 50, 1)
+
+            local report = BuildReport()
+
+            assert.are_same(1, HeatShare(report, "QuestieDB.GetQuest"))
+            assert.are_same(0.25, HeatShare(report, "QuestieDB.GetNPC"))
+        end)
+
+        it("rescales when a species is filtered out, so the flattening is the user's to fix", function()
+            Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"] = 200
+            AddFunctionEntry("QuestieDB.GetQuest", 50, 1)
+
+            -- With the file shown, the function is a quarter-length bar. Unticking Files is what rescales it.
+            assert.are_same(0.25, HeatShare(BuildReport(), "QuestieDB.GetQuest"))
+            assert.are_same(1, HeatShare(BuildReport({showFiles = false}), "QuestieDB.GetQuest"))
+        end)
+
+        it("scales calls against the largest visible call count", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 10, 100)
+            AddFunctionEntry("QuestieDB.GetNPC", 10, 25)
+
+            local report = BuildReport({sortKey = "calls"})
+
+            assert.are_same(0.25, HeatShare(report, "QuestieDB.GetNPC", "calls"))
+        end)
+    end)
+
     describe("caller attribution", function()
         it("lists the callers of a row", function()
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)

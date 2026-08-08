@@ -112,6 +112,11 @@ local DIVIDER_COLOR = {r = 1, g = 1, b = 1, a = 0.22}
 local HOVER_HIGHLIGHT_COLOR = {r = 1, g = 1, b = 1, a = 0.10}
 local SELECTION_HIGHLIGHT_COLOR = {r = 1, g = 1, b = 1, a = 0.18}
 
+-- Alternating row tint. The heat bar only covers the numeric columns, so the name side - the long ragged half
+-- where the eye actually loses its place - has no background at all. Far below hover, which is what keeps a
+-- banded row from looking like it is already under the mouse.
+local ROW_STRIPE_COLOR = {r = 1, g = 1, b = 1, a = 0.025}
+
 -- Worn by both the header and the footer band. The bottom two rows answer different questions - one describes
 -- the row you clicked, the other describes the session and never changes with selection - and at nearly equal
 -- brightness they read as one four-part sentence. Darkening a row into a band separates it by kind rather
@@ -823,6 +828,12 @@ _QuestieProfilerUI.FormatCount = FormatCount
 _QuestieProfilerUI.FormatKilobytes = FormatKilobytes
 _QuestieProfilerUI.FormatMilliseconds = FormatMilliseconds
 
+-- One scale for every visible row, deliberately, even though a single expensive file does compress the
+-- function bars below it. Scaling each species against its own maximum was tried and reverted: sorted
+-- descending, a shared scale makes bar length agree with row order - the staircase - and per-species bars
+-- contradict it, drawing a 76 ms file longer than the 62 ms function above it. A bar that disagrees with the
+-- sort reads as a bug. The species checkboxes are the answer to the flattening: switch Files off and the
+-- maxima, which come from the visible rows, rescale to what is left.
 ---@param row ProfilerReportRow
 ---@param report ProfilerReport
 ---@param sortKey string
@@ -868,6 +879,9 @@ local scrollTrack
 local scrollThumb
 local rowPool = {}
 local columnHeaders = {}
+-- Which header the mouse is over, so it can show the sort it would apply rather than staying silent until
+-- clicked. Nil whenever the mouse is elsewhere.
+local hoveredColumnKey
 local sessionButton, resetButton, freezeButton, refreshButton, neverCalledCheckButton
 local reloadButton, startupCheckButton
 local speciesCheckButtons = {}
@@ -1146,6 +1160,21 @@ local function AcquireRow(index)
 
     row = CreateFrame("Button", nil, listFrame)
     row:SetHeight(ROW_HEIGHT)
+
+    -- Below the heat bar, so a banded row still shows its cost rather than washing it out. `zebra` and
+    -- `stripe` are different things: this bands the row, `stripe` marks its species.
+    row.zebra = row:CreateTexture(nil, "BACKGROUND")
+    row.zebra:SetTexture("Interface\\Buttons\\WHITE8X8")
+    row.zebra:SetDrawLayer("BACKGROUND", -1)
+    row.zebra:SetAllPoints(row)
+    if row.zebra.SetColorTexture then
+        row.zebra:SetColorTexture(ROW_STRIPE_COLOR.r, ROW_STRIPE_COLOR.g, ROW_STRIPE_COLOR.b,
+            ROW_STRIPE_COLOR.a)
+    else
+        row.zebra:SetVertexColor(ROW_STRIPE_COLOR.r, ROW_STRIPE_COLOR.g, ROW_STRIPE_COLOR.b,
+            ROW_STRIPE_COLOR.a)
+    end
+    row.zebra:Hide()
 
     row.heat = row:CreateTexture(nil, "BACKGROUND")
     row.heat:SetTexture("Interface\\Buttons\\WHITE8X8")
@@ -1491,6 +1520,14 @@ function RenderRows()
         else
             row:Show()
 
+            -- Banded by position in the data, not in the pool, so the bands travel with the rows as the list
+            -- scrolls instead of strobing under them.
+            if (index + displayState.scrollOffset) % 2 == 0 then
+                row.zebra:Show()
+            else
+                row.zebra:Hide()
+            end
+
             local share = HeatShare(reportRow, currentReport, displayState.sortKey)
             local band = HeatBand(share)
             row.heat:SetWidth(mmax(1, share * (row.heatBandWidth or 0)))
@@ -1646,9 +1683,15 @@ end
 function UpdateColumnHeaders()
     for _, header in pairs(columnHeaders) do
         local isSorted = header.sortKey == displayState.sortKey
+        local isHovered = header.sortKey == hoveredColumnKey
         local arrow = ""
         if isSorted then
             arrow = displayState.descending and " v" or " ^"
+        elseif isHovered then
+            -- The sort a click would produce, not one that is in effect: a column the list is not sorted by
+            -- goes descending, except the name, which reads better alphabetically. Showing it under the mouse
+            -- is how a header admits it is sortable before anyone has risked a click to find out.
+            arrow = header.sortKey ~= SORT_NAME and " v" or " ^"
         end
         header:SetText(header.label .. arrow)
 
@@ -1656,6 +1699,9 @@ function UpdateColumnHeaders()
         if fontString then
             if isSorted then
                 fontString:SetTextColor(COLOR_SORTED_VALUE.r, COLOR_SORTED_VALUE.g, COLOR_SORTED_VALUE.b)
+            elseif isHovered then
+                -- Brighter than resting, dimmer than sorted: the arrow is a preview, not a state.
+                fontString:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
             else
                 fontString:SetTextColor(0.7, 0.7, 0.7)
             end
@@ -1932,12 +1978,24 @@ local function CreateColumnHeader(parent, label, sortKey)
     header:SetText(label)
     header.label = label
     header.sortKey = sortKey
-    header:SetHighlightTexture("Interface\\Buttons\\UI-Listbox-Highlight", "ADD")
+    -- The last holdout of Blizzard's listbox glow, which every other clickable thing here stopped using.
+    AddHoverHighlight(header)
     header:SetScript("OnClick", function(self)
         ApplySort(self.sortKey)
     end)
-    header:SetScript("OnEnter", UpdateColumnHeaders)
-    header:SetScript("OnLeave", UpdateColumnHeaders)
+    header:SetScript("OnEnter", function(self)
+        hoveredColumnKey = self.sortKey
+        UpdateColumnHeaders()
+    end)
+    header:SetScript("OnLeave", function(self)
+        -- Only the header that recorded itself may clear it. Sliding between two adjacent headers can deliver
+        -- the new one's OnEnter before the old one's OnLeave, and an unconditional clear would then blank the
+        -- arrow on the header the mouse is actually sitting on.
+        if hoveredColumnKey == self.sortKey then
+            hoveredColumnKey = nil
+        end
+        UpdateColumnHeaders()
+    end)
     tinsert(columnHeaders, header)
     return header
 end
