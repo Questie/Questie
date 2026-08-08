@@ -793,6 +793,78 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("session totals", function()
+        local function SessionTotals()
+            return ProfilerUI.private.BuildSessionTotals(Profiler)
+        end
+
+        it("counts and sums loaded files", function()
+            Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"] = 200
+            Profiler.fileLoadMemory["Localization/lookups/lookupZones.lua"] = 18092
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
+            Profiler.fileLoadMemory["Database/Zones/zoneDB.lua"] = 2140
+
+            local totals = SessionTotals()
+
+            assert.are_same(2, totals.fileCount)
+            assert.are_same(220, totals.fileTime)
+            assert.are_same(20232, totals.fileMemory)
+        end)
+
+        it("sums functions by self time, not inclusive time", function()
+            -- Outer's 100ms contains Inner's 40ms. Adding the inclusive figures would report 140ms of work
+            -- for 100ms of elapsed time, charging Inner's milliseconds twice.
+            AddFunctionEntry("Module.Outer", 100, 1, 60)
+            AddFunctionEntry("Module.Inner", 40, 1, 40)
+
+            local totals = SessionTotals()
+
+            assert.are_same(100, totals.functionSelfTime)
+        end)
+
+        it("counts every function and its calls, including never-called ones", function()
+            AddFunctionEntry("Module.Called", 10, 4, 10)
+            AddFunctionEntry("Module.NeverCalled", 0, 0, 0)
+
+            local totals = SessionTotals()
+
+            assert.are_same(2, totals.functionCount)
+            assert.are_same(4, totals.functionCalls)
+        end)
+
+        it("keeps jobs out of the function totals", function()
+            AddFunctionEntry("Module.Work", 10, 2, 10)
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 600, 3, 40)
+
+            local totals = SessionTotals()
+
+            assert.are_same(1, totals.functionCount)
+            assert.are_same(1, totals.jobCount)
+            assert.are_same(600, totals.jobTime)
+        end)
+
+        it("ignores the view filters, since a denominator that moves is circular", function()
+            AddFunctionEntry("Module.Work", 10, 2, 10)
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
+
+            -- Whatever the report is currently showing, the totals describe the session.
+            BuildReport({showFiles = false, showFunctions = false, filter = "nothing matches this"})
+            local totals = SessionTotals()
+
+            assert.are_same(1, totals.functionCount)
+            assert.are_same(1, totals.fileCount)
+        end)
+
+        it("reports zeroes for an empty session", function()
+            local totals = SessionTotals()
+
+            assert.are_same(0, totals.fileCount)
+            assert.are_same(0, totals.functionCount)
+            assert.are_same(0, totals.jobCount)
+            assert.are_same(0, totals.functionSelfTime)
+        end)
+    end)
+
     describe("species filtering", function()
         local function AddOneOfEach()
             AddFunctionEntry("QuestieDB.GetQuest", 50, 4)

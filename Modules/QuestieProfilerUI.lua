@@ -574,6 +574,67 @@ function _QuestieProfilerUI.BuildCalleeList(source, reportRow, grouped)
     return entries
 end
 
+---@class ProfilerSessionTotals
+---@field fileCount number
+---@field fileTime number
+---@field fileMemory number
+---@field functionCount number
+---@field functionCalls number
+---@field functionSelfTime number
+---@field jobCount number
+---@field jobTime number
+
+---Totals for the whole session, deliberately ignoring every filter: these are the denominators a single row
+---is read against, so moving them with the view would make them circular.
+---
+---Functions are summed by self time, never inclusive. Inclusive time counts a caller and everything beneath
+---it, so adding it across functions charges the same milliseconds once per level of nesting - measured at
+---2517.9 ms inclusive against 1109.9 ms self in a live session, an inflation of well over double.
+---
+---The three species are reported side by side and never added together. A job's active slices contain the
+---functions it ran, so job time and function self time overlap; only file load is a genuinely separate phase.
+---@param source ProfilerReportSource
+---@return ProfilerSessionTotals
+function _QuestieProfilerUI.BuildSessionTotals(source)
+    source = source or {}
+    local callCounts = source.hookCallCount or {}
+    local timeCounts = source.hookTimeCount or {}
+    local selfTimes = source.hookSelfTime or {}
+    local jobCallCounts = source.threadJobCallCount or {}
+    local fileLoadTime = source.fileLoadTime or {}
+    local fileLoadMemory = source.fileLoadMemory or {}
+
+    local totals = {
+        fileCount = 0,
+        fileTime = 0,
+        fileMemory = 0,
+        functionCount = 0,
+        functionCalls = 0,
+        functionSelfTime = 0,
+        jobCount = 0,
+        jobTime = 0,
+    }
+
+    for lookupKey, calls in pairs(callCounts) do
+        if jobCallCounts[lookupKey] ~= nil or IsThreadJobKey(lookupKey) then
+            totals.jobCount = totals.jobCount + 1
+            totals.jobTime = totals.jobTime + (timeCounts[lookupKey] or 0)
+        else
+            totals.functionCount = totals.functionCount + 1
+            totals.functionCalls = totals.functionCalls + calls
+            totals.functionSelfTime = totals.functionSelfTime + (selfTimes[lookupKey] or 0)
+        end
+    end
+
+    for filePath, elapsed in pairs(fileLoadTime) do
+        totals.fileCount = totals.fileCount + 1
+        totals.fileTime = totals.fileTime + elapsed
+        totals.fileMemory = totals.fileMemory + (fileLoadMemory[filePath] or 0)
+    end
+
+    return totals
+end
+
 ---@param value number @Milliseconds
 ---@return string
 local function FormatMilliseconds(value)
@@ -762,6 +823,7 @@ local sessionChip, displayChip, statusText, detailText
 local relationPanel, relationCallerRows, relationCalleeRows
 local currentUnscopedRows = {}
 local relationCallerHeader, relationCalleeHeader
+local summaryText
 local eventFrame
 local indicatorButton
 
@@ -1433,21 +1495,40 @@ function UpdateColumnHeaders()
     end
 end
 
+---Groups the totals the way the control row groups its buttons: pipes inside a species, a wide gap between
+---them. The old single run of pipes gave a session state, a view state and a measurement equal weight.
+---@param totals ProfilerSessionTotals
+---@return string
+local function SummaryLine(totals)
+    return sformat(
+        "Files %d | %s ms | %s        Functions %d | %s calls | %s ms self        Jobs %d | %s ms",
+        totals.fileCount,
+        FormatMilliseconds(totals.fileTime),
+        FormatKilobytes(totals.fileMemory),
+        totals.functionCount,
+        FormatCount(totals.functionCalls),
+        FormatMilliseconds(totals.functionSelfTime),
+        totals.jobCount,
+        FormatMilliseconds(totals.jobTime))
+end
+
 local function UpdateStatus()
     if not statusText or not currentReport then
         return
     end
 
+    if summaryText then
+        summaryText:SetText(SummaryLine(_QuestieProfilerUI.BuildSessionTotals(QuestieProfiler)))
+    end
+
+    -- What is left here is state, not measurement: what the session is doing and what the view is showing.
     local sessionState = QuestieProfiler.active and "ACTIVE" or "STOPPED"
     local displayStateLabel = displayState.frozen and "FROZEN" or (QuestieProfiler.active and "LIVE" or "STATIC")
-    local status = sformat("%s | %s | %d hooked | %d/%d shown | peak %s ms | peak %s calls | sort %s",
+    local status = sformat("%s | %s | %d/%d shown | sort %s",
         sessionState,
         displayStateLabel,
-        QuestieProfiler.hookedFunctionCount or 0,
         currentReport.matchedCount,
         currentReport.totalCount,
-        FormatMilliseconds(QuestieProfiler.highestMS or 0),
-        FormatCount(QuestieProfiler.highestCalls or 0),
         SortLabel())
 
     if displayState.hideIdle and currentReport.idleHiddenCount > 0 then
@@ -2367,10 +2448,18 @@ local function BuildFooter()
     detailText:SetTextColor(0.75, 0.75, 0.8)
     DisableWrapping(detailText)
 
+    -- Denominators on the left, state on the right. Both live on the status row, so the strip costs no
+    -- height: a profiler that spends another row of chrome on chrome is worse off than one that groups.
+    summaryText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    summaryText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", EDGE_PADDING, 6)
+    summaryText:SetJustifyH("LEFT")
+    summaryText:SetTextColor(0.72, 0.72, 0.78)
+    DisableWrapping(summaryText)
+
     statusText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    statusText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", EDGE_PADDING, 6)
     statusText:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -(EDGE_PADDING + 16), 6)
-    statusText:SetJustifyH("LEFT")
+    statusText:SetPoint("LEFT", summaryText, "RIGHT", 12, 0)
+    statusText:SetJustifyH("RIGHT")
     statusText:SetTextColor(0.65, 0.65, 0.7)
     DisableWrapping(statusText)
 end
