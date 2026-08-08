@@ -37,17 +37,26 @@ local ROW_HEIGHT = 14
 local TITLE_BAR_HEIGHT = 22
 local CONTROL_ROW_HEIGHT = 26
 local FILTER_ROW_HEIGHT = 26
+local SPECIES_ROW_HEIGHT = 24
 local COLUMN_HEADER_HEIGHT = 16
 local DETAIL_STRIP_HEIGHT = 16
 local STATUS_BAR_HEIGHT = 16
 local SCROLL_TRACK_WIDTH = 8
 local EDGE_PADDING = 8
 local ACCENT_STRIPE_WIDTH = 2
+local ROW_ICON_SIZE = 12
+
+-- One icon per row species. Blizzard's pre-greyed variants are dimmed as well as desaturated, so they wash
+-- out at row height; desaturating a full-brightness texture keeps the contrast and still reads as neutral.
+local ICON_FILE_LOAD = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
+local ICON_FUNCTION = "Interface\\Buttons\\UI-OptionsButton"
+local ICON_THREAD_JOB = "Interface\\Buttons\\UI-RefreshButton"
 
 local COLUMN_TOTAL_WIDTH = 70
 local COLUMN_SELF_WIDTH = 70
 local COLUMN_CALLS_WIDTH = 58
 local COLUMN_AVERAGE_WIDTH = 62
+local COLUMN_MEMORY_WIDTH = 72
 local COLUMN_GAP = 6
 
 local REFRESH_INTERVAL = 0.5
@@ -61,6 +70,7 @@ local SORT_TOTAL = "total"
 local SORT_SELF = "self"
 local SORT_CALLS = "calls"
 local SORT_AVERAGE = "average"
+local SORT_MEMORY = "memory"
 
 local MAX_CALLERS_IN_TOOLTIP = 8
 
@@ -134,6 +144,9 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@field filter string?
 ---@field grouped boolean?
 ---@field hideIdle boolean? @Drop entries that were never called during this session
+---@field showFunctions boolean?
+---@field showJobs boolean?
+---@field showFiles boolean?
 ---@field sortKey string?
 ---@field descending boolean?
 
@@ -142,6 +155,7 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@field matchedCount number @Rows the user can actually see
 ---@field totalCount number @Entries the profiler holds
 ---@field idleHiddenCount number @Entries withheld by the idle filter alone
+---@field speciesCounts table<string, number> @Rows each species would contribute, whether shown or not
 ---@field maxTotalTime number
 ---@field maxSelfTime number
 ---@field maxCalls number
@@ -203,6 +217,8 @@ local function SortValue(row, sortKey)
         return row.averageTime
     elseif sortKey == SORT_SELF then
         return row.hasSelfTime and row.selfTime or 0
+    elseif sortKey == SORT_MEMORY then
+        return row.memoryKilobytes or 0
     elseif sortKey == SORT_NAME then
         return slower(row.displayName)
     end
@@ -245,6 +261,12 @@ function _QuestieProfilerUI.BuildReport(source, options)
     local lowerFilter = options.filter and slower(options.filter) or ""
     local grouped = options.grouped == true
     local hideIdle = options.hideIdle == true
+    -- A species is shown unless explicitly switched off, so an options table that omits them behaves as
+    -- it always did.
+    local showFunctions = options.showFunctions ~= false
+    local showJobs = options.showJobs ~= false
+    local showFiles = options.showFiles ~= false
+    local speciesCounts = {functions = 0, jobs = 0, files = 0}
 
     local rows = {}
     local rowsByIdentity = {}
@@ -322,12 +344,28 @@ function _QuestieProfilerUI.BuildReport(source, options)
                 isFileLoad = true,
                 hasCalls = false,
                 hasTiming = elapsed > 0,
-                hasSelfTime = true,
+                hasSelfTime = false,
                 memoryKilobytes = fileLoadMemory[filePath],
             })
         end
     end
 
+    -- Counted from finished rows rather than source paths, so grouped view reports what is actually listed.
+    local visibleRows = {}
+    for i = 1, #rows do
+        local row = rows[i]
+        local species = row.isFileLoad and "files" or (row.isThreadJob and "jobs" or "functions")
+        speciesCounts[species] = speciesCounts[species] + 1
+        if (species == "files" and showFiles)
+            or (species == "jobs" and showJobs)
+            or (species == "functions" and showFunctions) then
+            tinsert(visibleRows, row)
+        end
+    end
+    rows = visibleRows
+
+    -- Maxima come from the visible rows, so the heat scale answers the question actually on screen rather
+    -- than being flattened by a species the user just switched off.
     local maxTotalTime = 0
     local maxSelfTime = 0
     local maxCalls = 0
@@ -363,6 +401,7 @@ function _QuestieProfilerUI.BuildReport(source, options)
         matchedCount = #rows,
         totalCount = totalCount,
         idleHiddenCount = idleHiddenCount,
+        speciesCounts = speciesCounts,
         maxTotalTime = maxTotalTime,
         maxSelfTime = maxSelfTime,
         maxCalls = maxCalls,
@@ -500,6 +539,9 @@ local scrollThumb
 local rowPool = {}
 local columnHeaders = {}
 local sessionButton, resetButton, freezeButton, refreshButton, viewButton, idleButton
+local reloadButton, startupCheckButton
+local speciesCheckButtons = {}
+local columnHeadersByKey = {}
 local searchBox, searchClearButton
 local sessionChip, displayChip, statusText, detailText
 local eventFrame
@@ -516,12 +558,38 @@ local displayState = {
     hideIdle = true,
     sortKey = SORT_TOTAL,
     descending = true,
+    showFunctions = true,
+    showJobs = true,
+    showFiles = true,
     frozen = false,
     selectedKey = nil,
     scrollOffset = 0,
 }
 
 local Layout, RenderRows, UpdateControls, UpdateColumnHeaders, UpdateTickerState
+local LayoutColumnHeaders
+
+---A column is shown when at least one visible species has something to put in it. Selecting Files alone
+---therefore drops Self, Calls and Average - which are all dashes for a file - and reveals Allocated, which
+---only a file has. The mixed default keeps everything, because that is what mixing costs.
+---@return table<string, boolean> visibleColumns
+local function VisibleColumns()
+    local functions = displayState.showFunctions
+    local jobs = displayState.showJobs
+    local files = displayState.showFiles
+    -- With nothing selected the list is empty; keep the default header set rather than collapsing it.
+    if not functions and not jobs and not files then
+        functions, jobs, files = true, true, true
+    end
+
+    return {
+        [SORT_TOTAL] = true,
+        [SORT_SELF] = functions,
+        [SORT_CALLS] = functions or jobs,
+        [SORT_AVERAGE] = functions or jobs,
+        [SORT_MEMORY] = files,
+    }
+end
 
 -------------------------
 -- Client capability fallbacks
@@ -585,7 +653,7 @@ local function ShowRowTooltip(row, reportRow)
         GameTooltip:AddLine("Job time covers active resume slices only. Time spent suspended between resumes is excluded.",
             0.45, 0.8, 1, true)
         GameTooltip:AddLine("This row is the authoritative total for work spanning multiple resumes.", 0.45, 0.8, 1, true)
-    else
+    elseif reportRow.hasCalls then
         GameTooltip:AddDoubleLine("Average per call", sformat("%.3f ms", reportRow.averageTime), 0.7, 0.7, 0.7, 1, 1, 1)
     end
 
@@ -671,8 +739,13 @@ local function AcquireRow(index)
     end
     row.selection:Hide()
 
+    row.icon = row:CreateTexture(nil, "ARTWORK")
+    row.icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
+    row.icon:SetPoint("LEFT", row, "LEFT", ACCENT_STRIPE_WIDTH + 3, 0)
+    row.icon:SetDesaturated(true)
+
     row.nameText = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    row.nameText:SetPoint("LEFT", row, "LEFT", ACCENT_STRIPE_WIDTH + 4, 0)
+    row.nameText:SetPoint("LEFT", row.icon, "RIGHT", 4, 0)
     row.nameText:SetJustifyH("LEFT")
     DisableWrapping(row.nameText)
 
@@ -691,6 +764,10 @@ local function AcquireRow(index)
     row.average = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.average:SetJustifyH("RIGHT")
     row.average:SetWidth(COLUMN_AVERAGE_WIDTH)
+
+    row.memory = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    row.memory:SetJustifyH("RIGHT")
+    row.memory:SetWidth(COLUMN_MEMORY_WIDTH)
 
     row:SetScript("OnEnter", function(self)
         if self.reportRow then
@@ -732,22 +809,36 @@ local function LayoutRowColumns(row, listWidth)
     row:SetWidth(listWidth)
     row.heat:SetWidth(1)
 
-    local averageRight = -COLUMN_GAP
-    row.average:ClearAllPoints()
-    row.average:SetPoint("RIGHT", row, "RIGHT", averageRight, 0)
+    local visible = VisibleColumns()
+    local columns = {
+        {key = SORT_MEMORY, fontString = row.memory, width = COLUMN_MEMORY_WIDTH},
+        {key = SORT_AVERAGE, fontString = row.average, width = COLUMN_AVERAGE_WIDTH},
+        {key = SORT_CALLS, fontString = row.calls, width = COLUMN_CALLS_WIDTH},
+        {key = SORT_SELF, fontString = row.selfTime, width = COLUMN_SELF_WIDTH},
+        {key = SORT_TOTAL, fontString = row.total, width = COLUMN_TOTAL_WIDTH},
+    }
 
-    row.calls:ClearAllPoints()
-    row.calls:SetPoint("RIGHT", row.average, "LEFT", -COLUMN_GAP, 0)
+    -- Anchored right to left so a hidden column simply closes the gap instead of leaving a hole.
+    local previous
+    local numericWidth = 0
+    for _, column in ipairs(columns) do
+        column.fontString:ClearAllPoints()
+        if visible[column.key] then
+            if previous then
+                column.fontString:SetPoint("RIGHT", previous, "LEFT", -COLUMN_GAP, 0)
+            else
+                column.fontString:SetPoint("RIGHT", row, "RIGHT", -COLUMN_GAP, 0)
+            end
+            column.fontString:Show()
+            previous = column.fontString
+            numericWidth = numericWidth + column.width + COLUMN_GAP
+        else
+            column.fontString:Hide()
+        end
+    end
 
-    row.selfTime:ClearAllPoints()
-    row.selfTime:SetPoint("RIGHT", row.calls, "LEFT", -COLUMN_GAP, 0)
-
-    row.total:ClearAllPoints()
-    row.total:SetPoint("RIGHT", row.selfTime, "LEFT", -COLUMN_GAP, 0)
-
-    local numericWidth = COLUMN_TOTAL_WIDTH + COLUMN_SELF_WIDTH + COLUMN_CALLS_WIDTH
-        + COLUMN_AVERAGE_WIDTH + COLUMN_GAP * 5
-    row.nameText:SetWidth(mmax(40, listWidth - numericWidth - ACCENT_STRIPE_WIDTH - 4))
+    row.nameText:SetWidth(mmax(40,
+        listWidth - numericWidth - COLUMN_GAP - ACCENT_STRIPE_WIDTH - ROW_ICON_SIZE - 7))
 end
 
 function RenderRows()
@@ -787,6 +878,14 @@ function RenderRows()
                 row.heat:SetVertexColor(band.r, band.g, band.b, band.a)
             end
 
+            if reportRow.isFileLoad then
+                row.icon:SetTexture(ICON_FILE_LOAD)
+            elseif reportRow.isThreadJob then
+                row.icon:SetTexture(ICON_THREAD_JOB)
+            else
+                row.icon:SetTexture(ICON_FUNCTION)
+            end
+
             if reportRow.isThreadJob then
                 if row.stripe.SetColorTexture then
                     row.stripe:SetColorTexture(COLOR_THREAD_JOB.r, COLOR_THREAD_JOB.g, COLOR_THREAD_JOB.b, 0.9)
@@ -805,7 +904,8 @@ function RenderRows()
             -- Counted-but-never-timed entries must not read as free work, so they show a dash instead of 0.00.
             if reportRow.hasTiming then
                 row.total:SetText(FormatMilliseconds(reportRow.totalTime))
-                row.average:SetText(FormatMilliseconds(reportRow.averageTime))
+                -- No calls means no per-call average; a loaded file would otherwise read as averaging zero.
+                row.average:SetText(reportRow.hasCalls and FormatMilliseconds(reportRow.averageTime) or "-")
                 row.total:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
                 row.average:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
                 if not reportRow.hasSelfTime then
@@ -828,6 +928,14 @@ function RenderRows()
                 row.selfTime:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
                 row.average:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
             end
+            if reportRow.memoryKilobytes then
+                row.memory:SetText(FormatKilobytes(reportRow.memoryKilobytes))
+                row.memory:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+            else
+                row.memory:SetText("-")
+                row.memory:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+            end
+
             if reportRow.hasCalls then
                 row.calls:SetText(FormatCount(reportRow.calls))
                 row.calls:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
@@ -840,6 +948,7 @@ function RenderRows()
             local sortedColumn = (displayState.sortKey == SORT_CALLS and row.calls)
                 or (displayState.sortKey == SORT_AVERAGE and row.average)
                 or (displayState.sortKey == SORT_SELF and row.selfTime)
+                or (displayState.sortKey == SORT_MEMORY and row.memory)
                 or (displayState.sortKey == SORT_TOTAL and row.total)
                 or nil
             if sortedColumn then
@@ -994,6 +1103,18 @@ function UpdateControls()
         displayChip:SetText("|cff888888STATIC|r")
     end
 
+    if startupCheckButton then
+        startupCheckButton:SetChecked(QuestieProfilerEnabled == true)
+    end
+
+    local counts = currentReport and currentReport.speciesCounts or {}
+    for _, checkButton in ipairs(speciesCheckButtons) do
+        local spec = checkButton.spec
+        checkButton:SetChecked(displayState[spec.key] == true)
+        checkButton.label:SetText(sformat("%s (%s)", spec.label, FormatCount(counts[spec.countKey] or 0)))
+    end
+
+    LayoutColumnHeaders()
     UpdateColumnHeaders()
 end
 
@@ -1009,6 +1130,9 @@ function QuestieProfilerUI:Refresh()
         filter = displayState.filter,
         grouped = displayState.grouped,
         hideIdle = displayState.hideIdle,
+        showFunctions = displayState.showFunctions,
+        showJobs = displayState.showJobs,
+        showFiles = displayState.showFiles,
         sortKey = displayState.sortKey,
         descending = displayState.descending,
     })
@@ -1162,6 +1286,41 @@ local function BuildControlRow()
     refreshButton:SetScript("OnClick", function()
         QuestieProfilerUI:Refresh()
     end)
+
+    -- Anchored to the far edge, away from Stop and Reset: this is the one control in the window that throws
+    -- the session away, and it sits beside the setting whose change it is needed to apply.
+    reloadButton = CreateControlButton(baseFrame, "Reload UI", 72)
+    reloadButton:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -EDGE_PADDING, -(6 + TITLE_BAR_HEIGHT))
+    reloadButton:SetScript("OnClick", function()
+        ReloadUI()
+    end)
+
+    startupCheckButton = CreateFrame("CheckButton", nil, baseFrame, "UICheckButtonTemplate")
+    startupCheckButton:SetSize(20, 20)
+    startupCheckButton:SetPoint("RIGHT", reloadButton, "LEFT", -6, 0)
+    startupCheckButton:SetScript("OnClick", function(self)
+        -- Read at load by Questie.lua, so the change lands on the next reload rather than now. Saying so
+        -- beats letting the profiler look like it ignored the click.
+        QuestieProfilerEnabled = self:GetChecked() and true or false
+        Questie:Print(QuestieProfilerEnabled
+            and "Questie profiler will start on |cff40dd40next reload|r."
+            or "Questie profiler will |cffdd4040not|r start on next reload.")
+    end)
+    startupCheckButton:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+        GameTooltip:AddLine("Profile on startup", 1, 0.82, 0)
+        GameTooltip:AddLine("Arms the profiler while Questie loads, which is the only way to measure addon "
+            .. "file load and initialisation. Takes effect on the next reload.", 0.8, 0.8, 0.8, true)
+        GameTooltip:Show()
+    end)
+    startupCheckButton:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+
+    local startupLabel = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    startupLabel:SetPoint("RIGHT", startupCheckButton, "LEFT", -2, 0)
+    startupLabel:SetText("Profile on startup")
+    startupLabel:SetTextColor(0.75, 0.75, 0.8)
 end
 
 local function BuildFilterRow()
@@ -1215,38 +1374,115 @@ local function BuildFilterRow()
     end)
 end
 
+-- Checkboxes rather than tabs: the useful comparisons are across species, such as a job beside the work it
+-- schedules, and an exclusive control would forbid exactly those.
+local SPECIES_CHECKBOXES = {
+    {key = "showFunctions", label = "Functions", countKey = "functions", icon = ICON_FUNCTION},
+    {key = "showJobs", label = "Jobs", countKey = "jobs", icon = ICON_THREAD_JOB},
+    {key = "showFiles", label = "Files", countKey = "files", icon = ICON_FILE_LOAD},
+}
+
+local function BuildSpeciesRow()
+    local speciesTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
+    local previous
+
+    local showLabel = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    showLabel:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, speciesTop - 5)
+    showLabel:SetText("Show")
+    showLabel:SetTextColor(0.75, 0.75, 0.8)
+
+    for _, spec in ipairs(SPECIES_CHECKBOXES) do
+        local checkButton = CreateFrame("CheckButton", nil, baseFrame, "UICheckButtonTemplate")
+        checkButton:SetSize(18, 18)
+        if previous then
+            checkButton:SetPoint("LEFT", previous.label, "RIGHT", 14, 0)
+        else
+            checkButton:SetPoint("LEFT", showLabel, "RIGHT", 8, 0)
+        end
+
+        local icon = baseFrame:CreateTexture(nil, "ARTWORK")
+        icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
+        icon:SetPoint("LEFT", checkButton, "RIGHT", 2, 0)
+        icon:SetTexture(spec.icon)
+        icon:SetDesaturated(true)
+
+        -- The count is rendered even while the species is hidden, so the control says what it is hiding.
+        local label = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        label:SetPoint("LEFT", icon, "RIGHT", 3, 0)
+        label:SetText(spec.label)
+        label:SetTextColor(0.85, 0.85, 0.85)
+
+        checkButton.label = label
+        checkButton.spec = spec
+        checkButton:SetScript("OnClick", function(self)
+            displayState[spec.key] = self:GetChecked() and true or false
+            displayState.scrollOffset = 0
+            QuestieProfilerUI:Refresh()
+        end)
+
+        speciesCheckButtons[#speciesCheckButtons + 1] = checkButton
+        previous = checkButton
+    end
+end
+
 local function BuildColumnHeaders()
-    local headerTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
+    local headerTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + SPECIES_ROW_HEIGHT)
 
-    local averageHeader = CreateColumnHeader(baseFrame, "Avg ms", SORT_AVERAGE)
-    averageHeader:SetWidth(COLUMN_AVERAGE_WIDTH)
-    averageHeader:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -(EDGE_PADDING + SCROLL_TRACK_WIDTH + COLUMN_GAP), headerTop)
+    local specs = {
+        {key = SORT_MEMORY, label = "Allocated", width = COLUMN_MEMORY_WIDTH},
+        {key = SORT_AVERAGE, label = "Avg ms", width = COLUMN_AVERAGE_WIDTH},
+        {key = SORT_CALLS, label = "Calls", width = COLUMN_CALLS_WIDTH},
+        {key = SORT_SELF, label = "Self ms", width = COLUMN_SELF_WIDTH},
+        {key = SORT_TOTAL, label = "Total ms", width = COLUMN_TOTAL_WIDTH},
+    }
 
-    local callsHeader = CreateColumnHeader(baseFrame, "Calls", SORT_CALLS)
-    callsHeader:SetWidth(COLUMN_CALLS_WIDTH)
-    callsHeader:SetPoint("TOPRIGHT", averageHeader, "TOPLEFT", -COLUMN_GAP, 0)
+    for _, spec in ipairs(specs) do
+        local header = CreateColumnHeader(baseFrame, spec.label, spec.key)
+        header:SetWidth(spec.width)
+        header.headerTop = headerTop
+        columnHeadersByKey[spec.key] = header
+        if header:GetFontString() then
+            header:GetFontString():SetJustifyH("RIGHT")
+        end
+    end
 
-    local selfHeader = CreateColumnHeader(baseFrame, "Self ms", SORT_SELF)
-    selfHeader:SetWidth(COLUMN_SELF_WIDTH)
-    selfHeader:SetPoint("TOPRIGHT", callsHeader, "TOPLEFT", -COLUMN_GAP, 0)
-
-    local totalHeader = CreateColumnHeader(baseFrame, "Total ms", SORT_TOTAL)
-    totalHeader:SetWidth(COLUMN_TOTAL_WIDTH)
-    totalHeader:SetPoint("TOPRIGHT", selfHeader, "TOPLEFT", -COLUMN_GAP, 0)
-
-    local nameHeader = CreateColumnHeader(baseFrame, "Function / Job", SORT_NAME)
-    nameHeader:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, headerTop)
-    nameHeader:SetPoint("TOPRIGHT", totalHeader, "TOPLEFT", -COLUMN_GAP, 0)
+    local nameHeader = CreateColumnHeader(baseFrame, "Name", SORT_NAME)
+    nameHeader.headerTop = headerTop
+    columnHeadersByKey[SORT_NAME] = nameHeader
     if nameHeader:GetFontString() then
         nameHeader:GetFontString():SetJustifyH("LEFT")
         nameHeader:GetFontString():ClearAllPoints()
         nameHeader:GetFontString():SetPoint("LEFT", nameHeader, "LEFT", ACCENT_STRIPE_WIDTH + 4, 0)
     end
-    for _, header in ipairs({averageHeader, callsHeader, selfHeader, totalHeader}) do
-        if header:GetFontString() then
-            header:GetFontString():SetJustifyH("RIGHT")
+end
+
+---Re-anchors the header row for the columns currently in use.
+function LayoutColumnHeaders()
+    local visible = VisibleColumns()
+    local order = {SORT_MEMORY, SORT_AVERAGE, SORT_CALLS, SORT_SELF, SORT_TOTAL}
+    local previous
+
+    for _, key in ipairs(order) do
+        local header = columnHeadersByKey[key]
+        header:ClearAllPoints()
+        if visible[key] then
+            if previous then
+                header:SetPoint("TOPRIGHT", previous, "TOPLEFT", -COLUMN_GAP, 0)
+            else
+                header:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT",
+                    -(EDGE_PADDING + SCROLL_TRACK_WIDTH + COLUMN_GAP), header.headerTop)
+            end
+            header:Show()
+            previous = header
+        else
+            header:Hide()
         end
     end
+
+    local nameHeader = columnHeadersByKey[SORT_NAME]
+    nameHeader:ClearAllPoints()
+    nameHeader:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, nameHeader.headerTop)
+    nameHeader:SetPoint("TOPRIGHT", previous, "TOPLEFT", -COLUMN_GAP, 0)
 end
 
 local function BuildScrollTrack()
@@ -1314,7 +1550,8 @@ local function BuildScrollTrack()
 end
 
 local function BuildListArea()
-    local listTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + COLUMN_HEADER_HEIGHT)
+    local listTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + SPECIES_ROW_HEIGHT
+        + COLUMN_HEADER_HEIGHT)
 
     listFrame = CreateFrame("Frame", nil, baseFrame)
     listFrame:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, listTop)
@@ -1474,6 +1711,7 @@ function QuestieProfilerUI:Create()
     BuildTitleBar()
     BuildControlRow()
     BuildFilterRow()
+    BuildSpeciesRow()
     BuildColumnHeaders()
     BuildListArea()
     BuildFooter()

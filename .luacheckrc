@@ -2901,6 +2901,7 @@ globals = {
     "QuestieConfigFrame",
     "QuestieConfig",
     "QuestieProfilerEnabled",
+    "ReloadUI",
     "SLASH_QUESTIEPROFILER1",
     "SlashCmdList",
     "QuestieCompat",

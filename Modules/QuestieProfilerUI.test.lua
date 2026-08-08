@@ -665,6 +665,14 @@ describe("QuestieProfilerUI", function()
             assert.is_false(row.isThreadJob)
         end)
 
+        it("reports no self time, which for a file could only equal its total", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 19.6
+
+            local row = FindRow(BuildReport(), "Database/Zones/zoneDB.lua")
+
+            assert.is_false(row.hasSelfTime)
+        end)
+
         it("survives the idle filter, which has no meaning for a file", function()
             Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 19.6
 
@@ -683,6 +691,100 @@ describe("QuestieProfilerUI", function()
             AddFunctionEntry("QuestieDB.GetQuest", 50, 4)
 
             assert.are_same({"Localization/lookups/lookupZones.lua", "QuestieDB.GetQuest"}, RowKeys(BuildReport()))
+        end)
+    end)
+
+    describe("species filtering", function()
+        local function AddOneOfEach()
+            AddFunctionEntry("QuestieDB.GetQuest", 50, 4)
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 600, 3, 40)
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 19.6
+        end
+
+        it("shows every species by default", function()
+            AddOneOfEach()
+
+            assert.are_same(3, BuildReport().matchedCount)
+        end)
+
+        it("hides functions when they are switched off", function()
+            AddOneOfEach()
+
+            local report = BuildReport({showFunctions = false})
+
+            assert.are_same({"ThreadLib job: _DrawAvailableQuest", "Database/Zones/zoneDB.lua"},
+                RowKeys(BuildReport({showFunctions = false, sortKey = "total", descending = true})))
+            assert.are_same(2, report.matchedCount)
+        end)
+
+        it("hides files when they are switched off", function()
+            AddOneOfEach()
+
+            local keys = RowKeys(BuildReport({showFiles = false, sortKey = "total", descending = true}))
+
+            assert.are_same({"ThreadLib job: _DrawAvailableQuest", "QuestieDB.GetQuest"}, keys)
+        end)
+
+        it("shows one species alone", function()
+            AddOneOfEach()
+
+            local report = BuildReport({showFunctions = false, showJobs = false})
+
+            assert.are_same({"Database/Zones/zoneDB.lua"}, RowKeys(report))
+        end)
+
+        it("returns nothing when every species is switched off", function()
+            AddOneOfEach()
+
+            local report = BuildReport({showFunctions = false, showJobs = false, showFiles = false})
+
+            assert.are_same({}, RowKeys(report))
+        end)
+
+        it("counts a hidden species, so the control can say what it hides", function()
+            AddOneOfEach()
+
+            local report = BuildReport({showFunctions = false, showFiles = false})
+
+            assert.are_same(1, report.speciesCounts.functions)
+            assert.are_same(1, report.speciesCounts.jobs)
+            assert.are_same(1, report.speciesCounts.files)
+        end)
+
+        it("counts grouped rows rather than the paths behind them", function()
+            AddFunctionEntry("QuestieDB.private.GetQuest", 40, 2)
+            AddFunctionEntry("QuestieDB.GetQuest", 60, 3)
+
+            local report = BuildReport({grouped = true})
+
+            assert.are_same(1, report.speciesCounts.functions)
+        end)
+
+        it("counts only what the text filter matched", function()
+            AddOneOfEach()
+
+            local report = BuildReport({filter = "zonedb"})
+
+            assert.are_same(0, report.speciesCounts.functions)
+            assert.are_same(1, report.speciesCounts.files)
+        end)
+
+        it("scales the heat maximum to the visible species", function()
+            AddOneOfEach()
+
+            -- The 600ms job would otherwise flatten every function bar.
+            assert.are_same(50, BuildReport({showJobs = false, showFiles = false}).maxTotalTime)
+        end)
+
+        it("sorts by allocation", function()
+            Profiler.fileLoadTime["big.lua"] = 10
+            Profiler.fileLoadMemory["big.lua"] = 18092
+            Profiler.fileLoadTime["small.lua"] = 90
+            Profiler.fileLoadMemory["small.lua"] = 12
+
+            local keys = RowKeys(BuildReport({sortKey = "memory", descending = true}))
+
+            assert.are_same({"big.lua", "small.lua"}, keys)
         end)
     end)
 
