@@ -32,12 +32,18 @@ local mmin = math.min
 local WINDOW_DEFAULT_WIDTH = 1000
 local WINDOW_DEFAULT_HEIGHT = 520
 local WINDOW_MIN_WIDTH = 494
-local WINDOW_MIN_HEIGHT = 264
+local WINDOW_MIN_HEIGHT = 269
 local WINDOW_MAX_WIDTH = 1600
 local WINDOW_MAX_HEIGHT = 1200
 
 local ROW_HEIGHT = 14
 local TITLE_BAR_HEIGHT = 22
+-- The header band is the footer band turned upside down: identity and session state are chrome in exactly the
+-- way the totals row is, so they get the same floor-and-rule treatment rather than floating on the content.
+local HEADER_BAND_HEIGHT = 6 + TITLE_BAR_HEIGHT
+-- Everything below the band measures from here, leaving the same clearance under the rule that the selection
+-- row keeps above its own.
+local CONTENT_TOP = HEADER_BAND_HEIGHT + 5
 local CONTROL_ROW_HEIGHT = 26
 local FILTER_ROW_HEIGHT = 26
 
@@ -98,11 +104,11 @@ local DIVIDER_COLOR = {r = 1, g = 1, b = 1, a = 0.22}
 local HOVER_HIGHLIGHT_COLOR = {r = 1, g = 1, b = 1, a = 0.10}
 local SELECTION_HIGHLIGHT_COLOR = {r = 1, g = 1, b = 1, a = 0.18}
 
--- The bottom two rows answer different questions - one describes the row you clicked, the other describes the
--- session and never changes with selection - and at nearly equal brightness they read as one four-part
--- sentence. Darkening the global row into a band separates them by kind rather than by wording: a band is
--- chrome, and chrome is exactly what a session readout is.
-local FOOTER_BAND_COLOR = {r = 0, g = 0, b = 0, a = 0.30}
+-- Worn by both the header and the footer band. The bottom two rows answer different questions - one describes
+-- the row you clicked, the other describes the session and never changes with selection - and at nearly equal
+-- brightness they read as one four-part sentence. Darkening a row into a band separates it by kind rather
+-- than by wording: a band is chrome, and chrome is exactly what a title and a session readout are.
+local CHROME_BAND_COLOR = {r = 0, g = 0, b = 0, a = 0.30}
 
 -- A hint recedes; an active filter does not. Brightness is what tells the two apart now that neither is
 -- labelled, so an unnoticed scope cannot quietly explain why the list looks short.
@@ -1857,10 +1863,33 @@ local function CreateColumnHeader(parent, label, sortKey)
 end
 
 local function BuildTitleBar()
+    -- The footer band, mirrored. Rule on the bottom edge here rather than the top, so both bands close the
+    -- window off towards the content between them.
+    local headerBand = baseFrame:CreateTexture(nil, "BACKGROUND")
+    headerBand:SetTexture("Interface\\Buttons\\WHITE8X8")
+    headerBand:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", 1, -1)
+    headerBand:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -1, -1)
+    headerBand:SetHeight(HEADER_BAND_HEIGHT)
+    if headerBand.SetColorTexture then
+        headerBand:SetColorTexture(CHROME_BAND_COLOR.r, CHROME_BAND_COLOR.g, CHROME_BAND_COLOR.b,
+            CHROME_BAND_COLOR.a)
+    end
+
+    local headerRule = baseFrame:CreateTexture(nil, "ARTWORK")
+    headerRule:SetTexture("Interface\\Buttons\\WHITE8X8")
+    headerRule:SetHeight(1)
+    headerRule:SetPoint("TOPLEFT", headerBand, "BOTTOMLEFT", 0, 0)
+    headerRule:SetPoint("TOPRIGHT", headerBand, "BOTTOMRIGHT", 0, 0)
+    if headerRule.SetColorTexture then
+        headerRule:SetColorTexture(DIVIDER_COLOR.r, DIVIDER_COLOR.g, DIVIDER_COLOR.b, DIVIDER_COLOR.a)
+    end
+
+    -- Spans the whole band, not just the space between the paddings: a strip that looks like a title bar
+    -- should be draggable everywhere it looks draggable.
     local titleBar = CreateFrame("Frame", nil, baseFrame)
-    titleBar:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, -6)
-    titleBar:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -EDGE_PADDING, -6)
-    titleBar:SetHeight(TITLE_BAR_HEIGHT)
+    titleBar:SetPoint("TOPLEFT", headerBand, "TOPLEFT", 0, 0)
+    titleBar:SetPoint("TOPRIGHT", headerBand, "TOPRIGHT", 0, 0)
+    titleBar:SetHeight(HEADER_BAND_HEIGHT)
     titleBar:EnableMouse(true)
     titleBar:RegisterForDrag("LeftButton")
     titleBar:SetScript("OnDragStart", function()
@@ -1871,12 +1900,13 @@ local function BuildTitleBar()
     end)
 
     local title = titleBar:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    title:SetPoint("LEFT", titleBar, "LEFT", 0, 0)
+    title:SetPoint("LEFT", titleBar, "LEFT", EDGE_PADDING - 1, 0)
     title:SetText("Questie Profiler")
 
     local closeButton = CreateFrame("Button", nil, titleBar, "UIPanelCloseButton")
     closeButton:SetSize(24, 24)
-    closeButton:SetPoint("RIGHT", titleBar, "RIGHT", 4, 0)
+    -- The template's art carries its own padding, so the button sits closer to the edge than its box does.
+    closeButton:SetPoint("RIGHT", titleBar, "RIGHT", -3, 0)
     closeButton:SetScript("OnClick", function()
         QuestieProfilerUI:Hide()
     end)
@@ -1903,7 +1933,7 @@ end
 -- window already names those two domains in the title bar chips, so the captions label the controls with the
 -- same words as the state they act on.
 local function BuildControlRow()
-    local controlTop = -(6 + TITLE_BAR_HEIGHT)
+    local controlTop = -(CONTENT_TOP)
 
     local sessionCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     sessionCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, controlTop - 5)
@@ -2054,7 +2084,7 @@ end
 -- entries that were never called. The idle filter used to be a lone text-toggle button, which made a filter
 -- look like an action.
 local function BuildShowRow()
-    local showTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT)
+    local showTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT)
 
     local showCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     showCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, showTop - 5)
@@ -2130,7 +2160,7 @@ local function BuildShowRow()
 end
 
 local function BuildColumnHeaders()
-    local headerTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
+    local headerTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
 
     local specs = {
         {key = SORT_MEMORY, label = "Allocated", width = COLUMN_MEMORY_WIDTH},
@@ -2256,7 +2286,7 @@ local function BuildScrollTrack()
 end
 
 local function BuildTreePane()
-    local paneTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
+    local paneTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
         + COLUMN_HEADER_HEIGHT)
 
     treeFrame = CreateFrame("Frame", nil, baseFrame)
@@ -2308,7 +2338,7 @@ local function BuildTreePane()
 end
 
 local function BuildListArea()
-    local listTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
+    local listTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
         + COLUMN_HEADER_HEIGHT)
 
     listFrame = CreateFrame("Frame", nil, baseFrame)
@@ -2336,8 +2366,15 @@ local function CreateRelationColumn(parent, anchorSide)
             anchorSide == "LEFT" and 0 or 0, -(RELATION_HEADER_HEIGHT + (index - 1) * RELATION_ROW_HEIGHT))
         entry:SetWidth(10)
 
+        -- Same icon the list uses for the same species, so "ThreadLib job: " no longer has to be spelled out
+        -- in a column this narrow. The prefix cost 15 characters of the widest names in the window.
+        entry.icon = entry:CreateTexture(nil, "ARTWORK")
+        entry.icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
+        entry.icon:SetPoint("LEFT", entry, "LEFT", 10, 0)
+        entry.icon:SetDesaturated(true)
+
         entry.nameText = entry:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        entry.nameText:SetPoint("LEFT", entry, "LEFT", 10, 0)
+        entry.nameText:SetPoint("LEFT", entry.icon, "RIGHT", 4, 0)
         entry.nameText:SetJustifyH("LEFT")
         DisableWrapping(entry.nameText)
 
@@ -2423,20 +2460,28 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
         local entry = entryButtons[index]
         local data = entries[index]
         entry:SetWidth(columnWidth)
-        entry.nameText:SetWidth(mmax(40, columnWidth - 130))
+        entry.nameText:SetWidth(mmax(40, columnWidth - 130 - ROW_ICON_SIZE - 4))
 
         if data then
-            entry.identity = data[identityField]
+            local identity = data[identityField]
+            local isThreadJob = IsThreadJobKey(identity)
+            entry.identity = identity
             entry.relationSummary = sformat("%s calls, %s ms",
                 FormatCount(data.calls), FormatMilliseconds(data.totalTime))
-            entry.nameText:SetText(data[identityField])
-            entry.nameText:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+            -- Icon and colour carry the species here, the way they do in the list. Nothing is lost: the
+            -- tooltip still shows the untrimmed key.
+            entry.icon:SetTexture(isThreadJob and ICON_THREAD_JOB or ICON_FUNCTION)
+            entry.icon:Show()
+            entry.nameText:SetText(DisplayNameFor(identity))
+            local nameColor = isThreadJob and COLOR_THREAD_JOB or COLOR_TEXT
+            entry.nameText:SetTextColor(nameColor.r, nameColor.g, nameColor.b)
             entry.valueText:SetText(sformat("%s x   %s ms",
                 FormatCount(data.calls), FormatMilliseconds(data.totalTime)))
             entry:Show()
         elseif index == 1 then
             -- An empty direction is a finding, not a blank: a leaf calls nothing, a root is called by nothing.
             entry.identity = nil
+            entry.icon:Hide()
             entry.nameText:SetText(emptyMessage)
             entry.nameText:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
             entry.valueText:SetText("")
@@ -2537,8 +2582,8 @@ local function BuildFooter()
     footerBand:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -1, 1)
     footerBand:SetHeight(STATUS_BAR_HEIGHT)
     if footerBand.SetColorTexture then
-        footerBand:SetColorTexture(FOOTER_BAND_COLOR.r, FOOTER_BAND_COLOR.g, FOOTER_BAND_COLOR.b,
-            FOOTER_BAND_COLOR.a)
+        footerBand:SetColorTexture(CHROME_BAND_COLOR.r, CHROME_BAND_COLOR.g, CHROME_BAND_COLOR.b,
+            CHROME_BAND_COLOR.a)
     end
 
     local footerRule = baseFrame:CreateTexture(nil, "ARTWORK")
