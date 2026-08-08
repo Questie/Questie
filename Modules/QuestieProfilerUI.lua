@@ -57,6 +57,15 @@ local COLUMN_SELF_WIDTH = 70
 local COLUMN_CALLS_WIDTH = 58
 local COLUMN_AVERAGE_WIDTH = 62
 local COLUMN_MEMORY_WIDTH = 72
+local TREE_PANE_WIDTH = 210
+local TREE_ROW_HEIGHT = 14
+local TREE_INDENT = 10
+-- A hairline, not a control. It only has to say "there is more below", so it is a quarter the width of the
+-- list's real scrollbar and faint enough that nobody reaches for it: a widget that invites a drag it cannot
+-- accept is worse than no indicator at all. Both colours below are free to tune.
+local TREE_SCROLL_WIDTH = 1
+local TREE_SCROLL_TRACK_COLOR = {r = 1, g = 1, b = 1, a = 0.02}
+local TREE_SCROLL_THUMB_COLOR = {r = 0.78, g = 0.78, b = 0.86, a = 0.16}
 local COLUMN_GAP = 6
 
 local REFRESH_INTERVAL = 0.5
@@ -73,6 +82,11 @@ local SORT_AVERAGE = "average"
 local SORT_MEMORY = "memory"
 
 local MAX_CALLERS_IN_TOOLTIP = 8
+
+-- Names already carry a hierarchy the flat list throws away: files are directory paths, functions are module
+-- paths. Rebuilding it is what lets the window answer "what does all of Database/ cost", which no per-row
+-- view can. Jobs have no path of their own, so they collect under one synthetic node rather than vanishing.
+local THREAD_JOB_TREE_LABEL = "ThreadLib jobs"
 
 local THREAD_JOB_PREFIX = "ThreadLib job: "
 local THREAD_JOB_PREFIX_LENGTH = string.len(THREAD_JOB_PREFIX)
@@ -147,6 +161,7 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@field showFunctions boolean?
 ---@field showJobs boolean?
 ---@field showFiles boolean?
+---@field scopePrefix string? @Only rows whose identity starts with this are kept
 ---@field sortKey string?
 ---@field descending boolean?
 
@@ -263,6 +278,7 @@ function _QuestieProfilerUI.BuildReport(source, options)
     local hideIdle = options.hideIdle == true
     -- A species is shown unless explicitly switched off, so an options table that omits them behaves as
     -- it always did.
+    local scopePrefix = options.scopePrefix
     local showFunctions = options.showFunctions ~= false
     local showJobs = options.showJobs ~= false
     local showFiles = options.showFiles ~= false
@@ -356,9 +372,21 @@ function _QuestieProfilerUI.BuildReport(source, options)
         local row = rows[i]
         local species = row.isFileLoad and "files" or (row.isThreadJob and "jobs" or "functions")
         speciesCounts[species] = speciesCounts[species] + 1
-        if (species == "files" and showFiles)
+
+        local speciesShown = (species == "files" and showFiles)
             or (species == "jobs" and showJobs)
-            or (species == "functions" and showFunctions) then
+            or (species == "functions" and showFunctions)
+
+        -- A tree node scopes by prefix. Jobs sit under a synthetic node, so they match on that label
+        -- rather than on their own identity, which has no path in it.
+        local inScope = true
+        if scopePrefix and scopePrefix ~= "" then
+            local scopeTarget = row.isThreadJob and (THREAD_JOB_TREE_LABEL .. " " .. row.displayName)
+                or row.lookupKey
+            inScope = ssub(scopeTarget, 1, string.len(scopePrefix)) == scopePrefix
+        end
+
+        if speciesShown and inScope then
             tinsert(visibleRows, row)
         end
     end
@@ -469,6 +497,101 @@ local function FormatMilliseconds(value)
     return sformat("%.2f", value)
 end
 
+---@class ProfilerTreeNode
+---@field label string @The segment this node adds
+---@field prefix string @Full identity prefix, including the trailing separator
+---@field totalTime number @Rolled up from every row beneath it
+---@field rowCount number
+---@field children ProfilerTreeNode[]
+
+---@param row ProfilerReportRow
+---@return string separator
+---@return string[] segments @Containers first, leaf last
+local function TreeSegments(row)
+    if row.isThreadJob then
+        return " ", {THREAD_JOB_TREE_LABEL, row.displayName}
+    end
+
+    local separator = row.isFileLoad and "/" or "."
+    local segments = {}
+    for segment in string.gmatch(row.lookupKey, "[^" .. separator .. "]+") do
+        tinsert(segments, segment)
+    end
+    return separator, segments
+end
+
+---@param node ProfilerTreeNode
+local function SortTreeNode(node)
+    tsort(node.children, function(left, right)
+        if left.totalTime == right.totalTime then
+            return left.label < right.label
+        end
+        return left.totalTime > right.totalTime
+    end)
+    for _, child in ipairs(node.children) do
+        SortTreeNode(child)
+    end
+end
+
+---Builds the container hierarchy for a set of rows, rolling each row's time into every ancestor.
+---@param rows ProfilerReportRow[]
+---@return ProfilerTreeNode root
+function _QuestieProfilerUI.BuildTree(rows)
+    local root = {label = "", prefix = "", totalTime = 0, rowCount = 0, children = {}, childrenByPrefix = {}}
+
+    for _, row in ipairs(rows) do
+        local separator, segments = TreeSegments(row)
+        root.totalTime = root.totalTime + row.totalTime
+        root.rowCount = root.rowCount + 1
+
+        -- The leaf is the row itself and never becomes a node; only its containers do.
+        local node = root
+        local prefix = ""
+        for i = 1, #segments - 1 do
+            prefix = prefix .. segments[i] .. separator
+            local child = node.childrenByPrefix[prefix]
+            if not child then
+                child = {
+                    label = segments[i],
+                    prefix = prefix,
+                    totalTime = 0,
+                    rowCount = 0,
+                    children = {},
+                    childrenByPrefix = {},
+                }
+                node.childrenByPrefix[prefix] = child
+                tinsert(node.children, child)
+            end
+            child.totalTime = child.totalTime + row.totalTime
+            child.rowCount = child.rowCount + 1
+            node = child
+        end
+    end
+
+    SortTreeNode(root)
+    return root
+end
+
+---Flattens the tree into the lines a list can render, honouring which nodes are open.
+---@param root ProfilerTreeNode
+---@param expandedPrefixes table<string, boolean>
+---@return table[] lines @Each {node = node, depth = n, hasChildren = boolean}
+function _QuestieProfilerUI.FlattenTree(root, expandedPrefixes)
+    local lines = {}
+
+    local function Visit(node, depth)
+        for _, child in ipairs(node.children) do
+            tinsert(lines, {node = child, depth = depth, hasChildren = #child.children > 0})
+            if expandedPrefixes[child.prefix] then
+                Visit(child, depth + 1)
+            end
+        end
+    end
+
+    Visit(root, 0)
+    return lines
+end
+
 ---@param value number @Kilobytes; negative when the collector freed memory during the interval
 ---@return string
 local function FormatKilobytes(value)
@@ -541,6 +664,10 @@ local columnHeaders = {}
 local sessionButton, resetButton, freezeButton, refreshButton, viewButton, idleButton
 local reloadButton, startupCheckButton
 local speciesCheckButtons = {}
+local treeFrame, treeScopeText
+local treeScrollTrack, treeScrollThumb
+local treeRowPool = {}
+local currentTree
 local columnHeadersByKey = {}
 local searchBox, searchClearButton
 local sessionChip, displayChip, statusText, detailText
@@ -561,13 +688,18 @@ local displayState = {
     showFunctions = true,
     showJobs = true,
     showFiles = true,
+    scopePrefix = "",
+    scopeLabel = "",
+    treeVisible = true,
+    treeScrollOffset = 0,
+    expandedPrefixes = {},
     frozen = false,
     selectedKey = nil,
     scrollOffset = 0,
 }
 
 local Layout, RenderRows, UpdateControls, UpdateColumnHeaders, UpdateTickerState
-local LayoutColumnHeaders
+local LayoutColumnHeaders, RenderTree
 
 ---A column is shown when at least one visible species has something to put in it. Selecting Files alone
 ---therefore drops Self, Calls and Average - which are all dashes for a file - and reveals Allocated, which
@@ -839,6 +971,158 @@ local function LayoutRowColumns(row, listWidth)
 
     row.nameText:SetWidth(mmax(40,
         listWidth - numericWidth - COLUMN_GAP - ACCENT_STRIPE_WIDTH - ROW_ICON_SIZE - 7))
+end
+
+---@param index integer
+---@return table treeRow
+local function AcquireTreeRow(index)
+    local treeRow = treeRowPool[index]
+    if treeRow then
+        return treeRow
+    end
+
+    treeRow = CreateFrame("Button", nil, treeFrame)
+    treeRow:SetHeight(TREE_ROW_HEIGHT)
+    treeRow:SetPoint("LEFT", treeFrame, "LEFT", 0, 0)
+    treeRow:SetPoint("RIGHT", treeFrame, "RIGHT", -(TREE_SCROLL_WIDTH + 2), 0)
+
+    treeRow.highlight = treeRow:CreateTexture(nil, "BACKGROUND")
+    treeRow.highlight:SetTexture("Interface\\Buttons\\WHITE8X8")
+    treeRow.highlight:SetAllPoints(treeRow)
+    if treeRow.highlight.SetColorTexture then
+        treeRow.highlight:SetColorTexture(1, 1, 1, 0.10)
+    end
+    treeRow.highlight:Hide()
+
+    -- Separate hit area: the arrow opens the node, the label scopes the list. Merging them would make
+    -- browsing the hierarchy impossible without also changing what the list shows.
+    treeRow.toggle = CreateFrame("Button", nil, treeRow)
+    treeRow.toggle:SetSize(TREE_ROW_HEIGHT, TREE_ROW_HEIGHT)
+
+    treeRow.arrow = treeRow.toggle:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    treeRow.arrow:SetPoint("CENTER", treeRow.toggle, "CENTER", 0, 0)
+
+    treeRow.label = treeRow:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    treeRow.label:SetJustifyH("LEFT")
+    DisableWrapping(treeRow.label)
+
+    treeRow.value = treeRow:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    treeRow.value:SetJustifyH("RIGHT")
+    treeRow.value:SetPoint("RIGHT", treeRow, "RIGHT", -4, 0)
+    treeRow.value:SetWidth(58)
+
+    treeRow.toggle:SetScript("OnClick", function(self)
+        local prefix = self:GetParent().prefix
+        if not prefix then
+            return
+        end
+        displayState.expandedPrefixes[prefix] = not displayState.expandedPrefixes[prefix] or nil
+        RenderTree()
+    end)
+
+    treeRow:SetScript("OnClick", function(self)
+        if not self.prefix then
+            return
+        end
+        -- Clicking the node already in scope steps back out, so the control is its own undo.
+        if displayState.scopePrefix == self.prefix then
+            displayState.scopePrefix = ""
+            displayState.scopeLabel = ""
+        else
+            displayState.scopePrefix = self.prefix
+            displayState.scopeLabel = self.prefix
+            displayState.expandedPrefixes[self.prefix] = true
+        end
+        displayState.scrollOffset = 0
+        QuestieProfilerUI:Refresh()
+    end)
+
+    treeRowPool[index] = treeRow
+    return treeRow
+end
+
+function RenderTree()
+    if not treeFrame or not currentTree then
+        return
+    end
+
+    if not displayState.treeVisible then
+        treeFrame:Hide()
+        return
+    end
+    treeFrame:Show()
+
+    local lines = _QuestieProfilerUI.FlattenTree(currentTree, displayState.expandedPrefixes)
+    local visibleCount = mmax(0, mfloor((treeFrame:GetHeight() or 0) / TREE_ROW_HEIGHT))
+    local maxOffset = mmax(0, #lines - visibleCount)
+    if displayState.treeScrollOffset > maxOffset then
+        displayState.treeScrollOffset = maxOffset
+    end
+
+    for index = 1, visibleCount do
+        local treeRow = AcquireTreeRow(index)
+        treeRow:ClearAllPoints()
+        treeRow:SetPoint("TOPLEFT", treeFrame, "TOPLEFT", 0, -(index - 1) * TREE_ROW_HEIGHT)
+        treeRow:SetPoint("TOPRIGHT", treeFrame, "TOPRIGHT",
+            -(TREE_SCROLL_WIDTH + 2), -(index - 1) * TREE_ROW_HEIGHT)
+
+        local line = lines[index + displayState.treeScrollOffset]
+        if not line then
+            treeRow:Hide()
+        else
+            treeRow:Show()
+            treeRow.prefix = line.node.prefix
+
+            local indent = line.depth * TREE_INDENT
+            treeRow.toggle:ClearAllPoints()
+            treeRow.toggle:SetPoint("LEFT", treeRow, "LEFT", indent, 0)
+            treeRow.arrow:SetText(line.hasChildren
+                and (displayState.expandedPrefixes[line.node.prefix] and "-" or "+") or "")
+
+            treeRow.label:ClearAllPoints()
+            treeRow.label:SetPoint("LEFT", treeRow.toggle, "RIGHT", 0, 0)
+            treeRow.label:SetPoint("RIGHT", treeRow.value, "LEFT", -4, 0)
+            treeRow.label:SetText(line.node.label)
+
+            treeRow.value:SetText(FormatMilliseconds(line.node.totalTime))
+
+            local isScoped = displayState.scopePrefix == line.node.prefix
+            if isScoped then
+                treeRow.highlight:Show()
+                treeRow.label:SetTextColor(COLOR_SORTED_VALUE.r, COLOR_SORTED_VALUE.g, COLOR_SORTED_VALUE.b)
+            else
+                treeRow.highlight:Hide()
+                treeRow.label:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+            end
+            treeRow.value:SetTextColor(0.65, 0.65, 0.7)
+        end
+    end
+
+    for index = visibleCount + 1, #treeRowPool do
+        treeRowPool[index]:Hide()
+    end
+
+    if treeScrollTrack and treeScrollThumb then
+        local trackHeight = treeFrame:GetHeight() or 0
+        if #lines <= visibleCount or trackHeight <= 0 then
+            treeScrollTrack:Hide()
+            treeScrollThumb:Hide()
+        else
+            treeScrollTrack:Show()
+            treeScrollThumb:Show()
+            local thumbHeight = mmax(12, trackHeight * (visibleCount / #lines))
+            local progress = maxOffset > 0 and (displayState.treeScrollOffset / maxOffset) or 0
+            treeScrollThumb:SetHeight(thumbHeight)
+            treeScrollThumb:ClearAllPoints()
+            treeScrollThumb:SetPoint("TOPRIGHT", treeFrame, "TOPRIGHT", 0, -progress * (trackHeight - thumbHeight))
+        end
+    end
+
+    if treeScopeText then
+        treeScopeText:SetText(displayState.scopePrefix ~= ""
+            and ("Scope: " .. displayState.scopeLabel .. "   (click again to clear)")
+            or "No scope - click a node to narrow the list")
+    end
 end
 
 function RenderRows()
@@ -1130,13 +1414,28 @@ function QuestieProfilerUI:Refresh()
         filter = displayState.filter,
         grouped = displayState.grouped,
         hideIdle = displayState.hideIdle,
+        scopePrefix = displayState.scopePrefix,
         showFunctions = displayState.showFunctions,
         showJobs = displayState.showJobs,
         showFiles = displayState.showFiles,
         sortKey = displayState.sortKey,
         descending = displayState.descending,
     })
+    -- Built from the report before scoping would hide the rest of the hierarchy, so the tree stays a map of
+    -- the whole session rather than collapsing to whatever is currently selected.
+    ---@type ProfilerReportSource
+    local treeSource = QuestieProfiler
+    currentTree = _QuestieProfilerUI.BuildTree(_QuestieProfilerUI.BuildReport(treeSource, {
+        filter = displayState.filter,
+        grouped = displayState.grouped,
+        hideIdle = displayState.hideIdle,
+        showFunctions = displayState.showFunctions,
+        showJobs = displayState.showJobs,
+        showFiles = displayState.showFiles,
+    }).rows)
+
     RenderRows()
+    RenderTree()
     UpdateStatus()
     UpdateControls()
     -- Re-evaluated on every refresh so a session stopped or frozen from outside this window - a /run call, or
@@ -1481,7 +1780,8 @@ function LayoutColumnHeaders()
 
     local nameHeader = columnHeadersByKey[SORT_NAME]
     nameHeader:ClearAllPoints()
-    nameHeader:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, nameHeader.headerTop)
+    nameHeader:SetPoint("TOPLEFT", baseFrame, "TOPLEFT",
+        EDGE_PADDING + (displayState.treeVisible and (TREE_PANE_WIDTH + 10) or 0), nameHeader.headerTop)
     nameHeader:SetPoint("TOPRIGHT", previous, "TOPLEFT", -COLUMN_GAP, 0)
 end
 
@@ -1549,12 +1849,60 @@ local function BuildScrollTrack()
     end)
 end
 
+local function BuildTreePane()
+    local paneTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + SPECIES_ROW_HEIGHT
+        + COLUMN_HEADER_HEIGHT)
+
+    treeFrame = CreateFrame("Frame", nil, baseFrame)
+    treeFrame:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, paneTop)
+    treeFrame:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
+        EDGE_PADDING, DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
+    treeFrame:SetWidth(TREE_PANE_WIDTH)
+    treeFrame:EnableMouseWheel(true)
+    treeFrame:SetScript("OnMouseWheel", function(_, delta)
+        displayState.treeScrollOffset = mmax(0, displayState.treeScrollOffset - delta * WHEEL_SCROLL_ROWS)
+        RenderTree()
+    end)
+
+    local divider = baseFrame:CreateTexture(nil, "ARTWORK")
+    divider:SetTexture("Interface\\Buttons\\WHITE8X8")
+    divider:SetWidth(1)
+    divider:SetPoint("TOPLEFT", treeFrame, "TOPRIGHT", 4, 0)
+    divider:SetPoint("BOTTOMLEFT", treeFrame, "BOTTOMRIGHT", 4, 0)
+    if divider.SetColorTexture then
+        divider:SetColorTexture(1, 1, 1, 0.10)
+    end
+
+    treeScrollTrack = treeFrame:CreateTexture(nil, "BACKGROUND")
+    treeScrollTrack:SetTexture("Interface\\Buttons\\WHITE8X8")
+    treeScrollTrack:SetWidth(TREE_SCROLL_WIDTH)
+    treeScrollTrack:SetPoint("TOPRIGHT", treeFrame, "TOPRIGHT", 0, 0)
+    treeScrollTrack:SetPoint("BOTTOMRIGHT", treeFrame, "BOTTOMRIGHT", 0, 0)
+    if treeScrollTrack.SetColorTexture then
+        treeScrollTrack:SetColorTexture(TREE_SCROLL_TRACK_COLOR.r, TREE_SCROLL_TRACK_COLOR.g,
+            TREE_SCROLL_TRACK_COLOR.b, TREE_SCROLL_TRACK_COLOR.a)
+    end
+
+    treeScrollThumb = treeFrame:CreateTexture(nil, "ARTWORK")
+    treeScrollThumb:SetTexture("Interface\\Buttons\\WHITE8X8")
+    treeScrollThumb:SetWidth(TREE_SCROLL_WIDTH)
+    if treeScrollThumb.SetColorTexture then
+        treeScrollThumb:SetColorTexture(TREE_SCROLL_THUMB_COLOR.r, TREE_SCROLL_THUMB_COLOR.g,
+            TREE_SCROLL_THUMB_COLOR.b, TREE_SCROLL_THUMB_COLOR.a)
+    end
+
+    local treeHeader = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    treeHeader:SetPoint("BOTTOMLEFT", treeFrame, "TOPLEFT", 0, 2)
+    treeHeader:SetText("Hierarchy")
+    treeHeader:SetTextColor(0.7, 0.7, 0.7)
+end
+
 local function BuildListArea()
     local listTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + SPECIES_ROW_HEIGHT
         + COLUMN_HEADER_HEIGHT)
 
     listFrame = CreateFrame("Frame", nil, baseFrame)
-    listFrame:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, listTop)
+    listFrame:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING + TREE_PANE_WIDTH + 10, listTop)
     listFrame:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT",
         -EDGE_PADDING, DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
     listFrame:EnableMouseWheel(true)
@@ -1566,8 +1914,16 @@ local function BuildListArea()
 end
 
 local function BuildFooter()
+    treeScopeText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    treeScopeText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", EDGE_PADDING, STATUS_BAR_HEIGHT + 2)
+    treeScopeText:SetWidth(TREE_PANE_WIDTH + 10)
+    treeScopeText:SetJustifyH("LEFT")
+    treeScopeText:SetTextColor(0.6, 0.6, 0.68)
+    DisableWrapping(treeScopeText)
+
     detailText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    detailText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", EDGE_PADDING, STATUS_BAR_HEIGHT + 2)
+    detailText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
+        EDGE_PADDING + TREE_PANE_WIDTH + 10, STATUS_BAR_HEIGHT + 2)
     detailText:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -EDGE_PADDING, STATUS_BAR_HEIGHT + 2)
     detailText:SetJustifyH("LEFT")
     detailText:SetTextColor(0.75, 0.75, 0.8)
@@ -1713,6 +2069,7 @@ function QuestieProfilerUI:Create()
     BuildFilterRow()
     BuildSpeciesRow()
     BuildColumnHeaders()
+    BuildTreePane()
     BuildListArea()
     BuildFooter()
     BuildSizer()

@@ -788,6 +788,119 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("hierarchy tree", function()
+        local function BuildTree(options)
+            return ProfilerUI.private.BuildTree(BuildReport(options).rows)
+        end
+
+        ---@return ProfilerTreeNode?
+        local function FindChild(node, label)
+            for _, child in ipairs(node.children) do
+                if child.label == label then
+                    return child
+                end
+            end
+            return nil
+        end
+
+        it("groups files by directory", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
+            Profiler.fileLoadTime["Database/Classic/classicItemDB.lua"] = 30
+
+            local database = FindChild(BuildTree(), "Database")
+
+            assert.are_same(50, database.totalTime)
+            assert.are_same(2, database.rowCount)
+        end)
+
+        it("rolls a subtree's time into every ancestor", function()
+            Profiler.fileLoadTime["Database/Corrections/Automatic/one.lua"] = 10
+            Profiler.fileLoadTime["Database/Corrections/Automatic/two.lua"] = 15
+
+            local database = FindChild(BuildTree(), "Database")
+            local corrections = FindChild(database, "Corrections")
+            local automatic = FindChild(corrections, "Automatic")
+
+            assert.are_same(25, database.totalTime)
+            assert.are_same(25, corrections.totalTime)
+            assert.are_same(25, automatic.totalTime)
+        end)
+
+        it("groups functions by module path", function()
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 40, 2)
+            AddFunctionEntry("QuestieMap.DrawWaypoints", 60, 3)
+            AddFunctionEntry("QuestieDB.GetQuest", 5, 1)
+
+            local questieMap = FindChild(BuildTree(), "QuestieMap")
+
+            assert.are_same(100, questieMap.totalTime)
+            assert.are_same(2, questieMap.rowCount)
+        end)
+
+        it("collects jobs under one node, since a job has no path", function()
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 600, 3, 40)
+
+            local jobs = FindChild(BuildTree(), "ThreadLib jobs")
+
+            assert.are_same(600, jobs.totalTime)
+        end)
+
+        it("orders siblings by cost", function()
+            AddFunctionEntry("Alpha.Cheap", 5, 1)
+            AddFunctionEntry("Zulu.Expensive", 500, 1)
+
+            local root = BuildTree()
+
+            assert.are_same("Zulu", root.children[1].label)
+        end)
+
+        it("carries a prefix that scopes the list to that subtree", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
+            Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"] = 200
+
+            local database = FindChild(BuildTree(), "Database")
+            local scoped = BuildReport({scopePrefix = database.prefix})
+
+            assert.are_same({"Database/Zones/zoneDB.lua"}, RowKeys(scoped))
+        end)
+
+        it("scopes functions by module prefix", function()
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 40, 2)
+            AddFunctionEntry("QuestieDB.GetQuest", 5, 1)
+
+            assert.are_same({"QuestieMap.DrawWorldIcon"}, RowKeys(BuildReport({scopePrefix = "QuestieMap."})))
+        end)
+
+        it("scopes jobs through their synthetic node", function()
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 600, 3, 40)
+            AddFunctionEntry("QuestieDB.GetQuest", 5, 1)
+
+            local keys = RowKeys(BuildReport({scopePrefix = "ThreadLib jobs "}))
+
+            assert.are_same({"ThreadLib job: _DrawAvailableQuest"}, keys)
+        end)
+
+        it("shows only the top level until a node is expanded", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
+
+            local lines = ProfilerUI.private.FlattenTree(BuildTree(), {})
+
+            assert.are_same(1, #lines)
+            assert.are_same("Database", lines[1].node.label)
+            assert.is_true(lines[1].hasChildren)
+        end)
+
+        it("reveals children of an expanded node", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
+
+            local lines = ProfilerUI.private.FlattenTree(BuildTree(), {["Database/"] = true})
+
+            assert.are_same(2, #lines)
+            assert.are_same("Zones", lines[2].node.label)
+            assert.are_same(1, lines[2].depth)
+        end)
+    end)
+
     describe("idle filtering", function()
         it("hides entries that were never called and reports how many", function()
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
