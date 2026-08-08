@@ -8945,6 +8945,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11132] = { -- Promises, Promises...
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [11178] = { -- Blood of the Warlord
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
