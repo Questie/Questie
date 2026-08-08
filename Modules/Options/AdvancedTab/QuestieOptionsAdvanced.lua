@@ -19,6 +19,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieProfiler
+local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -313,7 +315,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Open Profiler"); end,
                 desc = function() return l10n("Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes."); end,
                 func = function (_, _)
-                    QuestieLoader:ImportModule("Profiler"):Start()
+                    QuestieProfiler:Start()
                 end,
             },
             Spacer_H = QuestieOptionsUtils:Spacer(4.9),
