@@ -835,7 +835,9 @@ describe("QuestieProfiler", function()
             assert.is_nil(Profiler.fileLoadTime["Database/Zones/zoneDB.lua"])
         end)
 
-        it("drops load rows when a fresh session starts, which did not include the addon load", function()
+        it("republishes load rows when a fresh session starts", function()
+            -- Addon load happened once for this client and cannot be measured again, so a restarted session
+            -- must not be the only way to destroy the record of it. The UI hides the rows instead.
             QuestieLoader.loadTimings = {["Database/Zones/zoneDB.lua"] = 19.6}
             Profiler:Start(false)
             Profiler:ImportLoadTimings()
@@ -843,7 +845,21 @@ describe("QuestieProfiler", function()
 
             Profiler:Start(false)
 
-            assert.is_nil(Profiler.fileLoadTime["Database/Zones/zoneDB.lua"])
+            assert.are_same(19.6, Profiler.fileLoadTime["Database/Zones/zoneDB.lua"])
+        end)
+
+        it("still clears function measurements when a fresh session starts", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Work = function()
+                clock = clock + 3
+            end
+            Profiler:Start(false)
+            testModule.Work()
+            Profiler:Stop()
+
+            Profiler:Start(false)
+
+            assert.are_same(0, Profiler.hookCallCount[testModuleName .. ".Work"])
         end)
     end)
 

@@ -901,6 +901,40 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("hiding files after a measurement reset", function()
+        local function HideFiles()
+            ProfilerUI.private.HideFilesAfterMeasurementReset()
+        end
+
+        it("unticks files, because a reset leaves them above everything being measured", function()
+            ProfilerUI.private.displayState.showFiles = true
+
+            HideFiles()
+
+            assert.is_false(ProfilerUI.private.displayState.showFiles)
+        end)
+
+        it("leaves functions and jobs alone", function()
+            ProfilerUI.private.displayState.showFunctions = true
+            ProfilerUI.private.displayState.showJobs = true
+
+            HideFiles()
+
+            assert.is_true(ProfilerUI.private.displayState.showFunctions)
+            assert.is_true(ProfilerUI.private.displayState.showJobs)
+        end)
+
+        it("leaves a files-only view alone, rather than emptying the list", function()
+            ProfilerUI.private.displayState.showFunctions = false
+            ProfilerUI.private.displayState.showJobs = false
+            ProfilerUI.private.displayState.showFiles = true
+
+            HideFiles()
+
+            assert.is_true(ProfilerUI.private.displayState.showFiles)
+        end)
+    end)
+
     describe("idle filtering", function()
         it("hides entries that were never called and reports how many", function()
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)

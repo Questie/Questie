@@ -918,6 +918,13 @@ local function StartProfilingSession(showUI)
     end
     StartFrameBoundaryReset()
     RegisterLoadTimingImport()
+    -- ResetSessionState cleared the published copy, but QuestieLoader still holds the readings. Addon load
+    -- happened once for this client and cannot be measured again, so a restarted session republishes rather
+    -- than destroying the only record of it. The UI hides the rows instead, which is reversible.
+    local imported, importError = pcall(QuestieProfiler.ImportLoadTimings, QuestieProfiler)
+    if not imported then
+        Questie:Error("QuestieProfiler failed to import load timings", importError)
+    end
 
     -- Showing first gives immediate feedback while the bounded module traversal installs the function wrappers.
     if showUI ~= false then

@@ -26,8 +26,11 @@ local mmin = math.min
 -------------------------
 -- Layout and presentation constants
 -------------------------
-local WINDOW_DEFAULT_WIDTH = 680
-local WINDOW_DEFAULT_HEIGHT = 440
+-- Sized to the content rather than to a round number: the widest identity in a normal session
+-- (QuestieJourney.private.questsByFaction.InitializeFactionQuestData) fits beside the tree pane and five
+-- numeric columns without truncation, and the height stops short of covering the middle of the screen.
+local WINDOW_DEFAULT_WIDTH = 1000
+local WINDOW_DEFAULT_HEIGHT = 520
 local WINDOW_MIN_WIDTH = 480
 local WINDOW_MIN_HEIGHT = 260
 local WINDOW_MAX_WIDTH = 1600
@@ -37,7 +40,14 @@ local ROW_HEIGHT = 14
 local TITLE_BAR_HEIGHT = 22
 local CONTROL_ROW_HEIGHT = 26
 local FILTER_ROW_HEIGHT = 26
-local SPECIES_ROW_HEIGHT = 24
+
+-- Every control button is the same size with the same gaps. Sizing each one to its own label is most of what
+-- made the old row look thrown together: five buttons at five widths, with two different gaps between them.
+local CONTROL_BUTTON_WIDTH = 70
+local CONTROL_BUTTON_HEIGHT = 20
+local CONTROL_BUTTON_GAP = 4
+-- Wider than the gap between buttons, so the session group and the view group read as two things.
+local CONTROL_GROUP_GAP = 14
 local COLUMN_HEADER_HEIGHT = 16
 local DETAIL_STRIP_HEIGHT = 16
 local STATUS_BAR_HEIGHT = 16
@@ -170,6 +180,7 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@field matchedCount number @Rows the user can actually see
 ---@field totalCount number @Entries the profiler holds
 ---@field idleHiddenCount number @Entries withheld by the idle filter alone
+---@field idleCount number @Entries never called, counted whether or not they are currently hidden
 ---@field speciesCounts table<string, number> @Rows each species would contribute, whether shown or not
 ---@field maxTotalTime number
 ---@field maxSelfTime number
@@ -288,6 +299,9 @@ function _QuestieProfilerUI.BuildReport(source, options)
     local rowsByIdentity = {}
     local totalCount = 0
     local idleHiddenCount = 0
+    -- Counted regardless of the filter, so the control that hides them can say how many that is even while
+    -- they are being shown.
+    local idleCount = 0
 
     for lookupKey, calls in pairs(callCounts) do
         totalCount = totalCount + 1
@@ -298,6 +312,9 @@ function _QuestieProfilerUI.BuildReport(source, options)
         local matchesFilter = lowerFilter == "" or sfind(haystack, lowerFilter, 1, true) ~= nil
 
         if matchesFilter then
+            if calls == 0 then
+                idleCount = idleCount + 1
+            end
             if hideIdle and calls == 0 then
                 idleHiddenCount = idleHiddenCount + 1
             else
@@ -429,6 +446,7 @@ function _QuestieProfilerUI.BuildReport(source, options)
         matchedCount = #rows,
         totalCount = totalCount,
         idleHiddenCount = idleHiddenCount,
+        idleCount = idleCount,
         speciesCounts = speciesCounts,
         maxTotalTime = maxTotalTime,
         maxSelfTime = maxSelfTime,
@@ -661,7 +679,7 @@ local scrollTrack
 local scrollThumb
 local rowPool = {}
 local columnHeaders = {}
-local sessionButton, resetButton, freezeButton, refreshButton, viewButton, idleButton
+local sessionButton, resetButton, freezeButton, refreshButton, neverCalledCheckButton
 local reloadButton, startupCheckButton
 local speciesCheckButtons = {}
 local treeFrame, treeScopeText
@@ -681,7 +699,9 @@ local hasEnteredWorld = false
 
 local displayState = {
     filter = "",
-    grouped = false,
+    -- No longer a toggle. Grouping only strips the `private` indirection segment, measured at zero merged
+    -- rows on a live session, so a "full path" mode would differ by a word in the name and nothing else.
+    grouped = true,
     hideIdle = true,
     sortKey = SORT_TOTAL,
     descending = true,
@@ -700,6 +720,7 @@ local displayState = {
 
 local Layout, RenderRows, UpdateControls, UpdateColumnHeaders, UpdateTickerState
 local LayoutColumnHeaders, RenderTree
+local SetControlTooltip
 
 ---A column is shown when at least one visible species has something to put in it. Selecting Files alone
 ---therefore drops Self, Calls and Average - which are all dashes for a file - and reveals Allocated, which
@@ -1363,16 +1384,47 @@ function UpdateControls()
 
     local isActive = QuestieProfiler.active
     sessionButton:SetText(isActive and "Stop" or "Start")
+    if isActive then
+        SetControlTooltip(sessionButton, "Stop profiling",
+            "Stops collecting and removes the hooks.",
+            "Questie runs at full speed again.",
+            "",
+            "Everything measured stays on screen and stays browsable.")
+    else
+        SetControlTooltip(sessionButton, "Start profiling",
+            "Begins a fresh session and reinstalls the hooks.",
+            "",
+            "Function and job results are cleared - they belong to the session that just ended.",
+            "Addon load rows are kept, but unticked.",
+            "",
+            "To measure one interaction without losing what is on screen, use Reset instead.")
+    end
+
     -- Enable/Disable rather than SetEnabled: it is the spelling present on every supported client.
     if isActive then
         resetButton:Enable()
     else
         resetButton:Disable()
     end
+
     freezeButton:SetText(displayState.frozen and "Unfreeze" or "Freeze")
-    viewButton:SetText(displayState.grouped and "Grouped" or "Full path")
-    -- Label the state of the list, not the state of the toggle: "off" alone reads ambiguously.
-    idleButton:SetText(displayState.hideIdle and "Idle: hidden" or "Idle: shown")
+    if displayState.frozen then
+        SetControlTooltip(freezeButton, "Unfreeze the view",
+            "Resumes automatic updates twice a second.")
+    else
+        SetControlTooltip(freezeButton, "Freeze the view",
+            "Holds the list still so it can be read.",
+            "",
+            "Profiling carries on underneath. Nothing is lost -",
+            "only the display stops changing.")
+    end
+
+    -- Manual refresh only means anything while the automatic one is switched off.
+    if displayState.frozen then
+        refreshButton:Show()
+    else
+        refreshButton:Hide()
+    end
 
     if isActive then
         sessionChip:SetText("|cff40dd40ACTIVE|r")
@@ -1396,6 +1448,16 @@ function UpdateControls()
         local spec = checkButton.spec
         checkButton:SetChecked(displayState[spec.key] == true)
         checkButton.label:SetText(sformat("%s (%s)", spec.label, FormatCount(counts[spec.countKey] or 0)))
+        SetControlTooltip(checkButton, spec.label,
+            spec.description,
+            "",
+            sformat("%s in this session.", FormatCount(counts[spec.countKey] or 0)))
+    end
+
+    if neverCalledCheckButton then
+        neverCalledCheckButton:SetChecked(not displayState.hideIdle)
+        neverCalledCheckButton.label:SetText(sformat("Never called (%s)",
+            FormatCount(currentReport and currentReport.idleCount or 0)))
     end
 
     LayoutColumnHeaders()
@@ -1477,13 +1539,42 @@ end
 -------------------------
 -- Frame construction
 -------------------------
+---Gives a control a tooltip. Each argument after the title is its own line: one wrapped paragraph forces the
+---reader to parse a sentence to find the one clause they care about, where separate lines can be scanned.
+---An empty string is a spacer. Calling this again on the same control rewrites the text, which is how a
+---control whose meaning changes with state keeps its tooltip honest.
+---@param control table
+---@param title string
+---@param ... string
+function SetControlTooltip(control, title, ...)
+    control.tooltipTitle = title
+    control.tooltipLines = {...}
+
+    if control.tooltipHooked then
+        return
+    end
+    control.tooltipHooked = true
+
+    control:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+        GameTooltip:AddLine(self.tooltipTitle, 1, 0.82, 0)
+        for _, line in ipairs(self.tooltipLines) do
+            GameTooltip:AddLine(line, 0.8, 0.8, 0.8, true)
+        end
+        GameTooltip:Show()
+    end)
+    control:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+end
+
 ---@param parent table
 ---@param text string
 ---@param width number
 ---@return table button
 local function CreateControlButton(parent, text, width)
     local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-    button:SetSize(width, 20)
+    button:SetSize(width or CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT)
     -- Set the button's font objects, not the font string's. A button re-applies its stored normal/highlight/
     -- disabled font object on every state change, so styling the font string directly is undone by the first
     -- mouseover and the template's full-size highlight font sticks.
@@ -1548,9 +1639,30 @@ local function BuildTitleBar()
     sessionChip:SetPoint("RIGHT", displayChip, "LEFT", -8, 0)
 end
 
+---A fresh measurement puts every function and job back to zero while the addon-load rows keep their full
+---cost, so leaving files listed buries what is being measured under 244 rows that did not change. The rows
+---are kept and the checkbox still carries its count, so one click brings them back.
+local function HideFilesAfterMeasurementReset()
+    -- A files-only view is not about to become misleading, and emptying it would be worse than leaving it.
+    if not displayState.showFunctions and not displayState.showJobs then
+        return
+    end
+    displayState.showFiles = false
+end
+
+-- Two groups, named. Stop and Reset change what is being collected; Freeze changes only what is drawn. The
+-- window already names those two domains in the title bar chips, so the captions label the controls with the
+-- same words as the state they act on.
 local function BuildControlRow()
-    sessionButton = CreateControlButton(baseFrame, "Stop", 62)
-    sessionButton:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, -(6 + TITLE_BAR_HEIGHT))
+    local controlTop = -(6 + TITLE_BAR_HEIGHT)
+
+    local sessionCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    sessionCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, controlTop - 5)
+    sessionCaption:SetText("Session")
+    sessionCaption:SetTextColor(0.62, 0.62, 0.68)
+
+    sessionButton = CreateControlButton(baseFrame, "Stop")
+    sessionButton:SetPoint("LEFT", sessionCaption, "RIGHT", 6, 0)
     sessionButton:SetScript("OnClick", function()
         if QuestieProfiler.active then
             QuestieProfiler:Stop()
@@ -1559,40 +1671,70 @@ local function BuildControlRow()
             displayState.frozen = false
             displayState.scrollOffset = 0
             QuestieProfiler:Start(true)
+            HideFilesAfterMeasurementReset()
         end
         UpdateTickerState()
         QuestieProfilerUI:Refresh()
     end)
+    SetControlTooltip(sessionButton, "Stop profiling", "")  -- rewritten by UpdateControls to match the state
 
-    resetButton = CreateControlButton(baseFrame, "Reset", 58)
-    resetButton:SetPoint("LEFT", sessionButton, "RIGHT", 4, 0)
+    resetButton = CreateControlButton(baseFrame, "Reset")
+    resetButton:SetPoint("LEFT", sessionButton, "RIGHT", CONTROL_BUTTON_GAP, 0)
     resetButton:SetScript("OnClick", function()
         QuestieProfiler:ResetMeasurements()
+        HideFilesAfterMeasurementReset()
         displayState.scrollOffset = 0
         QuestieProfilerUI:Refresh()
     end)
+    SetControlTooltip(resetButton, "Reset counters",
+        "Zeroes every time and call count.",
+        "Measuring continues from now.",
+        "",
+        "The session keeps running and no hooks are touched.",
+        "",
+        "Addon load rows are kept, but unticked - they would",
+        "otherwise sit above everything you are about to measure.")
 
-    freezeButton = CreateControlButton(baseFrame, "Freeze", 70)
-    freezeButton:SetPoint("LEFT", resetButton, "RIGHT", 12, 0)
+    local viewCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    viewCaption:SetPoint("LEFT", resetButton, "RIGHT", CONTROL_GROUP_GAP, 0)
+    viewCaption:SetText("View")
+    viewCaption:SetTextColor(0.62, 0.62, 0.68)
+
+    freezeButton = CreateControlButton(baseFrame, "Freeze")
+    freezeButton:SetPoint("LEFT", viewCaption, "RIGHT", 6, 0)
     freezeButton:SetScript("OnClick", function()
         displayState.frozen = not displayState.frozen
         UpdateTickerState()
         QuestieProfilerUI:Refresh()
     end)
+    SetControlTooltip(freezeButton, "Freeze the view", "")  -- rewritten by UpdateControls to match the state
 
-    refreshButton = CreateControlButton(baseFrame, "Refresh", 64)
-    refreshButton:SetPoint("LEFT", freezeButton, "RIGHT", 4, 0)
+    -- Only reachable while frozen: unfrozen, the ticker already redraws twice a second, so a manual refresh
+    -- would do nothing a wait of half a second does not.
+    refreshButton = CreateControlButton(baseFrame, "Refresh")
+    refreshButton:SetPoint("LEFT", freezeButton, "RIGHT", CONTROL_BUTTON_GAP, 0)
     refreshButton:SetScript("OnClick", function()
         QuestieProfilerUI:Refresh()
     end)
+    SetControlTooltip(refreshButton, "Refresh once",
+        "Takes a fresh reading, then holds it again.",
+        "",
+        "Only shown while frozen: unfrozen, the view already",
+        "redraws twice a second.")
+    refreshButton:Hide()
 
     -- Anchored to the far edge, away from Stop and Reset: this is the one control in the window that throws
     -- the session away, and it sits beside the setting whose change it is needed to apply.
-    reloadButton = CreateControlButton(baseFrame, "Reload UI", 72)
-    reloadButton:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -EDGE_PADDING, -(6 + TITLE_BAR_HEIGHT))
+    reloadButton = CreateControlButton(baseFrame, "Reload UI")
+    reloadButton:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -EDGE_PADDING, controlTop)
     reloadButton:SetScript("OnClick", function()
         ReloadUI()
     end)
+    SetControlTooltip(reloadButton, "Reload the interface",
+        "Reloads immediately, with no confirmation.",
+        "",
+        "Discards the current session.",
+        "Needed to apply the startup setting beside it.")
 
     startupCheckButton = CreateFrame("CheckButton", nil, baseFrame, "UICheckButtonTemplate")
     startupCheckButton:SetSize(20, 20)
@@ -1605,16 +1747,13 @@ local function BuildControlRow()
             and "Questie profiler will start on |cff40dd40next reload|r."
             or "Questie profiler will |cffdd4040not|r start on next reload.")
     end)
-    startupCheckButton:SetScript("OnEnter", function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
-        GameTooltip:AddLine("Profile on startup", 1, 0.82, 0)
-        GameTooltip:AddLine("Arms the profiler while Questie loads, which is the only way to measure addon "
-            .. "file load and initialisation. Takes effect on the next reload.", 0.8, 0.8, 0.8, true)
-        GameTooltip:Show()
-    end)
-    startupCheckButton:SetScript("OnLeave", function()
-        GameTooltip:Hide()
-    end)
+    SetControlTooltip(startupCheckButton, "Profile on startup",
+        "Arms the profiler while Questie loads.",
+        "",
+        "The only way to measure addon file load and initialisation.",
+        "Costs a little speed on every startup while it is on.",
+        "",
+        "Takes effect on the next reload.")
 
     local startupLabel = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     startupLabel:SetPoint("RIGHT", startupCheckButton, "LEFT", -2, 0)
@@ -1622,32 +1761,91 @@ local function BuildControlRow()
     startupLabel:SetTextColor(0.75, 0.75, 0.8)
 end
 
-local function BuildFilterRow()
-    local filterTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT)
+-- Checkboxes rather than tabs: the useful comparisons are across species, such as a job beside the work it
+-- schedules, and an exclusive control would forbid exactly those.
+local SPECIES_CHECKBOXES = {
+    {key = "showFunctions", label = "Functions", countKey = "functions", icon = ICON_FUNCTION,
+        description = "Hooked Questie functions, timed per call."},
+    {key = "showJobs", label = "Jobs", countKey = "jobs", icon = ICON_THREAD_JOB,
+        description = "ThreadLib coroutine jobs, timed across their resume slices."},
+    {key = "showFiles", label = "Files", countKey = "files", icon = ICON_FILE_LOAD,
+        description = "Addon files, timed while Questie loaded."},
+}
 
-    viewButton = CreateControlButton(baseFrame, "Full path", 76)
-    viewButton:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, filterTop)
-    viewButton:SetScript("OnClick", function()
-        displayState.grouped = not displayState.grouped
-        displayState.selectedKey = nil
+---@param anchorTo table
+---@param anchorGap number
+---@return table checkButton
+local function CreateVisibilityCheckButton(anchorTo, anchorGap, iconTexture)
+    local checkButton = CreateFrame("CheckButton", nil, baseFrame, "UICheckButtonTemplate")
+    checkButton:SetSize(18, 18)
+    checkButton:SetPoint("LEFT", anchorTo, "RIGHT", anchorGap, 0)
+
+    local label = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    label:SetTextColor(0.85, 0.85, 0.85)
+    checkButton.label = label
+
+    if iconTexture then
+        local icon = baseFrame:CreateTexture(nil, "ARTWORK")
+        icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
+        icon:SetPoint("LEFT", checkButton, "RIGHT", 2, 0)
+        icon:SetTexture(iconTexture)
+        icon:SetDesaturated(true)
+        label:SetPoint("LEFT", icon, "RIGHT", 3, 0)
+    else
+        label:SetPoint("LEFT", checkButton, "RIGHT", 3, 0)
+    end
+
+    return checkButton
+end
+
+-- One row of visibility filters, all the same kind of control: which species to list, and whether to list the
+-- entries that were never called. The idle filter used to be a lone text-toggle button, which made a filter
+-- look like an action.
+local function BuildShowRow()
+    local showTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT)
+
+    local showCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    showCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, showTop - 5)
+    showCaption:SetText("Show")
+    showCaption:SetTextColor(0.62, 0.62, 0.68)
+
+    local previous = showCaption
+    local previousGap = 6
+    for _, spec in ipairs(SPECIES_CHECKBOXES) do
+        local checkButton = CreateVisibilityCheckButton(previous, previousGap, spec.icon)
+        checkButton.spec = spec
+        checkButton:SetScript("OnClick", function(self)
+            displayState[spec.key] = self:GetChecked() and true or false
+            displayState.scrollOffset = 0
+            QuestieProfilerUI:Refresh()
+        end)
+        SetControlTooltip(checkButton, spec.label, "")  -- rewritten by UpdateControls with the live count
+
+        speciesCheckButtons[#speciesCheckButtons + 1] = checkButton
+        previous = checkButton.label
+        previousGap = 12
+    end
+
+    neverCalledCheckButton = CreateVisibilityCheckButton(previous, previousGap, nil)
+    neverCalledCheckButton:SetScript("OnClick", function(self)
+        displayState.hideIdle = not self:GetChecked()
         displayState.scrollOffset = 0
         QuestieProfilerUI:Refresh()
     end)
-
-    idleButton = CreateControlButton(baseFrame, "Idle: hidden", 82)
-    idleButton:SetPoint("LEFT", viewButton, "RIGHT", 4, 0)
-    idleButton:SetScript("OnClick", function()
-        displayState.hideIdle = not displayState.hideIdle
-        displayState.scrollOffset = 0
-        QuestieProfilerUI:Refresh()
-    end)
+    SetControlTooltip(neverCalledCheckButton, "Never called",
+        "Functions that were hooked but never ran this session.",
+        "",
+        "Hidden by default: they usually outnumber everything",
+        "else and carry no measurement.")
 
     local searchLabel = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    searchLabel:SetPoint("LEFT", idleButton, "RIGHT", 12, 0)
+    searchLabel:SetPoint("LEFT", neverCalledCheckButton.label, "RIGHT", CONTROL_GROUP_GAP, 0)
     searchLabel:SetText("Search")
 
     searchBox = CreateFrame("EditBox", nil, baseFrame, "InputBoxTemplate")
     searchBox:SetHeight(18)
+    -- Left-anchored to the filters and right-anchored to the frame, so a narrow window squeezes the box
+    -- rather than letting the controls collide.
     searchBox:SetPoint("LEFT", searchLabel, "RIGHT", 10, 0)
     searchBox:SetPoint("RIGHT", baseFrame, "RIGHT", -(EDGE_PADDING + 22), 0)
     searchBox:SetAutoFocus(false)
@@ -1673,59 +1871,8 @@ local function BuildFilterRow()
     end)
 end
 
--- Checkboxes rather than tabs: the useful comparisons are across species, such as a job beside the work it
--- schedules, and an exclusive control would forbid exactly those.
-local SPECIES_CHECKBOXES = {
-    {key = "showFunctions", label = "Functions", countKey = "functions", icon = ICON_FUNCTION},
-    {key = "showJobs", label = "Jobs", countKey = "jobs", icon = ICON_THREAD_JOB},
-    {key = "showFiles", label = "Files", countKey = "files", icon = ICON_FILE_LOAD},
-}
-
-local function BuildSpeciesRow()
-    local speciesTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
-    local previous
-
-    local showLabel = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    showLabel:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, speciesTop - 5)
-    showLabel:SetText("Show")
-    showLabel:SetTextColor(0.75, 0.75, 0.8)
-
-    for _, spec in ipairs(SPECIES_CHECKBOXES) do
-        local checkButton = CreateFrame("CheckButton", nil, baseFrame, "UICheckButtonTemplate")
-        checkButton:SetSize(18, 18)
-        if previous then
-            checkButton:SetPoint("LEFT", previous.label, "RIGHT", 14, 0)
-        else
-            checkButton:SetPoint("LEFT", showLabel, "RIGHT", 8, 0)
-        end
-
-        local icon = baseFrame:CreateTexture(nil, "ARTWORK")
-        icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
-        icon:SetPoint("LEFT", checkButton, "RIGHT", 2, 0)
-        icon:SetTexture(spec.icon)
-        icon:SetDesaturated(true)
-
-        -- The count is rendered even while the species is hidden, so the control says what it is hiding.
-        local label = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        label:SetPoint("LEFT", icon, "RIGHT", 3, 0)
-        label:SetText(spec.label)
-        label:SetTextColor(0.85, 0.85, 0.85)
-
-        checkButton.label = label
-        checkButton.spec = spec
-        checkButton:SetScript("OnClick", function(self)
-            displayState[spec.key] = self:GetChecked() and true or false
-            displayState.scrollOffset = 0
-            QuestieProfilerUI:Refresh()
-        end)
-
-        speciesCheckButtons[#speciesCheckButtons + 1] = checkButton
-        previous = checkButton
-    end
-end
-
 local function BuildColumnHeaders()
-    local headerTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + SPECIES_ROW_HEIGHT)
+    local headerTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
 
     local specs = {
         {key = SORT_MEMORY, label = "Allocated", width = COLUMN_MEMORY_WIDTH},
@@ -1850,7 +1997,7 @@ local function BuildScrollTrack()
 end
 
 local function BuildTreePane()
-    local paneTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + SPECIES_ROW_HEIGHT
+    local paneTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
         + COLUMN_HEADER_HEIGHT)
 
     treeFrame = CreateFrame("Frame", nil, baseFrame)
@@ -1898,7 +2045,7 @@ local function BuildTreePane()
 end
 
 local function BuildListArea()
-    local listTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT + SPECIES_ROW_HEIGHT
+    local listTop = -(6 + TITLE_BAR_HEIGHT + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
         + COLUMN_HEADER_HEIGHT)
 
     listFrame = CreateFrame("Frame", nil, baseFrame)
@@ -2066,8 +2213,7 @@ function QuestieProfilerUI:Create()
 
     BuildTitleBar()
     BuildControlRow()
-    BuildFilterRow()
-    BuildSpeciesRow()
+    BuildShowRow()
     BuildColumnHeaders()
     BuildTreePane()
     BuildListArea()
@@ -2191,6 +2337,7 @@ end
 -- Exposed for behavioural tests; the window itself never reads these.
 _QuestieProfilerUI.displayState = displayState
 _QuestieProfilerUI.GroupedIdentity = GroupedIdentity
+_QuestieProfilerUI.HideFilesAfterMeasurementReset = HideFilesAfterMeasurementReset
 _QuestieProfilerUI.IsThreadJobKey = IsThreadJobKey
 _QuestieProfilerUI.UpdateIndicator = UpdateIndicator
 
