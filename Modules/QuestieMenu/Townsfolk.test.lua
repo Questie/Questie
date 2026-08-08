@@ -51,6 +51,33 @@ describe("Townsfolk", function()
         Townsfolk = QuestieLoader:ImportModule("Townsfolk")
     end)
 
+    describe("Ammo vendors class filter", function()
+        local function loadTownsfolkForClass(classBase)
+            _G.UnitClassBase = function() return classBase end
+            dofile("Modules/QuestieMenu/Townsfolk.lua")
+            Townsfolk = QuestieLoader:ImportModule("Townsfolk")
+        end
+
+        it("should populate ammo vendors for ammo-using classes", function()
+            _G.GetStablePetFoodTypes = function() return nil end
+            for _, class in pairs({"ROGUE", "WARRIOR", "HUNTER"}) do
+                loadTownsfolkForClass(class)
+                Questie.db.char = {vendorList = {}}
+                Townsfolk.PopulateVendors = function() return {1} end
+                Townsfolk:UpdatePlayerVendors()
+                assert.is_not_nil(Questie.db.char.vendorList["Ammo"])
+            end
+        end)
+
+        it("should not populate ammo vendors for other classes", function()
+            loadTownsfolkForClass("DRUID")
+            Questie.db.char = {vendorList = {["Ammo"] = {1, 2, 3}}}
+            Townsfolk.PopulateVendors = function() return {1} end
+            Townsfolk:UpdatePlayerVendors()
+            assert.is_nil(Questie.db.char.vendorList["Ammo"])
+        end)
+    end)
+
     describe("Townsfolk.GetFactionSpecificMailboxes", function()
         it("should correctly filter mailboxes by faction", function()
             Townsfolk.GetMailboxes = function()
