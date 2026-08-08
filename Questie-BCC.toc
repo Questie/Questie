@@ -23,7 +23,8 @@
 ## Version: 11.34.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
-## SavedVariables: QuestieConfig
+## LoadSavedVariablesFirst: 1
+## SavedVariables: QuestieConfig, QuestieProfilerEnabled
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## IconTexture: Interface\AddOns\Questie\Icons\questie.png
 ## X-Curse-Project-ID: 334372

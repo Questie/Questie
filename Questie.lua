@@ -17,6 +17,8 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieProfiler
+local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
 
 ---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
@@ -325,6 +327,18 @@ Questie.LOWLEVEL_NONE = 1
 Questie.LOWLEVEL_ALL = 2
 Questie.LOWLEVEL_OFFSET = 3
 Questie.LOWLEVEL_RANGE = 4
+
+-- Profiling is opt-in and costs a player who never enables it nothing: no wrappers are installed, no timers
+-- run, and no frames are built. Questie.lua is last in each TOC Manifest, so arming here covers every Questie
+-- module, but that is well before AceDB exists - hence a plain saved variable rather than a profile setting.
+-- Every TOC declares LoadSavedVariablesFirst, so the flag is already populated by the time this runs.
+-- Optional profiling must never prevent Game Cache Validation or Addon Load callbacks.
+if QuestieProfilerEnabled then
+    local profilerStarted, profilerError = pcall(QuestieProfiler.StartStartup, QuestieProfiler, true)
+    if not profilerStarted then
+        Questie:Error("QuestieProfiler failed during Addon Load", profilerError)
+    end
+end
 
 -- Start checking the game's cache.
 QuestieValidateGameCache.StartCheck()
