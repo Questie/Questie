@@ -50,6 +50,12 @@ local CONTROL_BUTTON_GAP = 4
 local CONTROL_GROUP_GAP = 14
 local COLUMN_HEADER_HEIGHT = 16
 local DETAIL_STRIP_HEIGHT = 16
+-- The relations panel only exists while a row is selected, so it costs nothing until it is asked for.
+-- Five entries a side covers every real case measured: the widest fan-in in a live session was four callers.
+local RELATION_PANEL_ROWS = 5
+local RELATION_ROW_HEIGHT = 13
+local RELATION_HEADER_HEIGHT = 15
+local RELATION_PANEL_HEIGHT = RELATION_HEADER_HEIGHT + (RELATION_PANEL_ROWS * RELATION_ROW_HEIGHT) + 4
 local STATUS_BAR_HEIGHT = 16
 local SCROLL_TRACK_WIDTH = 8
 local EDGE_PADDING = 8
@@ -516,6 +522,58 @@ function _QuestieProfilerUI.BuildCallerList(source, reportRow, grouped)
     return entries
 end
 
+---@class ProfilerCalleeEntry
+---@field calleeKey string
+---@field calls number
+---@field totalTime number
+
+---Resolves what a row called, by reading the same edge map from the other side.
+---The engine only stores callee -> caller, so this scans every callee and keeps the ones naming this row as
+---a caller. That is a pass over the edge table rather than a lookup, which is why it runs on selection only.
+---@param source ProfilerReportSource
+---@param reportRow ProfilerReportRow
+---@param grouped boolean
+---@return ProfilerCalleeEntry[] callees @Most expensive first
+function _QuestieProfilerUI.BuildCalleeList(source, reportRow, grouped)
+    source = source or {}
+    local callerCallCount = source.callerCallCount or {}
+    local callerTimeCount = source.callerTimeCount or {}
+
+    -- Edges name callers by their full path, so a grouped row has to match every path it folded.
+    local isThisRow = {}
+    local paths = reportRow.mergedPaths or {reportRow.lookupKey}
+    for i = 1, #paths do
+        isThisRow[paths[i]] = true
+    end
+
+    local entriesByCallee = {}
+    local entries = {}
+    for calleeKey, callers in pairs(callerCallCount) do
+        local calleeTimes = callerTimeCount[calleeKey]
+        for callerKey, calls in pairs(callers) do
+            if isThisRow[callerKey] then
+                local identity = grouped and GroupedIdentity(calleeKey) or calleeKey
+                local entry = entriesByCallee[identity]
+                if not entry then
+                    entry = {calleeKey = identity, calls = 0, totalTime = 0}
+                    entriesByCallee[identity] = entry
+                    tinsert(entries, entry)
+                end
+                entry.calls = entry.calls + calls
+                entry.totalTime = entry.totalTime + (calleeTimes and calleeTimes[callerKey] or 0)
+            end
+        end
+    end
+
+    tsort(entries, function(left, right)
+        if left.totalTime == right.totalTime then
+            return left.calleeKey < right.calleeKey
+        end
+        return left.totalTime > right.totalTime
+    end)
+    return entries
+end
+
 ---@param value number @Milliseconds
 ---@return string
 local function FormatMilliseconds(value)
@@ -701,6 +759,9 @@ local currentTree
 local columnHeadersByKey = {}
 local searchBox, searchClearButton
 local sessionChip, displayChip, statusText, detailText
+local relationPanel, relationCallerRows, relationCalleeRows
+local currentUnscopedRows = {}
+local relationCallerHeader, relationCalleeHeader
 local eventFrame
 local indicatorButton
 
@@ -731,6 +792,7 @@ local displayState = {
 }
 
 local Layout, RenderRows, UpdateControls, UpdateColumnHeaders, UpdateTickerState
+local LayoutContentArea, RenderRelations, ApplySelection
 local LayoutColumnHeaders, RenderTree
 local SetControlTooltip
 
@@ -960,6 +1022,7 @@ local function AcquireRow(index)
         else
             displayState.selectedKey = self.reportRow.lookupKey
         end
+        ApplySelection()
         RenderRows()
     end)
 
@@ -1188,7 +1251,6 @@ function RenderRows()
     end
 
     local listWidth = (listFrame:GetWidth() or 0) - SCROLL_TRACK_WIDTH - 2
-    local selectedRow
 
     for index = 1, visibleRowCount do
         local row = AcquireRow(index)
@@ -1293,7 +1355,6 @@ function RenderRows()
 
             if displayState.selectedKey == reportRow.lookupKey then
                 row.selection:Show()
-                selectedRow = reportRow
             else
                 row.selection:Hide()
             end
@@ -1303,19 +1364,6 @@ function RenderRows()
     for index = visibleRowCount + 1, #rowPool do
         rowPool[index]:Hide()
         rowPool[index].reportRow = nil
-    end
-
-    -- A selection scrolled out of view keeps its detail line; the pinned entry is what the user is reading.
-    if not selectedRow and displayState.selectedKey then
-        for i = 1, #rows do
-            if rows[i].lookupKey == displayState.selectedKey then
-                selectedRow = rows[i]
-                break
-            end
-        end
-    end
-    if detailText then
-        detailText:SetText(selectedRow and DetailLineFor(selectedRow) or "Click a row to pin its full identity here.")
     end
 
     -- Scroll indicator
@@ -1518,15 +1566,17 @@ function QuestieProfilerUI:Refresh()
     -- the whole session rather than collapsing to whatever is currently selected.
     ---@type ProfilerReportSource
     local treeSource = QuestieProfiler
-    currentTree = _QuestieProfilerUI.BuildTree(_QuestieProfilerUI.BuildReport(treeSource, {
+    currentUnscopedRows = _QuestieProfilerUI.BuildReport(treeSource, {
         filter = displayState.filter,
         grouped = displayState.grouped,
         hideIdle = displayState.hideIdle,
         showFunctions = displayState.showFunctions,
         showJobs = displayState.showJobs,
         showFiles = displayState.showFiles,
-    }).rows)
+    }).rows
+    currentTree = _QuestieProfilerUI.BuildTree(currentUnscopedRows)
 
+    ApplySelection()
     RenderRows()
     RenderTree()
     UpdateStatus()
@@ -2100,6 +2150,207 @@ local function BuildListArea()
     BuildScrollTrack()
 end
 
+---@param parent table
+---@param anchorSide string @"LEFT" for the callers column, "RIGHT" for the callees
+---@return table[] entryButtons
+local function CreateRelationColumn(parent, anchorSide)
+    local entryButtons = {}
+    for index = 1, RELATION_PANEL_ROWS do
+        local entry = CreateFrame("Button", nil, parent)
+        entry:SetHeight(RELATION_ROW_HEIGHT)
+        entry:SetPoint("TOP" .. anchorSide, parent, "TOP" .. anchorSide,
+            anchorSide == "LEFT" and 0 or 0, -(RELATION_HEADER_HEIGHT + (index - 1) * RELATION_ROW_HEIGHT))
+        entry:SetWidth(10)
+
+        entry.nameText = entry:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        entry.nameText:SetPoint("LEFT", entry, "LEFT", 10, 0)
+        entry.nameText:SetJustifyH("LEFT")
+        DisableWrapping(entry.nameText)
+
+        entry.valueText = entry:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        entry.valueText:SetPoint("RIGHT", entry, "RIGHT", 0, 0)
+        entry.valueText:SetJustifyH("RIGHT")
+        entry.valueText:SetWidth(120)
+
+        entry:SetHighlightTexture("Interface\\Buttons\\UI-Listbox-Highlight", "ADD")
+        entry:SetScript("OnClick", function(self)
+            if not self.identity then
+                return
+            end
+            -- Selecting the neighbour is what makes this a drill-down rather than a readout: follow a caller
+            -- up to see what it in turn was called by, or a callee down into its own relations.
+            displayState.selectedKey = self.identity
+            ApplySelection()
+            RenderRows()
+        end)
+        entry:SetScript("OnEnter", function(self)
+            if not self.identity then
+                return
+            end
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:AddLine(self.identity, 1, 0.82, 0, true)
+            GameTooltip:AddLine("")
+            GameTooltip:AddLine(self.relationSummary, 0.8, 0.8, 0.8, true)
+            GameTooltip:AddLine("")
+            GameTooltip:AddLine("Click to inspect this entry's own callers and callees.", 0.6, 0.6, 0.68, true)
+            GameTooltip:Show()
+        end)
+        entry:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
+
+        entryButtons[index] = entry
+    end
+    return entryButtons
+end
+
+local function BuildRelationPanel()
+    relationPanel = CreateFrame("Frame", nil, baseFrame)
+    relationPanel:SetHeight(RELATION_PANEL_HEIGHT)
+    relationPanel:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
+        EDGE_PADDING + TREE_PANE_WIDTH + 10, DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
+    relationPanel:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT",
+        -EDGE_PADDING, DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
+
+    local topRule = relationPanel:CreateTexture(nil, "ARTWORK")
+    topRule:SetTexture("Interface\\Buttons\\WHITE8X8")
+    topRule:SetHeight(1)
+    topRule:SetPoint("TOPLEFT", relationPanel, "TOPLEFT", 0, 0)
+    topRule:SetPoint("TOPRIGHT", relationPanel, "TOPRIGHT", 0, 0)
+    if topRule.SetColorTexture then
+        topRule:SetColorTexture(1, 1, 1, 0.10)
+    end
+
+    relationCallerHeader = relationPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    relationCallerHeader:SetPoint("TOPLEFT", relationPanel, "TOPLEFT", 10, -3)
+    relationCallerHeader:SetJustifyH("LEFT")
+
+    relationCalleeHeader = relationPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    relationCalleeHeader:SetPoint("TOP", relationPanel, "TOP", 0, -3)
+    relationCalleeHeader:SetPoint("LEFT", relationPanel, "CENTER", 10, 0)
+    relationCalleeHeader:SetJustifyH("LEFT")
+
+    relationCallerRows = CreateRelationColumn(relationPanel, "LEFT")
+    relationCalleeRows = CreateRelationColumn(relationPanel, "RIGHT")
+    relationPanel:Hide()
+end
+
+---Fills one column of the panel and returns how many entries it showed.
+---@param entryButtons table[]
+---@param entries table[]
+---@param identityField string
+---@param columnWidth number
+---@param emptyMessage string
+local function RenderRelationColumn(entryButtons, entries, identityField, columnWidth, emptyMessage)
+    for index = 1, RELATION_PANEL_ROWS do
+        local entry = entryButtons[index]
+        local data = entries[index]
+        entry:SetWidth(columnWidth)
+        entry.nameText:SetWidth(mmax(40, columnWidth - 130))
+
+        if data then
+            entry.identity = data[identityField]
+            entry.relationSummary = sformat("%s calls, %s ms",
+                FormatCount(data.calls), FormatMilliseconds(data.totalTime))
+            entry.nameText:SetText(data[identityField])
+            entry.nameText:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+            entry.valueText:SetText(sformat("%s x   %s ms",
+                FormatCount(data.calls), FormatMilliseconds(data.totalTime)))
+            entry:Show()
+        elseif index == 1 then
+            -- An empty direction is a finding, not a blank: a leaf calls nothing, a root is called by nothing.
+            entry.identity = nil
+            entry.nameText:SetText(emptyMessage)
+            entry.nameText:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+            entry.valueText:SetText("")
+            entry:Show()
+        else
+            entry.identity = nil
+            entry:Hide()
+        end
+    end
+end
+
+---@param reportRow ProfilerReportRow?
+function RenderRelations(reportRow)
+    if not relationPanel then
+        return
+    end
+    if not reportRow then
+        relationPanel:Hide()
+        return
+    end
+
+    local panelWidth = relationPanel:GetWidth() or 0
+    local columnWidth = mmax(80, (panelWidth / 2) - 10)
+
+    ---@type ProfilerReportSource
+    local source = QuestieProfiler
+    local callers = _QuestieProfilerUI.BuildCallerList(source, reportRow, displayState.grouped)
+    local callees = _QuestieProfilerUI.BuildCalleeList(source, reportRow, displayState.grouped)
+
+    relationCallerHeader:SetText(sformat("Called by (%d)", #callers))
+    relationCalleeHeader:SetText(sformat("Calls (%d)", #callees))
+
+    RenderRelationColumn(relationCallerRows, callers, "callerKey", columnWidth,
+        reportRow.isFileLoad and "a loaded file has no caller" or "nothing profiled called this")
+    RenderRelationColumn(relationCalleeRows, callees, "calleeKey", columnWidth,
+        reportRow.isFileLoad and "a loaded file calls nothing" or "called nothing profiled")
+
+    relationPanel:Show()
+end
+
+---Gives the list and tree the height the relations panel is not using.
+---Resolves the pinned row, fills the detail line and relations panel, and re-anchors the content area.
+---Runs before RenderRows because whether the panel is open changes how tall the list is: rendering first
+---laid the rows out against the previous height, so the list visibly reflowed a frame or two later.
+---@return ProfilerReportRow? selectedRow
+function ApplySelection()
+    local selectedRow
+    if displayState.selectedKey then
+        for i = 1, #(currentReport and currentReport.rows or {}) do
+            if currentReport.rows[i].lookupKey == displayState.selectedKey then
+                selectedRow = currentReport.rows[i]
+                break
+            end
+        end
+
+        -- Following a relation can land on something the current scope or species filter excludes. The panel
+        -- is how you got there, so it keeps working: fall back to the unscoped rows rather than going blank.
+        if not selectedRow then
+            for i = 1, #currentUnscopedRows do
+                if currentUnscopedRows[i].lookupKey == displayState.selectedKey then
+                    selectedRow = currentUnscopedRows[i]
+                    break
+                end
+            end
+        end
+    end
+
+    if detailText then
+        detailText:SetText(selectedRow and DetailLineFor(selectedRow) or "Click a row to pin its full identity here.")
+    end
+    RenderRelations(selectedRow)
+    LayoutContentArea()
+    return selectedRow
+end
+
+---Gives the list the height the relations panel is not using.
+---Only the list moves. The panel begins a gap to the right of the tree and never covers it, so shrinking the
+---hierarchy alongside it cost six rows and a re-render for nothing.
+function LayoutContentArea()
+    if not listFrame then
+        return
+    end
+
+    local bottomInset = DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING
+    if relationPanel and relationPanel:IsShown() then
+        bottomInset = bottomInset + RELATION_PANEL_HEIGHT + 4
+    end
+
+    listFrame:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -EDGE_PADDING, bottomInset)
+end
+
 local function BuildFooter()
     treeScopeText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     treeScopeText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", EDGE_PADDING, STATUS_BAR_HEIGHT + 2)
@@ -2257,6 +2508,7 @@ function QuestieProfilerUI:Create()
     BuildColumnHeaders()
     BuildTreePane()
     BuildListArea()
+    BuildRelationPanel()
     BuildFooter()
     BuildSizer()
 

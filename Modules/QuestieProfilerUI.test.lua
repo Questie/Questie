@@ -193,6 +193,11 @@ describe("QuestieProfilerUI", function()
         return ProfilerUI.private.BuildCallerList(Profiler, reportRow, grouped == true)
     end
 
+    ---@return ProfilerCalleeEntry[]
+    local function BuildCalleeList(reportRow, grouped)
+        return ProfilerUI.private.BuildCalleeList(Profiler, reportRow, grouped == true)
+    end
+
     ---Registers one ThreadLib job measurement on the profiler stub.
     local function AddThreadJobEntry(lookupKey, totalTime, jobCalls, resumeCount)
         Profiler.hookCallCount[lookupKey] = jobCalls
@@ -471,6 +476,100 @@ describe("QuestieProfilerUI", function()
             local callers = BuildCallerList(FindRow(BuildReport({grouped = true}), "QuestieDB.GetQuest"), true)
 
             assert.are_same("(root)", callers[1].callerKey)
+        end)
+    end)
+
+    describe("callee lists", function()
+        it("lists what a row called", function()
+            AddFunctionEntry("AvailableQuests.Draw", 200, 4)
+            AddFunctionEntry("QuestieDB.GetQuest", 150, 3)
+            AddCallerEntry("QuestieDB.GetQuest", "AvailableQuests.Draw", 3, 150)
+
+            local callees = BuildCalleeList(FindRow(BuildReport(), "AvailableQuests.Draw"))
+
+            assert.are_same({{calleeKey = "QuestieDB.GetQuest", calls = 3, totalTime = 150}}, callees)
+        end)
+
+        it("orders callees by the time they cost", function()
+            AddFunctionEntry("AvailableQuests.Draw", 200, 4)
+            AddFunctionEntry("Cheap.Work", 10, 5)
+            AddFunctionEntry("Expensive.Work", 190, 1)
+            AddCallerEntry("Cheap.Work", "AvailableQuests.Draw", 5, 10)
+            AddCallerEntry("Expensive.Work", "AvailableQuests.Draw", 1, 190)
+
+            local callees = BuildCalleeList(FindRow(BuildReport(), "AvailableQuests.Draw"))
+
+            assert.are_same("Expensive.Work", callees[1].calleeKey)
+        end)
+
+        it("returns nothing for a row that called nothing profiled", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 150, 3)
+            AddCallerEntry("QuestieDB.GetQuest", "AvailableQuests.Draw", 3, 150)
+
+            assert.are_same({}, BuildCalleeList(FindRow(BuildReport(), "QuestieDB.GetQuest")))
+        end)
+
+        it("does not mistake a caller for a callee", function()
+            AddFunctionEntry("AvailableQuests.Draw", 200, 4)
+            AddFunctionEntry("QuestieDB.GetQuest", 150, 3)
+            AddCallerEntry("QuestieDB.GetQuest", "AvailableQuests.Draw", 3, 150)
+
+            local callers = BuildCallerList(FindRow(BuildReport(), "AvailableQuests.Draw"))
+
+            assert.are_same({}, callers)
+        end)
+
+        it("lists what a ThreadLib job scheduled", function()
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 600, 3, 40)
+            AddFunctionEntry("AvailableQuests.Draw", 500, 697)
+            AddCallerEntry("AvailableQuests.Draw", "ThreadLib job: _DrawAvailableQuest", 697, 500)
+
+            local callees = BuildCalleeList(FindRow(BuildReport(), "ThreadLib job: _DrawAvailableQuest"))
+
+            assert.are_same("AvailableQuests.Draw", callees[1].calleeKey)
+            assert.are_same(697, callees[1].calls)
+        end)
+
+        it("folds the callees of every path a grouped row merged", function()
+            AddFunctionEntry("QuestieDB.private.GetQuest", 40, 2)
+            AddFunctionEntry("QuestieDB.GetQuest", 60, 3)
+            AddFunctionEntry("QuestieLib.Trim", 20, 5)
+            AddCallerEntry("QuestieLib.Trim", "QuestieDB.private.GetQuest", 2, 8)
+            AddCallerEntry("QuestieLib.Trim", "QuestieDB.GetQuest", 3, 12)
+
+            local callees = BuildCalleeList(FindRow(BuildReport({grouped = true}), "QuestieDB.GetQuest"), true)
+
+            assert.are_same({{calleeKey = "QuestieLib.Trim", calls = 5, totalTime = 20}}, callees)
+        end)
+
+        it("names grouped callees by their grouped identity", function()
+            AddFunctionEntry("AvailableQuests.Draw", 200, 4)
+            AddFunctionEntry("QuestieDB.private.GetQuest", 150, 3)
+            AddCallerEntry("QuestieDB.private.GetQuest", "AvailableQuests.Draw", 3, 150)
+
+            local callees = BuildCalleeList(FindRow(BuildReport({grouped = true}), "AvailableQuests.Draw"), true)
+
+            assert.are_same("QuestieDB.GetQuest", callees[1].calleeKey)
+        end)
+
+        it("returns nothing for a loaded file, which calls nothing", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 19.6
+
+            assert.are_same({}, BuildCalleeList(FindRow(BuildReport(), "Database/Zones/zoneDB.lua")))
+        end)
+    end)
+
+    describe("resolving a followed relation", function()
+        it("finds a row the scope filter excluded, so following a caller does not go blank", function()
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 200, 4)
+            AddFunctionEntry("Cleanup.Run", 50, 1)
+
+            -- The list is scoped to QuestieMap, but a relation can point anywhere.
+            local scoped = BuildReport({scopePrefix = "QuestieMap"})
+            local unscoped = BuildReport()
+
+            assert.is_nil(FindRow(scoped, "Cleanup.Run"))
+            assert.is_not_nil(FindRow(unscoped, "Cleanup.Run"))
         end)
     end)
 
