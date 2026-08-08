@@ -764,7 +764,7 @@ describe("QuestieProfilerUI", function()
             assert.is_false(row.isThreadJob)
         end)
 
-        it("reports no self time, which for a file could only equal its total", function()
+        it("reports no self time, which for a file is its total to within a rounding error", function()
             Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 19.6
 
             local row = FindRow(BuildReport(), "Database/Zones/zoneDB.lua")

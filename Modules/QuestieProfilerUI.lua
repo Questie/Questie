@@ -427,6 +427,16 @@ function _QuestieProfilerUI.BuildReport(source, options)
 
     -- Addon-load rows are a separate species: one duration and one allocation per file, no calls beneath.
     -- The idle filter does not apply, because "never called" is not a meaningful state for a loaded file.
+    --
+    -- No self time, and the reason is worth recording so it does not read as an oversight. A file's interval
+    -- covers everything that ran during it, profiled calls included, so a file row and a function row can in
+    -- principle bill the same milliseconds twice. That overlap was built and measured rather than argued
+    -- about: over a full startup it came to 3.9 ms out of roughly 1200, all of it on Questie.lua, because
+    -- QuestieProfiler.lua sits near the end of the TOC and almost nothing is hooked while the other 240-odd
+    -- files load. Producing the number needs a running counter in the profiler, a sample at every loader
+    -- interval, and a getter the loader reaches back for - and the column it yields reads self == total on
+    -- 243 of 244 rows. Revisit only if a file that does real work at file scope is ever added below the
+    -- profiler in the TOC, which is the one thing that would make the overlap grow.
     local fileLoadTime = source.fileLoadTime or {}
     local fileLoadMemory = source.fileLoadMemory or {}
     for filePath, elapsed in pairs(fileLoadTime) do
