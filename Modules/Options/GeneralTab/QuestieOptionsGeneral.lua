@@ -24,6 +24,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -122,7 +124,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (_, value)
                             Questie.db.profile.disableYellComms = not value
                             if not value then
-                                QuestieLoader:ImportModule("QuestieComms"):RemoveAllRemotePlayers()
+                                QuestieComms:RemoveAllRemotePlayers()
                             end
                         end,
                     },

@@ -27,7 +27,6 @@ local Comms = QuestieLoader:ImportModule("Comms")
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
 local tinsert = table.insert
-local NewThread = ThreadLib.ThreadSimple
 
 local QUESTS_PER_YIELD = 24
 
@@ -75,7 +74,10 @@ function AvailableQuests.CalculateAndDrawAll(callback)
     if timer then
         timer:Cancel()
     end
-    timer = ThreadLib.Thread(_CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
+    timer = ThreadLib.Thread(
+        _CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback,
+        "AvailableQuests.CalculateAndDrawAll"
+    )
 end
 
 --Draw a single available quest, it is used by the CalculateAndDrawAll function.
@@ -573,7 +575,7 @@ end
 
 ---@param questId number
 _DrawAvailableQuest = function(questId)
-    NewThread(function()
+    ThreadLib.Thread(function()
         local quest = QuestieDB.GetQuest(questId)
         if (not quest.tagInfoWasCached) then
             QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
@@ -582,7 +584,7 @@ _DrawAvailableQuest = function(questId)
         end
 
         AvailableQuests.DrawAvailableQuest(quest)
-    end, 0)
+    end, 0, nil, nil, "_DrawAvailableQuest")
 end
 
 ---@param starter Object|NPC Either an object or an NPC from QuestieDB.

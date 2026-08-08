@@ -1,14 +1,81 @@
 dofile("setupTests.lua")
 
 describe("Questie", function()
+    local startupCalls
+    local Profiler
+    local QuestieValidateGameCache
+    local originalProfilerStartStartup
+    local originalStartCheck
+    local originalQuestiePrint
+    local originalProfilerEnabled
+
     before_each(function()
-        local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
-        QuestieValidateGameCache.StartCheck = function() end
+        startupCalls = {}
+        originalProfilerEnabled = _G.QuestieProfilerEnabled
+        -- Profiling is opt-in, so the tests below that expect it to arm must opt in.
+        _G.QuestieProfilerEnabled = true
+        Profiler = QuestieLoader:ImportModule("Profiler")
+        QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+        originalProfilerStartStartup = Profiler.StartStartup
+        originalStartCheck = QuestieValidateGameCache.StartCheck
+        originalQuestiePrint = Questie.Print
+
+        Profiler.StartStartup = function(_, showUI)
+            table.insert(startupCalls, {name = "profiler", showUI = showUI})
+        end
+        QuestieValidateGameCache.StartCheck = function()
+            table.insert(startupCalls, {name = "cache"})
+        end
+    end)
+
+    after_each(function()
+        _G.QuestieProfilerEnabled = originalProfilerEnabled
+        Profiler.StartStartup = originalProfilerStartStartup
+        QuestieValidateGameCache.StartCheck = originalStartCheck
+        Questie.Print = originalQuestiePrint
+    end)
+
+    it("shows profiling immediately before Game Cache Validation", function()
+        dofile("Questie.lua")
+
+        assert.are_same("profiler", startupCalls[1].name)
+        assert.is_true(startupCalls[1].showUI)
+        assert.are_same("cache", startupCalls[2].name)
+        assert.are_same(2, #startupCalls)
+    end)
+
+    it("does not arm profiling when it has not been enabled", function()
+        _G.QuestieProfilerEnabled = nil
 
         dofile("Questie.lua")
+
+        assert.are_same(1, #startupCalls)
+        assert.are_same("cache", startupCalls[1].name)
+    end)
+
+    it("starts Game Cache Validation when profiler startup throws", function()
+        local reportedErrors = {}
+        Profiler.StartStartup = function()
+            error("expected profiler startup failure")
+        end
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same(1, #startupCalls)
+        assert.are_same("cache", startupCalls[1].name)
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("|cffff0000[ERROR]|r", reportedErrors[1][1])
+        assert.are_same("QuestieProfiler failed during Addon Load", reportedErrors[1][2])
+        assert.is_truthy(string.find(reportedErrors[1][3], "expected profiler startup failure", 1, true))
     end)
 
     describe("Colorize", function()
+        before_each(function()
+            dofile("Questie.lua")
+        end)
         it("should preserve named color output", function()
             local expectedColors = {
                 red = "|cFFff0000Text|r",
@@ -66,6 +133,10 @@ describe("Questie", function()
             lime = {108 / 255, 227 / 255, 20 / 255},
             pvpRed = {227 / 255, 86 / 255, 57 / 255},
         }
+
+        before_each(function()
+            dofile("Questie.lua")
+        end)
 
         local function _AssertRGB(expected, r, g, b)
             assert.are_same(expected[1], r)
