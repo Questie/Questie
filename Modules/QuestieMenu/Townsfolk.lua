@@ -529,12 +529,23 @@ local function _UpdatePetFood() -- call on change pet
     Questie.db.char.vendorList["Pet Food"] = _reformatVendors(Questie.db.char.vendorList["Pet Food"])
 end
 
+local _ammoUsingClasses = {
+    ["ROGUE"] = true,
+    ["WARRIOR"] = true,
+    ["HUNTER"] = true,
+}
+
 local function _UpdateAmmoVendors() -- call on change weapon
     if Expansions.Current >= Expansions.Cata then
         return
     end
 
-    Questie.db.char.vendorList["Ammo"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
+    -- Only classes that use ammo benefit from ammo vendors
+    if _ammoUsingClasses[playerClass] then
+        Questie.db.char.vendorList["Ammo"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
+    else
+        Questie.db.char.vendorList["Ammo"] = nil
+    end
 end
 
 local function _UpdateFoodDrink()
