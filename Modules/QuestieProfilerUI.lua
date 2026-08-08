@@ -70,9 +70,17 @@ local SCROLL_TRACK_WIDTH = 8
 local EDGE_PADDING = 8
 local ACCENT_STRIPE_WIDTH = 2
 local ROW_ICON_SIZE = 12
+-- Clearance between a control and the tooltip that opens above it.
+local CONTROL_TOOLTIP_GAP = 4
 
--- One icon per row species. Blizzard's pre-greyed variants are dimmed as well as desaturated, so they wash
--- out at row height; desaturating a full-brightness texture keeps the contrast and still reads as neutral.
+-- One icon per species, but the function icon is worn only in the filter row. A glyph repeated down the
+-- majority of rows marks nothing, and functions are the majority by design - they are the species the list is
+-- mostly made of, so they are the one that gains from staying unmarked. Jobs and files keep theirs: both are
+-- rare enough for the icon to be a mark rather than wallpaper, a job keyed by call site reads exactly like a
+-- file path without one, and green against neutral grey is the pair red-green colour blindness collapses.
+-- The slot stays reserved on every row so names keep one left edge.
+-- Blizzard's pre-greyed variants are dimmed as well as desaturated, so they wash out at row height;
+-- desaturating a full-brightness texture keeps the contrast and still reads as neutral.
 local ICON_FILE_LOAD = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
 local ICON_FUNCTION = "Interface\\Buttons\\UI-OptionsButton"
 local ICON_THREAD_JOB = "Interface\\Buttons\\UI-RefreshButton"
@@ -1429,12 +1437,16 @@ function RenderRows()
                 row.heat:SetVertexColor(band.r, band.g, band.b, band.a)
             end
 
+            -- Hidden, not removed: the slot still holds the name's left edge, so the icon reads as a mark on
+            -- the rows that carry one rather than as a column that is mostly empty.
             if reportRow.isFileLoad then
                 row.icon:SetTexture(ICON_FILE_LOAD)
+                row.icon:Show()
             elseif reportRow.isThreadJob then
                 row.icon:SetTexture(ICON_THREAD_JOB)
+                row.icon:Show()
             else
-                row.icon:SetTexture(ICON_FUNCTION)
+                row.icon:Hide()
             end
 
             local speciesColor = SpeciesColor(reportRow)
@@ -1811,7 +1823,12 @@ function SetControlTooltip(control, title, ...)
     control.tooltipHooked = true
 
     control:SetScript("OnEnter", function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+        -- Every control that carries a tooltip sits above the lists, so one that grows downwards covers the
+        -- data it is explaining. Anchored by hand rather than with an ANCHOR_TOP* constant so the direction
+        -- is not open to interpretation: the tooltip's bottom edge rests on the control's top edge.
+        GameTooltip:SetOwner(self, "ANCHOR_NONE")
+        GameTooltip:ClearAllPoints()
+        GameTooltip:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, CONTROL_TOOLTIP_GAP)
         GameTooltip:AddLine(self.tooltipTitle, 1, 0.82, 0)
         for _, line in ipairs(self.tooltipLines) do
             GameTooltip:AddLine(line, 0.8, 0.8, 0.8, true)
@@ -2366,15 +2383,11 @@ local function CreateRelationColumn(parent, anchorSide)
             anchorSide == "LEFT" and 0 or 0, -(RELATION_HEADER_HEIGHT + (index - 1) * RELATION_ROW_HEIGHT))
         entry:SetWidth(10)
 
-        -- Same icon the list uses for the same species, so "ThreadLib job: " no longer has to be spelled out
-        -- in a column this narrow. The prefix cost 15 characters of the widest names in the window.
-        entry.icon = entry:CreateTexture(nil, "ARTWORK")
-        entry.icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
-        entry.icon:SetPoint("LEFT", entry, "LEFT", 10, 0)
-        entry.icon:SetDesaturated(true)
-
+        -- No icon slot here. Only a file would earn one, and a relation is always a call edge, so a file
+        -- never appears - the column would be blank on every row. Colour still separates job from function,
+        -- and dropping "ThreadLib job: " for it is what freed the width this column was short of.
         entry.nameText = entry:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        entry.nameText:SetPoint("LEFT", entry.icon, "RIGHT", 4, 0)
+        entry.nameText:SetPoint("LEFT", entry, "LEFT", 10, 0)
         entry.nameText:SetJustifyH("LEFT")
         DisableWrapping(entry.nameText)
 
@@ -2460,7 +2473,7 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
         local entry = entryButtons[index]
         local data = entries[index]
         entry:SetWidth(columnWidth)
-        entry.nameText:SetWidth(mmax(40, columnWidth - 130 - ROW_ICON_SIZE - 4))
+        entry.nameText:SetWidth(mmax(40, columnWidth - 130))
 
         if data then
             local identity = data[identityField]
@@ -2468,10 +2481,8 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
             entry.identity = identity
             entry.relationSummary = sformat("%s calls, %s ms",
                 FormatCount(data.calls), FormatMilliseconds(data.totalTime))
-            -- Icon and colour carry the species here, the way they do in the list. Nothing is lost: the
-            -- tooltip still shows the untrimmed key.
-            entry.icon:SetTexture(isThreadJob and ICON_THREAD_JOB or ICON_FUNCTION)
-            entry.icon:Show()
+            -- Colour carries the species here, the way it does in the list. Nothing is lost: the tooltip
+            -- still shows the untrimmed key.
             entry.nameText:SetText(DisplayNameFor(identity))
             local nameColor = isThreadJob and COLOR_THREAD_JOB or COLOR_TEXT
             entry.nameText:SetTextColor(nameColor.r, nameColor.g, nameColor.b)
@@ -2481,7 +2492,6 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
         elseif index == 1 then
             -- An empty direction is a finding, not a blank: a leaf calls nothing, a root is called by nothing.
             entry.identity = nil
-            entry.icon:Hide()
             entry.nameText:SetText(emptyMessage)
             entry.nameText:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
             entry.valueText:SetText("")
