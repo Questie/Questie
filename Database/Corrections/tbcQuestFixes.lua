@@ -2909,7 +2909,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97}}}},
         },
         [9789] = { -- Clefthoof Mastery
-            [questKeys.breadcrumbs] = {10113,10114},
+            [questKeys.breadcrumbs] = {10113},
         },
         [9796] = {
             [questKeys.requiredLevel] = 62,
@@ -2985,6 +2985,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9853] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 7 Warmaul Skulls to summon Gurok the Usurper"), 0, {{"object", 182182}}}},
+        },
+        [9854] = { -- Windroc Mastery
+            [questKeys.breadcrumbs] = {10114},
         },
         [9863] = {
             [questKeys.requiredMinRep] = {941,0},
@@ -3393,8 +3396,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [10114] = { -- The Nesingwary Safari
-            [questKeys.breadcrumbForQuestId] = 9789,
-            [questKeys.nextQuestInChain] = 9789,
+            [questKeys.breadcrumbForQuestId] = 9854,
+            [questKeys.nextQuestInChain] = 9854,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [10119] = { -- Through the Dark Portal
