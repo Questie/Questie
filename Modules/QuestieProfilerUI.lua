@@ -59,6 +59,9 @@ local DETAIL_STRIP_HEIGHT = 16
 -- The relations panel only exists while a row is selected, so it costs nothing until it is asked for.
 -- Five entries a side covers every real case measured: the widest fan-in in a live session was four callers.
 local RELATION_PANEL_ROWS = 5
+-- Gap between the two relation columns, and the least of the panel either may be reduced to. The floor is
+-- what stops a lopsided pair - one caller against a dozen callees - from squeezing a column to nothing.
+local RELATION_COLUMN_SPLIT = {gap = 20, minShare = 0.3}
 local RELATION_ROW_HEIGHT = 13
 local RELATION_HEADER_HEIGHT = 15
 local RELATION_PANEL_HEIGHT = RELATION_HEADER_HEIGHT + (RELATION_PANEL_ROWS * RELATION_ROW_HEIGHT) + 4
@@ -85,11 +88,15 @@ local ICON_FILE_LOAD = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
 local ICON_FUNCTION = "Interface\\Buttons\\UI-OptionsButton"
 local ICON_THREAD_JOB = "Interface\\Buttons\\UI-RefreshButton"
 
-local COLUMN_TOTAL_WIDTH = 70
-local COLUMN_SELF_WIDTH = 70
-local COLUMN_CALLS_WIDTH = 58
-local COLUMN_AVERAGE_WIDTH = 62
-local COLUMN_MEMORY_WIDTH = 72
+-- Keyed by sort key, so a column's width, its header and its sort are all reachable from one name. Grouped
+-- rather than kept as six locals because this file sits against Lua 5.1's 200-local ceiling for a main chunk.
+local COLUMN_WIDTHS = {
+    total = 70,
+    self = 70,
+    calls = 58,
+    average = 62,
+    memory = 72,
+}
 local TREE_PANE_WIDTH = 210
 -- Everything right of the tree shares this left edge, and the divider sits in the middle of the gutter so the
 -- pane and the content get equal clearance. The old 10 put the divider 4px off the tree and the content 6px
@@ -212,7 +219,9 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@field totalTime number @Inclusive: this call and everything profiled beneath it
 ---@field selfTime number @Inclusive minus the measured time of profiled children
 ---@field hasSelfTime boolean @False for ThreadLib jobs, which are not call frames and have no self time
----@field memoryKilobytes number? @Allocation attributed to this row; only addon-load rows carry one
+---@field memoryKilobytes number?
+---@field share number? @0-1 of what this row's own species accounts for; nil when there is no denominator
+---@field shareDenominator number? @The species total the share was taken against @Allocation attributed to this row; only addon-load rows carry one
 ---@field calls number
 ---@field averageTime number
 ---@field isThreadJob boolean
@@ -520,6 +529,45 @@ function _QuestieProfilerUI.BuildReport(source, options)
         end
     end
 
+    -- Share of the cost this row's own kind accounts for, against the denominators the status bar prints.
+    -- Deliberately tooltip-only rather than a column: it was tried as one and pulled. In a column the number
+    -- floats free of its basis, and only the file denominator is a real total - `fileLoadTime` covers every
+    -- TOC entry, so 20.4% genuinely is a fifth of addon load. The function denominator is the summed self
+    -- time of the functions that happen to be hooked and listed, and PROFILING_DISALLOWED_PATHS excludes
+    -- whole subsystems on purpose, so a bare "8.2%" claims a share of Questie's CPU that it does not have.
+    -- The tooltip has room to name the basis in words, which keeps that caveat attached to the number.
+    --
+    -- Functions are measured on self time, not total. Inclusive totals nest: a caller's total contains its
+    -- callees', so summing them across the list runs well past the wall clock and every percentage would be
+    -- fiction. Self times partition the measured work, so they are the only function figure that can carry a
+    -- denominator. Files and jobs have no such nesting and use their totals.
+    local shareDenominators = {file = 0, job = 0, ["function"] = 0}
+    for i = 1, #rows do
+        local row = rows[i]
+        if row.isFileLoad then
+            shareDenominators.file = shareDenominators.file + row.totalTime
+        elseif row.isThreadJob then
+            shareDenominators.job = shareDenominators.job + row.totalTime
+        else
+            shareDenominators["function"] = shareDenominators["function"] + row.selfTime
+        end
+    end
+    for i = 1, #rows do
+        local row = rows[i]
+        local denominator, value
+        if row.isFileLoad then
+            denominator, value = shareDenominators.file, row.totalTime
+        elseif row.isThreadJob then
+            denominator, value = shareDenominators.job, row.totalTime
+        else
+            denominator, value = shareDenominators["function"], row.selfTime
+        end
+        row.shareDenominator = denominator
+        -- Left nil rather than zeroed when there is nothing to divide by, so the column can print a dash
+        -- instead of claiming the row accounts for none of a total that does not exist.
+        row.share = denominator > 0 and (value / denominator) or nil
+    end
+
     tsort(rows, BuildComparator(options.sortKey or SORT_TOTAL, options.descending ~= false))
 
     return {
@@ -824,7 +872,20 @@ local function FormatCount(value)
     end
     return tostring(value)
 end
+---One decimal, because the rows worth noticing sit between 1% and 20% and whole numbers collapse the tail
+---into a wall of identical zeroes. Below a tenth of a percent it says so rather than rounding to 0.0%, which
+---would read as "free" for a row that did measurable work.
+---@param share number @0-1
+---@return string
+local function FormatShare(share)
+    if share > 0 and share < 0.001 then
+        return "<0.1%"
+    end
+    return sformat("%.1f%%", share * 100)
+end
+
 _QuestieProfilerUI.FormatCount = FormatCount
+_QuestieProfilerUI.FormatShare = FormatShare
 _QuestieProfilerUI.FormatKilobytes = FormatKilobytes
 _QuestieProfilerUI.FormatMilliseconds = FormatMilliseconds
 
@@ -1043,6 +1104,23 @@ local function ShowRowTooltip(row, reportRow)
         GameTooltip:AddDoubleLine("Average per call", sformat("%.3f ms", reportRow.averageTime), 0.7, 0.7, 0.7, 1, 1, 1)
     end
 
+    -- The Share column is one number with no units, so the tooltip is where its denominator gets named. A
+    -- percentage nobody can trace the bottom half of is worse than no percentage.
+    if reportRow.share then
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddDoubleLine("Share", FormatShare(reportRow.share), 0.7, 0.7, 0.7, 1, 1, 1)
+        local basis
+        if reportRow.isFileLoad then
+            basis = sformat("of the %s ms of file load currently listed", FormatMilliseconds(reportRow.shareDenominator))
+        elseif reportRow.isThreadJob then
+            basis = sformat("of the %s ms of job time currently listed", FormatMilliseconds(reportRow.shareDenominator))
+        else
+            basis = sformat("of the %s ms of self time across the functions currently listed",
+                FormatMilliseconds(reportRow.shareDenominator))
+        end
+        GameTooltip:AddLine(basis, 0.55, 0.55, 0.55, true)
+    end
+
     if reportRow.calls > 0 and not reportRow.hasTiming then
         GameTooltip:AddLine(" ")
         GameTooltip:AddLine("Counted but never timed: these calls spanned a coroutine yield, so no elapsed time "
@@ -1209,23 +1287,23 @@ local function AcquireRow(index)
 
     row.total = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.total:SetJustifyH("RIGHT")
-    row.total:SetWidth(COLUMN_TOTAL_WIDTH)
+    row.total:SetWidth(COLUMN_WIDTHS.total)
 
     row.selfTime = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.selfTime:SetJustifyH("RIGHT")
-    row.selfTime:SetWidth(COLUMN_SELF_WIDTH)
+    row.selfTime:SetWidth(COLUMN_WIDTHS.self)
 
     row.calls = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.calls:SetJustifyH("RIGHT")
-    row.calls:SetWidth(COLUMN_CALLS_WIDTH)
+    row.calls:SetWidth(COLUMN_WIDTHS.calls)
 
     row.average = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.average:SetJustifyH("RIGHT")
-    row.average:SetWidth(COLUMN_AVERAGE_WIDTH)
+    row.average:SetWidth(COLUMN_WIDTHS.average)
 
     row.memory = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.memory:SetJustifyH("RIGHT")
-    row.memory:SetWidth(COLUMN_MEMORY_WIDTH)
+    row.memory:SetWidth(COLUMN_WIDTHS.memory)
 
     AddHoverHighlight(row)
     row:SetScript("OnEnter", function(self)
@@ -1271,11 +1349,11 @@ local function LayoutRowColumns(row, listWidth)
 
     local visible = VisibleColumns()
     local columns = {
-        {key = SORT_MEMORY, fontString = row.memory, width = COLUMN_MEMORY_WIDTH},
-        {key = SORT_AVERAGE, fontString = row.average, width = COLUMN_AVERAGE_WIDTH},
-        {key = SORT_CALLS, fontString = row.calls, width = COLUMN_CALLS_WIDTH},
-        {key = SORT_SELF, fontString = row.selfTime, width = COLUMN_SELF_WIDTH},
-        {key = SORT_TOTAL, fontString = row.total, width = COLUMN_TOTAL_WIDTH},
+        {key = SORT_MEMORY, fontString = row.memory, width = COLUMN_WIDTHS.memory},
+        {key = SORT_AVERAGE, fontString = row.average, width = COLUMN_WIDTHS.average},
+        {key = SORT_CALLS, fontString = row.calls, width = COLUMN_WIDTHS.calls},
+        {key = SORT_SELF, fontString = row.selfTime, width = COLUMN_WIDTHS.self},
+        {key = SORT_TOTAL, fontString = row.total, width = COLUMN_WIDTHS.total},
     }
 
     -- Anchored right to left so a hidden column simply closes the gap instead of leaving a hole.
@@ -2301,11 +2379,11 @@ local function BuildColumnHeaders()
     local headerTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
 
     local specs = {
-        {key = SORT_MEMORY, label = "Allocated", width = COLUMN_MEMORY_WIDTH},
-        {key = SORT_AVERAGE, label = "Avg ms", width = COLUMN_AVERAGE_WIDTH},
-        {key = SORT_CALLS, label = "Calls", width = COLUMN_CALLS_WIDTH},
-        {key = SORT_SELF, label = "Self ms", width = COLUMN_SELF_WIDTH},
-        {key = SORT_TOTAL, label = "Total ms", width = COLUMN_TOTAL_WIDTH},
+        {key = SORT_MEMORY, label = "Allocated", width = COLUMN_WIDTHS.memory},
+        {key = SORT_AVERAGE, label = "Avg ms", width = COLUMN_WIDTHS.average},
+        {key = SORT_CALLS, label = "Calls", width = COLUMN_WIDTHS.calls},
+        {key = SORT_SELF, label = "Self ms", width = COLUMN_WIDTHS.self},
+        {key = SORT_TOTAL, label = "Total ms", width = COLUMN_WIDTHS.total},
     }
 
     for _, spec in ipairs(specs) do
@@ -2573,8 +2651,8 @@ local function BuildRelationPanel()
     relationCallerHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
 
     relationCalleeHeader = relationPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    relationCalleeHeader:SetPoint("TOP", relationPanel, "TOP", 0, -3)
-    relationCalleeHeader:SetPoint("LEFT", relationPanel, "CENTER", 10, 0)
+    -- Re-anchored by RenderRelations, which is the only place that knows how the width was split.
+    relationCalleeHeader:SetPoint("TOPLEFT", relationPanel, "CENTER", 10, -3)
     relationCalleeHeader:SetJustifyH("LEFT")
     relationCalleeHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
 
@@ -2624,6 +2702,39 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
     end
 end
 
+---Splits the panel by need rather than in half. The two directions are rarely the same size - a leaf has no
+---callers, a hot utility has one caller and a dozen callees - and an even split spends half the width on a
+---column reading "nothing profiled called this" while the other truncates every name it holds.
+---@param panelWidth number
+---@param callerCount number
+---@param calleeCount number
+---@return number callerWidth
+---@return number calleeWidth
+function _QuestieProfilerUI.RelationColumnWidths(panelWidth, callerCount, calleeCount)
+    local usable = mmax(160, panelWidth - RELATION_COLUMN_SPLIT.gap)
+    local total = callerCount + calleeCount
+    if total == 0 then
+        return usable / 2, usable / 2
+    end
+
+    -- Clamped both ways, so however lopsided the counts are neither column becomes unreadable.
+    local callerShare = mmax(RELATION_COLUMN_SPLIT.minShare,
+        mmin(1 - RELATION_COLUMN_SPLIT.minShare, callerCount / total))
+    return usable * callerShare, usable * (1 - callerShare)
+end
+
+---Says so when a direction holds more than the panel can show, rather than letting five of fifteen read as
+---all of them.
+---@param label string
+---@param count number
+---@return string
+function _QuestieProfilerUI.RelationHeaderText(label, count)
+    if count > RELATION_PANEL_ROWS then
+        return sformat("%s (%d, top %d)", label, count, RELATION_PANEL_ROWS)
+    end
+    return sformat("%s (%d)", label, count)
+end
+
 ---@param reportRow ProfilerReportRow?
 function RenderRelations(reportRow)
     if not relationPanel then
@@ -2634,20 +2745,25 @@ function RenderRelations(reportRow)
         return
     end
 
-    local panelWidth = relationPanel:GetWidth() or 0
-    local columnWidth = mmax(80, (panelWidth / 2) - 10)
-
     ---@type ProfilerReportSource
     local source = QuestieProfiler
     local callers = _QuestieProfilerUI.BuildCallerList(source, reportRow, displayState.grouped)
     local callees = _QuestieProfilerUI.BuildCalleeList(source, reportRow, displayState.grouped)
 
-    relationCallerHeader:SetText(sformat("Called by (%d)", #callers))
-    relationCalleeHeader:SetText(sformat("Calls (%d)", #callees))
+    local panelWidth = relationPanel:GetWidth() or 0
+    local callerWidth, calleeWidth =
+        _QuestieProfilerUI.RelationColumnWidths(panelWidth, #callers, #callees)
 
-    RenderRelationColumn(relationCallerRows, callers, "callerKey", columnWidth,
+    relationCallerHeader:SetText(_QuestieProfilerUI.RelationHeaderText("Called by", #callers))
+    relationCalleeHeader:SetText(_QuestieProfilerUI.RelationHeaderText("Calls", #callees))
+    -- Follows its column's left edge, wherever the split put it.
+    relationCalleeHeader:ClearAllPoints()
+    relationCalleeHeader:SetPoint("TOPLEFT", relationPanel, "TOPLEFT",
+        panelWidth - calleeWidth + 10, -3)
+
+    RenderRelationColumn(relationCallerRows, callers, "callerKey", callerWidth,
         reportRow.isFileLoad and "a loaded file has no caller" or "nothing profiled called this")
-    RenderRelationColumn(relationCalleeRows, callees, "calleeKey", columnWidth,
+    RenderRelationColumn(relationCalleeRows, callees, "calleeKey", calleeWidth,
         reportRow.isFileLoad and "a loaded file calls nothing" or "called nothing profiled")
 
     relationPanel:Show()

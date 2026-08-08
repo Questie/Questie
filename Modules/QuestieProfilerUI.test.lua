@@ -509,6 +509,120 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("share of visible cost", function()
+        it("measures a function against the self time of the functions listed, not their totals", function()
+            -- Inclusive totals nest, so summing them would run past the wall clock. Alpha's 300 ms total
+            -- contains Beta's; only the self times partition the work.
+            AddFunctionEntry("Alpha.Caller", 300, 1, 100)
+            AddFunctionEntry("Beta.Callee", 200, 1, 200)
+
+            local report = BuildReport()
+
+            assert.are_same(300, FindRow(report, "Alpha.Caller").shareDenominator)
+            assert.are_same(100 / 300, FindRow(report, "Alpha.Caller").share)
+            assert.are_same(200 / 300, FindRow(report, "Beta.Callee").share)
+        end)
+
+        it("measures a file against the file load listed", function()
+            Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"] = 150
+            Profiler.fileLoadTime["Questie.lua"] = 50
+
+            local report = BuildReport()
+
+            assert.are_same(0.75, FindRow(report, "Localization/lookups/lookupZones.lua").share)
+        end)
+
+        it("keeps each species on its own denominator", function()
+            Profiler.fileLoadTime["Questie.lua"] = 40
+            AddFunctionEntry("Alpha.Work", 10, 1, 10)
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 600, 3, 40)
+
+            local report = BuildReport()
+
+            -- Each is the only row of its kind, so each accounts for all of it.
+            assert.are_same(1, FindRow(report, "Questie.lua").share)
+            assert.are_same(1, FindRow(report, "Alpha.Work").share)
+            assert.are_same(1, FindRow(report, "ThreadLib job: _DrawAvailableQuest").share)
+        end)
+
+        it("recomputes against what is left when a species is filtered out", function()
+            AddFunctionEntry("Alpha.Work", 100, 1, 100)
+            AddFunctionEntry("Beta.Work", 100, 1, 100)
+
+            assert.are_same(0.5, FindRow(BuildReport(), "Alpha.Work").share)
+
+            local filtered = BuildReport({filter = "alpha"})
+
+            assert.are_same(1, FindRow(filtered, "Alpha.Work").share)
+        end)
+
+        it("reports no share rather than zero when there is nothing to divide by", function()
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 0, 12, 0)
+
+            local row = FindRow(BuildReport(), "QuestieMap.DrawWorldIcon")
+
+            assert.are_same(nil, row.share)
+        end)
+
+        describe("formatting", function()
+            local cases = {
+                {name = "prints one decimal", share = 0.194, expected = "19.4%"},
+                {name = "prints a whole share", share = 1, expected = "100.0%"},
+                {name = "prints an exact zero plainly", share = 0, expected = "0.0%"},
+                {name = "does not round measurable work down to nothing", share = 0.0004, expected = "<0.1%"},
+            }
+
+            for _, case in ipairs(cases) do
+                it(case.name, function()
+                    assert.are_same(case.expected, ProfilerUI.private.FormatShare(case.share))
+                end)
+            end
+        end)
+    end)
+
+    describe("relation panel layout", function()
+        ---@return number callerWidth
+        ---@return number calleeWidth
+        local function Widths(callerCount, calleeCount)
+            return ProfilerUI.private.RelationColumnWidths(420, callerCount, calleeCount)
+        end
+
+        it("splits evenly when a row has no relations either way", function()
+            local callerWidth, calleeWidth = Widths(0, 0)
+
+            assert.are_same(callerWidth, calleeWidth)
+        end)
+
+        it("gives the busier direction the width", function()
+            local callerWidth, calleeWidth = Widths(1, 12)
+
+            assert.is_true(calleeWidth > callerWidth)
+        end)
+
+        it("never squeezes a column below its floor, however lopsided the counts", function()
+            local callerWidth, calleeWidth = Widths(0, 40)
+
+            -- 30% of the usable width, not the 0% the raw ratio would give.
+            assert.are_same(0.3, callerWidth / (callerWidth + calleeWidth))
+        end)
+
+        it("splits evenly when both directions are equally busy", function()
+            local callerWidth, calleeWidth = Widths(6, 6)
+
+            assert.are_same(callerWidth, calleeWidth)
+        end)
+
+        describe("header counts", function()
+            it("reports the count plainly when everything fits", function()
+                assert.are_same("Calls (3)", ProfilerUI.private.RelationHeaderText("Calls", 3))
+            end)
+
+            it("says how many of them are shown when they do not", function()
+                assert.are_same("Calls (15, top 5)", ProfilerUI.private.RelationHeaderText("Calls", 15))
+            end)
+        end)
+    end)
+
     describe("caller attribution", function()
         it("lists the callers of a row", function()
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
