@@ -51,7 +51,7 @@ describe("Questie", function()
             alice.env.Questie.db.profile.autoTrackQuests = false
             alice.CommsVisibility:ScheduleSnapshot("INITIAL_PROFILE")
             assert.is_true(network:FlushUntilIdle())
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", questId))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", questId))
 
             -- SetProfile activates the new table before AceDB fires OnProfileChanged.
             local refreshCount = 0
@@ -66,7 +66,7 @@ describe("Questie", function()
             assert.is_true(alice.env.Questie.db.profile.autoTrackQuests)
             assert.is_true(network:FlushUntilIdle())
 
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", questId))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice", questId))
             assert.are_equal(2, bob.QuestiePartyObjectives.scheduleUpdateCount)
             assert.are_equal(1, refreshCount)
 

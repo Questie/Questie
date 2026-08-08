@@ -163,10 +163,10 @@ describe("GroupEventHandler", function()
 
             -- GROUP_JOINED fans out through the production handler: H1 discovers peers,
             -- V1 shares visibility, and the legacy full-log request is counted but not answered.
-            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
-            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
-            assert.is_true(alice.CommsVisibility:ShouldShowPartyObjective("Bob-TestRealm", 202))
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob", "QuestieH1"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice", "QuestieH1"))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_true(alice.CommsVisibility:ShouldShowPartyObjective("Bob", 202))
             assert.are_equal(1, alice.fullQuestLogRequestCount)
             assert.are_equal(1, bob.fullQuestLogRequestCount)
         end)
@@ -208,8 +208,8 @@ describe("GroupEventHandler", function()
             bob.CommsVisibility:ScheduleSnapshot("seed V1-only state")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
-            assert.is_false(alice.CommsVisibility:ShouldShowPartyObjective("Bob-TestRealm", 101))
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob", "QuestieH1"))
+            assert.is_false(alice.CommsVisibility:ShouldShowPartyObjective("Bob", 101))
             assert.is_nil(next(alice.QuestieComms.remoteQuestLogs))
 
             alice.QuestiePlayer.numberOfGroupMembers = 2
@@ -221,8 +221,8 @@ describe("GroupEventHandler", function()
             alice:FireWoWEvent("GROUP_ROSTER_UPDATE")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_false(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
-            assert.is_true(alice.CommsVisibility:ShouldShowPartyObjective("Bob-TestRealm", 101))
+            assert.is_false(alice.CommsPrefixRegistry:AcceptsPrefix("Bob", "QuestieH1"))
+            assert.is_true(alice.CommsVisibility:ShouldShowPartyObjective("Bob", 101))
             assert.are_equal(helloMessagesBeforeReplacement, countIsolatedSentAddonMessages(alice, "QuestieH1"))
             assert.are_equal(visibilityMessagesBeforeReplacement, countIsolatedSentAddonMessages(alice, "QuestieV1"))
             assert.are_equal(redrawsBeforeReplacement, alice.QuestiePartyObjectives.scheduleUpdateCount)
@@ -238,7 +238,7 @@ describe("GroupEventHandler", function()
             alice:LoadModernGroupStack()
             bob:LoadModernGroupStack()
 
-            alice.QuestieComms.remoteQuestLogs = {[101] = { ["Bob-TestRealm"] = {} }}
+            alice.QuestieComms.remoteQuestLogs = {[101] = { ["Bob"] = {} }}
             alice.QuestiePlayer.numberOfGroupMembers = 2
             alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
 
@@ -282,8 +282,8 @@ describe("GroupEventHandler", function()
             bob.CommsVisibility:ScheduleSnapshot("seed remote state")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
-            assert.is_false(alice.CommsVisibility:ShouldShowPartyObjective("Bob-TestRealm", 101))
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob", "QuestieH1"))
+            assert.is_false(alice.CommsVisibility:ShouldShowPartyObjective("Bob", 101))
 
             local aliceHelloMessagesBeforeLeave = countIsolatedSentAddonMessages(alice, "QuestieH1")
             local aliceVisibilityMessagesBeforeLeave = countIsolatedSentAddonMessages(alice, "QuestieV1")
@@ -297,8 +297,8 @@ describe("GroupEventHandler", function()
             -- fake time far enough for those stale messages to escape.
             assert.are_equal(1, alice.QuestieComms.resetAllCount)
             assert.are_equal(1, alice.QuestiePartyObjectives.clearCount)
-            assert.is_false(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
-            assert.is_true(alice.CommsVisibility:ShouldShowPartyObjective("Bob-TestRealm", 101))
+            assert.is_false(alice.CommsPrefixRegistry:AcceptsPrefix("Bob", "QuestieH1"))
+            assert.is_true(alice.CommsVisibility:ShouldShowPartyObjective("Bob", 101))
             assert.are_equal(aliceHelloMessagesBeforeLeave, countIsolatedSentAddonMessages(alice, "QuestieH1"))
             assert.are_equal(aliceVisibilityMessagesBeforeLeave, countIsolatedSentAddonMessages(alice, "QuestieV1"))
         end)

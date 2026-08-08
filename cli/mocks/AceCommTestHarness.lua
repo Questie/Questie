@@ -32,6 +32,21 @@ local function deepCopy(value)
     return copied
 end
 
+-- AceComm requests the "none" form before invoking protocol callbacks. Raw
+-- CHAT_MSG_ADDON evidence stays realm-qualified; only same-realm callbacks are shortened.
+local function ambiguateSender(sender, context, normalizedRealmName)
+    if context ~= "none" or type(sender) ~= "string" then
+        return sender
+    end
+
+    local playerName, realmName = string.match(sender, "^([^-]+)%-(.+)$")
+    if realmName == normalizedRealmName then
+        return playerName
+    end
+
+    return sender
+end
+
 -------------------------
 -- State capture/restore.
 -------------------------
@@ -170,6 +185,7 @@ function AceCommTestHarness.New()
     harness.groupRoster = {
         playerName = "Player",
         realmName = "HomeRealm",
+        normalizedRealmName = "HomeRealm",
         groupMemberCount = 0,
         partyMembers = {},
         raidMembers = {},
@@ -251,8 +267,8 @@ function AceCommTestHarness:InstallWoWClient(options)
     _G.GetFramerate = function()
         return 60
     end
-    _G.Ambiguate = function(sender)
-        return sender
+    _G.Ambiguate = function(sender, context)
+        return ambiguateSender(sender, context, harness.groupRoster.normalizedRealmName)
     end
     _G.wipe = clearTable
     table.wipe = clearTable
@@ -360,9 +376,15 @@ end
 
 function AceCommTestHarness:SetGroupRoster(options)
     options = options or {}
+    local realmName = options.realmName or self.groupRoster.realmName
+    local normalizedRealmName = options.normalizedRealmName
+        or (options.realmName and realmName)
+        or self.groupRoster.normalizedRealmName
+        or realmName
     self.groupRoster = {
         playerName = options.playerName or self.groupRoster.playerName,
-        realmName = options.realmName or self.groupRoster.realmName,
+        realmName = realmName,
+        normalizedRealmName = normalizedRealmName,
         groupMemberCount = options.groupMemberCount ~= nil and options.groupMemberCount or self.groupRoster.groupMemberCount,
         partyMembers = options.partyMembers or self.groupRoster.partyMembers or {},
         raidMembers = options.raidMembers or self.groupRoster.raidMembers or {},
@@ -378,11 +400,11 @@ function AceCommTestHarness:SetGroupRoster(options)
     end
     _G.UnitFullName = function(unit)
         if unit == "player" then
-            return harness.groupRoster.playerName, harness.groupRoster.realmName
+            return harness.groupRoster.playerName, harness.groupRoster.normalizedRealmName
         end
     end
     _G.GetNormalizedRealmName = function()
-        return harness.groupRoster.realmName
+        return harness.groupRoster.normalizedRealmName
     end
     _G.GetRealmName = function()
         return harness.groupRoster.realmName
@@ -401,7 +423,7 @@ function AceCommTestHarness:SetGroupRoster(options)
 
         return unit == "player"
             or unit == harness.groupRoster.playerName
-            or unit == (harness.groupRoster.playerName .. "-" .. harness.groupRoster.realmName)
+            or unit == (harness.groupRoster.playerName .. "-" .. harness.groupRoster.normalizedRealmName)
             or harness.groupRoster.partyMembers[unit] == true
             or harness.groupRoster.raidMembers[unit] == true
     end
@@ -653,8 +675,8 @@ local function _InstallIsolatedWowApi(client)
     env.GetFramerate = function()
         return 60
     end
-    env.Ambiguate = function(sender)
-        return sender
+    env.Ambiguate = function(sender, context)
+        return ambiguateSender(sender, context, client.normalizedRealmName)
     end
     env.wipe = clearTable
     env.table.wipe = clearTable
@@ -758,13 +780,13 @@ local function _InstallIsolatedWowApi(client)
     env.UnitFullName = function(unit)
         local rosterClient = client.network:ResolveUnit(client, unit or "player")
         if rosterClient then
-            return rosterClient.playerName, rosterClient.realmName
+            return rosterClient.playerName, rosterClient.normalizedRealmName
         end
 
         return nil
     end
     env.GetNormalizedRealmName = function()
-        return client.realmName
+        return client.normalizedRealmName
     end
     env.GetRealmName = function()
         return client.realmName
@@ -1303,8 +1325,11 @@ function IsolatedNetwork:CreateClient(options)
     client.network = self
     client.env = _NewIsolatedEnvironment()
     client.playerName = options.playerName or "Player"
+    -- WoW exposes a display realm separately from the normalized realm used in
+    -- UnitFullName and raw CHAT_MSG_ADDON sender strings.
     client.realmName = options.realmName or "HomeRealm"
-    client.fullName = client.playerName .. "-" .. client.realmName
+    client.normalizedRealmName = options.normalizedRealmName or client.realmName
+    client.fullName = client.playerName .. "-" .. client.normalizedRealmName
     client.frames = {}
     client.registeredAddonPrefixes = {}
     client.sentAddonMessages = {}
@@ -1414,6 +1439,14 @@ function IsolatedNetwork:ResolveUnit(localClient, unit)
         return fullNameClient
     end
 
+    if type(unit) == "string" and not string.find(unit, "-", 1, true) then
+        for _, rosterClient in ipairs(self.clients) do
+            if rosterClient.playerName == unit and rosterClient.normalizedRealmName == localClient.normalizedRealmName then
+                return rosterClient
+            end
+        end
+    end
+
     local partyIndex = tonumber(string.match(unit or "", "^party(%d+)$"))
     if partyIndex then
         local partyLikeClients = #self.partyClients > 0 and self.partyClients or self.instanceClients
@@ -1486,7 +1519,7 @@ function IsolatedNetwork:ResolveWhisperTarget(senderClient, target)
 
     if type(target) == "string" and not string.find(target, "-", 1, true) then
         for _, client in ipairs(self.clients) do
-            if client.playerName == target and client.realmName == senderClient.realmName then
+            if client.playerName == target and client.normalizedRealmName == senderClient.normalizedRealmName then
                 return client
             end
         end

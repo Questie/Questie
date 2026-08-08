@@ -309,8 +309,8 @@ describe("Comms", function()
             alice.CommsPrefixRegistry:ScheduleHello("daily prefix advertisement")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "Questie"))
-            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice", "Questie"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice", "QuestieH1"))
         end)
 
         it("broadcasts unavailable daily quests to party members", function()

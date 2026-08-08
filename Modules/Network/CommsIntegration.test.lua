@@ -26,9 +26,10 @@ describe("Comms integration harness", function()
         local singleHarness = AceCommTestHarness.New()
         singleHarness:InstallWoWClient({
             playerName = "Player",
-            realmName = "HomeRealm",
+            realmName = "Home Realm",
+            normalizedRealmName = "HomeRealm",
             groupMemberCount = 2,
-            partyMembers = {["Friend-Realm"] = true},
+            partyMembers = {Friend = true},
         })
         singleHarness:LoadRealAceCommInto(Questie)
 
@@ -44,14 +45,18 @@ describe("Comms integration harness", function()
 
         Questie:SendCommMessage("SingleT", "hello party", "PARTY")
         singleHarness:FlushAddonTraffic()
-        singleHarness:DeliverAddonMessage({prefix = "SingleT", message = "hello player", distribution = "PARTY"}, "Friend-Realm", "PARTY")
+        singleHarness:DeliverAddonMessage({prefix = "SingleT", message = "hello player", distribution = "PARTY"}, "Friend-HomeRealm", "PARTY")
 
         assert.is_table(singleHarness:FindSentAddonMessage("SingleT", "PARTY"))
+        assert.are_equal("Home Realm", GetRealmName())
+        assert.are_equal("HomeRealm", GetNormalizedRealmName())
+        assert.are_same({"Player", "HomeRealm"}, {UnitFullName("player")})
+        assert.is_true(UnitIsConnected("Player-HomeRealm"))
         assert.are_same({
             prefix = "SingleT",
             message = "hello player",
             distribution = "PARTY",
-            sender = "Friend-Realm",
+            sender = "Friend",
         }, receivedMessages[1])
 
         singleHarness:Restore()
@@ -145,13 +150,69 @@ describe("Comms integration harness", function()
             assert.are_equal("ShortWh", prefix)
             assert.are_equal("short-name whisper", message)
             assert.are_equal("WHISPER", distribution)
-            assert.are_equal("Alice-TestRealm", sender)
+            assert.are_equal("Alice", sender)
         end)
 
         alice.env.Questie:SendCommMessage("ShortWh", "short-name whisper", "WHISPER", "Bob")
         assertIsolatedNetworkFlushes(network)
 
         assert.are_equal(1, bobReceivedCount)
+        assert.are_equal("Alice-TestRealm", network.trace[1].sender)
+    end)
+
+    it("normalizes callback senders relative to the receiving client's realm", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({
+            playerName = "Alice",
+            realmName = "Test Realm",
+            normalizedRealmName = "TestRealm",
+        })
+        local bob = network:CreateClient({
+            playerName = "Bob",
+            realmName = "Test Realm",
+            normalizedRealmName = "TestRealm",
+        })
+        local charlie = network:CreateClient({
+            playerName = "Charlie",
+            realmName = "Other Realm",
+            normalizedRealmName = "OtherRealm",
+        })
+        network:SetParty({alice, bob, charlie})
+
+        alice:LoadModernHelloStack()
+        bob:LoadModernHelloStack()
+        charlie:LoadModernHelloStack()
+
+        local callbackSenders = {}
+        bob.env.Questie:RegisterComm("RealmT", function(_, _, _, sender)
+            callbackSenders[#callbackSenders + 1] = sender
+        end)
+
+        alice.env.Questie:SendCommMessage("RealmT", "same realm", "WHISPER", bob.fullName)
+        charlie.env.Questie:SendCommMessage("RealmT", "other realm", "WHISPER", bob.fullName)
+        assertIsolatedNetworkFlushes(network)
+
+        assert.are_equal("Test Realm", bob.env.GetRealmName())
+        assert.are_equal("TestRealm", bob.env.GetNormalizedRealmName())
+        assert.are_same({"Bob", "TestRealm"}, {bob.env.UnitFullName("player")})
+        assert.are_same({"Alice", "Charlie-OtherRealm"}, callbackSenders)
+        assert.are_equal("Alice-TestRealm", network.trace[1].sender)
+        assert.are_equal("Charlie-OtherRealm", network.trace[2].sender)
+    end)
+
+    it("resolves same-realm callback names through roster APIs", function()
+        local network = AceCommTestHarness.NewIsolatedNetwork()
+        local alice = network:CreateClient({playerName = "Alice", realmName = "Test Realm", normalizedRealmName = "TestRealm"})
+        local bob = network:CreateClient({playerName = "Bob", realmName = "Test Realm", normalizedRealmName = "TestRealm"})
+        network:SetParty({alice, bob})
+        network:SetRaid({alice, bob})
+
+        bob:LoadModernHelloStack()
+
+        assert.is_true(bob.env.UnitInParty("Alice"))
+        assert.is_true(bob.env.UnitInRaid("Alice"))
+        assert.is_true(bob.env.UnitIsConnected("Alice"))
+        assert.are_same({"Alice", "TestRealm"}, {bob.env.UnitFullName("Alice")})
     end)
 
     it("routes an isolated WHISPER only to the exact target", function()
@@ -176,7 +237,7 @@ describe("Comms integration harness", function()
             assert.are_equal("WhisperT", prefix)
             assert.are_equal("hello bob", message)
             assert.are_equal("WHISPER", distribution)
-            assert.are_equal("Alice-TestRealm", sender)
+            assert.are_equal("Alice", sender)
         end)
         charlie.env.Questie:RegisterComm("WhisperT", function()
             charlieReceivedCount = charlieReceivedCount + 1
@@ -347,7 +408,7 @@ describe("Comms integration harness", function()
             prefix = "LongMsg",
             message = longMessage,
             distribution = "PARTY",
-            sender = "Alice-TestRealm",
+            sender = "Alice",
         }, receivedMessages[1])
     end)
 end)

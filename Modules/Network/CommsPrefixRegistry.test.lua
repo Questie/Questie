@@ -418,8 +418,8 @@ describe("CommsPrefixRegistry", function()
             alice.CommsPrefixRegistry:ScheduleHello("integration-test")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
-            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice", "QuestieH1"))
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob", "QuestieH1"))
             assert.are_equal(2, #network.trace)
             assert.are_same({
                 sender = "Alice-TestRealm",
@@ -430,8 +430,45 @@ describe("CommsPrefixRegistry", function()
                 sender = "Bob-TestRealm",
                 prefix = "QuestieH1",
                 distribution = "WHISPER",
-                target = "Alice-TestRealm",
+                target = "Alice",
             }, network.trace[2])
+        end)
+
+        it("rejects a full raw self sender after AceComm normalization", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "Test Realm", normalizedRealmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "Test Realm", normalizedRealmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernHelloStack()
+            local encodedHello = alice.CommsEncoding:EncodePayload({QuestieH1 = true})
+
+            alice:FireWoWEvent("CHAT_MSG_ADDON", "QuestieH1", encodedHello, "WHISPER", alice.fullName)
+
+            assert.is_nil(next(alice.CommsPrefixRegistry.remotePlayerPrefixes))
+        end)
+
+        it("keeps same-name same-realm and cross-realm senders distinct through pruning", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local receiver = network:CreateClient({playerName = "Receiver", realmName = "Home Realm", normalizedRealmName = "HomeRealm"})
+            local sameRealmTwin = network:CreateClient({playerName = "Twin", realmName = "Home Realm", normalizedRealmName = "HomeRealm"})
+            local crossRealmTwin = network:CreateClient({playerName = "Twin", realmName = "Other Realm", normalizedRealmName = "OtherRealm"})
+            network:SetParty({receiver, sameRealmTwin, crossRealmTwin})
+
+            receiver:LoadModernHelloStack()
+            local encodedHello = receiver.CommsEncoding:EncodePayload({QuestieH1 = true})
+
+            receiver:FireWoWEvent("CHAT_MSG_ADDON", "QuestieH1", encodedHello, "WHISPER", sameRealmTwin.fullName)
+            receiver:FireWoWEvent("CHAT_MSG_ADDON", "QuestieH1", encodedHello, "WHISPER", crossRealmTwin.fullName)
+
+            assert.is_true(receiver.CommsPrefixRegistry:AcceptsPrefix("Twin", "QuestieH1"))
+            assert.is_true(receiver.CommsPrefixRegistry:AcceptsPrefix("Twin-OtherRealm", "QuestieH1"))
+
+            network:SetParty({receiver, crossRealmTwin})
+            receiver.CommsPrefixRegistry:PruneRemotePlayers()
+
+            assert.is_false(receiver.CommsPrefixRegistry:AcceptsPrefix("Twin", "QuestieH1"))
+            assert.is_true(receiver.CommsPrefixRegistry:AcceptsPrefix("Twin-OtherRealm", "QuestieH1"))
         end)
 
         it("round-trips QuestieH1 over isolated INSTANCE_CHAT topology", function()
@@ -449,8 +486,8 @@ describe("CommsPrefixRegistry", function()
             alice.CommsPrefixRegistry:ScheduleHello("instance integration-test")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieH1"))
-            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob-TestRealm", "QuestieH1"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice", "QuestieH1"))
+            assert.is_true(alice.CommsPrefixRegistry:AcceptsPrefix("Bob", "QuestieH1"))
             assert.are_same({
                 sender = "Alice-TestRealm",
                 prefix = "QuestieH1",
@@ -460,7 +497,7 @@ describe("CommsPrefixRegistry", function()
                 sender = "Bob-TestRealm",
                 prefix = "QuestieH1",
                 distribution = "WHISPER",
-                target = "Alice-TestRealm",
+                target = "Alice",
             }, network.trace[2])
         end)
     end)

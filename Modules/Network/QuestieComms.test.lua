@@ -203,8 +203,8 @@ describe("QuestieComms", function()
             alice.CommsPrefixRegistry:ScheduleHello("legacy prefix advertisement")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "questie"))
-            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice-TestRealm", "QuestieV1"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice", "questie"))
+            assert.is_true(bob.CommsPrefixRegistry:AcceptsPrefix("Alice", "QuestieV1"))
         end)
 
         it("answers a legacy full quest-list request and stores remote progress", function()
@@ -219,7 +219,7 @@ describe("QuestieComms", function()
             bob.env.Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(countIsolatedSentAddonMessages(alice, "questie", "WHISPER", "Bob-TestRealm") >= 1)
+            assert.is_true(countIsolatedSentAddonMessages(alice, "questie", "WHISPER", "Bob") >= 1)
             -- The legacy serializer omits false-valued fields, so unfinished quests
             -- arrive with progress counts but no explicit `finished = false` key.
             assert.are_same({
@@ -230,10 +230,10 @@ describe("QuestieComms", function()
                     fulfilled = 1,
                     required = 5,
                 },
-            }, bob.QuestieComms.remoteQuestLogs[101]["Alice-TestRealm"])
+            }, bob.QuestieComms.remoteQuestLogs[101]["Alice"])
             assert.are_equal(1, #bob.legacyTooltipRegistrations)
             assert.are_equal(101, bob.legacyTooltipRegistrations[1].questId)
-            assert.are_equal("Alice-TestRealm", bob.legacyTooltipRegistrations[1].playerName)
+            assert.are_equal("Alice", bob.legacyTooltipRegistrations[1].playerName)
         end)
 
         -- Required guardrail: this DB-derived 25-quest log should move forward
@@ -255,7 +255,7 @@ describe("QuestieComms", function()
             assert.are_equal(25, countTableKeys(questObjectiveIds))
             assert.are_equal(25, countTableKeys(bob.QuestieComms.remoteQuestLogs))
             for questId in pairs(questObjectiveIds) do
-                assert.is_table(bob.QuestieComms.remoteQuestLogs[questId]["Alice-TestRealm"])
+                assert.is_table(bob.QuestieComms.remoteQuestLogs[questId]["Alice"])
             end
             assert.is_true(questieMessageCount > 1)
             -- Upper bound protects addon-channel correctness. Lower bound protects
@@ -285,7 +285,7 @@ describe("QuestieComms", function()
                     fulfilled = 1,
                     required = 5,
                 },
-            }, bob.QuestieComms.remoteQuestLogs[101]["Alice-TestRealm"])
+            }, bob.QuestieComms.remoteQuestLogs[101]["Alice"])
             assert.are_equal(1, #bob.legacyTooltipRegistrations)
         end)
 
@@ -301,14 +301,14 @@ describe("QuestieComms", function()
             alice.QuestieComms.private:BroadcastQuestUpdate(101)
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_table(bob.QuestieComms.remoteQuestLogs[101]["Alice-TestRealm"])
+            assert.is_table(bob.QuestieComms.remoteQuestLogs[101]["Alice"])
 
             alice.QuestieComms.private:BroadcastQuestRemove(101)
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_nil(bob.QuestieComms.remoteQuestLogs[101]["Alice-TestRealm"])
+            assert.is_nil(bob.QuestieComms.remoteQuestLogs[101]["Alice"])
             assert.are_equal(1, #bob.legacyTooltipRemovals)
-            assert.are_same({questId = 101, playerName = "Alice-TestRealm"}, bob.legacyTooltipRemovals[1])
+            assert.are_same({questId = 101, playerName = "Alice"}, bob.legacyTooltipRemovals[1])
         end)
 
         it("ignores malformed and incompatible legacy questie payloads", function()

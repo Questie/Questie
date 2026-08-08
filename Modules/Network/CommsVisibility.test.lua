@@ -404,10 +404,10 @@ describe("CommsVisibility", function()
             alice.CommsVisibility:ScheduleSnapshot("integration-test")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 303))
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 404))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 202))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 303))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 404))
             assert.are_equal(1, bob.QuestiePartyObjectives.scheduleUpdateCount)
             assert.is_nil(next(bob.QuestieComms.remoteQuestLogs))
         end)
@@ -426,17 +426,17 @@ describe("CommsVisibility", function()
             alice.CommsVisibility:ScheduleSnapshot("first snapshot")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 202))
 
             alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[303] = true}
             alice.trackedQuests = {[303] = true}
             alice.CommsVisibility:ScheduleSnapshot("replacement snapshot")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 202))
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 303))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 202))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 303))
             assert.are_equal(2, bob.QuestiePartyObjectives.scheduleUpdateCount)
         end)
 
@@ -457,7 +457,7 @@ describe("CommsVisibility", function()
 
             -- WHISPER is a valid transport here, so this assertion protects Bob's
             -- receive-side trust check rather than the harness send validator.
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Stranger-TestRealm", 101))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Stranger", 101))
             assert.are_equal(0, bob.QuestiePartyObjectives.scheduleUpdateCount)
         end)
 
@@ -481,7 +481,7 @@ describe("CommsVisibility", function()
             for _, sentMessage in ipairs(network.trace) do
                 assert.are_not_equal("QuestieV1", sentMessage.prefix)
             end
-            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
         end)
 
         it("keeps isolated QuestieV1 visibility separate from legacy remoteQuestLogs", function()
@@ -497,7 +497,7 @@ describe("CommsVisibility", function()
             alice.CommsVisibility:ScheduleSnapshot("legacy separation")
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
             assert.is_nil(next(bob.QuestieComms.remoteQuestLogs))
 
             -- V1 and legacy packets intentionally update different state stores:
@@ -506,8 +506,8 @@ describe("CommsVisibility", function()
             alice.QuestieComms.private:BroadcastQuestUpdate(101)
             assertIsolatedNetworkFlushes(network)
 
-            assert.is_table(bob.QuestieComms.remoteQuestLogs[101]["Alice-TestRealm"])
-            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice-TestRealm", 101))
+            assert.is_table(bob.QuestieComms.remoteQuestLogs[101]["Alice"])
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
         end)
     end)
 

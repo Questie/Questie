@@ -52,6 +52,8 @@ Harness mechanics only:
 - deterministic fake timers advance without real waiting;
 - PARTY broadcasts do not echo to the sender;
 - WHISPER routes to exact full names and same-realm short names;
+- raw delivery preserves realm-qualified sender evidence, then real AceComm normalizes callbacks to short same-realm names or
+  unambiguous cross-realm names;
 - unregistered prefixes are dropped at delivery;
 - invalid prefixes, oversized messages, and invalid topology sends are rejected before trace/queue;
 - disconnected targets are skipped;
@@ -187,9 +189,11 @@ Use the single-runtime harness when a test needs one Questie runtime with real A
 local harness = AceCommTestHarness.New()
 harness:InstallWoWClient({
     playerName = "Player",
-    realmName = "HomeRealm",
+    realmName = "Home Realm",
+    normalizedRealmName = "HomeRealm",
     groupMemberCount = 2,
-    partyMembers = {["Friend-Realm"] = true},
+    -- Roster APIs consume the sender identity produced by AceComm.
+    partyMembers = {Friend = true},
 })
 harness:LoadRealAceCommInto(Questie)
 harness:InstallBlizzardDeflateCompression()
@@ -204,12 +208,16 @@ local envelope = harness:BuildEncodedAddonMessage("QuestieH1", {
 })
 
 harness:FireWoWEvent("GROUP_JOINED")
-harness:DeliverAddonMessage(envelope, "Friend-Realm", "PARTY")
+-- Preserve the raw WoW event sender; real AceComm normalizes this same-realm
+-- identity to "Friend" before invoking Questie's callback.
+harness:DeliverAddonMessage(envelope, "Friend-HomeRealm", "PARTY")
 harness:RunTimers()
 harness:FlushAddonTraffic()
 
 local sent = harness:FindSentAddonMessage("QuestieH1", "PARTY")
 ```
+
+A cross-realm raw sender such as `Friend-OtherRealm` remains realm-qualified in the AceComm callback and should use that full identity in roster fixtures.
 
 `Restore()` must run after a single-runtime harness test. It restores the globals the harness replaces, selected `Enum` fields, `table.wipe`, `C_EncodingUtil` compression hooks, and the captured top-level `Questie` table/settings leaves:
 
@@ -225,8 +233,16 @@ Create a network and clients:
 
 ```lua
 local network = AceCommTestHarness.NewIsolatedNetwork()
-local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
-local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+local alice = network:CreateClient({
+    playerName = "Alice",
+    realmName = "Test Realm",
+    normalizedRealmName = "TestRealm",
+})
+local bob = network:CreateClient({
+    playerName = "Bob",
+    realmName = "Test Realm",
+    normalizedRealmName = "TestRealm",
+})
 ```
 
 Configure topology:
