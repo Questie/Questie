@@ -199,7 +199,9 @@ local _AbandonQuest = function(questId, breadcrumbQuestId)
         local questLink = QuestieLink:GetQuestHyperLink(questId)
         local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
         Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s is not completed.", questLink, breadcrumbLink))
+        return true
     end
+    return false
 end
 
 --- Checks if a quest has incomplete breadcrumbs and announces/abandons accordingly.
@@ -234,7 +236,10 @@ local _CheckBreadcrumbs = function(questId)
                         QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
                     end
                     if Questie.db.profile.autoAccept.abandonBreadcrumbFollowup then
-                        _AbandonQuest(questId, breadcrumbQuestId)
+                        -- The quest is gone after a successful abandon, so stop checking any further breadcrumbs
+                        if _AbandonQuest(questId, breadcrumbQuestId) then
+                            break
+                        end
                     end
                 end
             end
