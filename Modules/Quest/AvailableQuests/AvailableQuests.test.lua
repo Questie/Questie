@@ -7,18 +7,28 @@ describe("AvailableQuests", function()
     local QuestieLib
     ---@type QuestieDB
     local QuestieDB
+    ---@type QuestiePlayer
+    local QuestiePlayer
     ---@type QuestieTooltips
     local QuestieTooltips
     ---@type QuestieMap
     local QuestieMap
     ---@type Comms
     local Comms
-    ---@type TheadLib
-    local TheadLib
+    ---@type ThreadLib
+    local ThreadLib
+    ---@type IsleOfQuelDanas
+    local IsleOfQuelDanas
 
     ---@type AvailableQuests
     local AvailableQuests
 
+    local originalThread
+    local originalGetPlayerLevel
+    local originalGetQuestGreenRange
+    local originalIsleOfQuelDanasQuests
+    local originalQuestPointers
+    local originalQuestIdFrames
     local QUEST_ID = 123
     local NPC_ID = 456
 
@@ -32,14 +42,23 @@ describe("AvailableQuests", function()
         QuestieDB.GetQuest = function() return nil end
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        originalGetPlayerLevel = QuestiePlayer.GetPlayerLevel
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         Comms = QuestieLoader:ImportModule("Comms")
-        TheadLib = QuestieLoader:ImportModule("ThreadLib")
-        TheadLib.ThreadCallbackInstant = function(fun, callback)
+        ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+        ThreadLib.ThreadCallbackInstant = function(fun, callback)
             fun()
             callback()
         end
+        IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+        originalThread = ThreadLib.Thread
+        originalIsleOfQuelDanasQuests = IsleOfQuelDanas.quests
+        originalQuestPointers = QuestieDB.QuestPointers
+        originalQuestIdFrames = QuestieMap.questIdFrames
+        originalGetQuestGreenRange = _G.GetQuestGreenRange
+        _G.GetQuestGreenRange = function() return 5 end
 
         Questie.db.profile.availableIconLimit = 10
 
@@ -54,6 +73,15 @@ describe("AvailableQuests", function()
         for i = 1, MAX_NUM_QUESTS do
             _G["QuestTitleButton" .. i] = nil
         end
+    end)
+
+    after_each(function()
+        ThreadLib.Thread = originalThread
+        QuestiePlayer.GetPlayerLevel = originalGetPlayerLevel
+        QuestieDB.QuestPointers = originalQuestPointers
+        IsleOfQuelDanas.quests = originalIsleOfQuelDanasQuests
+        _G.GetQuestGreenRange = originalGetQuestGreenRange
+        QuestieMap.questIdFrames = originalQuestIdFrames
     end)
 
     describe("Initialize", function()
@@ -103,6 +131,33 @@ describe("AvailableQuests", function()
             assert.spy(_G.UnitFactionGroup).was.called()
             assert.spy(_G.GetRealmName).was.called()
             assert.are_same({["Ook Ook"] = {[1234] = true}}, Questie.db.global.unavailableQuestsDeterminedByTalking)
+        end)
+    end)
+
+    describe("CalculateAndDrawAll", function()
+        it("should name its calculation and draw jobs for profiling", function()
+            local submittedJobs = {}
+            ThreadLib.Thread = function(threadFunction, delay, errorMessage, callbackFunction, threadName)
+                table.insert(submittedJobs, {
+                    threadFunction = threadFunction,
+                    delay = delay,
+                    errorMessage = errorMessage,
+                    callbackFunction = callbackFunction,
+                    threadName = threadName,
+                })
+                return {Cancel = function() end}
+            end
+            QuestieDB.QuestPointers = {}
+            QuestiePlayer.GetPlayerLevel = function() return 60 end
+            IsleOfQuelDanas.quests = {}
+            QuestieMap.questIdFrames = {}
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.are_same("AvailableQuests.CalculateAndDrawAll", submittedJobs[1].threadName)
+            assert.are_same("_DrawAvailableQuest", submittedJobs[2].threadName)
         end)
     end)
 
