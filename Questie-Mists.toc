@@ -29,14 +29,16 @@
 ## X-Curse-Project-ID: 334372
 ## X-Wago-ID: qv634BKb
 
-Modules\QuestieCompat.lua
+# Loader module. First so that every file after it can be timed: the load-time hook lives here,
+# and anything loaded before it is invisible to measurement. It has no dependencies of its own.
+Modules\Libs\QuestieLoader.lua
 
 embeds.xml
 
+Modules\QuestieCompat.lua
+
 Modules\VersionCheck.lua
 
-# Loader module
-Modules\Libs\QuestieLoader.lua
 Modules\Expansions.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
