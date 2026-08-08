@@ -1,0 +1,1606 @@
+dofile("setupTests.lua")
+
+describe("QuestieProfiler", function()
+    ---@type QuestieProfiler
+    local Profiler
+    ---@type ThreadLib
+    local ThreadLib
+    ---@type QuestieProfilerUI
+    local ProfilerUI
+    local clock
+    local tickerCallbacks
+    local testModuleName
+    local originalDebug
+    local originalDebugProfileStop
+    local originalGetTimePreciseSec
+    local originalDebugStack
+    local originalTimerAPI
+    local originalQuestieTestFunction
+    local originalQuestieDB
+    local originalQuestieModules
+    local originalQuestieOrderedModules
+    local originalQuestieError
+    local QuestieStreamLib
+    local DBCompiler
+    local QuestieSerializer
+    local QuestieDB
+    local originalStreamLoad
+    local originalStreamHotRead
+    local originalCompilerReaders
+    local originalCompilerWriters
+    local originalCompilerSkippers
+    local originalSerializerReaders
+    local originalSerializerWriters
+    local originalSerialize
+    local originalGetQuest
+    local originalQuerySlots
+    local querySlotNames = {
+        "QueryNPC", "QueryQuest", "QueryObject", "QueryItem",
+        "QueryNPCSingle", "QueryQuestSingle", "QueryObjectSingle", "QueryItemSingle",
+        "_QueryNPC", "_QueryQuest", "_QueryObject", "_QueryItem",
+        "_QueryNPCSingle", "_QueryQuestSingle", "_QueryObjectSingle", "_QueryItemSingle",
+    }
+
+    before_each(function()
+        testModuleName = "ProfilerTestRoot"
+        QuestieLoader._modules[testModuleName] = nil
+        originalDebug = _G.debug
+        originalDebugProfileStop = _G.debugprofilestop
+        originalGetTimePreciseSec = _G.GetTimePreciseSec
+        originalDebugStack = _G.debugstack
+        originalTimerAPI = _G.C_Timer
+        originalQuestieTestFunction = Questie.ProfilerTestFunction
+        originalQuestieDB = Questie.db
+        originalQuestieModules = Questie.modules
+        originalQuestieOrderedModules = Questie.orderedModules
+        originalQuestieError = Questie.Error
+        QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib")
+        DBCompiler = QuestieLoader:ImportModule("DBCompiler")
+        QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        originalStreamLoad = QuestieStreamLib.Load
+        originalStreamHotRead = QuestieStreamLib.HotRead
+        originalCompilerReaders = DBCompiler.readers
+        originalCompilerWriters = DBCompiler.writers
+        originalCompilerSkippers = DBCompiler.skippers
+        originalSerializerReaders = QuestieSerializer.ReaderTable
+        originalSerializerWriters = QuestieSerializer.WriterTable
+        originalSerialize = QuestieSerializer.Serialize
+        originalGetQuest = QuestieDB.GetQuest
+        originalQuerySlots = {}
+        for _, slotName in ipairs(querySlotNames) do
+            originalQuerySlots[slotName] = QuestieDB[slotName]
+        end
+
+        clock = 0
+        tickerCallbacks = {}
+        _G.debugprofilestop = function()
+            return clock
+        end
+        _G.C_Timer = {
+            NewTicker = function(_, callback)
+                local ticker = {
+                    Cancel = function(self)
+                        self.cancelled = true
+                    end,
+                }
+                table.insert(tickerCallbacks, callback)
+                return ticker
+            end,
+        }
+        _G.debugstack = function() return "test stack" end
+
+        dofile("Modules/Libs/ThreadLib.lua")
+        ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+        ProfilerUI = QuestieLoader:ImportModule("ProfilerUI")
+        ProfilerUI.Create = function() end
+        ProfilerUI.Show = function() end
+        ProfilerUI.Hide = function() end
+        dofile("Modules/QuestieProfiler.lua")
+        Profiler = QuestieLoader:ImportModule("Profiler")
+    end)
+
+    after_each(function()
+        Profiler:Unhook()
+        QuestieLoader._modules[testModuleName] = nil
+        Questie.ProfilerTestFunction = originalQuestieTestFunction
+        Questie.db = originalQuestieDB
+        Questie.modules = originalQuestieModules
+        Questie.orderedModules = originalQuestieOrderedModules
+        Questie.Error = originalQuestieError
+        QuestieStreamLib.Load = originalStreamLoad
+        QuestieStreamLib.HotRead = originalStreamHotRead
+        DBCompiler.readers = originalCompilerReaders
+        DBCompiler.writers = originalCompilerWriters
+        DBCompiler.skippers = originalCompilerSkippers
+        QuestieSerializer.ReaderTable = originalSerializerReaders
+        QuestieSerializer.WriterTable = originalSerializerWriters
+        QuestieSerializer.Serialize = originalSerialize
+        QuestieDB.GetQuest = originalGetQuest
+        for _, slotName in ipairs(querySlotNames) do
+            QuestieDB[slotName] = originalQuerySlots[slotName]
+        end
+        _G.debug = originalDebug
+        _G.debugprofilestop = originalDebugProfileStop
+        _G.GetTimePreciseSec = originalGetTimePreciseSec
+        _G.debugstack = originalDebugStack
+        _G.C_Timer = originalTimerAPI
+    end)
+
+    it("declines to arm when the timing API was unavailable at module load", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local original = function() end
+        testModule.Work = original
+
+        -- Both clocks must be absent: either one on its own is enough to arm.
+        _G.GetTimePreciseSec = nil
+        _G.debugprofilestop = nil
+        dofile("Modules/QuestieProfiler.lua")
+        Profiler = QuestieLoader:ImportModule("Profiler")
+        _G.debugprofilestop = function() return clock end
+
+        local armed = Profiler:Start(false)
+
+        assert.is_false(armed)
+        assert.is_false(Profiler.active)
+        assert.are_equal(original, testModule.Work)
+        local callbackOwner = {}
+        local callbackOwnerAccepted = ThreadLib.SetProfilingCallbacks(callbackOwner, {})
+        assert.is_true(callbackOwnerAccepted)
+        ThreadLib.ClearProfilingCallbacks(callbackOwner)
+    end)
+
+    describe("clock selection", function()
+        it("measures with GetTimePreciseSec when the client provides it", function()
+            local preciseSeconds = 0
+            _G.GetTimePreciseSec = function()
+                return preciseSeconds
+            end
+            -- debugprofilestop is resettable by any addon, so it must not be consulted when the monotonic
+            -- clock exists. Erroring here makes any fallback read a hard test failure rather than a silent one.
+            _G.debugprofilestop = function()
+                error("debugprofilestop must not be read while GetTimePreciseSec is available")
+            end
+            dofile("Modules/QuestieProfiler.lua")
+            Profiler = QuestieLoader:ImportModule("Profiler")
+
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Work = function()
+                preciseSeconds = preciseSeconds + 0.25
+            end
+
+            assert.is_true(Profiler:Start(false))
+            testModule.Work()
+
+            -- Seconds are converted so everything downstream keeps reading milliseconds.
+            assert.are_same(250, Profiler.hookTimeCount[testModuleName .. ".Work"])
+        end)
+
+        it("falls back to debugprofilestop when GetTimePreciseSec is unavailable", function()
+            _G.GetTimePreciseSec = nil
+            dofile("Modules/QuestieProfiler.lua")
+            Profiler = QuestieLoader:ImportModule("Profiler")
+
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Work = function()
+                clock = clock + 7
+            end
+
+            assert.is_true(Profiler:Start(false))
+            testModule.Work()
+
+            assert.are_same(7, Profiler.hookTimeCount[testModuleName .. ".Work"])
+        end)
+
+        it("arms on GetTimePreciseSec alone when debugprofilestop is missing", function()
+            _G.GetTimePreciseSec = function()
+                return 0
+            end
+            _G.debugprofilestop = nil
+            dofile("Modules/QuestieProfiler.lua")
+            Profiler = QuestieLoader:ImportModule("Profiler")
+            _G.debugprofilestop = function() return clock end
+
+            assert.is_true(Profiler:Start(false))
+            assert.is_true(Profiler.active)
+        end)
+    end)
+
+    it("StartStartup(false) wraps ordinary functions without showing the UI", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local ordinaryFunction = function()
+            clock = clock + 4
+        end
+        testModule.OrdinaryFunction = ordinaryFunction
+        local showCalls = 0
+        local hideCalls = 0
+        Profiler.ShowUI = function()
+            showCalls = showCalls + 1
+        end
+        Profiler.HideUI = function()
+            hideCalls = hideCalls + 1
+        end
+
+        assert.is_true(Profiler:StartStartup(false))
+        assert.are_same(0, showCalls)
+        assert.are_same(1, hideCalls)
+        assert.are_not_equal(ordinaryFunction, testModule.OrdinaryFunction)
+
+        testModule.OrdinaryFunction()
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".OrdinaryFunction"])
+        assert.are_same(4, Profiler.hookTimeCount[testModuleName .. ".OrdinaryFunction"])
+    end)
+
+    it("shows the UI before traversal and preserves the active session when Start is repeated", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function()
+            clock = clock + 3
+        end
+        local lifecycleOrder = {}
+        local originalRefreshHooks = Profiler.RefreshHooks
+        Profiler.ShowUI = function()
+            table.insert(lifecycleOrder, "show UI")
+        end
+        Profiler.RefreshHooks = function(self)
+            table.insert(lifecycleOrder, "traverse hooks")
+            return originalRefreshHooks(self)
+        end
+
+        assert.is_true(Profiler:StartStartup(true))
+        local firstWrapper = testModule.Work
+        testModule.Work()
+        assert.are_same({"show UI", "traverse hooks"}, lifecycleOrder)
+
+        assert.is_true(Profiler:Start(true))
+        assert.are_same({"show UI", "traverse hooks", "show UI"}, lifecycleOrder)
+        assert.are_equal(firstWrapper, testModule.Work)
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(3, Profiler.hookTimeCount[testModuleName .. ".Work"])
+    end)
+
+    it("reports a startup UI failure without blocking or duplicating hook traversal", function()
+        local reportedErrors = {}
+        Questie.Error = function(_, message, profilerError)
+            table.insert(reportedErrors, {message, profilerError})
+        end
+        Profiler.ShowUI = function()
+            error("expected ShowUI failure")
+        end
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local original = function()
+            clock = clock + 3
+        end
+        testModule.Work = original
+
+        assert.is_true(Profiler:StartStartup(true))
+        local wrapper = testModule.Work
+        assert.are_not_equal(original, wrapper)
+        testModule.Work()
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(3, Profiler.hookTimeCount[testModuleName .. ".Work"])
+
+        assert.is_true(Profiler:Start(true))
+        assert.is_true(Profiler:StartStartup(true))
+        assert.are_equal(wrapper, testModule.Work)
+        assert.are_same(3, #reportedErrors)
+        for _, reportedError in ipairs(reportedErrors) do
+            assert.are_same("QuestieProfiler failed to show its UI", reportedError[1])
+            assert.is_truthy(string.find(reportedError[2], "expected ShowUI failure", 1, true))
+        end
+    end)
+
+    it("rolls back partial hook installation and allows a clean retry", function()
+        local reportedErrors = {}
+        Questie.Error = function(_, message, profilerError)
+            table.insert(reportedErrors, {message, profilerError})
+        end
+        local shown = 0
+        local hidden = 0
+        ProfilerUI.Show = function()
+            shown = shown + 1
+        end
+        ProfilerUI.Hide = function()
+            hidden = hidden + 1
+        end
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local original = function()
+            clock = clock + 2
+        end
+        testModule.Work = original
+        local originalRefreshHooks = Profiler.RefreshHooks
+        Profiler.RefreshHooks = function(self)
+            self:HookFunction("Work", original, testModule, testModuleName)
+            error("expected traversal failure")
+        end
+
+        assert.is_false(Profiler:Start(true))
+        assert.are_same(1, shown)
+        assert.are_same(0, hidden)
+        assert.is_false(Profiler.active)
+        assert.are_equal(original, testModule.Work)
+        assert.are_same("QuestieProfiler failed to install hooks", reportedErrors[1][1])
+        assert.is_truthy(string.find(reportedErrors[1][2], "expected traversal failure", 1, true))
+
+        local temporaryOwner = {}
+        assert.is_true(ThreadLib.SetProfilingCallbacks(temporaryOwner, {}))
+        ThreadLib.ClearProfilingCallbacks(temporaryOwner)
+        Profiler.RefreshHooks = originalRefreshHooks
+
+        assert.is_true(Profiler:Start(false))
+        assert.is_true(Profiler.active)
+        assert.are_not_equal(original, testModule.Work)
+        testModule.Work()
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(2, Profiler.hookTimeCount[testModuleName .. ".Work"])
+    end)
+
+    it("gives Start(false) and StartStartup(false) the same hook scope", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local rootFunction = function() end
+        local nestedFunction = function() end
+        testModule.RootFunction = rootFunction
+        testModule.namespace = {NestedFunction = nestedFunction}
+
+        assert.is_true(Profiler:Start(false))
+        assert.are_not_equal(rootFunction, testModule.RootFunction)
+        assert.are_not_equal(nestedFunction, testModule.namespace.NestedFunction)
+        assert.is_not_nil(Profiler.hookCallCount[testModuleName .. ".RootFunction"])
+        assert.is_not_nil(Profiler.hookCallCount[testModuleName .. ".namespace.NestedFunction"])
+
+        Profiler:Stop()
+        assert.are_equal(rootFunction, testModule.RootFunction)
+        assert.are_equal(nestedFunction, testModule.namespace.NestedFunction)
+
+        assert.is_true(Profiler:StartStartup(false))
+        assert.are_not_equal(rootFunction, testModule.RootFunction)
+        assert.are_not_equal(nestedFunction, testModule.namespace.NestedFunction)
+        assert.is_not_nil(Profiler.hookCallCount[testModuleName .. ".RootFunction"])
+        assert.is_not_nil(Profiler.hookCallCount[testModuleName .. ".namespace.NestedFunction"])
+    end)
+
+    it("keeps disallowed modules, subtrees, and query slots unchanged", function()
+        local streamLoad = function() end
+        local streamRead = function(stream)
+            stream.reads = (stream.reads or 0) + 1
+            return stream.reads
+        end
+        local reader = function() return "read" end
+        local writer = function() end
+        local skipper = function() end
+        local hotQuery = function() return "query" end
+        local getQuest = function()
+            clock = clock + 2
+            return "quest"
+        end
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.copiedStream = {
+            _mode = "raw",
+            Load = streamLoad,
+            ReadByte = streamRead,
+        }
+        QuestieStreamLib.Load = streamLoad
+        QuestieStreamLib.HotRead = streamRead
+        DBCompiler.readers = {u8 = reader}
+        DBCompiler.writers = {u8 = writer}
+        DBCompiler.skippers = {u8 = skipper}
+        QuestieDB.GetQuest = getQuest
+        for _, slotName in ipairs(querySlotNames) do
+            QuestieDB[slotName] = hotQuery
+        end
+        local queryTablePrimitive = function() return "primitive" end
+        QuestieDB.QueryNPC = {Primitive = queryTablePrimitive}
+
+        assert.is_true(Profiler:Start(false))
+
+        assert.are_equal(streamLoad, QuestieStreamLib.Load)
+        assert.are_equal(streamRead, QuestieStreamLib.HotRead)
+        assert.are_equal(reader, DBCompiler.readers.u8)
+        assert.are_equal(writer, DBCompiler.writers.u8)
+        assert.are_equal(skipper, DBCompiler.skippers.u8)
+        assert.are_equal(streamLoad, testModule.copiedStream.Load)
+        assert.are_equal(streamRead, testModule.copiedStream.ReadByte)
+        assert.are_equal(queryTablePrimitive, QuestieDB.QueryNPC.Primitive)
+        for i = 2, #querySlotNames do
+            assert.are_equal(hotQuery, QuestieDB[querySlotNames[i]])
+        end
+
+        assert.are_not_equal(getQuest, QuestieDB.GetQuest)
+        assert.are_same("quest", QuestieDB.GetQuest())
+        assert.are_same(1, Profiler.hookCallCount["QuestieDB.GetQuest"])
+        assert.are_same(2, Profiler.hookTimeCount["QuestieDB.GetQuest"])
+    end)
+
+    it("leaves serializer dispatch primitives unmeasured while wrapping a high-level method", function()
+        local readerCalls = 0
+        local writerCalls = 0
+        local reader = function()
+            readerCalls = readerCalls + 1
+        end
+        local writer = function()
+            writerCalls = writerCalls + 1
+        end
+        local serialize = function()
+            clock = clock + 5
+            return "serialized"
+        end
+        QuestieSerializer.ReaderTable = {custom = reader}
+        QuestieSerializer.WriterTable = {custom = writer}
+        QuestieSerializer.Serialize = serialize
+
+        assert.is_true(Profiler:Start(false))
+
+        assert.are_equal(reader, QuestieSerializer.ReaderTable.custom)
+        assert.are_equal(writer, QuestieSerializer.WriterTable.custom)
+        assert.are_not_equal(serialize, QuestieSerializer.Serialize)
+        QuestieSerializer.ReaderTable.custom()
+        QuestieSerializer.WriterTable.custom()
+        assert.are_same("serialized", QuestieSerializer:Serialize({}))
+        assert.are_same(1, readerCalls)
+        assert.are_same(1, writerCalls)
+        assert.is_nil(Profiler.hookCallCount["QuestieSerializer.ReaderTable.custom"])
+        assert.is_nil(Profiler.hookCallCount["QuestieSerializer.WriterTable.custom"])
+        assert.are_same(1, Profiler.hookCallCount["QuestieSerializer.Serialize"])
+        assert.are_same(5, Profiler.hookTimeCount["QuestieSerializer.Serialize"])
+    end)
+
+    it("records only the high-level getter around thousands of primitive and query calls", function()
+        local lowLevelCalls = 0
+        local hotPrimitive = function()
+            lowLevelCalls = lowLevelCalls + 1
+        end
+        local hotQuery = function()
+            lowLevelCalls = lowLevelCalls + 1
+        end
+        QuestieStreamLib.HotRead = hotPrimitive
+        DBCompiler.readers = {u8 = hotPrimitive}
+        QuestieDB.QueryQuest = hotQuery
+        QuestieDB.GetQuest = function()
+            for _ = 1, 200 do
+                DBCompiler.readers.u8()
+                QuestieStreamLib.HotRead()
+                QuestieDB.QueryQuest()
+            end
+        end
+
+        assert.is_true(Profiler:Start(false))
+        local getterWrapper = QuestieDB.GetQuest
+        for _ = 1, 20 do
+            QuestieDB.GetQuest()
+        end
+
+        assert.are_equal(getterWrapper, QuestieDB.GetQuest)
+        assert.are_same(12000, lowLevelCalls)
+        assert.are_same(20, Profiler.hookCallCount["QuestieDB.GetQuest"])
+        assert.is_nil(Profiler.hookCallCount["DBCompiler.readers.u8"])
+        assert.is_nil(Profiler.hookCallCount["QuestieStreamLib.HotRead"])
+        assert.is_nil(Profiler.hookCallCount["QuestieDB.QueryQuest"])
+    end)
+
+    it("preserves leading, interior, and trailing nil return values", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.ReturnValues = function()
+            clock = clock + 5
+            return nil, "middle", nil, "last", nil
+        end
+        Profiler:Start(false)
+
+        local returnCount = select("#", testModule.ReturnValues())
+        local first, second, third, fourth, fifth = testModule.ReturnValues()
+
+        assert.are_same(5, returnCount)
+        assert.is_nil(first)
+        assert.are_same("middle", second)
+        assert.is_nil(third)
+        assert.are_same("last", fourth)
+        assert.is_nil(fifth)
+        assert.are_same(2, Profiler.hookCallCount[testModuleName .. ".ReturnValues"])
+        assert.are_same(10, Profiler.hookTimeCount[testModuleName .. ".ReturnValues"])
+    end)
+
+    it("propagates a main-thread error with its original message", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Boom = function()
+            error("expected boom")
+        end
+        Profiler:Start(false)
+
+        local success, raisedError = pcall(testModule.Boom)
+
+        assert.is_false(success)
+        assert.is_truthy(string.find(raisedError, "expected boom", 1, true))
+    end)
+
+    it("propagates a non-string error object unchanged", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local errorObject = {code = "expected"}
+        testModule.Boom = function()
+            error(errorObject)
+        end
+        Profiler:Start(false)
+
+        local success, raisedError = pcall(testModule.Boom)
+
+        assert.is_false(success)
+        assert.are_equal(errorObject, raisedError)
+    end)
+
+    it("preserves coroutine yields and final return values", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.YieldingFunction = function()
+            local resumedWith = coroutine.yield("first yield", nil, "third yield")
+            return nil, resumedWith, nil
+        end
+        Profiler:Start(false)
+
+        local function CaptureResume(...)
+            return {n = select("#", ...), ...}
+        end
+
+        local thread = coroutine.create(testModule.YieldingFunction)
+        local yielded = CaptureResume(coroutine.resume(thread))
+        local finished = CaptureResume(coroutine.resume(thread, "resumed"))
+
+        assert.are_same(4, yielded.n)
+        assert.is_true(yielded[1])
+        assert.are_same("first yield", yielded[2])
+        assert.is_nil(yielded[3])
+        assert.are_same("third yield", yielded[4])
+        assert.are_same(4, finished.n)
+        assert.is_true(finished[1])
+        assert.is_nil(finished[2])
+        assert.are_same("resumed", finished[3])
+        assert.is_nil(finished[4])
+    end)
+
+    it("counts raw coroutine calls without timing suspended wall-clock time", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.RawCoroutineWork = function()
+            clock = clock + 2
+            coroutine.yield()
+            clock = clock + 3
+        end
+        Profiler:Start(false)
+
+        local thread = coroutine.create(testModule.RawCoroutineWork)
+        assert.is_true(coroutine.resume(thread))
+        clock = clock + 100
+        assert.is_true(coroutine.resume(thread))
+
+        local lookupKey = testModuleName .. ".RawCoroutineWork"
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+        assert.are_same(1, Profiler.highestCalls)
+        assert.are_same(0, Profiler.hookTimeCount[lookupKey])
+    end)
+
+    it("uses the job row for work spanning ThreadLib resume slices", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.SlicedJob = function()
+            clock = clock + 2
+            coroutine.yield()
+            clock = clock + 3
+            coroutine.yield()
+            clock = clock + 4
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(testModule.SlicedJob, 0)
+
+        tickerCallbacks[1]()
+        clock = clock + 100
+        tickerCallbacks[1]()
+        clock = clock + 100
+        tickerCallbacks[1]()
+
+        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".SlicedJob"])
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".SlicedJob"])
+
+        local jobLookupKey
+        for lookupKey in pairs(Profiler.hookCallCount) do
+            if string.find(lookupKey, "ThreadLib job:", 1, true) == 1 then
+                jobLookupKey = lookupKey
+            end
+        end
+        assert.is_truthy(jobLookupKey)
+        assert.are_same(9, Profiler.hookTimeCount[jobLookupKey])
+        assert.are_same(1, Profiler.hookCallCount[jobLookupKey])
+        assert.are_same(1, Profiler.threadJobCallCount[jobLookupKey])
+        assert.are_same(3, Profiler.threadJobResumeCount[jobLookupKey])
+    end)
+
+    it("discards a nested errored frame when its ThreadLib caller catches the error", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Inner = function()
+            clock = clock + 3
+            error("expected inner failure")
+        end
+        testModule.Outer = function()
+            clock = clock + 1
+            local success = pcall(testModule.Inner)
+            assert.is_false(success)
+            clock = clock + 2
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(testModule.Outer, 0)
+
+        tickerCallbacks[1]()
+
+        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".Inner"])
+        assert.are_same(6, Profiler.hookTimeCount[testModuleName .. ".Outer"])
+    end)
+
+    it("discards a caught errored frame when its caller spans ThreadLib resumes", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Inner = function()
+            clock = clock + 2
+            error("expected inner failure")
+        end
+        testModule.Outer = function()
+            clock = clock + 1
+            local success = pcall(testModule.Inner)
+            assert.is_false(success)
+            clock = clock + 3
+            coroutine.yield()
+            clock = clock + 4
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(testModule.Outer, 0)
+
+        tickerCallbacks[1]()
+        clock = clock + 100
+        tickerCallbacks[1]()
+
+        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".Inner"])
+        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".Outer"])
+    end)
+
+    it("does not carry caught errors from an unwrapped job into a measurement reset", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.FailingWork = function()
+            clock = clock + 2
+            error("expected failure")
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(function()
+            for _ = 1, 2 do
+                local success = pcall(testModule.FailingWork)
+                assert.is_false(success)
+                coroutine.yield()
+            end
+        end, 0)
+
+        tickerCallbacks[1]()
+        tickerCallbacks[1]()
+        Profiler:ResetMeasurements()
+        tickerCallbacks[1]()
+
+        local lookupKey = testModuleName .. ".FailingWork"
+        assert.are_same(0, Profiler.hookCallCount[lookupKey])
+        assert.are_same(0, Profiler.hookTimeCount[lookupKey])
+    end)
+
+    it("keeps only the active job when measurements reset between resume slices", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.ResetWhileSuspended = function()
+            clock = clock + 2
+            coroutine.yield()
+            clock = clock + 4
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(testModule.ResetWhileSuspended, 0)
+
+        tickerCallbacks[1]()
+        Profiler:ResetMeasurements()
+
+        local functionLookupKey = testModuleName .. ".ResetWhileSuspended"
+        local jobLookupKey
+        for lookupKey in pairs(Profiler.threadJobCallCount) do
+            jobLookupKey = lookupKey
+        end
+        assert.are_same(0, Profiler.hookCallCount[functionLookupKey])
+        assert.are_same(0, Profiler.hookTimeCount[functionLookupKey])
+        assert.are_same(1, Profiler.hookCallCount[jobLookupKey])
+        assert.are_same(1, Profiler.threadJobCallCount[jobLookupKey])
+        assert.are_same(0, Profiler.hookTimeCount[jobLookupKey])
+
+        clock = clock + 100
+        tickerCallbacks[1]()
+
+        assert.are_same(0, Profiler.hookCallCount[functionLookupKey])
+        assert.are_same(0, Profiler.hookTimeCount[functionLookupKey])
+        assert.are_same(1, Profiler.hookCallCount[jobLookupKey])
+        assert.are_same(1, Profiler.threadJobCallCount[jobLookupKey])
+        assert.are_same(1, Profiler.threadJobResumeCount[jobLookupKey])
+        assert.are_same(4, Profiler.hookTimeCount[jobLookupKey])
+    end)
+
+    it("measures only the post-reset remainder of an active ThreadLib resume", function()
+        Profiler:Start(false)
+        ThreadLib.Thread(function()
+            clock = clock + 2
+            Profiler:ResetMeasurements()
+            clock = clock + 7
+        end, 0, nil, nil, "reset during active resume")
+
+        tickerCallbacks[1]()
+
+        local jobLookupKey = "ThreadLib job: reset during active resume"
+        assert.are_same(1, Profiler.hookCallCount[jobLookupKey])
+        assert.are_same(1, Profiler.threadJobCallCount[jobLookupKey])
+        assert.are_same(1, Profiler.threadJobResumeCount[jobLookupKey])
+        assert.are_same(7, Profiler.hookTimeCount[jobLookupKey])
+    end)
+
+    it("does not publish a main-thread call across a measurement reset", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.ResetDuringCall = function()
+            clock = clock + 2
+            Profiler:ResetMeasurements()
+            clock = clock + 7
+        end
+        Profiler:Start(false)
+
+        testModule.ResetDuringCall()
+
+        local lookupKey = testModuleName .. ".ResetDuringCall"
+        assert.are_same(0, Profiler.hookCallCount[lookupKey])
+        assert.are_same(0, Profiler.hookTimeCount[lookupKey])
+    end)
+
+    it("records nested function timings inclusively", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Inner = function()
+            clock = clock + 3
+        end
+        testModule.Outer = function()
+            clock = clock + 2
+            testModule.Inner()
+            clock = clock + 5
+        end
+        Profiler:Start(false)
+
+        testModule.Outer()
+
+        assert.are_same(3, Profiler.hookTimeCount[testModuleName .. ".Inner"])
+        assert.are_same(10, Profiler.hookTimeCount[testModuleName .. ".Outer"])
+    end)
+
+    describe("addon load timings", function()
+        it("publishes each file QuestieLoader timed as its own result row", function()
+            QuestieLoader.loadTimings = {
+                ["Localization/lookups/lookupZones.lua"] = 202.5,
+                ["Database/Zones/zoneDB.lua"] = 19.6,
+            }
+            Profiler:Start(false)
+
+            Profiler:ImportLoadTimings()
+
+            assert.are_same(202.5, Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"])
+            assert.are_same(19.6, Profiler.fileLoadTime["Database/Zones/zoneDB.lua"])
+        end)
+
+        it("reports a loaded file as one call whose time is entirely its own", function()
+            QuestieLoader.loadTimings = {["Database/Zones/zoneDB.lua"] = 19.6}
+            Profiler:Start(false)
+
+            Profiler:ImportLoadTimings()
+
+            -- A loaded file is not a call, so it never enters the hook measurements at all.
+            assert.is_nil(Profiler.hookCallCount["Database/Zones/zoneDB.lua"])
+            assert.is_nil(Profiler.hookTimeCount["file load: Database/Zones/zoneDB.lua"])
+            assert.are_same(19.6, Profiler.fileLoadTime["Database/Zones/zoneDB.lua"])
+        end)
+
+        it("does not let a file duration become the reported peak for functions", function()
+            QuestieLoader.loadTimings = {["Localization/lookups/lookupZones.lua"] = 900}
+            Profiler:Start(false)
+
+            Profiler:ImportLoadTimings()
+
+            assert.are_same(0, Profiler.highestMS)
+        end)
+
+        it("carries the allocation QuestieLoader recorded for each file", function()
+            QuestieLoader.loadTimings = {["Database/Zones/zoneDB.lua"] = 19.6}
+            QuestieLoader.loadMemory = {["Database/Zones/zoneDB.lua"] = 2140}
+            Profiler:Start(false)
+
+            Profiler:ImportLoadTimings()
+
+            assert.are_same(2140, Profiler.fileLoadMemory["Database/Zones/zoneDB.lua"])
+        end)
+
+        it("does not reopen a load interval by resolving the UI at runtime", function()
+            local importsDuringUse = 0
+            local originalImportModule = QuestieLoader.ImportModule
+            QuestieLoader.ImportModule = function(loader, name)
+                if name == "ProfilerUI" then
+                    importsDuringUse = importsDuringUse + 1
+                end
+                return originalImportModule(loader, name)
+            end
+
+            Profiler:ShowUI()
+            Profiler:HideUI()
+
+            QuestieLoader.ImportModule = originalImportModule
+            -- A runtime import would re-stamp this file as the open load interval and charge it whatever
+            -- ran next, which is how hook installation was once reported as this file's load cost.
+            assert.are_same(0, importsDuringUse)
+        end)
+
+        it("does nothing when profiling is not active", function()
+            QuestieLoader.loadTimings = {["Database/Zones/zoneDB.lua"] = 19.6}
+
+            Profiler:ImportLoadTimings()
+
+            assert.is_nil(Profiler.fileLoadTime["Database/Zones/zoneDB.lua"])
+        end)
+
+        it("drops load rows when a fresh session starts, which did not include the addon load", function()
+            QuestieLoader.loadTimings = {["Database/Zones/zoneDB.lua"] = 19.6}
+            Profiler:Start(false)
+            Profiler:ImportLoadTimings()
+            Profiler:Stop()
+
+            Profiler:Start(false)
+
+            assert.is_nil(Profiler.fileLoadTime["Database/Zones/zoneDB.lua"])
+        end)
+    end)
+
+    describe("self time", function()
+        it("excludes time spent inside profiled children", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Inner = function()
+                clock = clock + 3
+            end
+            testModule.Outer = function()
+                clock = clock + 2
+                testModule.Inner()
+                clock = clock + 5
+            end
+            Profiler:Start(false)
+
+            testModule.Outer()
+
+            assert.are_same(7, Profiler.hookSelfTime[testModuleName .. ".Outer"])
+        end)
+
+        it("equals total time for a function with no profiled children", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Leaf = function()
+                clock = clock + 4
+            end
+            Profiler:Start(false)
+
+            testModule.Leaf()
+
+            assert.are_same(4, Profiler.hookTimeCount[testModuleName .. ".Leaf"])
+            assert.are_same(4, Profiler.hookSelfTime[testModuleName .. ".Leaf"])
+        end)
+
+        it("subtracts each of several children from one parent", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.First = function()
+                clock = clock + 2
+            end
+            testModule.Second = function()
+                clock = clock + 3
+            end
+            testModule.Parent = function()
+                clock = clock + 1
+                testModule.First()
+                testModule.Second()
+                clock = clock + 1
+            end
+            Profiler:Start(false)
+
+            testModule.Parent()
+
+            assert.are_same(7, Profiler.hookTimeCount[testModuleName .. ".Parent"])
+            assert.are_same(2, Profiler.hookSelfTime[testModuleName .. ".Parent"])
+        end)
+
+        it("accumulates across repeated calls", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Work = function()
+                clock = clock + 3
+            end
+            Profiler:Start(false)
+
+            testModule.Work()
+            testModule.Work()
+
+            assert.are_same(6, Profiler.hookSelfTime[testModuleName .. ".Work"])
+        end)
+
+        it("charges a caught descendant error to the descendant, not to its caller", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Inner = function()
+                clock = clock + 3
+                error("expected inner failure")
+            end
+            testModule.Outer = function()
+                clock = clock + 1
+                local success = pcall(testModule.Inner)
+                assert.is_false(success)
+                clock = clock + 2
+            end
+            Profiler:Start(false)
+
+            testModule.Outer()
+
+            -- Inner ran for 3ms before failing, and that time belongs to Inner. Outer's own work is 1 + 2.
+            assert.are_same(3, Profiler.hookTimeCount[testModuleName .. ".Inner"])
+            assert.are_same(6, Profiler.hookTimeCount[testModuleName .. ".Outer"])
+            assert.are_same(3, Profiler.hookSelfTime[testModuleName .. ".Outer"])
+        end)
+    end)
+
+    describe("caller attribution", function()
+        it("names the calling function of a nested call", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Inner = function()
+                clock = clock + 3
+            end
+            testModule.Outer = function()
+                testModule.Inner()
+            end
+            Profiler:Start(false)
+
+            testModule.Outer()
+
+            assert.are_same({[testModuleName .. ".Outer"] = 1},
+                Profiler.callerCallCount[testModuleName .. ".Inner"])
+        end)
+
+        it("names the root for a call with no profiled function below it", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Work = function() end
+            Profiler:Start(false)
+
+            testModule.Work()
+
+            assert.are_same({["(root)"] = 1}, Profiler.callerCallCount[testModuleName .. ".Work"])
+        end)
+
+        it("counts each caller of a shared function separately", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Shared = function()
+                clock = clock + 1
+            end
+            testModule.FirstCaller = function()
+                testModule.Shared()
+            end
+            testModule.SecondCaller = function()
+                testModule.Shared()
+                testModule.Shared()
+            end
+            Profiler:Start(false)
+
+            testModule.FirstCaller()
+            testModule.SecondCaller()
+
+            assert.are_same({
+                [testModuleName .. ".FirstCaller"] = 1,
+                [testModuleName .. ".SecondCaller"] = 2,
+            }, Profiler.callerCallCount[testModuleName .. ".Shared"])
+        end)
+
+        it("attributes elapsed time to the caller that spent it", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Shared = function()
+                clock = clock + 2
+            end
+            testModule.FirstCaller = function()
+                testModule.Shared()
+            end
+            testModule.SecondCaller = function()
+                testModule.Shared()
+                testModule.Shared()
+            end
+            Profiler:Start(false)
+
+            testModule.FirstCaller()
+            testModule.SecondCaller()
+
+            assert.are_same({
+                [testModuleName .. ".FirstCaller"] = 2,
+                [testModuleName .. ".SecondCaller"] = 4,
+            }, Profiler.callerTimeCount[testModuleName .. ".Shared"])
+        end)
+
+        it("resolves the caller of a call made after a caught descendant error", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Boom = function()
+                error("expected failure")
+            end
+            testModule.Catcher = function()
+                pcall(testModule.Boom)
+            end
+            testModule.After = function() end
+            testModule.Root = function()
+                testModule.Catcher()
+                testModule.After()
+            end
+            Profiler:Start(false)
+
+            testModule.Root()
+
+            -- Boom's wrapper never ran its epilogue; After must still be attributed to Root, not to the
+            -- frames that error stranded above it.
+            assert.are_same({[testModuleName .. ".Root"] = 1},
+                Profiler.callerCallCount[testModuleName .. ".After"])
+        end)
+
+        it("resolves the caller of a call made after a caught error, before the catcher returns", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Boom = function()
+                error("expected failure")
+            end
+            testModule.Sibling = function() end
+            testModule.Catcher = function()
+                pcall(testModule.Boom)
+                -- Still inside Catcher: the frame Boom left behind must not be read as Sibling's caller.
+                testModule.Sibling()
+            end
+            Profiler:Start(false)
+
+            testModule.Catcher()
+
+            assert.are_same({[testModuleName .. ".Catcher"] = 1},
+                Profiler.callerCallCount[testModuleName .. ".Sibling"])
+        end)
+
+        it("names the ThreadLib job as the caller of the work it scheduled", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Step = function()
+                clock = clock + 2
+            end
+            testModule.Job = function()
+                testModule.Step()
+            end
+            Profiler:Start(false)
+            ThreadLib.Thread(testModule.Job, 0, nil, nil, "DrawAvailableQuests")
+
+            tickerCallbacks[1]()
+
+            assert.are_same({["ThreadLib job: DrawAvailableQuests"] = 1},
+                Profiler.callerCallCount[testModuleName .. ".Job"])
+            assert.are_same({[testModuleName .. ".Job"] = 1},
+                Profiler.callerCallCount[testModuleName .. ".Step"])
+        end)
+
+        it("clears edges when measurements are reset", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Work = function()
+                clock = clock + 2
+            end
+            Profiler:Start(false)
+            testModule.Work()
+
+            Profiler:ResetMeasurements()
+
+            assert.is_nil(Profiler.callerCallCount[testModuleName .. ".Work"])
+            assert.is_nil(Profiler.callerTimeCount[testModuleName .. ".Work"])
+            assert.are_same(0, Profiler.hookSelfTime[testModuleName .. ".Work"])
+        end)
+
+        it("preserves edges and self time after profiling stops", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Work = function()
+                clock = clock + 2
+            end
+            Profiler:Start(false)
+            testModule.Work()
+
+            Profiler:Stop()
+
+            assert.are_same({["(root)"] = 1}, Profiler.callerCallCount[testModuleName .. ".Work"])
+            assert.are_same(2, Profiler.hookSelfTime[testModuleName .. ".Work"])
+        end)
+    end)
+
+    it("terminates on cyclic and shared tables without probing frames or table-valued keys", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local shared = {
+            Work = function() end,
+        }
+        local originalSharedWork = shared.Work
+        shared.cycle = shared
+        testModule.first = shared
+        testModule.second = shared
+
+        local getScriptCalls = 0
+        local frame = {
+            GetScript = function()
+                getScriptCalls = getScriptCalls + 1
+                error("GetScript must not be called")
+            end,
+            FrameMethod = function() end,
+        }
+        local originalGetScript = frame.GetScript
+        local originalFrameMethod = frame.FrameMethod
+        testModule.frame = frame
+
+        local tableKey = {HiddenFunction = function() end}
+        local originalHiddenFunction = tableKey.HiddenFunction
+        testModule[tableKey] = "table key value"
+
+        Profiler:Start(false)
+
+        assert.are_equal(originalSharedWork, Profiler.lookupToHook[testModuleName .. ".first.Work"])
+        assert.are_not_equal(originalSharedWork, shared.Work)
+        assert.are_same(0, getScriptCalls)
+        assert.are_equal(originalGetScript, frame.GetScript)
+        assert.are_equal(originalFrameMethod, frame.FrameMethod)
+        assert.are_equal(originalHiddenFunction, tableKey.HiddenFunction)
+    end)
+
+    it("hooks functions inside two bounded namespace levels", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local original = function()
+            clock = clock + 6
+        end
+        testModule.tabs = {
+            general = {
+                Initialize = original,
+            },
+        }
+
+        Profiler:Start(false)
+        testModule.tabs.general.Initialize()
+
+        local lookupKey = testModuleName .. ".tabs.general.Initialize"
+        assert.are_not_equal(original, testModule.tabs.general.Initialize)
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+        assert.are_same(6, Profiler.hookTimeCount[lookupKey])
+    end)
+
+    it("does not traverse large pure-data subtrees", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.RootWork = function() end
+        local pureData = {}
+        local descendantFunctions = {}
+        for i = 1, 1000 do
+            local descendant = {
+                value = i,
+                Work = function() end,
+            }
+            pureData[i] = descendant
+            descendantFunctions[i] = descendant.Work
+        end
+        testModule.largeData = pureData
+
+        Profiler:Start(false)
+
+        assert.is_nil(Profiler.alreadyHooked[pureData])
+        for i = 1, 1000 do
+            assert.is_nil(Profiler.alreadyHooked[pureData[i]])
+            assert.are_equal(descendantFunctions[i], pureData[i].Work)
+        end
+    end)
+
+    it("does not traverse AceAddon and settings graphs from the Runtime Addon Object", function()
+        local setProfile = function() end
+        local profileFunction = function() end
+        local testDB = {
+            SetProfile = setProfile,
+            profile = {
+                ProfileFunction = profileFunction,
+            },
+        }
+        local aceModuleWork = function() end
+        Questie.db = testDB
+        Questie.modules = {AceModule = {Work = aceModuleWork}}
+        Questie.orderedModules = {Questie.modules.AceModule}
+
+        Profiler:Start(false)
+        assert.is_true(Profiler:RefreshHooks())
+
+        assert.is_nil(Profiler.alreadyHooked[testDB])
+        assert.is_nil(Profiler.alreadyHooked[testDB.profile])
+        assert.is_nil(Profiler.alreadyHooked[Questie.modules])
+        assert.is_nil(Profiler.alreadyHooked[Questie.orderedModules])
+        assert.are_equal(setProfile, Questie.db.SetProfile)
+        assert.are_equal(profileFunction, Questie.db.profile.ProfileFunction)
+        assert.are_equal(aceModuleWork, Questie.modules.AceModule.Work)
+        assert.is_nil(Profiler.lookupToHook["Questie.db.SetProfile"])
+    end)
+
+    it("uses an explicit ThreadLib job name before known function and stack metadata", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.KnownJob = function() end
+        _G.debugstack = function()
+            return "Modules/Quest/AvailableQuests/AvailableQuests.lua:123: in function 'original'"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.Thread(testModule.KnownJob, 0, nil, nil, "AvailableQuests.CalculateAndDrawAll")
+
+        local explicitLookupKey = "ThreadLib job: AvailableQuests.CalculateAndDrawAll"
+        assert.are_same(1, Profiler.hookCallCount[explicitLookupKey])
+        assert.are_same(1, Profiler.threadJobCallCount[explicitLookupKey])
+        assert.is_nil(Profiler.hookCallCount["ThreadLib job: " .. testModuleName .. ".KnownJob"])
+        assert.is_nil(Profiler.hookCallCount["ThreadLib job: Modules/Quest/AvailableQuests/AvailableQuests.lua:123"])
+    end)
+
+    it("aggregates repeated ThreadLib jobs with the same explicit name", function()
+        Profiler:Start(false)
+
+        ThreadLib.Thread(function() end, 0, nil, nil, "Shared operation")
+        ThreadLib.Thread(function() end, 0, nil, nil, "Shared operation")
+
+        local lookupKey = "ThreadLib job: Shared operation"
+        assert.are_same(2, Profiler.hookCallCount[lookupKey])
+        assert.are_same(2, Profiler.threadJobCallCount[lookupKey])
+    end)
+
+    it("names an anonymous ThreadLib job from the first useful external stack frame", function()
+        _G.debugstack = function()
+            return "[tail call]: ?\n"
+                .. "Modules/Libs/ThreadLib.lua:86: in function 'Thread'\n"
+                .. "[C]: in function 'pcall'\n"
+                .. "Modules/QuestieProfiler.lua:115: in function 'override'\n"
+                .. "?: ?\n"
+                .. "Modules/Quest/AvailableQuests/AvailableQuests.lua:123: in function 'original'"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        local lookupKey = "ThreadLib job: Modules/Quest/AvailableQuests/AvailableQuests.lua:123"
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+        assert.is_nil(string.find(lookupKey, "ThreadLib.lua", 1, true))
+        assert.is_nil(string.find(lookupKey, "original", 1, true))
+    end)
+
+    it("uses the exact module path for a known submitted ThreadLib function", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.KnownJob = function() end
+        _G.debugstack = function()
+            return "Modules/Libs/ThreadLib.lua:86\nModules/Quest/AvailableQuests/AvailableQuests.lua:123"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(testModule.KnownJob, 0)
+
+        local lookupKey = "ThreadLib job: " .. testModuleName .. ".KnownJob"
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+        assert.are_same(1, Profiler.threadJobCallCount[lookupKey])
+    end)
+
+    it("falls back safely when an anonymous ThreadLib job has only unusable, internal, or missing stack frames", function()
+        _G.debugstack = function()
+            return "[tail call]: ?\n[C]: in function 'pcall'\n?: ?\nModules/Libs/ThreadLib.lua:86\n"
+                .. "Modules/QuestieProfiler.lua:115: in function 'wrapper'"
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        _G.debugstack = nil
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        local lookupKey = "ThreadLib job: anonymous call site"
+        assert.are_same(2, Profiler.hookCallCount[lookupKey])
+        assert.are_same(2, Profiler.threadJobCallCount[lookupKey])
+    end)
+
+    it("aggregates fresh anonymous ThreadLib jobs by call site without retaining closures", function()
+        _G.debug = nil
+        _G.debugstack = function()
+            return "Modules/QuestieProfiler.test.lua:anonymous submission\ncaller"
+        end
+        local success, profileError = pcall(function()
+            Profiler:Start(false)
+            for _ = 1, 100 do
+                ThreadLib.ThreadSimple(function() end, 0)
+            end
+        end)
+        _G.debug = originalDebug
+
+        assert.is_true(success, profileError)
+        local lookupKey = "ThreadLib job: Modules/QuestieProfiler.test.lua:anonymous submission"
+        assert.are_same(100, Profiler.hookCallCount[lookupKey])
+        assert.are_same(100, Profiler.threadJobCallCount[lookupKey])
+        assert.is_nil(Profiler.lookupToHook[lookupKey])
+
+        local jobMetricCount = 0
+        for metricKey in pairs(Profiler.threadJobCallCount) do
+            jobMetricCount = jobMetricCount + 1
+            assert.are_same(lookupKey, metricKey)
+        end
+        assert.are_same(1, jobMetricCount)
+    end)
+
+    it("wraps and restores each alias slot independently", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local original = function()
+            clock = clock + 1
+        end
+        testModule.FirstAlias = original
+        testModule.SecondAlias = original
+        Profiler:Start(false)
+
+        local firstWrapper = testModule.FirstAlias
+        local secondWrapper = testModule.SecondAlias
+        testModule.FirstAlias()
+        testModule.SecondAlias()
+
+        assert.are_not_equal(firstWrapper, secondWrapper)
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".FirstAlias"])
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".SecondAlias"])
+
+        Profiler:Unhook()
+        assert.are_equal(original, testModule.FirstAlias)
+        assert.are_equal(original, testModule.SecondAlias)
+    end)
+
+    it("wraps a late-bound module method once when hooks are refreshed", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Existing = function() end
+        Profiler:Start(false)
+        local lateOriginal = function()
+            clock = clock + 4
+        end
+        testModule.LateWork = lateOriginal
+
+        assert.is_true(Profiler:RefreshHooks())
+        local lateWrapper = testModule.LateWork
+        assert.are_not_equal(lateOriginal, lateWrapper)
+        assert.are_equal(lateOriginal, Profiler.lookupToHook[testModuleName .. ".LateWork"])
+
+        assert.is_true(Profiler:RefreshHooks())
+        assert.are_equal(lateWrapper, testModule.LateWork)
+        testModule.LateWork()
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".LateWork"])
+        assert.are_same(4, Profiler.hookTimeCount[testModuleName .. ".LateWork"])
+    end)
+
+    it("leaves functions untouched when ThreadLib profiling callbacks have another owner", function()
+        local foreignOwner = {}
+        assert.is_true(ThreadLib.SetProfilingCallbacks(foreignOwner, {}))
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local original = function() end
+        testModule.Work = original
+
+        local armed = Profiler:Start(false)
+
+        assert.is_false(armed)
+        assert.is_false(Profiler.active)
+        assert.are_equal(original, testModule.Work)
+        ThreadLib.ClearProfilingCallbacks(foreignOwner)
+    end)
+
+    it("delegates UI entry points without mixing frame state into the engine", function()
+        local created = 0
+        local shown = 0
+        local hidden = 0
+        ProfilerUI.Create = function()
+            created = created + 1
+            return "created frame"
+        end
+        ProfilerUI.Show = function()
+            shown = shown + 1
+            return "shown frame"
+        end
+        ProfilerUI.Hide = function()
+            hidden = hidden + 1
+        end
+
+        assert.are_same("created frame", Profiler:CreateUI())
+        assert.are_same("shown frame", Profiler:ShowUI())
+        Profiler:HideUI()
+
+        assert.are_same(1, created)
+        assert.are_same(1, shown)
+        assert.are_same(1, hidden)
+        assert.is_nil(Profiler.baseUI)
+        assert.is_nil(Profiler.uiTicker)
+    end)
+
+    it("stops profiling without changing UI visibility", function()
+        local hidden = 0
+        ProfilerUI.Hide = function()
+            hidden = hidden + 1
+        end
+
+        Profiler:Start(false)
+        local hidesAfterStart = hidden
+        Profiler:Stop()
+
+        assert.are_same(hidesAfterStart, hidden)
+        assert.is_false(Profiler.active)
+    end)
+
+    it("excludes profiler UI functions from hook traversal", function()
+        local uiRefresh = function() end
+        ProfilerUI.Refresh = uiRefresh
+
+        Profiler:Start(false)
+
+        assert.are_equal(uiRefresh, ProfilerUI.Refresh)
+        assert.is_nil(Profiler.hookCallCount["ProfilerUI.Refresh"])
+    end)
+
+    it("does not stack wrappers when Start is repeated", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function() end
+        Profiler:Start(false)
+        local firstWrapper = testModule.Work
+
+        Profiler:Start(false)
+        testModule.Work()
+
+        assert.are_equal(firstWrapper, testModule.Work)
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".Work"])
+    end)
+
+    it("resets measurements without replacing installed wrappers", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function()
+            clock = clock + 3
+        end
+        Profiler:Start(false)
+        local wrapper = testModule.Work
+        testModule.Work()
+
+        Profiler:ResetMeasurements()
+
+        assert.are_equal(wrapper, testModule.Work)
+        assert.is_true(Profiler.active)
+        assert.are_same(0, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".Work"])
+        testModule.Work()
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(3, Profiler.hookTimeCount[testModuleName .. ".Work"])
+    end)
+
+    it("releases wrappers on Stop while preserving completed measurements", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function()
+            clock = clock + 3
+        end
+        Profiler:Start(false)
+        local weakWrapper = setmetatable({testModule.Work}, {__mode = "v"})
+        testModule.Work()
+
+        local hookedFunctionCount = Profiler.hookedFunctionCount
+        Profiler:Stop()
+        collectgarbage("collect")
+        collectgarbage("collect")
+
+        local lookupKey = testModuleName .. ".Work"
+        assert.are_same(0, #Profiler.hooks)
+        assert.are_same(hookedFunctionCount, Profiler.hookedFunctionCount)
+        assert.is_nil(weakWrapper[1])
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+        assert.are_same(3, Profiler.hookTimeCount[lookupKey])
+    end)
+
+    it("keeps a retained wrapper disabled after profiling restarts", function()
+        local originalCalls = 0
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function()
+            originalCalls = originalCalls + 1
+            clock = clock + 2
+        end
+        Profiler:Start(false)
+        local retainedWrapper = testModule.Work
+
+        Profiler:Stop()
+        retainedWrapper()
+        assert.are_same(1, originalCalls)
+
+        Profiler:Start(false)
+        retainedWrapper()
+
+        assert.are_same(2, originalCalls)
+        assert.are_same(0, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".Work"])
+    end)
+
+    it("does not double-count a replacement that delegates to a stale wrapper", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function()
+            clock = clock + 3
+        end
+        Profiler:Start(false)
+        local staleWrapper = testModule.Work
+
+        testModule.Work = function(...)
+            return staleWrapper(...)
+        end
+        Profiler:Stop()
+        Profiler:Start(false)
+        testModule.Work()
+
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(3, Profiler.hookTimeCount[testModuleName .. ".Work"])
+    end)
+
+    it("does not publish a main-thread call across Stop and restart", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.RestartDuringCall = function()
+            clock = clock + 2
+            Profiler:Stop()
+            assert.is_true(Profiler:Start(false))
+            clock = clock + 7
+        end
+        Profiler:Start(false)
+        local firstWrapper = testModule.RestartDuringCall
+
+        testModule.RestartDuringCall()
+
+        local lookupKey = testModuleName .. ".RestartDuringCall"
+        assert.is_true(Profiler.active)
+        assert.are_not_equal(firstWrapper, testModule.RestartDuringCall)
+        assert.are_same(0, Profiler.hookCallCount[lookupKey])
+        assert.are_same(0, Profiler.hookTimeCount[lookupKey])
+    end)
+
+    it("does not publish a suspended wrapper into a restarted session", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.SuspendedWork = function()
+            clock = clock + 2
+            coroutine.yield()
+            clock = clock + 4
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(testModule.SuspendedWork, 0)
+
+        tickerCallbacks[1]()
+        Profiler:Stop()
+        Profiler:Start(false)
+        tickerCallbacks[1]()
+
+        local lookupKey = testModuleName .. ".SuspendedWork"
+        assert.are_same(0, Profiler.hookCallCount[lookupKey])
+        assert.are_same(0, Profiler.hookTimeCount[lookupKey])
+    end)
+
+    it("allows repeated teardown and starts a fresh session on restart", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        local original = function() end
+        testModule.Work = original
+        Profiler:Start(false)
+        local firstWrapper = testModule.Work
+        testModule.Work()
+
+        Profiler:Unhook()
+        Profiler:Unhook()
+        assert.are_equal(original, testModule.Work)
+
+        Profiler:Start(false)
+        assert.are_not_equal(firstWrapper, testModule.Work)
+        assert.are_same(0, Profiler.hookCallCount[testModuleName .. ".Work"])
+    end)
+
+    it("preserves a slot replaced by another owner after profiling starts", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function() end
+        Profiler:Start(false)
+        local laterReplacement = function() return "replacement" end
+        testModule.Work = laterReplacement
+
+        Profiler:Unhook()
+
+        assert.are_equal(laterReplacement, testModule.Work)
+        assert.are_same("replacement", testModule.Work())
+    end)
+
+    it("hooks and restores functions on the global Questie addon object", function()
+        local original = function()
+            clock = clock + 7
+        end
+        Questie.ProfilerTestFunction = original
+        Profiler:Start(false)
+
+        Questie.ProfilerTestFunction()
+
+        assert.are_not_equal(original, Questie.ProfilerTestFunction)
+        assert.are_same(1, Profiler.hookCallCount["Questie.ProfilerTestFunction"])
+        assert.are_same(7, Profiler.hookTimeCount["Questie.ProfilerTestFunction"])
+        Profiler:Unhook()
+        assert.are_equal(original, Questie.ProfilerTestFunction)
+    end)
+end)
