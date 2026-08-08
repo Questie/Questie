@@ -365,6 +365,44 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("the selection detail line", function()
+        it("starts at the measurements, because the identity lives in the copy box beside it", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+
+            local detail = ProfilerUI.private.DetailLineFor(FindRow(BuildReport(), "QuestieDB.GetQuest"))
+
+            assert.are_same(nil, string.find(detail, "QuestieDB.GetQuest", 1, true))
+            assert.are_same(1, string.find(detail, "|  200.000 ms total", 1, true))
+        end)
+
+        it("reports no self time rather than a zero a file could be blamed for", function()
+            Profiler.fileLoadTime["Questie.lua"] = 50
+
+            local detail = ProfilerUI.private.DetailLineFor(FindRow(BuildReport(), "Questie.lua"))
+
+            assert.is_true(string.find(detail, "no self time", 1, true) ~= nil)
+        end)
+
+        it("adds jobs and resumes for a ThreadLib job", function()
+            AddThreadJobEntry("ThreadLib job: _DrawAvailableQuest", 600, 3, 40)
+
+            local detail = ProfilerUI.private.DetailLineFor(
+                FindRow(BuildReport(), "ThreadLib job: _DrawAvailableQuest"))
+
+            assert.is_true(string.find(detail, "3 jobs", 1, true) ~= nil)
+            assert.is_true(string.find(detail, "40 resumes", 1, true) ~= nil)
+        end)
+
+        it("flags an entry that was counted but never timed", function()
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 0, 12)
+
+            local detail = ProfilerUI.private.DetailLineFor(
+                FindRow(BuildReport(), "QuestieMap.DrawWorldIcon"))
+
+            assert.is_true(string.find(detail, "no timed slices", 1, true) ~= nil)
+        end)
+    end)
+
     describe("self time", function()
         it("reports the self time the profiler recorded", function()
             AddFunctionEntry("QuestieInit.StartStage", 345, 1, 12)

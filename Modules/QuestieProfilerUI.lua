@@ -878,6 +878,7 @@ local currentTree
 local columnHeadersByKey = {}
 local searchBox, searchClearButton
 local sessionChip, displayChip, statusText, detailText
+local detailBox, detailBoxMeasure
 local relationPanel, relationCallerRows, relationCalleeRows
 local currentUnscopedRows = {}
 local relationCallerHeader, relationCalleeHeader
@@ -914,7 +915,7 @@ local displayState = {
 local Layout, RenderRows, UpdateControls, UpdateColumnHeaders, UpdateTickerState
 local LayoutContentArea, RenderRelations, ApplySelection
 local LayoutColumnHeaders, RenderTree
-local SetControlTooltip
+local SetControlTooltip, UpdateDetailStrip
 
 ---A column is shown when at least one visible species has something to put in it. Selecting Files alone
 ---therefore drops Self, Calls and Average - which are all dashes for a file - and reveals Allocated, which
@@ -1072,8 +1073,10 @@ end
 ---@return string
 local function DetailLineFor(reportRow)
     local selfDetail = reportRow.hasSelfTime and sformat("%.3f ms self", reportRow.selfTime) or "no self time"
-    local detail = sformat("%s  |  %.3f ms total  |  %s  |  %d calls  |  %.3f ms avg",
-        reportRow.lookupKey, reportRow.totalTime, selfDetail, reportRow.calls, reportRow.averageTime)
+    -- The identity moved into the copy box beside this, so the line starts at the measurements. It keeps a
+    -- leading separator so the strip still reads as one sentence across the seam between the two widgets.
+    local detail = sformat("|  %.3f ms total  |  %s  |  %d calls  |  %.3f ms avg",
+        reportRow.totalTime, selfDetail, reportRow.calls, reportRow.averageTime)
     if reportRow.isThreadJob then
         detail = detail .. sformat("  |  %d jobs  |  %d resumes", reportRow.jobCalls or 0, reportRow.resumeCount or 0)
     end
@@ -1081,6 +1084,56 @@ local function DetailLineFor(reportRow)
         detail = detail .. "  |  no timed slices"
     end
     return detail
+end
+
+-- The copy box may take at most this share of the strip, so a long identity cannot squeeze the measurements
+-- out of the line. Past it the identity scrolls inside the box, and copying still yields the whole string.
+local DETAIL_BOX_MAX_SHARE = 0.55
+
+---Fills the selection strip: the identity into the box that can be selected, the measurements beside it.
+---@param reportRow ProfilerReportRow?
+function UpdateDetailStrip(reportRow)
+    if not detailBox or not detailText then
+        return
+    end
+
+    if not reportRow then
+        if detailBox.copyText ~= nil then
+            detailBox.copyText = nil
+            detailBox:SetText("")
+            detailBox:ClearFocus()
+        end
+        detailBox:SetWidth(1)
+        detailBox:Hide()
+        detailText:SetText("Click a row to pin its full identity here.")
+        detailText:SetWidth(0)
+        return
+    end
+
+    -- The same trimming the list shows. For a job named by its submission site that is already file:line,
+    -- which is the form worth pasting; nothing else in a WoW client can produce a definition line.
+    local copyText = DisplayNameFor(reportRow.lookupKey)
+
+    -- This strip is rewritten twice a second while the session is live, and SetText drops whatever the user
+    -- had selected. Rewriting a value that has not changed would therefore make the box impossible to copy
+    -- from - the selection would survive for less than one tick. Only a genuinely new identity touches it.
+    if detailBox.copyText ~= copyText then
+        detailBox.copyText = copyText
+        detailBox:SetText(copyText)
+        detailBox:SetCursorPosition(0)
+    end
+    detailBox:Show()
+
+    -- Width is safe to set every time: unlike SetText it does not disturb the selection, and recomputing it
+    -- unconditionally is what keeps a resize correct without tracking the old width.
+    local stripWidth = mmax(1, (baseFrame:GetWidth() or 0)
+        - (EDGE_PADDING * 2) - TREE_PANE_WIDTH - TREE_PANE_GUTTER)
+    detailBoxMeasure:SetText(copyText)
+    local boxWidth = mmax(1, mmin(detailBoxMeasure:GetStringWidth() + 4, stripWidth * DETAIL_BOX_MAX_SHARE))
+    detailBox:SetWidth(boxWidth)
+
+    detailText:SetText(DetailLineFor(reportRow))
+    detailText:SetWidth(mmax(1, stripWidth - boxWidth - 6))
 end
 
 ---@param index number
@@ -2569,9 +2622,7 @@ function ApplySelection()
         end
     end
 
-    if detailText then
-        detailText:SetText(selectedRow and DetailLineFor(selectedRow) or "Click a row to pin its full identity here.")
-    end
+    UpdateDetailStrip(selectedRow)
     RenderRelations(selectedRow)
     LayoutContentArea()
     return selectedRow
@@ -2623,10 +2674,42 @@ local function BuildFooter()
     treeScopeText:SetTextColor(SCOPE_HINT_COLOR.r, SCOPE_HINT_COLOR.g, SCOPE_HINT_COLOR.b)
     DisableWrapping(treeScopeText)
 
+    -- A FontString cannot be selected, so the one thing worth copying gets an EditBox. No template, so it
+    -- draws no border and reads as part of the line rather than as an input someone is meant to fill in.
+    detailBox = CreateFrame("EditBox", nil, baseFrame)
+    detailBox:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
+        EDGE_PADDING + TREE_PANE_WIDTH + TREE_PANE_GUTTER, STATUS_BAR_HEIGHT + SELECTION_ROW_LIFT - 3)
+    detailBox:SetHeight(DETAIL_STRIP_HEIGHT)
+    detailBox:SetWidth(10)
+    detailBox:SetAutoFocus(false)
+    detailBox:SetFontObject("GameFontHighlightSmall")
+    detailBox:SetTextColor(0.85, 0.85, 0.88)
+    -- The widget has no read-only mode, so the value is put back the moment anything is typed. The flag is
+    -- what keeps that from recursing: a programmatic SetText reports userInput false.
+    detailBox:SetScript("OnTextChanged", function(self, userInput)
+        if userInput then
+            self:SetText(self.copyText or "")
+            self:HighlightText()
+        end
+    end)
+    -- Clicking selects the whole identity, so copying is click then Ctrl+C rather than a careful drag.
+    detailBox:SetScript("OnEditFocusGained", function(self)
+        self:HighlightText()
+    end)
+    detailBox:SetScript("OnEscapePressed", function(self)
+        self:ClearFocus()
+    end)
+    detailBox:SetScript("OnEnterPressed", function(self)
+        self:ClearFocus()
+    end)
+
+    -- Off-screen twin used only to measure, because an EditBox cannot report the width of its own text.
+    detailBoxMeasure = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    detailBoxMeasure:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", 0, 0)
+    detailBoxMeasure:Hide()
+
     detailText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    detailText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
-        EDGE_PADDING + TREE_PANE_WIDTH + TREE_PANE_GUTTER, STATUS_BAR_HEIGHT + SELECTION_ROW_LIFT)
-    detailText:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -EDGE_PADDING, STATUS_BAR_HEIGHT + SELECTION_ROW_LIFT)
+    detailText:SetPoint("BOTTOMLEFT", detailBox, "BOTTOMRIGHT", 6, 3)
     detailText:SetJustifyH("LEFT")
     -- Brighter than the session row below: this line changes with every click, so it is the live one.
     detailText:SetTextColor(0.85, 0.85, 0.88)
@@ -2667,6 +2750,9 @@ function Layout()
     if not baseFrame then
         return
     end
+    -- The selection strip splits its width between the copy box and the measurements, so a resize has to
+    -- re-split it. Waiting for the next refresh would leave it stale, and while frozen there is no next one.
+    ApplySelection()
     RenderRows()
 end
 
@@ -2903,6 +2989,7 @@ end
 _QuestieProfilerUI.displayState = displayState
 _QuestieProfilerUI.GroupedIdentity = GroupedIdentity
 _QuestieProfilerUI.HideFilesAfterMeasurementReset = HideFilesAfterMeasurementReset
+_QuestieProfilerUI.DetailLineFor = DetailLineFor
 _QuestieProfilerUI.IsThreadJobKey = IsThreadJobKey
 _QuestieProfilerUI.UpdateIndicator = UpdateIndicator
 
