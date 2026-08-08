@@ -147,6 +147,31 @@ local function RecordCallerTime(calleeKey, callerKey, elapsed)
     callers[callerKey] = (callers[callerKey] or 0) + elapsed
 end
 
+---Trims what every frame here has in common. The addon prefix is on all of them, WoW's brackets around the
+---path carry nothing, and Lua repeats the whole path when it renders an anonymous function as "<file:line>"
+---after the call site. What is left is the part that actually differs between jobs.
+---
+---Naming an anonymous job by where it is defined rather than where it was submitted means one closure
+---submitted from several call sites aggregates into a single job row. That is the intent: the closure is the
+---scheduling unit, and splitting it by call site would report the same work as several unrelated jobs.
+---A path from another addon is left untouched, so nothing can collapse into a Questie name by accident.
+---@param stackLine string
+---@return string description
+local function ShortenStackFrame(stackLine)
+    -- The definition site identifies the closure, so keep it and drop the call site it duplicates.
+    local definitionFile, definitionLine = string.match(stackLine, "in function <([^:>]+):(%d+)>%s*$")
+    if definitionFile then
+        stackLine = definitionFile .. ":" .. definitionLine
+    end
+
+    stackLine = string.gsub(stackLine, "[Ii]nterface[/\\]+[Aa]dd[Oo]ns[/\\]+[Qq]uestie[/\\]+", "")
+    stackLine = string.gsub(stackLine, "^%[(.-)%]", "%1")
+    -- Addon-load rows spell the same file with forward slashes; a job naming it differently would read as a
+    -- different file.
+    stackLine = string.gsub(stackLine, "\\", "/")
+    return stackLine
+end
+
 ---@param submittedFunction function
 ---@param callSiteStack string?
 ---@param threadName string?
@@ -176,6 +201,7 @@ local function DescribeThreadJob(submittedFunction, callSiteStack, threadName)
                     trimmedLine = string.match(lineWithoutFunction, "^%s*(.-)%s*$")
                 end
 
+                trimmedLine = ShortenStackFrame(trimmedLine)
                 if trimmedLine ~= "" then
                     return string.sub(trimmedLine, 1, 160)
                 end

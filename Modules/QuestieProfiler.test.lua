@@ -1254,6 +1254,78 @@ describe("QuestieProfiler", function()
         assert.is_nil(string.find(lookupKey, "original", 1, true))
     end)
 
+    it("names an anonymous job by its definition site, not the call site that repeats the path", function()
+        _G.debugstack = function()
+            return "Modules/Libs/ThreadLib.lua:86: in function 'Thread'\n"
+                .. "[Interface/AddOns/Questie/Modules/QuestieInit.lua]:394: "
+                .. "in function <Interface/AddOns/Questie/Modules/QuestieInit.lua:392>"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        -- Lua renders an anonymous function as "<file:line>" after the call site, repeating the whole path.
+        local lookupKey = "ThreadLib job: Modules/QuestieInit.lua:392"
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+    end)
+
+    it("drops the addon path prefix and WoW's brackets from a call site", function()
+        _G.debugstack = function()
+            return "Modules/Libs/ThreadLib.lua:86: in function 'Thread'\n"
+                .. "[Interface/AddOns/Questie/Modules/Quest/QuestieQuest.lua]:507"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        local lookupKey = "ThreadLib job: Modules/Quest/QuestieQuest.lua:507"
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+    end)
+
+    it("aggregates one closure submitted from several call sites into a single job", function()
+        local callSiteLine = 100
+        _G.debugstack = function()
+            return "Modules/Libs/ThreadLib.lua:86: in function 'Thread'\n"
+                .. "[Interface/AddOns/Questie/Modules/QuestieInit.lua]:" .. callSiteLine
+                .. ": in function <Interface/AddOns/Questie/Modules/QuestieInit.lua:50>"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+        callSiteLine = 200
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        -- The closure is the scheduling unit; splitting it by call site would report one job as two.
+        local lookupKey = "ThreadLib job: Modules/QuestieInit.lua:50"
+        assert.are_same(2, Profiler.threadJobCallCount[lookupKey])
+    end)
+
+    it("leaves another addon's path alone, so nothing collapses into a Questie name", function()
+        _G.debugstack = function()
+            return "Modules/Libs/ThreadLib.lua:86: in function 'Thread'\n"
+                .. "[Interface/AddOns/SomeOtherAddon/Modules/QuestieInit.lua]:100"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        local lookupKey = "ThreadLib job: Interface/AddOns/SomeOtherAddon/Modules/QuestieInit.lua:100"
+        assert.are_same(1, Profiler.threadJobCallCount[lookupKey])
+    end)
+
+    it("spells a backslash path the way addon-load rows spell it", function()
+        _G.debugstack = function()
+            return "Modules/Libs/ThreadLib.lua:86: in function 'Thread'\n"
+                .. "[Interface\\AddOns\\Questie\\Modules\\QuestieInit.lua]:100"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        local lookupKey = "ThreadLib job: Modules/QuestieInit.lua:100"
+        assert.are_same(1, Profiler.threadJobCallCount[lookupKey])
+    end)
+
     it("uses the exact module path for a known submitted ThreadLib function", function()
         local testModule = QuestieLoader:CreateModule(testModuleName)
         testModule.KnownJob = function() end
