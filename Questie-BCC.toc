@@ -286,6 +286,7 @@ Modules\QuestieCleanup.lua
 
 # Profiler
 Modules\QuestieProfiler.lua
+Modules\QuestieProfilerUI.lua
 
 # Public
 Public\Enums.lua

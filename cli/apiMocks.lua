@@ -88,6 +88,8 @@ setmetatable(LibStub, { __call = function(_, ...)
     return {NewAddon = _TableDummyFunction, New = _TableDummyFunction }
 end})
 StaticPopupDialogs = {}
+-- Addon files register slash commands at file scope, so this must exist before the TOC is loaded.
+SlashCmdList = {}
 QuestLogListScrollFrame = {
     ScrollBar = {}
 }
