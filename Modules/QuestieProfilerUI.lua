@@ -119,8 +119,20 @@ local HEAT_BANDS = {
     {share = 0, r = 0.30, g = 0.42, b = 0.58, a = 0.12},
 }
 
+-- Species colour, worn by both the name and the left accent stripe. Functions are the baseline and stay
+-- neutral on purpose: colouring the majority species would spend the colour without buying a distinction.
+-- Jobs and files are the two things that are *not* a called function, so a glance down the stripe separates
+-- measured work from addon load without reading a single name. Kept clear of the heat bands (red, orange,
+-- yellow) so a row's species never reads as its cost.
 local COLOR_TEXT = {r = 0.88, g = 0.88, b = 0.88}
 local COLOR_THREAD_JOB = {r = 0.45, g = 0.80, b = 1.00}
+local COLOR_FILE_LOAD = {r = 0.55, g = 0.85, b = 0.55}
+
+-- Brightness is a second channel, independent of hue: the colour says what kind of row this is, the
+-- brightness says whether it ran. A never-called entry is real - it was hooked - but contributed nothing, so
+-- it recedes instead of shouting. It gets no accent stripe: the stripe answers "which species", and dimming
+-- an entry is not a species. Files are exempt, having no call count that could be zero.
+local NEVER_CALLED_DIM = 0.55
 local COLOR_UNTIMED = {r = 0.55, g = 0.55, b = 0.55}
 local COLOR_SORTED_VALUE = {r = 1.00, g = 0.82, b = 0.00}
 local COLOR_SELF_DOMINANT = {r = 0.95, g = 0.60, b = 0.45}
@@ -778,6 +790,17 @@ end
 -------------------------
 -- Row rendering
 -------------------------
+---@param reportRow ProfilerReportRow
+---@return table? speciesColor @nil for a function, which is the uncoloured baseline
+local function SpeciesColor(reportRow)
+    if reportRow.isFileLoad then
+        return COLOR_FILE_LOAD
+    elseif reportRow.isThreadJob then
+        return COLOR_THREAD_JOB
+    end
+    return nil
+end
+
 ---@param row table @Pooled row button
 ---@param reportRow ProfilerReportRow
 local function ShowRowTooltip(row, reportRow)
@@ -1191,20 +1214,22 @@ function RenderRows()
                 row.icon:SetTexture(ICON_FUNCTION)
             end
 
-            if reportRow.isThreadJob then
+            local speciesColor = SpeciesColor(reportRow)
+            if speciesColor then
                 if row.stripe.SetColorTexture then
-                    row.stripe:SetColorTexture(COLOR_THREAD_JOB.r, COLOR_THREAD_JOB.g, COLOR_THREAD_JOB.b, 0.9)
+                    row.stripe:SetColorTexture(speciesColor.r, speciesColor.g, speciesColor.b, 0.9)
                 else
-                    row.stripe:SetVertexColor(COLOR_THREAD_JOB.r, COLOR_THREAD_JOB.g, COLOR_THREAD_JOB.b, 0.9)
+                    row.stripe:SetVertexColor(speciesColor.r, speciesColor.g, speciesColor.b, 0.9)
                 end
                 row.stripe:Show()
             else
                 row.stripe:Hide()
             end
 
-            local nameColor = reportRow.isThreadJob and COLOR_THREAD_JOB or COLOR_TEXT
+            local nameColor = speciesColor or COLOR_TEXT
+            local brightness = (reportRow.hasCalls and reportRow.calls == 0) and NEVER_CALLED_DIM or 1
             row.nameText:SetText(reportRow.displayName)
-            row.nameText:SetTextColor(nameColor.r, nameColor.g, nameColor.b)
+            row.nameText:SetTextColor(nameColor.r * brightness, nameColor.g * brightness, nameColor.b * brightness)
 
             -- Counted-but-never-timed entries must not read as free work, so they show a dash instead of 0.00.
             if reportRow.hasTiming then
@@ -1765,10 +1790,13 @@ end
 -- schedules, and an exclusive control would forbid exactly those.
 local SPECIES_CHECKBOXES = {
     {key = "showFunctions", label = "Functions", countKey = "functions", icon = ICON_FUNCTION,
+        color = COLOR_TEXT,
         description = "Hooked Questie functions, timed per call."},
     {key = "showJobs", label = "Jobs", countKey = "jobs", icon = ICON_THREAD_JOB,
+        color = COLOR_THREAD_JOB,
         description = "ThreadLib coroutine jobs, timed across their resume slices."},
     {key = "showFiles", label = "Files", countKey = "files", icon = ICON_FILE_LOAD,
+        color = COLOR_FILE_LOAD,
         description = "Addon files, timed while Questie loaded."},
 }
 
@@ -1814,6 +1842,9 @@ local function BuildShowRow()
     for _, spec in ipairs(SPECIES_CHECKBOXES) do
         local checkButton = CreateVisibilityCheckButton(previous, previousGap, spec.icon)
         checkButton.spec = spec
+        -- Each label wears exactly what its rows wear, so the filter row doubles as the legend and the
+        -- mapping is learned from the control rather than inferred from the list.
+        checkButton.label:SetTextColor(spec.color.r, spec.color.g, spec.color.b)
         checkButton:SetScript("OnClick", function(self)
             displayState[spec.key] = self:GetChecked() and true or false
             displayState.scrollOffset = 0
@@ -1827,6 +1858,9 @@ local function BuildShowRow()
     end
 
     neverCalledCheckButton = CreateVisibilityCheckButton(previous, previousGap, nil)
+    -- Dimmed to match the rows it reveals, which is the whole of what it does.
+    neverCalledCheckButton.label:SetTextColor(
+        COLOR_TEXT.r * NEVER_CALLED_DIM, COLOR_TEXT.g * NEVER_CALLED_DIM, COLOR_TEXT.b * NEVER_CALLED_DIM)
     neverCalledCheckButton:SetScript("OnClick", function(self)
         displayState.hideIdle = not self:GetChecked()
         displayState.scrollOffset = 0
