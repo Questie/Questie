@@ -8949,6 +8949,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11164] = { -- Tuskin' Raiders
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [11166] = { -- X Marks... Your Doom!
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
