@@ -17,6 +17,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 local pairs = pairs
 
@@ -108,6 +110,10 @@ function QuestLifecycle:AcceptQuest(questId)
     -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
     Questie.db.char.AutoUntrackedQuests[questId] = nil
 
+    -- QuestieV1 snapshots are full-state maps. Re-accepting can clear a stale remote
+    -- false entry, so notify peers after the local quest-log/tracking state is updated.
+    CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
+
     -- Remove the starter/finisher frames first, then draw objective notes once the
     -- unload coroutine has finished. This prevents the draw coroutines from racing
     -- with the unload coroutine and leaving stale entries in questIdFrames.
@@ -166,6 +172,9 @@ function QuestLifecycle:CompleteQuest(questId)
         QuestieTracker:Update()
     end)
 
+    -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
+    CommsVisibility:ScheduleSnapshot("COMPLETE_QUEST")
+
     AvailableQuests.RemoveQuest(questId, function()
         AvailableQuests.CalculateAndDrawAll()
     end)
@@ -214,6 +223,9 @@ function QuestLifecycle:AbandonQuest(questId)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
+
+    -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
+    CommsVisibility:ScheduleSnapshot("ABANDON_QUEST")
 
     AvailableQuests.RemoveQuest(questId, function()
         AvailableQuests.CalculateAndDrawAll()
