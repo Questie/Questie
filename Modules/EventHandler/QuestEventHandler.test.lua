@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+dofile("Localization/l10n.lua")
 
 _G.GetQuestTimers = function() return nil end
 
@@ -303,7 +304,7 @@ describe("QuestEventHandler", function()
         Questie.db.char.complete = {}
         QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
 
-        QuestieDB.QueryQuestSingle = spy.new(function(_, questId, key)
+        QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
                 return {101, 102, 103}
             end
