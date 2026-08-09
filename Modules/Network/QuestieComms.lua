@@ -263,7 +263,10 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
 
         offset = offset + 2
         for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
-            quest[offset] = questObject.Objectives[objectiveIndex].Id
+            -- Use 0 as a placeholder when the objective has no Id (e.g. killcredit objectives only
+            -- carry IdList/RootId). Writing nil would create a hole in the flat array, corrupting
+            -- the serializer's stride and causing the receiver to parse 0 objectives.
+            quest[offset] = questObject.Objectives[objectiveIndex].Id or 0
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
             quest[offset + 3] = objective.numRequired
@@ -327,14 +330,18 @@ function QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(questPacket, play
             local objectives = {}
             offset = offset + 2
             local objectiveIndex = 0
-            while objectiveIndex < objectiveCount and questPacket[offset] do
+            -- Guard on the type byte (offset+1) rather than the id (offset): the id may be 0 for
+            -- killcredit objectives (no .Id field), which are sent as a 0 placeholder on the send
+            -- side to avoid nil holes in the flat array.
+            while objectiveIndex < objectiveCount and questPacket[offset + 1] do
                 objectiveIndex = objectiveIndex + 1
+                local rawId = questPacket[offset]
                 local fulfilled = questPacket[offset + 2]
                 local required = questPacket[offset + 3]
 
                 objectives[objectiveIndex] = {
                     index = objectiveIndex,
-                    id = questPacket[offset],
+                    id = rawId ~= 0 and rawId or nil,
                     type = string.char(questPacket[offset + 1]),
                     fulfilled = fulfilled,
                     required = required,
