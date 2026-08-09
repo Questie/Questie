@@ -329,15 +329,17 @@ function QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(questPacket, play
             local objectiveIndex = 0
             while objectiveIndex < objectiveCount and questPacket[offset] do
                 objectiveIndex = objectiveIndex + 1
-                objectives[objectiveIndex] = {};
-                objectives[objectiveIndex].index = objectiveIndex;
+                local fulfilled = questPacket[offset + 2]
+                local required = questPacket[offset + 3]
 
-                objectives[objectiveIndex].id = questPacket[offset]
-                objectives[objectiveIndex].type = string.char(questPacket[offset + 1]) --[_QuestieComms.idLookup["type"]];
-                objectives[objectiveIndex].fulfilled = questPacket[offset + 2] --[_QuestieComms.idLookup["fulfilled"]];
-                objectives[objectiveIndex].required = questPacket[offset + 3] --[_QuestieComms.idLookup["required"]];
-                objectives[objectiveIndex].finished = objectives[objectiveIndex].fulfilled ==
-                objectives[objectiveIndex].required --[_QuestieComms.idLookup["finished"]];
+                objectives[objectiveIndex] = {
+                    index = objectiveIndex,
+                    id = questPacket[offset],
+                    type = string.char(questPacket[offset + 1]),
+                    fulfilled = fulfilled,
+                    required = required,
+                    finished = fulfilled == required,
+                }
 
                 allDone = allDone and objectives[objectiveIndex].finished
 
@@ -380,15 +382,17 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, d
             local objectiveIndex = 0
             while objectiveIndex < objectiveCount and questPacket[offset] do
                 objectiveIndex = objectiveIndex + 1
-                objectives[objectiveIndex] = {};
-                objectives[objectiveIndex].index = objectiveIndex;
+                local fulfilled = questPacket[offset + 2]
+                local required = questPacket[offset + 3]
 
-                objectives[objectiveIndex].id = questPacket[offset]
-                objectives[objectiveIndex].type = string.char(questPacket[offset + 1]) --[_QuestieComms.idLookup["type"]];
-                objectives[objectiveIndex].fulfilled = questPacket[offset + 2] --[_QuestieComms.idLookup["fulfilled"]];
-                objectives[objectiveIndex].required = questPacket[offset + 3] --[_QuestieComms.idLookup["required"]];
-                objectives[objectiveIndex].finished = objectives[objectiveIndex].fulfilled ==
-                objectives[objectiveIndex].required --[_QuestieComms.idLookup["finished"]];
+                objectives[objectiveIndex] = {
+                    index = objectiveIndex,
+                    id = questPacket[offset],
+                    type = string.char(questPacket[offset + 1]),
+                    fulfilled = fulfilled,
+                    required = required,
+                    finished = fulfilled == required,
+                }
 
                 allDone = allDone and objectives[objectiveIndex].finished
 
