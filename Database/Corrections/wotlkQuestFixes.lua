@@ -8953,6 +8953,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11165] = { -- A Troll Among Trolls
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [11166] = { -- X Marks... Your Doom!
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
