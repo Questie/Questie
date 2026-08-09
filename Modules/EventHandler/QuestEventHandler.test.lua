@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+dofile("Localization/l10n.lua")
 
 _G.GetQuestTimers = function() return nil end
 
@@ -304,6 +305,34 @@ describe("QuestEventHandler", function()
 
         assert.spy(WatchFrameHook.Hide).was.called()
         assert.spy(AutoCompleteFrame.ShowAutoComplete).was.called_with(QUEST_ID)
+    end)
+
+    it("should abandon the quest only once when it has multiple incomplete breadcrumbs", function()
+        Questie.db.profile.questAnnounceIncompleteBreadcrumb = false
+        Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = true
+        Questie.db.char.complete = {}
+        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+
+        QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
+            if questId == QUEST_ID and key == "breadcrumbs" then
+                return {101, 102, 103}
+            end
+            return nil
+        end)
+        QuestiePlayer.HasRequiredRace = function() return true end
+        QuestiePlayer.HasRequiredClass = function() return true end
+        QuestieLoader:ImportModule("QuestieLink").GetQuestHyperLink = function() return "link" end
+
+        local abandonCalls = 0
+        _G.GetQuestLogIndexByID = function(questId) return questId == QUEST_ID and 1 or 0 end
+        _G.SelectQuestLogEntry = function() end
+        _G.SetAbandonQuest = function() end
+        _G.AbandonQuest = function() abandonCalls = abandonCalls + 1 end
+
+        QuestEventHandler.CheckExistingQuestBreadcrumbs()
+
+        assert.are.equal(1, abandonCalls)
+        assert.spy(QuestieDB.QueryQuestSingle).was.called(5)
     end)
 
     it("should update all quests on PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function()
