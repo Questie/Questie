@@ -376,6 +376,7 @@ globals = {
     "C_Debug.GetMapDebugObjects",
     "C_Debug.TeleportToMapDebugObject",
     "C_Debug.TeleportToMapLocation",
+    "C_EncodingUtil",
     "C_FriendList.AddFriend",
     "C_FriendList.AddIgnore",
     "C_FriendList.AddOrDelIgnore",
