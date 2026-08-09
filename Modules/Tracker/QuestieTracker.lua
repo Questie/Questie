@@ -49,6 +49,8 @@ local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
@@ -259,6 +261,9 @@ function QuestieTracker:ResetLocation()
     trackerHeaderFrame.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
+    -- Resetting tracker location also bulk-retracks quests in auto mode, which changes the
+    -- visibility snapshot shared with party members.
+    CommsVisibility:ScheduleSnapshot("RESET_TRACKER_LOCATION")
     Questie.db.profile.TrackerLocation = nil
     Questie.db.char.collapsedQuests = {}
     Questie.db.char.collapsedZones = {}
@@ -1935,6 +1940,8 @@ function QuestieTracker:UntrackQuestId(questId)
         end)
     end
 
+    CommsVisibility:ScheduleSnapshot("UNTRACK_QUEST")
+
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
@@ -2023,6 +2030,8 @@ function QuestieTracker:AQW_Insert(index, expire)
             end
         end
     end
+    CommsVisibility:ScheduleSnapshot("TRACK_QUEST")
+
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)

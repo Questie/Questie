@@ -22,6 +22,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -532,8 +534,10 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
-                    if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
-                            tostring(questId))) end
+                    if not Questie.IsSoD then
+                        Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                            tostring(questId)))
+                    end
                     Questie._sessionWarnings[questId] = true
                 end
             else
@@ -650,8 +654,10 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
-                    if not Questie.IsSoD then Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
-                            tostring(questId))) end
+                    if not Questie.IsSoD then
+                        Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                            tostring(questId)))
+                    end
                     Questie._sessionWarnings[questId] = true
                 end
             else
@@ -929,6 +935,10 @@ _QuestieComms.packets = {
                 else
                     _QuestieComms:BroadcastQuestLog("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
                 end
+                -- Full quest-log requests are also the reload/join convergence point for the
+                -- QuestieV1 side-channel. Send visibility separately so remoteQuestLogs stays
+                -- absolute progress state while peers can still suppress hidden/untracked party objective pins.
+                CommsVisibility:ScheduleSnapshot("QC_ID_REQUEST_FULL_QUESTLIST")
             end
         end
     },
