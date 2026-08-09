@@ -61,6 +61,8 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type Comms
 local Comms = QuestieLoader:ImportModule("Comms")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
@@ -276,6 +278,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieComms initializing.")
+    CommsVisibility:Initialize()
     Comms.Initialize()
     QuestieComms:Initialize()
     coYield()
