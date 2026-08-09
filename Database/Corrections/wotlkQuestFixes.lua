@@ -8949,6 +8949,14 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11166] = { -- X Marks... Your Doom!
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11171] = { -- Hex Lord? Hah!
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [11178] = { -- Blood of the Warlord
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
