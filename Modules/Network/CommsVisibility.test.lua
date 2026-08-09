@@ -78,6 +78,7 @@ describe("CommsVisibility", function()
         QuestiePlayer.GetGroupType = function() return "party" end
 
         _G.GetNumGroupMembers = function() return 2 end
+        _G.C_QuestLog.GetMaxNumQuestsCanAccept = function() return 25 end
 
         dofile("Modules/Network/CommsVisibility.lua")
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
@@ -367,6 +368,34 @@ describe("CommsVisibility", function()
             CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
 
             assert.are_same({}, CommsVisibility.remoteQuestVisibility["FriendName"])
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called()
+        end)
+
+        it("should reject payload exceeding C_QuestLog.GetMaxNumQuestsCanAccept() entries", function()
+            local maxEntries = C_QuestLog.GetMaxNumQuestsCanAccept()
+            local oversizedPayload = {}
+            for i = 1, maxEntries + 1 do
+                oversizedPayload[i] = true
+            end
+            CommsEncoding.DecodePayload = function() return oversizedPayload end
+
+            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
+
+            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
+        end)
+
+        it("should accept payload at exactly C_QuestLog.GetMaxNumQuestsCanAccept() entries", function()
+            local maxEntries = C_QuestLog.GetMaxNumQuestsCanAccept()
+            local exactPayload = {}
+            for i = 1, maxEntries do
+                exactPayload[i] = true
+            end
+            CommsEncoding.DecodePayload = function() return exactPayload end
+
+            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
+
+            assert.are_same(exactPayload, CommsVisibility.remoteQuestVisibility["FriendName"])
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called()
         end)
 

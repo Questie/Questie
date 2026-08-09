@@ -39,6 +39,7 @@ local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjective
 -------------------------
 local VISIBILITY_PREFIX = "QuestieV1"
 local MAX_VISIBILITY_GROUP_SIZE = 5
+local MAX_SNAPSHOT_ENTRIES
 
 CommsVisibility.prefix = VISIBILITY_PREFIX
 
@@ -75,6 +76,8 @@ function CommsVisibility:Initialize()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[CommsVisibility] Codec support unavailable, not registering QuestieV1")
         return
     end
+
+    MAX_SNAPSHOT_ENTRIES = C_QuestLog.GetMaxNumQuestsCanAccept()
 
     Questie:RegisterComm(VISIBILITY_PREFIX, CommsVisibility.OnCommReceived)
     initialized = true
@@ -144,7 +147,13 @@ local function _ValidateSnapshot(payload)
         return nil
     end
 
+    local count = 0
     for questId, visible in pairs(payload) do
+        count = count + 1
+        if count > MAX_SNAPSHOT_ENTRIES then
+            return nil
+        end
+
         if type(questId) ~= "number"
             or questId <= 0
             or questId % 1 ~= 0
