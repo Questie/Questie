@@ -48,6 +48,8 @@ local QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -467,11 +469,13 @@ end
 function QuestieQuest:HideQuest(questId)
     Questie.db.char.hidden[questId] = true
     AvailableQuests.RemoveQuest(questId)
+    CommsVisibility:ScheduleSnapshot("HIDE_QUEST")
 end
 
 ---@param questId QuestId
 function QuestieQuest:UnhideQuest(questId)
     Questie.db.char.hidden[questId] = nil
+    CommsVisibility:ScheduleSnapshot("UNHIDE_QUEST")
 
     if QuestiePlayer.currentQuestlog[questId] then
         local quest = QuestieDB.GetQuest(questId)

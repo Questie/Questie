@@ -1,7 +1,6 @@
 dofile("setupTests.lua")
 
 describe("QuestieQuest", function()
-
     ---@type QuestieQuest
     local QuestieQuest
     ---@type AvailableQuests
@@ -18,6 +17,8 @@ describe("QuestieQuest", function()
     local QuestLogCache
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
+    ---@type CommsVisibility
+    local CommsVisibility
 
     before_each(function()
         Questie.db.char = {}
@@ -33,6 +34,8 @@ describe("QuestieQuest", function()
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
+        CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+        CommsVisibility.ScheduleSnapshot = spy.new(function() end)
 
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -47,6 +50,7 @@ describe("QuestieQuest", function()
             QuestieQuest:UnhideQuest(questId)
 
             assert.is_nil(Questie.db.char.hidden[questId])
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
             assert.spy(QuestieDB.GetQuest).was.not_called()
             assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
@@ -61,6 +65,7 @@ describe("QuestieQuest", function()
             QuestieQuest:UnhideQuest(questId)
 
             assert.is_nil(Questie.db.char.hidden[questId])
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
             assert.spy(QuestieDB.GetQuest).was.called_with(123)
             assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, {})
