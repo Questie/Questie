@@ -51,7 +51,6 @@ function QuestieFrame:New(frameId, OnEnter)
     newFrame:SetFrameStrata("FULLSCREEN");
     newFrame:SetSize(16, 16)
     newFrame:SetPoint("CENTER", -8, -8)
-    newFrame:EnableMouse(true)
 
     local newTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
@@ -103,7 +102,6 @@ function QuestieFrame:New(frameId, OnEnter)
     newFrame.glowTexture:SetTexture(Questie.icons["glow"])
     newFrame.glow:Hide()
     newFrame.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
-    newFrame.glow:EnableMouse(false)
 
     newFrame:SetScript("OnEnter", OnEnter);        --Script Toolip
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip

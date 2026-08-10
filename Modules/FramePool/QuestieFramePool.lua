@@ -269,8 +269,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineBorder:SetEndPoint("TOPLEFT", endX - framePosX, endY - framePosY)
     lineBorder:SetThickness(lineWidth + 2);
 
-    lineFrame:EnableMouse(true)
-
     --- This is needed because HBD will show the icons again after switching zones and stuff like that
     function lineFrame:FakeHide()
         if not self.hidden then
