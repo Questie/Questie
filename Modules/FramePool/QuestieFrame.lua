@@ -45,35 +45,30 @@ function QuestieFrame:New(frameId, OnEnter)
 
     newFrame.glow = CreateFrame("Button", "QuestieFrame" .. frameId .. "Glow", newFrame) -- glow frame
     newFrame.glow:SetFrameStrata("FULLSCREEN");
-    newFrame.glow:SetWidth(18)                                                           -- Set these to whatever height/width is needed
-    newFrame.glow:SetHeight(18)
+    newFrame.glow:SetSize(18, 18)
 
 
     newFrame:SetFrameStrata("FULLSCREEN");
-    newFrame:SetWidth(16)  -- Set these to whatever height/width is needed
-    newFrame:SetHeight(16) -- for your Texture
+    newFrame:SetSize(16, 16)
     newFrame:SetPoint("CENTER", -8, -8)
     newFrame:EnableMouse(true)
 
     local newTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
     --t:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp")
-    newTexture:SetWidth(16)
-    newTexture:SetHeight(16)
+    newTexture:SetSize(16, 16)
     newTexture:SetAllPoints(newFrame)
     newTexture:SetTexelSnappingBias(0)
     newTexture:SetSnapToPixelGrid(false)
 
     newFrame.overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 7)
-    newFrame.overlayTexture:SetWidth(16)
-    newFrame.overlayTexture:SetHeight(16)
+    newFrame.overlayTexture:SetSize(16, 16)
     newFrame.overlayTexture:SetAllPoints(newFrame)
     newFrame.overlayTexture:SetTexelSnappingBias(0)
     newFrame.overlayTexture:SetSnapToPixelGrid(false)
 
     local glowt = newFrame.glow:CreateTexture(nil, "OVERLAY", nil, -1)
-    glowt:SetWidth(18)
-    glowt:SetHeight(18)
+    glowt:SetSize(18, 18)
     glowt:SetAllPoints(newFrame.glow)
 
     ---@class IconTexture : Texture
@@ -263,8 +258,7 @@ function _QuestieFrame.BaseOnShow(self)
         data.ObjectiveData.Color and
         (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
         ) then
-        self.glow:SetWidth(self:GetWidth() * 1.13)
-        self.glow:SetHeight(self:GetHeight() * 1.13)
+        self.glow:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
         self.glow:SetPoint("CENTER", self, 0, 0)
         local _, _, _, alpha = self.texture:GetVertexColor()
         self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
@@ -332,11 +326,9 @@ function _QuestieFrame.UpdateTexture(self, texture)
 
     if self.data.IconScale then
         local scale = 16 * ((self.data:GetIconScale() or 1) * (globalScale or 0.7));
-        self:SetWidth(scale)
-        self:SetHeight(scale)
+        self:SetSize(scale, scale)
     else
-        self:SetWidth(16)
-        self:SetHeight(16)
+        self:SetSize(16, 16)
     end
 
     -- Party member objectives (quests the local player does not have) are dimmed so they are
