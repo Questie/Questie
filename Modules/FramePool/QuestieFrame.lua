@@ -43,11 +43,6 @@ function QuestieFrame:New(frameId, OnEnter)
         tinsert(MBB_Ignore, newFrame:GetName())
     end
 
-    newFrame.glow = CreateFrame("Button", "QuestieFrame" .. frameId .. "Glow", newFrame) -- glow frame
-    newFrame.glow:SetFrameStrata("FULLSCREEN");
-    newFrame.glow:SetSize(18, 18)
-
-
     newFrame:SetFrameStrata("FULLSCREEN");
     newFrame:SetSize(16, 16)
     newFrame:SetPoint("CENTER", -8, -8)
@@ -66,9 +61,8 @@ function QuestieFrame:New(frameId, OnEnter)
     newFrame.overlayTexture:SetTexelSnappingBias(0)
     newFrame.overlayTexture:SetSnapToPixelGrid(false)
 
-    local glowt = newFrame.glow:CreateTexture(nil, "OVERLAY", nil, -1)
+    local glowt = newFrame:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetSize(18, 18)
-    glowt:SetAllPoints(newFrame.glow)
 
     ---@class IconTexture : Texture
     newFrame.texture = newTexture;
@@ -100,8 +94,8 @@ function QuestieFrame:New(frameId, OnEnter)
     newFrame.glowTexture:SetVertexColor(1, 1, 1, 1);
 
     newFrame.glowTexture:SetTexture(Questie.icons["glow"])
-    newFrame.glow:Hide()
-    newFrame.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
+    newFrame.glowTexture:Hide()
+    newFrame.glowTexture:SetPoint("CENTER", 0, 0)
 
     newFrame:SetScript("OnEnter", OnEnter);        --Script Toolip
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
@@ -227,12 +221,11 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.GlowUpdate(self)
-    if self.glow and self.glow.IsShown and self.glow:IsShown() then
+    if self.glowTexture and self.glowTexture.IsShown and self.glowTexture:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
-        if (self.glow:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glow:GetHeight() ~= self:GetHeight() * 1.13
-            self.glow:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
-            self.glow:SetPoint("CENTER", self, 0, 0)
+        if (self.glowTexture:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glowTexture:GetHeight() ~= self:GetHeight() * 1.13
+            self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
         end
         if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color and self.glowTexture then
             --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
@@ -256,15 +249,10 @@ function _QuestieFrame.BaseOnShow(self)
         data.ObjectiveData.Color and
         (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
         ) then
-        self.glow:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
-        self.glow:SetPoint("CENTER", self, 0, 0)
+        self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
         local _, _, _, alpha = self.texture:GetVertexColor()
         self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
-        self.glow:Show()
-        local frameLevel = self:GetFrameLevel()
-        if frameLevel > 0 then
-            self.glow:SetFrameLevel(frameLevel - 1)
-        end
+        self.glowTexture:Show()
     end
 end
 
@@ -275,7 +263,7 @@ function _QuestieFrame.BaseOnHide(self)
     if data and data.Type and data.Type == "complete" then
         self:SetFrameLevel(self:GetFrameLevel() - 1)
     end
-    self.glow:Hide()
+    self.glowTexture:Hide()
 end
 
 ---@param self IconFrame
@@ -396,7 +384,7 @@ function _QuestieFrame.Unload(self)
 
     if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
     self:Hide()
-    self.glow:Hide()
+    self.glowTexture:Hide()
     self.data = nil -- Just to be safe
     self.x = nil
     self.y = nil
