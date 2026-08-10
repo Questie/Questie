@@ -60,6 +60,7 @@ function QuestieFrame:New(frameId, OnEnter)
     newFrame.overlayTexture:SetAllPoints(newFrame)
     newFrame.overlayTexture:SetTexelSnappingBias(0)
     newFrame.overlayTexture:SetSnapToPixelGrid(false)
+    newFrame.overlayTexture:Hide()
 
     local glowt = newFrame:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetSize(18, 18)
@@ -290,16 +291,20 @@ function _QuestieFrame.UpdateTexture(self, texture)
         elseif self.data.StarterType == "Object" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
         end
+        self.overlayTexture:Show()
     else
-        self.overlayTexture:SetTexture("")
+        self.overlayTexture:Hide()
+        self.overlayTexture:SetTexture() -- clear the texture
     end
 
     --[[if self.data.FinisherType then
         if self.data.FinisherType == "Object" then
             self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
         end
+        self.overlayTexture:Show()
     else
-        self.overlayTexture:SetTexture("")
+        self.overlayTexture:Hide()
+        self.overlayTexture:SetTexture()
     end]] -- need to see why followup quest from object has no cogwheel anymore
 
     if self.data.IconColor ~= nil and objectiveColor then
@@ -382,6 +387,7 @@ function _QuestieFrame.Unload(self)
     if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
     self:Hide()
     self.glowTexture:Hide()
+    self.overlayTexture:Hide()
     self.data = nil -- Just to be safe
     self.x = nil
     self.y = nil
