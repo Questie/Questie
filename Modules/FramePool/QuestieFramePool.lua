@@ -80,14 +80,14 @@ end
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
     if mode then
         for _, icon in pairs(usedFrames) do
-            if (((mini and icon.miniMapIcon) or not mini) and icon.glow) and icon.IsShown and icon:IsShown() then
+            if (((mini and icon.miniMapIcon) or not mini) and icon.glowTexture) and icon.IsShown and icon:IsShown() then
                 icon:GetScript("OnShow")(icon) -- forces a glow update
             end
         end
     else
         for _, icon in pairs(usedFrames) do
-            if ((mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon)) and icon.glow then
-                icon.glow:Hide()
+            if ((mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon)) and icon.glowTexture then
+                icon.glowTexture:Hide()
             end
         end
     end
