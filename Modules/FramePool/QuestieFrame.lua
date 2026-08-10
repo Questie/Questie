@@ -67,37 +67,19 @@ function QuestieFrame:New(frameId, OnEnter)
     ---@class IconTexture : Texture
     newFrame.texture = newTexture;
     newFrame.texture.OLDSetVertexColor = newFrame.texture.SetVertexColor;
-    function newFrame.texture:SetVertexColor(r, g, b, a)
-        self:OLDSetVertexColor(r, g, b, a);
-        --We save the colors to the texture object, this way we don't need to use GetVertexColor
-        self.r = r or 1;
-        self.g = g or 1;
-        self.b = b or 1;
-        self.a = a or 1;
-    end
-
-    --We save the colors to the texture object, this way we don't need to use GetVertexColor
+    newFrame.texture.SetVertexColor = _QuestieFrame.SetVertexColor
     newFrame.texture:SetVertexColor(1, 1, 1, 1);
 
     newFrame.glowTexture = glowt
     newFrame.glowTexture.OLDSetVertexColor = newFrame.glowTexture.SetVertexColor;
-    function newFrame.glowTexture:SetVertexColor(r, g, b, a)
-        self:OLDSetVertexColor(r, g, b, a);
-        --We save the colors to the texture object, this way we don't need to use GetVertexColor
-        self.r = r or 1;
-        self.g = g or 1;
-        self.b = b or 1;
-        self.a = a or 1;
-    end
-
-    --We save the colors to the texture object, this way we don't need to use GetVertexColor
+    newFrame.glowTexture.SetVertexColor = _QuestieFrame.SetVertexColor
     newFrame.glowTexture:SetVertexColor(1, 1, 1, 1);
 
     newFrame.glowTexture:SetTexture(Questie.icons["glow"])
     newFrame.glowTexture:Hide()
     newFrame.glowTexture:SetPoint("CENTER", 0, 0)
 
-    newFrame:SetScript("OnEnter", OnEnter);        --Script Toolip
+    newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
     newFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     newFrame:SetScript("OnClick", _QuestieFrame.OnClick);
@@ -155,6 +137,20 @@ function _QuestieFrame.OnLeave(self)
     GameTooltip.ShownAsMapIcon = false
 end
 
+---@param self Texture
+---@param r number
+---@param g number
+---@param b number
+---@param a number
+function _QuestieFrame.SetVertexColor(self, r, g, b, a)
+    self:OLDSetVertexColor(r, g, b, a)
+    --We save the colors to the texture object, this way we don't need to use GetVertexColor
+    self.r = r or 1
+    self.g = g or 1
+    self.b = b or 1
+    self.a = a or 1
+end
+
 ---@param self IconFrame
 function _QuestieFrame.OnClick(self, button)
     local uiMapId = self.UiMapID
@@ -209,7 +205,7 @@ function _QuestieFrame.OnClick(self, button)
         end
 
         -- Add waypoint
-        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(uiMapId, x, y, { title = title, crazy = true, from = "Questie" })
+        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(uiMapId, x, y, {title = title, crazy = true, from = "Questie"})
     end
 
     -- Make sure we don't break the map ping feature - this allows us to ping our own icons.
@@ -231,7 +227,8 @@ function _QuestieFrame.GlowUpdate(self)
             --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
             --The question is is it faster to get and compare or just set straight up?
             if (self.glowTexture.r ~= self.data.ObjectiveData.Color[1] or self.glowTexture.g ~= self.data.ObjectiveData.Color[2] or self.glowTexture.b ~= self.data.ObjectiveData.Color[3] or self.texture.a ~= self.glowTexture.a) then
-                self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], self.texture.a or 1)
+                self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3],
+                    self.texture.a or 1)
             end
         end
     end
@@ -285,7 +282,7 @@ function _QuestieFrame.UpdateTexture(self, texture)
 
     self.texture:SetTexture(texture)
     --self.data.Icon = texture;
-    local colors = { 1, 1, 1 }
+    local colors = {1, 1, 1}
 
     if self.data.StarterType then
         if self.data.StarterType == "itemFromMonster" or self.data.StarterType == "itemFromObject" then
@@ -510,14 +507,14 @@ function _QuestieFrame.ShouldBeHidden(self)
         or ((not profile.enableTurnins) and iconType == "complete")
         or ((not profile.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
         or (profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
-        or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
+        or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId)) -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and (
-                   ((not profile.enableAvailable) and normal)
+                ((not profile.enableAvailable) and normal)
                 or ((not profile.showRepeatableQuests) and repeatable)
                 or ((not profile.showEventQuests) and event)
                 or ((not profile.showDungeonQuests) and dungeon)
