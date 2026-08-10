@@ -86,7 +86,6 @@ function QuestieFrame:New(frameId, OnEnter)
     newFrame:SetScript("OnClick", _QuestieFrame.OnClick);
 
     newFrame.GlowUpdate = _QuestieFrame.GlowUpdate
-    newFrame.BaseOnUpdate = _QuestieFrame.BaseOnUpdate
     newFrame.BaseOnShow = _QuestieFrame.BaseOnShow
     newFrame.BaseOnHide = _QuestieFrame.BaseOnHide
 
@@ -373,9 +372,6 @@ function _QuestieFrame.Unload(self)
 
     if self.fadeLogicTimer then
         self.fadeLogicTimer:Cancel();
-    end
-    if self.glowLogicTimer then
-        self.glowLogicTimer:Cancel();
     end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then

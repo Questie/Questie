@@ -371,11 +371,7 @@ _ReinitFrame = function(frame)
         frame:SetScript("OnShow", frame.BaseOnShow)
     end
 
-    if frame.BaseOnUpdate then
-        frame.glowLogicTimer = C_Timer.NewTicker(1, frame.BaseOnUpdate);
-    else
-        frame:SetScript("OnUpdate", nil)
-    end
+    frame:SetScript("OnUpdate", nil)
 
     if frame.BaseOnHide then
         frame:SetScript("OnHide", frame.BaseOnHide)
