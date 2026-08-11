@@ -244,19 +244,23 @@ describe("CommsVisibility", function()
 
         it("should cancel the previous timer when scheduling a new snapshot", function()
             local firstTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            local firstTimerMock = spy.new(function() return firstTimer end)
             local secondTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            local secondTimerMock = spy.new(function() return secondTimer end)
 
             _G.C_Timer = {
-                NewTimer = function() return firstTimer end
+                NewTimer = firstTimerMock
             }
             CommsVisibility:ScheduleSnapshot("first")
 
             _G.C_Timer = {
-                NewTimer = function() return secondTimer end
+                NewTimer = secondTimerMock
             }
             CommsVisibility:ScheduleSnapshot("second")
 
             assert.is_true(firstTimer.cancelled)
+            assert.spy(firstTimerMock).was.called()
+            assert.spy(secondTimerMock).was.called()
         end)
     end)
 
