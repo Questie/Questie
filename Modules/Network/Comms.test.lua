@@ -11,6 +11,23 @@ describe("Comms", function()
         Questie.RegisterComm = function() end
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
+        AvailableQuests.GetUnavailableDailyQuests = spy.new(function() return {} end)
+
+        _G.IsInGuild = function() return false end
+        _G.IsInRaid = function() return false end
+        _G.IsInGroup = function() return false end
+
+        _G.C_Timer = {
+            NewTimer = function(_, callback)
+                local timer = {cancelled = false, callback = callback}
+                timer.Cancel = function(self)
+                    self.cancelled = true
+                end
+                return timer
+            end
+        }
+
+        _G.math.random = function() return 0 end
 
         dofile("Modules/Network/Comms.lua")
         Comms = QuestieLoader:ImportModule("Comms")
@@ -210,6 +227,95 @@ describe("Comms", function()
 
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
+
+        it("should broadcast unavailable quests when the response timer fires", function()
+            local npcId = 111
+            local questIds = {222, 333}
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[npcId] = questIds} end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+            _G.IsInGuild = function() return true end
+
+            -- Use instant timer so the callback fires immediately
+            _G.C_Timer.NewTimer = function(_, callback)
+                callback()
+                return {Cancel = function() end}
+            end
+
+            local event = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "GUILD")
+        end)
+
+        it("should not broadcast when GetUnavailableDailyQuests returns empty", function()
+            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = spy.new(function() return "eventAsSerializedString" end)
+            _G.IsInGuild = function() return true end
+
+            _G.C_Timer.NewTimer = function(_, callback)
+                callback()
+                return {Cancel = function() end}
+            end
+
+            local event = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("should cancel pending response timer when HideDailyQuests is received from a peer", function()
+            -- First, schedule a response by receiving a request
+            local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            local timerMock = spy.new(function() return timer end)
+            _G.C_Timer.NewTimer = timerMock
+
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, requestEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(timerMock).was.called()
+            assert.is_false(timer.cancelled)
+
+            -- Now receive a HideDailyQuests from a peer — should cancel the pending timer
+            local hideEvent = {
+                eventName = "HideDailyQuests",
+                data = {npcId = 1234, questIds = {5678}}
+            }
+            Questie.Deserialize = function() return true, hideEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "AnotherSender")
+
+            assert.is_true(timer.cancelled)
+        end)
+
+        it("should replace existing pending timer when a second RequestUnavailableDailyQuests arrives", function()
+            local firstTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            local firstTimerMock = spy.new(function() return firstTimer end)
+            local secondTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            local secondTimerMock = spy.new(function() return secondTimer end)
+
+            local event = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, event end
+
+            _G.C_Timer = {
+                NewTimer = firstTimerMock
+            }
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            _G.C_Timer = {
+                NewTimer = secondTimerMock
+            }
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "AnotherSender")
+
+            assert.is_true(firstTimer.cancelled)
+            assert.spy(firstTimerMock).was.called()
+            assert.spy(secondTimerMock).was.called()
+        end)
     end)
 
     describe("BroadcastUnavailableDailyQuests", function()
@@ -283,6 +389,47 @@ describe("Comms", function()
             Questie.Serialize = function() return "eventAsSerializedString" end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+    end)
+
+    describe("RequestUnavailableDailyQuests", function()
+        it("should send to guild when in a guild", function()
+            _G.IsInGuild = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.RequestUnavailableDailyQuests()
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "GUILD")
+        end)
+
+        it("should send to party when in a party", function()
+            _G.IsInGroup = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.RequestUnavailableDailyQuests()
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "PARTY")
+        end)
+
+        it("should send to raid when in a raid", function()
+            _G.IsInRaid = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.RequestUnavailableDailyQuests()
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "Questie", "eventAsSerializedString", "RAID")
+        end)
+
+        it("should not send when not in a guild, raid or party", function()
+            Questie.SendCommMessage = spy.new(function() end)
+            Questie.Serialize = function() return "eventAsSerializedString" end
+
+            Comms.RequestUnavailableDailyQuests()
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)

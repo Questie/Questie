@@ -24,9 +24,11 @@ describe("AvailableQuests", function()
 
     before_each(function()
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+        Questie.db.global.unavailableDailyQuestsByNpc = {}
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.GetDungeons = function() return {} end
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.DidDailyResetHappenSinceLastLogin = function() return false end
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetNPC = function() return nil end
         QuestieDB.GetQuest = function() return nil end
@@ -62,6 +64,7 @@ describe("AvailableQuests", function()
             _G.UnitFactionGroup = spy.new(function() return "Horde" end)
             _G.GetRealmName = spy.new(function() return "Ook Ook" end)
             Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+            Questie.db.global.unavailableDailyQuestsByNpc = {}
 
             AvailableQuests.Initialize()
 
@@ -69,6 +72,7 @@ describe("AvailableQuests", function()
             assert.spy(_G.UnitFactionGroup).was.called()
             assert.spy(_G.GetRealmName).was.called()
             assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableQuestsDeterminedByTalking)
+            assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableDailyQuestsByNpc)
         end)
 
         it("should reset unavailableQuestsDeterminedByTalking when a daily reset happened", function()
@@ -79,6 +83,9 @@ describe("AvailableQuests", function()
             Questie.db.global.unavailableQuestsDeterminedByTalking = {
                 ["Ook Ook"] = {[1234] = true},
             }
+            Questie.db.global.unavailableDailyQuestsByNpc = {
+                ["Ook Ook"] = {[9999] = {[1234] = true}},
+            }
 
             AvailableQuests.Initialize()
 
@@ -86,6 +93,7 @@ describe("AvailableQuests", function()
             assert.spy(_G.UnitFactionGroup).was.called()
             assert.spy(_G.GetRealmName).was.called()
             assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableQuestsDeterminedByTalking)
+            assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableDailyQuestsByNpc)
         end)
 
         it("should not reset unavailableQuestsDeterminedByTalking when no daily reset happened", function()
@@ -96,6 +104,9 @@ describe("AvailableQuests", function()
             Questie.db.global.unavailableQuestsDeterminedByTalking = {
                 ["Ook Ook"] = {[1234] = true},
             }
+            Questie.db.global.unavailableDailyQuestsByNpc = {
+                ["Ook Ook"] = {[9999] = {[1234] = true}},
+            }
 
             AvailableQuests.Initialize()
 
@@ -103,6 +114,55 @@ describe("AvailableQuests", function()
             assert.spy(_G.UnitFactionGroup).was.called()
             assert.spy(_G.GetRealmName).was.called()
             assert.are_same({["Ook Ook"] = {[1234] = true}}, Questie.db.global.unavailableQuestsDeterminedByTalking)
+            assert.are_same({["Ook Ook"] = {[9999] = {[1234] = true}}}, Questie.db.global.unavailableDailyQuestsByNpc)
+        end)
+    end)
+
+    describe("GetUnavailableDailyQuests", function()
+        it("should return empty table when no quests are unavailable", function()
+            local result = AvailableQuests.GetUnavailableDailyQuests()
+
+            assert.are_same({}, result)
+        end)
+
+        it("should return quests grouped by NPC as arrays", function()
+            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+
+            local result = AvailableQuests.GetUnavailableDailyQuests()
+
+            assert.are_same({[NPC_ID] = {QUEST_ID}}, result)
+        end)
+
+        it("should return multiple quests per NPC as an array", function()
+            local questId2 = QUEST_ID + 1
+            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true, [questId2] = true}
+
+            local result = AvailableQuests.GetUnavailableDailyQuests()
+
+            assert.is_not_nil(result[NPC_ID])
+            assert.are_equal(2, #result[NPC_ID])
+            assert.is_true(result[NPC_ID][1] == QUEST_ID or result[NPC_ID][1] == questId2)
+            assert.is_true(result[NPC_ID][2] == QUEST_ID or result[NPC_ID][2] == questId2)
+        end)
+
+        it("should return quests for multiple NPCs", function()
+            local npcId2 = NPC_ID + 1
+            local questId2 = QUEST_ID + 1
+            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.__unavailableDailyQuestsByNpc[npcId2] = {[questId2] = true}
+
+            local result = AvailableQuests.GetUnavailableDailyQuests()
+
+            assert.are_same({[NPC_ID] = {QUEST_ID}}, {[NPC_ID] = result[NPC_ID]})
+            assert.are_same({[npcId2] = {questId2}}, {[npcId2] = result[npcId2]})
+        end)
+
+        it("should not include NPCs whose quest set is empty", function()
+            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {}
+
+            local result = AvailableQuests.GetUnavailableDailyQuests()
+
+            assert.are_same({}, result)
         end)
     end)
 
