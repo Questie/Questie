@@ -205,6 +205,10 @@ local migrationFunctions = {
     [34] = function()
         Questie.db.profile.enableTooltipsBreadcrumbQuests = false
     end,
+    [35] = function()
+        Questie.db.global.lastDailyRequestDate = nil
+        Questie.db.global.lastDailyRequestResetTime = nil
+    end,
 }
 
 function Migration:Migrate()
