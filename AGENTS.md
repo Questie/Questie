@@ -267,6 +267,20 @@ end)
 
 CI runs on every push/PR: busted tests, database validators for each expansion, luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
 
+## Test Requirements
+
+Any change to a module that already has a `*.test.lua` file **must** include corresponding test additions or adjustments. Specifically:
+
+- Adding a new public function → add tests for it in the existing test file
+- Changing the behaviour of an existing function → update the affected tests
+- Adding a new module → create a matching `ModuleName.test.lua` alongside it
+
+Run the full suite before considering a change done:
+
+```bash
+busted -p ".test.lua" .
+```
+
 ## Translations
 
 Localization files are in `Localization/`.
