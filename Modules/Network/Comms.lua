@@ -2,8 +2,8 @@
 local Comms = QuestieLoader:CreateModule("Comms")
 
 ---@class CommEvent
----@field eventName "HideDailyQuests"
----@field data { npcId: NpcId, questIds: QuestId[] }
+---@field eventName "HideDailyQuests"|"RequestUnavailableDailyQuests"
+---@field data { npcId: NpcId, questIds: QuestId[] }|nil
 
 local COMM_PREFIX = "Questie"
 
@@ -12,6 +12,11 @@ local realmName
 
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+
+--- A pending timer handle for responding to a RequestUnavailableDailyQuests event.
+--- Cancelled if we see a peer already responding with HideDailyQuests.
+---@type Ticker|nil
+local pendingResponseTimer
 
 function Comms.Initialize()
     Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
@@ -43,6 +48,12 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
     end
 
     if event.eventName == "HideDailyQuests" and event.data and type(event.data) == "table" then
+        -- A peer is broadcasting unavailable quests. Cancel our own pending response to avoid duplicates.
+        if pendingResponseTimer then
+            pendingResponseTimer:Cancel()
+            pendingResponseTimer = nil
+        end
+
         local npcId = event.data.npcId
         if (not npcId) then
             return
@@ -54,6 +65,39 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         end
 
         AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+    elseif event.eventName == "RequestUnavailableDailyQuests" then
+        -- A peer just logged in and is asking for unavailable daily quests.
+        -- Schedule a response with random jitter so only one guild/party member actually replies.
+        if pendingResponseTimer then
+            pendingResponseTimer:Cancel()
+            pendingResponseTimer = nil
+        end
+
+        pendingResponseTimer = C_Timer.NewTimer(math.random() * 5, function()
+            pendingResponseTimer = nil
+
+            local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
+            for npcId, questIds in pairs(unavailableQuests) do
+                Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
+            end
+        end)
+    end
+end
+
+--- Sends a request to guild/group members asking them to share which daily quests are unavailable today.
+--- Called once on login. A peer with known data will respond with HideDailyQuests messages.
+function Comms.RequestUnavailableDailyQuests()
+    local event = {eventName = "RequestUnavailableDailyQuests"}
+    local serializedEvent = Questie:Serialize(event)
+
+    if IsInGuild() then
+        Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "GUILD")
+    end
+
+    if IsInRaid() then
+        Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "RAID")
+    elseif IsInGroup() then
+        Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "PARTY")
     end
 end
 

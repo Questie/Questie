@@ -48,6 +48,10 @@ AvailableQuests.__availableQuestsByNpc = availableQuestsByNpc
 ---@type table<QuestId, boolean>
 local unavailableQuestsDeterminedByTalking
 
+--- Unavailable daily/weekly quests grouped by NPC, used to answer requests from guild/party members
+---@type table<NpcId, table<QuestId, boolean>>
+local unavailableDailyQuestsByNpc
+
 local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
@@ -65,6 +69,28 @@ function AvailableQuests.Initialize()
     end
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
     AvailableQuests.__unavailableQuestsDeterminedByTalking = unavailableQuestsDeterminedByTalking
+
+    if (not Questie.db.global.unavailableDailyQuestsByNpc[realmName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
+        Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}
+    end
+    unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
+    AvailableQuests.__unavailableDailyQuestsByNpc = unavailableDailyQuestsByNpc
+end
+
+---Returns all unavailable daily/weekly quests grouped by NPC, for broadcasting to guild/party members.
+---@return table<NpcId, QuestId[]>
+function AvailableQuests.GetUnavailableDailyQuests()
+    local result = {}
+    for npcId, questIds in pairs(unavailableDailyQuestsByNpc) do
+        local list = {}
+        for questId in pairs(questIds) do
+            list[#list + 1] = questId
+        end
+        if #list > 0 then
+            result[npcId] = list
+        end
+    end
+    return result
 end
 
 ---@param callback function | nil
@@ -209,6 +235,11 @@ function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
             availableQuestsByNpc[npcId][questId] = nil
         end
         unavailableQuestsDeterminedByTalking[questId] = true
+
+        if (not unavailableDailyQuestsByNpc[npcId]) then
+            unavailableDailyQuestsByNpc[npcId] = {}
+        end
+        unavailableDailyQuestsByNpc[npcId][questId] = true
     end
 end
 
@@ -239,6 +270,9 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
         local questId = gossipQuest.questID
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
+            if unavailableDailyQuestsByNpc[npcId] then
+                unavailableDailyQuestsByNpc[npcId][questId] = nil
+            end
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
@@ -309,6 +343,9 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
     -- validate quest is not incorrectly hidden
     if unavailableQuestsDeterminedByTalking[availableQuestId] then
         unavailableQuestsDeterminedByTalking[availableQuestId] = nil
+        if unavailableDailyQuestsByNpc[npcId] then
+            unavailableDailyQuestsByNpc[npcId][availableQuestId] = nil
+        end
         local quest = QuestieDB.GetQuest(availableQuestId)
         if quest then
             availableQuests[availableQuestId] = true
@@ -377,6 +414,9 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     for questId in pairs(availableQuestsInGreeting) do
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
+            if unavailableDailyQuestsByNpc[npcId] then
+                unavailableDailyQuestsByNpc[npcId][questId] = nil
+            end
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
@@ -719,4 +759,9 @@ end
 _MarkQuestAsUnavailableFromNPC = function(questId, npcId)
     unavailableQuestsDeterminedByTalking[questId] = true
     availableQuestsByNpc[npcId][questId] = nil
+
+    if (not unavailableDailyQuestsByNpc[npcId]) then
+        unavailableDailyQuestsByNpc[npcId] = {}
+    end
+    unavailableDailyQuestsByNpc[npcId][questId] = true
 end
