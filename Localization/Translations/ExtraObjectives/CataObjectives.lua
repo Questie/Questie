@@ -1012,7 +1012,7 @@ local cataObjectiveLocales = {
     },
     ["Scout the Tunnel to the North"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Erkunde den Tunnel nach Norden",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
