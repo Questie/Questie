@@ -1024,7 +1024,7 @@ local cataObjectiveLocales = {
     },
     ["Scout the Northwestern Terrace"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Erkunde die Nordwestliche Terasse",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2860,7 +2860,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Aggra"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Aggra",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2872,7 +2872,7 @@ local cataObjectiveLocales = {
     },
     ["Speak to Khan Leh'prah"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Khan Leh'prah",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
