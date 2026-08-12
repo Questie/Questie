@@ -2677,7 +2677,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9630] = { -- Medivh's Journal
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
-            [questKeys.preQuestSingle] = {9837}, -- not 100% sure, but makes sense
         },
         [9634] = { -- Alien Predators
             [questKeys.preQuestSingle] = {},
@@ -4100,6 +4099,15 @@ function QuestieTBCQuestFixes:Load()
         [10570] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bundle of Bloodthistle at the end of the bridge"), 0, {{"object", 184841}}}},
         },
+        [10571] = { -- Oronu the Elder
+            [questKeys.exclusiveTo] = {10684},
+        },
+        [10574] = { -- The Ashtongue Corruptors
+            [questKeys.exclusiveTo] = {10685},
+        },
+        [10575] = { -- The Warden's Cage
+            [questKeys.exclusiveTo] = {10686},
+        },
         [10577] = {
             [questKeys.objectives] = {{{20563,nil,Questie.ICON_TYPE_TALK}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Blood Elf Disguise before talking to him"), 0, {{"monster", 20563}}}},
@@ -4274,6 +4282,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [10683] = {
             [questKeys.preQuestSingle] = {10552},
+        },
+        [10684] = { -- Oronu the Elder
+            [questKeys.exclusiveTo] = {10571},
+        },
+        [10685] = { -- The Ashtongue Corruptors
+            [questKeys.exclusiveTo] = {10574},
+        },
+        [10686] = { -- The Warden's Cage
+            [questKeys.exclusiveTo] = {10575},
         },
         [10687] = {
             [questKeys.preQuestSingle] = {10552},
@@ -5459,6 +5476,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 9825,
             [questKeys.breadcrumbForQuestId] = 9825,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+            [questKeys.reputationReward] = {{factionIDs.THE_VIOLET_EYE,5}},
         },
         [11219] = { -- Stop the Fires!
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
