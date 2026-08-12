@@ -2200,7 +2200,7 @@ local cataObjectiveLocales = {
     },
     ["Place Ricket's Tickers next to the purple rocks"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere Ricket Tickers nahe der violetten Felsen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2212,7 +2212,7 @@ local cataObjectiveLocales = {
     },
     ["Place Ricket's Tickers next to the red rocks"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere Ricket Tickers nahe der roten Felsen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2224,7 +2224,7 @@ local cataObjectiveLocales = {
     },
     ["Cook 10 Spice Bread"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Bereite 10 würzige Brote zu",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2236,7 +2236,7 @@ local cataObjectiveLocales = {
     },
     ["Fish for Great Sea Herring"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fange den großen Seeheering",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2248,7 +2248,7 @@ local cataObjectiveLocales = {
     },
     ["Extinguish the fire"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lösche das Feuer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2260,7 +2260,7 @@ local cataObjectiveLocales = {
     },
     ["Disable the Shadow Cloak Generator"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Deaktivere den Schattenmantelgenerator",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2272,7 +2272,7 @@ local cataObjectiveLocales = {
     },
     ["Disable the Rod of Subjugation"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Deaktiviere den Stab der Unterwerfung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2284,7 +2284,7 @@ local cataObjectiveLocales = {
     },
     ["Kill the Deep Corruptor"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte den tiefen Verderber",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2296,7 +2296,7 @@ local cataObjectiveLocales = {
     },
     ["Start the fight"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beginne den Kampf",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2884,7 +2884,7 @@ local cataObjectiveLocales = {
     },
     ["Use the Raging Vortex Gem"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze den tobenden Vortexstein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2896,7 +2896,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Cyclonas"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Zyclonas",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2908,7 +2908,7 @@ local cataObjectiveLocales = {
     },
     ["Speak to Narimar"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Narimar",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2920,7 +2920,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to the Un'Goro Examinant"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit dem Prüfer von Un'Goro",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2956,7 +2956,7 @@ local cataObjectiveLocales = {
     },
     ["Slay Disciple of Elune"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte die Jüngerin von Elune",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2968,7 +2968,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Lycanthoth"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Lycanthoth",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2980,7 +2980,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Stormfeather Outpost"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt zum Sturmfederaußenposten",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2992,7 +2992,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Western Plaguelands"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt zu den westlichen Pestländern",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3004,7 +3004,7 @@ local cataObjectiveLocales = {
     },
     ["Get a portal to Western Plaguelands"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm das Portal in die westlichen Pestländer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3016,7 +3016,7 @@ local cataObjectiveLocales = {
     },
     ["Speak with the Deathly Usher north of the Rise of the Defiler."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit dem Tödlichen Pförtner nördlich von Razelikh dem Entweiher",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3040,7 +3040,7 @@ local cataObjectiveLocales = {
     },
     ["Kill Araj"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte Araj",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3052,7 +3052,7 @@ local cataObjectiveLocales = {
     },
     ["Take a ride to Chillwind Camp"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt zum Zugwindlager",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3064,7 +3064,7 @@ local cataObjectiveLocales = {
     },
     ["Use Zen'Kiki to engage the Diseased Hawks"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nutze Zen'Kiki um dich den kranken Greifen zu nähern",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3076,7 +3076,7 @@ local cataObjectiveLocales = {
     },
     ["Lure the spiders to the Recruits"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Locke eine Spinne zu den Rekruten",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3088,7 +3088,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Kalecgos"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Kalecgos",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3100,7 +3100,7 @@ local cataObjectiveLocales = {
     },
     ["Kill Dark Iron Dwarves to lure Dig-Boss Dinwhisker"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte Dunkeleisenzwerge um Ausgrabungsboss Krawallschnäuzer anzulocken",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3112,7 +3112,7 @@ local cataObjectiveLocales = {
     },
     ["Kill Dig-Boss Dinwhisker"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte Ausgrabungsboss Krawallschnäuzer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3124,7 +3124,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to the Flight Master"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit dem Flugmeister",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3136,7 +3136,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Lathoric the Black"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Lathoric den Schwarzen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3148,7 +3148,7 @@ local cataObjectiveLocales = {
     },
     ["Help Hansel Heavyhands"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Hilf Hansel Heavyhands",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3160,7 +3160,7 @@ local cataObjectiveLocales = {
     },
     ["Take a horse ride to Guard Thomas"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm ein Pferd zur Wache Thomas",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3220,7 +3220,7 @@ local cataObjectiveLocales = {
     },
     ["Destroy the War Reaver"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Zerstöre den Kriegshäscher",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3232,7 +3232,7 @@ local cataObjectiveLocales = {
     },
     ["Release the Magma Lord"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lasse den Magmalord Frei",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3244,7 +3244,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Swamp of Sorrows"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt in die Sümpfe des Elends",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3256,7 +3256,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Lil' Crazy Jerry"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit dem verrückten Jerrylein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3268,7 +3268,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Lil' Crazy Daisy"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit dem verrückten Daisylein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3280,7 +3280,7 @@ local cataObjectiveLocales = {
     },
     ["Go back to the mainland"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe zurück auf das Festland",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3292,7 +3292,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Grol"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Grol",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3304,7 +3304,7 @@ local cataObjectiveLocales = {
     },
     ["Start the ritual"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Starte das Ritual",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3316,7 +3316,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Naias"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Naias",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3328,7 +3328,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Explorers' League Digsite"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Geh zur Ausgrabungsstätte der Forscherliga",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3340,7 +3340,7 @@ local cataObjectiveLocales = {
     },
     ["Grab a mop"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Schnapp dir einen Mop",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3352,7 +3352,7 @@ local cataObjectiveLocales = {
     },
     ["You can also pay \"Pretty Boy\" Duncan to clean the deck for you"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Du kannst auch \"Pretty Boy\" Duncan bezahlen das er das Deck für dich schrubbt",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3364,7 +3364,7 @@ local cataObjectiveLocales = {
     },
     ["Board Damsel's Luck"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe an Bord der \"Maid im Glück\"",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3376,7 +3376,7 @@ local cataObjectiveLocales = {
     },
     ["Disembark Damsel's Luck"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe von Bord der \"Maid im Glück\"",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3388,7 +3388,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Kebok"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Kebok",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3400,7 +3400,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Forest Song"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt nach Waldeslied",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3412,7 +3412,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Dustwallow Marsh"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt in die Düstermarschen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3424,7 +3424,7 @@ local cataObjectiveLocales = {
     },
     ["Drop off the Druids here"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lasse die Druiden hier raus",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3436,7 +3436,7 @@ local cataObjectiveLocales = {
     },
     ["Kill the general"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte den General",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3448,7 +3448,7 @@ local cataObjectiveLocales = {
     },
     ["Plant the spear"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere den Speer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3460,7 +3460,7 @@ local cataObjectiveLocales = {
     },
     ["Control Lord Azrethoc"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Kontrolliere Lord Azrethoc",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3472,7 +3472,7 @@ local cataObjectiveLocales = {
     },
     ["Shatter the rubble"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Zerstöre den Abraum",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3484,7 +3484,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to the Blackpool"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt nach Blackpool",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3496,7 +3496,7 @@ local cataObjectiveLocales = {
     },
     ["Break the restraints"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Zerbreche die Fesseln",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3508,7 +3508,7 @@ local cataObjectiveLocales = {
     },
     ["Close the portal"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Schließe das Portal",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3520,7 +3520,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Archmage Malin"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Erzmagier Malin",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3532,7 +3532,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Edana Hatetalon"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Edana Hasskralle",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3544,7 +3544,7 @@ local cataObjectiveLocales = {
     },
     ["Fill the vial"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fülle die Viale",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3556,7 +3556,7 @@ local cataObjectiveLocales = {
     },
     ["Fly to Talonbranch Glade"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fliege auf die Nachtlaublichtung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3568,7 +3568,7 @@ local cataObjectiveLocales = {
     },
     ["Step on the disc"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Tritt auf die Scheibe",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3580,7 +3580,7 @@ local cataObjectiveLocales = {
     },
     ["Inspect it"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Inspiziere es",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3592,7 +3592,7 @@ local cataObjectiveLocales = {
     },
     ["Break open the coconut"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Brich die Kokusnuss auf",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3604,7 +3604,7 @@ local cataObjectiveLocales = {
     },
     ["Use Bite"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze Biss",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3616,7 +3616,7 @@ local cataObjectiveLocales = {
     },
     ["Fly above the canopy"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fliege über dem Blätterdach",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3628,7 +3628,7 @@ local cataObjectiveLocales = {
     },
     ["Defeat another Bloodpetal"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Besiege eine weiter Blutblüte",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3640,7 +3640,7 @@ local cataObjectiveLocales = {
     },
     ["Speak with Gorilla, Stomper and Thunderer"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Gorilla, Stampfer und Donner",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3652,7 +3652,7 @@ local cataObjectiveLocales = {
     },
     ["Search the basket"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Suche den Korb",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3664,7 +3664,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Astranaar"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt nach Astranaar",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3676,7 +3676,7 @@ local cataObjectiveLocales = {
     },
     ["Kill Xandivious"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte Xandivious",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3688,7 +3688,7 @@ local cataObjectiveLocales = {
     },
     ["Break the 3 barrels"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Zerstöre die drei Fässer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3700,7 +3700,7 @@ local cataObjectiveLocales = {
     },
     ["Loot the Plans"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Stehle die Pläne",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3712,7 +3712,7 @@ local cataObjectiveLocales = {
     },
     ["Deliver the Razormane Prisoner"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Liefere den gefangnen der Grimmhauer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3724,7 +3724,7 @@ local cataObjectiveLocales = {
     },
     ["Kill Wyneth"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte Wyneth",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3736,7 +3736,7 @@ local cataObjectiveLocales = {
     },
     ["Trap the raptor"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fange den Raptor",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3748,7 +3748,7 @@ local cataObjectiveLocales = {
     },
     ["Take a ride to Zoram'gar Outpost"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt zum Außenposten von Zoram'gar",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3760,7 +3760,7 @@ local cataObjectiveLocales = {
     },
     ["Throw the Secret Signal Powder"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wirf das Geheimsignalpulver",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3772,7 +3772,7 @@ local cataObjectiveLocales = {
     },
     ["Kill Chief Murgut"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte Häuptling Murgut",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3784,7 +3784,7 @@ local cataObjectiveLocales = {
     },
     ["Take a ride to the Mor'shan Ramparts"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt zum Schutzwall der Mor'shan",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3796,7 +3796,7 @@ local cataObjectiveLocales = {
     },
     ["Use the ropes to go up and down the hill"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nutz die Seile um die Hügel hoch- und runterzukommen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3808,7 +3808,7 @@ local cataObjectiveLocales = {
     },
     ["Take a ride to Desolation Hold"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt zur Ödnisfeste",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3820,7 +3820,7 @@ local cataObjectiveLocales = {
     },
     ["Use Calder's Bonesaw on its remains"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze Calders Knochensäge an seinen Überresten",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
