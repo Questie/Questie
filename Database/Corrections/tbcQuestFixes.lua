@@ -4947,20 +4947,11 @@ function QuestieTBCQuestFixes:Load()
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Skulloc's Soul"), 0, {{"monster", 22910}}},
             },
         },
-        [11002] = {
-            [questKeys.startedBy] = {nil,nil,{32385}},
-        },
-        [11003] = {
-            [questKeys.startedBy] = {nil,nil,{32386}},
-        },
         [11004] = { -- World of Shadows
             [questKeys.nextQuestInChain] = 11006,
         },
         [11005] = { -- Secrets of the Talonpriests
             [questKeys.requiredLevel] = 70,
-        },
-        [11007] = {
-            [questKeys.startedBy] = {nil,nil,{32405}},
         },
         [11008] = { -- Fires Over Skettis
             [questKeys.objectives] = {nil,{{185549}}},
