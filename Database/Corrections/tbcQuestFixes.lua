@@ -4,6 +4,10 @@ local _QuestieTBCQuestFixes = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
@@ -8760,4 +8764,18 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
     else
         return questFixesAlliance
     end
+end
+
+-- Use ContentPhases to apply corrections specific to the current content phase
+function QuestieTBCQuestFixes:LoadContentPhaseFixes()
+    local questKeys = QuestieDB.questKeys
+    return {
+        [10944] = { -- The Secret Compromised
+            [questKeys.preQuestGroup] = Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 3 and {10901,11052} or {}, -- SSC + TK attunements removed in P3
+            [questKeys.preQuestSingle] = Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 3 and {} or {10708,11052}, -- SSC + TK attunements removed in P3
+        },
+        [11007] = { -- Kael'thas and the Verdant Sphere
+            [questKeys.preQuestSingle] = Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 3 and {10888} or {}, -- SSC + TK attunements removed in P3
+        },
+    }
 end

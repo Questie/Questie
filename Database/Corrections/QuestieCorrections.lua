@@ -135,6 +135,8 @@ do
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
             addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
+
+            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadContentPhaseFixes())
         end
 
         -- WOTLK Corrections
