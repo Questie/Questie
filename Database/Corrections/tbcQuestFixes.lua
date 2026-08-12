@@ -2532,7 +2532,7 @@ function QuestieTBCQuestFixes:Load()
         [9544] = {
             [questKeys.requiredSourceItems] = {23801},
             [questKeys.objectives] = {{{17375,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410019}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",410019}}}},
         },
         [9545] = {
             [questKeys.objectives] = {{{16852,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2600,7 +2600,7 @@ function QuestieTBCQuestFixes:Load()
         [9582] = { -- Strength of One
             [questKeys.requiredSourceItems] = {},
             [questKeys.exclusiveTo] = {1678,1683,1639},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 181849}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 181849}}}},
         },
         [9586] = { -- Help Tavara
             [questKeys.objectives] = {{{17551,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2735,7 +2735,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9559},
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}},
-                {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",181928}}},
+                {nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",181928}}},
             },
             [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -3083,12 +3083,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.requiredSourceItems] = {25490},
             [questKeys.objectives] = {{{18369,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182349}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182349}}}},
         },
         [9924] = { -- Corki's Gone Missing Again!
             [questKeys.requiredSourceItems] = {25509},
             [questKeys.objectives] = {{{20812,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182350}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182350}}}},
         },
         [9927] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3139,12 +3139,12 @@ function QuestieTBCQuestFixes:Load()
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
             [questKeys.objectives] = {{{18428,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182484}}}},
         },
         [9955] = { -- Cho'war the Pillager
             [questKeys.requiredSourceItems] = {25648},
             [questKeys.objectives] = {{{18445,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182521}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182521}}}},
         },
         [9956] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -4580,7 +4580,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10852] = { -- Missing Friends
             [questKeys.objectives] = {{{22314,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",185202}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",185202}}}},
             [questKeys.requiredSourceItems] = {31655},
         },
         [10854] = {
@@ -5393,7 +5393,7 @@ function QuestieTBCQuestFixes:Load()
         [11145] = {
             [questKeys.requiredSourceItems] = {33061},
             [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410020}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",410020}}}},
         },
         [11146] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,nil,Questie.ICON_TYPE_INTERACT}}},

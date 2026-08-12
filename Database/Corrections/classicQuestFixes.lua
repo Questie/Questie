@@ -3087,7 +3087,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {5142, 5601},
         },
         [5151] = { -- Hypercapacitor Gizmo
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 176195}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 176195}}}},
         },
         [5156] = {
             [questKeys.triggerEnd] = {"Explore the craters in Shatter Scar Vale", {[zoneIDs.FELWOOD] = {{41.03, 41.96}}}},
