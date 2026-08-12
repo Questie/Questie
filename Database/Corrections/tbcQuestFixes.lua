@@ -5141,7 +5141,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{21700}},
             [questKeys.finishedBy] = {{18481}},
             [questKeys.requiredLevel] = 68,
-            [questKeys.preQuestSingle] = {11707},
+            [questKeys.preQuestSingle] = {10707},
             [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
         },
