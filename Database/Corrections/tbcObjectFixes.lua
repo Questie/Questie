@@ -92,6 +92,9 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
         },
+        [182199] = { -- Keanna's Log
+            [objectKeys.spawns] = {[zoneIDs.KARAZHAN_THE_GUEST_CHAMBERS] = {{-1,-1}},[zoneIDs.KARAZHAN] = {{-1,-1}}},
+        },
         [182349] = { -- Corki's Prison
             [objectKeys.name] = "Corki's Prison",
             [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{72.54,70.73}}},
