@@ -1240,7 +1240,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to High Tinker Mekkatorque"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Hochtüftler Mekkatorque",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
