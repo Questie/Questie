@@ -1370,6 +1370,9 @@ function QuestieTBCNpcFixes:Load()
         [21007] = { -- Sergeant Chawni
             [npcKeys.waypoints] = {},
         },
+        [21117] = { -- Gor'drek
+            [npcKeys.waypoints] = {},
+        },
         [21118] = { -- Razak Ironsides
             [npcKeys.waypoints] = {},
         },

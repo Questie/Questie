@@ -4901,7 +4901,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10983] = { -- Mog'dorg the Wizened
             [questKeys.breadcrumbs] = {10984},
-            [questKeys.nextQuestInChain] = 10995,
         },
         [10984] = { -- Speak with the Ogre
             [questKeys.nextQuestInChain] = 10983,
@@ -4913,9 +4912,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10987] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use the Sparrowhawk Net to capture a Wild Sparrowhawk"), 0, {{"monster", 22979}}}},
-        },
-        [10989] = { -- Mog'dorg the Wizened
-            [questKeys.nextQuestInChain] = 10995,
         },
         [10990] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat the Guardian of the Eagle and obtain the Essence of the Eagle"), 0, {{"object", 185547}}}},
@@ -5145,7 +5141,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
-            [questKeys.nextQuestInChain] = 10995,
         },
         [11058] = {
             [questKeys.objectives] = {nil,{{185890}}},
