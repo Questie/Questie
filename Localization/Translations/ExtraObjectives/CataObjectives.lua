@@ -1624,7 +1624,7 @@ local cataObjectiveLocales = {
     },
     ["Touch the Fire Portal Stone"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Berühre den Feuerportalstein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1636,7 +1636,7 @@ local cataObjectiveLocales = {
     },
     ["Touch the Shadow Portal Stone"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Berühre den Schattenportalstein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1672,7 +1672,7 @@ local cataObjectiveLocales = {
     },
     ["Revive"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wiederbeleben",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1684,7 +1684,7 @@ local cataObjectiveLocales = {
     },
     ["Secure a ride to Valormok"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sichere die Reise nach Valormok",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1720,7 +1720,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Brill"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt nach Brill",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1768,7 +1768,7 @@ local cataObjectiveLocales = {
     },
     ["Start the chase"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Starte die Verfolgung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1780,7 +1780,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Coridormi"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Coridormi",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1792,7 +1792,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Ziradormi"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Ziradormi",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1804,7 +1804,7 @@ local cataObjectiveLocales = {
     },
     ["Fill the balloon"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fülle den Ballon",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1816,7 +1816,7 @@ local cataObjectiveLocales = {
     },
     ["Defend The Immortal Coil"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Verteidige den ewigen Kreislauf",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1828,7 +1828,7 @@ local cataObjectiveLocales = {
     },
     ["Use the Blade to become a naga"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nutze die Klinge um ein Naga zu werden",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1840,7 +1840,7 @@ local cataObjectiveLocales = {
     },
     ["Kill all three Tentacle Horrors"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte die drei Tentakelschrecken",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
