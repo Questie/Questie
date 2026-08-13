@@ -1348,7 +1348,7 @@ local cataObjectiveLocales = {
     },
     ["After Zar'jira is defeated, take a portal back to Darkspear Hold"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nachdem Zar'jira besiegt wurde, nimm das Portal zurück zur Dunkelspeerfestung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1372,7 +1372,7 @@ local cataObjectiveLocales = {
     },
     ["Activate Gasbot after sabotaging the Headquarters"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Aktiviere Gasbot nachdem du das Hauptquartier sabotiert hast",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1384,7 +1384,7 @@ local cataObjectiveLocales = {
     },
     ["Get on the yacht"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gelange auf die Yacht",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1396,7 +1396,7 @@ local cataObjectiveLocales = {
     },
     ["Place the Wild Clucker Eggs in the trap"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere die Eier der wilden Henne in der Falle",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1408,7 +1408,7 @@ local cataObjectiveLocales = {
     },
     ["Kill the Mechachicken"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte das Mecha-Huhn",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1420,7 +1420,7 @@ local cataObjectiveLocales = {
     },
     ["Get on the B.C. Eliminator"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gelange auf den B.C. Auslöscher",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1432,7 +1432,7 @@ local cataObjectiveLocales = {
     },
     ["Kill the Oomlot Shaman"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte den Oomlot-Schamanen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1444,7 +1444,7 @@ local cataObjectiveLocales = {
     },
     ["Use Super Booster Rocket Boots in the vicinity of Coach Crosscheck"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nutze die Superbooster Stiefel inder nähe von Coach Krosscheck",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1480,7 +1480,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Razor Hill"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm die Fahrt zu den Klingenhügeln",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1504,7 +1504,7 @@ local cataObjectiveLocales = {
     },
     ["Get in if you don't have a shredder"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Komm rein falls du keinen Schredder hast.",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1516,7 +1516,7 @@ local cataObjectiveLocales = {
     },
     ["Deliver the Stonified Miner here"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Liefer den versteinerten Minenarbeiter hier ab",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1528,7 +1528,7 @@ local cataObjectiveLocales = {
     },
     ["Break the Power Stone"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Zerstöre den Power Stein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1564,7 +1564,7 @@ local cataObjectiveLocales = {
     },
     ["Summon the Scalding Water Lord"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre den Brühwasser Lord",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1576,7 +1576,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Andorel Sunsworn while in disguise"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Andorel Sonnenschwur während du Verkleidet bist",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1588,7 +1588,7 @@ local cataObjectiveLocales = {
     },
     ["Place the Arcane Charge in Balboa's path"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere die arkane Ladung in Balboa's Weg",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1600,7 +1600,7 @@ local cataObjectiveLocales = {
     },
     ["Use Polymorph Insect on it"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze Insektenverwandlung auf es",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1612,7 +1612,7 @@ local cataObjectiveLocales = {
     },
     ["Touch the Frost Portal Stone"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Berühre den Frostportalstein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
