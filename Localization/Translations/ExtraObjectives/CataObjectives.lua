@@ -1120,7 +1120,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Charge"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Ladung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1132,7 +1132,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Judgement"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Richturteil",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1144,7 +1144,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Seal of Righteousness"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Siegel der Rechtschaffenheit",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1156,7 +1156,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Steady Shot"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Stabiler Schuss",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1168,7 +1168,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Eviscerate"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Ausweiden",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1180,7 +1180,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Flash Heal"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Blitzheilung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1192,7 +1192,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Arcane Missiles"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Arkangeschosse",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1204,7 +1204,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Immolate"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Verbrennung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1216,7 +1216,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Rejuvenation"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Verjüngung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1228,7 +1228,7 @@ local cataObjectiveLocales = {
     },
     ["Learn Spell: Primal Strike"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lerne Zauber: Urtümlicher Schlag",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
