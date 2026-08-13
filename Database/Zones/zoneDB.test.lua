@@ -77,6 +77,21 @@ describe("ZoneDB", function()
         end)
     end)
 
+    describe("IsDungeonZone", function()
+        it("should return true for a primary dungeon areaId", function()
+            assert.is_true(ZoneDB.IsDungeonZone(ZoneDB.zoneIDs.DIRE_MAUL))
+        end)
+
+        it("should return false for a non-dungeon areaId", function()
+            assert.is_false(ZoneDB.IsDungeonZone(ZoneDB.zoneIDs.DUN_MOROGH))
+        end)
+
+        it("should return true for an alternative dungeon areaId", function()
+            -- 1585 is the alternativeAreaId for Blackrock Depths (1584)
+            assert.is_true(ZoneDB.IsDungeonZone(1585))
+        end)
+    end)
+
     describe("GetDungeonLocation", function()
         it("should return correct values for Dire Maul", function()
             local dungeonLocation = ZoneDB:GetDungeonLocation(ZoneDB.zoneIDs.DIRE_MAUL)

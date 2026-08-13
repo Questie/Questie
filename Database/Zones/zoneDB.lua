@@ -108,7 +108,8 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
     for areaId in pairs(areaIdToUiMapId) do
         local areaName = C_Map.GetAreaInfo(areaId)
         if mapInfo and mapInfo.name == areaName then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":", uiMapId, "by name")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":",
+                uiMapId, "by name")
             return areaId
         end
     end
@@ -155,14 +156,14 @@ end
 ---@param areaId AreaId
 ---@return boolean
 function ZoneDB.IsDungeonZone(areaId)
-    return dungeons[areaId] ~= nil
+    return dungeons[areaId] ~= nil or alternativeDungeonAreaIdToDungeonAreaId[areaId] ~= nil
 end
 
 ---@param areaId AreaId
+---@return AreaId
 function ZoneDB:GetParentZoneId(areaId)
     return alternativeDungeonAreaIdToDungeonAreaId[areaId] or subZoneToParentZone[areaId]
 end
-
 
 -- We keep localized variables outside of the function only used by GetZonesWithQuests
 do
@@ -185,7 +186,6 @@ do
         for questId in pairs(QuestieDB.QuestPointers) do
             if (not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId) then
                 if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
-
                     local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")
                     if requiredSkill and requiredSkill[1] ~= ridingProfession then
                         zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
@@ -285,6 +285,7 @@ function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
 
     return zones
 end
+
 ---@param zones any @ I have no idea what this is does or looks
 ---@param objectIds ObjectId[]
 ---@return any @ Ditto
@@ -388,8 +389,6 @@ function ZoneDB.GetRelevantZones()
     return zones
 end
 
-
-
 ----- Tests -----
 
 function _ZoneDB:RunTests()
@@ -403,7 +402,6 @@ function _ZoneDB:RunTests()
             if not success then
                 Questie:Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId fails for " .. map.name .. " (" .. map.mapID .. "). Result: " .. result)
             end
-
         end
     end
     Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB done")
