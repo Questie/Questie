@@ -67,7 +67,7 @@ local durabilityInitialPosition
 
 local voiceOverInitialPosition
 if VoiceOverFrame then
-    voiceOverInitialPosition = { VoiceOverFrame:GetPoint() }
+    voiceOverInitialPosition = {VoiceOverFrame:GetPoint()}
 end
 
 local questsWatched = GetNumQuestWatches()
@@ -76,7 +76,7 @@ local trackedAchievements
 local trackedAchievementIds
 
 if Expansions.Current >= Expansions.Wotlk then
-    trackedAchievements = { GetTrackedAchievements() }
+    trackedAchievements = {GetTrackedAchievements()}
     trackedAchievementIds = {}
 end
 
@@ -101,7 +101,7 @@ function QuestieTracker.Initialize()
         return
     end
 
-    durabilityInitialPosition = { DurabilityFrame:GetPoint() }
+    durabilityInitialPosition = {DurabilityFrame:GetPoint()}
 
     -- Initialize tracker frames
     trackerBaseFrame = TrackerBaseFrame.Initialize()
@@ -227,7 +227,7 @@ function QuestieTracker.Initialize()
                 end
             end
 
-            trackedAchievements = { GetTrackedAchievements() }
+            trackedAchievements = {GetTrackedAchievements()}
             WatchFrame_Update()
 
             -- Sync and populate QuestieTrackers achievement cache
@@ -281,7 +281,7 @@ end
 function QuestieTracker:ResetDurabilityFrame()
     if durabilityInitialPosition then
         -- Only reset if it's been moved from it's default position set by Blizzard
-        if durabilityInitialPosition ~= { DurabilityFrame:GetPoint() } then
+        if durabilityInitialPosition ~= {DurabilityFrame:GetPoint()} then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:ResetDurabilityFrame]")
 
             -- Resets Durability Frame back to it's default position
@@ -356,7 +356,7 @@ end
 
 function QuestieTracker:ResetVoiceOverFrame()
     if voiceOverInitialPosition then
-        if voiceOverInitialPosition ~= { VoiceOverFrame:GetPoint() } then
+        if voiceOverInitialPosition ~= {VoiceOverFrame:GetPoint()} then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:ResetVoiceOverFrame]")
 
             VoiceOverFrame:ClearAllPoints()
@@ -655,7 +655,8 @@ function QuestieTracker:Update()
         for _, questId in pairs(sortedQuestIds) do
             if not questId then break end
 
-            objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest -- reset objectiveMarginLeft for each quest, it can be increased if there are quest items
+            -- reset objectiveMarginLeft for each quest, it can be increased if there are quest items
+            objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
 
             ---@type Quest
             local quest = questDetails[questId].quest
@@ -1166,7 +1167,7 @@ function QuestieTracker:Update()
 
                                 -- Set Objective text
                                 local objDesc = achieve.Description:gsub("%.$", "")
-                                line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 0, Needed = 1 }) .. objDesc)
+                                line.label:SetText(QuestieLib:GetRGBForObjective({Collected = 0, Needed = 1}) .. objDesc)
                                 _UpdateLineWidth(line, objectiveMarginLeft)
 
                                 -- Set Objective state
@@ -1262,9 +1263,9 @@ function QuestieTracker:Update()
                                     else
                                         -- Set Objective text
                                         if completed then
-                                            line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. objDesc)
+                                            line.label:SetText(QuestieLib:GetRGBForObjective({Collected = 1, Needed = 1}) .. objDesc)
                                         else
-                                            line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 0, Needed = 1 }) .. objDesc)
+                                            line.label:SetText(QuestieLib:GetRGBForObjective({Collected = 0, Needed = 1}) .. objDesc)
                                         end
 
                                         -- Set Objective criteria mark
@@ -1389,7 +1390,7 @@ function QuestieTracker:Update()
                 Completed = criteriaInfo.completed,
             }
 
-            local objectiveFontSize= trackerFontSizeObjective + 2
+            local objectiveFontSize = trackerFontSizeObjective + 2
             line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), objectiveFontSize, Questie.db.profile.trackerFontOutline)
             line.label:SetHeight(objectiveFontSize)
             line:SetScenarioCriteria(objective)
@@ -1468,7 +1469,7 @@ function QuestieTracker:Update()
                 Completed = criteriaInfo.completed,
             }
 
-            local objectiveFontSize= trackerFontSizeObjective + 2
+            local objectiveFontSize = trackerFontSizeObjective + 2
             line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), objectiveFontSize, Questie.db.profile.trackerFontOutline)
             line.label:SetHeight(objectiveFontSize)
             line:SetScenarioCriteria(objective)
@@ -1644,7 +1645,7 @@ function QuestieTracker:UpdateWidth(trackerVarsCombined)
     local trackerWidthCheck
 
     if (not Questie.db.char.isTrackerExpanded) and headerShown then
-        trackerWidthCheck =  trackerHeaderFrameWidth
+        trackerWidthCheck = trackerHeaderFrameWidth
     elseif trackerWidthByManual > 0 then
         if TrackerBaseFrame.isSizing then
             trackerWidthCheck = trackerWidthByManual
