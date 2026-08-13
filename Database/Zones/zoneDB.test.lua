@@ -12,7 +12,7 @@ describe("ZoneDB", function()
     local ZoneDB
 
     before_each(function()
-        _G["Questie"] = {db={profile={}}}
+        _G["Questie"] = {db = {profile = {}}}
         _G.Questie.Debug = function() end
         _G.C_Map = {
             GetMapInfo = function() return nil end,
@@ -47,7 +47,7 @@ describe("ZoneDB", function()
             _G.C_Map = {
                 GetMapInfo = function(uiMapId)
                     if uiMapId == 99999 then
-                        return { name = "Dun Morogh" }
+                        return {name = "Dun Morogh"}
                     end
                 end,
                 GetAreaInfo = function(areaId)
@@ -64,7 +64,7 @@ describe("ZoneDB", function()
         it("should error when uiMapId cannot be resolved", function()
             _G.C_Map = {
                 GetMapInfo = function(_uiMapId)
-                    return { name = "Unknown Zone" }
+                    return {name = "Unknown Zone"}
                 end,
                 GetAreaInfo = function(_areaId)
                     return "Something Else"
@@ -85,12 +85,22 @@ describe("ZoneDB", function()
 
         it("should return correct values for alternative BRD ID", function()
             local dungeonLocation = ZoneDB:GetDungeonLocation(1585)
-            assert.are_same({{ZoneDB.zoneIDs.SEARING_GORGE, 34.8, 85.3},{ZoneDB.zoneIDs.BURNING_STEPPES, 29.4, 38.3}}, dungeonLocation)
+            assert.are_same({{ZoneDB.zoneIDs.SEARING_GORGE, 34.8, 85.3}, {ZoneDB.zoneIDs.BURNING_STEPPES, 29.4, 38.3}}, dungeonLocation)
         end)
 
         it("should return nil for non-dungeon areaId", function()
             local dungeonLocation = ZoneDB:GetDungeonLocation(ZoneDB.zoneIDs.DUN_MOROGH)
             assert.is_nil(dungeonLocation)
+        end)
+
+        it("should return correct values for all alternativeAreaIds when multiple are given", function()
+            local testDungeons = ZoneDB:GetDungeons()
+            testDungeons[99991] = {"Test Dungeon", {99992, 99993}, 1, {{1, 10.0, 20.0}}}
+            ZoneDB.Initialize()
+
+            assert.are_same({{1, 10.0, 20.0}}, ZoneDB:GetDungeonLocation(99991))
+            assert.are_same({{1, 10.0, 20.0}}, ZoneDB:GetDungeonLocation(99992))
+            assert.are_same({{1, 10.0, 20.0}}, ZoneDB:GetDungeonLocation(99993))
         end)
     end)
 end)

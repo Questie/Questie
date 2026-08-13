@@ -69,9 +69,11 @@ function ZoneDB.Initialize()
     end
 
     for areaId, dungeonZoneEntry in pairs(dungeons) do
-        local alternativeDungeonZone = dungeonZoneEntry[2]
-        if alternativeDungeonZone then
-            alternativeDungeonAreaIdToDungeonAreaId[alternativeDungeonZone] = areaId
+        local alternativeDungeonZones = dungeonZoneEntry[2]
+        if alternativeDungeonZones then
+            for _, alternativeDungeonZone in ipairs(alternativeDungeonZones) do
+                alternativeDungeonAreaIdToDungeonAreaId[alternativeDungeonZone] = areaId
+            end
         end
     end
 end
