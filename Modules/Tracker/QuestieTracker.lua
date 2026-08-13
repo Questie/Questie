@@ -89,6 +89,8 @@ local WatchFrame_Update = QuestWatch_Update or WatchFrame_Update
 local GetItemCount = C_Item.GetItemCount or GetItemCount
 
 function QuestieTracker.Initialize()
+    assert(coroutine.running(), "QuestieTracker.Initialize must be called from a coroutine")
+
     if QuestieTracker.started then
         -- The Tracker was already initialized, so we don't need to do it again.
         return
@@ -472,8 +474,9 @@ function QuestieTracker:Enable()
 
     Questie.db.profile.trackerEnabled = true
     QuestieTracker.started = false
-    QuestieTracker.Initialize()
-    ReloadUI()
+    ThreadLib.ThreadCallbackInstant(function()
+        QuestieTracker.Initialize()
+    end, ReloadUI)
 end
 
 function QuestieTracker:Disable()

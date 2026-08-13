@@ -11,9 +11,10 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
 ---@type TrackerLine
 local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
-
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+
+local coYield = coroutine.yield
 
 local linePoolSize = 250
 local lineIndex = 0
@@ -39,6 +40,7 @@ function TrackerLinePool.Initialize(questFrame)
         local line = TrackerLine.New(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine, TrackerLinePool.AddScenarioLine)
         linePool[i] = line
         previousLine = line
+        coYield()
     end
 
     -- create buttonPool for quest items
@@ -210,7 +212,7 @@ end
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
-   local line = TrackerLinePool.GetNextLine()
+    local line = TrackerLinePool.GetNextLine()
     if (not line) then
         return nil
     end
@@ -234,7 +236,7 @@ end
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
-   local line = TrackerLinePool.GetNextLine()
+    local line = TrackerLinePool.GetNextLine()
     if (not line) then
         return nil
     end
@@ -257,7 +259,7 @@ end
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
-   local line = TrackerLinePool.GetNextLine()
+    local line = TrackerLinePool.GetNextLine()
     if (not line) then
         return nil
     end
@@ -386,7 +388,7 @@ function TrackerLinePool.SetAllPlayButtonAlpha(alpha)
             local line = linePool[i]
             local questId = line.playButton.mode
             local button = VoiceOver.QuestOverlayUI.questPlayButtons[questId]
-            local sound = VoiceOver.DataModules:PrepareSound({ event = 1, questID = questId })
+            local sound = VoiceOver.DataModules:PrepareSound({event = 1, questID = questId})
 
             if button then
                 local isPlaying = button.soundData and VoiceOver.SoundQueue:Contains(button.soundData)
