@@ -1,6 +1,9 @@
 ---@class Comms
 local Comms = QuestieLoader:CreateModule("Comms")
 
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+
 ---@class CommEvent
 ---@field eventName "HideDailyQuests"|"RequestUnavailableDailyQuests"
 ---@field data { npcId: NpcId, questIds: QuestId[] }|nil
@@ -10,19 +13,36 @@ local COMM_PREFIX = "Questie"
 local playerName
 local realmName
 
----@type AvailableQuests
-local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
-
 --- A pending timer handle for responding to a RequestUnavailableDailyQuests event.
 --- Cancelled if we see a peer already responding with HideDailyQuests.
 ---@type Ticker|nil
 local pendingResponseTimer
+
+--- Tracks quest IDs already broadcast in response to the current RequestUnavailableDailyQuests.
+--- Used to determine if our local data has additional quests not yet covered by peers.
+--- Reset when a new request arrives.
+---@type table<QuestId, boolean>
+local broadcastedQuestIds = {}
 
 function Comms.Initialize()
     Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
 
     playerName = UnitName("player")
     realmName = GetRealmName()
+end
+
+--- Checks if our local unavailable quest data contains any quests not yet broadcast to the requester.
+---@return boolean True if we know of additional quests beyond what peers have broadcast.
+local function _HasUncoveredQuests()
+    local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
+    for _, questIds in pairs(unavailableQuests) do
+        for _, questId in ipairs(questIds) do
+            if (not broadcastedQuestIds[questId]) then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 ---@param prefix string @The prefix of the received message.
@@ -48,12 +68,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
     end
 
     if event.eventName == "HideDailyQuests" and event.data and type(event.data) == "table" then
-        -- A peer is broadcasting unavailable quests. Cancel our own pending response to avoid duplicates.
-        if pendingResponseTimer then
-            pendingResponseTimer:Cancel()
-            pendingResponseTimer = nil
-        end
-
+        -- A peer is broadcasting unavailable quests.
         local npcId = event.data.npcId
         if (not npcId) then
             return
@@ -64,10 +79,25 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             return
         end
 
+        -- Track the quest IDs this peer is broadcasting
+        for _, questId in ipairs(questIds) do
+            broadcastedQuestIds[questId] = true
+        end
+
+        -- Cancel our pending response only if we don't know of any additional quests
+        if pendingResponseTimer and (not _HasUncoveredQuests()) then
+            pendingResponseTimer:Cancel()
+            pendingResponseTimer = nil
+        end
+
         AvailableQuests.RemoveQuestsForToday(npcId, questIds)
     elseif event.eventName == "RequestUnavailableDailyQuests" then
         -- A peer just logged in and is asking for unavailable daily quests.
         -- Schedule a response with random jitter so only one guild/party member actually replies.
+
+        -- Reset tracked broadcasts for this new request
+        wipe(broadcastedQuestIds)
+
         if pendingResponseTimer then
             pendingResponseTimer:Cancel()
             pendingResponseTimer = nil
