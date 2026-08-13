@@ -33,12 +33,6 @@ describe("CommsVisibility", function()
     end
 
     before_each(function()
-        _G.wipe = function(t)
-            for k in pairs(t) do
-                t[k] = nil
-            end
-            return t
-        end
         _G.math.random = function() return 0 end
 
         _G.C_Timer = {
