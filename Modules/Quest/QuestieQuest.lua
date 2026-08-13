@@ -504,8 +504,8 @@ function QuestieQuest:UpdateQuest(questId)
 
             quest.WasComplete = true
 
-            -- Populate objectives to register tooltips
-            QuestieQuest:UpdateObjectiveNotes(quest)
+            -- Register tooltips for completed quest objectives (synchronous, avoids QuestLogCache race if the quest is abandoned shortly after)
+            QuestieQuest.RegisterObjectiveTooltips(quest)
 
             -- Only remove the map icons, but keep the tooltips
             ThreadLib.ThreadCallbackInstant(function()
@@ -851,6 +851,33 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
                     QuestieTracker:Update()
                 end)
             end)
+        end
+    end
+end
+
+-- Register tooltips for quest objectives synchronously without reading QuestLogCache
+-- This is used for complete quests where objectives are already populated and we only need tooltip registration
+---@param quest Quest
+function QuestieQuest.RegisterObjectiveTooltips(quest)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] RegisterObjectiveTooltips:", quest.Id)
+
+    for _, objective in pairs(quest.Objectives) do
+        local objectiveData = quest.ObjectiveData[objective.Index] or objective
+        -- Populate spawnList if needed
+        if (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+            objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData)
+        end
+        _RegisterObjectiveTooltips(objective, quest.Id, false)
+    end
+
+    if next(quest.SpecialObjectives) then
+        for _, objective in pairs(quest.SpecialObjectives) do
+            local objectiveData = quest.ObjectiveData[objective.Index] or objective
+            -- Populate spawnList if needed
+            if (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+                objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData)
+            end
+            _RegisterObjectiveTooltips(objective, quest.Id, true)
         end
     end
 end
