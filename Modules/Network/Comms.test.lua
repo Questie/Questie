@@ -316,6 +316,153 @@ describe("Comms", function()
             assert.spy(firstTimerMock).was.called()
             assert.spy(secondTimerMock).was.called()
         end)
+
+        it("should keep pending timer if local data has quests not yet broadcast", function()
+            local npcId = 1234
+            local localQuestIds = {1, 2, 3, 4, 5}
+            local broadcastedQuestIds = {1, 2, 3}
+
+            -- Setup: local knowledge includes 5 quests
+            AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
+
+            -- Schedule a response by receiving a request
+            local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            _G.C_Timer.NewTimer = function() return timer end
+
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, requestEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.is_false(timer.cancelled)
+
+            -- Peer broadcasts 3 quests (subset of our 5)
+            local hideEvent = {
+                eventName = "HideDailyQuests",
+                data = {npcId = npcId, questIds = broadcastedQuestIds}
+            }
+            Questie.Deserialize = function() return true, hideEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "AnotherSender")
+
+            -- Timer should NOT be cancelled because we know of 2 additional quests (4, 5)
+            assert.is_false(timer.cancelled)
+        end)
+
+        it("should cancel pending timer if local data has no new quests beyond what was broadcast", function()
+            local npcId = 1234
+            local localQuestIds = {1, 2, 3}
+            local broadcastedQuestIds = {1, 2, 3}
+
+            AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
+
+            -- Schedule a response
+            local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            _G.C_Timer.NewTimer = function() return timer end
+
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, requestEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.is_false(timer.cancelled)
+
+            -- Peer broadcasts all 3 quests we know
+            local hideEvent = {
+                eventName = "HideDailyQuests",
+                data = {npcId = npcId, questIds = broadcastedQuestIds}
+            }
+            Questie.Deserialize = function() return true, hideEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "AnotherSender")
+
+            -- Timer should be cancelled because peer covered all our knowledge
+            assert.is_true(timer.cancelled)
+        end)
+
+        it("should accumulate quest IDs from multiple HideDailyQuests messages before deciding to cancel", function()
+            local npcId = 1234
+            local localQuestIds = {1, 2, 3, 4, 5}
+
+            AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
+
+            -- Schedule a response
+            local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            _G.C_Timer.NewTimer = function() return timer end
+
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, requestEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.is_false(timer.cancelled)
+
+            -- Peer A broadcasts 3 quests
+            local hideEvent1 = {
+                eventName = "HideDailyQuests",
+                data = {npcId = npcId, questIds = {1, 2, 3}}
+            }
+            Questie.Deserialize = function() return true, hideEvent1 end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "UserA")
+
+            -- Timer should NOT be cancelled yet (we know of 4, 5)
+            assert.is_false(timer.cancelled)
+
+            -- Peer B broadcasts 2 more quests (4, 5)
+            local hideEvent2 = {
+                eventName = "HideDailyQuests",
+                data = {npcId = npcId, questIds = {4, 5}}
+            }
+            Questie.Deserialize = function() return true, hideEvent2 end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "UserB")
+
+            -- Now timer should be cancelled (all 5 quests covered)
+            assert.is_true(timer.cancelled)
+        end)
+
+        it("should reset tracked broadcasts when a new RequestUnavailableDailyQuests arrives", function()
+            local npcId = 1234
+            local localQuestIds = {1, 2, 3}
+
+            AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
+
+            -- First request cycle
+            local timer1 = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            _G.C_Timer.NewTimer = function() return timer1 end
+
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            Questie.Deserialize = function() return true, requestEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            -- Peer broadcasts 2 quests
+            local hideEvent = {
+                eventName = "HideDailyQuests",
+                data = {npcId = npcId, questIds = {1, 2}}
+            }
+            Questie.Deserialize = function() return true, hideEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "AnotherSender")
+
+            assert.is_false(timer1.cancelled)
+
+            -- NEW request arrives (e.g., another user comes online)
+            local timer2 = {cancelled = false, Cancel = function(self) self.cancelled = true end}
+            _G.C_Timer.NewTimer = function() return timer2 end
+
+            Questie.Deserialize = function() return true, requestEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "ThirdSender")
+
+            assert.is_true(timer1.cancelled)
+            assert.is_false(timer2.cancelled)
+
+            -- Peer broadcasts 2 quests again — tracking should be reset, so timer2 stays
+            Questie.Deserialize = function() return true, hideEvent end
+            Comms.OnCommReceived("Questie", "eventAsSerializedString", "GUILD", "AnotherSender")
+
+            assert.is_false(timer2.cancelled)
+        end)
     end)
 
     describe("BroadcastUnavailableDailyQuests", function()
