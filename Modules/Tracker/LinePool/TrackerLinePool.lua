@@ -16,6 +16,12 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local coYield = coroutine.yield
 
+local TICKS_PER_YIELD = 50
+
+if Questie.IsHardcore then
+    TICKS_PER_YIELD = 25
+end
+
 local linePoolSize = 250
 local lineIndex = 0
 local buttonPoolSize = 25
@@ -36,11 +42,17 @@ function TrackerLinePool.Initialize(questFrame)
 
     -- create linePool for quests/achievements
     local previousLine
+    local yieldCount = 0
     for i = 1, linePoolSize do
         local line = TrackerLine.New(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine, TrackerLinePool.AddScenarioLine)
         linePool[i] = line
         previousLine = line
-        coYield()
+
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD then
+            yieldCount = 0
+            coYield()
+        end
     end
 
     -- create buttonPool for quest items
