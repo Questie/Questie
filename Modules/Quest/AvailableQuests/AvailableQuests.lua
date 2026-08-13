@@ -56,7 +56,7 @@ local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC
+local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC, _ScheduleDailyResetTimer
 
 function AvailableQuests.Initialize()
     Questie.Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
@@ -75,6 +75,45 @@ function AvailableQuests.Initialize()
     end
     unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
     AvailableQuests.__unavailableDailyQuestsByNpc = unavailableDailyQuestsByNpc
+
+    if (not Questie.IsClassic) then
+        _ScheduleDailyResetTimer()
+    end
+end
+
+--- Clears both unavailable quest tables for the current realm (triggered by daily reset).
+function AvailableQuests.ClearUnavailableDailyQuests()
+    local realmName = GetRealmName()
+    Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
+    Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}
+    unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
+    unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
+end
+
+--- Schedules a one-shot timer to fire at the next daily reset time, then reschedules itself for the next reset.
+_ScheduleDailyResetTimer = function()
+    local realmName = GetRealmName()
+    local lastKnownReset = Questie.db.global.lastKnownDailyReset[realmName]
+    local now = GetServerTime()
+    local delay
+
+    if lastKnownReset then
+        delay = lastKnownReset - now + 5  -- +5 seconds safety margin
+    else
+        -- First login, calculate delay to next reset from current time
+        delay = GetQuestResetTime() + 5
+    end
+
+    if delay < 0 then
+        -- Reset already happened; clear and reschedule immediately
+        delay = 1
+    end
+
+    C_Timer.After(delay, function()
+        AvailableQuests.ClearUnavailableDailyQuests()
+        QuestieLib.UpdateLastKnownDailyReset()
+        _ScheduleDailyResetTimer()  -- Reschedule for the next reset
+    end)
 end
 
 ---Returns all unavailable daily/weekly quests grouped by NPC, for broadcasting to guild/party members.

@@ -1,5 +1,7 @@
 local TestUtils = dofile("setupTests.lua")
 
+local match = require("luassert.match")
+
 describe("AvailableQuests", function()
     ---@type ZoneDB
     local ZoneDB
@@ -23,6 +25,11 @@ describe("AvailableQuests", function()
     local NPC_ID = 456
 
     before_each(function()
+        _G.C_Timer = {
+            After = function() end
+        }
+
+        Questie.db.global.lastKnownDailyReset = {}
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
         Questie.db.global.unavailableDailyQuestsByNpc = {}
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
@@ -163,6 +170,129 @@ describe("AvailableQuests", function()
             local result = AvailableQuests.GetUnavailableDailyQuests()
 
             assert.are_same({}, result)
+        end)
+    end)
+
+    describe("ClearUnavailableDailyQuests", function()
+        it("should clear unavailable quest tables for the current realm", function()
+            local realmName = "TestRealm"
+            _G.GetRealmName = function() return realmName end
+            Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {[QUEST_ID] = true}
+            Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
+
+            AvailableQuests.ClearUnavailableDailyQuests()
+
+            assert.are_same({}, Questie.db.global.unavailableQuestsDeterminedByTalking[realmName])
+            assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
+            assert.are_same({}, AvailableQuests.__unavailableQuestsDeterminedByTalking)
+            assert.are_same({}, AvailableQuests.__unavailableDailyQuestsByNpc)
+        end)
+    end)
+
+    describe("_ScheduleDailyResetTimer (via Initialize)", function()
+        it("should schedule a timer when not Questie.IsClassic", function()
+            local realmName = "TestRealm"
+            _G.GetRealmName = function() return realmName end
+            _G.GetServerTime = function() return 1000 end
+            _G.GetQuestResetTime = function() return 86400 end
+            _G.C_Timer = {After = spy.new(function() end)}
+            Questie.IsClassic = false
+            Questie.db.global.lastKnownDailyReset[realmName] = 90000
+
+            AvailableQuests.Initialize()
+
+            assert.spy(_G.C_Timer.After).was.called()
+        end)
+
+        it("should not schedule a timer when Questie.IsClassic is true", function()
+            local realmName = "TestRealm"
+            _G.GetRealmName = function() return realmName end
+            _G.GetServerTime = function() return 1000 end
+            _G.GetQuestResetTime = function() return 86400 end
+            _G.C_Timer = {After = spy.new(function() end)}
+            Questie.IsClassic = true
+            Questie.db.global.lastKnownDailyReset[realmName] = 90000
+
+            AvailableQuests.Initialize()
+
+            assert.spy(_G.C_Timer.After).was.not_called()
+        end)
+
+        it("should calculate correct delay when reset is in future", function()
+            local realmName = "TestRealm"
+            local now = 1000
+            local resetTime = now + 86400
+            _G.GetRealmName = function() return realmName end
+            _G.GetServerTime = function() return now end
+            _G.GetQuestResetTime = function() return 86400 end
+            local afterMock = spy.new(function() end)
+            _G.C_Timer = {After = afterMock}
+            Questie.IsClassic = false
+            Questie.db.global.lastKnownDailyReset[realmName] = resetTime
+
+            AvailableQuests.Initialize()
+
+            -- Delay should be (resetTime - now + 5) = 86400 + 5 = 86405
+            assert.spy(afterMock).was.called_with(86405, match.is_function())
+        end)
+
+        it("should use delay of 1 when reset time has already passed", function()
+            local realmName = "TestRealm"
+            _G.GetRealmName = function() return realmName end
+            _G.GetServerTime = function() return 2000 end
+            _G.GetQuestResetTime = function() return 86400 end
+            local afterMock = spy.new(function() end)
+            _G.C_Timer = {After = afterMock}
+            Questie.IsClassic = false
+            Questie.db.global.lastKnownDailyReset[realmName] = 1000 -- Already passed
+
+            AvailableQuests.Initialize()
+
+            assert.spy(afterMock).was.called_with(1, match.is_function())
+        end)
+
+        it("should schedule timer with GetQuestResetTime delay when lastKnownDailyReset is not set", function()
+            local realmName = "TestRealm"
+            _G.GetRealmName = function() return realmName end
+            _G.GetServerTime = function() return 1000 end
+            _G.GetQuestResetTime = function() return 86400 end
+            local afterMock = spy.new(function() end)
+            _G.C_Timer = {After = afterMock}
+            Questie.IsClassic = false
+            Questie.db.global.lastKnownDailyReset = {[realmName] = nil}
+
+            AvailableQuests.Initialize()
+
+            -- Delay should be GetQuestResetTime() + 5 = 86400 + 5 = 86405
+            assert.spy(afterMock).was.called_with(86405, match.is_function())
+        end)
+
+        it("timer callback should clear unavailable quests and reschedule", function()
+            local realmName = "TestRealm"
+            _G.GetRealmName = function() return realmName end
+            _G.GetServerTime = function() return 1000 end
+            _G.GetQuestResetTime = function() return 86400 end
+            Questie.IsClassic = false
+            Questie.db.global.lastKnownDailyReset[realmName] = 90000
+            Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {[QUEST_ID] = true}
+            Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
+            QuestieLib.UpdateLastKnownDailyReset = spy.new(function() end)
+
+            local capturedCallback
+            _G.C_Timer = {
+                After = spy.new(function(_, callback)
+                    capturedCallback = callback
+                end)
+            }
+
+            AvailableQuests.Initialize()
+
+            assert.is_not_nil(capturedCallback)
+            capturedCallback()
+
+            assert.are_same({}, Questie.db.global.unavailableQuestsDeterminedByTalking[realmName])
+            assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
+            assert.spy(QuestieLib.UpdateLastKnownDailyReset).was.called()
         end)
     end)
 
