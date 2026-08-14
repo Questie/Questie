@@ -861,20 +861,28 @@ end
 function QuestieQuest.RegisterObjectiveTooltips(quest)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] RegisterObjectiveTooltips:", quest.Id)
 
-    for _, objective in pairs(quest.Objectives) do
+    for objectiveIndex, objective in pairs(quest.Objectives) do
+        -- Assign Index if not already set (e.g., for source item objectives created at line 916)
+        if (not objective.Index) then
+            objective.Index = objectiveIndex
+        end
         local objectiveData = quest.ObjectiveData[objective.Index] or objective
         -- Populate spawnList if needed
-        if (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+        if ((not objective.spawnList) or (not next(objective.spawnList))) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
             objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData)
         end
         _RegisterObjectiveTooltips(objective, quest.Id, false)
     end
 
     if next(quest.SpecialObjectives) then
-        for _, objective in pairs(quest.SpecialObjectives) do
+        for index, objective in pairs(quest.SpecialObjectives) do
+            -- Assign Index like PopulateQuestLogInfo does (line 1418) so tooltips can use it
+            if (not objective.Index) then
+                objective.Index = 64 + index
+            end
             local objectiveData = quest.ObjectiveData[objective.Index] or objective
             -- Populate spawnList if needed
-            if (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+            if ((not objective.spawnList) or (not next(objective.spawnList))) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
                 objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData)
             end
             _RegisterObjectiveTooltips(objective, quest.Id, true)

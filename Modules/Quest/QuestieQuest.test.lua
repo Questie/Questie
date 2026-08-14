@@ -19,6 +19,8 @@ describe("QuestieQuest", function()
     local QuestieCombatQueue
     ---@type CommsVisibility
     local CommsVisibility
+    ---@type l10n
+    local l10n
 
     before_each(function()
         Questie.db.char = {}
@@ -36,6 +38,8 @@ describe("QuestieQuest", function()
         QuestieCombatQueue.Queue = function() end
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
+        l10n = QuestieLoader:ImportModule("l10n")
+        setmetatable(l10n, {__call = function(_, key, ...) return key end})
 
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -142,6 +146,81 @@ describe("QuestieQuest", function()
             assert.has_error(function()
                 QuestieQuest:PopulateObjective({}, 1, {Description = "test"}, false)
             end, "PopulateObjective must be called from a coroutine")
+        end)
+    end)
+
+    describe("RegisterObjectiveTooltips", function()
+        before_each(function()
+            QuestieQuest.private.objectiveSpawnListCallTable = {}
+        end)
+
+        it("should not crash when objectives have nil spawnList (guard against nil in next())", function()
+            -- The bug was that RegisterObjectiveTooltips called next(objective.spawnList) without checking if spawnList was nil first
+            -- This should complete without error (not crash on "bad argument #1 to next")
+            local quest = {
+                Id = 123,
+                Objectives = {},
+                SpecialObjectives = {},
+                ObjectiveData = {}
+            }
+
+            -- Should not throw an error
+            QuestieQuest.RegisterObjectiveTooltips(quest)
+            assert.is_true(true)
+        end)
+
+        it("should not crash when special objectives have nil spawnList", function()
+            -- Same check for SpecialObjectives path
+            local quest = {
+                Id = 123,
+                Objectives = {},
+                SpecialObjectives = {},
+                ObjectiveData = {}
+            }
+
+            -- Should not throw an error
+            QuestieQuest.RegisterObjectiveTooltips(quest)
+            assert.is_true(true)
+        end)
+
+        it("should assign Index to regular objectives if not already set", function()
+            local quest = {
+                Id = 123,
+                Objectives = {
+                    [1] = {Description = "Objective 1", spawnList = {}},
+                    [5] = {Description = "Objective 5", spawnList = {}},
+                },
+                SpecialObjectives = {},
+                ObjectiveData = {}
+            }
+
+            assert.is_nil(quest.Objectives[1].Index)
+            assert.is_nil(quest.Objectives[5].Index)
+
+            QuestieQuest.RegisterObjectiveTooltips(quest)
+
+            assert.are_equal(1, quest.Objectives[1].Index)
+            assert.are_equal(5, quest.Objectives[5].Index)
+        end)
+
+        it("should assign Index to special objectives (64 + loop index) before processing", function()
+            local quest = {
+                Id = 123,
+                Objectives = {},
+                SpecialObjectives = {
+                    {Description = "Special 1", spawnList = {}},
+                    {Description = "Special 2", spawnList = {}},
+                },
+                ObjectiveData = {}
+            }
+
+            assert.is_nil(quest.SpecialObjectives[1].Index)
+            assert.is_nil(quest.SpecialObjectives[2].Index)
+
+            QuestieQuest.RegisterObjectiveTooltips(quest)
+
+            assert.are_equal(65, quest.SpecialObjectives[1].Index) -- 64 + 1
+            assert.are_equal(66, quest.SpecialObjectives[2].Index) -- 64 + 2
         end)
     end)
 end)
