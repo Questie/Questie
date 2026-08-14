@@ -167,6 +167,9 @@ describe("QuestieProfilerUI", function()
             Start = function(self)
                 self.active = true
             end,
+            HasResults = function(self)
+                return self.active == true or next(self.hookCallCount) ~= nil
+            end,
             ResetMeasurements = function() end,
         }
     end
@@ -1602,6 +1605,29 @@ describe("QuestieProfilerUI", function()
             -- The measurement arrived after Show's render, so only the manual refresh can have put this row
             -- on screen - the assertion fails if Refresh is a no-op while frozen.
             assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+        end)
+    end)
+
+    describe("slash command", function()
+        it("reopens a stopped session's retained results without resetting them", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            ProfilerUI:Show()
+            Profiler.active = false
+            ProfilerUI:Refresh()
+            ProfilerUI:Hide()
+
+            _G.SlashCmdList["QUESTIEPROFILER"]("show")
+
+            assert.is_true(ProfilerUI:IsShown())
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+        end)
+
+        it("does not open a window when nothing was ever measured", function()
+            Profiler.active = false
+
+            _G.SlashCmdList["QUESTIEPROFILER"]("show")
+
+            assert.is_false(ProfilerUI:IsShown())
         end)
     end)
 end)

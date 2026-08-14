@@ -3141,7 +3141,9 @@ SlashCmdList["QUESTIEPROFILER"] = function(argument)
     elseif command == "toggle" then
         QuestieProfilerEnabled = not QuestieProfilerEnabled
         ReportProfilerEnabled(QuestieProfilerEnabled == true)
-    elseif command == "show" and QuestieProfiler.active then
+    elseif command == "show" and QuestieProfiler:HasResults() then
+        -- A stopped session's results stay readable, so show opens on them too: requiring an active session
+        -- here made a closed window's capture unreachable except by starting over, which erases it.
         QuestieProfilerUI:Show()
     else
         local state = QuestieProfilerEnabled and "enabled" or "disabled"

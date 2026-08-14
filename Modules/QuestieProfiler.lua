@@ -842,6 +842,23 @@ function QuestieProfiler:HideUI()
     return ImportProfilerUI():Hide()
 end
 
+---True once a session has measured anything, whether or not it is still running: a stopped session's
+---results stay readable until the next Start resets them.
+---@return boolean
+function QuestieProfiler:HasResults()
+    return QuestieProfiler.active == true or next(QuestieProfiler.hookCallCount) ~= nil
+end
+
+---Opens the window on whatever exists - the running session, or a stopped session's retained results.
+---Only when there is nothing to show does this start a session, because Start resets retained measurements
+---and must not be the price of reopening a closed window.
+function QuestieProfiler:OpenUI()
+    if QuestieProfiler:HasResults() then
+        return QuestieProfiler:ShowUI()
+    end
+    return QuestieProfiler:Start()
+end
+
 -------------------------
 -- Profiling session lifecycle
 -------------------------

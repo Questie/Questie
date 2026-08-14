@@ -298,6 +298,39 @@ describe("QuestieProfiler", function()
         end
     end)
 
+    it("reopens a stopped session's results instead of resetting them", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Work = function()
+            clock = clock + 3
+        end
+        local showCalls = 0
+        Profiler.ShowUI = function()
+            showCalls = showCalls + 1
+        end
+
+        assert.is_true(Profiler:Start(false))
+        testModule.Work()
+        Profiler:Stop()
+        assert.is_false(Profiler.active)
+        assert.is_true(Profiler:HasResults())
+
+        Profiler:OpenUI()
+
+        assert.are_same(1, showCalls)
+        -- Still stopped, still holding the capture: opening must not have gone through Start.
+        assert.is_false(Profiler.active)
+        assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".Work"])
+        assert.are_same(3, Profiler.hookTimeCount[testModuleName .. ".Work"])
+    end)
+
+    it("starts a session from OpenUI only when nothing was ever measured", function()
+        assert.is_false(Profiler:HasResults())
+
+        Profiler:OpenUI()
+
+        assert.is_true(Profiler.active)
+    end)
+
     it("rolls back partial hook installation and allows a clean retry", function()
         local reportedErrors = {}
         Questie.Error = function(_, message, profilerError)

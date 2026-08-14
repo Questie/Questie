@@ -315,7 +315,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Open Profiler"); end,
                 desc = function() return l10n("Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes."); end,
                 func = function (_, _)
-                    QuestieProfiler:Start()
+                    -- Opens retained results when a session already ran; Start would reset them.
+                    QuestieProfiler:OpenUI()
                 end,
             },
             Spacer_H = QuestieOptionsUtils:Spacer(4.9),
