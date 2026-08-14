@@ -217,11 +217,15 @@ describe("ThreadLib profiling callbacks", function()
     it("creates and resumes profiled jobs when debugstack is unavailable", function()
         local createdCalls = 0
         local resumeCalls = 0
+        -- Captured here and asserted below: the callback runs inside CallProfilingCallback's pcall with
+        -- Questie.Error stubbed out, so an assertion failing in it would be swallowed and the test would pass.
+        local receivedStack
+        local receivedThreadName
         ThreadLib.SetProfilingCallbacks({}, {
             OnThreadCreated = function(_, _, callSiteStack, threadName)
                 createdCalls = createdCalls + 1
-                assert.is_nil(callSiteStack)
-                assert.is_nil(threadName)
+                receivedStack = callSiteStack
+                receivedThreadName = threadName
             end,
             BeforeResume = function()
                 resumeCalls = resumeCalls + 1
@@ -236,6 +240,8 @@ describe("ThreadLib profiling callbacks", function()
         assert.is_truthy(timer)
         assert.are_same(1, createdCalls)
         assert.are_same(1, resumeCalls)
+        assert.is_nil(receivedStack)
+        assert.is_nil(receivedThreadName)
     end)
 
     it("does not let a foreign owner clear callbacks", function()
