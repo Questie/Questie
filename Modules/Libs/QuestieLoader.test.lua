@@ -110,12 +110,27 @@ describe("QuestieLoader", function()
             assert.are_same(50, QuestieLoader.loadTimings["Modules/Alpha.lua"])
         end)
 
-        it("attributes time before the first module call to the TOC entry that loads it", function()
+        it("attributes time before the first stamp to the loader file that started timing", function()
             AdvanceClock(12)
             currentSourceFile = "Modules/Alpha.lua"
             QuestieLoader:CreateModule("Alpha")
 
-            assert.are_same(12, QuestieLoader.loadTimings["embeds.xml"])
+            assert.are_same(12, QuestieLoader.loadTimings["Modules/Libs/QuestieLoader.lua"])
+        end)
+
+        it("names the embedded-library interval from the boundary stamp in embeds.xml", function()
+            -- The real startup sequence: the loader's own remainder, then the embeds boundary, then the
+            -- libraries, closed by the first Lua file's module call.
+            AdvanceClock(2)
+            currentSourceFile = "embeds.xml:<Scripts>"
+            QuestieLoader:StampLoadBoundary()
+            AdvanceClock(400)
+
+            currentSourceFile = "Questie.lua"
+            QuestieLoader:CreateModule("Questie")
+
+            assert.are_same(2, QuestieLoader.loadTimings["Modules/Libs/QuestieLoader.lua"])
+            assert.are_same(400, QuestieLoader.loadTimings["embeds.xml"])
         end)
 
         it("opens an interval named after an XML group at a boundary stamp", function()

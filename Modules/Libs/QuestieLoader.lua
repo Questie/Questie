@@ -43,10 +43,10 @@ if trackLoadTimings then
     QuestieLoader.loadMemory = loadMemory
     lastStampedAt = GetTimePreciseSec()
     lastMemoryKilobytes = collectgarbage("count")
-    -- This file loads first and embeds.xml is the next TOC entry, so the opening interval covers exactly
-    -- that: the embedded Ace and LibStub libraries. None of them call the loader, so they cannot be told
-    -- apart from one another and are reported under the TOC entry that pulls them in, like any other row.
-    lastSource = "embeds.xml"
+    -- The opening interval covers only the remainder of this file: embeds.xml is the next TOC entry and
+    -- its boundary stamp closes the interval before the first library loads, the same way every other
+    -- silent XML group announces itself.
+    lastSource = "Modules/Libs/QuestieLoader.lua"
 end
 
 ---Closes the interval opened by the previous call and opens a new one for the current caller.

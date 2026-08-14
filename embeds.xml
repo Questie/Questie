@@ -1,4 +1,8 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+    <!-- Names the embedded libraries' load interval after this XML. None of them call QuestieLoader, so
+         they cannot be told apart from one another; the stamp draws the boundary where the group starts.-->
+    <Script>QuestieLoader:StampLoadBoundary()</Script>
+
     <Script file="Libs\LibStub\LibStub.lua"/>
     <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
     <!-- The order of Ace imports matter as they reference each other -->
