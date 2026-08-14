@@ -78,6 +78,9 @@ describe("QuestieProfiler", function()
 
         clock = 0
         tickerCallbacks = {}
+        -- The profiler prefers GetTimePreciseSec, so the default clock below is only measured when that
+        -- global is absent. Cleared explicitly rather than trusting setupTests.lua never to define it.
+        _G.GetTimePreciseSec = nil
         _G.debugprofilestop = function()
             return clock
         end
