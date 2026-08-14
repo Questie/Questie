@@ -164,7 +164,11 @@ local function ShortenStackFrame(stackLine)
         stackLine = definitionFile .. ":" .. definitionLine
     end
 
-    stackLine = string.gsub(stackLine, "[Ii]nterface[/\\]+[Aa]dd[Oo]ns[/\\]+[Qq]uestie[/\\]+", "")
+    -- Anchored on "AddOns/Questie/" rather than on "Interface", because WoW truncates a long path from the
+    -- left with an ellipsis - "...erface/AddOns/Questie/Modules/..." - and a match that needs the whole word
+    -- silently leaves the ellipsis and the full path in the job's name. Still specific enough that another
+    -- addon's path cannot collapse into a Questie one.
+    stackLine = string.gsub(stackLine, "[^%[%]]-[Aa]dd[Oo]ns[/\\]+[Qq]uestie[/\\]+", "", 1)
     stackLine = string.gsub(stackLine, "^%[(.-)%]", "%1")
     -- Addon-load rows spell the same file with forward slashes; a job naming it differently would read as a
     -- different file.

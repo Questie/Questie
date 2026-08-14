@@ -1289,6 +1289,20 @@ describe("QuestieProfiler", function()
         assert.is_nil(Profiler.threadJobCallCount["ThreadLib job: " .. testModuleName .. ".Submitter"])
     end)
 
+    it("keeps the addon prefix off a job name WoW truncated from the left", function()
+        -- WoW renders a long path as "...erface/AddOns/Questie/...", which a match needing the whole word
+        -- "Interface" would leave untouched, putting the ellipsis and full path in the job's name.
+        _G.debugstack = function()
+            return "...erface/AddOns/Questie/Modules/Quest/QuestieQuest.lua:105"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        assert.are_same(1,
+            Profiler.threadJobCallCount["ThreadLib job: Modules/Quest/QuestieQuest.lua:105"])
+    end)
+
     it("aggregates repeated ThreadLib jobs with the same explicit name", function()
         Profiler:Start(false)
 
