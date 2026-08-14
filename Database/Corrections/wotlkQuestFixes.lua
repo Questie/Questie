@@ -8949,6 +8949,10 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11163] = { -- Undercover Sister
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [11164] = { -- Tuskin' Raiders
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,

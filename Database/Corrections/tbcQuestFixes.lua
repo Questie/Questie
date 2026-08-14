@@ -2506,9 +2506,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [9524] = { -- Imprisoned in the Citadel
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.objectives] = {{{17290,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [9525] = { -- Imprisoned in the Citadel
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.objectives] = {{{17296,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.THRALLMAR,500}},
         },
         [9527] = { -- All That Remains
             [questKeys.preQuestSingle] = {},
@@ -4042,8 +4045,9 @@ function QuestieTBCQuestFixes:Load()
         [10525] = {
             [questKeys.triggerEnd] = {"Final Thunderlord artifact discovered", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{52.76,58.89}}}},
         },
-        [10526] = {
+        [10526] = { -- The Thunderspike
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Attempt to loot The Thunderspike"), 0, {{"object", 184729}}}},
+            [questKeys.nextQuestInChain] = 10718,
         },
         [10528] = { -- Demonic Crystal Prisons
             [questKeys.nextQuestInChain] = 10537,
