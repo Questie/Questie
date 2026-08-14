@@ -829,6 +829,28 @@ describe("QuestieProfilerUI", function()
     end)
 
     describe("grouped view", function()
+        it("shortens a job named after a function the same way it shortens the function", function()
+            AddFunctionEntry("QuestieInit.private.StartStageCoroutine", 0, 1)
+            AddThreadJobEntry("ThreadLib job: QuestieInit.private.StartStageCoroutine", 392, 1, 6)
+
+            local report = BuildReport({grouped = true})
+
+            -- Both rows describe the same function; spelling them differently made them read as unrelated.
+            assert.are_same("QuestieInit.StartStageCoroutine",
+                FindRow(report, "QuestieInit.StartStageCoroutine").displayName)
+            assert.are_same("QuestieInit.StartStageCoroutine",
+                FindRow(report, "ThreadLib job: QuestieInit.StartStageCoroutine").displayName)
+        end)
+
+        it("leaves a job named after a call site whole, because a path has no module segments", function()
+            AddThreadJobEntry("ThreadLib job: Modules/Quest/QuestieQuest.lua:105", 12, 1, 1)
+
+            local report = BuildReport({grouped = true})
+
+            assert.are_same("Modules/Quest/QuestieQuest.lua:105",
+                FindRow(report, "ThreadLib job: Modules/Quest/QuestieQuest.lua:105").displayName)
+        end)
+
         it("sums totals and calls across folded paths", function()
             AddFunctionEntry("QuestieDB.private.GetQuest", 40, 2)
             AddFunctionEntry("QuestieDB.GetQuest", 60, 3)

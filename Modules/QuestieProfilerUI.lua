@@ -278,13 +278,21 @@ end
 ---folded everything between the first and last segment, which merged eight distinct tab initialisers into a
 ---single QuestieOptions.Initialize and hid which one was slow. Grouped view therefore shortens identities
 ---rather than aggregating them; entries still combine when two paths genuinely shorten to the same name.
----ThreadLib jobs keep their whole identity because their call sites are what distinguishes scheduling units.
+---A ThreadLib job named after a file keeps its whole identity: its call site is what distinguishes it, and a
+---path's segments are not module segments to drop. A job named after a function is shortened by the same rule
+---as the function itself, so the pair does not appear on one screen spelled two ways - the job row reading
+---QuestieInit.private.StartStageCoroutine directly above the function row reading QuestieInit.
+---StartStageCoroutine looked like two unrelated entries.
 ---Addon-load rows never reach here: files are not module paths and live in their own table.
 ---@param lookupKey string
 ---@return string groupedIdentity
 local function GroupedIdentity(lookupKey)
     if IsThreadJobKey(lookupKey) then
-        return lookupKey
+        local jobName = ssub(lookupKey, THREAD_JOB_PREFIX_LENGTH + 1)
+        if sfind(jobName, "/", 1, true) or sfind(jobName, ".lua:", 1, true) then
+            return lookupKey
+        end
+        return THREAD_JOB_PREFIX .. GroupedIdentity(jobName)
     end
 
     -- Drop the disambiguation suffix HookFunction appends when two paths produce the same key.
