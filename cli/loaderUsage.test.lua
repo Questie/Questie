@@ -55,6 +55,11 @@ describe("LoaderUsage", function()
                 line = '    local questId = 1234',
                 expected = false,
             },
+            {
+                name = "accepts a dot call, which reaches the same function",
+                line = 'local QuestieDB = QuestieLoader.ImportModule(QuestieLoader, "QuestieDB")',
+                expected = true,
+            },
         }
 
         for _, case in ipairs(cases) do
@@ -118,6 +123,34 @@ function Something.Update()
 function Something.Update()
     repeat
         QuestieLoader:ImportModule("QuestieDB")]]))
+        end)
+    end)
+
+    describe("JudgedFragment", function()
+        it("judges scope at the call, so a one-line function body cannot pass as main chunk", function()
+            local line = 'function Foo() local x = QuestieLoader:ImportModule("X") end'
+
+            -- Judged at end of line, the body's own `end` closes the function and the call reads as main
+            -- chunk - the dangerous direction, since this validator exists to reject runtime calls.
+            assert.is_true(LoaderUsage.IsInsideFunction(LoaderUsage.JudgedFragment(line)))
+            assert.is_false(LoaderUsage.IsInsideFunction(line))
+        end)
+
+        it("keeps the whole line for the bracket form, which has no call to cut at", function()
+            local line = '    QuestieLoader["ImportModule"](QuestieLoader, "QuestieDB")'
+
+            assert.are_same(line .. "\n", LoaderUsage.JudgedFragment(line))
+        end)
+    end)
+
+    describe("ScanBindingsXml", function()
+        it("sees the runtime loader call the TOC-driven scan cannot", function()
+            local findings = LoaderUsage.ScanBindingsXml("Bindings.xml")
+
+            assert.are_same(1, #findings)
+            assert.are_same(3, findings[1].lineNumber)
+            -- Exempted with a reason rather than invisible: a binding body has no file scope to hoist to.
+            assert.is_true(findings[1].known)
         end)
     end)
 

@@ -12,6 +12,9 @@ local TOC_PATHS = {
 print("\n\27[36mChecking QuestieLoader module call sites...\27[0m")
 
 local findings = LoaderUsage.ScanTocs(TOC_PATHS)
+for _, bindingFinding in ipairs(LoaderUsage.ScanBindingsXml("Bindings.xml")) do
+    table.insert(findings, bindingFinding)
+end
 local newFindings = {}
 local knownCount = 0
 
