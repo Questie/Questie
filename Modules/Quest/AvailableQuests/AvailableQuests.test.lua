@@ -24,6 +24,7 @@ describe("AvailableQuests", function()
     local AvailableQuests
 
     local originalThread
+    local originalThreadCallbackInstant
     local originalGetPlayerLevel
     local originalGetQuestGreenRange
     local originalIsleOfQuelDanasQuests
@@ -48,6 +49,7 @@ describe("AvailableQuests", function()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         Comms = QuestieLoader:ImportModule("Comms")
         ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+        originalThreadCallbackInstant = ThreadLib.ThreadCallbackInstant
         ThreadLib.ThreadCallbackInstant = function(fun, callback)
             fun()
             callback()
@@ -77,6 +79,7 @@ describe("AvailableQuests", function()
 
     after_each(function()
         ThreadLib.Thread = originalThread
+        ThreadLib.ThreadCallbackInstant = originalThreadCallbackInstant
         QuestiePlayer.GetPlayerLevel = originalGetPlayerLevel
         QuestieDB.QuestPointers = originalQuestPointers
         IsleOfQuelDanas.quests = originalIsleOfQuelDanasQuests

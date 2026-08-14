@@ -34,6 +34,8 @@ describe("QuestieProfiler", function()
     local originalSerialize
     local originalGetQuest
     local originalQuerySlots
+    local originalLoadTimings
+    local originalLoadMemory
     local querySlotNames = {
         "QueryNPC", "QueryQuest", "QueryObject", "QueryItem",
         "QueryNPCSingle", "QueryQuestSingle", "QueryObjectSingle", "QueryItemSingle",
@@ -67,6 +69,8 @@ describe("QuestieProfiler", function()
         originalSerializerWriters = QuestieSerializer.WriterTable
         originalSerialize = QuestieSerializer.Serialize
         originalGetQuest = QuestieDB.GetQuest
+        originalLoadTimings = QuestieLoader.loadTimings
+        originalLoadMemory = QuestieLoader.loadMemory
         originalQuerySlots = {}
         for _, slotName in ipairs(querySlotNames) do
             originalQuerySlots[slotName] = QuestieDB[slotName]
@@ -117,6 +121,8 @@ describe("QuestieProfiler", function()
         QuestieSerializer.WriterTable = originalSerializerWriters
         QuestieSerializer.Serialize = originalSerialize
         QuestieDB.GetQuest = originalGetQuest
+        QuestieLoader.loadTimings = originalLoadTimings
+        QuestieLoader.loadMemory = originalLoadMemory
         for _, slotName in ipairs(querySlotNames) do
             QuestieDB[slotName] = originalQuerySlots[slotName]
         end
