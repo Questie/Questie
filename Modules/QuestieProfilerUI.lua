@@ -61,7 +61,6 @@ local DETAIL_STRIP_HEIGHT = 16
 local RELATION_PANEL_ROWS = 5
 -- Gap between the two relation columns, and the least of the panel either may be reduced to. The floor is
 -- what stops a lopsided pair - one caller against a dozen callees - from squeezing a column to nothing.
-local RELATION_COLUMN_SPLIT = {gap = 20, minShare = 0.3}
 local RELATION_ROW_HEIGHT = 13
 local RELATION_HEADER_HEIGHT = 15
 local RELATION_PANEL_HEIGHT = RELATION_HEADER_HEIGHT + (RELATION_PANEL_ROWS * RELATION_ROW_HEIGHT) + 4
@@ -2651,8 +2650,8 @@ local function BuildRelationPanel()
     relationCallerHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
 
     relationCalleeHeader = relationPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    -- Re-anchored by RenderRelations, which is the only place that knows how the width was split.
-    relationCalleeHeader:SetPoint("TOPLEFT", relationPanel, "CENTER", 10, -3)
+    relationCalleeHeader:SetPoint("TOP", relationPanel, "TOP", 0, -3)
+    relationCalleeHeader:SetPoint("LEFT", relationPanel, "CENTER", 10, 0)
     relationCalleeHeader:SetJustifyH("LEFT")
     relationCalleeHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
 
@@ -2702,27 +2701,6 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
     end
 end
 
----Splits the panel by need rather than in half. The two directions are rarely the same size - a leaf has no
----callers, a hot utility has one caller and a dozen callees - and an even split spends half the width on a
----column reading "nothing profiled called this" while the other truncates every name it holds.
----@param panelWidth number
----@param callerCount number
----@param calleeCount number
----@return number callerWidth
----@return number calleeWidth
-function _QuestieProfilerUI.RelationColumnWidths(panelWidth, callerCount, calleeCount)
-    local usable = mmax(160, panelWidth - RELATION_COLUMN_SPLIT.gap)
-    local total = callerCount + calleeCount
-    if total == 0 then
-        return usable / 2, usable / 2
-    end
-
-    -- Clamped both ways, so however lopsided the counts are neither column becomes unreadable.
-    local callerShare = mmax(RELATION_COLUMN_SPLIT.minShare,
-        mmin(1 - RELATION_COLUMN_SPLIT.minShare, callerCount / total))
-    return usable * callerShare, usable * (1 - callerShare)
-end
-
 ---Says so when a direction holds more than the panel can show, rather than letting five of fifteen read as
 ---all of them.
 ---@param label string
@@ -2750,20 +2728,20 @@ function RenderRelations(reportRow)
     local callers = _QuestieProfilerUI.BuildCallerList(source, reportRow, displayState.grouped)
     local callees = _QuestieProfilerUI.BuildCalleeList(source, reportRow, displayState.grouped)
 
+    -- An even split, deliberately. Sizing the columns by how many entries each held was tried and reverted:
+    -- row count does not predict width need, and it read backwards - five short caller names took 62% of the
+    -- panel while three long callee names were truncated into the remaining 38%. Name length is the real
+    -- constraint, and measuring it would move the divider on every selection, which is worse than a stable
+    -- boundary that is never actively wrong.
     local panelWidth = relationPanel:GetWidth() or 0
-    local callerWidth, calleeWidth =
-        _QuestieProfilerUI.RelationColumnWidths(panelWidth, #callers, #callees)
+    local columnWidth = mmax(80, (panelWidth / 2) - 10)
 
     relationCallerHeader:SetText(_QuestieProfilerUI.RelationHeaderText("Called by", #callers))
     relationCalleeHeader:SetText(_QuestieProfilerUI.RelationHeaderText("Calls", #callees))
-    -- Follows its column's left edge, wherever the split put it.
-    relationCalleeHeader:ClearAllPoints()
-    relationCalleeHeader:SetPoint("TOPLEFT", relationPanel, "TOPLEFT",
-        panelWidth - calleeWidth + 10, -3)
 
-    RenderRelationColumn(relationCallerRows, callers, "callerKey", callerWidth,
+    RenderRelationColumn(relationCallerRows, callers, "callerKey", columnWidth,
         reportRow.isFileLoad and "a loaded file has no caller" or "nothing profiled called this")
-    RenderRelationColumn(relationCalleeRows, callees, "calleeKey", calleeWidth,
+    RenderRelationColumn(relationCalleeRows, callees, "calleeKey", columnWidth,
         reportRow.isFileLoad and "a loaded file calls nothing" or "called nothing profiled")
 
     relationPanel:Show()

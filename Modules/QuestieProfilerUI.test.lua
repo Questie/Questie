@@ -581,37 +581,6 @@ describe("QuestieProfilerUI", function()
     end)
 
     describe("relation panel layout", function()
-        ---@return number callerWidth
-        ---@return number calleeWidth
-        local function Widths(callerCount, calleeCount)
-            return ProfilerUI.private.RelationColumnWidths(420, callerCount, calleeCount)
-        end
-
-        it("splits evenly when a row has no relations either way", function()
-            local callerWidth, calleeWidth = Widths(0, 0)
-
-            assert.are_same(callerWidth, calleeWidth)
-        end)
-
-        it("gives the busier direction the width", function()
-            local callerWidth, calleeWidth = Widths(1, 12)
-
-            assert.is_true(calleeWidth > callerWidth)
-        end)
-
-        it("never squeezes a column below its floor, however lopsided the counts", function()
-            local callerWidth, calleeWidth = Widths(0, 40)
-
-            -- 30% of the usable width, not the 0% the raw ratio would give.
-            assert.are_same(0.3, callerWidth / (callerWidth + calleeWidth))
-        end)
-
-        it("splits evenly when both directions are equally busy", function()
-            local callerWidth, calleeWidth = Widths(6, 6)
-
-            assert.are_same(callerWidth, calleeWidth)
-        end)
-
         describe("header counts", function()
             it("reports the count plainly when everything fits", function()
                 assert.are_same("Calls (3)", ProfilerUI.private.RelationHeaderText("Calls", 3))
