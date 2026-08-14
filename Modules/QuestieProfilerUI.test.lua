@@ -222,6 +222,22 @@ describe("QuestieProfilerUI", function()
         return keys
     end
 
+    ---Reads the list rows the window is actually displaying, unlike RowKeys(BuildReport()) which reads the
+    ---profiler stub and would report the same thing whether or not Refresh ever ran. RenderRows stamps each
+    ---pooled row frame with the report row it shows, so this observes retained UI state through the mock.
+    ---@return string[] lookupKeys @Top to bottom, as rendered
+    local function RenderedRowKeys()
+        local keys = {}
+        for _, frame in ipairs(frameRegistry) do
+            -- rawget: the mock auto-stubs every unknown key with a function, which reads as truthy.
+            local reportRow = rawget(frame, "reportRow")
+            if reportRow and frame.IsShown() then
+                table.insert(keys, reportRow.lookupKey)
+            end
+        end
+        return keys
+    end
+
     ---@return ProfilerReportRow?
     local function FindRow(report, lookupKey)
         for _, row in ipairs(report.rows) do
@@ -1524,7 +1540,9 @@ describe("QuestieProfilerUI", function()
             Profiler.active = false
             ProfilerUI:Refresh()
 
-            assert.are_same({"QuestieDB.GetQuest"}, RowKeys(BuildReport()))
+            -- Asserted on the rendered list, not on BuildReport: a refresh that cleared the display on an
+            -- inactive session would leave these frames empty while BuildReport still returned the row.
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
             assert.is_true(ProfilerUI:IsShown())
         end)
     end)
@@ -1558,7 +1576,9 @@ describe("QuestieProfilerUI", function()
 
             ProfilerUI:Refresh()
 
-            assert.are_same({"QuestieDB.GetQuest"}, RowKeys(BuildReport()))
+            -- The measurement arrived after Show's render, so only the manual refresh can have put this row
+            -- on screen - the assertion fails if Refresh is a no-op while frozen.
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
         end)
     end)
 end)
