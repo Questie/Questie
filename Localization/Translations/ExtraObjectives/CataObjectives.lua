@@ -1852,7 +1852,7 @@ local cataObjectiveLocales = {
     },
     ["Control the Bound Torrent"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Kontrolliere die gebundene Strömung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1864,7 +1864,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Ick'thys the Unfathomable"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Ick'thys den Unergründlichen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1876,7 +1876,7 @@ local cataObjectiveLocales = {
     },
     ["Release the termites"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lasse die Termiten frei",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1888,7 +1888,7 @@ local cataObjectiveLocales = {
     },
     ["Place the Skyreach Crystal Clusters"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere das Himmelsreicherkristallcluster",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1900,7 +1900,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Injured Rainspeaker Oracle"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit dem verletzten Regensprecherorakel",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1912,7 +1912,7 @@ local cataObjectiveLocales = {
     },
     ["Defeat Volgur"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Besiege Volgur",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1924,7 +1924,7 @@ local cataObjectiveLocales = {
     },
     ["Defeat Brita"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Besiege Brita",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1936,7 +1936,7 @@ local cataObjectiveLocales = {
     },
     ["Grab the package"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Schnapp dir das Päckchen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1948,7 +1948,7 @@ local cataObjectiveLocales = {
     },
     ["Board the Flying Machine"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe an Bord der Flugmaschine",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1960,7 +1960,7 @@ local cataObjectiveLocales = {
     },
     ["Summon the Shade of Shadumbra"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Shadumbra's Schatten",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1972,7 +1972,7 @@ local cataObjectiveLocales = {
     },
     ["Go to your trial"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe zu deiner Prüfung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1984,7 +1984,7 @@ local cataObjectiveLocales = {
     },
     ["Go back"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe zurück",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -1996,7 +1996,7 @@ local cataObjectiveLocales = {
     },
     ["Use the Reactor Control Console"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze die Reaktorkontrollkonsole",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2008,7 +2008,7 @@ local cataObjectiveLocales = {
     },
     ["Take out the Forsaken Machinist"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Schalte den Maschinisten der Verlassenen aus",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2020,7 +2020,7 @@ local cataObjectiveLocales = {
     },
     ["Get on a Rocketway Rat after you got shrunk"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Steig auf die Raketenwegratte nachdem du geschrumpft wurdest",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2032,7 +2032,7 @@ local cataObjectiveLocales = {
     },
     ["Take the portal"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nimm das Portal",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2044,7 +2044,7 @@ local cataObjectiveLocales = {
     },
     ["Bring the raptors to The Velocistar"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Bringe die Raptoren zur Velocistar",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
