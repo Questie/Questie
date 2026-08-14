@@ -72,6 +72,9 @@ describe("QuestieProfilerUI", function()
             GetText = function()
                 return text
             end,
+            GetStringWidth = function()
+                return string.len(text or "") * 6
+            end,
             Enable = function()
                 enabled = true
             end,
@@ -518,6 +521,34 @@ describe("QuestieProfilerUI", function()
             -- With the file shown, the function is a quarter-length bar. Unticking Files is what rescales it.
             assert.are_same(0.25, HeatShare(BuildReport(), "QuestieDB.GetQuest"))
             assert.are_same(1, HeatShare(BuildReport({showFiles = false}), "QuestieDB.GetQuest"))
+        end)
+
+        it("scales memory bars against the largest visible allocation, not against time", function()
+            -- Live data from the session that exposed this: the 5500 KB file loaded in a tenth of the time
+            -- of the 2944 KB one, and time-based bars drew the smaller allocation nearly ten times longer.
+            Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"] = 659
+            Profiler.fileLoadMemory["Localization/lookups/lookupZones.lua"] = 18092
+            Profiler.fileLoadTime["Questie.lua"] = 66
+            Profiler.fileLoadMemory["Questie.lua"] = 5500
+            Profiler.fileLoadTime["embeds.xml"] = 635
+            Profiler.fileLoadMemory["embeds.xml"] = 2944
+
+            local report = BuildReport({sortKey = "memory", descending = true})
+
+            assert.are_same(1, HeatShare(report, "Localization/lookups/lookupZones.lua", "memory"))
+            assert.is_true(HeatShare(report, "Questie.lua", "memory")
+                > HeatShare(report, "embeds.xml", "memory"))
+        end)
+
+        it("draws no heat for an interval in which the collector freed memory", function()
+            Profiler.fileLoadTime["Questie.lua"] = 10
+            Profiler.fileLoadMemory["Questie.lua"] = -50
+            Profiler.fileLoadTime["embeds.xml"] = 10
+            Profiler.fileLoadMemory["embeds.xml"] = 100
+
+            local report = BuildReport({sortKey = "memory", descending = true})
+
+            assert.are_same(0, HeatShare(report, "Questie.lua", "memory"))
         end)
 
         it("scales calls against the largest visible call count", function()
@@ -1605,6 +1636,35 @@ describe("QuestieProfilerUI", function()
             -- The measurement arrived after Show's render, so only the manual refresh can have put this row
             -- on screen - the assertion fails if Refresh is a no-op while frozen.
             assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+        end)
+    end)
+
+    describe("relation navigation", function()
+        ---Concatenates every non-empty text the window currently shows, so assertions can look for the
+        ---detail strip's measurements without knowing which pooled frame carries them.
+        local function ShownTexts()
+            local texts = {}
+            for _, frame in ipairs(frameRegistry) do
+                local value = frame.GetText and frame:GetText()
+                if type(value) == "string" and value ~= "" then
+                    table.insert(texts, value)
+                end
+            end
+            return table.concat(texts, "\n")
+        end
+
+        it("resolves a selection the active filters exclude, so a relation click cannot clear the panel", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            AddThreadJobEntry("ThreadLib job: Draw", 600, 3, 40)
+            ProfilerUI:Show()
+
+            -- The search excludes the job, as if the user filtered while inspecting the function and then
+            -- clicked the job in its relations panel.
+            ProfilerUI.private.displayState.filter = "GetQuest"
+            ProfilerUI.private.displayState.selectedKey = "ThreadLib job: Draw"
+            ProfilerUI:Refresh()
+
+            assert.is_truthy(string.find(ShownTexts(), "600.000 ms total", 1, true))
         end)
     end)
 

@@ -265,6 +265,7 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@field maxSelfTime number
 ---@field maxCalls number
 ---@field maxAverageTime number
+---@field maxMemoryKilobytes number
 
 ---@param lookupKey string
 ---@return boolean
@@ -512,6 +513,7 @@ function _QuestieProfilerUI.BuildReport(source, options)
     local maxSelfTime = 0
     local maxCalls = 0
     local maxAverageTime = 0
+    local maxMemoryKilobytes = 0
     for i = 1, #rows do
         local row = rows[i]
         -- A ThreadLib job's useful average is per submitted job; a function's is per call.
@@ -533,6 +535,9 @@ function _QuestieProfilerUI.BuildReport(source, options)
         end
         if row.averageTime > maxAverageTime then
             maxAverageTime = row.averageTime
+        end
+        if row.memoryKilobytes and row.memoryKilobytes > maxMemoryKilobytes then
+            maxMemoryKilobytes = row.memoryKilobytes
         end
     end
 
@@ -588,6 +593,7 @@ function _QuestieProfilerUI.BuildReport(source, options)
         maxSelfTime = maxSelfTime,
         maxCalls = maxCalls,
         maxAverageTime = maxAverageTime,
+        maxMemoryKilobytes = maxMemoryKilobytes,
     }
 end
 
@@ -919,6 +925,13 @@ local function HeatShare(row, report, sortKey)
         value, maximum = row.averageTime, report.maxAverageTime
     elseif sortKey == SORT_SELF then
         value, maximum = row.hasSelfTime and row.selfTime or 0, report.maxSelfTime
+    elseif sortKey == SORT_MEMORY then
+        -- Clamped at zero: an interval in which the collector freed more than it allocated carries no heat.
+        value = row.memoryKilobytes or 0
+        if value < 0 then
+            value = 0
+        end
+        maximum = report.maxMemoryKilobytes
     else
         -- Sorting by name still benefits from a cost scale, so fall back to total time.
         value, maximum = row.totalTime, report.maxTotalTime
@@ -2782,6 +2795,21 @@ function ApplySelection()
             for i = 1, #currentUnscopedRows do
                 if currentUnscopedRows[i].lookupKey == displayState.selectedKey then
                     selectedRow = currentUnscopedRows[i]
+                    break
+                end
+            end
+        end
+
+        -- The unscoped rows still honour the search, species and idle filters, so a relation can name an
+        -- identity neither list holds - the measurement tables it was read from know no filters. Resolve
+        -- against a report built with none. Only a click that missed both lists pays for this build.
+        if not selectedRow then
+            ---@type ProfilerReportSource
+            local source = QuestieProfiler
+            local unfilteredRows = _QuestieProfilerUI.BuildReport(source, {grouped = displayState.grouped}).rows
+            for i = 1, #unfilteredRows do
+                if unfilteredRows[i].lookupKey == displayState.selectedKey then
+                    selectedRow = unfilteredRows[i]
                     break
                 end
             end
