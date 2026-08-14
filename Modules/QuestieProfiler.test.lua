@@ -1334,6 +1334,27 @@ describe("QuestieProfiler", function()
             ["ThreadLib job: Modules/Quest/AvailableQuests/AvailableQuests.lua:123"])
     end)
 
+    it("registers a job submitted by another job's anonymous body under a single prefix", function()
+        _G.debugstack = function()
+            return "Modules/Quest/AvailableQuests/AvailableQuests.lua:123"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function()
+            -- No profiled function on the coroutine's stack, so the nearest owner of this submission is the
+            -- outer job itself - whose key already carries the "ThreadLib job: " prefix.
+            ThreadLib.ThreadSimple(function() end, 0)
+        end, 0)
+        tickerCallbacks[1]()
+
+        local singlePrefixKey = "ThreadLib job: Modules/Quest/AvailableQuests/AvailableQuests.lua:123"
+        -- Parent and child share the name, exactly as several closures submitted by one function would.
+        assert.are_same(2, Profiler.threadJobCallCount[singlePrefixKey])
+        for lookupKey in pairs(Profiler.hookCallCount) do
+            assert.is_nil(string.find(lookupKey, "ThreadLib job: ThreadLib job:", 1, true))
+        end
+    end)
+
     it("looks past ThreadLib's own frames to the function that submitted the job", function()
         local testModule = QuestieLoader:CreateModule(testModuleName)
         -- ThreadSimple forwards to Thread, so the scheduler sits on the shadow stack above the submitter.
@@ -1375,6 +1396,44 @@ describe("QuestieProfiler", function()
 
         assert.are_same(1,
             Profiler.threadJobCallCount["ThreadLib job: Modules/Quest/QuestieQuest.lua:105"])
+    end)
+
+    it("recovers a job name whose truncation cut landed inside the addon marker itself", function()
+        -- The cut position depends on total path length, so for a window of lengths the ellipsis bisects
+        -- "AddOns/Questie/" and a match needing the whole marker is a no-op.
+        _G.debugstack = function()
+            return "...Ons/Questie/Modules/Quest/QuestieQuest.lua:105"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        assert.are_same(1,
+            Profiler.threadJobCallCount["ThreadLib job: Modules/Quest/QuestieQuest.lua:105"])
+    end)
+
+    it("recovers a job name whose truncation cut landed inside the Questie segment", function()
+        _G.debugstack = function()
+            return "...stie/Modules/Quest/QuestieQuest.lua:105"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        assert.are_same(1,
+            Profiler.threadJobCallCount["ThreadLib job: Modules/Quest/QuestieQuest.lua:105"])
+    end)
+
+    it("leaves a foreign addon's truncated path alone even when it ends like the marker", function()
+        _G.debugstack = function()
+            return "...Ons/SomeOtherAddon/Core.lua:7"
+        end
+        Profiler:Start(false)
+
+        ThreadLib.ThreadSimple(function() end, 0)
+
+        assert.are_same(1,
+            Profiler.threadJobCallCount["ThreadLib job: ...Ons/SomeOtherAddon/Core.lua:7"])
     end)
 
     it("aggregates repeated ThreadLib jobs with the same explicit name", function()

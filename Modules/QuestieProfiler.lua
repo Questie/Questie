@@ -60,6 +60,14 @@ local measurementGeneration = 0
 -- attributed to the errored function instead of the real caller, and the catching ancestor's self time is
 -- overstated by their elapsed. The window closes as soon as that ancestor returns, so it cannot outlive one
 -- root call tree, and measurements of the calls themselves stay correct - only attribution drifts.
+--
+-- On a coroutine that window now spans yields: frames deliberately survive AfterResume since cross-slice
+-- accumulation landed, so a frame left stale by a caught error keeps mis-parenting the ancestor's later
+-- calls - wrong caller edges, elapsed banked into the stale frame's childTime - for as many resume slices
+-- as the ancestor lives. The stale frame still never publishes anything itself (its own return never
+-- comes), and measured over 97,894 profiled coroutine returns in a full session, zero stale frames
+-- occurred: no profiled function in the addon today errors inside a pcall inside a job.
+--
 -- There is no cheap detection: Lua gives no notification when a call is aborted, WoW exposes no `debug`
 -- library to inspect a stack, and pcall-wrapping every call to force the epilogue costs ~0.24us per call
 -- (measured), which would roughly double this profiler's overhead and truncate error tracebacks.
@@ -170,6 +178,26 @@ local function ShortenStackFrame(stackLine)
     -- silently leaves the ellipsis and the full path in the job's name. Still specific enough that another
     -- addon's path cannot collapse into a Questie one.
     stackLine = string.gsub(stackLine, "[^%[%]]-[Aa]dd[Oo]ns[/\\]+[Qq]uestie[/\\]+", "", 1)
+
+    -- The match above still needs "AddOns/Questie/" intact, and for a window of path lengths the ellipsis
+    -- cut lands inside the marker itself - "...Ons/Questie/Modules/..." or "...stie/Modules/..." - keeping
+    -- the exact ellipsis-and-path name this function exists to remove. What sits between the ellipsis and
+    -- the first slash can then only be the tail of a marker directory, so it is judged as a suffix. A
+    -- foreign addon whose truncated name merely ends like "AddOns" keeps its path: the strip needs the
+    -- Questie segment after it, which no other addon's path carries.
+    local ellipsisFragment, afterFragment = string.match(stackLine, "^%.%.%.([^/\\]*)[/\\]+(.*)$")
+    if ellipsisFragment then
+        local lowerFragment = string.lower(ellipsisFragment)
+        if lowerFragment == "" or string.sub("addons", -string.len(lowerFragment)) == lowerFragment then
+            local strippedPath, questieMatches = string.gsub(afterFragment, "^[Qq]uestie[/\\]+", "")
+            if questieMatches > 0 then
+                stackLine = strippedPath
+            end
+        elseif string.sub("questie", -string.len(lowerFragment)) == lowerFragment then
+            stackLine = afterFragment
+        end
+    end
+
     stackLine = string.gsub(stackLine, "^%[(.-)%]", "%1")
     -- Addon-load rows spell the same file with forward slashes; a job naming it differently would read as a
     -- different file.
@@ -245,8 +273,11 @@ local function DescribeThreadJob(submittedFunction, callSiteStack, threadName)
     -- function that submitted it. Several closures scheduled by one function share a name; that is the cost
     -- of not having to write names down, and Thread's threadName parameter is the way to split them.
     local submittingCaller = CurrentProfiledCaller()
-    if submittingCaller and submittingCaller ~= ROOT_CALLER then
-        return submittingCaller
+    if submittingCaller then
+        -- A job submitted from inside another job's anonymous body falls through to the parent job itself,
+        -- whose key already carries the prefix this description gets wrapped in. Strip it rather than
+        -- registering the child under "ThreadLib job: ThreadLib job: X".
+        return (string.gsub(submittingCaller, "^ThreadLib job: ", ""))
     end
 
     if type(callSiteStack) == "string" then
