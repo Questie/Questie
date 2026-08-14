@@ -199,10 +199,12 @@ describe("QuestieProfilerUI", function()
     end
 
     ---Registers one ThreadLib job measurement on the profiler stub.
+    ---Self time stays zero as in production: only function epilogues add to a key's self slot, and a job is
+    ---a scheduling unit with no epilogue of its own.
     local function AddThreadJobEntry(lookupKey, totalTime, jobCalls, resumeCount)
         Profiler.hookCallCount[lookupKey] = jobCalls
         Profiler.hookTimeCount[lookupKey] = totalTime
-        Profiler.hookSelfTime[lookupKey] = totalTime
+        Profiler.hookSelfTime[lookupKey] = 0
         Profiler.lowerCaseLookup[lookupKey] = string.lower(lookupKey)
         Profiler.threadJobCallCount[lookupKey] = jobCalls
         Profiler.threadJobResumeCount[lookupKey] = resumeCount
@@ -1193,7 +1195,7 @@ describe("QuestieProfilerUI", function()
 
             local database = FindChild(BuildTree(), "Database")
 
-            assert.are_same(50, database.totalTime)
+            assert.are_same(50, database.cost)
             assert.are_same(2, database.rowCount)
         end)
 
@@ -1205,9 +1207,9 @@ describe("QuestieProfilerUI", function()
             local corrections = FindChild(database, "Corrections")
             local automatic = FindChild(corrections, "Automatic")
 
-            assert.are_same(25, database.totalTime)
-            assert.are_same(25, corrections.totalTime)
-            assert.are_same(25, automatic.totalTime)
+            assert.are_same(25, database.cost)
+            assert.are_same(25, corrections.cost)
+            assert.are_same(25, automatic.cost)
         end)
 
         it("groups functions by module path", function()
@@ -1217,8 +1219,29 @@ describe("QuestieProfilerUI", function()
 
             local questieMap = FindChild(BuildTree(), "QuestieMap")
 
-            assert.are_same(100, questieMap.totalTime)
+            assert.are_same(100, questieMap.cost)
             assert.are_same(2, questieMap.rowCount)
+        end)
+
+        it("rolls up function self time, so a caller and its callee are not counted twice", function()
+            -- DrawWorldIcon's 10 ms includes the 3 ms it spent inside DrawWaypoints. Rolling up inclusive
+            -- totals would report 13 ms for a module that only ever spent 10.
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 10, 1, 7)
+            AddFunctionEntry("QuestieMap.DrawWaypoints", 3, 1)
+
+            local questieMap = FindChild(BuildTree(), "QuestieMap")
+
+            assert.are_same(10, questieMap.cost)
+        end)
+
+        it("rolls up job and file totals, which have no nesting to double count", function()
+            AddThreadJobEntry("ThreadLib job: Draw", 600, 3, 40)
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
+
+            local tree = BuildTree()
+
+            assert.are_same(600, FindChild(tree, "ThreadLib jobs").cost)
+            assert.are_same(20, FindChild(tree, "Database").cost)
         end)
 
         it("collects jobs under one node, since a job has no path", function()
@@ -1226,7 +1249,7 @@ describe("QuestieProfilerUI", function()
 
             local jobs = FindChild(BuildTree(), "ThreadLib jobs")
 
-            assert.are_same(600, jobs.totalTime)
+            assert.are_same(600, jobs.cost)
         end)
 
         it("orders siblings by cost", function()

@@ -767,7 +767,7 @@ end
 ---@class ProfilerTreeNode
 ---@field label string @The segment this node adds
 ---@field prefix string @Full identity prefix, including the trailing separator
----@field totalTime number @Rolled up from every row beneath it
+---@field cost number @Rolled up from every row beneath it: function self time, file and job totals
 ---@field rowCount number
 ---@field children ProfilerTreeNode[]
 
@@ -790,25 +790,30 @@ end
 ---@param node ProfilerTreeNode
 local function SortTreeNode(node)
     tsort(node.children, function(left, right)
-        if left.totalTime == right.totalTime then
+        if left.cost == right.cost then
             return left.label < right.label
         end
-        return left.totalTime > right.totalTime
+        return left.cost > right.cost
     end)
     for _, child in ipairs(node.children) do
         SortTreeNode(child)
     end
 end
 
----Builds the container hierarchy for a set of rows, rolling each row's time into every ancestor.
+---Builds the container hierarchy for a set of rows, rolling each row's cost into every ancestor.
+---
+---Functions contribute self time, never inclusive: a caller's total already contains its callees', so
+---summing totals across a module charges the same milliseconds once per level of nesting - the rule
+---BuildSessionTotals states with a measurement. Files and jobs do not nest and contribute their totals.
 ---@param rows ProfilerReportRow[]
 ---@return ProfilerTreeNode root
 function _QuestieProfilerUI.BuildTree(rows)
-    local root = {label = "", prefix = "", totalTime = 0, rowCount = 0, children = {}, childrenByPrefix = {}}
+    local root = {label = "", prefix = "", cost = 0, rowCount = 0, children = {}, childrenByPrefix = {}}
 
     for _, row in ipairs(rows) do
         local separator, segments = TreeSegments(row)
-        root.totalTime = root.totalTime + row.totalTime
+        local rowCost = (row.isFileLoad or row.isThreadJob) and row.totalTime or row.selfTime
+        root.cost = root.cost + rowCost
         root.rowCount = root.rowCount + 1
 
         -- The leaf is the row itself and never becomes a node; only its containers do.
@@ -821,7 +826,7 @@ function _QuestieProfilerUI.BuildTree(rows)
                 child = {
                     label = segments[i],
                     prefix = prefix,
-                    totalTime = 0,
+                    cost = 0,
                     rowCount = 0,
                     children = {},
                     childrenByPrefix = {},
@@ -829,7 +834,7 @@ function _QuestieProfilerUI.BuildTree(rows)
                 node.childrenByPrefix[prefix] = child
                 tinsert(node.children, child)
             end
-            child.totalTime = child.totalTime + row.totalTime
+            child.cost = child.cost + rowCost
             child.rowCount = child.rowCount + 1
             node = child
         end
@@ -1516,8 +1521,9 @@ function RenderTree()
             treeRow:Show()
             treeRow.prefix = line.node.prefix
             treeRow.hasChildren = line.hasChildren
-            treeRow.rollupSummary = sformat("%s ms rolled up from everything beneath it.",
-                FormatMilliseconds(line.node.totalTime))
+            treeRow.rollupSummary = sformat("%s ms rolled up from everything beneath it: "
+                .. "function self time plus file and job totals.",
+                FormatMilliseconds(line.node.cost))
 
             local indent = line.depth * TREE_INDENT
             treeRow.toggle:ClearAllPoints()
@@ -1530,7 +1536,7 @@ function RenderTree()
             treeRow.label:SetPoint("RIGHT", treeRow.value, "LEFT", -4, 0)
             treeRow.label:SetText(line.node.label)
 
-            treeRow.value:SetText(FormatMilliseconds(line.node.totalTime))
+            treeRow.value:SetText(FormatMilliseconds(line.node.cost))
 
             local isScoped = displayState.scopePrefix == line.node.prefix
             if isScoped then
