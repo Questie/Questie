@@ -172,6 +172,54 @@ local function ShortenStackFrame(stackLine)
     return stackLine
 end
 
+-- ThreadLib is itself profiled, so at submission time its own scheduling functions are the top of the shadow
+-- stack. They are never the answer to "who scheduled this job" - they are how it was scheduled.
+local SCHEDULER_KEY_PREFIX = "ThreadLib."
+local SCHEDULER_KEY_PREFIX_LENGTH = string.len(SCHEDULER_KEY_PREFIX)
+
+---Walks down a shadow stack past the scheduler's own frames to the function that actually submitted the job.
+---@param frames ProfilerCoroutineFrame[]?
+---@param depth number
+---@return string? lookupKey
+local function NearestSubmitter(frames, depth)
+    if not frames then
+        return nil
+    end
+    for index = depth, 1, -1 do
+        local lookupKey = frames[index] and frames[index].lookupKey
+        if lookupKey and string.sub(lookupKey, 1, SCHEDULER_KEY_PREFIX_LENGTH) ~= SCHEDULER_KEY_PREFIX then
+            return lookupKey
+        end
+    end
+    return nil
+end
+
+---The profiled function currently executing, taken from the same shadow stack that attributes callers.
+---
+---This is what makes a submitted closure nameable without anyone writing a name down. `debugstack` cannot do
+---it: Lua infers a function's name from the expression that called it, and every profiled function is invoked
+---indirectly through this file's wrapper, so the frame carrying the real file reports `in function <file:line>`
+---and the frame carrying the name reports `QuestieProfiler.lua`. The shadow stack has neither problem - it
+---holds the fully qualified lookup key, is already maintained for caller attribution, and costs a table read.
+---
+---It inherits that mechanism's one documented flaw: after an error is caught, the top frame is stale until the
+---catching ancestor returns, so a job submitted inside that window is named after the errored function.
+---@return string? callerKey
+local function CurrentProfiledCaller()
+    if currentThread then
+        local frames = threadFrames[currentThread]
+        local submitter = NearestSubmitter(frames, frames and #frames or 0)
+        if submitter then
+            return submitter
+        end
+        -- Submitted by a job rather than by a call inside one: the job is the nearest thing that owns it.
+        local job = threadJobs[currentThread]
+        return job and job.lookupKey or nil
+    end
+
+    return NearestSubmitter(mainStack, mainDepth)
+end
+
 ---@param submittedFunction function
 ---@param callSiteStack string?
 ---@param threadName string?
@@ -181,10 +229,21 @@ local function DescribeThreadJob(submittedFunction, callSiteStack, threadName)
         return threadName
     end
 
+    -- The submitted function itself, when it is one this profiler already knows by name. Better than naming
+    -- the job after whoever scheduled it, because it describes the work rather than the trigger.
     local knownName = QuestieProfiler.shortestName[submittedFunction]
     if knownName then
         return knownName
     end
+
+    -- Otherwise the closure is anonymous, and the most useful stable identity available is the profiled
+    -- function that submitted it. Several closures scheduled by one function share a name; that is the cost
+    -- of not having to write names down, and Thread's threadName parameter is the way to split them.
+    local submittingCaller = CurrentProfiledCaller()
+    if submittingCaller and submittingCaller ~= ROOT_CALLER then
+        return submittingCaller
+    end
+
 
     if type(callSiteStack) == "string" then
         for stackLine in string.gmatch(callSiteStack, "[^\r\n]+") do

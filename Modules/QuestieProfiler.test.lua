@@ -1240,6 +1240,55 @@ describe("QuestieProfiler", function()
         assert.is_nil(Profiler.hookCallCount["ThreadLib job: Modules/Quest/AvailableQuests/AvailableQuests.lua:123"])
     end)
 
+    it("names an anonymous job after the profiled function that submitted it", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Submitter = function()
+            ThreadLib.ThreadSimple(function() end, 0)
+        end
+        -- A stack good enough to name the job by call site, so the assertion proves the shadow stack won.
+        _G.debugstack = function()
+            return "Modules/Quest/AvailableQuests/AvailableQuests.lua:123"
+        end
+        Profiler:Start(false)
+
+        testModule.Submitter()
+
+        local lookupKey = "ThreadLib job: " .. testModuleName .. ".Submitter"
+        assert.are_same(1, Profiler.hookCallCount[lookupKey])
+        assert.are_same(1, Profiler.threadJobCallCount[lookupKey])
+        assert.is_nil(Profiler.hookCallCount
+            ["ThreadLib job: Modules/Quest/AvailableQuests/AvailableQuests.lua:123"])
+    end)
+
+    it("looks past ThreadLib's own frames to the function that submitted the job", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        -- ThreadSimple forwards to Thread, so the scheduler sits on the shadow stack above the submitter.
+        -- Naming the job after it would label every job in the addon "ThreadLib.Thread".
+        testModule.Submitter = function()
+            ThreadLib.ThreadSimple(function() end, 0)
+        end
+        Profiler:Start(false)
+
+        testModule.Submitter()
+
+        assert.are_same(1, Profiler.threadJobCallCount["ThreadLib job: " .. testModuleName .. ".Submitter"])
+        assert.is_nil(Profiler.threadJobCallCount["ThreadLib job: ThreadLib.Thread"])
+        assert.is_nil(Profiler.threadJobCallCount["ThreadLib job: ThreadLib.ThreadSimple"])
+    end)
+
+    it("prefers an explicit name over the submitting function", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Submitter = function()
+            ThreadLib.Thread(function() end, 0, nil, nil, "Explicitly named work")
+        end
+        Profiler:Start(false)
+
+        testModule.Submitter()
+
+        assert.are_same(1, Profiler.threadJobCallCount["ThreadLib job: Explicitly named work"])
+        assert.is_nil(Profiler.threadJobCallCount["ThreadLib job: " .. testModuleName .. ".Submitter"])
+    end)
+
     it("aggregates repeated ThreadLib jobs with the same explicit name", function()
         Profiler:Start(false)
 
