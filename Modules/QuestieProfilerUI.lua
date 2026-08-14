@@ -1148,8 +1148,11 @@ local function ShowRowTooltip(row, reportRow)
 
     if reportRow.calls > 0 and not reportRow.hasTiming then
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("Counted but never timed: these calls spanned a coroutine yield, so no elapsed time "
-            .. "could be attributed. Use the matching ThreadLib job row for the real cost.", 0.55, 0.55, 0.55, true)
+        -- Calls spanning ThreadLib yields are timed since cross-slice accumulation landed; what stays
+        -- untimed is everything that never finishes inside a measured window.
+        GameTooltip:AddLine("Counted but never timed: no call completed inside a measured window. A raw "
+            .. "coroutine outside ThreadLib, an error unwinding past the wrapper, or a session boundary "
+            .. "mid-call all leave a count with no elapsed time.", 0.55, 0.55, 0.55, true)
     end
 
     local mergedPaths = reportRow.mergedPaths
@@ -1189,6 +1192,13 @@ end
 ---@param reportRow ProfilerReportRow
 ---@return string
 local function DetailLineFor(reportRow)
+    -- Calls and averages are function ideas; a file has one load and one allocation, and printing
+    -- "0 calls | 0.000 ms avg" for it reads as a measurement of nothing.
+    if reportRow.isFileLoad then
+        return sformat("|  %.3f ms load  |  %s allocated",
+            reportRow.totalTime, FormatKilobytes(reportRow.memoryKilobytes or 0))
+    end
+
     local selfDetail = reportRow.hasSelfTime and sformat("%.3f ms self", reportRow.selfTime) or "no self time"
     -- The identity moved into the copy box beside this, so the line starts at the measurements. It keeps a
     -- leading separator so the strip still reads as one sentence across the seam between the two widgets.
@@ -2677,8 +2687,9 @@ local function BuildRelationPanel()
     relationCallerHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
 
     relationCalleeHeader = relationPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    relationCalleeHeader:SetPoint("TOP", relationPanel, "TOP", 0, -3)
-    relationCalleeHeader:SetPoint("LEFT", relationPanel, "CENTER", 10, 0)
+    -- One anchor, like the caller header above: the previous TOP + LEFT->CENTER pair over-constrained the
+    -- rect on paper and happened to render correctly only because the client resolves the conflict leniently.
+    relationCalleeHeader:SetPoint("TOPLEFT", relationPanel, "TOP", 10, -3)
     relationCalleeHeader:SetJustifyH("LEFT")
     relationCalleeHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
 
@@ -2703,13 +2714,18 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
         if data then
             local identity = data[identityField]
             local isThreadJob = IsThreadJobKey(identity)
-            entry.identity = identity
+            -- "(root)" is a basis label, not an identity: no report row answers to it, so a click could only
+            -- clear the selection. Keeping it in the list but not clickable preserves the count it carries.
+            local isRootLabel = identity == "(root)"
+            entry.identity = not isRootLabel and identity or nil
             entry.relationSummary = sformat("%s calls, %s ms",
                 FormatCount(data.calls), FormatMilliseconds(data.totalTime))
             -- Colour carries the species here, the way it does in the list. Nothing is lost: the tooltip
             -- still shows the untrimmed key.
             entry.nameText:SetText(DisplayNameFor(identity))
-            local nameColor = isThreadJob and COLOR_THREAD_JOB or COLOR_TEXT
+            local nameColor = (isThreadJob and COLOR_THREAD_JOB)
+                or (isRootLabel and COLOR_UNTIMED)
+                or COLOR_TEXT
             entry.nameText:SetTextColor(nameColor.r, nameColor.g, nameColor.b)
             entry.valueText:SetText(sformat("%s x   %s ms",
                 FormatCount(data.calls), FormatMilliseconds(data.totalTime)))

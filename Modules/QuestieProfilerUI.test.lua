@@ -399,12 +399,17 @@ describe("QuestieProfilerUI", function()
             assert.are_same(1, string.find(detail, "|  200.000 ms total", 1, true))
         end)
 
-        it("reports no self time rather than a zero a file could be blamed for", function()
+        it("describes a file by its load and allocation, not by calls it cannot have", function()
             Profiler.fileLoadTime["Questie.lua"] = 50
+            Profiler.fileLoadMemory["Questie.lua"] = 2140
 
             local detail = ProfilerUI.private.DetailLineFor(FindRow(BuildReport(), "Questie.lua"))
 
-            assert.is_true(string.find(detail, "no self time", 1, true) ~= nil)
+            assert.are_same(1, string.find(detail, "|  50.000 ms load", 1, true))
+            assert.is_true(string.find(detail, "2.1 MB allocated", 1, true) ~= nil)
+            -- "0 calls | 0.000 ms avg" on a loaded file read as a measurement of nothing.
+            assert.is_nil(string.find(detail, "calls", 1, true))
+            assert.is_nil(string.find(detail, "self", 1, true))
         end)
 
         it("adds jobs and resumes for a ThreadLib job", function()
@@ -1665,6 +1670,36 @@ describe("QuestieProfilerUI", function()
             ProfilerUI:Refresh()
 
             assert.is_truthy(string.find(ShownTexts(), "600.000 ms total", 1, true))
+        end)
+
+        it("shows the (root) caller as context, not as a drill-down target", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            AddCallerEntry("QuestieDB.GetQuest", "(root)", 3, 150)
+            AddCallerEntry("QuestieDB.GetQuest", "QuestieMap.DrawWorldIcon", 1, 50)
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 50, 1)
+            ProfilerUI:Show()
+
+            ProfilerUI.private.displayState.selectedKey = "QuestieDB.GetQuest"
+            ProfilerUI:Refresh()
+
+            local rootEntry, callerEntry
+            for _, frame in ipairs(frameRegistry) do
+                -- Only relation entries carry a relationSummary; the list rows share the same names.
+                local nameText = rawget(frame, "nameText")
+                if nameText and rawget(frame, "relationSummary") then
+                    if nameText:GetText() == "(root)" then
+                        rootEntry = frame
+                    elseif nameText:GetText() == "QuestieMap.DrawWorldIcon" then
+                        callerEntry = frame
+                    end
+                end
+            end
+            -- No report row answers to "(root)", so clicking it could only clear the selection.
+            assert.is_truthy(rootEntry)
+            assert.is_nil(rawget(rootEntry, "identity"))
+            -- A real caller in the same list keeps its drill-down.
+            assert.is_truthy(callerEntry)
+            assert.are_same("QuestieMap.DrawWorldIcon", rawget(callerEntry, "identity"))
         end)
     end)
 
