@@ -33,9 +33,10 @@ end
 
 ---@class ProfilerCoroutineFrame
 ---@field lookupKey string
----@field activeSince number @Start of this resume slice in milliseconds
+---@field activeSince number? @Start of the current resume slice; nil while the coroutine is suspended
+---@field accumulated number @Active time banked from resume slices this call has already survived
 ---@field generation integer @Measurement window in which this call started
----@field discarded boolean @True when the call did not return within its starting resume slice
+---@field discarded boolean @True when the frame is stale or belongs to a cleared measurement window
 ---@field childTime number @Measured time of completed profiled children, subtracted to yield self time
 
 ---@class ProfilerThreadJob
@@ -248,7 +249,6 @@ local function DescribeThreadJob(submittedFunction, callSiteStack, threadName)
         return submittingCaller
     end
 
-
     if type(callSiteStack) == "string" then
         for stackLine in string.gmatch(callSiteStack, "[^\r\n]+") do
             local trimmedLine = string.match(stackLine, "^%s*(.-)%s*$")
@@ -331,6 +331,14 @@ local profilingCallbacks = {
         local now = Now()
         currentThread = thread
 
+        -- Calls this resume continues start a new slice; everything before now was suspended, not spent.
+        local frames = threadFrames[thread]
+        if frames then
+            for i = 1, #frames do
+                frames[i].activeSince = now
+            end
+        end
+
         local job = threadJobs[thread]
         if job then
             job.activeSince = now
@@ -342,12 +350,16 @@ local profilingCallbacks = {
         local now = Now()
         local frames = threadFrames[thread]
         if frames then
-            -- Lua 5.1 cannot safely distinguish a yielding wrapper from one whose error was caught by unwrapped code.
-            -- Discard both here; the ThreadLib job row remains the accurate aggregate for calls spanning yields.
+            -- Bank what each still-running call spent in this slice and stop its clock. Suspended time never
+            -- falls between a stamp and a bank, so it cannot be counted. The frames stay: the coroutine's
+            -- call stack really is still those functions, and the next resume continues them.
             for i = 1, #frames do
-                frames[i].discarded = true
+                local frame = frames[i]
+                if frame.activeSince then
+                    frame.accumulated = frame.accumulated + (now - frame.activeSince)
+                    frame.activeSince = nil
+                end
             end
-            threadFrames[thread] = nil
         end
 
         local job = threadJobs[thread]
@@ -462,6 +474,7 @@ function QuestieProfiler:HookFunction(key, original, parent, parentName)
             local frame = {
                 lookupKey = lookupKey,
                 activeSince = Now(),
+                accumulated = 0,
                 generation = measurementGeneration,
                 discarded = false,
                 childTime = 0,
@@ -472,7 +485,9 @@ function QuestieProfiler:HookFunction(key, original, parent, parentName)
                 and frame.generation == measurementGeneration
                 and QuestieProfiler.active
                 and QuestieProfiler.hookTimeCount[lookupKey] ~= nil then
-                local elapsed = Now() - frame.activeSince
+                -- Every slice this call survived, plus the one it returned in. A call that never yielded has
+                -- banked nothing, so this is the same arithmetic it always was.
+                local elapsed = frame.accumulated + (frame.activeSince and (Now() - frame.activeSince) or 0)
                 AddMeasurement(lookupKey, elapsed)
                 AddSelfMeasurement(lookupKey, elapsed - frame.childTime)
                 RecordCallerTime(lookupKey, callerKey, elapsed)

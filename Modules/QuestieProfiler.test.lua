@@ -572,7 +572,7 @@ describe("QuestieProfiler", function()
         assert.are_same(0, Profiler.hookTimeCount[lookupKey])
     end)
 
-    it("uses the job row for work spanning ThreadLib resume slices", function()
+    it("times work spanning resume slices, counting the slices and never the suspension", function()
         local testModule = QuestieLoader:CreateModule(testModuleName)
         testModule.SlicedJob = function()
             clock = clock + 2
@@ -590,7 +590,9 @@ describe("QuestieProfiler", function()
         clock = clock + 100
         tickerCallbacks[1]()
 
-        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".SlicedJob"])
+        -- 2 + 3 + 4 of work across three slices. The two 100ms gaps are suspension and must not appear.
+        -- This reported 0 before slices were accumulated, which read as "free" for work that plainly ran.
+        assert.are_same(9, Profiler.hookTimeCount[testModuleName .. ".SlicedJob"])
         assert.are_same(1, Profiler.hookCallCount[testModuleName .. ".SlicedJob"])
 
         local jobLookupKey
@@ -600,6 +602,7 @@ describe("QuestieProfiler", function()
             end
         end
         assert.is_truthy(jobLookupKey)
+        -- The function is the entirety of the job, so the two measurements have to agree.
         assert.are_same(9, Profiler.hookTimeCount[jobLookupKey])
         assert.are_same(1, Profiler.hookCallCount[jobLookupKey])
         assert.are_same(1, Profiler.threadJobCallCount[jobLookupKey])
@@ -627,7 +630,7 @@ describe("QuestieProfiler", function()
         assert.are_same(6, Profiler.hookTimeCount[testModuleName .. ".Outer"])
     end)
 
-    it("discards a caught errored frame when its caller spans ThreadLib resumes", function()
+    it("credits a caller spanning resumes without crediting the frame its caught error left behind", function()
         local testModule = QuestieLoader:CreateModule(testModuleName)
         testModule.Inner = function()
             clock = clock + 2
@@ -648,8 +651,37 @@ describe("QuestieProfiler", function()
         clock = clock + 100
         tickerCallbacks[1]()
 
+        -- Inner errored, so its wrapper never completed and it publishes nothing - the stale frame it left
+        -- on the stack accrues time but can never report it, which is why accumulating is safe here.
         assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".Inner"])
-        assert.are_same(0, Profiler.hookTimeCount[testModuleName .. ".Outer"])
+        -- Outer really did spend 1 + 2 + 3 + 4, either side of a yield, with 100ms suspended in between.
+        assert.are_same(10, Profiler.hookTimeCount[testModuleName .. ".Outer"])
+    end)
+
+    it("keeps self time right when a call spans a resume and its child does not", function()
+        local testModule = QuestieLoader:CreateModule(testModuleName)
+        testModule.Child = function()
+            clock = clock + 5
+        end
+        testModule.Parent = function()
+            clock = clock + 1
+            coroutine.yield()
+            clock = clock + 2
+            testModule.Child()
+            clock = clock + 3
+        end
+        Profiler:Start(false)
+        ThreadLib.ThreadSimple(testModule.Parent, 0)
+
+        tickerCallbacks[1]()
+        clock = clock + 100
+        tickerCallbacks[1]()
+
+        -- The child ran wholly inside the second slice; the parent's total spans both.
+        assert.are_same(5, Profiler.hookTimeCount[testModuleName .. ".Child"])
+        assert.are_same(11, Profiler.hookTimeCount[testModuleName .. ".Parent"])
+        -- Self time still subtracts the child, across the slice boundary.
+        assert.are_same(6, Profiler.hookSelfTime[testModuleName .. ".Parent"])
     end)
 
     it("does not carry caught errors from an unwrapped job into a measurement reset", function()
