@@ -87,6 +87,7 @@ describe("QuestieLoader", function()
 
             QuestieLoader:CreateModule("First")
             QuestieLoader:ImportModule("Second")
+            QuestieLoader:StampLoadBoundary()
 
             assert.are_same(0, clockReads)
         end)
@@ -115,6 +116,45 @@ describe("QuestieLoader", function()
             QuestieLoader:CreateModule("Alpha")
 
             assert.are_same(12, QuestieLoader.loadTimings["embeds.xml"])
+        end)
+
+        it("opens an interval named after an XML group at a boundary stamp", function()
+            currentSourceFile = "Localization/lookups/lookupZones.lua"
+            QuestieLoader:ImportModule("l10n")
+            AdvanceClock(3)
+
+            -- An inline Script chunk reports the XML's own path, ":<Scripts>" suffixed, in main chunk.
+            currentSourceFile = "Localization/lookups/Classic/lookupItems/lookupItems.xml:<Scripts>"
+            QuestieLoader:StampLoadBoundary()
+            AdvanceClock(200)
+
+            currentSourceFile = "Modules/Libs/DistanceUtils.lua"
+            QuestieLoader:CreateModule("DistanceUtils")
+
+            -- Without the boundary, the group's whole parse cost lands on lookupZones.lua.
+            assert.are_same(3, QuestieLoader.loadTimings["Localization/lookups/lookupZones.lua"])
+            assert.are_same(200,
+                QuestieLoader.loadTimings["Localization/lookups/Classic/lookupItems/lookupItems.xml"])
+        end)
+
+        it("ignores a boundary stamp that does not come from a main chunk", function()
+            currentSourceFile = "Localization/lookups/lookupZones.lua"
+            QuestieLoader:ImportModule("l10n")
+            AdvanceClock(3)
+
+            _G.debugstack = function()
+                return "[Interface/AddOns/Questie/Modules/Foo.lua]:10: in function DoWork\n"
+            end
+            QuestieLoader:StampLoadBoundary()
+            AdvanceClock(4)
+
+            _G.debugstack = function()
+                return "[Interface/AddOns/Questie/Modules/Beta.lua]:3: in main chunk\n"
+            end
+            QuestieLoader:CreateModule("Beta")
+
+            -- The runtime stamp neither closed the interval nor opened one of its own.
+            assert.are_same(7, QuestieLoader.loadTimings["Localization/lookups/lookupZones.lua"])
         end)
 
         it("accumulates repeated intervals for the same file", function()

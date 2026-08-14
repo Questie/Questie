@@ -76,8 +76,11 @@ local function StampLoad(stackLevel)
     -- not building anything, and a negative figure means the collector ran and freed memory during it.
     loadMemory[lastSource] = (loadMemory[lastSource] or 0) + (nowKilobytes - lastMemoryKilobytes)
 
-    -- WoW renders the path bracketed: "[Interface/AddOns/Questie/Modules/Foo.lua]:3: in main chunk"
+    -- WoW renders the path bracketed: "[Interface/AddOns/Questie/Modules/Foo.lua]:3: in main chunk".
+    -- An inline XML Script chunk carries the XML's own path instead:
+    -- "[Interface/AddOns/Questie/.../lookupItems.xml:<Scripts>]:1: in main chunk".
     local source = string.match(stack, "%[([^%]]+%.lua)%]:%d+")
+        or string.match(stack, "%[([^%]]+%.xml):<Scripts>%]:%d+")
     if source then
         source = string.gsub(source, "^.*[Qq]uestie/", "")
     end
@@ -132,6 +135,19 @@ function QuestieLoader:ImportModule(name)
         return modules[name]
     else
         return modules[name]
+    end
+end
+
+---Stamps a load-interval boundary from a file that has no module to create or import.
+---
+---An XML script group whose listed files never reach a loader call - the locale lookup tables, which
+---early-return on every locale but the client's - is invisible to the stamps above, so its entire parse
+---cost lands on whichever file stamped last. Called from an inline Script tag as the XML's first element;
+---that chunk runs "in main chunk" carrying the XML's own path, so the interval it opens is named after
+---the group itself, through the same debugstack extraction every Lua file goes through.
+function QuestieLoader:StampLoadBoundary()
+    if trackLoadTimings then
+        StampLoad(3)
     end
 end
 
