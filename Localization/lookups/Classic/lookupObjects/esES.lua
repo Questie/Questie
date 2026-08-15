@@ -692,6 +692,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [169217] = "Roca lisa Un'Goro",
 [169243] = "Cofre de los Siete",
 [169294] = "Tablilla de los Siete",
+[171715] = "El Gran Yunque",
 [171938] = "Manzana de cactus",
 [171939] = "Melodía corrupta",
 [171940] = "Melodía limpia",

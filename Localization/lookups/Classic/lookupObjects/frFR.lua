@@ -694,6 +694,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [169217] = "Plateau d'Un'Goro",
 [169243] = "Coffre des sept",
 [169294] = "Tablette des Sept",
+[171715] = "La Grande Enclume",
 [171938] = "Pomme de cactus",
 [171939] = "Fleur-de-chant corrompue",
 [171940] = "Fleur-de-chant purifiée",

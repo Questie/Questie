@@ -695,6 +695,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [169217] = "Flacher Un’Goro-Fels",
 [169243] = "Truhe der Sieben",
 [169294] = "Schrifttafel der Sieben",
+[171715] = "Der große Amboss",
 [171938] = "Kaktusapfel",
 [171939] = "Verderbte Liedblume",
 [171940] = "Gesäuberte Liedblume",
