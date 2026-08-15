@@ -896,4 +896,102 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
         end)
     end)
+
+    describe("CalculateAndDrawAll", function()
+        it("should start a pass immediately when none is running", function()
+            local passCount = 0
+            TheadLib.Thread = function()
+                passCount = passCount + 1
+            end
+
+            AvailableQuests.CalculateAndDrawAll()
+
+            assert.are_equal(1, passCount)
+        end)
+
+        it("should queue a second call instead of starting a new pass while one is running", function()
+            local passCount = 0
+            TheadLib.Thread = function()
+                passCount = passCount + 1
+            end
+
+            AvailableQuests.CalculateAndDrawAll()
+            AvailableQuests.CalculateAndDrawAll()
+            AvailableQuests.CalculateAndDrawAll()
+
+            -- Only one pass started; the other two are coalesced into a single queued follow-up
+            assert.are_equal(1, passCount)
+            local _, queued = AvailableQuests.__getPassState()
+            assert.is_true(queued)
+        end)
+
+        it("should start the queued pass once the running pass completes", function()
+            local passCount = 0
+            local firstCallback
+
+            -- First call: capture callback without running the body
+            TheadLib.Thread = function(_, _, _, cb)
+                passCount = passCount + 1
+                firstCallback = cb
+            end
+            AvailableQuests.CalculateAndDrawAll()
+
+            -- Second call while first is in flight — should queue, not start
+            AvailableQuests.CalculateAndDrawAll()
+            assert.are_equal(1, passCount)
+
+            -- Complete the first pass — the queued pass should auto-start
+            firstCallback()
+
+            -- The queued pass was consumed (no longer queued) and a new pass has started
+            assert.are_equal(2, passCount)
+            local _, queued = AvailableQuests.__getPassState()
+            assert.is_false(queued)
+        end)
+
+        it("should fire a callback after the pass it was registered with completes", function()
+            local result = 0
+            local firstCallback
+
+            TheadLib.Thread = function(_, _, _, cb)
+                firstCallback = cb
+            end
+
+            AvailableQuests.CalculateAndDrawAll(function() result = result + 1 end)
+
+            -- Callback has not fired yet (pass still running)
+            assert.are_equal(0, result)
+
+            firstCallback()
+
+            assert.are_equal(1, result)
+        end)
+
+        it("should fire callbacks from concurrent calls each after their respective pass", function()
+            local results = {}
+            local firstCallback, secondCallback
+
+            TheadLib.Thread = function(_, _, _, cb)
+                if (not firstCallback) then
+                    firstCallback = cb
+                else
+                    secondCallback = cb
+                end
+            end
+
+            -- Both calls arrive while no pass is running — first starts immediately, second queues
+            AvailableQuests.CalculateAndDrawAll(function() results[#results + 1] = "first" end)
+            AvailableQuests.CalculateAndDrawAll(function() results[#results + 1] = "second" end)
+
+            assert.are_equal(0, #results)
+
+            -- Complete the first pass; the queued pass starts and "first" callback fires
+            firstCallback()
+            assert.are_same({"first"}, results)
+
+            -- Complete the second pass; "second" callback fires
+            secondCallback()
+            assert.are_same({"first", "second"}, results)
+        end)
+    end)
 end)
