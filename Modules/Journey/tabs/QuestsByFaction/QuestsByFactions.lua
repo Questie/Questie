@@ -678,6 +678,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                elseif returnReason == DoableStates.ARENA_RATING then -- missing arena rating
+                    tinsert(factionTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 end
             end
 

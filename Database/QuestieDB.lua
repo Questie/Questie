@@ -112,6 +112,7 @@ QuestieDB.DoableStates = {
     PROFESSION_MISSING = 29,
     PROFESSION_RANK = 30,
     DISABLED_BY = 31,
+    ARENA_RATING = 32,
 }
 
 -- * race bitmask data, for easy access
@@ -925,6 +926,15 @@ function QuestieDB.IsDoable(questId, debugPrint)
         return false
     end
 
+    -- Check if this is one of those arena rating quests
+    -- Quests only present in TBC and only these IDs
+    if Expansions.Current == Expansions.Tbc and (questId == 95158 or questId == 95251 or questId == 95252) then
+        if not QuestiePlayer.HasArenaRating(questId) then
+            if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet arena rating requirements for quest " .. questId) end
+            return false
+        end
+    end
+
     return true
 end
 
@@ -1369,6 +1379,17 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 return l10n("Unavailable")..l10n(": ")..l10n("Daily quest not active"), true, DoableStates.MISSING_DAILY
             elseif returnText then
                 return "Daily quest " .. questId .. " is not active", true, DoableStates.MISSING_DAILY
+            end
+        end
+    end
+
+    -- Check if this is one of those arena rating quests
+    if Expansions.Current == Expansions.Tbc and (questId == 95158 or questId == 95251 or questId == 95252) then
+        if not QuestiePlayer.HasArenaRating(questId) then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Missing Arena Rating"), true, DoableStates.ARENA_RATING
+            elseif returnText then
+                return "Missing Arena Rating for quest " .. questId, true, DoableStates.ARENA_RATING
             end
         end
     end

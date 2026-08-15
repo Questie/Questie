@@ -2642,6 +2642,9 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [95104] = {62, l10n("Raid")}, -- Animist's Embodiment
         [95105] = {62, l10n("Raid")}, -- Lunar Embodiment
         [95106] = {62, l10n("Raid")}, -- Naturalist's Embodiment
+        [95158] = {41, l10n("PvP")}, -- Reset Current Rating - 2v2
+        [95251] = {41, l10n("PvP")}, -- Reset Current Rating - 3v3
+        [95252] = {41, l10n("PvP")}, -- Reset Current Rating - 5v5
         [95455] = {41, l10n("PvP")}, -- Concerted Efforts
         --[95456] = {41, l10n("PvP")}, -- Concerted Efforts
         [95457] = {41, l10n("PvP")}, -- For Great Honor
