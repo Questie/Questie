@@ -261,7 +261,7 @@ describe("Comms", function()
                 return {Cancel = function() end}
             end
 
-            local event = {eventName = "RequestUnavailableDailyQuests"}
+            local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
@@ -270,22 +270,24 @@ describe("Comms", function()
         end)
 
         it("should cancel pending response timer when HideDailyQuests is received from a peer", function()
-            -- First, schedule a response by receiving a request
+            -- Setup: receiver has NPC 1234, sender doesn't — so timer will be scheduled
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[1234] = {5678, 91011}} end
+
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             local timerMock = spy.new(function() return timer end)
             _G.C_Timer.NewTimer = timerMock
 
-            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
             assert.spy(timerMock).was.called()
             assert.is_false(timer.cancelled)
 
-            -- Now receive a HideDailyQuests from a peer — should cancel the pending timer
+            -- Peer covers all our quests — should cancel the pending timer
             local hideEvent = {
                 eventName = "HideDailyQuests",
-                data = {npcId = 1234, questIds = {5678}}
+                data = {npcId = 1234, questIds = {5678, 91011}}
             }
             Questie.Deserialize = function() return true, hideEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
@@ -294,22 +296,21 @@ describe("Comms", function()
         end)
 
         it("should replace existing pending timer when a second RequestUnavailableDailyQuests arrives", function()
+            -- Setup: receiver has NPC 1234 that senders don't — so both timers will be scheduled
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[1234] = {5678}} end
+
             local firstTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             local firstTimerMock = spy.new(function() return firstTimer end)
             local secondTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             local secondTimerMock = spy.new(function() return secondTimer end)
 
-            local event = {eventName = "RequestUnavailableDailyQuests"}
+            local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, event end
 
-            _G.C_Timer = {
-                NewTimer = firstTimerMock
-            }
+            _G.C_Timer = {NewTimer = firstTimerMock}
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
-            _G.C_Timer = {
-                NewTimer = secondTimerMock
-            }
+            _G.C_Timer = {NewTimer = secondTimerMock}
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
 
             assert.is_true(firstTimer.cancelled)
@@ -331,7 +332,7 @@ describe("Comms", function()
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             _G.C_Timer.NewTimer = function() return timer end
 
-            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -362,7 +363,7 @@ describe("Comms", function()
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             _G.C_Timer.NewTimer = function() return timer end
 
-            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -392,7 +393,7 @@ describe("Comms", function()
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             _G.C_Timer.NewTimer = function() return timer end
 
-            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -433,7 +434,7 @@ describe("Comms", function()
             local timer1 = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             _G.C_Timer.NewTimer = function() return timer1 end
 
-            local requestEvent = {eventName = "RequestUnavailableDailyQuests"}
+            local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -462,6 +463,67 @@ describe("Comms", function()
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
 
             assert.is_false(timer2.cancelled)
+        end)
+
+        it("should not schedule timer when receiver has no quests different from sender", function()
+            local receiverData = {[1234] = {1, 2, 3}}
+            local senderData = {[1234] = {1, 2, 3}}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return receiverData end
+            _G.C_Timer.NewTimer = spy.new(function() end)
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(_G.C_Timer.NewTimer).was.not_called()
+        end)
+
+        it("should not schedule timer when both receiver and sender know nothing", function()
+            local receiverData = {}
+            local senderData = {}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return receiverData end
+            _G.C_Timer.NewTimer = spy.new(function() end)
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(_G.C_Timer.NewTimer).was.not_called()
+        end)
+
+        it("should schedule timer when sender sent no data but receiver has something new", function()
+            local receiverData = {[1234] = {1, 2, 3}}
+            local senderData = {}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return receiverData end
+            _G.C_Timer.NewTimer = spy.new(function() end)
+
+            -- Sender has no data, but receiver does — should still schedule timer
+            local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(_G.C_Timer.NewTimer).was.called()
+        end)
+
+        it("should schedule timer when receiver has NPCs sender doesn't know about", function()
+            local receiverData = {[1234] = {1, 2, 3}, [5678] = {10, 11}}
+            local senderData = {[1234] = {1, 2, 3}}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return receiverData end
+            _G.C_Timer.NewTimer = spy.new(function() return {Cancel = function() end} end)
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(_G.C_Timer.NewTimer).was.called()
         end)
     end)
 
