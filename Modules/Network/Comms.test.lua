@@ -242,7 +242,7 @@ describe("Comms", function()
                 return {Cancel = function() end}
             end
 
-            local event = {eventName = "RequestUnavailableDailyQuests"}
+            local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
             Questie.Deserialize = function() return true, event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
@@ -577,6 +577,17 @@ describe("Comms", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should reject RequestUnavailableDailyQuests when data is not a table", function()
+            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = "not a table"}
             Questie.Deserialize = function() return true, event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")

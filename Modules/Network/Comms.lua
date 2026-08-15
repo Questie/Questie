@@ -53,13 +53,9 @@ end
 
 --- Checks if our local unavailable quest data includes any NPCs not in sender's knowledge.
 --- We only need to check NPCs, because NPCs can't have different quests active for different players (
----@param senderData table<NpcId, QuestId[]>|nil The sender's unavailable quest data from the request event.
+---@param senderData table<NpcId, QuestId[]> The sender's unavailable quest data from the request event.
 ---@return boolean True if we have additional NPCs the sender doesn't know about.
 local function _HasNewNpcData(senderData)
-    if (not senderData) then
-        senderData = {}
-    end
-
     local localData = AvailableQuests.GetUnavailableDailyQuests()
     for npcId in pairs(localData) do
         if (not senderData[npcId]) then
@@ -122,13 +118,16 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         -- A peer just logged in and is asking for unavailable daily quests.
         -- Only respond if we have NPC data they don't know about.
 
+        local eventData = event.data
+        if (not eventData) or type(eventData) ~= "table" then
+            return
+        end
+
         -- Integrate sender's NPC data for NPCs the receiver doesn't already know about
-        if event.data then
-            local localData = AvailableQuests.GetUnavailableDailyQuests()
-            for npcId, questIds in pairs(event.data) do
-                if (not localData[npcId]) then
-                    AvailableQuests.RemoveQuestsForToday(npcId, questIds)
-                end
+        local localData = AvailableQuests.GetUnavailableDailyQuests()
+        for npcId, questIds in pairs(event.data) do
+            if (not localData[npcId]) then
+                AvailableQuests.RemoveQuestsForToday(npcId, questIds)
             end
         end
 
