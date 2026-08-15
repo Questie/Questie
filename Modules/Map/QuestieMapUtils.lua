@@ -96,7 +96,7 @@ function QuestieMap.utils.IsExplored(uiMapId, x, y)
     return IsExplored
 end
 
-function QuestieMap.utils:MapExplorationUpdate()
+function QuestieMap.utils.MapExplorationUpdate()
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do
             local frame = _G[frameName]
