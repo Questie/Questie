@@ -5,6 +5,8 @@ local ProfessionStations = QuestieLoader:CreateModule("ProfessionStations")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -66,7 +68,7 @@ ProfessionStations.data = {
         147040, 147041, 147042, 147043, 147044, 147045, 147046, 147047,
         147048, 147049, 147279, 147282, 147283, 147284, 147786, 147787,
         147792, 147793, 148956, 148957, 148958, 148959, 152032, 153460,
-         161489, 169966, 169968, 171713, 171714, 171715, 173065, 173066, 173094,
+         161489, 169966, 169968, 171713, 171714, 171715, 172911, 173065, 173066, 173094,
         175078, 175145, 175383, 175743, 175744, 175852, 176508, 178685,
         179391, 179392, 179393, 179394, 179395, 179396, 179397, 179862,
         179864, 179887, 180914, 181131, 181596, 181715, 181885, 181989,
@@ -150,6 +152,25 @@ local _titles = {
     alchemyLab = "Alchemy Lab",
 }
 
+---@type table<string, boolean>
+local _genericNames = {
+    ["Moonwell"] = true,
+    ["Anvil"] = true,
+    ["Forge"] = true,
+    ["Alchemy Lab"] = true,
+}
+
+---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
+---@param object Object|nil
+---@return string
+local function _GetTitle(category, object)
+    local name = object and object.name
+    if name and not _genericNames[name] then
+        return Questie:Colorize(name, "white")
+    end
+    return Questie:Colorize(l10n(_titles[category]), "white")
+end
+
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
 local function _GetActiveData(category)
     local data = {}
@@ -173,9 +194,9 @@ end
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
 function ProfessionStations.ShowAll(category)
     local icon = _icons[category]
-    local title = Questie:Colorize(l10n(_titles[category]), "white")
     for objectID in pairs(_GetActiveData(category)) do
-        QuestieMap:ShowObject(objectID, icon, 1.2, title, nil, true, category)
+        local object = QuestieDB:GetObject(objectID)
+        QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), nil, true, category)
     end
 end
 
