@@ -6,7 +6,7 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 ---@class CommEvent
 ---@field eventName "HideDailyQuests"|"RequestUnavailableDailyQuests"
----@field data { npcId: NpcId, questIds: QuestId[] }|nil
+---@field data table<NpcId, QuestId[]>|{ npcId: NpcId, questIds: QuestId[] }|nil
 
 local COMM_PREFIX = "QuestieDailies"
 
@@ -120,9 +120,13 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
 end
 
 --- Sends a request to guild/group members asking them to share which daily quests are unavailable today.
+--- The event includes the quests the sender already knows, so receivers can decide if they have additional data.
 --- Called once on login. A peer with known data will respond with HideDailyQuests messages.
 function Comms.RequestUnavailableDailyQuests()
-    local event = {eventName = "RequestUnavailableDailyQuests"}
+    local event = {
+        eventName = "RequestUnavailableDailyQuests",
+        data = AvailableQuests.GetUnavailableDailyQuests(),
+    }
     local serializedEvent = Questie:Serialize(event)
 
     if IsInGuild() then

@@ -580,5 +580,43 @@ describe("Comms", function()
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
+
+        it("should include known unavailable quests in the event payload", function()
+            local npcId = 1234
+            local questIds = {5678, 91011}
+            AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = questIds}
+            end
+            _G.IsInGuild = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            local capturedEvent
+            Questie.Serialize = function(_, event)
+                capturedEvent = event
+                return "eventAsSerializedString"
+            end
+
+            Comms.RequestUnavailableDailyQuests()
+
+            assert.are_equal("RequestUnavailableDailyQuests", capturedEvent.eventName)
+            assert.are_same({[npcId] = questIds}, capturedEvent.data)
+        end)
+
+        it("should include empty data when no quests are known", function()
+            AvailableQuests.GetUnavailableDailyQuests = function()
+                return {}
+            end
+            _G.IsInGuild = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            local capturedEvent
+            Questie.Serialize = function(_, event)
+                capturedEvent = event
+                return "eventAsSerializedString"
+            end
+
+            Comms.RequestUnavailableDailyQuests()
+
+            assert.are_equal("RequestUnavailableDailyQuests", capturedEvent.eventName)
+            assert.are_same({}, capturedEvent.data)
+        end)
     end)
 end)
