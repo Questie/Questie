@@ -765,17 +765,14 @@ end
 _MinimapIconSetFade = function(self, value)
     if self.lastGlowFade ~= value then
         self.lastGlowFade = value
-        if self.glowTexture then
-            local r, g, b = self.glowTexture:GetVertexColor()
-            self.glowTexture:SetVertexColor(r, g, b, value)
-        end
+        self.glowTexture:SetVertexColor(self.glowTexture.r, self.glowTexture.g, self.glowTexture.b, value)
         self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, value)
     end
 end
 
 _MinimapIconFadeLogic = function(self)
     local profile = Questie.db.profile
-    if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
+    if self.miniMapIcon and self.x and self.y and self.UiMapID and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
         if (QuestieMap.playerX and QuestieMap.playerY) then
             local x, y
             if (not self.worldX) then
