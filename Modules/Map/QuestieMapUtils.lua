@@ -52,7 +52,7 @@ local DRAW_ORDER_QUEST_COMPLETE = 2 * MAX_DRAW_ORDER_BY_ICON_TYPE
 
 --- Set frame's frameLevel.
 ---@param frame IconFrame
-function QuestieMap.utils:SetDrawOrder(frame)
+function QuestieMap.utils.SetDrawOrder(frame)
     -- We need to add 2015, because of the regular WorldMapFrame.ScrollContainer which seems to start at 2000
     -- Add +1 to be above waypoint lines
     local frameLevel = 2016

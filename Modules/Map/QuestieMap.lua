@@ -352,7 +352,7 @@ function QuestieMap.ProcessQueue()
             local size = (16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7)) * scaleValue;
             frame:SetSize(size, size)
 
-            QuestieMap.utils:SetDrawOrder(frame);
+            QuestieMap.utils.SetDrawOrder(frame)
 
             mapDrawCall[2]._loaded = true
             if mapDrawCall[2]._needsUnload then
@@ -365,7 +365,7 @@ function QuestieMap.ProcessQueue()
             local frame = minimapDrawCall[2];
             HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
 
-            QuestieMap.utils:SetDrawOrder(frame);
+            QuestieMap.utils.SetDrawOrder(frame)
 
             minimapDrawCall[2]._loaded = true
             if minimapDrawCall[2]._needsUnload then
