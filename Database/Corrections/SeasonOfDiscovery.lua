@@ -622,10 +622,11 @@ function SeasonOfDiscovery.Initialize()
         ContentPhases.activePhases.SoD = 4
     else
         phaseDetected = false
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[SeasonOfDiscovery] Automatic phase detection failed, phase remains as " .. tostring(ContentPhases.activePhases.SoD))
+        Questie.Debug(Questie.DEBUG_CRITICAL,
+            "[SeasonOfDiscovery] Automatic phase detection failed, phase remains as " .. tostring(ContentPhases.activePhases.SoD))
     end
     if phaseDetected then
-        Questie:Debug(Questie.DEBUG_INFO, "[SeasonOfDiscovery] Phase automatically detected as " .. tostring(ContentPhases.activePhases.SoD))
+        Questie.Debug(Questie.DEBUG_INFO, "[SeasonOfDiscovery] Phase automatically detected as " .. tostring(ContentPhases.activePhases.SoD))
     end
 end
 

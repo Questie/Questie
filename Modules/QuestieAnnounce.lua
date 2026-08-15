@@ -184,7 +184,7 @@ end
 ---@param message string
 ---@param localMessage? string
 function _QuestieAnnounce:AnnounceToChannel(message, localMessage)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
     if (not message) or alreadySentBandaid[message] or Questie.db.profile.questieShutUp then
         return
     end

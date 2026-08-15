@@ -20,7 +20,7 @@ Methods
 -------------------------------------------------------------------------------]]
 local methods = {
     ["OnAcquire"] = function(self)
-        Questie:Debug(Questie.DEBUG_INFO, "GameTooltipWidget OnAcquire called")
+        Questie.Debug(Questie.DEBUG_INFO, "GameTooltipWidget OnAcquire called")
         -- restore default values
         self.frame:ClearLines() -- Clear any existing lines in the GameTooltip
         -- self.frame:ClearLines()
@@ -33,8 +33,8 @@ local methods = {
         -- self:SetHeight(50)  -- Example default
     end,
 
-    ["OnRelease"] = function (self)
-        Questie:Debug(Questie.DEBUG_INFO, "GameTooltipWidget OnRelease called")
+    ["OnRelease"] = function(self)
+        Questie.Debug(Questie.DEBUG_INFO, "GameTooltipWidget OnRelease called")
         -- GameTooltips are usually not released; they are reused.
         self.frame:Hide() -- Hide the tooltip instead of releasing it
         self.frame:SetOwner(UIParent, "ANCHOR_NONE") -- Reset owner to avoid issues
@@ -107,7 +107,7 @@ local function Constructor()
     local frame = CreateFrame("GameTooltip", name, nil, "GameTooltipTemplate")
     frame:Hide() -- Widgets are hidden by default
 
-    Questie:Debug(Questie.DEBUG_INFO, "GameTooltipWidget Constructor called")
+    Questie.Debug(Questie.DEBUG_INFO, "GameTooltipWidget Constructor called")
 
     -- GameTooltips don't typically need mouse enabled on the tooltip frame itself for interaction.
     -- frame:EnableMouse(true)

@@ -88,9 +88,8 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
         playerRegisteredTooltips[playerName][questId] = {}
     end
     for objectiveIndex, objective in pairs(objectives) do
-        if(objective.type and objective.id) then
-            local lookupKey = objective.type.."_"..objective.id;
-            --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding tooltip lookup", lookupKey, questId, playerName);
+        if (objective.type and objective.id) then
+            local lookupKey = objective.type .. "_" .. objective.id;
 
             -- Item Objective
             if(objective.type == "i") then

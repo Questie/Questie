@@ -73,7 +73,7 @@ function CommsVisibility:Initialize()
     end
 
     if (not CommsEncoding:HasCodecSupport()) then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[CommsVisibility] Codec support unavailable, not registering QuestieV1")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[CommsVisibility] Codec support unavailable, not registering QuestieV1")
         return
     end
 
@@ -109,7 +109,7 @@ end
 --- and group convergence points such as roster changes or full quest-log responses.
 ---@param reason string? Debug-only call-site label reserved for future logging.
 function CommsVisibility:ScheduleSnapshot(reason)
-    Questie:Debug(Questie.DEBUG_INFO, "[CommsVisibility:ScheduleSnapshot] Reason", reason)
+    Questie.Debug(Questie.DEBUG_INFO, "[CommsVisibility:ScheduleSnapshot] Reason", reason)
 
     -- Send with timer debounce.
     _CancelSnapshotTimer()

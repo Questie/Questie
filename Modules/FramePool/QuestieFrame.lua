@@ -336,7 +336,7 @@ function _QuestieFrame.Unload(self)
     end
     self._needsUnload = nil
     self._loaded = nil
-    --Questie:Debug(Questie.DEBUG_SPAM, "[_Qframe:Unload]")
+
     self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
     self:SetScript("OnHide", nil)

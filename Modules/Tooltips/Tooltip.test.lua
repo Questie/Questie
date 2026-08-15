@@ -250,7 +250,7 @@ describe("Tooltip", function()
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are_same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was.not_called()
-            assert.spy(Questie.Debug).was.called_with(Questie, Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
+            assert.spy(Questie.Debug).was.called_with(Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
         end)
 
         it("should return quest name and objective description when object has no spawn", function()

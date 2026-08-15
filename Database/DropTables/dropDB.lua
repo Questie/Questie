@@ -129,7 +129,8 @@ function DropDB.GetItemDroprate(itemId, npcId)
             return {DropDB.tablePserver[itemId][npcId],DropDB.sourcePserver}
         end
 
-        Questie:Debug(Questie.DEBUG_CRITICAL, "ItemDrops: Correction data for item " .. tostring(itemId) .. " dropped by NPC " .. tostring(npcId) .. " was invalid!")
+        Questie.Debug(Questie.DEBUG_CRITICAL,
+            "ItemDrops: Correction data for item " .. tostring(itemId) .. " dropped by NPC " .. tostring(npcId) .. " was invalid!")
     end
 
     -- Rather than these being elseif, they're separate, so that if we find a correction but it's invalid for whatever reason,

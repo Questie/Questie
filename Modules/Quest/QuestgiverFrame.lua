@@ -52,7 +52,7 @@ end
 
 -- 9.0.0 API GOSSIP
 local function updateGossipFrame()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 9.0-")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 9.0-")
     local numAvailable = GetNumGossipAvailableQuests()
     local numActive = GetNumGossipActiveQuests()
     local availQuests = QuestieCompat.GetAvailableQuests()
@@ -87,7 +87,7 @@ end
 
 -- GREETING FRAMES (API independent)
 local function updateGreetingFrame()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Updating Greeting frame.")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "Updating Greeting frame.")
     local titleLines = {}
     local questIconTextures = {}
     for i = 1, MAX_NUM_QUESTS do
@@ -133,7 +133,7 @@ function QuestgiverFrame.RecheckGreeting()
     local activeTitle, _ = GetActiveTitle(1)
     local availableTitle, _ = GetAvailableTitle(1)
     if activeTitle or availableTitle then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Greeting Panel Refreshing. Active: " .. tostring(activeTitle) .. " Available: " .. tostring(availableTitle))
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Greeting Panel Refreshing. Active: " .. tostring(activeTitle) .. " Available: " .. tostring(availableTitle))
         QuestgiverFrame.GreetingMark()
     end
 end
@@ -160,7 +160,7 @@ end
 if GossipAvailableQuestButtonMixin then
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
     function GossipAvailableQuestButtonMixin:Setup(...)
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Updating GossipAvailableQuestButtonMixin frame 10.0+")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Updating GossipAvailableQuestButtonMixin frame 10.0+")
         oldAvailableSetup(self, ...)
         if (not Questie.started) then
             return
@@ -181,7 +181,7 @@ if GossipAvailableQuestButtonMixin then
 
     local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
     function GossipActiveQuestButtonMixin:Setup(...)
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Updating GossipActiveQuestButtonMixin frame 10.0+")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Updating GossipActiveQuestButtonMixin frame 10.0+")
         oldActiveSetup(self, ...)
         if (not Questie.started) then
             return

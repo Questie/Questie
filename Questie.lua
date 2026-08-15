@@ -62,7 +62,7 @@ function Questie:RefreshConfig(_event, _database, _profileName)
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
     CommsVisibility:ScheduleSnapshot("PROFILE_CHANGED")
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 
 ---@class QuestieColor
@@ -196,14 +196,14 @@ end
 
 -- Global debug levels
 -- When adding a new level here it MUST be assigned a corresponding number and name in
--- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie:Debug below
+-- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie.Debug below
 Questie.DEBUG_CRITICAL = 2 ^ 0
 Questie.DEBUG_ELEVATED = 2 ^ 1
 Questie.DEBUG_INFO = 2 ^ 2
 Questie.DEBUG_DEVELOP = 2 ^ 3
 Questie.DEBUG_SPAM = 2 ^ 4
 
-function Questie:Debug(msgDebugLevel, ...)
+function Questie.Debug(msgDebugLevel, ...)
     if (Questie.db.profile.debugEnabled) then
         local optionsDebugLevel = Questie.db.profile.debugLevel
 

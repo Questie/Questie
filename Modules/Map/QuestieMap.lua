@@ -95,7 +95,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
     assert(coroutine.running(), "UnloadQuestFrames must be called from a coroutine")
 
     if QuestieMap.questIdFrames[questId] then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Unloading quest frames for questid:", questId)
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Unloading quest frames for questid:", questId)
         local yieldCount = 0
         if not iconType then
             for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
@@ -203,7 +203,7 @@ QuestieMap._mapDrawQueue = mapDrawQueue
 QuestieMap._minimapDrawQueue = minimapDrawQueue
 
 function QuestieMap:InitializeQueue() -- now called on every loading screen
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
 
     if isInInstance and instanceType == "raid" then
@@ -309,7 +309,7 @@ function QuestieMap:ProcessShownMinimapIcons()
                 cYield()
                 if (not HBDPins.activeMinimapPins[minimapFrame]) then
                     -- table has been edited during traversal at critical key. we can't continue iterating over it. stop iteration and start again.
-                    Questie:Debug(Questie.DEBUG_DEVELOP,
+                    Questie.Debug(Questie.DEBUG_DEVELOP,
                         "[QuestieMap:ProcessShownMinimapIcons] FadeLogic loop coroutine: HBDPins.activeMinimapPins doesn't have the key anymore.")
                     -- force reupdate imeadiately
                     totalDistance = 9000
@@ -381,7 +381,7 @@ end
 ---@param npcID number @The ID of the NPC
 function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemove, typ, excludeDungeon)
     if type(npcID) ~= "number" then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieMap:ShowNPC] Got <" .. type(npcID) .. "> instead of <number>")
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieMap:ShowNPC] Got <" .. type(npcID) .. "> instead of <number>")
         return
     end
     -- get the NPC data
@@ -522,7 +522,7 @@ function QuestieMap:DrawLineIcon(lineFrame, areaID, x, y)
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
 
     if type(uiMapId) ~= "number" then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "DrawLineIcon: Invalid uiMapId for areaID:", areaID)
+        Questie.Debug(Questie.DEBUG_CRITICAL, "DrawLineIcon: Invalid uiMapId for areaID:", areaID)
         return
     end
 
@@ -552,7 +552,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieMap:DrawManualIcon] No UiMapID for areaId:", areaID, tostring(data.Name))
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieMap:DrawManualIcon] No UiMapID for areaId:", areaID, tostring(data.Name))
         return nil, nil
     end
     -- set the icon
@@ -645,7 +645,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     end
 
     if (not Phasing.IsSpawnVisible(phase)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "Skipping invisible phase", phase)
+        Questie.Debug(Questie.DEBUG_SPAM, "Skipping invisible phase", phase)
         return nil, nil
     end
 
