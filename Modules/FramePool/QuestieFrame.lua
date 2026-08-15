@@ -377,9 +377,6 @@ function _QuestieFrame.Unload(self)
     self.miniMapIcon = nil;
     self:SetScript("OnUpdate", nil)
 
-    if self.fadeLogicTimer then
-        self.fadeLogicTimer:Cancel();
-    end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
         for _, lineFrame in pairs(self.data.lineFrames) do
