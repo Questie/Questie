@@ -98,7 +98,7 @@ _ScheduleDailyResetTimer = function()
     local delay
 
     if lastKnownReset then
-        delay = lastKnownReset - now + 5  -- +5 seconds safety margin
+        delay = lastKnownReset - now + 5 -- +5 seconds safety margin
     else
         -- First login, calculate delay to next reset from current time
         delay = GetQuestResetTime() + 5
@@ -112,7 +112,8 @@ _ScheduleDailyResetTimer = function()
     C_Timer.After(delay, function()
         AvailableQuests.ClearUnavailableDailyQuests()
         QuestieLib.UpdateLastKnownDailyReset()
-        _ScheduleDailyResetTimer()  -- Reschedule for the next reset
+        AvailableQuests.CalculateAndDrawAll()
+        _ScheduleDailyResetTimer() -- Reschedule for the next reset
     end)
 end
 

@@ -277,6 +277,7 @@ describe("AvailableQuests", function()
             Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {[QUEST_ID] = true}
             Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
             QuestieLib.UpdateLastKnownDailyReset = spy.new(function() end)
+            AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
 
             local capturedCallback
             _G.C_Timer = {
@@ -293,6 +294,7 @@ describe("AvailableQuests", function()
             assert.are_same({}, Questie.db.global.unavailableQuestsDeterminedByTalking[realmName])
             assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
             assert.spy(QuestieLib.UpdateLastKnownDailyReset).was.called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)
     end)
 
