@@ -51,6 +51,24 @@ local function _HasUncoveredQuests()
     return false
 end
 
+--- Checks if our local unavailable quest data includes any NPCs not in sender's knowledge.
+--- We only need to check NPCs, because NPCs can't have different quests active for different players (
+---@param senderData table<NpcId, QuestId[]>|nil The sender's unavailable quest data from the request event.
+---@return boolean True if we have additional NPCs the sender doesn't know about.
+local function _HasNewNpcData(senderData)
+    if (not senderData) then
+        senderData = {}
+    end
+
+    local localData = AvailableQuests.GetUnavailableDailyQuests()
+    for npcId in pairs(localData) do
+        if (not senderData[npcId]) then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param prefix string @The prefix of the received message.
 ---@param message string @The content of the received message.
 ---@param distribution string @The distribution method of the message.
@@ -102,7 +120,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         AvailableQuests.RemoveQuestsForToday(npcId, questIds)
     elseif event.eventName == "RequestUnavailableDailyQuests" then
         -- A peer just logged in and is asking for unavailable daily quests.
-        -- Schedule a response with random jitter so only one guild/party member actually replies.
+        -- Only respond if we have NPC data they don't know about.
 
         -- Reset tracked broadcasts for this new request
         wipe(broadcastedQuestIds)
@@ -113,15 +131,18 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             pendingResponseTimer = nil
         end
 
-        -- We will answer somewhere between 0 and 8 seconds, unless we see another peer respond first.
-        pendingResponseTimer = C_Timer.NewTimer(math.random() * 8, function()
-            pendingResponseTimer = nil
+        -- Only schedule a response if we have NPCs the sender doesn't know about
+        if _HasNewNpcData(event.data) then
+            -- We will answer somewhere between 0 and 8 seconds, unless we see another peer respond first.
+            pendingResponseTimer = C_Timer.NewTimer(math.random() * 8, function()
+                pendingResponseTimer = nil
 
-            local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
-            for npcId, questIds in pairs(unavailableQuests) do
-                Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
-            end
-        end)
+                local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
+                for npcId, questIds in pairs(unavailableQuests) do
+                    Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
+                end
+            end)
+        end
     end
 end
 
