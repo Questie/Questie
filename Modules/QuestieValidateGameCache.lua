@@ -93,7 +93,7 @@ local function OnQuestLogUpdate()
                 if type(objectiveList) ~= "table" then
                     -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
                     -- I guess older code queried data before HaveQuestData() was true.
-                    Questie:Error("REPORT THIS ERROR! Quest objectives aren't a table. This may stop Questie from loading. questId =", questId)
+                    Questie.Error("REPORT THIS ERROR! Quest objectives aren't a table. This may stop Questie from loading. questId =", questId)
                     hasInvalidObjective = true
                     objectiveList = {}
                 end
@@ -123,7 +123,8 @@ local function OnQuestLogUpdate()
     if goodQuestsCount ~= totalQuestCount then
         -- This shouldn't be possible
 
-        Questie:Error("Game Cache has still a broken quest log. Good quest: "..goodQuestsCount.."/".. totalQuestCount ..". Please report this on Github or Discord!") -- Translations might not be available yet.
+        Questie.Error("Game Cache has still a broken quest log. Good quest: " ..
+            goodQuestsCount .. "/" .. totalQuestCount .. ". Please report this on Github or Discord!") -- Translations might not be available yet.
         -- TODO should we stop whole addon loading progress?
     end
 

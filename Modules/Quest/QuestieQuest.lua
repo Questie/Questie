@@ -625,7 +625,7 @@ function QuestieQuest:GetAllQuestIds()
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then
-                    Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                    Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                         tostring(questId)))
                 end
                 Questie._sessionWarnings[questId] = true
@@ -806,7 +806,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then
-                    Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                    Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                         tostring(questId)))
                 end
                 Questie._sessionWarnings[questId] = true
@@ -1025,7 +1025,7 @@ _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
             objective.hasRegisteredTooltips = true
         end
     else
-        Questie:Error("[QuestieQuest]: [Tooltips] " ..
+        Questie.Error("[QuestieQuest]: [Tooltips] " ..
             l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id",
                 0 or "No objective", "No error"));
     end
@@ -1375,7 +1375,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
-                Questie:Error(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
+                Questie.Error(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
             else
                 if not quest.Objectives[objectiveIndex] then
                     quest.Objectives[objectiveIndex] = {

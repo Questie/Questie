@@ -542,7 +542,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
                     if not Questie.IsSoD then
-                        Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                             tostring(questId)))
                     end
                     Questie._sessionWarnings[questId] = true
@@ -662,7 +662,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
                     if not Questie.IsSoD then
-                        Questie:Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                             tostring(questId)))
                     end
                     Questie._sessionWarnings[questId] = true
@@ -813,7 +813,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
                     req = objective.numRequired,
                 }
             else
-                Questie:Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
+                Questie.Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
             end
         end
     end
@@ -866,7 +866,7 @@ _QuestieComms.packets = {
         end,
         read = function(remoteQuestPacket)
             if not remoteQuestPacket then
-                Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_UPDATE no remoteQuestPacket")
+                Questie.Error("[QuestieComms] QC_ID_BROADCAST_QUEST_UPDATE no remoteQuestPacket")
             end
             --These are not strictly needed but helps readability.
             local playerName = remoteQuestPacket.playerName;
@@ -884,7 +884,7 @@ _QuestieComms.packets = {
         end,
         read = function(remoteQuestPacket)
             if not remoteQuestPacket then
-                Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_REMOVE no remoteQuestPacket")
+                Questie.Error("[QuestieComms] QC_ID_BROADCAST_QUEST_REMOVE no remoteQuestPacket")
             end
             Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Received: QC_ID_BROADCAST_QUEST_REMOVE")
 
@@ -906,7 +906,7 @@ _QuestieComms.packets = {
         end,
         read = function(remoteQuestList)
             if not remoteQuestList then
-                Questie:Error("[QuestieComms] QC_ID_BROADCAST_FULL_QUESTLIST no remoteQuestList")
+                Questie.Error("[QuestieComms] QC_ID_BROADCAST_FULL_QUESTLIST no remoteQuestList")
             end
             --These are not strictly needed but helps readability.
             local playerName = remoteQuestList.playerName;
@@ -1078,12 +1078,12 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
                 _QuestieComms.packets[decompressedData.msgId].read(decompressedData);
             else
                 Questie.Debug(Questie.DEBUG_INFO, "[QuestieComms]", decompressedData, decompressedData.msgId, _QuestieComms.packets[decompressedData.msgId])
-                Questie:Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
+                Questie.Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
             end
         elseif (decompressedData and not warnedUpdate and decompressedData.msgVer) then
             -- We want to know who actually is the one with the mismatched version!
             if (floor(commMessageVersion) < floor(decompressedData.msgVer)) then
-                Questie:Error(l10n("You have an incompatible QuestieComms message! Please update!"), l10n("  Yours: v"), commMessageVersion, sender .. ": v",
+                Questie.Error(l10n("You have an incompatible QuestieComms message! Please update!"), l10n("  Yours: v"), commMessageVersion, sender .. ": v",
                     decompressedData.msgVer);
             elseif (floor(commMessageVersion) > floor(decompressedData.msgVer)) then
                 Questie:Print("|cFFFF0000", l10n("WARNING!"), "|r", sender, l10n("has an incompatible Questie version, QuestieComms won't work!"),

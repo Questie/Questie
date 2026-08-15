@@ -376,7 +376,7 @@ function _EventHandler:PlayerLogin()
     -- Check config exists
     if not Questie.db or not QuestieConfig then
         -- Did you move Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig",.......) out of Questie:OnInitialize() ?
-        Questie:Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
+        Questie.Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         return
     end
@@ -423,8 +423,8 @@ function _EventHandler:PlayerLogin()
         --? Nothing worked :(
         if replaceCount and replaceCount < 1 then --- Error: Default to match EVERYTHING, because it's better that it works
             FACTION_STANDING_CHANGED_PATTERN = ".+"
-            Questie:Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN!")
-            Questie:Error("FACTION_STANDING_CHANGED is set to " .. tostring(FACTION_STANDING_CHANGED) .. ", please report this on GitHub!")
+            Questie.Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN!")
+            Questie.Error("FACTION_STANDING_CHANGED is set to " .. tostring(FACTION_STANDING_CHANGED) .. ", please report this on GitHub!")
         end
     end
 

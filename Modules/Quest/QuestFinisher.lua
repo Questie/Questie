@@ -50,7 +50,7 @@ function QuestFinisher.AddFinisher(quest)
             if finisher then
                 _AddFinisherToMap(finisher, quest, "m_" .. finisher.id)
             else
-                Questie:Error("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
+                Questie.Error("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
             end
         end
     end

@@ -60,7 +60,7 @@ function DropDB:Initialize()
         -- we use cata mangos3 data for mop instead because mop DBs are so spotty;
         -- this means mop-only quests will use wowhead data exclusively
     else
-        Questie:Error("ItemDrops: Unknown Expansion!")
+        Questie.Error("ItemDrops: Unknown Expansion!")
     end
 
     -- Corrections are loaded starting from Era; this means Era corrections are still

@@ -128,7 +128,7 @@ function MapIconTooltip:Show()
         local iconData = icon.data
 
         if not iconData then
-            Questie:Error("[MapIconTooltip:Show] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
+            Questie.Error("[MapIconTooltip:Show] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
             return
         end
 

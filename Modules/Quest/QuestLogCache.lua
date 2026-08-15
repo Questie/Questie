@@ -363,7 +363,7 @@ function QuestLogCache.GetQuest(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then
         Questie:Print(debugstack(1, 20, 4))
-        Questie:Error("Please report this error. GetQuest: The quest doesn't exist in QuestLogCache.", questId)
+        Questie.Error("Please report this error. GetQuest: The quest doesn't exist in QuestLogCache.", questId)
         return
     end
     return cache[questId]
@@ -389,9 +389,9 @@ function QuestLogCache.PrintQuestLogStates()
         currentQuestLogStr = currentQuestLogStr .. qId .. ", "
     end
 
-    Questie:Error(cacheStr)
-    Questie:Error(questLogStatesStr)
-    Questie:Error(currentQuestLogStr)
+    Questie.Error(cacheStr)
+    Questie.Error(questLogStatesStr)
+    Questie.Error(currentQuestLogStr)
 end
 
 --- A wrapper function to add error check instead using exposed table directly.
@@ -401,7 +401,7 @@ function QuestLogCache.GetQuestObjectives(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then
         Questie:Print(debugstack(1, 20, 4))
-        Questie:Error("Please report this error. GetQuestObjectives: The quest doesn't exist in QuestLogCache.", questId)
+        Questie.Error("Please report this error. GetQuestObjectives: The quest doesn't exist in QuestLogCache.", questId)
         QuestLogCache.PrintQuestLogStates()
         return
     end

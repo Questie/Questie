@@ -141,7 +141,7 @@ describe("DistanceUtils", function()
             DistanceUtils.GetNearestSpawn(spawns)
 
             assert.spy(_G.Questie.Error).was.called(1)
-            assert.spy(_G.Questie.Error).was.called_with(_, "No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
+            assert.spy(_G.Questie.Error).was.called_with("No dungeon location found for zoneId:", 2, "Please report this on Github or Discord!")
         end)
     end)
 
