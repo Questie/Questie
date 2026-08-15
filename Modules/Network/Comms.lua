@@ -67,6 +67,8 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Received", event.eventName, "from", sender)
+
     if event.eventName == "HideDailyQuests" and event.data and type(event.data) == "table" then
         -- A peer is broadcasting unavailable quests.
         local npcId = event.data.npcId
@@ -86,6 +88,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
 
         -- Cancel our pending response only if we don't know of any additional quests
         if pendingResponseTimer and (not _HasUncoveredQuests()) then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Nothing new to broadcast")
             pendingResponseTimer:Cancel()
             pendingResponseTimer = nil
         end
@@ -99,6 +102,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         wipe(broadcastedQuestIds)
 
         if pendingResponseTimer then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Cancelling pending response timer")
             pendingResponseTimer:Cancel()
             pendingResponseTimer = nil
         end
@@ -142,6 +146,8 @@ function Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
             questIds = questIds
         }
     }
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.BroadcastUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
 
     local serializedEvent = Questie:Serialize(event)
     if IsInGuild() then
