@@ -43,9 +43,16 @@ function QuestieFrame:New(frameId, OnEnter)
         tinsert(MBB_Ignore, newFrame:GetName())
     end
 
-    newFrame:SetFrameStrata("FULLSCREEN");
     newFrame:SetSize(16, 16)
-    newFrame:SetPoint("CENTER", -8, -8)
+
+    -- IconFrame has 3 textures:
+    --     .texture is the main texture
+    --     .glowTexture behind the main one,
+    --     .overlayTexture infront of the main one.
+    --   All these textures are always in the "OVERLAY" drawlayer and each texture has sublayer set to define ordering within the IconFrame.
+    -- IconFrames itself are ordered behind/infront of each other by FrameLevel.
+    -- Frames having same FrameLevel (and Strata) show up inorder which is first :Show() (explicit or implicit).
+    --! Do not :SetDrawLayer() for these textures. Use parent frame FrameLevel for z-ordering as needed elsewhere in code.
 
     local newTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
@@ -55,7 +62,7 @@ function QuestieFrame:New(frameId, OnEnter)
     newTexture:SetTexelSnappingBias(0)
     newTexture:SetSnapToPixelGrid(false)
 
-    newFrame.overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+    newFrame.overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 1)
     newFrame.overlayTexture:SetSize(16, 16)
     newFrame.overlayTexture:SetAllPoints(newFrame)
     newFrame.overlayTexture:SetTexelSnappingBias(0)
@@ -238,9 +245,6 @@ end
 function _QuestieFrame.BaseOnShow(self)
     local data = self.data
 
-    if data and data.Type and data.Type == "complete" then
-        self:SetFrameLevel(self:GetFrameLevel() + 1)
-    end
     if ((self.miniMapIcon and Questie.db.profile.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.profile.alwaysGlowMap)) and
         data and data.ObjectiveData and
         data.ObjectiveData.Color and
@@ -255,11 +259,6 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.BaseOnHide(self)
-    local data = self.data
-
-    if data and data.Type and data.Type == "complete" then
-        self:SetFrameLevel(self:GetFrameLevel() - 1)
-    end
     self.glowTexture:Hide()
 end
 
@@ -340,8 +339,6 @@ function _QuestieFrame.Unload(self)
     self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
     self:SetScript("OnHide", nil)
-    self:SetFrameStrata("FULLSCREEN");
-    self:SetFrameLevel(0);
     self.isManualIcon = false
 
     -- Reset questIdFrames so they won't be toggled again

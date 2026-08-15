@@ -271,6 +271,7 @@ Questie.icons = {
 
 Questie.usedIcons = {}
 
+-- ! Keep these continuous 1...n and copy changes to DRAW_ORDER_BY_ICON_TYPE_LOOKUP in QuestieMapUtils.lua
 Questie.ICON_TYPE_SLAY = 1
 Questie.ICON_TYPE_LOOT = 2
 Questie.ICON_TYPE_EVENT = 3
