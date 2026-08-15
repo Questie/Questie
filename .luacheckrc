@@ -1331,6 +1331,7 @@ globals = {
     "GetParryChanceFromAttribute",
     "GetPartyAssignment",
     "GetPendingInviteConfirmations",
+    "GetPersonalRatedInfo",
     "GetPetActionCooldown",
     "GetPetActionInfo",
     "GetPetActionSlotUsable",
