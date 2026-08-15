@@ -8,7 +8,7 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@field eventName "HideDailyQuests"|"RequestUnavailableDailyQuests"
 ---@field data { npcId: NpcId, questIds: QuestId[] }|nil
 
-local COMM_PREFIX = "Questie"
+local COMM_PREFIX = "QuestieDailies"
 
 local playerName
 local realmName
