@@ -1155,5 +1155,45 @@ describe("AvailableQuests", function()
 
             assert.is_false(callbackFired)
         end)
+
+        it("should handle callback errors without breaking pass cleanup", function()
+            local successCallback = spy.new(function() error("callback error") end)
+            local capturedSuccessCallback
+
+            Questie.Error = spy.new(function() end)
+
+            TheadLib.Thread = function(_, _, _, cb)
+                capturedSuccessCallback = cb
+            end
+
+            AvailableQuests.CalculateAndDrawAll(successCallback)
+
+            capturedSuccessCallback()
+
+            -- Callback was called despite the error
+            assert.spy(successCallback).was.called()
+            assert.spy(Questie.Error).was.called()
+
+            local running = AvailableQuests.__getPassState()
+            assert.is_false(running)
+        end)
+
+        it("should start queued pass even if callback errors", function()
+            local passCount = 0
+
+            Questie.Error = function() end
+
+            TheadLib.Thread = function(_, _, _, cb)
+                passCount = passCount + 1
+                if passCount == 1 then
+                    cb() -- first pass completes, callback errors
+                end
+            end
+
+            AvailableQuests.CalculateAndDrawAll(function() error("callback error") end)
+            AvailableQuests.CalculateAndDrawAll() -- queued
+
+            assert.are_equal(2, passCount)
+        end)
     end)
 end)

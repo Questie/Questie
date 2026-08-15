@@ -166,8 +166,12 @@ local function _StartPass()
     pendingCallbacks = {}
     ThreadLib.Thread(_CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", function()
         passRunning = false
+
         for i = 1, #callbacks do
-            callbacks[i]()
+            local success, err = pcall(callbacks[i])
+            if (not success) then
+                Questie.Error("Error in AvailableQuests.CalculateAndDrawAll callback", err)
+            end
         end
         -- If another CalculateAndDrawAll arrived while this pass was running, start it now.
         if passQueued then
