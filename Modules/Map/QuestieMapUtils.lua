@@ -124,7 +124,7 @@ function QuestieMap.utils:RescaleIcon(frameRef, mapScale)
                 frame:GlowUpdate()
             end
         else
-            Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
+            Questie.Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
         end
     end
 end

@@ -1109,7 +1109,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
                 if not targetIndex then
-                    Questie:Error("ERROR: Unhandled db key: " .. key)
+                    Questie.Error("ERROR: Unhandled db key: " .. key)
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
@@ -1161,7 +1161,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         stream._pointer = lastPtr + ptr
                         local targetIndex = keyToIndex[key]
                         if not targetIndex then
-                            Questie:Error("ERROR: Unhandled db key: " .. key)
+                            Questie.Error("ERROR: Unhandled db key: " .. key)
                             return nil
                         end
                         for i = lastIndex, targetIndex-1 do
@@ -1205,7 +1205,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         stream._pointer = lastPtr + ptr
                         local targetIndex = keyToIndex[key]
                         if not targetIndex then
-                            Questie:Error("ERROR: Unhandled db key: " .. key)
+                            Questie.Error("ERROR: Unhandled db key: " .. key)
                             return nil
                         end
                         for i = lastIndex, targetIndex-1 do
@@ -1215,8 +1215,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                             stream._pointer = beforeSkipper
                             readers[types[indexToKey[i]]](stream)
                             local afterReader = stream._pointer
-                            if(afterSkipper ~= afterReader) then
-                                Questie:Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader-afterSkipper)
+                            if (afterSkipper ~= afterReader) then
+                                Questie.Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader - afterSkipper)
                                 return nil
                             end
                         end
@@ -1239,7 +1239,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
                 if not targetIndex then
-                    Questie:Error("ERROR: Unhandled db key: " .. key)
+                    Questie.Error("ERROR: Unhandled db key: " .. key)
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
@@ -1267,7 +1267,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     stream._pointer = lastPtr + ptr
                     local targetIndex = keyToIndex[key]
                     if not targetIndex then
-                        Questie:Error("ERROR: Unhandled db key: " .. key)
+                        Questie.Error("ERROR: Unhandled db key: " .. key)
                         return nil
                     end
                     for i = lastIndex, targetIndex-1 do
@@ -1296,7 +1296,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     stream._pointer = lastPtr + ptr
                     local targetIndex = keyToIndex[key]
                     if not targetIndex then
-                        Questie:Error("ERROR: Unhandled db key: " .. key)
+                        Questie.Error("ERROR: Unhandled db key: " .. key)
                         return nil
                     end
                     for i = lastIndex, targetIndex-1 do
@@ -1306,8 +1306,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         stream._pointer = beforeSkipper
                         readers[types[indexToKey[i]]](stream)
                         local afterReader = stream._pointer
-                        if(afterSkipper ~= afterReader) then
-                            Questie:Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader-afterSkipper)
+                        if (afterSkipper ~= afterReader) then
+                            Questie.Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader - afterSkipper)
                             return nil
                         end
                     end

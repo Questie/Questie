@@ -184,7 +184,7 @@ function Questie:GetClassColor(class)
     end
 end
 
-function Questie:Error(...)
+function Questie.Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 

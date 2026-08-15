@@ -96,9 +96,9 @@ local function updateGreetingFrame()
             tinsert(titleLines, titleLine)
             tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
         else
-            Questie:Error("Frame error! Could not obtain Greeting's QuestTitleButton object. Please report this on Github or Discord!")
-            Questie:Error("Questgiver is: " .. UnitGUID("npc"))
-            Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+            Questie.Error("Frame error! Could not obtain Greeting's QuestTitleButton object. Please report this on Github or Discord!")
+            Questie.Error("Questgiver is: " .. UnitGUID("npc"))
+            Questie.Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
             return
         end
     end
@@ -171,9 +171,9 @@ if GossipAvailableQuestButtonMixin then
             if id then
                 self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
             else
-                Questie:Error("Frame error! Missing Gossip line item quest ID. Please report this on Github or Discord!")
-                Questie:Error("Questgiver for available quest is: " .. UnitGUID("npc"))
-                Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+                Questie.Error("Frame error! Missing Gossip line item quest ID. Please report this on Github or Discord!")
+                Questie.Error("Questgiver for available quest is: " .. UnitGUID("npc"))
+                Questie.Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
                 return
             end
         end
@@ -192,9 +192,9 @@ if GossipAvailableQuestButtonMixin then
             if id then
                 self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))
             else
-                Questie:Error("Frame error! Missing Gossip line item quest ID. Please report this on Github or Discord!")
-                Questie:Error("Questgiver for active quest is: " .. UnitGUID("npc"))
-                Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+                Questie.Error("Frame error! Missing Gossip line item quest ID. Please report this on Github or Discord!")
+                Questie.Error("Questgiver for active quest is: " .. UnitGUID("npc"))
+                Questie.Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
                 return
             end
         end

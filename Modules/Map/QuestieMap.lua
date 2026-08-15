@@ -219,7 +219,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
             if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
                 local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
                 if (not success) then
-                    Questie:Error("Please report on Github or Discord. Minimap pins fade logic coroutine stopped:", errorMsg)
+                    Questie.Error("Please report on Github or Discord. Minimap pins fade logic coroutine stopped:", errorMsg)
                     fadeLogicCoroutine = nil
                 end
             end
@@ -660,7 +660,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
         end
 
         if (not parentMapId) then
-            Questie:Error("No UiMapID or fitting parentAreaId for areaId : " .. areaID .. " - " .. tostring(data.Name))
+            Questie.Error("No UiMapID or fitting parentAreaId for areaId : " .. areaID .. " - " .. tostring(data.Name))
             return nil, nil
         else
             areaID = parentMapId
