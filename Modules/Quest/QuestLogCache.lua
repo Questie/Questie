@@ -296,7 +296,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         for questId in pairs(questIdsToCheck) do
             if (not questIdsChecked[questId]) then
                 -- TODO: This actually happens and need to be fixed
-                Questie:Warning("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
+                Questie.Warning("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
             end
         end
     end

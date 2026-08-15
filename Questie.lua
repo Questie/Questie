@@ -188,7 +188,7 @@ function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
-function Questie:Warning(...)
+function Questie.Warning(...)
     if Questie.db.profile.debugEnabled then -- prints regardless of "debugPrint" toggle
         Questie:Print("|cffffff00[WARNING]|r", ...)
     end
