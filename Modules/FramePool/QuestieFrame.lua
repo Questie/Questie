@@ -263,7 +263,7 @@ function _QuestieFrame.BaseOnHide(self)
         if (type(frameLevel) == "number" and frameLevel > 0) then
             self:SetFrameLevel(frameLevel - 1)
         else
-            self:SetFrameLevel( 0)
+            self:SetFrameLevel(0)
         end
     end
     self.glowTexture:Hide()
