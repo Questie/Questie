@@ -27,8 +27,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
----@type Moonwell
-local Moonwell = QuestieLoader:ImportModule("Moonwell")
+---@type ProfessionStations
+local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -45,6 +45,9 @@ local _townsfolk_texturemap = {
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
     ["Mailbox"] = "Interface\\Minimap\\tracking\\mailbox",
     ["Moonwell"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
+    ["Anvil"] = "Interface\\Icons\\inv_hammer_20.blp",
+    ["Forge"] = "Interface\\Icons\\spell_fire_flameblades.blp",
+    ["Alchemy Lab"] = "Interface\\Icons\\inv_alchemy_endlessflask_03.blp",
     ["Profession Trainers"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
@@ -99,6 +102,13 @@ local _townsfolk_order = {
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
 
+local _stationCategories = {
+    ["Moonwell"] = "moonwell",
+    ["Anvil"] = "anvil",
+    ["Forge"] = "forge",
+    ["Alchemy Lab"] = "alchemyLab",
+}
+
 ---@param id NpcId
 ---@param key string
 ---@return string
@@ -120,11 +130,12 @@ local function getNpcTitle(id, key)
 end
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    if key == "Moonwell" then
+    local stationCategory = _stationCategories[key]
+    if stationCategory then
         if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
-            Moonwell:ShowAll()
+            ProfessionStations.ShowAll(stationCategory)
         else
-            Moonwell:HideAll()
+            ProfessionStations.HideAll(stationCategory)
         end
         return
     end
@@ -227,7 +238,10 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
             ["Flight Master"] = true,
             ["Mailbox"] = true,
             ["Meeting Stones"] = true,
-            ["Moonwell"] = false
+            ["Moonwell"] = false,
+            ["Anvil"] = false,
+            ["Forge"] = false,
+            ["Alchemy Lab"] = false,
         }
     end
     for key in pairs(Questie.db.profile.townsfolkConfig) do
@@ -335,6 +349,19 @@ function QuestieMenu:Show(hideDelay)
     local hasTailoring = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.TAILORING, 1})
     if hasTailoring then
         tinsert(menuTable, build("Moonwell"))
+    end
+    local hasBlacksmithing = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.BLACKSMITHING, 1})
+    local hasEngineering = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.ENGINEERING, 1})
+    if hasBlacksmithing or hasEngineering then
+        tinsert(menuTable, build("Anvil"))
+    end
+    local hasMining = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.MINING, 1})
+    if hasMining then
+        tinsert(menuTable, build("Forge"))
+    end
+    local hasAlchemy = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.ALCHEMY, 1})
+    if hasAlchemy then
+        tinsert(menuTable, build("Alchemy Lab"))
     end
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.profile.enableAvailable
