@@ -26,6 +26,13 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
 
+---@class IconTexture : Texture
+---@field r number
+---@field g number
+---@field b number
+---@field a number
+---@field OLDSetVertexColor function
+
 ---@param frameId number
 ---@param OnEnter function
 ---@return IconFrame
@@ -34,7 +41,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     ---@field isManualIcon boolean
     ---@field data IconData
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
-    newFrame.frameId = frameId;
+    newFrame.frameId = frameId
 
     -- Add the frames to the ignore list of the Minimap Button Bag (MBB) addon
     -- This is quite ugly but the only thing we can do currently from our side
@@ -43,49 +50,52 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
         tinsert(MBB_Ignore, newFrame:GetName())
     end
 
-    newFrame:SetSize(16, 16)
+    newFrame:SetSize(16, 16) -- irrelevant as gets resized when used
 
     -- IconFrame has 3 textures:
     --     .texture is the main texture
-    --     .glowTexture behind the main one,
-    --     .overlayTexture infront of the main one.
+    --     .overlayTexture infront of the main one
+    --     .glowTexture behind the main one
     --   All these textures are always in the "OVERLAY" drawlayer and each texture has sublayer set to define ordering within the IconFrame.
     -- IconFrames itself are ordered behind/infront of each other by FrameLevel.
     -- Frames having same FrameLevel (and Strata) show up inorder which is first :Show() (explicit or implicit).
     --! Do not :SetDrawLayer() for these textures. Use parent frame FrameLevel for z-ordering as needed elsewhere in code.
 
-    local newTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
-    --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
-    --t:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp")
-    newTexture:SetSize(16, 16)
-    newTexture:SetAllPoints(newFrame)
-    newTexture:SetTexelSnappingBias(0)
-    newTexture:SetSnapToPixelGrid(false)
+    ---@type IconTexture
+    local texture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
+    texture:SetAllPoints(newFrame) -- Always same size and location as newFrame
+    texture:SetTexelSnappingBias(0)
+    texture:SetSnapToPixelGrid(false)
+    -- .texture is shown always when newFrame is shown. No :Hide() or :Show()
 
-    newFrame.overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 1)
-    newFrame.overlayTexture:SetSize(16, 16)
-    newFrame.overlayTexture:SetAllPoints(newFrame)
-    newFrame.overlayTexture:SetTexelSnappingBias(0)
-    newFrame.overlayTexture:SetSnapToPixelGrid(false)
-    newFrame.overlayTexture:Hide()
+    local overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 1)
+    overlayTexture:SetAllPoints(newFrame) -- Always same size and location as newFrame
+    overlayTexture:SetTexelSnappingBias(0)
+    overlayTexture:SetSnapToPixelGrid(false)
+    overlayTexture:Hide()
 
-    local glowt = newFrame:CreateTexture(nil, "OVERLAY", nil, -1)
-    glowt:SetSize(18, 18)
+    ---@type IconTexture
+    local glowTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, -1)
+    glowTexture:SetPoint("CENTER", 0, 0) -- Center of the newFrame
+    glowTexture:SetTexelSnappingBias(0)
+    glowTexture:SetSnapToPixelGrid(false)
+    glowTexture:SetSize(18, 18) -- irrelevant as gets resized when used
+    glowTexture:SetTexture(Questie.icons["glow"]) -- Always same texture
+    glowTexture:Hide()
 
-    ---@class IconTexture : Texture
-    newFrame.texture = newTexture;
-    newFrame.texture.OLDSetVertexColor = newFrame.texture.SetVertexColor;
-    newFrame.texture.SetVertexColor = _QuestieFrame.SetVertexColor
-    newFrame.texture:SetVertexColor(1, 1, 1, 1);
+    -- Replace SetVertexColor method
+    texture.OLDSetVertexColor = texture.SetVertexColor
+    texture.SetVertexColor = _QuestieFrame.SetVertexColor
+    texture:SetVertexColor(1, 1, 1, 1)
 
-    newFrame.glowTexture = glowt
-    newFrame.glowTexture.OLDSetVertexColor = newFrame.glowTexture.SetVertexColor;
-    newFrame.glowTexture.SetVertexColor = _QuestieFrame.SetVertexColor
-    newFrame.glowTexture:SetVertexColor(1, 1, 1, 1);
+    -- Replace SetVertexColor method
+    glowTexture.OLDSetVertexColor = glowTexture.SetVertexColor
+    glowTexture.SetVertexColor = _QuestieFrame.SetVertexColor
+    glowTexture:SetVertexColor(1, 1, 1, 1)
 
-    newFrame.glowTexture:SetTexture(Questie.icons["glow"])
-    newFrame.glowTexture:Hide()
-    newFrame.glowTexture:SetPoint("CENTER", 0, 0)
+    newFrame.texture = texture
+    newFrame.glowTexture = glowTexture
+    newFrame.overlayTexture = overlayTexture
 
     newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
@@ -144,7 +154,7 @@ function _QuestieFrame.OnLeave(self)
     GameTooltip.ShownAsMapIcon = false
 end
 
----@param self Texture
+---@param self IconTexture
 ---@param r number
 ---@param g number
 ---@param b number
