@@ -73,7 +73,7 @@ function QuestieMap.utils:SetDrawOrder(frame)
     frame:SetFixedFrameLevel(true) -- Stop framelevel changes when parent changes
 end
 
-function QuestieMap.utils:IsExplored(uiMapId, x, y)
+function QuestieMap.utils.IsExplored(uiMapId, x, y)
     local IsExplored = false
     if uiMapId then
         local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100))
@@ -101,7 +101,7 @@ function QuestieMap.utils:MapExplorationUpdate()
         for _, frameName in pairs(frameList) do
             local frame = _G[frameName]
             if (frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
-                if (QuestieMap.utils:IsExplored(frame.UiMapID, frame.x, frame.y)) then
+                if (QuestieMap.utils.IsExplored(frame.UiMapID, frame.x, frame.y)) then
                     frame:FakeShow()
                 end
             end
