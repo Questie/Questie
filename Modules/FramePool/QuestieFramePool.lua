@@ -368,8 +368,6 @@ _ReinitFrame = function(frame)
         frame:SetScript("OnShow", frame.BaseOnShow)
     end
 
-    frame:SetScript("OnUpdate", nil)
-
     if frame.BaseOnHide then
         frame:SetScript("OnHide", frame.BaseOnHide)
     end
