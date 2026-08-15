@@ -39,8 +39,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- Quest completion should be at 2015 + 2 * 4 = 2023
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
+            -- Quest completion should be at 2016 + 2 * 4 = 2024
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
         end)
 
         it("should set correct frame level for regular quest icons based on icon type", function()
@@ -50,8 +50,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + 1 + 4 = 2020 (1 from icon type + 4 from MAX_DRAW_ORDER)
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
+            -- 2016 + 1 + 4 = 2021 (1 from icon type + 4 from MAX_DRAW_ORDER)
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2021)
         end)
 
         it("should set frame level for high priority icons (REPEATABLE_COMPLETE)", function()
@@ -61,8 +61,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + 3 + 4 = 2022
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2022)
+            -- 2016 + 3 + 4 = 2023
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
         end)
 
         it("should set frame level for low priority icons (SLAY)", function()
@@ -72,8 +72,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + 0 + 4 = 2019
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2019)
+            -- 2016 + 0 + 4 = 2020
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
         end)
 
         it("should place manual icons below regular quest icons", function()
@@ -87,10 +87,10 @@ describe("QuestieMapUtils", function()
             QuestieMap.utils:SetDrawOrder(regularFrame)
             QuestieMap.utils:SetDrawOrder(manualFrame)
 
-            -- Regular: 2015 + 1 + 4 = 2020
-            -- Manual: 2015 + 1 + 0 = 2016 (no MAX_DRAW_ORDER added)
-            assert.spy(regularSpy).was.called_with(regularFrame, 2020)
-            assert.spy(manualSpy).was.called_with(manualFrame, 2016)
+            -- Regular: 2016 + 1 + 4 = 2021
+            -- Manual: 2016 + 1 + 0 = 2017 (no MAX_DRAW_ORDER added)
+            assert.spy(regularSpy).was.called_with(regularFrame, 2021)
+            assert.spy(manualSpy).was.called_with(manualFrame, 2017)
         end)
 
         it("should call SetFixedFrameLevel before and after setting frame level", function()
@@ -110,8 +110,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- Should default to lowest level: 2015 + 0 + 4 = 2019
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2019)
+            -- Should default to lowest level: 2016 + 0 + 4 = 2020
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
         end)
 
         it("should handle frames with nil data.Icon gracefully", function()
@@ -121,8 +121,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- Should default to 2015 + 0 + 4 = 2019
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2019)
+            -- Should default to 2016 + 0 + 4 = 2020
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
         end)
 
         it("should prioritize EVENTQUEST_COMPLETE icons correctly", function()
@@ -132,8 +132,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + 3 + 4 = 2022
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2022)
+            -- 2016 + 3 + 4 = 2023
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
         end)
 
         it("should prioritize PVPQUEST_COMPLETE icons correctly", function()
@@ -143,8 +143,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + 3 + 4 = 2022
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2022)
+            -- 2016 + 3 + 4 = 2023
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
         end)
 
         it("should prioritize SODRUNE icons correctly", function()
@@ -154,8 +154,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + 3 + 4 = 2022
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2022)
+            -- 2016 + 3 + 4 = 2023
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
         end)
 
         it("should place medium priority icons (REPEATABLE) correctly", function()
@@ -165,8 +165,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + 2 + 4 = 2021
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2021)
+            -- 2016 + 2 + 4 = 2022
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2022)
         end)
 
         it("should handle quest completion frames with manual icon flag", function()
@@ -177,8 +177,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- 2015 + DRAW_ORDER_QUEST_COMPLETE (8) = 2023 (quest completion overrides everything)
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
+            -- 2016 + DRAW_ORDER_QUEST_COMPLETE (8) = 2024 (quest completion overrides everything)
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
         end)
 
         it("should handle all valid icon type indices", function()
@@ -199,7 +199,7 @@ describe("QuestieMapUtils", function()
             local lowPriorityFrame = CreateMockFrameWithData(1, false) -- ICON_TYPE_SLAY (0)
             local mediumPriorityFrame = CreateMockFrameWithData(10, false) -- ICON_TYPE_REPEATABLE (2)
             local highPriorityFrame = CreateMockFrameWithData(6, false) -- ICON_TYPE_AVAILABLE (1)
-            local completionFrame = CreateMockFrameWithData(8, true) -- Complete (2023)
+            local completionFrame = CreateMockFrameWithData(8, true) -- Complete (2024)
 
             local lowSpy = spy.on(lowPriorityFrame, "SetFrameLevel")
             local mediumSpy = spy.on(mediumPriorityFrame, "SetFrameLevel")
@@ -212,10 +212,10 @@ describe("QuestieMapUtils", function()
             QuestieMap.utils:SetDrawOrder(completionFrame)
 
             -- Verify ordering: completion > medium > high > low
-            assert.spy(lowSpy).was.called_with(lowPriorityFrame, 2019)
-            assert.spy(highSpy).was.called_with(highPriorityFrame, 2020)
-            assert.spy(mediumSpy).was.called_with(mediumPriorityFrame, 2021)
-            assert.spy(completionSpy).was.called_with(completionFrame, 2023)
+            assert.spy(lowSpy).was.called_with(lowPriorityFrame, 2020)
+            assert.spy(highSpy).was.called_with(highPriorityFrame, 2021)
+            assert.spy(mediumSpy).was.called_with(mediumPriorityFrame, 2022)
+            assert.spy(completionSpy).was.called_with(completionFrame, 2024)
         end)
 
         it("should handle manual icons with varying priorities correctly", function()
@@ -230,10 +230,10 @@ describe("QuestieMapUtils", function()
             QuestieMap.utils:SetDrawOrder(manualLowPriorityFrame)
             QuestieMap.utils:SetDrawOrder(manualHighPriorityFrame)
 
-            -- Low priority manual: 2015 + 0 + 0 = 2015
-            -- High priority manual: 2015 + 1 + 0 = 2016
-            assert.spy(lowSpy).was.called_with(manualLowPriorityFrame, 2015)
-            assert.spy(highSpy).was.called_with(manualHighPriorityFrame, 2016)
+            -- Low priority manual: 2016 + 0 + 0 = 2016
+            -- High priority manual: 2016 + 1 + 0 = 2017
+            assert.spy(lowSpy).was.called_with(manualLowPriorityFrame, 2016)
+            assert.spy(highSpy).was.called_with(manualHighPriorityFrame, 2017)
         end)
 
         it("should detect Type complete regardless of other fields", function()
@@ -250,8 +250,8 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils:SetDrawOrder(frame)
 
-            -- Should still be at completion level
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
+            -- Should still be at completion level (2016 + 8 = 2024)
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
         end)
     end)
 end)

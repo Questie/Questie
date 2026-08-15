@@ -190,7 +190,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     lineFrame:SetParent(canvas) --This fixes the pan and zoom for lines
     lineFrame:SetFrameLevel(2015) -- This needs to be high, because of the regular WorldMapFrame.ScrollContainer
-    lineFrame:SetFrameStrata("FULLSCREEN")
 
     --How to identify what the frame actually contains, this is not used atm could easily be changed.
     lineFrame.type = "line"
