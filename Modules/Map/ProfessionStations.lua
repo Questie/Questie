@@ -162,11 +162,17 @@ local _genericNames = {
 
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
 ---@param object Object|nil
+---@return boolean
+local function _IsGeneric(category, object)
+    return not object or not object.name or object.name == l10n(_titles[category]) or _genericNames[object.name]
+end
+
+---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
+---@param object Object|nil
 ---@return string
 local function _GetTitle(category, object)
-    local name = object and object.name
-    if name and not _genericNames[name] then
-        return Questie:Colorize(name, "white")
+    if not _IsGeneric(category, object) then
+        return Questie:Colorize(object.name, "white")
     end
     return Questie:Colorize(l10n(_titles[category]), "white")
 end
@@ -209,7 +215,7 @@ function ProfessionStations.ShowAll(category)
         local object = QuestieDB:GetObject(objectID)
         if object and object.spawns then
             local entry = {id = objectID, object = object}
-            if object.name and not _genericNames[object.name] then
+            if not _IsGeneric(category, object) then
                 named[#named + 1] = entry
             else
                 generic[#generic + 1] = entry
