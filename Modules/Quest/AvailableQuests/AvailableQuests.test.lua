@@ -993,5 +993,58 @@ describe("AvailableQuests", function()
             secondCallback()
             assert.are_same({"first", "second"}, results)
         end)
+
+        it("should reset passRunning when the pass coroutine errors", function()
+            local capturedErrorCallback
+            TheadLib.Thread = function(_, _, _, _, errorCb)
+                capturedErrorCallback = errorCb
+            end
+
+            AvailableQuests.CalculateAndDrawAll()
+
+            local running = AvailableQuests.__getPassState()
+            assert.is_true(running)
+
+            capturedErrorCallback()
+
+            running = AvailableQuests.__getPassState()
+            assert.is_false(running)
+        end)
+
+        it("should start queued pass after a coroutine error", function()
+            local passCount = 0
+            local capturedErrorCallback
+
+            TheadLib.Thread = function(_, _, _, _, errorCb)
+                passCount = passCount + 1
+                capturedErrorCallback = errorCb
+            end
+
+            AvailableQuests.CalculateAndDrawAll()
+            AvailableQuests.CalculateAndDrawAll() -- queued
+
+            assert.are_equal(1, passCount)
+
+            capturedErrorCallback() -- first pass errors; queued pass should start
+
+            assert.are_equal(2, passCount)
+            local _, queued = AvailableQuests.__getPassState()
+            assert.is_false(queued)
+        end)
+
+        it("should not fire pending callbacks when the pass errors", function()
+            local callbackFired = false
+            local capturedErrorCallback
+
+            TheadLib.Thread = function(_, _, _, _, errorCb)
+                capturedErrorCallback = errorCb
+            end
+
+            AvailableQuests.CalculateAndDrawAll(function() callbackFired = true end)
+
+            capturedErrorCallback()
+
+            assert.is_false(callbackFired)
+        end)
     end)
 end)

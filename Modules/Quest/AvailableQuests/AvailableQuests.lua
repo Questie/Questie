@@ -167,6 +167,13 @@ local function _StartPass()
         if passQueued then
             _StartPass()
         end
+    end, function()
+        -- The coroutine errored: reset state and start any queued pass.
+        -- Callbacks are intentionally skipped — the draw was incomplete.
+        passRunning = false
+        if passQueued then
+            _StartPass()
+        end
     end)
 end
 
