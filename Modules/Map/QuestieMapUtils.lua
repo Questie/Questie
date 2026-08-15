@@ -3,8 +3,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@class QuestieMapUtils
 QuestieMap.utils = QuestieMap.utils or {}
 
-local ZOOM_MODIFIER = 1;
-
 -- All the speed we can get is worth it.
 local pairs = pairs
 
@@ -133,7 +131,7 @@ function QuestieMap.utils.RescaleIcon(frameRef, mapScale)
             end
 
             if scale > 1 then
-                frame:SetSize(scale * ZOOM_MODIFIER, scale * ZOOM_MODIFIER);
+                frame:SetSize(scale, scale)
                 frame:GlowUpdate()
             end
         else
