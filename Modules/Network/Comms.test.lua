@@ -525,6 +525,64 @@ describe("Comms", function()
 
             assert.spy(_G.C_Timer.NewTimer).was.called()
         end)
+
+        it("should call RemoveQuestsForToday for NPCs in sender data that receiver doesn't know", function()
+            local senderNpcId = 9999
+            local senderQuestIds = {100, 200}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = {[senderNpcId] = senderQuestIds}}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(senderNpcId, senderQuestIds)
+        end)
+
+        it("should not call RemoveQuestsForToday for NPCs the receiver already knows", function()
+            local knownNpcId = 1234
+            local senderQuestIds = {100, 200}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = {[knownNpcId] = senderQuestIds}}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should only integrate new NPCs when sender data has both known and unknown NPCs", function()
+            local knownNpcId = 1234
+            local newNpcId = 5678
+            local newQuestIds = {300, 400}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
+
+            local event = {
+                eventName = "RequestUnavailableDailyQuests",
+                data = {[knownNpcId] = {10, 20}, [newNpcId] = newQuestIds}
+            }
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(newNpcId, newQuestIds)
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called(1)
+        end)
+
+        it("should not call RemoveQuestsForToday when sender data is empty", function()
+            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
+            Questie.Deserialize = function() return true, event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
     end)
 
     describe("BroadcastUnavailableDailyQuests", function()
