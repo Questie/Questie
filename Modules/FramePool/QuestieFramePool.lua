@@ -62,7 +62,7 @@ function QuestieFramePool:GetFrame()
     if (not frame) then
         numberOfFrames = numberOfFrames + 1
 
-        frame = QuestieFrame:New(numberOfFrames, MapIconTooltip.Show)
+        frame = QuestieFrame.CreateIconFrame(numberOfFrames, MapIconTooltip.Show)
 
         if numberOfFrames > 5000 then
             Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", numberOfFrames)

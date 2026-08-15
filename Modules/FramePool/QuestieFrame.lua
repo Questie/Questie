@@ -29,7 +29,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@param frameId number
 ---@param OnEnter function
 ---@return IconFrame
-function QuestieFrame:New(frameId, OnEnter)
+function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     ---@class IconFrame : Button
     ---@field isManualIcon boolean
     ---@field data IconData
