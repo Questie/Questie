@@ -37,7 +37,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(8, true) -- ICON_TYPE_COMPLETE
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- Quest completion should be at 2016 + 2 * 4 = 2024
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
@@ -48,7 +48,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(6, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + 1 + 4 = 2021 (1 from icon type + 4 from MAX_DRAW_ORDER)
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2021)
@@ -59,7 +59,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(11, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + 3 + 4 = 2023
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
@@ -70,7 +70,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(1, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + 0 + 4 = 2020
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
@@ -84,8 +84,8 @@ describe("QuestieMapUtils", function()
             local regularSpy = spy.on(regularFrame, "SetFrameLevel")
             local manualSpy = spy.on(manualFrame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(regularFrame)
-            QuestieMap.utils:SetDrawOrder(manualFrame)
+            QuestieMap.utils.SetDrawOrder(regularFrame)
+            QuestieMap.utils.SetDrawOrder(manualFrame)
 
             -- Regular: 2016 + 1 + 4 = 2021
             -- Manual: 2016 + 1 + 0 = 2017 (no MAX_DRAW_ORDER added)
@@ -97,7 +97,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(6, false)
             local setFixedSpy = spy.on(frame, "SetFixedFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             assert.spy(setFixedSpy).was.called(2)
             assert.spy(setFixedSpy).was.called_with(frame, false)
@@ -108,7 +108,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrame()
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- Should default to lowest level: 2016 + 0 + 4 = 2020
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
@@ -119,7 +119,7 @@ describe("QuestieMapUtils", function()
             frame.data = {Type = "quest", Icon = nil}
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- Should default to 2016 + 0 + 4 = 2020
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
@@ -130,7 +130,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(14, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + 3 + 4 = 2023
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
@@ -141,7 +141,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(16, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + 3 + 4 = 2023
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
@@ -152,7 +152,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(18, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + 3 + 4 = 2023
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2023)
@@ -163,7 +163,7 @@ describe("QuestieMapUtils", function()
             local frame = CreateMockFrameWithData(10, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + 2 + 4 = 2022
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2022)
@@ -175,7 +175,7 @@ describe("QuestieMapUtils", function()
             frame.isManualIcon = true
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- 2016 + DRAW_ORDER_QUEST_COMPLETE (8) = 2024 (quest completion overrides everything)
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
@@ -187,7 +187,7 @@ describe("QuestieMapUtils", function()
                 local frame = CreateMockFrameWithData(iconIndex, false)
                 local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-                QuestieMap.utils:SetDrawOrder(frame)
+                QuestieMap.utils.SetDrawOrder(frame)
 
                 -- Just verify it's called without errors for all valid indices
                 assert.spy(SetFrameLevelSpy).was.called(1)
@@ -206,10 +206,10 @@ describe("QuestieMapUtils", function()
             local highSpy = spy.on(highPriorityFrame, "SetFrameLevel")
             local completionSpy = spy.on(completionFrame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(lowPriorityFrame)
-            QuestieMap.utils:SetDrawOrder(mediumPriorityFrame)
-            QuestieMap.utils:SetDrawOrder(highPriorityFrame)
-            QuestieMap.utils:SetDrawOrder(completionFrame)
+            QuestieMap.utils.SetDrawOrder(lowPriorityFrame)
+            QuestieMap.utils.SetDrawOrder(mediumPriorityFrame)
+            QuestieMap.utils.SetDrawOrder(highPriorityFrame)
+            QuestieMap.utils.SetDrawOrder(completionFrame)
 
             -- Verify ordering: completion > medium > high > low
             assert.spy(lowSpy).was.called_with(lowPriorityFrame, 2020)
@@ -227,8 +227,8 @@ describe("QuestieMapUtils", function()
             manualHighPriorityFrame.isManualIcon = true
             local highSpy = spy.on(manualHighPriorityFrame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(manualLowPriorityFrame)
-            QuestieMap.utils:SetDrawOrder(manualHighPriorityFrame)
+            QuestieMap.utils.SetDrawOrder(manualLowPriorityFrame)
+            QuestieMap.utils.SetDrawOrder(manualHighPriorityFrame)
 
             -- Low priority manual: 2016 + 0 + 0 = 2016
             -- High priority manual: 2016 + 1 + 0 = 2017
@@ -248,7 +248,7 @@ describe("QuestieMapUtils", function()
             }
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            QuestieMap.utils:SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(frame)
 
             -- Should still be at completion level (2016 + 8 = 2024)
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
