@@ -33,9 +33,20 @@ local NewThread = ThreadLib.ThreadSimple
 
 local QUESTS_PER_YIELD = 24
 
---- Used to keep track of the active timer for CalculateAndDrawAll
----@type Ticker|nil
-local timer
+--- When CalculateAndDrawAll is called while a pass is already running, we queue a follow-up
+--- pass instead of cancelling the running one. This prevents a burst of concurrent callers
+--- (turn-in event + reputation event etc.) from repeatedly cancelling each other mid-pass
+--- so that a draw pass always runs to completion.
+--- true = another pass must start once the current one finishes.
+local passQueued = false
+
+--- true while a ThreadLib pass coroutine is alive.
+local passRunning = false
+
+--- Callbacks accumulated from callers that arrived while a pass was in flight.
+--- They are all invoked after the next completed pass.
+---@type function[]
+local pendingCallbacks = {}
 
 -- Keep track of all available quests to unload undoable when abandoning a quest
 ---@type table<QuestId, boolean>
@@ -59,6 +70,11 @@ local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
 local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC, _ScheduleDailyResetTimer
+
+-- Exposed for testing only
+AvailableQuests.__getPassState = function()
+    return passRunning, passQueued
+end
 
 function AvailableQuests.Initialize()
     Questie.Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
@@ -141,15 +157,41 @@ function AvailableQuests.GetUnavailableDailyQuests()
     return result
 end
 
+--- Starts a fresh draw pass, draining any accumulated pending callbacks as the
+--- ThreadLib completion callback so they fire once the new pass finishes.
+local function _StartPass()
+    passQueued = false
+    passRunning = true
+    local callbacks = pendingCallbacks
+    pendingCallbacks = {}
+    ThreadLib.Thread(_CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", function()
+        passRunning = false
+        for i = 1, #callbacks do
+            callbacks[i]()
+        end
+        -- If another CalculateAndDrawAll arrived while this pass was running, start it now.
+        if passQueued then
+            _StartPass()
+        end
+    end)
+end
+
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
     Questie.Debug(Questie.DEBUG_INFO, "[AvailableQuests.CalculateAndDrawAll]")
 
-    --? Cancel the previously running timer to not have multiple running at the same time
-    if timer then
-        timer:Cancel()
+    if callback then
+        pendingCallbacks[#pendingCallbacks + 1] = callback
     end
-    timer = ThreadLib.Thread(_CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback)
+
+    if passRunning then
+        -- A pass is already running. Queue a follow-up so the running pass is not
+        -- cancelled mid-flight; it will start once the current pass completes.
+        passQueued = true
+        return
+    end
+
+    _StartPass()
 end
 
 --Draw a single available quest, it is used by the CalculateAndDrawAll function.
