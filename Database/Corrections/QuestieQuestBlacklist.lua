@@ -1302,11 +1302,11 @@ function QuestieQuestBlacklist:Load()
         [96254] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
-        [95158] = not Expansions.Current == Expansions.Tbc, -- Only present in Anniversary TBC
-        [95251] = not Expansions.Current == Expansions.Tbc, -- Only present in Anniversary TBC
-        [95252] = not Expansions.Current == Expansions.Tbc, -- Only present in Anniversary TBC
-        [95455] = not Expansions.Current == Expansions.Tbc, -- Only present in Anniversary TBC
-        [95457] = not Expansions.Current == Expansions.Tbc, -- Only present in Anniversary TBC
+        [95158] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95251] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95252] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
 
         -- Paladin class quests with SWP patch
         [63866] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC == 5), -- removed in wotlk (old comment) -- Check exactly what happens in TBC with these quests.
