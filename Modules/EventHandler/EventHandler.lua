@@ -473,7 +473,7 @@ end
 function _EventHandler:MapExplorationUpdated()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED")
     if Questie.db.profile.hideUnexploredMapIcons then
-        QuestieMap.utils:MapExplorationUpdate()
+        QuestieMap.utils.MapExplorationUpdate()
     end
 
     -- Exploratory based Achievement updates
