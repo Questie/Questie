@@ -122,6 +122,16 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         -- A peer just logged in and is asking for unavailable daily quests.
         -- Only respond if we have NPC data they don't know about.
 
+        -- Integrate sender's NPC data for NPCs the receiver doesn't already know about
+        if event.data then
+            local localData = AvailableQuests.GetUnavailableDailyQuests()
+            for npcId, questIds in pairs(event.data) do
+                if (not localData[npcId]) then
+                    AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+                end
+            end
+        end
+
         -- Reset tracked broadcasts for this new request
         wipe(broadcastedQuestIds)
 
