@@ -346,7 +346,6 @@ function _QuestieFrame.Unload(self)
     self._needsUnload = nil
     self._loaded = nil
 
-    self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
     self:SetScript("OnHide", nil)
     self.isManualIcon = false
@@ -375,7 +374,6 @@ function _QuestieFrame.Unload(self)
         self.texture:SetVertexColor(1, 1, 1, 1)
     end
     self.miniMapIcon = nil;
-    self:SetScript("OnUpdate", nil)
 
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
