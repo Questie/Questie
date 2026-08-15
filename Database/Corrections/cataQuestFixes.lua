@@ -1559,14 +1559,8 @@ function CataQuestFixes.Load()
         [10482] = { -- Fel Orc Scavengers
             [questKeys.preQuestSingle] = {},
         },
-        [10567] = { -- Creating the Pendant
-            [questKeys.breadcrumbs] = {10615},
-        },
         [10595] = { -- Besieged!
             [questKeys.preQuestSingle] = {},
-        },
-        [10615] = { -- Ruuan Weald
-            [questKeys.breadcrumbForQuestId] = 10567,
         },
         [10624] = { -- A Haunted History
             [questKeys.preQuestSingle] = {},

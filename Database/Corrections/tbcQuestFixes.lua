@@ -4096,12 +4096,14 @@ function QuestieTBCQuestFixes:Load()
         },
         [10565] = { -- The Stones of Vekh'nir
             [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.81,74.67}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Vekh'nir Crystal")}},
+            [questKeys.nextQuestInChain] = 10566,
         },
         [10566] = { -- Trial and Error
             [questKeys.objectives] = {{{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT}}}, -- Yes, this is correct. The quest requires you to use four wands on the same NPC.
             [questKeys.requiredSourceItems] = {30651,30652,30653,30654,30655},
         },
         [10567] = { -- Creating the Pendant
+            [questKeys.disabledByQuest] = 10615,
             [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{64.48,33.11}}}, Questie.ICON_TYPE_EVENT, l10n("Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven")}},
         },
         [10570] = {
@@ -4332,6 +4334,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10714] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{22160,22384},22160,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10715] = { -- Into the Churning Gulch
+            [questKeys.nextQuestInChain] = 10749,
         },
         [10719] = { -- Did You Get The Note?
             [questKeys.preQuestSingle] = {10682},
@@ -4612,6 +4617,9 @@ function QuestieTBCQuestFixes:Load()
         [10863] = { -- Secrets of the Arakkoa
             [questKeys.exclusiveTo] = {10862},
             [questKeys.breadcrumbForQuestId] = 10847,
+        },
+        [10865] = { -- There Can Be Only One Response
+            [questKeys.nextQuestInChain] = 10867,
         },
         [10866] = { -- Zuluhed the Whacked
             [questKeys.objectives] = {nil,{{185156}},nil,nil,{{{11980},11980}}},
