@@ -325,3 +325,41 @@ Localization files are in `Localization/`.
 
 - Never use `coroutine.running()` to guard `coroutine.yield()` calls. If code is as expensive that it needs yielding, every caller should acknowledge that and use the ThreadLib to
   wrap the call in a coroutine.
+
+### Functions vs Methods
+
+Prefer plain **functions** over **methods** when `self` is not needed. This avoids unnecessary method dispatch overhead and makes the code simpler to test and mock.
+
+**Bad** — unnecessary method syntax:
+
+```lua
+function QuestieMap.utils:IsExplored(uiMapId, x, y)
+    -- self is not used
+    local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100))
+    return exploredAreaIDs ~= nil
+end
+
+-- Caller must use colon syntax
+local isExplored = QuestieMap.utils:IsExplored(123, 50, 50)
+```
+
+**Good** — plain function when `self` is unused:
+
+```lua
+function QuestieMap.utils.IsExplored(uiMapId, x, y)
+    local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100))
+    return exploredAreaIDs ~= nil
+end
+
+-- Caller uses dot notation
+local isExplored = QuestieMap.utils.IsExplored(123, 50, 50)
+```
+
+**Good** — method when `self` is actually used:
+
+```lua
+function _MinimapIcon:CreateDataBrokerObject()
+    self.LDBDataObject = LDBDataObject
+    -- Use self...
+end
+```
