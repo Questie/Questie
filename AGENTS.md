@@ -161,7 +161,7 @@ Custom type aliases: `QuestId`, `NpcId`, `ObjectId`, `ItemId`, `AreaId`, `CoordP
 ### Error Handling
 
 - `Questie:Error(...)` - red `[ERROR]` prefix, always printed
-- `Questie:Warning(...)` - yellow `[WARNING]`, only when debug enabled
+- `Questie.Warning(...)` - yellow `[WARNING]`, only when debug enabled
 - `Questie.Debug(level, ...)` - bitmask levels: `DEBUG_CRITICAL`, `DEBUG_ELEVATED`, `DEBUG_INFO`, `DEBUG_DEVELOP`, `DEBUG_SPAM`
 - `xpcall(callback, CallErrorHandler)` for external/public API callbacks
 - `pcall` for CLI validation scripts and risky operations
