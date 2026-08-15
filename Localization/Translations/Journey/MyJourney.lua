@@ -902,6 +902,18 @@ local myJourneyLocales = {
         ["zhCN"] = "禁用任务已激活",
         ["zhTW"] = "停用任務已啟用",
     },
+    ["Missing Arena Rating"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = "Cote d'arène manquante",
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(myJourneyLocales) do

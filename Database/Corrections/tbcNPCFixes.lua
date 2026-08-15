@@ -1077,6 +1077,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.name] = "Eastern Cannon",
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{60.7,51.78}}},
         },
+        [18897] = { -- "King" Dond
+            [npcKeys.questStarts] = {95158,95251,95252},
+            [npcKeys.questEnds] = {95158,95251,95252},
+        },
         [18927] = { -- Human Commoner
             [npcKeys.questStarts] = {11441,11970},
         },
@@ -1202,6 +1206,10 @@ function QuestieTBCNpcFixes:Load()
         [19735] = {
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_MECHANAR,
+        },
+        [19856] = { -- Steamwheedle Sam
+            [npcKeys.questStarts] = {95158,95251,95252},
+            [npcKeys.questEnds] = {95158,95251,95252},
         },
         [19862] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{63.41,77.12}}},

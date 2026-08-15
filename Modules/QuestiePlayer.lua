@@ -141,3 +141,31 @@ function QuestiePlayer:GetPartyMemberByName(playerName)
     end
     return nil;
 end
+
+---@param questId number
+---@return boolean
+function QuestiePlayer.HasArenaRating(questId)
+    local hasArenaRating = false
+    if questId == 95158 then
+        local rating2v2 = GetPersonalRatedInfo(1)
+        -- the rating condition is not known. it could also have to not be 1500
+        if rating2v2 > 0 then
+            hasArenaRating = true
+        end
+    end
+    if questId == 95251 then
+        local rating3v3 = GetPersonalRatedInfo(2)
+        -- the rating condition is not known. it could also have to not be 1500
+        if rating3v3 > 0 then
+            hasArenaRating = true
+        end
+    end
+    if questId == 95252 then
+        local rating5v5 = GetPersonalRatedInfo(3)
+        -- the rating condition is not known. it could also have to not be 1500
+        if rating5v5 > 0 then
+            hasArenaRating = true
+        end
+    end
+    return hasArenaRating
+end

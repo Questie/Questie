@@ -94,6 +94,11 @@ local questsToBlacklistByPhase = {
         [11104] = true,
         [11105] = true,
         [11106] = true,
+
+        -- Arena rating reset quest
+        [95158] = true,
+        [95251] = true,
+        [95252] = true,
     },
     [3] = { -- Phase 3 - T6 (Hyjal, BT)
         [10948] = true,
