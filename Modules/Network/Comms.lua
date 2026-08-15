@@ -107,7 +107,8 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             pendingResponseTimer = nil
         end
 
-        pendingResponseTimer = C_Timer.NewTimer(math.random() * 5, function()
+        -- We will answer somewhere between 0 and 8 seconds, unless we see another peer respond first.
+        pendingResponseTimer = C_Timer.NewTimer(math.random() * 8, function()
             pendingResponseTimer = nil
 
             local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
