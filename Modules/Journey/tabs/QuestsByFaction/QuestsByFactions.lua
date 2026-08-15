@@ -324,7 +324,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
             return
         end
 

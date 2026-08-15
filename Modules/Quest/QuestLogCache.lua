@@ -155,13 +155,14 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
             end
         else -- objective text not in game's cache
             if oldObj then
-                Questie:Debug(Questie.DEBUG_INFO, "[GetNewObjectives] objective not in game's cache. Using addon's cache. questID, objIndex:", questId, objIndex)
+                Questie.Debug(Questie.DEBUG_INFO, "[GetNewObjectives] objective not in game's cache. Using addon's cache. questID, objIndex:", questId, objIndex)
                 -- Extremely unlikely that the objective has changed from cached version as a change SHOULD trigger fetching data into game cache.
                 -- Possible bug point if there comes desync issues.
                 newObjectives[objIndex] = oldObj
                 allObjectivesFinished = allObjectivesFinished and oldObj.finished -- if any objective is not finished, whole quest is not complete
             else
-                Questie:Debug(Questie.DEBUG_INFO, "[GetNewObjectives] \"WARNING\" objective not in game's cache nor addon's cache. questID, objIndex:", questId, objIndex)
+                Questie.Debug(Questie.DEBUG_INFO, "[GetNewObjectives] \"WARNING\" objective not in game's cache nor addon's cache. questID, objIndex:", questId,
+                    objIndex)
                 -- Objective has been never cached
                 -- Tell to function caller that we couldn't get all required data from game's cache
                 -- Don't loop rest of objectives as we won't anyway save those into cache[] and C_QuestLog.GetQuestObjectives() call already triggered game to initiate caching those into game's cache.
@@ -189,7 +190,7 @@ QuestLogCache._GetNewObjectives = GetNewObjectives
 ---@param questIdsToCheck table? @keys are the questIds
 ---@return boolean cacheMiss, table changes, table questIdsChecked @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
 function QuestLogCache.CheckForChanges(questIdsToCheck)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.CheckForChanges]")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.CheckForChanges]")
 
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
@@ -272,7 +273,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                     end
                 end
             else
-                Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestLogCache.CheckForChanges] HaveQuestData() == false. questId, index:", questId, questLogIndex)
+                Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestLogCache.CheckForChanges] HaveQuestData() == false. questId, index:", questId, questLogIndex)
 
                 -- In theory this shouldn't happen, but it does. This is not error but an edge case.
 
@@ -315,7 +316,7 @@ end
 
 
 function QuestLogCache.RemoveQuest(questId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.RemoveQuest] remove questId:", questId)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.RemoveQuest] remove questId:", questId)
     if cache[questId] then
         cache[questId] = nil
         questCount = questCount - 1
@@ -350,7 +351,7 @@ function QuestLogCache.TestGameCache()
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.TestGameCache]", (gameCacheOK and "Cache ok." or "Cache missing data."))
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.TestGameCache]", (gameCacheOK and "Cache ok." or "Cache missing data."))
     return gameCacheOK
 end
 

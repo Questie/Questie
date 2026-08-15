@@ -96,7 +96,7 @@ monster = function(npcId, objective)
 
     local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
     if (not spawns) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
+        Questie.Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
         spawns = {}
     end
 
@@ -145,7 +145,7 @@ object = function(objectId, objective)
 
     local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
     if (not spawns) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
+        Questie.Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
         spawns = {}
     end
 

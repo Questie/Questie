@@ -135,7 +135,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             Questie.db.char.vendorList[key]
 
     if (not ids) then
-        Questie:Debug(Questie.DEBUG_INFO, "Invalid townsfolk key", tostring(key))
+        Questie.Debug(Questie.DEBUG_INFO, "Invalid townsfolk key", tostring(key))
         return
     end
 

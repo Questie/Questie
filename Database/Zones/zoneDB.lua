@@ -87,7 +87,7 @@ end
 function ZoneDB:GetUiMapIdByAreaId(areaId)
     local uiMapId = areaIdToUiMapId[areaId]
     if (not uiMapId) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "No UiMapId found for AreaId: " .. tostring(areaId))
+        Questie.Debug(Questie.DEBUG_CRITICAL, "No UiMapId found for AreaId: " .. tostring(areaId))
     end
 
     return uiMapId
@@ -108,7 +108,7 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
     for areaId in pairs(areaIdToUiMapId) do
         local areaName = C_Map.GetAreaInfo(areaId)
         if mapInfo and mapInfo.name == areaName then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":",
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":",
                 uiMapId, "by name")
             return areaId
         end
@@ -394,7 +394,7 @@ end
 function _ZoneDB:RunTests()
     -- Fetch all UiMapIds (WOTLK/TBC, ERA)
     local maps = C_Map.GetMapChildrenInfo(946, nil, true) or C_Map.GetMapChildrenInfo(947, nil, true)
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB")
+    Questie.Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB")
     for _, map in pairs(maps) do
         --- We don't care about World, Continent or Cosmic
         if map.mapType ~= Enum.UIMapType.World and map.mapType ~= Enum.UIMapType.Continent and map.mapType ~= Enum.UIMapType.Cosmic then
@@ -404,5 +404,5 @@ function _ZoneDB:RunTests()
             end
         end
     end
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB done")
+    Questie.Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB done")
 end

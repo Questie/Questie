@@ -132,7 +132,7 @@ function TrackerBaseFrame.Initialize()
         if (not result) then
             Questie.db.profile.TrackerLocation = nil
             Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
-            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
+            Questie.Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
             local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
             Questie.db.profile.trackerSetpoint = "TOPLEFT"
@@ -149,7 +149,7 @@ function TrackerBaseFrame.Initialize()
         if not result then
             Questie.db.profile.TrackerLocation = nil
             Questie:Print(l10n("Questie tracker in invalid location, resetting..."))
-            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
+            Questie.Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
             TrackerBaseFrame:SetSafePoint()
         end
     end
@@ -260,9 +260,9 @@ end
 
 function TrackerBaseFrame:SetSafePoint()
     if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isResizing ~= true then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint]")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint]")
     else
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint] - Frame is moving or resizing! --> Exiting.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint] - Frame is moving or resizing! --> Exiting.")
         return
     end
 
@@ -292,16 +292,16 @@ function TrackerBaseFrame.OnDragStart(frame, button)
     end
 
     if InCombatLockdown() or IsShiftKeyDown() or IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - In Combat or shift key or alt key detected! --> Exiting.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - In Combat or shift key or alt key detected! --> Exiting.")
         return
     else
         if (IsControlKeyDown() and Questie.db.profile.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.profile.trackerLocked then
             if TrackerBaseFrame.isMoving ~= false or TrackerBaseFrame.isSizing == true then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is already moving or frame is already resizing! --> Exiting.")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is already moving or frame is already resizing! --> Exiting.")
                 return
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Tracker is Locked. Use CTRL Key. --> Exiting.")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Tracker is Locked. Use CTRL Key. --> Exiting.")
             return
         end
     end
@@ -310,7 +310,7 @@ function TrackerBaseFrame.OnDragStart(frame, button)
         if IsMouseButtonDown(button) and button ~= "MiddleButton" then
             if (IsControlKeyDown() and Questie.db.profile.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.profile.trackerLocked then
                 if baseFrame:IsMovable() then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Dragging Started.")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Dragging Started.")
                     TrackerBaseFrame.isMoving = true
                     TrackerBaseFrame.baseFrame.isMoving = true
 
@@ -320,7 +320,7 @@ function TrackerBaseFrame.OnDragStart(frame, button)
 
                     return true
                 else
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is not movable!")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is not movable!")
                 end
             end
         end
@@ -329,9 +329,9 @@ end
 
 local function _UpdateTrackerPosition()
     if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isResizing ~= true then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition]")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition]")
     else
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition] - Frame is moving or resizing! --> Exiting.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition] - Frame is moving or resizing! --> Exiting.")
         return
     end
 
@@ -363,16 +363,16 @@ end
 function TrackerBaseFrame.OnDragStop(frame, button)
     if IsShiftKeyDown() or IsAltKeyDown() then
         if TrackerBaseFrame.isMoving ~= true then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Shift key or alt key detected! --> Exiting.")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Shift key or alt key detected! --> Exiting.")
             return
         end
     elseif TrackerBaseFrame.isMoving ~= true or TrackerBaseFrame.isSizing == true then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Frame isn't moving or frame is resizing! --> Exiting.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Frame isn't moving or frame is resizing! --> Exiting.")
         return
     end
 
     if TrackerBaseFrame.isMoving ~= false and TrackerBaseFrame.isSizing ~= true then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Dragging Stopped.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Dragging Stopped.")
 
         TrackerBaseFrame.isMoving = false
         TrackerBaseFrame.baseFrame.isMoving = false
@@ -391,16 +391,16 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
     end
 
     if InCombatLockdown() or IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - In Combat or alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - In Combat or alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
     else
         if (IsControlKeyDown() and Questie.db.profile.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.profile.trackerLocked then
             if TrackerBaseFrame.isSizing ~= false or TrackerBaseFrame.isMoving == true then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Frame is already resizing or frame is moving! --> Exiting.")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Frame is already resizing or frame is moving! --> Exiting.")
                 return
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Tracker is Locked. Use CTRL Key. --> Exiting.")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Tracker is Locked. Use CTRL Key. --> Exiting.")
             return
         end
     end
@@ -410,7 +410,7 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
             if (IsControlKeyDown() and Questie.db.profile.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.profile.trackerLocked then
                 if baseFrame:IsResizable() then
                     if button == "LeftButton" then
-                        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Sizing Started.")
+                        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Sizing Started.")
                         TrackerBaseFrame.isSizing = true
                         TrackerBaseFrame.baseFrame.isSizing = true
 
@@ -449,11 +449,11 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
                         end)
                     end
                 else
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Frame is not resizable!")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Frame is not resizable!")
                 end
 
                 if button == "RightButton" then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Resetting Sizer mode.")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Resetting Sizer mode.")
                     Questie.db.profile.TrackerWidth = 0
                     Questie.db.profile.TrackerHeight = 0
                 end
@@ -465,17 +465,17 @@ end
 ---@param button string @The mouse button that is pressed when resize stops
 function TrackerBaseFrame.OnResizeStop(frame, button)
     if IsAltKeyDown() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Alt key detected! --> Exiting.") -- TODO: Why is the alt key a problem?
         return
     else
         if TrackerBaseFrame.isSizing ~= true or TrackerBaseFrame.isMoving == true then
             if button == "LeftButton" or button == "MiddleButton" then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Frame isn't resizing or frame is moving! --> Exiting.")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Frame isn't resizing or frame is moving! --> Exiting.")
                 return
             end
 
             if button == "RightButton" then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Sizer mode reset. Updating Tracker.")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Sizer mode reset. Updating Tracker.")
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
@@ -486,7 +486,7 @@ function TrackerBaseFrame.OnResizeStop(frame, button)
     end
 
     if TrackerBaseFrame.isSizing ~= false and TrackerBaseFrame.isMoving ~= true then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Sizing Stopped.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Sizing Stopped.")
 
         TrackerBaseFrame.isSizing = false
         TrackerBaseFrame.baseFrame.isSizing = false

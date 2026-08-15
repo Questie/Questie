@@ -62,7 +62,7 @@ function GroupEventHandler.GroupRosterUpdate()
 end
 
 function GroupEventHandler.GroupJoined()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] GROUP_JOINED")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] GROUP_JOINED")
     local checkTimer
     --We want this to be fairly quick.
     checkTimer = C_Timer.NewTicker(0.2, function()
@@ -71,14 +71,14 @@ function GroupEventHandler.GroupJoined()
         local isInRaid = UnitInRaid("raid1")
         if partyPending then
             if (isInParty or isInRaid) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
                 CommsVisibility:ScheduleSnapshot("GROUP_JOINED")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player no longer in a party or pending invite. Cancel timer")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player no longer in a party or pending invite. Cancel timer")
             checkTimer:Cancel()
         end
     end)

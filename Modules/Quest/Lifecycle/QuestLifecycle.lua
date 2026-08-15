@@ -62,7 +62,7 @@ function QuestLifecycle:AcceptQuest(questId)
     local complete = quest:IsComplete()
     -- If any of these flags exist then this quest has already once been accepted and is probably in a failed state
     if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
+        Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
 
         -- Reset quest log
         QuestiePlayer.currentQuestlog[questId] = nil
@@ -89,11 +89,11 @@ function QuestLifecycle:AcceptQuest(questId)
     end
 
     if QuestiePlayer.currentQuestlog[questId] then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
+        Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
         return
     end
 
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
+    Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
 
     QuestiePlayer.currentQuestlog[questId] = quest
 
@@ -179,7 +179,7 @@ function QuestLifecycle:CompleteQuest(questId)
         AvailableQuests.CalculateAndDrawAll()
     end)
 
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:CompleteQuest]", questId)
+    Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:CompleteQuest]", questId)
 end
 
 ---@param questId number
@@ -231,5 +231,5 @@ function QuestLifecycle:AbandonQuest(questId)
         AvailableQuests.CalculateAndDrawAll()
     end)
 
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonQuest]", questId)
+    Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonQuest]", questId)
 end

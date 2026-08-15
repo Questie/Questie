@@ -66,9 +66,9 @@ end
 
 function TrackerLinePool.ResetLinesForChange()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetLinesForChange]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetLinesForChange]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
     end
 
     if InCombatLockdown() or not Questie.db.profile.trackerEnabled then
@@ -106,9 +106,9 @@ end
 
 function TrackerLinePool.ResetButtonsForChange()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetButtonsForChange]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetButtonsForChange]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
     end
 
     if InCombatLockdown() or not Questie.db.profile.trackerEnabled then
@@ -329,9 +329,9 @@ end
 
 function TrackerLinePool.HideUnusedLines()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedLines]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedLines]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedLines]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedLines]")
     end
     local startUnusedLines = 0
 
@@ -363,9 +363,9 @@ end
 
 function TrackerLinePool.HideUnusedButtons()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedButtons]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedButtons]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedButtons]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedButtons]")
     end
     local startUnusedButtons = 0
 
