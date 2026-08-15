@@ -191,12 +191,69 @@ local function _GetActiveData(category)
     return data
 end
 
+---@param coordsA CoordPair
+---@param coordsB CoordPair
+---@param tolerance number
+---@return boolean
+local function _AreClose(coordsA, coordsB, tolerance)
+    return math.abs(coordsA[1] - coordsB[1]) <= tolerance and math.abs(coordsA[2] - coordsB[2]) <= tolerance
+end
+
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
 function ProfessionStations.ShowAll(category)
     local icon = _icons[category]
+    local named = {}
+    local generic = {}
+
     for objectID in pairs(_GetActiveData(category)) do
         local object = QuestieDB:GetObject(objectID)
-        QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), nil, true, category)
+        if object and object.spawns then
+            local entry = {id = objectID, object = object}
+            if object.name and not _genericNames[object.name] then
+                named[#named + 1] = entry
+            else
+                generic[#generic + 1] = entry
+            end
+        end
+    end
+
+    -- Spawns are deduplicated by location, preferring stations with an actual name
+    -- over generic ones, so no overlapping icons are drawn for the same spot.
+    local taken = {} -- [zone] = CoordPair[]
+    local function _IsTaken(zone, coords)
+        for _, takenCoords in ipairs(taken[zone] or {}) do
+            if _AreClose(takenCoords, coords, 0.05) then
+                return true
+            end
+        end
+        return false
+    end
+
+    for _, entry in ipairs(named) do
+        QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), nil, true, category)
+        for zone, spawns in pairs(entry.object.spawns) do
+            taken[zone] = taken[zone] or {}
+            for _, coords in ipairs(spawns) do
+                table.insert(taken[zone], coords)
+            end
+        end
+    end
+
+    for _, entry in ipairs(generic) do
+        local filteredSpawns = {}
+        for zone, spawns in pairs(entry.object.spawns) do
+            for _, coords in ipairs(spawns) do
+                if not _IsTaken(zone, coords) then
+                    filteredSpawns[zone] = filteredSpawns[zone] or {}
+                    table.insert(filteredSpawns[zone], coords)
+                    taken[zone] = taken[zone] or {}
+                    table.insert(taken[zone], coords)
+                end
+            end
+        end
+        if next(filteredSpawns) then
+            QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), nil, true, category, filteredSpawns)
+        end
     end
 end
 

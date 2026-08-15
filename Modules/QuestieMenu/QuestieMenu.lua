@@ -109,6 +109,24 @@ local _stationCategories = {
     ["Alchemy Lab"] = "alchemyLab",
 }
 
+local _stationProfessions = {
+    ["Moonwell"] = {professionKeys.TAILORING},
+    ["Anvil"] = {professionKeys.BLACKSMITHING, professionKeys.ENGINEERING},
+    ["Forge"] = {professionKeys.MINING},
+    ["Alchemy Lab"] = {professionKeys.ALCHEMY},
+}
+
+---@param professions number[]
+---@return boolean
+local function _HasAnyProfession(professions)
+    for _, profession in ipairs(professions) do
+        if QuestieProfessions:HasProfessionAndSkillLevel({profession, 1}) then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param id NpcId
 ---@param key string
 ---@return string
@@ -132,7 +150,7 @@ end
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     local stationCategory = _stationCategories[key]
     if stationCategory then
-        if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
+        if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and _HasAnyProfession(_stationProfessions[key]) then
             ProfessionStations.ShowAll(stationCategory)
         else
             ProfessionStations.HideAll(stationCategory)
