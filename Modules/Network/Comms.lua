@@ -4,9 +4,15 @@ local Comms = QuestieLoader:CreateModule("Comms")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
----@class CommEvent
----@field eventName "HideDailyQuests"|"RequestUnavailableDailyQuests"
----@field data table<NpcId, QuestId[]>|{ npcId: NpcId, questIds: QuestId[] }|nil
+---@class HideDailyQuestsEvent
+---@field eventName "HideDailyQuests"
+---@field data { npcId: NpcId, questIds: QuestId[] }
+
+---@class RequestUnavailableDailyQuestsEvent
+---@field eventName "RequestUnavailableDailyQuests"
+---@field data table<NpcId, QuestId[]>
+
+---@alias CommEvent HideDailyQuestsEvent|RequestUnavailableDailyQuestsEvent
 
 local COMM_PREFIX = "QuestieDailies"
 
