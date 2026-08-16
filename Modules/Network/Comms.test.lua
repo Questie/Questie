@@ -715,7 +715,7 @@ describe("Comms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            Comms.RequestUnavailableDailyQuests()
+            Comms.RequestUnavailableDailyQuests(true)
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "GUILD")
         end)
@@ -725,7 +725,7 @@ describe("Comms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            Comms.RequestUnavailableDailyQuests()
+            Comms.RequestUnavailableDailyQuests(true)
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "PARTY")
         end)
@@ -735,7 +735,7 @@ describe("Comms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            Comms.RequestUnavailableDailyQuests()
+            Comms.RequestUnavailableDailyQuests(true)
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "RAID")
         end)
@@ -744,7 +744,7 @@ describe("Comms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            Comms.RequestUnavailableDailyQuests()
+            Comms.RequestUnavailableDailyQuests(true)
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
@@ -754,7 +754,32 @@ describe("Comms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return nil end
 
-            Comms.RequestUnavailableDailyQuests()
+            Comms.RequestUnavailableDailyQuests(true)
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("should not ask the guild when askGuild is false", function()
+            _G.IsInGuild = function() return true end
+            _G.IsInRaid = function() return false end
+            _G.IsInGroup = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+
+            Comms.RequestUnavailableDailyQuests(false)
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "PARTY")
+            assert.spy(Questie.SendCommMessage).was.not_called_with(Questie, "QuestieDailies", "eventAsSerializedString", "GUILD")
+        end)
+
+        it("should not send anything when askGuild is false and not in a group", function()
+            _G.IsInGuild = function() return true end
+            _G.IsInRaid = function() return false end
+            _G.IsInGroup = function() return false end
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+
+            Comms.RequestUnavailableDailyQuests(false)
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
@@ -773,7 +798,7 @@ describe("Comms", function()
                 return "eventAsSerializedString"
             end
 
-            Comms.RequestUnavailableDailyQuests()
+            Comms.RequestUnavailableDailyQuests(true)
 
             assert.are_equal("RequestUnavailableDailyQuests", capturedEvent.eventName)
             assert.are_same({[npcId] = questIds}, capturedEvent.data)
@@ -791,7 +816,7 @@ describe("Comms", function()
                 return "eventAsSerializedString"
             end
 
-            Comms.RequestUnavailableDailyQuests()
+            Comms.RequestUnavailableDailyQuests(true)
 
             assert.are_equal("RequestUnavailableDailyQuests", capturedEvent.eventName)
             assert.are_same({}, capturedEvent.data)
