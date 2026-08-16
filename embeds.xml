@@ -13,7 +13,6 @@
     <Include file="Libs\AceGUI-3.0\AceGUI-3.0.xml"/>
     <Include file="Libs\AceConfig-3.0\AceConfig-3.0.xml"/>
     <Include file="Libs\AceComm-3.0\AceComm-3.0.xml"/>
-    <Include file="Libs\AceSerializer-3.0\AceSerializer-3.0.xml"/>
     <!-- Ace3 frame work end -->
     <Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
     <Include file="Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml"/>
