@@ -26,6 +26,10 @@ local realmName
 ---@type Ticker|nil
 local pendingResponseTimer
 
+--- The distribution the pending response was requested on, so the answer only goes back to that channel.
+---@type string?
+local pendingResponseDistribution
+
 --- Tracks quest IDs already broadcast in response to the current RequestUnavailableDailyQuests.
 --- Used to determine if our local data has additional quests not yet covered by peers.
 --- Reset when a new request arrives.
@@ -118,6 +122,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Nothing new to broadcast")
             pendingResponseTimer:Cancel()
             pendingResponseTimer = nil
+            pendingResponseDistribution = nil
         end
 
         AvailableQuests.RemoveQuestsForToday(npcId, questIds)
@@ -145,18 +150,22 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
             Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Cancelling pending response timer")
             pendingResponseTimer:Cancel()
             pendingResponseTimer = nil
+            pendingResponseDistribution = nil
         end
 
         -- Only schedule a response if we have NPCs the sender doesn't know about
         if _HasNewNpcData(event.data) then
             -- We will answer somewhere between 0 and 8 seconds, unless we see another peer respond first.
+            -- The answer goes only back to the channel the request arrived on.
+            pendingResponseDistribution = distribution
             pendingResponseTimer = C_Timer.NewTimer(math.random() * 8, function()
                 pendingResponseTimer = nil
 
                 local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
                 for npcId, questIds in pairs(unavailableQuests) do
-                    Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
+                    Comms.AnswerUnavailableDailyQuests(npcId, questIds, pendingResponseDistribution)
                 end
+                pendingResponseDistribution = nil
             end)
         end
     end
@@ -215,4 +224,29 @@ function Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
     elseif IsInGroup() then
         Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "PARTY")
     end
+end
+
+--- Sends a HideDailyQuests answer back only on the distribution the request arrived on.
+--- Unlike BroadcastUnavailableDailyQuests, this never touches the guild unless the request came via GUILD.
+---@param npcId NpcId @The ID of the NPC associated with the daily quests.
+---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
+---@param distribution string @The distribution the request was received on.
+function Comms.AnswerUnavailableDailyQuests(npcId, questIds, distribution)
+    ---@type CommEvent
+    local event = {
+        eventName = "HideDailyQuests",
+        data = {
+            npcId = npcId,
+            questIds = questIds
+        }
+    }
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.AnswerUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
+
+    local serializedEvent = CommsEncoding:EncodePayload(event)
+    if (not serializedEvent) then
+        return
+    end
+
+    Questie:SendCommMessage(COMM_PREFIX, serializedEvent, distribution)
 end
