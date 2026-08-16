@@ -2056,7 +2056,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Lord Hewell for a horse"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Lord Hewell für ein Pferd",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2068,7 +2068,7 @@ local cataObjectiveLocales = {
     },
     ["Smuggler's Scar Scouted"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Schmugglerschmiss ausgekundschaftet",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2080,7 +2080,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Erunak"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Erunak",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2092,7 +2092,7 @@ local cataObjectiveLocales = {
     },
     ["Head to the top of Nespirah"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Begib dich auf die Spitze von Nespirah",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2104,7 +2104,7 @@ local cataObjectiveLocales = {
     },
     ["Climb into the balloon"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Steig in den Ballon",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2116,7 +2116,7 @@ local cataObjectiveLocales = {
     },
     ["Adarrah Signaled"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Adarrah informiert",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2128,7 +2128,7 @@ local cataObjectiveLocales = {
     },
     ["Wait for the Zeppelin"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Warte auf den Zeppelin",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2140,7 +2140,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Negolash"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Negolash",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2152,7 +2152,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Pebble"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Pebble",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2164,7 +2164,7 @@ local cataObjectiveLocales = {
     },
     ["Place Trapped Basilisk Meat to spawn Stonescale Matriarch"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere das gefangene Basiliskenfleisch um die Steinschuppenmatriarchin anzulocken. ",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2176,7 +2176,7 @@ local cataObjectiveLocales = {
     },
     ["Place Ricket's Tickers next to the white rocks"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere Rickets Ticker nahe des weißen Steins",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2188,7 +2188,7 @@ local cataObjectiveLocales = {
     },
     ["Place Ricket's Tickers next to the blue rocks"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere Rickets Ticker nahe des blauen Steins",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2308,7 +2308,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Abyssion"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Abyssion",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2320,7 +2320,7 @@ local cataObjectiveLocales = {
     },
     ["Defeat Abyssion"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Besiege Abyssion",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2332,7 +2332,7 @@ local cataObjectiveLocales = {
     },
     ["Bring the Opalescent Guardians here"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Bringe die opalschimmernder Wächter her",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2344,7 +2344,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Salhet"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Salhet",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2356,7 +2356,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Commander Schnottz"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Kommandeur Schnottz",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2368,7 +2368,7 @@ local cataObjectiveLocales = {
     },
     ["Defeat the defenses"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Besiege die Verteidigung",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2380,7 +2380,7 @@ local cataObjectiveLocales = {
     },
     ["Follow the trail of gore"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Folge der Spur aus Innerein",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2392,7 +2392,7 @@ local cataObjectiveLocales = {
     },
     ["Start the wedding!"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beginne die Hochzeit",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2404,7 +2404,7 @@ local cataObjectiveLocales = {
     },
     ["Debilitate Apexar!"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Entkräfteter Apexar",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2416,7 +2416,7 @@ local cataObjectiveLocales = {
     },
     ["Debilitate Aetharon!"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Entkräfteter Aetharon",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2428,7 +2428,7 @@ local cataObjectiveLocales = {
     },
     ["Debilitate Edemantus!"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Entkräfteter Edemantus" ,
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2440,7 +2440,7 @@ local cataObjectiveLocales = {
     },
     ["The High Seat"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Der hohe Sitz",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2452,7 +2452,7 @@ local cataObjectiveLocales = {
     },
     ["Stop Smoot"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Stoppe Smoot",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2464,7 +2464,7 @@ local cataObjectiveLocales = {
     },
     ["Go to the shore"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe an den Strand",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2476,7 +2476,7 @@ local cataObjectiveLocales = {
     },
     ["Go back to the ship"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe zurück zum Schiff",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2488,7 +2488,7 @@ local cataObjectiveLocales = {
     },
     ["Throw the Barbed Fleshhook at them"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wirf den gestachelten Fleischerhaken auf sie",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2500,7 +2500,7 @@ local cataObjectiveLocales = {
     },
     ["Place the bait near it"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Platziere den Köder in der nähe",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2512,7 +2512,7 @@ local cataObjectiveLocales = {
     },
     ["Throw Bottle of Leeches"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Wirf die Flasche mit Egeln",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2524,7 +2524,7 @@ local cataObjectiveLocales = {
     },
     ["Use the imbued blood"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Benutze das machterfüllte Blut",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2536,7 +2536,7 @@ local cataObjectiveLocales = {
     },
     ["Speak to Gorka"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Gorka",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2548,7 +2548,7 @@ local cataObjectiveLocales = {
     },
     ["Speak to Kadrak"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Kadrak",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2560,7 +2560,7 @@ local cataObjectiveLocales = {
     },
     ["Speak with Karthog to lure out General Hawthorne"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Karthog um General Hawthorne anzulocken",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2584,7 +2584,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Galenges"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Galenges",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2596,7 +2596,7 @@ local cataObjectiveLocales = {
     },
     ["Speak with Torga"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Torga",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2608,7 +2608,7 @@ local cataObjectiveLocales = {
     },
     ["Defeat Raging Invader"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Besiege die tobenden Eindringle",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2620,7 +2620,7 @@ local cataObjectiveLocales = {
     },
     ["Speak with Mazzer Stripscrew to get on your boat"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Mazzer Schrottschrauber um auf das Boot zu gelangen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2632,7 +2632,7 @@ local cataObjectiveLocales = {
     },
     ["Speak with Griznak to get on your boat"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Griznak um auf dein Boot zu kommen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2644,7 +2644,7 @@ local cataObjectiveLocales = {
     },
     ["Speak with Thraka to begin the assault"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Thraka um den Sturm zu starten",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2656,7 +2656,7 @@ local cataObjectiveLocales = {
     },
     ["Use the Phaseblood Potion at the Sigil of Tichondrius"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nutze den Phasenbluttrank auf dem Siegel des Tichondrius",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2668,7 +2668,7 @@ local cataObjectiveLocales = {
     },
     ["Get in Krom'gar Demolisher"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Gehe in den Krom'gar Zerstörer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2680,7 +2680,7 @@ local cataObjectiveLocales = {
     },
     ["Get in the balloon"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Steige in den Ballon",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2692,7 +2692,7 @@ local cataObjectiveLocales = {
     },
     ["Capture a Hazzali Swarmer"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Fange die Schwärmer der Hazzali",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2704,7 +2704,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Narain to mount your bug"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Narain um auf deinen Käfer aufzusteigen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2716,7 +2716,7 @@ local cataObjectiveLocales = {
     },
     ["Make it rain"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Lass es regnen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2728,7 +2728,7 @@ local cataObjectiveLocales = {
     },
     ["Kill them to spawn the chips"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Töte sie um die Chips erscheinen zu lassen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2740,7 +2740,7 @@ local cataObjectiveLocales = {
     },
     ["Engage it to create Ember Pools"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Nähere dich um eine Glutlache zu erzeugen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2752,7 +2752,7 @@ local cataObjectiveLocales = {
     },
     ["Start the bombing run"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Starte den Bombenlauf",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2764,7 +2764,7 @@ local cataObjectiveLocales = {
     },
     ["Control the Canyon Ettin"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Kontrolliere den Schluchtettin",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2776,7 +2776,7 @@ local cataObjectiveLocales = {
     },
     ["Use the Ettin to lift the boulder"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Bringe den Ettin dazu den Stein anzuheben",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2788,7 +2788,7 @@ local cataObjectiveLocales = {
     },
     ["Free Danforth"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Befreie Danforth",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2800,7 +2800,7 @@ local cataObjectiveLocales = {
     },
     ["Unlock the ward"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Öffne den Schutz",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2812,7 +2812,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Darkblaze"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Dunkelflamme",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2824,7 +2824,7 @@ local cataObjectiveLocales = {
     },
     ["Summon Myzrael"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Beschwöre Myzrael",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2836,7 +2836,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Korrah"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Korrah",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2848,7 +2848,7 @@ local cataObjectiveLocales = {
     },
     ["Talk to Lord Hydronis"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
+        ["deDE"] = "Sprich mit Lord Hydronis",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
