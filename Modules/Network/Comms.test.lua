@@ -277,6 +277,29 @@ describe("Comms", function()
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "GUILD")
         end)
 
+        it("should only answer on the request's distribution when the response timer fires", function()
+            local npcId = 111
+            local questIds = {222, 333}
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[npcId] = questIds} end
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+            _G.IsInGuild = function() return true end
+
+            -- Use instant timer so the callback fires immediately
+            _G.C_Timer.NewTimer = function(_, callback)
+                callback()
+                return {Cancel = function() end}
+            end
+
+            local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
+            CommsEncoding.DecodePayload = function() return event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "PARTY", "SomeSender")
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "PARTY")
+            assert.spy(Questie.SendCommMessage).was.not_called_with(Questie, "QuestieDailies", "eventAsSerializedString", "GUILD")
+        end)
+
         it("should not broadcast when GetUnavailableDailyQuests returns empty", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
             Questie.SendCommMessage = spy.new(function() end)
@@ -704,6 +727,35 @@ describe("Comms", function()
             CommsEncoding.EncodePayload = function() return nil end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+    end)
+
+    describe("AnswerUnavailableDailyQuests", function()
+        it("should answer on the given distribution", function()
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+
+            Comms.AnswerUnavailableDailyQuests(1234, {5678, 91011}, "PARTY")
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "PARTY")
+        end)
+
+        it("should answer on the given distribution for guild requests", function()
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+
+            Comms.AnswerUnavailableDailyQuests(1234, {5678, 91011}, "GUILD")
+
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailies", "eventAsSerializedString", "GUILD")
+        end)
+
+        it("should not answer when EncodePayload returns nil", function()
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return nil end
+
+            Comms.AnswerUnavailableDailyQuests(1234, {5678, 91011}, "PARTY")
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
