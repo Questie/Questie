@@ -13,6 +13,9 @@ addon-channel-safe byte escaping so binary compressed payloads can travel throug
 ---@field MAX_ENCODED_PAYLOAD_BYTES number
 local CommsEncoding = QuestieLoader:CreateModule("CommsEncoding")
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local type = type
 
 -- AceComm reserves one byte per multipart message, leaving 254 bytes for payload.
@@ -28,8 +31,14 @@ CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES = MAX_ENCODED_PAYLOAD_BYTES
 -- incomplete installation or test environment does not provide it.
 local LibDeflate = LibStub("LibDeflate", true)
 
+---Cached codec support result. Every supported WoW client has codec support, so this is checked once during Init and never re-evaluated.
+---If a future client lacks it, Init raises an error so the user knows to contact us.
+---@type boolean
+CommsEncoding.hasCodecSupport = false
+
+---Checks whether the client has the Blizzard CBOR/compression APIs, the compression enums and LibDeflate's addon-channel codec.
 ---@return boolean
-function CommsEncoding:HasCodecSupport()
+local function _HasCodecSupport()
     local hasBlizzardEncoding = C_EncodingUtil ~= nil
         and C_EncodingUtil.SerializeCBOR ~= nil
         and C_EncodingUtil.DeserializeCBOR ~= nil
@@ -49,10 +58,21 @@ function CommsEncoding:HasCodecSupport()
     return hasBlizzardEncoding and hasDeflateEnums and hasAddonChannelCodec
 end
 
+---Checks codec support once and caches the result.
+---Every WoW client is expected to have codec support; if a future client does not, we want
+---to fail loudly so the affected user reaches out to us.
+function CommsEncoding.Init()
+    CommsEncoding.hasCodecSupport = _HasCodecSupport()
+
+    if (not CommsEncoding.hasCodecSupport) then
+        Questie.Error("Client does not have Codec support", l10n("Please report this on Github or Discord!"))
+    end
+end
+
 ---@param payload table Plain Lua table accepted by Blizzard's CBOR serializer.
 ---@return string? encodedPayload Nil when serialization, compression, or channel encoding fails.
 function CommsEncoding:EncodePayload(payload)
-    if not CommsEncoding:HasCodecSupport() then
+    if (not CommsEncoding.hasCodecSupport) then
         return nil
     end
 
@@ -76,7 +96,7 @@ function CommsEncoding:DecodePayload(message)
         return nil
     end
 
-    if not CommsEncoding:HasCodecSupport() then
+    if (not CommsEncoding.hasCodecSupport) then
         return nil
     end
 

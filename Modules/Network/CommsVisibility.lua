@@ -72,7 +72,7 @@ function CommsVisibility:Initialize()
         return
     end
 
-    if (not CommsEncoding:HasCodecSupport()) then
+    if (not CommsEncoding.hasCodecSupport) then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[CommsVisibility] Codec support unavailable, not registering QuestieV1")
         return
     end

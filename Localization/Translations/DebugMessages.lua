@@ -470,6 +470,18 @@ local debugMessagesLocales = {
         ["zhCN"] = "Questie 数据库中缺少的任务 %s，请到 GitHub 或 Discord 上报告，谢谢！",
         ["zhTW"] = "Questie 的資料庫中沒有這個任務 %s，請到 GitHub 或 Discord 做回報！",
     },
+    ["Please report this on GitHub or Discord!"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Bitte melde dies auf GitHub oder Discord!",
+        ["esES"] = "¡Por favor, infórmalo en GitHub o Discord!",
+        ["esMX"] = "¡Por favor, infórmalo en GitHub o Discord!",
+        ["frFR"] = "Veuillez le signaler sur GitHub ou Discord !",
+        ["koKR"] = "Github/Discord에 리포트 부탁드립니다!",
+        ["ptBR"] = "Por favor, informe isso no GitHub ou Discord!",
+        ["ruRU"] = "Пожалуйста, сообщите нам об этом на GitHub или в Discord!",
+        ["zhCN"] = "请到 GitHub 或 Discord 上报告，谢谢！",
+        ["zhTW"] = "請到 GitHub 或 Discord 做回報！",
+    },
     ["Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"] = {
         ["enUS"] = true,
         ["deDE"] = "Koordinaten-AddOn aktiviert und verursacht fehlerhaftes Verhalten. Deaktiviere globale Karten- und Minikarten-Koordinaten. Diese können in den Einstellungen wieder aktiviert werden.",

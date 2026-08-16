@@ -9,6 +9,9 @@ describe("CommsEncoding", function()
     ---@type CommsEncoding
     local CommsEncoding
 
+    ---@type l10n
+    local l10n
+
     local LibDeflate
     local originalEncodeForAddonChannel
     local originalDecodeForAddonChannel
@@ -26,23 +29,30 @@ describe("CommsEncoding", function()
     before_each(function()
         loadRealLibDeflate()
 
+        l10n = QuestieLoader:ImportModule("l10n")
+        setmetatable(l10n, {__call = function(_, key, ...) return key end})
+
         dofile("Modules/Network/CommsEncoding.lua")
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+
+        -- Simulate a successful Init so the encode/decode guards pass.
+        CommsEncoding.hasCodecSupport = true
 
         _G.Enum.CompressionMethod = {Deflate = 0}
         _G.Enum.CompressionLevel = {Default = 0}
     end)
 
-    it("loads without LibDeflate and reports that modern codec support is unavailable", function()
+    it("should raise an error on Init when codec support is unavailable", function()
         _G.LibStub = nil
+        _G.Questie.Error = spy.new(function() end)
         dofile("Libs/LibStub/LibStub.lua")
 
-        assert.has_no.errors(function()
-            dofile("Modules/Network/CommsEncoding.lua")
-        end)
-
+        dofile("Modules/Network/CommsEncoding.lua")
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
-        assert.is_false(CommsEncoding:HasCodecSupport())
+
+        CommsEncoding.Init()
+
+        assert.spy(Questie.Error).was.called()
     end)
 
     describe("real LibDeflate addon-channel codec", function()

@@ -107,6 +107,8 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 local DropDB = QuestieLoader:ImportModule("DropDB")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+---@type CommsEncoding
+local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 
 local coYield = coroutine.yield
 
@@ -278,6 +280,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieComms initializing.")
+    CommsEncoding.Init()
     CommsVisibility:Initialize()
     Comms.Initialize()
     QuestieComms:Initialize()
