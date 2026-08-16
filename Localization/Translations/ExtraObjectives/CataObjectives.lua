@@ -1024,7 +1024,7 @@ local cataObjectiveLocales = {
     },
     ["Scout the Northwestern Terrace"] = {
         ["enUS"] = true,
-        ["deDE"] = "Erkunde die Nordwestliche Terasse",
+        ["deDE"] = "Erkunde die Nordwestliche Terrasse",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2236,7 +2236,7 @@ local cataObjectiveLocales = {
     },
     ["Fish for Great Sea Herring"] = {
         ["enUS"] = true,
-        ["deDE"] = "Fange den großen Seeheering",
+        ["deDE"] = "Fange den großen Seehering",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -2260,7 +2260,7 @@ local cataObjectiveLocales = {
     },
     ["Disable the Shadow Cloak Generator"] = {
         ["enUS"] = true,
-        ["deDE"] = "Deaktivere den Schattenmantelgenerator",
+        ["deDE"] = "Deaktiviere den Schattenmantelgenerator",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3064,7 +3064,7 @@ local cataObjectiveLocales = {
     },
     ["Use Zen'Kiki to engage the Diseased Hawks"] = {
         ["enUS"] = true,
-        ["deDE"] = "Nutze Zen'Kiki um dich den kranken Greifen zu nähern",
+        ["deDE"] = "Nutze Zen'Kiki um dich den kranken Falken zu nähern",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3076,7 +3076,7 @@ local cataObjectiveLocales = {
     },
     ["Lure the spiders to the Recruits"] = {
         ["enUS"] = true,
-        ["deDE"] = "Locke eine Spinne zu den Rekruten",
+        ["deDE"] = "Locke die Spinne zu den Rekruten",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3100,7 +3100,7 @@ local cataObjectiveLocales = {
     },
     ["Kill Dark Iron Dwarves to lure Dig-Boss Dinwhisker"] = {
         ["enUS"] = true,
-        ["deDE"] = "Töte Dunkeleisenzwerge um Ausgrabungsboss Krawallschnäuzer anzulocken",
+        ["deDE"] = "Töte Dunkeleisenzwerge, um Ausgrabungsboss Krawallschnäuzer anzulocken",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3160,7 +3160,7 @@ local cataObjectiveLocales = {
     },
     ["Take a horse ride to Guard Thomas"] = {
         ["enUS"] = true,
-        ["deDE"] = "Nimm ein Pferd zur Wache Thomas",
+        ["deDE"] = "Nimm ein Pferd zum Wachmann Thomas",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3232,7 +3232,7 @@ local cataObjectiveLocales = {
     },
     ["Release the Magma Lord"] = {
         ["enUS"] = true,
-        ["deDE"] = "Lasse den Magmalord Frei",
+        ["deDE"] = "Lasse den Magmalord frei",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3328,7 +3328,7 @@ local cataObjectiveLocales = {
     },
     ["Get a ride to Explorers' League Digsite"] = {
         ["enUS"] = true,
-        ["deDE"] = "Geh zur Ausgrabungsstätte der Forscherliga",
+        ["deDE"] = "Gehe zur Ausgrabungsstätte der Forscherliga",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3340,7 +3340,7 @@ local cataObjectiveLocales = {
     },
     ["Grab a mop"] = {
         ["enUS"] = true,
-        ["deDE"] = "Schnapp dir einen Mop",
+        ["deDE"] = "Schnapp dir einen Mopp",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3352,7 +3352,7 @@ local cataObjectiveLocales = {
     },
     ["You can also pay \"Pretty Boy\" Duncan to clean the deck for you"] = {
         ["enUS"] = true,
-        ["deDE"] = "Du kannst auch \"Pretty Boy\" Duncan bezahlen das er das Deck für dich schrubbt",
+        ["deDE"] = "Du kannst auch \"Pretty Boy\" Duncan bezahlen damit er das Deck für dich schrubbt",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3496,7 +3496,7 @@ local cataObjectiveLocales = {
     },
     ["Break the restraints"] = {
         ["enUS"] = true,
-        ["deDE"] = "Zerbreche die Fesseln",
+        ["deDE"] = "Zerbrich die Fesseln",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3592,7 +3592,7 @@ local cataObjectiveLocales = {
     },
     ["Break open the coconut"] = {
         ["enUS"] = true,
-        ["deDE"] = "Brich die Kokusnuss auf",
+        ["deDE"] = "Brich die Kokosnuss auf",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3628,7 +3628,7 @@ local cataObjectiveLocales = {
     },
     ["Defeat another Bloodpetal"] = {
         ["enUS"] = true,
-        ["deDE"] = "Besiege eine weiter Blutblüte",
+        ["deDE"] = "Besiege eine weitere Blutblüte",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3712,7 +3712,7 @@ local cataObjectiveLocales = {
     },
     ["Deliver the Razormane Prisoner"] = {
         ["enUS"] = true,
-        ["deDE"] = "Liefere den gefangnen der Grimmhauer",
+        ["deDE"] = "Liefere den Gefangenen der Grimmhauer",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
@@ -3796,7 +3796,7 @@ local cataObjectiveLocales = {
     },
     ["Use the ropes to go up and down the hill"] = {
         ["enUS"] = true,
-        ["deDE"] = "Nutz die Seile um die Hügel hoch- und runterzukommen",
+        ["deDE"] = "Nutz die Seile, um die Hügel hoch- und runterzukommen",
         ["esES"] = false,
         ["esMX"] = false,
         ["frFR"] = false,
