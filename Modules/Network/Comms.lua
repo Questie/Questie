@@ -137,8 +137,8 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
 
         -- Integrate sender's NPC data for NPCs the receiver doesn't already know about
         local localData = AvailableQuests.GetUnavailableDailyQuests()
-        for npcId, questIds in pairs(event.data) do
-            if (not localData[npcId]) then
+        for npcId, questIds in pairs(eventData) do
+            if (not localData[npcId]) and type(questIds) == "table" then
                 AvailableQuests.RemoveQuestsForToday(npcId, questIds)
             end
         end
