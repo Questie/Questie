@@ -78,13 +78,13 @@ end
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
     if mode then
         for _, icon in pairs(usedFrames) do
-            if ((mini and icon.miniMapIcon) or not mini) and icon.IsShown and icon:IsShown() then
+            if ((mini and icon.miniMapIcon) or ((not mini) and {not icon.miniMapIcon})) and icon.IsShown and icon:IsShown() then
                 icon:GetScript("OnShow")(icon) -- forces a glow update
             end
         end
     else
         for _, icon in pairs(usedFrames) do
-            if (mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon) then
+            if (mini and icon.miniMapIcon) or ((not mini) and {not icon.miniMapIcon}) then
                 icon.glowTexture:Hide()
             end
         end
@@ -94,7 +94,7 @@ end
 function QuestieFramePool:UpdateColorConfig(mini, enable)
     if enable then
         for _, icon in pairs(usedFrames) do
-            if (mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon) then
+            if (mini and icon.miniMapIcon) or ((not mini) and {not icon.miniMapIcon}) then
                 local colors = {1, 1, 1}
                 if icon.data.IconColor ~= nil then
                     colors = icon.data.IconColor
@@ -104,7 +104,7 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
         end
     else
         for _, icon in pairs(usedFrames) do
-            if (mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon) then
+            if (mini and icon.miniMapIcon) or ((not mini) and {not icon.miniMapIcon}) then
                 icon.texture:SetVertexColor(1, 1, 1, 1)
             end
         end
