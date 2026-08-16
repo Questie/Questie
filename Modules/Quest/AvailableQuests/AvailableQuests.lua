@@ -83,6 +83,8 @@ end
 
 --- Clears both unavailable quest tables for the current realm (triggered by daily reset).
 function AvailableQuests.ClearUnavailableDailyQuests()
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[AvailableQuests.ClearUnavailableDailyQuests]")
+
     local realmName = GetRealmName()
     Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
     Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}

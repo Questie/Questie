@@ -185,6 +185,8 @@ function Comms.RequestUnavailableDailyQuests(askGuild)
         return
     end
 
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.RequestUnavailableDailyQuests] askGuild", askGuild)
+
     if askGuild and IsInGuild() then
         Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "GUILD")
     end
