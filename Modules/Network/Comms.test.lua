@@ -590,6 +590,21 @@ describe("Comms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(senderNpcId, senderQuestIds)
         end)
 
+        it("should skip malformed questIds in sender data", function()
+            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+
+            local event = {
+                eventName = "RequestUnavailableDailyQuests",
+                data = {[9999] = {100, 200}, [8888] = "notATable"}
+            }
+            CommsEncoding.DecodePayload = function() return event end
+
+            Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(9999, {100, 200})
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called(1)
+        end)
+
         it("should not call RemoveQuestsForToday for NPCs the receiver already knows", function()
             local knownNpcId = 1234
             local senderQuestIds = {100, 200}
