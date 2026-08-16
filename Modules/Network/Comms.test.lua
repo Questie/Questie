@@ -3,6 +3,8 @@ dofile("setupTests.lua")
 describe("Comms", function()
     ---@type AvailableQuests
     local AvailableQuests
+    ---@type CommsEncoding
+    local CommsEncoding
 
     ---@type Comms
     local Comms
@@ -10,6 +12,11 @@ describe("Comms", function()
     before_each(function()
         Questie.RegisterComm = function() end
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+
+        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+        CommsEncoding.hasCodecSupport = true
+        CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+        CommsEncoding.DecodePayload = function() return {} end
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
         AvailableQuests.GetUnavailableDailyQuests = spy.new(function() return {} end)
 
@@ -34,6 +41,26 @@ describe("Comms", function()
         Comms.Initialize()
     end)
 
+    describe("Initialize", function()
+        it("should not register comm when codec support is unavailable", function()
+            Questie.RegisterComm = spy.new(function() end)
+            CommsEncoding.hasCodecSupport = false
+
+            Comms.Initialize()
+
+            assert.spy(Questie.RegisterComm).was.not_called()
+        end)
+
+        it("should register comm when codec support is available", function()
+            Questie.RegisterComm = spy.new(function() end)
+            CommsEncoding.hasCodecSupport = true
+
+            Comms.Initialize()
+
+            assert.spy(Questie.RegisterComm).was.called_with(Questie, "QuestieDailies", Comms.OnCommReceived)
+        end)
+    end)
+
     describe("OnCommReceived", function()
         it("should handle HideDailyQuests event", function()
             local npcId = 1234
@@ -47,7 +74,7 @@ describe("Comms", function()
                     questIds = questIds
                 }
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -55,47 +82,47 @@ describe("Comms", function()
         end)
 
         it("should reject unknown prefixes", function()
-            Questie.Deserialize = spy.new(function() end)
+            CommsEncoding.DecodePayload = spy.new(function() end)
 
             Comms.OnCommReceived("Unknown", "eventAsSerializedString", "GUILD", "SomeSender")
 
-            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
         it("should reject own HideDailyQuests events", function()
-            Questie.Deserialize = spy.new(function() end)
+            CommsEncoding.DecodePayload = spy.new(function() end)
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", UnitName("player"))
 
-            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
         it("should reject own HideDailyQuests events when sender is in realm format", function()
-            Questie.Deserialize = spy.new(function() end)
+            CommsEncoding.DecodePayload = spy.new(function() end)
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", UnitName("player") .. "-" .. GetRealmName())
 
-            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
         it("should reject messages from disallowed distributions", function()
-            Questie.Deserialize = spy.new(function() end)
+            CommsEncoding.DecodePayload = spy.new(function() end)
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "WHISPER", "SomeSender")
 
-            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
         it("should reject messages from SAY distribution", function()
-            Questie.Deserialize = spy.new(function() end)
+            CommsEncoding.DecodePayload = spy.new(function() end)
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "SAY", "SomeSender")
 
-            assert.spy(Questie.Deserialize).was.not_called()
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
@@ -111,7 +138,7 @@ describe("Comms", function()
                     questIds = questIds
                 }
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "RAID", "SomeSender")
 
@@ -130,7 +157,7 @@ describe("Comms", function()
                     questIds = questIds
                 }
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "PARTY", "SomeSender")
 
@@ -138,7 +165,7 @@ describe("Comms", function()
         end)
 
         it("should reject malformed HideDailyQuests events", function()
-            Questie.Deserialize = function() return false, nil end
+            CommsEncoding.DecodePayload = function() return nil end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -146,7 +173,7 @@ describe("Comms", function()
         end)
 
         it("should reject HideDailyQuests events when they are not a table", function()
-            Questie.Deserialize = function() return true, 123 end
+            CommsEncoding.DecodePayload = function() return 123 end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -157,7 +184,7 @@ describe("Comms", function()
             local event = {
                 eventName = "HideDailyQuests"
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -169,7 +196,7 @@ describe("Comms", function()
                 eventName = "HideDailyQuests",
                 data = 123,
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -186,7 +213,7 @@ describe("Comms", function()
                     questIds = questIds
                 }
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -203,7 +230,7 @@ describe("Comms", function()
                     npcId = npcId
                 }
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -221,7 +248,7 @@ describe("Comms", function()
                     questIds = "notATable"
                 }
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -233,7 +260,7 @@ describe("Comms", function()
             local questIds = {222, 333}
             AvailableQuests.GetUnavailableDailyQuests = function() return {[npcId] = questIds} end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
             _G.IsInGuild = function() return true end
 
             -- Use instant timer so the callback fires immediately
@@ -243,7 +270,7 @@ describe("Comms", function()
             end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -253,7 +280,7 @@ describe("Comms", function()
         it("should not broadcast when GetUnavailableDailyQuests returns empty", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = spy.new(function() return "eventAsSerializedString" end)
+            CommsEncoding.EncodePayload = spy.new(function() return "eventAsSerializedString" end)
             _G.IsInGuild = function() return true end
 
             _G.C_Timer.NewTimer = function(_, callback)
@@ -262,7 +289,7 @@ describe("Comms", function()
             end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -278,7 +305,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = timerMock
 
             local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, requestEvent end
+            CommsEncoding.DecodePayload = function() return requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
             assert.spy(timerMock).was.called()
@@ -289,7 +316,7 @@ describe("Comms", function()
                 eventName = "HideDailyQuests",
                 data = {npcId = 1234, questIds = {5678, 91011}}
             }
-            Questie.Deserialize = function() return true, hideEvent end
+            CommsEncoding.DecodePayload = function() return hideEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
 
             assert.is_true(timer.cancelled)
@@ -305,7 +332,7 @@ describe("Comms", function()
             local secondTimerMock = spy.new(function() return secondTimer end)
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             _G.C_Timer = {NewTimer = firstTimerMock}
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
@@ -333,7 +360,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = function() return timer end
 
             local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, requestEvent end
+            CommsEncoding.DecodePayload = function() return requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
             assert.is_false(timer.cancelled)
@@ -343,7 +370,7 @@ describe("Comms", function()
                 eventName = "HideDailyQuests",
                 data = {npcId = npcId, questIds = broadcastedQuestIds}
             }
-            Questie.Deserialize = function() return true, hideEvent end
+            CommsEncoding.DecodePayload = function() return hideEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
 
             -- Timer should NOT be cancelled because we know of 2 additional quests (4, 5)
@@ -364,7 +391,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = function() return timer end
 
             local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, requestEvent end
+            CommsEncoding.DecodePayload = function() return requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
             assert.is_false(timer.cancelled)
@@ -374,7 +401,7 @@ describe("Comms", function()
                 eventName = "HideDailyQuests",
                 data = {npcId = npcId, questIds = broadcastedQuestIds}
             }
-            Questie.Deserialize = function() return true, hideEvent end
+            CommsEncoding.DecodePayload = function() return hideEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
 
             -- Timer should be cancelled because peer covered all our knowledge
@@ -394,7 +421,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = function() return timer end
 
             local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, requestEvent end
+            CommsEncoding.DecodePayload = function() return requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
             assert.is_false(timer.cancelled)
@@ -404,7 +431,7 @@ describe("Comms", function()
                 eventName = "HideDailyQuests",
                 data = {npcId = npcId, questIds = {1, 2, 3}}
             }
-            Questie.Deserialize = function() return true, hideEvent1 end
+            CommsEncoding.DecodePayload = function() return hideEvent1 end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "UserA")
 
             -- Timer should NOT be cancelled yet (we know of 4, 5)
@@ -415,7 +442,7 @@ describe("Comms", function()
                 eventName = "HideDailyQuests",
                 data = {npcId = npcId, questIds = {4, 5}}
             }
-            Questie.Deserialize = function() return true, hideEvent2 end
+            CommsEncoding.DecodePayload = function() return hideEvent2 end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "UserB")
 
             -- Now timer should be cancelled (all 5 quests covered)
@@ -435,7 +462,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = function() return timer1 end
 
             local requestEvent = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, requestEvent end
+            CommsEncoding.DecodePayload = function() return requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
             -- Peer broadcasts 2 quests
@@ -443,7 +470,7 @@ describe("Comms", function()
                 eventName = "HideDailyQuests",
                 data = {npcId = npcId, questIds = {1, 2}}
             }
-            Questie.Deserialize = function() return true, hideEvent end
+            CommsEncoding.DecodePayload = function() return hideEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
 
             assert.is_false(timer1.cancelled)
@@ -452,14 +479,14 @@ describe("Comms", function()
             local timer2 = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             _G.C_Timer.NewTimer = function() return timer2 end
 
-            Questie.Deserialize = function() return true, requestEvent end
+            CommsEncoding.DecodePayload = function() return requestEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "ThirdSender")
 
             assert.is_true(timer1.cancelled)
             assert.is_false(timer2.cancelled)
 
             -- Peer broadcasts 2 quests again — tracking should be reset, so timer2 stays
-            Questie.Deserialize = function() return true, hideEvent end
+            CommsEncoding.DecodePayload = function() return hideEvent end
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "AnotherSender")
 
             assert.is_false(timer2.cancelled)
@@ -473,7 +500,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = spy.new(function() end)
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -488,7 +515,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = spy.new(function() end)
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -504,7 +531,7 @@ describe("Comms", function()
 
             -- Sender has no data, but receiver does — should still schedule timer
             local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -519,7 +546,7 @@ describe("Comms", function()
             _G.C_Timer.NewTimer = spy.new(function() return {Cancel = function() end} end)
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = senderData}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -533,7 +560,7 @@ describe("Comms", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = {[senderNpcId] = senderQuestIds}}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -547,7 +574,7 @@ describe("Comms", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = {[knownNpcId] = senderQuestIds}}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -565,7 +592,7 @@ describe("Comms", function()
                 eventName = "RequestUnavailableDailyQuests",
                 data = {[knownNpcId] = {10, 20}, [newNpcId] = newQuestIds}
             }
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -577,7 +604,7 @@ describe("Comms", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = {}}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -588,7 +615,7 @@ describe("Comms", function()
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
             local event = {eventName = "RequestUnavailableDailyQuests", data = "not a table"}
-            Questie.Deserialize = function() return true, event end
+            CommsEncoding.DecodePayload = function() return event end
 
             Comms.OnCommReceived("QuestieDailies", "eventAsSerializedString", "GUILD", "SomeSender")
 
@@ -602,7 +629,7 @@ describe("Comms", function()
             _G.IsInRaid = function() return false end
             _G.IsInGroup = function() return false end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
 
@@ -614,7 +641,7 @@ describe("Comms", function()
             _G.IsInRaid = function() return false end
             _G.IsInGroup = function() return true end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
 
@@ -626,7 +653,7 @@ describe("Comms", function()
             _G.IsInRaid = function() return true end
             _G.IsInGroup = function() return false end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
 
@@ -638,7 +665,7 @@ describe("Comms", function()
             _G.IsInRaid = function() return true end
             _G.IsInGroup = function() return false end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
 
@@ -651,7 +678,7 @@ describe("Comms", function()
             _G.IsInRaid = function() return false end
             _G.IsInGroup = function() return true end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
 
@@ -664,7 +691,17 @@ describe("Comms", function()
             _G.IsInRaid = function() return false end
             _G.IsInGroup = function() return false end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+
+            Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("should not broadcast when EncodePayload returns nil", function()
+            _G.IsInGuild = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return nil end
 
             Comms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
 
@@ -676,7 +713,7 @@ describe("Comms", function()
         it("should send to guild when in a guild", function()
             _G.IsInGuild = function() return true end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.RequestUnavailableDailyQuests()
 
@@ -686,7 +723,7 @@ describe("Comms", function()
         it("should send to party when in a party", function()
             _G.IsInGroup = function() return true end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.RequestUnavailableDailyQuests()
 
@@ -696,7 +733,7 @@ describe("Comms", function()
         it("should send to raid when in a raid", function()
             _G.IsInRaid = function() return true end
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
             Comms.RequestUnavailableDailyQuests()
 
@@ -705,7 +742,17 @@ describe("Comms", function()
 
         it("should not send when not in a guild, raid or party", function()
             Questie.SendCommMessage = spy.new(function() end)
-            Questie.Serialize = function() return "eventAsSerializedString" end
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+
+            Comms.RequestUnavailableDailyQuests()
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("should not send when EncodePayload returns nil", function()
+            _G.IsInGuild = function() return true end
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return nil end
 
             Comms.RequestUnavailableDailyQuests()
 
@@ -721,7 +768,7 @@ describe("Comms", function()
             _G.IsInGuild = function() return true end
             Questie.SendCommMessage = spy.new(function() end)
             local capturedEvent
-            Questie.Serialize = function(_, event)
+            CommsEncoding.EncodePayload = function(_, event)
                 capturedEvent = event
                 return "eventAsSerializedString"
             end
@@ -739,7 +786,7 @@ describe("Comms", function()
             _G.IsInGuild = function() return true end
             Questie.SendCommMessage = spy.new(function() end)
             local capturedEvent
-            Questie.Serialize = function(_, event)
+            CommsEncoding.EncodePayload = function(_, event)
                 capturedEvent = event
                 return "eventAsSerializedString"
             end

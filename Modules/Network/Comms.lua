@@ -3,6 +3,8 @@ local Comms = QuestieLoader:CreateModule("Comms")
 
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type CommsEncoding
+local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 
 ---@class HideDailyQuestsEvent
 ---@field eventName "HideDailyQuests"
@@ -31,6 +33,11 @@ local pendingResponseTimer
 local broadcastedQuestIds = {}
 
 function Comms.Initialize()
+    if (not CommsEncoding.hasCodecSupport) then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms] Codec support unavailable, not registering QuestieDailies")
+        return
+    end
+
     Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
 
     playerName = UnitName("player")
@@ -82,8 +89,8 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    local success, event = Questie:Deserialize(message)
-    if (not success) or (type(event) ~= "table") then
+    local event = CommsEncoding:DecodePayload(message)
+    if (not event) or (type(event) ~= "table") then
         return
     end
 
@@ -163,7 +170,10 @@ function Comms.RequestUnavailableDailyQuests()
         eventName = "RequestUnavailableDailyQuests",
         data = AvailableQuests.GetUnavailableDailyQuests(),
     }
-    local serializedEvent = Questie:Serialize(event)
+    local serializedEvent = CommsEncoding:EncodePayload(event)
+    if (not serializedEvent) then
+        return
+    end
 
     if IsInGuild() then
         Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "GUILD")
@@ -190,7 +200,11 @@ function Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.BroadcastUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
 
-    local serializedEvent = Questie:Serialize(event)
+    local serializedEvent = CommsEncoding:EncodePayload(event)
+    if (not serializedEvent) then
+        return
+    end
+
     if IsInGuild() then
         Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "GUILD")
     end
