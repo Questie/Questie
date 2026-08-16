@@ -460,7 +460,7 @@ local debugMessagesLocales = {
     },
     ["The quest %s is missing from Questie's database. Please report this on GitHub or Discord!"] = {
         ["enUS"] = true,
-        ["deDE"] = "Der Quest %s fehlt in Questie's Datenbank. Bitte melde dies auf GitHub oder Discord!",
+        ["deDE"] = "Die Quest %s fehlt in Questie's Datenbank. Bitte melde dies auf GitHub oder Discord!",
         ["esES"] = "Falta la misión %s en la base de datos de Questie. ¡Por favor, infórmalo en GitHub o Discord!",
         ["esMX"] = "Falta la misión %s en la base de datos de Questie. ¡Por favor, infórmalo en GitHub o Discord!",
         ["frFR"] = "La quête %s n'est pas présente dans la Base de données Questie. Veuillez le signaler sur GitHub ou Discord !",
