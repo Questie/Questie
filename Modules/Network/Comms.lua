@@ -164,8 +164,9 @@ end
 
 --- Sends a request to guild/group members asking them to share which daily quests are unavailable today.
 --- The event includes the quests the sender already knows, so receivers can decide if they have additional data.
---- Called once on login. A peer with known data will respond with HideDailyQuests messages.
-function Comms.RequestUnavailableDailyQuests()
+--- Called once on login and when joining a group. A peer with known data will respond with HideDailyQuests messages.
+---@param askGuild boolean @True asks guild members too, false only asks the current party/raid.
+function Comms.RequestUnavailableDailyQuests(askGuild)
     local event = {
         eventName = "RequestUnavailableDailyQuests",
         data = AvailableQuests.GetUnavailableDailyQuests(),
@@ -175,7 +176,7 @@ function Comms.RequestUnavailableDailyQuests()
         return
     end
 
-    if IsInGuild() then
+    if askGuild and IsInGuild() then
         Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "GUILD")
     end
 

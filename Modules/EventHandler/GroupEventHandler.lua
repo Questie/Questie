@@ -9,6 +9,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+---@type Comms
+local Comms = QuestieLoader:ImportModule("Comms")
 
 -- Snapshot of online/offline state for party members who have shared quests, used to decide
 -- whether a GROUP_ROSTER_UPDATE actually requires a party-objective redraw.
@@ -75,6 +77,8 @@ function GroupEventHandler.GroupJoined()
                 CommsVisibility:ScheduleSnapshot("GROUP_JOINED")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
+                -- Ask for unavailable daily quests, only in the current party/raid, not the guild.
+                Comms.RequestUnavailableDailyQuests(false)
                 checkTimer:Cancel()
             end
         else
