@@ -2639,9 +2639,6 @@ function QuestieQuestFixes:Load()
         [4143] = { -- Haze of Evil
             [questKeys.nextQuestInChain] = 4144,
         },
-        [4144] = {
-            [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1590
-        },
         [4146] = { -- Zapper Fuel
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
             [questKeys.nextQuestInChain] = 4148,
