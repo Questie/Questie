@@ -16,7 +16,7 @@ local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 
 ---@alias CommEvent HideDailyQuestsEvent|RequestUnavailableDailyQuestsEvent
 
-local COMM_PREFIX = "QuestieDailies"
+local COMM_PREFIX = "QuestieDailiesV1"
 
 local playerName
 local realmName
