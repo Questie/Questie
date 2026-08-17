@@ -351,6 +351,26 @@ describe("QuestieProfilerUI", function()
             assert.is_true(row.hasTiming)
         end)
 
+        it("marks a bundled-library function as a library row", function()
+            AddFunctionEntry("Libs.HBDPins.RemoveWorldMapIcon", 640, 5892)
+
+            local row = FindRow(BuildReport(), "Libs.HBDPins.RemoveWorldMapIcon")
+
+            -- A library function is an ordinary call - it keeps callers, self time and an average. Only its
+            -- ownership differs, which is why this is a flag on a function row rather than a fourth species.
+            assert.is_true(row.isLibrary)
+            assert.is_false(row.isThreadJob)
+            assert.is_false(row.isFileLoad)
+            assert.is_true(row.hasSelfTime)
+            assert.are_same(5892, row.calls)
+        end)
+
+        it("does not mark one of Questie's own functions as a library row", function()
+            AddFunctionEntry("QuestieMap.DrawWorldIcon", 100, 2)
+
+            assert.is_false(FindRow(BuildReport(), "QuestieMap.DrawWorldIcon").isLibrary)
+        end)
+
         it("marks entries that were counted but never timed", function()
             AddFunctionEntry("QuestieMap.DrawWorldIcon", 0, 12)
 

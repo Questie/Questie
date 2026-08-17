@@ -736,6 +736,73 @@ function QuestieProfiler:HookTable(tableValue, name, excludedTables, visitedTabl
     end
 end
 
+-------------------------
+-- Bundled library roots
+-------------------------
+-- A library method called by Questie is already being paid for - it sits inside the self time of whichever
+-- Questie function called it, unnamed. Profiling these roots does not add cost to the addon, it moves cost
+-- that is already there onto a row that says where it went. Measured on Era: a full icon redraw spent 774 ms
+-- inside HereBeDragons-Pins public methods against 1419 ms in every Questie function combined, 643 ms of it in
+-- RemoveWorldMapIcon alone, and none of it was visible in the report.
+--
+-- Questie-suffixed majors only. The other 22 libraries LibStub holds here are generic - Ace3, CallbackHandler,
+-- LibSharedMedia, LibDBIcon, Krowi - and registration is not ownership: the loaded copy may belong to another
+-- addon, so wrapping those tables would count other addons' calls, add overhead to them, and let this report
+-- claim work that is not Questie's. An explicit list rather than a name pattern, because "Questie" in a major
+-- is a naming convention rather than a guarantee, and four entries are cheap to keep honest.
+-- Named for the folder the code sits in and for whatever Questie's own files call the library - HBD, HBDPins
+-- and LibDropDown are the aliases used at 11 call sites across the addon, while the LibStub major is a string
+-- nobody types. It reads as the same thing the reader already has in their own file, and it leaves room in the
+-- narrow relation columns, where "Libraries.HereBeDragonsPins.worldmapProvider.HandlePin" lost the function
+-- name to an ellipsis and this does not.
+local PROFILED_LIBRARIES = {
+    {major = "HereBeDragonsQuestie-2.0", name = "Libs.HBD"},
+    {
+        major = "HereBeDragonsQuestie-Pins-2.0",
+        name = "Libs.HBDPins",
+        -- worldmapProviderPin is a pin mixin, and `Mixin(frame, worldmapProviderPin)` copies it onto every pin
+        -- frame as that frame is created. A wrapper installed on this table is therefore copied onto every pin
+        -- created afterwards, and Unhook restores this table rather than those copies - so the wrappers would
+        -- outlive the session on every live pin, with no way to take them back. Never traverse it.
+        --
+        -- worldmapProvider next to it is safe and worth having: CreateFromMixins copied it once, nothing copies
+        -- it again, and it owns RemovePinByIcon - the function that makes RemoveWorldMapIcon cost 109us.
+        excludedFields = {"worldmapProviderPin"},
+    },
+    {major = "HereBeDragonsQuestie-Migrate", name = "Libs.HBDMigrate"},
+    {major = "LibUIDropDownMenuQuestie-4.0", name = "Libs.LibDropDown"},
+}
+
+---Traverses the allowlisted libraries as profiler roots.
+---
+---Runs before the Questie modules so that a table reachable from both is named for the library that owns it
+---rather than for whichever module happened to reach it first.
+---@param excludedTables table<table, boolean>
+---@param visitedTables table<table, boolean>
+---@param namespaceShapeCache table<integer, table<table, boolean>>
+---@param questieStreamLib table?
+local function HookProfiledLibraries(excludedTables, visitedTables, namespaceShapeCache, questieStreamLib)
+    if type(LibStub) ~= "table" or type(LibStub.GetLibrary) ~= "function" then
+        return
+    end
+
+    for _, target in ipairs(PROFILED_LIBRARIES) do
+        -- Silent lookup: a library absent on this client flavor is an ordinary outcome, not an error.
+        local resolved, library = pcall(LibStub.GetLibrary, LibStub, target.major, true)
+        if resolved and type(library) == "table" then
+            for _, fieldName in ipairs(target.excludedFields or {}) do
+                local field = rawget(library, fieldName)
+                if type(field) == "table" then
+                    excludedTables[field] = true
+                end
+            end
+
+            QuestieProfiler:HookTable(library, target.name, excludedTables, visitedTables,
+                namespaceShapeCache, true, questieStreamLib)
+        end
+    end
+end
+
 ---Hooks newly available Questie module functions without stacking wrappers.
 ---@return boolean refreshed
 function QuestieProfiler:RefreshHooks()
@@ -779,6 +846,7 @@ function QuestieProfiler:RefreshHooks()
         [2] = NewWeakKeyTable(),
     }
     QuestieProfiler.alreadyHooked = visitedTables
+    HookProfiledLibraries(excludedTables, visitedTables, namespaceShapeCache, questieStreamLib)
     for _, moduleName in ipairs(moduleNames) do
         QuestieProfiler:HookTable(QuestieLoader._modules[moduleName], moduleName, excludedTables, visitedTables,
             namespaceShapeCache, true, questieStreamLib)

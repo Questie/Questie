@@ -1026,6 +1026,145 @@ describe("QuestieProfiler", function()
         end)
     end)
 
+    describe("bundled library roots", function()
+        local originalLibStub
+        local libraries
+
+        ---Stands in for LibStub's registry, so a test can control exactly which majors resolve.
+        ---@param registry table<string, table>
+        local function MockLibStub(registry)
+            libraries = registry
+            _G.LibStub = {
+                GetLibrary = function(_, major, silent)
+                    local library = libraries[major]
+                    if not library and not silent then
+                        error("Cannot find a library instance of " .. tostring(major))
+                    end
+                    return library
+                end,
+            }
+        end
+
+        before_each(function()
+            originalLibStub = _G.LibStub
+        end)
+
+        after_each(function()
+            _G.LibStub = originalLibStub
+        end)
+
+        it("profiles an allowlisted library under its Libraries name", function()
+            local original = function() end
+            MockLibStub({["HereBeDragonsQuestie-2.0"] = {GetZoneDistance = original}})
+
+            Profiler:Start(false)
+
+            assert.are_same(0, Profiler.hookCallCount["Libs.HBD.GetZoneDistance"])
+            assert.are_not_equal(original, libraries["HereBeDragonsQuestie-2.0"].GetZoneDistance)
+        end)
+
+        it("measures a library call and names the Questie function that made it", function()
+            MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {
+                AddWorldMapIconMap = function() clock = clock + 4 end,
+            }})
+            local HBDPins = libraries["HereBeDragonsQuestie-Pins-2.0"]
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.DrawIcon = function()
+                clock = clock + 1
+                HBDPins.AddWorldMapIconMap()
+            end
+
+            Profiler:Start(false)
+            testModule.DrawIcon()
+
+            local libraryKey = "Libs.HBDPins.AddWorldMapIconMap"
+            assert.are_same(1, Profiler.hookCallCount[libraryKey])
+            assert.are_same(4, Profiler.hookTimeCount[libraryKey])
+            -- The library time comes out of the caller's self time, which is the whole point.
+            assert.are_same(5, Profiler.hookTimeCount[testModuleName .. ".DrawIcon"])
+            assert.are_same(1, Profiler.hookSelfTime[testModuleName .. ".DrawIcon"])
+            assert.are_same(1, Profiler.callerCallCount[libraryKey][testModuleName .. ".DrawIcon"])
+        end)
+
+        it("ignores a library the client does not provide", function()
+            MockLibStub({})
+
+            assert.is_true(Profiler:Start(false))
+        end)
+
+        it("leaves libraries that are not on the allowlist untouched", function()
+            local original = function() end
+            MockLibStub({
+                ["AceAddon-3.0"] = {NewAddon = original},
+                ["CallbackHandler-1.0"] = {New = original},
+            })
+
+            Profiler:Start(false)
+
+            assert.are_equal(original, libraries["AceAddon-3.0"].NewAddon)
+            assert.are_equal(original, libraries["CallbackHandler-1.0"].New)
+            assert.is_nil(Profiler.hookCallCount["Libs.AceAddon.NewAddon"])
+        end)
+
+        it("never traverses a mixin that is copied onto frames", function()
+            -- worldmapProviderPin is copied onto every pin as the pin is created, so a wrapper installed here
+            -- rides along onto frames that Unhook cannot reach.
+            local pinMethod = function() end
+            local providerMethod = function() end
+            MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {
+                worldmapProviderPin = {OnAcquired = pinMethod},
+                worldmapProvider = {RemovePinByIcon = providerMethod},
+            }})
+            local HBDPins = libraries["HereBeDragonsQuestie-Pins-2.0"]
+
+            Profiler:Start(false)
+
+            assert.are_equal(pinMethod, HBDPins.worldmapProviderPin.OnAcquired)
+            assert.is_nil(Profiler.hookCallCount["Libs.HBDPins.worldmapProviderPin.OnAcquired"])
+            -- The provider beside it is the one worth reaching.
+            assert.are_not_equal(providerMethod, HBDPins.worldmapProvider.RemovePinByIcon)
+            assert.are_same(0,
+                Profiler.hookCallCount["Libs.HBDPins.worldmapProvider.RemovePinByIcon"])
+        end)
+
+        it("restores library functions on Unhook", function()
+            local original = function() end
+            MockLibStub({["HereBeDragonsQuestie-2.0"] = {GetZoneDistance = original}})
+            local HBD = libraries["HereBeDragonsQuestie-2.0"]
+
+            Profiler:Start(false)
+            Profiler:Unhook()
+
+            assert.are_equal(original, HBD.GetZoneDistance)
+        end)
+
+        it("does not stack wrappers when hooks are refreshed", function()
+            MockLibStub({["HereBeDragonsQuestie-2.0"] = {GetZoneDistance = function() clock = clock + 2 end}})
+            local HBD = libraries["HereBeDragonsQuestie-2.0"]
+
+            Profiler:Start(false)
+            local afterFirst = HBD.GetZoneDistance
+            Profiler:RefreshHooks()
+
+            assert.are_equal(afterFirst, HBD.GetZoneDistance)
+            HBD.GetZoneDistance()
+            assert.are_same(1, Profiler.hookCallCount["Libs.HBD.GetZoneDistance"])
+            assert.are_same(2, Profiler.hookTimeCount["Libs.HBD.GetZoneDistance"])
+        end)
+
+        it("gives a table shared with a Questie module the library identity", function()
+            local shared = {Convert = function() end}
+            MockLibStub({["HereBeDragonsQuestie-2.0"] = {utils = shared}})
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.utils = shared
+
+            Profiler:Start(false)
+
+            assert.are_same(0, Profiler.hookCallCount["Libs.HBD.utils.Convert"])
+            assert.is_nil(Profiler.hookCallCount[testModuleName .. ".utils.Convert"])
+        end)
+    end)
+
     describe("caller attribution", function()
         it("names the calling function of a nested call", function()
             local testModule = QuestieLoader:CreateModule(testModuleName)

@@ -160,6 +160,13 @@ local THREAD_JOB_TREE_LABEL = "ThreadLib jobs"
 
 local THREAD_JOB_PREFIX = "ThreadLib job: "
 local THREAD_JOB_PREFIX_LENGTH = string.len(THREAD_JOB_PREFIX)
+
+-- The root the profiler files bundled-library functions under, spelled for the folder the code sits in.
+-- Dotted like any other path, so the hierarchy panel folds every library into one node and its total can be
+-- read against Questie's own without expanding anything - which is the whole reason this is a path segment
+-- rather than a bare tag, and why it stayed a prefix when it was shortened.
+local LIBRARY_PREFIX = "Libs."
+local LIBRARY_PREFIX_LENGTH = string.len(LIBRARY_PREFIX)
 -- Segments that carry no identity of their own. Only `private` qualifies: it is an indirection table every
 -- module reaches its own internals through. Numeric segments were dropped here once, on the theory that an
 -- index like packets.1.read is noise - but the same rule folded QuestieInit.Stages.1/2/3 into one row, where
@@ -179,14 +186,21 @@ local HEAT_BANDS = {
     {share = 0, r = 0.30, g = 0.42, b = 0.58, a = 0.12},
 }
 
--- Species colour, worn by both the name and the left accent stripe. Functions are the baseline and stay
--- neutral on purpose: colouring the majority species would spend the colour without buying a distinction.
--- Jobs and files are the two things that are *not* a called function, so a glance down the stripe separates
--- measured work from addon load without reading a single name. Kept clear of the heat bands (red, orange,
--- yellow) so a row's species never reads as its cost.
+-- Row colour, worn by both the name and the left accent stripe. Questie's own functions are the baseline and
+-- stay neutral on purpose: colouring the majority would spend the colour without buying a distinction.
+-- Everything else is marked, so a glance down the stripe separates measured work from addon load, scheduling
+-- from calls, and our code from a dependency's, without reading a single name. Kept clear of the heat bands
+-- (red, orange, yellow) so a row's kind never reads as its cost.
 local COLOR_TEXT = {r = 0.88, g = 0.88, b = 0.88}
 local COLOR_THREAD_JOB = {r = 0.45, g = 0.80, b = 1.00}
 local COLOR_FILE_LOAD = {r = 0.55, g = 0.85, b = 0.55}
+-- A bundled-library function is not a fourth species: it is a called function like any other, with callers,
+-- self time and an average, and it gets no visibility checkbox because there is nothing categorically
+-- different to switch off. What differs is ownership - a Questie row is code we can edit, a library row is a
+-- dependency we can only call less or differently - and that is worth one glance rather than a read of the
+-- path. It earns the colour on the same rule the baseline is neutral by: measured over a normal session it
+-- was 26 rows of 341, a minority, so colouring it buys a distinction instead of spending one.
+local COLOR_LIBRARY = {r = 0.72, g = 0.62, b = 0.95}
 
 -- Brightness is a second channel, independent of hue: the colour says what kind of row this is, the
 -- brightness says whether it ran. A never-called entry is real - it was hooked - but contributed nothing, so
@@ -225,6 +239,7 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@field averageTime number
 ---@field isThreadJob boolean
 ---@field isFileLoad boolean @True for an addon file load, which is not a call and has no caller or average
+---@field isLibrary boolean @True for a bundled-library function: an ordinary call, but not Questie's code
 ---@field hasCalls boolean @False for addon-load rows, where a call count would be meaningless
 ---@field hasTiming boolean @False when the entry was counted but never produced a timed slice
 ---@field jobCalls number? @Submitted ThreadLib jobs
@@ -271,6 +286,12 @@ local SELF_DOMINANT_SHARE = 0.5
 ---@return boolean
 local function IsThreadJobKey(lookupKey)
     return ssub(lookupKey, 1, THREAD_JOB_PREFIX_LENGTH) == THREAD_JOB_PREFIX
+end
+
+---@param lookupKey string
+---@return boolean
+local function IsLibraryKey(lookupKey)
+    return ssub(lookupKey, 1, LIBRARY_PREFIX_LENGTH) == LIBRARY_PREFIX
 end
 
 
@@ -429,6 +450,7 @@ function _QuestieProfilerUI.BuildReport(source, options)
                         averageTime = 0,
                         isThreadJob = isThreadJob,
                         isFileLoad = false,
+                        isLibrary = IsLibraryKey(identity),
                         hasCalls = true,
                         hasTiming = false,
                         -- A job is a scheduling unit, not a frame on the call stack, so nothing ever
@@ -473,6 +495,7 @@ function _QuestieProfilerUI.BuildReport(source, options)
                 averageTime = 0,
                 isThreadJob = false,
                 isFileLoad = true,
+                isLibrary = false,
                 hasCalls = false,
                 hasTiming = elapsed > 0,
                 hasSelfTime = false,
@@ -1088,12 +1111,14 @@ end
 -- Row rendering
 -------------------------
 ---@param reportRow ProfilerReportRow
----@return table? speciesColor @nil for a function, which is the uncoloured baseline
+---@return table? speciesColor @nil for one of Questie's own functions, the uncoloured baseline
 local function SpeciesColor(reportRow)
     if reportRow.isFileLoad then
         return COLOR_FILE_LOAD
     elseif reportRow.isThreadJob then
         return COLOR_THREAD_JOB
+    elseif reportRow.isLibrary then
+        return COLOR_LIBRARY
     end
     return nil
 end
