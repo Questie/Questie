@@ -282,6 +282,7 @@ describe("AvailableQuests", function()
             Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
             QuestieLib.UpdateLastKnownDailyReset = spy.new(function() end)
             AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
+            QuestieDB.QuestPointers = {}
 
             local capturedCallback
             _G.C_Timer = {
@@ -299,6 +300,33 @@ describe("AvailableQuests", function()
             assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
             assert.spy(QuestieLib.UpdateLastKnownDailyReset).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+        end)
+
+        it("timer callback should not calculate available quests while the database is compiling", function()
+            local realmName = "TestRealm"
+            _G.GetRealmName = function() return realmName end
+            _G.GetServerTime = function() return 1000 end
+            _G.GetQuestResetTime = function() return 86400 end
+            Questie.IsClassic = false
+            Questie.db.global.lastKnownDailyReset[realmName] = 90000
+            QuestieLib.UpdateLastKnownDailyReset = spy.new(function() end)
+            AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
+            QuestieDB.QuestPointers = nil
+
+            local capturedCallback
+            _G.C_Timer = {
+                After = spy.new(function(_, callback)
+                    capturedCallback = callback
+                end)
+            }
+
+            AvailableQuests.Initialize()
+
+            assert.is_not_nil(capturedCallback)
+            capturedCallback()
+
+            assert.spy(QuestieLib.UpdateLastKnownDailyReset).was.called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
         end)
     end)
 

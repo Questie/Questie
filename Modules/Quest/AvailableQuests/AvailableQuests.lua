@@ -116,8 +116,12 @@ _ScheduleDailyResetTimer = function()
     C_Timer.After(delay, function()
         AvailableQuests.ClearUnavailableDailyQuests()
         QuestieLib.UpdateLastKnownDailyReset()
-        AvailableQuests.CalculateAndDrawAll()
         _ScheduleDailyResetTimer() -- Reschedule for the next reset
+
+        if QuestieDB.QuestPointers then
+            -- We don't want to do this while the database is compiling. This happens after updating Questie on the first login of the day
+            AvailableQuests.CalculateAndDrawAll()
+        end
     end)
 end
 
