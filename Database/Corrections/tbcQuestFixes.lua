@@ -412,6 +412,9 @@ function QuestieTBCQuestFixes:Load()
         [1640] = { -- Beat Bartleby
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
         },
+        [1656] = { -- A Task Unfinished
+            [questKeys.requiredLevel] = 1,
+        },
         [1658] = { -- Crashing the Wickerman Festival
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
         },
@@ -4054,6 +4057,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10530] = { -- The Hunter's Path
             [questKeys.breadcrumbForQuestId] = 9484,
+            [questKeys.requiredLevel] = 10,
         },
         [10540] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{30,57}}}, Questie.ICON_TYPE_EVENT, l10n("Walk with your Spirit Hunter")}},
@@ -4189,6 +4193,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10624] = { -- A Haunted History
             [questKeys.breadcrumbs] = {11046},
+        },
+        [10627] = { -- Capture the Weapons
+            [questKeys.nextQuestInChain] = 10663,
         },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill some Deranged Helboars"), 0, {{"monster", 16863}}},
