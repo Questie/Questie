@@ -638,7 +638,6 @@ function QuestieQuest:GetAllQuestIds()
                 local complete = quest:IsComplete()
 
                 QuestiePlayer.currentQuestlog[questId] = quest
-                quest.LocalizedName = title
 
                 if complete == -1 then
                     QuestieQuest:UpdateQuest(questId)
@@ -816,7 +815,6 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
-                quest.LocalizedName = data.title
                 _AddSourceItemObjective(quest)
                 _AddRequiredSourceItemObjective(quest)
             else
