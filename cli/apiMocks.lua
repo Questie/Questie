@@ -73,6 +73,8 @@ UnitName = function()
     return "QuestieNPC"
 end
 LibStub = {
+    -- Keep the bundled LibStub loaded through embeds.xml from replacing this CLI-safe implementation.
+    minor = 2,
     NewLibrary = _EmptyDummyFunction,
     GetLibrary = function(_, name)
         if name == "LibUIDropDownMenuQuestie-4.0" then
@@ -85,7 +87,13 @@ LibStub = {
     end,
 }
 setmetatable(LibStub, { __call = function(_, ...)
-    return {NewAddon = _TableDummyFunction, New = _TableDummyFunction }
+    return {
+        NewAddon = _TableDummyFunction,
+        New = _TableDummyFunction,
+        -- Embedded AceGUI widget files query and register types while embeds.xml is replayed.
+        GetWidgetVersion = function() return math.huge end,
+        RegisterWidgetType = _EmptyDummyFunction,
+    }
 end})
 StaticPopupDialogs = {}
 -- Addon files register slash commands at file scope, so this must exist before the TOC is loaded.
@@ -97,6 +105,8 @@ QuestLogListScrollFrame = {
 CreateFrame = function()
     return {
         Show = _EmptyDummyFunction,
+        -- ChatThrottleLib hides its scheduler frame while embeds.xml is replayed.
+        Hide = _EmptyDummyFunction,
         SetOwner = _EmptyDummyFunction,
         SetScript = _EmptyDummyFunction,
         RegisterEvent = _EmptyDummyFunction,

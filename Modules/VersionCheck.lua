@@ -1,3 +1,6 @@
+-- This file does not use the module system, so it names its own load-timing interval.
+QuestieLoader:StampLoadBoundary()
+
 local addonName, _ = ...
 
 -- Check addon is not renamed to avoid conflicts in global name space.
