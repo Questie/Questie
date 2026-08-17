@@ -756,10 +756,20 @@ end
 -- narrow relation columns, where "Libraries.HereBeDragonsPins.worldmapProvider.HandlePin" lost the function
 -- name to an ellipsis and this does not.
 local PROFILED_LIBRARIES = {
-    {major = "HereBeDragonsQuestie-2.0", name = "Libs.HBD"},
+    {
+        major = "HereBeDragonsQuestie-2.0",
+        name = "Libs.HBD",
+        frameScripts = {{field = "eventFrame", scripts = {"OnEvent"}}},
+    },
     {
         major = "HereBeDragonsQuestie-Pins-2.0",
         name = "Libs.HBDPins",
+        -- The minimap updater, and the reason frame scripts are worth reaching at all. Measured on Era while
+        -- running 659 yards: 6.68 ms per second here against 0.11 ms per second across every Questie function
+        -- combined, because UpdateMinimapIconPosition redraws every active pin on every frame the player moves.
+        -- Standing still it costs 0.36 ms per second, the loop being guarded on the position having changed,
+        -- which is why every stationary measurement taken before this said there was nothing here.
+        frameScripts = {{field = "updateFrame", scripts = {"OnUpdate", "OnEvent"}}},
         -- worldmapProviderPin is a pin mixin, and `Mixin(frame, worldmapProviderPin)` copies it onto every pin
         -- frame as that frame is created. A wrapper installed on this table is therefore copied onto every pin
         -- created afterwards, and Unhook restores this table rather than those copies - so the wrappers would
@@ -772,6 +782,47 @@ local PROFILED_LIBRARIES = {
     {major = "HereBeDragonsQuestie-Migrate", name = "Libs.HBDMigrate"},
     {major = "LibUIDropDownMenuQuestie-4.0", name = "Libs.LibDropDown"},
 }
+
+---Installs measured wrappers on the frame scripts of an allowlisted library.
+---
+---A frame script is the one binding a table traversal cannot reach. HBD Pins assigns its handler with
+---`SetScript` and keeps the function in a file-local, so nothing on the library table refers to it, and no
+---amount of walking that table will find it. Replacing the script slot is the only way in.
+---
+---Explicitly named frames only, and this must stay that way. Frames are runtime objects with protected
+---behaviour and enormous graphs, and probing an arbitrary one is how a profiler starts breaking the UI it
+---is measuring. These two belong to Questie's own embedded copies of HBD and are ordinary unprotected frames.
+---@param library table
+---@param target table @An entry of PROFILED_LIBRARIES
+local function HookLibraryFrameScripts(library, target)
+    for _, frameTarget in ipairs(target.frameScripts or {}) do
+        local frame = rawget(library, frameTarget.field)
+        -- A frame is a table with the script API on its metatable, so this asks the frame rather than raw-reading it.
+        if type(frame) == "table" and type(frame.GetScript) == "function" and type(frame.SetScript) == "function" then
+            -- A script slot is not a table slot, so hand HookFunction one that reads and writes through the
+            -- frame. Everything downstream then works unchanged - in particular Unhook's ownership check,
+            -- which compares the frame's current script against the wrapper and restores only its own.
+            local scriptSlot = setmetatable({}, {
+                __index = function(_, scriptName)
+                    return frame:GetScript(scriptName)
+                end,
+                __newindex = function(_, scriptName, handler)
+                    frame:SetScript(scriptName, handler)
+                end,
+            })
+
+            for _, scriptName in ipairs(frameTarget.scripts) do
+                local original = frame:GetScript(scriptName)
+                -- ownedWrappers is what keeps a repeated RefreshHooks from wrapping the wrapper: HookTable
+                -- checks it for table slots, and nothing else checks it for these.
+                if type(original) == "function" and not ownedWrappers[original] then
+                    QuestieProfiler:HookFunction(scriptName, original, scriptSlot,
+                        target.name .. "." .. frameTarget.field)
+                end
+            end
+        end
+    end
+end
 
 ---Traverses the allowlisted libraries as profiler roots.
 ---
@@ -799,6 +850,7 @@ local function HookProfiledLibraries(excludedTables, visitedTables, namespaceSha
 
             QuestieProfiler:HookTable(library, target.name, excludedTables, visitedTables,
                 namespaceShapeCache, true, questieStreamLib)
+            HookLibraryFrameScripts(library, target)
         end
     end
 end

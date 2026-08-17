@@ -1127,6 +1127,113 @@ describe("QuestieProfiler", function()
                 Profiler.hookCallCount["Libs.HBDPins.worldmapProvider.RemovePinByIcon"])
         end)
 
+        describe("frame scripts", function()
+            ---A frame stands in for HBD's: a table whose script API lives on it, holding one handler.
+            ---@param scripts table<string, function>
+            local function MockFrame(scripts)
+                return {
+                    scripts = scripts,
+                    GetScript = function(self, name) return self.scripts[name] end,
+                    SetScript = function(self, name, handler) self.scripts[name] = handler end,
+                }
+            end
+
+            it("measures the minimap updater, which no table traversal can reach", function()
+                local ran = 0
+                local handler = function()
+                    ran = ran + 1
+                    clock = clock + 6
+                end
+                local frame = MockFrame({OnUpdate = handler})
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+
+                Profiler:Start(false)
+                frame:GetScript("OnUpdate")(frame, 0.016)
+
+                assert.are_same(1, ran)
+                assert.are_same(1, Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnUpdate"])
+                assert.are_same(6, Profiler.hookTimeCount["Libs.HBDPins.updateFrame.OnUpdate"])
+            end)
+
+            it("passes the frame and elapsed through to the real handler", function()
+                local seenFrame, seenElapsed
+                local frame = MockFrame({OnUpdate = function(self, elapsed)
+                    seenFrame, seenElapsed = self, elapsed
+                end})
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+
+                Profiler:Start(false)
+                frame:GetScript("OnUpdate")(frame, 0.016)
+
+                assert.are_equal(frame, seenFrame)
+                assert.are_same(0.016, seenElapsed)
+            end)
+
+            it("hooks every named script on a frame", function()
+                local frame = MockFrame({OnUpdate = function() end, OnEvent = function() end})
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+
+                Profiler:Start(false)
+
+                assert.are_same(0, Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnUpdate"])
+                assert.are_same(0, Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnEvent"])
+            end)
+
+            it("restores the frame's own handler on Unhook", function()
+                local handler = function() end
+                local frame = MockFrame({OnUpdate = handler})
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+
+                Profiler:Start(false)
+                assert.are_not_equal(handler, frame:GetScript("OnUpdate"))
+                Profiler:Unhook()
+
+                assert.are_equal(handler, frame:GetScript("OnUpdate"))
+            end)
+
+            it("leaves a script another addon replaced mid-session alone", function()
+                local frame = MockFrame({OnUpdate = function() end})
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                Profiler:Start(false)
+
+                -- Someone else took the slot after the profiler installed its wrapper. It is theirs now.
+                local foreign = function() end
+                frame:SetScript("OnUpdate", foreign)
+                Profiler:Unhook()
+
+                assert.are_equal(foreign, frame:GetScript("OnUpdate"))
+            end)
+
+            it("does not stack wrappers when hooks are refreshed", function()
+                local frame = MockFrame({OnUpdate = function() clock = clock + 3 end})
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+
+                Profiler:Start(false)
+                local afterFirst = frame:GetScript("OnUpdate")
+                Profiler:RefreshHooks()
+
+                assert.are_equal(afterFirst, frame:GetScript("OnUpdate"))
+                frame:GetScript("OnUpdate")(frame, 0.016)
+                assert.are_same(1, Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnUpdate"])
+                assert.are_same(3, Profiler.hookTimeCount["Libs.HBDPins.updateFrame.OnUpdate"])
+            end)
+
+            it("ignores a frame that has no such script", function()
+                local frame = MockFrame({})
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+
+                assert.is_true(Profiler:Start(false))
+                assert.is_nil(Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnUpdate"])
+            end)
+
+            it("ignores a library that does not expose the frame at all", function()
+                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {}})
+
+                assert.is_true(Profiler:Start(false))
+                assert.is_nil(Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnUpdate"])
+            end)
+        end)
+
         it("restores library functions on Unhook", function()
             local original = function() end
             MockLibStub({["HereBeDragonsQuestie-2.0"] = {GetZoneDistance = original}})
