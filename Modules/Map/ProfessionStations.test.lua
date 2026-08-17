@@ -31,26 +31,25 @@ describe("ProfessionStations", function()
         return shown
     end
 
-    local function getExpectedIds(category)
-        if category == "moonwell" then
-            local ids = {}
-            for id in pairs(ProfessionStations.dataClassic) do
+    local function getMoonwellIds()
+        local ids = {}
+        for id in pairs(ProfessionStations.dataClassic) do
+            table.insert(ids, id)
+        end
+        if Expansions.Current >= Expansions.Tbc then
+            for id in pairs(ProfessionStations.dataTBC) do
                 table.insert(ids, id)
             end
-            if Expansions.Current >= Expansions.Tbc then
-                for id in pairs(ProfessionStations.dataTBC) do
-                    table.insert(ids, id)
-                end
-            end
-            table.sort(ids)
-            return ids
-        end
-        local ids = {}
-        for _, id in ipairs(ProfessionStations.data[category]) do
-            table.insert(ids, id)
         end
         table.sort(ids)
         return ids
+    end
+
+    local function getExpectedIds(category)
+        if category == "moonwell" then
+            return getMoonwellIds()
+        end
+        return ProfessionStations.data[category]
     end
 
     before_each(function()
@@ -116,15 +115,7 @@ describe("ProfessionStations", function()
 
             ProfessionStations.ShowAll("moonwell")
 
-            local expected = {}
-            for id in pairs(ProfessionStations.dataClassic) do
-                table.insert(expected, id)
-            end
-            for id in pairs(ProfessionStations.dataTBC) do
-                table.insert(expected, id)
-            end
-            table.sort(expected)
-            assert.are_same(expected, collectShown(QuestieMap.ShowObject))
+            assert.are_same(getMoonwellIds(), collectShown(QuestieMap.ShowObject))
         end)
     end)
 
