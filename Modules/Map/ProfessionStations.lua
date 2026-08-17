@@ -152,6 +152,8 @@ local _titles = {
     alchemyLab = "Alchemy Lab",
 }
 
+local PROXIMITY_TOLERANCE = 0.05
+
 ---@type table<string, boolean>
 local _genericNames = {
     ["Moonwell"] = true,
@@ -199,10 +201,9 @@ end
 
 ---@param coordsA CoordPair
 ---@param coordsB CoordPair
----@param tolerance number
 ---@return boolean
-local function _AreClose(coordsA, coordsB, tolerance)
-    return math.abs(coordsA[1] - coordsB[1]) <= tolerance and math.abs(coordsA[2] - coordsB[2]) <= tolerance
+local function _AreClose(coordsA, coordsB)
+    return math.abs(coordsA[1] - coordsB[1]) <= PROXIMITY_TOLERANCE and math.abs(coordsA[2] - coordsB[2]) <= PROXIMITY_TOLERANCE
 end
 
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
@@ -228,7 +229,7 @@ function ProfessionStations.ShowAll(category)
     local taken = {} -- [zone] = CoordPair[]
     local function _IsTaken(zone, coords)
         for _, takenCoords in ipairs(taken[zone] or {}) do
-            if _AreClose(takenCoords, coords, 0.05) then
+            if _AreClose(takenCoords, coords) then
                 return true
             end
         end
