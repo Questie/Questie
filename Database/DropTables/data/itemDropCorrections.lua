@@ -372,6 +372,17 @@ QuestieItemDropCorrections.Era = {
         [5862] = 20, -- empyrical value
         [8419] = 20, -- empyrical value
     },
+    [10551] = { -- Thorium Plated Dagger
+        [5839] = 50,
+        [5840] = 50,
+        [5843] = 50,
+        [5844] = 50,
+        [5846] = 50,
+        [8337] = 50,
+        [8504] = 50,
+        [8566] = 50,
+        [8637] = 50,
+    },
     [10552] = { -- Symbol of Ragnaros
         [5860] = DropKeys.WOWHEAD,
         [5861] = DropKeys.WOWHEAD,
