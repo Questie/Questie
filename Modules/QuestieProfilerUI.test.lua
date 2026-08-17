@@ -338,6 +338,46 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("FormatDuration", function()
+        local FormatDuration
+
+        before_each(function()
+            FormatDuration = ProfilerUI.private.FormatDuration
+        end)
+
+        it("keeps milliseconds for anything a millisecond or larger", function()
+            assert.are_same("1.00 ms", FormatDuration(1))
+            assert.are_same("433.0 ms", FormatDuration(433.0))
+            assert.are_same("12345 ms", FormatDuration(12345))
+        end)
+
+        it("switches to microseconds below a millisecond", function()
+            assert.are_same("260 us", FormatDuration(0.26029))
+            assert.are_same("143 us", FormatDuration(0.1434))
+        end)
+
+        it("separates per-call costs that milliseconds rendered identically", function()
+            -- Both of these were "0.01" before, and one is 20% dearer than the other.
+            assert.are_same("6.80 us", FormatDuration(0.00680))
+            assert.are_same("8.13 us", FormatDuration(0.00813))
+        end)
+
+        it("keeps a sub-microsecond call visible instead of rounding it to nothing", function()
+            -- HBD's coordinate conversion, which rendered "0.00" and looked free.
+            assert.are_same("0.76 us", FormatDuration(0.00076))
+        end)
+
+        it("holds three significant figures across the whole range", function()
+            assert.are_same("99.0 us", FormatDuration(0.099))
+            assert.are_same("100 us", FormatDuration(0.100))
+            assert.are_same("9.99 us", FormatDuration(0.00999))
+        end)
+
+        it("renders an untimed row as a plain zero rather than a unit", function()
+            assert.are_same("0", FormatDuration(0))
+        end)
+    end)
+
     describe("BuildReport", function()
         it("reports total time, calls and average for a function entry", function()
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)

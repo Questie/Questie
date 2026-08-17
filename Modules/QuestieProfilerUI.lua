@@ -793,6 +793,38 @@ local function FormatMilliseconds(value)
     return sformat("%.2f", value)
 end
 
+---Renders one duration whose scale is not known in advance, carrying its own unit.
+---
+---A per-call cost spans five orders of magnitude in this addon: compiling the database is seconds, and a
+---coordinate conversion is under a microsecond. Milliseconds to two places - which is right for the totals
+---beside it, where anything under 0.01 ms genuinely is nothing - cannot show the small end at all. Measured on
+---a normal session it rendered 18 of 50 called rows as "0.00", and gave the same "0.01" to a 6.8us call and an
+---8.1us one, which is the comparison the column exists to make.
+---
+---So the unit travels with the value, and the precision follows the magnitude rather than the unit: three
+---significant figures at every scale. Sorting is unaffected, being done on the number rather than this string.
+---Spelled "us" rather than the Greek letter, which is what every measurement in this addon's comments uses and
+---avoids depending on the client font having the glyph.
+---Defined on the private table rather than as a file local: this chunk already sits at Lua 5.1's ceiling of
+---200 locals per function, and one more is a load-time error rather than a warning.
+---@param value number @Milliseconds
+---@return string
+function _QuestieProfilerUI.FormatDuration(value)
+    if value >= 1 then
+        return FormatMilliseconds(value) .. " ms"
+    end
+
+    local microseconds = value * 1000
+    if microseconds >= 100 then
+        return sformat("%.0f us", microseconds)
+    elseif microseconds >= 10 then
+        return sformat("%.1f us", microseconds)
+    elseif microseconds > 0 then
+        return sformat("%.2f us", microseconds)
+    end
+    return "0"
+end
+
 ---@class ProfilerTreeNode
 ---@field label string @The segment this node adds
 ---@field prefix string @Full identity prefix, including the trailing separator
@@ -1146,13 +1178,15 @@ local function ShowRowTooltip(row, reportRow)
     if reportRow.isThreadJob then
         GameTooltip:AddDoubleLine("Submitted jobs", tostring(reportRow.jobCalls or 0), 0.7, 0.7, 0.7, 1, 1, 1)
         GameTooltip:AddDoubleLine("Coroutine resumes", tostring(reportRow.resumeCount or 0), 0.7, 0.7, 0.7, 1, 1, 1)
-        GameTooltip:AddDoubleLine("Average per job", sformat("%.3f ms", reportRow.averageTime), 0.7, 0.7, 0.7, 1, 1, 1)
+        GameTooltip:AddDoubleLine("Average per job", _QuestieProfilerUI.FormatDuration(reportRow.averageTime),
+            0.7, 0.7, 0.7, 1, 1, 1)
         GameTooltip:AddLine(" ")
         GameTooltip:AddLine("Job time covers active resume slices only. Time spent suspended between resumes is excluded.",
             0.45, 0.8, 1, true)
         GameTooltip:AddLine("This row is the authoritative total for work spanning multiple resumes.", 0.45, 0.8, 1, true)
     elseif reportRow.hasCalls then
-        GameTooltip:AddDoubleLine("Average per call", sformat("%.3f ms", reportRow.averageTime), 0.7, 0.7, 0.7, 1, 1, 1)
+        GameTooltip:AddDoubleLine("Average per call", _QuestieProfilerUI.FormatDuration(reportRow.averageTime),
+            0.7, 0.7, 0.7, 1, 1, 1)
     end
 
     -- The Share column is one number with no units, so the tooltip is where its denominator gets named. A
@@ -1228,8 +1262,8 @@ local function DetailLineFor(reportRow)
     local selfDetail = reportRow.hasSelfTime and sformat("%.3f ms self", reportRow.selfTime) or "no self time"
     -- The identity moved into the copy box beside this, so the line starts at the measurements. It keeps a
     -- leading separator so the strip still reads as one sentence across the seam between the two widgets.
-    local detail = sformat("|  %.3f ms total  |  %s  |  %d calls  |  %.3f ms avg",
-        reportRow.totalTime, selfDetail, reportRow.calls, reportRow.averageTime)
+    local detail = sformat("|  %.3f ms total  |  %s  |  %d calls  |  %s avg",
+        reportRow.totalTime, selfDetail, reportRow.calls, _QuestieProfilerUI.FormatDuration(reportRow.averageTime))
     if reportRow.isThreadJob then
         detail = detail .. sformat("  |  %d jobs  |  %d resumes", reportRow.jobCalls or 0, reportRow.resumeCount or 0)
     end
@@ -1717,7 +1751,7 @@ function RenderRows()
             if reportRow.hasTiming then
                 row.total:SetText(FormatMilliseconds(reportRow.totalTime))
                 -- No calls means no per-call average; a loaded file would otherwise read as averaging zero.
-                row.average:SetText(reportRow.hasCalls and FormatMilliseconds(reportRow.averageTime) or "-")
+                row.average:SetText(reportRow.hasCalls and _QuestieProfilerUI.FormatDuration(reportRow.averageTime) or "-")
                 row.total:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
                 row.average:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
                 if not reportRow.hasSelfTime then
@@ -2476,7 +2510,7 @@ local function BuildColumnHeaders()
 
     local specs = {
         {key = SORT_MEMORY, label = "Allocated", width = COLUMN_WIDTHS.memory},
-        {key = SORT_AVERAGE, label = "Avg ms", width = COLUMN_WIDTHS.average},
+        {key = SORT_AVERAGE, label = "Avg", width = COLUMN_WIDTHS.average},
         {key = SORT_CALLS, label = "Calls", width = COLUMN_WIDTHS.calls},
         {key = SORT_SELF, label = "Self ms", width = COLUMN_WIDTHS.self},
         {key = SORT_TOTAL, label = "Total ms", width = COLUMN_WIDTHS.total},
