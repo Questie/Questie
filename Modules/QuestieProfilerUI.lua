@@ -1031,6 +1031,7 @@ local function VisibleColumns()
     end
 
     return {
+        [SORT_NAME] = true,
         [SORT_TOTAL] = true,
         [SORT_SELF] = functions,
         [SORT_CALLS] = functions or jobs,
@@ -1981,6 +1982,13 @@ function QuestieProfilerUI:Refresh()
         if not scopeSpeciesIsVisible then
             ClearHierarchyScope()
         end
+    end
+
+    -- A species filter can remove the column that owns the active sort. Do not retain an invisible metric
+    -- that gives every remaining row the same value and quietly leaves the list ordered by name instead.
+    if not VisibleColumns()[displayState.sortKey] then
+        displayState.sortKey = SORT_TOTAL
+        displayState.descending = true
     end
 
     ---@type ProfilerReportSource

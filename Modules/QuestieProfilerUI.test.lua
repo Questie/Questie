@@ -1402,6 +1402,82 @@ describe("QuestieProfilerUI", function()
 
             assert.is_true(ProfilerUI.private.displayState.showFiles)
         end)
+
+        it("falls back to total time when Reset hides the active Allocated sort", function()
+            AddFunctionEntry("Alpha.Fast", 10, 1)
+            AddFunctionEntry("Zulu.Slow", 100, 1)
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 50
+            Profiler.fileLoadMemory["Database/Zones/zoneDB.lua"] = 1000
+            ProfilerUI:Show()
+            ProfilerUI.private.displayState.sortKey = "memory"
+            ProfilerUI.private.displayState.descending = false
+            ProfilerUI:Refresh()
+
+            local resetButton = FindFrameByText("Reset")
+            resetButton.scripts.OnClick(resetButton)
+
+            -- Simulate the interaction measured after the reset.
+            AddFunctionEntry("Alpha.Fast", 10, 1)
+            AddFunctionEntry("Zulu.Slow", 100, 1)
+            ProfilerUI:Refresh()
+
+            assert.are_same("total", ProfilerUI.private.displayState.sortKey)
+            assert.are_same({"Zulu.Slow", "Alpha.Fast"}, RenderedRowKeys())
+        end)
+    end)
+
+    describe("sort availability lifecycle", function()
+        it("keeps the always-visible Name sort", function()
+            AddFunctionEntry("Zulu.Slow", 100, 1)
+            AddFunctionEntry("Alpha.Fast", 10, 1)
+            ProfilerUI.private.displayState.sortKey = "name"
+            ProfilerUI.private.displayState.descending = false
+
+            ProfilerUI:Show()
+
+            assert.are_same("name", ProfilerUI.private.displayState.sortKey)
+            assert.are_same({"Alpha.Fast", "Zulu.Slow"}, RenderedRowKeys())
+        end)
+
+        it("falls back to total time when Functions are hidden during a Self sort", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 50, 1)
+            AddThreadJobEntry("ThreadLib job: Alpha.Fast", 10, 1, 1)
+            AddThreadJobEntry("ThreadLib job: Zulu.Slow", 100, 1, 1)
+            ProfilerUI.private.displayState.sortKey = "self"
+            ProfilerUI.private.displayState.showFunctions = false
+            ProfilerUI.private.displayState.showFiles = false
+
+            ProfilerUI:Show()
+
+            assert.are_same("total", ProfilerUI.private.displayState.sortKey)
+            assert.are_same({"ThreadLib job: Zulu.Slow", "ThreadLib job: Alpha.Fast"}, RenderedRowKeys())
+        end)
+
+        it("falls back to total time when only Files remain during a Calls sort", function()
+            Profiler.fileLoadTime["Alpha/Fast.lua"] = 10
+            Profiler.fileLoadTime["Zulu/Slow.lua"] = 100
+            ProfilerUI.private.displayState.sortKey = "calls"
+            ProfilerUI.private.displayState.showFunctions = false
+            ProfilerUI.private.displayState.showJobs = false
+
+            ProfilerUI:Show()
+
+            assert.are_same("total", ProfilerUI.private.displayState.sortKey)
+            assert.are_same({"Zulu/Slow.lua", "Alpha/Fast.lua"}, RenderedRowKeys())
+        end)
+
+        it("falls back to total time when only Files remain during an Average sort", function()
+            Profiler.fileLoadTime["Alpha/Fast.lua"] = 10
+            Profiler.fileLoadTime["Zulu/Slow.lua"] = 100
+            ProfilerUI.private.displayState.sortKey = "average"
+            ProfilerUI.private.displayState.showFunctions = false
+            ProfilerUI.private.displayState.showJobs = false
+
+            ProfilerUI:Show()
+
+            assert.are_same("total", ProfilerUI.private.displayState.sortKey)
+            assert.are_same({"Zulu/Slow.lua", "Alpha/Fast.lua"}, RenderedRowKeys())
+        end)
     end)
 
     describe("hierarchy scope lifecycle", function()
