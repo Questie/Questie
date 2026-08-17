@@ -971,7 +971,7 @@ local hoveredColumnKey
 local sessionButton, resetButton, freezeButton, refreshButton, neverCalledCheckButton
 local reloadButton, startupCheckButton
 local speciesCheckButtons = {}
-local treeFrame, treeScopeText
+local treeFrame, treeScopeButton, treeScopeText
 local treeScrollTrack, treeScrollThumb
 local treeRowPool = {}
 local currentTree
@@ -1422,6 +1422,12 @@ local function LayoutRowColumns(row, listWidth)
     row.heat:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", listWidth - numericWidth, 0)
 end
 
+local function ClearHierarchyScope()
+    displayState.scopePrefix = ""
+    displayState.scopeLabel = ""
+    displayState.scrollOffset = 0
+end
+
 ---@param index integer
 ---@return table treeRow
 local function AcquireTreeRow(index)
@@ -1497,14 +1503,13 @@ local function AcquireTreeRow(index)
         end
         -- Clicking the node already in scope steps back out, so the control is its own undo.
         if displayState.scopePrefix == self.prefix then
-            displayState.scopePrefix = ""
-            displayState.scopeLabel = ""
+            ClearHierarchyScope()
         else
             displayState.scopePrefix = self.prefix
             displayState.scopeLabel = self.prefix
             displayState.expandedPrefixes[self.prefix] = true
+            displayState.scrollOffset = 0
         end
-        displayState.scrollOffset = 0
         QuestieProfilerUI:Refresh()
     end)
 
@@ -1598,9 +1603,11 @@ function RenderTree()
         -- nothing is scoped, a path when something is - and brightness says which is live. Naming it cost the
         -- width the path itself needs, which is how a long scope ended up truncated.
         if displayState.scopePrefix ~= "" then
+            treeScopeButton:Enable()
             treeScopeText:SetText(displayState.scopeLabel .. "   (click to clear)")
             treeScopeText:SetTextColor(SCOPE_ACTIVE_COLOR.r, SCOPE_ACTIVE_COLOR.g, SCOPE_ACTIVE_COLOR.b)
         else
+            treeScopeButton:Disable()
             treeScopeText:SetText("Click a node to narrow the list")
             treeScopeText:SetTextColor(SCOPE_HINT_COLOR.r, SCOPE_HINT_COLOR.g, SCOPE_HINT_COLOR.b)
         end
@@ -1958,6 +1965,24 @@ end
 -- Refresh is display work only. It never mutates a profiler table, so freezing, sorting and browsing cannot
 -- change what is being measured.
 function QuestieProfilerUI:Refresh()
+    -- Tree prefixes use a species-specific separator. If that species disappears, keeping its scope would
+    -- filter every remaining row while also removing the selected node that normally clears the scope.
+    local scopePrefix = displayState.scopePrefix
+    if scopePrefix ~= "" then
+        local jobScopePrefix = THREAD_JOB_TREE_LABEL .. " "
+        local scopeSpeciesIsVisible
+        if ssub(scopePrefix, 1, string.len(jobScopePrefix)) == jobScopePrefix then
+            scopeSpeciesIsVisible = displayState.showJobs
+        elseif ssub(scopePrefix, -1) == "/" then
+            scopeSpeciesIsVisible = displayState.showFiles
+        else
+            scopeSpeciesIsVisible = displayState.showFunctions
+        end
+        if not scopeSpeciesIsVisible then
+            ClearHierarchyScope()
+        end
+    end
+
     ---@type ProfilerReportSource
     local source = QuestieProfiler
     currentReport = _QuestieProfilerUI.BuildReport(source, {
@@ -2199,10 +2224,12 @@ local function BuildControlRow()
             QuestieProfiler:Stop()
         else
             -- Start(true) keeps this window on screen; the engine re-asserts visibility through ShowUI.
-            displayState.frozen = false
-            displayState.scrollOffset = 0
-            QuestieProfiler:Start(true)
-            HideFilesAfterMeasurementReset()
+            -- A rejected start retains the stopped report and its view exactly as the user left them.
+            if QuestieProfiler:Start(true) then
+                displayState.frozen = false
+                displayState.scrollOffset = 0
+                HideFilesAfterMeasurementReset()
+            end
         end
         UpdateTickerState()
         QuestieProfilerUI:Refresh()
@@ -2876,10 +2903,22 @@ local function BuildFooter()
         footerRule:SetColorTexture(DIVIDER_COLOR.r, DIVIDER_COLOR.g, DIVIDER_COLOR.b, DIVIDER_COLOR.a)
     end
 
-    treeScopeText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    treeScopeText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", EDGE_PADDING, STATUS_BAR_HEIGHT + SELECTION_ROW_LIFT)
+    treeScopeButton = CreateFrame("Button", nil, baseFrame)
+    treeScopeButton:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
+        EDGE_PADDING, STATUS_BAR_HEIGHT + SELECTION_ROW_LIFT)
+    treeScopeButton:SetSize(TREE_PANE_WIDTH, DETAIL_STRIP_HEIGHT)
+    AddHoverHighlight(treeScopeButton)
+    treeScopeButton:SetScript("OnClick", function()
+        if displayState.scopePrefix == "" then
+            return
+        end
+        ClearHierarchyScope()
+        QuestieProfilerUI:Refresh()
+    end)
+
+    treeScopeText = treeScopeButton:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    treeScopeText:SetAllPoints(treeScopeButton)
     -- Stops at the pane edge rather than crossing the gutter, so a long scope never crowds the divider.
-    treeScopeText:SetWidth(TREE_PANE_WIDTH)
     treeScopeText:SetJustifyH("LEFT")
     treeScopeText:SetTextColor(SCOPE_HINT_COLOR.r, SCOPE_HINT_COLOR.g, SCOPE_HINT_COLOR.b)
     DisableWrapping(treeScopeText)

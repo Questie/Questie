@@ -16,7 +16,7 @@ describe("QuestieProfilerUI", function()
     -- The profiler UI touches far more of the frame API than setupTests.lua mocks, and none of the assertions
     -- below care about geometry. This mock tracks only the state the behaviour depends on - visibility, text,
     -- scripts and registered events - and auto-stubs every other frame method.
-    local function CreateFrameMock(frameType, frameName)
+    local function CreateFrameMock(frameType, frameName, parent)
         local scripts = {}
         local registeredEvents = {}
         local isShown = true
@@ -27,6 +27,7 @@ describe("QuestieProfilerUI", function()
         frame = {
             frameType = frameType,
             frameName = frameName,
+            parent = parent,
             scripts = scripts,
             registeredEvents = registeredEvents,
             SetScript = function(_, scriptName, callback)
@@ -87,11 +88,11 @@ describe("QuestieProfilerUI", function()
             GetFontString = function()
                 return frame.fontString
             end,
-            CreateFontString = function()
-                return CreateFrameMock("FontString")
+            CreateFontString = function(self)
+                return CreateFrameMock("FontString", nil, self)
             end,
-            CreateTexture = function()
-                return CreateFrameMock("Texture")
+            CreateTexture = function(self)
+                return CreateFrameMock("Texture", nil, self)
             end,
             GetWidth = function()
                 return 680
@@ -112,7 +113,7 @@ describe("QuestieProfilerUI", function()
                 return frameType
             end,
         }
-        frame.fontString = frameType ~= "FontString" and CreateFrameMock("FontString") or nil
+        frame.fontString = frameType ~= "FontString" and CreateFrameMock("FontString", nil, frame) or nil
 
         -- Any frame method the UI calls that this mock does not model is a no-op; the tests assert behaviour,
         -- not layout, so silently accepting those keeps the mock honest about what it actually verifies.
@@ -133,6 +134,15 @@ describe("QuestieProfilerUI", function()
     local function FindFrameByName(frameName)
         for _, frame in ipairs(frameRegistry) do
             if frame.frameName == frameName then
+                return frame
+            end
+        end
+        return nil
+    end
+
+    local function FindFrameByText(text)
+        for _, frame in ipairs(frameRegistry) do
+            if frame.GetText and frame:GetText() == text then
                 return frame
             end
         end
@@ -169,11 +179,24 @@ describe("QuestieProfilerUI", function()
             end,
             Start = function(self)
                 self.active = true
+                return true
             end,
             HasResults = function(self)
                 return self.active == true or next(self.hookCallCount) ~= nil
             end,
-            ResetMeasurements = function() end,
+            ResetMeasurements = function(self)
+                for lookupKey in pairs(self.hookCallCount) do
+                    self.hookCallCount[lookupKey] = 0
+                    self.hookTimeCount[lookupKey] = 0
+                    self.hookSelfTime[lookupKey] = 0
+                end
+                for lookupKey in pairs(self.threadJobCallCount) do
+                    self.threadJobCallCount[lookupKey] = 0
+                    self.threadJobResumeCount[lookupKey] = 0
+                end
+                self.callerCallCount = {}
+                self.callerTimeCount = {}
+            end,
         }
     end
 
@@ -1381,6 +1404,72 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("hierarchy scope lifecycle", function()
+        it("clears a file scope when Reset hides file rows", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 20, 1)
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 100
+            ProfilerUI:Show()
+            ProfilerUI.private.displayState.scopePrefix = "Database/"
+            ProfilerUI.private.displayState.scopeLabel = "Database/"
+            ProfilerUI:Refresh()
+
+            local resetButton = FindFrameByText("Reset")
+            resetButton.scripts.OnClick(resetButton)
+
+            assert.are_same("", ProfilerUI.private.displayState.scopePrefix)
+
+            AddFunctionEntry("QuestieDB.GetQuest", 30, 1)
+            ProfilerUI:Refresh()
+
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+        end)
+
+        it("clears a function scope when function rows are hidden", function()
+            AddThreadJobEntry("ThreadLib job: Draw", 20, 1, 1)
+            ProfilerUI.private.displayState.scopePrefix = "QuestieDB."
+            ProfilerUI.private.displayState.scopeLabel = "QuestieDB."
+            ProfilerUI.private.displayState.showFunctions = false
+
+            ProfilerUI:Show()
+
+            assert.are_same("", ProfilerUI.private.displayState.scopePrefix)
+            assert.are_same({"ThreadLib job: Draw"}, RenderedRowKeys())
+        end)
+
+        it("clears a job scope when job rows are hidden", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 20, 1)
+            ProfilerUI.private.displayState.scopePrefix = "ThreadLib jobs "
+            ProfilerUI.private.displayState.scopeLabel = "ThreadLib jobs "
+            ProfilerUI.private.displayState.showJobs = false
+
+            ProfilerUI:Show()
+
+            assert.are_same("", ProfilerUI.private.displayState.scopePrefix)
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+        end)
+
+        it("clears an active scope when its footer control is clicked", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 100
+            ProfilerUI:Show()
+
+            local scopeText = FindFrameByText("Click a node to narrow the list")
+            assert.is_not_nil(scopeText)
+            local scopeButton = scopeText.parent
+            assert.are_same("Button", scopeButton.frameType)
+            assert.is_false(scopeButton:IsEnabled())
+
+            ProfilerUI.private.displayState.scopePrefix = "Database/"
+            ProfilerUI.private.displayState.scopeLabel = "Database/"
+            ProfilerUI:Refresh()
+            assert.is_true(scopeButton:IsEnabled())
+
+            scopeButton.scripts.OnClick(scopeButton)
+
+            assert.are_same("", ProfilerUI.private.displayState.scopePrefix)
+            assert.is_false(scopeButton:IsEnabled())
+        end)
+    end)
+
     describe("idle filtering", function()
         it("hides entries that were never called and reports how many", function()
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
@@ -1450,6 +1539,27 @@ describe("QuestieProfilerUI", function()
             ProfilerUI:Create()
 
             assert.are_same({"QuestieProfilerFrame"}, _G.UISpecialFrames)
+        end)
+
+        it("retains the stopped report view when a new session cannot start", function()
+            Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 100
+            ProfilerUI:Show()
+            Profiler.active = false
+            Profiler.Start = function()
+                return false
+            end
+            ProfilerUI.private.displayState.scopePrefix = "Database/"
+            ProfilerUI.private.displayState.scopeLabel = "Database/"
+            ProfilerUI.private.displayState.frozen = true
+            ProfilerUI:Refresh()
+
+            local startButton = FindFrameByText("Start")
+            startButton.scripts.OnClick(startButton)
+
+            assert.is_true(ProfilerUI.private.displayState.frozen)
+            assert.is_true(ProfilerUI.private.displayState.showFiles)
+            assert.are_same("Database/", ProfilerUI.private.displayState.scopePrefix)
+            assert.are_same({"Database/Zones/zoneDB.lua"}, RenderedRowKeys())
         end)
     end)
 
