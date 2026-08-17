@@ -1,5 +1,5 @@
----@class Comms
-local Comms = QuestieLoader:CreateModule("Comms")
+---@class DailyQuestComms
+local DailyQuestComms = QuestieLoader:CreateModule("DailyQuestComms")
 
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
@@ -38,13 +38,13 @@ local pendingResponseDistribution
 ---@type table<QuestId, boolean>
 local broadcastedQuestIds = {}
 
-function Comms.Initialize()
+function DailyQuestComms.Initialize()
     if (not CommsEncoding.hasCodecSupport) then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms] Codec support unavailable, not registering QuestieDailies")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms] Codec support unavailable, not registering QuestieDailies")
         return
     end
 
-    Questie:RegisterComm(COMM_PREFIX, Comms.OnCommReceived)
+    Questie:RegisterComm(COMM_PREFIX, DailyQuestComms.OnCommReceived)
 
     playerName = UnitName("player")
     realmName = GetRealmName()
@@ -82,7 +82,7 @@ end
 ---@param message string @The content of the received message.
 ---@param distribution string @The distribution method of the message.
 ---@param sender string @The sender of the message.
-function Comms.OnCommReceived(prefix, message, distribution, sender)
+function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
     if prefix ~= COMM_PREFIX then
         return
     end
@@ -100,7 +100,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Received", event.eventName, "from", sender)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.OnCommReceived] Received", event.eventName, "from", sender)
 
     if event.eventName == "HideDailyQuests" and event.data and type(event.data) == "table" then
         -- A peer is broadcasting unavailable quests.
@@ -128,7 +128,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
 
         -- Cancel our pending response only if we don't know of any additional quests
         if pendingResponseTimer and (not _HasUncoveredQuests()) then
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Nothing new to broadcast")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.OnCommReceived] Nothing new to broadcast")
             pendingResponseTimer:Cancel()
             pendingResponseTimer = nil
             pendingResponseDistribution = nil
@@ -160,7 +160,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
         wipe(broadcastedQuestIds)
 
         if pendingResponseTimer then
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.OnCommReceived] Cancelling pending response timer")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.OnCommReceived] Cancelling pending response timer")
             pendingResponseTimer:Cancel()
             pendingResponseTimer = nil
             pendingResponseDistribution = nil
@@ -176,7 +176,7 @@ function Comms.OnCommReceived(prefix, message, distribution, sender)
 
                 local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
                 for npcId, questIds in pairs(unavailableQuests) do
-                    Comms.AnswerUnavailableDailyQuests(npcId, questIds, pendingResponseDistribution)
+                    DailyQuestComms.AnswerUnavailableDailyQuests(npcId, questIds, pendingResponseDistribution)
                 end
                 pendingResponseDistribution = nil
             end)
@@ -188,7 +188,7 @@ end
 --- The event includes the quests the sender already knows, so receivers can decide if they have additional data.
 --- Called once on login and when joining a group. A peer with known data will respond with HideDailyQuests messages.
 ---@param askGuild boolean @True asks guild members too, false only asks the current party/raid.
-function Comms.RequestUnavailableDailyQuests(askGuild)
+function DailyQuestComms.RequestUnavailableDailyQuests(askGuild)
     local event = {
         eventName = "RequestUnavailableDailyQuests",
         data = AvailableQuests.GetUnavailableDailyQuests(),
@@ -198,7 +198,7 @@ function Comms.RequestUnavailableDailyQuests(askGuild)
         return
     end
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.RequestUnavailableDailyQuests] askGuild", askGuild)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.RequestUnavailableDailyQuests] askGuild", askGuild)
 
     if askGuild and IsInGuild() then
         Questie:SendCommMessage(COMM_PREFIX, serializedEvent, "GUILD")
@@ -213,7 +213,7 @@ end
 
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
 ---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
-function Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
+function DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, questIds)
     ---@type CommEvent
     local event = {
         eventName = "HideDailyQuests",
@@ -223,7 +223,7 @@ function Comms.BroadcastUnavailableDailyQuests(npcId, questIds)
         }
     }
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.BroadcastUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.BroadcastUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
 
     local serializedEvent = CommsEncoding:EncodePayload(event)
     if (not serializedEvent) then
@@ -246,7 +246,7 @@ end
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
 ---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
 ---@param distribution string @The distribution the request was received on.
-function Comms.AnswerUnavailableDailyQuests(npcId, questIds, distribution)
+function DailyQuestComms.AnswerUnavailableDailyQuests(npcId, questIds, distribution)
     ---@type CommEvent
     local event = {
         eventName = "HideDailyQuests",
@@ -256,7 +256,7 @@ function Comms.AnswerUnavailableDailyQuests(npcId, questIds, distribution)
         }
     }
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[Comms.AnswerUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.AnswerUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
 
     local serializedEvent = CommsEncoding:EncodePayload(event)
     if (not serializedEvent) then
