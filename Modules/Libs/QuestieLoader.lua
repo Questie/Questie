@@ -54,7 +54,8 @@ end
 ---level is wrong, but the result is loud rather than subtly skewed: the main-chunk test starts rejecting
 ---almost everything and every file collapses into one bucket named after this file. Measured, not assumed.
 ---@param stackLevel integer @Frames to skip to reach the file that called into QuestieLoader
-local function StampLoad(stackLevel)
+---@param sourceOverride string? @Addon-relative identity for the interval opened by this stamp
+local function StampLoad(stackLevel, sourceOverride)
     local stack = debugstack(stackLevel, 1, 0)
 
     -- Only a file's own main chunk may open or close an interval. A call made from inside a function is
@@ -79,10 +80,13 @@ local function StampLoad(stackLevel)
     -- WoW renders the path bracketed: "[Interface/AddOns/Questie/Modules/Foo.lua]:3: in main chunk".
     -- An inline XML Script chunk carries the XML's own path instead:
     -- "[Interface/AddOns/Questie/.../lookupItems.xml:<Scripts>]:1: in main chunk".
-    local source = string.match(stack, "%[([^%]]+%.lua)%]:%d+")
-        or string.match(stack, "%[([^%]]+%.xml):<Scripts>%]:%d+")
-    if source then
-        source = string.gsub(source, "^.*[Qq]uestie/", "")
+    local source = sourceOverride
+    if not source then
+        source = string.match(stack, "%[([^%]]+%.lua)%]:%d+")
+            or string.match(stack, "%[([^%]]+%.xml):<Scripts>%]:%d+")
+        if source then
+            source = string.gsub(source, "^.*[Qq]uestie/", "")
+        end
     end
 
     lastStampedAt = now
@@ -138,16 +142,23 @@ function QuestieLoader:ImportModule(name)
     end
 end
 
----Stamps a load-interval boundary from a file that has no module to create or import.
+---Closes the preceding load interval and opens one for a file or XML group that has no module call.
 ---
----An XML script group whose listed files never reach a loader call - the locale lookup tables, which
----early-return on every locale but the client's - is invisible to the stamps above, so its entire parse
----cost lands on whichever file stamped last. Called from an inline Script tag as the XML's first element;
----that chunk runs "in main chunk" carrying the XML's own path, so the interval it opens is named after
----the group itself, through the same debugstack extraction every Lua file goes through.
-function QuestieLoader:StampLoadBoundary()
+---Call without an argument when this main chunk should name the following interval. The identity is read
+---from `debugstack`, so a Lua file names itself and an inline XML Script names its containing XML file:
+---  QuestieLoader:StampLoadBoundary()
+---
+---Pass an addon-relative identity when a wrapper announces the file loaded immediately after it. The
+---override is used verbatim instead of the wrapper's `debugstack` source:
+---  QuestieLoader:StampLoadBoundary("Libs/HereBeDragons/HereBeDragons-2.0.lua")
+---
+---Only main-chunk calls take effect. Locale lookup XML uses the first form because most of its child files
+---return before reaching a module call; a wrapper can use the second form to keep those child intervals distinct.
+---@param sourceOverride string? @Identity for the interval opened after this boundary; inferred when omitted
+---@return nil
+function QuestieLoader:StampLoadBoundary(sourceOverride)
     if trackLoadTimings then
-        StampLoad(3)
+        StampLoad(3, sourceOverride)
     end
 end
 

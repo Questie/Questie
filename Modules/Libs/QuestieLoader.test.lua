@@ -152,6 +152,18 @@ describe("QuestieLoader", function()
                 QuestieLoader.loadTimings["Localization/lookups/Classic/lookupItems/lookupItems.xml"])
         end)
 
+        it("uses an explicit source name for a boundary interval", function()
+            currentSourceFile = "Libs/ThirdPartyLibraries.xml:<Scripts>"
+            QuestieLoader:StampLoadBoundary("Libs/Vendor/Library.lua")
+            AdvanceClock(30)
+
+            currentSourceFile = "Modules/Beta.lua"
+            QuestieLoader:CreateModule("Beta")
+
+            assert.are_same(30, QuestieLoader.loadTimings["Libs/Vendor/Library.lua"])
+            assert.is_nil(QuestieLoader.loadTimings["Libs/ThirdPartyLibraries.xml"])
+        end)
+
         it("ignores a boundary stamp that does not come from a main chunk", function()
             currentSourceFile = "Localization/lookups/lookupZones.lua"
             QuestieLoader:ImportModule("l10n")
