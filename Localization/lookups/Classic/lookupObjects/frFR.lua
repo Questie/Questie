@@ -1173,6 +1173,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [181109] = "Filon d'or",
 [181168] = "Fournaise de souffleglace",
 [181169] = "Fournaise de souffleglace",
+[181234] = "Enclume de souffleglace",
 [181332] = "Flamme de Stormwind",
 [181333] = "Flamme d'Ironforge",
 [181334] = "Flamme de Darnassus",

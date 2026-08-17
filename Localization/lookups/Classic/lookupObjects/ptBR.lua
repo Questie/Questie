@@ -1127,6 +1127,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [181109] = "Veio de Ouro",
 [181168] = "Fornalha de Urrálgido",
 [181169] = "Fornalha de Urrálgido",
+[181234] = "Bigorna Urrálgida",
 [181332] = "Chama de Ventobravo",
 [181333] = "Chama de Altaforja",
 [181334] = "Chama de Darnassus",

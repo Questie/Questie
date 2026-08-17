@@ -1159,6 +1159,7 @@ l10n.objectLookup["esES"] = loadstring([[return {
 [181109] = "Filón de oro",
 [181168] = "Icebellow Furnace",
 [181169] = "Icebellow Furnace",
+[181234] = "Yunque Bramelo",
 [181332] = "Llama de Ventormenta",
 [181333] = "Llama de Forjaz",
 [181334] = "Llama de Darnassus",

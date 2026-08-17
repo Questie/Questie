@@ -1177,6 +1177,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [181109] = "Goldvorkommen",
 [181168] = "Eishauchschmelze",
 [181169] = "Eishauchschmelze",
+[181234] = "Eishauchamboss",
 [181332] = "Flamme von Stormwind",
 [181333] = "Flamme von Ironforge",
 [181334] = "Flamme von Darnassus",
