@@ -239,6 +239,13 @@ QuestieItemDropCorrections.Era = {
         [3257] = DropKeys.WOWHEAD,
         [5842] = DropKeys.WOWHEAD,
     },
+    [5062] = { -- Raptor Head
+        [3254] = DropKeys.WOWHEAD,
+        [3255] = DropKeys.WOWHEAD,
+        [3256] = DropKeys.WOWHEAD,
+        [3257] = DropKeys.WOWHEAD,
+        [5842] = DropKeys.WOWHEAD,
+    },
     [5078] = { -- Theramore Medal
         [3385] = 100,
         [3386] = 100,
@@ -251,6 +258,12 @@ QuestieItemDropCorrections.Era = {
         [3260] = 100,
         [3261] = 100,
         [3263] = 100,
+    },
+    [5086] = { -- Zhevra Hooves
+        [3242] = DropKeys.WOWHEAD,
+        [3426] = DropKeys.WOWHEAD,
+        [3466] = DropKeys.WOWHEAD,
+        [5831] = DropKeys.WOWHEAD,
     },
     [5170] = { -- Mossy Tumor
         [2027] = DropKeys.WOWHEAD,
