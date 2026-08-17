@@ -5,8 +5,8 @@ local DailyQuestComms = QuestieLoader:CreateModule("DailyQuestComms")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type CommsEncoding
 local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
----@type CommsBlacklist
-local CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
+---@type DailyQuestCommsBlacklist
+local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
 
 ---@class HideDailyQuestsEvent
 ---@field eventName "HideDailyQuests"
@@ -115,7 +115,7 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
         end
 
         -- User with an outdated version might send incorrect data, so we filter according to our version
-        local filteredQuestIds = CommsBlacklist.FilterQuestIds(questIds)
+        local filteredQuestIds = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
 
         if #filteredQuestIds == 0 then
             return
@@ -149,7 +149,7 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
         for npcId, questIds in pairs(eventData) do
             if (not localData[npcId]) and type(questIds) == "table" then
                 -- User with an outdated version might send incorrect data, so we filter according to our version
-                local filteredQuestIds = CommsBlacklist.FilterQuestIds(questIds)
+                local filteredQuestIds = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
                 if #filteredQuestIds > 0 then
                     AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
                 end

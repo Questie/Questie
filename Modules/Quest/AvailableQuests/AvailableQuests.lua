@@ -23,8 +23,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type DailyQuestComms
 local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
----@type CommsBlacklist
-local CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
+---@type DailyQuestCommsBlacklist
+local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
 
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
@@ -401,7 +401,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
             end
         end
 
-        if (not isAvailableInGossip) and (not CommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not isAvailableInGossip) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -456,7 +456,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if questId ~= availableQuestId and (not CommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if questId ~= availableQuestId and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -528,7 +528,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if (not availableQuestsInGreeting[questId]) and (not CommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not availableQuestsInGreeting[questId]) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)

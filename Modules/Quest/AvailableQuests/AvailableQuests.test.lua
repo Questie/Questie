@@ -17,8 +17,8 @@ describe("AvailableQuests", function()
     local DailyQuestComms
     ---@type TheadLib
     local TheadLib
-    ---@type CommsBlacklist
-    local CommsBlacklist
+    ---@type DailyQuestCommsBlacklist
+    local DailyQuestCommsBlacklist
 
     ---@type AvailableQuests
     local AvailableQuests
@@ -51,8 +51,8 @@ describe("AvailableQuests", function()
             fun()
             callback()
         end
-        CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
-        CommsBlacklist.IsBlacklisted = function() return false end
+        DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
+        DailyQuestCommsBlacklist.IsBlacklisted = function() return false end
 
         Questie.db.profile.availableIconLimit = 10
 
@@ -566,7 +566,7 @@ describe("AvailableQuests", function()
         it("should not hide blacklisted daily quests", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.IsDailyQuest = function() return true end
-            CommsBlacklist.IsBlacklisted = function() return true end
+            DailyQuestCommsBlacklist.IsBlacklisted = function() return true end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             _G.QuestieCompat = {
                 GetAvailableQuests = spy.new(function() return {} end),
@@ -721,7 +721,7 @@ describe("AvailableQuests", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.IsDailyQuest = function() return true end
             _G.GetQuestID = function() return availableQuest end
-            CommsBlacklist.IsBlacklisted = function(questId) return questId == blacklistedQuest end
+            DailyQuestCommsBlacklist.IsBlacklisted = function(questId) return questId == blacklistedQuest end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
             DailyQuestComms.BroadcastUnavailableDailyQuests = spy.new(function() end)
@@ -915,7 +915,7 @@ describe("AvailableQuests", function()
             }
             _G.GetAvailableTitle = spy.new(function() return "Available Quest" end)
             QuestieDB.IsDailyQuest = function() return true end
-            CommsBlacklist.IsBlacklisted = function(questId) return questId == blacklistedQuestId end
+            DailyQuestCommsBlacklist.IsBlacklisted = function(questId) return questId == blacklistedQuestId end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
             DailyQuestComms.BroadcastUnavailableDailyQuests = spy.new(function() end)

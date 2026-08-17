@@ -1,12 +1,12 @@
 dofile("setupTests.lua")
 
-describe("CommsBlacklist", function()
-    ---@type CommsBlacklist
-    local CommsBlacklist
+describe("DailyQuestCommsBlacklist", function()
+    ---@type DailyQuestCommsBlacklist
+    local DailyQuestCommsBlacklist
 
     before_each(function()
-        dofile("Modules/Network/CommsBlacklist.lua")
-        CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
+        dofile("Modules/Network/DailyQuestComms/DailyQuestCommsBlacklist.lua")
+        DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
     end)
 
     describe("FilterQuestIds", function()
@@ -14,7 +14,7 @@ describe("CommsBlacklist", function()
             Questie.IsSoD = false
             local questIds = {84348, 84349, 84360}
 
-            local result = CommsBlacklist.FilterQuestIds(questIds)
+            local result = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
 
             assert.are_same({84348, 84349, 84360}, result)
         end)
@@ -23,7 +23,7 @@ describe("CommsBlacklist", function()
             Questie.IsSoD = true
             local questIds = {5678, 91011}
 
-            local result = CommsBlacklist.FilterQuestIds(questIds)
+            local result = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
 
             assert.are_same({5678, 91011}, result)
         end)
@@ -32,7 +32,7 @@ describe("CommsBlacklist", function()
             Questie.IsSoD = true
             local questIds = {5678, 84348, 91011, 84360}
 
-            local result = CommsBlacklist.FilterQuestIds(questIds)
+            local result = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
 
             assert.are_same({5678, 91011}, result)
         end)
@@ -41,7 +41,7 @@ describe("CommsBlacklist", function()
             Questie.IsSoD = true
             local questIds = {84348, 84349, 84360}
 
-            local result = CommsBlacklist.FilterQuestIds(questIds)
+            local result = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
 
             assert.are_same({}, result)
         end)
@@ -50,7 +50,7 @@ describe("CommsBlacklist", function()
             Questie.IsSoD = true
             local questIds = {}
 
-            local result = CommsBlacklist.FilterQuestIds(questIds)
+            local result = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
 
             assert.are_same({}, result)
         end)
@@ -60,19 +60,19 @@ describe("CommsBlacklist", function()
         it("should return false when not on SoD", function()
             Questie.IsSoD = false
 
-            assert.is_false(CommsBlacklist.IsBlacklisted(84348))
+            assert.is_false(DailyQuestCommsBlacklist.IsBlacklisted(84348))
         end)
 
         it("should return false for a non-blacklisted questId", function()
             Questie.IsSoD = true
 
-            assert.is_false(CommsBlacklist.IsBlacklisted(5678))
+            assert.is_false(DailyQuestCommsBlacklist.IsBlacklisted(5678))
         end)
 
         it("should return true for a blacklisted questId", function()
             Questie.IsSoD = true
 
-            assert.is_true(CommsBlacklist.IsBlacklisted(84348))
+            assert.is_true(DailyQuestCommsBlacklist.IsBlacklisted(84348))
         end)
     end)
 end)

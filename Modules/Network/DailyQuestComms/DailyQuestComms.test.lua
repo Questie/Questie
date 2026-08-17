@@ -6,8 +6,8 @@ describe("DailyQuestComms", function()
     ---@type CommsEncoding
     local CommsEncoding
 
-    ---@type CommsBlacklist
-    local CommsBlacklist
+    ---@type DailyQuestCommsBlacklist
+    local DailyQuestCommsBlacklist
 
     ---@type DailyQuestComms
     local DailyQuestComms
@@ -39,8 +39,8 @@ describe("DailyQuestComms", function()
 
         _G.math.random = function() return 0 end
 
-        CommsBlacklist = QuestieLoader:ImportModule("CommsBlacklist")
-        CommsBlacklist.FilterQuestIds = function(questIds) return questIds end
+        DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
+        DailyQuestCommsBlacklist.FilterQuestIds = function(questIds) return questIds end
 
         dofile("Modules/Network/DailyQuestComms/DailyQuestComms.lua")
         DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
@@ -646,7 +646,7 @@ describe("DailyQuestComms", function()
 
         it("should filter out blacklisted questIds from RequestUnavailableDailyQuests events", function()
             local senderNpcId = 9999
-            CommsBlacklist.FilterQuestIds = function() return {100} end
+            DailyQuestCommsBlacklist.FilterQuestIds = function() return {100} end
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
             local event = {
@@ -662,7 +662,7 @@ describe("DailyQuestComms", function()
 
         it("should not call RemoveQuestsForToday when all request questIds are blacklisted", function()
             local senderNpcId = 9999
-            CommsBlacklist.FilterQuestIds = function() return {} end
+            DailyQuestCommsBlacklist.FilterQuestIds = function() return {} end
             AvailableQuests.GetUnavailableDailyQuests = function() return {} end
 
             local event = {
@@ -699,7 +699,7 @@ describe("DailyQuestComms", function()
         end)
 
         it("should filter out blacklisted questIds from HideDailyQuests events", function()
-            CommsBlacklist.FilterQuestIds = function() return {5678, 91011} end
+            DailyQuestCommsBlacklist.FilterQuestIds = function() return {5678, 91011} end
             local npcId = 1234
 
             ---@type CommEvent
@@ -718,7 +718,7 @@ describe("DailyQuestComms", function()
         end)
 
         it("should not call RemoveQuestsForToday when all questIds are blacklisted", function()
-            CommsBlacklist.FilterQuestIds = function() return {} end
+            DailyQuestCommsBlacklist.FilterQuestIds = function() return {} end
             local npcId = 1234
 
             ---@type CommEvent

@@ -1,5 +1,5 @@
----@class CommsBlacklist
-local CommsBlacklist = QuestieLoader:CreateModule("CommsBlacklist")
+---@class DailyQuestCommsBlacklist
+local DailyQuestCommsBlacklist = QuestieLoader:CreateModule("DailyQuestCommsBlacklist")
 
 -- These quests are excluded from broadcasting and incoming broadcasts are rejected for them.
 ---@type table<QuestId, boolean>
@@ -18,7 +18,7 @@ local blacklistedQuestIds = {
 
 ---@param questId QuestId @The quest ID to check.
 ---@return boolean @True if the quest ID is blacklisted.
-function CommsBlacklist.IsBlacklisted(questId)
+function DailyQuestCommsBlacklist.IsBlacklisted(questId)
     if (not Questie.IsSoD) then
         return false
     end
@@ -28,7 +28,7 @@ end
 
 ---@param questIds QuestId[] @The original list of quest IDs.
 ---@return QuestId[] @A new list with blacklisted quest IDs removed.
-function CommsBlacklist.FilterQuestIds(questIds)
+function DailyQuestCommsBlacklist.FilterQuestIds(questIds)
     if (not Questie.IsSoD) then
         return questIds
     end
