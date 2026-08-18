@@ -310,7 +310,7 @@ describe("QuestieProfilerUI", function()
         Profiler = QuestieLoader:ImportModule("Profiler")
 
         QuestieLoader._modules.ProfilerUI = nil
-        dofile("Modules/QuestieProfilerUI.lua")
+        dofile("Modules/Profiler/QuestieProfilerUI.lua")
         ProfilerUI = QuestieLoader:ImportModule("ProfilerUI")
     end)
 

@@ -103,7 +103,7 @@ describe("QuestieProfiler", function()
         ProfilerUI.Create = function() end
         ProfilerUI.Show = function() end
         ProfilerUI.Hide = function() end
-        dofile("Modules/QuestieProfiler.lua")
+        dofile("Modules/Profiler/QuestieProfiler.lua")
         Profiler = QuestieLoader:ImportModule("Profiler")
     end)
 
@@ -144,7 +144,7 @@ describe("QuestieProfiler", function()
         -- Both clocks must be absent: either one on its own is enough to arm.
         _G.GetTimePreciseSec = nil
         _G.debugprofilestop = nil
-        dofile("Modules/QuestieProfiler.lua")
+        dofile("Modules/Profiler/QuestieProfiler.lua")
         Profiler = QuestieLoader:ImportModule("Profiler")
         _G.debugprofilestop = function() return clock end
 
@@ -170,7 +170,7 @@ describe("QuestieProfiler", function()
             _G.debugprofilestop = function()
                 error("debugprofilestop must not be read while GetTimePreciseSec is available")
             end
-            dofile("Modules/QuestieProfiler.lua")
+            dofile("Modules/Profiler/QuestieProfiler.lua")
             Profiler = QuestieLoader:ImportModule("Profiler")
 
             local testModule = QuestieLoader:CreateModule(testModuleName)
@@ -187,7 +187,7 @@ describe("QuestieProfiler", function()
 
         it("falls back to debugprofilestop when GetTimePreciseSec is unavailable", function()
             _G.GetTimePreciseSec = nil
-            dofile("Modules/QuestieProfiler.lua")
+            dofile("Modules/Profiler/QuestieProfiler.lua")
             Profiler = QuestieLoader:ImportModule("Profiler")
 
             local testModule = QuestieLoader:CreateModule(testModuleName)
@@ -206,7 +206,7 @@ describe("QuestieProfiler", function()
                 return 0
             end
             _G.debugprofilestop = nil
-            dofile("Modules/QuestieProfiler.lua")
+            dofile("Modules/Profiler/QuestieProfiler.lua")
             Profiler = QuestieLoader:ImportModule("Profiler")
             _G.debugprofilestop = function() return clock end
 
@@ -1698,7 +1698,7 @@ describe("QuestieProfiler", function()
             return "[tail call]: ?\n"
                 .. "Modules/Libs/ThreadLib.lua:86: in function 'Thread'\n"
                 .. "[C]: in function 'pcall'\n"
-                .. "Modules/QuestieProfiler.lua:115: in function 'override'\n"
+                .. "Modules/Profiler/QuestieProfiler.lua:115: in function 'override'\n"
                 .. "?: ?\n"
                 .. "Modules/Quest/AvailableQuests/AvailableQuests.lua:123: in function 'original'"
         end
@@ -1802,7 +1802,7 @@ describe("QuestieProfiler", function()
     it("falls back safely when an anonymous ThreadLib job has only unusable, internal, or missing stack frames", function()
         _G.debugstack = function()
             return "[tail call]: ?\n[C]: in function 'pcall'\n?: ?\nModules/Libs/ThreadLib.lua:86\n"
-                .. "Modules/QuestieProfiler.lua:115: in function 'wrapper'"
+                .. "Modules/Profiler/QuestieProfiler.lua:115: in function 'wrapper'"
         end
         Profiler:Start(false)
         ThreadLib.ThreadSimple(function() end, 0)
@@ -1818,7 +1818,7 @@ describe("QuestieProfiler", function()
     it("aggregates fresh anonymous ThreadLib jobs by call site without retaining closures", function()
         _G.debug = nil
         _G.debugstack = function()
-            return "Modules/QuestieProfiler.test.lua:anonymous submission\ncaller"
+            return "Modules/Profiler/QuestieProfiler.test.lua:anonymous submission\ncaller"
         end
         local success, profileError = pcall(function()
             Profiler:Start(false)
@@ -1829,7 +1829,7 @@ describe("QuestieProfiler", function()
         _G.debug = originalDebug
 
         assert.is_true(success, profileError)
-        local lookupKey = "ThreadLib job: Modules/QuestieProfiler.test.lua:anonymous submission"
+        local lookupKey = "ThreadLib job: Modules/Profiler/QuestieProfiler.test.lua:anonymous submission"
         assert.are_same(100, Profiler.hookCallCount[lookupKey])
         assert.are_same(100, Profiler.threadJobCallCount[lookupKey])
         assert.is_nil(Profiler.lookupToHook[lookupKey])
