@@ -291,5 +291,5 @@ Public\GetQuestObjectiveIconForUnit.lua
 Public\RegisterForQuestUpdates.lua
 Public\RegisterOnReady.lua
 
-# Main
+# Main - Always load Questie.lua last
 Questie.lua
