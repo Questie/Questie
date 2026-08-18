@@ -93,6 +93,54 @@ describe("QuestieLoader", function()
         end)
     end)
 
+    describe("load timing on a client with no usable clock", function()
+        before_each(function()
+            -- Profiling asked for, but GetTimePreciseSec absent. This file runs before anything that could
+            -- report an error, so the only safe response is to record nothing rather than abort the addon.
+            _G.QuestieProfilerEnabled = true
+            _G.GetTimePreciseSec = nil
+        end)
+
+        it("loads without aborting", function()
+            assert.has_no.errors(LoadQuestieLoader)
+        end)
+
+        it("records no timings rather than half of them", function()
+            LoadQuestieLoader()
+
+            currentSourceFile = "Modules/Alpha.lua"
+            QuestieLoader:CreateModule("Alpha")
+            currentSourceFile = "Modules/Beta.lua"
+            QuestieLoader:CreateModule("Beta")
+
+            assert.is_nil(QuestieLoader.loadTimings)
+            assert.is_nil(QuestieLoader.loadMemory)
+        end)
+
+        it("still registers modules normally", function()
+            LoadQuestieLoader()
+
+            local module = QuestieLoader:CreateModule("StillWorks")
+            assert.are_equal(module, QuestieLoader:ImportModule("StillWorks"))
+            assert.are_same("table", type(module.private))
+        end)
+
+        it("does not fall back to debugprofilestop", function()
+            local fallbackReads = 0
+            _G.debugprofilestop = function()
+                fallbackReads = fallbackReads + 1
+                return 0
+            end
+            LoadQuestieLoader()
+
+            QuestieLoader:CreateModule("Alpha")
+            QuestieLoader:FinishLoadTimings()
+
+            -- A resettable clock can run backwards, which would publish a negative interval.
+            assert.are_same(0, fallbackReads)
+        end)
+    end)
+
     describe("load timing when the profiler is enabled", function()
         before_each(function()
             _G.QuestieProfilerEnabled = true

@@ -78,12 +78,13 @@ describe("QuestieProfiler", function()
 
         clock = 0
         tickerCallbacks = {}
-        -- The profiler prefers GetTimePreciseSec, so the default clock below is only measured when that
-        -- global is absent. Cleared explicitly rather than trusting setupTests.lua never to define it.
-        _G.GetTimePreciseSec = nil
-        _G.debugprofilestop = function()
-            return clock
+        -- `clock` is milliseconds because that is what every assertion below reads; the profiler takes
+        -- seconds and converts, so the stub divides. debugprofilestop is cleared rather than left alone:
+        -- nothing may consult it, and a nil is a louder failure than a stale reading.
+        _G.GetTimePreciseSec = function()
+            return clock / 1000
         end
+        _G.debugprofilestop = nil
         _G.C_Timer = {
             NewTicker = function(_, callback)
                 local ticker = {
@@ -136,21 +137,25 @@ describe("QuestieProfiler", function()
         _G.C_Timer = originalTimerAPI
     end)
 
-    it("declines to arm when the timing API was unavailable at module load", function()
+    it("declines to arm, and says so, when the client has no GetTimePreciseSec", function()
         local testModule = QuestieLoader:CreateModule(testModuleName)
         local original = function() end
         testModule.Work = original
 
-        -- Both clocks must be absent: either one on its own is enough to arm.
+        -- GetTimePreciseSec is the only clock. debugprofilestop is deliberately left available to prove
+        -- nothing falls back to it: a resettable clock can run backwards and poison a total permanently.
         _G.GetTimePreciseSec = nil
-        _G.debugprofilestop = nil
+        _G.debugprofilestop = function() return clock end
         dofile("Modules/Profiler/QuestieProfiler.lua")
         Profiler = QuestieLoader:ImportModule("Profiler")
-        _G.debugprofilestop = function() return clock end
 
+        local reported
+        Questie.Error = function(_, message) reported = message end
         local armed = Profiler:Start(false)
 
         assert.is_false(armed)
+        -- Refusing quietly would read as "profiling is on but measures nothing".
+        assert.is_not_nil(reported)
         assert.is_false(Profiler.active)
         assert.are_equal(original, testModule.Work)
         local callbackOwner = {}
@@ -185,30 +190,13 @@ describe("QuestieProfiler", function()
             assert.are_same(250, Profiler.hookTimeCount[testModuleName .. ".Work"])
         end)
 
-        it("falls back to debugprofilestop when GetTimePreciseSec is unavailable", function()
-            _G.GetTimePreciseSec = nil
-            dofile("Modules/Profiler/QuestieProfiler.lua")
-            Profiler = QuestieLoader:ImportModule("Profiler")
-
-            local testModule = QuestieLoader:CreateModule(testModuleName)
-            testModule.Work = function()
-                clock = clock + 7
-            end
-
-            assert.is_true(Profiler:Start(false))
-            testModule.Work()
-
-            assert.are_same(7, Profiler.hookTimeCount[testModuleName .. ".Work"])
-        end)
-
-        it("arms on GetTimePreciseSec alone when debugprofilestop is missing", function()
+        it("arms without debugprofilestop existing at all", function()
             _G.GetTimePreciseSec = function()
                 return 0
             end
             _G.debugprofilestop = nil
             dofile("Modules/Profiler/QuestieProfiler.lua")
             Profiler = QuestieLoader:ImportModule("Profiler")
-            _G.debugprofilestop = function() return clock end
 
             assert.is_true(Profiler:Start(false))
             assert.is_true(Profiler.active)

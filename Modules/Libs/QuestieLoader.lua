@@ -22,11 +22,17 @@ QuestieLoader._modules = modules -- store reference so modules can be iterated f
 -- nothing else. QuestieProfilerEnabled is a plain saved variable and every TOC sets LoadSavedVariablesFirst,
 -- so it is already populated when this file runs - which it does first, ahead of every other Questie file.
 --
+-- Also off if the client has no GetTimePreciseSec, which is checked here rather than assumed. This file runs
+-- before anything that could report an error - Questie:Error does not exist yet - so the only safe response is
+-- to record nothing. Timing an addon that will not load is worthless anyway, and calling a missing global here
+-- would abort the whole addon over an opt-in diagnostic. The profiler engine makes the same check later and
+-- can say so out loud.
+--
 -- Read these numbers as intervals, not as pure parse cost. Anything the client does between two calls lands
 -- on the file that opened the interval, garbage collection included, so a small file can report a large
 -- figure because a collection happened to run while it loaded. Compare repeated startups before acting on a
 -- single row. A file that makes no loader call at all is charged to its predecessor for the same reason.
-local trackLoadTimings = QuestieProfilerEnabled == true
+local trackLoadTimings = QuestieProfilerEnabled == true and type(GetTimePreciseSec) == "function"
 
 ---@type table<string, number>? @Milliseconds spent loading each file, keyed by addon-relative path
 local loadTimings

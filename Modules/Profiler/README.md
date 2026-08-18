@@ -67,9 +67,12 @@ its predecessor. XML groups that would otherwise be invisible open with
   the file into this folder did not break it, and making it path-aware would.
 - **The `pcall` in the measurement wrapper is on the main-thread branch only.** The ThreadLib branch must never
   pcall: Lua 5.1 cannot yield across a pcall boundary, so it would kill every yielding job.
-- **`GetTimePreciseSec` is preferred over `debugprofilestop`** because any addon can reset the latter to zero,
-  and a reset landing between a wrapper's two reads accumulates a large negative and poisons that function's
-  total permanently.
+- **`GetTimePreciseSec` is the only clock, and there is deliberately no fallback.** Any addon can reset
+  `debugprofilestop` to zero by calling `debugprofilestart`, and a reset landing between a wrapper's two reads
+  publishes a negative elapsed that accumulates - measured at -99 ms on a live client before this was removed.
+  It also could never run: `QuestieLoader` calls `GetTimePreciseSec` directly and would have aborted the addon
+  first. If the clock is ever absent the loader records nothing and the profiler declines to arm, saying so in
+  chat. Do not reintroduce a second clock; a measurement that can go backwards is worse than none.
 - **`PROFILING_DISALLOWED_PATHS` is deliberate.** `QuestieStreamLib`, the `DBCompiler` reader/writer/skipper
   tables, the serializer dispatch tables and the `QuestieDB.Query*` slots run thousands of times inside one
   useful high-level measurement and would otherwise dominate every result. Their cost is still visible

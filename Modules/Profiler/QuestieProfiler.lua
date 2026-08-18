@@ -8,22 +8,24 @@ local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 local setThreadProfilingCallbacks = ThreadLib.SetProfilingCallbacks
 local clearThreadProfilingCallbacks = ThreadLib.ClearProfilingCallbacks
 local getTimePreciseSec = GetTimePreciseSec
-local debugProfileStop = debugprofilestop
 local tinsert = table.insert
 local unpack = unpack
 
--- Both clocks resolve to roughly 100ns and cost the same per call, but debugprofilestop can be reset to zero
--- by any addon calling debugprofilestart. A reset landing between a wrapper's two reads yields a large
--- negative elapsed, and AddMeasurement accumulates it, permanently poisoning that function's total and
--- highestMS. GetTimePreciseSec is monotonic, so prefer it and keep debugprofilestop only as a fallback.
+-- One clock, deliberately. debugprofilestop resolves the same and costs the same, but any addon can reset it
+-- to zero by calling debugprofilestart, and a reset landing between a wrapper's two reads yields a large
+-- negative elapsed that AddMeasurement then accumulates - permanently poisoning that function's total and the
+-- session's highestMS. It was carried as a fallback for a while and was worth neither the bug class nor the
+-- code: measured on a live client, a reset mid-call published -99 ms, and the branch could never run anyway
+-- because QuestieLoader calls GetTimePreciseSec directly and would have errored first.
+--
+-- GetTimePreciseSec is monotonic and present on every client Questie supports. If it is ever absent the
+-- profiler declines to arm rather than measuring with something that can go backwards.
 ---@type (fun(): number)? @Current time in milliseconds; nil when the client offers no usable timer
 local Now
 if type(getTimePreciseSec) == "function" then
     Now = function()
         return getTimePreciseSec() * 1000
     end
-elseif type(debugProfileStop) == "function" then
-    Now = debugProfileStop
 end
 
 ---@return table weakKeyTable
@@ -1149,7 +1151,10 @@ local function StartProfilingSession(showUI)
         return true
     end
 
+    -- Said out loud rather than failing quietly: the player asked for a profiling session, and "nothing
+    -- happened" is a worse answer than a line in chat naming the reason.
     if not Now then
+        Questie:Error("QuestieProfiler cannot run: this client has no GetTimePreciseSec")
         return false
     end
     -- Claim callback ownership before resetting prior results, then install active callbacks only after state is ready.
