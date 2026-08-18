@@ -223,6 +223,10 @@ local INDICATOR_LABEL = "Questie profiler running"
 -- The report model owns these; the window only chooses between them.
 ---@type QuestieProfilerReport
 local ProfilerReport = QuestieLoader:ImportModule("ProfilerReport")
+-- Read-only, and the third exception to this file touching no other module: whether the load-time indirections
+-- are installed changes what Stop can honestly claim, and there is nowhere else to learn it.
+---@type QuestieProfilerPreHook
+local ProfilerPreHook = QuestieLoader:ImportModule("ProfilerPreHook")
 local SORT_NAME = ProfilerReport.SORT_NAME
 local SORT_TOTAL = ProfilerReport.SORT_TOTAL
 local SORT_SELF = ProfilerReport.SORT_SELF
@@ -1175,11 +1179,23 @@ function UpdateControls()
     local isActive = QuestieProfiler.active
     sessionButton:SetText(isActive and "Stop" or "Start")
     if isActive then
-        SetControlTooltip(sessionButton, "Stop profiling",
-            "Stops collecting and removes the hooks.",
-            "Questie runs at full speed again.",
-            "",
-            "Everything measured stays on screen and stays browsable.")
+        -- "Full speed again" is only true when nothing was installed before this file existed. Profiling on
+        -- startup puts an indirection in every module function slot so that functions later files copy into
+        -- locals can still be measured; a copy cannot be handed back, so Stop cannot remove those.
+        if ProfilerPreHook.installed then
+            SetControlTooltip(sessionButton, "Stop profiling",
+                "Stops collecting and removes the hooks.",
+                "Startup profiling also left a small permanent cost.",
+                "Reload to remove it - Stop alone cannot.",
+                "",
+                "Everything measured stays on screen and stays browsable.")
+        else
+            SetControlTooltip(sessionButton, "Stop profiling",
+                "Stops collecting and removes the hooks.",
+                "Questie runs at full speed again.",
+                "",
+                "Everything measured stays on screen and stays browsable.")
+        end
     else
         SetControlTooltip(sessionButton, "Start profiling",
             "Begins a fresh session and reinstalls the hooks.",
@@ -1610,10 +1626,13 @@ local function BuildControlRow()
     SetControlTooltip(startupCheckButton, "Profile on startup",
         "Arms the profiler while Questie loads.",
         "",
-        "The only way to measure addon file load and initialisation.",
-        "Costs a little speed on every startup while it is on.",
+        "The only way to measure addon file load and initialisation,",
+        "and to see functions that files copy into locals as they load.",
         "",
-        "Takes effect on the next reload.")
+        "Costs a little speed for the whole session while it is on.",
+        "Stop pauses measuring; only a reload removes the cost.",
+        "",
+        "Takes effect on the next reload, both when ticking and unticking.")
 
     local startupLabel = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     startupLabel:SetPoint("RIGHT", startupCheckButton, "LEFT", -2, 0)

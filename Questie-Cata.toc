@@ -33,6 +33,10 @@
 # Loader module. First so that every file after it can be timed: the load-time hook lives here,
 # and anything loaded before it is invisible to measurement. It has no dependencies of its own.
 Modules\Libs\QuestieLoader.lua
+# As early as possible on purpose: a file above this one can still alias an unwrapped
+# function, and nothing would report that it did. Only the loader is above it.
+# Does nothing unless QuestieProfilerEnabled is set.
+Modules\Profiler\QuestieProfilerPreHook.lua
 
 Modules\QuestieCompat.lua
 

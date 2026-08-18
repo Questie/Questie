@@ -577,6 +577,57 @@ describe("QuestieProfilerUI", function()
         end)
     end)
 
+    describe("what Stop honestly claims", function()
+        ---@type QuestieProfilerPreHook
+        local PreHook
+
+        ---@return string[] lines
+        local function StopTooltipLines()
+            Profiler.active = true
+            ProfilerUI:Create()
+            ProfilerUI:Refresh()
+            local stopButton = FindFrameByText("Stop")
+            assert.is_not_nil(stopButton, "the session button should read Stop while a session is active")
+            return stopButton.tooltipLines or {}
+        end
+
+        ---@param lines string[]
+        ---@param fragment string
+        ---@return boolean
+        local function Mentions(lines, fragment)
+            for _, line in ipairs(lines) do
+                if string.find(line, fragment, 1, true) then
+                    return true
+                end
+            end
+            return false
+        end
+
+        before_each(function()
+            PreHook = QuestieLoader:ImportModule("ProfilerPreHook")
+        end)
+
+        it("promises full speed when nothing was installed before it loaded", function()
+            PreHook.installed = false
+
+            local lines = StopTooltipLines()
+
+            assert.is_true(Mentions(lines, "full speed again"))
+            assert.is_false(Mentions(lines, "Reload"))
+        end)
+
+        it("says a reload is required when startup profiling left indirections behind", function()
+            -- Those wrappers were copied into file-scope locals as the addon loaded. A copy cannot be handed
+            -- back, so Stop genuinely cannot remove them and the tooltip must not claim otherwise.
+            PreHook.installed = true
+
+            local lines = StopTooltipLines()
+
+            assert.is_true(Mentions(lines, "Reload to remove it"))
+            assert.is_false(Mentions(lines, "full speed again"))
+        end)
+    end)
+
     describe("window lifecycle", function()
         it("creates the window hidden", function()
             ProfilerUI:Create()

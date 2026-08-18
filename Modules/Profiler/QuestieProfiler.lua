@@ -4,6 +4,8 @@ local QuestieProfiler = QuestieLoader:CreateModule("Profiler")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type QuestieProfilerPreHook
+local ProfilerPreHook = QuestieLoader:ImportModule("ProfilerPreHook")
 
 local setThreadProfilingCallbacks = ThreadLib.SetProfilingCallbacks
 local clearThreadProfilingCallbacks = ThreadLib.ClearProfilingCallbacks
@@ -439,6 +441,35 @@ local PROFILING_DISALLOWED_PATHS = {
     ["QuestieDB._QueryItemSingle"] = true,
 }
 
+-- Exposed for the pre-hook cross-check below and for tests; nothing reads it at runtime.
+QuestieProfiler.__disallowedPaths = PROFILING_DISALLOWED_PATHS
+
+---Every path this file refuses to measure must also be refused by QuestieProfilerPreHook, which wraps module
+---functions as the addon loads. If it is not, the pre-hook installs a permanent indirection on a slot whose
+---whole reason for exclusion is that it runs thousands of times inside one useful measurement - so the cost
+---lands with none of the benefit, and nothing would say so. The two lists cannot be shared: the pre-hook runs
+---long before this file exists. This is what keeps them from drifting apart quietly.
+---@return string[] mismatches @Disallowed paths the pre-hook would still wrap
+function QuestieProfiler.FindPreHookExclusionMismatches()
+    local isExcluded = ProfilerPreHook.IsExcluded
+    if type(isExcluded) ~= "function" then
+        return {}
+    end
+
+    local mismatches = {}
+    for path in pairs(PROFILING_DISALLOWED_PATHS) do
+        local moduleName, memberName = string.match(path, "^([^.]+)%.(.+)$")
+        -- A bare module name means the whole module is refused, so ask about any member of it.
+        if not moduleName then
+            moduleName, memberName = path, "AnyFunction"
+        end
+        if not isExcluded(moduleName, memberName) then
+            mismatches[#mismatches + 1] = path
+        end
+    end
+    return mismatches
+end
+
 ---@param lookupPath string
 ---@return boolean
 local function IsProfilingPathDisallowed(lookupPath)
@@ -857,6 +888,30 @@ local function HookProfiledLibraries(excludedTables, visitedTables, namespaceSha
     end
 end
 
+---Hooks the indirections QuestieProfilerPreHook installed while the addon loaded.
+---
+---Those slots hold a stable wrapper that files below them in the TOC captured into file-scope locals. The
+---wrapper cannot be replaced - an alias already has it - so what gets hooked is the indirection behind it,
+---through a stand-in table that reads and writes the wrapper's target. Unhook then restores it by the same
+---ownership check it uses everywhere else, and a later session can hook it again, which a plain hook on the
+---module slot could not survive.
+local function HookPreInstalledIndirections()
+    local preHooked = ProfilerPreHook.targets
+    if type(preHooked) ~= "table" then
+        return
+    end
+
+    for index = 1, #preHooked do
+        local target = preHooked[index]
+        -- The module slot holds the stable wrapper, and the traversal is about to walk that table. Marking it
+        -- owned is what stops the wrapper being wrapped again and every call measured twice.
+        ownedWrappers[target.wrapper] = true
+        if not ownedWrappers[target.slot[target.functionName]] then
+            QuestieProfiler:HookFunction(target.functionName, target.original, target.slot, target.moduleName)
+        end
+    end
+end
+
 ---Hooks newly available Questie module functions without stacking wrappers.
 ---@return boolean refreshed
 function QuestieProfiler:RefreshHooks()
@@ -889,7 +944,8 @@ function QuestieProfiler:RefreshHooks()
     for moduleName, module in pairs(QuestieLoader._modules) do
         -- ProfilerReport is the window's other half. Wrapping it would measure the diagnostic tool
         -- while it builds the very report the measurements are displayed in.
-        if module ~= QuestieProfiler and moduleName ~= "ProfilerUI" and moduleName ~= "ProfilerReport" then
+        if module ~= QuestieProfiler and moduleName ~= "ProfilerUI" and moduleName ~= "ProfilerReport"
+            and moduleName ~= "ProfilerPreHook" then
             tinsert(moduleNames, moduleName)
         end
     end
@@ -902,6 +958,7 @@ function QuestieProfiler:RefreshHooks()
         [2] = NewWeakKeyTable(),
     }
     QuestieProfiler.alreadyHooked = visitedTables
+    HookPreInstalledIndirections()
     HookProfiledLibraries(excludedTables, visitedTables, namespaceShapeCache, questieStreamLib)
     for _, moduleName in ipairs(moduleNames) do
         QuestieProfiler:HookTable(QuestieLoader._modules[moduleName], moduleName, excludedTables, visitedTables,
@@ -1190,6 +1247,14 @@ local function StartProfilingSession(showUI)
         if not uiHidden then
             Questie.Error("QuestieProfiler failed to hide its UI", hideError)
         end
+    end
+
+    -- Cheap and once per session: roughly twenty string matches, against a class of drift whose only symptom
+    -- would be a low-level path quietly dominating every report.
+    local mismatches = QuestieProfiler.FindPreHookExclusionMismatches()
+    if #mismatches > 0 then
+        Questie.Error("QuestieProfilerPreHook is missing exclusions the profiler requires:",
+            table.concat(mismatches, ", "))
     end
 
     local hooksRefreshed, refreshError = pcall(QuestieProfiler.RefreshHooks, QuestieProfiler)
