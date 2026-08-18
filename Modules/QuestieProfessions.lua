@@ -24,7 +24,7 @@ hooksecurefunc("AbandonSkill", function(skillIndex)
     local skillName = GetSkillLineInfo(skillIndex)
     if skillName and professionTable[skillName] then
         if playerProfessions[professionTable[skillName]] then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
             playerProfessions[professionTable[skillName]] = nil
             --? Reset all autoBlacklisted quests if a skill is abandoned
             QuestieQuest.ResetAutoblacklistCategory("skill")
@@ -58,7 +58,7 @@ end
 ---@return boolean HasProfessionUpdate @Returns true if the players profession skill has increased
 ---@return boolean HasNewProfession @Returns true if the player has learned a new profession
 function QuestieProfessions:Update()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
     ExpandSkillHeader(0)
     local hasProfessionUpdate = false
     local hasNewProfession = false
@@ -79,7 +79,7 @@ function QuestieProfessions:Update()
 
     for professionId, _ in pairs(temporaryPlayerProfessions) do
         if not playerProfessions[professionId] then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "New profession: " .. temporaryPlayerProfessions[professionId][1])
+            Questie.Debug(Questie.DEBUG_DEVELOP, "New profession: " .. temporaryPlayerProfessions[professionId][1])
             hasProfessionUpdate = true
             hasNewProfession = true
 
@@ -90,7 +90,7 @@ function QuestieProfessions:Update()
             local newRank = temporaryPlayerProfessions[professionId][2]
             if newRank > oldRank and (math.floor(oldRank / 5) ~= math.floor(newRank / 5)) then
                 -- We only want to update every 5 skill levels because all other progressions won't unlock new quests
-                Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. oldRank .. " -> " .. newRank)
+                Questie.Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. oldRank .. " -> " .. newRank)
                 hasProfessionUpdate = true
             end
         end

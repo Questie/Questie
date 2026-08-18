@@ -19,6 +19,8 @@ describe("QuestiePartyObjectives", function()
     local ThreadLib
     ---@type QuestiePlayer
     local QuestiePlayer
+    ---@type CommsVisibility
+    local CommsVisibility
 
     local QUEST_ID = 42
     -- Mirrors MAX_PARTY_ICONS in the module, which is a file-local constant. Keep in sync.
@@ -111,8 +113,10 @@ describe("QuestiePartyObjectives", function()
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         ThreadLib = QuestieLoader:ImportModule("ThreadLib")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
         QuestiePlayer.GetGroupType = function() return "party" end
+        CommsVisibility.ShouldShowPartyObjective = function() return true end
         QuestieLib.ColorWheel = function() return {1, 1, 1} end
         QuestieLib.GetFullObjectiveText = function(text) return text end
         QuestieFramePool.UnloadFrame = spy.new(function() end)

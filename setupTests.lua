@@ -38,7 +38,15 @@ _G.strlen = string.len
 _G.strmatch = string.match
 _G.hooksecurefunc = EMTPY_FUNC
 _G.GetTime = function() return 0 end
+_G.GetServerTime = function() return 0 end
+_G.GetQuestResetTime = function() return 86400 end
 _G.GetCurrentRegion = function() return 3 end
+_G.wipe = function(t)
+    for k in pairs(t) do
+        t[k] = nil
+    end
+    return t
+end
 
 _G.Enum = {ItemQuality = {Poor = 0, Standard = 1}}
 

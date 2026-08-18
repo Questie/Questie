@@ -21,6 +21,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 local NOP_FUNCTION = function() end
 
@@ -107,7 +109,7 @@ local function _GetApiObjectiveText(questId, objectiveIndex)
         -- objectives don't multiply retries; gives up after MAX_PREFETCH_RETRIES so it can't loop.
         local state = prefetchedQuests[questId]
         if not state then
-            state = { attempts = 0, pending = false }
+            state = {attempts = 0, pending = false}
             prefetchedQuests[questId] = state
         end
         if (not state.pending) and state.attempts < MAX_PREFETCH_RETRIES then
@@ -228,11 +230,12 @@ local function _DrawQuest(questId)
         return
     end
 
-    -- An objective index is drawn if at least one online party member still needs it. Offline
-    -- members are ignored so their icons disappear until they reconnect.
+    -- An objective index is drawn if at least one visible, online party member still needs it.
+    -- Offline members disappear until they reconnect, and CommsVisibility can suppress members
+    -- who hid or untracked the quest locally.
     local neededIndices = {}
     for playerName, objectives in pairs(players) do
-        if _IsPlayerOnline(playerName) then
+        if _IsPlayerOnline(playerName) and CommsVisibility:ShouldShowPartyObjective(playerName, questId) then
             for objectiveIndex, objective in pairs(objectives) do
                 if not objective.finished then
                     neededIndices[objectiveIndex] = objective
@@ -256,7 +259,7 @@ local function _DrawQuest(questId)
     -- whose first resume happens on a later frame, so the icons it draws must already be reachable
     -- from drawnByQuest by the time they appear, otherwise _ClearQuest/Clear can never unload them
     -- and the icons survive leaving a group.
-    local entry = { objectives = {}, iconCount = 0 }
+    local entry = {objectives = {}, iconCount = 0}
     drawnByQuest[questId] = entry
 
     -- The quest may be cleared (or the group left) while a coroutine is queued or yielding.

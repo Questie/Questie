@@ -17,6 +17,8 @@ describe("QuestLifecycle", function()
     local QuestieTracker
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
+    ---@type CommsVisibility
+    local CommsVisibility
 
     before_each(function()
         _G.WOW_PROJECT_ID = nil
@@ -52,6 +54,9 @@ describe("QuestLifecycle", function()
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
+        CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+        CommsVisibility.ScheduleSnapshot = spy.new(function() end)
+
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -80,6 +85,7 @@ describe("QuestLifecycle", function()
             QuestLifecycle:AcceptQuest(100)
 
             assert.are_equal(quest, QuestiePlayer.currentQuestlog[100])
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
             assert.spy(AvailableQuests.RemoveQuest).was.called()
             assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called_with(QuestieQuest, quest)
             assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 100)
@@ -321,6 +327,14 @@ describe("QuestLifecycle", function()
             assert.spy(QuestieTracker.RemoveQuest).was.called_with(QuestieTracker, questId)
         end)
 
+        it("should schedule snapshot for comms visibility", function()
+            local questId = 100
+
+            QuestLifecycle:CompleteQuest(questId)
+
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
+        end)
+
         it("should call AvailableQuests.RemoveQuest with callback that calls CalculateAndDrawAll", function()
             local questId = 100
             AvailableQuests.RemoveQuest = spy.new(function(_questId, callback)
@@ -366,6 +380,7 @@ describe("QuestLifecycle", function()
 
             assert.spy(QuestieTracker.RemoveQuest).was.called_with(QuestieTracker, questId)
 
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
             assert.spy(AvailableQuests.RemoveQuest).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)

@@ -160,9 +160,9 @@ Custom type aliases: `QuestId`, `NpcId`, `ObjectId`, `ItemId`, `AreaId`, `CoordP
 
 ### Error Handling
 
-- `Questie:Error(...)` - red `[ERROR]` prefix, always printed
-- `Questie:Warning(...)` - yellow `[WARNING]`, only when debug enabled
-- `Questie:Debug(level, ...)` - bitmask levels: `DEBUG_CRITICAL`, `DEBUG_ELEVATED`, `DEBUG_INFO`, `DEBUG_DEVELOP`, `DEBUG_SPAM`
+- `Questie.Error(...)` - red `[ERROR]` prefix, always printed
+- `Questie.Warning(...)` - yellow `[WARNING]`, only when debug enabled
+- `Questie.Debug(level, ...)` - bitmask levels: `DEBUG_CRITICAL`, `DEBUG_ELEVATED`, `DEBUG_INFO`, `DEBUG_DEVELOP`, `DEBUG_SPAM`
 - `xpcall(callback, CallErrorHandler)` for external/public API callbacks
 - `pcall` for CLI validation scripts and risky operations
 - `error()` for hard input validation failures
@@ -267,6 +267,20 @@ end)
 
 CI runs on every push/PR: busted tests, database validators for each expansion, luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
 
+## Test Requirements
+
+Any change to a module that already has a `*.test.lua` file **must** include corresponding test additions or adjustments. Specifically:
+
+- Adding a new public function → add tests for it in the existing test file
+- Changing the behaviour of an existing function → update the affected tests
+- Adding a new module → create a matching `ModuleName.test.lua` alongside it
+
+Run the full suite before considering a change done:
+
+```bash
+busted -p ".test.lua" .
+```
+
 ## Translations
 
 Localization files are in `Localization/`.
@@ -311,3 +325,41 @@ Localization files are in `Localization/`.
 
 - Never use `coroutine.running()` to guard `coroutine.yield()` calls. If code is as expensive that it needs yielding, every caller should acknowledge that and use the ThreadLib to
   wrap the call in a coroutine.
+
+### Functions vs Methods
+
+Prefer plain **functions** over **methods** when `self` is not needed. This avoids unnecessary method dispatch overhead and makes the code simpler to test and mock.
+
+**Bad** — unnecessary method syntax:
+
+```lua
+function QuestieMap.utils:IsExplored(uiMapId, x, y)
+    -- self is not used
+    local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100))
+    return exploredAreaIDs ~= nil
+end
+
+-- Caller must use colon syntax
+local isExplored = QuestieMap.utils:IsExplored(123, 50, 50)
+```
+
+**Good** — plain function when `self` is unused:
+
+```lua
+function QuestieMap.utils.IsExplored(uiMapId, x, y)
+    local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100))
+    return exploredAreaIDs ~= nil
+end
+
+-- Caller uses dot notation
+local isExplored = QuestieMap.utils.IsExplored(123, 50, 50)
+```
+
+**Good** — method when `self` is actually used:
+
+```lua
+function _MinimapIcon:CreateDataBrokerObject()
+    self.LDBDataObject = LDBDataObject
+    -- Use self...
+end
+```

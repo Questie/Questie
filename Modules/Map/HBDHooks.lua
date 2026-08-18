@@ -23,6 +23,6 @@ function _HBDHooks:OnMapChanged()
 
     local mapScale = QuestieMap.GetScaleValue()
     for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-        QuestieMap.utils:RescaleIcon(pin.icon, mapScale)
+        QuestieMap.utils.RescaleIcon(pin.icon, mapScale)
     end
 end

@@ -150,7 +150,7 @@ describe("QuestieProfiler", function()
         Profiler = QuestieLoader:ImportModule("Profiler")
 
         local reported
-        Questie.Error = function(_, message) reported = message end
+        Questie.Error = function(message) reported = message end
         local armed = Profiler:Start(false)
 
         assert.is_false(armed)
@@ -257,7 +257,7 @@ describe("QuestieProfiler", function()
 
     it("reports a startup UI failure without blocking or duplicating hook traversal", function()
         local reportedErrors = {}
-        Questie.Error = function(_, message, profilerError)
+        Questie.Error = function(message, profilerError)
             table.insert(reportedErrors, {message, profilerError})
         end
         Profiler.ShowUI = function()
@@ -321,7 +321,7 @@ describe("QuestieProfiler", function()
 
     it("rolls back partial hook installation and allows a clean retry", function()
         local reportedErrors = {}
-        Questie.Error = function(_, message, profilerError)
+        Questie.Error = function(message, profilerError)
             table.insert(reportedErrors, {message, profilerError})
         end
         local shown = 0
@@ -780,7 +780,7 @@ describe("QuestieProfiler", function()
             clock = clock + 2
             Profiler:ResetMeasurements()
             clock = clock + 7
-        end, 0, nil, nil, "reset during active resume")
+        end, 0, nil, nil, nil, "reset during active resume")
 
         tickerCallbacks[1]()
 
@@ -1384,7 +1384,7 @@ describe("QuestieProfiler", function()
                 testModule.Step()
             end
             Profiler:Start(false)
-            ThreadLib.Thread(testModule.Job, 0, nil, nil, "DrawAvailableQuests")
+            ThreadLib.Thread(testModule.Job, 0, nil, nil, nil, "DrawAvailableQuests")
 
             tickerCallbacks[1]()
 
@@ -1539,7 +1539,7 @@ describe("QuestieProfiler", function()
         end
         Profiler:Start(false)
 
-        ThreadLib.Thread(testModule.KnownJob, 0, nil, nil, "AvailableQuests.CalculateAndDrawAll")
+        ThreadLib.Thread(testModule.KnownJob, 0, nil, nil, nil, "AvailableQuests.CalculateAndDrawAll")
 
         local explicitLookupKey = "ThreadLib job: AvailableQuests.CalculateAndDrawAll"
         assert.are_same(1, Profiler.hookCallCount[explicitLookupKey])
@@ -1608,7 +1608,7 @@ describe("QuestieProfiler", function()
     it("prefers an explicit name over the submitting function", function()
         local testModule = QuestieLoader:CreateModule(testModuleName)
         testModule.Submitter = function()
-            ThreadLib.Thread(function() end, 0, nil, nil, "Explicitly named work")
+            ThreadLib.Thread(function() end, 0, nil, nil, nil, "Explicitly named work")
         end
         Profiler:Start(false)
 
@@ -1673,8 +1673,8 @@ describe("QuestieProfiler", function()
     it("aggregates repeated ThreadLib jobs with the same explicit name", function()
         Profiler:Start(false)
 
-        ThreadLib.Thread(function() end, 0, nil, nil, "Shared operation")
-        ThreadLib.Thread(function() end, 0, nil, nil, "Shared operation")
+        ThreadLib.Thread(function() end, 0, nil, nil, nil, "Shared operation")
+        ThreadLib.Thread(function() end, 0, nil, nil, nil, "Shared operation")
 
         local lookupKey = "ThreadLib job: Shared operation"
         assert.are_same(2, Profiler.hookCallCount[lookupKey])

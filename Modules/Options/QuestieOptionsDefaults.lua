@@ -236,8 +236,6 @@ function QuestieOptionsDefaults:Load()
             trackedAchievementIds = {},
         },
         global = {
-            lastDailyRequestResetTime = 0,
-            lastDailyRequestDate = "",
             questieLocale = "enUS",
             questieLocaleDiff = false,
             journeyKeybindDefaultApplied = false,

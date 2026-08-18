@@ -17,6 +17,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 local pairs = pairs
 
@@ -60,7 +62,7 @@ function QuestLifecycle:AcceptQuest(questId)
     local complete = quest:IsComplete()
     -- If any of these flags exist then this quest has already once been accepted and is probably in a failed state
     if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
+        Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
 
         -- Reset quest log
         QuestiePlayer.currentQuestlog[questId] = nil
@@ -87,11 +89,11 @@ function QuestLifecycle:AcceptQuest(questId)
     end
 
     if QuestiePlayer.currentQuestlog[questId] then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
+        Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
         return
     end
 
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
+    Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
 
     QuestiePlayer.currentQuestlog[questId] = quest
 
@@ -107,6 +109,10 @@ function QuestLifecycle:AcceptQuest(questId)
     Questie.db.char.collapsedQuests[questId] = nil
     -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
     Questie.db.char.AutoUntrackedQuests[questId] = nil
+
+    -- QuestieV1 snapshots are full-state maps. Re-accepting can clear a stale remote
+    -- false entry, so notify peers after the local quest-log/tracking state is updated.
+    CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
 
     -- Remove the starter/finisher frames first, then draw objective notes once the
     -- unload coroutine has finished. This prevents the draw coroutines from racing
@@ -166,11 +172,14 @@ function QuestLifecycle:CompleteQuest(questId)
         QuestieTracker:Update()
     end)
 
+    -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
+    CommsVisibility:ScheduleSnapshot("COMPLETE_QUEST")
+
     AvailableQuests.RemoveQuest(questId, function()
         AvailableQuests.CalculateAndDrawAll()
     end)
 
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:CompleteQuest]", questId)
+    Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:CompleteQuest]", questId)
 end
 
 ---@param questId number
@@ -215,9 +224,12 @@ function QuestLifecycle:AbandonQuest(questId)
         QuestieTracker:Update()
     end)
 
+    -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
+    CommsVisibility:ScheduleSnapshot("ABANDON_QUEST")
+
     AvailableQuests.RemoveQuest(questId, function()
         AvailableQuests.CalculateAndDrawAll()
     end)
 
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonQuest]", questId)
+    Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AbandonQuest]", questId)
 end

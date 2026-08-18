@@ -11,9 +11,16 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
 ---@type TrackerLine
 local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
-
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+
+local coYield = coroutine.yield
+
+local TICKS_PER_YIELD = 50
+
+if Questie.IsHardcore then
+    TICKS_PER_YIELD = 25
+end
 
 local linePoolSize = 250
 local lineIndex = 0
@@ -35,10 +42,17 @@ function TrackerLinePool.Initialize(questFrame)
 
     -- create linePool for quests/achievements
     local previousLine
+    local yieldCount = 0
     for i = 1, linePoolSize do
         local line = TrackerLine.New(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine, TrackerLinePool.AddScenarioLine)
         linePool[i] = line
         previousLine = line
+
+        yieldCount = yieldCount + 1
+        if yieldCount >= TICKS_PER_YIELD then
+            yieldCount = 0
+            coYield()
+        end
     end
 
     -- create buttonPool for quest items
@@ -52,9 +66,9 @@ end
 
 function TrackerLinePool.ResetLinesForChange()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetLinesForChange]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetLinesForChange]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
     end
 
     if InCombatLockdown() or not Questie.db.profile.trackerEnabled then
@@ -92,9 +106,9 @@ end
 
 function TrackerLinePool.ResetButtonsForChange()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetButtonsForChange]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetButtonsForChange]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
     end
 
     if InCombatLockdown() or not Questie.db.profile.trackerEnabled then
@@ -210,7 +224,7 @@ end
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
-   local line = TrackerLinePool.GetNextLine()
+    local line = TrackerLinePool.GetNextLine()
     if (not line) then
         return nil
     end
@@ -234,7 +248,7 @@ end
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
-   local line = TrackerLinePool.GetNextLine()
+    local line = TrackerLinePool.GetNextLine()
     if (not line) then
         return nil
     end
@@ -257,7 +271,7 @@ end
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
-   local line = TrackerLinePool.GetNextLine()
+    local line = TrackerLinePool.GetNextLine()
     if (not line) then
         return nil
     end
@@ -315,9 +329,9 @@ end
 
 function TrackerLinePool.HideUnusedLines()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedLines]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedLines]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedLines]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedLines]")
     end
     local startUnusedLines = 0
 
@@ -349,9 +363,9 @@ end
 
 function TrackerLinePool.HideUnusedButtons()
     if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedButtons]")
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedButtons]")
     else
-        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedButtons]")
+        Questie.Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedButtons]")
     end
     local startUnusedButtons = 0
 
@@ -386,7 +400,7 @@ function TrackerLinePool.SetAllPlayButtonAlpha(alpha)
             local line = linePool[i]
             local questId = line.playButton.mode
             local button = VoiceOver.QuestOverlayUI.questPlayButtons[questId]
-            local sound = VoiceOver.DataModules:PrepareSound({ event = 1, questID = questId })
+            local sound = VoiceOver.DataModules:PrepareSound({event = 1, questID = questId})
 
             if button then
                 local isPlaying = button.soundData and VoiceOver.SoundQueue:Contains(button.soundData)

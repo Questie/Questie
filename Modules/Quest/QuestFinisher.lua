@@ -23,7 +23,7 @@ local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFin
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
     local questId = quest.Id
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
+    Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
     if (not QuestiePlayer.currentQuestlog[questId]) or
         IsQuestFlaggedCompleted(questId) or
@@ -39,7 +39,7 @@ function QuestFinisher.AddFinisher(quest)
     end
 
     if (not quest.Finisher.NPC) and (not quest.Finisher.GameObject) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
         return
     end
 
@@ -50,7 +50,7 @@ function QuestFinisher.AddFinisher(quest)
             if finisher then
                 _AddFinisherToMap(finisher, quest, "m_" .. finisher.id)
             else
-                Questie:Error("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
+                Questie.Error("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
             end
         end
     end
@@ -69,7 +69,6 @@ end
 ---@param key string
 ---@param playerZone AreaId|nil
 _AddFinisherToMap = function(finisher, quest, key, playerZone)
-
     --[[-- Need to know when this quest finishes at an object, so we save it later
     ---@type string|nil
     local finisherType
@@ -112,6 +111,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
                             local x = value[2];
                             local y = value[3];
 
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", zone, x, y)
                             QuestieMap:DrawWorldIcon(data, zone, x, y)
                         end
                     end
@@ -120,7 +120,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
                     local y = coords[2];
 
 
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", finisherZone, x, y)
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", finisherZone, x, y)
                     finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y, coords[3])
 
                     if (not finisherLocs[finisherZone]) then
@@ -186,7 +186,7 @@ _RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjecti
         for ttline = 1, #tooltip do
             for index, line in pairs(tooltip) do
                 if ttline == index then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
 
                     -- Remove duplicate Quest Title
                     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. finisherName] = nil
@@ -203,7 +203,7 @@ _RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjecti
                         end
 
                         if objIndex then
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing Special Objective!")
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing Special Objective!")
 
                             -- Remove Special Objective Text
                             QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objIndex] = nil

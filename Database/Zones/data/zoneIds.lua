@@ -306,6 +306,7 @@ ZoneDB.zoneIDs = {
     -- UPPER_BLACKROCK_SPIRE = 7307, -- only added in WoD
 
     -- Fake IDs for dungeons
+    THE_RING_OF_TRIALS = 9999,
     MARAUDON_ZAETARS_GRAVE = 10000, -- 281
     STRATHOLME_THE_GAUNTLET = 10001, -- 318
     BLACKROCK_SPIRE_TAZZ_ALOR = 10003, -- 250

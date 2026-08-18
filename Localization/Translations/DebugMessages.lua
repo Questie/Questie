@@ -460,7 +460,7 @@ local debugMessagesLocales = {
     },
     ["The quest %s is missing from Questie's database. Please report this on GitHub or Discord!"] = {
         ["enUS"] = true,
-        ["deDE"] = "Der Quest %s fehlt in Questie's Datenbank. Bitte melde dies auf GitHub oder Discord!",
+        ["deDE"] = "Die Quest %s fehlt in Questie's Datenbank. Bitte melde dies auf GitHub oder Discord!",
         ["esES"] = "Falta la misión %s en la base de datos de Questie. ¡Por favor, infórmalo en GitHub o Discord!",
         ["esMX"] = "Falta la misión %s en la base de datos de Questie. ¡Por favor, infórmalo en GitHub o Discord!",
         ["frFR"] = "La quête %s n'est pas présente dans la Base de données Questie. Veuillez le signaler sur GitHub ou Discord !",
@@ -469,6 +469,18 @@ local debugMessagesLocales = {
         ["ruRU"] = "Задание %s отсутствует в БД Questie. Пожалуйста, сообщите нам об этом на GitHub или в Discord!",
         ["zhCN"] = "Questie 数据库中缺少的任务 %s，请到 GitHub 或 Discord 上报告，谢谢！",
         ["zhTW"] = "Questie 的資料庫中沒有這個任務 %s，請到 GitHub 或 Discord 做回報！",
+    },
+    ["Please report this on GitHub or Discord!"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Bitte melde dies auf GitHub oder Discord!",
+        ["esES"] = "¡Por favor, infórmalo en GitHub o Discord!",
+        ["esMX"] = "¡Por favor, infórmalo en GitHub o Discord!",
+        ["frFR"] = "Veuillez le signaler sur GitHub ou Discord !",
+        ["koKR"] = "Github/Discord에 리포트 부탁드립니다!",
+        ["ptBR"] = "Por favor, informe isso no GitHub ou Discord!",
+        ["ruRU"] = "Пожалуйста, сообщите нам об этом на GitHub или в Discord!",
+        ["zhCN"] = "请到 GitHub 或 Discord 上报告，谢谢！",
+        ["zhTW"] = "請到 GitHub 或 Discord 做回報！",
     },
     ["Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"] = {
         ["enUS"] = true,

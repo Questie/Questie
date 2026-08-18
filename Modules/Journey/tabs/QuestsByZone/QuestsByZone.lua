@@ -114,7 +114,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
             return
         end
         -- if they clicked on a header, don't do anything
@@ -472,6 +472,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.DISABLED_BY then -- disabling quest is active
+                    tinsert(zoneTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
+                elseif returnReason == DoableStates.ARENA_RATING then -- missing arena rating
                     tinsert(zoneTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1

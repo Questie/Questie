@@ -75,15 +75,20 @@ end
 LibStub = {
     -- Keep the bundled LibStub loaded through embeds.xml from replacing this CLI-safe implementation.
     minor = 2,
+    -- Nil on purpose. Every Ace library opens with `local lib = LibStub:NewLibrary(...)` followed by
+    -- `if not lib then return end`, so this is what makes them declare themselves and stop, rather than
+    -- running bodies that want frames the validators have no use for.
     NewLibrary = _EmptyDummyFunction,
     GetLibrary = function(_, name)
         if name == "LibUIDropDownMenuQuestie-4.0" then
             return {
                 Create_UIDropDownMenu = _EmptyDummyFunction,
             }
-        else
-            return {}
         end
+        -- Reported as already registered at a newer minor. A library that asks first and returns early when
+        -- one exists - LibDeflate does - then never reaches NewLibrary, whose nil it would assign and
+        -- immediately index. Libraries that do not ask are unaffected.
+        return {}, math.huge
     end,
 }
 setmetatable(LibStub, { __call = function(_, ...)

@@ -17,7 +17,7 @@ local activeTargetFrame
 
 ---@param token string
 function QuestieNameplate:NameplateCreated(token)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
+    Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
     -- if nameplates are disabled, don't create new nameplates.
     if (not Questie.db.profile.nameplateEnabled) then
         return
@@ -55,7 +55,7 @@ end
 
 ---@param token string
 function QuestieNameplate:NameplateDestroyed(token)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
+    Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
 
     if (not Questie.db.profile.nameplateEnabled) then
         return
@@ -70,7 +70,7 @@ function QuestieNameplate:NameplateDestroyed(token)
 end
 
 function QuestieNameplate:UpdateNameplate()
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
+    Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
 
     for guid, token in pairs(activeGUIDs) do
         local unitName, _ = UnitName(token)
@@ -164,7 +164,7 @@ function QuestieNameplate.GetIcon(guid)
 end
 
 function QuestieNameplate:DrawTargetFrame()
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
+    Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
     if (not Questie.db.profile.nameplateTargetFrameEnabled) then
         return

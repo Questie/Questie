@@ -14,7 +14,7 @@ local QuestTimerFrame = QuestTimerFrame or WatchFrame
 local timer
 
 function TrackerQuestTimers:Initialize()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerQuestTimers:Initialize]")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerQuestTimers:Initialize]")
 
     if QuestieTracker.started or (not Questie.db.profile.trackerEnabled) then
         return
@@ -121,12 +121,12 @@ function TrackerQuestTimers:UpdateTimerFrame()
     if timer and (Questie.db.profile.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
         local timeRemainingString = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
         if timeRemainingString ~= nil then
-            Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
+            Questie.Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
 
             timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
             timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
         else
-            Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
+            Questie.Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
             return
         end
     end

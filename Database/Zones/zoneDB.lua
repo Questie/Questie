@@ -69,9 +69,11 @@ function ZoneDB.Initialize()
     end
 
     for areaId, dungeonZoneEntry in pairs(dungeons) do
-        local alternativeDungeonZone = dungeonZoneEntry[2]
-        if alternativeDungeonZone then
-            alternativeDungeonAreaIdToDungeonAreaId[alternativeDungeonZone] = areaId
+        local alternativeDungeonZones = dungeonZoneEntry[2]
+        if alternativeDungeonZones then
+            for _, alternativeDungeonZone in ipairs(alternativeDungeonZones) do
+                alternativeDungeonAreaIdToDungeonAreaId[alternativeDungeonZone] = areaId
+            end
         end
     end
 end
@@ -85,7 +87,7 @@ end
 function ZoneDB:GetUiMapIdByAreaId(areaId)
     local uiMapId = areaIdToUiMapId[areaId]
     if (not uiMapId) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "No UiMapId found for AreaId: " .. tostring(areaId))
+        Questie.Debug(Questie.DEBUG_CRITICAL, "No UiMapId found for AreaId: " .. tostring(areaId))
     end
 
     return uiMapId
@@ -106,7 +108,8 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
     for areaId in pairs(areaIdToUiMapId) do
         local areaName = C_Map.GetAreaInfo(areaId)
         if mapInfo and mapInfo.name == areaName then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":", uiMapId, "by name")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":",
+                uiMapId, "by name")
             return areaId
         end
     end
@@ -153,14 +156,14 @@ end
 ---@param areaId AreaId
 ---@return boolean
 function ZoneDB.IsDungeonZone(areaId)
-    return dungeons[areaId] ~= nil
+    return dungeons[areaId] ~= nil or alternativeDungeonAreaIdToDungeonAreaId[areaId] ~= nil
 end
 
 ---@param areaId AreaId
+---@return AreaId
 function ZoneDB:GetParentZoneId(areaId)
     return alternativeDungeonAreaIdToDungeonAreaId[areaId] or subZoneToParentZone[areaId]
 end
-
 
 -- We keep localized variables outside of the function only used by GetZonesWithQuests
 do
@@ -183,7 +186,6 @@ do
         for questId in pairs(QuestieDB.QuestPointers) do
             if (not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId) then
                 if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
-
                     local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")
                     if requiredSkill and requiredSkill[1] ~= ridingProfession then
                         zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
@@ -283,6 +285,7 @@ function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
 
     return zones
 end
+
 ---@param zones any @ I have no idea what this is does or looks
 ---@param objectIds ObjectId[]
 ---@return any @ Ditto
@@ -386,23 +389,20 @@ function ZoneDB.GetRelevantZones()
     return zones
 end
 
-
-
 ----- Tests -----
 
 function _ZoneDB:RunTests()
     -- Fetch all UiMapIds (WOTLK/TBC, ERA)
     local maps = C_Map.GetMapChildrenInfo(946, nil, true) or C_Map.GetMapChildrenInfo(947, nil, true)
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB")
+    Questie.Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB")
     for _, map in pairs(maps) do
         --- We don't care about World, Continent or Cosmic
         if map.mapType ~= Enum.UIMapType.World and map.mapType ~= Enum.UIMapType.Continent and map.mapType ~= Enum.UIMapType.Cosmic then
             local success, result = pcall(ZoneDB.GetAreaIdByUiMapId, ZoneDB, map.mapID)
             if not success then
-                Questie:Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId fails for " .. map.name .. " (" .. map.mapID .. "). Result: " .. result)
+                Questie.Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId fails for " .. map.name .. " (" .. map.mapID .. "). Result: " .. result)
             end
-
         end
     end
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB done")
+    Questie.Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests") .. "] Testing ZoneDB done")
 end

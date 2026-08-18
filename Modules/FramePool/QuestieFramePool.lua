@@ -19,7 +19,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 -- set pins parent to QuestieFrameGroup for easier compatibility with other addons
 -- cant use this because it fucks with everything, but we gotta stick with HereBeDragonsQuestie anyway
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
-local WAYPOINT_COLOR = { 1, 0.72, 0, 0.5}
+local WAYPOINT_COLOR = {1, 0.72, 0, 0.5}
 
 local numberOfFrames = 0
 
@@ -42,7 +42,8 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     end,
     SetQuest = function(self, id)
         self.questID = id
-        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieLib:GetColoredQuestName(id, Questie.db.profile.enableTooltipsQuestLevel, false))
+        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!",
+            QuestieLib:GetColoredQuestName(id, Questie.db.profile.enableTooltipsQuestLevel, false))
     end,
     OnShow = function(self)
         self:SetFrameStrata("TOOLTIP")
@@ -56,17 +57,15 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 -- Global Functions --
 ---@return IconFrame
 function QuestieFramePool:GetFrame()
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
-
     ---@type IconFrame
     local frame = tremove(unusedFrames)
     if (not frame) then
         numberOfFrames = numberOfFrames + 1
 
-        frame = QuestieFrame:New(numberOfFrames, MapIconTooltip.Show)
+        frame = QuestieFrame.CreateIconFrame(numberOfFrames, MapIconTooltip.Show)
 
         if numberOfFrames > 5000 then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", numberOfFrames)
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", numberOfFrames)
         end
     end
 
@@ -79,14 +78,14 @@ end
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
     if mode then
         for _, icon in pairs(usedFrames) do
-            if (((mini and icon.miniMapIcon) or not mini) and icon.glow) and icon.IsShown and icon:IsShown() then
+            if ((mini and icon.miniMapIcon) or ((not mini) and (not icon.miniMapIcon))) and icon.IsShown and icon:IsShown() then
                 icon:GetScript("OnShow")(icon) -- forces a glow update
             end
         end
     else
         for _, icon in pairs(usedFrames) do
-            if ((mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon)) and icon.glow then
-                icon.glow:Hide()
+            if (mini and icon.miniMapIcon) or ((not mini) and (not icon.miniMapIcon)) then
+                icon.glowTexture:Hide()
             end
         end
     end
@@ -95,7 +94,7 @@ end
 function QuestieFramePool:UpdateColorConfig(mini, enable)
     if enable then
         for _, icon in pairs(usedFrames) do
-            if (mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon) then
+            if (mini and icon.miniMapIcon) or ((not mini) and (not icon.miniMapIcon)) then
                 local colors = {1, 1, 1}
                 if icon.data.IconColor ~= nil then
                     colors = icon.data.IconColor
@@ -105,7 +104,7 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
         end
     else
         for _, icon in pairs(usedFrames) do
-            if (mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon) then
+            if (mini and icon.miniMapIcon) or ((not mini) and (not icon.miniMapIcon)) then
                 icon.texture:SetVertexColor(1, 1, 1, 1)
             end
         end
@@ -166,13 +165,12 @@ local lineFrameCount = 1
 ---@param color number[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color, areaId)
-
     --Create the framepool for lines if it does not already exist.
     if not QuestieFramePool.Routes_Lines then
-        QuestieFramePool.Routes_Lines={}
+        QuestieFramePool.Routes_Lines = {}
     end
     --Names are not stricktly needed, but it is nice for debugging.
-    local frameName = "questieLineFrame".. lineFrameCount;
+    local frameName = "questieLineFrame" .. lineFrameCount;
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
     ---@class LineFrame @A frame that contains the line used in waypoints.
@@ -192,7 +190,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     lineFrame:SetParent(canvas) --This fixes the pan and zoom for lines
     lineFrame:SetFrameLevel(2015) -- This needs to be high, because of the regular WorldMapFrame.ScrollContainer
-    lineFrame:SetFrameStrata("FULLSCREEN")
 
     --How to identify what the frame actually contains, this is not used atm could easily be changed.
     lineFrame.type = "line"
@@ -223,6 +220,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
     end
+
     local line = lineFrame.line or lineFrame:CreateLine();
     lineFrame.line = line;
 
@@ -230,7 +228,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     line.dG = color[2];
     line.dB = color[3];
     line.dA = color[4];
-    line:SetColorTexture(color[1],color[2],color[3],color[4]);
+    line:SetColorTexture(color[1], color[2], color[3], color[4]);
 
     local lineBorder = lineFrame.lineBorder or lineFrame:CreateLine();
     lineFrame.lineBorder = lineBorder;
@@ -239,7 +237,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineBorder.dG = color[2];
     lineBorder.dB = color[3];
     lineBorder.dA = color[4];
-    lineBorder:SetColorTexture(0,0,0,color[4]/2);
+    lineBorder:SetColorTexture(0, 0, 0, color[4] / 2);
 
     -- Set texture coordinates and anchors
     --line:ClearAllPoints();
@@ -255,8 +253,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local framePosX = max(startX, endX) - lineWidth * 2 - width / 2
     local framePosY = min(startY, endY) + lineWidth * 2 + height / 2
 
-    lineFrame:SetHeight(height);
-    lineFrame:SetWidth(width);
+    lineFrame:SetSize(width, height)
     lineFrame:SetPoint("TOPLEFT", canvas, "TOPLEFT", framePosX, framePosY)
 
     line:SetDrawLayer("OVERLAY", -5)
@@ -267,9 +264,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineBorder:SetDrawLayer("OVERLAY", -6)
     lineBorder:SetStartPoint("TOPLEFT", startX - framePosX, startY - framePosY)
     lineBorder:SetEndPoint("TOPLEFT", endX - framePosX, endY - framePosY)
-    lineBorder:SetThickness(lineWidth+2);
-
-    lineFrame:EnableMouse(true)
+    lineBorder:SetThickness(lineWidth + 2);
 
     --- This is needed because HBD will show the icons again after switching zones and stuff like that
     function lineFrame:FakeHide()
@@ -362,21 +357,13 @@ _ReinitFrame = function(frame)
     frame.AreaID = nil;
     frame.UiMapID = nil
 
-    if frame.texture then
-        frame.texture:SetVertexColor(1, 1, 1, 1)
-    end
+    frame.texture:SetVertexColor(1, 1, 1, 1)
     frame:SetAlpha(1) -- party objective icons dim the frame to 0.5; reset so recycled frames (e.g. townsfolk) don't inherit it
     frame.shouldBeShowing = nil
     frame.hidden = nil
 
     if frame.BaseOnShow then
         frame:SetScript("OnShow", frame.BaseOnShow)
-    end
-
-    if frame.BaseOnUpdate then
-        frame.glowLogicTimer = C_Timer.NewTicker(1, frame.BaseOnUpdate);
-    else
-        frame:SetScript("OnUpdate", nil)
     end
 
     if frame.BaseOnHide then

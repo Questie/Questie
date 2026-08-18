@@ -19,7 +19,7 @@ local function SafeAddMessageEventFilter(event, filter)
                 SafeAddMessageEventFilter(event, filter)
             end)
         else
-            Questie:Error("Failed to register chat filter for", event, ":", err)
+            Questie.Error("Failed to register chat filter for", event, ":", err)
         end
     end
 end
@@ -36,7 +36,7 @@ local function SafeRemoveMessageEventFilter(event, filter)
                 SafeRemoveMessageEventFilter(event, filter)
             end)
         else
-            Questie:Error("Failed to remove chat filter for", event, ":", err)
+            Questie.Error("Failed to remove chat filter for", event, ":", err)
         end
     end
 end
@@ -59,7 +59,7 @@ function QuestieShutUp:ToggleFilters(value)
         -- ruRU clients don't have {rt1} so we also want to filter these
         patternRU = "^" .. "{звезда}" .. " Questie%s?: "
         pattern_logo = "^|TInterface\\Addons\\Questie\\Icons\\questie.png:0|t "
-        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle on. Pattern:", pattern)
+        Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle on. Pattern:", pattern)
         SafeAddMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
         SafeAddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieShutUp.FilterFunc)
         SafeAddMessageEventFilter("CHAT_MSG_RAID", QuestieShutUp.FilterFunc)
@@ -67,7 +67,7 @@ function QuestieShutUp:ToggleFilters(value)
         SafeAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", QuestieShutUp.FilterFunc)
         SafeAddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieShutUp.FilterFunc)
     else
-        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle off.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieShutUp toggle off.")
         SafeRemoveMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
         SafeRemoveMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieShutUp.FilterFunc)
         SafeRemoveMessageEventFilter("CHAT_MSG_RAID", QuestieShutUp.FilterFunc)

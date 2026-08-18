@@ -324,7 +324,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
             return
         end
 
@@ -674,6 +674,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.DISABLED_BY then -- disabling quest is active
+                    tinsert(factionTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
+                elseif returnReason == DoableStates.ARENA_RATING then -- missing arena rating
                     tinsert(factionTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1

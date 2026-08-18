@@ -4,6 +4,10 @@ local _QuestieTBCQuestFixes = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
@@ -407,6 +411,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1640] = { -- Beat Bartleby
             [questKeys.preQuestSingle] = {1639,1678,1683,9582},
+        },
+        [1656] = { -- A Task Unfinished
+            [questKeys.requiredLevel] = 1,
         },
         [1658] = { -- Crashing the Wickerman Festival
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,250}},
@@ -2502,9 +2509,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [9524] = { -- Imprisoned in the Citadel
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.objectives] = {{{17290,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [9525] = { -- Imprisoned in the Citadel
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
+            [questKeys.objectives] = {{{17296,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.reputationReward] = {{factionIDs.THRALLMAR,500}},
         },
         [9527] = { -- All That Remains
             [questKeys.preQuestSingle] = {},
@@ -2528,7 +2538,7 @@ function QuestieTBCQuestFixes:Load()
         [9544] = {
             [questKeys.requiredSourceItems] = {23801},
             [questKeys.objectives] = {{{17375,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410019}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",410019}}}},
         },
         [9545] = {
             [questKeys.objectives] = {{{16852,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2596,7 +2606,7 @@ function QuestieTBCQuestFixes:Load()
         [9582] = { -- Strength of One
             [questKeys.requiredSourceItems] = {},
             [questKeys.exclusiveTo] = {1678,1683,1639},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 181849}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 181849}}}},
         },
         [9586] = { -- Help Tavara
             [questKeys.objectives] = {{{17551,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2677,7 +2687,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9630] = { -- Medivh's Journal
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
-            [questKeys.preQuestSingle] = {9837}, -- not 100% sure, but makes sense
         },
         [9634] = { -- Alien Predators
             [questKeys.preQuestSingle] = {},
@@ -2732,7 +2741,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9559},
             [questKeys.extraObjectives] = {
                 {nil,Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}},
-                {nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",181928}}},
+                {nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",181928}}},
             },
             [questKeys.objectives] = {{{17682,nil,Questie.ICON_TYPE_EVENT}}},
         },
@@ -2909,7 +2918,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97}}}},
         },
         [9789] = { -- Clefthoof Mastery
-            [questKeys.breadcrumbs] = {10113,10114},
+            [questKeys.breadcrumbs] = {10113},
         },
         [9796] = {
             [questKeys.requiredLevel] = 62,
@@ -2985,6 +2994,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9853] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 7 Warmaul Skulls to summon Gurok the Usurper"), 0, {{"object", 182182}}}},
+        },
+        [9854] = { -- Windroc Mastery
+            [questKeys.breadcrumbs] = {10114},
         },
         [9863] = {
             [questKeys.requiredMinRep] = {941,0},
@@ -3077,12 +3089,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.requiredSourceItems] = {25490},
             [questKeys.objectives] = {{{18369,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182349}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182349}}}},
         },
         [9924] = { -- Corki's Gone Missing Again!
             [questKeys.requiredSourceItems] = {25509},
             [questKeys.objectives] = {{{20812,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182350}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182350}}}},
         },
         [9927] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -3133,12 +3145,12 @@ function QuestieTBCQuestFixes:Load()
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
             [questKeys.objectives] = {{{18428,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182484}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182484}}}},
         },
         [9955] = { -- Cho'war the Pillager
             [questKeys.requiredSourceItems] = {25648},
             [questKeys.objectives] = {{{18445,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",182521}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",182521}}}},
         },
         [9956] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -3393,8 +3405,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [10114] = { -- The Nesingwary Safari
-            [questKeys.breadcrumbForQuestId] = 9789,
-            [questKeys.nextQuestInChain] = 9789,
+            [questKeys.breadcrumbForQuestId] = 9854,
+            [questKeys.nextQuestInChain] = 9854,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [10119] = { -- Through the Dark Portal
@@ -4036,14 +4048,16 @@ function QuestieTBCQuestFixes:Load()
         [10525] = {
             [questKeys.triggerEnd] = {"Final Thunderlord artifact discovered", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{52.76,58.89}}}},
         },
-        [10526] = {
+        [10526] = { -- The Thunderspike
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Attempt to loot The Thunderspike"), 0, {{"object", 184729}}}},
+            [questKeys.nextQuestInChain] = 10718,
         },
         [10528] = { -- Demonic Crystal Prisons
             [questKeys.nextQuestInChain] = 10537,
         },
         [10530] = { -- The Hunter's Path
             [questKeys.breadcrumbForQuestId] = 9484,
+            [questKeys.requiredLevel] = 10,
         },
         [10540] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{30,57}}}, Questie.ICON_TYPE_EVENT, l10n("Walk with your Spirit Hunter")}},
@@ -4086,16 +4100,27 @@ function QuestieTBCQuestFixes:Load()
         },
         [10565] = { -- The Stones of Vekh'nir
             [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.81,74.67}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Vekh'nir Crystal")}},
+            [questKeys.nextQuestInChain] = 10566,
         },
         [10566] = { -- Trial and Error
             [questKeys.objectives] = {{{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT},{21254,nil,Questie.ICON_TYPE_INTERACT}}}, -- Yes, this is correct. The quest requires you to use four wands on the same NPC.
             [questKeys.requiredSourceItems] = {30651,30652,30653,30654,30655},
         },
         [10567] = { -- Creating the Pendant
+            [questKeys.disabledByQuest] = 10615,
             [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{64.48,33.11}}}, Questie.ICON_TYPE_EVENT, l10n("Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven")}},
         },
         [10570] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bundle of Bloodthistle at the end of the bridge"), 0, {{"object", 184841}}}},
+        },
+        [10571] = { -- Oronu the Elder
+            [questKeys.exclusiveTo] = {10684},
+        },
+        [10574] = { -- The Ashtongue Corruptors
+            [questKeys.exclusiveTo] = {10685},
+        },
+        [10575] = { -- The Warden's Cage
+            [questKeys.exclusiveTo] = {10686},
         },
         [10577] = {
             [questKeys.objectives] = {{{20563,nil,Questie.ICON_TYPE_TALK}}},
@@ -4168,6 +4193,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10624] = { -- A Haunted History
             [questKeys.breadcrumbs] = {11046},
+        },
+        [10627] = { -- Capture the Weapons
+            [questKeys.nextQuestInChain] = 10663,
         },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill some Deranged Helboars"), 0, {{"monster", 16863}}},
@@ -4272,6 +4300,15 @@ function QuestieTBCQuestFixes:Load()
         [10683] = {
             [questKeys.preQuestSingle] = {10552},
         },
+        [10684] = { -- Oronu the Elder
+            [questKeys.exclusiveTo] = {10571},
+        },
+        [10685] = { -- The Ashtongue Corruptors
+            [questKeys.exclusiveTo] = {10574},
+        },
+        [10686] = { -- The Warden's Cage
+            [questKeys.exclusiveTo] = {10575},
+        },
         [10687] = {
             [questKeys.preQuestSingle] = {10552},
         },
@@ -4304,6 +4341,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10714] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{22160,22384},22160,nil,Questie.ICON_TYPE_EVENT}}},
+        },
+        [10715] = { -- Into the Churning Gulch
+            [questKeys.nextQuestInChain] = 10749,
         },
         [10719] = { -- Did You Get The Note?
             [questKeys.preQuestSingle] = {10682},
@@ -4556,7 +4596,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10852] = { -- Missing Friends
             [questKeys.objectives] = {{{22314,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",185202}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",185202}}}},
             [questKeys.requiredSourceItems] = {31655},
         },
         [10854] = {
@@ -4584,6 +4624,9 @@ function QuestieTBCQuestFixes:Load()
         [10863] = { -- Secrets of the Arakkoa
             [questKeys.exclusiveTo] = {10862},
             [questKeys.breadcrumbForQuestId] = 10847,
+        },
+        [10865] = { -- There Can Be Only One Response
+            [questKeys.nextQuestInChain] = 10867,
         },
         [10866] = { -- Zuluhed the Whacked
             [questKeys.objectives] = {nil,{{185156}},nil,nil,{{{11980},11980}}},
@@ -4877,7 +4920,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10983] = { -- Mog'dorg the Wizened
             [questKeys.breadcrumbs] = {10984},
-            [questKeys.nextQuestInChain] = 10995,
         },
         [10984] = { -- Speak with the Ogre
             [questKeys.nextQuestInChain] = 10983,
@@ -4889,9 +4931,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10987] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use the Sparrowhawk Net to capture a Wild Sparrowhawk"), 0, {{"monster", 22979}}}},
-        },
-        [10989] = { -- Mog'dorg the Wizened
-            [questKeys.nextQuestInChain] = 10995,
         },
         [10990] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat the Guardian of the Eagle and obtain the Essence of the Eagle"), 0, {{"object", 185547}}}},
@@ -4923,20 +4962,11 @@ function QuestieTBCQuestFixes:Load()
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Skulloc's Soul"), 0, {{"monster", 22910}}},
             },
         },
-        [11002] = {
-            [questKeys.startedBy] = {nil,nil,{32385}},
-        },
-        [11003] = {
-            [questKeys.startedBy] = {nil,nil,{32386}},
-        },
         [11004] = { -- World of Shadows
             [questKeys.nextQuestInChain] = 11006,
         },
         [11005] = { -- Secrets of the Talonpriests
             [questKeys.requiredLevel] = 70,
-        },
-        [11007] = {
-            [questKeys.startedBy] = {nil,nil,{32405}},
         },
         [11008] = { -- Fires Over Skettis
             [questKeys.objectives] = {nil,{{185549}}},
@@ -5121,7 +5151,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{21700}},
             [questKeys.finishedBy] = {{18481}},
             [questKeys.requiredLevel] = 68,
-            [questKeys.preQuestSingle] = {11707},
+            [questKeys.preQuestSingle] = {10707},
             [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
         },
@@ -5130,7 +5160,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11057] = { -- The Trouble Below
             [questKeys.requiredLevel] = 70,
-            [questKeys.nextQuestInChain] = 10995,
         },
         [11058] = {
             [questKeys.objectives] = {nil,{{185890}}},
@@ -5369,7 +5398,7 @@ function QuestieTBCQuestFixes:Load()
         [11145] = {
             [questKeys.requiredSourceItems] = {33061},
             [questKeys.objectives] = {{{23720,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",410020}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",410020}}}},
         },
         [11146] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -5456,6 +5485,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 9825,
             [questKeys.breadcrumbForQuestId] = 9825,
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN,
+            [questKeys.reputationReward] = {{factionIDs.THE_VIOLET_EYE,5}},
         },
         [11219] = { -- Stop the Fires!
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.12,43.59},{53.21,42.56},{51.58,42.08}},[zoneIDs.TIRISFAL_GLADES]={{60.32,53.29},{61.11,51.25},{61.64,51.97}},[zoneIDs.EVERSONG_WOODS]={{47.76,47.3},{48.21,46.16}}}},
@@ -8191,6 +8221,42 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.BLASTED_LANDS,
         },
         ----- TBC Anniversary quests -----
+        [95158] = { -- Reset Current Rating - 2v2
+            [questKeys.name] = "Reset Current Rating - 2v2",
+            [questKeys.startedBy] = {{18897,19856}},
+            [questKeys.finishedBy] = {{18897,19856}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Pay 40 gold to an Arena Organizer to reset Current 2v2 Arena Rating back to 1500."},
+            [questKeys.zoneOrSort] = zoneIDs.THE_RING_OF_TRIALS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
+        [95251] = { -- Reset Current Rating - 3v3
+            [questKeys.name] = "Reset Current Rating - 3v3",
+            [questKeys.startedBy] = {{18897,19856}},
+            [questKeys.finishedBy] = {{18897,19856}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Pay 40 gold to an Arena Organizer to reset Current 3v3 Arena Rating back to 1500."},
+            [questKeys.zoneOrSort] = zoneIDs.THE_RING_OF_TRIALS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
+        [95252] = { -- Reset Current Rating - 5v5
+            [questKeys.name] = "Reset Current Rating - 5v5",
+            [questKeys.startedBy] = {{18897,19856}},
+            [questKeys.finishedBy] = {{18897,19856}},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Pay 40 gold to an Arena Organizer to reset Current 5v5 Arena Rating back to 1500."},
+            [questKeys.zoneOrSort] = zoneIDs.THE_RING_OF_TRIALS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.questFlags] = questFlags.WEEKLY,
+        },
         [95455] = { -- Concerted Efforts
             [questKeys.name] = "Concerted Efforts",
             [questKeys.startedBy] = {{15351}},
@@ -8739,4 +8805,18 @@ function QuestieTBCQuestFixes:LoadFactionFixes()
     else
         return questFixesAlliance
     end
+end
+
+-- Use ContentPhases to apply corrections specific to the current content phase
+function QuestieTBCQuestFixes:LoadContentPhaseFixes()
+    local questKeys = QuestieDB.questKeys
+    return {
+        [10944] = { -- The Secret Compromised
+            [questKeys.preQuestGroup] = Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 3 and {10901,11052} or {}, -- SSC + TK attunements removed in P3
+            [questKeys.preQuestSingle] = Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 3 and {} or {10708,11052}, -- SSC + TK attunements removed in P3
+        },
+        [11007] = { -- Kael'thas and the Verdant Sphere
+            [questKeys.preQuestSingle] = Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 3 and {10888} or {}, -- SSC + TK attunements removed in P3
+        },
+    }
 end

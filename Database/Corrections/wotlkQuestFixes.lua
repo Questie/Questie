@@ -8945,6 +8945,30 @@ function QuestieWotlkQuestFixes:LoadTitanReforgedFixes()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11132] = { -- Promises, Promises...
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11163] = { -- Undercover Sister
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11164] = { -- Tuskin' Raiders
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11165] = { -- A Troll Among Trolls
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11166] = { -- X Marks... Your Doom!
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
+        [11171] = { -- Hex Lord? Hah!
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [11178] = { -- Blood of the Warlord
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,

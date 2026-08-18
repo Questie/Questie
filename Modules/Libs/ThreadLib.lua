@@ -30,7 +30,7 @@ local function CallProfilingCallback(callbacks, callbackName, ...)
     -- Lua 5.1 cannot yield across pcall's C boundary; this isolates failures and forbids observer yields through the scheduler.
     local success, callbackError = pcall(callback, ...)
     if not success then
-        Questie:Error("ThreadLib profiling callback failed", callbackName, callbackError)
+        Questie.Error("ThreadLib profiling callback failed", callbackName, callbackError)
     end
 end
 
@@ -63,10 +63,11 @@ end
 ---@param delay integer @Anything below 0.05 is each frame
 ---@param errorMessage string? @What is the "Prepend" of the error message
 ---@param callbackFunction function? @Function to call when the thread is done
+---@param errorCallback function? @Function to call when the coroutine errors; receives the error message string
 ---@param threadName string? @Stable operation name for profiling this job
 ---@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
 ---@return thread Thread @The coroutine thread
-function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction, threadName)
+function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction, errorCallback, threadName)
   if lType(threadFunction) ~= "function" then
     error("ThreadLib:Thread: threadFunction is not a function")
   end
@@ -76,8 +77,11 @@ function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction,
   if errorMessage and lType(errorMessage) ~= "string" then
     error("ThreadLib:Thread: errorMessage is not a string")
   end
-  if callbackFunction and lType(callbackFunction) ~= "function" then
+  if callbackFunction and lType(callbackFunction) ~= "function" and (lType(callbackFunction) ~= "table" or not getmetatable(callbackFunction).__call) then
     error("ThreadLib:Thread: callbackFunction is not a function")
+  end
+  if errorCallback and lType(errorCallback) ~= "function" and (lType(errorCallback) ~= "table" or not getmetatable(errorCallback).__call) then
+    error("ThreadLib:Thread: errorCallback is not a function")
   end
   if threadName ~= nil and lType(threadName) ~= "string" then
     error("ThreadLib:Thread: threadName is not a string")
@@ -113,8 +117,11 @@ function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction,
         -- Something in the coroutine went wrong, print the error and stop the timer
         if not success then
             local stack = debugstack(thread)
-            Questie:Error(errorMessage or "Error in thread", ret, "\n", stack)
+            Questie.Error(errorMessage or "Error in thread", ret, "\n", stack)
             timer:Cancel();
+            if errorCallback then
+                errorCallback(ret)
+            end
         end
       elseif (coStatus(thread) == "dead") then --It's faster not to lookup the value but instead have it here
         timer:Cancel();
@@ -208,7 +215,7 @@ end
         local success, ret = coResume(newThread._thread)
         -- Something in the coroutine went wrong, print the error and stop the timer
         if not success then
-            Questie:Error(errorMessage or "Error in thread", ret)
+            Questie.Error(errorMessage or "Error in thread", ret)
             newThread._timer:Cancel();
         end
       elseif (coStatus(newThread._thread) == "dead") then --It's faster not to lookup the value but instead have it here

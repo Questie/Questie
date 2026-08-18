@@ -32,7 +32,7 @@ local function SafeAddMessageEventFilter(event, filter)
                 SafeAddMessageEventFilter(event, filter)
             end)
         else
-            Questie:Error("Failed to register chat filter for", event, ":", err)
+            Questie.Error("Failed to register chat filter for", event, ":", err)
         end
     end
 end
@@ -184,7 +184,7 @@ end
 ---@param message string
 ---@param localMessage? string
 function _QuestieAnnounce:AnnounceToChannel(message, localMessage)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
     if (not message) or alreadySentBandaid[message] or Questie.db.profile.questieShutUp then
         return
     end

@@ -658,7 +658,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
             elseif stringsub(searchText, 1, 4) == "|cff" then
                 -- This should be impossible to reach, since when you see an item link in the game the item should
                 -- be cached already which would be caught by the condition above
-                Questie:Debug(Questie.DEBUG_DEVELOP, "Search with link of an uncached item")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "Search with link of an uncached item")
             else
                 -- Normal search
                 local text = string.trim(searchText, " \n\r\t[]");

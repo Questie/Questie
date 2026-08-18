@@ -1302,6 +1302,9 @@ function QuestieQuestBlacklist:Load()
         [96254] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
+        [95158] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95251] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95252] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
         [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
         [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
 
@@ -5770,6 +5773,7 @@ function QuestieQuestBlacklist:Load()
         [25902] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25903] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [26104] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26016] = Expansions.Current >= Expansions.MoP, -- Not in MoP
         [26109] = true, -- Not in the game
         [26119] = true, -- Hidden quest
         [26123] = true, -- Not in the game
@@ -7088,19 +7092,19 @@ function QuestieQuestBlacklist:Load()
     }
 
     if Questie.IsSoD then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoD...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoD...")
         questsToBlacklist = ContentPhases.BlacklistSoDQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoD)
     elseif Questie.IsTBC then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for TBC...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for TBC...")
         questsToBlacklist = ContentPhases.BlacklistTbcQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.TBC)
     elseif Questie.IsAnniversaryEra or Questie.IsAnniversaryHardcore then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary Era/Hardcore...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary Era/Hardcore...")
         questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
         questsToBlacklist = ContentPhases.BlacklistSoMQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
     elseif Questie.IsMoP then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for MoP...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for MoP...")
         questsToBlacklist = ContentPhases.BlacklistMoPQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.MoP)
     end
 
@@ -7922,7 +7926,7 @@ end
 
 ---@return table<QuestId, boolean>
 function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
     return {
         -- Professions
         [14103] = true, -- Titanium Powder

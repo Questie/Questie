@@ -2639,9 +2639,6 @@ function QuestieQuestFixes:Load()
         [4143] = { -- Haze of Evil
             [questKeys.nextQuestInChain] = 4144,
         },
-        [4144] = {
-            [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1590
-        },
         [4146] = { -- Zapper Fuel
             [questKeys.zoneOrSort] = zoneIDs.UN_GORO_CRATER,
             [questKeys.nextQuestInChain] = 4148,
@@ -3087,7 +3084,7 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {5142, 5601},
         },
         [5151] = { -- Hypercapacitor Gizmo
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 176195}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 176195}}}},
         },
         [5156] = {
             [questKeys.triggerEnd] = {"Explore the craters in Shatter Scar Vale", {[zoneIDs.FELWOOD] = {{41.03, 41.96}}}},

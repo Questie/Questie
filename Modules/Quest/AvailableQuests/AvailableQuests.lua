@@ -21,8 +21,10 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type Comms
-local Comms = QuestieLoader:ImportModule("Comms")
+---@type DailyQuestComms
+local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
+---@type DailyQuestCommsBlacklist
+local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
 
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
@@ -30,9 +32,20 @@ local tinsert = table.insert
 
 local QUESTS_PER_YIELD = 24
 
---- Used to keep track of the active timer for CalculateAndDrawAll
----@type Ticker|nil
-local timer
+--- When CalculateAndDrawAll is called while a pass is already running, we queue a follow-up
+--- pass instead of cancelling the running one. This prevents a burst of concurrent callers
+--- (turn-in event + reputation event etc.) from repeatedly cancelling each other mid-pass
+--- so that a draw pass always runs to completion.
+--- true = another pass must start once the current one finishes.
+local passQueued = false
+
+--- true while a ThreadLib pass coroutine is alive.
+local passRunning = false
+
+--- Callbacks accumulated from callers that arrived while a pass was in flight.
+--- They are all invoked after the next completed pass.
+---@type function[]
+local pendingCallbacks = {}
 
 -- Keep track of all available quests to unload undoable when abandoning a quest
 ---@type table<QuestId, boolean>
@@ -47,14 +60,23 @@ AvailableQuests.__availableQuestsByNpc = availableQuestsByNpc
 ---@type table<QuestId, boolean>
 local unavailableQuestsDeterminedByTalking
 
+--- Unavailable daily/weekly quests grouped by NPC, used to answer requests from guild/party members
+---@type table<NpcId, table<QuestId, boolean>>
+local unavailableDailyQuestsByNpc
+
 local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC
+local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC, _ScheduleDailyResetTimer
+
+-- Exposed for testing only
+AvailableQuests.__getPassState = function()
+    return passRunning, passQueued
+end
 
 function AvailableQuests.Initialize()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "AvailableQuests: Initialize")
     dungeons = ZoneDB:GetDungeons()
     playerFaction = UnitFactionGroup("player")
 
@@ -64,20 +86,122 @@ function AvailableQuests.Initialize()
     end
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
     AvailableQuests.__unavailableQuestsDeterminedByTalking = unavailableQuestsDeterminedByTalking
+
+    if (not Questie.db.global.unavailableDailyQuestsByNpc[realmName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
+        Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}
+    end
+    unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
+    AvailableQuests.__unavailableDailyQuestsByNpc = unavailableDailyQuestsByNpc
+
+    if (not Questie.IsClassic) then
+        _ScheduleDailyResetTimer()
+    end
+end
+
+--- Clears both unavailable quest tables for the current realm (triggered by daily reset).
+function AvailableQuests.ClearUnavailableDailyQuests()
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[AvailableQuests.ClearUnavailableDailyQuests]")
+
+    local realmName = GetRealmName()
+    Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
+    Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}
+    unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
+    unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
+end
+
+--- Schedules a one-shot timer to fire at the next daily reset time, then reschedules itself for the next reset.
+_ScheduleDailyResetTimer = function()
+    local realmName = GetRealmName()
+    local lastKnownReset = Questie.db.global.lastKnownDailyReset[realmName]
+    local now = GetServerTime()
+    local delay
+
+    if lastKnownReset then
+        delay = lastKnownReset - now + 5 -- +5 seconds safety margin
+    else
+        -- First login, calculate delay to next reset from current time
+        delay = GetQuestResetTime() + 5
+    end
+
+    if delay < 0 then
+        -- Reset already happened; clear and reschedule immediately
+        delay = 1
+    end
+
+    C_Timer.After(delay, function()
+        AvailableQuests.ClearUnavailableDailyQuests()
+        QuestieLib.UpdateLastKnownDailyReset()
+        _ScheduleDailyResetTimer() -- Reschedule for the next reset
+
+        if QuestieDB.QuestPointers then
+            -- We don't want to do this while the database is compiling. This happens after updating Questie on the first login of the day
+            AvailableQuests.CalculateAndDrawAll()
+        end
+    end)
+end
+
+---Returns all unavailable daily/weekly quests grouped by NPC, for broadcasting to guild/party members.
+---@return table<NpcId, QuestId[]>
+function AvailableQuests.GetUnavailableDailyQuests()
+    local result = {}
+    for npcId, questIds in pairs(unavailableDailyQuestsByNpc) do
+        local list = {}
+        for questId in pairs(questIds) do
+            list[#list + 1] = questId
+        end
+        if #list > 0 then
+            result[npcId] = list
+        end
+    end
+    return result
+end
+
+--- Starts a fresh draw pass, draining any accumulated pending callbacks as the
+--- ThreadLib completion callback so they fire once the new pass finishes.
+local function _StartPass()
+    passQueued = false
+    passRunning = true
+    local callbacks = pendingCallbacks
+    pendingCallbacks = {}
+    ThreadLib.Thread(_CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", function()
+        passRunning = false
+
+        for i = 1, #callbacks do
+            local success, err = pcall(callbacks[i])
+            if (not success) then
+                Questie.Error("Error in AvailableQuests.CalculateAndDrawAll callback", err)
+            end
+        end
+        -- If another CalculateAndDrawAll arrived while this pass was running, start it now.
+        if passQueued then
+            _StartPass()
+        end
+    end, function()
+        -- The coroutine errored: reset state and start any queued pass.
+        -- Callbacks are intentionally skipped — the draw was incomplete.
+        passRunning = false
+        if passQueued then
+            _StartPass()
+        end
+    end, "AvailableQuests.CalculateAndDrawAll")
 end
 
 ---@param callback function | nil
 function AvailableQuests.CalculateAndDrawAll(callback)
-    Questie:Debug(Questie.DEBUG_INFO, "[AvailableQuests.CalculateAndDrawAll]")
+    Questie.Debug(Questie.DEBUG_INFO, "[AvailableQuests.CalculateAndDrawAll]")
 
-    --? Cancel the previously running timer to not have multiple running at the same time
-    if timer then
-        timer:Cancel()
+    if callback then
+        pendingCallbacks[#pendingCallbacks + 1] = callback
     end
-    timer = ThreadLib.Thread(
-        _CalculateAndDrawAvailableQuests, 0, "Error in AvailableQuests.CalculateAndDrawAll", callback,
-        "AvailableQuests.CalculateAndDrawAll"
-    )
+
+    if passRunning then
+        -- A pass is already running. Queue a follow-up so the running pass is not
+        -- cancelled mid-flight; it will start once the current pass completes.
+        passQueued = true
+        return
+    end
+
+    _StartPass()
 end
 
 --Draw a single available quest, it is used by the CalculateAndDrawAll function.
@@ -94,7 +218,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not item) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie:Error("Item not found for quest", quest.Id, "Item ID:", items[i], "- Please report this on Github or Discord!")
+                Questie.Error("Item not found for quest", quest.Id, "Item ID:", items[i], "- Please report this on Github or Discord!")
                 return
             end
 
@@ -127,7 +251,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not obj) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie:Error("Object not found for quest", quest.Id, "Object ID:", gameObjects[i], "- Please report this on Github or Discord!")
+                Questie.Error("Object not found for quest", quest.Id, "Object ID:", gameObjects[i], "- Please report this on Github or Discord!")
                 return
             end
 
@@ -145,7 +269,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not npc) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie:Error("NPC not found for quest", quest.Id, "NPC ID:", npcs[i], "- Please report this on Github or Discord!")
+                Questie.Error("NPC not found for quest", quest.Id, "NPC ID:", npcs[i], "- Please report this on Github or Discord!")
                 return
             end
 
@@ -211,6 +335,11 @@ function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
             availableQuestsByNpc[npcId][questId] = nil
         end
         unavailableQuestsDeterminedByTalking[questId] = true
+
+        if (not unavailableDailyQuestsByNpc[npcId]) then
+            unavailableDailyQuestsByNpc[npcId] = {}
+        end
+        unavailableDailyQuestsByNpc[npcId][questId] = true
     end
 end
 
@@ -241,6 +370,9 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
         local questId = gossipQuest.questID
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
+            if unavailableDailyQuestsByNpc[npcId] then
+                unavailableDailyQuestsByNpc[npcId][questId] = nil
+            end
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
@@ -268,7 +400,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
             end
         end
 
-        if (not isAvailableInGossip) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not isAvailableInGossip) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -276,7 +408,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
     end
 
     if next(unavailableQuestsToBroadcast) then
-        Comms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
+        DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -311,6 +443,9 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
     -- validate quest is not incorrectly hidden
     if unavailableQuestsDeterminedByTalking[availableQuestId] then
         unavailableQuestsDeterminedByTalking[availableQuestId] = nil
+        if unavailableDailyQuestsByNpc[npcId] then
+            unavailableDailyQuestsByNpc[npcId][availableQuestId] = nil
+        end
         local quest = QuestieDB.GetQuest(availableQuestId)
         if quest then
             availableQuests[availableQuestId] = true
@@ -320,7 +455,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if questId ~= availableQuestId and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if questId ~= availableQuestId and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -328,7 +463,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
     end
 
     if next(unavailableQuestsToBroadcast) then
-        Comms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
+        DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -379,6 +514,9 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     for questId in pairs(availableQuestsInGreeting) do
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
+            if unavailableDailyQuestsByNpc[npcId] then
+                unavailableDailyQuestsByNpc[npcId][questId] = nil
+            end
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
@@ -389,7 +527,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if (not availableQuestsInGreeting[questId]) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not availableQuestsInGreeting[questId]) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -397,7 +535,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     end
 
     if next(unavailableQuestsToBroadcast) then
-        Comms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
+        DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -584,7 +722,7 @@ _DrawAvailableQuest = function(questId)
         end
 
         AvailableQuests.DrawAvailableQuest(quest)
-    end, 0, nil, nil, "_DrawAvailableQuest")
+    end, 0, nil, nil, nil, "_DrawAvailableQuest")
 end
 
 ---@param starter Object|NPC Either an object or an NPC from QuestieDB.
@@ -721,4 +859,9 @@ end
 _MarkQuestAsUnavailableFromNPC = function(questId, npcId)
     unavailableQuestsDeterminedByTalking[questId] = true
     availableQuestsByNpc[npcId][questId] = nil
+
+    if (not unavailableDailyQuestsByNpc[npcId]) then
+        unavailableDailyQuestsByNpc[npcId] = {}
+    end
+    unavailableDailyQuestsByNpc[npcId][questId] = true
 end

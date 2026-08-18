@@ -1078,7 +1078,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestSingle] = {29553},
             [questKeys.requiredSourceItems] = {74260},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{55490,55201},55490,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Open the cage"), 0, {{"object", 209586}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the cage"), 0, {{"object", 209586}}}},
         },
         [29560] = { -- Ancient Power
             [questKeys.preQuestSingle] = {29553},
@@ -2880,7 +2880,7 @@ function MopQuestFixes.Load()
             [questKeys.exclusiveTo] = {30481},
             [questKeys.requiredMinRep] = {factionIDs.GOLDEN_LOTUS,9000},
             [questKeys.objectives] = {nil,nil,{{85582}},nil,{{{63640,63651,63652,63653,63654,63655,63656,63657},63640,nil,Questie.ICON_TYPE_EVENT}}}, -- 63651,63655 -> 63657 are the NPCs after you rescue them
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213289}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",213289}}}},
             [questKeys.reputationReward] = {{factionIDs.GOLDEN_LOTUS,33}},
         },
         [30301] = { -- Offering a Warm Welcome
@@ -3825,7 +3825,7 @@ function MopQuestFixes.Load()
         [30568] = { -- Helping the Cause
             [questKeys.preQuestSingle] = {30000},
             [questKeys.objectives] = {{{59572},{59562},{59609,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),2,{{"monster",59563}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),2,{{"monster",59563}}}},
         },
         [30569] = { -- Trouble on the Farmstead
             [questKeys.preQuestSingle] = {30514},
@@ -3939,7 +3939,7 @@ function MopQuestFixes.Load()
         [30608] = { -- The Snackrifice
             [questKeys.preQuestSingle] = {30605},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{60027,60012},60012,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211307}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",211307}}}},
         },
         [30610] = { -- Grummle! Grummle! Grummle!
             [questKeys.preQuestSingle] = {},
@@ -4376,7 +4376,7 @@ function MopQuestFixes.Load()
             [questKeys.preQuestGroup] = {30769,30770,30771},
             [questKeys.requiredSourceItems] = {81178},
             [questKeys.objectives] = {{{60730,nil,Questie.ICON_TYPE_EVENT},{60899,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211511}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",211511}}}},
         },
         [30775] = { -- The Exile
             [questKeys.preQuestGroup] = {30769,30770,30771},
@@ -4739,7 +4739,7 @@ function MopQuestFixes.Load()
         },
         [30984] = { -- No Orc Left Behind
             [questKeys.objectives] = {nil,nil,nil,nil,{{{61680,61780,61790},61680,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211883}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",211883}}}},
         },
         [30987] = { -- Joining the Alliance
             [questKeys.requiredLevel] = 5,
@@ -4773,7 +4773,7 @@ function MopQuestFixes.Load()
         },
         [30995] = { -- No Man Left Behind
             [questKeys.objectives] = {nil,nil,nil,nil,{{{61788,61780,61790},61788,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",211883}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",211883}}}},
         },
         [30999] = { -- Path Less Traveled
             [questKeys.preQuestSingle] = {},
@@ -4941,7 +4941,7 @@ function MopQuestFixes.Load()
         },
         [31046] = { -- Little Hatchlings
             [questKeys.objectives] = {{{62567,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",213571}}}}, -- there are way more object ids, but 1 should be enough
             [questKeys.questFlags] = questFlags.DAILY,
         },
         [31047] = { -- Born Free -- i saw this quest being offered early. last order 31042 31105 31043 31047. turn in 31047 first, see what happens
@@ -6928,7 +6928,7 @@ function MopQuestFixes.Load()
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredSpell] = 115913,
             [questKeys.objectives] = {{{65868,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",214948}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",214948}}}},
         },
         [31760] = { -- Striking First
             [questKeys.startedBy] = {{58465}},
@@ -8227,7 +8227,7 @@ function MopQuestFixes.Load()
         },
         [32220] = { -- Soul Surrender
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",217768}}}},
             [questKeys.reputationReward] = {{factionIDs.SUNREAVER_ONSLAUGHT, 4}},
             -- [questKeys.preQuestSingle] = {32680}, -- stage 1, replaced in stage 2
             [questKeys.preQuestSingle] = {32259},
@@ -9214,7 +9214,7 @@ function MopQuestFixes.Load()
         },
         [32526] = { -- Soul Surrender
             [questKeys.objectives] = {nil,nil,nil,nil,{{{69265,69267,69305,69444,69426},69426,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",217768}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",217768}}}},
             [questKeys.reputationReward] = {{factionIDs.KIRIN_TOR_OFFENSIVE, 4}},
             -- [questKeys.preQuestSingle] = {32681}, stage 1, replaced in stage 2
             [questKeys.preQuestSingle] = {32260},
@@ -9917,7 +9917,7 @@ function MopQuestFixes.Load()
         [32814] = { -- Battle of Razor Hill
             [questKeys.startedBy] = {{71148}},
             [questKeys.objectives] = {{{71131},{71292},{71293}},nil,nil,nil,{{{3169,3706,71263},71263,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_INTERACT,l10n("Open the cage"),0,{{"object",220092}}}},
+            [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_OBJECT,l10n("Open the cage"),0,{{"object",220092}}}},
         },
         [32815] = { -- The Old Seer
             [questKeys.startedBy] = {{61962}},

@@ -135,6 +135,8 @@ do
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
             addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
+
+            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadContentPhaseFixes())
         end
 
         -- WOTLK Corrections
@@ -240,8 +242,8 @@ local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, 
             if validationTables and QuestieDB[databaseTableName][id] then
                 if value and QuestieLib.equals(QuestieDB[databaseTableName][id][key], value) and validationTables[databaseTableName][id] and
                     QuestieLib.equals(validationTables[databaseTableName][id][key], value) then
-                    Questie:Warning("Correction of " ..
-                                    databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
+                    Questie.Warning("Correction of " ..
+                        databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
                 end
             end
             if QuestieDB[databaseTableName][id] then

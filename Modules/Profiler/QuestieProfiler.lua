@@ -960,7 +960,7 @@ local function RegisterLoadTimingImport()
         end
         local imported, importError = pcall(QuestieProfiler.ImportLoadTimings, QuestieProfiler)
         if not imported then
-            Questie:Error("QuestieProfiler failed to import load timings", importError)
+            Questie.Error("QuestieProfiler failed to import load timings", importError)
         end
     end)
 end
@@ -1140,12 +1140,12 @@ local function StartProfilingSession(showUI)
         if showUI ~= false then
             local uiShown, showError = pcall(QuestieProfiler.ShowUI, QuestieProfiler)
             if not uiShown then
-                Questie:Error("QuestieProfiler failed to show its UI", showError)
+                Questie.Error("QuestieProfiler failed to show its UI", showError)
             end
         else
             local uiHidden, hideError = pcall(QuestieProfiler.HideUI, QuestieProfiler)
             if not uiHidden then
-                Questie:Error("QuestieProfiler failed to hide its UI", hideError)
+                Questie.Error("QuestieProfiler failed to hide its UI", hideError)
             end
         end
         return true
@@ -1154,7 +1154,7 @@ local function StartProfilingSession(showUI)
     -- Said out loud rather than failing quietly: the player asked for a profiling session, and "nothing
     -- happened" is a worse answer than a line in chat naming the reason.
     if not Now then
-        Questie:Error("QuestieProfiler cannot run: this client has no GetTimePreciseSec")
+        Questie.Error("QuestieProfiler cannot run: this client has no GetTimePreciseSec")
         return false
     end
     -- Claim callback ownership before resetting prior results, then install active callbacks only after state is ready.
@@ -1176,26 +1176,26 @@ local function StartProfilingSession(showUI)
     -- than destroying the only record of it. The UI hides the rows instead, which is reversible.
     local imported, importError = pcall(QuestieProfiler.ImportLoadTimings, QuestieProfiler)
     if not imported then
-        Questie:Error("QuestieProfiler failed to import load timings", importError)
+        Questie.Error("QuestieProfiler failed to import load timings", importError)
     end
 
     -- Showing first gives immediate feedback while the bounded module traversal installs the function wrappers.
     if showUI ~= false then
         local uiShown, showError = pcall(QuestieProfiler.ShowUI, QuestieProfiler)
         if not uiShown then
-            Questie:Error("QuestieProfiler failed to show its UI", showError)
+            Questie.Error("QuestieProfiler failed to show its UI", showError)
         end
     else
         local uiHidden, hideError = pcall(QuestieProfiler.HideUI, QuestieProfiler)
         if not uiHidden then
-            Questie:Error("QuestieProfiler failed to hide its UI", hideError)
+            Questie.Error("QuestieProfiler failed to hide its UI", hideError)
         end
     end
 
     local hooksRefreshed, refreshError = pcall(QuestieProfiler.RefreshHooks, QuestieProfiler)
     if not hooksRefreshed then
         QuestieProfiler:Unhook()
-        Questie:Error("QuestieProfiler failed to install hooks", refreshError)
+        Questie.Error("QuestieProfiler failed to install hooks", refreshError)
         return false
     end
     return true

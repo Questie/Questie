@@ -135,7 +135,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             Questie.db.char.vendorList[key]
 
     if (not ids) then
-        Questie:Debug(Questie.DEBUG_INFO, "Invalid townsfolk key", tostring(key))
+        Questie.Debug(Questie.DEBUG_INFO, "Invalid townsfolk key", tostring(key))
         return
     end
 
@@ -272,35 +272,6 @@ local secondaryProfessions = {
     [professionKeys.FISHING] = true
 }
 
-function QuestieMenu.buildTailoringSubmenu()
-    return {
-        {
-            text = l10n(QuestieProfessions:GetProfessionName(professionKeys.TAILORING)),
-            func = function()
-                Questie.db.profile.townsfolkConfig[professionKeys.TAILORING] = not Questie.db.profile.townsfolkConfig[professionKeys.TAILORING]
-                toggle(professionKeys.TAILORING)
-            end,
-            icon = _townsfolk_texturemap[professionKeys.TAILORING],
-            notCheckable = false,
-            checked = Questie.db.profile.townsfolkConfig[professionKeys.TAILORING],
-            isNotRadio = true,
-            keepShownOnClick = true
-        },
-        {
-            text = l10n("Moonwell"),
-            func = function()
-                Questie.db.profile.townsfolkConfig["Moonwell"] = not Questie.db.profile.townsfolkConfig["Moonwell"]
-                toggle("Moonwell")
-            end,
-            icon = "Interface\\Icons\\inv_fabric_moonrag_01",
-            notCheckable = false,
-            checked = Questie.db.profile.townsfolkConfig["Moonwell"],
-            isNotRadio = true,
-            keepShownOnClick = true
-        }
-    }
-end
-
 function QuestieMenu.buildProfessionMenu()
     local profMenu = {}
     local profMenuSorted = {}
@@ -308,18 +279,7 @@ function QuestieMenu.buildProfessionMenu()
     local profMenuData = {}
     for key, _ in pairs(Questie.db.global.professionTrainers) do
         local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
-        if key == professionKeys.TAILORING then
-            profMenuData[localizedKey] = {
-                text = localizedKey,
-                func = function() end,
-                keepShownOnClick = true,
-                hasArrow = true,
-                menuList = QuestieMenu.buildTailoringSubmenu(),
-                notCheckable = true
-            }
-        else
-            profMenuData[localizedKey] = buildLocalized(key, localizedKey)
-        end
+        profMenuData[localizedKey] = buildLocalized(key, localizedKey)
         if secondaryProfessions[key] then
             tinsert(secondaryProfMenuSorted, localizedKey)
         else
@@ -372,6 +332,10 @@ function QuestieMenu:Show(hideDelay)
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
+    local hasTailoring = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.TAILORING, 1})
+    if hasTailoring then
+        tinsert(menuTable, build("Moonwell"))
+    end
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.profile.enableAvailable
         Questie.db.profile.enableAvailable = value

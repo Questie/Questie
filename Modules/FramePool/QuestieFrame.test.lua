@@ -139,7 +139,7 @@ describe("QuestieFrame", function()
             local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
 
             assert.is_true(result)
-            assert.spy(QuestieMap.utils.IsExplored).was.called_with(QuestieMap.utils, 1, 50, 60)
+            assert.spy(QuestieMap.utils.IsExplored).was.called_with(1, 50, 60)
         end)
 
         it("should return false when frame coords are explored and unexplored icons should be hidden", function()
@@ -152,7 +152,7 @@ describe("QuestieFrame", function()
             local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
 
             assert.is_false(result)
-            assert.spy(QuestieMap.utils.IsExplored).was.called_with(QuestieMap.utils, 1, 50, 60)
+            assert.spy(QuestieMap.utils.IsExplored).was.called_with(1, 50, 60)
         end)
 
         it("should return true when quest notes should not be shown and untracked icons should be hidden", function()

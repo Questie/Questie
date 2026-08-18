@@ -555,7 +555,9 @@ function WrappedText:TextWrap(line, prefix, combineTrailing, desiredWidth, fontS
         textWrapObjectiveFontString:Hide()
     end
 
-    if (textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
+    if (textWrapObjectiveFontString:IsVisible()) then
+        Questie.Error("TextWrap already running... Please report this on GitHub or Discord.")
+    end
 
     -- Set defaults.
     if (combineTrailing == nil) then
