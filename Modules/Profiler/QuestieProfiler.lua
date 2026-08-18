@@ -885,7 +885,9 @@ function QuestieProfiler:RefreshHooks()
 
     local moduleNames = {}
     for moduleName, module in pairs(QuestieLoader._modules) do
-        if module ~= QuestieProfiler and moduleName ~= "ProfilerUI" then
+        -- ProfilerReport is the window's other half. Wrapping it would measure the diagnostic tool
+        -- while it builds the very report the measurements are displayed in.
+        if module ~= QuestieProfiler and moduleName ~= "ProfilerUI" and moduleName ~= "ProfilerReport" then
             tinsert(moduleNames, moduleName)
         end
     end

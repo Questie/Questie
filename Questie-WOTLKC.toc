@@ -292,8 +292,9 @@ Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 Modules\QuestieCleanup.lua
 
 # Profiler
-Modules\QuestieProfiler.lua
-Modules\QuestieProfilerUI.lua
+Modules\Profiler\QuestieProfiler.lua
+Modules\Profiler\QuestieProfilerReport.lua
+Modules\Profiler\QuestieProfilerUI.lua
 
 # Public
 Public\Enums.lua
