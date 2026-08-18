@@ -26,54 +26,93 @@ local mmin = math.min
 -------------------------
 -- Layout and presentation constants
 -------------------------
--- Sized to the content rather than to a round number: the widest identity in a normal session
--- (QuestieJourney.private.questsByFaction.InitializeFactionQuestData) fits beside the tree pane and five
--- numeric columns without truncation, and the height stops short of covering the middle of the screen.
-local WINDOW_DEFAULT_WIDTH = 1000
-local WINDOW_DEFAULT_HEIGHT = 520
-local WINDOW_MIN_WIDTH = 494
-local WINDOW_MIN_HEIGHT = 269
-local WINDOW_MAX_WIDTH = 1600
-local WINDOW_MAX_HEIGHT = 1200
+-- Grouped into tables rather than kept as one local apiece. That is the rule the column widths below already
+-- followed, and this generalises it: a Lua 5.1 main chunk may hold 200 locals, exceeding it is a load-time
+-- error rather than a warning, and constants were two thirds of this file's budget while being the part that
+-- grows every time a row learns a new colour. The three tables cost three locals between them.
+--
+-- One level deep on purpose. LAYOUT.rowHeight is a single lookup on a path that runs per visible row per
+-- refresh, where a nested CONST.layout.rowHeight would be two and would read no better.
 
-local ROW_HEIGHT = 14
-local TITLE_BAR_HEIGHT = 22
+---Every size, gap and inset the window is built from.
+local LAYOUT = {
+    -- Sized to the content rather than to a round number: the widest identity in a normal session
+    -- (QuestieJourney.private.questsByFaction.InitializeFactionQuestData) fits beside the tree pane and five
+    -- numeric columns without truncation, and the height stops short of covering the middle of the screen.
+    windowDefaultWidth = 1000,
+    windowDefaultHeight = 520,
+    windowMinWidth = 494,
+    windowMinHeight = 269,
+    windowMaxWidth = 1600,
+    windowMaxHeight = 1200,
+
+    rowHeight = 14,
+    titleBarHeight = 22,
+    controlRowHeight = 26,
+    filterRowHeight = 26,
+
+    -- Every control button is the same size with the same gaps. Sizing each one to its own label is most of
+    -- what made the old row look thrown together: five buttons at five widths, with two different gaps.
+    controlButtonWidth = 70,
+    controlButtonHeight = 20,
+    controlButtonGap = 4,
+    -- Wider than the gap between buttons, so the session group and the view group read as two things.
+    controlGroupGap = 14,
+    columnHeaderHeight = 16,
+    detailStripHeight = 16,
+
+    -- The relations panel only exists while a row is selected, so it costs nothing until it is asked for.
+    -- Five entries a side covers every real case measured: the widest fan-in in a live session was four.
+    relationPanelRows = 5,
+    -- Gap between the two relation columns, and the least of the panel either may be reduced to. The floor is
+    -- what stops a lopsided pair - one caller against a dozen callees - from squeezing a column to nothing.
+    relationRowHeight = 13,
+    relationHeaderHeight = 15,
+
+    -- Tall enough to hold the session row plus the rule that closes it off from the selection row above.
+    statusBarHeight = 20,
+    -- How far the selection row floats above that rule. Sitting on it made the two rows look like one block.
+    selectionRowLift = 7,
+    scrollTrackWidth = 8,
+    edgePadding = 8,
+    accentStripeWidth = 2,
+    rowIconSize = 12,
+    -- Clearance between a control and the tooltip that opens above it.
+    controlTooltipGap = 4,
+    columnGap = 6,
+
+    -- Keyed by sort key, so a column's width, its header and its sort are all reachable from one name.
+    columnWidths = {
+        total = 70,
+        self = 70,
+        calls = 58,
+        average = 62,
+        memory = 72,
+    },
+
+    treePaneWidth = 210,
+    -- Everything right of the tree shares this left edge, and the divider sits in the middle of the gutter so
+    -- the pane and the content get equal clearance. The old 10 put the divider 4px off the tree and the
+    -- content 6px off the divider, which read as the two columns touching rather than being separated by one.
+    treePaneGutter = 24,
+    treeRowHeight = 14,
+    treeIndent = 10,
+    -- A hairline, not a control. It only has to say "there is more below", so it is a quarter the width of the
+    -- list's real scrollbar and faint enough that nobody reaches for it: a widget that invites a drag it
+    -- cannot accept is worse than no indicator at all. Both of its colours are free to tune.
+    treeScrollWidth = 1,
+}
+
+-- Derived from their siblings, so they are assigned after the table rather than inside it, where a
+-- constructor cannot see the fields it is still building.
+--
 -- The header band is the footer band turned upside down: identity and session state are chrome in exactly the
 -- way the totals row is, so they get the same floor-and-rule treatment rather than floating on the content.
-local HEADER_BAND_HEIGHT = 6 + TITLE_BAR_HEIGHT
+LAYOUT.headerBandHeight = 6 + LAYOUT.titleBarHeight
 -- Everything below the band measures from here, leaving the same clearance under the rule that the selection
 -- row keeps above its own.
-local CONTENT_TOP = HEADER_BAND_HEIGHT + 5
-local CONTROL_ROW_HEIGHT = 26
-local FILTER_ROW_HEIGHT = 26
-
--- Every control button is the same size with the same gaps. Sizing each one to its own label is most of what
--- made the old row look thrown together: five buttons at five widths, with two different gaps between them.
-local CONTROL_BUTTON_WIDTH = 70
-local CONTROL_BUTTON_HEIGHT = 20
-local CONTROL_BUTTON_GAP = 4
--- Wider than the gap between buttons, so the session group and the view group read as two things.
-local CONTROL_GROUP_GAP = 14
-local COLUMN_HEADER_HEIGHT = 16
-local DETAIL_STRIP_HEIGHT = 16
--- The relations panel only exists while a row is selected, so it costs nothing until it is asked for.
--- Five entries a side covers every real case measured: the widest fan-in in a live session was four callers.
-local RELATION_PANEL_ROWS = 5
--- Gap between the two relation columns, and the least of the panel either may be reduced to. The floor is
--- what stops a lopsided pair - one caller against a dozen callees - from squeezing a column to nothing.
-local RELATION_ROW_HEIGHT = 13
-local RELATION_HEADER_HEIGHT = 15
-local RELATION_PANEL_HEIGHT = RELATION_HEADER_HEIGHT + (RELATION_PANEL_ROWS * RELATION_ROW_HEIGHT) + 4
--- Tall enough to hold the session row plus the rule that closes it off from the selection row above.
-local STATUS_BAR_HEIGHT = 20
--- How far the selection row floats above that rule. Sitting on it made the two rows look like one block.
-local SELECTION_ROW_LIFT = 7
-local SCROLL_TRACK_WIDTH = 8
-local EDGE_PADDING = 8
-local ACCENT_STRIPE_WIDTH = 2
-local ROW_ICON_SIZE = 12
--- Clearance between a control and the tooltip that opens above it.
-local CONTROL_TOOLTIP_GAP = 4
+LAYOUT.contentTop = LAYOUT.headerBandHeight + 5
+LAYOUT.relationPanelHeight = LAYOUT.relationHeaderHeight + (LAYOUT.relationPanelRows * LAYOUT.relationRowHeight) + 4
 
 -- One icon per species, but the function icon is worn only in the filter row. A glyph repeated down the
 -- majority of rows marks nothing, and functions are the majority by design - they are the species the list is
@@ -83,66 +122,103 @@ local CONTROL_TOOLTIP_GAP = 4
 -- The slot stays reserved on every row so names keep one left edge.
 -- Blizzard's pre-greyed variants are dimmed as well as desaturated, so they wash out at row height;
 -- desaturating a full-brightness texture keeps the contrast and still reads as neutral.
-local ICON_FILE_LOAD = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
-local ICON_FUNCTION = "Interface\\Buttons\\UI-OptionsButton"
-local ICON_THREAD_JOB = "Interface\\Buttons\\UI-RefreshButton"
-
--- Keyed by sort key, so a column's width, its header and its sort are all reachable from one name. Grouped
--- rather than kept as six locals because this file sits against Lua 5.1's 200-local ceiling for a main chunk.
-local COLUMN_WIDTHS = {
-    total = 70,
-    self = 70,
-    calls = 58,
-    average = 62,
-    memory = 72,
+local ICON = {
+    fileLoad = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up",
+    functionRow = "Interface\\Buttons\\UI-OptionsButton",
+    threadJob = "Interface\\Buttons\\UI-RefreshButton",
 }
-local TREE_PANE_WIDTH = 210
--- Everything right of the tree shares this left edge, and the divider sits in the middle of the gutter so the
--- pane and the content get equal clearance. The old 10 put the divider 4px off the tree and the content 6px
--- off the divider, which read as the two columns touching rather than being separated by one.
-local TREE_PANE_GUTTER = 24
-local TREE_ROW_HEIGHT = 14
-local TREE_INDENT = 10
--- A hairline, not a control. It only has to say "there is more below", so it is a quarter the width of the
--- list's real scrollbar and faint enough that nobody reaches for it: a widget that invites a drag it cannot
--- accept is worse than no indicator at all. Both colours below are free to tune.
-local TREE_SCROLL_WIDTH = 1
--- Structure, not decoration: a divider marks where one pane stops and the next begins, so it has to survive
--- being read at a glance. A 1px line reads far fainter than a filled row at the same alpha, which is why this
--- sits above the selection fill below and still looks lighter.
-local DIVIDER_COLOR = {r = 1, g = 1, b = 1, a = 0.22}
 
--- Hover, then selection. Both lists are clickable but neither said so; the relations panel has had a hover
--- highlight since it was built, which is why it never needed explaining. Hover stays below selection so a
--- pinned row still wins when the mouse is over it.
-local HOVER_HIGHLIGHT_COLOR = {r = 1, g = 1, b = 1, a = 0.10}
-local SELECTION_HIGHLIGHT_COLOR = {r = 1, g = 1, b = 1, a = 0.18}
+---Every colour the window paints, and the two multipliers that modify one.
+local COLOR = {
+    -- Structure, not decoration: a divider marks where one pane stops and the next begins, so it has to
+    -- survive being read at a glance. A 1px line reads far fainter than a filled row at the same alpha, which
+    -- is why this sits above the selection fill below and still looks lighter.
+    divider = {r = 1, g = 1, b = 1, a = 0.22},
 
--- Alternating row tint. The heat bar only covers the numeric columns, so the name side - the long ragged half
--- where the eye actually loses its place - has no background at all. Far below hover, which is what keeps a
--- banded row from looking like it is already under the mouse.
-local ROW_STRIPE_COLOR = {r = 1, g = 1, b = 1, a = 0.025}
+    -- Hover, then selection. Both lists are clickable but neither said so; the relations panel has had a
+    -- hover highlight since it was built, which is why it never needed explaining. Hover stays below
+    -- selection so a pinned row still wins when the mouse is over it.
+    hoverHighlight = {r = 1, g = 1, b = 1, a = 0.10},
+    selectionHighlight = {r = 1, g = 1, b = 1, a = 0.18},
 
--- Worn by both the header and the footer band. The bottom two rows answer different questions - one describes
--- the row you clicked, the other describes the session and never changes with selection - and at nearly equal
--- brightness they read as one four-part sentence. Darkening a row into a band separates it by kind rather
--- than by wording: a band is chrome, and chrome is exactly what a title and a session readout are.
-local CHROME_BAND_COLOR = {r = 0, g = 0, b = 0, a = 0.30}
+    -- Alternating row tint. The heat bar only covers the numeric columns, so the name side - the long ragged
+    -- half where the eye actually loses its place - has no background at all. Far below hover, which is what
+    -- keeps a banded row from looking like it is already under the mouse.
+    rowStripe = {r = 1, g = 1, b = 1, a = 0.025},
 
--- A hint recedes; an active filter does not. Brightness is what tells the two apart now that neither is
--- labelled, so an unnoticed scope cannot quietly explain why the list looks short.
-local SCOPE_HINT_COLOR = {r = 0.6, g = 0.6, b = 0.68}
-local SCOPE_ACTIVE_COLOR = {r = 0.86, g = 0.88, b = 0.95}
+    -- Worn by both the header and the footer band. The bottom two rows answer different questions - one
+    -- describes the row you clicked, the other describes the session and never changes with selection - and at
+    -- nearly equal brightness they read as one four-part sentence. Darkening a row into a band separates it by
+    -- kind rather than by wording: a band is chrome, and chrome is what a title and a session readout are.
+    chromeBand = {r = 0, g = 0, b = 0, a = 0.30},
 
-local TREE_SCROLL_TRACK_COLOR = {r = 1, g = 1, b = 1, a = 0.02}
-local TREE_SCROLL_THUMB_COLOR = {r = 0.78, g = 0.78, b = 0.86, a = 0.16}
-local COLUMN_GAP = 6
+    -- A hint recedes; an active filter does not. Brightness is what tells the two apart now that neither is
+    -- labelled, so an unnoticed scope cannot quietly explain why the list looks short.
+    scopeHint = {r = 0.6, g = 0.6, b = 0.68},
+    scopeActive = {r = 0.86, g = 0.88, b = 0.95},
+
+    treeScrollTrack = {r = 1, g = 1, b = 1, a = 0.02},
+    treeScrollThumb = {r = 0.78, g = 0.78, b = 0.86, a = 0.16},
+
+    indicator = {r = 1.00, g = 0.72, b = 0.20},
+
+    -- Rows are shaded by their share of the largest value in the *currently visible* set, so the scale stays
+    -- meaningful after filtering instead of collapsing against one global outlier.
+    -- Alpha falls off with the band so the long tail stays legible without competing with the real outliers.
+    heatBands = {
+        {share = 0.5, r = 0.85, g = 0.18, b = 0.18, a = 0.38},
+        {share = 0.2, r = 0.90, g = 0.50, b = 0.15, a = 0.28},
+        {share = 0.05, r = 0.85, g = 0.78, b = 0.25, a = 0.18},
+        {share = 0, r = 0.30, g = 0.42, b = 0.58, a = 0.12},
+    },
+
+    -- Row colour, worn by both the name and the left accent stripe. Questie's own functions are the baseline
+    -- and stay neutral on purpose: colouring the majority would spend the colour without buying a
+    -- distinction. Everything else is marked, so a glance down the stripe separates measured work from addon
+    -- load, scheduling from calls, and our code from a dependency's, without reading a single name. Kept clear
+    -- of the heat bands (red, orange, yellow) so a row's kind never reads as its cost.
+    text = {r = 0.88, g = 0.88, b = 0.88},
+    threadJob = {r = 0.45, g = 0.80, b = 1.00},
+    fileLoad = {r = 0.55, g = 0.85, b = 0.55},
+    -- A bundled-library function is not a fourth species: it is a called function like any other, with
+    -- callers, self time and an average, and it gets no visibility checkbox because there is nothing
+    -- categorically different to switch off. What differs is ownership - a Questie row is code we can edit, a
+    -- library row is a dependency we can only call less or differently - and that is worth one glance rather
+    -- than a read of the path. It earns the colour on the same rule the baseline is neutral by: measured over
+    -- a normal session it was 26 rows of 341, a minority, so colouring it buys a distinction.
+    library = {r = 0.72, g = 0.62, b = 0.95},
+
+    -- Brightness is a second channel, independent of hue: the colour says what kind of row this is, the
+    -- brightness says whether it ran. A never-called entry is real - it was hooked - but contributed nothing,
+    -- so it recedes instead of shouting. It gets no accent stripe: the stripe answers "which species", and
+    -- dimming an entry is not a species. Files are exempt, having no call count that could be zero.
+    neverCalledDim = 0.55,
+    untimed = {r = 0.55, g = 0.55, b = 0.55},
+    sortedValue = {r = 1.00, g = 0.82, b = 0.00},
+    selfDominant = {r = 0.95, g = 0.60, b = 0.45},
+
+    -- Heading for a panel section. Neutral on purpose: gold already means "this is the active sort" one row
+    -- up, so a gold heading claims a meaning it does not have. The faint cool cast and the extra brightness
+    -- over the 0.7 column headers are what make it read as a heading instead of another label.
+    sectionHeading = {r = 0.80, g = 0.83, b = 0.90},
+}
+
+---@param share number
+---@return table band
+local function HeatBand(share)
+    local bands = COLOR.heatBands
+    for i = 1, #bands do
+        if share >= bands[i].share then
+            return bands[i]
+        end
+    end
+    return bands[#bands]
+end
 
 local REFRESH_INTERVAL = 0.5
 local WHEEL_SCROLL_ROWS = 3
 local INDICATOR_POLL_INTERVAL = 0.5
 local INDICATOR_LABEL = "Questie profiler running"
-local INDICATOR_COLOR = {r = 1.00, g = 0.72, b = 0.20}
 
 -- The report model owns these; the window only chooses between them.
 ---@type QuestieProfilerReport
@@ -162,59 +238,7 @@ local FormatKilobytes = ProfilerReport.FormatKilobytes
 local FormatCount = ProfilerReport.FormatCount
 
 local MAX_CALLERS_IN_TOOLTIP = 8
-
 local MAX_MERGED_PATHS_IN_TOOLTIP = 10
-
--- Rows are shaded by their share of the largest value in the *currently visible* set, so the scale stays
--- meaningful after filtering instead of collapsing against one global outlier.
--- Alpha falls off with the band so the long tail stays legible without competing with the real outliers.
-local HEAT_BANDS = {
-    {share = 0.5, r = 0.85, g = 0.18, b = 0.18, a = 0.38},
-    {share = 0.2, r = 0.90, g = 0.50, b = 0.15, a = 0.28},
-    {share = 0.05, r = 0.85, g = 0.78, b = 0.25, a = 0.18},
-    {share = 0, r = 0.30, g = 0.42, b = 0.58, a = 0.12},
-}
-
----@param share number
----@return table band
-local function HeatBand(share)
-    for i = 1, #HEAT_BANDS do
-        if share >= HEAT_BANDS[i].share then
-            return HEAT_BANDS[i]
-        end
-    end
-    return HEAT_BANDS[#HEAT_BANDS]
-end
-
--- Row colour, worn by both the name and the left accent stripe. Questie's own functions are the baseline and
--- stay neutral on purpose: colouring the majority would spend the colour without buying a distinction.
--- Everything else is marked, so a glance down the stripe separates measured work from addon load, scheduling
--- from calls, and our code from a dependency's, without reading a single name. Kept clear of the heat bands
--- (red, orange, yellow) so a row's kind never reads as its cost.
-local COLOR_TEXT = {r = 0.88, g = 0.88, b = 0.88}
-local COLOR_THREAD_JOB = {r = 0.45, g = 0.80, b = 1.00}
-local COLOR_FILE_LOAD = {r = 0.55, g = 0.85, b = 0.55}
--- A bundled-library function is not a fourth species: it is a called function like any other, with callers,
--- self time and an average, and it gets no visibility checkbox because there is nothing categorically
--- different to switch off. What differs is ownership - a Questie row is code we can edit, a library row is a
--- dependency we can only call less or differently - and that is worth one glance rather than a read of the
--- path. It earns the colour on the same rule the baseline is neutral by: measured over a normal session it
--- was 26 rows of 341, a minority, so colouring it buys a distinction instead of spending one.
-local COLOR_LIBRARY = {r = 0.72, g = 0.62, b = 0.95}
-
--- Brightness is a second channel, independent of hue: the colour says what kind of row this is, the
--- brightness says whether it ran. A never-called entry is real - it was hooked - but contributed nothing, so
--- it recedes instead of shouting. It gets no accent stripe: the stripe answers "which species", and dimming
--- an entry is not a species. Files are exempt, having no call count that could be zero.
-local NEVER_CALLED_DIM = 0.55
-local COLOR_UNTIMED = {r = 0.55, g = 0.55, b = 0.55}
-local COLOR_SORTED_VALUE = {r = 1.00, g = 0.82, b = 0.00}
-local COLOR_SELF_DOMINANT = {r = 0.95, g = 0.60, b = 0.45}
-
--- Heading for a panel section. Neutral on purpose: gold already means "this is the active sort" one row up,
--- so a gold heading claims a meaning it does not have. The faint cool cast and the extra brightness over the
--- 0.7 column headers are what make it read as a heading instead of another label.
-local COLOR_SECTION_HEADING = {r = 0.80, g = 0.83, b = 0.90}
 
 -- Self time at or above this share of a row's total means the row itself is the cost, not its children.
 local SELF_DOMINANT_SHARE = 0.5
@@ -335,8 +359,8 @@ local function AddHoverHighlight(button)
     button:SetHighlightTexture("Interface\\Buttons\\WHITE8X8")
     local highlight = button:GetHighlightTexture()
     if highlight and highlight.SetColorTexture then
-        highlight:SetColorTexture(HOVER_HIGHLIGHT_COLOR.r, HOVER_HIGHLIGHT_COLOR.g,
-            HOVER_HIGHLIGHT_COLOR.b, HOVER_HIGHLIGHT_COLOR.a)
+        highlight:SetColorTexture(COLOR.hoverHighlight.r, COLOR.hoverHighlight.g,
+            COLOR.hoverHighlight.b, COLOR.hoverHighlight.a)
     end
 end
 
@@ -357,11 +381,11 @@ end
 ---@return table? speciesColor @nil for one of Questie's own functions, the uncoloured baseline
 local function SpeciesColor(reportRow)
     if reportRow.isFileLoad then
-        return COLOR_FILE_LOAD
+        return COLOR.fileLoad
     elseif reportRow.isThreadJob then
-        return COLOR_THREAD_JOB
+        return COLOR.threadJob
     elseif reportRow.isLibrary then
-        return COLOR_LIBRARY
+        return COLOR.library
     end
     return nil
 end
@@ -525,7 +549,7 @@ function UpdateDetailStrip(reportRow)
     -- Width is safe to set every time: unlike SetText it does not disturb the selection, and recomputing it
     -- unconditionally is what keeps a resize correct without tracking the old width.
     local stripWidth = mmax(1, (baseFrame:GetWidth() or 0)
-        - (EDGE_PADDING * 2) - TREE_PANE_WIDTH - TREE_PANE_GUTTER)
+        - (LAYOUT.edgePadding * 2) - LAYOUT.treePaneWidth - LAYOUT.treePaneGutter)
     detailBoxMeasure:SetText(copyText)
     local boxWidth = mmax(1, mmin(detailBoxMeasure:GetStringWidth() + 4, stripWidth * DETAIL_BOX_MAX_SHARE))
     detailBox:SetWidth(boxWidth)
@@ -543,7 +567,7 @@ local function AcquireRow(index)
     end
 
     row = CreateFrame("Button", nil, listFrame)
-    row:SetHeight(ROW_HEIGHT)
+    row:SetHeight(LAYOUT.rowHeight)
 
     -- Below the heat bar, so a banded row still shows its cost rather than washing it out. `zebra` and
     -- `stripe` are different things: this bands the row, `stripe` marks its species.
@@ -552,11 +576,11 @@ local function AcquireRow(index)
     row.zebra:SetDrawLayer("BACKGROUND", -1)
     row.zebra:SetAllPoints(row)
     if row.zebra.SetColorTexture then
-        row.zebra:SetColorTexture(ROW_STRIPE_COLOR.r, ROW_STRIPE_COLOR.g, ROW_STRIPE_COLOR.b,
-            ROW_STRIPE_COLOR.a)
+        row.zebra:SetColorTexture(COLOR.rowStripe.r, COLOR.rowStripe.g, COLOR.rowStripe.b,
+            COLOR.rowStripe.a)
     else
-        row.zebra:SetVertexColor(ROW_STRIPE_COLOR.r, ROW_STRIPE_COLOR.g, ROW_STRIPE_COLOR.b,
-            ROW_STRIPE_COLOR.a)
+        row.zebra:SetVertexColor(COLOR.rowStripe.r, COLOR.rowStripe.g, COLOR.rowStripe.b,
+            COLOR.rowStripe.a)
     end
     row.zebra:Hide()
 
@@ -567,23 +591,23 @@ local function AcquireRow(index)
     row.stripe:SetTexture("Interface\\Buttons\\WHITE8X8")
     row.stripe:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0)
     row.stripe:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", 0, 0)
-    row.stripe:SetWidth(ACCENT_STRIPE_WIDTH)
+    row.stripe:SetWidth(LAYOUT.accentStripeWidth)
 
     row.selection = row:CreateTexture(nil, "BORDER")
     row.selection:SetTexture("Interface\\Buttons\\WHITE8X8")
     row.selection:SetAllPoints(row)
     if row.selection.SetColorTexture then
-        row.selection:SetColorTexture(SELECTION_HIGHLIGHT_COLOR.r, SELECTION_HIGHLIGHT_COLOR.g,
-            SELECTION_HIGHLIGHT_COLOR.b, SELECTION_HIGHLIGHT_COLOR.a)
+        row.selection:SetColorTexture(COLOR.selectionHighlight.r, COLOR.selectionHighlight.g,
+            COLOR.selectionHighlight.b, COLOR.selectionHighlight.a)
     else
-        row.selection:SetVertexColor(SELECTION_HIGHLIGHT_COLOR.r, SELECTION_HIGHLIGHT_COLOR.g,
-            SELECTION_HIGHLIGHT_COLOR.b, SELECTION_HIGHLIGHT_COLOR.a)
+        row.selection:SetVertexColor(COLOR.selectionHighlight.r, COLOR.selectionHighlight.g,
+            COLOR.selectionHighlight.b, COLOR.selectionHighlight.a)
     end
     row.selection:Hide()
 
     row.icon = row:CreateTexture(nil, "ARTWORK")
-    row.icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
-    row.icon:SetPoint("LEFT", row, "LEFT", ACCENT_STRIPE_WIDTH + 3, 0)
+    row.icon:SetSize(LAYOUT.rowIconSize, LAYOUT.rowIconSize)
+    row.icon:SetPoint("LEFT", row, "LEFT", LAYOUT.accentStripeWidth + 3, 0)
     row.icon:SetDesaturated(true)
 
     row.nameText = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -593,23 +617,23 @@ local function AcquireRow(index)
 
     row.total = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.total:SetJustifyH("RIGHT")
-    row.total:SetWidth(COLUMN_WIDTHS.total)
+    row.total:SetWidth(LAYOUT.columnWidths.total)
 
     row.selfTime = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.selfTime:SetJustifyH("RIGHT")
-    row.selfTime:SetWidth(COLUMN_WIDTHS.self)
+    row.selfTime:SetWidth(LAYOUT.columnWidths.self)
 
     row.calls = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.calls:SetJustifyH("RIGHT")
-    row.calls:SetWidth(COLUMN_WIDTHS.calls)
+    row.calls:SetWidth(LAYOUT.columnWidths.calls)
 
     row.average = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.average:SetJustifyH("RIGHT")
-    row.average:SetWidth(COLUMN_WIDTHS.average)
+    row.average:SetWidth(LAYOUT.columnWidths.average)
 
     row.memory = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     row.memory:SetJustifyH("RIGHT")
-    row.memory:SetWidth(COLUMN_WIDTHS.memory)
+    row.memory:SetWidth(LAYOUT.columnWidths.memory)
 
     AddHoverHighlight(row)
     row:SetScript("OnEnter", function(self)
@@ -643,7 +667,7 @@ local function VisibleRowCount()
         return 0
     end
     local height = listFrame:GetHeight() or 0
-    return mmax(0, mfloor(height / ROW_HEIGHT))
+    return mmax(0, mfloor(height / LAYOUT.rowHeight))
 end
 
 ---Positions the numeric columns for the current window width.
@@ -655,11 +679,11 @@ local function LayoutRowColumns(row, listWidth)
 
     local visible = VisibleColumns()
     local columns = {
-        {key = SORT_MEMORY, fontString = row.memory, width = COLUMN_WIDTHS.memory},
-        {key = SORT_AVERAGE, fontString = row.average, width = COLUMN_WIDTHS.average},
-        {key = SORT_CALLS, fontString = row.calls, width = COLUMN_WIDTHS.calls},
-        {key = SORT_SELF, fontString = row.selfTime, width = COLUMN_WIDTHS.self},
-        {key = SORT_TOTAL, fontString = row.total, width = COLUMN_WIDTHS.total},
+        {key = SORT_MEMORY, fontString = row.memory, width = LAYOUT.columnWidths.memory},
+        {key = SORT_AVERAGE, fontString = row.average, width = LAYOUT.columnWidths.average},
+        {key = SORT_CALLS, fontString = row.calls, width = LAYOUT.columnWidths.calls},
+        {key = SORT_SELF, fontString = row.selfTime, width = LAYOUT.columnWidths.self},
+        {key = SORT_TOTAL, fontString = row.total, width = LAYOUT.columnWidths.total},
     }
 
     -- Anchored right to left so a hidden column simply closes the gap instead of leaving a hole.
@@ -669,20 +693,20 @@ local function LayoutRowColumns(row, listWidth)
         column.fontString:ClearAllPoints()
         if visible[column.key] then
             if previous then
-                column.fontString:SetPoint("RIGHT", previous, "LEFT", -COLUMN_GAP, 0)
+                column.fontString:SetPoint("RIGHT", previous, "LEFT", -LAYOUT.columnGap, 0)
             else
-                column.fontString:SetPoint("RIGHT", row, "RIGHT", -COLUMN_GAP, 0)
+                column.fontString:SetPoint("RIGHT", row, "RIGHT", -LAYOUT.columnGap, 0)
             end
             column.fontString:Show()
             previous = column.fontString
-            numericWidth = numericWidth + column.width + COLUMN_GAP
+            numericWidth = numericWidth + column.width + LAYOUT.columnGap
         else
             column.fontString:Hide()
         end
     end
 
     row.nameText:SetWidth(mmax(40,
-        listWidth - numericWidth - COLUMN_GAP - ACCENT_STRIPE_WIDTH - ROW_ICON_SIZE - 7))
+        listWidth - numericWidth - LAYOUT.columnGap - LAYOUT.accentStripeWidth - LAYOUT.rowIconSize - 7))
 
     -- The heat bar lives in the numeric band and never reaches the name. Anchored at the band's left edge so
     -- it grows rightward, which is the direction length is read in. The band is mostly whitespace - five
@@ -708,23 +732,23 @@ local function AcquireTreeRow(index)
     end
 
     treeRow = CreateFrame("Button", nil, treeFrame)
-    treeRow:SetHeight(TREE_ROW_HEIGHT)
+    treeRow:SetHeight(LAYOUT.treeRowHeight)
     treeRow:SetPoint("LEFT", treeFrame, "LEFT", 0, 0)
-    treeRow:SetPoint("RIGHT", treeFrame, "RIGHT", -(TREE_SCROLL_WIDTH + 2), 0)
+    treeRow:SetPoint("RIGHT", treeFrame, "RIGHT", -(LAYOUT.treeScrollWidth + 2), 0)
 
     treeRow.highlight = treeRow:CreateTexture(nil, "BACKGROUND")
     treeRow.highlight:SetTexture("Interface\\Buttons\\WHITE8X8")
     treeRow.highlight:SetAllPoints(treeRow)
     if treeRow.highlight.SetColorTexture then
-        treeRow.highlight:SetColorTexture(SELECTION_HIGHLIGHT_COLOR.r, SELECTION_HIGHLIGHT_COLOR.g,
-            SELECTION_HIGHLIGHT_COLOR.b, SELECTION_HIGHLIGHT_COLOR.a)
+        treeRow.highlight:SetColorTexture(COLOR.selectionHighlight.r, COLOR.selectionHighlight.g,
+            COLOR.selectionHighlight.b, COLOR.selectionHighlight.a)
     end
     treeRow.highlight:Hide()
 
     -- Separate hit area: the arrow opens the node, the label scopes the list. Merging them would make
     -- browsing the hierarchy impossible without also changing what the list shows.
     treeRow.toggle = CreateFrame("Button", nil, treeRow)
-    treeRow.toggle:SetSize(TREE_ROW_HEIGHT, TREE_ROW_HEIGHT)
+    treeRow.toggle:SetSize(LAYOUT.treeRowHeight, LAYOUT.treeRowHeight)
 
     treeRow.arrow = treeRow.toggle:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     treeRow.arrow:SetPoint("CENTER", treeRow.toggle, "CENTER", 0, 0)
@@ -800,7 +824,7 @@ function RenderTree()
     treeFrame:Show()
 
     local lines = ProfilerReport.FlattenTree(currentTree, displayState.expandedPrefixes)
-    local visibleCount = mmax(0, mfloor((treeFrame:GetHeight() or 0) / TREE_ROW_HEIGHT))
+    local visibleCount = mmax(0, mfloor((treeFrame:GetHeight() or 0) / LAYOUT.treeRowHeight))
     local maxOffset = mmax(0, #lines - visibleCount)
     if displayState.treeScrollOffset > maxOffset then
         displayState.treeScrollOffset = maxOffset
@@ -809,9 +833,9 @@ function RenderTree()
     for index = 1, visibleCount do
         local treeRow = AcquireTreeRow(index)
         treeRow:ClearAllPoints()
-        treeRow:SetPoint("TOPLEFT", treeFrame, "TOPLEFT", 0, -(index - 1) * TREE_ROW_HEIGHT)
+        treeRow:SetPoint("TOPLEFT", treeFrame, "TOPLEFT", 0, -(index - 1) * LAYOUT.treeRowHeight)
         treeRow:SetPoint("TOPRIGHT", treeFrame, "TOPRIGHT",
-            -(TREE_SCROLL_WIDTH + 2), -(index - 1) * TREE_ROW_HEIGHT)
+            -(LAYOUT.treeScrollWidth + 2), -(index - 1) * LAYOUT.treeRowHeight)
 
         local line = lines[index + displayState.treeScrollOffset]
         if not line then
@@ -824,7 +848,7 @@ function RenderTree()
                 .. "function self time plus file and job totals.",
                 FormatMilliseconds(line.node.cost))
 
-            local indent = line.depth * TREE_INDENT
+            local indent = line.depth * LAYOUT.treeIndent
             treeRow.toggle:ClearAllPoints()
             treeRow.toggle:SetPoint("LEFT", treeRow, "LEFT", indent, 0)
             treeRow.arrow:SetText(line.hasChildren
@@ -840,10 +864,10 @@ function RenderTree()
             local isScoped = displayState.scopePrefix == line.node.prefix
             if isScoped then
                 treeRow.highlight:Show()
-                treeRow.label:SetTextColor(COLOR_SORTED_VALUE.r, COLOR_SORTED_VALUE.g, COLOR_SORTED_VALUE.b)
+                treeRow.label:SetTextColor(COLOR.sortedValue.r, COLOR.sortedValue.g, COLOR.sortedValue.b)
             else
                 treeRow.highlight:Hide()
-                treeRow.label:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+                treeRow.label:SetTextColor(COLOR.text.r, COLOR.text.g, COLOR.text.b)
             end
             treeRow.value:SetTextColor(0.65, 0.65, 0.7)
         end
@@ -876,11 +900,11 @@ function RenderTree()
         if displayState.scopePrefix ~= "" then
             treeScopeButton:Enable()
             treeScopeText:SetText(displayState.scopeLabel .. "   (click to clear)")
-            treeScopeText:SetTextColor(SCOPE_ACTIVE_COLOR.r, SCOPE_ACTIVE_COLOR.g, SCOPE_ACTIVE_COLOR.b)
+            treeScopeText:SetTextColor(COLOR.scopeActive.r, COLOR.scopeActive.g, COLOR.scopeActive.b)
         else
             treeScopeButton:Disable()
             treeScopeText:SetText("Click a node to narrow the list")
-            treeScopeText:SetTextColor(SCOPE_HINT_COLOR.r, SCOPE_HINT_COLOR.g, SCOPE_HINT_COLOR.b)
+            treeScopeText:SetTextColor(COLOR.scopeHint.r, COLOR.scopeHint.g, COLOR.scopeHint.b)
         end
     end
 end
@@ -897,12 +921,12 @@ function RenderRows()
         displayState.scrollOffset = maxOffset
     end
 
-    local listWidth = (listFrame:GetWidth() or 0) - SCROLL_TRACK_WIDTH - 2
+    local listWidth = (listFrame:GetWidth() or 0) - LAYOUT.scrollTrackWidth - 2
 
     for index = 1, visibleRowCount do
         local row = AcquireRow(index)
         row:ClearAllPoints()
-        row:SetPoint("TOPLEFT", listFrame, "TOPLEFT", 0, -(index - 1) * ROW_HEIGHT)
+        row:SetPoint("TOPLEFT", listFrame, "TOPLEFT", 0, -(index - 1) * LAYOUT.rowHeight)
         LayoutRowColumns(row, listWidth)
 
         local reportRow = rows[index + displayState.scrollOffset]
@@ -932,10 +956,10 @@ function RenderRows()
             -- Hidden, not removed: the slot still holds the name's left edge, so the icon reads as a mark on
             -- the rows that carry one rather than as a column that is mostly empty.
             if reportRow.isFileLoad then
-                row.icon:SetTexture(ICON_FILE_LOAD)
+                row.icon:SetTexture(ICON.fileLoad)
                 row.icon:Show()
             elseif reportRow.isThreadJob then
-                row.icon:SetTexture(ICON_THREAD_JOB)
+                row.icon:SetTexture(ICON.threadJob)
                 row.icon:Show()
             else
                 row.icon:Hide()
@@ -953,8 +977,8 @@ function RenderRows()
                 row.stripe:Hide()
             end
 
-            local nameColor = speciesColor or COLOR_TEXT
-            local brightness = (reportRow.hasCalls and reportRow.calls == 0) and NEVER_CALLED_DIM or 1
+            local nameColor = speciesColor or COLOR.text
+            local brightness = (reportRow.hasCalls and reportRow.calls == 0) and COLOR.neverCalledDim or 1
             row.nameText:SetText(reportRow.displayName)
             row.nameText:SetTextColor(nameColor.r * brightness, nameColor.g * brightness, nameColor.b * brightness)
 
@@ -963,42 +987,42 @@ function RenderRows()
                 row.total:SetText(FormatMilliseconds(reportRow.totalTime))
                 -- No calls means no per-call average; a loaded file would otherwise read as averaging zero.
                 row.average:SetText(reportRow.hasCalls and FormatDuration(reportRow.averageTime) or "-")
-                row.total:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
-                row.average:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+                row.total:SetTextColor(COLOR.text.r, COLOR.text.g, COLOR.text.b)
+                row.average:SetTextColor(COLOR.text.r, COLOR.text.g, COLOR.text.b)
                 if not reportRow.hasSelfTime then
                     row.selfTime:SetText("-")
-                    row.selfTime:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+                    row.selfTime:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
                 else
                     row.selfTime:SetText(FormatMilliseconds(reportRow.selfTime))
                     -- Self time is the number that says "the cost is here, not in something I called".
                     if reportRow.selfTime >= reportRow.totalTime * SELF_DOMINANT_SHARE then
-                        row.selfTime:SetTextColor(COLOR_SELF_DOMINANT.r, COLOR_SELF_DOMINANT.g, COLOR_SELF_DOMINANT.b)
+                        row.selfTime:SetTextColor(COLOR.selfDominant.r, COLOR.selfDominant.g, COLOR.selfDominant.b)
                     else
-                        row.selfTime:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+                        row.selfTime:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
                     end
                 end
             else
                 row.total:SetText("-")
                 row.selfTime:SetText("-")
                 row.average:SetText("-")
-                row.total:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
-                row.selfTime:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
-                row.average:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+                row.total:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
+                row.selfTime:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
+                row.average:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
             end
             if reportRow.memoryKilobytes then
                 row.memory:SetText(FormatKilobytes(reportRow.memoryKilobytes))
-                row.memory:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+                row.memory:SetTextColor(COLOR.text.r, COLOR.text.g, COLOR.text.b)
             else
                 row.memory:SetText("-")
-                row.memory:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+                row.memory:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
             end
 
             if reportRow.hasCalls then
                 row.calls:SetText(FormatCount(reportRow.calls))
-                row.calls:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+                row.calls:SetTextColor(COLOR.text.r, COLOR.text.g, COLOR.text.b)
             else
                 row.calls:SetText("-")
-                row.calls:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+                row.calls:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
             end
 
             -- Highlight the column the list is ordered by so the active question stays obvious.
@@ -1009,7 +1033,7 @@ function RenderRows()
                 or (displayState.sortKey == SORT_TOTAL and row.total)
                 or nil
             if sortedColumn then
-                sortedColumn:SetTextColor(COLOR_SORTED_VALUE.r, COLOR_SORTED_VALUE.g, COLOR_SORTED_VALUE.b)
+                sortedColumn:SetTextColor(COLOR.sortedValue.r, COLOR.sortedValue.g, COLOR.sortedValue.b)
             end
 
             if displayState.selectedKey == reportRow.lookupKey then
@@ -1090,10 +1114,10 @@ function UpdateColumnHeaders()
         local fontString = header:GetFontString()
         if fontString then
             if isSorted then
-                fontString:SetTextColor(COLOR_SORTED_VALUE.r, COLOR_SORTED_VALUE.g, COLOR_SORTED_VALUE.b)
+                fontString:SetTextColor(COLOR.sortedValue.r, COLOR.sortedValue.g, COLOR.sortedValue.b)
             elseif isHovered then
                 -- Brighter than resting, dimmer than sorted: the arrow is a preview, not a state.
-                fontString:SetTextColor(COLOR_TEXT.r, COLOR_TEXT.g, COLOR_TEXT.b)
+                fontString:SetTextColor(COLOR.text.r, COLOR.text.g, COLOR.text.b)
             else
                 fontString:SetTextColor(0.7, 0.7, 0.7)
             end
@@ -1354,7 +1378,7 @@ function SetControlTooltip(control, title, ...)
         -- is not open to interpretation: the tooltip's bottom edge rests on the control's top edge.
         GameTooltip:SetOwner(self, "ANCHOR_NONE")
         GameTooltip:ClearAllPoints()
-        GameTooltip:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, CONTROL_TOOLTIP_GAP)
+        GameTooltip:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, LAYOUT.controlTooltipGap)
         GameTooltip:AddLine(self.tooltipTitle, 1, 0.82, 0)
         for _, line in ipairs(self.tooltipLines) do
             GameTooltip:AddLine(line, 0.8, 0.8, 0.8, true)
@@ -1372,7 +1396,7 @@ end
 ---@return table button
 local function CreateControlButton(parent, text, width)
     local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-    button:SetSize(width or CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_HEIGHT)
+    button:SetSize(width or LAYOUT.controlButtonWidth, LAYOUT.controlButtonHeight)
     -- Set the button's font objects, not the font string's. A button re-applies its stored normal/highlight/
     -- disabled font object on every state change, so styling the font string directly is undone by the first
     -- mouseover and the template's full-size highlight font sticks.
@@ -1389,7 +1413,7 @@ end
 ---@return table header
 local function CreateColumnHeader(parent, label, sortKey)
     local header = CreateFrame("Button", nil, parent)
-    header:SetHeight(COLUMN_HEADER_HEIGHT)
+    header:SetHeight(LAYOUT.columnHeaderHeight)
     header:SetNormalFontObject("GameFontNormalSmall")
     header:SetHighlightFontObject("GameFontNormalSmall")
     header:SetText(label)
@@ -1424,10 +1448,10 @@ local function BuildTitleBar()
     headerBand:SetTexture("Interface\\Buttons\\WHITE8X8")
     headerBand:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", 1, -1)
     headerBand:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -1, -1)
-    headerBand:SetHeight(HEADER_BAND_HEIGHT)
+    headerBand:SetHeight(LAYOUT.headerBandHeight)
     if headerBand.SetColorTexture then
-        headerBand:SetColorTexture(CHROME_BAND_COLOR.r, CHROME_BAND_COLOR.g, CHROME_BAND_COLOR.b,
-            CHROME_BAND_COLOR.a)
+        headerBand:SetColorTexture(COLOR.chromeBand.r, COLOR.chromeBand.g, COLOR.chromeBand.b,
+            COLOR.chromeBand.a)
     end
 
     local headerRule = baseFrame:CreateTexture(nil, "ARTWORK")
@@ -1436,7 +1460,7 @@ local function BuildTitleBar()
     headerRule:SetPoint("TOPLEFT", headerBand, "BOTTOMLEFT", 0, 0)
     headerRule:SetPoint("TOPRIGHT", headerBand, "BOTTOMRIGHT", 0, 0)
     if headerRule.SetColorTexture then
-        headerRule:SetColorTexture(DIVIDER_COLOR.r, DIVIDER_COLOR.g, DIVIDER_COLOR.b, DIVIDER_COLOR.a)
+        headerRule:SetColorTexture(COLOR.divider.r, COLOR.divider.g, COLOR.divider.b, COLOR.divider.a)
     end
 
     -- Spans the whole band, not just the space between the paddings: a strip that looks like a title bar
@@ -1444,7 +1468,7 @@ local function BuildTitleBar()
     local titleBar = CreateFrame("Frame", nil, baseFrame)
     titleBar:SetPoint("TOPLEFT", headerBand, "TOPLEFT", 0, 0)
     titleBar:SetPoint("TOPRIGHT", headerBand, "TOPRIGHT", 0, 0)
-    titleBar:SetHeight(HEADER_BAND_HEIGHT)
+    titleBar:SetHeight(LAYOUT.headerBandHeight)
     titleBar:EnableMouse(true)
     titleBar:RegisterForDrag("LeftButton")
     titleBar:SetScript("OnDragStart", function()
@@ -1455,7 +1479,7 @@ local function BuildTitleBar()
     end)
 
     local title = titleBar:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    title:SetPoint("LEFT", titleBar, "LEFT", EDGE_PADDING - 1, 0)
+    title:SetPoint("LEFT", titleBar, "LEFT", LAYOUT.edgePadding - 1, 0)
     title:SetText("Questie Profiler")
 
     local closeButton = CreateFrame("Button", nil, titleBar, "UIPanelCloseButton")
@@ -1488,10 +1512,10 @@ end
 -- window already names those two domains in the title bar chips, so the captions label the controls with the
 -- same words as the state they act on.
 local function BuildControlRow()
-    local controlTop = -(CONTENT_TOP)
+    local controlTop = -(LAYOUT.contentTop)
 
     local sessionCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    sessionCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, controlTop - 5)
+    sessionCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", LAYOUT.edgePadding, controlTop - 5)
     sessionCaption:SetText("Session")
     sessionCaption:SetTextColor(0.62, 0.62, 0.68)
 
@@ -1515,7 +1539,7 @@ local function BuildControlRow()
     SetControlTooltip(sessionButton, "Stop profiling", "")  -- rewritten by UpdateControls to match the state
 
     resetButton = CreateControlButton(baseFrame, "Reset")
-    resetButton:SetPoint("LEFT", sessionButton, "RIGHT", CONTROL_BUTTON_GAP, 0)
+    resetButton:SetPoint("LEFT", sessionButton, "RIGHT", LAYOUT.controlButtonGap, 0)
     resetButton:SetScript("OnClick", function()
         QuestieProfiler:ResetMeasurements()
         HideFilesAfterMeasurementReset()
@@ -1532,7 +1556,7 @@ local function BuildControlRow()
         "otherwise sit above everything you are about to measure.")
 
     local viewCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    viewCaption:SetPoint("LEFT", resetButton, "RIGHT", CONTROL_GROUP_GAP, 0)
+    viewCaption:SetPoint("LEFT", resetButton, "RIGHT", LAYOUT.controlGroupGap, 0)
     viewCaption:SetText("View")
     viewCaption:SetTextColor(0.62, 0.62, 0.68)
 
@@ -1548,7 +1572,7 @@ local function BuildControlRow()
     -- Only reachable while frozen: unfrozen, the ticker already redraws twice a second, so a manual refresh
     -- would do nothing a wait of half a second does not.
     refreshButton = CreateControlButton(baseFrame, "Refresh")
-    refreshButton:SetPoint("LEFT", freezeButton, "RIGHT", CONTROL_BUTTON_GAP, 0)
+    refreshButton:SetPoint("LEFT", freezeButton, "RIGHT", LAYOUT.controlButtonGap, 0)
     refreshButton:SetScript("OnClick", function()
         QuestieProfilerUI:Refresh()
     end)
@@ -1562,7 +1586,7 @@ local function BuildControlRow()
     -- Anchored to the far edge, away from Stop and Reset: this is the one control in the window that throws
     -- the session away, and it sits beside the setting whose change it is needed to apply.
     reloadButton = CreateControlButton(baseFrame, "Reload UI")
-    reloadButton:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -EDGE_PADDING, controlTop)
+    reloadButton:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT", -LAYOUT.edgePadding, controlTop)
     reloadButton:SetScript("OnClick", function()
         ReloadUI()
     end)
@@ -1600,14 +1624,14 @@ end
 -- Checkboxes rather than tabs: the useful comparisons are across species, such as a job beside the work it
 -- schedules, and an exclusive control would forbid exactly those.
 local SPECIES_CHECKBOXES = {
-    {key = "showFunctions", label = "Functions", countKey = "functions", icon = ICON_FUNCTION,
-        color = COLOR_TEXT,
+    {key = "showFunctions", label = "Functions", countKey = "functions", icon = ICON.functionRow,
+        color = COLOR.text,
         description = "Hooked Questie functions, timed per call."},
-    {key = "showJobs", label = "Jobs", countKey = "jobs", icon = ICON_THREAD_JOB,
-        color = COLOR_THREAD_JOB,
+    {key = "showJobs", label = "Jobs", countKey = "jobs", icon = ICON.threadJob,
+        color = COLOR.threadJob,
         description = "ThreadLib coroutine jobs, timed across their resume slices."},
-    {key = "showFiles", label = "Files", countKey = "files", icon = ICON_FILE_LOAD,
-        color = COLOR_FILE_LOAD,
+    {key = "showFiles", label = "Files", countKey = "files", icon = ICON.fileLoad,
+        color = COLOR.fileLoad,
         description = "Addon files, timed while Questie loaded."},
 }
 
@@ -1625,7 +1649,7 @@ local function CreateVisibilityCheckButton(anchorTo, anchorGap, iconTexture)
 
     if iconTexture then
         local icon = baseFrame:CreateTexture(nil, "ARTWORK")
-        icon:SetSize(ROW_ICON_SIZE, ROW_ICON_SIZE)
+        icon:SetSize(LAYOUT.rowIconSize, LAYOUT.rowIconSize)
         icon:SetPoint("LEFT", checkButton, "RIGHT", 2, 0)
         icon:SetTexture(iconTexture)
         icon:SetDesaturated(true)
@@ -1641,10 +1665,10 @@ end
 -- entries that were never called. The idle filter used to be a lone text-toggle button, which made a filter
 -- look like an action.
 local function BuildShowRow()
-    local showTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT)
+    local showTop = -(LAYOUT.contentTop + LAYOUT.controlRowHeight)
 
     local showCaption = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    showCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, showTop - 5)
+    showCaption:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", LAYOUT.edgePadding, showTop - 5)
     showCaption:SetText("Show")
     showCaption:SetTextColor(0.62, 0.62, 0.68)
 
@@ -1671,7 +1695,7 @@ local function BuildShowRow()
     neverCalledCheckButton = CreateVisibilityCheckButton(previous, previousGap, nil)
     -- Dimmed to match the rows it reveals, which is the whole of what it does.
     neverCalledCheckButton.label:SetTextColor(
-        COLOR_TEXT.r * NEVER_CALLED_DIM, COLOR_TEXT.g * NEVER_CALLED_DIM, COLOR_TEXT.b * NEVER_CALLED_DIM)
+        COLOR.text.r * COLOR.neverCalledDim, COLOR.text.g * COLOR.neverCalledDim, COLOR.text.b * COLOR.neverCalledDim)
     neverCalledCheckButton:SetScript("OnClick", function(self)
         displayState.hideIdle = not self:GetChecked()
         displayState.scrollOffset = 0
@@ -1684,7 +1708,7 @@ local function BuildShowRow()
         "else and carry no measurement.")
 
     local searchLabel = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    searchLabel:SetPoint("LEFT", neverCalledCheckButton.label, "RIGHT", CONTROL_GROUP_GAP, 0)
+    searchLabel:SetPoint("LEFT", neverCalledCheckButton.label, "RIGHT", LAYOUT.controlGroupGap, 0)
     searchLabel:SetText("Search")
 
     searchBox = CreateFrame("EditBox", nil, baseFrame, "InputBoxTemplate")
@@ -1692,7 +1716,7 @@ local function BuildShowRow()
     -- Left-anchored to the filters and right-anchored to the frame, so a narrow window squeezes the box
     -- rather than letting the controls collide.
     searchBox:SetPoint("LEFT", searchLabel, "RIGHT", 10, 0)
-    searchBox:SetPoint("RIGHT", baseFrame, "RIGHT", -(EDGE_PADDING + 22), 0)
+    searchBox:SetPoint("RIGHT", baseFrame, "RIGHT", -(LAYOUT.edgePadding + 22), 0)
     searchBox:SetAutoFocus(false)
     searchBox:SetFontObject("GameFontHighlightSmall")
     searchBox:SetScript("OnTextChanged", function(self)
@@ -1717,14 +1741,14 @@ local function BuildShowRow()
 end
 
 local function BuildColumnHeaders()
-    local headerTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT)
+    local headerTop = -(LAYOUT.contentTop + LAYOUT.controlRowHeight + LAYOUT.filterRowHeight)
 
     local specs = {
-        {key = SORT_MEMORY, label = "Allocated", width = COLUMN_WIDTHS.memory},
-        {key = SORT_AVERAGE, label = "Avg", width = COLUMN_WIDTHS.average},
-        {key = SORT_CALLS, label = "Calls", width = COLUMN_WIDTHS.calls},
-        {key = SORT_SELF, label = "Self ms", width = COLUMN_WIDTHS.self},
-        {key = SORT_TOTAL, label = "Total ms", width = COLUMN_WIDTHS.total},
+        {key = SORT_MEMORY, label = "Allocated", width = LAYOUT.columnWidths.memory},
+        {key = SORT_AVERAGE, label = "Avg", width = LAYOUT.columnWidths.average},
+        {key = SORT_CALLS, label = "Calls", width = LAYOUT.columnWidths.calls},
+        {key = SORT_SELF, label = "Self ms", width = LAYOUT.columnWidths.self},
+        {key = SORT_TOTAL, label = "Total ms", width = LAYOUT.columnWidths.total},
     }
 
     for _, spec in ipairs(specs) do
@@ -1743,7 +1767,7 @@ local function BuildColumnHeaders()
     if nameHeader:GetFontString() then
         nameHeader:GetFontString():SetJustifyH("LEFT")
         nameHeader:GetFontString():ClearAllPoints()
-        nameHeader:GetFontString():SetPoint("LEFT", nameHeader, "LEFT", ACCENT_STRIPE_WIDTH + 4, 0)
+        nameHeader:GetFontString():SetPoint("LEFT", nameHeader, "LEFT", LAYOUT.accentStripeWidth + 4, 0)
     end
 end
 
@@ -1758,10 +1782,10 @@ function LayoutColumnHeaders()
         header:ClearAllPoints()
         if visible[key] then
             if previous then
-                header:SetPoint("TOPRIGHT", previous, "TOPLEFT", -COLUMN_GAP, 0)
+                header:SetPoint("TOPRIGHT", previous, "TOPLEFT", -LAYOUT.columnGap, 0)
             else
                 header:SetPoint("TOPRIGHT", baseFrame, "TOPRIGHT",
-                    -(EDGE_PADDING + SCROLL_TRACK_WIDTH + COLUMN_GAP), header.headerTop)
+                    -(LAYOUT.edgePadding + LAYOUT.scrollTrackWidth + LAYOUT.columnGap), header.headerTop)
             end
             header:Show()
             previous = header
@@ -1773,14 +1797,14 @@ function LayoutColumnHeaders()
     local nameHeader = columnHeadersByKey[SORT_NAME]
     nameHeader:ClearAllPoints()
     nameHeader:SetPoint("TOPLEFT", baseFrame, "TOPLEFT",
-        EDGE_PADDING + (displayState.treeVisible and (TREE_PANE_WIDTH + TREE_PANE_GUTTER) or 0),
+        LAYOUT.edgePadding + (displayState.treeVisible and (LAYOUT.treePaneWidth + LAYOUT.treePaneGutter) or 0),
         nameHeader.headerTop)
-    nameHeader:SetPoint("TOPRIGHT", previous, "TOPLEFT", -COLUMN_GAP, 0)
+    nameHeader:SetPoint("TOPRIGHT", previous, "TOPLEFT", -LAYOUT.columnGap, 0)
 end
 
 local function BuildScrollTrack()
     scrollTrack = CreateFrame("Frame", nil, baseFrame)
-    scrollTrack:SetWidth(SCROLL_TRACK_WIDTH)
+    scrollTrack:SetWidth(LAYOUT.scrollTrackWidth)
     scrollTrack:SetPoint("TOPRIGHT", listFrame, "TOPRIGHT", 0, 0)
     scrollTrack:SetPoint("BOTTOMRIGHT", listFrame, "BOTTOMRIGHT", 0, 0)
 
@@ -1794,7 +1818,7 @@ local function BuildScrollTrack()
     end
 
     scrollThumb = CreateFrame("Frame", nil, scrollTrack)
-    scrollThumb:SetWidth(SCROLL_TRACK_WIDTH)
+    scrollThumb:SetWidth(LAYOUT.scrollTrackWidth)
     scrollThumb:SetPoint("TOP", scrollTrack, "TOP", 0, 0)
     scrollThumb:EnableMouse(true)
 
@@ -1843,14 +1867,14 @@ local function BuildScrollTrack()
 end
 
 local function BuildTreePane()
-    local paneTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
-        + COLUMN_HEADER_HEIGHT)
+    local paneTop = -(LAYOUT.contentTop + LAYOUT.controlRowHeight + LAYOUT.filterRowHeight
+        + LAYOUT.columnHeaderHeight)
 
     treeFrame = CreateFrame("Frame", nil, baseFrame)
-    treeFrame:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", EDGE_PADDING, paneTop)
+    treeFrame:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", LAYOUT.edgePadding, paneTop)
     treeFrame:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
-        EDGE_PADDING, DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
-    treeFrame:SetWidth(TREE_PANE_WIDTH)
+        LAYOUT.edgePadding, LAYOUT.detailStripHeight + LAYOUT.statusBarHeight + LAYOUT.edgePadding)
+    treeFrame:SetWidth(LAYOUT.treePaneWidth)
     treeFrame:EnableMouseWheel(true)
     treeFrame:SetScript("OnMouseWheel", function(_, delta)
         displayState.treeScrollOffset = mmax(0, displayState.treeScrollOffset - delta * WHEEL_SCROLL_ROWS)
@@ -1863,29 +1887,29 @@ local function BuildTreePane()
     -- Runs past the tree's own bottom to the top of the status band, because the footer row below it is split
     -- by the same column: scope on the left, the pinned row's detail on the right. Stopping at the tree left
     -- those two to run together with nothing between them.
-    divider:SetPoint("TOPLEFT", treeFrame, "TOPRIGHT", TREE_PANE_GUTTER / 2, 0)
+    divider:SetPoint("TOPLEFT", treeFrame, "TOPRIGHT", LAYOUT.treePaneGutter / 2, 0)
     divider:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
-        EDGE_PADDING + TREE_PANE_WIDTH + (TREE_PANE_GUTTER / 2), STATUS_BAR_HEIGHT + 1)
+        LAYOUT.edgePadding + LAYOUT.treePaneWidth + (LAYOUT.treePaneGutter / 2), LAYOUT.statusBarHeight + 1)
     if divider.SetColorTexture then
-        divider:SetColorTexture(DIVIDER_COLOR.r, DIVIDER_COLOR.g, DIVIDER_COLOR.b, DIVIDER_COLOR.a)
+        divider:SetColorTexture(COLOR.divider.r, COLOR.divider.g, COLOR.divider.b, COLOR.divider.a)
     end
 
     treeScrollTrack = treeFrame:CreateTexture(nil, "BACKGROUND")
     treeScrollTrack:SetTexture("Interface\\Buttons\\WHITE8X8")
-    treeScrollTrack:SetWidth(TREE_SCROLL_WIDTH)
+    treeScrollTrack:SetWidth(LAYOUT.treeScrollWidth)
     treeScrollTrack:SetPoint("TOPRIGHT", treeFrame, "TOPRIGHT", 0, 0)
     treeScrollTrack:SetPoint("BOTTOMRIGHT", treeFrame, "BOTTOMRIGHT", 0, 0)
     if treeScrollTrack.SetColorTexture then
-        treeScrollTrack:SetColorTexture(TREE_SCROLL_TRACK_COLOR.r, TREE_SCROLL_TRACK_COLOR.g,
-            TREE_SCROLL_TRACK_COLOR.b, TREE_SCROLL_TRACK_COLOR.a)
+        treeScrollTrack:SetColorTexture(COLOR.treeScrollTrack.r, COLOR.treeScrollTrack.g,
+            COLOR.treeScrollTrack.b, COLOR.treeScrollTrack.a)
     end
 
     treeScrollThumb = treeFrame:CreateTexture(nil, "ARTWORK")
     treeScrollThumb:SetTexture("Interface\\Buttons\\WHITE8X8")
-    treeScrollThumb:SetWidth(TREE_SCROLL_WIDTH)
+    treeScrollThumb:SetWidth(LAYOUT.treeScrollWidth)
     if treeScrollThumb.SetColorTexture then
-        treeScrollThumb:SetColorTexture(TREE_SCROLL_THUMB_COLOR.r, TREE_SCROLL_THUMB_COLOR.g,
-            TREE_SCROLL_THUMB_COLOR.b, TREE_SCROLL_THUMB_COLOR.a)
+        treeScrollThumb:SetColorTexture(COLOR.treeScrollThumb.r, COLOR.treeScrollThumb.g,
+            COLOR.treeScrollThumb.b, COLOR.treeScrollThumb.a)
     end
 
     local treeHeader = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
@@ -1895,14 +1919,14 @@ local function BuildTreePane()
 end
 
 local function BuildListArea()
-    local listTop = -(CONTENT_TOP + CONTROL_ROW_HEIGHT + FILTER_ROW_HEIGHT
-        + COLUMN_HEADER_HEIGHT)
+    local listTop = -(LAYOUT.contentTop + LAYOUT.controlRowHeight + LAYOUT.filterRowHeight
+        + LAYOUT.columnHeaderHeight)
 
     listFrame = CreateFrame("Frame", nil, baseFrame)
     listFrame:SetPoint("TOPLEFT", baseFrame, "TOPLEFT",
-        EDGE_PADDING + TREE_PANE_WIDTH + TREE_PANE_GUTTER, listTop)
+        LAYOUT.edgePadding + LAYOUT.treePaneWidth + LAYOUT.treePaneGutter, listTop)
     listFrame:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT",
-        -EDGE_PADDING, DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
+        -LAYOUT.edgePadding, LAYOUT.detailStripHeight + LAYOUT.statusBarHeight + LAYOUT.edgePadding)
     listFrame:EnableMouseWheel(true)
     listFrame:SetScript("OnMouseWheel", function(_, delta)
         SetScrollOffset(displayState.scrollOffset - delta * WHEEL_SCROLL_ROWS)
@@ -1916,11 +1940,11 @@ end
 ---@return table[] entryButtons
 local function CreateRelationColumn(parent, anchorSide)
     local entryButtons = {}
-    for index = 1, RELATION_PANEL_ROWS do
+    for index = 1, LAYOUT.relationPanelRows do
         local entry = CreateFrame("Button", nil, parent)
-        entry:SetHeight(RELATION_ROW_HEIGHT)
+        entry:SetHeight(LAYOUT.relationRowHeight)
         entry:SetPoint("TOP" .. anchorSide, parent, "TOP" .. anchorSide,
-            anchorSide == "LEFT" and 0 or 0, -(RELATION_HEADER_HEIGHT + (index - 1) * RELATION_ROW_HEIGHT))
+            anchorSide == "LEFT" and 0 or 0, -(LAYOUT.relationHeaderHeight + (index - 1) * LAYOUT.relationRowHeight))
         entry:SetWidth(10)
 
         -- No icon slot here. Only a file would earn one, and a relation is always a call edge, so a file
@@ -1970,12 +1994,12 @@ end
 
 local function BuildRelationPanel()
     relationPanel = CreateFrame("Frame", nil, baseFrame)
-    relationPanel:SetHeight(RELATION_PANEL_HEIGHT)
+    relationPanel:SetHeight(LAYOUT.relationPanelHeight)
     relationPanel:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
-        EDGE_PADDING + TREE_PANE_WIDTH + TREE_PANE_GUTTER,
-        DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
+        LAYOUT.edgePadding + LAYOUT.treePaneWidth + LAYOUT.treePaneGutter,
+        LAYOUT.detailStripHeight + LAYOUT.statusBarHeight + LAYOUT.edgePadding)
     relationPanel:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT",
-        -EDGE_PADDING, DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING)
+        -LAYOUT.edgePadding, LAYOUT.detailStripHeight + LAYOUT.statusBarHeight + LAYOUT.edgePadding)
 
     local topRule = relationPanel:CreateTexture(nil, "ARTWORK")
     topRule:SetTexture("Interface\\Buttons\\WHITE8X8")
@@ -1983,20 +2007,20 @@ local function BuildRelationPanel()
     topRule:SetPoint("TOPLEFT", relationPanel, "TOPLEFT", 0, 0)
     topRule:SetPoint("TOPRIGHT", relationPanel, "TOPRIGHT", 0, 0)
     if topRule.SetColorTexture then
-        topRule:SetColorTexture(DIVIDER_COLOR.r, DIVIDER_COLOR.g, DIVIDER_COLOR.b, DIVIDER_COLOR.a)
+        topRule:SetColorTexture(COLOR.divider.r, COLOR.divider.g, COLOR.divider.b, COLOR.divider.a)
     end
 
     relationCallerHeader = relationPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     relationCallerHeader:SetPoint("TOPLEFT", relationPanel, "TOPLEFT", 10, -3)
     relationCallerHeader:SetJustifyH("LEFT")
-    relationCallerHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
+    relationCallerHeader:SetTextColor(COLOR.sectionHeading.r, COLOR.sectionHeading.g, COLOR.sectionHeading.b)
 
     relationCalleeHeader = relationPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     -- One anchor, like the caller header above: the previous TOP + LEFT->CENTER pair over-constrained the
     -- rect on paper and happened to render correctly only because the client resolves the conflict leniently.
     relationCalleeHeader:SetPoint("TOPLEFT", relationPanel, "TOP", 10, -3)
     relationCalleeHeader:SetJustifyH("LEFT")
-    relationCalleeHeader:SetTextColor(COLOR_SECTION_HEADING.r, COLOR_SECTION_HEADING.g, COLOR_SECTION_HEADING.b)
+    relationCalleeHeader:SetTextColor(COLOR.sectionHeading.r, COLOR.sectionHeading.g, COLOR.sectionHeading.b)
 
     relationCallerRows = CreateRelationColumn(relationPanel, "LEFT")
     relationCalleeRows = CreateRelationColumn(relationPanel, "RIGHT")
@@ -2010,7 +2034,7 @@ end
 ---@param columnWidth number
 ---@param emptyMessage string
 local function RenderRelationColumn(entryButtons, entries, identityField, columnWidth, emptyMessage)
-    for index = 1, RELATION_PANEL_ROWS do
+    for index = 1, LAYOUT.relationPanelRows do
         local entry = entryButtons[index]
         local data = entries[index]
         entry:SetWidth(columnWidth)
@@ -2028,9 +2052,9 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
             -- Colour carries the species here, the way it does in the list. Nothing is lost: the tooltip
             -- still shows the untrimmed key.
             entry.nameText:SetText(ProfilerReport.DisplayNameFor(identity))
-            local nameColor = (isThreadJob and COLOR_THREAD_JOB)
-                or (isRootLabel and COLOR_UNTIMED)
-                or COLOR_TEXT
+            local nameColor = (isThreadJob and COLOR.threadJob)
+                or (isRootLabel and COLOR.untimed)
+                or COLOR.text
             entry.nameText:SetTextColor(nameColor.r, nameColor.g, nameColor.b)
             entry.valueText:SetText(sformat("%s x   %s ms",
                 FormatCount(data.calls), FormatMilliseconds(data.totalTime)))
@@ -2039,7 +2063,7 @@ local function RenderRelationColumn(entryButtons, entries, identityField, column
             -- An empty direction is a finding, not a blank: a leaf calls nothing, a root is called by nothing.
             entry.identity = nil
             entry.nameText:SetText(emptyMessage)
-            entry.nameText:SetTextColor(COLOR_UNTIMED.r, COLOR_UNTIMED.g, COLOR_UNTIMED.b)
+            entry.nameText:SetTextColor(COLOR.untimed.r, COLOR.untimed.g, COLOR.untimed.b)
             entry.valueText:SetText("")
             entry:Show()
         else
@@ -2055,8 +2079,8 @@ end
 ---@param count number
 ---@return string
 function _QuestieProfilerUI.RelationHeaderText(label, count)
-    if count > RELATION_PANEL_ROWS then
-        return sformat("%s (%d, top %d)", label, count, RELATION_PANEL_ROWS)
+    if count > LAYOUT.relationPanelRows then
+        return sformat("%s (%d, top %d)", label, count, LAYOUT.relationPanelRows)
     end
     return sformat("%s (%d)", label, count)
 end
@@ -2151,12 +2175,12 @@ function LayoutContentArea()
         return
     end
 
-    local bottomInset = DETAIL_STRIP_HEIGHT + STATUS_BAR_HEIGHT + EDGE_PADDING
+    local bottomInset = LAYOUT.detailStripHeight + LAYOUT.statusBarHeight + LAYOUT.edgePadding
     if relationPanel and relationPanel:IsShown() then
-        bottomInset = bottomInset + RELATION_PANEL_HEIGHT + 4
+        bottomInset = bottomInset + LAYOUT.relationPanelHeight + 4
     end
 
-    listFrame:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -EDGE_PADDING, bottomInset)
+    listFrame:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -LAYOUT.edgePadding, bottomInset)
 end
 
 local function BuildFooter()
@@ -2166,10 +2190,10 @@ local function BuildFooter()
     footerBand:SetTexture("Interface\\Buttons\\WHITE8X8")
     footerBand:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", 1, 1)
     footerBand:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -1, 1)
-    footerBand:SetHeight(STATUS_BAR_HEIGHT)
+    footerBand:SetHeight(LAYOUT.statusBarHeight)
     if footerBand.SetColorTexture then
-        footerBand:SetColorTexture(CHROME_BAND_COLOR.r, CHROME_BAND_COLOR.g, CHROME_BAND_COLOR.b,
-            CHROME_BAND_COLOR.a)
+        footerBand:SetColorTexture(COLOR.chromeBand.r, COLOR.chromeBand.g, COLOR.chromeBand.b,
+            COLOR.chromeBand.a)
     end
 
     local footerRule = baseFrame:CreateTexture(nil, "ARTWORK")
@@ -2178,13 +2202,13 @@ local function BuildFooter()
     footerRule:SetPoint("BOTTOMLEFT", footerBand, "TOPLEFT", 0, 0)
     footerRule:SetPoint("BOTTOMRIGHT", footerBand, "TOPRIGHT", 0, 0)
     if footerRule.SetColorTexture then
-        footerRule:SetColorTexture(DIVIDER_COLOR.r, DIVIDER_COLOR.g, DIVIDER_COLOR.b, DIVIDER_COLOR.a)
+        footerRule:SetColorTexture(COLOR.divider.r, COLOR.divider.g, COLOR.divider.b, COLOR.divider.a)
     end
 
     treeScopeButton = CreateFrame("Button", nil, baseFrame)
     treeScopeButton:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
-        EDGE_PADDING, STATUS_BAR_HEIGHT + SELECTION_ROW_LIFT)
-    treeScopeButton:SetSize(TREE_PANE_WIDTH, DETAIL_STRIP_HEIGHT)
+        LAYOUT.edgePadding, LAYOUT.statusBarHeight + LAYOUT.selectionRowLift)
+    treeScopeButton:SetSize(LAYOUT.treePaneWidth, LAYOUT.detailStripHeight)
     AddHoverHighlight(treeScopeButton)
     treeScopeButton:SetScript("OnClick", function()
         if displayState.scopePrefix == "" then
@@ -2198,15 +2222,15 @@ local function BuildFooter()
     treeScopeText:SetAllPoints(treeScopeButton)
     -- Stops at the pane edge rather than crossing the gutter, so a long scope never crowds the divider.
     treeScopeText:SetJustifyH("LEFT")
-    treeScopeText:SetTextColor(SCOPE_HINT_COLOR.r, SCOPE_HINT_COLOR.g, SCOPE_HINT_COLOR.b)
+    treeScopeText:SetTextColor(COLOR.scopeHint.r, COLOR.scopeHint.g, COLOR.scopeHint.b)
     DisableWrapping(treeScopeText)
 
     -- A FontString cannot be selected, so the one thing worth copying gets an EditBox. No template, so it
     -- draws no border and reads as part of the line rather than as an input someone is meant to fill in.
     detailBox = CreateFrame("EditBox", nil, baseFrame)
     detailBox:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT",
-        EDGE_PADDING + TREE_PANE_WIDTH + TREE_PANE_GUTTER, STATUS_BAR_HEIGHT + SELECTION_ROW_LIFT - 3)
-    detailBox:SetHeight(DETAIL_STRIP_HEIGHT)
+        LAYOUT.edgePadding + LAYOUT.treePaneWidth + LAYOUT.treePaneGutter, LAYOUT.statusBarHeight + LAYOUT.selectionRowLift - 3)
+    detailBox:SetHeight(LAYOUT.detailStripHeight)
     detailBox:SetWidth(10)
     detailBox:SetAutoFocus(false)
     detailBox:SetFontObject("GameFontHighlightSmall")
@@ -2245,13 +2269,13 @@ local function BuildFooter()
     -- Denominators on the left, state on the right. Both live on the status row, so the strip costs no
     -- height: a profiler that spends another row of chrome on chrome is worse off than one that groups.
     summaryText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    summaryText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", EDGE_PADDING, 6)
+    summaryText:SetPoint("BOTTOMLEFT", baseFrame, "BOTTOMLEFT", LAYOUT.edgePadding, 6)
     summaryText:SetJustifyH("LEFT")
     summaryText:SetTextColor(0.66, 0.66, 0.72)
     DisableWrapping(summaryText)
 
     statusText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    statusText:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -(EDGE_PADDING + 16), 6)
+    statusText:SetPoint("BOTTOMRIGHT", baseFrame, "BOTTOMRIGHT", -(LAYOUT.edgePadding + 16), 6)
     statusText:SetPoint("LEFT", summaryText, "RIGHT", 12, 0)
     statusText:SetJustifyH("RIGHT")
     statusText:SetTextColor(0.62, 0.62, 0.68)
@@ -2321,7 +2345,7 @@ local function CreateIndicator()
     local label = indicatorButton:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     label:SetPoint("CENTER", indicatorButton, "CENTER", 0, 0)
     label:SetText(INDICATOR_LABEL)
-    label:SetTextColor(INDICATOR_COLOR.r, INDICATOR_COLOR.g, INDICATOR_COLOR.b)
+    label:SetTextColor(COLOR.indicator.r, COLOR.indicator.g, COLOR.indicator.b)
     indicatorButton.label = label
 
     local labelWidth = label.GetStringWidth and label:GetStringWidth() or 120
@@ -2340,7 +2364,7 @@ local function CreateIndicator()
         GameTooltip:Show()
     end)
     indicatorButton:SetScript("OnLeave", function(self)
-        self.label:SetTextColor(INDICATOR_COLOR.r, INDICATOR_COLOR.g, INDICATOR_COLOR.b)
+        self.label:SetTextColor(COLOR.indicator.r, COLOR.indicator.g, COLOR.indicator.b)
         GameTooltip:Hide()
     end)
     indicatorButton:SetScript("OnClick", function()
@@ -2366,14 +2390,14 @@ function QuestieProfilerUI:Create()
     end
 
     baseFrame = CreateFrame("Frame", "QuestieProfilerFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-    baseFrame:SetSize(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT)
+    baseFrame:SetSize(LAYOUT.windowDefaultWidth, LAYOUT.windowDefaultHeight)
     baseFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
     baseFrame:SetFrameStrata("DIALOG")
     baseFrame:SetClampedToScreen(true)
     baseFrame:EnableMouse(true)
     baseFrame:SetMovable(true)
     baseFrame:SetResizable(true)
-    ApplyResizeBounds(baseFrame, WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT, WINDOW_MAX_WIDTH, WINDOW_MAX_HEIGHT)
+    ApplyResizeBounds(baseFrame, LAYOUT.windowMinWidth, LAYOUT.windowMinHeight, LAYOUT.windowMaxWidth, LAYOUT.windowMaxHeight)
 
     if baseFrame.SetBackdrop then
         baseFrame:SetBackdrop({
