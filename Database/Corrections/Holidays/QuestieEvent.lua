@@ -254,8 +254,10 @@ function QuestieEvent:Load()
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
-            or Questie.IsTBC then
+    local dmfAvailable = (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
+            or Questie.IsTBC
+
+    if dmfAvailable then
         _LoadDarkmoonFaire()
     end
 
@@ -268,7 +270,7 @@ function QuestieEvent:Load()
 
     local dmfNpcs = {14844} -- Sylannia <Darkmoon Faire Drink Vendor>
     local dmfActive = dmfIsActive
-    if not dmfActive and (Questie.IsClassic or Questie.IsTBC) then
+    if not dmfActive and dmfAvailable then
         dmfActive = _GetDarkmoonFaireLocation() ~= DMF_LOCATIONS.NONE
     end
     local hideDmf = not dmfActive
