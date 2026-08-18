@@ -40,9 +40,6 @@ function QuestieTBCObjectFixes:Load()
         [177281] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{80.32,65.06}}},
         },
-        [177790] = {
-            [objectKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{29.56,29.2}}},
-        },
         [180570] = {
             [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{51.37,58.98}}},
         },
