@@ -642,6 +642,12 @@ function QuestieQuestFixes:Load()
         [844] = {
             [questKeys.breadcrumbs] = {860},
         },
+        [848] = { -- Fungal Spores
+            [questKeys.nextQuestInChain] = 853,
+        },
+        [850] = { -- Kolkar Leaders
+            [questKeys.nextQuestInChain] = 851,
+        },
         [854] = {
             [questKeys.exclusiveTo] = {844},
         },
