@@ -419,8 +419,8 @@ local debugMessagesLocales = {
         ["koKR"] = "%s 위한 %s!",
         ["ptBR"] = "%s para %s!",
         ["ruRU"] = "%s для %s!",
-        ["zhCN"] = "%s 用于 %s！",
-        ["zhTW"] = "%s 供 %s 使用！",
+        ["zhCN"] = "%s 任务：%s！",
+        ["zhTW"] = "%s 任務：%s！",
     },
     ["Picked up %s which starts %s!"] = {
         ["enUS"] = true,
