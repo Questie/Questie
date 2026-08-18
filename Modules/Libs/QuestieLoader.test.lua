@@ -64,6 +64,87 @@ describe("QuestieLoader", function()
         end)
     end)
 
+    describe("module call observer", function()
+        before_each(function()
+            _G.QuestieProfilerEnabled = nil
+            LoadQuestieLoader()
+        end)
+
+        after_each(function()
+            QuestieLoader:SetModuleCallObserver(nil)
+        end)
+
+        it("is not called until something registers one", function()
+            -- The default path must cost one comparison and nothing else.
+            local calls = 0
+            QuestieLoader:CreateModule("ObserverUnset")
+
+            QuestieLoader:SetModuleCallObserver(function() calls = calls + 1 end)
+            QuestieLoader:CreateModule("ObserverSet")
+
+            assert.are_same(1, calls)
+        end)
+
+        it("tells the observer which module was named", function()
+            -- This is what lets an observer look at one module instead of re-reading all of them.
+            local seen = {}
+            QuestieLoader:SetModuleCallObserver(function(moduleName)
+                seen[#seen + 1] = moduleName
+            end)
+
+            QuestieLoader:CreateModule("ObserverNamedCreate")
+            QuestieLoader:ImportModule("ObserverNamedImport")
+
+            assert.are_same({"ObserverNamedCreate", "ObserverNamedImport"}, seen)
+        end)
+
+        it("fires on both CreateModule and ImportModule", function()
+            local calls = 0
+            QuestieLoader:SetModuleCallObserver(function() calls = calls + 1 end)
+
+            QuestieLoader:CreateModule("ObserverCreate")
+            QuestieLoader:ImportModule("ObserverImport")
+
+            assert.are_same(2, calls)
+        end)
+
+        it("fires before the caller can reach the module it is registering", function()
+            -- This ordering is the whole point: an observer installs into a module that is already loaded,
+            -- and the file making this call has not yet run the line that would capture one of its functions.
+            local seen
+            QuestieLoader:SetModuleCallObserver(function()
+                seen = QuestieLoader._modules.ObserverEarlier ~= nil
+            end)
+            QuestieLoader:CreateModule("ObserverEarlier")
+
+            assert.is_false(seen)
+        end)
+
+        it("stops calling once the observer clears itself", function()
+            local calls = 0
+            local function observer()
+                calls = calls + 1
+                QuestieLoader:SetModuleCallObserver(nil)
+            end
+            QuestieLoader:SetModuleCallObserver(observer)
+
+            QuestieLoader:CreateModule("ObserverOnce")
+            QuestieLoader:CreateModule("ObserverAgain")
+            QuestieLoader:ImportModule("ObserverThird")
+
+            assert.are_same(1, calls)
+        end)
+
+        it("still registers modules normally while an observer is attached", function()
+            QuestieLoader:SetModuleCallObserver(function() end)
+
+            local module = QuestieLoader:CreateModule("ObserverRegistered")
+
+            assert.are_equal(module, QuestieLoader:ImportModule("ObserverRegistered"))
+            assert.are_same("table", type(module.private))
+        end)
+    end)
+
     describe("load timing when the profiler is disabled", function()
         before_each(function()
             _G.QuestieProfilerEnabled = nil

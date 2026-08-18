@@ -118,12 +118,36 @@ end
 --- Module creation and import
 ------------------------------
 
+-- Called at the top of every file that registers or imports a module, which is the only moment between two
+-- files that any Questie code runs. QuestieProfilerPreHook uses it to install its indirections as soon as the
+-- module defining them exists, rather than depending on where it sits in the TOC - a dependency that is
+-- silent when it is wrong.
+--
+-- The module name is passed on, because an observer that has to re-examine every module on every call does
+-- roughly a thousand times more work than the one it is looking for: measured over a Classic load, 986 calls
+-- inspecting 571,720 slots to install 626 wrappers. Knowing which module was named lets it look at that one.
+--
+-- Nil unless something registers, so an ordinary load pays one comparison per loader call. The observer is
+-- expected to clear itself once it has nothing left to do.
+---@type fun(moduleName: string)?
+local moduleCallObserver
+
+---Registers a function to run at each module registration or import. Intended for profiling installation that
+---must happen before a later file captures a function into a file-scope local; nothing else should use it.
+---@param observer fun(moduleName: string)? @Receives the name being registered or imported; nil to detach
+function QuestieLoader:SetModuleCallObserver(observer)
+    moduleCallObserver = observer
+end
+
 ---@generic T : QuestieModule
 ---@param name `T` @Module name
 ---@return T @Module reference
 function QuestieLoader:CreateModule(name)
     if trackLoadTimings then
         StampLoad(3)
+    end
+    if moduleCallObserver then
+        moduleCallObserver(name)
     end
     if (not modules[name]) then
         modules[name] = { private = {} }
@@ -139,6 +163,9 @@ end
 function QuestieLoader:ImportModule(name)
     if trackLoadTimings then
         StampLoad(3)
+    end
+    if moduleCallObserver then
+        moduleCallObserver(name)
     end
     if (not modules[name]) then
         modules[name] = { private = {} }
