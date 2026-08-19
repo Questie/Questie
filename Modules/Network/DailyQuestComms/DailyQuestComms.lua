@@ -18,7 +18,7 @@ local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlac
 
 ---@alias CommEvent HideDailyQuestsEvent|RequestUnavailableDailyQuestsEvent
 
-local COMM_PREFIX = "QuestieDailiesV1"
+local COMM_PREFIX = "QuestieDailiesV2"
 
 local playerName
 local realmName

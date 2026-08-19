@@ -69,7 +69,7 @@ local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC, _ScheduleDailyResetTimer
+local _CalculateAndDrawAvailableQuests, _CanNpcOfferQuestToPlayer, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC, _ScheduleDailyResetTimer
 
 -- Exposed for testing only
 AvailableQuests.__getPassState = function()
@@ -401,7 +401,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
             end
         end
 
-        if (not isAvailableInGossip) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not isAvailableInGossip) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -456,7 +456,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if questId ~= availableQuestId and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if questId ~= availableQuestId and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -528,7 +528,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if (not availableQuestsInGreeting[questId]) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not availableQuestsInGreeting[questId]) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -853,6 +853,25 @@ end
 
 _GetIconScaleForAvailable = function()
     return Questie.db.profile.availableScale or 1.3
+end
+
+--- Quests outside the player's level capability are never offered by an NPC in the game, so their
+--- absence from the gossip/greeting UI is not evidence that they are unavailable today. Such quests
+--- must not be hidden or broadcast as unavailable.
+--- This scenario can happen though when players use a non-default "Which available quests should be displayed"
+--- setting and show quests which are not available yet due to level restrictions.
+---@param questId QuestId
+---@return boolean
+_CanNpcOfferQuestToPlayer = function(questId)
+    local playerLevel = QuestiePlayer.GetPlayerLevel()
+    local _, requiredLevel, requiredMaxLevel = QuestieLib.GetEffectiveQuestLevel(questId, playerLevel)
+    if requiredLevel and requiredLevel > playerLevel then
+        return false
+    end
+    if requiredMaxLevel and requiredMaxLevel ~= 0 and playerLevel > requiredMaxLevel then
+        return false
+    end
+    return true
 end
 
 ---@param questId QuestId
