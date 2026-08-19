@@ -1409,7 +1409,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {356, 30},
             [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE] = {{50.7, 23.8}, {40, 73.6}, {44.3, 74.4}, {53.3, 32.4}, {43.3, 80.6}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Electropellers"),}},
         },
-        [1581] = { -- bad race data
+        [1581] = { -- Elixirs for the Bladeleafs
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [1598] = { -- The Stolen Tome
@@ -3136,7 +3136,7 @@ function QuestieQuestFixes:Load()
         [5227] = { -- Gahrron's Withering Cauldron
             [questKeys.preQuestSingle] = {5226, 5236},
         },
-        [5234] = { -- bad race data
+        [5234] = { -- Return to the Bulwark
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [5236] = { -- Return to the Bulwark
@@ -4020,29 +4020,36 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.", {[zoneIDs.ALTERAC_VALLEY] = {{42.29, 12.85}}}},
         },
         [7161] = { -- Proving Grounds
-            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.breadcrumbs] = {7241},
         },
         [7162] = { -- Proving Grounds
-            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.breadcrumbs] = {7261},
         },
-        [7165] = { -- Earned Reverence
-            [questKeys.requiredRaces] = raceIDs.NONE,
-        },
-        [7166] = { -- bad race data
+        [7163] = { -- Rise and Be Recognized
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [7167] = { -- bad race data
+        [7164] = { -- Honored Amongst the Clan
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [7170] = { -- bad race data
+        [7166] = { -- Legendary Heroes
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [7167] = { -- The Eye of Command
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [7168] = { -- The Eye of Command
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [7171] = { -- bad race data
+        [7169] = { -- Honored Amongst the Guard
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [7172] = { -- bad race data
+        [7170] = { -- Earned Reverence
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [7171] = { -- Legendary Heroes
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [7172] = { -- The Eye of Command
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7201] = { -- The Last Element
@@ -4068,13 +4075,13 @@ function QuestieQuestFixes:Load()
         [7386] = { -- Crystal Cluster
             [questKeys.objectivesText] = {},
         },
-        [7426] = { -- bad race data
+        [7426] = { -- One Man's Love
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [7427] = { -- bad race data
+        [7427] = { -- Wanted: MORE DWARVES!
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [7428] = { -- bad race data
+        [7428] = { -- Wanted: MORE ORCS!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7463] = { -- Arcane Refreshment
@@ -4688,7 +4695,7 @@ function QuestieQuestFixes:Load()
         [8271] = { -- Hero of the Stormpike
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [8272] = { -- bad race data
+        [8272] = { -- Hero of the Frostwolf
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8275] = { -- Taking Back Silithus
@@ -4719,7 +4726,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
-        [8296] = { -- bad race data
+        [8296] = { -- Mark of Honor
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8301] = { -- The Path of the Righteous
