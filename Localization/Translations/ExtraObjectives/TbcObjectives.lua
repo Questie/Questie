@@ -1898,6 +1898,18 @@ local tbcObjectiveLocales = {
         ["zhCN"] = "打开它",
         ["zhTW"] = false,
     },
+    ["Kill the Ritualists"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(tbcObjectiveLocales) do

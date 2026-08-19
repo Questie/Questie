@@ -4515,6 +4515,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10808] = { -- Thwart the Dark Conclave
             [questKeys.objectives] = {{{22137,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill the Ritualists"), 0, {{"monster", 22138}}}},
         },
         [10809] = { -- Wanted: Worg Master Kruush
             [questKeys.nextQuestInChain] = 10792,

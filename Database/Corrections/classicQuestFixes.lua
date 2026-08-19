@@ -4037,7 +4037,7 @@ function QuestieQuestFixes:Load()
         [7167] = { -- The Eye of Command
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [7168] = { -- The Eye of Command
+        [7168] = { -- Rise and Be Recognized
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7169] = { -- Honored Amongst the Guard
