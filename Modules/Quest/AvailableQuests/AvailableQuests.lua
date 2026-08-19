@@ -490,6 +490,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     lastNpcGuid = npcGuid
 
     local availableQuestsInGreeting = {}
+    local unresolvedQuestInGreeting = false
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         if (not titleLine) then
@@ -505,8 +506,13 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
                 title = GetAvailableTitle(titleLine:GetID())
             end
             local questId = QuestieDB.GetQuestIDFromName(title, npcGuid, (not isActive))
-            if questId and questId > 0 then
+            if questId > 0 then
                 availableQuestsInGreeting[questId] = true
+            else
+                -- A visible quest in the frame could not be resolved to an ID, so we cannot know which quest it is.
+                -- Keep all quests available instead of hiding any, to not hide an available quest that we simply failed to identify.
+                -- This is also a problem when users use a different WoW client locale than they set their Questie to (API names ~= lookup names)
+                unresolvedQuestInGreeting = true
             end
         end
     end
@@ -524,6 +530,10 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
                 AvailableQuests.DrawAvailableQuest(quest)
             end
         end
+    end
+
+    if unresolvedQuestInGreeting then
+        return
     end
 
     local unavailableQuestsToBroadcast = {}
