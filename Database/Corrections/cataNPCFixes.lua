@@ -8813,10 +8813,10 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.DESOLACE] = {{25.41,72.09}},
             },
         },
-        [37214] = {
+        [37214] = { -- Crown Lackey
             [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}},
         },
-        [37917] = {
+        [37917] = { -- Crown Thug
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}}},
         },]]
         [29579] = { -- Brann Bronzebeard
@@ -8999,7 +8999,7 @@ function CataNpcFixes:LoadFactionFixes()
                 [zoneIDs.ASHENVALE] = {{35.26,50.41}},
             },
         },
-        [37214] = {
+        [37214] = { -- Crown Lackey
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}}},
         },]]
         [29579] = { -- Brann Bronzebeard
