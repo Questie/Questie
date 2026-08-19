@@ -21,10 +21,14 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 
 QuestieLink.lastItemRefTooltip = ""
+-- Points to whichever tooltip frame is currently being written to (ItemRefTooltip for clicks, GameTooltip for hovers)
+---@type Frame
+QuestieLink._activeTooltip = nil
 
 -- Forward declaration
 local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _AddDungeonInfo, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
 local _AddTooltipLine, _AddColoredTooltipLine, _GetObjectiveText
+local _GetQuestStarterName
 
 
 local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
@@ -44,6 +48,8 @@ function ItemRefTooltip:SetHyperlink(link, ...)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink:", link)
         ShowUIPanel(ItemRefTooltip)
         ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
+        ItemRefTooltip:ClearLines()
+        QuestieLink._activeTooltip = ItemRefTooltip
         QuestieLink:CreateQuestTooltip(link)
         ItemRefTooltip:Show()
 
@@ -115,7 +121,7 @@ end
 ---@param text string
 ---@param wrapText boolean?
 _AddTooltipLine = function(text, wrapText)
-    ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
+    QuestieLink._activeTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
 ---@param text string
@@ -123,7 +129,7 @@ end
 ---@param wrapText boolean?
 _AddColoredTooltipLine = function(text, color, wrapText)
     text = Questie:Colorize(text, color)
-    ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
+    QuestieLink._activeTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
 ---@param quest Quest
@@ -421,6 +427,199 @@ _AddPlayerQuestProgress = function(quest, starterName, starterZoneName, finisher
             end
         end
     end
+end
+
+--- Populate a hover tooltip with condensed quest info.
+--- The caller must set QuestieLink._activeTooltip before calling.
+---@param quest Quest
+function QuestieLink:_PopulateHoverTooltip(quest)
+    local questId = quest.Id
+    local questName = quest.name
+    local questLevel = QuestieLib.GetEffectiveQuestLevel(questId)
+    local titleColor = string.sub(QuestieLib:PrintDifficultyColor(questLevel, "", QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)), 5, 10)
+
+    local titleText
+    if Questie.db.profile.trackerShowQuestLevel and Questie.db.profile.enableTooltipsQuestID then
+        titleText = QuestieLib:GetLevelString(questId, questLevel) .. questName .. " (" .. questId .. ")"
+    elseif Questie.db.profile.trackerShowQuestLevel then
+        titleText = QuestieLib:GetLevelString(questId, questLevel) .. questName
+    elseif Questie.db.profile.enableTooltipsQuestID then
+        titleText = questName .. " (" .. questId .. ")"
+    else
+        titleText = questName
+    end
+
+    local tip = QuestieLink._activeTooltip
+    tip:AddLine(Questie:Colorize(titleText, titleColor))
+
+    local DoableStates = QuestieDB.DoableStates
+    local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+    if QuestiePlayer.currentQuestlog[questId] then
+        local questIsComplete = QuestieDB.IsComplete(questId)
+        if questIsComplete == 1 then
+            tip:AddLine(Questie:Colorize(l10n("Complete"), "green"))
+        elseif questIsComplete == -1 then
+            tip:AddLine(Questie:Colorize(l10n("Failed"), "red"))
+        else
+            tip:AddLine(Questie:Colorize(l10n("You are on this quest"), "green"))
+        end
+    elseif Questie.db.char.complete[questId] then
+        tip:AddLine(Questie:Colorize(l10n("You have completed this quest"), "green"))
+    elseif returnReason ~= DoableStates.AVAILABLE then
+        tip:AddLine(Questie:Colorize(eligibilityText, "red"))
+    elseif quest.specialFlags == 1 then
+        tip:AddLine(Questie:Colorize(l10n("This quest is repeatable"), "yellow"))
+    else
+        tip:AddLine(Questie:Colorize(l10n("You have not done this quest"), "yellow"))
+    end
+
+    if quest.Description and quest.Description[1] then
+        tip:AddLine(" ")
+        for _, line in ipairs(quest.Description) do
+            tip:AddLine(Questie:Colorize(line, "white"), 1, 1, 1, true)
+        end
+    end
+
+    if not QuestiePlayer.currentQuestlog[questId] and not Questie.db.char.complete[questId] then
+        local starterName = _GetQuestStarterName(quest)
+        if starterName then
+            tip:AddLine(" ")
+            tip:AddLine(Questie:Colorize(l10n("Started by") .. l10n(": ") .. starterName, "gray"))
+        end
+    end
+end
+
+_GetQuestStarterName = function(quest)
+    if quest.Starts then
+        if quest.Starts.NPC and quest.Starts.NPC[1] then
+            local npc = QuestieDB:GetNPC(quest.Starts.NPC[1])
+            if npc then return npc.name end
+        elseif quest.Starts.Item and quest.Starts.Item[1] then
+            local item = QuestieDB:GetItem(quest.Starts.Item[1])
+            if item then return item.name end
+        elseif quest.Starts.GameObject and quest.Starts.GameObject[1] then
+            local obj = QuestieDB:GetObject(quest.Starts.GameObject[1])
+            if obj then return obj.name end
+        end
+    end
+    return nil
+end
+
+-- Show quest tooltip on hover.
+-- Two approaches depending on whether Chattynator is installed:
+-- 1) Chattynator replaces default chat frames, so we hook ChattynatorHyperlinkHandler
+-- 2) Without Chattynator, we hook default chat frames via SetScript
+local function ShowQuestieHoverTooltip(link)
+    local questiePrefix, questId = string.match(link or "", "(questie):(%d+):")
+    if questiePrefix == "questie" and questId then
+        questId = tonumber(questId)
+        local quest = QuestieDB.GetQuest(questId)
+        if quest then
+            GameTooltip:ClearLines()
+            QuestieLink._activeTooltip = GameTooltip
+            QuestieLink:_PopulateHoverTooltip(quest)
+            GameTooltip:Show()
+            return true
+        end
+    end
+    return false
+end
+
+-- Chattynator hook: Chattynator replaces default chat frames entirely.
+-- Its handler frame is ChattynatorHyperlinkHandler (a ScrollingMessageFrame
+-- with hyperlinksEnabled="true" that receives propagated events from its chat frames).
+local function HookChattynator()
+    local handler = Chattynator and Chattynator.API and Chattynator.API.GetHyperlinkHandler()
+    if not handler then return false end
+
+    local existingOnEnter = handler:GetScript("OnHyperlinkEnter")
+    handler:SetScript("OnHyperlinkEnter", function(_, hyperlink)
+        local linkType = hyperlink:match("^(.-):")
+        if linkType == "questie" then
+            GameTooltip:SetOwner(handler:GetParent(), "ANCHOR_CURSOR")
+            if ShowQuestieHoverTooltip(hyperlink) then
+                return
+            end
+        end
+        if existingOnEnter then
+            existingOnEnter(_, hyperlink)
+        end
+    end)
+
+    local existingOnLeave = handler:GetScript("OnHyperlinkLeave")
+    handler:SetScript("OnHyperlinkLeave", function()
+        GameTooltip:Hide()
+        if existingOnLeave then
+            existingOnLeave()
+        end
+    end)
+
+    return true
+end
+
+-- Default chat frame hook: SetScript on each ScrollingMessageFrame.
+local function HookDefaultChatFrames()
+    for i = 1, (NUM_CHAT_WINDOWS or 10) do
+        local chatFrame = _G["ChatFrame" .. i]
+        if chatFrame then
+            local existingOnEnter = chatFrame:GetScript("OnHyperlinkEnter")
+            chatFrame:SetScript("OnHyperlinkEnter", function(self, link, ...)
+                local linkType = string.match(link or "", "^(.-):")
+                if linkType == "questie" then
+                    local questId = tonumber(string.match(link, "^questie:(%d+):"))
+                    if questId then
+                        local quest = QuestieDB.GetQuest(questId)
+                        if quest then
+                            self._questieHoverActive = true
+                            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+                            GameTooltip:ClearLines()
+                            QuestieLink._activeTooltip = GameTooltip
+                            QuestieLink:_PopulateHoverTooltip(quest)
+                            GameTooltip:Show()
+                            return
+                        end
+                    end
+                end
+                self._questieHoverActive = false
+                if existingOnEnter then
+                    existingOnEnter(self, link, ...)
+                end
+            end)
+
+            local existingOnLeave = chatFrame:GetScript("OnHyperlinkLeave")
+            chatFrame:SetScript("OnHyperlinkLeave", function(self, ...)
+                if self._questieHoverActive then
+                    self._questieHoverActive = false
+                    GameTooltip:Hide()
+                elseif existingOnLeave then
+                    existingOnLeave(self, ...)
+                end
+            end)
+        end
+    end
+end
+
+-- Try Chattynator first (returns true if Chattynator is active)
+local chattynatorHooked = HookChattynator()
+
+-- If Chattynator is not installed, hook default chat frames
+if not chattynatorHooked then
+    HookDefaultChatFrames()
+end
+
+-- Also handle Chattynator loading after Questie via ADDON_LOADED
+if not chattynatorHooked then
+    local loaderFrame = CreateFrame("Frame")
+    loaderFrame:RegisterEvent("ADDON_LOADED")
+    loaderFrame:SetScript("OnEvent", function(_, _, addonName)
+        if addonName == "Chattynator" then
+            C_Timer.After(0, function()
+                if HookChattynator() then
+                    loaderFrame:UnregisterAllEvents()
+                end
+            end)
+        end
+    end)
 end
 
 -- Compatibility: 2.5.5+ uses ChatFrameMixin:OnHyperlinkClick instead of ChatFrame_OnHyperlinkShow

@@ -33,12 +33,19 @@ describe("QuestieLink", function()
                 table.insert(tooltipLines, text)
             end,
             IsShown = function() return false end,
+            SetOwner = function() end,
+            ClearLines = function() end,
+            Show = function() end,
+            Hide = function() end,
         }
         _G.ItemRefTooltipTextLeft1 = {
             GetText = function() return "" end,
         }
         _G.ShowUIPanel = function() end
         _G.UIParent = {}
+        _G.GameTooltip = {
+            SetHyperlink = function() end,
+        }
 
         _G.Questie.Colorize = function(_, text)
             return text
@@ -386,6 +393,115 @@ describe("QuestieLink", function()
                 "Your progress: ",
                 " - |cFFEEEEEEWool Cloth: 3/10|r",
             }, tooltipLines)
+        end)
+    end)
+
+    describe("_PopulateHoverTooltip", function()
+        local mockTooltip
+
+        before_each(function()
+            mockTooltip = {
+                lines = {},
+                AddLine = function(self, text, r, g, b, wrap)
+                    table.insert(self.lines, text)
+                end,
+            }
+        end)
+
+        it("should add quest title, status, and description to the tooltip", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Hover Quest",
+                    Description = {"Do something."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = nil,
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+
+            QuestieLink._activeTooltip = mockTooltip
+            QuestieLink:_PopulateHoverTooltip(QuestieDB.GetQuest(1234))
+
+            assert.are_same({
+                "Hover Quest",
+                "You have not done this quest",
+                " ",
+                "Do something.",
+            }, mockTooltip.lines)
+        end)
+
+        it("should show Started by when quest is not in log and not completed", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "NPC Quest",
+                    Description = {"Help out."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = {NPC = {500}},
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+            QuestieDB.GetNPC = function(npcId)
+                if npcId == 500 then
+                    return {name = "Quest Giver"}
+                end
+                return nil
+            end
+
+            QuestieLink._activeTooltip = mockTooltip
+            QuestieLink:_PopulateHoverTooltip(QuestieDB.GetQuest(1234))
+
+            assert.are_same({
+                "NPC Quest",
+                "You have not done this quest",
+                " ",
+                "Help out.",
+                " ",
+                "Started by: Quest Giver",
+            }, mockTooltip.lines)
+        end)
+
+        it("should not show Started by when quest is in the player quest log", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Active Quest",
+                    Description = {"Fight things."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = {NPC = {500}},
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You are on this quest", nil, "AVAILABLE"
+            end
+            QuestiePlayer.currentQuestlog = {[1234] = true}
+
+            QuestieLink._activeTooltip = mockTooltip
+            QuestieLink:_PopulateHoverTooltip(QuestieDB.GetQuest(1234))
+
+            assert.are_same({
+                "Active Quest",
+                "You are on this quest",
+                " ",
+                "Fight things.",
+            }, mockTooltip.lines)
         end)
     end)
 end)
