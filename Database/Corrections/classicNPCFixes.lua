@@ -2615,7 +2615,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY] = {{50,81}}},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
-        [14232] = {
+        [14232] = { -- Dart
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{47.27,18.38}}},
         },
         [14233] = { -- Ripscale
