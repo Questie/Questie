@@ -947,6 +947,33 @@ describe("AvailableQuests", function()
             assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.not_called()
         end)
 
+        it("should not hide quests when a visible quest title cannot be resolved to an ID", function()
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetQuestIDFromName = spy.new(function() return 0 end)
+            _G.QuestTitleButton1 = {
+                IsVisible = function() return true end,
+                isActive = 0,
+                GetID = function() return 1 end,
+            }
+            _G.GetAvailableTitle = spy.new(function() return "Unknown Quest" end)
+            QuestieDB.IsDailyQuest = function() return true end
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            DailyQuestComms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
+
+            assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Unknown Quest", "Creature-0-0-0-0-" .. NPC_ID .. "-0", true)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
+            assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
+            assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+            assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
+            assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.not_called()
+        end)
+
         it("should re-show quests that are incorrectly marked as unavailable", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
