@@ -625,7 +625,7 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.name] = "Wishing Well",
             [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [objectKeys.spawns] = {
-                [zoneIDs.ASHENVALE] = {{36.4,19.6}},
+                [zoneIDs.LOCH_MODAN] = {{36.4,19.6}},
             },
             [objectKeys.questStarts] = {90162},
         },
