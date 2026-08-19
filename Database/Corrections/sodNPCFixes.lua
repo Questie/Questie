@@ -2245,7 +2245,7 @@ function SeasonOfDiscovery:LoadNPCs()
         [218908] = { -- Scarlet Crusade Assassin
             [npcKeys.questStarts] = {79945},
         },
-        [218920] = {
+        [218920] = { -- Agent Keanna
             [npcKeys.spawns] = {
                 [zoneIDs.DEADWIND_PASS] = {{52.1,34.12}},
             },
@@ -2891,7 +2891,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
 
         -- fake NPCs
-        [900000] = {
+        [900000] = { -- Dark Rider
             [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
@@ -2901,7 +2901,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.questStarts] = {80147},
         },
-        [900001] = {
+        [900001] = { -- Dark Rider
             [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
@@ -2911,7 +2911,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.questStarts] = {80148},
         },
-        [900002] = {
+        [900002] = { -- Dark Rider
             [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
@@ -2921,7 +2921,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.questStarts] = {80149},
         },
-        [900003] = {
+        [900003] = { -- Dark Rider
             [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
@@ -2931,7 +2931,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.questStarts] = {80150},
         },
-        [900004] = {
+        [900004] = { -- Dark Rider
             [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,
@@ -2941,7 +2941,7 @@ function SeasonOfDiscovery:LoadNPCs()
             },
             [npcKeys.questStarts] = {80151},
         },
-        [900005] = {
+        [900005] = { -- Dark Rider
             [npcKeys.name] = "Dark Rider",
             [npcKeys.minLevel] = 41,
             [npcKeys.maxLevel] = 41,

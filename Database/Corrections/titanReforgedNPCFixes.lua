@@ -29,11 +29,11 @@ function TitanReforgedNpcFixes.LoadNPCs()
             [npcKeys.questStarts] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199,24579,24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590,78752,78753,83713,83714,83717,87379,93975,94577,94579,95037,96312,96315,96318},
             [npcKeys.questEnds] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199,24579,24580,24581,24582,24583,24584,24585,24586,24587,24588,24589,24590,78752,78753,83713,83714,83717,87379,93975,94577,94579,95037,96312,96315,96318},
         },
-        [31136] = {
+        [31136] = { -- High Warlord Uro
             [npcKeys.questStarts] = {94576},
             [npcKeys.questEnds] = {94576},
         },
-        [80007] = {
+        [80007] = { -- ?
             [npcKeys.name] = "?",
             [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ZUL_GURUB,
@@ -118,13 +118,13 @@ function TitanReforgedNpcFixes.LoadNPCOverrides()
     local npcKeys = QuestieDB.npcKeys
 
     return {
-        [14834] = {
+        [14834] = { -- Hakkar
             [npcKeys.minLevel] = 83,
             [npcKeys.maxLevel] = 83,
             [npcKeys.minLevelHealth] = 32702700,
             [npcKeys.maxLevelHealth] = 32702700,
         },
-        [15042] = {
+        [15042] = { -- Zanza the Restless
             [npcKeys.minLevel] = 80,
             [npcKeys.maxLevel] = 80,
             [npcKeys.minLevelHealth] = 79668,

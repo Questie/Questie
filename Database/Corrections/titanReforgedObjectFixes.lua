@@ -12,7 +12,7 @@ function TitanReforgedObjectFixes.LoadObjects()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
-        [420002] = {
+        [420002] = { -- Blood Ritual Altar
             [objectKeys.name] = "Blood Ritual Altar",
             [objectKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.ZUL_GURUB,
