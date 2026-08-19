@@ -622,6 +622,9 @@ function QuestieTBCQuestFixes:Load()
         [2399] = { -- The Sprouted Fronds
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2438] = { -- The Emerald Dreamcatcher
+            [questKeys.questFlags] = 8,
+        },
         [2460] = { -- The Shattered Salute
             [questKeys.breadcrumbs] = {10794},
         },
