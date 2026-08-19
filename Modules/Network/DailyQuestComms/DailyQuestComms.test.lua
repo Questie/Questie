@@ -698,6 +698,48 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
+        it("should not call RemoveQuestsForToday for NPCs the receiver already knows", function()
+            local knownNpcId = 1234
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = knownNpcId,
+                    questIds = {100, 200}
+                }
+            }
+            CommsEncoding.DecodePayload = function() return event end
+
+            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
+        end)
+
+        it("should call RemoveQuestsForToday for new NPCs when receiver knows other NPCs", function()
+            local knownNpcId = 1234
+            local newNpcId = 5678
+            local questIds = {100, 200}
+
+            AvailableQuests.GetUnavailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
+
+            ---@type CommEvent
+            local event = {
+                eventName = "HideDailyQuests",
+                data = {
+                    npcId = newNpcId,
+                    questIds = questIds
+                }
+            }
+            CommsEncoding.DecodePayload = function() return event end
+
+            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
+
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(newNpcId, questIds)
+        end)
+
         it("should filter out blacklisted questIds from HideDailyQuests events", function()
             DailyQuestCommsBlacklist.FilterQuestIds = function() return {5678, 91011} end
             local npcId = 1234
