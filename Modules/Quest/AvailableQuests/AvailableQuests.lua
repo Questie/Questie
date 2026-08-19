@@ -69,7 +69,9 @@ local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _CanNpcOfferQuestToPlayer, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC, _ScheduleDailyResetTimer
+local _CalculateAndDrawAvailableQuests, _DrawAvailableQuest, _DrawChildQuests, _AddStarter
+local _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _ScheduleDailyResetTimer, _MarkQuestAsUnavailableFromNPC, _CanNpcOfferQuestToPlayer
 
 -- Exposed for testing only
 AvailableQuests.__getPassState = function()
@@ -510,8 +512,9 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
                 availableQuestsInGreeting[questId] = true
             else
                 -- A visible quest in the frame could not be resolved to an ID, so we cannot know which quest it is.
-                -- Keep all quests available instead of hiding any, to not hide an available quest that we simply failed to identify.
-                -- This is also a problem when users use a different WoW client locale than they set their Questie to (API names ~= lookup names)
+                -- Keep all quests available instead of hiding any, to not hide an available quest that we simply failed
+                -- to identify. This is also a problem when users use a different WoW client locale than they set their
+                -- Questie to (API names ~= lookup names)
                 unresolvedQuestInGreeting = true
             end
         end
