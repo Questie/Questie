@@ -3,6 +3,8 @@
 local QuestieStreamLib = QuestieLoader:CreateModule("QuestieStreamLib");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieDBCache
+local QuestieDBCache = QuestieLoader:ImportModule("QuestieDBCache")
 
 local tinsert = table.insert
 
@@ -245,7 +247,7 @@ function QuestieStreamLib:_ReadShort_raw()
     local a,b = stringbyte(self._bin, p, p+1)
     -- database corrupted, needs recompile
     if not a then
-        Questie.db.global.dbIsCompiled = false
+        QuestieDBCache.InvalidateActiveStorage()
         Questie.Error(l10n(
             "Questie has detected the database to be corrupted. You may type \"/run ReloadUI()\" or \"/reload\" to start the recompiling process when the conditions allow it.\n\nThe process will take 1-2 minutes depending on your configuration."))
         return

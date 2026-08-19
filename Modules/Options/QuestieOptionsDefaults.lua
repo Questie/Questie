@@ -239,7 +239,9 @@ function QuestieOptionsDefaults:Load()
             questieLocale = "enUS",
             questieLocaleDiff = false,
             journeyKeybindDefaultApplied = false,
-            sod = {}, -- Special place for the SoD database
+            -- Conditional corrections change pointer maps, so each flavor owns separate compiled bins.
+            sod = {},
+            titanReforged = {}
         }
     }
 end

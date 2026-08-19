@@ -29,6 +29,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieDBCache
+local QuestieDBCache = QuestieLoader:ImportModule("QuestieDBCache")
 ---@type Cleanup
 local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
 ---@type DBCompiler
@@ -151,19 +153,11 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- This needs to happen after ADDON_LOADED
     l10n.InitializeUILocale()
 
-    local dbIsCompiled, dbCompiledOnVersion, dbCompiledLang
-    if Questie.IsSoD then
-        dbIsCompiled = Questie.db.global.sod.dbIsCompiled or false
-        dbCompiledOnVersion = Questie.db.global.sod.dbCompiledOnVersion
-        dbCompiledLang = Questie.db.global.sod.dbCompiledLang
-    else
-        dbIsCompiled = Questie.db.global.dbIsCompiled or false
-        dbCompiledOnVersion = Questie.db.global.dbCompiledOnVersion
-        dbCompiledLang = Questie.db.global.dbCompiledLang
-    end
+    local activeDatabase = QuestieDBCache.GetActiveStorage()
 
     -- Check if the DB needs to be recompiled
-    if (not dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= dbCompiledOnVersion) or (l10n:GetUILocale() ~= dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
+    if (not activeDatabase.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= activeDatabase.dbCompiledOnVersion) or
+        (l10n:GetUILocale() ~= activeDatabase.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile beginning...")
         print("\124cFFAAEEFF" ..
             l10n("Questie DB is updating — ") .. "\124r\124cFFFF6F22" .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
@@ -179,7 +173,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loaded.")
     end
 
-    local dbCompiledCount = Questie.IsSoD and Questie.db.global.sod.dbCompiledCount or Questie.db.global.dbCompiledCount
+    local dbCompiledCount = activeDatabase.dbCompiledCount
 
     -- For townsfolkClass we use UnitClassBase so it works across locales
     if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClassBase("player")) then
