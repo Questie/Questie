@@ -402,19 +402,8 @@ describe("QuestieLink", function()
         end)
     end)
 
-    describe("_PopulateHoverTooltip", function()
-        local mockTooltip
-
-        before_each(function()
-            mockTooltip = {
-                lines = {},
-                AddLine = function(self, text, r, g, b, wrap)
-                    table.insert(self.lines, text)
-                end,
-            }
-        end)
-
-        it("should add quest title, status, and description to the tooltip", function()
+    describe("hover tooltip via CreateQuestTooltip", function()
+        it("should show quest title, status, description, and starter info", function()
             QuestieDB.GetQuest = function(questId)
                 return {
                     Id = questId,
@@ -424,60 +413,32 @@ describe("QuestieLink", function()
                     specialFlags = 0,
                     ObjectiveData = {},
                     Objectives = {},
-                    Starts = nil,
-                    Finisher = {NPC = nil, GameObject = nil},
-                }
-            end
-            QuestieDB.IsDoableVerbose = function()
-                return "You have not done this quest", nil, "AVAILABLE"
-            end
-
-            QuestieLink._activeTooltip = mockTooltip
-            QuestieLink:_PopulateHoverTooltip(QuestieDB.GetQuest(1234))
-
-            assert.are_same({
-                "Hover Quest",
-                "You have not done this quest",
-                " ",
-                "Do something.",
-            }, mockTooltip.lines)
-        end)
-
-        it("should show Started by when quest is not in log and not completed", function()
-            QuestieDB.GetQuest = function(questId)
-                return {
-                    Id = questId,
-                    name = "NPC Quest",
-                    Description = {"Help out."},
-                    zoneOrSort = 0,
-                    specialFlags = 0,
-                    ObjectiveData = {},
-                    Objectives = {},
                     Starts = {NPC = {500}},
-                    Finisher = {NPC = nil, GameObject = nil},
+                    Finisher = {NPC = {600}, GameObject = nil},
                 }
             end
             QuestieDB.IsDoableVerbose = function()
                 return "You have not done this quest", nil, "AVAILABLE"
             end
             QuestieDB.GetNPC = function(_, npcId)
-                if npcId == 500 then
-                    return {name = "Quest Giver"}
-                end
+                if npcId == 500 then return {name = "Quest Giver", zoneID = 0} end
+                if npcId == 600 then return {name = "Quest Finisher", zoneID = 0} end
                 return nil
             end
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
-            QuestieLink._activeTooltip = mockTooltip
-            QuestieLink:_PopulateHoverTooltip(QuestieDB.GetQuest(1234))
+            QuestieLink._activeTooltip = ItemRefTooltip
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID")
 
             assert.are_same({
-                "NPC Quest",
+                "Hover Quest",
                 "You have not done this quest",
                 " ",
-                "Help out.",
+                "Do something.",
                 " ",
                 "Started by: Quest Giver",
-            }, mockTooltip.lines)
+                "Found in: Test Zone",
+            }, tooltipLines)
         end)
 
         it("should not show Started by when quest is in the player quest log", function()
@@ -499,15 +460,17 @@ describe("QuestieLink", function()
             end
             QuestiePlayer.currentQuestlog = {[1234] = true}
 
-            QuestieLink._activeTooltip = mockTooltip
-            QuestieLink:_PopulateHoverTooltip(QuestieDB.GetQuest(1234))
+            QuestieLink._activeTooltip = ItemRefTooltip
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID")
 
             assert.are_same({
                 "Active Quest",
                 "You are on this quest",
                 " ",
                 "Fight things.",
-            }, mockTooltip.lines)
+                " ",
+                "Your progress: ",
+            }, tooltipLines)
         end)
     end)
 end)
