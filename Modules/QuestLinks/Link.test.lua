@@ -142,6 +142,7 @@ describe("QuestieLink", function()
             end
 
             local questId = 1234
+            QuestieLink._activeTooltip = ItemRefTooltip
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
             assert.are_same({
@@ -189,6 +190,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
+            QuestieLink._activeTooltip = ItemRefTooltip
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
             assert.are_same({
@@ -237,6 +239,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
+            QuestieLink._activeTooltip = ItemRefTooltip
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
             assert.are_same({
@@ -283,6 +286,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
+            QuestieLink._activeTooltip = ItemRefTooltip
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
             assert.are_same({
@@ -331,6 +335,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
+            QuestieLink._activeTooltip = ItemRefTooltip
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
 
             assert.are_same({
@@ -382,6 +387,7 @@ describe("QuestieLink", function()
                 [questId] = true,
             }
 
+            QuestieLink._activeTooltip = ItemRefTooltip
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678")
 
             assert.are_same({
@@ -454,7 +460,7 @@ describe("QuestieLink", function()
             QuestieDB.IsDoableVerbose = function()
                 return "You have not done this quest", nil, "AVAILABLE"
             end
-            QuestieDB.GetNPC = function(npcId)
+            QuestieDB.GetNPC = function(_, npcId)
                 if npcId == 500 then
                     return {name = "Quest Giver"}
                 end

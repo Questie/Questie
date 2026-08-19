@@ -529,7 +529,8 @@ end
 -- Its handler frame is ChattynatorHyperlinkHandler (a ScrollingMessageFrame
 -- with hyperlinksEnabled="true" that receives propagated events from its chat frames).
 local function HookChattynator()
-    local handler = Chattynator and Chattynator.API and Chattynator.API.GetHyperlinkHandler()
+    local chattynator = _G.Chattynator
+    local handler = chattynator and chattynator.API and chattynator.API.GetHyperlinkHandler()
     if not handler then return false end
 
     local existingOnEnter = handler:GetScript("OnHyperlinkEnter")
