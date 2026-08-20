@@ -648,6 +648,9 @@ function QuestieQuestFixes:Load()
         [850] = { -- Kolkar Leaders
             [questKeys.nextQuestInChain] = 851,
         },
+        [852] = { -- Hezrul Bloodmark
+            [questKeys.nextQuestInChain] = 4021,
+        },
         [854] = { -- Journey to the Crossroads
             [questKeys.exclusiveTo] = {844},
         },
@@ -2519,6 +2522,9 @@ function QuestieQuestFixes:Load()
         },
         [3912] = { -- Meet at the Grave
             [questKeys.requiredSourceItems] = {11243},
+        },
+        [3922] = { -- Nugget Slugs
+            [questKeys.nextQuestInChain] = 3923,
         },
         [3982] = { -- What Is Going On?
             [questKeys.objectives] = {{{9020, nil, Questie.ICON_TYPE_EVENT}}},
