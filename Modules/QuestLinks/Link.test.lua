@@ -142,8 +142,7 @@ describe("QuestieLink", function()
             end
 
             local questId = 1234
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -190,8 +189,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -239,8 +237,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -286,8 +283,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -335,8 +331,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -387,8 +382,7 @@ describe("QuestieLink", function()
                 [questId] = true,
             }
 
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678", ItemRefTooltip)
 
             assert.are_same({
                 "Progress Quest",
@@ -427,8 +421,7 @@ describe("QuestieLink", function()
             end
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:1234:GUID")
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
 
             assert.are_same({
                 "Hover Quest",
@@ -460,8 +453,7 @@ describe("QuestieLink", function()
             end
             QuestiePlayer.currentQuestlog = {[1234] = true}
 
-            QuestieLink._activeTooltip = ItemRefTooltip
-            QuestieLink:CreateQuestTooltip("questie:1234:GUID")
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
 
             assert.are_same({
                 "Active Quest",
