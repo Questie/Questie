@@ -2,8 +2,10 @@
 
 An opt-in, in-game profiler for Questie: what each function cost, who called it, how long each file took to
 load, and how much of that belongs to a bundled library rather than to Questie. It is off unless
-`QuestieProfilerEnabled` is set, and a player who never enables it pays one nil test per loader call and
-nothing else - no wrapper is built, no indirection is installed, and no observer is attached.
+`QuestieProfilerEnabled` is set, and a player who never enables it pays two branch tests per loader call - a
+false boolean and a nil observer - plus the memory of the profiler files themselves, and no runtime cost
+beyond that: no wrapper is built, no indirection is installed, no observer is attached, and no timer or frame
+is created.
 
 This file is the accumulated context for working on it, consolidated from the design notes that preceded it.
 Most of what is here was measured in a live client rather than reasoned about, and those numbers are the part

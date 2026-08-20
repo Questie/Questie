@@ -18,8 +18,9 @@ QuestieLoader._modules = modules -- store reference so modules can be iterated f
 -- call though, so the gap between two consecutive calls is the body of the file that made the earlier one.
 -- That makes this the one place in the addon where per-file load cost is observable.
 --
--- Off unless the profiler is enabled, so a player who never profiles pays one boolean test per call and
--- nothing else. QuestieProfilerEnabled is a plain saved variable and every TOC sets LoadSavedVariablesFirst,
+-- Off unless the profiler is enabled. A player who never profiles pays this false boolean plus the nil
+-- observer test below on each Create/Import call; neither path allocates. QuestieProfilerEnabled is a plain
+-- saved variable and every TOC sets LoadSavedVariablesFirst,
 -- so it is already populated when this file runs - which it does first, ahead of every other Questie file.
 --
 -- Also off if the client has no GetTimePreciseSec, which is checked here rather than assumed. This file runs

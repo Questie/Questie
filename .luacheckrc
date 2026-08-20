@@ -2896,7 +2896,6 @@ globals = {
     "ICON_TYPE_REPEATABLE",
     "ICON_TYPE_TALK",
     "TrackedQuestsScrollFrame",
-    "QuestieProfilerScrollFrame",
     "Questie_BaseFrame",
     "Questie_Toggle",
     "QuestieJourneyFrame",
