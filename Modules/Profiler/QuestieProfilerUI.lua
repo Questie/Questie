@@ -2178,6 +2178,13 @@ function ApplySelection()
                 end
             end
         end
+
+        -- A key even the unfiltered report cannot resolve is gone for good - a Start reset the measurements
+        -- out from under it. Dropped rather than kept: a dangling key re-ran the full build above on every
+        -- refresh tick, forever, for a selection that could never come back.
+        if not selectedRow then
+            displayState.selectedKey = nil
+        end
     end
 
     UpdateDetailStrip(selectedRow)
@@ -2322,8 +2329,10 @@ function Layout()
     end
     -- The selection strip splits its width between the copy box and the measurements, so a resize has to
     -- re-split it. Waiting for the next refresh would leave it stale, and while frozen there is no next one.
+    -- The tree owes its row count to the same height that just changed, so it re-renders here too.
     ApplySelection()
     RenderRows()
+    RenderTree()
 end
 
 -------------------------

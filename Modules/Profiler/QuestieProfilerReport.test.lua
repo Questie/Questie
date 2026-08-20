@@ -1187,5 +1187,18 @@ describe("QuestieProfilerReport", function()
             assert.are_same(2, report.matchedCount)
             assert.are_same(0, report.idleHiddenCount)
         end)
+
+        it("counts never-called entries even when a text filter conceals them", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            AddFunctionEntry("QuestieMap.NeverCalled", 0, 0)
+
+            local report = BuildReport({filter = "GetQuest", hideIdle = true})
+
+            -- The checkbox labels every idle entry, but "N idle hidden" only counts rows the toggle alone
+            -- withholds: this one would stay concealed by the text filter either way.
+            assert.are_same({"QuestieDB.GetQuest"}, RowKeys(report))
+            assert.are_same(1, report.idleCount)
+            assert.are_same(0, report.idleHiddenCount)
+        end)
     end)
 end)

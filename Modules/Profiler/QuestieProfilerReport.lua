@@ -68,9 +68,9 @@ local GROUPING_NOISE_SEGMENTS = {private = true}
 ---@field totalTime number @Inclusive: this call and everything profiled beneath it
 ---@field selfTime number @Inclusive minus the measured time of profiled children
 ---@field hasSelfTime boolean @False for ThreadLib jobs, which are not call frames and have no self time
----@field memoryKilobytes number?
+---@field memoryKilobytes number? @Allocation attributed to this row; only addon-load rows carry one
 ---@field share number? @0-1 of what this row's own species accounts for; nil when there is no denominator
----@field shareDenominator number? @The species total the share was taken against @Allocation attributed to this row; only addon-load rows carry one
+---@field shareDenominator number? @The species total the share was taken against
 ---@field calls number
 ---@field averageTime number
 ---@field isThreadJob boolean
@@ -244,12 +244,15 @@ function QuestieProfilerReport.BuildReport(source, options)
     local rowsByIdentity = {}
     local totalCount = 0
     local idleHiddenCount = 0
-    -- Counted regardless of the filter, so the control that hides them can say how many that is even while
-    -- they are being shown.
+    -- Counted before any filter, the text filter included, so the control that hides idle entries can say
+    -- how many there are even while they are being shown or a filter conceals them.
     local idleCount = 0
 
     for lookupKey, calls in pairs(callCounts) do
         totalCount = totalCount + 1
+        if calls == 0 then
+            idleCount = idleCount + 1
+        end
 
         -- Grouped rows are matched through their original paths, so a filter on a folded-away prefix still
         -- resolves to the aggregate that contains it.
@@ -257,9 +260,9 @@ function QuestieProfilerReport.BuildReport(source, options)
         local matchesFilter = lowerFilter == "" or sfind(haystack, lowerFilter, 1, true) ~= nil
 
         if matchesFilter then
-            if calls == 0 then
-                idleCount = idleCount + 1
-            end
+            -- Unlike idleCount this stays behind the text filter: it feeds "N idle hidden", which promises
+            -- that lifting the toggle brings N rows back, and an idle entry the filter already excludes
+            -- would not return.
             if hideIdle and calls == 0 then
                 idleHiddenCount = idleHiddenCount + 1
             else

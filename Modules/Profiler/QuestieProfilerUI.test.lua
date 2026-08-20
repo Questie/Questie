@@ -24,6 +24,7 @@ describe("QuestieProfilerUI", function()
         local isShown = true
         local text = ""
         local enabled = true
+        local height = 200
 
         local frame
         frame = {
@@ -99,8 +100,11 @@ describe("QuestieProfilerUI", function()
             GetWidth = function()
                 return 680
             end,
+            SetHeight = function(_, value)
+                height = value
+            end,
             GetHeight = function()
-                return 200
+                return height
             end,
             GetTop = function()
                 return 400
@@ -887,6 +891,35 @@ describe("QuestieProfilerUI", function()
             -- on screen - the assertion fails if Refresh is a no-op while frozen.
             assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
         end)
+
+        it("rerenders hierarchy rows when the frozen window is resized", function()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            ProfilerUI:Show()
+            ProfilerUI.private.displayState.frozen = true
+
+            local treeRow
+            local sizer
+            for _, frame in ipairs(frameRegistry) do
+                if not treeRow and rawget(frame, "prefix") and frame:IsShown() then
+                    treeRow = frame
+                end
+                local parent = rawget(frame, "parent")
+                if parent and parent.frameName == "QuestieProfilerFrame"
+                    and frame.scripts.OnMouseDown and frame.scripts.OnMouseUp then
+                    sizer = frame
+                end
+            end
+            assert.is_truthy(treeRow)
+            assert.is_truthy(sizer)
+
+            -- The old row remains visible until Layout recalculates how many fit in the resized tree pane.
+            treeRow.parent:SetHeight(0)
+            assert.is_true(treeRow:IsShown())
+
+            sizer.scripts.OnMouseUp(sizer)
+
+            assert.is_false(treeRow:IsShown())
+        end)
     end)
 
     describe("relation navigation", function()
@@ -915,6 +948,15 @@ describe("QuestieProfilerUI", function()
             ProfilerUI:Refresh()
 
             assert.is_truthy(string.find(ShownTexts(), "600.000 ms total", 1, true))
+        end)
+
+        it("clears a selection no report can resolve", function()
+            ProfilerUI:Show()
+            ProfilerUI.private.displayState.selectedKey = "Removed.Module.Work"
+
+            ProfilerUI:Refresh()
+
+            assert.is_nil(ProfilerUI.private.displayState.selectedKey)
         end)
 
         it("shows the (root) caller as context, not as a drill-down target", function()
