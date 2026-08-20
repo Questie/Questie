@@ -250,7 +250,7 @@ describe("ThreadLib profiling callbacks", function()
         assert.are_same({"first before", "first after"}, events)
     end)
 
-    it("passes explicit job names with a bounded call-site stack", function()
+    it("passes explicit job names without collecting a call-site stack", function()
         local debugStackArguments
         local receivedStack
         local receivedThreadName
@@ -267,9 +267,29 @@ describe("ThreadLib profiling callbacks", function()
 
         ThreadLib.Thread(function() end, 0, nil, nil, nil, "Explicit job")
 
+        -- An explicit name is the job's whole identity, so a collected stack would never be read.
+        assert.is_nil(debugStackArguments)
+        assert.is_nil(receivedStack)
+        assert.are_same("Explicit job", receivedThreadName)
+    end)
+
+    it("collects a bounded call-site stack for unnamed jobs", function()
+        local debugStackArguments
+        local receivedStack
+        _G.debugstack = function(...)
+            debugStackArguments = {...}
+            return "first frame\nsecond frame"
+        end
+        ThreadLib.SetProfilingCallbacks({}, {
+            OnThreadCreated = function(_, _, callSiteStack)
+                receivedStack = callSiteStack
+            end,
+        })
+
+        ThreadLib.Thread(function() end, 0)
+
         assert.are_same({2, 12, 0}, debugStackArguments)
         assert.are_same("first frame\nsecond frame", receivedStack)
-        assert.are_same("Explicit job", receivedThreadName)
     end)
 
     it("rejects a non-string explicit job name", function()

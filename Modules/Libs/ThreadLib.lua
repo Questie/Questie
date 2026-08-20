@@ -90,7 +90,10 @@ function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction,
   local thread = coCreate(threadFunction)
   if profilingCallbacks and profilingCallbacks.OnThreadCreated then
     local callSiteStack
-    if lType(debugstack) == "function" then
+    -- An explicit name is the job's whole identity, so the observer never reads the stack for a named job.
+    -- Collecting it anyway priced every named submission at a debugstack call - hundreds per batch in the
+    -- busiest submitters - inside the very session being measured.
+    if (threadName == nil or threadName == "") and lType(debugstack) == "function" then
       local stackCollected, boundedStack = pcall(debugstack, 2, 12, 0)
       if stackCollected then
         callSiteStack = boundedStack
