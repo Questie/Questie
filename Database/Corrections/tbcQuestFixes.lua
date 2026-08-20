@@ -4164,6 +4164,9 @@ function QuestieTBCQuestFixes:Load()
         [10598] = { -- Blast the Infernals!
             [questKeys.objectives] = {{{21512,nil,Questie.ICON_TYPE_EVENT}}},
         },
+        [10601] = { -- The Fate of Kagrosh
+            [questKeys.objectives] = {nil,nil,{{30659,nil,Questie.ICON_TYPE_TALK}}},
+        },
         [10605] = { -- Carendin Summons
             [questKeys.nextQuestInChain] = 0,
         },
@@ -5551,10 +5554,12 @@ function QuestieTBCQuestFixes:Load()
         [11356] = { -- Costumed Orphan Matron
             [questKeys.exclusiveTo] = {11360,11439,11440},
             [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11357] = { -- Masked Orphan Matron
             [questKeys.exclusiveTo] = {11361,11449,11450},
             [questKeys.requiredLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11360] = { -- Fire Brigade Practice
             [questKeys.exclusiveTo] = {11439,11440},
