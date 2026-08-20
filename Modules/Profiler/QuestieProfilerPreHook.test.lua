@@ -3,8 +3,12 @@ dofile("setupTests.lua")
 describe("QuestieProfilerPreHook", function()
     ---@type QuestieProfilerPreHook
     local PreHook
+    ---@type QuestieProfiler
+    local Profiler
     local originalProfilerEnabled
     local originalCreateFrame
+    local originalTimerAPI
+    local originalGetTimePreciseSec
 
     ---Loads the pre-hook against whatever modules exist right now. It reads QuestieProfilerEnabled at load
     ---time and installs a loader observer, so both have to be arranged before this runs.
@@ -37,9 +41,27 @@ describe("QuestieProfilerPreHook", function()
         return nil
     end
 
+    ---Loads the profiler engine with just enough around it to exercise real pre-hook targets.
+    ---@return QuestieProfiler
+    local function LoadProfiler()
+        _G.C_Timer = {NewTicker = function() return {Cancel = function() end} end}
+        _G.GetTimePreciseSec = _G.GetTimePreciseSec or function() return 0 end
+        dofile("Modules/Libs/ThreadLib.lua")
+        local ProfilerUI = QuestieLoader:ImportModule("ProfilerUI")
+        ProfilerUI.Create = function() end
+        ProfilerUI.Show = function() end
+        ProfilerUI.Hide = function() end
+        dofile("Modules/Profiler/QuestieProfiler.lua")
+        Profiler = QuestieLoader:ImportModule("Profiler")
+        return Profiler
+    end
+
     before_each(function()
+        Profiler = nil
         originalProfilerEnabled = _G.QuestieProfilerEnabled
         originalCreateFrame = _G.CreateFrame
+        originalTimerAPI = _G.C_Timer
+        originalGetTimePreciseSec = _G.GetTimePreciseSec
         -- No frame: the ADDON_LOADED listener is optional and the tests drive Finish directly.
         _G.CreateFrame = nil
         -- A loader with only the modules each test creates, so a sweep has a knowable scope.
@@ -47,9 +69,14 @@ describe("QuestieProfilerPreHook", function()
     end)
 
     after_each(function()
+        if Profiler then
+            Profiler:Unhook()
+        end
         QuestieLoader:SetModuleCallObserver(nil)
         _G.QuestieProfilerEnabled = originalProfilerEnabled
         _G.CreateFrame = originalCreateFrame
+        _G.C_Timer = originalTimerAPI
+        _G.GetTimePreciseSec = originalGetTimePreciseSec
         dofile("Modules/Libs/QuestieLoader.lua")
     end)
 
@@ -209,21 +236,57 @@ describe("QuestieProfilerPreHook", function()
         end)
     end)
 
-    describe("agreement with the profiler's own exclusions", function()
-        ---Loads the profiler engine with just enough around it to reach the cross-check.
-        ---@return QuestieProfiler
-        local function LoadProfiler()
-            _G.C_Timer = {NewTicker = function() return {Cancel = function() end} end}
-            _G.GetTimePreciseSec = _G.GetTimePreciseSec or function() return 0 end
-            dofile("Modules/Libs/ThreadLib.lua")
-            local ProfilerUI = QuestieLoader:ImportModule("ProfilerUI")
-            ProfilerUI.Create = function() end
-            ProfilerUI.Show = function() end
-            ProfilerUI.Hide = function() end
-            dofile("Modules/Profiler/QuestieProfiler.lua")
-            return QuestieLoader:ImportModule("Profiler")
-        end
+    describe("profiler integration", function()
+        it("measures a file-scope alias across stopped and restarted sessions", function()
+            local clock = 0
+            _G.GetTimePreciseSec = function() return clock / 1000 end
+            local measuredModule = GivenModule("PreHookMeasured", {
+                Work = function()
+                    clock = clock + 2
+                end,
+            })
+            LoadPreHook(true)
+            QuestieLoader:CreateModule("PreHookMeasuredTrigger")
+            local fileScopeAlias = measuredModule.Work
+            local target = TargetFor("PreHookMeasured", "Work")
+            assert.is_not_nil(target)
+            local profiler = LoadProfiler()
 
+            assert.is_true(profiler:Start(false))
+            local firstSessionOverride = target.slot.Work
+            assert.are_not_equal(target.original, firstSessionOverride)
+
+            -- Questie.lua starts profiling while it loads; ADDON_LOADED ends the pre-hook sweep afterward.
+            PreHook.Finish()
+            assert.are_equal(target.wrapper, measuredModule.Work)
+
+            fileScopeAlias()
+
+            assert.are_same(1, profiler.hookCallCount["PreHookMeasured.Work"])
+            assert.are_same(2, profiler.hookTimeCount["PreHookMeasured.Work"])
+            assert.is_nil(profiler.hookCallCount["PreHookMeasured.Work [string #2]"])
+
+            profiler:Stop()
+            assert.are_equal(target.original, target.slot.Work)
+
+            fileScopeAlias()
+
+            assert.are_same(1, profiler.hookCallCount["PreHookMeasured.Work"])
+            assert.are_same(2, profiler.hookTimeCount["PreHookMeasured.Work"])
+
+            assert.is_true(profiler:Start(false))
+            local secondSessionOverride = target.slot.Work
+            assert.are_not_equal(target.original, secondSessionOverride)
+            assert.are_not_equal(firstSessionOverride, secondSessionOverride)
+
+            fileScopeAlias()
+
+            assert.are_same(1, profiler.hookCallCount["PreHookMeasured.Work"])
+            assert.are_same(2, profiler.hookTimeCount["PreHookMeasured.Work"])
+        end)
+    end)
+
+    describe("agreement with the profiler's own exclusions", function()
         it("refuses everything QuestieProfiler refuses to measure", function()
             -- The two lists are separate because this file loads long before the profiler, so nothing can
             -- share them. This is the check that stops them drifting: a disallowed path the pre-hook would

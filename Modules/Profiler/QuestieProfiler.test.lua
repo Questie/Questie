@@ -36,6 +36,7 @@ describe("QuestieProfiler", function()
     local originalQuerySlots
     local originalLoadTimings
     local originalLoadMemory
+    local originalProfilerShowUI
     local querySlotNames = {
         "QueryNPC", "QueryQuest", "QueryObject", "QueryItem",
         "QueryNPCSingle", "QueryQuestSingle", "QueryObjectSingle", "QueryItemSingle",
@@ -106,10 +107,12 @@ describe("QuestieProfiler", function()
         ProfilerUI.Hide = function() end
         dofile("Modules/Profiler/QuestieProfiler.lua")
         Profiler = QuestieLoader:ImportModule("Profiler")
+        originalProfilerShowUI = Profiler.ShowUI
     end)
 
     after_each(function()
         Profiler:Unhook()
+        Profiler.ShowUI = originalProfilerShowUI
         QuestieLoader._modules[testModuleName] = nil
         Questie.ProfilerTestFunction = originalQuestieTestFunction
         Questie.db = originalQuestieDB
@@ -980,6 +983,27 @@ describe("QuestieProfiler", function()
 
             assert.are_same(7, Profiler.hookTimeCount[testModuleName .. ".Parent"])
             assert.are_same(2, Profiler.hookSelfTime[testModuleName .. ".Parent"])
+        end)
+
+        it("keeps recursive inclusive and self time distinct", function()
+            local testModule = QuestieLoader:CreateModule(testModuleName)
+            testModule.Recurse = function(depth)
+                clock = clock + 1
+                if depth > 0 then
+                    testModule.Recurse(depth - 1)
+                end
+                clock = clock + 2
+            end
+            Profiler:Start(false)
+
+            testModule.Recurse(2)
+
+            local lookupKey = testModuleName .. ".Recurse"
+            -- Three levels contribute inclusive durations of 9, 6, and 3 ms to one row. Each level owns
+            -- 3 ms after its recursive child is subtracted, so self time totals 9 ms rather than 18.
+            assert.are_same(3, Profiler.hookCallCount[lookupKey])
+            assert.are_same(18, Profiler.hookTimeCount[lookupKey])
+            assert.are_same(9, Profiler.hookSelfTime[lookupKey])
         end)
 
         it("accumulates across repeated calls", function()
