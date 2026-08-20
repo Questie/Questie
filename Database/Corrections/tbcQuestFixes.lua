@@ -5519,56 +5519,34 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
         },
         [11335] = { -- Call to Arms: Arathi Basin
-            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
-                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
-                [zoneIDs.IRONFORGE]={{70.12,89.41}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{857,907,15008,19855,20120,20273},857,nil,Questie.ICON_TYPE_TALK}}},
         },
         [11336] = { -- Call to Arms: Alterac Valley
-            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.SHATTRATH_CITY]={{67.49,34.31}},
-                [zoneIDs.STORMWIND_CITY]={{82.12,12.83}},
-                [zoneIDs.IRONFORGE]={{70.09,90.26}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{5118,7410,12197,19907,20119,20271},5118,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11337] = { -- Call to Arms: Eye of the Storm
-            [questKeys.triggerEnd] = {"Victory in the Eye of the Storm", {
-                [zoneIDs.SHATTRATH_CITY]={{67.4,34.08}},
-                [zoneIDs.STORMWIND_CITY]={{82.51,13.69}},
-                [zoneIDs.IRONFORGE]={{70.04,89.98}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20362,20374,20381,20382,20383},20362,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11338] = { -- Call to Arms: Warsong Gulch
-            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.SHATTRATH_CITY]={{67.4,34.64}},
-                [zoneIDs.STORMWIND_CITY]={{82.5,13.26}},
-                [zoneIDs.IRONFORGE]={{70.5,89.56}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2302,14981,14982,19908,20118,20272},2302,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11339] = { -- Call to Arms: Arathi Basin
-            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.SHATTRATH_CITY]={{66.58,56.23}},
-                [zoneIDs.ORGRIMMAR]={{79.39,30.08}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{12198,15006,15007,16694,19905,20274},12198,nil,Questie.ICON_TYPE_TALK}}},
         },
         [11340] = { -- Call to Arms: Alterac Valley
-            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
-                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{347,7427,14942,16695,19906,20276},347,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11341] = { -- Call to Arms: Eye of the Storm
-            [questKeys.triggerEnd] = {"Victory in Eye of the Storm", {
-                [zoneIDs.SHATTRATH_CITY]={{67.02,56.14}},
-                [zoneIDs.ORGRIMMAR]={{79.21,30.08}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20384,20385,20386,20388,20390},20384,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11342] = { -- Call to Arms: Warsong Gulch
-            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.SHATTRATH_CITY]={{66.62,57.45}},
-                [zoneIDs.ORGRIMMAR]={{79.03,30.65}},
-            }},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{2804,3890,10360,16696,19910,20269},2804,nil,Questie.ICON_TYPE_TALK}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11356] = { -- Costumed Orphan Matron
             [questKeys.exclusiveTo] = {11360,11439,11440},
