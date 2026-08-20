@@ -33,12 +33,19 @@ describe("QuestieLink", function()
                 table.insert(tooltipLines, text)
             end,
             IsShown = function() return false end,
+            SetOwner = function() end,
+            ClearLines = function() end,
+            Show = function() end,
+            Hide = function() end,
         }
         _G.ItemRefTooltipTextLeft1 = {
             GetText = function() return "" end,
         }
         _G.ShowUIPanel = function() end
         _G.UIParent = {}
+        _G.GameTooltip = {
+            SetHyperlink = function() end,
+        }
 
         _G.Questie.Colorize = function(_, text)
             return text
@@ -135,7 +142,7 @@ describe("QuestieLink", function()
             end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -182,7 +189,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -230,7 +237,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -276,7 +283,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -324,7 +331,7 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
             assert.are_same({
                 "Test Quest",
@@ -375,7 +382,7 @@ describe("QuestieLink", function()
                 [questId] = true,
             }
 
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678", ItemRefTooltip)
 
             assert.are_same({
                 "Progress Quest",
@@ -385,6 +392,76 @@ describe("QuestieLink", function()
                 " ",
                 "Your progress: ",
                 " - |cFFEEEEEEWool Cloth: 3/10|r",
+            }, tooltipLines)
+        end)
+    end)
+
+    describe("hover tooltip via CreateQuestTooltip", function()
+        it("should show quest title, status, description, and starter info", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Hover Quest",
+                    Description = {"Do something."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = {NPC = {500}},
+                    Finisher = {NPC = {600}, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+            QuestieDB.GetNPC = function(_, npcId)
+                if npcId == 500 then return {name = "Quest Giver", zoneID = 0} end
+                if npcId == 600 then return {name = "Quest Finisher", zoneID = 0} end
+                return nil
+            end
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
+
+            assert.are_same({
+                "Hover Quest",
+                "You have not done this quest",
+                " ",
+                "Do something.",
+                " ",
+                "Started by: Quest Giver",
+                "Found in: Test Zone",
+            }, tooltipLines)
+        end)
+
+        it("should not show Started by when quest is in the player quest log", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Active Quest",
+                    Description = {"Fight things."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = {NPC = {500}},
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You are on this quest", nil, "AVAILABLE"
+            end
+            QuestiePlayer.currentQuestlog = {[1234] = true}
+
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
+
+            assert.are_same({
+                "Active Quest",
+                "You are on this quest",
+                " ",
+                "Fight things.",
+                " ",
+                "Your progress: ",
             }, tooltipLines)
         end)
     end)
