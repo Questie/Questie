@@ -102,6 +102,7 @@ function QuestieOptionsDefaults:Load()
             alwaysShowTracker = false,
             trackerColorObjectives = "minimal",
             trackerSortObjectives = "byZone",
+            autoSetTomTom = false,
             trackerbindSetTomTom = "ctrlleft",
             trackerbindOpenQuestLog = "left",
             trackerbindUntrack = "shiftleft",
