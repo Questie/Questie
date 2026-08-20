@@ -18,7 +18,7 @@ local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlac
 
 ---@alias CommEvent HideDailyQuestsEvent|RequestUnavailableDailyQuestsEvent
 
-local COMM_PREFIX = "QuestieDailiesV1"
+local COMM_PREFIX = "QuestieDailiesV2"
 
 local playerName
 local realmName
@@ -134,7 +134,11 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
             pendingResponseDistribution = nil
         end
 
-        AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
+        -- Only process NPC data once, like RequestUnavailableDailyQuests
+        local localData = AvailableQuests.GetUnavailableDailyQuests()
+        if (not localData[npcId]) then
+            AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
+        end
     elseif event.eventName == "RequestUnavailableDailyQuests" then
         -- A peer just logged in and is asking for unavailable daily quests.
         -- Only respond if we have NPC data they don't know about.

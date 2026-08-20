@@ -5038,7 +5038,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
 
         --- Fake rune quests
-        [90000] = {
+        [90000] = { -- Arcane Blast
             [questKeys.name] = "Arcane Blast",
             [questKeys.startedBy] = {nil,{450000}},
             [questKeys.finishedBy] = nil,
@@ -5050,7 +5050,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401757,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90001] = {
+        [90001] = { -- Burnout
             [questKeys.name] = "Burnout",
             [questKeys.startedBy] = {{208752}},
             [questKeys.finishedBy] = nil,
@@ -5062,7 +5062,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401759,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90002] = {
+        [90002] = { -- Burnout
             [questKeys.name] = "Burnout",
             [questKeys.startedBy] = {{202060}},
             [questKeys.finishedBy] = nil,
@@ -5074,7 +5074,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401759,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90003] = {
+        [90003] = { -- Burnout
             [questKeys.name] = "Burnout",
             [questKeys.startedBy] = {{208275}},
             [questKeys.finishedBy] = nil,
@@ -5086,7 +5086,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401759,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90004] = {
+        [90004] = { -- Fingers of Frost
             [questKeys.name] = "Fingers of Frost",
             [questKeys.startedBy] = {{448,1132,1388,1271}},
             [questKeys.finishedBy] = nil,
@@ -5098,7 +5098,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401765,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90005] = {
+        [90005] = { -- Fingers of Frost
             [questKeys.name] = "Fingers of Frost",
             [questKeys.startedBy] = {{3205,208196}},
             [questKeys.finishedBy] = nil,
@@ -5110,7 +5110,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401765,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90006] = {
+        [90006] = { -- Regeneration
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {nil,{407983}},
             [questKeys.finishedBy] = nil,
@@ -5122,7 +5122,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90007] = {
+        [90007] = { -- Regeneration
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {nil,{152608,152618,3642}},
             [questKeys.finishedBy] = nil,
@@ -5134,7 +5134,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90008] = {
+        [90008] = { -- Regeneration
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {{589}},
             [questKeys.finishedBy] = nil,
@@ -5146,7 +5146,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90009] = {
+        [90009] = { -- Regeneration
             [questKeys.name] = "Regeneration",
             [questKeys.startedBy] = {{1867}},
             [questKeys.finishedBy] = nil,
@@ -5158,7 +5158,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401767,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90010] = {
+        [90010] = { -- Enlightenment
             [questKeys.name] = "Enlightenment",
             [questKeys.startedBy] = {{202093}},
             [questKeys.finishedBy] = nil,
@@ -5170,7 +5170,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415942,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90011] = {
+        [90011] = { -- Enlightenment
             [questKeys.name] = "Enlightenment",
             [questKeys.startedBy] = {{208712}},
             [questKeys.finishedBy] = nil,
@@ -5182,7 +5182,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415942,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90012] = {
+        [90012] = { -- Arcane Surge
             [questKeys.name] = "Arcane Surge",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5194,7 +5194,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425171,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90013] = {
+        [90013] = { -- Arcane Surge
             [questKeys.name] = "Arcane Surge",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5206,7 +5206,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425171,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90014] = {
+        [90014] = { -- Mass Regeneration
             [questKeys.name] = "Mass Regeneration",
             [questKeys.startedBy] = {{212261},{411328,411348}},
             [questKeys.finishedBy] = nil,
@@ -5218,7 +5218,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415939,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90015] = {
+        [90015] = { -- Living Flame
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{476}},
             [questKeys.finishedBy] = nil,
@@ -5230,7 +5230,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401768,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90016] = {
+        [90016] = { -- Living Flame
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{1124,1397}},
             [questKeys.finishedBy] = nil,
@@ -5242,7 +5242,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401768,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90017] = {
+        [90017] = { -- Living Flame
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{3197}},
             [questKeys.finishedBy] = nil,
@@ -5254,7 +5254,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401768,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90018] = {
+        [90018] = { -- Living Flame
             [questKeys.name] = "Living Flame",
             [questKeys.startedBy] = {{1535}},
             [questKeys.finishedBy] = nil,
@@ -5266,7 +5266,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401768,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90019] = {
+        [90019] = { -- Rewind Time
             [questKeys.name] = "Rewind Time",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5279,7 +5279,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401761,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90020] = {
+        [90020] = { -- Living Bomb
             [questKeys.name] = "Living Bomb",
             [questKeys.startedBy] = {{1166}},
             [questKeys.finishedBy] = nil,
@@ -5291,7 +5291,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415936,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90021] = {
+        [90021] = { -- Living Bomb
             [questKeys.name] = "Living Bomb",
             [questKeys.startedBy] = {nil,{407505}},
             [questKeys.finishedBy] = nil,
@@ -5303,7 +5303,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415936,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90022] = {
+        [90022] = { -- Divine Storm
             [questKeys.name] = "Divine Storm",
             [questKeys.startedBy] = {nil,{409289}},
             [questKeys.finishedBy] = nil,
@@ -5316,7 +5316,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410014,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90023] = {
+        [90023] = { -- Wild Strikes
             [questKeys.name] = "Wild Strikes",
             [questKeys.startedBy] = {{11910,11913,11912,11911}},
             [questKeys.finishedBy] = nil,
@@ -5328,7 +5328,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410021,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90024] = {
+        [90024] = { -- Survival of the Fittest
             [questKeys.name] = "Survival of the Fittest",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5341,7 +5341,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416042,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90025] = {
+        [90025] = { -- Serendipity
             [questKeys.name] = "Serendipity",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5354,7 +5354,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415995,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90026] = {
+        [90026] = { -- Divine Sacrifice
             [questKeys.name] = "Divine Sacrifice",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5367,7 +5367,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410010,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90027] = {
+        [90027] = { -- Lone Wolf
             [questKeys.name] = "Lone Wolf",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5380,7 +5380,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410122,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90028] = {
+        [90028] = { -- Warbringer
             [questKeys.name] = "Warbringer",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5393,7 +5393,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425445,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90029] = {
+        [90029] = { -- Demonic Pact
             [questKeys.name] = "Demonic Pact",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5406,7 +5406,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425476,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90030] = {
+        [90030] = { -- Main Gauche
             [questKeys.name] = "Main Gauche",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5419,7 +5419,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424990,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90031] = {
+        [90031] = { -- Dual Wield Specialization
             [questKeys.name] = "Dual Wield Specialization",
             [questKeys.startedBy] = {{211653}},
             [questKeys.finishedBy] = nil,
@@ -5432,7 +5432,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410096,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90032] = {
+        [90032] = { -- Lake of Fire
             [questKeys.name] = "Lake of Fire",
             [questKeys.startedBy] = {{3537}},
             [questKeys.finishedBy] = nil,
@@ -5444,7 +5444,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403937,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90033] = {
+        [90033] = { -- Lake of Fire
             [questKeys.name] = "Lake of Fire",
             [questKeys.startedBy] = {nil,{414658}},
             [questKeys.finishedBy] = nil,
@@ -5456,7 +5456,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403937,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90034] = {
+        [90034] = { -- Master Channeler
             [questKeys.name] = "Master Channeler",
             [questKeys.startedBy] = {{3291}},
             [questKeys.finishedBy] = nil,
@@ -5468,7 +5468,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403932,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90035] = {
+        [90035] = { -- Master Channeler
             [questKeys.name] = "Master Channeler",
             [questKeys.startedBy] = {{2336}},
             [questKeys.finishedBy] = nil,
@@ -5480,7 +5480,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403932,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90036] = {
+        [90036] = { -- Master Channeler
             [questKeys.name] = "Master Channeler",
             [questKeys.startedBy] = {{114,480,832,210501}},
             [questKeys.finishedBy] = nil,
@@ -5492,7 +5492,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403932,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90037] = {
+        [90037] = { -- Master Channeler
             [questKeys.name] = "Master Channeler",
             [questKeys.startedBy] = {{212763}},
             [questKeys.finishedBy] = nil,
@@ -5504,7 +5504,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403932,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90038] = {
+        [90038] = { -- Master Channeler
             [questKeys.name] = "Master Channeler",
             [questKeys.startedBy] = {nil,{407347}},
             [questKeys.finishedBy] = nil,
@@ -5516,7 +5516,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403932,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90039] = {
+        [90039] = { -- Chaos Bolt
             [questKeys.name] = "Chaos Bolt",
             [questKeys.startedBy] = {{208752}},
             [questKeys.finishedBy] = nil,
@@ -5528,7 +5528,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403925,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90040] = {
+        [90040] = { -- Beacon of Light
             [questKeys.name] = "Beacon of Light",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5540,7 +5540,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -409999,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90041] = {
+        [90041] = { -- Healing Rain
             [questKeys.name] = "Healing Rain",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5552,7 +5552,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416057,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90042] = {
+        [90042] = { -- Everlasting Affliction
             [questKeys.name] = "Everlasting Affliction",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5564,7 +5564,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416008,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90043] = {
+        [90043] = { -- Everlasting Affliction
             [questKeys.name] = "Everlasting Affliction",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5576,7 +5576,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416008,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90044] = {
+        [90044] = { -- Serpent Spread
             [questKeys.name] = "Serpent Spread",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5588,7 +5588,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425760,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90045] = {
+        [90045] = { -- Serpent Spread
             [questKeys.name] = "Serpent Spread",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5600,7 +5600,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425760,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90046] = {
+        [90046] = { -- Single-Minded Fury
             [questKeys.name] = "Single-Minded Fury",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5612,7 +5612,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416003,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90047] = {
+        [90047] = { -- Single-Minded Fury
             [questKeys.name] = "Single-Minded Fury",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5624,7 +5624,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416003,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90048] = {
+        [90048] = { -- Skull Bash
             [questKeys.name] = "Skull Bash",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5636,7 +5636,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416046,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90049] = {
+        [90049] = { -- Skull Bash
             [questKeys.name] = "Skull Bash",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5648,7 +5648,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416046,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90050] = {
+        [90050] = { -- Just a Flesh Wound
             [questKeys.name] = "Just a Flesh Wound",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5660,7 +5660,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400082,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90051] = {
+        [90051] = { -- Just a Flesh Wound
             [questKeys.name] = "Just a Flesh Wound",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5672,7 +5672,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400082,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90052] = {
+        [90052] = { -- Mind Sear
             [questKeys.name] = "Mind Sear",
             [questKeys.startedBy] = {{213077,214099,214101,}},
             [questKeys.finishedBy] = nil,
@@ -5684,7 +5684,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415996,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90053] = {
+        [90053] = { -- Mind Sear
             [questKeys.name] = "Mind Sear",
             [questKeys.startedBy] = {{214070,214096,214098}},
             [questKeys.finishedBy] = nil,
@@ -5696,7 +5696,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415996,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90054] = {
+        [90054] = { -- Living Seed
             [questKeys.name] = "Living Seed",
             [questKeys.startedBy] = {{206248}},
             [questKeys.finishedBy] = nil,
@@ -5708,7 +5708,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416050,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90055] = {
+        [90055] = { -- Living Seed
             [questKeys.name] = "Living Seed",
             [questKeys.startedBy] = {{206248}},
             [questKeys.finishedBy] = nil,
@@ -5720,7 +5720,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416050,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90056] = {
+        [90056] = { -- Starsurge
             [questKeys.name] = "Starsurge",
             [questKeys.startedBy] = {{212186,212209}},
             [questKeys.finishedBy] = nil,
@@ -5732,7 +5732,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424718,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90057] = {
+        [90057] = { -- Sunfire
             [questKeys.name] = "Sunfire",
             [questKeys.startedBy] = {{207577},{404433}},
             [questKeys.finishedBy] = nil,
@@ -5744,7 +5744,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416044,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90058] = {
+        [90058] = { -- Lifebloom
             [questKeys.name] = "Lifebloom",
             [questKeys.startedBy] = {{204827}},
             [questKeys.finishedBy] = nil,
@@ -5756,7 +5756,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410033,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90059] = {
+        [90059] = { -- Prayer of Mending
             [questKeys.name] = "Prayer of Mending",
             [questKeys.startedBy] = {{204827}},
             [questKeys.finishedBy] = nil,
@@ -5768,7 +5768,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402848,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90060] = {
+        [90060] = { -- Ancestral Guidance
             [questKeys.name] = "Ancestral Guidance",
             [questKeys.startedBy] = {{204827}},
             [questKeys.finishedBy] = nil,
@@ -5780,7 +5780,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410099,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90061] = {
+        [90061] = { -- Chaos Bolt
             [questKeys.name] = "Chaos Bolt",
             [questKeys.startedBy] = {{202060}},
             [questKeys.finishedBy] = nil,
@@ -5792,7 +5792,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403925,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90062] = {
+        [90062] = { -- Chaos Bolt
             [questKeys.name] = "Chaos Bolt",
             [questKeys.startedBy] = {{208275}},
             [questKeys.finishedBy] = nil,
@@ -5804,7 +5804,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403925,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90063] = {
+        [90063] = { -- Chaos Bolt
             [questKeys.name] = "Chaos Bolt",
             [questKeys.startedBy] = {{202060}},
             [questKeys.finishedBy] = nil,
@@ -5816,7 +5816,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403925,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90064] = {
+        [90064] = { -- Shadow Bolt Volley
             [questKeys.name] = "Shadow Bolt Volley",
             [questKeys.startedBy] = {{209954,209958}},
             [questKeys.finishedBy] = nil,
@@ -5828,7 +5828,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403936,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90065] = {
+        [90065] = { -- Shadow Bolt Volley
             [questKeys.name] = "Shadow Bolt Volley",
             [questKeys.startedBy] = {{391}},
             [questKeys.finishedBy] = nil,
@@ -5840,7 +5840,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403936,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90066] = {
+        [90066] = { -- Shadow Bolt Volley
             [questKeys.name] = "Shadow Bolt Volley",
             [questKeys.startedBy] = {nil,{450002}},
             [questKeys.finishedBy] = nil,
@@ -5852,7 +5852,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403936,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90067] = {
+        [90067] = { -- Shadow Bolt Volley
             [questKeys.name] = "Shadow Bolt Volley",
             [questKeys.startedBy] = {{3445}},
             [questKeys.finishedBy] = nil,
@@ -5864,7 +5864,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403936,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90068] = {
+        [90068] = { -- Shadow Bolt Volley
             [questKeys.name] = "Shadow Bolt Volley",
             [questKeys.startedBy] = {nil,{407312}},
             [questKeys.finishedBy] = nil,
@@ -5876,7 +5876,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403936,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90069] = {
+        [90069] = { -- Shadow Bolt Volley
             [questKeys.name] = "Shadow Bolt Volley",
             [questKeys.startedBy] = {{1974,1973}},
             [questKeys.finishedBy] = nil,
@@ -5888,7 +5888,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403936,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90070] = {
+        [90070] = { -- Incinerate
             [questKeys.name] = "Incinerate",
             [questKeys.startedBy] = {{214519}},
             [questKeys.finishedBy] = nil,
@@ -5900,7 +5900,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416015,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90071] = {
+        [90071] = { -- Demonic Tactics
             [questKeys.name] = "Demonic Tactics",
             [questKeys.startedBy] = {{204503,906,6122}},
             [questKeys.finishedBy] = nil,
@@ -5912,7 +5912,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416009,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90072] = {
+        [90072] = { -- Demonic Tactics
             [questKeys.name] = "Demonic Tactics",
             [questKeys.startedBy] = {{208927,2127,5675}},
             [questKeys.finishedBy] = nil,
@@ -5924,7 +5924,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416009,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90073] = {
+        [90073] = { -- Soul Siphon
             [questKeys.name] = "Soul Siphon",
             [questKeys.startedBy] = {{6124,209002}},
             [questKeys.finishedBy] = nil,
@@ -5936,7 +5936,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403920,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90074] = {
+        [90074] = { -- Soul Siphon
             [questKeys.name] = "Soul Siphon",
             [questKeys.startedBy] = {{448,204256}},
             [questKeys.finishedBy] = nil,
@@ -5948,7 +5948,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403920,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90075] = {
+        [90075] = { -- Soul Siphon
             [questKeys.name] = "Soul Siphon",
             [questKeys.startedBy] = {{3204,208226}},
             [questKeys.finishedBy] = nil,
@@ -5960,7 +5960,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403920,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90076] = {
+        [90076] = { -- Soul Siphon
             [questKeys.name] = "Soul Siphon",
             [questKeys.startedBy] = {{1753,208682}},
             [questKeys.finishedBy] = nil,
@@ -5972,7 +5972,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403920,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90077] = {
+        [90077] = { -- Demonic Grace
             [questKeys.name] = "Demonic Grace",
             [questKeys.startedBy] = {{204070}},
             [questKeys.finishedBy] = nil,
@@ -5984,7 +5984,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425477,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90078] = {
+        [90078] = { -- Demonic Grace
             [questKeys.name] = "Demonic Grace",
             [questKeys.startedBy] = {{204070}},
             [questKeys.finishedBy] = nil,
@@ -5996,7 +5996,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425477,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90079] = {
+        [90079] = { -- Demonic Grace
             [questKeys.name] = "Demonic Grace",
             [questKeys.startedBy] = {{204070}},
             [questKeys.finishedBy] = nil,
@@ -6008,7 +6008,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425477,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90080] = {
+        [90080] = { -- Demonic Grace
             [questKeys.name] = "Demonic Grace",
             [questKeys.startedBy] = {{204070}},
             [questKeys.finishedBy] = nil,
@@ -6020,7 +6020,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425477,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90081] = {
+        [90081] = { -- Heart of the Lion
             [questKeys.name] = "Heart of the Lion",
             [questKeys.startedBy] = {{211965}},
             [questKeys.finishedBy] = nil,
@@ -6032,7 +6032,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410115,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90082] = {
+        [90082] = { -- Master Marksman
             [questKeys.name] = "Master Marksman",
             [questKeys.startedBy] = {{205692,208179,208975,209811}},
             [questKeys.finishedBy] = nil,
@@ -6044,7 +6044,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410113,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90083] = {
+        [90083] = { -- Cobra Strikes
             [questKeys.name] = "Cobra Strikes",
             [questKeys.startedBy] = {{3537,211951}},
             [questKeys.finishedBy] = nil,
@@ -6056,7 +6056,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425759,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90084] = {
+        [90084] = { -- Blade Dance
             [questKeys.name] = "Blade Dance",
             [questKeys.startedBy] = {nil,{414532}},
             [questKeys.finishedBy] = nil,
@@ -6068,7 +6068,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400099,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90085] = {
+        [90085] = { -- Blade Dance
             [questKeys.name] = "Blade Dance",
             [questKeys.startedBy] = {{1169}},
             [questKeys.finishedBy] = nil,
@@ -6080,7 +6080,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400099,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90086] = {
+        [90086] = { -- Blade Dance
             [questKeys.name] = "Blade Dance",
             [questKeys.startedBy] = {nil,{408718}},
             [questKeys.finishedBy] = nil,
@@ -6092,7 +6092,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400099,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90087] = {
+        [90087] = { -- Blade Dance
             [questKeys.name] = "Blade Dance",
             [questKeys.startedBy] = {nil,{407454}},
             [questKeys.finishedBy] = nil,
@@ -6104,7 +6104,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400099,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90088] = {
+        [90088] = { -- First Trial of The Owls
             [questKeys.name] = "First Trial of The Owls",
             [questKeys.startedBy] = {nil,{410020}},
             [questKeys.finishedBy] = {{12042}},
@@ -6116,7 +6116,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Click the Owl Statue to start the the first trial. You will need to defeat 3 waves of 2 mobs each. Then you will receive the Symbol of the First Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90089] = {
+        [90089] = { -- Second Trial of The Owls
             [questKeys.name] = "Second Trial of The Owls",
             [questKeys.startedBy] = {nil,{410089}},
             [questKeys.finishedBy] = {{12042}},
@@ -6128,7 +6128,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Click the Owl Statue to become able to see Agon who is east of the grove, near the worgen camp. Defeat him and collect the Symbol of the Second Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90090] = {
+        [90090] = { -- Third Trial of The Owls
             [questKeys.name] = "Third Trial of The Owls",
             [questKeys.startedBy] = {nil,{409942,409949}},
             [questKeys.finishedBy] = {{12042}},
@@ -6140,7 +6140,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Click one of the Twin Owl Statues and reach the other in two minutes. You need to use Aquatic Form to make it in time. If you succeed you'll receive the Symbol of the Third Owl."},
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90091] = {
+        [90091] = { -- Flagellation
             [questKeys.name] = "Flagellation",
             [questKeys.startedBy] = {{212261},{411328,411348}},
             [questKeys.finishedBy] = nil,
@@ -6152,7 +6152,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403480,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90092] = {
+        [90092] = { -- Blood Frenzy
             [questKeys.name] = "Blood Frenzy",
             [questKeys.startedBy] = {{203079}},
             [questKeys.finishedBy] = nil,
@@ -6164,7 +6164,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403474,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90093] = {
+        [90093] = { -- Furious Thunder
             [questKeys.name] = "Furious Thunder",
             [questKeys.startedBy] = {{208638,207515,327,448,1271,1388,3204,3281,3205,3058,6113,208196},{407734}},
             [questKeys.finishedBy] = nil,
@@ -6176,7 +6176,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403476,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90094] = {
+        [90094] = { -- Consumed By Rage
             [questKeys.name] = "Consumed By Rage",
             [questKeys.startedBy] = {{211965}},
             [questKeys.finishedBy] = nil,
@@ -6188,7 +6188,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425446,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90095] = {
+        [90095] = { -- Explosive Shot
             [questKeys.name] = "Explosive Shot",
             [questKeys.startedBy] = {{208638,327,448,1271,1388,3204,3281,3205,3058,6113,208196},{407734}},
             [questKeys.finishedBy] = nil,
@@ -6200,7 +6200,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410123,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90100] = {
+        [90100] = { -- Devastate
             [questKeys.name] = "Devastate",
             [questKeys.startedBy] = {{208652}},
             [questKeys.finishedBy] = nil,
@@ -6212,7 +6212,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403475,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90101] = {
+        [90101] = { -- Devastate
             [questKeys.name] = "Devastate",
             [questKeys.startedBy] = {{203226}},
             [questKeys.finishedBy] = nil,
@@ -6224,7 +6224,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403475,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90102] = {
+        [90102] = { -- Devastate
             [questKeys.name] = "Devastate",
             [questKeys.startedBy] = {{209608}},
             [questKeys.finishedBy] = nil,
@@ -6236,7 +6236,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403475,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90103] = {
+        [90103] = { -- Devastate
             [questKeys.name] = "Devastate",
             [questKeys.startedBy] = {{207957}},
             [questKeys.finishedBy] = nil,
@@ -6248,7 +6248,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403475,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90104] = {
+        [90104] = { -- Devastate
             [questKeys.name] = "Devastate",
             [questKeys.startedBy] = {{207637}},
             [questKeys.finishedBy] = nil,
@@ -6260,7 +6260,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403475,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90105] = {
+        [90105] = { -- Devastate
             [questKeys.name] = "Devastate",
             [questKeys.startedBy] = {{208619}},
             [questKeys.finishedBy] = nil,
@@ -6272,7 +6272,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403475,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90106] = {
+        [90106] = { -- Frenzied Assault
             [questKeys.name] = "Frenzied Assault",
             [questKeys.startedBy] = {{5570}},
             [questKeys.finishedBy] = {{5570}},
@@ -6284,7 +6284,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425447,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90108] = {
+        [90108] = { -- Frenzied Assault
             [questKeys.name] = "Frenzied Assault",
             [questKeys.startedBy] = {{6736}},
             [questKeys.finishedBy] = {{6736}},
@@ -6296,7 +6296,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425447,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90109] = {
+        [90109] = { -- Frenzied Assault
             [questKeys.name] = "Frenzied Assault",
             [questKeys.startedBy] = {{3399}},
             [questKeys.finishedBy] = {{3399}},
@@ -6308,7 +6308,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425447,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90110] = {
+        [90110] = { -- Frenzied Assault
             [questKeys.name] = "Frenzied Assault",
             [questKeys.startedBy] = {{207743}},
             [questKeys.finishedBy] = {{207743}},
@@ -6320,7 +6320,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425447,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90111] = {
+        [90111] = { -- Frenzied Assault
             [questKeys.name] = "Frenzied Assault",
             [questKeys.startedBy] = {{208920}},
             [questKeys.finishedBy] = {{208920}},
@@ -6332,7 +6332,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425447,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90112] = {
+        [90112] = { -- Endless Rage
             [questKeys.name] = "Endless Rage",
             [questKeys.startedBy] = {{391}},
             [questKeys.finishedBy] = {{391}},
@@ -6344,7 +6344,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403489,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90113] = {
+        [90113] = { -- Endless Rage
             [questKeys.name] = "Endless Rage",
             [questKeys.startedBy] = {{210451}},
             [questKeys.finishedBy] = {{210451}},
@@ -6356,7 +6356,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403489,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90114] = {
+        [90114] = { -- Endless Rage
             [questKeys.name] = "Endless Rage",
             [questKeys.startedBy] = {{2478}},
             [questKeys.finishedBy] = {{2478}},
@@ -6368,7 +6368,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403489,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90115] = {
+        [90115] = { -- Endless Rage
             [questKeys.name] = "Endless Rage",
             [questKeys.startedBy] = {{209607},{407289,407291}},
             [questKeys.finishedBy] = {{209607}},
@@ -6380,7 +6380,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403489,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90117] = {
+        [90117] = { -- Seal of Martyrdom
             [questKeys.name] = "Seal of Martyrdom",
             [questKeys.startedBy] = {{205278,205153},{402215}},
             [questKeys.finishedBy] = {{205153}},
@@ -6392,7 +6392,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410015,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90118] = {
+        [90118] = { -- Horn of Lordaeron
             [questKeys.name] = "Horn of Lordaeron",
             [questKeys.startedBy] = {nil,{407844}},
             [questKeys.finishedBy] = {nil,{407844}},
@@ -6404,7 +6404,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425618,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90119] = {
+        [90119] = { -- Horn of Lordaeron
             [questKeys.name] = "Horn of Lordaeron",
             [questKeys.startedBy] = {{210537}},
             [questKeys.finishedBy] = {{210537}},
@@ -6416,7 +6416,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425618,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90121] = {
+        [90121] = { -- Inspiration Exemplar
             [questKeys.name] = "Inspiration Exemplar",
             [questKeys.startedBy] = {{204827}},
             [questKeys.finishedBy] = {{204827}},
@@ -6428,7 +6428,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410011,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90122] = {
+        [90122] = { -- Avenger's Shield
             [questKeys.name] = "Avenger's Shield",
             [questKeys.startedBy] = {{214456}},
             [questKeys.finishedBy] = {{214456}},
@@ -6440,7 +6440,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410008,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90123] = {
+        [90123] = { -- Rebuke
             [questKeys.name] = "Rebuke",
             [questKeys.startedBy] = {{5570}},
             [questKeys.finishedBy] = {{5570}},
@@ -6452,7 +6452,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425621,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90124] = {
+        [90124] = { -- Rebuke
             [questKeys.name] = "Rebuke",
             [questKeys.startedBy] = {{203475}},
             [questKeys.finishedBy] = {{203475}},
@@ -6464,7 +6464,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425621,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90125] = {
+        [90125] = { -- Rebuke
             [questKeys.name] = "Rebuke",
             [questKeys.startedBy] = {{6736}},
             [questKeys.finishedBy] = {{6736}},
@@ -6476,7 +6476,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425621,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90126] = {
+        [90126] = { -- Hand of Reckoning
             [questKeys.name] = "Hand of Reckoning",
             [questKeys.startedBy] = {nil,{407850}},
             [questKeys.finishedBy] = {nil,{407850}},
@@ -6488,7 +6488,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410001,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90127] = {
+        [90127] = { -- Mangle
             [questKeys.name] = "Mangle",
             [questKeys.startedBy] = {{7318}},
             [questKeys.finishedBy] = {{7318}},
@@ -6500,7 +6500,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410025,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90128] = {
+        [90128] = { -- Lacerate
             [questKeys.name] = "Lacerate",
             [questKeys.startedBy] = {{1684}},
             [questKeys.finishedBy] = {{1224}},
@@ -6512,7 +6512,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90129] = {
+        [90129] = { -- Lacerate
             [questKeys.name] = "Lacerate",
             [questKeys.startedBy] = {nil,{407117,407120}},
             [questKeys.finishedBy] = {nil,{407120}},
@@ -6524,7 +6524,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90130] = {
+        [90130] = { -- Savage Roar
             [questKeys.name] = "Savage Roar",
             [questKeys.startedBy] = {{6788}},
             [questKeys.finishedBy] = nil,
@@ -6536,7 +6536,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410023,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90131] = {
+        [90131] = { -- Savage Roar
             [questKeys.name] = "Savage Roar",
             [questKeys.startedBy] = {nil,{152608,152618,3642}},
             [questKeys.finishedBy] = nil,
@@ -6548,7 +6548,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410023,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90132] = {
+        [90132] = { -- Savage Roar
             [questKeys.name] = "Savage Roar",
             [questKeys.startedBy] = {nil,{408004}},
             [questKeys.finishedBy] = nil,
@@ -6560,7 +6560,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410023,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90133] = {
+        [90133] = { -- Quick Draw
             [questKeys.name] = "Quick Draw",
             [questKeys.startedBy] = {nil,{386675}},
             [questKeys.finishedBy] = nil,
@@ -6572,7 +6572,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400095,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90134] = {
+        [90134] = { -- Quick Draw
             [questKeys.name] = "Quick Draw",
             [questKeys.startedBy] = {nil,{450005}},
             [questKeys.finishedBy] = nil,
@@ -6584,7 +6584,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400095,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90135] = {
+        [90135] = { -- Quick Draw
             [questKeys.name] = "Quick Draw",
             [questKeys.startedBy] = {nil,{450008}},
             [questKeys.finishedBy] = nil,
@@ -6596,7 +6596,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400095,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90136] = {
+        [90136] = { -- Quick Draw
             [questKeys.name] = "Quick Draw",
             [questKeys.startedBy] = {nil,{450006}},
             [questKeys.finishedBy] = nil,
@@ -6608,7 +6608,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400095,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90137] = {
+        [90137] = { -- Quick Draw
             [questKeys.name] = "Quick Draw",
             [questKeys.startedBy] = {nil,{450007}},
             [questKeys.finishedBy] = nil,
@@ -6619,7 +6619,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Pickpocket Scarlet, Tirisfal Farmers, Murlocs and Gnolls for map pieces. Collect all 4, and combine them. Follow the location of the treasure map and loot the treasure chest."},
             [questKeys.requiredSpell] = -400095,
         },
-        [90138] = {
+        [90138] = { -- Slaughter from the Shadows
             [questKeys.name] = "Slaughter from the Shadows",
             [questKeys.startedBy] = {nil,{387466,407734,404941}},
             [questKeys.finishedBy] = nil,
@@ -6631,7 +6631,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424992,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90139] = {
+        [90139] = { -- Quick Strike
             [questKeys.name] = "Quick Strike",
             [questKeys.startedBy] = {{1161,1162,1163,1164}},
             [questKeys.finishedBy] = nil,
@@ -6643,7 +6643,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90140] = {
+        [90140] = { -- Quick Strike
             [questKeys.name] = "Quick Strike",
             [questKeys.startedBy] = {{504,95,449,590,589,121,285,46,732,735},{408799}},
             [questKeys.finishedBy] = nil,
@@ -6655,7 +6655,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90141] = {
+        [90141] = { -- Quick Strike
             [questKeys.name] = "Quick Strike",
             [questKeys.startedBy] = {{210482},{408802}},
             [questKeys.finishedBy] = nil,
@@ -6667,7 +6667,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90142] = {
+        [90142] = { -- Quick Strike
             [questKeys.name] = "Quick Strike",
             [questKeys.startedBy] = {{3497,209797}},
             [questKeys.finishedBy] = nil,
@@ -6679,7 +6679,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90143] = {
+        [90143] = { -- Quick Strike
             [questKeys.name] = "Quick Strike",
             [questKeys.startedBy] = {{212598}},
             [questKeys.finishedBy] = nil,
@@ -6691,7 +6691,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425443,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90144] = {
+        [90144] = { -- Savage Roar
             [questKeys.name] = "Savage Roar",
             [questKeys.startedBy] = {{452,124,117,501,1426,123,453,125,500,1065,98}},
             [questKeys.finishedBy] = nil,
@@ -6703,7 +6703,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410023,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90145] = {
+        [90145] = { -- Lacerate
             [questKeys.name] = "Lacerate",
             [questKeys.startedBy] = {{2167,2324,2171,2168,2169,2170,2234}},
             [questKeys.finishedBy] = nil,
@@ -6715,7 +6715,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90146] = {
+        [90146] = { -- Mangle
             [questKeys.name] = "Mangle",
             [questKeys.startedBy] = {{3566,2960}},
             [questKeys.finishedBy] = nil,
@@ -6727,7 +6727,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410025,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90147] = {
+        [90147] = { -- Hand of Reckoning
             [questKeys.name] = "Hand of Reckoning",
             [questKeys.startedBy] = {{846,572,7050}},
             [questKeys.finishedBy] = nil,
@@ -6739,7 +6739,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410001,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90148] = {
+        [90148] = { -- Exorcist
             [questKeys.name] = "Exorcist",
             [questKeys.startedBy] = {{215,909,910}},
             [questKeys.finishedBy] = nil,
@@ -6751,7 +6751,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416037,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90150] = {
+        [90150] = { -- Sniper Training
             [questKeys.name] = "Sniper Training",
             [questKeys.startedBy] = {{210482},{408802}},
             [questKeys.finishedBy] = nil,
@@ -6763,7 +6763,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90151] = {
+        [90151] = { -- Sniper Training
             [questKeys.name] = "Sniper Training",
             [questKeys.startedBy] = {{210549}},
             [questKeys.finishedBy] = nil,
@@ -6775,7 +6775,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90152] = {
+        [90152] = { -- Sniper Training
             [questKeys.name] = "Sniper Training",
             [questKeys.startedBy] = {{210107}},
             [questKeys.finishedBy] = nil,
@@ -6787,7 +6787,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90153] = {
+        [90153] = { -- Sniper Training
             [questKeys.name] = "Sniper Training",
             [questKeys.startedBy] = {{3497,209797}},
             [questKeys.finishedBy] = nil,
@@ -6799,7 +6799,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416091,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90154] = {
+        [90154] = { -- Lacerate
             [questKeys.name] = "Lacerate",
             [questKeys.startedBy] = {{210483}},
             [questKeys.finishedBy] = nil,
@@ -6811,7 +6811,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416049,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90155] = {
+        [90155] = { -- Void Plague
             [questKeys.name] = "Void Plague",
             [questKeys.startedBy] = {{1211}},
             [questKeys.finishedBy] = nil,
@@ -6823,7 +6823,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90156] = {
+        [90156] = { -- Void Plague
             [questKeys.name] = "Void Plague",
             [questKeys.startedBy] = {{327}},
             [questKeys.finishedBy] = nil,
@@ -6835,7 +6835,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90157] = {
+        [90157] = { -- Void Plague
             [questKeys.name] = "Void Plague",
             [questKeys.startedBy] = {nil,{407734}},
             [questKeys.finishedBy] = nil,
@@ -6847,7 +6847,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90158] = {
+        [90158] = { -- Void Plague
             [questKeys.name] = "Void Plague",
             [questKeys.startedBy] = {{3128,2129}},
             [questKeys.finishedBy] = nil,
@@ -6859,7 +6859,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90159] = {
+        [90159] = { -- Void Plague
             [questKeys.name] = "Void Plague",
             [questKeys.startedBy] = {{208196}},
             [questKeys.finishedBy] = nil,
@@ -6871,7 +6871,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425216,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90161] = {
+        [90161] = { -- Strength of Soul
             [questKeys.name] = "Strength of Soul",
             [questKeys.startedBy] = {nil,{450003}},
             [questKeys.finishedBy] = nil,
@@ -6883,7 +6883,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415997,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90162] = {
+        [90162] = { -- Twisted Faith
             [questKeys.name] = "Twisted Faith",
             [questKeys.startedBy] = {nil,{450004}},
             [questKeys.finishedBy] = nil,
@@ -6895,7 +6895,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90163] = {
+        [90163] = { -- Twisted Faith
             [questKeys.name] = "Twisted Faith",
             [questKeys.startedBy] = {{210537}},
             [questKeys.finishedBy] = nil,
@@ -6907,7 +6907,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90164] = {
+        [90164] = { -- Twisted Faith
             [questKeys.name] = "Twisted Faith",
             [questKeys.startedBy] = {nil,{414663}},
             [questKeys.finishedBy] = nil,
@@ -6919,7 +6919,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90165] = {
+        [90165] = { -- Twisted Faith
             [questKeys.name] = "Twisted Faith",
             [questKeys.startedBy] = {{3268,3267,3266,3265,3457}},
             [questKeys.finishedBy] = nil,
@@ -6931,7 +6931,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90166] = {
+        [90166] = { -- Twisted Faith
             [questKeys.name] = "Twisted Faith",
             [questKeys.startedBy] = {{212809}},
             [questKeys.finishedBy] = nil,
@@ -6943,7 +6943,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425215,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90167] = {
+        [90167] = { -- Flanking Strike
             [questKeys.name] = "Flanking Strike",
             [questKeys.startedBy] = {{208812}},
             [questKeys.finishedBy] = nil,
@@ -6955,7 +6955,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90168] = {
+        [90168] = { -- Flanking Strike
             [questKeys.name] = "Flanking Strike",
             [questKeys.startedBy] = {{209928}},
             [questKeys.finishedBy] = nil,
@@ -6967,7 +6967,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90169] = {
+        [90169] = { -- Power Word: Barrier
             [questKeys.name] = "Power Word: Barrier",
             [questKeys.startedBy] = {{436}},
             [questKeys.finishedBy] = nil,
@@ -6979,7 +6979,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425213,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90170] = {
+        [90170] = { -- Flanking Strike
             [questKeys.name] = "Flanking Strike",
             [questKeys.startedBy] = {{208124}},
             [questKeys.finishedBy] = nil,
@@ -6991,7 +6991,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90171] = {
+        [90171] = { -- Flanking Strike
             [questKeys.name] = "Flanking Strike",
             [questKeys.startedBy] = {{205382}},
             [questKeys.finishedBy] = nil,
@@ -7003,7 +7003,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425762,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90172] = {
+        [90172] = { -- Beast Mastery
             [questKeys.name] = "Beast Mastery",
             [questKeys.startedBy] = {{210533}},
             [questKeys.finishedBy] = nil,
@@ -7015,7 +7015,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90173] = {
+        [90173] = { -- Beast Mastery
             [questKeys.name] = "Beast Mastery",
             [questKeys.startedBy] = {{2170,2171,2169,2168,2324,2167,2234}},
             [questKeys.finishedBy] = nil,
@@ -7027,7 +7027,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90174] = {
+        [90174] = { -- Beast Mastery
             [questKeys.name] = "Beast Mastery",
             [questKeys.startedBy] = {nil,{407918}},
             [questKeys.finishedBy] = nil,
@@ -7039,7 +7039,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90175] = {
+        [90175] = { -- Beast Mastery
             [questKeys.name] = "Beast Mastery",
             [questKeys.startedBy] = {{1778,211736}},
             [questKeys.finishedBy] = nil,
@@ -7051,7 +7051,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90176] = {
+        [90176] = { -- Beast Mastery
             [questKeys.name] = "Beast Mastery",
             [questKeys.startedBy] = {{209524}},
             [questKeys.finishedBy] = nil,
@@ -7063,7 +7063,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410110,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90177] = {
+        [90177] = { -- Shared Pain
             [questKeys.name] = "Shared Pain",
             [questKeys.startedBy] = {{6124}},
             [questKeys.finishedBy] = nil,
@@ -7075,7 +7075,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90178] = {
+        [90178] = { -- Shared Pain
             [questKeys.name] = "Shared Pain",
             [questKeys.startedBy] = {{40}},
             [questKeys.finishedBy] = nil,
@@ -7087,7 +7087,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90179] = {
+        [90179] = { -- Shared Pain
             [questKeys.name] = "Shared Pain",
             [questKeys.startedBy] = {{2038}},
             [questKeys.finishedBy] = nil,
@@ -7099,7 +7099,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90180] = {
+        [90180] = { -- Shared Pain
             [questKeys.name] = "Shared Pain",
             [questKeys.startedBy] = {{13157,3204}},
             [questKeys.finishedBy] = nil,
@@ -7111,7 +7111,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90181] = {
+        [90181] = { -- Shared Pain
             [questKeys.name] = "Shared Pain",
             [questKeys.startedBy] = {{1934}},
             [questKeys.finishedBy] = nil,
@@ -7123,7 +7123,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402854,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90182] = {
+        [90182] = { -- Homunculi
             [questKeys.name] = "Homunculi",
             [questKeys.startedBy] = {{1124,1397}},
             [questKeys.finishedBy] = nil,
@@ -7135,7 +7135,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90183] = {
+        [90183] = { -- Homunculi
             [questKeys.name] = "Homunculi",
             [questKeys.startedBy] = {{474}},
             [questKeys.finishedBy] = nil,
@@ -7147,7 +7147,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90184] = {
+        [90184] = { -- Homunculi
             [questKeys.name] = "Homunculi",
             [questKeys.startedBy] = {{2002,2003,2004,2005}},
             [questKeys.finishedBy] = nil,
@@ -7159,7 +7159,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90185] = {
+        [90185] = { -- Homunculi
             [questKeys.name] = "Homunculi",
             [questKeys.startedBy] = {{3206}},
             [questKeys.finishedBy] = nil,
@@ -7171,7 +7171,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90186] = {
+        [90186] = { -- Homunculi
             [questKeys.name] = "Homunculi",
             [questKeys.startedBy] = {{1535,1536}},
             [questKeys.finishedBy] = nil,
@@ -7183,7 +7183,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402852,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90187] = {
+        [90187] = { -- Shadow Word: Death
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {{572}},
             [questKeys.finishedBy] = nil,
@@ -7195,7 +7195,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402849,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90188] = {
+        [90188] = { -- Shadow Word: Death
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {{209742}},
             [questKeys.finishedBy] = nil,
@@ -7207,7 +7207,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402849,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90189] = {
+        [90189] = { -- Shadow Word: Death
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {{209908}},
             [questKeys.finishedBy] = nil,
@@ -7219,7 +7219,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402849,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90190] = {
+        [90190] = { -- Shadow Word: Death
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {nil,{411674}},
             [questKeys.finishedBy] = nil,
@@ -7231,7 +7231,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402849,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90191] = {
+        [90191] = { -- Shadow Word: Death
             [questKeys.name] = "Shadow Word: Death",
             [questKeys.startedBy] = {nil,{414646}},
             [questKeys.finishedBy] = nil,
@@ -7243,7 +7243,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402849,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90192] = {
+        [90192] = { -- Circle of Healing
             [questKeys.name] = "Circle of Healing",
             [questKeys.startedBy] = {{215,909,910},{450009}},
             [questKeys.finishedBy] = nil,
@@ -7255,7 +7255,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402859,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90193] = {
+        [90193] = { -- Between the Eyes
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{405946}},
             [questKeys.finishedBy] = nil,
@@ -7267,7 +7267,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90194] = {
+        [90194] = { -- Between the Eyes
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{386777}},
             [questKeys.finishedBy] = nil,
@@ -7279,7 +7279,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90195] = {
+        [90195] = { -- Between the Eyes
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{404830}},
             [questKeys.finishedBy] = nil,
@@ -7291,7 +7291,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90196] = {
+        [90196] = { -- Between the Eyes
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{405201}},
             [questKeys.finishedBy] = nil,
@@ -7303,7 +7303,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90197] = {
+        [90197] = { -- Between the Eyes
             [questKeys.name] = "Between the Eyes",
             [questKeys.startedBy] = {nil,{407352}},
             [questKeys.finishedBy] = nil,
@@ -7315,7 +7315,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400081,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90198] = {
+        [90198] = { -- Envenom
             [questKeys.name] = "Envenom",
             [questKeys.startedBy] = {{3536},{410847}},
             [questKeys.finishedBy] = nil,
@@ -7327,7 +7327,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400102,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90199] = {
+        [90199] = { -- Mutilate
             [questKeys.name] = "Mutilate",
             [questKeys.startedBy] = {{2038}},
             [questKeys.finishedBy] = nil,
@@ -7339,7 +7339,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400094,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90200] = {
+        [90200] = { -- Mutilate
             [questKeys.name] = "Mutilate",
             [questKeys.startedBy] = {{6123,208886}},
             [questKeys.finishedBy] = nil,
@@ -7351,7 +7351,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400094,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90201] = {
+        [90201] = { -- Shiv
             [questKeys.name] = "Shiv",
             [questKeys.startedBy] = {{215,909,910},{450010}},
             [questKeys.finishedBy] = nil,
@@ -7363,7 +7363,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424988,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90202] = {
+        [90202] = { -- Greater Ghost Wolf
             [questKeys.name] = "Greater Ghost Wolf",
             [questKeys.startedBy] = {{212837}},
             [questKeys.finishedBy] = nil,
@@ -7375,7 +7375,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425343,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90203] = {
+        [90203] = { -- Way of Earth
             [questKeys.name] = "Way of Earth",
             [questKeys.startedBy] = {{209742}},
             [questKeys.finishedBy] = nil,
@@ -7387,7 +7387,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410107,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90204] = {
+        [90204] = { -- Way of Earth
             [questKeys.name] = "Way of Earth",
             [questKeys.startedBy] = {{1773}},
             [questKeys.finishedBy] = nil,
@@ -7399,7 +7399,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410107,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90205] = {
+        [90205] = { -- Lava Burst
             [questKeys.name] = "Lava Burst",
             [questKeys.startedBy] = {{2373}},
             [questKeys.finishedBy] = nil,
@@ -7411,7 +7411,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410095,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90206] = {
+        [90206] = { -- Carve
             [questKeys.name] = "Carve",
             [questKeys.startedBy] = {{1115,1116,1117,1118,208711}},
             [questKeys.finishedBy] = nil,
@@ -7423,7 +7423,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425758,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90207] = {
+        [90207] = { -- Carve
             [questKeys.name] = "Carve",
             [questKeys.startedBy] = {{2009,2010,2011,2012,2013,2014,2152,209948}},
             [questKeys.finishedBy] = nil,
@@ -7435,7 +7435,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425758,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90208] = {
+        [90208] = { -- Carve
             [questKeys.name] = "Carve",
             [questKeys.startedBy] = {{3111,3114,3113,3112,5824,5826,208184}},
             [questKeys.finishedBy] = nil,
@@ -7447,7 +7447,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425758,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90209] = {
+        [90209] = { -- Carve
             [questKeys.name] = "Carve",
             [questKeys.startedBy] = {{2949,2950,2951,205635}},
             [questKeys.finishedBy] = nil,
@@ -7459,7 +7459,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425758,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90210] = {
+        [90210] = { -- Saber Slash
             [questKeys.name] = "Saber Slash",
             [questKeys.startedBy] = {nil,{407731}},
             [questKeys.finishedBy] = nil,
@@ -7471,7 +7471,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424984,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90211] = {
+        [90211] = { -- Saber Slash
             [questKeys.name] = "Saber Slash",
             [questKeys.startedBy] = {{210549}},
             [questKeys.finishedBy] = nil,
@@ -7483,7 +7483,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424984,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90212] = {
+        [90212] = { -- Saber Slash
             [questKeys.name] = "Saber Slash",
             [questKeys.startedBy] = {nil,{407457}},
             [questKeys.finishedBy] = nil,
@@ -7495,7 +7495,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424984,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90213] = {
+        [90213] = { -- Saber Slash
             [questKeys.name] = "Saber Slash",
             [questKeys.startedBy] = {nil,{409131}},
             [questKeys.finishedBy] = nil,
@@ -7507,7 +7507,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424984,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90214] = {
+        [90214] = { -- Saber Slash
             [questKeys.name] = "Saber Slash",
             [questKeys.startedBy] = {nil,{414624}},
             [questKeys.finishedBy] = nil,
@@ -7519,7 +7519,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424984,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90215] = {
+        [90215] = { -- Water Shield
             [questKeys.name] = "Water Shield",
             [questKeys.startedBy] = {{1972}},
             [questKeys.finishedBy] = nil,
@@ -7531,7 +7531,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410097,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90216] = {
+        [90216] = { -- Water Shield
             [questKeys.name] = "Water Shield",
             [questKeys.startedBy] = {nil,{152608,152618,3642}},
             [questKeys.finishedBy] = nil,
@@ -7543,7 +7543,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410097,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90217] = {
+        [90217] = { -- Shield Mastery
             [questKeys.name] = "Shield Mastery",
             [questKeys.startedBy] = {nil,{450011}},
             [questKeys.finishedBy] = nil,
@@ -7555,7 +7555,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410098,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90218] = {
+        [90218] = { -- Shield Mastery
             [questKeys.name] = "Shield Mastery",
             [questKeys.startedBy] = {nil,{450012}},
             [questKeys.finishedBy] = nil,
@@ -7567,7 +7567,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410098,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90219] = {
+        [90219] = { -- Molten Blast
             [questKeys.name] = "Molten Blast",
             [questKeys.startedBy] = {{208275}},
             [questKeys.finishedBy] = nil,
@@ -7579,7 +7579,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90220] = {
+        [90220] = { -- Molten Blast
             [questKeys.name] = "Molten Blast",
             [questKeys.startedBy] = {nil,{404352}},
             [questKeys.finishedBy] = nil,
@@ -7591,7 +7591,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425344,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90221] = {
+        [90221] = { -- Berserk
             [questKeys.name] = "Berserk",
             [questKeys.startedBy] = {nil,{450013}},
             [questKeys.finishedBy] = nil,
@@ -7603,7 +7603,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -424760,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90222] = {
+        [90222] = { -- Dreamstate
             [questKeys.name] = "Dreamstate",
             [questKeys.startedBy] = {nil,{450015}},
             [questKeys.finishedBy] = nil,
@@ -7615,7 +7615,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410060,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90223] = {
+        [90223] = { -- Dual Wield Specialization
             [questKeys.name] = "Dual Wield Specialization",
             [questKeys.startedBy] = {{217783}},
             [questKeys.finishedBy] = nil,
@@ -7627,7 +7627,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410116,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90224] = {
+        [90224] = { -- Intervene
             [questKeys.name] = "Intervene",
             [questKeys.startedBy] = {{218019,218020,218021,}},
             [questKeys.finishedBy] = nil,
@@ -7639,7 +7639,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403472,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90225] = {
+        [90225] = { -- Rallying Cry
             [questKeys.name] = "Rallying Cry",
             [questKeys.startedBy] = {{218273}},
             [questKeys.finishedBy] = nil,
@@ -7651,7 +7651,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426491,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90226] = {
+        [90226] = { -- Spellfrost Bolt
             [questKeys.name] = "Spellfrost Bolt",
             [questKeys.startedBy] = {{780}},
             [questKeys.finishedBy] = nil,
@@ -7663,7 +7663,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415948,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90227] = {
+        [90227] = { -- Frostfire Bolt
             [questKeys.name] = "Frostfire Bolt",
             [questKeys.startedBy] = {{780}},
             [questKeys.finishedBy] = nil,
@@ -7675,7 +7675,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401762,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90228] = {
+        [90228] = { -- Rolling with the Punches
             [questKeys.name] = "Rolling with the Punches",
             [questKeys.startedBy] = {nil,{423930}},
             [questKeys.finishedBy] = nil,
@@ -7687,7 +7687,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400093,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90229] = {
+        [90229] = { -- Sacred Shield
             [questKeys.name] = "Sacred Shield",
             [questKeys.startedBy] = {nil,{423695}},
             [questKeys.finishedBy] = nil,
@@ -7699,7 +7699,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416028,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90230] = {
+        [90230] = { -- Focused Rage
             [questKeys.name] = "Focused Rage",
             [questKeys.startedBy] = {nil,{450014}},
             [questKeys.finishedBy] = nil,
@@ -7711,7 +7711,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -409163,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90231] = {
+        [90231] = { -- Spirit of the Alpha
             [questKeys.name] = "Spirit of the Alpha",
             [questKeys.startedBy] = {nil,{421568}},
             [questKeys.finishedBy] = nil,
@@ -7723,7 +7723,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410103,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90232] = {
+        [90232] = { -- Empowered Renew
             [questKeys.name] = "Empowered Renew",
             [questKeys.startedBy] = {{2252,2253,10758,10759,10760,10761}},
             [questKeys.finishedBy] = nil,
@@ -7735,7 +7735,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425309,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90233] = {
+        [90233] = { -- Steady Shot
             [questKeys.name] = "Steady Shot",
             [questKeys.startedBy] = {{217836}},
             [questKeys.finishedBy] = nil,
@@ -7747,7 +7747,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410109,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90234] = {
+        [90234] = { -- Hot Streak
             [questKeys.name] = "Hot Streak",
             [questKeys.startedBy] = {{217305},{450016}},
             [questKeys.finishedBy] = nil,
@@ -7759,7 +7759,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401749,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90235] = {
+        [90235] = { -- Renewed Hope
             [questKeys.name] = "Renewed Hope",
             [questKeys.startedBy] = {{4713,218249}},
             [questKeys.finishedBy] = nil,
@@ -7771,7 +7771,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425310,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90236] = {
+        [90236] = { -- Chronostatic Preservation
             [questKeys.name] = "Chronostatic Preservation",
             [questKeys.startedBy] = {{217703}},
             [questKeys.finishedBy] = nil,
@@ -7783,7 +7783,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425189,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90237] = {
+        [90237] = { -- Chronostatic Preservation
             [questKeys.name] = "Chronostatic Preservation",
             [questKeys.startedBy] = {{217669}},
             [questKeys.finishedBy] = nil,
@@ -7795,7 +7795,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425189,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90238] = {
+        [90238] = { -- Chronostatic Preservation
             [questKeys.name] = "Chronostatic Preservation",
             [questKeys.startedBy] = {{217711}},
             [questKeys.finishedBy] = nil,
@@ -7807,7 +7807,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425189,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90239] = {
+        [90239] = { -- Fire Nova: Step 1
             [questKeys.name] = "Fire Nova: Step 1",
             [questKeys.startedBy] = {{217392}},
             [questKeys.finishedBy] = nil,
@@ -7819,7 +7819,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90240] = {
+        [90240] = { -- Fire Nova: Step 2
             [questKeys.name] = "Fire Nova: Step 2",
             [questKeys.startedBy] = {nil,{422895,422896}},
             [questKeys.finishedBy] = nil,
@@ -7831,7 +7831,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90241] = {
+        [90241] = { -- Fire Nova: Step 3
             [questKeys.name] = "Fire Nova: Step 3",
             [questKeys.startedBy] = {{4047}},
             [questKeys.finishedBy] = nil,
@@ -7843,7 +7843,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90242] = {
+        [90242] = { -- Fire Nova: Step 4
             [questKeys.name] = "Fire Nova: Step 4",
             [questKeys.startedBy] = {{5769}},
             [questKeys.finishedBy] = nil,
@@ -7855,7 +7855,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90243] = {
+        [90243] = { -- Fire Nova: Step 5
             [questKeys.name] = "Fire Nova: Step 5",
             [questKeys.startedBy] = {{2995}},
             [questKeys.finishedBy] = nil,
@@ -7867,7 +7867,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90244] = {
+        [90244] = { -- Fire Nova: Step 6
             [questKeys.name] = "Fire Nova: Step 6",
             [questKeys.startedBy] = {{11832}},
             [questKeys.finishedBy] = nil,
@@ -7879,7 +7879,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90245] = {
+        [90245] = { -- Fire Nova: Final Step
             [questKeys.name] = "Fire Nova: Final Step",
             [questKeys.startedBy] = {nil,{450017}},
             [questKeys.finishedBy] = nil,
@@ -7891,7 +7891,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410093,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90246] = {
+        [90246] = { -- Power Surge
             [questKeys.name] = "Power Surge",
             [questKeys.startedBy] = {nil,{450018}},
             [questKeys.finishedBy] = nil,
@@ -7903,7 +7903,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416054,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90247] = {
+        [90247] = { -- Decoy Totem
             [questKeys.name] = "Decoy Totem",
             [questKeys.startedBy] = {{217683}},
             [questKeys.finishedBy] = nil,
@@ -7915,7 +7915,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425882,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90248] = {
+        [90248] = { -- Enlightened Judgements
             [questKeys.name] = "Enlightened Judgements",
             [questKeys.startedBy] = {{217387}},
             [questKeys.finishedBy] = nil,
@@ -7932,7 +7932,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426175,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90249] = {
+        [90249] = { -- Guarded by the Light
             [questKeys.name] = "Guarded by the Light",
             [questKeys.startedBy] = {nil,{423841}},
             [questKeys.finishedBy] = nil,
@@ -7944,7 +7944,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416035,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90250] = {
+        [90250] = { -- Aeonas Whereabouts
             [questKeys.name] = "Aeonas Whereabouts",
             [questKeys.startedBy] = {{3179}},
             [questKeys.finishedBy] = nil,
@@ -7957,7 +7957,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {79945},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90251] = {
+        [90251] = { -- Invigoration
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217412}},
             [questKeys.finishedBy] = nil,
@@ -7969,7 +7969,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90252] = {
+        [90252] = { -- Invigoration
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217588}},
             [questKeys.finishedBy] = nil,
@@ -7981,7 +7981,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90253] = {
+        [90253] = { -- Invigoration
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217589}},
             [questKeys.finishedBy] = nil,
@@ -7993,7 +7993,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90254] = {
+        [90254] = { -- Invigoration
             [questKeys.name] = "Invigoration",
             [questKeys.startedBy] = {{217590}},
             [questKeys.finishedBy] = nil,
@@ -8005,7 +8005,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416089,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90255] = {
+        [90255] = { -- Invocation
             [questKeys.name] = "Invocation",
             [questKeys.startedBy] = {{2590}},
             [questKeys.finishedBy] = nil,
@@ -8017,7 +8017,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426443,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90256] = {
+        [90256] = { -- Shadowflame
             [questKeys.name] = "Shadowflame",
             [questKeys.startedBy] = {nil,{419741}},
             [questKeys.finishedBy] = nil,
@@ -8029,7 +8029,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -426467,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90257] = {
+        [90257] = { -- Dance of the Wicked
             [questKeys.name] = "Dance of the Wicked",
             [questKeys.startedBy] = {{217620}},
             [questKeys.finishedBy] = nil,
@@ -8041,7 +8041,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416017,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90258] = {
+        [90258] = { -- Graveyard Echo
             [questKeys.name] = "Graveyard Echo",
             [questKeys.startedBy] = {nil,{424266}},
             [questKeys.finishedBy] = nil,
@@ -8053,7 +8053,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402855,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90259] = {
+        [90259] = { -- Arathi Echo
             [questKeys.name] = "Arathi Echo",
             [questKeys.startedBy] = {nil,{424267}},
             [questKeys.finishedBy] = nil,
@@ -8065,7 +8065,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402855,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90260] = {
+        [90260] = { -- Theramore Echo
             [questKeys.name] = "Theramore Echo",
             [questKeys.startedBy] = {nil,{424264}},
             [questKeys.finishedBy] = nil,
@@ -8077,7 +8077,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402855,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90261] = {
+        [90261] = { -- Swamp Echo
             [questKeys.name] = "Swamp Echo",
             [questKeys.startedBy] = {nil,{424265}},
             [questKeys.finishedBy] = nil,
@@ -8089,7 +8089,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402855,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90262] = {
+        [90262] = { -- Pain Suppression
             [questKeys.name] = "Pain Suppression",
             [questKeys.startedBy] = {nil,{425896}},
             [questKeys.finishedBy] = nil,
@@ -8104,7 +8104,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402855,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90263] = {
+        [90263] = { -- Pain Suppression
             [questKeys.name] = "Pain Suppression",
             [questKeys.startedBy] = {nil,{428228}},
             [questKeys.finishedBy] = nil,
@@ -8116,7 +8116,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -400096,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90264] = {
+        [90264] = { -- Master of Subtlety
             [questKeys.name] = "Master of Subtlety",
             [questKeys.startedBy] = {{218230,218229}},
             [questKeys.finishedBy] = nil,
@@ -8131,7 +8131,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425103,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90265] = {
+        [90265] = { -- Survival Instincts
             [questKeys.name] = "Survival Instincts",
             [questKeys.startedBy] = {{217412}},
             [questKeys.finishedBy] = nil,
@@ -8143,7 +8143,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410027,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90266] = {
+        [90266] = { -- Survival Instincts
             [questKeys.name] = "Survival Instincts",
             [questKeys.startedBy] = {{217588}},
             [questKeys.finishedBy] = nil,
@@ -8155,7 +8155,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410027,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90267] = {
+        [90267] = { -- Survival Instincts
             [questKeys.name] = "Survival Instincts",
             [questKeys.startedBy] = {{217589}},
             [questKeys.finishedBy] = nil,
@@ -8167,7 +8167,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410027,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90268] = {
+        [90268] = { -- Survival Instincts
             [questKeys.name] = "Survival Instincts",
             [questKeys.startedBy] = {{217590}},
             [questKeys.finishedBy] = nil,
@@ -8179,7 +8179,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -410027,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90269] = {
+        [90269] = { -- Gale Winds
             [questKeys.name] = "Gale Winds",
             [questKeys.startedBy] = {{222286}},
             [questKeys.finishedBy] = nil,
@@ -8191,7 +8191,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431451,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90270] = {
+        [90270] = { -- Gore
             [questKeys.name] = "Gore",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8203,7 +8203,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431447,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90271] = {
+        [90271] = { -- Raptor Fury
             [questKeys.name] = "Raptor Fury",
             [questKeys.startedBy] = {{222243}},
             [questKeys.finishedBy] = nil,
@@ -8215,7 +8215,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416093,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90272] = {
+        [90272] = { -- T.N.T
             [questKeys.name] = "T.N.T",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8227,7 +8227,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431611,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90273] = {
+        [90273] = { -- Molten Armor
             [questKeys.name] = "Molten Armor",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8239,7 +8239,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429308,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90274] = {
+        [90274] = { -- Improved Hammer of Wrath
             [questKeys.name] = "Improved Hammer of Wrath",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8251,7 +8251,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429261,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90275] = {
+        [90275] = { -- Wrath
             [questKeys.name] = "Wrath",
             [questKeys.startedBy] = {{221828,221827}},
             [questKeys.finishedBy] = nil,
@@ -8263,7 +8263,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429249,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90276] = {
+        [90276] = { -- Void Zone
             [questKeys.name] = "Void Zone",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8275,7 +8275,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431705,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90277] = {
+        [90277] = { -- Cut to the Chase
             [questKeys.name] = "Cut to the Chase",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8287,7 +8287,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432297,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90278] = {
+        [90278] = { -- Burn
             [questKeys.name] = "Burn",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8299,7 +8299,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416066,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90279] = {
+        [90279] = { -- Unstable Affliction
             [questKeys.name] = "Unstable Affliction",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8311,7 +8311,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431747,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90280] = {
+        [90280] = { -- Shield Mastery
             [questKeys.name] = "Shield Mastery",
             [questKeys.startedBy] = {{222685,222687,222684,222686}},
             [questKeys.finishedBy] = nil,
@@ -8323,7 +8323,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431747,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90281] = {
+        [90281] = { -- Rampage
             [questKeys.name] = "Rampage",
             [questKeys.startedBy] = {{222233}},
             [questKeys.finishedBy] = nil,
@@ -8335,7 +8335,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427081,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90282] = {
+        [90282] = { -- Vigilance
             [questKeys.name] = "Vigilance",
             [questKeys.startedBy] = {{222726}},
             [questKeys.finishedBy] = nil,
@@ -8347,7 +8347,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427078,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90283] = {
+        [90283] = { -- Wrecking Crew
             [questKeys.name] = "Wrecking Crew",
             [questKeys.startedBy] = {{2649,2650,2651,2652,2653}},
             [questKeys.finishedBy] = nil,
@@ -8359,7 +8359,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427084,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90284] = {
+        [90284] = { -- Immolation Aura
             [questKeys.name] = "Immolation Aura",
             [questKeys.startedBy] = {{221282,221283,221292}},
             [questKeys.finishedBy] = nil,
@@ -8371,7 +8371,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431758,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90285] = {
+        [90285] = { -- Summon Felguard
             [questKeys.name] = "Summon Felguard",
             [questKeys.startedBy] = {{222228,222288,222696,222697,222698}},
             [questKeys.finishedBy] = nil,
@@ -8383,7 +8383,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431756,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90286] = {
+        [90286] = { -- Static Shock
             [questKeys.name] = "Static Shock",
             [questKeys.startedBy] = {{223061}},
             [questKeys.finishedBy] = nil,
@@ -8395,7 +8395,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432238,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90287] = {
+        [90287] = { -- Mental Dexterity
             [questKeys.name] = "Mental Dexterity",
             [questKeys.startedBy] = {{5616,5617},{450019}},
             [questKeys.finishedBy] = nil,
@@ -8407,7 +8407,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416055,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90288] = {
+        [90288] = { -- Pain and Suffering
             [questKeys.name] = "Pain and Suffering",
             [questKeys.startedBy] = {{5616,5617},{450019}},
             [questKeys.finishedBy] = nil,
@@ -8419,7 +8419,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415991,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90289] = {
+        [90289] = { -- Taste for Blood
             [questKeys.name] = "Taste for Blood",
             [questKeys.startedBy] = {{222546},{441912,441913,441914,441915,450020}},
             [questKeys.finishedBy] = nil,
@@ -8431,7 +8431,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -427076,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90290] = {
+        [90290] = { -- Improved Barkskin
             [questKeys.name] = "Improved Barkskin",
             [questKeys.startedBy] = {{5481,5485}},
             [questKeys.finishedBy] = nil,
@@ -8443,7 +8443,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431449,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90291] = {
+        [90291] = { -- Focus Fire
             [questKeys.name] = "Focus Fire",
             [questKeys.startedBy] = {nil,{442404}},
             [questKeys.finishedBy] = nil,
@@ -8455,7 +8455,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431601,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90292] = {
+        [90292] = { -- Catlike Reflexes
             [questKeys.name] = "Catlike Reflexes",
             [questKeys.startedBy] = {{222376,222406}},
             [questKeys.finishedBy] = nil,
@@ -8467,7 +8467,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416083,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90293] = {
+        [90293] = { -- Balefire Bolt
             [questKeys.name] = "Balefire Bolt",
             [questKeys.startedBy] = {{222228,222288,222696,222697,222698}},
             [questKeys.finishedBy] = nil,
@@ -8479,7 +8479,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429311,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90294] = {
+        [90294] = { -- Unfair Advantage
             [questKeys.name] = "Unfair Advantage",
             [questKeys.startedBy] = {{7855,7856,8139}},
             [questKeys.finishedBy] = nil,
@@ -8491,7 +8491,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432301,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90295] = {
+        [90295] = { -- Carnage
             [questKeys.name] = "Carnage",
             [questKeys.startedBy] = {nil,{442405}},
             [questKeys.finishedBy] = nil,
@@ -8503,7 +8503,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432299,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90296] = {
+        [90296] = { -- Focused Attacks
             [questKeys.name] = "Focused Attacks",
             [questKeys.startedBy] = {nil,{442397}},
             [questKeys.finishedBy] = nil,
@@ -8515,7 +8515,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432291,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90297] = {
+        [90297] = { -- Tidal Waves
             [questKeys.name] = "Tidal Waves",
             [questKeys.startedBy] = {nil,{442688,442685}},
             [questKeys.finishedBy] = nil,
@@ -8527,7 +8527,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432234,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90298] = {
+        [90298] = { -- Rolling Thunder
             [questKeys.name] = "Rolling Thunder",
             [questKeys.startedBy] = {{222856,222857}},
             [questKeys.finishedBy] = nil,
@@ -8539,7 +8539,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432236,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90299] = {
+        [90299] = { -- Elune's Fires
             [questKeys.name] = "Elune's Fires",
             [questKeys.startedBy] = {{6375},{441865,441870}},
             [questKeys.finishedBy] = nil,
@@ -8551,7 +8551,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416051,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90300] = {
+        [90300] = { -- Displacement
             [questKeys.name] = "Displacement",
             [questKeys.startedBy] = {{222405}},
             [questKeys.finishedBy] = nil,
@@ -8563,7 +8563,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429309,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90301] = {
+        [90301] = { -- Purifying Power
             [questKeys.name] = "Purifying Power",
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.PALADIN,
@@ -8571,7 +8571,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429255,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90302] = {
+        [90302] = { -- Surge of Light
             [questKeys.name] = "Surge of Light",
             [questKeys.startedBy] = {{223591}},
             [questKeys.finishedBy] = nil,
@@ -8583,7 +8583,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431669,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90303] = {
+        [90303] = { -- Despair
             [questKeys.name] = "Despair",
             [questKeys.startedBy] = {{222405}},
             [questKeys.finishedBy] = nil,
@@ -8595,7 +8595,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431673,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90304] = {
+        [90304] = { -- Eye of the Void
             [questKeys.name] = "Eye of the Void",
             [questKeys.startedBy] = {{223590},{445039,445036,445037,445044,445041,445040,445042}},
             [questKeys.finishedBy] = nil,
@@ -8607,7 +8607,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402864,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90305] = {
+        [90305] = { -- Pandemic
             [questKeys.name] = "Pandemic",
             [questKeys.startedBy] = {{223123},{443727,443728}},
             [questKeys.finishedBy] = nil,
@@ -8619,7 +8619,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431743,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90306] = {
+        [90306] = { -- Backdraft
             [questKeys.name] = "Backdraft",
             [questKeys.startedBy] = {{222405}},
             [questKeys.finishedBy] = nil,
@@ -8631,7 +8631,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -431745,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90307] = {
+        [90307] = { -- Improved Swipe
             [questKeys.name] = "Improved Swipe",
             [questKeys.startedBy] = {{6505,6506,6507,6508,}},
             [questKeys.finishedBy] = nil,
@@ -8643,7 +8643,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -439765,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90308] = {
+        [90308] = { -- Starfall
             [questKeys.name] = "Starfall",
             [questKeys.startedBy] = {{228814}},
             [questKeys.finishedBy] = nil,
@@ -8655,7 +8655,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -439770,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90309] = {
+        [90309] = { -- Tree of Life
             [questKeys.name] = "Tree of Life",
             [questKeys.startedBy] = {{228596}},
             [questKeys.finishedBy] = nil,
@@ -8667,7 +8667,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -439767,
             [questKeys.zoneOrSort] = sortKeys.DRUID,
         },
-        [90310] = {
+        [90310] = { -- Axe Specialization
             [questKeys.name] = "Axe Specialization",
             [questKeys.startedBy] = {nil,{457101}},
             [questKeys.finishedBy] = nil,
@@ -8679,7 +8679,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453688,
             [questKeys.zoneOrSort] = zoneIDs.BURNING_STEPPES,
         },
-        [90311] = {
+        [90311] = { -- Frozen Orb
             [questKeys.name] = "Frozen Orb",
             [questKeys.startedBy] = {{7156,7157,7158}},
             [questKeys.finishedBy] = nil,
@@ -8692,7 +8692,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.exclusiveTo] = {84369},
             [questKeys.zoneOrSort] = zoneIDs.MAGE,
         },
-        [90312] = {
+        [90312] = { -- Vampiric Touch
             [questKeys.name] = "Vampiric Touch",
             [questKeys.startedBy] = {{227028}},
             [questKeys.finishedBy] = nil,
@@ -8704,7 +8704,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402857,
             [questKeys.zoneOrSort] = classIDs.PRIEST,
         },
-        [90313] = {
+        [90313] = { -- Arcane Specialization
             [questKeys.name] = "Arcane Specialization",
             [questKeys.startedBy] = {nil,{457102}},
             [questKeys.finishedBy] = nil,
@@ -8716,7 +8716,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453695,
             [questKeys.zoneOrSort] = zoneIDs.WESTERN_PLAGUELANDS,
         },
-        [90314] = {
+        [90314] = { -- Defense Specialization
             [questKeys.name] = "Defense Specialization",
             [questKeys.startedBy] = {nil,{457099}},
             [questKeys.finishedBy] = nil,
@@ -8728,7 +8728,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -459313,
             [questKeys.zoneOrSort] = zoneIDs.SEARING_GORGE,
         },
-        [90315] = {
+        [90315] = { -- Feral Combat Specialization
             [questKeys.name] = "Feral Combat Specialization",
             [questKeys.startedBy] = {nil,{457098}},
             [questKeys.finishedBy] = nil,
@@ -8740,7 +8740,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453703,
             [questKeys.zoneOrSort] = classIDs.DRUID,
         },
-        [90316] = {
+        [90316] = { -- Frost Specialization
             [questKeys.name] = "Frost Specialization",
             [questKeys.startedBy] = {nil,{457095}},
             [questKeys.finishedBy] = nil,
@@ -8752,7 +8752,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453697,
             [questKeys.zoneOrSort] = zoneIDs.WINTERSPRING,
         },
-        [90317] = {
+        [90317] = { -- Holy Specialization
             [questKeys.name] = "Holy Specialization",
             [questKeys.startedBy] = {nil,{457094}},
             [questKeys.finishedBy] = nil,
@@ -8764,7 +8764,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453702,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
-        [90318] = {
+        [90318] = { -- Nature Specialization
             [questKeys.name] = "Nature Specialization",
             [questKeys.startedBy] = {nil,{457092}},
             [questKeys.finishedBy] = nil,
@@ -8776,7 +8776,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453698,
             [questKeys.zoneOrSort] = zoneIDs.FELWOOD,
         },
-        [90319] = {
+        [90319] = { -- Ranged Weapon Specialization
             [questKeys.name] = "Ranged Weapon Specialization",
             [questKeys.startedBy] = {nil,{457090}},
             [questKeys.finishedBy] = nil,
@@ -8788,7 +8788,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453692,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
-        [90320] = {
+        [90320] = { -- Shadow Specialization
             [questKeys.name] = "Shadow Specialization",
             [questKeys.startedBy] = {nil,{457089}},
             [questKeys.finishedBy] = nil,
@@ -8800,7 +8800,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453700,
             [questKeys.zoneOrSort] = zoneIDs.BLASTED_LANDS,
         },
-        [90321] = {
+        [90321] = { -- Rune of Healing Specialization
             [questKeys.name] = "Rune of Healing Specialization",
             [questKeys.startedBy] = {nil,{499987}},
             [questKeys.finishedBy] = nil,
@@ -8811,7 +8811,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -468761,
             [questKeys.zoneOrSort] = zoneIDs.ARATHI_HIGHLANDS,
         },
-        [90322] = {
+        [90322] = { -- Rune of Meditation Specialization
             [questKeys.name] = "Rune of Meditation Specialization",
             [questKeys.startedBy] = {nil,{499988}},
             [questKeys.finishedBy] = nil,
@@ -8822,7 +8822,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -468763,
             [questKeys.zoneOrSort] = zoneIDs.THOUSAND_NEEDLES,
         },
-        [90323] = {
+        [90323] = { -- Light's Grace
             [questKeys.name] = "Light's Grace",
             [questKeys.startedBy] = {{220930,218240,214954}},
             [questKeys.finishedBy] = nil,
@@ -8834,7 +8834,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -429242,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90324] = {
+        [90324] = { -- Rune of Overcharged
             [questKeys.name] = "Rune of Overcharged",
             [questKeys.startedBy] = {{222044}},
             [questKeys.finishedBy] = nil,
@@ -8847,7 +8847,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -432140,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90325] = {
+        [90325] = { -- Rune of Dagger Specialization
             [questKeys.name] = "Rune of Dagger Specialization",
             [questKeys.startedBy] = {nil,{457100}},
             [questKeys.finishedBy] = nil,
@@ -8858,7 +8858,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453690,
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
         },
-        [90326] = {
+        [90326] = { -- Rune of Fire Specialization
             [questKeys.name] = "Rune of Fire Specialization",
             [questKeys.startedBy] = {nil,{457097}},
             [questKeys.finishedBy] = nil,
@@ -8869,7 +8869,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453696,
             [questKeys.zoneOrSort] = zoneIDs.SEARING_GORGE,
         },
-        [90327] = {
+        [90327] = { -- Rune of Fist Weapon Specialization
             [questKeys.name] = "Rune of Fist Weapon Specialization",
             [questKeys.startedBy] = {nil,{457096}},
             [questKeys.finishedBy] = nil,
@@ -8880,7 +8880,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453691,
             [questKeys.zoneOrSort] = zoneIDs.SILITHUS,
         },
-        [90328] = {
+        [90328] = { -- Rune of Mace Specialization
             [questKeys.name] = "Rune of Mace Specialization",
             [questKeys.startedBy] = {nil,{457093}},
             [questKeys.finishedBy] = nil,
@@ -8891,7 +8891,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453689,
             [questKeys.zoneOrSort] = zoneIDs.WETLANDS,
         },
-        [90329] = {
+        [90329] = { -- Rune of Pole Weapon Specialization
             [questKeys.name] = "Rune of Pole Weapon Specialization",
             [questKeys.startedBy] = {nil,{457091}},
             [questKeys.finishedBy] = nil,
@@ -8902,7 +8902,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453694,
             [questKeys.zoneOrSort] = zoneIDs.AZSHARA,
         },
-        [90330] = {
+        [90330] = { -- Rune of Sword Specialization
             [questKeys.name] = "Rune of Sword Specialization",
             [questKeys.startedBy] = {nil,{457088}},
             [questKeys.finishedBy] = nil,
@@ -8913,7 +8913,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -453635,
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
-        [90331] = {
+        [90331] = { -- Resourcefulness: Step 1
             [questKeys.name] = "Resourcefulness: Step 1",
             [questKeys.startedBy] = {{8606,8607,16117}},
             [questKeys.finishedBy] = nil,
@@ -8925,7 +8925,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440557,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90332] = {
+        [90332] = { -- Resourcefulness: Step 2
             [questKeys.name] = "Resourcefulness: Step 2",
             [questKeys.startedBy] = {{8603}},
             [questKeys.finishedBy] = nil,
@@ -8937,7 +8937,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440557,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90333] = {
+        [90333] = { -- Hit and Run
             [questKeys.name] = "Hit and Run",
             [questKeys.startedBy] = {{227746}},
             [questKeys.finishedBy] = nil,
@@ -8949,7 +8949,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440563,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90334] = {
+        [90334] = { -- Improved Volley: Step 1
             [questKeys.name] = "Improved Volley: Step 1",
             [questKeys.startedBy] = {{11880,11736,12179,15213,227951}},
             [questKeys.finishedBy] = nil,
@@ -8961,7 +8961,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440560,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90335] = {
+        [90335] = { -- Improved Volley: Step 2
             [questKeys.name] = "Improved Volley: Step 2",
             [questKeys.startedBy] = {{227493,227951}},
             [questKeys.finishedBy] = nil,
@@ -8973,7 +8973,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440560,
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
         },
-        [90336] = {
+        [90336] = { -- Overheat
             [questKeys.name] = "Overheat",
             [questKeys.startedBy] = {{227324,227385,227386,227387}},
             [questKeys.finishedBy] = nil,
@@ -8985,7 +8985,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -401764,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
-        [90337] = {
+        [90337] = { -- Fan of Knives
             [questKeys.name] = "Fan of Knives",
             [questKeys.startedBy] = {nil,{462432}},
             [questKeys.finishedBy] = nil,
@@ -8997,7 +8997,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -436609,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90338] = {
+        [90338] = { -- Storm, Earth, and Fire
             [questKeys.name] = "Storm, Earth, and Fire",
             [questKeys.startedBy] = {{7158}},
             [questKeys.finishedBy] = nil,
@@ -9009,7 +9009,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440634,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90339] = {
+        [90339] = { -- Feral Spirit
             [questKeys.name] = "Feral Spirit",
             [questKeys.startedBy] = {{226982}},
             [questKeys.finishedBy] = nil,
@@ -9021,7 +9021,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440630,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90340] = {
+        [90340] = { -- Coherence
             [questKeys.name] = "Coherence",
             [questKeys.startedBy] = {{7032}},
             [questKeys.finishedBy] = nil,
@@ -9033,7 +9033,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -416062,
             [questKeys.zoneOrSort] = sortKeys.SHAMAN,
         },
-        [90341] = {
+        [90341] = { -- Mark of Chaos
             [questKeys.name] = "Mark of Chaos",
             [questKeys.startedBy] = {{1783,226799}},
             [questKeys.finishedBy] = nil,
@@ -9045,7 +9045,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440924,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90342] = {
+        [90342] = { -- Mark of Chaos
             [questKeys.name] = "Mark of Chaos",
             [questKeys.startedBy] = {{1783,226797}},
             [questKeys.finishedBy] = nil,
@@ -9057,7 +9057,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440924,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90343] = {
+        [90343] = { -- Infernal Armor: Step 1
             [questKeys.name] = "Infernal Armor: Step 1",
             [questKeys.startedBy] = {{6004,6006}},
             [questKeys.finishedBy] = nil,
@@ -9069,7 +9069,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440926,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90344] = {
+        [90344] = { -- Infernal Armor: Step 2
             [questKeys.name] = "Infernal Armor: Step 2",
             [questKeys.startedBy] = {{228414}},
             [questKeys.finishedBy] = nil,
@@ -9081,7 +9081,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440926,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90345] = {
+        [90345] = { -- Blunderbuss
             [questKeys.name] = "Blunderbuss",
             [questKeys.startedBy] = {nil,{179498,456874,456876,456877,456879,456883}},
             [questKeys.finishedBy] = nil,
@@ -9093,7 +9093,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415922,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90346] = {
+        [90346] = { -- Crimson Tempest: Step 1
             [questKeys.name] = "Crimson Tempest: Step 1",
             [questKeys.startedBy] = {{1883},{463540}},
             [questKeys.finishedBy] = nil,
@@ -9105,7 +9105,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415918,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90347] = {
+        [90347] = { -- Crimson Tempest: Step 2
             [questKeys.name] = "Crimson Tempest: Step 2",
             [questKeys.startedBy] = {nil,{461632}},
             [questKeys.finishedBy] = nil,
@@ -9117,7 +9117,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415918,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90348] = {
+        [90348] = { -- Crimson Tempest: Step 3
             [questKeys.name] = "Crimson Tempest: Step 3",
             [questKeys.startedBy] = {nil,{461633}},
             [questKeys.finishedBy] = nil,
@@ -9129,7 +9129,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -415918,
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
-        [90349] = {
+        [90349] = { -- Soul Warding: Step 1
             [questKeys.name] = "Soul Warding: Step 1",
             [questKeys.startedBy] = {{11082,227511},{461633}},
             [questKeys.finishedBy] = nil,
@@ -9141,7 +9141,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402850,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90350] = {
+        [90350] = { -- Soul Warding: Step 2
             [questKeys.name] = "Soul Warding: Step 2",
             [questKeys.startedBy] = {{11082,227511},{461633}},
             [questKeys.finishedBy] = nil,
@@ -9153,7 +9153,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -402850,
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
-        [90351] = {
+        [90351] = { -- Decimation: Step 1
             [questKeys.name] = "Decimation: Step 1",
             [questKeys.startedBy] = {{222288}},
             [questKeys.finishedBy] = nil,
@@ -9165,7 +9165,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440922,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90352] = {
+        [90352] = { -- Decimation: Step 2
             [questKeys.name] = "Decimation: Step 2",
             [questKeys.startedBy] = {{222698}},
             [questKeys.finishedBy] = nil,
@@ -9177,7 +9177,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -440922,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
-        [90353] = {
+        [90353] = { -- Endless Rage
             [questKeys.name] = "Endless Rage",
             [questKeys.startedBy] = {{210802,211146}},
             [questKeys.finishedBy] = {{211146}},
@@ -9189,7 +9189,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -403489,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [90354] = {
+        [90354] = { -- Aegis
             [questKeys.name] = "Aegis",
             [questKeys.startedBy] = {{204989,208802}},
             [questKeys.finishedBy] = {{204989,208802}},
@@ -9201,7 +9201,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425619,
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
-        [90355] = {
+        [90355] = { -- Frenzied Assault
             [questKeys.name] = "Frenzied Assault",
             [questKeys.startedBy] = {{203475}},
             [questKeys.finishedBy] = {{203475}},
@@ -9213,7 +9213,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSpell] = -425447,
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
         },
-        [91000] = {
+        [91000] = { -- Rune Broker
             [questKeys.name] = "Rune Broker",
             [questKeys.startedBy] = {{233335}},
             [questKeys.finishedBy] = nil,
@@ -9223,7 +9223,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
-        [91001] = {
+        [91001] = { -- Rune Broker
             [questKeys.name] = "Rune Broker",
             [questKeys.startedBy] = {{233428}},
             [questKeys.finishedBy] = nil,

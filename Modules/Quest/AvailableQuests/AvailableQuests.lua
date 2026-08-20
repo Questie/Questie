@@ -68,7 +68,9 @@ local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
 
-local _CalculateAndDrawAvailableQuests, _DrawChildQuests, _AddStarter, _DrawAvailableQuest, _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns, _MarkQuestAsUnavailableFromNPC, _ScheduleDailyResetTimer
+local _CalculateAndDrawAvailableQuests, _DrawAvailableQuest, _DrawChildQuests, _AddStarter
+local _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
+local _ScheduleDailyResetTimer, _MarkQuestAsUnavailableFromNPC, _CanNpcOfferQuestToPlayer
 
 -- Exposed for testing only
 AvailableQuests.__getPassState = function()
@@ -400,7 +402,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
             end
         end
 
-        if (not isAvailableInGossip) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not isAvailableInGossip) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -455,7 +457,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if questId ~= availableQuestId and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if questId ~= availableQuestId and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -489,6 +491,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     lastNpcGuid = npcGuid
 
     local availableQuestsInGreeting = {}
+    local unresolvedQuestInGreeting = false
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         if (not titleLine) then
@@ -504,8 +507,14 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
                 title = GetAvailableTitle(titleLine:GetID())
             end
             local questId = QuestieDB.GetQuestIDFromName(title, npcGuid, (not isActive))
-            if questId and questId > 0 then
+            if questId > 0 then
                 availableQuestsInGreeting[questId] = true
+            else
+                -- A visible quest in the frame could not be resolved to an ID, so we cannot know which quest it is.
+                -- Keep all quests available instead of hiding any, to not hide an available quest that we simply failed
+                -- to identify. This is also a problem when users use a different WoW client locale than they set their
+                -- Questie to (API names ~= lookup names)
+                unresolvedQuestInGreeting = true
             end
         end
     end
@@ -525,9 +534,13 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
         end
     end
 
+    if unresolvedQuestInGreeting then
+        return
+    end
+
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
-        if (not availableQuestsInGreeting[questId]) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) then -- no monthly quests here, those are personal
+        if (not availableQuestsInGreeting[questId]) and (not DailyQuestCommsBlacklist.IsBlacklisted(questId)) and (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then -- no monthly quests here, those are personal
             AvailableQuests.RemoveQuest(questId)
             _MarkQuestAsUnavailableFromNPC(questId, npcId)
             table.insert(unavailableQuestsToBroadcast, questId)
@@ -852,6 +865,25 @@ end
 
 _GetIconScaleForAvailable = function()
     return Questie.db.profile.availableScale or 1.3
+end
+
+--- Quests outside the player's level capability are never offered by an NPC in the game, so their
+--- absence from the gossip/greeting UI is not evidence that they are unavailable today. Such quests
+--- must not be hidden or broadcast as unavailable.
+--- This scenario can happen though when players use a non-default "Which available quests should be displayed"
+--- setting and show quests which are not available yet due to level restrictions.
+---@param questId QuestId
+---@return boolean
+_CanNpcOfferQuestToPlayer = function(questId)
+    local playerLevel = QuestiePlayer.GetPlayerLevel()
+    local _, requiredLevel, requiredMaxLevel = QuestieLib.GetEffectiveQuestLevel(questId, playerLevel)
+    if requiredLevel and requiredLevel > playerLevel then
+        return false
+    end
+    if requiredMaxLevel and requiredMaxLevel ~= 0 and playerLevel > requiredMaxLevel then
+        return false
+    end
+    return true
 end
 
 ---@param questId QuestId

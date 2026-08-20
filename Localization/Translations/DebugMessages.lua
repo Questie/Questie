@@ -420,7 +420,7 @@ local debugMessagesLocales = {
         ["ptBR"] = "%s para %s!",
         ["ruRU"] = "%s для %s!",
         ["zhCN"] = "%s 任务：%s！",
-        ["zhTW"] = "%s 任務 %s！",
+        ["zhTW"] = "%s 任務：%s！",
     },
     ["Picked up %s which starts %s!"] = {
         ["enUS"] = true,
@@ -431,8 +431,8 @@ local debugMessagesLocales = {
         ["koKR"] = "%s 를 획득하여, 이제 %s 를 시작할 수 있습니다!",
         ["ptBR"] = "Pegou %s que inicia %s!",
         ["ruRU"] = "Получен предмет %s, который начинает задание %s!",
-        ["zhCN"] = "拾取 %s 自动接受任务：%s！",
-        ["zhTW"] = "拾取 %s 自動接受任務 %s！",
+        ["zhCN"] = "拾取了 %s 可开启任务 %s！",
+        ["zhTW"] = "撿起了 %s 可開啟任務 %s！",
     },
     ["You picked up %s which starts %s!"] = {
         ["enUS"] = true,
@@ -443,8 +443,8 @@ local debugMessagesLocales = {
         ["koKR"] = "%s 을(를) 시작하는 %s 을(를) 수락했습니다!",
         ["ptBR"] = "Você pegou %s que inicia %s!",
         ["ruRU"] = "Вы получили предмет %s, который начинает задание %s!",
-        ["zhCN"] = "你拾取了 %s 自动接受任务 %s！",
-        ["zhTW"] = "你拾取 %s 自動接受任務 %s！",
+        ["zhCN"] = "你拾取了 %s 可开启任务 %s！",
+        ["zhTW"] = "你撿起了 %s 可開啟任務 %s！",
     },
     ["Error during initialization!"] = {
         ["enUS"] = true,

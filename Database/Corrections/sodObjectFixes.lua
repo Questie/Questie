@@ -33,7 +33,7 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.questStarts] = {4601,4603,4605,80153,80160,80161},
             [objectKeys.questEnds] = {4601,4603,4605,80153,80160,80161},
         },
-        [176213] = {
+        [176213] = { -- Blood of Heroes
             [objectKeys.spawns] = {
                 [zoneIDs.WESTERN_PLAGUELANDS]={{35.9,57.4},{35.9,57.5},{36.4,53.7},{36.5,53.6},{38.2,56.3},{39.7,69.4},{39.7,69.6},{40.6,73.1},{40.7,57.4},{40.8,57.5},{41.4,62.1},{41.5,62.1},{41.9,70.5},{42.2,54.9},{42.8,64.2},{43.3,68.3},{43.6,70.4},{43.7,70.5},{44.2,65},{44.4,71.6},{44.5,53.3},{44.5,71.7},{44.6,53.5},{45.8,71.5},{45.9,51.1},{45.9,71.4},{46.7,34.4},{46.8,34.5},{47,59.9},{47,67.1},{47.6,70},{47.9,53.1},{49.4,68.1},{49.8,33.3},{52.2,66.5},{52.3,55},{52.3,66.3},{53,64.2},{53.2,66.5},{53.3,65.1},{53.3,66.2},{53.4,63.4},{53.5,63.3},{53.5,63.5},{54.9,27.1},{55.2,69.4},{55.3,69.6},{56.7,34.7},{57.8,66.4},{57.8,66.5},{62,58.3},{62,58.5},{62.9,57.2},{62.9,57.9},{63.2,59.2},{63.6,75.4},{63.6,75.5},{64,48.7},{64.1,57.9},{64.9,74.4},{64.9,74.5},{65.8,76.8},{66.4,42.1},{66.5,42.2},{67,53.9},{67.8,84.6},{68,44.7},{68.3,81.4},{68.3,81.6},{68.4,77.1},{68.5,77.1},{68.7,49.2},{68.7,79.2},{68.9,73.8},{69.5,78.6},},
                 [zoneIDs.EASTERN_PLAGUELANDS]={{7.1,50.7},{8,54.5},{14.2,64.7},{20,61},{20.5,66.9},{21.5,73.9},{22.1,85.1},{24.3,88.2},{26,74.7},{26.3,70.5},{26.7,69.5},{27.1,75.6},{27.3,64},{28.8,86},{29.2,78.8},{30.9,65.5},{32,71},{33.6,32.6},{34,80.2},{34.3,67.8},{34.4,76.9},{34.5,25.8},{35.6,73.3},{35.9,75.8},{36.7,38},{36.9,70.6},{37.1,65.7},{37.6,68.5},{38.4,31.1},{38.5,54},{38.8,26.7},{38.9,36.1},{40,49.9},{41.4,79.7},{41.5,65.7},{42.4,75.8},{44.9,32.9},{46.2,70.8},{46.3,64},{46.5,74.8},{47.5,40.8},{47.9,80},{48.9,67.2},{49.1,35.5},{50.3,45.5},{50.4,77.4},{51.8,70.3},{53.5,50.7},{55.5,58.7},{56.2,63.9},{56.5,76.1},{57.1,81.9},{57.4,71.9},{57.8,76.1},{58.1,79.7},{58.4,64.8},{58.6,79.6},{59.2,62.2},{59.3,80.9},{59.5,76},{59.9,67.5},{61.8,70.2},{63.6,67.7},{64.7,65.4},{64.7,81},{66.2,53},{67.6,66.8},{68.2,70.6},{68.3,74.6},{68.6,78.4},{68.8,80.8},{68.9,83.3},{69,71.5},{70.6,80.8},{70.7,69.5},{71.1,75.3},{72.2,78.4},{73.3,77.2},{73.4,69.8},{73.4,82.1},{73.6,76.8},{73.8,51.1},{74.1,83.8},{74.7,58.7},{75.6,55.3},{75.9,83.5},{76.1,78.2},{76.2,50.4},{76.7,72.4},{78.4,57.5},{78.7,67.3},{78.8,63.5},{80.4,59.8},{89.400,85.314},{90.899,86.875},{95.640,78.639},{92.677,95.731}},
@@ -272,7 +272,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90022},
         },
-        [409311] = {
+        [409311] = { -- Spear of Mannoroth
             [objectKeys.spawns] = {
                 [zoneIDs.ASHENVALE] = {{89.4, 77.1}},
             },
@@ -376,7 +376,7 @@ function SeasonOfDiscovery:LoadObjects()
         [414663] = { -- Shatterspear Idol
             [objectKeys.questStarts] = {90164},
         },
-        [415107] = {
+        [415107] = { -- Burned-Out Remains
             [objectKeys.spawns] = {
                 [zoneIDs.WESTFALL] = {{37.4, 50.7}},
             },
@@ -465,7 +465,7 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.FERALAS] = {{29.3, 93.8}},
             },
         },
-        [424082] = {
+        [424082] = { -- Firepit
             [objectKeys.spawns] = {},
         },
         [424264] = { -- Grave
@@ -589,7 +589,7 @@ function SeasonOfDiscovery:LoadObjects()
         },
 
         -- fake ID - no clue yet what the correct ones are
-        [450000] = {
+        [450000] = { -- Arcane Shard
             [objectKeys.name] = "Arcane Shard",
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
             [objectKeys.spawns] = {
@@ -597,7 +597,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90000},
         },
-        [450001] = {
+        [450001] = { -- The Lessons of Ta'zo
             [objectKeys.name] = "The Lessons of Ta'zo",
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
             [objectKeys.spawns] = {
@@ -605,7 +605,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {79094},
         },
-        [450002] = {
+        [450002] = { -- Medusa Statue
             [objectKeys.name] = "Medusa Statue",
             [objectKeys.zoneID] = zoneIDs.WESTFALL,
             [objectKeys.spawns] = {
@@ -613,7 +613,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90066},
         },
-        [450003] = {
+        [450003] = { -- Thistlefur Dreamcatcher
             [objectKeys.name] = "Thistlefur Dreamcatcher",
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
             [objectKeys.spawns] = {
@@ -621,15 +621,15 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90161},
         },
-        [450004] = {
+        [450004] = { -- Wishing Well
             [objectKeys.name] = "Wishing Well",
             [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [objectKeys.spawns] = {
-                [zoneIDs.ASHENVALE] = {{36.4,19.6}},
+                [zoneIDs.LOCH_MODAN] = {{36.692,20.957}},
             },
             [objectKeys.questStarts] = {90162},
         },
-        [450005] = {
+        [450005] = { -- Buried Treasure
             [objectKeys.name] = "Buried Treasure",
             [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
             [objectKeys.spawns] = {
@@ -637,7 +637,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90134},
         },
-        [450006] = {
+        [450006] = { -- Buried Treasure
             [objectKeys.name] = "Buried Treasure",
             [objectKeys.zoneID] = zoneIDs.DUROTAR,
             [objectKeys.spawns] = {
@@ -645,7 +645,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90136},
         },
-        [450007] = {
+        [450007] = { -- Buried Treasure
             [objectKeys.name] = "Buried Treasure",
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
             [objectKeys.spawns] = {
@@ -653,7 +653,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90137},
         },
-        [450008] = {
+        [450008] = { -- Buried Treasure
             [objectKeys.name] = "Buried Treasure",
             [objectKeys.zoneID] = zoneIDs.TELDRASSIL,
             [objectKeys.spawns] = {
@@ -661,7 +661,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90135},
         },
-        [450009] = {
+        [450009] = { -- Secluded Grave
             [objectKeys.name] = "Secluded Grave",
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
             [objectKeys.spawns] = {
@@ -669,7 +669,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90192},
         },
-        [450010] = {
+        [450010] = { -- Raven Hill Statue
             [objectKeys.name] = "Raven Hill Statue",
             [objectKeys.zoneID] = zoneIDs.DUSKWOOD,
             [objectKeys.spawns] = {
@@ -677,7 +677,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90201},
         },
-        [450011] = {
+        [450011] = { -- Galvanic Icon
             [objectKeys.name] = "Galvanic Icon",
             [objectKeys.zoneID] = zoneIDs.DUROTAR,
             [objectKeys.spawns] = {
@@ -685,7 +685,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90217},
         },
-        [450012] = {
+        [450012] = { -- Galvanic Icon
             [objectKeys.name] = "Galvanic Icon",
             [objectKeys.zoneID] = zoneIDs.MULGORE,
             [objectKeys.spawns] = {
@@ -693,7 +693,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90218},
         },
-        [450013] = {
+        [450013] = { -- Beastly Effigy
             [objectKeys.name] = "Beastly Effigy",
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
             [objectKeys.spawns] = {
@@ -701,7 +701,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90221},
         },
-        [450014] = {
+        [450014] = { -- Witherbark Gong
             [objectKeys.name] = "Witherbark Gong",
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [objectKeys.spawns] = {
@@ -709,7 +709,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90230},
         },
-        [450015] = {
+        [450015] = { -- Satyrweed Bulb Location
             [objectKeys.name] = "Satyrweed Bulb Location",
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
             [objectKeys.spawns] = {
@@ -717,7 +717,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90222},
         },
-        [450016] = {
+        [450016] = { -- Strahnbrad Bellows
             [objectKeys.name] = "Strahnbrad Bellows",
             [objectKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
             [objectKeys.spawns] = {
@@ -725,7 +725,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90234},
         },
-        [450017] = {
+        [450017] = { -- Crate
             [objectKeys.name] = "Crate",
             [objectKeys.zoneID] = zoneIDs.MOONGLADE,
             [objectKeys.spawns] = {
@@ -733,7 +733,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90245},
         },
-        [450018] = {
+        [450018] = { -- Soft Soil
             [objectKeys.name] = "Soft Soil",
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [objectKeys.spawns] = {
@@ -741,7 +741,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90246},
         },
-        [450019] = {
+        [450019] = { -- Cryptic Scroll of Summoning
             [objectKeys.name] = "Cryptic Scroll of Summoning",
             [objectKeys.zoneID] = zoneIDs.TANARIS,
             [objectKeys.spawns] = {
@@ -749,7 +749,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90287,90288},
         },
-        [450020] = {
+        [450020] = { -- Iodax Spawn
             [objectKeys.name] = "Iodax Spawn",
             [objectKeys.zoneID] = zoneIDs.SEARING_GORGE,
             [objectKeys.spawns] = {
@@ -899,7 +899,7 @@ function SeasonOfDiscovery:LoadObjects()
                 [zoneIDs.BURNING_STEPPES] = {{39.5,27.96}},
             },
         },
-        [525416] = {
+        [525416] = { -- Heart of Doom
             [objectKeys.name] = "Heart of Doom",
             [objectKeys.spawns] = {
                 [zoneIDs.EASTERN_PLAGUELANDS] = {{70.96,57.53},{75.2,70.6},{66.56,72.11},{23.31,71.31},{16.3,77.3},{22.04,85.26}},
@@ -950,22 +950,22 @@ function SeasonOfDiscovery:LoadObjects()
             [objectKeys.name] = "Flopping Fish",
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
-        [526937] = {
+        [526937] = { -- Armor Crate
             [objectKeys.name] = "Armor Crate",
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{98.54,84.12}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
-        [527513] = {
+        [527513] = { -- Holy Arrow
             [objectKeys.name] = "Holy Arrow",
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{93.33,91.08},{93.82,90.67},{94.97,90.99},{93.78,91.15},{93.48,91.44},{93.29,91.83},{93.46,92.15},{93.67,91,92},{94.12,91.23},{93.28,91.25}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
-        [527821] = {
+        [527821] = { -- Elegantly Painted House
             [objectKeys.name] = "Elegantly Painted House",
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{66.04,75.32}}},
             [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
         },
-        [528481] = {
+        [528481] = { -- Crimson Bladeleaf
             [objectKeys.name] = "Crimson Bladeleaf",
             [objectKeys.spawns] = {[zoneIDs.AZSHARA]={{39.93,80.71},{40.55,81.42},{41.53,80.29},{40.45,78.64},{39.91,78.81}}},
             [objectKeys.zoneID] = zoneIDs.AZSHARA,
@@ -1006,7 +1006,7 @@ function SeasonOfDiscovery:LoadObjects()
             },
             [objectKeys.questStarts] = {90560,90567},
         },
-        [531301] = {
+        [531301] = { -- Bleeding Heart
             [objectKeys.name] = "Bleeding Heart",
             [objectKeys.spawns] = {
                 [zoneIDs.WESTERN_PLAGUELANDS] = {{50.956,42.955},{51.960,43.891},{51.796,46.345},{51.714,47.707},{50.419,51.713},{46.257,45.093},{47.427,40.252},{45.506,41.438},{44.629,38.478},{51.197,54.424},{50.116,56.166},{50.192,57.134},{50.840,59.398},{51.864,61.539},{51.575,63.547},{43.141,60.190},{46.158,64.934},{45.255,66.834},{46.193,70.598},{48.563,70.563},{51.479,68.174},{50.921,66.884},{51.575,63.547},{40.034,59.170},{39.943,55.510},{41.672,52.010},{41.656,50.381},{39.501,50.955},{39.262,52.845},{40.408,69.282},{39.105,70.062},{41.128,74.386},{45.458,74.328},{45.532,74.386},{44.756,52.018},{44.215,51.199}},
@@ -1015,23 +1015,23 @@ function SeasonOfDiscovery:LoadObjects()
         },
 
         -- Fake IDs
-        [600000] = {
+        [600000] = { -- Bone Pile
             [objectKeys.name] = "Bone Pile", -- For Soul of Mischief
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{69.2,29.4},{69.2,29.6},{69.8,29.4},{69.8,29.6},{70.4,31},{70.6,30},{71.2,29.2},{71.4,31.8}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
-        [600001] = {
+        [600001] = { -- Seeking Seasoned Adventurers!
             [objectKeys.name] = "Seeking Seasoned Adventurers!", -- For "For Gold and Glory!"
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{81.29,58.75}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [objectKeys.questStarts] = {86964},
         },
-        [600002] = {
+        [600002] = { -- Ball and chain
             [objectKeys.name] = "Ball and chain", -- For "Scarlet Activities"
             [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{81.76,58.04}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
         },
-        [600003] = {
+        [600003] = { -- Crusader's Loom
             [objectKeys.name] = "Crusader's Loom", -- For "Holy Threads"
             [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{94.65,83.57}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
