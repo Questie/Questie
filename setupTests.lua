@@ -100,6 +100,7 @@ _G.QUEST_ITEMS_NEEDED = "%s: %d/%d"
 _G.QUEST_OBJECTS_FOUND = "%s: %d/%d"
 
 _G.StaticPopupDialogs = {}
+_G.SlashCmdList = {}
 
 local mockedFrames = {}
 _G.CreateFrame = {

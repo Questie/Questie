@@ -1,4 +1,7 @@
 <Ui>
+    <!-- This template has no Lua module call, so it names its own load-timing interval. -->
+    <Script>QuestieLoader:StampLoadBoundary()</Script>
+
     <Button name="QuestieWorldMapButtonTemplate" frameStrata="HIGH" mixin="QuestieWorldMapButtonMixin" motionScriptsWhileDisabled="true" virtual="true">
         <Size x="32" y="32"/>
         <Layers>

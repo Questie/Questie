@@ -29,7 +29,6 @@ local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlac
 local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
 local tinsert = table.insert
-local NewThread = ThreadLib.ThreadSimple
 
 local QUESTS_PER_YIELD = 24
 
@@ -186,7 +185,7 @@ local function _StartPass()
         if passQueued then
             _StartPass()
         end
-    end)
+    end, "AvailableQuests.CalculateAndDrawAll")
 end
 
 ---@param callback function | nil
@@ -727,7 +726,7 @@ end
 
 ---@param questId number
 _DrawAvailableQuest = function(questId)
-    NewThread(function()
+    ThreadLib.Thread(function()
         local quest = QuestieDB.GetQuest(questId)
         if (not quest.tagInfoWasCached) then
             QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
@@ -736,7 +735,7 @@ _DrawAvailableQuest = function(questId)
         end
 
         AvailableQuests.DrawAvailableQuest(quest)
-    end, 0)
+    end, 0, nil, nil, nil, "_DrawAvailableQuest")
 end
 
 ---@param starter Object|NPC Either an object or an NPC from QuestieDB.

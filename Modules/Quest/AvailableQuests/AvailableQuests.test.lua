@@ -17,14 +17,23 @@ describe("AvailableQuests", function()
     local QuestieMap
     ---@type DailyQuestComms
     local DailyQuestComms
-    ---@type TheadLib
-    local TheadLib
+    ---@type ThreadLib
+    local ThreadLib
     ---@type DailyQuestCommsBlacklist
     local DailyQuestCommsBlacklist
+    ---@type IsleOfQuelDanas
+    local IsleOfQuelDanas
 
     ---@type AvailableQuests
     local AvailableQuests
 
+    local originalThread
+    local originalThreadCallbackInstant
+    local originalGetPlayerLevel
+    local originalGetQuestGreenRange
+    local originalIsleOfQuelDanasQuests
+    local originalQuestPointers
+    local originalQuestIdFrames
     local QUEST_ID = 123
     local NPC_ID = 456
 
@@ -50,16 +59,26 @@ describe("AvailableQuests", function()
         QuestieDB.GetQuest = function() return nil end
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        originalGetPlayerLevel = QuestiePlayer.GetPlayerLevel
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
-        TheadLib = QuestieLoader:ImportModule("ThreadLib")
-        TheadLib.ThreadCallbackInstant = function(fun, callback)
+        ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+        originalThreadCallbackInstant = ThreadLib.ThreadCallbackInstant
+        ThreadLib.ThreadCallbackInstant = function(fun, callback)
             fun()
             callback()
         end
         DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
         DailyQuestCommsBlacklist.IsBlacklisted = function() return false end
+        IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+        originalThread = ThreadLib.Thread
+        originalIsleOfQuelDanasQuests = IsleOfQuelDanas.quests
+        originalQuestPointers = QuestieDB.QuestPointers
+        originalQuestIdFrames = QuestieMap.questIdFrames
+        originalGetQuestGreenRange = _G.GetQuestGreenRange
+        _G.GetQuestGreenRange = function() return 5 end
 
         Questie.db.profile.availableIconLimit = 10
 
@@ -74,6 +93,16 @@ describe("AvailableQuests", function()
         for i = 1, MAX_NUM_QUESTS do
             _G["QuestTitleButton" .. i] = nil
         end
+    end)
+
+    after_each(function()
+        ThreadLib.Thread = originalThread
+        ThreadLib.ThreadCallbackInstant = originalThreadCallbackInstant
+        QuestiePlayer.GetPlayerLevel = originalGetPlayerLevel
+        QuestieDB.QuestPointers = originalQuestPointers
+        IsleOfQuelDanas.quests = originalIsleOfQuelDanasQuests
+        _G.GetQuestGreenRange = originalGetQuestGreenRange
+        QuestieMap.questIdFrames = originalQuestIdFrames
     end)
 
     describe("Initialize", function()
@@ -334,6 +363,34 @@ describe("AvailableQuests", function()
 
             assert.spy(QuestieLib.UpdateLastKnownDailyReset).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+        end)
+    end)
+
+    describe("CalculateAndDrawAll", function()
+        it("should name its calculation and draw jobs for profiling", function()
+            local submittedJobs = {}
+            ThreadLib.Thread = function(threadFunction, delay, errorMessage, callbackFunction, errorCallback, threadName)
+                table.insert(submittedJobs, {
+                    threadFunction = threadFunction,
+                    delay = delay,
+                    errorMessage = errorMessage,
+                    callbackFunction = callbackFunction,
+                    errorCallback = errorCallback,
+                    threadName = threadName,
+                })
+                return {Cancel = function() end}
+            end
+            QuestieDB.QuestPointers = {}
+            QuestiePlayer.GetPlayerLevel = function() return 60 end
+            IsleOfQuelDanas.quests = {}
+            QuestieMap.questIdFrames = {}
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.are_same("AvailableQuests.CalculateAndDrawAll", submittedJobs[1].threadName)
+            assert.are_same("_DrawAvailableQuest", submittedJobs[2].threadName)
         end)
     end)
 
@@ -1157,7 +1214,7 @@ describe("AvailableQuests", function()
     describe("CalculateAndDrawAll", function()
         it("should start a pass immediately when none is running", function()
             local passCount = 0
-            TheadLib.Thread = function()
+            ThreadLib.Thread = function()
                 passCount = passCount + 1
             end
 
@@ -1168,7 +1225,7 @@ describe("AvailableQuests", function()
 
         it("should queue a second call instead of starting a new pass while one is running", function()
             local passCount = 0
-            TheadLib.Thread = function()
+            ThreadLib.Thread = function()
                 passCount = passCount + 1
             end
 
@@ -1187,7 +1244,7 @@ describe("AvailableQuests", function()
             local firstCallback
 
             -- First call: capture callback without running the body
-            TheadLib.Thread = function(_, _, _, cb)
+            ThreadLib.Thread = function(_, _, _, cb)
                 passCount = passCount + 1
                 firstCallback = cb
             end
@@ -1210,7 +1267,7 @@ describe("AvailableQuests", function()
             local result = 0
             local firstCallback
 
-            TheadLib.Thread = function(_, _, _, cb)
+            ThreadLib.Thread = function(_, _, _, cb)
                 firstCallback = cb
             end
 
@@ -1228,7 +1285,7 @@ describe("AvailableQuests", function()
             local results = {}
             local firstCallback, secondCallback
 
-            TheadLib.Thread = function(_, _, _, cb)
+            ThreadLib.Thread = function(_, _, _, cb)
                 if (not firstCallback) then
                     firstCallback = cb
                 else
@@ -1253,7 +1310,7 @@ describe("AvailableQuests", function()
 
         it("should reset passRunning when the pass coroutine errors", function()
             local capturedErrorCallback
-            TheadLib.Thread = function(_, _, _, _, errorCb)
+            ThreadLib.Thread = function(_, _, _, _, errorCb)
                 capturedErrorCallback = errorCb
             end
 
@@ -1272,7 +1329,7 @@ describe("AvailableQuests", function()
             local passCount = 0
             local capturedErrorCallback
 
-            TheadLib.Thread = function(_, _, _, _, errorCb)
+            ThreadLib.Thread = function(_, _, _, _, errorCb)
                 passCount = passCount + 1
                 capturedErrorCallback = errorCb
             end
@@ -1293,7 +1350,7 @@ describe("AvailableQuests", function()
             local callbackFired = false
             local capturedErrorCallback
 
-            TheadLib.Thread = function(_, _, _, _, errorCb)
+            ThreadLib.Thread = function(_, _, _, _, errorCb)
                 capturedErrorCallback = errorCb
             end
 
@@ -1310,7 +1367,7 @@ describe("AvailableQuests", function()
 
             Questie.Error = spy.new(function() end)
 
-            TheadLib.Thread = function(_, _, _, cb)
+            ThreadLib.Thread = function(_, _, _, cb)
                 capturedSuccessCallback = cb
             end
 
@@ -1331,7 +1388,7 @@ describe("AvailableQuests", function()
 
             Questie.Error = function() end
 
-            TheadLib.Thread = function(_, _, _, cb)
+            ThreadLib.Thread = function(_, _, _, cb)
                 passCount = passCount + 1
                 if passCount == 1 then
                     cb() -- first pass completes, callback errors
