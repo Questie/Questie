@@ -676,6 +676,9 @@ function QuestieQuestFixes:Load()
         [870] = { -- The Forgotten Pools
             [questKeys.breadcrumbs] = {886},
         },
+        [878] = { -- Tribes at War
+            [questKeys.nextQuestInChain] = 5052,
+        },
         [886] = { -- The Barrens Oases
             [questKeys.breadcrumbForQuestId] = 870,
         },
@@ -3814,9 +3817,13 @@ function QuestieQuestFixes:Load()
         },
         [6541] = { -- Report to Kadrak
             [questKeys.breadcrumbForQuestId] = 6543,
+            [questKeys.exclusiveTo] = {},
+            [questKeys.disabledByQuest] = 6542,
         },
         [6542] = { -- Report to Kadrak
             [questKeys.breadcrumbForQuestId] = 6543,
+            [questKeys.exclusiveTo] = {},
+            [questKeys.disabledByQuest] = 6541,
         },
         [6543] = { -- The Warsong Reports
             [questKeys.breadcrumbs] = {6541, 6542},

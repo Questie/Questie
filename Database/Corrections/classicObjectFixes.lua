@@ -359,6 +359,9 @@ function QuestieObjectFixes:Load()
         [178907] = { -- Maraudon Orange Crystal Pool
             [objectKeys.name] = "Maraudon Orange Crystal Pool",
         },
+        [178964] = { -- Fathom Stone
+            [objectKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS_MOONSHRINE_SANCTUM] = {{-1,-1}},[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1}}},
+        },
         [178965] = { -- Incantation of Celebras
             [objectKeys.name] = "Incantation of Celebras",
             [objectKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}},[zoneIDs.MARAUDON_ZAETARS_GRAVE] = {{-1,-1}}},
