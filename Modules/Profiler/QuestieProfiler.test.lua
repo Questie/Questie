@@ -151,9 +151,10 @@ describe("QuestieProfiler", function()
 
         local reported
         Questie.Error = function(message) reported = message end
-        local armed = Profiler:Start(false)
+        local armed, rejectionReported = Profiler:Start(false)
 
         assert.is_false(armed)
+        assert.is_true(rejectionReported)
         -- Refusing quietly would read as "profiling is on but measures nothing".
         assert.is_not_nil(reported)
         assert.is_false(Profiler.active)
@@ -343,7 +344,10 @@ describe("QuestieProfiler", function()
             error("expected traversal failure")
         end
 
-        assert.is_false(Profiler:Start(true))
+        local armed, rejectionReported = Profiler:Start(true)
+
+        assert.is_false(armed)
+        assert.is_true(rejectionReported)
         assert.are_same(1, shown)
         assert.are_same(0, hidden)
         assert.is_false(Profiler.active)

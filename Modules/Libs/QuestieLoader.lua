@@ -101,8 +101,9 @@ local function StampLoad(stackLevel, sourceOverride)
 end
 
 ---Attributes everything loaded since the last module call, then stops timing.
----Called once by the profiler on ADDON_LOADED, which is the only point at which the final file - the last
----entry in the TOC - has finished running and can be closed out.
+---Called once by the profiler from the final line of Questie.lua - the last entry in the TOC - because that
+---line runs before any ADDON_LOADED handler and is therefore the earliest point that can close out the last
+---file without absorbing handler work that is not file loading.
 function QuestieLoader:FinishLoadTimings()
     if not trackLoadTimings then
         return

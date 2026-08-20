@@ -973,8 +973,8 @@ end
 -- Addon file load
 -------------------------
 -- QuestieLoader records how long each file took to load. Those rows describe work that finished before this
--- session's wrappers existed, so they are published once rather than measured, and a later Start clears them
--- along with everything else - a fresh session did not include the addon load and must not claim it did.
+-- session's wrappers existed, so they are published rather than measured. The loader retains its closed
+-- readings, and each later Start republishes them after clearing the previous session's result tables.
 --
 -- Kept in their own tables rather than mixed into the hook measurements. A loaded file is not a called
 -- function: it has no call count, no caller, and no average, and letting it share hookTimeCount would let a
@@ -993,33 +993,6 @@ function QuestieProfiler:ImportLoadTimings()
         QuestieProfiler.fileLoadTime[source] = elapsed
         QuestieProfiler.fileLoadMemory[source] = loadMemory[source] or 0
     end
-end
-
-local loadEventFrame
-
----Closes the load-timing window and publishes it. ADDON_LOADED is the first point at which the last file in
----the TOC has finished running, so nothing earlier can capture it.
-local function RegisterLoadTimingImport()
-    if loadEventFrame or not CreateFrame then
-        return
-    end
-
-    loadEventFrame = CreateFrame("Frame")
-    loadEventFrame:RegisterEvent("ADDON_LOADED")
-    loadEventFrame:SetScript("OnEvent", function(self, _, addonName)
-        if addonName ~= "Questie" then
-            return
-        end
-        self:UnregisterEvent("ADDON_LOADED")
-
-        if type(QuestieLoader.FinishLoadTimings) == "function" then
-            QuestieLoader:FinishLoadTimings()
-        end
-        local imported, importError = pcall(QuestieProfiler.ImportLoadTimings, QuestieProfiler)
-        if not imported then
-            Questie.Error("QuestieProfiler failed to import load timings", importError)
-        end
-    end)
 end
 
 -------------------------
@@ -1192,6 +1165,7 @@ end
 ---Starts the single profiling mode and applies its requested UI visibility before installing broad hooks.
 ---@param showUI boolean? @Defaults to true
 ---@return boolean armed @False when timing support, ThreadLib callback ownership, or hook installation is unavailable
+---@return boolean? rejectionReported @True when the profiler already named the rejection reason in chat
 local function StartProfilingSession(showUI)
     if QuestieProfiler.active then
         if showUI ~= false then
@@ -1212,7 +1186,7 @@ local function StartProfilingSession(showUI)
     -- happened" is a worse answer than a line in chat naming the reason.
     if not Now then
         Questie.Error("QuestieProfiler cannot run: this client has no GetTimePreciseSec")
-        return false
+        return false, true
     end
     -- Claim callback ownership before resetting prior results, then install active callbacks only after state is ready.
     if not setThreadProfilingCallbacks(QuestieProfiler, nil) then
@@ -1227,7 +1201,6 @@ local function StartProfilingSession(showUI)
         return false
     end
     StartFrameBoundaryReset()
-    RegisterLoadTimingImport()
     -- ResetSessionState cleared the published copy, but QuestieLoader still holds the readings. Addon load
     -- happened once for this client and cannot be measured again, so a restarted session republishes rather
     -- than destroying the only record of it. The UI hides the rows instead, which is reversible.
@@ -1261,7 +1234,7 @@ local function StartProfilingSession(showUI)
     if not hooksRefreshed then
         QuestieProfiler:Unhook()
         Questie.Error("QuestieProfiler failed to install hooks", refreshError)
-        return false
+        return false, true
     end
     return true
 end
@@ -1269,6 +1242,7 @@ end
 ---Arms profiling during Addon Load using the same hook scope as Start.
 ---@param showUI boolean
 ---@return boolean armed @False when timing support, ThreadLib callback ownership, or hook installation is unavailable
+---@return boolean? rejectionReported @True when the profiler already named the rejection reason in chat
 function QuestieProfiler:StartStartup(showUI)
     return StartProfilingSession(showUI)
 end
@@ -1276,6 +1250,7 @@ end
 ---Arms profiling and optionally shows the profiler UI.
 ---@param showUI boolean? @Defaults to true for the Advanced option and /run usage
 ---@return boolean armed @False when timing support, ThreadLib callback ownership, or hook installation is unavailable
+---@return boolean? rejectionReported @True when the profiler already named the rejection reason in chat
 function QuestieProfiler:Start(showUI)
     return StartProfilingSession(showUI)
 end

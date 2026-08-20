@@ -5,6 +5,8 @@ describe("Questie", function()
     local Profiler
     local QuestieValidateGameCache
     local originalProfilerStartStartup
+    local originalProfilerImportLoadTimings
+    local originalLoaderFinishLoadTimings
     local originalStartCheck
     local originalQuestiePrint
     local originalProfilerEnabled
@@ -17,11 +19,20 @@ describe("Questie", function()
         Profiler = QuestieLoader:ImportModule("Profiler")
         QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
         originalProfilerStartStartup = Profiler.StartStartup
+        originalProfilerImportLoadTimings = Profiler.ImportLoadTimings
+        originalLoaderFinishLoadTimings = QuestieLoader.FinishLoadTimings
         originalStartCheck = QuestieValidateGameCache.StartCheck
         originalQuestiePrint = Questie.Print
 
         Profiler.StartStartup = function(_, showUI)
             table.insert(startupCalls, {name = "profiler", showUI = showUI})
+            return true
+        end
+        QuestieLoader.FinishLoadTimings = function()
+            table.insert(startupCalls, {name = "loadClose"})
+        end
+        Profiler.ImportLoadTimings = function()
+            table.insert(startupCalls, {name = "loadImport"})
         end
         QuestieValidateGameCache.StartCheck = function()
             table.insert(startupCalls, {name = "cache"})
@@ -31,6 +42,8 @@ describe("Questie", function()
     after_each(function()
         _G.QuestieProfilerEnabled = originalProfilerEnabled
         Profiler.StartStartup = originalProfilerStartStartup
+        Profiler.ImportLoadTimings = originalProfilerImportLoadTimings
+        QuestieLoader.FinishLoadTimings = originalLoaderFinishLoadTimings
         QuestieValidateGameCache.StartCheck = originalStartCheck
         Questie.Print = originalQuestiePrint
     end)
@@ -41,7 +54,10 @@ describe("Questie", function()
         assert.are_same("profiler", startupCalls[1].name)
         assert.is_true(startupCalls[1].showUI)
         assert.are_same("cache", startupCalls[2].name)
-        assert.are_same(2, #startupCalls)
+        -- The final file interval closes before its rows are published, after every other startup call.
+        assert.are_same("loadClose", startupCalls[3].name)
+        assert.are_same("loadImport", startupCalls[4].name)
+        assert.are_same(4, #startupCalls)
     end)
 
     it("does not arm profiling when it has not been enabled", function()
@@ -53,7 +69,7 @@ describe("Questie", function()
         assert.are_same("cache", startupCalls[1].name)
     end)
 
-    it("starts Game Cache Validation when profiler startup throws", function()
+    it("starts Game Cache Validation and closes load timing when profiler startup throws", function()
         local reportedErrors = {}
         Profiler.StartStartup = function()
             error("expected profiler startup failure")
@@ -64,12 +80,118 @@ describe("Questie", function()
 
         dofile("Questie.lua")
 
-        assert.are_same(1, #startupCalls)
-        assert.are_same("cache", startupCalls[1].name)
+        assert.are_same({"cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
         assert.are_same(1, #reportedErrors)
         assert.are_same("|cffff0000[ERROR]|r", reportedErrors[1][1])
         assert.are_same("QuestieProfiler failed during Addon Load", reportedErrors[1][2])
         assert.is_truthy(string.find(reportedErrors[1][3], "expected profiler startup failure", 1, true))
+    end)
+
+    it("reports a profiler startup that quietly declines to arm", function()
+        local reportedErrors = {}
+        Profiler.StartStartup = function()
+            return false
+        end
+        Questie.Print = function(_, errorPrefix, message)
+            table.insert(reportedErrors, {errorPrefix, message})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler did not arm during Addon Load", reportedErrors[1][2])
+        assert.are_same({"cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+    end)
+
+    it("does not repeat a profiler startup rejection already reported by the engine", function()
+        local reportedErrors = {}
+        Profiler.StartStartup = function()
+            return false, true
+        end
+        Questie.Print = function(_, errorPrefix, message)
+            table.insert(reportedErrors, {errorPrefix, message})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same(0, #reportedErrors)
+        assert.are_same({"cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+    end)
+
+    it("reports an import failure after closing the load-timing window", function()
+        local reportedErrors = {}
+        Profiler.ImportLoadTimings = function()
+            table.insert(startupCalls, {name = "loadImport"})
+            error("expected load import failure")
+        end
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same({"profiler", "cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+            startupCalls[4].name,
+        })
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler failed to import load timings", reportedErrors[1][2])
+        assert.is_truthy(string.find(reportedErrors[1][3], "expected load import failure", 1, true))
+    end)
+
+    it("still closes load timing when the profiler import method is missing", function()
+        local reportedErrors = {}
+        Profiler.ImportLoadTimings = nil
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same({"profiler", "cache", "loadClose"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler failed to import load timings", reportedErrors[1][2])
+        assert.is_truthy(reportedErrors[1][3])
+    end)
+
+    it("does not import load timings when closing the final interval fails", function()
+        local reportedErrors = {}
+        QuestieLoader.FinishLoadTimings = function()
+            table.insert(startupCalls, {name = "loadClose"})
+            error("expected load close failure")
+        end
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same({"profiler", "cache", "loadClose"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler failed to close the load-timing capture", reportedErrors[1][2])
+        assert.is_truthy(string.find(reportedErrors[1][3], "expected load close failure", 1, true))
     end)
 
     describe("Colorize", function()

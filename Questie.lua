@@ -343,12 +343,36 @@ Questie.LOWLEVEL_RANGE = 4
 -- module, but that is well before AceDB exists - hence a plain saved variable rather than a profile setting.
 -- Every TOC declares LoadSavedVariablesFirst, so the flag is already populated by the time this runs.
 -- Optional profiling must never prevent Game Cache Validation or Addon Load callbacks.
-if QuestieProfilerEnabled then
-    local profilerStarted, profilerError = pcall(QuestieProfiler.StartStartup, QuestieProfiler, true)
+-- "== true" and not truthiness, because QuestieLoader and the pre-hook armed on exactly that test hundreds
+-- of lines ago: any looser test here would start a session those two never instrumented for.
+if QuestieProfilerEnabled == true then
+    local profilerStarted, profilerArmed, rejectionReported = pcall(QuestieProfiler.StartStartup, QuestieProfiler, true)
     if not profilerStarted then
-        Questie.Error("QuestieProfiler failed during Addon Load", profilerError)
+        Questie.Error("QuestieProfiler failed during Addon Load", profilerArmed)
+    elseif profilerArmed ~= true and rejectionReported ~= true then
+        -- Some ownership failures return quietly. Loud engine rejections set rejectionReported so this caller
+        -- does not print a second, less useful error for the same failure.
+        Questie.Error("QuestieProfiler did not arm during Addon Load")
     end
 end
 
 -- Start checking the game's cache.
 QuestieValidateGameCache.StartCheck()
+
+-- Questie.lua is the last file every TOC lists, so this line runs when addon load is complete and nothing
+-- else. The load-timing window must close here, synchronously: ADDON_LOADED fires later, behind the
+-- pre-hook's sweep and AceAddon's OnInitialize in handler order, and closing there charged their work to
+-- this file's row. Closing and publishing stay separate so a missing profiler method cannot leave the loader
+-- timing later runtime module calls as if they were still part of addon load.
+if QuestieProfilerEnabled == true then
+    local loadTimingClosed, loadTimingCloseError = pcall(QuestieLoader.FinishLoadTimings, QuestieLoader)
+    if not loadTimingClosed then
+        Questie.Error("QuestieProfiler failed to close the load-timing capture", loadTimingCloseError)
+    else
+        local loadTimingsImported, loadTimingImportError =
+            pcall(QuestieProfiler.ImportLoadTimings, QuestieProfiler)
+        if not loadTimingsImported then
+            Questie.Error("QuestieProfiler failed to import load timings", loadTimingImportError)
+        end
+    end
+end
