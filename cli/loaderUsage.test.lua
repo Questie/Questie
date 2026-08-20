@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoaderUsage = require("cli.loaderUsage")
+local LoaderUsage = dofile("cli/loaderUsage.lua")
 
 describe("LoaderUsage", function()
     describe("IsCandidateLine", function()

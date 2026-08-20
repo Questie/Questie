@@ -109,8 +109,10 @@ local function loadTOC(path)
     end
 
     for line in tocFile:lines() do
+        -- The client treats # as a comment marker only in the first column; whitespace before #
+        -- starts a filename, so the comment check must see the raw line, not the trimmed entry.
         local entry = string.match(line, "^%s*(.-)%s*$")
-        if entry ~= "" and not string.match(entry, "^#") then
+        if entry ~= "" and not string.match(line, "^#") then
             LoadPath(ResolvePath(tocDirectory, entry))
         end
     end
