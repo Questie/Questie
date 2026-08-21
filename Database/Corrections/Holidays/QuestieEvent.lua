@@ -254,9 +254,28 @@ function QuestieEvent:Load()
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
-            or Questie.IsTBC then
+    local dmfAvailable = (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
+            or Questie.IsTBC
+
+    if dmfAvailable then
         _LoadDarkmoonFaire()
+    end
+
+    -- Hide event-only NPCs outside their event window
+    local winterVeilNpcs = {13418, 13420, 13429, 13430, 13431, 13432, 13433, 13434, 13435, 13436, 14961, 14962, 14963, 14964, 15124, 15125, 15732} -- Smokywood Pastures vendors
+    local hideWinterVeil = not activeEvents["Winter Veil"]
+    for _, npcId in ipairs(winterVeilNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = hideWinterVeil
+    end
+
+    local dmfNpcs = {14844} -- Sylannia <Darkmoon Faire Drink Vendor>
+    local dmfActive = dmfIsActive
+    if not dmfActive and dmfAvailable then
+        dmfActive = _GetDarkmoonFaireLocation() ~= DMF_LOCATIONS.NONE
+    end
+    local hideDmf = not dmfActive
+    for _, npcId in ipairs(dmfNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = hideDmf
     end
 
     -- Clear the quests to save memory
