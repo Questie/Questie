@@ -453,7 +453,8 @@ end
 -- QuestieQuest do for questIdFrames
 ---@param objectID number
 ---@param typ string? @The type of manual icon (e.g. "Repair" or "Trade Goods" for townsfolk icons
-function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftToRemove, typ)
+---@param filteredSpawns table? @Optional map of zone -> spawn coords, overriding object.spawns
+function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftToRemove, typ, filteredSpawns)
     if type(objectID) ~= "number" then return end
     -- get the gameobject data
     local object = QuestieDB:GetObject(objectID)
@@ -484,7 +485,8 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
 
     local manualIcons = {}
     -- draw the notes
-    for zone, spawns in pairs(object.spawns) do
+    local spawnList = filteredSpawns or object.spawns
+    for zone, spawns in pairs(spawnList) do
         if (zone ~= nil and spawns ~= nil) then
             for _, coords in ipairs(spawns) do
                 -- instance spawn, draw entrance on map
