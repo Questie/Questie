@@ -215,7 +215,8 @@ local _CheckBreadcrumbs = function(questId)
 
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
-        for _, breadcrumbQuestId in pairs(breadcrumbs) do
+        local lastIncompleteBreadcrumbId = nil
+        for _, breadcrumbQuestId in ipairs(breadcrumbs) do
             -- We want to let users know when they picked up a quest without finishing its breadcrumb
             if (not Questie.db.char.complete[breadcrumbQuestId]) and (not QuestiePlayer.currentQuestlog[breadcrumbQuestId]) then
                 local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredRaces")
@@ -237,14 +238,13 @@ local _CheckBreadcrumbs = function(questId)
                     if Questie.db.profile.questAnnounceIncompleteBreadcrumb then
                         QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
                     end
-                    if Questie.db.profile.autoAccept.abandonBreadcrumbFollowup then
-                        -- The quest is gone after a successful abandon, so stop checking any further breadcrumbs
-                        if _AbandonQuest(questId, breadcrumbQuestId) then
-                            break
-                        end
-                    end
+                    lastIncompleteBreadcrumbId = breadcrumbQuestId
                 end
             end
+        end
+
+        if lastIncompleteBreadcrumbId and Questie.db.profile.autoAccept.abandonBreadcrumbFollowup then
+            _AbandonQuest(questId, lastIncompleteBreadcrumbId)
         end
     end
 end
