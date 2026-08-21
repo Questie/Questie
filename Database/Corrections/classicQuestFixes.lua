@@ -682,6 +682,9 @@ function QuestieQuestFixes:Load()
         [886] = { -- The Barrens Oases
             [questKeys.breadcrumbForQuestId] = 870,
         },
+        [893] = { -- Weapons of Choice
+            [questKeys.nextQuestInChain] = 1153,
+        },
         [898] = { -- Free From the Hold
             [questKeys.triggerEnd] = {"Escort Gilthares Firebough back to Ratchet", {[zoneIDs.THE_BARRENS] = {{62.27, 39.09}}}},
         },
