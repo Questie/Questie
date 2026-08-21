@@ -3793,12 +3793,11 @@ function QuestieQuestFixes:Load()
         },
         [6382] = { -- The Ashenvale Hunt
             [questKeys.preQuestSingle] = {882},
-            [questKeys.breadcrumbForQuestId] = 6383,
-            [questKeys.nextQuestInChain] = 6383,
+            [questKeys.availableUntilCompleted] = 6383,
         },
         [6383] = { -- The Ashenvale Hunt
             [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {235, 742, 6382},
+            [questKeys.breadcrumbs] = {235, 742},
         },
         [6402] = { -- Stormwind Rendezvous
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Squire Rowe"), 0, {{"monster", 17804}}}},
