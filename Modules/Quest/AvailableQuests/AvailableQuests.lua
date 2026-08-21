@@ -801,6 +801,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                     if (coords[1] == -1 or coords[2] == -1) then
                         local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
                         if dungeonLocation then
+                            data.DungeonEntrance = true
                             for _, value in ipairs(dungeonLocation) do
                                 QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                 added = added + 1
