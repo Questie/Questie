@@ -88,8 +88,14 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
         GameTooltip:AddDoubleLine(Questie:Colorize(l10n("Left Click"), "lightBlue"), Questie:Colorize(l10n("Toggle Options"), "white"))
         GameTooltip:AddDoubleLine(Questie:Colorize(l10n("Right Click"), "lightBlue"), Questie:Colorize(l10n("Toggle My Journey"), "white"))
         GameTooltip:AddLine(" ")
-        GameTooltip:AddDoubleLine(Questie:Colorize(l10n("Left Click + Hold"), "lightBlue"), Questie:Colorize(l10n("Drag while Unlocked"), "white"))
-        GameTooltip:AddDoubleLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "lightBlue"), Questie:Colorize(l10n("Drag while Locked"), "white"))
+        GameTooltip:AddDoubleLine(
+            Questie:Colorize(l10n("Left Click + Hold"), "lightBlue"),
+            Questie:Colorize(l10n("Drag while Unlocked"), "white")
+        )
+        GameTooltip:AddDoubleLine(
+            Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "lightBlue"),
+            Questie:Colorize(l10n("Drag while Locked"), "white")
+        )
 
         local VoiceOver, TomTom = TrackerUtils:IsVoiceOverLoaded(), IsAddOnLoaded("TomTom")
 
@@ -99,11 +105,17 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
             GameTooltip:AddLine(" ")
 
             if VoiceOver then
-                GameTooltip:AddDoubleLine(Questie:Colorize(l10n("VoiceOver"), "lightBlue"), Questie:Colorize(l10n("Hold shift to see PlayButtons"), "white"))
+                GameTooltip:AddDoubleLine(
+                    Questie:Colorize(l10n("VoiceOver"), "lightBlue"),
+                    Questie:Colorize(l10n("Hold shift to see PlayButtons"), "white")
+                )
             end
 
             if TomTom then
-                GameTooltip:AddDoubleLine(Questie:Colorize(l10n("TomTom"), "lightBlue"), Questie:Colorize(l10n("Ctrl + Left Click or Right Click a Quest Title"), "white"))
+                GameTooltip:AddDoubleLine(
+                    Questie:Colorize(l10n("TomTom"), "lightBlue"),
+                    Questie:Colorize(l10n("Ctrl + Left Click or Right Click a Quest Title"), "white")
+                )
             end
         end
 
