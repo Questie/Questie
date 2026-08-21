@@ -25,6 +25,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field Name string
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
+---@field DungeonEntrance boolean|nil @True when the icon is drawn on a dungeon entrance instead of the real spawn
 
 ---@class IconTexture : Texture
 ---@field r number
