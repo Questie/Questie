@@ -3002,6 +3002,9 @@ function QuestieQuestFixes:Load()
         [5047] = { -- Pip Quickwit, At Your Service!
             [questKeys.name] = "Pip Quickwit, At Your Service!",
         },
+        [5052] = { -- Blood Shards of Agamaggan
+            [questKeys.nextQuestInChain] = 879,
+        },
         [5056] = { -- Shy-Rotam
             [questKeys.requiredSourceItems] = {12733},
             [questKeys.nextQuestInChain] = 5057,
