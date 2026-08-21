@@ -1922,6 +1922,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12171] = { -- Of Traitors and Treason
             [questKeys.exclusiveTo] = {12235,12297},
+            [questKeys.preQuestSingle] = {12157},
         },
         [12172] = { -- Attunement to Dalaran
             [questKeys.requiredSourceItems] = {},
