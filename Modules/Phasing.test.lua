@@ -1,4 +1,4 @@
-dofile("Modules/Libs/QuestieLoader.lua")
+dofile("setupTests.lua")
 
 local playerFaction = "Horde"
 _G["UnitFactionGroup"] = function()
@@ -19,10 +19,11 @@ describe("Phasing", function()
         _G["Questie"] = {db = {char = {complete = {}}}}
         Questie = _G["Questie"]
 
-        QuestLogCache = require("Modules.Quest.QuestLogCache")
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
-        Phasing = require("Modules.Phasing")
+        dofile("Modules/Phasing.lua")
+        Phasing = QuestieLoader:ImportModule("Phasing")
         phases = Phasing.phases
         Phasing.Initialize()
     end)

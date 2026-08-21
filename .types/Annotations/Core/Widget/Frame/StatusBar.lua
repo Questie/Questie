@@ -33,6 +33,12 @@ function StatusBar:SetScript(scriptType, handler) end
 ---@return StatusBarFillStyle fillStyle
 function StatusBar:GetFillStyle() end
 
+---Returns the current interpolated value displayed by the bar.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_GetInterpolatedValue)
+---@return number value
+function StatusBar:GetInterpolatedValue() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_GetMinMaxValues)
 ---@return number minValue
 ---@return number maxValue
@@ -65,9 +71,19 @@ function StatusBar:GetStatusBarDesaturation() end
 ---@return SimpleTexture texture
 function StatusBar:GetStatusBarTexture() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_GetTimerDuration)
+---@return LuaDurationObject duration
+function StatusBar:GetTimerDuration() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_GetValue)
 ---@return number value
 function StatusBar:GetValue() end
+
+---Returns true if the status bar is currently interpolating toward a target value.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_IsInterpolating)
+---@return boolean isInterpolating
+function StatusBar:IsInterpolating() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_IsStatusBarDesaturated)
 ---@return boolean desaturated
@@ -87,7 +103,8 @@ function StatusBar:SetFillStyle(fillStyle) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_SetMinMaxValues)
 ---@param minValue number
 ---@param maxValue number
-function StatusBar:SetMinMaxValues(minValue, maxValue) end
+---@param interpolation? Enum.StatusBarInterpolation Default = Immediate
+function StatusBar:SetMinMaxValues(minValue, maxValue, interpolation) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_SetOrientation)
 ---@param orientation Orientation
@@ -121,6 +138,18 @@ function StatusBar:SetStatusBarDesaturation(desaturation) end
 ---@return boolean success
 function StatusBar:SetStatusBarTexture(asset) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_SetTimerDuration)
+---@param duration LuaDurationObject
+---@param interpolation? Enum.StatusBarInterpolation Default = Immediate
+---@param direction? Enum.StatusBarTimerDirection Default = ElapsedTime
+function StatusBar:SetTimerDuration(duration, interpolation, direction) end
+
+---Immediately finishes any interpolation of the bar and snaps it to the target value.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_SetToTargetValue)
+function StatusBar:SetToTargetValue() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_StatusBar_SetValue)
 ---@param value number
-function StatusBar:SetValue(value) end
+---@param interpolation? Enum.StatusBarInterpolation Default = Immediate
+function StatusBar:SetValue(value, interpolation) end

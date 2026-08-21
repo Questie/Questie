@@ -103,7 +103,7 @@ function C_MountJournal.GetMountEquipmentUnlockLevel() end
 function C_MountJournal.GetMountFromItem(itemID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_MountJournal.GetMountFromSpell)
----@param spellID number
+---@param spellID SpellIdentifier
 ---@return number? mountID
 function C_MountJournal.GetMountFromSpell(spellID) end
 

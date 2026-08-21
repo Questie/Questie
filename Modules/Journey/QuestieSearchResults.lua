@@ -3,8 +3,8 @@ local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults")
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestDetailsFrame
+local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieSearch
@@ -23,6 +23,20 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+
+-- this variable defines how many operations to run (batched at a time) before yielding for a frame.
+-- 1 would mean yielding every operation (so lower = slower but less lag)
+-- this variable is not a hard limit when invoked, but rather a guideline;
+-- each code block may put a modifier on it, for instance 10x  if the loop is lightweight
+local TICKS_PER_YIELD = 30
+
+if Questie.IsHardcore then
+    -- The addon timing restrictions from the Blizzard watchdog are much higher for HC servers.
+    -- Therefore we need a quite low tick rate to make sure we don't get bitten on less performant machines.
+    TICKS_PER_YIELD = 15
+end
 
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local stringrep = string.rep
@@ -114,25 +128,55 @@ local function CreateShowHideButton(id)
     end
     -- Functions for showing/hiding and switching behaviour afterwards
     button.RemoveFromMap = function(self)
+        self:SetText(l10n("Show on Map"))
+        self:SetCallback("OnClick", function() self:ShowOnMap(self) end)
+
         if self.idsToShow then
+            local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
-                QuestieMap:UnloadManualFrames(spawnId)
+                ids[#ids + 1] = spawnId
             end
+
+            ThreadLib.ThreadInstant(function()
+                local yieldCount = 0
+                for i = 1, #ids do
+                    QuestieMap:UnloadManualFrames(ids[i])
+                    yieldCount = yieldCount + 1
+                    if yieldCount >= TICKS_PER_YIELD then
+                        yieldCount = 0
+                        coroutine.yield()
+                    end
+                end
+            end)
         else
             QuestieMap:UnloadManualFrames(self.id)
         end
-        self:SetText(l10n("Show on Map"))
-        self:SetCallback("OnClick", function() self:ShowOnMap(self) end)
     end
     button.ShowOnMap = function(self)
+        self:SetText(l10n("Remove from Map"))
+        self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
+
         if self.idsToShow then
+            local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
-                if spawnId > 0 then
-                    QuestieMap:ShowNPC(spawnId)
-                else
-                    QuestieMap:ShowObject(-spawnId)
-                end
+                ids[#ids + 1] = spawnId
             end
+
+            ThreadLib.ThreadInstant(function()
+                local yieldCount = 0
+                for i = 1, #ids do
+                    if ids[i] > 0 then
+                        QuestieMap:ShowNPC(ids[i])
+                    else
+                        QuestieMap:ShowObject(-ids[i])
+                    end
+                    yieldCount = yieldCount + 1
+                    if yieldCount >= TICKS_PER_YIELD then
+                        yieldCount = 0
+                        coroutine.yield()
+                    end
+                end
+            end)
         else
             if self.id > 0 then
                 QuestieMap:ShowNPC(self.id)
@@ -140,8 +184,6 @@ local function CreateShowHideButton(id)
                 QuestieMap:ShowObject(-self.id)
             end
         end
-        self:SetText(l10n("Remove from Map"))
-        self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
     end
     return button
 end
@@ -196,131 +238,6 @@ local function recurseTable(theTable, theKeys)
         ret = ret..'\n'
     end
     return ret
-end
-
-function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "requiredClasses", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle"}) or {}
-    local name, requiredLevel, requiredRaces, requiredClasses, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8], ret[9]
-
-    local questLevel, _ = QuestieLib.GetTbcLevel(id);
-
-    -- header
-    local title = AceGUI:Create("Heading")
-    title:SetFullWidth(true);
-    title:SetText(name)
-    details:AddChild(title)
-
-    -- is quest finished by player
-    local finished = AceGUI:Create("CheckBox")
-    finished:SetValue(Questie.db.char.complete[id])
-    finished:SetLabel(l10n("Complete"))
-    finished:SetDisabled(true)
-    -- reduce offset to next checkbox
-    finished:SetHeight(16)
-    finished:SetFullWidth(true);
-    details:AddChild(finished)
-
-    -- hidden by Questie
-    local hiddenQuests = AceGUI:Create("CheckBox")
-    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id])
-    hiddenQuests:SetLabel(l10n("Hidden by Questie"))
-    hiddenQuests:SetDisabled(true)
-    -- reduce offset to next checkbox
-    hiddenQuests:SetHeight(16)
-    hiddenQuests:SetFullWidth(true);
-    details:AddChild(hiddenQuests)
-
-    -- hidden by user
-    local hiddenByUser = AceGUI:Create("CheckBox")
-    hiddenByUser.id = id
-    hiddenByUser:SetLabel(l10n("Hidden"))
-    if Questie.db.char.hidden[id] ~= nil then
-        hiddenByUser:SetValue(true)
-    else
-        hiddenByUser:SetValue(false)
-    end
-    hiddenByUser:SetCallback("OnValueChanged", function(frame)
-        if Questie.db.char.hidden[frame.id] ~= nil then
-            frame:SetValue(false)
-            QuestieQuest:UnhideQuest(frame.id)
-        else
-            frame:SetValue(true)
-            QuestieQuest:HideQuest(frame.id)
-        end
-    end)
-    hiddenByUser:SetCallback("OnEnter", function()
-        if GameTooltip:IsShown() then
-            return;
-        end
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR");
-        GameTooltip:AddLine(l10n("Quest is hidden"))
-        GameTooltip:AddLine(l10n("\nIf checked, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."), 1, 1, 1, true);
-        GameTooltip:SetFrameStrata("TOOLTIP");
-        GameTooltip:Show();
-    end)
-    hiddenByUser:SetCallback("OnLeave", function()
-        if GameTooltip:IsShown() then
-            GameTooltip:Hide();
-        end
-    end)
-    hiddenByUser:SetFullWidth(true);
-    details:AddChild(hiddenByUser)
-
-    -- do not reduce offset, as checkbox is followed by text
-
-    -- general info
-    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Quest ID")) .. l10n(": ") .. id)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Quest Level")) .. l10n(": ") .. questLevel)
-    QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Required Level")) .. l10n(": ") .. requiredLevel)
-    local reqRaces = QuestieLib:GetRaceString(requiredRaces)
-    if (reqRaces ~= "") then
-        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race")) .. l10n(": ") .. reqRaces)
-    end
-    local reqClasses = QuestieLib:GetClassString(requiredClasses)
-    if (reqClasses ~= "") then
-        QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Class")) .. l10n(": ") .. reqClasses)
-    end
-    QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Doable")) .. l10n(": ") .. tostring(QuestieDB.IsDoableVerbose(id, false, true, true)))
-
-    -- objectives text
-    if objectivesText then
-        QuestieJourneyUtils:AddLine(details, "")
-        QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Objectives")) .. l10n(": "))
-        for _, v in pairs(objectivesText) do
-            QuestieJourneyUtils:AddLine(details, v)
-        end
-    end
-
-    if startedBy then
-        -- quest starters
-        QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "npc", startedBy[1], l10n("NPCs starting this quest"), QuestieDB.QueryNPCSingle, true)
-        AddLinkedParagraph(details, "object", startedBy[2], l10n("Objects starting this quest"), QuestieDB.QueryObjectSingle, true)
-        -- TODO change to linked paragraph once item details page exists
-        AddLinkedParagraph(details, "item", startedBy[3], l10n("Items starting this quest"), QuestieDB.QueryItemSingle, false)
-    end
-
-    if finishedBy then
-        -- quest finishers
-        QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "npc", finishedBy[1], l10n("NPCs finishing this quest"), QuestieDB.QueryNPCSingle, true)
-        AddLinkedParagraph(details, "object", finishedBy[2], l10n("Objects finishing this quest"), QuestieDB.QueryObjectSingle, true)
-    end
-
-    -- pre quests
-    if preQuestGroup then
-        QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "quest", preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle, false)
-    end
-    if preQuestSingle then
-        QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "quest", preQuestSingle, l10n("Requires one of these quests to be finished"), QuestieDB.QueryQuestSingle, false)
-    end
-    QuestieJourneyUtils:AddLine(details, "")
-
-    if Questie.db.profile.debugEnabled then
-        QuestieJourneyUtils:AddLine(details, recurseTable(QuestieDB.GetQuest(id), QuestieDB.questKeys))
-    end
 end
 
 function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
@@ -713,7 +630,7 @@ _HandleTreeItemClick = function(group, ...)
     master:AddChild(details);
 
     if lastOpenSearch == "quest" then
-        QuestieSearchResults:QuestDetailsFrame(details, selectedId);
+        QuestDetailsFrame:Draw(details, QuestieDB.GetQuest(selectedId))
     elseif lastOpenSearch == "npc" then
         QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'npc');
     elseif lastOpenSearch == "object" then
@@ -741,7 +658,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
             elseif stringsub(searchText, 1, 4) == "|cff" then
                 -- This should be impossible to reach, since when you see an item link in the game the item should
                 -- be cached already which would be caught by the condition above
-                Questie:Debug(Questie.DEBUG_DEVELOP, "Search with link of an uncached item")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "Search with link of an uncached item")
             else
                 -- Normal search
                 local text = string.trim(searchText, " \n\r\t[]");
@@ -889,7 +806,7 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
     details:SetLayout("Flow")
     frame:AddChild(details)
     if detailType == "quest" then
-        QuestieSearchResults:QuestDetailsFrame(details, id)
+        QuestDetailsFrame:Draw(details, QuestieDB.GetQuest(id))
         frame:SetTitle(l10n("Quest Details"))
     elseif detailType == "npc" then
         QuestieSearchResults:SpawnDetailsFrame(details, id, detailType)

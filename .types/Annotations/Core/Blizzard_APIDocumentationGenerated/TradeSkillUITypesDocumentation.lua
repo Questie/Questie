@@ -29,7 +29,7 @@
 
 ---@class CraftingItemSlotModification
 ---@field dataSlotIndex number
----@field itemID number? Default = 0
+---@field reagent CraftingReagent
 
 ---@class CraftingOperationBonusStatInfo
 ---@field bonusStatName string
@@ -57,12 +57,26 @@
 ---@field concentrationCost number
 ---@field ingenuityRefund number
 
+---@class CraftingQualityInfo
+---@field quality number
+---@field icon textureAtlas
+---@field iconSmall textureAtlas
+---@field iconInventory textureAtlas
+---@field iconMixed textureAtlas
+---@field iconAppear textureAtlas
+---@field iconDissolve textureAtlas
+---@field barFill textureAtlas
+---@field barBackground textureAtlas
+---@field barBackgroundCap textureAtlas
+---@field barHighlight textureAtlas
+---@field iconChat textureAtlas
+
 ---@class CraftingReagent
 ---@field itemID number?
 ---@field currencyID number?
 
 ---@class CraftingReagentInfo
----@field itemID number
+---@field reagent CraftingReagent
 ---@field dataSlotIndex number
 ---@field quantity number
 
@@ -74,6 +88,7 @@
 ---@class CraftingReagentSlotSchematic
 ---@field reagents CraftingReagent[]
 ---@field reagentType Enum.CraftingReagentType
+---@field variableQuantities CraftingVariableQuantities[]
 ---@field quantityRequired number
 ---@field slotInfo CraftingReagentSlotInfo?
 ---@field dataSlotType Enum.TradeskillSlotDataType? Default = Reagent
@@ -111,13 +126,17 @@
 ---@field expansionSkillLineID number
 
 ---@class CraftingResourceReturnInfo
----@field itemID number
+---@field reagent CraftingReagent
 ---@field quantity number
 
 ---@class CraftingTargetItem
 ---@field itemID number
 ---@field itemGUID WOWGUID
 ---@field hyperlink string?
+---@field quantity number
+
+---@class CraftingVariableQuantities
+---@field reagent CraftingReagent
 ---@field quantity number
 
 ---@class GatheringOperationBonusStatInfo
@@ -148,7 +167,7 @@
 ---@field parentProfessionName string?
 
 ---@class RegularReagentInfo
----@field itemID number
+---@field reagent CraftingReagent
 ---@field quantity number
 
 ---@class TradeSkillRecipeInfo

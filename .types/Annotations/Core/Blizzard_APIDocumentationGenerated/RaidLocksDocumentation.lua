@@ -13,3 +13,7 @@ function C_RaidLocks.GetRedirectedDifficultyID(mapID, difficultyID) end
 ---@param difficultyID? number
 ---@return boolean encounterIsComplete
 function C_RaidLocks.IsEncounterComplete(mapID, encounterID, difficultyID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_RaidLocks.IsRaidLockExtendFeatureEnabled)
+---@return boolean raidLockExtendFeatureEnabled
+function C_RaidLocks.IsRaidLockExtendFeatureEnabled() end

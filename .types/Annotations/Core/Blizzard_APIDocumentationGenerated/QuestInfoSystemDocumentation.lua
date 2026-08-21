@@ -3,8 +3,15 @@ C_QuestInfoSystem = {}
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestInfoSystem.GetQuestClassification)
 ---@param questID? number
+---@param questInfoID? number
 ---@return Enum.QuestClassification classification
-function C_QuestInfoSystem.GetQuestClassification(questID) end
+function C_QuestInfoSystem.GetQuestClassification(questID, questInfoID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestInfoSystem.GetQuestLogRewardFavor)
+---@param questID? number
+---@param clampFavorToCycleCap? boolean
+---@return number amount
+function C_QuestInfoSystem.GetQuestLogRewardFavor(questID, clampFavorToCycleCap) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestInfoSystem.GetQuestRewardCurrencies)
 ---@param questID? number

@@ -7,6 +7,8 @@ local band = bit.band
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type EventHandler
 local EventHandler = QuestieLoader:ImportModule("EventHandler")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type TrackerBaseFrame
@@ -49,11 +51,18 @@ function Questie:OnDisable()
     end
 end
 
-function Questie:RefreshConfig(_, db, profileName)
+---AceDB has already activated the new profile before this callback. RefreshConfig calls the
+---local icon, quest, and tracker refresh paths, then schedules V1 from the newly active profile's
+---tracking policy. QuestieQuest:SmoothReset may continue asynchronously.
+---@param _event "OnProfileChanged"|"OnProfileCopied"|"OnProfileReset" AceDB callback name.
+---@param _database AceDBObject-3.0 AceDB database whose new profile data is already active.
+---@param _profileName string? New or source profile name; absent for profile reset.
+function Questie:RefreshConfig(_event, _database, _profileName)
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
+    CommsVisibility:ScheduleSnapshot("PROFILE_CHANGED")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 
 ---@class QuestieColor
@@ -175,11 +184,11 @@ function Questie:GetClassColor(class)
     end
 end
 
-function Questie:Error(...)
+function Questie.Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
-function Questie:Warning(...)
+function Questie.Warning(...)
     if Questie.db.profile.debugEnabled then -- prints regardless of "debugPrint" toggle
         Questie:Print("|cffffff00[WARNING]|r", ...)
     end
@@ -187,14 +196,14 @@ end
 
 -- Global debug levels
 -- When adding a new level here it MUST be assigned a corresponding number and name in
--- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie:Debug below
+-- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie.Debug below
 Questie.DEBUG_CRITICAL = 2 ^ 0
 Questie.DEBUG_ELEVATED = 2 ^ 1
 Questie.DEBUG_INFO = 2 ^ 2
 Questie.DEBUG_DEVELOP = 2 ^ 3
 Questie.DEBUG_SPAM = 2 ^ 4
 
-function Questie:Debug(msgDebugLevel, ...)
+function Questie.Debug(msgDebugLevel, ...)
     if (Questie.db.profile.debugEnabled) then
         local optionsDebugLevel = Questie.db.profile.debugLevel
 
@@ -262,6 +271,7 @@ Questie.icons = {
 
 Questie.usedIcons = {}
 
+-- ! Keep these continuous 1...n and copy changes to DRAW_ORDER_BY_ICON_TYPE_LOOKUP in QuestieMapUtils.lua
 Questie.ICON_TYPE_SLAY = 1
 Questie.ICON_TYPE_LOOT = 2
 Questie.ICON_TYPE_EVENT = 3

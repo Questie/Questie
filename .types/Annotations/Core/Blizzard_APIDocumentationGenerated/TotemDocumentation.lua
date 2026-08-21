@@ -3,10 +3,19 @@
 ---@param slot number
 function DestroyTotem(slot) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumTotemSlots)
+---@return number numSlots
+function GetNumTotemSlots() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetTotemCannotDismiss)
 ---@param slot number
 ---@return boolean? cannotDismiss
 function GetTotemCannotDismiss(slot) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetTotemDuration)
+---@param slot number
+---@return LuaDurationObject duration
+function GetTotemDuration(slot) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetTotemInfo)
 ---@param slot number

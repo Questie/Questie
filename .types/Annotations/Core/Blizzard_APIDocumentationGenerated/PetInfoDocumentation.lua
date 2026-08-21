@@ -1,6 +1,10 @@
 ---@meta _
 C_PetInfo = {}
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PetInfo.GetPetTalentTree)
+---@return stringView talentTreeName
+function C_PetInfo.GetPetTalentTree() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PetInfo.GetPetTamersForMap)
 ---@param uiMapID number
 ---@return PetTamerMapInfo[] petTamers
@@ -19,6 +23,9 @@ function C_PetInfo.IsPetActionPassive(actionID) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PetInfo.PetAbandon)
 ---@param petNumber? number
 function C_PetInfo.PetAbandon(petNumber) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PetInfo.PetAssistMode)
+function C_PetInfo.PetAssistMode() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PetInfo.PetRename)
 ---@param name string

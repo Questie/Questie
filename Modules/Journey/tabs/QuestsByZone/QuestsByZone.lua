@@ -2,14 +2,15 @@
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 
+---@type QuestDetailsFrame
+local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieReputation
-local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieQuestBlacklist
@@ -18,8 +19,6 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
----@type QuestieProfessions
-local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -82,7 +81,7 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
                 scrollFrame:SetFullHeight(true)
                 master:AddChild(scrollFrame)
 
-                _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+                QuestDetailsFrame:Draw(scrollFrame, quest)
             end
         end)
     else
@@ -115,7 +114,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
             return
         end
         -- if they clicked on a header, don't do anything
@@ -153,7 +152,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
             end
         end
 
-        _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+        QuestDetailsFrame:Draw(scrollFrame, quest)
     end)
 
     container:AddChild(zoneTreeFrame)
@@ -248,8 +247,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             end
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
-            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
-            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+            local breadcrumbForQuestId = QuestieDB.QueryQuest(questId, {"breadcrumbForQuestId"})[1] or {}
+            local _, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, false)
 
             -- Breadcrumb quests
             if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
@@ -283,10 +282,10 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         tinsert(zoneTree[2].children, temp)
                         availableCounter = availableCounter + 1
                     end
-                -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
+                    -- elseif returnReason == DoableStates.BLACKLISTED then -- blacklisted quests -- already filtered earlier
                 elseif returnReason == DoableStates.PARENT_ACTIVE then -- parent quest active
-                -- reused the logic from AvailableQuests.lua _DrawChildQuests
-                -- if this is modified, also make sure the changes are reflected in the other file(s)
+                    -- reused the logic from AvailableQuests.lua _DrawChildQuests
+                    -- if this is modified, also make sure the changes are reflected in the other file(s)
                     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
                     if (not Questie.db.char.complete[questId]) and (not hiddenQuests[questId]) and (QuestiePlayer.HasRequiredRace(requiredRaces)) then
                         -- some childQuest remain completed after abandoning and retaking parentQuest
@@ -305,9 +304,9 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
 
                             local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
                             if preQuestSingle then
-                               isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+                                isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
                             else
-                               local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+                                local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
                                 if preQuestGroup then
                                     isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
                                 end
@@ -324,13 +323,13 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                             end
                         end
                     end
-                -- elseif returnReason == DoableStates.WRONG_RACE then -- wrong race -- not shown at all
+                    -- elseif returnReason == DoableStates.WRONG_RACE then -- wrong race -- not shown at all
                 elseif returnReason == DoableStates.NO_PREQUESTSINGLE then -- no preQuestSingle completed
                     tinsert(zoneTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
-                -- elseif returnReason == DoableStates.WRONG_CLASS then -- wrong class -- not shown at all
+                    -- elseif returnReason == DoableStates.WRONG_CLASS then -- wrong class -- not shown at all
                 elseif returnReason == DoableStates.MISSING_REPUTATION then -- too low reputation
                     tinsert(zoneTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
@@ -379,13 +378,13 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
                     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
                     local questDecidedCategory = false
-                    -- checking for some weird cases where the exclusiveTo is on the same level as other preQuestSingle values
+                    -- checking for cases where the exclusiveTo is on the same level as other preQuestSingle values
                     if preQuestSingle then
-                        for i = 1,#preQuestSingle do
+                        for i = 1, #preQuestSingle do
                             local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
                             if exclusivePreQuests then
                                 for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
-                                    if Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId] then
+                                    if not questDecidedCategory and (Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId]) then
                                         tinsert(zoneTree[6].children, temp)
                                         unobtainableCounter = unobtainableCounter + 1
                                         questDecidedCategory = true
@@ -395,12 +394,12 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                             end
                         end
                     end
-                    -- checking for some weird cases where the exclusiveTo is on the same level as other nextQuestInChain values
-                    if nextQuestInChain and nextQuestInChain ~= 0 and not questDecidedCategory then
+                    -- checking for cases where the exclusiveTo is on the same level as other nextQuestInChain values
+                    if nextQuestInChain and nextQuestInChain ~= 0 then
                         local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
                         if exclusiveFollowups then
                             for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
-                                if Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId] then
+                                if not questDecidedCategory and Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId] then
                                     tinsert(zoneTree[6].children, temp)
                                     unobtainableCounter = unobtainableCounter + 1
                                     questDecidedCategory = true
@@ -441,8 +440,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                 elseif returnReason == DoableStates.BREADCRUMB_FOLLOWUP then -- breadcrumb's follow up active or completed
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
-                -- show event quests outside event dates
                 elseif returnReason == DoableStates.EVENT_INACTIVE then -- event inactive
+                    -- show event quests outside event dates
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.BREADCRUMB_ACTIVE then -- quest not available because breadcrumb in quest log
@@ -477,6 +476,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                elseif returnReason == DoableStates.ARENA_RATING then -- missing arena rating
+                    tinsert(zoneTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 end
             end
 
@@ -499,20 +503,20 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     local totalCounter = availableCounter + completedCounter + prequestMissingCounter
 
     if breadcrumbCounter and breadcrumbCounter >= 1 then
-       zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCompleteCounter ..'/'.. breadcrumbCounter ..' ]'
+        zoneTree[1].text = zoneTree[1].text .. " [ " .. breadcrumbCompleteCounter .. "/" .. breadcrumbCounter .. " ]"
     else
-       zoneTree[1].text = zoneTree[1].text .. ' [ '..  breadcrumbCounter ..' ]'
+        zoneTree[1].text = zoneTree[1].text .. " [ " .. breadcrumbCounter .. " ]"
     end
 
-    zoneTree[2].text = zoneTree[2].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]'
-    zoneTree[4].text = zoneTree[4].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[5].text = zoneTree[5].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[6].text = zoneTree[6].text .. ' [ '..  unobtainableCounter ..' ]'
+    zoneTree[2].text = zoneTree[2].text .. " [ " .. availableCounter .. "/" .. totalCounter .. " ]"
+    zoneTree[3].text = zoneTree[3].text .. " [ " .. repeatableCounter .. " ]"
+    zoneTree[4].text = zoneTree[4].text .. " [ " .. completedCounter .. "/" .. totalCounter .. " ]"
+    zoneTree[5].text = zoneTree[5].text .. " [ " .. prequestMissingCounter .. "/" .. totalCounter .. " ]"
+    zoneTree[6].text = zoneTree[6].text .. " [ " .. unobtainableCounter .. " ]"
 
     -- only show hidden quests when there are some
     if zoneTree[7] then
-        zoneTree[7].text = zoneTree[7].text .. ' [ '..  hiddenCounter ..' ]'
+        zoneTree[7].text = zoneTree[7].text .. " [ " .. hiddenCounter .. " ]"
     end
 
     zoneTree.numquests = totalCounter + repeatableCounter + breadcrumbCounter + unobtainableCounter + hiddenCounter

@@ -21,6 +21,12 @@ function C_LossOfControl.GetActiveLossOfControlDataCount() end
 ---@return number count
 function C_LossOfControl.GetActiveLossOfControlDataCountByUnit(unitToken) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_LossOfControl.GetActiveLossOfControlDuration)
+---@param unitToken UnitToken
+---@param index number
+---@return LuaDurationObject? duration
+function C_LossOfControl.GetActiveLossOfControlDuration(unitToken, index) end
+
 ---@class LossOfControlData
 ---@field locType string
 ---@field spellID number

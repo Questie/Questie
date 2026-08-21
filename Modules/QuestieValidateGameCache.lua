@@ -43,7 +43,7 @@ end
 ---@param ... any @Possible arguments for function.
 function QuestieValidateGameCache.AddCallback(func, ...)
     if isCacheGood then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback function imediately.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback function imediately.")
         func(...)
     else
         callbacks[#callbacks+1] = {func, tpack(...)}
@@ -68,7 +68,8 @@ local function OnQuestLogUpdate()
     if numberOfQuestLogUpdatesToSkip > 0 then
         numberOfQuestLogUpdatesToSkip = numberOfQuestLogUpdatesToSkip - 1
         local numEntries, numQuests = GetNumQuestLogEntries()
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Skipping a QUEST_LOG_UPDATE event. Quest log has entries, quests:", numEntries, numQuests)
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Skipping a QUEST_LOG_UPDATE event. Quest log has entries, quests:", numEntries,
+            numQuests)
         return
     end
 
@@ -92,7 +93,7 @@ local function OnQuestLogUpdate()
                 if type(objectiveList) ~= "table" then
                     -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
                     -- I guess older code queried data before HaveQuestData() was true.
-                    Questie:Error("REPORT THIS ERROR! Quest objectives aren't a table. This may stop Questie from loading. questId =", questId)
+                    Questie.Error("REPORT THIS ERROR! Quest objectives aren't a table. This may stop Questie from loading. questId =", questId)
                     hasInvalidObjective = true
                     objectiveList = {}
                 end
@@ -115,20 +116,21 @@ local function OnQuestLogUpdate()
     end
 
     if not isQuestLogGood then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest:", goodQuestsCount.."/".. totalQuestCount)
+        Questie.Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest:", goodQuestsCount .. "/" .. totalQuestCount)
         return
     end
 
     if goodQuestsCount ~= totalQuestCount then
         -- This shouldn't be possible
 
-        Questie:Error("Game Cache has still a broken quest log. Good quest: "..goodQuestsCount.."/".. totalQuestCount ..". Please report this on Github or Discord!") -- Translations might not be available yet.
+        Questie.Error("Game Cache has still a broken quest log. Good quest: " ..
+            goodQuestsCount .. "/" .. totalQuestCount .. ". Please report this on Github or Discord!") -- Translations might not be available yet.
         -- TODO should we stop whole addon loading progress?
     end
 
     DestroyEventFrame()
 
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest:", goodQuestsCount.."/".. totalQuestCount)
+    Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest:", goodQuestsCount .. "/" .. totalQuestCount)
 
     isCacheGood = true
 
@@ -136,7 +138,7 @@ local function OnQuestLogUpdate()
     while (#callbacks > 0) do
         local callback = tremove(callbacks, 1)
         local func, args = callback[1], callback[2]
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback.")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback.")
         func(tunpack(args))
     end
 end

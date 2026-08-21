@@ -5,13 +5,24 @@
 ---@field cooldownStartTime number
 ---@field cooldownDuration number
 ---@field chargeModRate number
+---@field isActive boolean
 
 ---@class SpellCooldownInfo
 ---@field startTime number
 ---@field duration number
 ---@field isEnabled boolean
+---@field isActive boolean
 ---@field modRate number
 ---@field activeCategory number?
+---@field timeUntilEndOfStartRecovery number?
+---@field isOnGCD boolean?
+
+---@class SpellLossOfControlInfo
+---@field startTime number
+---@field duration number
+---@field modRate number
+---@field isActive boolean
+---@field shouldReplaceNormalCooldown boolean
 
 ---@class SpellPowerCostInfo
 ---@field type Enum.PowerType

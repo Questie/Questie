@@ -23,12 +23,13 @@ describe("QuestieTracker", function()
         }
         Questie.db.profile = {}
 
-        QuestieTracker = require("Modules.Tracker.QuestieTracker")
-        TrackerUtils = require("Modules.Tracker.TrackerUtils")
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
-
+        TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = spy.new(function() end)
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ToggleNotes = spy.new(function() end)
+
+        dofile("Modules/Tracker/QuestieTracker.lua")
+        QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
     end)
 
     describe("RemoveQuest", function()
@@ -37,8 +38,8 @@ describe("QuestieTracker", function()
 
             QuestieTracker:RemoveQuest(RIVERPAW_GNOLL_BOUNTY_ID)
 
-            assert.spy(TrackerUtils.UnFocus).was_not_called()
-            assert.spy(QuestieQuest.ToggleNotes).was_not_called()
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
         end)
 
         it("should unfocus when the removed quest id matches the focused quest id", function()
@@ -46,8 +47,8 @@ describe("QuestieTracker", function()
 
             QuestieTracker:RemoveQuest(COLLECTING_KELP_ID)
 
-            assert.spy(TrackerUtils.UnFocus).was_called()
-            assert.spy(QuestieQuest.ToggleNotes).was_called_with(QuestieQuest, true)
+            assert.spy(TrackerUtils.UnFocus).was.called()
+            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
         end)
     end)
 end)

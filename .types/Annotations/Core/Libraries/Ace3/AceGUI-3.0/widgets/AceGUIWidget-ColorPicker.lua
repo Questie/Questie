@@ -11,7 +11,7 @@ local AceGUIColorPicker = {}
 ---@param a number
 function AceGUIColorPicker:SetColor(r, g, b, a) end
 
---- ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-3-1)
+---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-2-3-1)
 ---@param text string
 function AceGUIColorPicker:SetLabel(text) end
 

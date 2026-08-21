@@ -94,6 +94,11 @@ local questsToBlacklistByPhase = {
         [11104] = true,
         [11105] = true,
         [11106] = true,
+
+        -- Arena rating reset quest
+        [95158] = true,
+        [95251] = true,
+        [95252] = true,
     },
     [3] = { -- Phase 3 - T6 (Hyjal, BT)
         [10948] = true,
@@ -167,13 +172,15 @@ local questsToBlacklistByPhase = {
         [11195] = true,
     },
     [5] = { -- Phase 4 - Sunwell, Isle of Quel'Danas
+        [9681] = true, -- check these.
+        [9684] = true, -- check these.
         [9721] = true,
         [9722] = true,
         [9723] = true,
         [9725] = true,
         [9735] = true,
         [9736] = true,
-        [9737] = true,
+        -- [9737] = true, -- actually available
         [11481] = true,
         [11482] = true,
         [11488] = true,

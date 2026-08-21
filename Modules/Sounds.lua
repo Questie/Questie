@@ -105,5 +105,3 @@ soundTable = {
     ["Short Circuit"]      = "Sound/Spells/SimonGame_Visual_BadPress.ogg",
     ["ObjectiveProgress"]  = "Sound/Interface/AuctionWindowOpen.ogg",
 }
-
-return Sounds

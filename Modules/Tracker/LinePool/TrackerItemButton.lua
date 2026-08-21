@@ -132,13 +132,13 @@ function TrackerItemButton.New(buttonName)
         local charges = GetItemCount(self.itemId, nil, true)
         if (not charges or charges ~= self.charges) then
             self.count:Hide()
-            self.charges = GetItemCount(self.itemId, nil, true)
+            self.charges = charges
             if self.charges > 1 then
                 self.count:SetText(self.charges)
                 self.count:Show()
             end
             if self.charges == 0 then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool: Button.OnUpdate]")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool: Button.OnUpdate]")
                 QuestieCombatQueue:Queue(function()
                     C_Timer.After(0.2, function()
                         QuestieTracker:Update()
@@ -211,5 +211,3 @@ function TrackerItemButton.New(buttonName)
 
     return btn
 end
-
-return TrackerItemButton

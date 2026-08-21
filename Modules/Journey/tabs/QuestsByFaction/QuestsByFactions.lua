@@ -3,6 +3,9 @@ local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.questsByFaction = {}
 
+---@type QuestDetailsFrame
+local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
@@ -11,8 +14,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type QuestieProfessions
-local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
@@ -48,7 +49,6 @@ for _, expansion in ipairs(expansionDefinitions) do
     expansionOrderByKey[expansion.key] = expansion.order
 end
 
-local expansionFactionCandidates = QuestieJourneyFactions.expansionFactionCandidates
 local factionIntroductionOrder = QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKey)
 
 QuestieJourney.availableFactionExpansions = QuestieJourney.availableFactionExpansions or {}
@@ -116,8 +116,14 @@ local function _CollectReferencedFactionIds()
     end
 
     local refs = {}
+    local yieldCounter = 0
 
     for questId in pairs(QuestieDB.QuestPointers) do
+        yieldCounter = yieldCounter + 1
+        if yieldCounter >= 1000 then
+            yieldCounter = 0
+            coroutine.yield()
+        end
         local result = QuestieDB.QueryQuest(questId, referencedFactionFields)
         if result then
             local requiredMinRep = result[1]
@@ -246,7 +252,13 @@ function _EnsureFactionQuestData()
         "requiredClasses",
     }
 
+    local yieldCounter = 0
     for questId in pairs(QuestieDB.QuestPointers) do
+        yieldCounter = yieldCounter + 1
+        if yieldCounter >= 1000 then
+            yieldCounter = 0
+            coroutine.yield()
+        end
         local queryResult = QuestieDB.QueryQuest(questId, queryFields) or {}
         local requiredMinRep = queryResult[1]
         local requiredMaxRep = queryResult[2]
@@ -312,7 +324,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
             return
         end
 
@@ -344,7 +356,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
             end
         end
 
-        _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+        QuestDetailsFrame:Draw(scrollFrame, quest)
     end)
 
     container:AddChild(factionTreeFrame)
@@ -405,7 +417,6 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
 
     local temp = {}
 
-    local playerlevel = UnitLevel("player")
     local hiddenQuests = QuestieCorrections.hiddenQuests
     local DoableStates = QuestieDB.DoableStates
 
@@ -413,23 +424,6 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
         local questId = levelAndQuest[2]
         if QuestieDB.QuestPointers[questId] then
             temp.value = questId
-            local queryResult = QuestieDB.QueryQuest(
-                questId,
-                {
-                    "exclusiveTo",
-                    "nextQuestInChain",
-                    "parentQuest",
-                    "preQuestSingle",
-                    "preQuestGroup",
-                    "requiredMinRep",
-                    "requiredMaxRep",
-                    "requiredSpell",
-                    "requiredSpecialization",
-                    "requiredMaxLevel",
-                    "requiredSkill",
-                    "requiredLevel",
-                }
-            ) or {}
 
             temp.iconSize = 14
             temp.useIconGutter = true
@@ -456,7 +450,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
             temp.text = questName
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId,{"breadcrumbForQuestId"})[1] or {}
-            local eligibilityText, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, true)
+            local _, _, returnReason = QuestieDB.IsDoableVerbose(questId, false, true, false)
 
             -- Breadcrumb quests
             if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
@@ -586,13 +580,13 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
                     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
                     local questDecidedCategory = false
-                    -- checking for some weird cases where the exclusiveTo is on the same level as other preQuestSingle values
+                    -- checking for cases where the exclusiveTo is on the same level as other preQuestSingle values
                     if preQuestSingle then
                         for i = 1,#preQuestSingle do
                             local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
                             if exclusivePreQuests then
                                 for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
-                                    if Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId] then
+                                    if not questDecidedCategory and (Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId]) then
                                         tinsert(factionTree[6].children, temp)
                                         unobtainableCounter = unobtainableCounter + 1
                                         questDecidedCategory = true
@@ -602,12 +596,12 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                             end
                         end
                     end
-                    -- checking for some weird cases where the exclusiveTo is on the same level as other nextQuestInChain values
-                    if nextQuestInChain and nextQuestInChain ~= 0 and not questDecidedCategory then
+                    -- checking for cases where the exclusiveTo is on the same level as other nextQuestInChain values
+                    if nextQuestInChain and nextQuestInChain ~= 0 then
                         local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
                         if exclusiveFollowups then
                             for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
-                                if Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId] then
+                                if not questDecidedCategory and (Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId]) then
                                     tinsert(factionTree[6].children, temp)
                                     unobtainableCounter = unobtainableCounter + 1
                                     questDecidedCategory = true
@@ -680,6 +674,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.DISABLED_BY then -- disabling quest is active
+                    tinsert(factionTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
+                elseif returnReason == DoableStates.ARENA_RATING then -- missing arena rating
                     tinsert(factionTree[5].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1

@@ -191,7 +191,7 @@ end
 
 ---@param button string
 _OnClickQuest = function(self, button)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickQuest]")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickQuest]")
     if (not self.Quest) then
         return
     end
@@ -229,7 +229,7 @@ end
 
 ---@param button string
 _OnClickAchieve = function(self, button)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickAchieve]")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickAchieve]")
     if (not self.Quest) then
         return
     end
@@ -278,5 +278,3 @@ _OnClickAchieve = function(self, button)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
     end
 end
-
-return TrackerLine

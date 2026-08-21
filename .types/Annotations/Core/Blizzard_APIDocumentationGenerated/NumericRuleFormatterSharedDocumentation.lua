@@ -1,0 +1,15 @@
+---@meta _
+---@class NumericRuleFormatBreakpoint
+---@field threshold number
+---@field step number?
+---@field rounding Enum.NumericRuleFormatRounding? Default = Nearest
+---@field min number?
+---@field max number?
+---@field format string
+---@field components NumericRuleFormatComponent[]?
+
+---@class NumericRuleFormatComponent
+---@field div number?
+---@field mod number?
+---@field step number?
+---@field rounding Enum.NumericRuleFormatRounding? Default = Nearest

@@ -17,5 +17,3 @@ ContentPhases.IsInvasionActive = {
     [2] = false, -- TBC
     [3] = false, -- Wotlk - Remember Questie.IsTitanReforged is WotLK technically
 }
-
-return ContentPhases

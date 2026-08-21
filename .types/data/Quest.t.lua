@@ -1,4 +1,3 @@
-
 ---@alias QuestId number
 ---@alias ZoneOrSort number -- >0: AreaTable.dbc ID; <0: QuestSort.dbc ID
 ---@alias Category string --- Used a lot in the tracker and questlog
@@ -100,6 +99,7 @@
 ---@field Needed number The number of items needed, NPCs to kill, etc.
 ---@field Completed boolean Added in _QuestieQuest.ObjectiveUpdate
 ---@field Color Color Added in QuestieQuest:PopulateObjective
+---@field Icon number|string The icon to render for this objective
 
 --------------------------------------------------------------------------------
 -- DB Quest Type

@@ -51,15 +51,29 @@ function C_MajorFactions.IsMajorFactionHiddenFromExpansionPage(majorFactionID) e
 ---@return boolean isWeeklyCapped
 function C_MajorFactions.IsWeeklyRenownCapped(majorFactionID) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_MajorFactions.ShouldDisplayMajorFactionAsJourney)
+---@param majorFactionID number
+---@return boolean shouldDisplayMajorFactionAsJourney
+function C_MajorFactions.ShouldDisplayMajorFactionAsJourney(majorFactionID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_MajorFactions.ShouldUseJourneyRewardTrack)
+---@param majorFactionID number
+---@return boolean shouldUseJourneyRewardTrack
+function C_MajorFactions.ShouldUseJourneyRewardTrack(majorFactionID) end
+
 ---@class MajorFactionData
 ---@field name string
+---@field description string
+---@field highlights RenownHighlightInfo[]
 ---@field factionID number
 ---@field expansionID number
 ---@field bountySetID number
 ---@field isUnlocked boolean
+---@field useJourneyUnlockToast boolean
 ---@field unlockDescription string?
 ---@field uiPriority number
 ---@field renownLevel number
+---@field maxLevel number
 ---@field renownReputationEarned number
 ---@field renownLevelThreshold number
 ---@field textureKit textureKit
@@ -67,6 +81,7 @@ function C_MajorFactions.IsWeeklyRenownCapped(majorFactionID) end
 ---@field renownFanfareSoundKitID number
 ---@field factionFontColor DBColorExport?
 ---@field renownTrackLevelEffectID number?
+---@field playerCompanionID number?
 
 ---@class MajorFactionRenownInfo
 ---@field renownLevel number
@@ -95,3 +110,10 @@ function C_MajorFactions.IsWeeklyRenownCapped(majorFactionID) end
 ---@field name string?
 ---@field description string?
 ---@field toastDescription string?
+---@field rewardType number?
+---@field isCollected boolean?
+
+---@class RenownHighlightInfo
+---@field title string
+---@field description string
+---@field level number

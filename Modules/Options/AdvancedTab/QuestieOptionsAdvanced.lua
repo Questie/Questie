@@ -22,7 +22,28 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
+---@type fun(): table<string, string>
 local _GetLanguages
+---@type string|nil
+local pendingLocaleSelection
+
+---@return string locale
+local function _GetAutomaticLocale()
+    if QUESTIE_LOCALES_OVERRIDE ~= nil then
+        return l10n:GetFallbackLocale(QUESTIE_LOCALES_OVERRIDE.locale)
+    end
+
+    return l10n:GetFallbackLocale(GetLocale())
+end
+
+---@return nil
+local function _InvalidateCompiledDatabase()
+    if Questie.IsSoD then
+        Questie.db.global.sod.dbIsCompiled = false
+    else
+        Questie.db.global.dbIsCompiled = false
+    end
+end
 
 function QuestieOptions.tabs.advanced:Initialize()
     return {
@@ -89,7 +110,10 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "range",
                 order = 1.4,
                 name = function() return l10n("Objective icon filter distance"); end,
-                desc = function() return l10n("Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter."); end,
+                desc = function()
+                    return l10n(
+                        "Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter.");
+                end,
                 width = 1.5,
                 disabled = function() return (not Questie.db.profile.enabled); end,
                 min = 0,
@@ -105,7 +129,10 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "range",
                 order = 1.41,
                 name = function() return l10n("Available quest filter distance"); end,
-                desc = function() return l10n("How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!"); end,
+                desc = function()
+                    return l10n(
+                        "How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!");
+                end,
                 width = 1.5,
                 disabled = function() return (not Questie.db.profile.enabled); end,
                 min = 1,
@@ -131,7 +158,10 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "range",
                 order = 1.43,
                 name = function() return l10n("Available quest icon limit"); end,
-                desc = function() return l10n("This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!"); end,
+                desc = function()
+                    return l10n(
+                        "This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!");
+                end,
                 width = 1.5,
                 disabled = function() return (not Questie.db.profile.enabled); end,
                 min = 0,
@@ -204,27 +234,35 @@ function QuestieOptions.tabs.advanced:Initialize()
                 values = _GetLanguages,
                 style = "dropdown",
                 name = function() return l10n("Select UI Locale"); end,
+                ---@return string selectedLocale
                 get = function()
                     if not Questie.db.global.questieLocaleDiff then
                         return "auto"
-                    else
-                        return l10n:GetUILocale();
                     end
+
+                    return l10n:GetUILocale()
                 end,
+                ---@param lang string
                 set = function(_, lang)
-                    if lang == "auto" then
-                        local clientLocale = GetLocale()
-                        if QUESTIE_LOCALES_OVERRIDE ~= nil then
-                            clientLocale = QUESTIE_LOCALES_OVERRIDE.locale
-                        end
-                        l10n:SetUILocale(clientLocale)
-                        Questie.db.global.questieLocale = clientLocale
-                        Questie.db.global.questieLocaleDiff = false
-                    else
-                        l10n:SetUILocale(lang);
-                        Questie.db.global.questieLocale = lang;
-                        Questie.db.global.questieLocaleDiff = true;
+                    local currentSelectedLocale = Questie.db.global.questieLocaleDiff and l10n:GetUILocale() or "auto"
+                    if lang == currentSelectedLocale then
+                        return
                     end
+
+                    local currentEffectiveLocale = currentSelectedLocale == "auto" and _GetAutomaticLocale()
+                        or l10n:GetFallbackLocale(currentSelectedLocale)
+                    local newEffectiveLocale = lang == "auto" and _GetAutomaticLocale()
+                        or l10n:GetFallbackLocale(lang)
+
+                    if currentEffectiveLocale == newEffectiveLocale then
+                        l10n:SetUILocale(newEffectiveLocale)
+                        Questie.db.global.questieLocale = newEffectiveLocale
+                        Questie.db.global.questieLocaleDiff = lang ~= "auto"
+                        return
+                    end
+
+                    pendingLocaleSelection = lang
+                    StaticPopup_Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -237,7 +275,10 @@ function QuestieOptions.tabs.advanced:Initialize()
             reset_text = {
                 type = "description",
                 order = 4.1,
-                name = function() return l10n("Hitting this button will reset all of the Questie configuration settings back to their default values. (Excluding Localization)"); end,
+                name = function()
+                    return l10n(
+                        "Hitting this button will reset all of the Questie configuration settings back to their default values. (Excluding Localization)");
+                end,
                 fontSize = "medium",
             },
             questieReset = {
@@ -255,7 +296,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.4,
                 name = function() return l10n("Reset Questie Journey"); end,
                 desc = function() return l10n("Clear the Journey of the current character"); end,
-                func = function(_,_)
+                func = function(_, _)
                     StaticPopup_Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
@@ -273,7 +314,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.6,
                 name = function() return l10n("Recompile Database"); end,
                 desc = function() return l10n("Forces a recompile of the Questie database. This will also reload the UI."); end,
-                func = function (_, _)
+                func = function(_, _)
                     StaticPopup_Show("QUESTIE_RECOMPILE_DATABASE_CONFIRM")
                 end,
             },
@@ -283,7 +324,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.8,
                 name = function() return l10n("Open Profiler"); end,
                 desc = function() return l10n("Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes."); end,
-                func = function (_, _)
+                func = function(_, _)
                     QuestieLoader:ImportModule("Profiler"):Start()
                 end,
             },
@@ -291,7 +332,12 @@ function QuestieOptions.tabs.advanced:Initialize()
             github_text = {
                 type = "description",
                 order = 4.10,
-                name = function() return Questie:Colorize(l10n("Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"), "purple"); end,
+                name = function()
+                    return Questie:Colorize(
+                        l10n(
+                            "Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"),
+                        "purple");
+                end,
                 fontSize = "medium",
             },
             HeaderDev = {
@@ -306,7 +352,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n("If checked, Questie will hotfix vanilla UI bugs."); end,
                 width = "full",
                 get = function() return Questie.db.profile.bugWorkarounds; end,
-                set = function (_, value)
+                set = function(_, value)
                     Questie.db.profile.bugWorkarounds = value
                 end
             },
@@ -317,8 +363,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n("Enables the bug hint windows for all game versions, usually used for bug reports in SoD.") end,
                 hidden = function() return Questie.IsSoD end,
                 width = "full",
-                get = function () return Questie.db.profile.enableBugHintsForAllFlavors; end,
-                set = function (_, value)
+                get = function() return Questie.db.profile.enableBugHintsForAllFlavors; end,
+                set = function(_, value)
                     Questie.db.profile.enableBugHintsForAllFlavors = value
                 end,
             },
@@ -330,7 +376,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsItemID; end,
-                set = function (_, value)
+                set = function(_, value)
                     Questie.db.profile.enableTooltipsItemID = value
                 end
             },
@@ -342,7 +388,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsNPCID; end,
-                set = function (_, value)
+                set = function(_, value)
                     Questie.db.profile.enableTooltipsNPCID = value
                 end
             },
@@ -350,11 +396,14 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.04,
                 name = function() return l10n("Show Object IDs"); end,
-                desc = function() return l10n("If checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB."); end,
+                desc = function()
+                    return l10n(
+                        "If checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB.");
+                end,
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsObjectID; end,
-                set = function (_, value)
+                set = function(_, value)
                     Questie.db.profile.enableTooltipsObjectID = value
                 end
             },
@@ -366,7 +415,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 disabled = function() return (not Questie.db.profile.enableTooltips); end,
                 width = "full",
                 get = function() return Questie.db.profile.enableTooltipsQuestID; end,
-                set = function (_, value)
+                set = function(_, value)
                     Questie.db.profile.enableTooltipsQuestID = value
                     QuestieTracker:Update()
                 end
@@ -377,35 +426,23 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Enable Debug"); end,
                 desc = function() return l10n("Enable or disable debug functionality."); end,
                 width = "full",
-                get = function () return Questie.db.profile.debugEnabled; end,
-                set = function (_, value)
+                get = function() return Questie.db.profile.debugEnabled; end,
+                set = function(_, value)
                     Questie.db.profile.debugEnabled = value
                     if Questie.db.profile.debugEnabled then
                         QuestieLoader:PopulateGlobals()
                     end
                 end,
             },
-            skipValidation = {
-                type = "toggle",
-                order = 5.07,
-                name = function() return l10n("Skip Validation"); end,
-                desc = function() return l10n("Skip database validation upon recompile. Validation is only present with debug enabled in the first place."); end,
-                width = "full",
-                disabled = function() return not Questie.db.profile.debugEnabled; end,
-                get = function () return Questie.db.profile.skipValidation; end,
-                set = function (_, value)
-                    Questie.db.profile.skipValidation = value
-                end,
-            },
             debugEnabledPrint = {
                 type = "toggle",
                 order = 5.08,
                 disabled = function() return not Questie.db.profile.debugEnabled; end,
-                name = function() return l10n("Enable Debug").."-PRINT" end,
-                desc = function() return l10n("Enable or disable debug functionality.").."-PRINT" end,
+                name = function() return l10n("Enable Debug") .. "-PRINT" end,
+                desc = function() return l10n("Enable or disable debug functionality.") .. "-PRINT" end,
                 width = "full",
-                get = function () return Questie.db.profile.debugEnabledPrint; end,
-                set = function (_, value)
+                get = function() return Questie.db.profile.debugEnabledPrint; end,
+                set = function(_, value)
                     Questie.db.profile.debugEnabledPrint = value
                 end,
             },
@@ -423,18 +460,15 @@ function QuestieOptions.tabs.advanced:Initialize()
                 width = "normal",
                 disabled = function() return not (Questie.db.profile.debugEnabledPrint and Questie.db.profile.debugEnabled); end,
                 get = function(_, key)
-                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Key:", key, math.pow(2, key), state.option.values[key])
-                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Level:", Questie.db.profile.debugLevel, bit.band(Questie.db.profile.debugLevel, math.pow(2, key)))
                     return bit.band(Questie.db.profile.debugLevel, math.pow(2, key)) > 0
                 end,
-                set = function (_, value)
+                set = function(_, value)
                     local currentValue = Questie.db.profile.debugLevel
                     local flag = math.pow(2, value)
-                    --Questie:Debug(Questie.DEBUG_SPAM, "Setting Debug:", currentValue, flag, bit.band(currentValue, flag)>0)
                     -- When current debug level is active, remove it
                     if (bit.band(currentValue, flag) > 0) then
                         Questie.db.profile.debugLevel = bit.bxor(flag, currentValue)
-                    -- When current debug level is inactive, add it
+                        -- When current debug level is inactive, add it
                     else
                         Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
                     end
@@ -449,7 +483,7 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
     button1 = YES,
     button2 = NO,
     OnAccept = function(self)
-        for k,v in pairs(optionsDefaults.profile) do
+        for k, v in pairs(optionsDefaults.profile) do
             Questie.db.profile[k] = v
         end
 
@@ -462,15 +496,12 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
         Questie.db.profile.migrationVersion = nil
         Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
 
-        if Questie.IsSoD then
-            Questie.db.global.sod.dbIsCompiled = false
-        else
-            Questie.db.global.dbIsCompiled = false
-        end
+        _InvalidateCompiledDatabase()
 
         Questie.db.char.hidden = nil
         Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
+        Questie.db.global.unavailableDailyQuestsByNpc = {}
 
         ReloadUI()
     end,
@@ -506,20 +537,51 @@ StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     preferredIndex = 3,
 }
 
+StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+    text = "", -- we set it in OnShow
+    button1 = YES,
+    button2 = NO,
+    OnAccept = function(self)
+        if not pendingLocaleSelection then
+            return
+        end
+
+        local effectiveLocale = pendingLocaleSelection == "auto" and _GetAutomaticLocale()
+            or l10n:GetFallbackLocale(pendingLocaleSelection)
+
+        l10n:SetUILocale(effectiveLocale)
+        Questie.db.global.questieLocale = effectiveLocale
+        Questie.db.global.questieLocaleDiff = pendingLocaleSelection ~= "auto"
+        _InvalidateCompiledDatabase()
+        pendingLocaleSelection = nil
+        ReloadUI()
+    end,
+    OnCancel = function(self)
+        pendingLocaleSelection = nil
+    end,
+    OnShow = function(self)
+        local confirmText = l10n("This will reload the UI. Are you sure you want to change the language?")
+        self.Text:SetText(confirmText)
+        self:SetFrameStrata("FULLSCREEN_DIALOG")
+        self:Raise()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
 StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
     text = "", -- we set it in OnShow
     button1 = YES,
     button2 = NO,
     OnAccept = function(self)
-            if Questie.IsSoD then
-                Questie.db.global.sod.dbIsCompiled = false
-            else
-                Questie.db.global.dbIsCompiled = false
-            end
-            ReloadUI()
+        _InvalidateCompiledDatabase()
+        ReloadUI()
     end,
     OnShow = function(self)
-        local confirmText = l10n("Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
+        local confirmText = l10n(
+            "Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
         self.Text:SetText(confirmText)
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()
@@ -532,7 +594,7 @@ StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
 
 _GetLanguages = function()
     local languages = {
-        ["auto"] = l10n("Automatic"),
+        ["auto"] = l10n("Automatic") .. " (" .. _GetAutomaticLocale() .. ")",
         ["enUS"] = "English",
         ["deDE"] = "Deutsch",
         ["esES"] = "Español",

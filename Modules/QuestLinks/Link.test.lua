@@ -33,12 +33,19 @@ describe("QuestieLink", function()
                 table.insert(tooltipLines, text)
             end,
             IsShown = function() return false end,
+            SetOwner = function() end,
+            ClearLines = function() end,
+            Show = function() end,
+            Hide = function() end,
         }
         _G.ItemRefTooltipTextLeft1 = {
             GetText = function() return "" end,
         }
         _G.ShowUIPanel = function() end
         _G.UIParent = {}
+        _G.GameTooltip = {
+            SetHyperlink = function() end,
+        }
 
         _G.Questie.Colorize = function(_, text)
             return text
@@ -47,7 +54,7 @@ describe("QuestieLink", function()
         _G.HaveQuestData = function() return false end
         _G.C_QuestLog.GetQuestObjectives = function() return nil end
 
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.DoableStates = {AVAILABLE = "AVAILABLE"}
         QuestieDB.IsComplete = function() return 0 end
         QuestieDB.IsRepeatable = function() return false end
@@ -56,25 +63,27 @@ describe("QuestieLink", function()
         QuestieDB.QueryObjectSingle = spy.new(function() return nil end)
         QuestieDB.QueryItemSingle = spy.new(function() return nil end)
 
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
 
-        QuestieReputation = require("Modules.QuestieReputation")
+        QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
         QuestieReputation.GetFactionName = spy.new(function() return nil end)
 
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestieLib.GetTbcLevel = function() return 10 end
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.GetEffectiveQuestLevel = function() return 10 end
         QuestieLib.GetLevelString = function() return "[10] " end
         QuestieLib.PrintDifficultyColor = function(_, _, ...) return "|cffffffff" end
 
-        QuestieEvent = require("Database.Corrections.Holidays.QuestieEvent")
+        QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieEvent.IsEventQuest = function() return false end
 
-        TrackerUtils = require("Modules.Tracker.TrackerUtils")
-        require("Localization.l10n")
-        require("Database.Zones.zoneDB")
+        TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        QuestieLoader:ImportModule("ZoneDB")
+        dofile("Localization/l10n.lua")
 
-        QuestieLink = require("Modules.QuestLinks.Link")
+        dofile("Modules/QuestLinks/Link.lua")
+        QuestieLink = QuestieLoader:ImportModule("QuestieLink")
     end)
 
     describe("GetQuestLinkStringById", function()
@@ -82,13 +91,13 @@ describe("QuestieLink", function()
             QuestieDB.QueryQuestSingle = function()
                 return "Test Quest"
             end
-            QuestieLib.GetTbcLevel = function()
+            QuestieLib.GetEffectiveQuestLevel = function()
                 return 15
             end
 
             local result = QuestieLink:GetQuestLinkStringById(1234)
 
-            assert.are.same("[[15] Test Quest (1234)]", result)
+            assert.are_same("[[15] Test Quest (1234)]", result)
         end)
     end)
 
@@ -133,9 +142,9 @@ describe("QuestieLink", function()
             end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -145,8 +154,8 @@ describe("QuestieLink", function()
                 " - Fierce Boar",
                 " - Argent Dawn",
             }, tooltipLines)
-            assert.spy(QuestieDB.QueryNPCSingle).was_called_with(101, "name")
-            assert.spy(QuestieReputation.GetFactionName).was_called_with(201)
+            assert.spy(QuestieDB.QueryNPCSingle).was.called_with(101, "name")
+            assert.spy(QuestieReputation.GetFactionName).was.called_with(201)
         end)
 
         it("should show Blizzard objective text when HaveQuestData returns true", function()
@@ -180,9 +189,9 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -192,8 +201,8 @@ describe("QuestieLink", function()
                 " - Fierce Boar slain: 0/8",
                 " - Argent Dawn reputation: 0/1000",
             }, tooltipLines)
-            assert.spy(QuestieDB.QueryNPCSingle).was_not_called()
-            assert.spy(QuestieReputation.GetFactionName).was_not_called()
+            assert.spy(QuestieDB.QueryNPCSingle).was.not_called()
+            assert.spy(QuestieReputation.GetFactionName).was.not_called()
         end)
 
         it("should use NPC names from DB when Blizzard objective is missing it", function()
@@ -228,9 +237,9 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -274,9 +283,9 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -322,9 +331,9 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
 
             local questId = 1234
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-1234", ItemRefTooltip)
 
-            assert.are.same({
+            assert.are_same({
                 "Test Quest",
                 "You have not done this quest",
                 " ",
@@ -373,9 +382,9 @@ describe("QuestieLink", function()
                 [questId] = true,
             }
 
-            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678")
+            QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678", ItemRefTooltip)
 
-            assert.are.same({
+            assert.are_same({
                 "Progress Quest",
                 "You are on this quest",
                 " ",
@@ -383,6 +392,76 @@ describe("QuestieLink", function()
                 " ",
                 "Your progress: ",
                 " - |cFFEEEEEEWool Cloth: 3/10|r",
+            }, tooltipLines)
+        end)
+    end)
+
+    describe("hover tooltip via CreateQuestTooltip", function()
+        it("should show quest title, status, description, and starter info", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Hover Quest",
+                    Description = {"Do something."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = {NPC = {500}},
+                    Finisher = {NPC = {600}, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+            QuestieDB.GetNPC = function(_, npcId)
+                if npcId == 500 then return {name = "Quest Giver", zoneID = 0} end
+                if npcId == 600 then return {name = "Quest Finisher", zoneID = 0} end
+                return nil
+            end
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
+
+            assert.are_same({
+                "Hover Quest",
+                "You have not done this quest",
+                " ",
+                "Do something.",
+                " ",
+                "Started by: Quest Giver",
+                "Found in: Test Zone",
+            }, tooltipLines)
+        end)
+
+        it("should not show Started by when quest is in the player quest log", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Active Quest",
+                    Description = {"Fight things."},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = {NPC = {500}},
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You are on this quest", nil, "AVAILABLE"
+            end
+            QuestiePlayer.currentQuestlog = {[1234] = true}
+
+            QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
+
+            assert.are_same({
+                "Active Quest",
+                "You are on this quest",
+                " ",
+                "Fight things.",
+                " ",
+                "Your progress: ",
             }, tooltipLines)
         end)
     end)

@@ -12,13 +12,14 @@ describe("RegisterForQuestUpdates", function()
         dofile("Public/Enums.lua")
         _G.Questie.API.isReady = true
 
-        QuestieNameplate = require("Modules.QuestieNameplate")
+        QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
         ---@diagnostic disable-next-line: assign-type-mismatch
         QuestieNameplate.GetIcon = spy.new(function()
             return "Interface\\Addons\\Questie\\Icons\\slay.blp"
         end)
 
-        QuestieAPI = require("Public.RegisterForQuestUpdates")
+        dofile("Public/RegisterForQuestUpdates.lua")
+        QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
     end)
 
     it("should error when callback is not a function", function()

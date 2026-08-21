@@ -23,7 +23,7 @@ describe("Townsfolk", function()
 
     before_each(function()
         _G["Questie"] = {db={profile={}},IsClassic=true, Debug = function() end}
-        QuestieDB = require("Database.QuestieDB")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.objectKeys = {factionID = "factionID"}
         QuestieDB.factionTemplate = {
             [factionIds.NeutralFaction1] = 1,
@@ -47,7 +47,8 @@ describe("Townsfolk", function()
             [9] = {factionID = factionIds.AllianceFaction2},
         }
 
-        Townsfolk = require("Modules.QuestieMenu.Townsfolk")
+        dofile("Modules/QuestieMenu/Townsfolk.lua")
+        Townsfolk = QuestieLoader:ImportModule("Townsfolk")
     end)
 
     describe("Townsfolk.GetFactionSpecificMailboxes", function()
@@ -58,8 +59,8 @@ describe("Townsfolk", function()
 
             local allianceMailboxes, hordeMailboxes = Townsfolk.GetFactionSpecificMailboxes()
 
-            assert.are.same({1, 2, 3, 6, 7, 8, 9}, allianceMailboxes)
-            assert.are.same({1, 2, 3, 4, 5, 6, 7}, hordeMailboxes)
+            assert.are_same({1, 2, 3, 6, 7, 8, 9}, allianceMailboxes)
+            assert.are_same({1, 2, 3, 4, 5, 6, 7}, hordeMailboxes)
         end)
 
         it("should not add mailbox if it is not in the DB", function()
@@ -69,8 +70,8 @@ describe("Townsfolk", function()
 
             local allianceMailboxes, hordeMailboxes = Townsfolk.GetFactionSpecificMailboxes()
 
-            assert.are.same({}, allianceMailboxes)
-            assert.are.same({}, hordeMailboxes)
+            assert.are_same({}, allianceMailboxes)
+            assert.are_same({}, hordeMailboxes)
         end)
     end)
 end)

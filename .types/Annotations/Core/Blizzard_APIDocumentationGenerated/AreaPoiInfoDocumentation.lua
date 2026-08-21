@@ -74,3 +74,5 @@ function C_AreaPoiInfo.IsAreaPOITimed(areaPoiID) end
 ---@field highlightWorldQuestsOnHover boolean
 ---@field highlightVignettesOnHover boolean
 ---@field isCurrentEvent boolean
+---@field isSuppressible boolean
+---@field isLocked boolean? Default = false

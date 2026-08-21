@@ -86,6 +86,13 @@ function C_PartyInfo.GetAvailableLootMethods() end
 ---@return number? timeLeftSeconds Default = 0
 function C_PartyInfo.GetInstanceAbandonShutdownTime() end
 
+---Returns the total duration of the abandon vote cooldown and how much time is left before it ends
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PartyInfo.GetInstanceAbandonVoteCooldownTime)
+---@return number? durationSeconds Default = 0
+---@return number? timeLeftSeconds Default = 0
+function C_PartyInfo.GetInstanceAbandonVoteCooldownTime() end
+
 ---Returns values controlling the vote
 ---
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PartyInfo.GetInstanceAbandonVoteRequirements)
@@ -125,6 +132,10 @@ function C_PartyInfo.GetInviteReferralInfo(inviteGUID) end
 ---@return number? masterLootPartyID
 ---@return number? masterLooterRaidID
 function C_PartyInfo.GetLootMethod() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PartyInfo.GetLootMethodStyle)
+---@return Enum.LootMethodStyles methodStyle
+function C_PartyInfo.GetLootMethodStyle() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PartyInfo.GetMinItemLevel)
 ---@param avgItemLevelCategory Enum.AvgItemLevelCategories
@@ -173,6 +184,11 @@ function C_PartyInfo.IsDelveComplete() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PartyInfo.IsDelveInProgress)
 ---@return boolean isDelveComplete
 function C_PartyInfo.IsDelveInProgress() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PartyInfo.IsLootMethodAvailable)
+---@param method Enum.LootMethod
+---@return boolean available
+function C_PartyInfo.IsLootMethodAvailable(method) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_PartyInfo.IsPartyFull)
 ---@param category? number

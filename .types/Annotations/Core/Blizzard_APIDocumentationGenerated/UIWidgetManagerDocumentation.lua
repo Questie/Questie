@@ -93,6 +93,11 @@ function C_UIWidgetManager.GetObjectiveTrackerWidgetSetID() end
 ---@return number setID
 function C_UIWidgetManager.GetPowerBarWidgetSetID() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_UIWidgetManager.GetPreyHuntProgressWidgetVisualizationInfo)
+---@param widgetID number
+---@return PreyHuntProgressWidgetVisualizationInfo? widgetInfo
+function C_UIWidgetManager.GetPreyHuntProgressWidgetVisualizationInfo(widgetID) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_UIWidgetManager.GetScenarioHeaderCurrenciesAndBackgroundWidgetVisualizationInfo)
 ---@param widgetID number
 ---@return ScenarioHeaderCurrenciesAndBackgroundWidgetVisualizationInfo? widgetInfo
@@ -486,6 +491,24 @@ function C_UIWidgetManager.UnregisterUnitForWidgetUpdates(unitToken, isGuid) end
 ---@class MapPinAnimationWidgetVisualizationInfo
 ---@field shownState Enum.WidgetShownState
 ---@field animType Enum.MapPinAnimationType
+---@field widgetSizeSetting number
+---@field textureKit textureKit
+---@field frameTextureKit textureKit
+---@field hasTimer boolean
+---@field orderIndex number
+---@field widgetTag string
+---@field inAnimType Enum.WidgetAnimationType
+---@field outAnimType Enum.WidgetAnimationType
+---@field widgetScale Enum.UIWidgetScale
+---@field layoutDirection Enum.UIWidgetLayoutDirection
+---@field modelSceneLayer Enum.UIWidgetModelSceneLayer
+---@field scriptedAnimationEffectID number
+
+---@class PreyHuntProgressWidgetVisualizationInfo
+---@field shownState Enum.WidgetShownState
+---@field progressState Enum.PreyHuntProgressState
+---@field tooltip string
+---@field tooltipLoc Enum.UIWidgetTooltipLocation
 ---@field widgetSizeSetting number
 ---@field textureKit textureKit
 ---@field frameTextureKit textureKit

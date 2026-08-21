@@ -135,6 +135,8 @@ do
             addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
             addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
+
+            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadContentPhaseFixes())
         end
 
         -- WOTLK Corrections
@@ -169,6 +171,10 @@ do
             addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadFactionFixes())
             addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, MopObjectFixes:LoadFactionFixes())
+
+            addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadContentPhaseFixes())
+            addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadContentPhaseFixes())
+            addOverride(QuestieDB.objectDataOverrides, MopObjectFixes:LoadContentPhaseFixes())
         end
 
         -- Season of Discovery Corrections
@@ -224,19 +230,20 @@ end
 ---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
 ---@param validationTables table Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 ---@param noOverwrites true? Do not overwrite existing values
----@param noNewEntries true? Do not create new entries in the database
+---@param noNewEntries true? Do not create new entries in the database, unless the entry has a name field (key 1)
 local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables, noOverwrites, noNewEntries)
     for id, data in pairs(corrections) do
         for key, value in pairs(data) do
-            -- Create the id if missing unless noNewEntries is set
-            if not QuestieDB[databaseTableName][id] and not noNewEntries then
+            -- Create a new entry if missing unless noNewEntries is set.
+            -- Entries with a name field (key 1) are always created, as they define something entirely missing
+            if (not QuestieDB[databaseTableName][id]) and ((not noNewEntries) or data[1] ~= nil) then
                 QuestieDB[databaseTableName][id] = {}
             end
             if validationTables and QuestieDB[databaseTableName][id] then
                 if value and QuestieLib.equals(QuestieDB[databaseTableName][id][key], value) and validationTables[databaseTableName][id] and
                     QuestieLib.equals(validationTables[databaseTableName][id][key], value) then
-                    Questie:Warning("Correction of " ..
-                                    databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
+                    Questie.Warning("Correction of " ..
+                        databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
                 end
             end
             if QuestieDB[databaseTableName][id] then
@@ -252,38 +259,41 @@ end
 
 ---@param validationTables table? Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
 function QuestieCorrections:Initialize(validationTables)
-    QuestieQuestFixes:LoadMissingQuests()
-
     -- Classic Corrections
     if Questie.IsClassic then
         -- This data is only correct for Era/SoX, for the other expansions we trust the base DB
         _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
     end
-    _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
-    _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
-    _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
-    _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+
+    local classicNoNewEntries = Expansions.Current > Expansions.Era or nil
+    _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables, nil, classicNoNewEntries)
+    _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables, nil, classicNoNewEntries)
+    _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables, nil, classicNoNewEntries)
+    _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables, nil, classicNoNewEntries)
 
     if Expansions.Current >= Expansions.Tbc then
-        _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+        local tbcNoNewEntries = Expansions.Current > Expansions.Tbc or nil
+        _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables, nil, tbcNoNewEntries)
+        _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables, nil, tbcNoNewEntries)
+        _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables, nil, tbcNoNewEntries)
+        _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables, nil, tbcNoNewEntries)
     end
 
     if Expansions.Current >= Expansions.Wotlk then
-        _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+        local wotlkNoNewEntries = Expansions.Current > Expansions.Wotlk or nil
+        _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables, nil, wotlkNoNewEntries)
+        _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables, nil, wotlkNoNewEntries)
+        _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables, nil, wotlkNoNewEntries)
+        _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables, nil, wotlkNoNewEntries)
+        _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables, nil, wotlkNoNewEntries)
     end
 
     if Expansions.Current >= Expansions.Cata then
-        _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("objectData", CataObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)
+        local cataNoNewEntries = Expansions.Current > Expansions.Cata or nil
+        _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables, nil, cataNoNewEntries)
+        _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables, nil, cataNoNewEntries)
+        _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables, nil, cataNoNewEntries)
+        _LoadCorrections("objectData", CataObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables, nil, cataNoNewEntries)
     end
 
     if Expansions.Current >= Expansions.MoP then
@@ -444,5 +454,3 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
         end
     end
 end
-
-return QuestieCorrections

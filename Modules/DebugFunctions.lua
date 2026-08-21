@@ -9,6 +9,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 -- This is a collection of functions that are useful for debugging purposes.
 -- They are not intended to be used in production code.
@@ -56,6 +58,8 @@ function DebugFunctions.ShowQuestObjectives(questId)
 
     for i, objective in pairs(quest.Objectives) do
         print("Adding objective", i, objective.Description)
-        QuestieQuest:PopulateObjective(quest, i, objective, false)
+        ThreadLib.ThreadInstant(function()
+            QuestieQuest:PopulateObjective(quest, i, objective, true)
+        end)
     end
 end

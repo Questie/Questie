@@ -41,8 +41,8 @@ function AceGUITreeGroup:SelectByValue(uniquevalue) end
 function AceGUITreeGroup:EnableButtonTooltips(flag) end
 
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/ace-gui-3-0-widgets#title-4-7-1)
----@param table table
-function AceGUITreeGroup:SetStatusTable(table) end
+---@param statusTable table
+function AceGUITreeGroup:SetStatusTable(statusTable) end
 
 ---@param show boolean
 function AceGUITreeGroup:ShowScroll(show) end
@@ -92,10 +92,6 @@ function AceGUITreeGroup:LayoutFinished(width, height) end
 ---@field text string
 ---@field icon? string|integer
 ---@field iconCoords? number[]
----@field iconSize? number
----@field useIconGutter? boolean
----@field iconGutterOffset? number
----@field tooltipText? string
 ---@field disabled? boolean
 ---@field tree table
 ---@field level integer

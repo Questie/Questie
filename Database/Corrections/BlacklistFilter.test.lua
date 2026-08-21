@@ -6,7 +6,8 @@ local BlacklistFilter
 describe("BlacklistFilter", function()
 
     before_each(function()
-        BlacklistFilter = require("Database.Corrections.BlacklistFilter")
+        dofile("Database/Corrections/BlacklistFilter.lua")
+        BlacklistFilter = QuestieLoader:ImportModule("BlacklistFilter")
     end)
 
     it("should correctly filter blacklists", function()

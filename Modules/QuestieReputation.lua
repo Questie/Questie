@@ -21,7 +21,7 @@ local tinsert, floor = table.insert, math.floor
 --- reached a new reputation level
 ---@param isInit boolean? @
 function QuestieReputation:Update(isInit)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieReputation: Update")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieReputation: Update")
     ExpandFactionHeader(0) -- Expand all header
 
     local factionChanged = false
@@ -41,12 +41,50 @@ function QuestieReputation:Update(isInit)
             if (not isInit) and (
                     _ReachedNewStanding(previousValues, standingId)
                     or _WinterSaberChanged(factionID, previousValues, barValue)) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieReputation: Update - faction \"" .. name .. "\" (" .. factionID .. ") changed")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieReputation: Update - faction \"" .. name .. "\" (" .. factionID .. ") changed")
                 factionChanged = true
             end
         end
     end
 
+    -- Handle Scyers/Aldor standing when they are not in reputation tab yet for TBC or later
+    if isInit and Expansions.Current >= Expansions.Tbc then
+        local _, _, raceId = UnitRace("player")
+        local scryers = QuestieDB.factionIDs.THE_SCRYERS
+        local aldor = QuestieDB.factionIDs.THE_ALDOR
+        if raceId == 10 then -- Blood Elf
+            -- Sometimes you can have one faction discovered, but not the other
+            -- so we check for these individually
+            if not playerReputations[aldor] then
+                playerReputations[aldor] = {2, -3500} -- standingID 2, -3500 reputation (Hostile)
+                newFaction = true
+            end
+            if not playerReputations[scryers] then
+                playerReputations[scryers] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
+                newFaction = true
+            end
+        elseif raceId == 11 then -- Draenei
+            if not playerReputations[aldor] then
+                playerReputations[aldor] = {5, 3500} -- standingID 5, 3500 reputation (Friendly)
+                newFaction = true
+            end
+            if not playerReputations[scryers] then
+                playerReputations[scryers] = {2, -3500} -- standingID 2, -3500 reputation (Hostile)
+                newFaction = true
+            end
+        else -- every other race
+            if not playerReputations[aldor] then
+                playerReputations[aldor] = {4, 0} -- standingID 4, 0 reputation (Neutral)
+                newFaction = true
+            end
+            if not playerReputations[scryers] then
+                playerReputations[scryers] = {4, 0} -- standingID 4, 0 reputation (Neutral)
+                newFaction = true
+            end
+        end
+    end
+
+    -- Handle hidden faction Nomi for MoP
     if Expansions.Current >= Expansions.MoP then
         local nomiFactionId = QuestieDB.factionIDs.NOMI
         playerReputations[nomiFactionId] = {4, 0} -- Nomi, Neutral 0 rep
@@ -321,7 +359,7 @@ end
 ---@param reputationReward ReputationPair[]
 ---@param factionIDs table
 _FilterShaTarRewards = function(reputationReward, factionIDs)
-    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ factionIDs.THE_SHA_TAR, 9000 }, nil)
+    local playerIsHonoredWithShaTar = QuestieReputation.HasReputation({ factionIDs.THE_SHATAR, 9000 }, nil)
     -- filter out Sha'Tar reputation rewards when quest also rewards Aldor/Scryer reputation and the player is already honored with them Sha'Tar
     if playerIsHonoredWithShaTar then
         local hasAldorOrScryer = false
@@ -337,7 +375,7 @@ _FilterShaTarRewards = function(reputationReward, factionIDs)
             local filteredReputationReward = {}
             for _, entry in pairs(reputationReward) do
                 local factionId = entry[1]
-                if factionId ~= factionIDs.THE_SHA_TAR then
+                if factionId ~= factionIDs.THE_SHATAR then
                     tinsert(filteredReputationReward, entry)
                 end
             end
@@ -375,5 +413,3 @@ function QuestieReputation.GetReputationRewardString(reputationReward)
 
     return table.concat(rewardTable, " / ")
 end
-
-return QuestieReputation

@@ -15,6 +15,8 @@ local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type CommsVisibility
+local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -148,6 +150,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             else
                                 Questie.db.char.AutoUntrackedQuests = {}
                             end
+                            -- Switching modes rewrites the meaning of tracked/untracked for every
+                            -- quest, so send one full QuestieV1 visibility snapshot.
+                            CommsVisibility:ScheduleSnapshot("AUTO_TRACK_QUESTS")
 
                             -- Update Quest Log and mark tracked Quests
                             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
@@ -1044,24 +1049,20 @@ function QuestieOptions.tabs.tracker:Initialize()
                     },
                     fontOutline = {
                         type = "select",
-                        dialogControl = "LSM30_Font",
                         order = 9,
                         width = 1.5,
                         values = {
-                            [NONE] = "None",
-                            [SELF_HIGHLIGHT_MODE_OUTLINE] = "Outline",
+                            [""] = NONE,
+                            ["OUTLINE"] = SELF_HIGHLIGHT_MODE_OUTLINE,
                         },
                         style = "dropdown",
                         name = function() return l10n("Outline for Zones, Titles, and Objectives") end,
                         desc = function() return l10n("The outline used for Quest Zones, Titles, and Objectives in the Questie Tracker.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function()
-                            return Questie.db.profile.trackerFontOutline == "" and "None" or Questie.db.profile.trackerFontOutline
+                            return Questie.db.profile.trackerFontOutline
                         end,
                         set = function(_, value)
-                            if value == "None" then
-                                value = ""
-                            end
                             Questie.db.profile.trackerFontOutline = value
                             QuestieTracker:Update()
                         end

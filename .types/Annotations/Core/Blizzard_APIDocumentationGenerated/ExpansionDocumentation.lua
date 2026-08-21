@@ -1,7 +1,7 @@
 ---@meta _
----[Documentation](https://warcraft.wiki.gg/wiki/API_CanUpgradeExpansion)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_CanUpgradeToCurrentExpansion)
 ---@return boolean canUpgradeExpansion
-function CanUpgradeExpansion() end
+function CanUpgradeToCurrentExpansion() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_DoesCurrentLocaleSellExpansionLevels)
 ---@return boolean regionSellsExpansions
@@ -21,8 +21,9 @@ function GetCurrentRegionName() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetExpansionDisplayInfo)
 ---@param expansionLevel number
+---@param desiredReleaseType? Enum.ReleaseType
 ---@return ExpansionDisplayInfo? info
-function GetExpansionDisplayInfo(expansionLevel) end
+function GetExpansionDisplayInfo(expansionLevel, desiredReleaseType) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetExpansionForLevel)
 ---@param playerLevel number
@@ -69,6 +70,10 @@ function GetNumExpansions() end
 ---@return number serverExpansionLevel
 function GetServerExpansionLevel() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetUpgradeExpansionLevel)
+---@return number upgradeExpansionLevel
+function GetUpgradeExpansionLevel() end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_IsDemonHunterAvailable)
 ---@return boolean available
 function IsDemonHunterAvailable() end
@@ -89,6 +94,10 @@ function IsVeteranTrialAccount() end
 ---@param response Enum.SubscriptionInterstitialResponseType
 function SendSubscriptionInterstitialResponse(response) end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ShouldShowExpansionUpgradeBanner)
+---@return boolean showUpgradeBanner
+function ShouldShowExpansionUpgradeBanner() end
+
 ---@class ExpansionDisplayInfo
 ---@field logo fileID
 ---@field banner textureAtlas
@@ -96,6 +105,9 @@ function SendSubscriptionInterstitialResponse(response) end
 ---@field highResBackgroundID fileID
 ---@field lowResBackgroundID fileID
 ---@field textureKit textureKit
+---@field glueAmbianceSoundKit number?
+---@field glueMusicSoundKit number?
+---@field glueCreditsSoundKit number?
 
 ---@class ExpansionDisplayInfoFeature
 ---@field icon fileID

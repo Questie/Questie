@@ -38,7 +38,7 @@ local townsfolkLocales = {
         ["ptBR"] = "Bolsas",
         ["ruRU"] = "Сумки",
         ["zhCN"] = "背包",
-        ["zhTW"] = "背包商人",
+        ["zhTW"] = "背包",
     },
     ["Banker"] = {
         ["enUS"] = true,
@@ -85,8 +85,8 @@ local townsfolkLocales = {
         ["koKR"] = "음료 상인",
         ["ptBR"] = "Bebidas",
         ["ruRU"] = "Напитки",
-        ["zhCN"] = "饮料商人",
-        ["zhTW"] = "飲料商人",
+        ["zhCN"] = "饮料",
+        ["zhTW"] = "飲料",
     },
     ["Flight Master"] = {
         ["enUS"] = true,
@@ -109,8 +109,8 @@ local townsfolkLocales = {
         ["koKR"] = "음식 상인",
         ["ptBR"] = "Comida",
         ["ruRU"] = "Еда",
-        ["zhCN"] = "食物商人",
-        ["zhTW"] = "麵包商人",
+        ["zhCN"] = "食物",
+        ["zhTW"] = "食物",
     },
     ["Innkeeper"] = {
         ["enUS"] = true,
@@ -253,8 +253,8 @@ local townsfolkLocales = {
         ["koKR"] = "물약",
         ["ptBR"] = "Poções",
         ["ruRU"] = "Зелья",
-        ["zhCN"] = "药水商人",
-        ["zhTW"] = "藥水商人",
+        ["zhCN"] = "药水",
+        ["zhTW"] = "藥水",
     },
     ["Trade Goods"] = {
         ["enUS"] = true,
@@ -265,8 +265,8 @@ local townsfolkLocales = {
         ["koKR"] = "각종용품 상인",
         ["ptBR"] = "Mercadorias",
         ["ruRU"] = "Хозяйственные товары",
-        ["zhCN"] = "杂货商人",
-        ["zhTW"] = "雜貨商人",
+        ["zhCN"] = "杂货",
+        ["zhTW"] = "雜貨",
     },
     ["Vendor"] = {
         ["enUS"] = true,
@@ -277,8 +277,8 @@ local townsfolkLocales = {
         ["koKR"] = "상인",
         ["ptBR"] = "Comerciante",
         ["ruRU"] = "Торговец",
-        ["zhCN"] = "商人",
-        ["zhTW"] = "商人",
+        ["zhCN"] = "供应商",
+        ["zhTW"] = "供應商",
     },
     ["Weapon Master"] = {
         ["enUS"] = true,

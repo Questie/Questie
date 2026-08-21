@@ -30,5 +30,3 @@ function QuestieAPI.PropagateOnReady()
     end
     onReadyCallbacks = {}
 end
-
-return QuestieAPI

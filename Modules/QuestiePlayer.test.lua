@@ -5,7 +5,8 @@ describe("QuestiePlayer", function()
     local QuestiePlayer
 
     before_each(function()
-        QuestiePlayer = require("Modules.QuestiePlayer")
+        dofile("Modules/QuestiePlayer.lua")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
     end)
 
     describe("GetPartyMemberByName", function()
@@ -27,7 +28,7 @@ describe("QuestiePlayer", function()
             local player = QuestiePlayer:GetPartyMemberByName("Testi")
 
             assert.is_not_nil(player)
-            assert.are.same({
+            assert.are_same({
                 name = "Testi",
                 class = "PALADIN",
                 r = 0.96,
@@ -46,7 +47,7 @@ describe("QuestiePlayer", function()
             local player = QuestiePlayer:GetPartyMemberByName("Testi-FancyRealm")
 
             assert.is_not_nil(player)
-            assert.are.same({
+            assert.are_same({
                 name = "Testi-FancyRealm",
                 class = "PALADIN",
                 r = 0.96,

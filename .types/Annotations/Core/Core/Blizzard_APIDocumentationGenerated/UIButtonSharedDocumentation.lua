@@ -1,7 +1,0 @@
----@meta _
----@class UIButtonInfo
----@field normal textureAtlas
----@field pressed textureAtlas
----@field highlight textureAtlas
----@field icon textureAtlas
----@field useNormalAsHiglight boolean

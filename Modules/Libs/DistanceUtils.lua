@@ -30,7 +30,7 @@ function DistanceUtils.GetNearestSpawn(spawns)
                 local dungeonLocation = ZoneDB:GetDungeonLocation(zoneId)
                 if (not dungeonLocation) and (not alreadyErroredZoneIds[zoneId]) then
                     alreadyErroredZoneIds[zoneId] = true
-                    Questie:Error("No dungeon location found for zoneId:", zoneId, "Please report this on Github or Discord!")
+                    Questie.Error("No dungeon location found for zoneId:", zoneId, "Please report this on Github or Discord!")
                 end
                 for _, location in pairs(dungeonLocation or {}) do
                     local dist = _GetDistance(location[1], location[2], location[3], playerX, playerY, playerI)
@@ -165,5 +165,3 @@ _GetDistance = function(zoneId, spawnX, spawnY, playerX, playerY, playerZone)
     end
     return dist
 end
-
-return DistanceUtils

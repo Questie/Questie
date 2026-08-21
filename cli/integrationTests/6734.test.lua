@@ -78,39 +78,67 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
                 return mockedQuestObjectives[questId] or {}
             end
         }
-        require("Modules.Expansions")
-        QuestLogCache = require("Modules.Quest.QuestLogCache")
-        QuestieNameplate = require("Modules.QuestieNameplate")
+        dofile("Modules/Expansions.lua")
+
+        dofile("Modules/Quest/QuestLogCache.lua")
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+
+        dofile("Modules/QuestieNameplate.lua")
+        QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
-        QuestieQuest = require("Modules.Quest.QuestieQuest")
+
+        dofile("Modules/Quest/QuestieQuest.lua")
+        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieQuest.UpdateQuest = spy.new(function() end)
-        QuestieQuest.AcceptQuest = spy.new(function(_, questId)
+
+        dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
+        local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
+        QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
             QuestiePlayer.currentQuestlog[questId] = {}
         end)
-        QuestieQuest.CompleteQuest = spy.new(function() end)
-        QuestiePlayer = require("Modules.QuestiePlayer")
-        QuestieTracker = require("Modules.Tracker.QuestieTracker")
+        QuestLifecycle.CompleteQuest = spy.new(function() end)
+
+        dofile("Modules/QuestiePlayer.lua")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+
+        dofile("Modules/Tracker/QuestieTracker.lua")
+        QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
-        QuestieLib = require("Modules.Libs.QuestieLib")
+
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.CacheItemNames = spy.new(function() end)
-        QuestieCombatQueue = require("Modules.Libs.QuestieCombatQueue")
+
+        dofile("Modules/Libs/QuestieCombatQueue.lua")
+        QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
-        Sounds = require("Modules.Sounds")
+
+        dofile("Modules/Sounds.lua")
+        Sounds = QuestieLoader:ImportModule("Sounds")
         Sounds.PlayObjectiveComplete = spy.new(function() end)
         Sounds.PlayQuestComplete = spy.new(function() end)
-        QuestieJourney = require("Modules.Journey.QuestieJourney")
+
+        dofile("Modules/Journey/QuestieJourney.lua")
+        QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
         QuestieJourney.AcceptQuest = spy.new(function() end)
         QuestieJourney.CompleteQuest = spy.new(function() end)
-        QuestieAnnounce = require("Modules.QuestieAnnounce")
+
+        dofile("Modules/QuestieAnnounce.lua")
+        QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
         QuestieAnnounce.CompletedQuest = spy.new(function() end)
-        QuestieDB = require("Database.QuestieDB")
+
+        dofile("Database/QuestieDB.lua")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.QueryQuestSingle = function() return nil end
-        QuestEventHandler = require("Modules.EventHandler.QuestEventHandler")
-        require("Modules.Network.QuestiePartyObjectives")
+
+        dofile("Modules/EventHandler/QuestEventHandler.lua")
+        QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+
+        dofile("Modules/Network/QuestiePartyObjectives.lua")
         dofile("Public/Enums.lua")
-        require("Public.RegisterForQuestUpdates")
+        dofile("Public/RegisterForQuestUpdates.lua")
 
         QuestEventHandler.InitQuestLogStates({})
 
@@ -119,8 +147,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.QuestLogUpdate()
 
         local cachedQuest = QuestLogCache.GetQuest(2822)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 0,
@@ -146,8 +174,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.QuestLogUpdate()
 
         cachedQuest = QuestLogCache.GetQuest(2822)
-        assert.equals(1, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(1, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = true,
             numFulfilled = 10,
@@ -158,7 +186,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             text = "Thick Yeti Hide",
             type = "item"
         }, cachedQuest.objectives[1])
-        assert.spy(Sounds.PlayObjectiveComplete).was_called(1)
+        assert.spy(Sounds.PlayObjectiveComplete).was.called(1)
 
         QuestEventHandler.QuestTurnedIn(2822, 4050, 0)
         QuestEventHandler.QuestLogUpdate()
@@ -166,7 +194,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(0, QuestLogCache.GetQuestCount())
+        assert.is_equal(0, QuestLogCache.GetQuestCount())
 
         mockedQuestLogTitle[2] = {"Improved Quality", 40, nil, false, false, nil, nil, 7734}
         mockedQuestObjectives = {
@@ -182,10 +210,10 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(1, QuestLogCache.GetQuestCount())
+        assert.is_equal(1, QuestLogCache.GetQuestCount())
         cachedQuest = QuestLogCache.GetQuest(7734)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 0,
@@ -209,10 +237,10 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(2, QuestLogCache.GetQuestCount())
+        assert.is_equal(2, QuestLogCache.GetQuestCount())
         cachedQuest = QuestLogCache.GetQuest(2863)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 0,
@@ -235,10 +263,10 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestEventHandler.UnitQuestLogChanged("player")
         QuestEventHandler.QuestLogUpdate()
 
-        assert.equals(2, QuestLogCache.GetQuestCount())
+        assert.is_equal(2, QuestLogCache.GetQuestCount())
         cachedQuest = QuestLogCache.GetQuest(2863)
-        assert.equals(0, cachedQuest.isComplete)
-        assert.equals(1, #cachedQuest.objectives)
+        assert.is_equal(0, cachedQuest.isComplete)
+        assert.is_equal(1, #cachedQuest.objectives)
         assert.same({
             finished = false,
             numFulfilled = 1,

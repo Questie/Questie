@@ -11,12 +11,15 @@ describe("QuestieLib", function()
     local QUEST_ID = 12345
 
     before_each(function()
-        QuestieDB = require("Database.QuestieDB")
+        dofile("Database/QuestieDB.lua")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetQuestTagInfo = function() end
-        l10n = require("Localization.l10n")
+        dofile("Localization/l10n.lua")
+        l10n = QuestieLoader:ImportModule("l10n")
         l10n.GetUILocale = function() return "enUS" end
 
-        QuestieLib = require("Modules.Libs.QuestieLib")
+        dofile("Modules/Libs/QuestieLib.lua")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
     end)
 
     describe("GetLevelString", function()

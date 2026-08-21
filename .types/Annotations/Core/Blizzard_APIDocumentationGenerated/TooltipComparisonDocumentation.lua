@@ -1,6 +1,12 @@
 ---@meta _
 C_TooltipComparison = {}
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TooltipComparison.CompareItem)
+---@param comparisonItem TooltipComparisonItem
+---@param tooltip Tooltip
+---@param anchorFrame? SimpleFrame
+function C_TooltipComparison.CompareItem(comparisonItem, tooltip, anchorFrame) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_TooltipComparison.GetItemComparisonDelta)
 ---@param comparisonItem TooltipComparisonItem
 ---@param equippedItem TooltipComparisonItem

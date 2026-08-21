@@ -112,7 +112,7 @@ local keyboardShortcutLocales = {
     },
     ["Shift"] = {
         ["enUS"] = true,
-        ["deDE"] = "Umschalt",
+        ["deDE"] = true,
         ["esES"] = "Mayús",
         ["esMX"] = "Mayús",
         ["frFR"] = "Maj",
@@ -131,7 +131,7 @@ local keyboardShortcutLocales = {
         ["koKR"] = "Shift 길게누르기",
         ["ptBR"] = "Manter Shift",
         ["ruRU"] = "Зажмите Shift",
-        ["zhCN"] = "按住Shift查看更多",
+        ["zhCN"] = "按住Shift",
         ["zhTW"] = "按住Shift",
     },
     ["Left Click + Hold"] = {

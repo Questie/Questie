@@ -29,32 +29,66 @@ function GameTooltip:HookScript(scriptType, handler, bindingType) end
 function GameTooltip:SetScript(scriptType, handler) end
 
 
+---@class TextureInfoTable
+---@field width number
+---@field height number
+---@field anchor Enum.TooltipTextureAnchor
+---@field margin TextureInfoTable.margin
+
+---@class TextureInfoTable.margin
+---@field left number
+---@field right number
+---@field top number
+---@field bottom number
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AddAtlas)
+---@param atlas string
+---@param textureInfoTable TextureInfoTable
+function GameTooltip:AddAtlas(atlas, textureInfoTable) end
+
+---@param atlas string
+---@param minx number
+---@param maxx number
+---@param miny number
+---@param maxy number
 function GameTooltip:AddAtlas(atlas, minx, maxx, miny, maxy) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AddDoubleLine)
+---@param textL string
+---@param textR string?
+---@param rL number?
+---@param gL number?
+---@param bL number?
+---@param rR number?
+---@param gR number?
+---@param bR number?
 function GameTooltip:AddDoubleLine(textL, textR, rL, gL, bL, rR, gR, bR) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AddFontStrings)
 function GameTooltip:AddFontStrings(leftstring, rightstring) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AddLine)
+---@param tooltipText string
+---@param r number?
+---@param g number?
+---@param b number?
+---@param wrapText boolean?
 function GameTooltip:AddLine(tooltipText, r, g, b, wrapText) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AddSpellByID)
-function GameTooltip:AddSpellByID(spellID) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AddTexture)
 function GameTooltip:AddTexture(texture) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AdvanceSecondaryCompareItem)
-function GameTooltip:AdvanceSecondaryCompareItem() end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AppendText)
+---@param text string
 function GameTooltip:AppendText(text) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_ClearLines)
 function GameTooltip:ClearLines() end
+
+---Set all padding values to 0.0 and remove the Padding SecretAspect.
+---
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_ClearPadding)
+function GameTooltip:ClearPadding() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_CopyTooltip)
 function GameTooltip:CopyTooltip() end
@@ -63,22 +97,110 @@ function GameTooltip:CopyTooltip() end
 function GameTooltip:FadeOut() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetAnchorType)
+---@return string anchorType
 function GameTooltip:GetAnchorType() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetCustomLineSpacing)
+---@return number spacing
+function GameTooltip:GetCustomLineSpacing() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetLeftLine)
+---@param line number
+---@return SimpleFontString leftFontString
+function GameTooltip:GetLeftLine(line) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetMinimumWidth)
+---@return number width
+---@return boolean forced
+function GameTooltip:GetMinimumWidth() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetOwner)
+---@return Frame owner
+function GameTooltip:GetOwner() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetPadding)
+---@return number right
+---@return number bottom
+---@return number left
+---@return number top
+function GameTooltip:GetPadding() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetRightLine)
+---@param line number
+---@return SimpleFontString rightFontString
+function GameTooltip:GetRightLine(line) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_IsOwned)
+---@param frame Frame
+---@return boolean owned
+function GameTooltip:IsOwned(frame) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_NumLines)
+---@return number lines
+function GameTooltip:NumLines() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetAllowShowWithNoLines)
+---@param bool boolean
+function GameTooltip:SetAllowShowWithNoLines(bool) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetAnchorType)
+function GameTooltip:SetAnchorType(anchorType, Xoffset, Yoffset) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetCustomLineSpacing)
+function GameTooltip:SetCustomLineSpacing(spacing) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetCustomWordWrapMinWidth)
+function GameTooltip:SetCustomWordWrapMinWidth(width) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetFrameStack)
+function GameTooltip:SetFrameStack(showhidden) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetMinimumWidth)
+---@param width number
+---@param force? boolean Default = false
+function GameTooltip:SetMinimumWidth(width, force) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetObjectTooltipPosition)
+function GameTooltip:SetObjectTooltipPosition() end
+
+---@param owner Frame
+---@param anchor TooltipAnchor
+---@param x? number
+---@param y? number
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetOwner)
+function GameTooltip:SetOwner(owner, anchor, x, y) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetPadding)
+---@param right number
+---@param bottom number
+---@param left? number
+---@param top? number
+function GameTooltip:SetPadding(right, bottom, left, top) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetShrinkToFitWrapped)
+function GameTooltip:SetShrinkToFitWrapped() end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetText)
+---@param text string
+---@param colorR? number
+---@param colorG? number
+---@param colorB? number
+---@param alpha? number
+---@param wrap? boolean
+function GameTooltip:SetText(text, colorR, colorG, colorB, alpha, wrap) end
+
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AddSpellByID)
+function GameTooltip:AddSpellByID(spellID) end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_AdvanceSecondaryCompareItem)
+function GameTooltip:AdvanceSecondaryCompareItem() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetAzeritePowerID)
 function GameTooltip:GetAzeritePowerID() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetItem)
 function GameTooltip:GetItem() end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetMinimumWidth)
-function GameTooltip:GetMinimumWidth() end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetOwner)
-function GameTooltip:GetOwner() end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetPadding)
-function GameTooltip:GetPadding() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_GetSpell)
 function GameTooltip:GetSpell() end
@@ -89,14 +211,8 @@ function GameTooltip:GetUnit() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_IsEquippedItem)
 function GameTooltip:IsEquippedItem() end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_IsOwned)
-function GameTooltip:IsOwned(frame) end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_IsUnit)
 function GameTooltip:IsUnit(unit) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_NumLines)
-function GameTooltip:NumLines() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_ResetSecondaryCompareItem)
 function GameTooltip:ResetSecondaryCompareItem() end
@@ -106,9 +222,6 @@ function GameTooltip:SetAchievementByID(id) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetAction)
 function GameTooltip:SetAction(slot) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetAnchorType)
-function GameTooltip:SetAnchorType(anchorType,Xoffset,Yoffset) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetArtifactItem)
 function GameTooltip:SetArtifactItem() end
@@ -164,9 +277,6 @@ function GameTooltip:SetEquipmentSet(name) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetExistingSocketGem)
 function GameTooltip:SetExistingSocketGem(index,toDestroy) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetFrameStack)
-function GameTooltip:SetFrameStack(showhidden) end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetGuildBankItem)
 function GameTooltip:SetGuildBankItem(tab, id) end
 
@@ -215,24 +325,11 @@ function GameTooltip:SetMerchantCostItem(index, item) end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetMerchantItem)
 function GameTooltip:SetMerchantItem(merchantSlot) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetMinimumWidth)
-function GameTooltip:SetMinimumWidth(width) end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetMountBySpellID)
 function GameTooltip:SetMountBySpellID() end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetOwnedItemByID)
 function GameTooltip:SetOwnedItemByID(ID) end
-
----@param owner Frame
----@param anchor TooltipAnchor
----@param x? number
----@param y? number
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetOwner)
-function GameTooltip:SetOwner(owner, anchor, x, y) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetPadding)
-function GameTooltip:SetPadding(width, height) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetPetAction)
 function GameTooltip:SetPetAction(slot) end
@@ -288,9 +385,6 @@ function GameTooltip:SetSendMailItem() end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetShapeshift)
 function GameTooltip:SetShapeshift(slot) end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetShrinkToFitWrapped)
-function GameTooltip:SetShrinkToFitWrapped() end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetSocketedItem)
 function GameTooltip:SetSocketedItem() end
 
@@ -311,9 +405,6 @@ function GameTooltip:SetSpellByID(spellId) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetTalent)
 function GameTooltip:SetTalent(talentIndex, isInspect, talentGroup, inspectedUnit, classId) end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetText)
-function GameTooltip:SetText(text, r, g, b, alphaValue, textWrap) end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GameTooltip_SetTotem)
 function GameTooltip:SetTotem(slot) end

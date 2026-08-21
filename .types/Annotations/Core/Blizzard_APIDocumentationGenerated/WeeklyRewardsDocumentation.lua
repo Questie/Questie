@@ -69,6 +69,12 @@ function C_WeeklyRewards.GetNextMythicPlusIncrease(mythicPlusLevel) end
 ---@return number numMythicPlus
 function C_WeeklyRewards.GetNumCompletedDungeonRuns() end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_WeeklyRewards.GetSortedProgressForActivity)
+---@param type Enum.WeeklyRewardChestThresholdType
+---@param combineSharedDifficulty boolean
+---@return WeeklyRewardActivityTierProgress[] progress
+function C_WeeklyRewards.GetSortedProgressForActivity(type, combineSharedDifficulty) end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_WeeklyRewards.HasAvailableRewards)
 ---@return boolean hasAvailableRewards
 function C_WeeklyRewards.HasAvailableRewards() end
@@ -127,3 +133,8 @@ function C_WeeklyRewards.ShouldShowRetirementMessage() end
 ---@field id number
 ---@field quantity number
 ---@field itemDBID WeeklyRewardItemDBID?
+
+---@class WeeklyRewardActivityTierProgress
+---@field activityTierID number
+---@field difficulty number
+---@field numPoints number

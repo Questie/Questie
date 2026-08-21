@@ -1,0 +1,5 @@
+---@meta _
+---@class ActionUsableState
+---@field slot number
+---@field usable boolean
+---@field noMana boolean

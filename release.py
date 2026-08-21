@@ -27,7 +27,7 @@ for toc in tocs:
             else:
                 print(line, end='')
 
-readmes = ['README.md', 'README_CN.md']
+readmes = ['README.md', 'README_CN.md', 'README_ES.md']
 for readme in readmes:
     with fileinput.FileInput(readme, inplace=True) as file:
         for line in file:
@@ -42,7 +42,7 @@ print('######### START CHANGELOG')
 print('# Questie v' + version + '\n\n' + changelogString)
 print('######### END CHANGELOG')
 
-subprocess.run(['git', 'add', 'README.md', 'README_CN.md'])
+subprocess.run(['git', 'add', 'README.md', 'README_CN.md', 'README_ES.md'])
 subprocess.run(['git', 'add', '*.toc'])
 subprocess.run(['git', 'commit', '-mBump version to v' + version])
 subprocess.run(['git', 'tag', 'v' + version])

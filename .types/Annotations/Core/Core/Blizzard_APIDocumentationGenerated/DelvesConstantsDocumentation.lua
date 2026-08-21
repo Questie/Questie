@@ -1,7 +1,0 @@
----@meta _
----@class DelveAssistActionData
----@field assistedPlayer string
----@field mapName string?
----@field creatureName string?
----@field receivedSpellID number?
----@field assistAction Enum.AssistActionType

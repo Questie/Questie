@@ -10,7 +10,8 @@ describe("QuestieShutUp", function()
             RemoveMessageEventFilter = function() end,
         }
 
-        QuestieShutUp = require("Modules.QuestieShutUp")
+        dofile("Modules/QuestieShutUp.lua")
+        QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
         QuestieShutUp:ToggleFilters(true)
     end)
 

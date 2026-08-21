@@ -52,7 +52,7 @@ end
 
 function QuestieStreamLib:GetStream(mode) -- returns a new stream
     if not mode then
-        Questie:Error("QuestieStreamLib: Stream encoding mode is not defined.")
+        Questie.Error("QuestieStreamLib: Stream encoding mode is not defined.")
         error("Stream encoding mode is not defined.")
     end
 
@@ -246,7 +246,8 @@ function QuestieStreamLib:_ReadShort_raw()
     -- database corrupted, needs recompile
     if not a then
         Questie.db.global.dbIsCompiled = false
-        Questie:Error(l10n("Questie has detected the database to be corrupted. You may type \"/run ReloadUI()\" or \"/reload\" to start the recompiling process when the conditions allow it.\n\nThe process will take 1-2 minutes depending on your configuration."))
+        Questie.Error(l10n(
+            "Questie has detected the database to be corrupted. You may type \"/run ReloadUI()\" or \"/reload\" to start the recompiling process when the conditions allow it.\n\nThe process will take 1-2 minutes depending on your configuration."))
         return
     end
     return a*256 + b

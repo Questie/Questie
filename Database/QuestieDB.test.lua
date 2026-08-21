@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+
 dofile("Database/questDB.lua")
 dofile("Database/itemDB.lua")
 dofile("Database/npcDB.lua")
@@ -18,9 +19,9 @@ describe("QuestieDB", function()
 
     before_each(function()
         Questie.db.char.complete = {}
-        QuestiePlayer = require("Modules.QuestiePlayer")
-        QuestieLib = require("Modules.Libs.QuestieLib")
-        QuestieCorrections = require("Database.Corrections.QuestieCorrections")
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
         QuestieCorrections.killCreditObjectiveFirst = {}
@@ -28,7 +29,9 @@ describe("QuestieDB", function()
         QuestieCorrections.itemObjectiveFirst = {}
         QuestieCorrections.eventObjectiveFirst = {}
         QuestieCorrections.spellObjectiveFirst = {}
-        QuestieDB = require("Database.QuestieDB")
+
+        dofile("Database/QuestieDB.lua")
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
         QuestieDB.private.itemCache = {}
@@ -53,29 +56,29 @@ describe("QuestieDB", function()
     describe("GetQuest", function()
         it("should return a quest", function()
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 
-            assert.are.same(123, quest.Id)
-            assert.are.same("Test Quest", quest.name)
+            assert.are_same(123, quest.Id)
+            assert.are_same("Test Quest", quest.name)
 
             local starter = quest.Starts
-            assert.are.same({100, 200}, starter.NPC)
+            assert.are_same({100, 200}, starter.NPC)
             assert.is_nil(starter.GameObject)
             assert.is_nil(starter.Item)
 
             local finisher = quest.Finisher
-            assert.are.same({300, 400}, finisher.NPC)
+            assert.are_same({300, 400}, finisher.NPC)
             assert.is_nil(finisher.GameObject)
 
-            assert.are.same(60, quest.requiredLevel)
-            assert.are.same(60, quest.questLevel)
-            assert.are.same(QuestieDB.raceKeys.ALL_HORDE, quest.requiredRaces)
-            assert.are.same(QuestieDB.classKeys.MAGE, quest.requiredClasses)
-            assert.are.same("Finish him!", quest.Description)
+            assert.are_same(60, quest.requiredLevel)
+            assert.are_same(60, quest.questLevel)
+            assert.are_same(QuestieDB.raceKeys.ALL_HORDE, quest.requiredRaces)
+            assert.are_same(QuestieDB.classKeys.MAGE, quest.requiredClasses)
+            assert.are_same("Finish him!", quest.Description)
 
-            assert.are.same({{Type = "monster", Id = 1000}}, quest.ObjectiveData)
+            assert.are_same({{Type = "monster", Id = 1000}}, quest.ObjectiveData)
         end)
 
         it("should return a spell objective once as structured objective data", function()
@@ -84,11 +87,11 @@ describe("QuestieDB", function()
                 [6] = {{12345, "Cast the spell", 67890}}
             }
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 
-            assert.are.same({{
+            assert.are_same({{
                 Type = "spell",
                 Id = 12345,
                 Text = "Cast the spell",
@@ -104,11 +107,11 @@ describe("QuestieDB", function()
             }
             QuestieCorrections.spellObjectiveFirst[123] = true
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 
-            assert.are.same({
+            assert.are_same({
                 {
                     Type = "spell",
                     Id = 12345,
@@ -129,11 +132,11 @@ describe("QuestieDB", function()
             testQuest[questKeys.requiredSourceItems] = {67890}
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
             QuestieDB.QueryItemSingle = spy.new(function() return "Required Item" end)
-            QuestieLib.GetTbcLevel = function() return 60, 60 end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
             local quest = QuestieDB.GetQuest(123)
 
-            assert.are.same({
+            assert.are_same({
                 [67890] = {
                     Type = "item",
                     Id = 67890,
@@ -181,9 +184,9 @@ describe("QuestieDB", function()
 
             local questTagId, questTagName = QuestieDB.GetQuestTagInfo(123)
 
-            assert.are.same(81, questTagId)
-            assert.are.same("Dungeon", questTagName)
-            assert.spy(_G.GetQuestTagInfo).was_called_with(123)
+            assert.are_same(81, questTagId)
+            assert.are_same("Dungeon", questTagName)
+            assert.spy(_G.GetQuestTagInfo).was.called_with(123)
         end)
 
         it("should return the corrected value", function()
@@ -191,9 +194,9 @@ describe("QuestieDB", function()
 
             local questTagId, questTagName = QuestieDB.GetQuestTagInfo(6846)
 
-            assert.are.same(41, questTagId)
-            assert.are.same("PvP", questTagName)
-            assert.spy(_G.GetQuestTagInfo).was_not_called()
+            assert.are_same(41, questTagId)
+            assert.are_same("PvP", questTagName)
+            assert.spy(_G.GetQuestTagInfo).was.not_called()
         end)
 
         it("should cache", function()
@@ -202,10 +205,10 @@ describe("QuestieDB", function()
             local questTagId, questTagName = QuestieDB.GetQuestTagInfo(600)
             local questTagId2, questTagName2 = QuestieDB.GetQuestTagInfo(600)
 
-            assert.are.same(81, questTagId)
-            assert.are.same("Dungeon", questTagName)
-            assert.are.same(81, questTagId2)
-            assert.are.same("Dungeon", questTagName2)
+            assert.are_same(81, questTagId)
+            assert.are_same("Dungeon", questTagName)
+            assert.are_same(81, questTagId2)
+            assert.are_same("Dungeon", questTagName2)
             assert.spy(_G.GetQuestTagInfo).was.called(1)
         end)
 
@@ -230,8 +233,8 @@ describe("QuestieDB", function()
             callback()
 
             local questTagId2, questTagName2 = QuestieDB.GetQuestTagInfo(700)
-            assert.are.same(81, questTagId2)
-            assert.are.same("Dungeon", questTagName2)
+            assert.are_same(81, questTagId2)
+            assert.are_same("Dungeon", questTagName2)
 
             assert.spy(_G.GetQuestTagInfo).was.called(2)
         end)
@@ -242,7 +245,7 @@ describe("QuestieDB", function()
             QuestiePlayer.GetPlayerLevel = spy.new(function() return 60 end)
 
             assert.is_false(QuestieDB.IsTrivial(-1))
-            assert.spy(QuestiePlayer.GetPlayerLevel).was_not_called()
+            assert.spy(QuestiePlayer.GetPlayerLevel).was.not_called()
         end)
 
         it("should return false for red quests", function()

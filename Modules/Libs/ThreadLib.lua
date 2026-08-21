@@ -13,9 +13,10 @@ local newTicker = C_Timer.NewTicker
 ---@param delay integer @Anything below 0.05 is each frame
 ---@param errorMessage string? @What is the "Prepend" of the error message
 ---@param callbackFunction function? @Function to call when the thread is done
+---@param errorCallback function? @Function to call when the coroutine errors; receives the error message string
 ---@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
 ---@return thread Thread @The coroutine thread
-function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction)
+function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction, errorCallback)
   if lType(threadFunction) ~= "function" then
     error("ThreadLib:Thread: threadFunction is not a function")
   end
@@ -25,8 +26,11 @@ function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction)
   if errorMessage and lType(errorMessage) ~= "string" then
     error("ThreadLib:Thread: errorMessage is not a string")
   end
-  if callbackFunction and lType(callbackFunction) ~= "function" then
+  if callbackFunction and lType(callbackFunction) ~= "function" and (lType(callbackFunction) ~= "table" or not getmetatable(callbackFunction).__call) then
     error("ThreadLib:Thread: callbackFunction is not a function")
+  end
+  if errorCallback and lType(errorCallback) ~= "function" and (lType(errorCallback) ~= "table" or not getmetatable(errorCallback).__call) then
+    error("ThreadLib:Thread: errorCallback is not a function")
   end
 
   local thread = coCreate(threadFunction)
@@ -37,8 +41,12 @@ function ThreadLib.Thread(threadFunction, delay, errorMessage, callbackFunction)
         local success, ret = coResume(thread)
         -- Something in the coroutine went wrong, print the error and stop the timer
         if not success then
-            Questie:Error(errorMessage or "Error in thread", ret)
+            local stack = debugstack(thread)
+            Questie.Error(errorMessage or "Error in thread", ret, "\n", stack)
             timer:Cancel();
+            if errorCallback then
+                errorCallback(ret)
+            end
         end
       elseif (coStatus(thread) == "dead") then --It's faster not to lookup the value but instead have it here
         timer:Cancel();
@@ -84,6 +92,23 @@ function ThreadLib.ThreadSimple(threadFunction, delay)
   return ThreadLib.Thread(threadFunction, delay)
 end
 
+---Thread a function and start it instantly
+---@param threadFunction function @The function to thread
+---@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return thread Thread @The coroutine thread
+function ThreadLib.ThreadInstant(threadFunction)
+  return ThreadLib.Thread(threadFunction, 0)
+end
+
+---Thread a function and start it instantly. Callback function is called when the thread is done.
+---@param threadFunction function @The function to thread
+---@param callbackFunction function @Function to call when the thread is done
+---@return Ticker Timer @The WoW timer, run Timer:Cancel() and let the handle of the thread become orphaned to cancel
+---@return thread Thread @The coroutine thread
+function ThreadLib.ThreadCallbackInstant(threadFunction, callbackFunction)
+  return ThreadLib.Thread(threadFunction, 0, nil, callbackFunction)
+end
+
 
 --? This was kind of a halv baked idea, that i questioned was even good, but i don't really want to delete it yet.
 --[[
@@ -115,7 +140,7 @@ end
         local success, ret = coResume(newThread._thread)
         -- Something in the coroutine went wrong, print the error and stop the timer
         if not success then
-            Questie:Error(errorMessage or "Error in thread", ret)
+            Questie.Error(errorMessage or "Error in thread", ret)
             newThread._timer:Cancel();
         end
       elseif (coStatus(newThread._thread) == "dead") then --It's faster not to lookup the value but instead have it here
