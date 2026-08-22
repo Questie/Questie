@@ -1445,7 +1445,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{6090}}},
             [questKeys.preQuestSingle] = {1639, 1678, 1683},
         },
-        [1641] = { -- The Tome of Divininty (Stormwind)
+        [1641] = { -- The Tome of Divinity (Stormwind)
             [questKeys.nextQuestInChain] = 1642,
         },
         [1642] = { -- The Tome of Divinity (Stormwind)
@@ -3832,6 +3832,7 @@ function QuestieQuestFixes:Load()
         },
         [6543] = { -- The Warsong Reports
             [questKeys.breadcrumbs] = {6541, 6542},
+            [questKeys.requiredSourceItems] = {16746},
         },
         [6544] = { -- Torek's Assault
             [questKeys.triggerEnd] = {"Take Silverwing Outpost.", {[zoneIDs.ASHENVALE] = {{64.65, 75.35}}}},

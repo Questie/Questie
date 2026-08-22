@@ -4446,6 +4446,9 @@ function QuestieTBCQuestFixes:Load()
         [10750] = { -- The Path of Conquest
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19}}}},
         },
+        [10751] = { -- Breaching the Path
+            [questKeys.sourceItemId] = 31108,
+        },
         [10752] = { -- Onward to Ashenvale
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 0,
@@ -4462,8 +4465,23 @@ function QuestieTBCQuestFixes:Load()
         [10764] = { -- Hotter than Hell
             [questKeys.objectives] = {nil,nil,{{31252,nil,Questie.ICON_TYPE_INTERACT}}},
         },
+        [10765] = { -- When Worlds Collide...
+            [questKeys.sourceItemId] = 31108,
+        },
+        [10768] = { -- Tabards of the Illidari
+            [questKeys.sourceItemId] = 31108,
+        },
         [10772] = { -- The Path of Conquest
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19}}}},
+        },
+        [10773] = { -- Breaching the Path
+            [questKeys.sourceItemId] = 31310,
+        },
+        [10774] = { -- Blood Elf + Giant = ???
+            [questKeys.sourceItemId] = 31310,
+        },
+        [10775] = { -- Tabards of the Illidari
+            [questKeys.sourceItemId] = 31310,
         },
         [10781] = { -- Battle of the Crimson Watch
             [questKeys.triggerEnd] = {"Crimson Sigil Forces Annihilated", {[zoneIDs.SHADOWMOON_VALLEY]={{51.75,72.79}}}},
