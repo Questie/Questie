@@ -106,6 +106,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
                 if (coords[1] == -1 or coords[2] == -1) then
                     local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
                     if dungeonLocation then
+                        data.DungeonEntrance = true
                         for _, value in ipairs(dungeonLocation) do
                             local zone = value[1];
                             local x = value[2];
