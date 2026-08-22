@@ -4318,6 +4318,9 @@ function QuestieTBCQuestFixes:Load()
         [10687] = { -- Karabor Training Grounds
             [questKeys.preQuestSingle] = {10552},
         },
+        [10688] = { -- A Necessary Distraction
+            [questKeys.objectives] = {{{21506,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [10707] = { -- The Ata'mal Terrace
             [questKeys.objectivesText] = {"Go to the top of the Ata'mal Terrace in Shadowmoon Valley and obtain the Heart of Fury. Return to Akama at the Warden's Cage in Shadowmoon Valley when you've completed this task."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"), 0, {{"object", 185125}}}},

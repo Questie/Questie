@@ -623,8 +623,17 @@ function QuestieQuestFixes:Load()
         [793] = { -- Broken Alliances
             [questKeys.requiredSourceItems] = {4843, 4844, 4845},
         },
+        [806] = { -- Dark Storms
+            [questKeys.nextQuestInChain] = 828,
+        },
         [809] = { -- Ak'Zeloth
             [questKeys.triggerEnd] = {"Destroy the Demon Seed", {[zoneIDs.THE_BARRENS] = {{62.34, 20.07}}}}, -- #2347
+        },
+        [823] = { -- Report to Orgnil
+            [questKeys.nextQuestInChain] = 806,
+        },
+        [827] = { -- Report to Orgnil
+            [questKeys.nextQuestInChain] = 829,
         },
         [834] = { -- Winds in the Desert
             [questKeys.requiredRaces] = raceIDs.NONE, -- #1665

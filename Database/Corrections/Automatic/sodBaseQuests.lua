@@ -8886,7 +8886,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the undead Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87434] = {
@@ -8897,7 +8897,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the undead Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87435] = {
@@ -8908,7 +8908,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the undead Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87436] = {
@@ -8919,7 +8919,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the undead Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87437] = {
@@ -8930,7 +8930,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the undead Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87438] = {
@@ -8941,7 +8941,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the undead Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87439] = {
@@ -8952,7 +8952,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the &lt;race&gt; Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87440] = {
@@ -8963,7 +8963,7 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = classIDs.NONE,
-            [questKeys.objectivesText] = {"If you bring me thirty necrotic runes, I will give you your choice of hand protection in return. These should prove valuable in our fight against the undead Scourge."},
+            [questKeys.objectivesText] = nil,
             [questKeys.objectives] = {nil,nil,{{22484}}},
         },
         [87441] = {
