@@ -78,14 +78,14 @@ describe("AutoQuesting", function()
         _G.UnitGUID = spy.new(function() return "Creature-0-0-0-0-0-123" end)
         _G.UnitName = spy.new(function() return "Testi" end)
         _G.C_FriendList = {
-            GetNumFriends = spy.new(function() return 0 end),
-            GetFriendInfoByIndex = spy.new(function() return nil end),
+            GetNumFriends = function() return 0 end,
+            GetFriendInfoByIndex = function() return nil end,
         }
-        _G.BNGetNumFriends = spy.new(function() return 0 end)
+        _G.BNGetNumFriends = function() return 0 end
         _G.C_BattleNet = {
-            GetFriendAccountInfo = spy.new(function() return nil end),
-            GetFriendNumGameAccounts = spy.new(function() return 0 end),
-            GetFriendGameAccountInfo = spy.new(function() return nil end),
+            GetFriendAccountInfo = function() return nil end,
+            GetFriendNumGameAccounts = function() return 0 end,
+            GetFriendGameAccountInfo = function() return nil end,
         }
 
         _G.C_Timer = {
@@ -365,8 +365,8 @@ describe("AutoQuesting", function()
             _G.GetQuestID = function() return 123 end
             _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
             _G.UnitName = spy.new(function() return "Stranger", "SomeRealm" end)
-            _G.C_FriendList.GetNumFriends = spy.new(function() return 1 end)
-            _G.C_FriendList.GetFriendInfoByIndex = spy.new(function() return { name = "Stranger" } end)
+            _G.C_FriendList.GetNumFriends = function() return 1 end
+            _G.C_FriendList.GetFriendInfoByIndex = function() return { name = "Stranger" } end
             Questie.db.profile.autoreject_nonfriend = true
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return false end)
@@ -381,8 +381,8 @@ describe("AutoQuesting", function()
             _G.GetQuestID = function() return 123 end
             _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
             _G.UnitName = spy.new(function() return "BnetFriend", "SomeRealm" end)
-            _G.BNGetNumFriends = spy.new(function() return 1 end)
-            _G.C_BattleNet.GetFriendAccountInfo = spy.new(function() return { gameAccountInfo = { characterName = "BnetFriend" } } end)
+            _G.BNGetNumFriends = function() return 1 end
+            _G.C_BattleNet.GetFriendAccountInfo = function() return { gameAccountInfo = { characterName = "BnetFriend" } } end
             Questie.db.profile.autoreject_nonfriend = true
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return false end)
@@ -397,15 +397,15 @@ describe("AutoQuesting", function()
             _G.GetQuestID = function() return 123 end
             _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
             _G.UnitName = spy.new(function() return "AltBoxer", "SomeRealm" end)
-            _G.BNGetNumFriends = spy.new(function() return 1 end)
-            _G.C_BattleNet.GetFriendAccountInfo = spy.new(function() return { gameAccountInfo = { characterName = "MainToon" } } end)
-            _G.C_BattleNet.GetFriendNumGameAccounts = spy.new(function() return 2 end)
-            _G.C_BattleNet.GetFriendGameAccountInfo = spy.new(function(_, j)
+            _G.BNGetNumFriends = function() return 1 end
+            _G.C_BattleNet.GetFriendAccountInfo = function() return { gameAccountInfo = { characterName = "MainToon" } } end
+            _G.C_BattleNet.GetFriendNumGameAccounts = function() return 2 end
+            _G.C_BattleNet.GetFriendGameAccountInfo = function(_, j)
                 if j == 2 then
                     return { gameAccountInfo = { characterName = "AltBoxer" } }
                 end
                 return { gameAccountInfo = { characterName = "OtherToon" } }
-            end)
+            end
             Questie.db.profile.autoreject_nonfriend = true
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return false end)
@@ -886,8 +886,8 @@ describe("AutoQuesting", function()
         end)
 
         it("should confirm escort accept from a friend when setting is enabled", function()
-            _G.C_FriendList.GetNumFriends = spy.new(function() return 1 end)
-            _G.C_FriendList.GetFriendInfoByIndex = spy.new(function() return { name = "Buddy" } end)
+            _G.C_FriendList.GetNumFriends = function() return 1 end
+            _G.C_FriendList.GetFriendInfoByIndex = function() return { name = "Buddy" } end
             Questie.db.profile.autoreject_nonfriend = true
 
             AutoQuesting.OnQuestAcceptConfirm(nil, "Buddy")
