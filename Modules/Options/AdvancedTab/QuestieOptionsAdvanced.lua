@@ -19,6 +19,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieDBCache
+local QuestieDBCache = QuestieLoader:ImportModule("QuestieDBCache")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -34,15 +36,6 @@ local function _GetAutomaticLocale()
     end
 
     return l10n:GetFallbackLocale(GetLocale())
-end
-
----@return nil
-local function _InvalidateCompiledDatabase()
-    if Questie.IsSoD then
-        Questie.db.global.sod.dbIsCompiled = false
-    else
-        Questie.db.global.dbIsCompiled = false
-    end
 end
 
 function QuestieOptions.tabs.advanced:Initialize()
@@ -496,7 +489,7 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
         Questie.db.profile.migrationVersion = nil
         Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
 
-        _InvalidateCompiledDatabase()
+        QuestieDBCache.InvalidateActiveStorage()
 
         Questie.db.char.hidden = nil
         Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
@@ -552,7 +545,7 @@ StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
         l10n:SetUILocale(effectiveLocale)
         Questie.db.global.questieLocale = effectiveLocale
         Questie.db.global.questieLocaleDiff = pendingLocaleSelection ~= "auto"
-        _InvalidateCompiledDatabase()
+        QuestieDBCache.InvalidateActiveStorage()
         pendingLocaleSelection = nil
         ReloadUI()
     end,
@@ -576,7 +569,7 @@ StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
     button1 = YES,
     button2 = NO,
     OnAccept = function(self)
-        _InvalidateCompiledDatabase()
+        QuestieDBCache.InvalidateActiveStorage()
         ReloadUI()
     end,
     OnShow = function(self)
