@@ -46,8 +46,9 @@ describe("AutoQuesting", function()
             trivial = false,
             repeatable = true,
             pvp = true,
-            rejectSharedInBattleground = false
+            rejectSharedInBattleground = false,
         }
+        Questie.db.profile.autoreject_nonfriend = false
         Questie.db.profile.autoModifier = "disabled"
         Questie.Print = spy.new(function() end)
         _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
@@ -74,7 +75,18 @@ describe("AutoQuesting", function()
         _G.GetNumQuestChoices = function() return 1 end
         _G.GetQuestReward = spy.new(function() end)
         _G.IsShiftKeyDown = function() return false end
-        _G.UnitGUID = spy.new(function() end)
+        _G.UnitGUID = spy.new(function() return "Creature-0-0-0-0-0-123" end)
+        _G.UnitName = spy.new(function() return "Testi" end)
+        _G.C_FriendList = {
+            GetNumFriends = spy.new(function() return 0 end),
+            GetFriendInfoByIndex = spy.new(function() return nil end),
+        }
+        _G.BNGetNumFriends = spy.new(function() return 0 end)
+        _G.C_BattleNet = {
+            GetFriendAccountInfo = spy.new(function() return nil end),
+            GetFriendNumGameAccounts = spy.new(function() return 0 end),
+            GetFriendGameAccountInfo = spy.new(function() return nil end),
+        }
 
         _G.C_Timer = {
             After = function(_, callback)
@@ -289,7 +301,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was.not_called()
             assert.spy(Questie.Print).was.not_called()
-            assert.spy(_G.UnitGUID).was.not_called_with("questnpc")
+            assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.not_called()
         end)
 
@@ -305,7 +317,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.DeclineQuest).was.not_called()
             assert.spy(Questie.Print).was.not_called()
             assert.spy(_G.UnitGUID).was.called_with("questnpc")
-            assert.spy(_G.UnitInBattleground).was.called_with("player")
+            assert.spy(_G.UnitInBattleground).was.not_called()
         end)
 
         it("should accept quest if player is not in battleground and quest was shared by another player when setting is enabled", function()
@@ -319,8 +331,116 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was.not_called()
             assert.spy(Questie.Print).was.not_called()
-            assert.spy(_G.UnitGUID).was.not_called_with("questnpc")
+            assert.spy(_G.UnitGUID).was.called_with("questnpc")
             assert.spy(_G.UnitInBattleground).was.called_with("player")
+        end)
+
+        it("should decline quest shared by non-friend when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            _G.UnitName = spy.new(function() return "Stranger", "SomeRealm" end)
+            Questie.db.profile.autoreject_nonfriend = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.DeclineQuest).was.called()
+            assert.spy(Questie.Print).was.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
+        end)
+
+        it("should decline quest shared by non-friend even when auto accept is disabled", function()
+            Questie.db.profile.autoAccept.enabled = false
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            _G.UnitName = spy.new(function() return "Stranger", "SomeRealm" end)
+            Questie.db.profile.autoreject_nonfriend = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.DeclineQuest).was.called()
+            assert.spy(Questie.Print).was.called()
+            assert.spy(_G.AcceptQuest).was.not_called()
+        end)
+
+        it("should accept quest shared by a character friend when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            _G.UnitName = spy.new(function() return "Stranger", "SomeRealm" end)
+            _G.C_FriendList.GetNumFriends = spy.new(function() return 1 end)
+            _G.C_FriendList.GetFriendInfoByIndex = spy.new(function() return { name = "Stranger" } end)
+            Questie.db.profile.autoreject_nonfriend = true
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
+        end)
+
+        it("should accept quest shared by a Battle.net friend when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            _G.UnitName = spy.new(function() return "BnetFriend", "SomeRealm" end)
+            _G.BNGetNumFriends = spy.new(function() return 1 end)
+            _G.C_BattleNet.GetFriendAccountInfo = spy.new(function() return { gameAccountInfo = { characterName = "BnetFriend" } } end)
+            Questie.db.profile.autoreject_nonfriend = true
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
+        end)
+
+        it("should accept quest shared by a Battle.net friend on a secondary game account when setting is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            _G.UnitName = spy.new(function() return "AltBoxer", "SomeRealm" end)
+            _G.BNGetNumFriends = spy.new(function() return 1 end)
+            _G.C_BattleNet.GetFriendAccountInfo = spy.new(function() return { gameAccountInfo = { characterName = "MainToon" } } end)
+            _G.C_BattleNet.GetFriendNumGameAccounts = spy.new(function() return 2 end)
+            _G.C_BattleNet.GetFriendGameAccountInfo = spy.new(function(_, j)
+                if j == 2 then
+                    return { gameAccountInfo = { characterName = "AltBoxer" } }
+                end
+                return { gameAccountInfo = { characterName = "OtherToon" } }
+            end)
+            Questie.db.profile.autoreject_nonfriend = true
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
+        end)
+
+        it("should accept quest shared by non-friend when setting is disabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            _G.UnitName = spy.new(function() return "Stranger" end)
+            Questie.db.profile.autoreject_nonfriend = false
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
+        end)
+
+        it("should accept quest from NPC when reject non-friends is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitGUID = spy.new(function() return "Creature-0-0-0-0-0-0" end)
+            Questie.db.profile.autoreject_nonfriend = true
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called()
+            assert.spy(_G.DeclineQuest).was.not_called()
         end)
     end)
 
@@ -753,6 +873,27 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestAcceptConfirm()
 
             assert.spy(_G.ConfirmAcceptQuest).was.not_called()
+        end)
+
+        it("should decline escort confirm from non-friend when setting is enabled", function()
+            Questie.db.profile.autoreject_nonfriend = true
+
+            AutoQuesting.OnQuestAcceptConfirm(nil, "Stranger")
+
+            assert.spy(_G.DeclineQuest).was.called()
+            assert.spy(Questie.Print).was.called()
+            assert.spy(_G.ConfirmAcceptQuest).was.not_called()
+        end)
+
+        it("should confirm escort accept from a friend when setting is enabled", function()
+            _G.C_FriendList.GetNumFriends = spy.new(function() return 1 end)
+            _G.C_FriendList.GetFriendInfoByIndex = spy.new(function() return { name = "Buddy" } end)
+            Questie.db.profile.autoreject_nonfriend = true
+
+            AutoQuesting.OnQuestAcceptConfirm(nil, "Buddy")
+
+            assert.spy(_G.DeclineQuest).was.not_called()
+            assert.spy(_G.ConfirmAcceptQuest).was.called()
         end)
     end)
 

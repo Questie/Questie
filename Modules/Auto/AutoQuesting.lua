@@ -9,7 +9,107 @@ local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuest
 
 local shouldRunAuto = true
 
+--- Checks if the given player is on the friends list. Returns nil when no player name is given.
+---@param playerName string|nil
+---@return boolean|nil
+local function _IsFriend(playerName)
+    if not playerName then
+        return nil
+    end
+    local found = false
+    local basePlayerName = strsplit("-", playerName)
+
+    if C_FriendList then
+        local numFriends = type(C_FriendList.GetNumFriends) == "function" and C_FriendList.GetNumFriends() or 0
+        if type(numFriends) == "number" and numFriends > 0 then
+            for i = 1, numFriends do
+                local friendInfo
+                if type(C_FriendList.GetFriendInfoByIndex) == "function" then
+                    friendInfo = C_FriendList.GetFriendInfoByIndex(i)
+                elseif type(C_FriendList.GetFriendInfo) == "function" then
+                    friendInfo = C_FriendList.GetFriendInfo(i)
+                end
+                if friendInfo then
+                    local friendName
+                    if type(friendInfo) == "table" then
+                        friendName = friendInfo.name
+                    elseif type(friendInfo) == "string" then
+                        friendName = friendInfo
+                    end
+                    if friendName and strsplit("-", friendName) == basePlayerName then
+                        found = true
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    if not found and type(GetFriendInfo) == "function" then
+        local numFriends = GetNumFriends()
+        if type(numFriends) == "number" and numFriends > 0 then
+            for i = 1, numFriends do
+                local name = GetFriendInfo(i)
+                if name and strsplit("-", name) == basePlayerName then
+                    found = true
+                    break
+                end
+            end
+        end
+    end
+
+    if not found and C_BattleNet and type(BNGetNumFriends) == "function" then
+        local numBnetFriends = BNGetNumFriends()
+        if type(numBnetFriends) == "number" and numBnetFriends > 0 then
+            for i = 1, numBnetFriends do
+                local gameAccounts = {}
+                if type(C_BattleNet.GetFriendAccountInfo) == "function" then
+                    gameAccounts[#gameAccounts + 1] = C_BattleNet.GetFriendAccountInfo(i)
+                end
+                if type(C_BattleNet.GetFriendNumGameAccounts) == "function" and type(C_BattleNet.GetFriendGameAccountInfo) == "function" then
+                    local numGameAccounts = C_BattleNet.GetFriendNumGameAccounts(i)
+                    if type(numGameAccounts) == "number" and numGameAccounts > 0 then
+                        for j = 1, numGameAccounts do
+                            gameAccounts[#gameAccounts + 1] = C_BattleNet.GetFriendGameAccountInfo(i, j)
+                        end
+                    end
+                end
+                for _, accountInfo in ipairs(gameAccounts) do
+                    local characterName = accountInfo and accountInfo.gameAccountInfo and accountInfo.gameAccountInfo.characterName
+                    if characterName and strsplit("-", characterName) == basePlayerName then
+                        found = true
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    return found
+end
+
 function AutoQuesting.OnQuestDetail()
+    local guid = UnitGUID("questnpc")
+    local unitType = guid and strsplit("-", guid)
+
+    -- The Auto Reject settings work independently of the Auto Accept master switch.
+    if (not AutoQuesting.IsModifierHeld()) and unitType == "Player" then
+        if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
+            DeclineQuest()
+            Questie:Print(l10n("Automatically rejected quest shared by player."))
+            return
+        end
+
+        if Questie.db.profile.autoreject_nonfriend then
+            local playerName = UnitName("questnpc")
+            if playerName and _IsFriend(playerName) == false then
+                DeclineQuest()
+                Questie:Print(l10n("Automatically rejected quest shared by player."))
+                return
+            end
+        end
+    end
+
     if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
         return
     end
@@ -18,15 +118,6 @@ function AutoQuesting.OnQuestDetail()
     if questId == 0 then
         -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
         return
-    end
-
-    if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
-        local unitType = strsplit("-", UnitGUID("questnpc"))
-        if unitType == "Player" then
-            DeclineQuest()
-            Questie:Print(l10n("Automatically rejected quest shared by player."))
-            return
-        end
     end
 
     -- Validate every disabled Auto Accept variant without letting later checks re-allow a rejected quest.
@@ -158,9 +249,17 @@ function AutoQuesting.OnQuestProgress()
     CompleteQuest()
 end
 
-function AutoQuesting.OnQuestAcceptConfirm()
+function AutoQuesting.OnQuestAcceptConfirm(_, playerName)
     if (not Questie.db.profile.autoAccept.enabled) then
         return
+    end
+
+    if Questie.db.profile.autoreject_nonfriend and playerName then
+        if _IsFriend(playerName) == false then
+            DeclineQuest()
+            Questie:Print(l10n("Automatically rejected quest shared by player."))
+            return
+        end
     end
 
     ConfirmAcceptQuest()
