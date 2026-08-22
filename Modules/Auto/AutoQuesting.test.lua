@@ -366,7 +366,7 @@ describe("AutoQuesting", function()
             _G.GetQuestID = function() return 1270 end -- Stinky's Escape
             _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
             _G.UnitName = spy.new(function() return "Stranger", "SomeRealm" end)
-            AutoQuesting.private.disallowedQuests.accept[3630] = true
+            AutoQuesting.private.disallowedQuests.accept[1270] = true
             Questie.db.profile.autoreject_nonfriend = true
 
             AutoQuesting.OnQuestDetail()
