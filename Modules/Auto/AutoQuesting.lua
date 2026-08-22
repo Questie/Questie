@@ -103,9 +103,13 @@ function AutoQuesting.OnQuestDetail()
         if Questie.db.profile.autoreject_nonfriend then
             local playerName = UnitName("questnpc")
             if playerName and _IsFriend(playerName) == false then
-                DeclineQuest()
-                Questie:Print(l10n("Automatically rejected quest shared by player."))
-                return
+                -- Quests which must never be auto accepted require a manual decision instead of being declined.
+                local questId = GetQuestID()
+                if not AutoQuesting.private.disallowedQuests.accept[questId] then
+                    DeclineQuest()
+                    Questie:Print(l10n("Automatically rejected quest shared by player."))
+                    return
+                end
             end
         end
     end

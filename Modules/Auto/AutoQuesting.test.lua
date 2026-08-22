@@ -361,6 +361,21 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.not_called()
         end)
 
+        it("should not decline a disallowed quest shared by non-friend", function()
+            Questie.db.profile.autoAccept.enabled = false
+            _G.GetQuestID = function() return 1270 end -- Stinky's Escape
+            _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
+            _G.UnitName = spy.new(function() return "Stranger", "SomeRealm" end)
+            AutoQuesting.private.disallowedQuests.accept[3630] = true
+            Questie.db.profile.autoreject_nonfriend = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.DeclineQuest).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
+            assert.spy(_G.AcceptQuest).was.not_called()
+        end)
+
         it("should accept quest shared by a character friend when setting is enabled", function()
             _G.GetQuestID = function() return 123 end
             _G.UnitGUID = spy.new(function() return "Player-0-0-0-0-0-0" end)
