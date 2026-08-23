@@ -66,7 +66,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n("Disables the \"Welcome to Cataclysm Classic\" message on startup."); end,
                 width = "full",
                 get = function() return Questie.db.profile.hideStartupWarnings; end,
-                set = function (_, value)
+                set = function(_, value)
                     Questie.db.profile.hideStartupWarnings = value
                 end
             },
@@ -76,8 +76,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Enable Icon Limit"); end,
                 desc = function() return l10n("Enable the limit of icons drawn per type."); end,
                 width = "full",
-                get = function (info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
                     QuestieOptions:SetProfileValue(info, value)
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
@@ -93,7 +93,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 step = 10,
                 disabled = function() return (not Questie.db.profile.enableIconLimit); end,
                 get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
+                set = function(info, value)
                     QuestieOptions:SetProfileValue(info, value)
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
@@ -505,6 +505,7 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
         Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
         Questie.db.global.unavailableDailyQuestsByNpc = {}
+        Questie.db.global.availableDailyQuestsByNpc = {}
 
         ReloadUI()
     end,

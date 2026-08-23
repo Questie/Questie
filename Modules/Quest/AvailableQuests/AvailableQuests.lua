@@ -64,6 +64,10 @@ local unavailableQuestsDeterminedByTalking
 ---@type table<NpcId, table<QuestId, boolean>>
 local unavailableDailyQuestsByNpc
 
+--- Available daily/weekly quests grouped by NPC, built from talking to NPCs and comms events
+---@type table<NpcId, table<QuestId, boolean>>
+local availableDailyQuestsByNpc
+
 local dungeons
 local playerFaction
 local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete, AvailableQuests.IsLevelRequirementsFulfilled, QuestieDB.IsDoable
@@ -95,6 +99,12 @@ function AvailableQuests.Initialize()
     unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
     AvailableQuests.__unavailableDailyQuestsByNpc = unavailableDailyQuestsByNpc
 
+    if (not Questie.db.global.availableDailyQuestsByNpc[realmName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
+        Questie.db.global.availableDailyQuestsByNpc[realmName] = {}
+    end
+    availableDailyQuestsByNpc = Questie.db.global.availableDailyQuestsByNpc[realmName]
+    AvailableQuests.__availableDailyQuestsByNpc = availableDailyQuestsByNpc
+
     if (not Questie.IsClassic) then
         _ScheduleDailyResetTimer()
     end
@@ -107,8 +117,10 @@ function AvailableQuests.ClearUnavailableDailyQuests()
     local realmName = GetRealmName()
     Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
     Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}
+    Questie.db.global.availableDailyQuestsByNpc[realmName] = {}
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
     unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
+    availableDailyQuestsByNpc = Questie.db.global.availableDailyQuestsByNpc[realmName]
 end
 
 --- Schedules a one-shot timer to fire at the next daily reset time, then reschedules itself for the next reset.
@@ -147,6 +159,22 @@ end
 function AvailableQuests.GetUnavailableDailyQuests()
     local result = {}
     for npcId, questIds in pairs(unavailableDailyQuestsByNpc) do
+        local list = {}
+        for questId in pairs(questIds) do
+            list[#list + 1] = questId
+        end
+        if #list > 0 then
+            result[npcId] = list
+        end
+    end
+    return result
+end
+
+---Returns all available daily/weekly quests grouped by NPC, built from talking to NPCs and comms events.
+---@return table<NpcId, QuestId[]>
+function AvailableQuests.GetAvailableDailyQuests()
+    local result = {}
+    for npcId, questIds in pairs(availableDailyQuestsByNpc) do
         local list = {}
         for questId in pairs(questIds) do
             list[#list + 1] = questId
