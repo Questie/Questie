@@ -78,7 +78,7 @@ function GroupEventHandler.GroupJoined()
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 -- Ask for unavailable daily quests, only in the current party/raid, not the guild.
-                DailyQuestComms.RequestUnavailableDailyQuests(false)
+                DailyQuestComms.RequestAvailableDailyQuests(false)
                 checkTimer:Cancel()
             end
         else
