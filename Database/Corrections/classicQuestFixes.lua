@@ -632,7 +632,7 @@ function QuestieQuestFixes:Load()
         [823] = { -- Report to Orgnil
             [questKeys.nextQuestInChain] = 806,
         },
-        [827] = { -- Report to Orgnil
+        [827] = { -- Skull Rock
             [questKeys.nextQuestInChain] = 829,
         },
         [834] = { -- Winds in the Desert
