@@ -395,9 +395,13 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
     local availableQuestsInGossip = QuestieCompat.GetAvailableQuests()
 
-    -- validate no quest is incorrectly hidden
+    -- Track available daily/weekly quests from gossip
+    local availableQuestsToTrack = {}
     for _, gossipQuest in pairs(availableQuestsInGossip) do
         local questId = gossipQuest.questID
+        if (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then
+            availableQuestsToTrack[questId] = true
+        end
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
             if unavailableDailyQuestsByNpc[npcId] then
@@ -414,6 +418,23 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
     -- Active quests are relevant, because the API can fire GOSSIP_SHOW before QUEST_ACCEPTED.
     -- So we need to check active quests to not hide them incorrectly for the day.
     local activeQuests = QuestieCompat.GetActiveQuests()
+    for _, gossipQuest in pairs(activeQuests) do
+        local questId = gossipQuest.questID
+        if (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then
+            availableQuestsToTrack[questId] = true
+        end
+    end
+
+    -- Track available daily/weekly quests for this NPC
+    if next(availableQuestsToTrack) then
+        if (not availableDailyQuestsByNpc[npcId]) then
+            availableDailyQuestsByNpc[npcId] = {}
+        end
+        for questId in pairs(availableQuestsToTrack) do
+            availableDailyQuestsByNpc[npcId][questId] = true
+        end
+    end
+
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do
         local isAvailableInGossip = false
@@ -468,6 +489,14 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
     if availableQuestId == 0 then
         -- GetQuestID returns 0 when the dialog is closed. Nothing left to do for us
         return
+    end
+
+    -- Track the available daily/weekly quest
+    if (QuestieDB.IsDailyQuest(availableQuestId) or QuestieDB.IsWeeklyQuest(availableQuestId)) and _CanNpcOfferQuestToPlayer(availableQuestId) then
+        if (not availableDailyQuestsByNpc[npcId]) then
+            availableDailyQuestsByNpc[npcId] = {}
+        end
+        availableDailyQuestsByNpc[npcId][availableQuestId] = true
     end
 
     -- validate quest is not incorrectly hidden
@@ -547,8 +576,12 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
         end
     end
 
-    -- validate no quest is incorrectly hidden
+    -- Track available daily/weekly quests from greeting (both available and active)
+    local availableQuestsToTrack = {}
     for questId in pairs(availableQuestsInGreeting) do
+        if (QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId)) and _CanNpcOfferQuestToPlayer(questId) then
+            availableQuestsToTrack[questId] = true
+        end
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
             if unavailableDailyQuestsByNpc[npcId] then
@@ -559,6 +592,16 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
                 availableQuests[questId] = true
                 AvailableQuests.DrawAvailableQuest(quest)
             end
+        end
+    end
+
+    -- Track available daily/weekly quests for this NPC
+    if next(availableQuestsToTrack) then
+        if (not availableDailyQuestsByNpc[npcId]) then
+            availableDailyQuestsByNpc[npcId] = {}
+        end
+        for questId in pairs(availableQuestsToTrack) do
+            availableDailyQuestsByNpc[npcId][questId] = true
         end
     end
 
