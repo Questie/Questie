@@ -1207,6 +1207,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_MECHANAR,
         },
+        [19851] = { -- Negatron
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{37.69,63.48}}},
+            [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [19856] = { -- Steamwheedle Sam
             [npcKeys.questStarts] = {95158,95251,95252},
             [npcKeys.questEnds] = {95158,95251,95252},
