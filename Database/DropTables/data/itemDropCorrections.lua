@@ -777,6 +777,9 @@ QuestieItemDropCorrections.Tbc = { -- Corrections for Old World data should only
     [31814] = { -- Mature Bone Sifter Carcass
         [22482] = 100,
     },
+    [31957] = { -- Ethereum Prisoner I.D. Tag
+        [20520] = 100,
+    },
     [33087] = { -- Black Dragonkin Essence
         [4328] = 100,
         [4329] = 100,

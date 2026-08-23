@@ -421,6 +421,9 @@ function QuestieTBCItemFixes:Load()
         [31955] = { -- Arelion's Knapsack
             [itemKeys.objectDrops] = {184115},
         },
+        [31956] = { -- Salvaged Ethereum Prison Key
+            [itemKeys.npcDrops] = {20452,20453,20454,20456,20457,20458,20459,20474,20727,20770,20854,22821,22822,23008},
+        },
         [31957] = { -- Ethereum Prisoner I.D. Tag
             [itemKeys.npcDrops] = {20520},
         },
