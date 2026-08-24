@@ -261,7 +261,7 @@ function ProfessionStations.ShowAll(category)
             end
         end
         if next(filteredSpawns) then
-            QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), nil, true, category, filteredSpawns)
+            QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), {}, true, category, filteredSpawns)
         end
     end
 end
