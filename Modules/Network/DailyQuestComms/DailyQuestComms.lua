@@ -182,8 +182,8 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
             pendingResponseTimer = C_Timer.NewTimer(math.random() * 8, function()
                 pendingResponseTimer = nil
 
-                local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
-                for npcId, questIds in pairs(unavailableQuests) do
+                local availableQuests = AvailableQuests.GetAvailableDailyQuests()
+                for npcId, questIds in pairs(availableQuests) do
                     DailyQuestComms.AnswerAvailableDailyQuests(npcId, questIds, pendingResponseDistribution)
                 end
                 pendingResponseDistribution = nil

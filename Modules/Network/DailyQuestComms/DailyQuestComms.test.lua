@@ -23,7 +23,6 @@ describe("DailyQuestComms", function()
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
         AvailableQuests.MarkQuestsAsAvailable = spy.new(function() end)
         AvailableQuests.GetAvailableDailyQuests = spy.new(function() return {} end)
-        AvailableQuests.GetUnavailableDailyQuests = spy.new(function() return {} end)
 
         _G.IsInGuild = function() return false end
         _G.IsInRaid = function() return false end
@@ -263,11 +262,10 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.not_called()
         end)
 
-        it("should broadcast unavailable quests when the response timer fires", function()
+        it("should broadcast available quests when the response timer fires", function()
             local npcId = 111
             local questIds = {222, 333}
             AvailableQuests.GetAvailableDailyQuests = function() return {[npcId] = questIds} end
-            AvailableQuests.GetUnavailableDailyQuests = function() return {[npcId] = questIds} end
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
             _G.IsInGuild = function() return true end
@@ -290,7 +288,6 @@ describe("DailyQuestComms", function()
             local npcId = 111
             local questIds = {222, 333}
             AvailableQuests.GetAvailableDailyQuests = function() return {[npcId] = questIds} end
-            AvailableQuests.GetUnavailableDailyQuests = function() return {[npcId] = questIds} end
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
             _G.IsInGuild = function() return true end
@@ -310,7 +307,7 @@ describe("DailyQuestComms", function()
             assert.spy(Questie.SendCommMessage).was.not_called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "GUILD")
         end)
 
-        it("should not broadcast when GetUnavailableDailyQuests returns empty", function()
+        it("should not broadcast when GetAvailableDailyQuests returns empty", function()
             AvailableQuests.GetAvailableDailyQuests = function() return {} end
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = spy.new(function() return "eventAsSerializedString" end)
@@ -331,7 +328,6 @@ describe("DailyQuestComms", function()
 
         it("should cancel pending response timer when AvailableDailyQuests is received from a peer", function()
             -- Setup: receiver has NPC 1234, sender doesn't — so timer will be scheduled
-            AvailableQuests.GetAvailableDailyQuests = function() return {[1234] = {5678, 91011}} end
             AvailableQuests.GetAvailableDailyQuests = function() return {[1234] = {5678, 91011}} end
 
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
