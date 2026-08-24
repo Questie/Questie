@@ -255,7 +255,7 @@ function QuestieEvent:Load()
 
     -- TODO: Also handle WotLK which has a different starting schedule
     local dmfAvailable = (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
-            or Questie.IsTBC
+            or Questie.IsTBC or Questie.IsWotlk
 
     if dmfAvailable then
         _LoadDarkmoonFaire()
