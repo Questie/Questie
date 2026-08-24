@@ -109,24 +109,6 @@ local _stationCategories = {
     ["Alchemy Lab"] = "alchemyLab",
 }
 
-local _stationProfessions = {
-    ["Moonwell"] = {professionKeys.TAILORING},
-    ["Anvil"] = {professionKeys.BLACKSMITHING, professionKeys.ENGINEERING},
-    ["Forge"] = {professionKeys.MINING},
-    ["Alchemy Lab"] = {professionKeys.ALCHEMY},
-}
-
----@param professions number[]
----@return boolean
-local function _HasAnyProfession(professions)
-    for _, profession in ipairs(professions) do
-        if QuestieProfessions:HasProfessionAndSkillLevel({profession, 1}) then
-            return true
-        end
-    end
-    return false
-end
-
 ---@param id NpcId
 ---@param key string
 ---@return string
@@ -150,7 +132,7 @@ end
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     local stationCategory = _stationCategories[key]
     if stationCategory then
-        if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and _HasAnyProfession(_stationProfessions[key]) then
+        if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and ProfessionStations.IsStationAvailable(key) then
             ProfessionStations.ShowAll(stationCategory)
         else
             ProfessionStations.HideAll(stationCategory)
@@ -349,6 +331,13 @@ end
 function QuestieMenu.buildTownsfolkMenu()
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
+        if key == "Spirit Healer" then
+            -- Stations are grouped before the Spirit Healer,
+            -- ordered alphabetically by their localized titles
+            for _, stationKey in ipairs(ProfessionStations.GetAvailableStationKeys()) do
+                tinsert(townsfolkMenu, build(stationKey))
+            end
+        end
         if Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] then
             tinsert(townsfolkMenu, build(key))
         end
@@ -364,23 +353,6 @@ function QuestieMenu:Show(hideDelay)
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
-    local hasTailoring = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.TAILORING, 1})
-    if hasTailoring then
-        tinsert(menuTable, build("Moonwell"))
-    end
-    local hasBlacksmithing = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.BLACKSMITHING, 1})
-    local hasEngineering = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.ENGINEERING, 1})
-    if hasBlacksmithing or hasEngineering then
-        tinsert(menuTable, build("Anvil"))
-    end
-    local hasMining = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.MINING, 1})
-    if hasMining then
-        tinsert(menuTable, build("Forge"))
-    end
-    local hasAlchemy = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.ALCHEMY, 1})
-    if hasAlchemy then
-        tinsert(menuTable, build("Alchemy Lab"))
-    end
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.profile.enableAvailable
         Questie.db.profile.enableAvailable = value

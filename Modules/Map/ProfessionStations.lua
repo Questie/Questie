@@ -9,6 +9,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 ---@type table<number, boolean>
 ProfessionStations.dataClassic = {
@@ -269,4 +271,74 @@ function ProfessionStations.HideAll(category)
     for objectID in pairs(_GetActiveData(category)) do
         QuestieMap:UnloadManualFrames(objectID, category)
     end
+end
+
+---@param profession number
+---@return boolean
+local function _KnowsProfession(profession)
+    local hasProfession = QuestieProfessions:HasProfessionAndSkillLevel({profession, 1})
+    return hasProfession == true
+end
+
+local _stationTownsfolkKeys = {
+    "Moonwell",
+    "Anvil",
+    "Forge",
+    "Alchemy Lab",
+}
+
+---Whether the player meets the expansion and profession requirements to see
+---the station belonging to the given townsfolk menu entry.
+---@param townsfolkKey string
+---@return boolean
+function ProfessionStations.IsStationAvailable(townsfolkKey)
+    local professionKeys = QuestieProfessions.professionKeys
+
+    if townsfolkKey == "Moonwell" then
+        return _KnowsProfession(professionKeys.TAILORING)
+    elseif townsfolkKey == "Anvil" then
+        -- Blacksmiths and engineers need anvils in every expansion,
+        -- jewelcrafters only start needing them in Cataclysm
+        if _KnowsProfession(professionKeys.BLACKSMITHING) or _KnowsProfession(professionKeys.ENGINEERING) then
+            return true
+        end
+        if Expansions.Current < Expansions.Cata then
+            return false
+        end
+        return _KnowsProfession(professionKeys.JEWELCRAFTING)
+    elseif townsfolkKey == "Forge" then
+        -- Miners need forges in every expansion, engineers and jewelcrafters
+        -- only start needing them in TBC
+        if _KnowsProfession(professionKeys.MINING) then
+            return true
+        end
+        if Expansions.Current < Expansions.Tbc then
+            return false
+        end
+        return _KnowsProfession(professionKeys.ENGINEERING) or _KnowsProfession(professionKeys.JEWELCRAFTING)
+    elseif townsfolkKey == "Alchemy Lab" then
+        -- Alchemy labs are only required up to and including TBC
+        if Expansions.Current > Expansions.Tbc then
+            return false
+        end
+        return _KnowsProfession(professionKeys.ALCHEMY)
+    end
+
+    return false
+end
+
+---Returns the townsfolk keys of all stations the player currently qualifies
+---for, sorted alphabetically by their localized titles.
+---@return string[]
+function ProfessionStations.GetAvailableStationKeys()
+    local available = {}
+    for _, key in ipairs(_stationTownsfolkKeys) do
+        if ProfessionStations.IsStationAvailable(key) then
+            available[#available + 1] = key
+        end
+    end
+    table.sort(available, function(a, b)
+        return l10n(a) < l10n(b)
+    end)
+    return available
 end

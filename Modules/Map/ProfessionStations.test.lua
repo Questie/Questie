@@ -15,6 +15,18 @@ describe("ProfessionStations", function()
     ---@type QuestieDB
     local QuestieDB
 
+    ---@type QuestieProfessions
+    local QuestieProfessions
+
+    local playerProfessions = {}
+
+    local function setPlayerProfessions(professionIds)
+        playerProfessions = {}
+        for _, professionId in ipairs(professionIds or {}) do
+            playerProfessions[professionId] = true
+        end
+    end
+
     local categories = {
         {key = "moonwell", icon = "Interface\\Icons\\inv_fabric_moonrag_01.blp", title = "Moonwell"},
         {key = "anvil", icon = "Interface\\Icons\\inv_hammer_20.blp", title = "Anvil"},
@@ -60,6 +72,12 @@ describe("ProfessionStations", function()
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetObject = function(_, id) return {id = id, name = "Object name " .. id, spawns = {[1] = {{50, 50}}}} end
+
+        QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+        dofile("Modules/QuestieProfessions.lua")
+        QuestieProfessions.HasProfessionAndSkillLevel = function(_, requiredSkill)
+            return playerProfessions[requiredSkill[1]] == true, true
+        end
 
         Expansions = QuestieLoader:ImportModule("Expansions")
         Expansions.Era = 1
@@ -209,6 +227,132 @@ describe("ProfessionStations", function()
             for _, call in ipairs(QuestieMap.ShowObject.calls) do
                 assert.are_same("Poza de la Luna de Claro de Sombra", call.vals[5])
             end
+            QuestieLoader:ImportModule("l10n"):SetUILocale("enUS")
+        end)
+    end)
+
+    describe("IsStationAvailable", function()
+        local keys
+
+        before_each(function()
+            keys = QuestieProfessions.professionKeys
+        end)
+
+        local function assertStation(key, expected, professionIds, expansion)
+            setPlayerProfessions(professionIds)
+            Expansions.Current = expansion
+            if expected then
+                assert.is_true(ProfessionStations.IsStationAvailable(key))
+            else
+                assert.is_false(ProfessionStations.IsStationAvailable(key))
+            end
+        end
+
+        it("should show the moonwell for tailors regardless of expansion", function()
+            assertStation("Moonwell", true, {keys.TAILORING}, Expansions.MoP)
+        end)
+
+        it("should hide the moonwell without tailoring", function()
+            assertStation("Moonwell", false, {}, Expansions.Era)
+        end)
+
+        it("should show the anvil for blacksmiths in every expansion", function()
+            assertStation("Anvil", true, {keys.BLACKSMITHING}, Expansions.MoP)
+        end)
+
+        it("should show the anvil for engineers in every expansion", function()
+            assertStation("Anvil", true, {keys.ENGINEERING}, Expansions.Tbc)
+        end)
+
+        it("should hide the anvil for jewelcrafters before Cataclysm", function()
+            assertStation("Anvil", false, {keys.JEWELCRAFTING}, Expansions.Era)
+            assertStation("Anvil", false, {keys.JEWELCRAFTING}, Expansions.Wotlk)
+        end)
+
+        it("should show the anvil for jewelcrafters starting with Cataclysm", function()
+            assertStation("Anvil", true, {keys.JEWELCRAFTING}, Expansions.Cata)
+        end)
+
+        it("should hide the anvil without a matching profession", function()
+            assertStation("Anvil", false, {}, Expansions.Cata)
+        end)
+
+        it("should show the forge for miners in every expansion", function()
+            assertStation("Forge", true, {keys.MINING}, Expansions.Cata)
+        end)
+
+        it("should hide the forge for engineers before TBC", function()
+            assertStation("Forge", false, {keys.ENGINEERING}, Expansions.Era)
+        end)
+
+        it("should show the forge for engineers starting with TBC", function()
+            assertStation("Forge", true, {keys.ENGINEERING}, Expansions.Tbc)
+        end)
+
+        it("should show the forge for jewelcrafters starting with TBC", function()
+            assertStation("Forge", true, {keys.JEWELCRAFTING}, Expansions.Tbc)
+        end)
+
+        it("should hide the forge for jewelcrafters before TBC", function()
+            assertStation("Forge", false, {keys.JEWELCRAFTING}, Expansions.Era)
+        end)
+
+        it("should hide the alchemy lab without alchemy", function()
+            assertStation("Alchemy Lab", false, {}, Expansions.Era)
+        end)
+
+        it("should show the alchemy lab for alchemists up to and including TBC", function()
+            assertStation("Alchemy Lab", true, {keys.ALCHEMY}, Expansions.Era)
+            assertStation("Alchemy Lab", true, {keys.ALCHEMY}, Expansions.Tbc)
+        end)
+
+        it("should hide the alchemy lab from WotLK on even for alchemists", function()
+            assertStation("Alchemy Lab", false, {keys.ALCHEMY}, Expansions.Wotlk)
+            assertStation("Alchemy Lab", false, {keys.ALCHEMY}, Expansions.MoP)
+        end)
+
+        it("should hide unknown stations", function()
+            assertStation("Innkeeper", false, {}, Expansions.Era)
+        end)
+    end)
+
+    describe("GetAvailableStationKeys", function()
+        local keys
+
+        before_each(function()
+            keys = QuestieProfessions.professionKeys
+        end)
+
+        it("should only return stations the player qualifies for", function()
+            setPlayerProfessions({keys.MINING})
+
+            assert.are_same({"Forge"}, ProfessionStations.GetAvailableStationKeys())
+        end)
+
+        it("should return an empty list without matching professions", function()
+            setPlayerProfessions({})
+
+            assert.are_same({}, ProfessionStations.GetAvailableStationKeys())
+        end)
+
+        it("should exclude stations that are not required in the current expansion", function()
+            setPlayerProfessions({keys.BLACKSMITHING, keys.TAILORING, keys.MINING, keys.ALCHEMY})
+            Expansions.Current = Expansions.Wotlk
+
+            assert.are_same({"Anvil", "Forge", "Moonwell"}, ProfessionStations.GetAvailableStationKeys())
+        end)
+
+        it("should sort the stations alphabetically by their localized titles", function()
+            dofile("Localization/Translations/ProfessionStations.lua")
+            setPlayerProfessions({keys.BLACKSMITHING, keys.TAILORING, keys.MINING, keys.ALCHEMY})
+            Expansions.Current = Expansions.Era
+
+            assert.are_same({"Alchemy Lab", "Anvil", "Forge", "Moonwell"}, ProfessionStations.GetAvailableStationKeys())
+
+            QuestieLoader:ImportModule("l10n"):SetUILocale("esMX")
+
+            assert.are_same({"Forge", "Alchemy Lab", "Moonwell", "Anvil"}, ProfessionStations.GetAvailableStationKeys())
+
             QuestieLoader:ImportModule("l10n"):SetUILocale("enUS")
         end)
     end)
