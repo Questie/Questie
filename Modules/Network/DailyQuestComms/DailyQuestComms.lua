@@ -50,11 +50,11 @@ function DailyQuestComms.Initialize()
     realmName = GetRealmName()
 end
 
---- Checks if our local unavailable quest data contains any quests not yet broadcast to the requester.
+--- Checks if our local available quest data contains any quests not yet broadcast to the requester.
 ---@return boolean True if we know of additional quests beyond what peers have broadcast.
 local function _HasUncoveredQuests()
-    local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
-    for _, questIds in pairs(unavailableQuests) do
+    local availableQuests = AvailableQuests.GetAvailableDailyQuests()
+    for _, questIds in pairs(availableQuests) do
         for _, questId in ipairs(questIds) do
             if (not broadcastedQuestIds[questId]) then
                 return true
@@ -103,7 +103,7 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.OnCommReceived] Received", event.eventName, "from", sender)
 
     if event.eventName == "AvailableDailyQuests" and event.data and type(event.data) == "table" then
-        -- A peer is broadcasting unavailable quests.
+        -- A peer is broadcasting available quests.
         local npcId = event.data.npcId
         if (not npcId) then
             return
@@ -134,11 +134,8 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
             pendingResponseDistribution = nil
         end
 
-        -- Only process NPC data once, like RequestAvailableDailyQuests
-        local localData = AvailableQuests.GetUnavailableDailyQuests()
-        if (not localData[npcId]) then
-            AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
-        end
+        -- Show the received available quests and hide exclusiveTo
+        AvailableQuests.MarkQuestsAsAvailable(npcId, filteredQuestIds)
     elseif event.eventName == "RequestAvailableDailyQuests" then
         -- A peer just logged in and is asking for available daily quests.
         -- The event data contains the quests the sender knows are available.
