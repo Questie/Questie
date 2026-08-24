@@ -234,7 +234,7 @@ function AvailableQuests.CalculateAndDrawAll(callback)
     _StartPass()
 end
 
---Draw a single available quest, it is used by the CalculateAndDrawAll function.
+--Draw a single available quest and register the tooltip
 ---@param quest Quest
 function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
     --? Some quests can be started by both an NPC and a GameObject
@@ -370,6 +370,33 @@ function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
             unavailableDailyQuestsByNpc[npcId] = {}
         end
         unavailableDailyQuestsByNpc[npcId][questId] = true
+    end
+end
+
+--- Marks quests as available for an NPC (from comms data).
+--- Adds them to available tracking, draws them on map, and removes exclusiveTo quests.
+---@param npcId NpcId @The ID of the NPC associated with the daily quests.
+---@param questIds QuestId[] @An array of quest IDs that are available.
+function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
+    for _, questId in pairs(questIds) do
+        -- Add to available daily quests tracking
+        if (not availableDailyQuestsByNpc[npcId]) then
+            availableDailyQuestsByNpc[npcId] = {}
+        end
+        availableDailyQuestsByNpc[npcId][questId] = true
+
+        if (not availableQuests[questId]) then
+            local quest = QuestieDB.GetQuest(questId)
+            if quest then
+                availableQuests[questId] = true
+                AvailableQuests.DrawAvailableQuest(quest)
+            end
+        end
+
+        local exclusiveTo = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
+        if exclusiveTo then
+            AvailableQuests.RemoveQuestsForToday(npcId, exclusiveTo)
+        end
     end
 end
 

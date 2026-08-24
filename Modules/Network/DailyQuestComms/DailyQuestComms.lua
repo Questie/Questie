@@ -64,12 +64,12 @@ local function _HasUncoveredQuests()
     return false
 end
 
---- Checks if our local unavailable quest data includes any NPCs not in sender's knowledge.
+--- Checks if our local available quest data includes any NPCs not in sender's knowledge.
 --- We only need to check NPCs, because NPCs can't have different quests active for different players (
----@param senderData table<NpcId, QuestId[]> The sender's unavailable quest data from the request event.
+---@param senderData table<NpcId, QuestId[]> The sender's available quest data from the request event.
 ---@return boolean True if we have additional NPCs the sender doesn't know about.
 local function _HasNewNpcData(senderData)
-    local localData = AvailableQuests.GetUnavailableDailyQuests()
+    local localData = AvailableQuests.GetAvailableDailyQuests()
     for npcId in pairs(localData) do
         if (not senderData[npcId]) then
             return true
@@ -140,22 +140,29 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
             AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
         end
     elseif event.eventName == "RequestAvailableDailyQuests" then
-        -- A peer just logged in and is asking for unavailable daily quests.
-        -- Only respond if we have NPC data they don't know about.
+        -- A peer just logged in and is asking for available daily quests.
+        -- The event data contains the quests the sender knows are available.
+        -- For NPCs we don't know about yet, we accept their available quests.
 
         local eventData = event.data
         if (not eventData) or type(eventData) ~= "table" then
             return
         end
 
-        -- Integrate sender's NPC data for NPCs the receiver doesn't already know about
-        local localData = AvailableQuests.GetUnavailableDailyQuests()
-        for npcId, questIds in pairs(eventData) do
-            if (not localData[npcId]) and type(questIds) == "table" then
+        -- Get our local available daily quests
+        local localAvailableData = AvailableQuests.GetAvailableDailyQuests()
+
+        -- Check the sender's NPC data for NPCs the receiver doesn't already know about.
+        -- We want to show the data received and hide exclusiveTo quests.
+        for npcId, senderAvailableQuestIds in pairs(eventData) do
+            -- Check if we already have this NPC in our available quests
+            if (not localAvailableData[npcId]) and type(senderAvailableQuestIds) == "table" then
+                -- We don't know this NPC yet, so we accept the sender's available quests
                 -- User with an outdated version might send incorrect data, so we filter according to our version
-                local filteredQuestIds = DailyQuestCommsBlacklist.FilterQuestIds(questIds)
+                local filteredQuestIds = DailyQuestCommsBlacklist.FilterQuestIds(senderAvailableQuestIds)
                 if #filteredQuestIds > 0 then
-                    AvailableQuests.RemoveQuestsForToday(npcId, filteredQuestIds)
+                    -- Mark these quests as available for this NPC
+                    AvailableQuests.MarkQuestsAsAvailable(npcId, filteredQuestIds)
                 end
             end
         end
@@ -188,14 +195,14 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
     end
 end
 
---- Sends a request to guild/group members asking them to share which daily quests are unavailable today.
+--- Sends a request to guild/group members asking them to share which daily quests are available today.
 --- The event includes the quests the sender already knows, so receivers can decide if they have additional data.
 --- Called once on login and when joining a group. A peer with known data will respond with HideDailyQuests messages.
 ---@param askGuild boolean @True asks guild members too, false only asks the current party/raid.
 function DailyQuestComms.RequestAvailableDailyQuests(askGuild)
     local event = {
         eventName = "RequestAvailableDailyQuests",
-        data = AvailableQuests.GetUnavailableDailyQuests(),
+        data = AvailableQuests.GetAvailableDailyQuests(),
     }
     local serializedEvent = CommsEncoding:EncodePayload(event)
     if (not serializedEvent) then

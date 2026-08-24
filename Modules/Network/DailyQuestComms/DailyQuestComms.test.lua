@@ -21,6 +21,8 @@ describe("DailyQuestComms", function()
         CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
         CommsEncoding.DecodePayload = function() return {} end
         AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
+        AvailableQuests.MarkQuestsAsAvailable = spy.new(function() end)
+        AvailableQuests.GetAvailableDailyQuests = spy.new(function() return {} end)
         AvailableQuests.GetUnavailableDailyQuests = spy.new(function() return {} end)
 
         _G.IsInGuild = function() return false end
@@ -265,6 +267,7 @@ describe("DailyQuestComms", function()
             local npcId = 111
             local questIds = {222, 333}
             AvailableQuests.GetUnavailableDailyQuests = function() return {[npcId] = questIds} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {[npcId] = questIds} end
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
             _G.IsInGuild = function() return true end
@@ -287,6 +290,7 @@ describe("DailyQuestComms", function()
             local npcId = 111
             local questIds = {222, 333}
             AvailableQuests.GetUnavailableDailyQuests = function() return {[npcId] = questIds} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {[npcId] = questIds} end
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
             _G.IsInGuild = function() return true end
@@ -328,6 +332,7 @@ describe("DailyQuestComms", function()
         it("should cancel pending response timer when HideDailyQuests is received from a peer", function()
             -- Setup: receiver has NPC 1234, sender doesn't — so timer will be scheduled
             AvailableQuests.GetUnavailableDailyQuests = function() return {[1234] = {5678, 91011}} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {[1234] = {5678, 91011}} end
 
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             local timerMock = spy.new(function() return timer end)
@@ -354,6 +359,7 @@ describe("DailyQuestComms", function()
         it("should replace existing pending timer when a second RequestAvailableDailyQuests arrives", function()
             -- Setup: receiver has NPC 1234 that senders don't — so both timers will be scheduled
             AvailableQuests.GetUnavailableDailyQuests = function() return {[1234] = {5678}} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {[1234] = {5678}} end
 
             local firstTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             local firstTimerMock = spy.new(function() return firstTimer end)
@@ -381,6 +387,9 @@ describe("DailyQuestComms", function()
 
             -- Setup: local knowledge includes 5 quests
             AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
+            AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
 
@@ -414,6 +423,9 @@ describe("DailyQuestComms", function()
             AvailableQuests.GetUnavailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
+            AvailableQuests.GetAvailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
 
             -- Schedule a response
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
@@ -442,6 +454,9 @@ describe("DailyQuestComms", function()
             local localQuestIds = {1, 2, 3, 4, 5}
 
             AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
+            AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
 
@@ -483,6 +498,9 @@ describe("DailyQuestComms", function()
             local localQuestIds = {1, 2, 3}
 
             AvailableQuests.GetUnavailableDailyQuests = function()
+                return {[npcId] = localQuestIds}
+            end
+            AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
 
@@ -555,7 +573,7 @@ describe("DailyQuestComms", function()
             local receiverData = {[1234] = {1, 2, 3}}
             local senderData = {}
 
-            AvailableQuests.GetUnavailableDailyQuests = function() return receiverData end
+            AvailableQuests.GetAvailableDailyQuests = function() return receiverData end
             _G.C_Timer.NewTimer = spy.new(function() end)
 
             -- Sender has no data, but receiver does — should still schedule timer
@@ -571,7 +589,7 @@ describe("DailyQuestComms", function()
             local receiverData = {[1234] = {1, 2, 3}, [5678] = {10, 11}}
             local senderData = {[1234] = {1, 2, 3}}
 
-            AvailableQuests.GetUnavailableDailyQuests = function() return receiverData end
+            AvailableQuests.GetAvailableDailyQuests = function() return receiverData end
             _G.C_Timer.NewTimer = spy.new(function() return {Cancel = function() end} end)
 
             local event = {eventName = "RequestAvailableDailyQuests", data = senderData}
@@ -582,22 +600,23 @@ describe("DailyQuestComms", function()
             assert.spy(_G.C_Timer.NewTimer).was.called()
         end)
 
-        it("should call RemoveQuestsForToday for NPCs in sender data that receiver doesn't know", function()
+        it("should call MarkQuestsAsAvailable for NPCs the receiver doesn't know", function()
             local senderNpcId = 9999
             local senderQuestIds = {100, 200}
 
-            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {} end
 
             local event = {eventName = "RequestAvailableDailyQuests", data = {[senderNpcId] = senderQuestIds}}
             CommsEncoding.DecodePayload = function() return event end
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
 
-            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(senderNpcId, senderQuestIds)
+            assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.called_with(senderNpcId, senderQuestIds)
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should skip malformed questIds in sender data", function()
-            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+        it("should call MarkQuestsAsAvailable for NPCs the receiver doesn't know even with malformed data", function()
+            AvailableQuests.GetAvailableDailyQuests = function() return {} end
 
             local event = {
                 eventName = "RequestAvailableDailyQuests",
@@ -607,30 +626,31 @@ describe("DailyQuestComms", function()
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
 
-            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(9999, {100, 200})
-            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called(1)
+            assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.called_with(9999, {100, 200})
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should not call RemoveQuestsForToday for NPCs the receiver already knows", function()
+        it("should not call MarkQuestsAsAvailable for NPCs the receiver already knows", function()
             local knownNpcId = 1234
             local senderQuestIds = {100, 200}
 
-            AvailableQuests.GetUnavailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
 
             local event = {eventName = "RequestAvailableDailyQuests", data = {[knownNpcId] = senderQuestIds}}
             CommsEncoding.DecodePayload = function() return event end
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
 
+            assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should only integrate new NPCs when sender data has both known and unknown NPCs", function()
+        it("should only process new NPCs when sender data has both known and unknown NPCs", function()
             local knownNpcId = 1234
             local newNpcId = 5678
             local newQuestIds = {300, 400}
 
-            AvailableQuests.GetUnavailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {[knownNpcId] = {1, 2}} end
 
             local event = {
                 eventName = "RequestAvailableDailyQuests",
@@ -640,30 +660,41 @@ describe("DailyQuestComms", function()
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
 
-            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(newNpcId, newQuestIds)
-            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called(1)
+            -- Only new NPC gets processed
+            assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.called_with(newNpcId, newQuestIds)
+            assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.called(1)
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should filter out blacklisted questIds from RequestAvailableDailyQuests events", function()
+        it("should filter out blacklisted questIds from sender data for new NPCs", function()
             local senderNpcId = 9999
-            DailyQuestCommsBlacklist.FilterQuestIds = function() return {100} end
-            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+            DailyQuestCommsBlacklist.FilterQuestIds = function(questIds)
+                -- Filter out questId 2 (simulate blacklist)
+                local result = {}
+                for _, q in ipairs(questIds) do
+                    if q ~= 2 then table.insert(result, q) end
+                end
+                return result
+            end
+            AvailableQuests.GetAvailableDailyQuests = function() return {} end
 
             local event = {
                 eventName = "RequestAvailableDailyQuests",
-                data = {[senderNpcId] = {100, 200}}
+                data = {[senderNpcId] = {1, 2, 3}}
             }
             CommsEncoding.DecodePayload = function() return event end
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
 
-            assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(senderNpcId, {100})
+            -- Sender's {1,2,3} filtered by blacklist (removes 2) = {1,3}
+            assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.called_with(senderNpcId, {1, 3})
+            assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should not call RemoveQuestsForToday when all request questIds are blacklisted", function()
+        it("should not call RemoveQuestsForToday when all computed questIds are blacklisted", function()
             local senderNpcId = 9999
             DailyQuestCommsBlacklist.FilterQuestIds = function() return {} end
-            AvailableQuests.GetUnavailableDailyQuests = function() return {} end
+            AvailableQuests.GetAvailableDailyQuests = function() return {[senderNpcId] = {1, 2}} end
 
             local event = {
                 eventName = "RequestAvailableDailyQuests",
@@ -969,10 +1000,10 @@ describe("DailyQuestComms", function()
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
 
-        it("should include known unavailable quests in the event payload", function()
+        it("should include known available quests in the event payload", function()
             local npcId = 1234
             local questIds = {5678, 91011}
-            AvailableQuests.GetUnavailableDailyQuests = function()
+            AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = questIds}
             end
             _G.IsInGuild = function() return true end
@@ -990,7 +1021,7 @@ describe("DailyQuestComms", function()
         end)
 
         it("should include empty data when no quests are known", function()
-            AvailableQuests.GetUnavailableDailyQuests = function()
+            AvailableQuests.GetAvailableDailyQuests = function()
                 return {}
             end
             _G.IsInGuild = function() return true end

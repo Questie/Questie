@@ -58,6 +58,7 @@ describe("AvailableQuests", function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetNPC = function() return nil end
         QuestieDB.GetQuest = function() return nil end
+        QuestieDB.QueryQuestSingle = function() return nil end
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
@@ -89,6 +90,7 @@ describe("AvailableQuests", function()
         TestUtils.clearTable(AvailableQuests.__availableQuests)
         TestUtils.clearTable(AvailableQuests.__availableQuestsByNpc)
         TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)
+        TestUtils.clearTable(AvailableQuests.__availableDailyQuestsByNpc)
 
         NPC_ID = NPC_ID + 1 -- We want to make sure `lastNpcGuid` is different between tests
         for i = 1, MAX_NUM_QUESTS do
@@ -1266,6 +1268,82 @@ describe("AvailableQuests", function()
             assert.are_same(AvailableQuests.__availableQuests, {})
             assert.are_same(AvailableQuests.__availableQuestsByNpc, {})
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
+        end)
+    end)
+
+    describe("MarkQuestsAsAvailable", function()
+        it("should add quests to available tracking and draw them", function()
+            local firstQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local secondQuest = QUEST_ID
+            QuestieDB.GetQuest = function(questId)
+                if questId == firstQuest then
+                    return {Id = firstQuest, Starts = {NPC = {NPC_ID}}}
+                elseif questId == secondQuest then
+                    return {Id = secondQuest, Starts = {NPC = {NPC_ID}}}
+                end
+                return nil
+            end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {firstQuest, secondQuest})
+
+            assert.is_true(AvailableQuests.__availableQuests[firstQuest])
+            assert.is_true(AvailableQuests.__availableQuests[secondQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][firstQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][secondQuest])
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, firstQuest, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, secondQuest, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
+        end)
+
+        it("should remove exclusiveTo quests", function()
+            local availableQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local exclusiveQuest1 = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local exclusiveQuest2 = QUEST_ID
+            QuestieDB.GetQuest = function(questId)
+                if questId == availableQuest then
+                    return {Id = availableQuest, Starts = {NPC = {NPC_ID}}}
+                elseif questId == exclusiveQuest1 or questId == exclusiveQuest2 then
+                    return {Id = questId, Starts = {NPC = {NPC_ID}}}
+                end
+                return nil
+            end
+            QuestieDB.QueryQuestSingle = function(questId, key)
+                if questId == availableQuest and key == "exclusiveTo" then
+                    return {exclusiveQuest1, exclusiveQuest2}
+                end
+                return nil
+            end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+            AvailableQuests.__availableQuests[exclusiveQuest1] = true
+            AvailableQuests.__availableQuests[exclusiveQuest2] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[exclusiveQuest1] = true, [exclusiveQuest2] = true}
+
+            AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {availableQuest})
+
+            assert.is_true(AvailableQuests.__availableQuests[availableQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][availableQuest])
+            assert.is_nil(AvailableQuests.__availableQuests[exclusiveQuest1])
+            assert.is_nil(AvailableQuests.__availableQuests[exclusiveQuest2])
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][exclusiveQuest1])
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][exclusiveQuest2])
+            assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[exclusiveQuest1])
+            assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[exclusiveQuest2])
+        end)
+
+        it("should handle unknown quests gracefully", function()
+            QuestieDB.GetQuest = function() return nil end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {QUEST_ID})
+
+            assert.are_same(AvailableQuests.__availableQuests, {})
+            assert.are_same(AvailableQuests.__availableQuestsByNpc, {})
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
         end)
     end)
 
