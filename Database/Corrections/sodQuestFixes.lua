@@ -4778,6 +4778,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.LEGENDARY,
             [questKeys.nextQuestInChain] = 89301,
         },
+        [89444] = { -- The Corrupted Emblem
+            [questKeys.requiredSourceItems] = {239215},
+            [questKeys.zoneOrSort] = zoneIDs.SCARLET_ENCLAVE,
+            [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,200}},
+        },
         [89445] = { -- Blades of Light
             [questKeys.startedBy] = {nil,nil,{239196}},
             [questKeys.finishedBy] = {{16376}},

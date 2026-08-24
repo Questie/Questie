@@ -9769,6 +9769,17 @@ function SeasonOfDiscovery:LoadBaseQuests()
             [questKeys.objectivesText] = {"Combine the Reforged Blade of the Ashbringer, the Emblem of the Ashbringer, and the Hilt of the Ashbringer, and then speak with the Will of the Ashbringer to determine your next steps."},
             [questKeys.objectives] = {nil,nil,{{240936},{239219}}},
         },
+        [89444] = {
+            [questKeys.name] = "The Corrupted Emblem",
+            [questKeys.startedBy] = {nil,nil,{239215}},
+            [questKeys.finishedBy] = {{11034}},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.objectivesText] = {"Take the Corrupted Emblem to Lord Maxwell Tyrosus in Light's Hope Chapel in the Eastern Plaguelands."},
+            [questKeys.objectives] = nil,
+        },
         [89445] = {
             [questKeys.name] = "Blades of Light",
             [questKeys.startedBy] = nil,
