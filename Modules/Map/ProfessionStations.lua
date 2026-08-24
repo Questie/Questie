@@ -239,7 +239,7 @@ function ProfessionStations.ShowAll(category)
     end
 
     for _, entry in ipairs(named) do
-        QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), nil, true, category)
+        QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), {}, true, category)
         for zone, spawns in pairs(entry.object.spawns) do
             taken[zone] = taken[zone] or {}
             for _, coords in ipairs(spawns) do
