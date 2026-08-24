@@ -8,15 +8,15 @@ local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 ---@type DailyQuestCommsBlacklist
 local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
 
----@class HideDailyQuestsEvent
----@field eventName "HideDailyQuests"
+---@class AvailableDailyQuestsEvent
+---@field eventName "AvailableDailyQuests"
 ---@field data { npcId: NpcId, questIds: QuestId[] }
 
 ---@class RequestAvailableDailyQuestsEvent
 ---@field eventName "RequestAvailableDailyQuests"
 ---@field data table<NpcId, QuestId[]>
 
----@alias CommEvent HideDailyQuestsEvent|RequestAvailableDailyQuestsEvent
+---@alias CommEvent AvailableDailyQuestsEvent|RequestAvailableDailyQuestsEvent
 
 local COMM_PREFIX = "QuestieDailiesV2"
 
@@ -24,7 +24,7 @@ local playerName
 local realmName
 
 --- A pending timer handle for responding to a RequestAvailableDailyQuests event.
---- Cancelled if we see a peer already responding with HideDailyQuests.
+--- Cancelled if we see a peer already responding with AvailableDailyQuests.
 ---@type Ticker|nil
 local pendingResponseTimer
 
@@ -102,7 +102,7 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.OnCommReceived] Received", event.eventName, "from", sender)
 
-    if event.eventName == "HideDailyQuests" and event.data and type(event.data) == "table" then
+    if event.eventName == "AvailableDailyQuests" and event.data and type(event.data) == "table" then
         -- A peer is broadcasting unavailable quests.
         local npcId = event.data.npcId
         if (not npcId) then
@@ -187,7 +187,7 @@ function DailyQuestComms.OnCommReceived(prefix, message, distribution, sender)
 
                 local unavailableQuests = AvailableQuests.GetUnavailableDailyQuests()
                 for npcId, questIds in pairs(unavailableQuests) do
-                    DailyQuestComms.AnswerUnavailableDailyQuests(npcId, questIds, pendingResponseDistribution)
+                    DailyQuestComms.AnswerAvailableDailyQuests(npcId, questIds, pendingResponseDistribution)
                 end
                 pendingResponseDistribution = nil
             end)
@@ -197,7 +197,7 @@ end
 
 --- Sends a request to guild/group members asking them to share which daily quests are available today.
 --- The event includes the quests the sender already knows, so receivers can decide if they have additional data.
---- Called once on login and when joining a group. A peer with known data will respond with HideDailyQuests messages.
+--- Called once on login and when joining a group. A peer with known data will respond with AvailableDailyQuests messages.
 ---@param askGuild boolean @True asks guild members too, false only asks the current party/raid.
 function DailyQuestComms.RequestAvailableDailyQuests(askGuild)
     local event = {
@@ -223,18 +223,18 @@ function DailyQuestComms.RequestAvailableDailyQuests(askGuild)
 end
 
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
----@param questIds QuestId[] @An array of quest IDs that need to be hidden.
-function DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, questIds)
+---@param questIds QuestId[] @An array of quest IDs that are available.
+function DailyQuestComms.BroadcastAvailableDailyQuests(npcId, questIds)
     ---@type CommEvent
     local event = {
-        eventName = "HideDailyQuests",
+        eventName = "AvailableDailyQuests",
         data = {
             npcId = npcId,
             questIds = questIds
         }
     }
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.BroadcastUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.BroadcastAvailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
 
     local serializedEvent = CommsEncoding:EncodePayload(event)
     if (not serializedEvent) then
@@ -252,22 +252,21 @@ function DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, questIds)
     end
 end
 
---- Sends a HideDailyQuests answer back only on the distribution the request arrived on.
---- Unlike BroadcastUnavailableDailyQuests, this never touches the guild unless the request came via GUILD.
+--- Sends a AvailableDailyQuests answer back only on the distribution the request arrived on.
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
----@param questIds QuestId[] @An array of quest IDs that need to be hidden.
+---@param questIds QuestId[] @An array of quest IDs that are available.
 ---@param distribution string @The distribution the request was received on.
-function DailyQuestComms.AnswerUnavailableDailyQuests(npcId, questIds, distribution)
+function DailyQuestComms.AnswerAvailableDailyQuests(npcId, questIds, distribution)
     ---@type CommEvent
     local event = {
-        eventName = "HideDailyQuests",
+        eventName = "AvailableDailyQuests",
         data = {
             npcId = npcId,
             questIds = questIds
         }
     }
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.AnswerUnavailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[DailyQuestComms.AnswerAvailableDailyQuests] Sending for NPC", npcId, "Quest IDs:", table.concat(questIds, ", "))
 
     local serializedEvent = CommsEncoding:EncodePayload(event)
     if (not serializedEvent) then

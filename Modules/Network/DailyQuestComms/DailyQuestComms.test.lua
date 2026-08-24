@@ -70,13 +70,13 @@ describe("DailyQuestComms", function()
     end)
 
     describe("OnCommReceived", function()
-        it("should handle HideDailyQuests event", function()
+        it("should handle AvailableDailyQuests event", function()
             local npcId = 1234
             local questIds = {5678, 91011}
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = npcId,
                     questIds = questIds
@@ -98,7 +98,7 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject own HideDailyQuests events", function()
+        it("should reject own AvailableDailyQuests events", function()
             CommsEncoding.DecodePayload = spy.new(function() end)
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", UnitName("player"))
@@ -107,7 +107,7 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject own HideDailyQuests events when sender is in realm format", function()
+        it("should reject own AvailableDailyQuests events when sender is in realm format", function()
             CommsEncoding.DecodePayload = spy.new(function() end)
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", UnitName("player") .. "-" .. GetRealmName())
@@ -140,7 +140,7 @@ describe("DailyQuestComms", function()
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = npcId,
                     questIds = questIds
@@ -159,7 +159,7 @@ describe("DailyQuestComms", function()
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = npcId,
                     questIds = questIds
@@ -172,7 +172,7 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(npcId, questIds)
         end)
 
-        it("should reject malformed HideDailyQuests events", function()
+        it("should reject malformed AvailableDailyQuests events", function()
             CommsEncoding.DecodePayload = function() return nil end
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
@@ -180,7 +180,7 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject HideDailyQuests events when they are not a table", function()
+        it("should reject AvailableDailyQuests events when they are not a table", function()
             CommsEncoding.DecodePayload = function() return 123 end
 
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
@@ -188,9 +188,9 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject HideDailyQuests events without data", function()
+        it("should reject AvailableDailyQuests events without data", function()
             local event = {
-                eventName = "HideDailyQuests"
+                eventName = "AvailableDailyQuests"
             }
             CommsEncoding.DecodePayload = function() return event end
 
@@ -199,9 +199,9 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject HideDailyQuests events when data is not a table", function()
+        it("should reject AvailableDailyQuests events when data is not a table", function()
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = 123,
             }
             CommsEncoding.DecodePayload = function() return event end
@@ -211,12 +211,12 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject HideDailyQuests events without npcId", function()
+        it("should reject AvailableDailyQuests events without npcId", function()
             local questIds = {5678, 91011}
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     questIds = questIds
                 }
@@ -228,12 +228,12 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject HideDailyQuests events without questIds", function()
+        it("should reject AvailableDailyQuests events without questIds", function()
             local npcId = 1234
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = npcId
                 }
@@ -245,12 +245,12 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
         end)
 
-        it("should reject HideDailyQuests events when questIds is not a table", function()
+        it("should reject AvailableDailyQuests events when questIds is not a table", function()
             local npcId = 1234
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = npcId,
                     questIds = "notATable"
@@ -329,7 +329,7 @@ describe("DailyQuestComms", function()
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
 
-        it("should cancel pending response timer when HideDailyQuests is received from a peer", function()
+        it("should cancel pending response timer when AvailableDailyQuests is received from a peer", function()
             -- Setup: receiver has NPC 1234, sender doesn't — so timer will be scheduled
             AvailableQuests.GetUnavailableDailyQuests = function() return {[1234] = {5678, 91011}} end
             AvailableQuests.GetAvailableDailyQuests = function() return {[1234] = {5678, 91011}} end
@@ -347,7 +347,7 @@ describe("DailyQuestComms", function()
 
             -- Peer covers all our quests — should cancel the pending timer
             local hideEvent = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {npcId = 1234, questIds = {5678, 91011}}
             }
             CommsEncoding.DecodePayload = function() return hideEvent end
@@ -405,7 +405,7 @@ describe("DailyQuestComms", function()
 
             -- Peer broadcasts 3 quests (subset of our 5)
             local hideEvent = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {npcId = npcId, questIds = broadcastedQuestIds}
             }
             CommsEncoding.DecodePayload = function() return hideEvent end
@@ -439,7 +439,7 @@ describe("DailyQuestComms", function()
 
             -- Peer broadcasts all 3 quests we know
             local hideEvent = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {npcId = npcId, questIds = broadcastedQuestIds}
             }
             CommsEncoding.DecodePayload = function() return hideEvent end
@@ -449,7 +449,7 @@ describe("DailyQuestComms", function()
             assert.is_true(timer.cancelled)
         end)
 
-        it("should accumulate quest IDs from multiple HideDailyQuests messages before deciding to cancel", function()
+        it("should accumulate quest IDs from multiple AvailableDailyQuests messages before deciding to cancel", function()
             local npcId = 1234
             local localQuestIds = {1, 2, 3, 4, 5}
 
@@ -472,7 +472,7 @@ describe("DailyQuestComms", function()
 
             -- Peer A broadcasts 3 quests
             local hideEvent1 = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {npcId = npcId, questIds = {1, 2, 3}}
             }
             CommsEncoding.DecodePayload = function() return hideEvent1 end
@@ -483,7 +483,7 @@ describe("DailyQuestComms", function()
 
             -- Peer B broadcasts 2 more quests (4, 5)
             local hideEvent2 = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {npcId = npcId, questIds = {4, 5}}
             }
             CommsEncoding.DecodePayload = function() return hideEvent2 end
@@ -514,7 +514,7 @@ describe("DailyQuestComms", function()
 
             -- Peer broadcasts 2 quests
             local hideEvent = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {npcId = npcId, questIds = {1, 2}}
             }
             CommsEncoding.DecodePayload = function() return hideEvent end
@@ -736,7 +736,7 @@ describe("DailyQuestComms", function()
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = knownNpcId,
                     questIds = {100, 200}
@@ -758,7 +758,7 @@ describe("DailyQuestComms", function()
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = newNpcId,
                     questIds = questIds
@@ -771,13 +771,13 @@ describe("DailyQuestComms", function()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.called_with(newNpcId, questIds)
         end)
 
-        it("should filter out blacklisted questIds from HideDailyQuests events", function()
+        it("should filter out blacklisted questIds from AvailableDailyQuests events", function()
             DailyQuestCommsBlacklist.FilterQuestIds = function() return {5678, 91011} end
             local npcId = 1234
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = npcId,
                     questIds = {5678, 84348, 91011, 84360}
@@ -796,7 +796,7 @@ describe("DailyQuestComms", function()
 
             ---@type CommEvent
             local event = {
-                eventName = "HideDailyQuests",
+                eventName = "AvailableDailyQuests",
                 data = {
                     npcId = npcId,
                     questIds = {84348, 84349, 84360}
@@ -810,7 +810,7 @@ describe("DailyQuestComms", function()
         end)
     end)
 
-    describe("BroadcastUnavailableDailyQuests", function()
+    describe("BroadcastAvailableDailyQuests", function()
         it("should broadcast to guild", function()
             _G.IsInGuild = function() return true end
             _G.IsInRaid = function() return false end
@@ -818,7 +818,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+            DailyQuestComms.BroadcastAvailableDailyQuests(1234, {5678, 91011})
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "GUILD")
         end)
@@ -830,7 +830,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+            DailyQuestComms.BroadcastAvailableDailyQuests(1234, {5678, 91011})
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "PARTY")
         end)
@@ -842,7 +842,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+            DailyQuestComms.BroadcastAvailableDailyQuests(1234, {5678, 91011})
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "RAID")
         end)
@@ -854,7 +854,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+            DailyQuestComms.BroadcastAvailableDailyQuests(1234, {5678, 91011})
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "GUILD")
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "RAID")
@@ -867,7 +867,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+            DailyQuestComms.BroadcastAvailableDailyQuests(1234, {5678, 91011})
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "GUILD")
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "PARTY")
@@ -880,7 +880,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+            DailyQuestComms.BroadcastAvailableDailyQuests(1234, {5678, 91011})
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
@@ -890,18 +890,18 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return nil end
 
-            DailyQuestComms.BroadcastUnavailableDailyQuests(1234, {5678, 91011})
+            DailyQuestComms.BroadcastAvailableDailyQuests(1234, {5678, 91011})
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
     end)
 
-    describe("AnswerUnavailableDailyQuests", function()
+    describe("AnswerAvailableDailyQuests", function()
         it("should answer on the given distribution", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.AnswerUnavailableDailyQuests(1234, {5678, 91011}, "PARTY")
+            DailyQuestComms.AnswerAvailableDailyQuests(1234, {5678, 91011}, "PARTY")
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "PARTY")
         end)
@@ -910,7 +910,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
 
-            DailyQuestComms.AnswerUnavailableDailyQuests(1234, {5678, 91011}, "GUILD")
+            DailyQuestComms.AnswerAvailableDailyQuests(1234, {5678, 91011}, "GUILD")
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "GUILD")
         end)
@@ -919,7 +919,7 @@ describe("DailyQuestComms", function()
             Questie.SendCommMessage = spy.new(function() end)
             CommsEncoding.EncodePayload = function() return nil end
 
-            DailyQuestComms.AnswerUnavailableDailyQuests(1234, {5678, 91011}, "PARTY")
+            DailyQuestComms.AnswerAvailableDailyQuests(1234, {5678, 91011}, "PARTY")
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)

@@ -486,7 +486,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
     end
 
     if next(unavailableQuestsToBroadcast) then
-        DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
+        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -549,7 +549,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
     end
 
     if next(unavailableQuestsToBroadcast) then
-        DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
+        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
@@ -646,7 +646,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     end
 
     if next(unavailableQuestsToBroadcast) then
-        DailyQuestComms.BroadcastUnavailableDailyQuests(npcId, unavailableQuestsToBroadcast)
+        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, unavailableQuestsToBroadcast)
     end
 end
 
