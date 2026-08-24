@@ -154,22 +154,6 @@ _ScheduleDailyResetTimer = function()
     end)
 end
 
----Returns all unavailable daily/weekly quests grouped by NPC, for broadcasting to guild/party members.
----@return table<NpcId, QuestId[]>
-function AvailableQuests.GetUnavailableDailyQuests()
-    local result = {}
-    for npcId, questIds in pairs(unavailableDailyQuestsByNpc) do
-        local list = {}
-        for questId in pairs(questIds) do
-            list[#list + 1] = questId
-        end
-        if #list > 0 then
-            result[npcId] = list
-        end
-    end
-    return result
-end
-
 ---Returns all available daily/weekly quests grouped by NPC, built from talking to NPCs and comms events.
 ---@return table<NpcId, QuestId[]>
 function AvailableQuests.GetAvailableDailyQuests()

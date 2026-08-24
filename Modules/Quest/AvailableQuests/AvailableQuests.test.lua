@@ -170,54 +170,6 @@ describe("AvailableQuests", function()
         end)
     end)
 
-    describe("GetUnavailableDailyQuests", function()
-        it("should return empty table when no quests are unavailable", function()
-            local result = AvailableQuests.GetUnavailableDailyQuests()
-
-            assert.are_same({}, result)
-        end)
-
-        it("should return quests grouped by NPC as arrays", function()
-            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
-
-            local result = AvailableQuests.GetUnavailableDailyQuests()
-
-            assert.are_same({[NPC_ID] = {QUEST_ID}}, result)
-        end)
-
-        it("should return multiple quests per NPC as an array", function()
-            local questId2 = QUEST_ID + 1
-            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true, [questId2] = true}
-
-            local result = AvailableQuests.GetUnavailableDailyQuests()
-
-            assert.is_not_nil(result[NPC_ID])
-            assert.are_equal(2, #result[NPC_ID])
-            assert.is_true(result[NPC_ID][1] == QUEST_ID or result[NPC_ID][1] == questId2)
-            assert.is_true(result[NPC_ID][2] == QUEST_ID or result[NPC_ID][2] == questId2)
-        end)
-
-        it("should return quests for multiple NPCs", function()
-            local npcId2 = NPC_ID + 1
-            local questId2 = QUEST_ID + 1
-            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
-            AvailableQuests.__unavailableDailyQuestsByNpc[npcId2] = {[questId2] = true}
-
-            local result = AvailableQuests.GetUnavailableDailyQuests()
-
-            assert.are_same({[NPC_ID] = {QUEST_ID}}, {[NPC_ID] = result[NPC_ID]})
-            assert.are_same({[npcId2] = {questId2}}, {[npcId2] = result[npcId2]})
-        end)
-
-        it("should not include NPCs whose quest set is empty", function()
-            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {}
-
-            local result = AvailableQuests.GetUnavailableDailyQuests()
-
-            assert.are_same({}, result)
-        end)
-    end)
-
     describe("GetAvailableDailyQuests", function()
         it("should return empty table when no quests are available", function()
             local result = AvailableQuests.GetAvailableDailyQuests()
