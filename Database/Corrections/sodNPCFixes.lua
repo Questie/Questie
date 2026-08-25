@@ -1084,7 +1084,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [11034] = { -- Lord Maxwell Tyrosus
             [npcKeys.questStarts] = {5265,87509,89443,89563},
-            [npcKeys.questEnds] = {5264,8859,87508,89442,89475,89563},
+            [npcKeys.questEnds] = {5264,8859,87508,89442,89475,89563,89444},
         },
         [11036] = { -- Leonid Barthalomew the Revered
             [npcKeys.questStarts] = {5243,5463,5465,5531,87459,87493,87498,89562,89567},
