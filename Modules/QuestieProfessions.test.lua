@@ -129,6 +129,7 @@ describe("QuestieProfessions", function()
                 return "Cooking", nil, nil, mockedProfessionSkill
             end
 
+            _G.C_Timer = {After = function() end}
             local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
 
             QuestieProfessions:Update()
@@ -142,6 +143,7 @@ describe("QuestieProfessions", function()
         end)
 
         it("should not recalculate quests when no known profession was removed", function()
+            _G.C_Timer = {After = function() end}
             local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
 
             abandonSkillCallback(1)
@@ -149,6 +151,36 @@ describe("QuestieProfessions", function()
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
             assert.spy(ProfessionStations.HideUnlearned).was.not_called()
+        end)
+
+        it("should clean up when the skill window updates after the abandon event", function()
+            -- Some clients only remove the skill line from the skill window
+            -- after the abandon event was processed
+            local abandoned = false
+            _G.GetSkillLineInfo = function()
+                if abandoned then return nil end
+                return "Cooking", nil, nil, mockedProfessionSkill
+            end
+
+            local timerCallbacks = {}
+            _G.C_Timer = {After = function(_, callback) table.insert(timerCallbacks, callback) end}
+
+            local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
+
+            QuestieProfessions:Update()
+
+            abandonSkillCallback(1)
+
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+
+            abandoned = true
+            for _, callback in ipairs(timerCallbacks) do
+                callback()
+            end
+
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+            assert.spy(ProfessionStations.HideUnlearned).was.called()
         end)
     end)
 end)

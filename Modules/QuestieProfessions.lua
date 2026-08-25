@@ -41,27 +41,45 @@ local function _ScanSkillLineProfessions()
     return scannedProfessions
 end
 
---- Runs whenever a skill was abandoned. The skill window has already changed at
---- this point, so instead of trusting the abandoned skill index we detect which
---- of the known professions disappeared from it.
-hooksecurefunc("AbandonSkill", function()
-    local knownProfessions = _ScanSkillLineProfessions()
+---Removes every tracked profession that no longer exists in the given scan
+---result and reports whether any profession was unlearned.
+---@param scannedProfessions table<number, {string, number}>
+---@return boolean hasUnlearnedProfession
+local function _RemoveMissingProfessions(scannedProfessions)
     local hasUnlearnedProfession = false
 
     for professionId in pairs(playerProfessions) do
-        if not knownProfessions[professionId] then
+        if not scannedProfessions[professionId] then
             Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. playerProfessions[professionId][1])
             playerProfessions[professionId] = nil
             hasUnlearnedProfession = true
         end
     end
 
-    if hasUnlearnedProfession then
-        --? Reset all autoBlacklisted quests if a skill is abandoned
-        QuestieQuest.ResetAutoblacklistCategory("skill")
-        AvailableQuests.CalculateAndDrawAll()
-        local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
-        ProfessionStations.HideUnlearned()
+    return hasUnlearnedProfession
+end
+
+---Runs all side effects for one or more unlearned professions.
+local function _HandleUnlearnedProfessions()
+    --? Reset all autoBlacklisted quests if a skill is abandoned
+    QuestieQuest.ResetAutoblacklistCategory("skill")
+    AvailableQuests.CalculateAndDrawAll()
+    local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+    ProfessionStations.HideUnlearned()
+end
+
+-- Runs whenever a skill was abandoned. Depending on the client the abandoned
+-- skill may still be listed at this point, so re-check shortly after when no
+-- change was detected yet.
+hooksecurefunc("AbandonSkill", function()
+    if _RemoveMissingProfessions(_ScanSkillLineProfessions()) then
+        _HandleUnlearnedProfessions()
+    else
+        C_Timer.After(0.5, function()
+            if _RemoveMissingProfessions(_ScanSkillLineProfessions()) then
+                _HandleUnlearnedProfessions()
+            end
+        end)
     end
 end)
 
@@ -86,7 +104,7 @@ function QuestieProfessions:Init()
     QuestieProfessions.professionTable = professionTable
 end
 
---- Returns if a skill increased and learning a new profession, does not however return if a skill is unlearned
+--- Returns if a skill increased and learning a new profession
 ---@return boolean HasProfessionUpdate @Returns true if the players profession skill has increased
 ---@return boolean HasNewProfession @Returns true if the player has learned a new profession
 function QuestieProfessions:Update()
@@ -94,8 +112,10 @@ function QuestieProfessions:Update()
     local hasProfessionUpdate = false
     local hasNewProfession = false
 
-    -- Used to compare to be able to detect if a profession has been learned
+    -- Used to compare to be able to detect if a profession has been learned or unlearned
     local temporaryPlayerProfessions = _ScanSkillLineProfessions()
+
+    local hasUnlearnedProfession = _RemoveMissingProfessions(temporaryPlayerProfessions)
 
     for professionId, _ in pairs(temporaryPlayerProfessions) do
         if not playerProfessions[professionId] then
@@ -116,6 +136,11 @@ function QuestieProfessions:Update()
         end
     end
     playerProfessions = temporaryPlayerProfessions
+
+    if hasUnlearnedProfession then
+        _HandleUnlearnedProfessions()
+    end
+
     return hasProfessionUpdate, hasNewProfession
 end
 

@@ -11,6 +11,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 ---@type table<number, boolean>
 ProfessionStations.dataClassic = {
@@ -144,7 +146,7 @@ local _icons = {
     moonwell = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
     anvil = "Interface\\Icons\\inv_hammer_20.blp",
     forge = "Interface\\Icons\\spell_fire_flameblades.blp",
-    alchemyLab = "Interface\\Icons\\inv_alchemy_endlessflask_03.blp",
+    alchemyLab = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png",
 }
 
 local _titles = {

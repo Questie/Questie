@@ -1,5 +1,9 @@
 dofile("setupTests.lua")
 dofile("Localization/l10n.lua")
+dofile("Modules/Libs/QuestieLib.lua")
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 describe("ProfessionStations", function()
 
@@ -31,7 +35,7 @@ describe("ProfessionStations", function()
         {key = "moonwell", icon = "Interface\\Icons\\inv_fabric_moonrag_01.blp", title = "Moonwell"},
         {key = "anvil", icon = "Interface\\Icons\\inv_hammer_20.blp", title = "Anvil"},
         {key = "forge", icon = "Interface\\Icons\\spell_fire_flameblades.blp", title = "Forge"},
-        {key = "alchemyLab", icon = "Interface\\Icons\\inv_alchemy_endlessflask_03.blp", title = "Alchemy Lab"},
+        {key = "alchemyLab", icon = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png", title = "Alchemy Lab"},
     }
 
     local function collectShown(spy)
