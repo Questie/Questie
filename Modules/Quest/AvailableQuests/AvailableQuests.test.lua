@@ -483,7 +483,7 @@ describe("AvailableQuests", function()
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
             assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][QUEST_ID])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[QUEST_ID] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
         end)
 
         it("should not hide active quests", function()
@@ -510,7 +510,7 @@ describe("AvailableQuests", function()
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
             assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][QUEST_ID])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[QUEST_ID] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
         end)
 
         it("should not hide unavailable one-time quests", function()
@@ -600,7 +600,7 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[QUEST_ID] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
         end)
 
         it("should handle talking to an NPC without available quests", function()
@@ -735,7 +735,7 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuest])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[availableQuest])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuest] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuest})
         end)
 
         it("should hide weekly quests that are not available", function()
@@ -766,7 +766,7 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][availableQuest])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[availableQuest])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuest] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuest})
         end)
 
         it("should not hide unavailable one-time quests", function()
@@ -860,7 +860,7 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][blacklistedQuest])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[blacklistedQuest])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuest] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuest})
         end)
 
         it("should not hide daily quests outside the player's level range", function()
@@ -890,7 +890,7 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][outOfLevelQuest])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[outOfLevelQuest])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuest] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuest})
         end)
     end)
 
@@ -931,7 +931,7 @@ describe("AvailableQuests", function()
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuestId])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuestId])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuestId] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuestId})
         end)
 
         it("should hide weekly quests that are not available", function()
@@ -970,7 +970,7 @@ describe("AvailableQuests", function()
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuestId])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuestId])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuestId] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuestId})
         end)
 
         it("should not hide one-time quests that are not available", function()
@@ -1015,7 +1015,7 @@ describe("AvailableQuests", function()
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[QUEST_ID] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
         end)
 
         it("should not hide quests when a visible quest title cannot be resolved to an ID", function()
@@ -1118,7 +1118,7 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][blacklistedQuestId])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[blacklistedQuestId])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuestId] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuestId})
         end)
 
         it("should not hide daily quests outside the player's level range", function()
@@ -1154,7 +1154,7 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableQuestsByNpc[NPC_ID][outOfLevelQuestId])
             assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[outOfLevelQuestId])
 
-            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {[availableQuestId] = true})
+            assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuestId})
         end)
     end)
 

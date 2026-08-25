@@ -449,7 +449,11 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
     end
 
     if next(availableQuestsToTrack) then
-        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, availableDailyQuestsByNpc[npcId])
+        local questIdList = {}
+        for questId in pairs(availableDailyQuestsByNpc[npcId]) do
+            questIdList[#questIdList + 1] = questId
+        end
+        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, questIdList)
     end
 end
 
@@ -509,7 +513,11 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
     local availableQuestsToBroadcast = availableDailyQuestsByNpc[npcId]
     if availableQuestsToBroadcast then
-        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, availableQuestsToBroadcast)
+        local questIdList = {}
+        for questId in pairs(availableQuestsToBroadcast) do
+            questIdList[#questIdList + 1] = questId
+        end
+        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, questIdList)
     end
 end
 
@@ -602,7 +610,11 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     end
 
     if next(availableQuestsToTrack) then
-        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, availableDailyQuestsByNpc[npcId])
+        local questIdList = {}
+        for questId in pairs(availableDailyQuestsByNpc[npcId]) do
+            questIdList[#questIdList + 1] = questId
+        end
+        DailyQuestComms.BroadcastAvailableDailyQuests(npcId, questIdList)
     end
 end
 
