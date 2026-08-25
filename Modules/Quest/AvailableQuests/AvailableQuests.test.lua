@@ -44,7 +44,6 @@ describe("AvailableQuests", function()
 
         Questie.db.global.lastKnownDailyReset = {}
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
-        Questie.db.global.unavailableDailyQuestsByNpc = {}
         Questie.db.global.availableDailyQuestsByNpc = {}
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.GetDungeons = function() return {} end
@@ -114,7 +113,6 @@ describe("AvailableQuests", function()
             _G.UnitFactionGroup = spy.new(function() return "Horde" end)
             _G.GetRealmName = spy.new(function() return "Ook Ook" end)
             Questie.db.global.unavailableQuestsDeterminedByTalking = {}
-            Questie.db.global.unavailableDailyQuestsByNpc = {}
             Questie.db.global.availableDailyQuestsByNpc = {}
 
             AvailableQuests.Initialize()
@@ -123,7 +121,6 @@ describe("AvailableQuests", function()
             assert.spy(_G.UnitFactionGroup).was.called()
             assert.spy(_G.GetRealmName).was.called()
             assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableQuestsDeterminedByTalking)
-            assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableDailyQuestsByNpc)
             assert.are_same({["Ook Ook"] = {}}, Questie.db.global.availableDailyQuestsByNpc)
         end)
 
@@ -135,9 +132,6 @@ describe("AvailableQuests", function()
             Questie.db.global.unavailableQuestsDeterminedByTalking = {
                 ["Ook Ook"] = {[1234] = true},
             }
-            Questie.db.global.unavailableDailyQuestsByNpc = {
-                ["Ook Ook"] = {[9999] = {[1234] = true}},
-            }
 
             AvailableQuests.Initialize()
 
@@ -145,7 +139,6 @@ describe("AvailableQuests", function()
             assert.spy(_G.UnitFactionGroup).was.called()
             assert.spy(_G.GetRealmName).was.called()
             assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableQuestsDeterminedByTalking)
-            assert.are_same({["Ook Ook"] = {}}, Questie.db.global.unavailableDailyQuestsByNpc)
         end)
 
         it("should not reset unavailableQuestsDeterminedByTalking when no daily reset happened", function()
@@ -156,9 +149,6 @@ describe("AvailableQuests", function()
             Questie.db.global.unavailableQuestsDeterminedByTalking = {
                 ["Ook Ook"] = {[1234] = true},
             }
-            Questie.db.global.unavailableDailyQuestsByNpc = {
-                ["Ook Ook"] = {[9999] = {[1234] = true}},
-            }
 
             AvailableQuests.Initialize()
 
@@ -166,7 +156,6 @@ describe("AvailableQuests", function()
             assert.spy(_G.UnitFactionGroup).was.called()
             assert.spy(_G.GetRealmName).was.called()
             assert.are_same({["Ook Ook"] = {[1234] = true}}, Questie.db.global.unavailableQuestsDeterminedByTalking)
-            assert.are_same({["Ook Ook"] = {[9999] = {[1234] = true}}}, Questie.db.global.unavailableDailyQuestsByNpc)
         end)
     end)
 
@@ -223,16 +212,13 @@ describe("AvailableQuests", function()
             local realmName = "TestRealm"
             _G.GetRealmName = function() return realmName end
             Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {[QUEST_ID] = true}
-            Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
             Questie.db.global.availableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
 
             AvailableQuests.ClearUnavailableDailyQuests()
 
             assert.are_same({}, Questie.db.global.unavailableQuestsDeterminedByTalking[realmName])
-            assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
             assert.are_same({}, Questie.db.global.availableDailyQuestsByNpc[realmName])
             assert.are_same({}, AvailableQuests.__unavailableQuestsDeterminedByTalking)
-            assert.are_same({}, AvailableQuests.__unavailableDailyQuestsByNpc)
             assert.are_same({}, AvailableQuests.__availableDailyQuestsByNpc)
         end)
     end)
@@ -323,7 +309,6 @@ describe("AvailableQuests", function()
             Questie.IsClassic = false
             Questie.db.global.lastKnownDailyReset[realmName] = 90000
             Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {[QUEST_ID] = true}
-            Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
             QuestieLib.UpdateLastKnownDailyReset = spy.new(function() end)
             AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
             QuestieDB.QuestPointers = {}
@@ -341,7 +326,6 @@ describe("AvailableQuests", function()
             capturedCallback()
 
             assert.are_same({}, Questie.db.global.unavailableQuestsDeterminedByTalking[realmName])
-            assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
             assert.spy(QuestieLib.UpdateLastKnownDailyReset).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)

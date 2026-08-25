@@ -60,10 +60,6 @@ AvailableQuests.__availableQuestsByNpc = availableQuestsByNpc
 ---@type table<QuestId, boolean>
 local unavailableQuestsDeterminedByTalking
 
---- Unavailable daily/weekly quests grouped by NPC, used to answer requests from guild/party members
----@type table<NpcId, table<QuestId, boolean>>
-local unavailableDailyQuestsByNpc
-
 --- Available daily/weekly quests grouped by NPC, built from talking to NPCs and comms events
 ---@type table<NpcId, table<QuestId, boolean>>
 local availableDailyQuestsByNpc
@@ -93,12 +89,6 @@ function AvailableQuests.Initialize()
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
     AvailableQuests.__unavailableQuestsDeterminedByTalking = unavailableQuestsDeterminedByTalking
 
-    if (not Questie.db.global.unavailableDailyQuestsByNpc[realmName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
-        Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}
-    end
-    unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
-    AvailableQuests.__unavailableDailyQuestsByNpc = unavailableDailyQuestsByNpc
-
     if (not Questie.db.global.availableDailyQuestsByNpc[realmName]) or QuestieLib.DidDailyResetHappenSinceLastLogin() then
         Questie.db.global.availableDailyQuestsByNpc[realmName] = {}
     end
@@ -110,16 +100,14 @@ function AvailableQuests.Initialize()
     end
 end
 
---- Clears both unavailable quest tables for the current realm (triggered by daily reset).
+--- Clears unavailable quest tables for the current realm (triggered by daily reset).
 function AvailableQuests.ClearUnavailableDailyQuests()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[AvailableQuests.ClearUnavailableDailyQuests]")
 
     local realmName = GetRealmName()
     Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {}
-    Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {}
     Questie.db.global.availableDailyQuestsByNpc[realmName] = {}
     unavailableQuestsDeterminedByTalking = Questie.db.global.unavailableQuestsDeterminedByTalking[realmName]
-    unavailableDailyQuestsByNpc = Questie.db.global.unavailableDailyQuestsByNpc[realmName]
     availableDailyQuestsByNpc = Questie.db.global.availableDailyQuestsByNpc[realmName]
 end
 
@@ -349,11 +337,6 @@ function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
             availableQuestsByNpc[npcId][questId] = nil
         end
         unavailableQuestsDeterminedByTalking[questId] = true
-
-        if (not unavailableDailyQuestsByNpc[npcId]) then
-            unavailableDailyQuestsByNpc[npcId] = {}
-        end
-        unavailableDailyQuestsByNpc[npcId][questId] = true
     end
 end
 
@@ -415,9 +398,7 @@ function AvailableQuests.ValidateAvailableQuestsFromGossipShow()
         end
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
-            if unavailableDailyQuestsByNpc[npcId] then
-                unavailableDailyQuestsByNpc[npcId][questId] = nil
-            end
+
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
@@ -513,9 +494,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
     -- validate quest is not incorrectly hidden
     if unavailableQuestsDeterminedByTalking[availableQuestId] then
         unavailableQuestsDeterminedByTalking[availableQuestId] = nil
-        if unavailableDailyQuestsByNpc[npcId] then
-            unavailableDailyQuestsByNpc[npcId][availableQuestId] = nil
-        end
+
         local quest = QuestieDB.GetQuest(availableQuestId)
         if quest then
             availableQuests[availableQuestId] = true
@@ -595,9 +574,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
         end
         if unavailableQuestsDeterminedByTalking[questId] then
             unavailableQuestsDeterminedByTalking[questId] = nil
-            if unavailableDailyQuestsByNpc[npcId] then
-                unavailableDailyQuestsByNpc[npcId][questId] = nil
-            end
+
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
@@ -973,9 +950,4 @@ end
 _MarkQuestAsUnavailableFromNPC = function(questId, npcId)
     unavailableQuestsDeterminedByTalking[questId] = true
     availableQuestsByNpc[npcId][questId] = nil
-
-    if (not unavailableDailyQuestsByNpc[npcId]) then
-        unavailableDailyQuestsByNpc[npcId] = {}
-    end
-    unavailableDailyQuestsByNpc[npcId][questId] = true
 end
