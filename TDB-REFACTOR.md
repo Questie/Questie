@@ -17,6 +17,19 @@ This document is the source of truth for the work packet. Update it whenever an 
 
 No runtime cutover code has been written yet.
 
+## QuestieTDB prerequisites
+
+Provider work is tracked only in the QuestieTDB repository:
+
+- [QuestieTDB #14](https://github.com/Questie/QuestieTDB/issues/14): import lookup overrides and Titan zhCN corrections
+- [QuestieTDB #15](https://github.com/Questie/QuestieTDB/issues/15): synchronize support data, fix Source-mode flavor selection, and add drift validation
+- [QuestieTDB #16](https://github.com/Questie/QuestieTDB/issues/16): restrict Titan corrections to the Wrath client
+- [QuestieTDB #17](https://github.com/Questie/QuestieTDB/issues/17): keep `ObjectiveFirst` flavor-scoped in Source mode
+- [QuestieTDB #18](https://github.com/Questie/QuestieTDB/issues/18): document and test Darkmoon parameterized arguments
+- [QuestieTDB #19](https://github.com/Questie/QuestieTDB/issues/19): cover correction side channels and SoD in differential tests
+
+A separate QuestieTDB agent is already handling the correction compatibility global that collides with Questie's `Questie` global. Do not create a duplicate issue for it.
+
 ## Firm decisions
 
 1. QuestieTDB will be the only runtime entity database implementation.
@@ -61,9 +74,12 @@ No runtime cutover code has been written yet.
 
 These must remain available during the cutover, then receive an explicit final owner:
 
-- Objective Order Correction tables currently populated as side effects of entity correction files
-- Titan Reforged zhCN overrides not yet confirmed in QuestieTDB
 - External Locale Override entity lookups, which QuestieTDB does not currently accept through a public provider interface
+- Asynchronous missing-Item repair, pending verification of its intended data shape
+
+QuestieTDB owns the Objective Order Correction tables through `LibQuestieDB.ObjectiveFirst`.
+Titan Reforged zhCN entity localization belongs in QuestieTDB and is tracked by
+[QuestieTDB #14](https://github.com/Questie/QuestieTDB/issues/14).
 
 ## Target initialization order
 
@@ -99,6 +115,7 @@ No entity reads may happen before locale and Questie Policy Corrections have bee
 | `npcKeys` | `LibQuestieDB.Meta.NpcMeta.npcKeys` | QuestieTDB owns the enum. |
 | `itemKeys` | `LibQuestieDB.Meta.ItemMeta.itemKeys` | QuestieTDB owns the enum. |
 | `objectKeys` | `LibQuestieDB.Meta.ObjectMeta.objectKeys` | QuestieTDB owns the enum. |
+| Objective Order Correction tables | `LibQuestieDB.ObjectiveFirst` | Five consumer-must-not-mutate ID sets. |
 
 QuestieTDB returns fresh mutable copies for table-valued entity fields. `GetAllIds` is the exception: its list and map are shared read-only structures.
 
@@ -111,17 +128,17 @@ Before editing, an agent must claim an item and list the files it owns. Agents m
 | ID | Work item | State | Owner | Depends on | Evidence or notes |
 | --- | --- | --- | --- | --- | --- |
 | TDB-01 | Add focused QuestieTDB test fake and contract tests | not started | - | - | Keep the fake smaller than the provider implementation. |
-| TDB-02 | Bind `QuestieDB` queries, keys, ID maps, and caches to `LibQuestieDB` | not started | - | TDB-01 | Preserve the existing caller interface. |
-| TDB-03 | Replace compiler-driven Login Initialization with the target startup order | not started | - | TDB-02, TDB-04, TDB-05 | No compile checks or fallback. |
+| TDB-02 | Bind `QuestieDB` queries, keys, ID maps, Objective Order Corrections, and caches to `LibQuestieDB` | not started | - | TDB-01, QuestieTDB #17 | Preserve the existing caller interface. |
+| TDB-03 | Replace compiler-driven Login Initialization with the target startup order | not started | - | TDB-02, TDB-04, TDB-05, QuestieTDB #16 | No compile checks or fallback. |
 | TDB-04 | Convert Questie-owned policy to Dynamic Corrections | not started | - | TDB-01 | Includes gathering nodes and TBC phase policy. |
-| TDB-05 | Forward entity locale to QuestieTDB and remove raw entity localization writes | not started | - | TDB-01 | Keep UI translation behavior. |
+| TDB-05 | Forward entity locale to QuestieTDB and remove raw entity localization writes | not started | - | TDB-01, TDB-02, QuestieTDB #14 | Keep UI translation behavior. TDB-02 owns Special Objective projection changes in `QuestieDB.lua`. |
 | TDB-06 | Adapt raw entity-table consumers | not started | - | TDB-02 | Townsfolk, Available Quests, search, and pointer fallbacks. |
-| TDB-07 | Convert Darkmoon and asynchronous Item updates | not started | - | TDB-02, TDB-04 | Must invalidate Questie's semantic caches. |
+| TDB-07 | Convert Darkmoon and asynchronous Item updates | not started | - | TDB-02, TDB-04, QuestieTDB #18 | Must invalidate Questie's semantic caches. Verify the missing-Item data model before porting it. |
 | TDB-08 | Remove compiler controls, state, popups, and SavedVariables payloads | not started | - | TDB-03 | Include migration cleanup. |
 | TDB-09 | Remove compiler and raw entity files from runtime TOCs | not started | - | TDB-03, TDB-06 | Preserve Objective Order Correction data first. |
 | TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | not started | - | TDB-09 | Physical repository cleanup after full tests pass. |
-| TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02 | Keep Questie's behavior wrappers. |
-| TDB-12 | Replace database validation CI with a pinned integration check | not started | - | TDB-10, TDB-11 | Data validation belongs in QuestieTDB. |
+| TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Keep Questie's behavior wrappers. Do not switch to known-stale support copies. |
+| TDB-12 | Replace database validation CI with a pinned integration check | not started | - | TDB-10, TDB-11, QuestieTDB #19 | Data validation belongs in QuestieTDB; consumer behavior still needs integration coverage. |
 | TDB-13 | Bundle QuestieTDB and update release packaging | deferred | - | Runtime cutover | Separate distribution work. |
 | TDB-14 | Expose QuestieTDB source-mode status in Questie diagnostics | not started | - | TDB-02 | Do after the main cutover works. |
 
@@ -134,6 +151,7 @@ Add a focused QuestieTDB fake for Questie tests. It should provide only what Que
 - `RequireContract`
 - Entity `Get`, `GetAll`, `GetAllIds`, and `Exists`
 - `Meta`
+- `ObjectiveFirst`
 - `GetRegistrar` and correction application hooks
 - `Corrections.ApplyParameterized`
 - `l10n.SetLocale`
@@ -146,6 +164,7 @@ Required tests:
 - incompatible Contract Version fails clearly
 - single and multi-field query binding
 - Database Key Enum binding
+- Objective Order Correction binding
 - ID map binding
 - semantic cache reset during initialization
 
@@ -163,6 +182,9 @@ In `Database/QuestieDB.lua`:
 - remove binary and pointer decoding
 - remove raw override tables
 - bind the compatibility symbols listed above
+- bind all five consumer-must-not-mutate tables from `LibQuestieDB.ObjectiveFirst`
+- localize `extraObjectives[3]` while constructing Questie's rich Special Objective projection
+- test translated descriptions, spawn names, English fallback, and locale-driven semantic-cache invalidation
 - retain rich projections and Questie policy helpers
 - add a plain pointer refresh function if runtime corrections can add entities
 - provide one clear semantic-cache invalidation function
@@ -198,7 +220,7 @@ Questie registers corrections under owner `"Questie"`.
 Required policy:
 
 - clear `spawns` for the 24 gathering-node Object IDs using `{}`
-- retain TBC content-phase prerequisite policy
+- retain TBC content-phase prerequisite policy for quests `10944` and `11007`
 - retain Questie blacklists and hidden-quest policy
 - preserve any locale or client-state correction still owned by Questie
 
@@ -222,6 +244,10 @@ In `Localization/l10n.lua`:
 - rebuild `objectNameLookup` from Object IDs and queries
 - clear locale-derived Questie caches when the locale changes
 
+QuestieTDB stores `extraObjectives[3]` as the enUS localization key and does not translate that
+structured field. TDB-02 owns the `QuestieDB.lua` projection change; this item owns locale selection
+and cache lifecycle.
+
 Open decision: external locale addons can currently provide entity lookups. QuestieTDB exposes fixed locale overlays but no public provider-registration interface. Do not silently drop this behavior.
 
 ### TDB-06: raw consumers
@@ -242,12 +268,15 @@ Townsfolk should use ID maps plus query functions. Its local faction-template da
 Darkmoon correction:
 
 - call `LibQuestieDB.Corrections.ApplyParameterized("LoadDarkmoonFixes", ...)`
-- use the correct Era or TBC arguments
+- Era passes `isInMulgore`
+- TBC passes `isInMulgore, isInTerokkar`
+- never pass a location string because non-empty strings are truthy in Lua
 - clear Questie's semantic NPC cache afterward
 
 Asynchronous Item names:
 
-- replace writes to `itemDataOverrides` with a Questie-owned Dynamic Correction
+- first verify why the existing row writes `{questId}` into the Item's `npcDrops` slot
+- replace writes to `itemDataOverrides` with a Questie-owned Dynamic Correction only after the intended model is known
 - reapply the Questie correction owner
 - refresh Item IDs if a new entity was added
 - clear Questie's semantic Item cache
@@ -300,7 +329,9 @@ After the runtime cutover and full validation pass, physically delete:
 
 ### TDB-11: support data
 
-Consume support data through `LibQuestieDB.Support.Get`:
+Consume support data through `LibQuestieDB.Support.Get` after
+[QuestieTDB #15](https://github.com/Questie/QuestieTDB/issues/15) synchronizes the provider copies
+and proves flavor-correct Source/Baked support selection:
 
 - `ZoneDB`
 - `QuestXP`
@@ -314,7 +345,8 @@ Keep the Questie modules that interpret these datasets. QuestieTDB owns the data
 
 ### Must be resolved during cutover
 
-- Objective Order Correction tables are hidden side effects of files otherwise scheduled for deletion.
+- Objective Order Corrections must bind to `LibQuestieDB.ObjectiveFirst`; Source/Baked flavor parity is tracked by QuestieTDB #17.
+- Special Objective descriptions need Questie localization at render time.
 - Questie semantic caches can outlive QuestieTDB correction or locale invalidation.
 - Asynchronous Item creation currently mutates raw override tables.
 - Darkmoon fixes currently mutate NPC overrides after initialization.
@@ -371,7 +403,7 @@ Before declaring the runtime cutover complete:
 4. Runtime TOCs load no compiler or raw entity data.
 5. No production code reads raw entity or override tables.
 6. Questie reaches its ready state without compilation messages.
-7. A live smoke test confirms representative entity reads, gathering-node suppression, localization, Townsfolk, and Darkmoon behavior.
+7. A live smoke test confirms representative entity reads, gathering-node suppression, localization, Objective Order Corrections, Special Objective text, Townsfolk, TBC phase prerequisites, Titan gating, and Darkmoon behavior.
 
 ## Agent coordination
 
@@ -444,3 +476,4 @@ QuestieTDB contract:
 ## Change log
 
 - Initial document: recorded library reconnaissance, Questie compiler mapping, firm decisions, target interface, work tracker, risks, and validation gates. No implementation work completed yet.
+- Correction audit update: linked QuestieTDB issues #14 through #19; added Objective Order binding, Special Objective localization, exact Darkmoon arguments, support-data dependencies, Titan gating, and missing-Item model verification. No implementation work completed yet.
