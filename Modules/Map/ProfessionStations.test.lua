@@ -374,6 +374,7 @@ describe("ProfessionStations", function()
             for _, call in ipairs(QuestieMap.UnloadManualFrames.calls) do
                 assert.are_same("anvil", call.vals[3])
             end
+            assert.is_false(_G["Questie"].db.profile.townsfolkConfig["Anvil"])
         end)
 
         it("should keep enabled stations the player still qualifies for", function()
@@ -382,6 +383,7 @@ describe("ProfessionStations", function()
 
             assert.is_false(ProfessionStations.HideUnlearned())
             assert.is_true(#QuestieMap.UnloadManualFrames.calls == 0)
+            assert.is_true(_G["Questie"].db.profile.townsfolkConfig["Anvil"])
         end)
 
         it("should ignore stations that are disabled", function()
@@ -405,6 +407,8 @@ describe("ProfessionStations", function()
             end
             assert.is_true(unloadedTypes["anvil"])
             assert.is_nil(unloadedTypes["moonwell"])
+            assert.is_false(_G["Questie"].db.profile.townsfolkConfig["Anvil"])
+            assert.is_true(_G["Questie"].db.profile.townsfolkConfig["Moonwell"])
         end)
     end)
 end)

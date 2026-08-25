@@ -353,7 +353,8 @@ ProfessionStations.stationCategories = {
 }
 
 ---Hides every enabled station whose profession requirement the player no
----longer meets, e.g. after unlearning one of their professions.
+---longer meets, e.g. after unlearning one of their professions, and disables
+---its menu toggle so it stays off when the profession is learned again.
 ---@return boolean removed @True if any station category had to be hidden
 function ProfessionStations.HideUnlearned()
     local removed = false
@@ -361,6 +362,7 @@ function ProfessionStations.HideUnlearned()
     for townsfolkKey, category in pairs(ProfessionStations.stationCategories) do
         if config and config[townsfolkKey] and not ProfessionStations.IsStationAvailable(townsfolkKey) then
             ProfessionStations.HideAll(category)
+            config[townsfolkKey] = false
             removed = true
         end
     end
