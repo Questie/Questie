@@ -979,6 +979,49 @@ describe("DailyQuestComms", function()
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
 
+        it("should use the correct distribution when two requests arrive on different channels before timer fires", function()
+            local npcId = 111
+            local questIds = {222, 333}
+            AvailableQuests.GetAvailableDailyQuests = function() return {[npcId] = questIds} end
+            Questie.SendCommMessage = spy.new(function() end)
+            CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
+            _G.IsInGuild = function() return true end
+
+            local firstTimerCallback
+            local firstTimer = {
+                cancelled = false,
+                Cancel = function(self) self.cancelled = true end
+            }
+            _G.C_Timer.NewTimer = function(_, callback)
+                firstTimerCallback = callback
+                return firstTimer
+            end
+
+            local requestEvent = {eventName = "RequestAvailableDailyQuests", data = {}}
+            CommsEncoding.DecodePayload = function() return requestEvent end
+
+            -- First request comes on GUILD
+            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "Sender1")
+
+            -- Second request comes on PARTY before first timer fires
+            local secondTimer = {
+                cancelled = false,
+                Cancel = function(self) self.cancelled = true end
+            }
+            _G.C_Timer.NewTimer = function(_, callback)
+                callback() -- second timer fires immediately
+                return secondTimer
+            end
+            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "PARTY", "Sender2")
+
+            -- Now fire the FIRST timer callback (simulating it firing after second request was processed)
+            firstTimerCallback()
+
+            -- The first timer's response should have gone to GUILD, not PARTY
+            -- This test will FAIL with the current bug (it sends to PARTY instead of GUILD)
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieDailiesV2", "eventAsSerializedString", "GUILD")
+        end)
+
         it("should include known available quests in the event payload", function()
             local npcId = 1234
             local questIds = {5678, 91011}
