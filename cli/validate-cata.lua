@@ -18,11 +18,11 @@ GetMaxPlayerLevel = function()
     return 85
 end
 
-local function _Debug(_, ...)
+local function _Debug(...)
     --print(...)
 end
 
-local function _ErrorOrWarning(_, text, ...)
+local function _ErrorOrWarning(text, ...)
     print(text)
 end
 
