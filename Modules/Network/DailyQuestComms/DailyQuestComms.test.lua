@@ -355,7 +355,6 @@ describe("DailyQuestComms", function()
         it("should replace existing pending timer when a second RequestAvailableDailyQuests arrives", function()
             -- Setup: receiver has NPC 1234 that senders don't — so both timers will be scheduled
             AvailableQuests.GetAvailableDailyQuests = function() return {[1234] = {5678}} end
-            AvailableQuests.GetAvailableDailyQuests = function() return {[1234] = {5678}} end
 
             local firstTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
             local firstTimerMock = spy.new(function() return firstTimer end)
@@ -382,9 +381,6 @@ describe("DailyQuestComms", function()
             local broadcastedQuestIds = {1, 2, 3}
 
             -- Setup: local knowledge includes 5 quests
-            AvailableQuests.GetAvailableDailyQuests = function()
-                return {[npcId] = localQuestIds}
-            end
             AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
@@ -419,9 +415,6 @@ describe("DailyQuestComms", function()
             AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
-            AvailableQuests.GetAvailableDailyQuests = function()
-                return {[npcId] = localQuestIds}
-            end
 
             -- Schedule a response
             local timer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
@@ -449,9 +442,6 @@ describe("DailyQuestComms", function()
             local npcId = 1234
             local localQuestIds = {1, 2, 3, 4, 5}
 
-            AvailableQuests.GetAvailableDailyQuests = function()
-                return {[npcId] = localQuestIds}
-            end
             AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
@@ -493,9 +483,6 @@ describe("DailyQuestComms", function()
             local npcId = 1234
             local localQuestIds = {1, 2, 3}
 
-            AvailableQuests.GetAvailableDailyQuests = function()
-                return {[npcId] = localQuestIds}
-            end
             AvailableQuests.GetAvailableDailyQuests = function()
                 return {[npcId] = localQuestIds}
             end
@@ -622,6 +609,7 @@ describe("DailyQuestComms", function()
             DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", "SomeSender")
 
             assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.called_with(9999, {100, 200})
+            assert.spy(AvailableQuests.MarkQuestsAsAvailable).was.called(1)
         end)
 
         it("should not call MarkQuestsAsAvailable for NPCs the receiver already knows", function()
