@@ -433,10 +433,6 @@ function QuestieInit:Init()
                 if TrackedQuestsScrollFrame then
                     TrackedQuestsScrollFrame.ScrollBar:Hide()
                 end
-
-                if QuestieProfilerScrollFrame then
-                    QuestieProfilerScrollFrame.ScrollBar:Hide()
-                end
             end)
         end
     end

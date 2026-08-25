@@ -1,0 +1,13 @@
+<Ui>
+    <!-- Commented elements must remain unloaded.
+    <Script file="ignored.lua"/>
+    -->
+    <Script>
+        table.insert(LOAD_TOC_TEST_ORDER, "inline XML script")
+    </Script>
+    <Script file="xml-script.lua"/>
+    <Include file="deeper\include.xml"/>
+    <Scripts>
+        <OnLoad>table.insert(LOAD_TOC_TEST_ORDER, "frame event script")</OnLoad>
+    </Scripts>
+</Ui>
