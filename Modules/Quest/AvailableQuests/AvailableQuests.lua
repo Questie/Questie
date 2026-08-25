@@ -957,4 +957,8 @@ end
 _MarkQuestAsUnavailableFromNPC = function(questId, npcId)
     unavailableQuestsDeterminedByTalking[questId] = true
     availableQuestsByNpc[npcId][questId] = nil
+
+    if availableDailyQuestsByNpc[npcId] then
+        availableDailyQuestsByNpc[npcId][questId] = nil
+    end
 end

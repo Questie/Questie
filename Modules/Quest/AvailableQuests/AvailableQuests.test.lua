@@ -419,6 +419,7 @@ describe("AvailableQuests", function()
             DailyQuestComms.BroadcastAvailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.__availableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
@@ -428,6 +429,7 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
             assert.is_nil(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+            assert.is_nil(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][QUEST_ID])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
 
             assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.not_called()
@@ -445,6 +447,7 @@ describe("AvailableQuests", function()
             DailyQuestComms.BroadcastAvailableDailyQuests = spy.new(function() end)
             AvailableQuests.__availableQuests[QUEST_ID] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.__availableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromGossipShow()
 
@@ -454,6 +457,7 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
             assert.is_nil(AvailableQuests.__availableQuests[QUEST_ID])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+            assert.is_nil(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][QUEST_ID])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
 
             assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.not_called()
@@ -720,6 +724,7 @@ describe("AvailableQuests", function()
             AvailableQuests.__availableQuests[availableQuest] = true
             AvailableQuests.__availableQuests[unavailableQuest] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuest] = true, [unavailableQuest] = true}
+            AvailableQuests.__availableDailyQuestsByNpc[NPC_ID] = {[availableQuest] = true, [unavailableQuest] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
@@ -727,6 +732,7 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuest])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuest])
+            assert.is_nil(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][unavailableQuest])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuest])
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuest)
@@ -751,6 +757,7 @@ describe("AvailableQuests", function()
             AvailableQuests.__availableQuests[availableQuest] = true
             AvailableQuests.__availableQuests[unavailableQuest] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuest] = true, [unavailableQuest] = true}
+            AvailableQuests.__availableDailyQuestsByNpc[NPC_ID] = {[availableQuest] = true, [unavailableQuest] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
 
@@ -758,6 +765,7 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuest)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuest])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuest])
+            assert.is_nil(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][unavailableQuest])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuest])
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, availableQuest)
@@ -914,6 +922,7 @@ describe("AvailableQuests", function()
             AvailableQuests.__availableQuests[availableQuestId] = true
             AvailableQuests.__availableQuests[unavailableQuestId] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [unavailableQuestId] = true}
+            AvailableQuests.__availableDailyQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [unavailableQuestId] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
@@ -929,6 +938,7 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuestId)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuestId])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuestId])
+            assert.is_nil(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][unavailableQuestId])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuestId])
 
             assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuestId})
@@ -953,6 +963,7 @@ describe("AvailableQuests", function()
             AvailableQuests.__availableQuests[availableQuestId] = true
             AvailableQuests.__availableQuests[unavailableQuestId] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [unavailableQuestId] = true}
+            AvailableQuests.__availableDailyQuestsByNpc[NPC_ID] = {[availableQuestId] = true, [unavailableQuestId] = true}
 
             AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
@@ -968,6 +979,7 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, unavailableQuestId)
             assert.is_nil(AvailableQuests.__availableQuests[unavailableQuestId])
             assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][unavailableQuestId])
+            assert.is_nil(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][unavailableQuestId])
             assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[unavailableQuestId])
 
             assert.spy(DailyQuestComms.BroadcastAvailableDailyQuests).was.called_with(NPC_ID, {availableQuestId})
