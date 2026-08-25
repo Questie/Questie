@@ -33,8 +33,8 @@ describe("ProfessionStations", function()
 
     local categories = {
         {key = "moonwell", icon = "Interface\\Icons\\inv_fabric_moonrag_01.blp", title = "Moonwell"},
-        {key = "anvil", icon = "Interface\\Icons\\inv_hammer_20.blp", title = "Anvil"},
-        {key = "forge", icon = "Interface\\Icons\\spell_fire_flameblades.blp", title = "Forge"},
+        {key = "anvil", icon = QuestieLib.AddonPath.."Icons\\inv_hammer_20.png", title = "Anvil"},
+        {key = "forge", icon = QuestieLib.AddonPath.."Icons\\spell_fire_flameblades.png", title = "Forge"},
         {key = "alchemyLab", icon = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png", title = "Alchemy Lab"},
     }
 
