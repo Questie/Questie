@@ -3713,6 +3713,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 10163,
             [questKeys.nextQuestInChain] = 10163,
         },
+        [10345] = { -- The Flesh Lies...
+            [questKeys.objectives] = {{{20561,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [10349] = { -- The Earthbinder
             [questKeys.nextQuestInChain] = 10351,
         },
@@ -4941,6 +4944,7 @@ function QuestieTBCQuestFixes:Load()
         [10977] = { -- Stasis Chambers of the Mana-Tombs
             [questKeys.objectives] = {nil,{{185519}}},
             [questKeys.requiredMinRep] = {933,21000},
+            [questKeys.nextQuestInChain] = 10982,
         },
         [10981] = { -- Nexus-Prince Shaffar's Personal Chamber
             [questKeys.requiredMaxRep] = {},
