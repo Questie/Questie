@@ -21,7 +21,7 @@
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
 ## Version: 11.36.2
-## RequiredDeps:
+## RequiredDeps: QuestieTDB
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter

@@ -1,16 +1,13 @@
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
+local contractSupported, contractError = LibQuestieDB.RequireContract(1)
+if not contractSupported then
+    error(contractError, 0)
+end
+
 ---@class DatabaseObjectKeys
-QuestieDB.objectKeys = {
-    ['name'] = 1, -- string
-    ['questStarts'] = 2, -- table {questID(int),...}
-    ['questEnds'] = 3, -- table {questID(int),...}
-    ['spawns'] = 4, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
-    ['zoneID'] = 5, -- guess as to where this object is most common
-    ['factionID'] = 6, -- faction restriction mask (same as spawndb factionid)
-    ['waypoints'] = 7, -- waypoints for objects on ships/zeppelins/etc
-}
+QuestieDB.objectKeys = LibQuestieDB.Meta.ObjectMeta.objectKeys
 
 QuestieDB.objectKeysReversed = {}
 for key, id in pairs(QuestieDB.objectKeys) do

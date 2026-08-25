@@ -2,6 +2,8 @@ dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 
+local QuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+
 dofile("Database/itemDB.lua")
 dofile("Database/questDB.lua")
 dofile("Database/Zones/data/zoneIds.lua")
@@ -277,6 +279,7 @@ _G["Questie"] = {
 
 ---@class TestUtils
 local TestUtils = {
+    QuestieTDB = QuestieTDBMock,
     resetEvents = function()
         registeredEvents = {}
     end,

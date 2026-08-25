@@ -3,6 +3,9 @@ local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 ---@class QuestieDBPrivate
 local _QuestieDB = QuestieDB.private
 
+---@type LibQuestieDB
+local LibQuestieDB = LibQuestieDB
+
 -------------------------
 --Import modules.
 -------------------------
@@ -22,8 +25,6 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -241,6 +242,10 @@ QuestieDB.activeChildQuests = {}
 
 
 function QuestieDB:Initialize()
+    local contractSupported, contractError = LibQuestieDB.RequireContract(1)
+    if not contractSupported then
+        error(contractError, 2)
+    end
 
     StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
         text = l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."),
@@ -268,69 +273,26 @@ function QuestieDB:Initialize()
 
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
-    -- For now we store both, the SoD database and the Era/HC database
-    local npcBin, npcPtrs, questBin, questPtrs, objBin, objPtrs, itemBin, itemPtrs
-    if Questie.IsSoD then
-        npcBin = Questie.db.global.sod.npcBin
-        npcPtrs = Questie.db.global.sod.npcPtrs
-        questBin = Questie.db.global.sod.questBin
-        questPtrs = Questie.db.global.sod.questPtrs
-        objBin = Questie.db.global.sod.objBin
-        objPtrs = Questie.db.global.sod.objPtrs
-        itemBin = Questie.db.global.sod.itemBin
-        itemPtrs = Questie.db.global.sod.itemPtrs
-    else
-        npcBin = Questie.db.global.npcBin
-        npcPtrs = Questie.db.global.npcPtrs
-        questBin = Questie.db.global.questBin
-        questPtrs = Questie.db.global.questPtrs
-        objBin = Questie.db.global.objBin
-        objPtrs = Questie.db.global.objPtrs
-        itemBin = Questie.db.global.itemBin
-        itemPtrs = Questie.db.global.itemPtrs
-    end
+    QuestieDB.QueryQuestSingle = LibQuestieDB.Quest.Get
+    QuestieDB.QueryNPCSingle = LibQuestieDB.Npc.Get
+    QuestieDB.QueryItemSingle = LibQuestieDB.Item.Get
+    QuestieDB.QueryObjectSingle = LibQuestieDB.Object.Get
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Begin GetDBHandles")
-    local npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
-    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] NPC GetDBHandles Complete")
+    QuestieDB.QueryQuest = LibQuestieDB.Quest.GetAll
+    QuestieDB.QueryNPC = LibQuestieDB.Npc.GetAll
+    QuestieDB.QueryItem = LibQuestieDB.Item.GetAll
+    QuestieDB.QueryObject = LibQuestieDB.Object.GetAll
 
-    local questSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder)
-    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(questBin, questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Quest GetDBHandles Complete")
+    QuestieDB.QuestPointers = LibQuestieDB.Quest.GetAllIds(true)
+    QuestieDB.NPCPointers = LibQuestieDB.Npc.GetAllIds(true)
+    QuestieDB.ItemPointers = LibQuestieDB.Item.GetAllIds(true)
+    QuestieDB.ObjectPointers = LibQuestieDB.Object.GetAllIds(true)
 
-    local objectSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder)
-    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Object GetDBHandles Complete")
-
-    local itemSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder)
-    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(itemBin, itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Item GetDBHandles Complete")
-
-    QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
-    QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
-    QuestieDB._QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
-    QuestieDB._QueryItemSingle = QuestieDB.QueryItem.QuerySingle
-
-    QuestieDB.NPCPointers = QuestieDB.QueryNPC.pointers
-    QuestieDB.QuestPointers = QuestieDB.QueryQuest.pointers
-    QuestieDB.ObjectPointers = QuestieDB.QueryObject.pointers
-    QuestieDB.ItemPointers = QuestieDB.QueryItem.pointers
-
-    QuestieDB._QueryNPC = QuestieDB.QueryNPC.Query
-    QuestieDB._QueryQuest = QuestieDB.QueryQuest.Query
-    QuestieDB._QueryObject = QuestieDB.QueryObject.Query
-    QuestieDB._QueryItem = QuestieDB.QueryItem.Query
-
-    QuestieDB.QueryNPC = QuestieDB._QueryNPC
-    QuestieDB.QueryQuest = QuestieDB._QueryQuest
-    QuestieDB.QueryObject = QuestieDB._QueryObject
-    QuestieDB.QueryItem = QuestieDB._QueryItem
-
-    QuestieDB.QueryQuestSingle = QuestieDB._QueryQuestSingle
-    QuestieDB.QueryNPCSingle = QuestieDB._QueryNPCSingle
-    QuestieDB.QueryObjectSingle = QuestieDB._QueryObjectSingle
-    QuestieDB.QueryItemSingle = QuestieDB._QueryItemSingle
+    QuestieCorrections.killCreditObjectiveFirst = LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst
+    QuestieCorrections.objectObjectiveFirst = LibQuestieDB.ObjectiveFirst.objectObjectiveFirst
+    QuestieCorrections.itemObjectiveFirst = LibQuestieDB.ObjectiveFirst.itemObjectiveFirst
+    QuestieCorrections.eventObjectiveFirst = LibQuestieDB.ObjectiveFirst.eventObjectiveFirst
+    QuestieCorrections.spellObjectiveFirst = LibQuestieDB.ObjectiveFirst.spellObjectiveFirst
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     _QuestieDB.questCache = {};
@@ -338,6 +300,7 @@ function QuestieDB:Initialize()
     _QuestieDB.npcCache = {};
     _QuestieDB.objectCache = {};
     _QuestieDB.zoneCache = {};
+    QuestieDB._CreatureLevelCache = {}
 
     --? This improves performance a lot, the regular functions still work but this is much faster because i caches
     checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
@@ -1729,14 +1692,15 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     local extraObjectives = QO.extraObjectives
     if extraObjectives then
         for index, o in pairs(extraObjectives) do
+            local localizedDescription = o[3] and l10n(o[3]) or nil
             local specialObjective = {
                 Icon = o[2],
-                Description = o[3],
+                Description = localizedDescription,
                 RealObjectiveIndex = o[4],
             }
             if o[1] then -- custom spawn
                 specialObjective.spawnList = {{
-                    Name = o[3],
+                    Name = localizedDescription,
                     Spawns = o[1],
                     Icon = o[2],
                     GetIconScale = _GetIconScale,

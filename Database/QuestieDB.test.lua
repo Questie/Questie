@@ -1,8 +1,9 @@
-dofile("setupTests.lua")
+local TestUtils = dofile("setupTests.lua")
 
 dofile("Database/questDB.lua")
 dofile("Database/itemDB.lua")
 dofile("Database/npcDB.lua")
+dofile("Database/objectDB.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
@@ -13,14 +14,34 @@ describe("QuestieDB", function()
     local QuestieCorrections
     ---@type QuestieDB
     local QuestieDB
+    ---@type l10n
+    local l10n
 
     ---@type Quest
     local testQuest
 
+    local function _AssertSchemaRejectsIncompatibleContract(filePath)
+        local compatibleDatabaseAddon = _G.LibQuestieDB
+        _G.LibQuestieDB = {
+            RequireContract = function()
+                return false, "QuestieTDB test contract mismatch"
+            end,
+        }
+
+        local loaded, loadError = pcall(dofile, filePath)
+        _G.LibQuestieDB = compatibleDatabaseAddon
+
+        assert.is_false(loaded)
+        assert.is_truthy(string.find(tostring(loadError), "QuestieTDB test contract mismatch", 1, true))
+    end
+
     before_each(function()
+        TestUtils.QuestieTDB.Reset()
         Questie.db.char.complete = {}
+        Questie.db.char.hidden = {}
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.TableMemoizeFunction = function(_, func) return func end
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
@@ -36,6 +57,7 @@ describe("QuestieDB", function()
         QuestieDB.private.questCache = {}
         QuestieDB.private.itemCache = {}
         dofile("Localization/l10n.lua")
+        l10n = QuestieLoader:ImportModule("l10n")
         dofile("Database/Corrections/questTagInfoCorrections.lua")
         QuestieDB.private.InitializeQuestTagInfoCorrections()
 
@@ -51,6 +73,137 @@ describe("QuestieDB", function()
             [questKeys.objectivesText] = "Finish him!",
             [questKeys.objectives] = {{{1000}}}
         }
+    end)
+
+    describe("Initialize", function()
+        it("rejects an incompatible Database Addon Contract Version during initialization", function()
+            TestUtils.QuestieTDB.SetContractError("QuestieTDB test contract mismatch")
+
+            assert.has_error(function()
+                QuestieDB:Initialize()
+            end, "QuestieTDB test contract mismatch")
+        end)
+
+        it("rejects an incompatible Database Addon before loading Quest schema metadata", function()
+            _AssertSchemaRejectsIncompatibleContract("Database/questDB.lua")
+        end)
+
+        it("rejects an incompatible Database Addon before loading NPC schema metadata", function()
+            _AssertSchemaRejectsIncompatibleContract("Database/npcDB.lua")
+        end)
+
+        it("rejects an incompatible Database Addon before loading Item schema metadata", function()
+            _AssertSchemaRejectsIncompatibleContract("Database/itemDB.lua")
+        end)
+
+        it("rejects an incompatible Database Addon before loading Game Object schema metadata", function()
+            _AssertSchemaRejectsIncompatibleContract("Database/objectDB.lua")
+        end)
+
+        it("uses the Database Key Enums from the Database Addon", function()
+            assert.are.equal(LibQuestieDB.Meta.QuestMeta.questKeys, QuestieDB.questKeys)
+            assert.are.equal(LibQuestieDB.Meta.NpcMeta.npcKeys, QuestieDB.npcKeys)
+            assert.are.equal(LibQuestieDB.Meta.ItemMeta.itemKeys, QuestieDB.itemKeys)
+            assert.are.equal(LibQuestieDB.Meta.ObjectMeta.objectKeys, QuestieDB.objectKeys)
+        end)
+
+        it("binds single-field queries to the Database Addon", function()
+            TestUtils.QuestieTDB.AddEntity("Quest", 101, {[QuestieDB.questKeys.name] = "A Test Quest"})
+            TestUtils.QuestieTDB.AddEntity("Npc", 102, {[QuestieDB.npcKeys.name] = "A Test NPC"})
+            TestUtils.QuestieTDB.AddEntity("Item", 103, {[QuestieDB.itemKeys.name] = "A Test Item"})
+            TestUtils.QuestieTDB.AddEntity("Object", 104, {[QuestieDB.objectKeys.name] = "A Test Game Object"})
+
+            QuestieDB:Initialize()
+
+            assert.are_same("A Test Quest", QuestieDB.QueryQuestSingle(101, "name"))
+            assert.are_same("A Test NPC", QuestieDB.QueryNPCSingle(102, "name"))
+            assert.are_same("A Test Item", QuestieDB.QueryItemSingle(103, "name"))
+            assert.are_same("A Test Game Object", QuestieDB.QueryObjectSingle(104, "name"))
+        end)
+
+        it("returns fresh table fields through bound Database Addon queries", function()
+            TestUtils.QuestieTDB.AddEntity("Quest", 101, {
+                [QuestieDB.questKeys.startedBy] = {{102}, {103}},
+            })
+            QuestieDB:Initialize()
+
+            local firstRead = QuestieDB.QueryQuestSingle(101, "startedBy")
+            firstRead[1][1] = 999
+
+            assert.are_same({{102}, {103}}, QuestieDB.QueryQuestSingle(101, "startedBy"))
+        end)
+
+        it("binds bulk queries to the Database Addon", function()
+            TestUtils.QuestieTDB.AddEntity("Quest", 101, {
+                [QuestieDB.questKeys.name] = "A Test Quest",
+                [QuestieDB.questKeys.requiredLevel] = 42,
+            })
+            TestUtils.QuestieTDB.AddEntity("Npc", 102, {
+                [QuestieDB.npcKeys.name] = "A Test NPC",
+                [QuestieDB.npcKeys.rank] = 3,
+            })
+            TestUtils.QuestieTDB.AddEntity("Item", 103, {
+                [QuestieDB.itemKeys.name] = "A Test Item",
+                [QuestieDB.itemKeys.itemLevel] = 51,
+            })
+            TestUtils.QuestieTDB.AddEntity("Object", 104, {
+                [QuestieDB.objectKeys.name] = "A Test Game Object",
+                [QuestieDB.objectKeys.zoneID] = 12,
+            })
+
+            QuestieDB:Initialize()
+
+            assert.are_same({[1] = "A Test Quest", [3] = 42, n = 3}, QuestieDB.QueryQuest(101, {"name", "triggerEnd", "requiredLevel"}))
+            assert.are_same({"A Test NPC", 3, n = 2}, QuestieDB.QueryNPC(102, {"name", "rank"}))
+            assert.are_same({"A Test Item", 51, n = 2}, QuestieDB.QueryItem(103, {"name", "itemLevel"}))
+            assert.are_same({"A Test Game Object", 12, n = 2}, QuestieDB.QueryObject(104, {"name", "zoneID"}))
+        end)
+
+        it("binds Objective Order Corrections from the Database Addon", function()
+            QuestieDB:Initialize()
+
+            assert.are.equal(LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst, QuestieCorrections.killCreditObjectiveFirst)
+            assert.are.equal(LibQuestieDB.ObjectiveFirst.objectObjectiveFirst, QuestieCorrections.objectObjectiveFirst)
+            assert.are.equal(LibQuestieDB.ObjectiveFirst.itemObjectiveFirst, QuestieCorrections.itemObjectiveFirst)
+            assert.are.equal(LibQuestieDB.ObjectiveFirst.eventObjectiveFirst, QuestieCorrections.eventObjectiveFirst)
+            assert.are.equal(LibQuestieDB.ObjectiveFirst.spellObjectiveFirst, QuestieCorrections.spellObjectiveFirst)
+        end)
+
+        it("binds entity ID maps from the Database Addon", function()
+            TestUtils.QuestieTDB.AddEntity("Quest", 101, {})
+            TestUtils.QuestieTDB.AddEntity("Npc", 102, {})
+            TestUtils.QuestieTDB.AddEntity("Item", 103, {})
+            TestUtils.QuestieTDB.AddEntity("Object", 104, {})
+
+            QuestieDB:Initialize()
+
+            assert.are.equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
+            assert.are.equal(LibQuestieDB.Npc.GetAllIds(true), QuestieDB.NPCPointers)
+            assert.are.equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
+            assert.are.equal(LibQuestieDB.Object.GetAllIds(true), QuestieDB.ObjectPointers)
+            assert.are_same({[101] = true}, QuestieDB.QuestPointers)
+            assert.are_same({[102] = true}, QuestieDB.NPCPointers)
+            assert.are_same({[103] = true}, QuestieDB.ItemPointers)
+            assert.are_same({[104] = true}, QuestieDB.ObjectPointers)
+        end)
+
+        it("resets semantic caches after binding the Database Addon", function()
+            QuestieDB.private.questCache[101] = {Id = 101}
+            QuestieDB.private.npcCache[102] = {Id = 102}
+            QuestieDB.private.itemCache[103] = {Id = 103}
+            QuestieDB.private.objectCache[104] = {Id = 104}
+            QuestieDB.private.zoneCache[105] = {Id = 105}
+            QuestieDB._CreatureLevelCache[106] = {Id = 106}
+
+            QuestieDB:Initialize()
+
+            assert.is_nil(QuestieDB.private.questCache[101])
+            assert.is_nil(QuestieDB.private.npcCache[102])
+            assert.is_nil(QuestieDB.private.itemCache[103])
+            assert.is_nil(QuestieDB.private.objectCache[104])
+            assert.is_nil(QuestieDB.private.zoneCache[105])
+            assert.is_nil(QuestieDB._CreatureLevelCache[106])
+        end)
     end)
 
     describe("GetQuest", function()
@@ -99,15 +252,16 @@ describe("QuestieDB", function()
             }}, quest.ObjectiveData)
         end)
 
-        it("should move a structured spell objective first when corrected", function()
+        it("should move a structured spell objective first when the Database Addon requests it", function()
             local questKeys = QuestieDB.questKeys
             testQuest[questKeys.objectives] = {
                 [1] = {{1000, "Slay the target"}},
                 [6] = {{12345, "Cast the spell", 67890}}
             }
-            QuestieCorrections.spellObjectiveFirst[123] = true
-            QuestieDB.QueryQuest = spy.new(function() return testQuest end)
+            TestUtils.QuestieTDB.SetObjectiveFirst("spellObjectiveFirst", 123)
+            TestUtils.QuestieTDB.AddEntity("Quest", 123, testQuest)
             QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
+            QuestieDB:Initialize()
 
             local quest = QuestieDB.GetQuest(123)
 
@@ -143,6 +297,51 @@ describe("QuestieDB", function()
                     Description = "Required Item",
                 },
             }, quest.SpecialObjectives)
+        end)
+
+        it("should localize Special Objective descriptions and spawn names", function()
+            testQuest[QuestieDB.questKeys.extraObjectives] = {
+                {{[12] = {{45.6, 78.9}}}, 7, "Find the hidden cache"},
+            }
+            l10n.translations["Find the hidden cache"] = {
+                enUS = true,
+                deDE = "Finde das versteckte Versteck",
+            }
+            l10n:SetUILocale("deDE")
+            QuestieDB.QueryQuest = function() return testQuest end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are_same("Finde das versteckte Versteck", quest.SpecialObjectives[1].Description)
+            assert.are_same("Finde das versteckte Versteck", quest.SpecialObjectives[1].spawnList[1].Name)
+        end)
+
+        it("should preserve a missing Special Objective description and custom-spawn name", function()
+            testQuest[QuestieDB.questKeys.extraObjectives] = {
+                {{[12] = {{45.6, 78.9}}}, 7},
+            }
+            QuestieDB.QueryQuest = function() return testQuest end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.is_nil(quest.SpecialObjectives[1].Description)
+            assert.is_nil(quest.SpecialObjectives[1].spawnList[1].Name)
+        end)
+
+        it("should use the English Special Objective text when no translation exists", function()
+            testQuest[QuestieDB.questKeys.extraObjectives] = {
+                {{[12] = {{45.6, 78.9}}}, 7, "Find the hidden cache"},
+            }
+            l10n:SetUILocale("deDE")
+            QuestieDB.QueryQuest = function() return testQuest end
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
+
+            local quest = QuestieDB.GetQuest(123)
+
+            assert.are_same("Find the hidden cache", quest.SpecialObjectives[1].Description)
+            assert.are_same("Find the hidden cache", quest.SpecialObjectives[1].spawnList[1].Name)
         end)
     end)
 

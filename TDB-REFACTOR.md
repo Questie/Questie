@@ -12,10 +12,10 @@ This document is the source of truth for the work packet. Update it whenever an 
 
 - QuestieTDB library reconnaissance: complete
 - Questie compiler and consumer mapping: complete
-- Implementation: not started
+- Implementation: TDB-01 and TDB-02 complete; the QuestieDB seam is proven by focused, semantic, full-suite, lint, and independent review evidence
 - Distribution and release packaging: deferred
 
-No runtime cutover code has been written yet.
+The first implementation packet establishes the `QuestieDB` seam without changing Login Initialization.
 
 ## QuestieTDB prerequisites
 
@@ -95,6 +95,8 @@ Titan Reforged zhCN entity localization belongs in QuestieTDB and is tracked by
 
 No entity reads may happen before locale and Questie Policy Corrections have been applied.
 
+The four schema files also guard Contract Version 1 during Addon Load before reading `LibQuestieDB.Meta`. `QuestieDB:Initialize()` validates it again at Login Initialization before binding entity readers.
+
 ## `QuestieDB` compatibility mapping
 
 | Existing Questie symbol | QuestieTDB source | Notes |
@@ -127,46 +129,43 @@ Before editing, an agent must claim an item and list the files it owns. Agents m
 
 | ID | Work item | State | Owner | Depends on | Evidence or notes |
 | --- | --- | --- | --- | --- | --- |
-| TDB-01 | Add focused QuestieTDB test fake and contract tests | not started | - | - | Keep the fake smaller than the provider implementation. |
-| TDB-02 | Bind `QuestieDB` queries, keys, ID maps, Objective Order Corrections, and caches to `LibQuestieDB` | not started | - | TDB-01, QuestieTDB #17 | Preserve the existing caller interface. |
+| TDB-01 | Add focused QuestieTDB test fake and contract tests | done | worker | - | Added `test/QuestieTDBMock.lua`; two final reviewers found no issues and independent validation passed. |
+| TDB-02 | Bind `QuestieDB` queries, keys, ID maps, Objective Order Corrections, and caches to `LibQuestieDB` | done | worker | TDB-01, QuestieTDB #17 | The seam passes focused, semantic, full-suite, and lint validation; Source-mode flavor correctness still depends on provider issue #17. |
 | TDB-03 | Replace compiler-driven Login Initialization with the target startup order | not started | - | TDB-02, TDB-04, TDB-05, QuestieTDB #16 | No compile checks or fallback. |
 | TDB-04 | Convert Questie-owned policy to Dynamic Corrections | not started | - | TDB-01 | Includes gathering nodes and TBC phase policy. |
 | TDB-05 | Forward entity locale to QuestieTDB and remove raw entity localization writes | not started | - | TDB-01, TDB-02, QuestieTDB #14 | Keep UI translation behavior. TDB-02 owns Special Objective projection changes in `QuestieDB.lua`. |
 | TDB-06 | Adapt raw entity-table consumers | not started | - | TDB-02 | Townsfolk, Available Quests, search, and pointer fallbacks. |
 | TDB-07 | Convert Darkmoon and asynchronous Item updates | not started | - | TDB-02, TDB-04, QuestieTDB #18 | Must invalidate Questie's semantic caches. Verify the missing-Item data model before porting it. |
 | TDB-08 | Remove compiler controls, state, popups, and SavedVariables payloads | not started | - | TDB-03 | Include migration cleanup. |
-| TDB-09 | Remove compiler and raw entity files from runtime TOCs | not started | - | TDB-03, TDB-06 | Preserve Objective Order Correction data first. |
+| TDB-09 | Remove compiler and raw entity files from runtime TOCs | not started | - | TDB-03, TDB-06 | All flavor TOCs now declare `QuestieTDB` as a required dependency; raw-file removal still awaits the hard cutover. Preserve Objective Order Correction data first. |
 | TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | not started | - | TDB-09 | Physical repository cleanup after full tests pass. |
 | TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Keep Questie's behavior wrappers. Do not switch to known-stale support copies. |
 | TDB-12 | Replace database validation CI with a pinned integration check | not started | - | TDB-10, TDB-11, QuestieTDB #19 | Data validation belongs in QuestieTDB; consumer behavior still needs integration coverage. |
-| TDB-13 | Bundle QuestieTDB and update release packaging | deferred | - | Runtime cutover | Separate distribution work. |
+| TDB-13 | Bundle QuestieTDB and update release packaging | deferred | - | Runtime cutover | The hard TOC dependency is already declared. Bundling and release automation remain separate distribution work. |
 | TDB-14 | Expose QuestieTDB source-mode status in Questie diagnostics | not started | - | TDB-02 | Do after the main cutover works. |
 
 ## Work item details
 
 ### TDB-01: test interface
 
-Add a focused QuestieTDB fake for Questie tests. It should provide only what Questie consumes:
+Add a focused QuestieTDB fake for Questie tests. TDB-01 provides the interface consumed by the database seam:
 
 - `RequireContract`
 - Entity `Get`, `GetAll`, `GetAllIds`, and `Exists`
 - `Meta`
 - `ObjectiveFirst`
-- `GetRegistrar` and correction application hooks
-- `Corrections.ApplyParameterized`
-- `l10n.SetLocale`
-- minimal `Support` data
 
-Do not copy QuestieTDB caching, encoding, correction composition, or localization implementation into the fake.
+Later packets extend the same fake with correction, locale, and support methods only when Questie consumes them. Do not copy QuestieTDB caching, encoding, correction composition, or localization implementation into the fake.
 
 Required tests:
 
-- incompatible Contract Version fails clearly
-- single and multi-field query binding
+- incompatible Contract Version fails clearly during Addon Load and initialization
+- single and multi-field query binding, including packed nil slots
 - Database Key Enum binding
 - Objective Order Correction binding
-- ID map binding
+- stable provider-owned ID map binding
 - semantic cache reset during initialization
+- fresh table values from the focused test fake
 
 Primary files:
 
@@ -180,15 +179,18 @@ In `Database/QuestieDB.lua`:
 
 - remove the `DBCompiler` import
 - remove binary and pointer decoding
-- remove raw override tables
+- leave legacy raw override tables in place until TDB-07 converts their remaining writers; QuestieTDB queries do not consult them
 - bind the compatibility symbols listed above
 - bind all five consumer-must-not-mutate tables from `LibQuestieDB.ObjectiveFirst`
-- localize `extraObjectives[3]` while constructing Questie's rich Special Objective projection
-- test translated descriptions, spawn names, English fallback, and locale-driven semantic-cache invalidation
+- localize non-nil `extraObjectives[3]` values while constructing Questie's rich Special Objective projection
+- preserve nil Special Objective descriptions and custom-spawn names for downstream fallback behavior
+- test translated descriptions, spawn names, nil values, and English fallback; TDB-05 owns locale-driven semantic-cache invalidation
 - retain rich projections and Questie policy helpers
-- add a plain pointer refresh function if runtime corrections can add entities
-- provide one clear semantic-cache invalidation function
-- remove raw-data helpers such as `DeleteGatheringNodes`
+- let TDB-07 add pointer refresh when runtime corrections can add entities
+- reset semantic caches after binding the Database Addon; TDB-05 and TDB-07 will add invalidation at their locale and runtime-correction call sites
+- leave raw-data policy helpers such as `DeleteGatheringNodes` until TDB-04 converts their behavior
+
+Compiler schema metadata remains temporarily because Login Initialization still invokes the compiler. TDB-03 and TDB-10 remove it after the hard cutover.
 
 The caller interface is the test seam. Avoid edits across ordinary Questie callers unless they directly consume raw tables.
 
@@ -200,6 +202,20 @@ Related schema files:
 - `Database/objectDB.lua`
 
 Source Database Key Enums from `LibQuestieDB.Meta`. Keep Questie-owned constants that are not entity schema.
+
+Implementation evidence for TDB-01 and TDB-02:
+
+- Production: `.luacheckrc`, `Database/QuestieDB.lua`, `Database/questDB.lua`, `Database/npcDB.lua`, `Database/itemDB.lua`, `Database/objectDB.lua`
+- Tests: `test/QuestieTDBMock.lua`, `setupTests.lua`, `Database/QuestieDB.test.lua`
+- Planning: `TDB-REFACTOR.md`
+- Red review-fix run: 41 passed, 6 failed, and 2 errored on the intended cold Contract, stable ID map, creature-level cache, Objective Order setup, and nil Special Objective behaviors
+- `busted Database/QuestieDB.test.lua`: 50 passed
+- affected semantic command covering QuestieDB, localization, Available Quests, and Townsfolk: 122 passed
+- `busted -p ".test.lua" .`: 1,451 passed
+- `luacheck -q -- Database Localization Modules Public Questie.lua`: no warnings or errors in 347 files
+- `git diff --check`: passed
+- two fresh final reviewers found no remaining concrete issues
+- independent validator verdict: pass
 
 ### TDB-03: startup cutover
 
@@ -477,3 +493,6 @@ QuestieTDB contract:
 
 - Initial document: recorded library reconnaissance, Questie compiler mapping, firm decisions, target interface, work tracker, risks, and validation gates. No implementation work completed yet.
 - Correction audit update: linked QuestieTDB issues #14 through #19; added Objective Order binding, Special Objective localization, exact Darkmoon arguments, support-data dependencies, Titan gating, and missing-Item model verification. No implementation work completed yet.
+- TDB-01 and TDB-02 implementation: added the local Database Addon test double; bound Contract Version, Database Key Enums, entity queries, ID maps, and Objective Order Corrections; reset Questie semantic caches during initialization; localized Special Objective descriptions and custom spawn names.
+- TDB-01 and TDB-02 review fixes: added cold Contract guards before schema metadata access, stable provider-owned ID maps in the test fake, packed nil-slot coverage, fake-owned Objective Order setup, fresh table reads, creature-level cache reset, and nil-safe Special Objective localization. `Database/QuestieDB.test.lua` passed with 50 tests, the affected semantic command passed with 122 tests, the full suite passed with 1,451 tests, and full production luacheck passed with no warnings. Two fresh final reviewers found no issues, and independent validation passed.
+- TOC dependency: all five Questie flavor manifests now declare `## RequiredDeps: QuestieTDB`. Bundling and release packaging remain deferred.

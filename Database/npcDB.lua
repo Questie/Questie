@@ -3,25 +3,13 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions");
 
+local contractSupported, contractError = LibQuestieDB.RequireContract(1)
+if not contractSupported then
+    error(contractError, 0)
+end
+
 ---@class DatabaseNpcKeys
-QuestieDB.npcKeys = {
-    ['name'] = 1, -- string
-    ['minLevelHealth'] = 2, -- int
-    ['maxLevelHealth'] = 3, -- int
-    ['minLevel'] = 4, -- int
-    ['maxLevel'] = 5, -- int
-    ['rank'] = 6, -- int, see https://github.com/cmangos/issues/wiki/creature_template#rank
-    ['spawns'] = 7, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
-    ['waypoints'] = 8, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
-    ['zoneID'] = 9, -- guess as to where this NPC is most common
-    ['questStarts'] = 10, -- table {questID(int),...}
-    ['questEnds'] = 11, -- table {questID(int),...}
-    ['factionID'] = 12, -- int, see https://github.com/cmangos/issues/wiki/FactionTemplate.dbc
-    ['friendlyToFaction'] = 13, -- string, Contains "A" and/or "H" depending on NPC being friendly towards those factions. nil if hostile to both.
-    ['subName'] = 14, -- string, The title or function of the NPC, e.g. "Weapon Vendor"
-    ['npcFlags'] = 15, -- int, Bitmask containing various flags about the NPCs function (Vendor, Trainer, Flight Master, etc.).
-                       -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
-}
+QuestieDB.npcKeys = LibQuestieDB.Meta.NpcMeta.npcKeys
 
 QuestieDB.npcKeysReversed = {}
 for key, id in pairs(QuestieDB.npcKeys) do

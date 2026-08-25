@@ -2883,6 +2883,7 @@ globals = {
     "VoiceOverFrame",
     "QUESTIE_LOCALES_OVERRIDE",
     -----------------------------------------------------> Project Specific
+    "LibQuestieDB",
     "Questie",
     "QuestieLoader",
     "ICON_TYPE_COMPLETE",
