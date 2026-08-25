@@ -102,13 +102,6 @@ local _townsfolk_order = {
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
 
-local _stationCategories = {
-    ["Moonwell"] = "moonwell",
-    ["Anvil"] = "anvil",
-    ["Forge"] = "forge",
-    ["Alchemy Lab"] = "alchemyLab",
-}
-
 ---@param id NpcId
 ---@param key string
 ---@return string
@@ -130,7 +123,7 @@ local function getNpcTitle(id, key)
 end
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    local stationCategory = _stationCategories[key]
+    local stationCategory = ProfessionStations.stationCategories[key]
     if stationCategory then
         if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and ProfessionStations.IsStationAvailable(key) then
             ProfessionStations.ShowAll(stationCategory)

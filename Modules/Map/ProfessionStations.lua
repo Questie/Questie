@@ -342,3 +342,27 @@ function ProfessionStations.GetAvailableStationKeys()
     end)
     return available
 end
+
+---Maps townsfolk menu keys to station categories.
+---@type table<string, string>
+ProfessionStations.stationCategories = {
+    ["Moonwell"] = "moonwell",
+    ["Anvil"] = "anvil",
+    ["Forge"] = "forge",
+    ["Alchemy Lab"] = "alchemyLab",
+}
+
+---Hides every enabled station whose profession requirement the player no
+---longer meets, e.g. after unlearning one of their professions.
+---@return boolean removed @True if any station category had to be hidden
+function ProfessionStations.HideUnlearned()
+    local removed = false
+    local config = Questie.db.profile.townsfolkConfig
+    for townsfolkKey, category in pairs(ProfessionStations.stationCategories) do
+        if config and config[townsfolkKey] and not ProfessionStations.IsStationAvailable(townsfolkKey) then
+            ProfessionStations.HideAll(category)
+            removed = true
+        end
+    end
+    return removed
+end

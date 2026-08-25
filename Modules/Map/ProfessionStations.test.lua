@@ -356,4 +356,55 @@ describe("ProfessionStations", function()
             QuestieLoader:ImportModule("l10n"):SetUILocale("enUS")
         end)
     end)
+
+    describe("HideUnlearned", function()
+        local keys
+
+        before_each(function()
+            keys = QuestieProfessions.professionKeys
+            _G["Questie"].db.profile.townsfolkConfig = {}
+        end)
+
+        it("should hide enabled stations whose profession was unlearned", function()
+            _G["Questie"].db.profile.townsfolkConfig["Anvil"] = true
+            setPlayerProfessions({})
+
+            assert.is_true(ProfessionStations.HideUnlearned())
+            assert.are_same(getExpectedIds("anvil"), collectShown(QuestieMap.UnloadManualFrames))
+            for _, call in ipairs(QuestieMap.UnloadManualFrames.calls) do
+                assert.are_same("anvil", call.vals[3])
+            end
+        end)
+
+        it("should keep enabled stations the player still qualifies for", function()
+            _G["Questie"].db.profile.townsfolkConfig["Anvil"] = true
+            setPlayerProfessions({keys.BLACKSMITHING})
+
+            assert.is_false(ProfessionStations.HideUnlearned())
+            assert.is_true(#QuestieMap.UnloadManualFrames.calls == 0)
+        end)
+
+        it("should ignore stations that are disabled", function()
+            _G["Questie"].db.profile.townsfolkConfig["Anvil"] = false
+            setPlayerProfessions({})
+
+            assert.is_false(ProfessionStations.HideUnlearned())
+            assert.is_true(#QuestieMap.UnloadManualFrames.calls == 0)
+        end)
+
+        it("should only hide the stations that lost their requirement", function()
+            _G["Questie"].db.profile.townsfolkConfig["Anvil"] = true
+            _G["Questie"].db.profile.townsfolkConfig["Moonwell"] = true
+            setPlayerProfessions({keys.TAILORING})
+
+            assert.is_true(ProfessionStations.HideUnlearned())
+
+            local unloadedTypes = {}
+            for _, call in ipairs(QuestieMap.UnloadManualFrames.calls) do
+                unloadedTypes[call.vals[3]] = true
+            end
+            assert.is_true(unloadedTypes["anvil"])
+            assert.is_nil(unloadedTypes["moonwell"])
+        end)
+    end)
 end)

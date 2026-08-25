@@ -29,6 +29,8 @@ hooksecurefunc("AbandonSkill", function(skillIndex)
             --? Reset all autoBlacklisted quests if a skill is abandoned
             QuestieQuest.ResetAutoblacklistCategory("skill")
             AvailableQuests.CalculateAndDrawAll()
+            local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+            ProfessionStations.HideUnlearned()
         end
     end
 end)

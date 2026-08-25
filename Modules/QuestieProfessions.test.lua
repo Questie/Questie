@@ -110,6 +110,9 @@ describe("QuestieProfessions", function()
             local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
             AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
 
+            local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+            ProfessionStations.HideUnlearned = spy.new(function() end)
+
             -- Force a fresh load so the hooksecurefunc("AbandonSkill", ...) registration re-runs and is captured
             dofile("Modules/QuestieProfessions.lua")
             QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
@@ -122,6 +125,7 @@ describe("QuestieProfessions", function()
 
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+            assert.spy(ProfessionStations.HideUnlearned).was.called()
         end)
     end)
 end)
