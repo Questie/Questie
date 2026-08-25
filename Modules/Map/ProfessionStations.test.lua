@@ -107,7 +107,7 @@ describe("ProfessionStations", function()
                     assert.are_same(category.icon, call.vals[3])
                     assert.are_same(1.2, call.vals[4])
                     assert.are_same("Object name " .. call.vals[2], call.vals[5])
-                    assert.is_nil(call.vals[6])
+                    assert.are_same({}, call.vals[6])
                     assert.is_true(call.vals[7])
                     assert.are_same(category.key, call.vals[8])
                 end
