@@ -98,7 +98,8 @@ describe("QuestieProfessions", function()
     end)
 
     describe("AbandonSkill", function()
-        it("should reset the skill blacklist and recalculate available quests when a profession is abandoned", function()
+        ---Loads a fresh QuestieProfessions module and captures its AbandonSkill hook callback
+        local function loadWithCapturedAbandonHook()
             _G.AbandonSkill = function() end
             local abandonSkillCallback
             _G.hooksecurefunc = function(name, callback)
@@ -113,19 +114,41 @@ describe("QuestieProfessions", function()
             local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
             ProfessionStations.HideUnlearned = spy.new(function() end)
 
-            -- Force a fresh load so the hooksecurefunc("AbandonSkill", ...) registration re-runs and is captured
             dofile("Modules/QuestieProfessions.lua")
             QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
             QuestieProfessions:Init()
 
-            -- Register the profession so the abandon hook acts on it
+            return abandonSkillCallback, AvailableQuests, ProfessionStations
+        end
+
+        it("should reset the skill blacklist and recalculate available quests when a profession is abandoned", function()
+            -- The skill line must disappear from the skill window once abandoned
+            local abandoned = false
+            _G.GetSkillLineInfo = function()
+                if abandoned then return nil end
+                return "Cooking", nil, nil, mockedProfessionSkill
+            end
+
+            local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
+
             QuestieProfessions:Update()
 
+            abandoned = true
             abandonSkillCallback(1)
 
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
             assert.spy(ProfessionStations.HideUnlearned).was.called()
+        end)
+
+        it("should not recalculate quests when no known profession was removed", function()
+            local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
+
+            abandonSkillCallback(1)
+
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+            assert.spy(ProfessionStations.HideUnlearned).was.not_called()
         end)
     end)
 end)

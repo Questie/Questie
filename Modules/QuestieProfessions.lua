@@ -20,18 +20,48 @@ local alternativeProfessionNames = {}
 -- Fast local references
 local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
 
-hooksecurefunc("AbandonSkill", function(skillIndex)
-    local skillName = GetSkillLineInfo(skillIndex)
-    if skillName and professionTable[skillName] then
-        if playerProfessions[professionTable[skillName]] then
-            Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
-            playerProfessions[professionTable[skillName]] = nil
-            --? Reset all autoBlacklisted quests if a skill is abandoned
-            QuestieQuest.ResetAutoblacklistCategory("skill")
-            AvailableQuests.CalculateAndDrawAll()
-            local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
-            ProfessionStations.HideUnlearned()
+---Scans the current skill window and returns every profession found on it,
+---mapped by profession id to {skillName, skillRank}.
+---@return table<number, {string, number}>
+local function _ScanSkillLineProfessions()
+    ExpandSkillHeader(0)
+    local scannedProfessions = {}
+
+    -- Since MoP introduced "Ways of Cooking" those show up as separate skills and we need to check more lines
+    local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
+    for i=1, GetNumSkillLines() do
+        if i > maxSkillLineToCheck then break end -- We don't have to go through all the weapon skills
+
+        local skillName, isHeader, _, skillRank = GetSkillLineInfo(i)
+        if (not isHeader) and professionTable[skillName] then
+            scannedProfessions[professionTable[skillName]] = {skillName, skillRank}
         end
+    end
+
+    return scannedProfessions
+end
+
+--- Runs whenever a skill was abandoned. The skill window has already changed at
+--- this point, so instead of trusting the abandoned skill index we detect which
+--- of the known professions disappeared from it.
+hooksecurefunc("AbandonSkill", function()
+    local knownProfessions = _ScanSkillLineProfessions()
+    local hasUnlearnedProfession = false
+
+    for professionId in pairs(playerProfessions) do
+        if not knownProfessions[professionId] then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. playerProfessions[professionId][1])
+            playerProfessions[professionId] = nil
+            hasUnlearnedProfession = true
+        end
+    end
+
+    if hasUnlearnedProfession then
+        --? Reset all autoBlacklisted quests if a skill is abandoned
+        QuestieQuest.ResetAutoblacklistCategory("skill")
+        AvailableQuests.CalculateAndDrawAll()
+        local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+        ProfessionStations.HideUnlearned()
     end
 end)
 
@@ -61,23 +91,11 @@ end
 ---@return boolean HasNewProfession @Returns true if the player has learned a new profession
 function QuestieProfessions:Update()
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
-    ExpandSkillHeader(0)
     local hasProfessionUpdate = false
     local hasNewProfession = false
 
-    --- Used to compare to be able to detect if a profession has been learned
-    local temporaryPlayerProfessions = {}
-
-    -- Since MoP introduced "Ways of Cooking" those show up as separate skills and we need to check more lines
-    local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
-    for i=1, GetNumSkillLines() do
-        if i > maxSkillLineToCheck then break; end -- We don't have to go through all the weapon skills
-
-        local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
-        if (not isHeader) and professionTable[skillName] then
-            temporaryPlayerProfessions[professionTable[skillName]] = {skillName, skillRank}
-        end
-    end
+    -- Used to compare to be able to detect if a profession has been learned
+    local temporaryPlayerProfessions = _ScanSkillLineProfessions()
 
     for professionId, _ in pairs(temporaryPlayerProfessions) do
         if not playerProfessions[professionId] then

@@ -322,6 +322,10 @@ function QuestieMenu.buildVendorMenu()
 end
 
 function QuestieMenu.buildTownsfolkMenu()
+    -- Refresh the player's professions so station entries reflect freshly
+    -- learned (or unlearned) skills instead of the bucketed event state
+    QuestieProfessions:Update()
+
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
         if key == "Spirit Healer" then
