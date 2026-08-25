@@ -1,5 +1,4 @@
 ---@class DarkmoonFaireFixes
----@field locations table<string, DMFLocation>
 local DarkmoonFaireFixes = QuestieLoader:CreateModule("DarkmoonFaireFixes")
 
 ---@type QuestieDB
@@ -7,20 +6,12 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
----@enum DMFLocation
-DarkmoonFaireFixes.locations = {
-    NONE = 0,
-    MULGORE = 1,
-    ELWYNN_FOREST = 2,
-    TEROKKAR_FOREST = 3,
-}
-
 local npcKeys = QuestieDB.npcKeys
 local zoneIDs = ZoneDB.zoneIDs
 
 ---@type table<DMFLocation, table<NpcId, table>>
 local npcFixesByLocation = {
-    [DarkmoonFaireFixes.locations.MULGORE] = {
+    MULGORE = {
         [14828] = { -- Gelvas Grimegate <Darkmoon Faire Ticket Redemption>
             [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{37.24,37.67}}},
             [npcKeys.zoneID] = zoneIDs.MULGORE,
@@ -46,7 +37,7 @@ local npcFixesByLocation = {
             [npcKeys.zoneID] = zoneIDs.MULGORE,
         },
     },
-    [DarkmoonFaireFixes.locations.ELWYNN_FOREST] = {
+    ELWYNN_FOREST = {
         [14828] = { -- Gelvas Grimegate <Darkmoon Faire Ticket Redemption>
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{41.5,68.87}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
@@ -72,7 +63,7 @@ local npcFixesByLocation = {
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
     },
-    [DarkmoonFaireFixes.locations.TEROKKAR_FOREST] = {
+    TEROKKAR_FOREST = {
         [14828] = { -- Gelvas Grimegate <Darkmoon Faire Ticket Redemption>
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{34.68,34.36}}},
             [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
@@ -100,7 +91,7 @@ local npcFixesByLocation = {
     },
 }
 
----Returns the NPC spawn corrections for the active Darkmoon Faire location.
+---Returns NPC spawn corrections for a detected location, or nil when the location has no correction data.
 ---@param eventLocation DMFLocation
 ---@return table<NpcId, table>?
 function DarkmoonFaireFixes.GetNpcFixes(eventLocation)

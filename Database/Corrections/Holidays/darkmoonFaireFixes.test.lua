@@ -49,7 +49,7 @@ describe("DarkmoonFaireFixes", function()
                 [npcKeys.spawns] = {[zoneIDs.MULGORE] = {{35.92,35.27}}},
                 [npcKeys.zoneID] = zoneIDs.MULGORE,
             },
-        }, DarkmoonFaireFixes.GetNpcFixes(DarkmoonFaireFixes.locations.MULGORE))
+        }, DarkmoonFaireFixes.GetNpcFixes("MULGORE"))
     end)
 
     it("returns the six Elwynn Forest NPC corrections", function()
@@ -81,7 +81,7 @@ describe("DarkmoonFaireFixes", function()
                 [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{43.34,70.28}}},
                 [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
             },
-        }, DarkmoonFaireFixes.GetNpcFixes(DarkmoonFaireFixes.locations.ELWYNN_FOREST))
+        }, DarkmoonFaireFixes.GetNpcFixes("ELWYNN_FOREST"))
     end)
 
     it("returns the six Terokkar Forest NPC corrections", function()
@@ -113,6 +113,6 @@ describe("DarkmoonFaireFixes", function()
                 [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{33.67,35.93}}},
                 [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
             },
-        }, DarkmoonFaireFixes.GetNpcFixes(DarkmoonFaireFixes.locations.TEROKKAR_FOREST))
+        }, DarkmoonFaireFixes.GetNpcFixes("TEROKKAR_FOREST"))
     end)
 end)
