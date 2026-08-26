@@ -9,6 +9,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type ProfessionStations
+local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
 
 local playerProfessions = {}
 local professionTable = {}
@@ -64,7 +66,6 @@ local function _HandleUnlearnedProfessions()
     --? Reset all autoBlacklisted quests if a skill is abandoned
     QuestieQuest.ResetAutoblacklistCategory("skill")
     AvailableQuests.CalculateAndDrawAll()
-    local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
     ProfessionStations.HideUnlearned()
 end
 
