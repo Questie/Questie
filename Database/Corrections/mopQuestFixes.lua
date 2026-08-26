@@ -324,7 +324,7 @@ function MopQuestFixes.Load()
             [questKeys.extraObjectives] = {},
         },
         [10277] = { -- The Caverns of Time
-            [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.CAVERNS_OF_TIME]={{44.31,38.73}}}},
+            [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.CAVERNS_OF_TIME] = {{44.31,38.73}}}},
         },
         [13153] = { -- Warding the Warriors
             [questKeys.requiredLevel] = 75,

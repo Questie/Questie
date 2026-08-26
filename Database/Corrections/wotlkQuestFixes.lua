@@ -44,10 +44,13 @@ function QuestieWotlkQuestFixes:Load()
 
     return {
         [55] = { -- Morbent Fel
-            [questKeys.objectives] = {{{1200}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [75] = { -- The Legend of Stalvan
             [questKeys.specialFlags] = specialFlags.NONE,
+        },
+        [99] = { -- Arugal's Folly
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [105] = { -- Alas, Andorhal
             [questKeys.reputationReward] = {{factionIDs.HORDE,350},{factionIDs.ARGENT_DAWN,700}},
@@ -72,8 +75,17 @@ function QuestieWotlkQuestFixes:Load()
         [403] = { -- Guarded Thunderbrew Barrel
             [questKeys.startedBy] = {nil,{269}},
         },
+        [422] = { -- Arugal's Folly
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [423] = { -- Arugal's Folly
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [424] = { -- Arugal's Folly
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [434] = { -- The Attack!
-            [questKeys.triggerEnd] = {"Overhear Lescovar and Marzon's Conversation", {[zoneIDs.STORMWIND_CITY]={{72.22,35.37}}}},
+            [questKeys.triggerEnd] = {"Overhear Lescovar and Marzon's Conversation", {[zoneIDs.STORMWIND_CITY] = {{72.22,35.37}}}},
         },
         [508] = { -- Taretha's Gift
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -84,7 +96,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [648] = { -- Rescue OOX-17/TN!
-            [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{61,53}}}},
+            [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS] = {{61,53}}}},
         },
         [768] = { -- Gathering Leather
             [questKeys.requiredSkill] = {393,1},
@@ -93,7 +105,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [836] = { -- Rescue OOX-09/HL!
-            [questKeys.triggerEnd] = {"Escort OOX-09/HL to safety", {[zoneIDs.THE_HINTERLANDS]={{57.81,50.2}}}},
+            [questKeys.triggerEnd] = {"Escort OOX-09/HL to safety", {[zoneIDs.THE_HINTERLANDS] = {{57.81,50.2}}}},
         },
         [910] = { -- Down at the Docks
             [questKeys.questLevel] = -1,
@@ -201,7 +213,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{141980}},
         },
         [2767] = { -- Rescue OOX-22/FE!
-            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{55.63,51.35}}}},
+            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS] = {{55.63,51.35}}}},
         },
         [2879] = { -- The Stave of Equinex
             [questKeys.requiredSourceItems] = {9255,9256,9257,9258},
@@ -336,13 +348,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {},
         },
         [5721] = { -- The Battle of Darrowshire
-            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS] = {{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
         },
         [6070] = { -- The Hunter's Path
             [questKeys.finishedBy] = {{3171}},
         },
         [6185] = { -- The Eastern Plagues
-            [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS]={{23.4,67.8}}}},
+            [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS] = {{23.4,67.8}}}},
         },
         [6521] = { -- An Unholy Alliance
             [questKeys.startedBy] = {{36273}},
@@ -419,6 +431,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [8346] = { -- Thirst Unending
             [questKeys.objectives] = {nil,nil,nil,nil,{{{15274},15274,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [8357] = { -- Dancing for Marzipan
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [8360] = { -- Dancing for Marzipan
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8551] = { -- The Captain's Chest
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -560,7 +578,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Nightbane"), 0, {{"object", 194092}}}},
         },
         [9645] = { -- The Master's Terrace
-            [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.KARAZHAN]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.KARAZHAN] = {{-1,-1}}}},
         },
         [9681] = { -- A Study in Power
             [questKeys.startedBy] = {{17717,17718}},
@@ -748,7 +766,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11153] = { -- Break the Blockade
-            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42.2}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD] = {{28.1,42.2}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
             [questKeys.requiredSourceItems] = {},
         },
         [11154] = { -- Scare the Guano Out of Them!
@@ -785,7 +803,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.sourceItemId] = 33282,
         },
         [11241] = { -- Trail of Fire
-            [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23}}}},
+            [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD] = {{78.72,37.23}}}},
         },
         [11245] = { -- Towers of Certain Doom
             [questKeys.requiredSourceItems] = {33311},
@@ -916,66 +934,66 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11335] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{45.6,45.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
             }},
             [questKeys.exclusiveTo] = {11336,11337,11338,13405,14163},
             [questKeys.questFlags] = 4226,
         },
         [11336] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ALTERAC_MOUNTAINS]={{39.4,82.2}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
             }},
             [questKeys.exclusiveTo] = {11335,11337,11338,13405,14163},
         },
         [11337] = { -- Call to Arms: Eye of the Storm
             [questKeys.triggerEnd] = {"Victory in the Eye of the Storm", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.exclusiveTo] = {11335,11336,11338,13405,14163},
         },
         [11338] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ASHENVALE]={{61.8,83.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
             }},
             [questKeys.exclusiveTo] = {11335,11336,11337,13405,14163},
         },
         [11339] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{73.3,30}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{73.3,30}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -983,14 +1001,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11340] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ALTERAC_MOUNTAINS]={{63.3,60.2}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{63.3,60.2}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -998,13 +1016,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11341] = { -- Call to Arms: Eye of the Storm
             [questKeys.triggerEnd] = {"Victory in Eye of the Storm", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -1012,25 +1030,25 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11342] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.THE_BARRENS]={{47,9.3}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.THE_BARRENS] = {{47,9.3}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
             [questKeys.exclusiveTo] = {11339,11340,11341,13407,14164},
         },
         [11343] = { -- The Echo of Ymiron
-            [questKeys.triggerEnd] = {"Secrets of Wyrmskull Uncovered",{[zoneIDs.HOWLING_FJORD]={{60.13,50.8}}}},
+            [questKeys.triggerEnd] = {"Secrets of Wyrmskull Uncovered",{[zoneIDs.HOWLING_FJORD] = {{60.13,50.8}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [11344] = { -- Anguish of Nifflevar
-            [questKeys.triggerEnd] = {"Secrets of Nifflevar Uncovered",{[zoneIDs.HOWLING_FJORD]={{69.04,54.79}}}},
+            [questKeys.triggerEnd] = {"Secrets of Nifflevar Uncovered",{[zoneIDs.HOWLING_FJORD] = {{69.04,54.79}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [11346] = { -- The Book of Runes
@@ -1125,7 +1143,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11420] = { -- The Path to Payback
-            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{56.6,49.1}}}, Questie.ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD] = {{56.6,49.1}}}, Questie.ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
         },
         [11421] = { -- It Goes to 11...
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Commandeer Crykul Harpoon Gun"),0,{{"object",190512}}}},
@@ -1142,7 +1160,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{24657}},
         },
         [11436] = { -- Let's Go Surfing Now
-            [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06}}}},
+            [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD] = {{60.08,62.06}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Go Harpoon Surfing"),0,{{"object",186894}}}},
         },
         [11443] = { -- Daggercap Divin'
@@ -1199,7 +1217,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {11448},
         },
         [11485] = { -- Iron Rune Constructs and You: Rocket Jumping
-            [questKeys.triggerEnd] = {"Rocket Jump Mastered",{[zoneIDs.HOWLING_FJORD]={{75.08,64.55}}}},
+            [questKeys.triggerEnd] = {"Rocket Jump Mastered",{[zoneIDs.HOWLING_FJORD] = {{75.08,64.55}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Work Bench then cast Rocket Jump standing on the rune next to it"),0,{{"object", 186958}}}},
         },
         [11489] = { -- Iron Rune Constructs and You: Collecting Data
@@ -1220,7 +1238,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13203,13966},
         },
         [11529] = { -- Sorlof's Booty
-            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{37.2,74.8}}}, Questie.ICON_TYPE_OBJECT, l10n("Use The Big Gun at the front of the ship to slay Sorlof"),0,{{"monster", 24992}}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD] = {{37.2,74.8}}}, Questie.ICON_TYPE_OBJECT, l10n("Use The Big Gun at the front of the ship to slay Sorlof"),0,{{"monster", 24992}}}},
         },
         [11566] = { -- Surrender... Not!
             [questKeys.requiredSourceItems] = {},
@@ -1238,7 +1256,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11571},
         },
         [11570] = { -- Escape from the Winterfin Caverns
-            [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29}}}},
+            [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA] = {{41.35,16.29}}}},
         },
         [11574] = { -- Too Close For Comfort
             [questKeys.preQuestSingle] = {11595,11596,11597},
@@ -1268,7 +1286,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {11592,11593,11594,},
         },
         [11592] = { -- We Strike!
-            [questKeys.triggerEnd] = {"Successfully assisted Longrunner Proudhoof's assault.",{[zoneIDs.BOREAN_TUNDRA]={{49.45,26.49}}}},
+            [questKeys.triggerEnd] = {"Successfully assisted Longrunner Proudhoof's assault.",{[zoneIDs.BOREAN_TUNDRA] = {{49.45,26.49}}}},
         },
         [11593] = { -- The Honored Dead
             [questKeys.requiredSourceItems] = {},
@@ -1349,7 +1367,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11664] = { -- Escaping the Mist
-            [questKeys.triggerEnd] = {"Mootoo Saved",{[zoneIDs.BOREAN_TUNDRA]={{31.19,54.44}}}},
+            [questKeys.triggerEnd] = {"Mootoo Saved",{[zoneIDs.BOREAN_TUNDRA] = {{31.19,54.44}}}},
         },
         [11670] = { -- It Was The Orcs, Honest!
             [questKeys.objectives] = {{{25430,nil,Questie.ICON_TYPE_INTERACT}},nil,{{34870,nil}}},
@@ -1358,12 +1376,12 @@ function QuestieWotlkQuestFixes:Load()
         [11671] = { -- A Race Against Time
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Inquisitor Salrand"), 0, {{"monster", 25584}}},
-                {{[zoneIDs.BOREAN_TUNDRA]={{41.8,39.1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Beryl Shield Detonator")},
+                {{[zoneIDs.BOREAN_TUNDRA] = {{41.8,39.1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Beryl Shield Detonator")},
             },
             [questKeys.requiredSourceItems] = {},
         },
         [11673] = { -- Get Me Outa Here!
-            [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85}}}},
+            [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA] = {{53.84,13.85}}}},
         },
         [11677] = { -- Stop the Plague
             [questKeys.objectives] = {nil,{{187879}}},
@@ -1409,7 +1427,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11711] = { -- Coward Delivery... Under 30 Minutes or it's Free
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Get a new Deserter if you lose him/her"), 0, {{"monster", 25379}}}},
-            [questKeys.triggerEnd] = {"Alliance Deserter Delivered",{[zoneIDs.BOREAN_TUNDRA]={{55.28,50.86}}}},
+            [questKeys.triggerEnd] = {"Alliance Deserter Delivered",{[zoneIDs.BOREAN_TUNDRA] = {{55.28,50.86}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [11712] = { -- Re-Cursive
@@ -1420,7 +1438,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11796},
         },
         [11719] = { -- A Suitable Test Subject
-            [questKeys.triggerEnd] = {"Bloodspore Flower Used",{[zoneIDs.BOREAN_TUNDRA]={{52.07,52.46}}}},
+            [questKeys.triggerEnd] = {"Bloodspore Flower Used",{[zoneIDs.BOREAN_TUNDRA] = {{52.07,52.46}}}},
         },
         [11721] = { -- Gammothra the Tormentor
             [questKeys.requiredSourceItems] = {},
@@ -1494,7 +1512,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11890] = { -- What Are They Up To?
-            [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{64.38,23.81}}}},
+            [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA] = {{64.38,23.81}}}},
         },
         [11891] = { -- An Innocent Disguise
             [questKeys.requiredSourceItems] = {35828},
@@ -1522,8 +1540,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11898] = { -- Breaking Through
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.BOREAN_TUNDRA]={{86.55,28.59}}}, Questie.ICON_TYPE_EVENT, l10n("Enter teleporter to access Naxxanar"),},
-                {{[zoneIDs.BOREAN_TUNDRA]={{86.80,30.12}}}, Questie.ICON_TYPE_EVENT, l10n("Use Naxxanar teleporters"),},
+                {{[zoneIDs.BOREAN_TUNDRA] = {{86.55,28.59}}}, Questie.ICON_TYPE_EVENT, l10n("Enter teleporter to access Naxxanar"),},
+                {{[zoneIDs.BOREAN_TUNDRA] = {{86.80,30.12}}}, Questie.ICON_TYPE_EVENT, l10n("Use Naxxanar teleporters"),},
             },
         },
         [11899] = { -- Souls of the Decursed
@@ -1532,7 +1550,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [11905] = { -- Postponing the Inevitable
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS]={{64.9,21.6},{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS] = {{64.9,21.6},{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
             [questKeys.requiredSourceItems] = {},
         },
         [11906] = { -- Cleaning Up the Pools
@@ -1563,7 +1581,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = 3537,
         },
         [11930] = { -- Across Transborea
-            [questKeys.triggerEnd] = {"Secure Passage to Dragonblight",{[zoneIDs.DRAGONBLIGHT]={{10.29,53.83}}}},
+            [questKeys.triggerEnd] = {"Secure Passage to Dragonblight",{[zoneIDs.DRAGONBLIGHT] = {{10.29,53.83}}}},
         },
         [11938] = { -- Buying Some Time
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25378,25383,25386,25387,25393,25609},25378}}},
@@ -1597,7 +1615,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {35671},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Keristrasza"),0,{{"monster", 26206}}},
-                {{[zoneIDs.BOREAN_TUNDRA]={{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
+                {{[zoneIDs.BOREAN_TUNDRA] = {{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
             },
         },
         [11959] = { -- Slay Loguhn
@@ -1656,7 +1674,7 @@ function QuestieWotlkQuestFixes:Load()
         [12019] = { -- Last Rites
             [questKeys.finishedBy] = {{26170,198875}},
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.BOREAN_TUNDRA]={{86.6,28.6}}}, Questie.ICON_TYPE_EVENT, l10n("Teleport to the top of Naxxanar"),},
+                {{[zoneIDs.BOREAN_TUNDRA] = {{86.6,28.6}}}, Questie.ICON_TYPE_EVENT, l10n("Teleport to the top of Naxxanar"),},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Thassarian"), 0, {{"monster", 198875}}},
             },
         },
@@ -1668,7 +1686,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {33096},
         },
         [12027] = { -- Mr. Floppy's Perilous Adventure
-            [questKeys.triggerEnd] = {"Help Emily and Mr. Floppy return to the camp",{[zoneIDs.GRIZZLY_HILLS]={{53.81,33.33}}}},
+            [questKeys.triggerEnd] = {"Help Emily and Mr. Floppy return to the camp",{[zoneIDs.GRIZZLY_HILLS] = {{53.81,33.33}}}},
         },
         [12028] = { -- Spiritual Insight
             [questKeys.objectives] = {nil,{{188416}}},
@@ -1694,7 +1712,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12036] = { -- From the Depths of Azjol-Nerub
-            [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01}}}},
+            [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT] = {{26.26,50.01}}}},
         },
         [12037] = { -- Search and Rescue
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Search for Kurzel"),0,{{"monster", 27909}}}}, -- to use -1 instead of 0 when questie supports showing extraobjectives when quest complete
@@ -1791,7 +1809,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12076},
         },
         [12082] = { -- Dun-da-Dun-tah!
-            [questKeys.triggerEnd] = {"Harrison has escorted you to safety.",{[zoneIDs.GRIZZLY_HILLS]={{73.51,24.02}}}},
+            [questKeys.triggerEnd] = {"Harrison has escorted you to safety.",{[zoneIDs.GRIZZLY_HILLS] = {{73.51,24.02}}}},
         },
         [12083] = { -- Atop the Woodlands
             [questKeys.extraObjectives] = {
@@ -1894,7 +1912,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{27003}}},
         },
         [12151] = { -- Wanton Warlord
-            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{57.09,76.26}}}, Questie.ICON_TYPE_EVENT, l10n("Blow the horn"),0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT] = {{57.09,76.26}}}, Questie.ICON_TYPE_EVENT, l10n("Blow the horn"),0}},
             [questKeys.requiredSourceItems] = {},
         },
         [12152] = { -- Jin'arrak's End
@@ -2044,7 +2062,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering 5 Enduring Mojo"),0,{{"object", 190629}}}},
         },
         [12240] = { -- A Means to an End
-            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{68.29,74.29}}}, Questie.ICON_TYPE_EVENT, l10n("Release the termites"),0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT] = {{68.29,74.29}}}, Questie.ICON_TYPE_EVENT, l10n("Release the termites"),0}},
             [questKeys.requiredSourceItems] = {},
         },
         [12241] = { -- Destroy the Sapling
@@ -2102,7 +2120,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12447},
         },
         [12263] = { -- The Best of Intentions
-            [questKeys.triggerEnd] = {"Uncover the Magmawyrm Resurrection Chamber",{[zoneIDs.DRAGONBLIGHT]={{31.76,30.46}}}},
+            [questKeys.triggerEnd] = {"Uncover the Magmawyrm Resurrection Chamber",{[zoneIDs.DRAGONBLIGHT] = {{31.76,30.46}}}},
         },
         [12264] = { -- Culling the Damned
             [questKeys.preQuestSingle] = {12263},
@@ -2182,7 +2200,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12308] = { -- Escape from Silverbrook
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"),0,{{"monster", 27409}}}},
-            [questKeys.triggerEnd] = {"Escape from Silverbrook",{[zoneIDs.GRIZZLY_HILLS]={{32.37,59.14}}}},
+            [questKeys.triggerEnd] = {"Escape from Silverbrook",{[zoneIDs.GRIZZLY_HILLS] = {{32.37,59.14}}}},
             [questKeys.objectives] = {},
         },
         [12316] = { -- Keep Them at Bay!
@@ -2211,13 +2229,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{27607,nil,Questie.ICON_TYPE_INTERACT},{27588,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [12327] = { -- Out of Body Experience
-            [questKeys.triggerEnd] = {"Vision from the Past",{[zoneIDs.SILVERPINE_FOREST]={{46.53,76.18}}}},
+            [questKeys.triggerEnd] = {"Vision from the Past",{[zoneIDs.SILVERPINE_FOREST] = {{46.53,76.18}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Gossamer Potion"),0,{{"object", 189972}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12330] = { -- Anatoly Will Talk
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Tranquilizer Dart on Tatjana"),0,{{"monster", 27627}}}},
-            [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS]={{57.77,41.7}}}},
+            [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS] = {{57.77,41.7}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12372] = { -- Defending Wyrmrest Temple
@@ -2301,7 +2319,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12456] = { -- The Plume of Alystros
-            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{64.6,77}}}, Questie.ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT] = {{64.6,77}}}, Questie.ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
             [questKeys.requiredSourceItems] = {},
         },
         [12457] = { -- The Chain Gun And You
@@ -2342,7 +2360,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12484] = { -- Scourgekabob
-            [questKeys.extraObjectives] = {{{[zoneIDs.GRIZZLY_HILLS]={{16.84,48.34}}}, Questie.ICON_TYPE_EVENT, l10n("Place Scourged Troll Mummy in the fire"),0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.GRIZZLY_HILLS] = {{16.84,48.34}}}, Questie.ICON_TYPE_EVENT, l10n("Place Scourged Troll Mummy in the fire"),0}},
         },
         [12486] = { -- To Bor'gorok Outpost, Quickly!
             [questKeys.preQuestSingle] = {11595,11596,11597},
@@ -2381,7 +2399,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022}}},
         },
         [12506] = { -- Trouble at the Altar of Sseratus
-            [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46}}}},
+            [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK] = {{40.32,39.46}}}},
         },
         [12507] = { -- Strange Mojo
             [questKeys.startedBy] = {nil,nil,{38321}},
@@ -2482,7 +2500,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12548] = { -- The Etymidian
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.35,83.08,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN] = {{40.35,83.08,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
         },
         [12549] = { -- Dreadsaber Mastery: Becoming a Predator
             [questKeys.preQuestSingle] = {},
@@ -2522,7 +2540,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12570] = { -- Fortunate Misunderstandings
-            [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN]={{52.79,59.36}}}},
+            [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN] = {{52.79,59.36}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the escort"), 0, {{"monster", 28217}}}},
         },
         [12571] = { -- Make the Bad Snake Go Away
@@ -2552,7 +2570,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12578] = { -- The Angry Gorloc
             [questKeys.requiredSourceItems] = {38624},
-            [questKeys.triggerEnd] = {"Travel to Mosswalker Village.",{[zoneIDs.SHOLAZAR_BASIN]={{75.07,51.88}}}},
+            [questKeys.triggerEnd] = {"Travel to Mosswalker Village.",{[zoneIDs.SHOLAZAR_BASIN] = {{75.07,51.88}}}},
         },
         [12579] = { -- Lifeblood of the Mosswalker Shrine
             [questKeys.requiredSourceItems] = {38624},
@@ -2640,7 +2658,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12516},
         },
         [12620] = { -- The Lifewarden's Wrath
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{49.64,37.41,}}}, Questie.ICON_TYPE_EVENT, l10n("Use Freya's Horn atop of the Glimmering Pillar")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN] = {{49.64,37.41,}}}, Questie.ICON_TYPE_EVENT, l10n("Use Freya's Horn atop of the Glimmering Pillar")}},
             [questKeys.requiredSourceItems] = {},
         },
         [12621] = { -- Freya's Pact
@@ -2755,7 +2773,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 12669,
             [questKeys.requiredSourceItems] = {38699},
             [questKeys.objectives] = {{{28503,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, Questie.ICON_TYPE_EVENT, l10n("Infiltrate Voltarus using Ensorcelled Choker")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ZUL_DRAK] = {{28.38,44.85}}}, Questie.ICON_TYPE_EVENT, l10n("Infiltrate Voltarus using Ensorcelled Choker")}},
         },
         [12662] = { -- Bringing Down Heb'Jin
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Heb'Jin's Drum to summon Heb'Jin"), 0, {{"object", 190695}}}},
@@ -2788,7 +2806,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take the gryphon to ground level"),0,{{"monster",29488}}}},
         },
         [12671] = { -- Reconnaissance Flight
-            [questKeys.triggerEnd] = {"Reconnaissance Flight",{[zoneIDs.SHOLAZAR_BASIN]={{50.04,61.43}}}},
+            [questKeys.triggerEnd] = {"Reconnaissance Flight",{[zoneIDs.SHOLAZAR_BASIN] = {{50.04,61.43}}}},
         },
         [12673] = { -- It Rolls Downhill
             [questKeys.objectives] = {nil,{{190716}}},
@@ -2801,7 +2819,7 @@ function QuestieWotlkQuestFixes:Load()
         [12676] = { -- Sabotage
             [questKeys.requiredSourceItems] = {41390,38699},
             [questKeys.objectives] = {nil,{{190731}},nil,nil,{{{28503},28503,nil,Questie.ICON_TYPE_TALK}}},
-            [questKeys.triggerEnd] = {"Learn Drakuru's secret",{[zoneIDs.ZUL_DRAK]={{27.07,46.16}}}},
+            [questKeys.triggerEnd] = {"Learn Drakuru's secret",{[zoneIDs.ZUL_DRAK] = {{27.07,46.16}}}},
         },
         [12677] = { -- Hazardous Materials
             [questKeys.requiredSourceItems] = {41390,38699},
@@ -2832,7 +2850,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12688] = { -- Engineering a Disaster
-            [questKeys.triggerEnd] = {"Escort Engineer Helice out of Swindlegrin's Dig",{[zoneIDs.SHOLAZAR_BASIN]={{37.29,50.59}}}},
+            [questKeys.triggerEnd] = {"Escort Engineer Helice out of Swindlegrin's Dig",{[zoneIDs.SHOLAZAR_BASIN] = {{37.29,50.59}}}},
         },
         [12690] = { -- Fuel for the Fire
             [questKeys.exclusiveTo] = {12710},
@@ -2903,7 +2921,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28948,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Open the coffin"), 0, {{"object", 190948}}},
-                {{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, Questie.ICON_TYPE_EVENT, l10n("Take the teleporter to Drakuru's upper chamber")},
+                {{[zoneIDs.ZUL_DRAK] = {{28.38,44.85}}}, Questie.ICON_TYPE_EVENT, l10n("Take the teleporter to Drakuru's upper chamber")},
             },
         },
         [12712] = { -- The Key of Warlord Zol'Maz
@@ -2937,7 +2955,7 @@ function QuestieWotlkQuestFixes:Load()
         [12726] = { -- Song of Wind and Water
             [questKeys.requiredMinRep] = {1105,9000},
             [questKeys.objectives] = {{{28862},{28858}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26.51,35.63}}}, Questie.ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN] = {{26.51,35.63}}}, Questie.ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
             [questKeys.requiredSourceItems] = {},
         },
         [12728] = { -- Monitoring the Rift: Winterfin Cavern
@@ -2961,9 +2979,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12735] = { -- A Cleansing Song
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.SHOLAZAR_BASIN]={{43,42}}}, Questie.ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Atha"), 1},
-                {{[zoneIDs.SHOLAZAR_BASIN]={{49,63}}}, Questie.ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Ha-Khalan"), 2},
-                {{[zoneIDs.SHOLAZAR_BASIN]={{46,74}}}, Questie.ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Koosu"), 3},
+                {{[zoneIDs.SHOLAZAR_BASIN] = {{43,42}}}, Questie.ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Atha"), 1},
+                {{[zoneIDs.SHOLAZAR_BASIN] = {{49,63}}}, Questie.ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Ha-Khalan"), 2},
+                {{[zoneIDs.SHOLAZAR_BASIN] = {{46,74}}}, Questie.ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Koosu"), 3},
             },
             [questKeys.requiredMinRep] = {1105,9000},
             [questKeys.requiredSourceItems] = {},
@@ -3025,7 +3043,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
         },
         [12754] = { -- Ambush At The Overlook
-            [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE] = {{60.9,75.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
             [questKeys.requiredSourceItems] = {},
         },
         [12757] = { -- Scarlet Armies Approach...
@@ -3075,7 +3093,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_MOUNT_UP,l10n("Take the gryphon to ground level"),0,{{"monster",29488}}}},
         },
         [12779] = { -- An End To All Things...
-            [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE] = {{53.5,36.7}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
             [questKeys.startedBy] = {{29110}},
             [questKeys.requiredSourceItems] = {},
         },
@@ -3101,7 +3119,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12782},
         },
         [12797] = { -- Back Through the Waygate
-            [questKeys.extraObjectives] = {{{[zoneIDs.UN_GORO_CRATER]={{50.54,7.74,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.UN_GORO_CRATER] = {{50.54,7.74,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
         },
         [12801] = { -- The Light of Dawn
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Highlord Darion Mograine"), 0, {{"monster", 29173}}}},
@@ -3153,17 +3171,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [12816] = { -- Investigate the Scourge of Silvermoon
-            [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.EVERSONG_WOODS]={{56.5,52}}}},
+            [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.EVERSONG_WOODS] = {{56.5,52}}}},
         },
         [12817] = { -- Investigate the Scourge of Exodar
-            [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.AZUREMYST_ISLE]={{34.9,45.5}}}},
+            [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.AZUREMYST_ISLE] = {{34.9,45.5}}}},
         },
         [12820] = { -- A Delicate Touch
             [questKeys.requiredSourceItems] = {},
         },
         [12821] = { -- Cell Block Tango
             [questKeys.name] = "Cell Block Tango",
-            [questKeys.triggerEnd] = {"Garm Teleporter Activated",{[zoneIDs.STORM_PEAKS]={{50.7,81.9}}}},
+            [questKeys.triggerEnd] = {"Garm Teleporter Activated",{[zoneIDs.STORM_PEAKS] = {{50.7,81.9}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the teleporter"), 0, {{"object", 191574}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12820,12828,12832},
@@ -3183,7 +3201,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [12832] = { -- Bitter Departure
-            [questKeys.triggerEnd] = {"Escort the Injured Goblin Miner to K3.",{[zoneIDs.STORM_PEAKS]={{40.2,79}}}},
+            [questKeys.triggerEnd] = {"Escort the Injured Goblin Miner to K3.",{[zoneIDs.STORM_PEAKS] = {{40.2,79}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Start the escort"), 0, {{"monster", 29434}}}},
         },
         [12833] = { -- Overstock
@@ -3199,7 +3217,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{191746}}},
         },
         [12847] = { -- Second Chances
-            [questKeys.triggerEnd] = {"Arete's Gate summoned",{[zoneIDs.ICECROWN]={{9.53,47.01}}}},
+            [questKeys.triggerEnd] = {"Arete's Gate summoned",{[zoneIDs.ICECROWN] = {{9.53,47.01}}}},
             [questKeys.requiredSourceItems] = {},
         },
         [12848] = { -- The Endless Hunger
@@ -3220,12 +3238,12 @@ function QuestieWotlkQuestFixes:Load()
         [12855] = { -- Sniffing Out the Perpetrator
             [questKeys.requiredSourceItems] = {40971},
             [questKeys.preQuestSingle] = {12854},
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{36.4,64.2}}}, Questie.ICON_TYPE_EVENT, l10n("Use Frosthound's Collar at the Abandoned Camp")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS] = {{36.4,64.2}}}, Questie.ICON_TYPE_EVENT, l10n("Use Frosthound's Collar at the Abandoned Camp")}},
         },
         [12856] = { -- Cold Hearted
             [questKeys.objectives] = {{{29639,nil,Questie.ICON_TYPE_INTERACT},{29708,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.STORM_PEAKS]={{62.00,59.50}}}, Questie.ICON_TYPE_EVENT, l10n("Fly freed Proto-Drakes to safety while carrying rescued Brunnhildar Prisoners"),},
+                {{[zoneIDs.STORM_PEAKS] = {{62.00,59.50}}}, Questie.ICON_TYPE_EVENT, l10n("Fly freed Proto-Drakes to safety while carrying rescued Brunnhildar Prisoners"),},
             },
         },
         [12858] = { -- Pieces to the Puzzle
@@ -3325,7 +3343,7 @@ function QuestieWotlkQuestFixes:Load()
         [12919] = { -- The Storm King's Vengeance
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Let Gymer know you're ready"), 0, {{"monster", 29647}}},
-                {{[zoneIDs.ZUL_DRAK]={{26.71,57.29}}}, Questie.ICON_TYPE_EVENT, l10n("Slay Scourge while riding Gymer"),},
+                {{[zoneIDs.ZUL_DRAK] = {{26.71,57.29}}}, Questie.ICON_TYPE_EVENT, l10n("Slay Scourge while riding Gymer"),},
             },
         },
         [12920] = { -- Catching up with Brann
@@ -3567,7 +3585,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectivesText] = {"King Jokkum in Dun Niffelem wants you to slay Jorcuttar in Hibernal Cavern."},
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.requiredSourceItems] = {42733},
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{54.71,60.79}}}, Questie.ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS] = {{54.71,60.79}}}, Questie.ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}},
         },
         [13012] = { -- Sardis the Elder
             [questKeys.startedBy] = {{30348}},
@@ -3696,7 +3714,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{30407,nil,Questie.ICON_TYPE_EVENT}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount Argent Skytalon"), 0, {{"monster", 30500}}},
-                {{[zoneIDs.ICECROWN]={{86.85,76.61}}}, Questie.ICON_TYPE_EVENT, l10n("Drop Off Captured Crusader"), 0},
+                {{[zoneIDs.ICECROWN] = {{86.85,76.61}}}, Questie.ICON_TYPE_EVENT, l10n("Drop Off Captured Crusader"), 0},
             },
         },
         [13046] = { -- Feeding Arngrim
@@ -3725,7 +3743,7 @@ function QuestieWotlkQuestFixes:Load()
         [13058] = { -- Changing the Wind's Course
             [questKeys.preQuestGroup] = {13048,13049},
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.STORM_PEAKS]={{64.4,46.7}}}, Questie.ICON_TYPE_OBJECT, l10n("Use the Lorehammer to travel back in time"), 0},
+                {{[zoneIDs.STORM_PEAKS] = {{64.4,46.7}}}, Questie.ICON_TYPE_OBJECT, l10n("Use the Lorehammer to travel back in time"), 0},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Defeat the North Wind"), 0, {{"monster", 30474}}},
             },
         },
@@ -3938,7 +3956,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13161,13162,13163},
         },
         [13168] = { -- Parting Gifts
-            [questKeys.triggerEnd] = {"Seize Control of an Eidolon Watcher", {[zoneIDs.ICECROWN]={{44.19,24.69}}}},
+            [questKeys.triggerEnd] = {"Seize Control of an Eidolon Watcher", {[zoneIDs.ICECROWN] = {{44.19,24.69}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Eye of Dominion"), 0, {{"object", 193058}}}},
         },
         [13169] = { -- An Undead's Best Friend
@@ -3977,10 +3995,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13178},
         },
         [13181] = { -- Victory in Wintergrasp
-            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
+            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN] = {{33,67.2}}}},
         },
         [13183] = { -- Victory in Wintergrasp
-            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{58.2,25.6}}}},
+            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN] = {{58.2,25.6}}}},
         },
         [13185] = { -- Stop the Siege
             [questKeys.exclusiveTo] = {13223},
@@ -4074,7 +4092,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {43567,43568},
         },
         [13221] = { -- I'm Not Dead Yet!
-            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN] = {{32,57.1}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13119,13120},
         },
@@ -4096,7 +4114,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13224},
         },
         [13229] = { -- I'm Not Dead Yet!
-            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN] = {{32,57.1}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13119,13120},
         },
@@ -4115,12 +4133,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13231},
         },
         [13233] = { -- No Mercy!
-            [questKeys.triggerEnd] = {"Kill horde players in Icecrown", {[zoneIDs.ICECROWN]={{60.9,41.3}}}},
+            [questKeys.triggerEnd] = {"Kill horde players in Icecrown", {[zoneIDs.ICECROWN] = {{60.9,41.3}}}},
             [questKeys.preQuestSingle] = {13231},
         },
         [13234] = { -- Make Them Pay!
             [questKeys.preQuestSingle] = {13228},
-            [questKeys.triggerEnd] = {"Kill alliance players in Icecrown", {[zoneIDs.ICECROWN]={{60.9,41.3}}}},
+            [questKeys.triggerEnd] = {"Kill alliance players in Icecrown", {[zoneIDs.ICECROWN] = {{60.9,41.3}}}},
         },
         [13235] = { -- The Flesh Giant Champion
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Margrave Dhakar to fight Morbidus"), 0, {{"monster", 31306}}}},
@@ -4418,12 +4436,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13315},
         },
         [13321] = { -- Retest Now
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN] = {{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
             [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13322] = { -- Retest Now
             [questKeys.preQuestSingle] = {13321},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN] = {{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
             [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13323] = { -- Drag and Drop
@@ -4530,12 +4548,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13351},
         },
         [13356] = { -- Retest Now
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN] = {{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
             [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13357] = { -- Retest Now
             [questKeys.preQuestSingle] = {13356},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN] = {{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, Questie.ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
             [questKeys.requiredSourceItems] = {44301,44304},
         },
         [13358] = { -- Not a Bug
@@ -4643,13 +4661,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13405] = { -- Call to Arms: Strand of the Ancients
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.exclusiveTo] = {11335,11336,11337,11338,14163},
         },
@@ -4660,13 +4678,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13407] = { -- Call to Arms: Strand of the Ancients
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -4740,28 +4758,28 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13427] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ALTERAC_MOUNTAINS]={{39.4,82.2}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
             }},
             [questKeys.requiredMaxLevel] = 70,
             [questKeys.exclusiveTo] = {14178,14179,14180},
         },
         [13428] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ALTERAC_MOUNTAINS]={{63.3,60.2}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{63.3,60.2}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -4769,7 +4787,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {14181,14182,14183},
         },
         [13429] = { -- A Distraction for Akama
-            [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06}}}},
+            [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY] = {{71.05,46.11},{66.29,44.06}}}},
             [questKeys.exclusiveTo] = {10985},
             [questKeys.startedBy] = {{18528}},
             [questKeys.finishedBy] = {{18528}},
@@ -5007,10 +5025,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.breadcrumbs] = {13484},
         },
         [13481] = { -- Let's Get Out of Here!
-            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN] = {{32,57.1}}}},
         },
         [13482] = { -- Let's Get Out of Here
-            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN] = {{32,57.1}}}},
         },
         [13483] = { -- Spring Collectors
             [questKeys.breadcrumbForQuestId] = 13479,
@@ -5144,7 +5162,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,nil,{45506}},
         },
         [13607] = { -- The Celestial Planetarium
-            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM] = {{60,46.3}},[zoneIDs.ULDUAR] = {{-1,-1}}}},
             [questKeys.preQuestSingle] = {13604},
         },
         [13616] = { -- HUMAN The Edge Of Winter
@@ -5763,7 +5781,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13816] = { -- Heroic: The Celestial Planetarium
-            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM] = {{60,46.3}},[zoneIDs.ULDUAR] = {{-1,-1}}}},
             [questKeys.preQuestSingle] = {13817},
         },
         [13817] = { -- Heroic: Archivum Data Disc
@@ -5799,25 +5817,25 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13830] = { -- The Ghostfish
-            [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,}}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{48.2,63.4}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Phantom Ghostfish")}},
+            [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN] = {{48.89,62.29,}}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN] = {{48.2,63.4}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Phantom Ghostfish")}},
             [questKeys.requiredSourceItems] = {45902},
         },
         [13832] = { -- Jewel Of The Sewers
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_UNDERBELLY]={{46,68}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Corroded Jewelry")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_UNDERBELLY] = {{46,68}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Corroded Jewelry")}},
         },
         [13833] = { -- Blood Is Thicker
-            [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA]={{57.5,33.2},{62.2,64.2},{45,45}}}, Questie.ICON_TYPE_SLAY, l10n("Slay any beast, jump in any water location and fish in the Pool of Blood"), 0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA] = {{57.5,33.2},{62.2,64.2},{45,45}}}, Questie.ICON_TYPE_SLAY, l10n("Slay any beast, jump in any water location and fish in the Pool of Blood"), 0}},
         },
         [13834] = { -- Dangerously Delicious
-            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERGRASP]={{70,36},{63,60},{50,44},{37.6,36},{56,66},{42,75},{34.7,19.5}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Terror Fish"), 0}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERGRASP] = {{70,36},{63,60},{50,44},{37.6,36},{56,66},{42,75},{34.7,19.5}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Terror Fish"), 0}},
         },
         [13835] = { -- Mastery Of The Shield-Breaker
             [questKeys.objectives] = {{{33974,nil,Questie.ICON_TYPE_TALK},{33243,nil,Questie.ICON_TYPE_INTERACT}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_MOUNT_UP, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13836] = { -- Disarmed!
-            [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{67.43,61.38},{62.43,70.05}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Severed Arm")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN] = {{67.43,61.38},{62.43,70.05}}}, Questie.ICON_TYPE_NODE_FISH, l10n("Fish for Severed Arm")}},
         },
         [13837] = { -- Mastery Of The Charge
             [questKeys.objectives] = {{{33972,nil,Questie.ICON_TYPE_TALK},{33272,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -5928,12 +5946,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13887},
         },
         [13929] = { -- The Biggest Tree Ever!
-            [questKeys.triggerEnd] = {"Roo taken to visit Grizzlemaw", {[zoneIDs.GRIZZLY_HILLS]={{50.7,43.9}}}}, -- oracle orphan
+            [questKeys.triggerEnd] = {"Roo taken to visit Grizzlemaw", {[zoneIDs.GRIZZLY_HILLS] = {{50.7,43.9}}}}, -- oracle orphan
             [questKeys.preQuestSingle] = {13926},
             [questKeys.exclusiveTo] = {13927},
         },
         [13930] = { -- Home Of The Bear-Men
-            [questKeys.triggerEnd] = {"Keken taken to visit Grizzlemaw", {[zoneIDs.GRIZZLY_HILLS]={{50.7,43.9}}}}, -- wolvar orphan
+            [questKeys.triggerEnd] = {"Keken taken to visit Grizzlemaw", {[zoneIDs.GRIZZLY_HILLS] = {{50.7,43.9}}}}, -- wolvar orphan
             [questKeys.preQuestSingle] = {13927},
             [questKeys.exclusiveTo] = {13926},
         },
@@ -5944,12 +5962,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11318},
         },
         [13933] = { -- The Bronze Dragonshrine
-            [questKeys.triggerEnd] = {"Roo taken to visit Bronze Dragonshrine", {[zoneIDs.DRAGONBLIGHT]={{72,39}}}}, -- oracle orphan
+            [questKeys.triggerEnd] = {"Roo taken to visit Bronze Dragonshrine", {[zoneIDs.DRAGONBLIGHT] = {{72,39}}}}, -- oracle orphan
             [questKeys.preQuestSingle] = {13926},
             [questKeys.exclusiveTo] = {13927},
         },
         [13934] = { -- The Bronze Dragonshrine
-            [questKeys.triggerEnd] = {"Keken taken to visit Bronze Dragonshrine", {[zoneIDs.DRAGONBLIGHT]={{72,39}}}}, -- wolvar orphan
+            [questKeys.triggerEnd] = {"Keken taken to visit Bronze Dragonshrine", {[zoneIDs.DRAGONBLIGHT] = {{72,39}}}}, -- wolvar orphan
             [questKeys.preQuestSingle] = {13927},
             [questKeys.exclusiveTo] = {13926},
         },
@@ -5972,12 +5990,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.sourceItemId] = 46396,
         },
         [13950] = { -- Playmates!
-            [questKeys.triggerEnd] = {"Roo taken to visit Winterfin Retreat", {[zoneIDs.BOREAN_TUNDRA]={{43.5,13.6}}}}, -- oracle orphan
+            [questKeys.triggerEnd] = {"Roo taken to visit Winterfin Retreat", {[zoneIDs.BOREAN_TUNDRA] = {{43.5,13.6}}}}, -- oracle orphan
             [questKeys.preQuestSingle] = {13926},
             [questKeys.exclusiveTo] = {13927},
         },
         [13951] = { -- Playmates!
-            [questKeys.triggerEnd] = {"Keken taken to visit Snowfall Glade", {[zoneIDs.DRAGONBLIGHT]={{46,61},{44,70}}}}, -- wolvar orphan
+            [questKeys.triggerEnd] = {"Keken taken to visit Snowfall Glade", {[zoneIDs.DRAGONBLIGHT] = {{46,61},{44,70}}}}, -- wolvar orphan
             [questKeys.preQuestSingle] = {13927},
             [questKeys.exclusiveTo] = {13926},
         },
@@ -5993,7 +6011,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13956] = { -- Meeting a Great One
             [questKeys.objectives] = {{{28092,nil,Questie.ICON_TYPE_EVENT}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.3,83.3}}}, Questie.ICON_TYPE_EVENT, l10n("Use the waygate to teleport to Un'goro Crater")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN] = {{40.3,83.3}}}, Questie.ICON_TYPE_EVENT, l10n("Use the waygate to teleport to Un'goro Crater")}},
             [questKeys.preQuestGroup] = {13929,13933,13950},
             [questKeys.exclusiveTo] = {13927},
         },
@@ -6181,11 +6199,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [14101] = { -- Drottinn Hrothgar
-            [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{50.4,15.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Drottinn Hrothgar using the Kvaldir War Horn")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING] = {{50.4,15.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Drottinn Hrothgar using the Kvaldir War Horn")}},
             [questKeys.requiredSourceItems] = {},
         },
         [14102] = { -- Mistcaller Yngvar
-            [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{43.8,24.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Mistcaller Yngvar using the Mistcaller's Charm")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING] = {{43.8,24.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Mistcaller Yngvar using the Mistcaller's Charm")}},
             [questKeys.requiredSourceItems] = {},
         },
         [14103] = { -- Titanium Powder
@@ -6194,7 +6212,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{28701}},
         },
         [14104] = { -- Ornolf The Scarred
-            [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{58.59,31.72}}}, Questie.ICON_TYPE_EVENT, l10n("Provoke Ornolf the Scarred using the Captured Kvaldir Banner")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING] = {{58.59,31.72}}}, Questie.ICON_TYPE_EVENT, l10n("Provoke Ornolf the Scarred using the Captured Kvaldir Banner")}},
             [questKeys.requiredSourceItems] = {},
         },
         [14107] = { -- The Fate Of The Fallen
@@ -6234,29 +6252,29 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {},
             [questKeys.requiredSpell] = -66659,
             [questKeys.requiredSkill] = {171,450},
-            [questKeys.triggerEnd] = {"Epic Gem Transmutes", {[zoneIDs.DALARAN]={{42.25,32.06}}}},
+            [questKeys.triggerEnd] = {"Epic Gem Transmutes", {[zoneIDs.DALARAN] = {{42.25,32.06}}}},
         },
         [14163] = { -- Call to Arms: Isle of Conquest
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.exclusiveTo] = {11335,11336,11337,11338,13405},
         },
         [14164] = { -- Call to Arms: Isle of Conquest
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6264,55 +6282,55 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14178] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{45.6,45.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
             }},
             [questKeys.requiredMaxLevel] = 70,
             [questKeys.exclusiveTo] = {14179,14180,13427},
         },
         [14179] = { -- Call to Arms: Eye of the Storm
             [questKeys.triggerEnd] = {"Victory in the Eye of the Storm", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.requiredMaxLevel] = 70,
             [questKeys.exclusiveTo] = {14178,14179,13427},
         },
         [14180] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ASHENVALE]={{61.8,83.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
             }},
             [questKeys.requiredMaxLevel] = 70,
             [questKeys.exclusiveTo] = {14178,14179,13427},
         },
         [14181] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{73.3,30}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{73.3,30}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6321,13 +6339,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14182] = { -- Call to Arms: Eye of the Storm
             [questKeys.triggerEnd] = {"Victory in Eye of the Storm", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6336,14 +6354,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14183] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.THE_BARRENS]={{47,9.3}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.THE_BARRENS] = {{47,9.3}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6386,14 +6404,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24216] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.THE_BARRENS]={{47,9.3}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.THE_BARRENS] = {{47,9.3}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6402,14 +6420,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24217] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.THE_BARRENS]={{47,9.3}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.THE_BARRENS] = {{47,9.3}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6417,14 +6435,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24218] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ASHENVALE]={{61.8,83.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
             }},
             [questKeys.startedBy] = {{15351}},
             [questKeys.finishedBy] = {{15351}},
@@ -6433,14 +6451,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24219] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ASHENVALE]={{61.8,83.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
             }},
             [questKeys.startedBy] = {{15351}},
             [questKeys.finishedBy] = {{15351}},
@@ -6448,14 +6466,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24220] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{45.6,45.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
             }},
             [questKeys.startedBy] = {{15351}},
             [questKeys.finishedBy] = {{15351}},
@@ -6464,14 +6482,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24221] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{73.3,30}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{73.3,30}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6480,14 +6498,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24223] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{45.6,45.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
             }},
             [questKeys.startedBy] = {{15351}},
             [questKeys.finishedBy] = {{15351}},
@@ -6496,14 +6514,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24224] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ASHENVALE]={{61.8,83.8}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
             }},
             [questKeys.startedBy] = {{15351}},
             [questKeys.finishedBy] = {{15351}},
@@ -6512,14 +6530,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24225] = { -- Call to Arms: Warsong Gulch
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.THE_BARRENS]={{47,9.3}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.THE_BARRENS] = {{47,9.3}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6528,14 +6546,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24226] = { -- Call to Arms: Arathi Basin
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ARATHI_HIGHLANDS]={{73.3,30}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{73.3,30}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6544,14 +6562,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24426] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
-                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
-                [zoneIDs.UNDERCITY]={{58.27,97.9}},
-                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
-                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
-                [zoneIDs.DALARAN]={{58.19,20.59}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ALTERAC_MOUNTAINS]={{63.3,60.2}},
+                [zoneIDs.ORGRIMMAR] = {{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF] = {{57.8,76.4}},
+                [zoneIDs.UNDERCITY] = {{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY] = {{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY] = {{66.96,56.6}},
+                [zoneIDs.DALARAN] = {{58.19,20.59}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{63.3,60.2}},
             }},
             [questKeys.startedBy] = {{15350}},
             [questKeys.finishedBy] = {{15350}},
@@ -6560,14 +6578,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24427] = { -- Call to Arms: Alterac Valley
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
-                [zoneIDs.ALTERAC_MOUNTAINS]={{39.4,82.2}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
             }},
             [questKeys.startedBy] = {{15351}},
             [questKeys.finishedBy] = {{15351}},
@@ -7471,13 +7489,13 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
                 [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
                 [zoneIDs.ASHENVALE] = {{61.8,83.8}},
-                [zoneIDs.DALARAN]={{29.79,75.78}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.IRONFORGE]={{70.41,91.10}},
-                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
-                [zoneIDs.THE_EXODAR]={{26.6,50.06}},
-                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+                [zoneIDs.DALARAN] = {{29.79,75.78}},
+                [zoneIDs.DARNASSUS] = {{58.02,34.52}},
+                [zoneIDs.IRONFORGE] = {{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.STORMWIND_CITY] = {{83.47,33.66}},
+                [zoneIDs.THE_EXODAR] = {{26.6,50.06}},
+                [zoneIDs.WINTERGRASP] = {{50.02,15.16}},
             }},
         },
 

@@ -506,7 +506,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_LOOT, l10n("Step 1: Loot the Scarlet Initiate's Uniform from the chest in the stables, outside of Scarlet Monastery. You need Lockpicking 100 to open the chest."), 0, {{"object", 412147}}},
-                {{[zoneIDs.SCARLET_MONASTERY]={{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Step 2: put on the Scarlet Initiate's Uniform while inside the Graveyard wing of Scarlet Monastery and not in a group.")},
+                {{[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Step 2: put on the Scarlet Initiate's Uniform while inside the Graveyard wing of Scarlet Monastery and not in a group.")},
                 {nil, Questie.ICON_TYPE_LOOT, l10n("Step 3: pick pocket Scarlet Scryer to loot Scryer's Key."), 0, {{"monster", 4293}}},
                 {nil, Questie.ICON_TYPE_LOOT, l10n("Step 4: head to the Library wing and loot the Confidential Message from the Personal Letterbox."), 0, {{"object", 412759}}},
                 {nil, Questie.ICON_TYPE_LOOT, l10n("Step 5: go back to the Graveyard and /sit on the two benches between the pair of statues on either side of the graveyard. Then loot the Reliquary Key from the Stone Coffer in the northern mausoleum."), 0, {{"object", 412198}}},
@@ -1057,7 +1057,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSourceItems] = {216635,216645},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
-            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{84.5,44.8}}}, Questie.ICON_TYPE_SLAY, l10n("Defeat enough enemies around the world to call forth the Shadowy Figure and talk to her to receive a Mote of Darkness.")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS] = {{84.5,44.8}}}, Questie.ICON_TYPE_SLAY, l10n("Defeat enough enemies around the world to call forth the Shadowy Figure and talk to her to receive a Mote of Darkness.")}},
         },
         [79984] = { -- Quadrangulation
             [questKeys.objectives] = {nil,{{424074},{424075},{424076},{424077}}},
@@ -1065,7 +1065,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [79985] = { -- A Fine Mess
-            [questKeys.triggerEnd] = {"Kernobee Rescue", {[zoneIDs.GNOMEREGAN]={{-1,-1}}}},
+            [questKeys.triggerEnd] = {"Kernobee Rescue", {[zoneIDs.GNOMEREGAN] = {{-1,-1}}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
         },
@@ -1116,7 +1116,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.questFlags] = questFlags.RAID,
         },
         [80134] = { -- Gnomer-gooooone!
-            [questKeys.triggerEnd] = {"Goblin Transponder", {[zoneIDs.STRANGLETHORN_VALE]={{27.56,77.42}}}},
+            [questKeys.triggerEnd] = {"Goblin Transponder", {[zoneIDs.STRANGLETHORN_VALE] = {{27.56,77.42}}}},
             [questKeys.zoneOrSort] = zoneIDs.GNOMEREGAN,
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.preQuestSingle] = {80133},
@@ -1493,7 +1493,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81745] = { -- Duskwood Mission XVI: Rescue Kroll Mountainshade
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221210, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Kroll Mountainshade to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD] = {{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Kroll Mountainshade to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 39,
@@ -1501,7 +1501,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81746] = { -- Duskwood Mission XVII: Rescue Alara Grovemender
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221215, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alara Grovemender to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD] = {{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alara Grovemender to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 39,
@@ -1509,7 +1509,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81747] = { -- Duskwood Mission XVIII: Rescue Elenora Marshwalker
             [questKeys.zoneOrSort] = zoneIDs.DUSKWOOD,
             [questKeys.objectives] = {{{221216, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD]={{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Elenora Marshwalker to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUSKWOOD] = {{46.52,38.69}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Elenora Marshwalker to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 39,
@@ -1633,7 +1633,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81783] = { -- Ashenvale Mission XVI: Rescue Alyssian Windcaller
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221270, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alyssian Windcaller to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE] = {{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Alyssian Windcaller to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 49,
@@ -1641,7 +1641,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81784] = { -- Ashenvale Mission XVII: Rescue Doran Dreambough
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221268, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Doran Dreambough to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE] = {{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Doran Dreambough to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 49,
@@ -1649,7 +1649,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81785] = { -- Ashenvale Mission XVIII: Rescue Maseara Autumnmoon
             [questKeys.zoneOrSort] = zoneIDs.ASHENVALE,
             [questKeys.objectives] = {{{221269, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Maseara Autumnmoon to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE] = {{93.94,38.35}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Maseara Autumnmoon to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 49,
@@ -1753,7 +1753,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81850] = { -- Hinterlands Mission XVI: Rescue Elianar Shadowdrinker
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.objectives] = {{{221335, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS]={{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Elianar Shadowdrinker to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS] = {{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Elianar Shadowdrinker to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 53,
@@ -1761,7 +1761,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81851] = { -- Hinterlands Mission XVII: Rescue Serlina Starbright
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.objectives] = {{{221336, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS]={{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Serlina Starbright to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS] = {{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Serlina Starbright to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 53,
@@ -1769,7 +1769,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81852] = { -- Hinterlands Mission XVIII: Rescue Veanna Cloudsleeper
             [questKeys.zoneOrSort] = zoneIDs.THE_HINTERLANDS,
             [questKeys.objectives] = {{{221337, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS]={{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Veanna Cloudsleeper to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_HINTERLANDS] = {{63.24,27.39}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Veanna Cloudsleeper to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 53,
@@ -1873,7 +1873,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81872] = { -- Feralas Mission XVI: Rescue Mellias Earthtender
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.objectives] = {{{221395, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Mellias Earthtender to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS] = {{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Mellias Earthtender to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 53,
@@ -1881,7 +1881,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81873] = { -- Feralas Mission XVII: Rescue Nerene Brooksinger
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.objectives] = {{{221398, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Nerene Brooksinger to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS] = {{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Nerene Brooksinger to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 53,
@@ -1889,7 +1889,7 @@ function SeasonOfDiscovery:LoadQuests()
         [81874] = { -- Feralas Mission XVIII: Rescue Jamniss Treemender
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
             [questKeys.objectives] = {{{221399, nil, Questie.ICON_TYPE_TALK}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS]={{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Jamniss Treemender to the Dream Portal"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.FERALAS] = {{50.97,11.67}}}, Questie.ICON_TYPE_EVENT, l10n("Escort Jamniss Treemender to the Dream Portal"),}},
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredMaxLevel] = 53,
@@ -1975,7 +1975,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {82022},
             [questKeys.objectives] = {{{222198}},nil,{{220570}}},
             [questKeys.zoneOrSort] = sortKeys.NIGHTMARE_INCURSIONS,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE] = {{94.26,35.13}}}, Questie.ICON_TYPE_EVENT, l10n("Enter the Emerald Dream"),}},
         },
         [81987] = { -- Goblin Solutions (Goblin)
             [questKeys.requiredSkill] = {profKeys.ENGINEERING,225},
@@ -2055,7 +2055,7 @@ function SeasonOfDiscovery:LoadQuests()
         [82019] = { -- Going Under
             [questKeys.nextQuestInChain] = 82020,
             [questKeys.preQuestSingle] = {82018},
-            [questKeys.extraObjectives] = {{{[zoneIDs.SWAMP_OF_SORROWS]={{70.24,54.08}}}, Questie.ICON_TYPE_EVENT, l10n("Explore the Temple of Atal'Hakkar"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SWAMP_OF_SORROWS] = {{70.24,54.08}}}, Questie.ICON_TYPE_EVENT, l10n("Explore the Temple of Atal'Hakkar"),}},
             [questKeys.zoneOrSort] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
         },
         [82020] = { -- Return to Moonglade
@@ -2457,7 +2457,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.FERALAS,
         },
         [84017] = { -- A Time to Kill
-            [questKeys.triggerEnd] = {"Find Arkonos the Cursed",{[zoneIDs.EASTERN_PLAGUELANDS]={{86.8,39.4}}}},
+            [questKeys.triggerEnd] = {"Find Arkonos the Cursed",{[zoneIDs.EASTERN_PLAGUELANDS] = {{86.8,39.4}}}},
             [questKeys.preQuestSingle] = {84008},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
@@ -2485,7 +2485,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {84135},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
-            [questKeys.extraObjectives] = {{{[zoneIDs.TANARIS]={{53.5,96.5}}}, Questie.ICON_TYPE_EVENT, l10n("Swim south till you reach a small island. You need to use your Guided Buoyancy Accelerant or any other swim speed increase.")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.TANARIS] = {{53.5,96.5}}}, Questie.ICON_TYPE_EVENT, l10n("Swim south till you reach a small island. You need to use your Guided Buoyancy Accelerant or any other swim speed increase.")}},
         },
         [84138] = { -- Frosty Favors
             [questKeys.preQuestSingle] = {84137},
@@ -2838,7 +2838,7 @@ function SeasonOfDiscovery:LoadQuests()
         [84212] = { -- Bookin' it Back
             [questKeys.preQuestSingle] = {84211},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
-            [questKeys.extraObjectives] = {{{[zoneIDs.TANARIS]={{53.5,96.5}}}, Questie.ICON_TYPE_EVENT, l10n("Swim south till you reach a small island. You need to use your Guided Buoyancy Accelerant or any other swim speed increase.")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.TANARIS] = {{53.5,96.5}}}, Questie.ICON_TYPE_EVENT, l10n("Swim south till you reach a small island. You need to use your Guided Buoyancy Accelerant or any other swim speed increase.")}},
         },
         [84213] = { -- Rift Away
             [questKeys.preQuestSingle] = {84212},
@@ -2976,7 +2976,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [84369] = { -- Healing the Healer
-            [questKeys.triggerEnd] = {"Collect Frostfire Hot Spring water",{[zoneIDs.WINTERSPRING]={{29.3,35.7}}}},
+            [questKeys.triggerEnd] = {"Collect Frostfire Hot Spring water",{[zoneIDs.WINTERSPRING] = {{29.3,35.7}}}},
             [questKeys.objectives] = {nil,nil,{{227924}}},
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
@@ -3146,7 +3146,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [84590] = { -- The Balance of Light and Shadow
-            [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79}}}},
+            [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS] = {{21.19,17.79}}}},
             [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [84636] = { -- Prowler
@@ -3177,7 +3177,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{6707}},
             [questKeys.finishedBy] = {{6706}},
             [questKeys.objectives] = {{{231430}},nil,{{229911}}},
-            [questKeys.extraObjectives] = {{{[zoneIDs.FELWOOD]={{35.4,57.8}}}, Questie.ICON_TYPE_EVENT, l10n("Find Caius Blackwood")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.FELWOOD] = {{35.4,57.8}}}, Questie.ICON_TYPE_EVENT, l10n("Find Caius Blackwood")}},
             [questKeys.preQuestSingle] = {84880},
             [questKeys.zoneOrSort] = sortKeys.ROGUE,
         },
@@ -3185,7 +3185,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {nil,{467315}},
             [questKeys.preQuestSingle] = {84853},
             [questKeys.zoneOrSort] = sortKeys.HUNTER,
-            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERSPRING]={{58,21}}}, Questie.ICON_TYPE_EVENT, l10n("Use your Survival Supplies")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERSPRING] = {{58,21}}}, Questie.ICON_TYPE_EVENT, l10n("Use your Survival Supplies")}},
         },
         [85034] = { -- The Ruins of Andorhal
             [questKeys.preQuestSingle] = {85455},
@@ -3277,7 +3277,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [85304] = { -- Essence of Fire
             [questKeys.startedBy] = {nil,nil,{230904}},
-            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.BURNING_STEPPES]={{14.8,56.7}}}},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.BURNING_STEPPES] = {{14.8,56.7}}}},
             [questKeys.objectives] = {{{232429},{232429},{232398}},nil,{{230908}}},
             [questKeys.nextQuestInChain] = 85385,
             [questKeys.zoneOrSort] = sortKeys.MAGE,
@@ -3289,7 +3289,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [85386] = { -- Essence of Frost
-            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.WINTERSPRING]={{63.3,68.4}}}},
+            [questKeys.triggerEnd] = {"Translate the scroll", {[zoneIDs.WINTERSPRING] = {{63.3,68.4}}}},
             [questKeys.objectives] = {{{232466},{232466},{232399}},nil,{{230948}}},
             [questKeys.preQuestSingle] = {85385},
             [questKeys.nextQuestInChain] = 85388,
@@ -3341,7 +3341,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {85446},
             [questKeys.zoneOrSort] = sortKeys.WARRIOR,
             [questKeys.nextQuestInChain] = 85454,
-            [questKeys.extraObjectives] = {{{[zoneIDs.WETLANDS]={{74.4,70.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fight Riosustrasz near the edge")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.WETLANDS] = {{74.4,70.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fight Riosustrasz near the edge")}},
         },
         [85454] = { -- A Just Reward
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -4001,7 +4001,7 @@ function SeasonOfDiscovery:LoadQuests()
         [86443] = { -- The Nightmare Manifests
             [questKeys.startedBy] = {{11832}},
             [questKeys.finishedBy] = {{11832}},
-            [questKeys.triggerEnd] = {"The Redemption of Eranikus", {[zoneIDs.MOONGLADE]={{51.8,36.4}}}},
+            [questKeys.triggerEnd] = {"The Redemption of Eranikus", {[zoneIDs.MOONGLADE] = {{51.8,36.4}}}},
             [questKeys.preQuestSingle] = {8735},
             [questKeys.zoneOrSort] = zoneIDs.BLACKWING_LAIR,
             [questKeys.requiredMinRep] = {factionIDs.BROOD_OF_NOZDORMU,0},
@@ -4092,7 +4092,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200}},
         },
         [86680] = { -- Waking Legends
-            [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
+            [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE] = {{40.0,48.6}}}},
             [questKeys.preQuestSingle] = {86679},
             [questKeys.zoneOrSort] = sortKeys.EPIC,
             [questKeys.reputationReward] = {{factionIDs.CENARION_CIRCLE,200}},
@@ -4151,7 +4151,7 @@ function SeasonOfDiscovery:LoadQuests()
         [86966] = { -- Seeking Survivors
             [questKeys.startedBy] = {{218920}},
             [questKeys.finishedBy] = {{237819}},
-            [questKeys.triggerEnd] = {"Search for any survivor of the unfortunate adventuring party", {[zoneIDs.DEADWIND_PASS]={{65.43,78.64}}}},
+            [questKeys.triggerEnd] = {"Search for any survivor of the unfortunate adventuring party", {[zoneIDs.DEADWIND_PASS] = {{65.43,78.64}}}},
             [questKeys.preQuestSingle] = {86965},
             [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
         },
@@ -4181,7 +4181,7 @@ function SeasonOfDiscovery:LoadQuests()
         [86970] = { -- Testing Our Hypothesis
             [questKeys.startedBy] = {{218920}},
             [questKeys.finishedBy] = {{218920}},
-            [questKeys.triggerEnd] = {"Test the magical torch", {[zoneIDs.DEADWIND_PASS]={{39.99,74.16}}}},
+            [questKeys.triggerEnd] = {"Test the magical torch", {[zoneIDs.DEADWIND_PASS] = {{39.99,74.16}}}},
             [questKeys.objectives] = {},
             [questKeys.sourceItemId] = 235790,
             [questKeys.preQuestSingle] = {86969},
@@ -4601,7 +4601,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = zoneIDs.NEW_AVALON,
             [questKeys.objectives] = {nil,nil,{{238811}}},
             [questKeys.requiredSourceItems] = {238830,238831},
-            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS] = {{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
         },
         [89237] = { -- This Could Get Expensive...
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER,
@@ -4902,7 +4902,7 @@ function SeasonOfDiscovery:LoadQuests()
         },
         [89567] = { -- The Wrecked Caravan
             [questKeys.objectives] = {nil,nil,{{242257},{242258}}},
-            [questKeys.triggerEnd] = {"Locate the Scarlet Caravan", {[zoneIDs.EASTERN_PLAGUELANDS]={{33.5,27.6}}}},
+            [questKeys.triggerEnd] = {"Locate the Scarlet Caravan", {[zoneIDs.EASTERN_PLAGUELANDS] = {{33.5,27.6}}}},
             [questKeys.preQuestSingle] = {89563},
             [questKeys.nextQuestInChain] = 89568,
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
@@ -4968,7 +4968,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.requiredSkill] = {profKeys.COOKING,250},
             [questKeys.questFlags] = questFlags.DAILY,
             [questKeys.requiredSourceItems] = {238830,238831},
-            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS] = {{95.82,90.60}}}, Questie.ICON_TYPE_EVENT, l10n("From afar, use the Apple Scope to peer into the orchard, then lasso an Apple with the Apple Rope.")}},
         },
         [90519] = { -- Fish On Demand
             [questKeys.preQuestSingle] = {89341},

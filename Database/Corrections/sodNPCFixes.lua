@@ -1418,10 +1418,10 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [16786] = { -- Argent Quartermaster
             [npcKeys.spawns] = {
-                [zoneIDs.STORMWIND_CITY]={{54.8,62.13},{54.55,62.22}},
-                [zoneIDs.IRONFORGE]={{29.59,61.44},{29.37,60.04}},
-                [zoneIDs.DARNASSUS]={{39.11,45.43},{39.55,46.88}},
-                [zoneIDs.EASTERN_PLAGUELANDS]={{81.04,59.74},{80.74,59.9}},
+                [zoneIDs.STORMWIND_CITY] = {{54.8,62.13},{54.55,62.22}},
+                [zoneIDs.IRONFORGE] = {{29.59,61.44},{29.37,60.04}},
+                [zoneIDs.DARNASSUS] = {{39.11,45.43},{39.55,46.88}},
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{81.04,59.74},{80.74,59.9}},
             },
             [npcKeys.questStarts] = {9094,9317,9318,9321,9337,9341,87434,87436,87438,87440,88746,88883},
             [npcKeys.questEnds] = {9094,9317,9318,9321,9337,9341,87434,87436,87438,87440,88746,88883},
@@ -2080,24 +2080,24 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [216666] = { -- Techbot
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
-            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
             [npcKeys.questStarts] = {79981},
         },
         [216668] = { -- Irradiated Invader
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
-            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{20.9,36.02},{22.09,34.14},{19.68,36.71},{19.32,38.8},{21.81,32.2}}},
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{20.9,36.02},{22.09,34.14},{19.68,36.71},{19.32,38.8},{21.81,32.2}}},
         },
         [216669] = { -- Caverndeep Pillager
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
-            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{21.79,33.69},{20.61,36.96},{18.76,39.16}}},
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{21.79,33.69},{20.61,36.96},{18.76,39.16}}},
         },
         [216670] = { -- Caverndeep Looter
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
-            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [216671] = { -- Caverndeep Invader
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
-            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [216902] = { -- Wulmort Jinglepocket
             [npcKeys.spawns] = {
@@ -2108,7 +2108,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [216915] = { -- Strange Snowman
             [npcKeys.spawns] = {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{35.43, 72.45}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{35.43, 72.45}},
             },
         },
         [216924] = { -- Kaymard Copperpinch
@@ -2126,7 +2126,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [217392] = { -- Flameseer Dubelen
             [npcKeys.spawns] = {
-                [zoneIDs.DESOLACE]={{56.4, 21.8}},
+                [zoneIDs.DESOLACE] = {{56.4, 21.8}},
             },
             [npcKeys.questStarts] = {90239},
         },
@@ -2518,14 +2518,14 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [230302] = { -- Lord Kazzak
             [npcKeys.zoneID] = zoneIDs.THE_TAINTED_SCAR,
-            [npcKeys.spawns] = {[zoneIDs.THE_TAINTED_SCAR]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_TAINTED_SCAR] = {{-1,-1}}},
         },
         [230317] = { -- Mokvar
             [npcKeys.questStarts] = {84155,84156,84157,84158,84159,84160,84161,84162,84171,84172,84173,84174,84175,84176,84177,84178,84203,84204,84205,84206,84207,84208,84209,84210},
             [npcKeys.questEnds] = {84155,84156,84157,84158,84159,84160,84161,84162,84171,84172,84173,84174,84175,84176,84177,84178,84187,84188,84189,84190,84191,84192,84193,84194,84203,84204,84205,84206,84207,84208,84209,84210},
         },
         [230319] = { -- Deliana
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{43.53,52.64}}},
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{43.53,52.64}}},
             [npcKeys.questStarts] = {84147,84148,84149,84150,84151,84152,84153,84154,84163,84164,84165,84166,84167,84168,84169,84170,84195,84196,84197,84198,84199,84200,84201,84202},
             [npcKeys.questEnds] = {84147,84148,84149,84150,84151,84152,84153,84154,84163,84164,84165,84166,84167,84168,84169,84170,84179,84180,84181,84182,84183,84184,84185,84186,84195,84196,84197,84198,84199,84200,84201,84202},
         },
@@ -2768,19 +2768,19 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [241768] = { -- Herod
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
         },
         [241769] = { -- Arcanist Doan
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
         },
         [241770] = { -- Interrogator Vishas
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
         },
         [241772] = { -- Grand Crusader Caldoran
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
         },
         [241834] = { -- Istaria
             [npcKeys.questStarts] = {89462},
@@ -2842,7 +2842,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [243021] = { -- Lillian Voss
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
         },
         [243023] = { -- Inquisitor Jociphine
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
@@ -2872,7 +2872,7 @@ function SeasonOfDiscovery:LoadNPCs()
         },
         [243269] = { -- Solistrasza
             [npcKeys.zoneID] = zoneIDs.SCARLET_ENCLAVE,
-            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_ENCLAVE] = {{-1,-1}}},
         },
         [243386] = { -- Leonid Barthalomew the Revered, terrordale
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
