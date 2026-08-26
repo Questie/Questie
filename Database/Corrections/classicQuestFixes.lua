@@ -3154,7 +3154,8 @@ function QuestieQuestFixes:Load()
         [5224] = { -- Writhing Haunt Cauldron
             [questKeys.preQuestSingle] = {5223, 5234},
         },
-        [5226] = { -- Return to Chillwind Point
+        [5226] = { -- Return to Chillwind Camp
+            [questKeys.name] = "Return to Chillwind Camp",
             [questKeys.nextQuestInChain] = 5238,
         },
         [5227] = { -- Gahrron's Withering Cauldron
