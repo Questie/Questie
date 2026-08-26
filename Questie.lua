@@ -19,6 +19,8 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieProfiler
+local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
 
 ---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
@@ -62,7 +64,7 @@ function Questie:RefreshConfig(_event, _database, _profileName)
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
     CommsVisibility:ScheduleSnapshot("PROFILE_CHANGED")
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
 
 ---@class QuestieColor
@@ -184,11 +186,11 @@ function Questie:GetClassColor(class)
     end
 end
 
-function Questie:Error(...)
+function Questie.Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
-function Questie:Warning(...)
+function Questie.Warning(...)
     if Questie.db.profile.debugEnabled then -- prints regardless of "debugPrint" toggle
         Questie:Print("|cffffff00[WARNING]|r", ...)
     end
@@ -196,14 +198,14 @@ end
 
 -- Global debug levels
 -- When adding a new level here it MUST be assigned a corresponding number and name in
--- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie:Debug below
+-- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie.Debug below
 Questie.DEBUG_CRITICAL = 2 ^ 0
 Questie.DEBUG_ELEVATED = 2 ^ 1
 Questie.DEBUG_INFO = 2 ^ 2
 Questie.DEBUG_DEVELOP = 2 ^ 3
 Questie.DEBUG_SPAM = 2 ^ 4
 
-function Questie:Debug(msgDebugLevel, ...)
+function Questie.Debug(msgDebugLevel, ...)
     if (Questie.db.profile.debugEnabled) then
         local optionsDebugLevel = Questie.db.profile.debugLevel
 
@@ -271,6 +273,7 @@ Questie.icons = {
 
 Questie.usedIcons = {}
 
+-- ! Keep these continuous 1...n and copy changes to DRAW_ORDER_BY_ICON_TYPE_LOOKUP in QuestieMapUtils.lua
 Questie.ICON_TYPE_SLAY = 1
 Questie.ICON_TYPE_LOOT = 2
 Questie.ICON_TYPE_EVENT = 3
@@ -335,5 +338,41 @@ Questie.LOWLEVEL_ALL = 2
 Questie.LOWLEVEL_OFFSET = 3
 Questie.LOWLEVEL_RANGE = 4
 
+-- Profiling is opt-in and costs a player who never enables it nothing: no wrappers are installed, no timers
+-- run, and no frames are built. Questie.lua is last in each TOC Manifest, so arming here covers every Questie
+-- module, but that is well before AceDB exists - hence a plain saved variable rather than a profile setting.
+-- Every TOC declares LoadSavedVariablesFirst, so the flag is already populated by the time this runs.
+-- Optional profiling must never prevent Game Cache Validation or Addon Load callbacks.
+-- "== true" and not truthiness, because QuestieLoader and the pre-hook armed on exactly that test hundreds
+-- of lines ago: any looser test here would start a session those two never instrumented for.
+if QuestieProfilerEnabled == true then
+    local profilerStarted, profilerArmed, rejectionReported = pcall(QuestieProfiler.StartStartup, QuestieProfiler, true)
+    if not profilerStarted then
+        Questie.Error("QuestieProfiler failed during Addon Load", profilerArmed)
+    elseif profilerArmed ~= true and rejectionReported ~= true then
+        -- Some ownership failures return quietly. Loud engine rejections set rejectionReported so this caller
+        -- does not print a second, less useful error for the same failure.
+        Questie.Error("QuestieProfiler did not arm during Addon Load")
+    end
+end
+
 -- Start checking the game's cache.
 QuestieValidateGameCache.StartCheck()
+
+-- Questie.lua is the last file every TOC lists, so this line runs when addon load is complete and nothing
+-- else. The load-timing window must close here, synchronously: ADDON_LOADED fires later, behind the
+-- pre-hook's sweep and AceAddon's OnInitialize in handler order, and closing there charged their work to
+-- this file's row. Closing and publishing stay separate so a missing profiler method cannot leave the loader
+-- timing later runtime module calls as if they were still part of addon load.
+if QuestieProfilerEnabled == true then
+    local loadTimingClosed, loadTimingCloseError = pcall(QuestieLoader.FinishLoadTimings, QuestieLoader)
+    if not loadTimingClosed then
+        Questie.Error("QuestieProfiler failed to close the load-timing capture", loadTimingCloseError)
+    else
+        local loadTimingsImported, loadTimingImportError =
+            pcall(QuestieProfiler.ImportLoadTimings, QuestieProfiler)
+        if not loadTimingsImported then
+            Questie.Error("QuestieProfiler failed to import load timings", loadTimingImportError)
+        end
+    end
+end

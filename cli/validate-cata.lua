@@ -18,11 +18,11 @@ GetMaxPlayerLevel = function()
     return 85
 end
 
-local function _Debug(_, ...)
+local function _Debug(...)
     --print(...)
 end
 
-local function _ErrorOrWarning(_, text, ...)
+local function _ErrorOrWarning(text, ...)
     print(text)
 end
 
@@ -75,20 +75,10 @@ local function _CheckCataDatabase()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
-    Questie.db.global.debugEnabled = true
+    Questie.db.profile.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
 
     QuestieDB:Initialize()
-
-    print("\n\27[36mValidating objects...\27[0m")
-    QuestieDBCompiler:ValidateObjects()
-    print("\n\27[36mValidating items...\27[0m")
-    QuestieDBCompiler:ValidateItems()
-    print("\n\27[36mValidating NPCs...\27[0m")
-    QuestieDBCompiler:ValidateNPCs()
-    print("\n\27[36mValidating quests...\27[0m")
-    QuestieDBCompiler:ValidateQuests()
-
     print("\n\27[32mCata database compiled successfully\27[0m")
 
     -- We accept blacklisted quests as questStarts and questEnds for now
@@ -101,6 +91,11 @@ local function _CheckCataDatabase()
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil
     end
+
+    Validators.checkQuestFieldTypes(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkNpcFieldTypes(QuestieDB.npcData, QuestieDB.npcKeys)
+    Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
+    Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)
 
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)
     Validators.checkPreQuestExclusiveness(QuestieDB.questData, QuestieDB.questKeys)

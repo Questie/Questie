@@ -1615,7 +1615,7 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.objectDrops] = {},
         },
         [15882] = { -- Half Pendant of Aquatic Endurance
-            [itemKeys.objectDrops] = {177790},
+            [itemKeys.objectDrops] = {177844},
         },
         [15883] = { -- Half Pendant of Aquatic Agility
             [itemKeys.objectDrops] = {177794},
@@ -1636,7 +1636,7 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.objectDrops] = {},
         },
         [15882] = { -- Half Pendant of Aquatic Endurance
-            [itemKeys.objectDrops] = {177844},
+            [itemKeys.objectDrops] = {177790},
         },
         [15883] = { -- Half Pendant of Aquatic Agility
             [itemKeys.objectDrops] = {177792},

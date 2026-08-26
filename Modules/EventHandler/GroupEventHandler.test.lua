@@ -26,6 +26,9 @@ describe("GroupEventHandler", function()
     ---@type QuestiePartyObjectives
     local QuestiePartyObjectives
 
+    ---@type DailyQuestComms
+    local DailyQuestComms
+
     local groupMembers
 
     local function loadGroupEventHandler()
@@ -34,6 +37,7 @@ describe("GroupEventHandler", function()
         CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+        DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
 
         QuestiePlayer.numberOfGroupMembers = 2
         QuestieComms.remoteQuestLogs = {}
@@ -45,6 +49,7 @@ describe("GroupEventHandler", function()
         CommsVisibility.ResetAll = spy.new(function() end)
         QuestieComms.ResetAll = spy.new(function() end)
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
+        DailyQuestComms.RequestUnavailableDailyQuests = spy.new(function() end)
         QuestiePartyObjectives.Clear = spy.new(function() end)
 
         dofile("Modules/EventHandler/GroupEventHandler.lua")
@@ -103,6 +108,7 @@ describe("GroupEventHandler", function()
             assert.spy(CommsPrefixRegistry.ScheduleHello).was.called_with(CommsPrefixRegistry, "GROUP_JOINED")
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called_with(CommsVisibility, "GROUP_JOINED")
             assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_REQUEST_FULL_QUESTLIST")
+            assert.spy(DailyQuestComms.RequestUnavailableDailyQuests).was.called_with(false)
         end)
     end)
 

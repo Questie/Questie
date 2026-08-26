@@ -17,11 +17,11 @@ GetMaxPlayerLevel = function()
     return 90
 end
 
-local function _Debug(_, ...)
+local function _Debug(...)
     --print(...)
 end
 
-local function _ErrorOrWarning(_, text, ...)
+local function _ErrorOrWarning(text, ...)
     print(text)
 end
 
@@ -74,26 +74,21 @@ local function _CheckMoPDatabase()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
-    Questie.db.global.debugEnabled = true
+    Questie.db.profile.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
 
     QuestieDB:Initialize()
-
-    print("\n\27[36mValidating objects...\27[0m")
-    QuestieDBCompiler:ValidateObjects()
-    print("\n\27[36mValidating items...\27[0m")
-    QuestieDBCompiler:ValidateItems()
-    print("\n\27[36mValidating NPCs...\27[0m")
-    QuestieDBCompiler:ValidateNPCs()
-    print("\n\27[36mValidating quests...\27[0m")
-    QuestieDBCompiler:ValidateQuests()
-
     print("\n\27[32mMoP database compiled successfully\27[0m")
 
     -- Remove hidden quests from the database as we don't want to validate them
     for questId, _ in pairs(QuestieCorrections.hiddenQuests) do
         QuestieDB.questData[questId] = nil
     end
+
+    Validators.checkQuestFieldTypes(QuestieDB.questData, QuestieDB.questKeys)
+    Validators.checkNpcFieldTypes(QuestieDB.npcData, QuestieDB.npcKeys)
+    Validators.checkObjectFieldTypes(QuestieDB.objectData, QuestieDB.objectKeys)
+    Validators.checkItemFieldTypes(QuestieDB.itemData, QuestieDB.itemKeys)
 
     Validators.checkRequiredRaces(QuestieDB.questData, QuestieDB.questKeys, QuestieDB.raceKeys)
     Validators.checkRequiredSourceItems(QuestieDB.questData, QuestieDB.questKeys)

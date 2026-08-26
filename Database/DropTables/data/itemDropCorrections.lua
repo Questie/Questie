@@ -8,30 +8,30 @@ local DropDB = QuestieLoader:ImportModule("DropDB")
 
 local DropKeys = DropDB.correctionKeys
 
-  -- These tables contain manual drop corrections.
-  --
-  -- Use the following format:
-  -- [itemID] = { -- Item Name
-  --    [npcID] = 80.0,
-  -- }
-  --
-  -- This example would be an 80% drop rate.
-  --
-  -- Corrections propagate up to the current expansion. For instance, if you make a correction in Era, that
-  -- correction will be loaded in MoP unless an expansion after Era made a different correction for the same ID.
-  --
-  -- This is the same way our normal database corrections system behaves as well.
-  --
-  -- You can also use reference corrections. For instance:
-  --
-  -- [itemID] = { -- Item Name
-  --    [npcID] = DropDB.correctionKeys.WOWHEAD,
-  -- }
-  --
-  -- will point to the currently loaded Wowhead data for that item:NPC pair, if it exists.
-  -- Using a reference correction in an earlier expansion will propagate to later ones, pointing to their own DBs.
-  -- For instance, if you put the above example into Era corrections, but loaded up MoP, it would show MoP Wowhead data,
-  -- regardless of whatever data exists in the MoP pserver DB.
+-- These tables contain manual drop corrections.
+--
+-- Use the following format:
+-- [itemID] = { -- Item Name
+--    [npcID] = 80.0,
+-- }
+--
+-- This example would be an 80% drop rate.
+--
+-- Corrections propagate up to the current expansion. For instance, if you make a correction in Era, that
+-- correction will be loaded in MoP unless an expansion after Era made a different correction for the same ID.
+--
+-- This is the same way our normal database corrections system behaves as well.
+--
+-- You can also use reference corrections. For instance:
+--
+-- [itemID] = { -- Item Name
+--    [npcID] = DropDB.correctionKeys.WOWHEAD,
+-- }
+--
+-- will point to the currently loaded Wowhead data for that item:NPC pair, if it exists.
+-- Using a reference correction in an earlier expansion will propagate to later ones, pointing to their own DBs.
+-- For instance, if you put the above example into Era corrections, but loaded up MoP, it would show MoP Wowhead data,
+-- regardless of whatever data exists in the MoP pserver DB.
 
 QuestieItemDropCorrections.Era = {
     [725] = { -- Gnoll Paw
@@ -234,7 +234,30 @@ QuestieItemDropCorrections.Era = {
         [3269] = 75,
         [3271] = 75,
     },
+    [5030] = { -- Centaur Bracers
+        [3272] = DropKeys.WOWHEAD,
+        [3273] = DropKeys.WOWHEAD,
+        [3274] = DropKeys.WOWHEAD,
+        [3275] = DropKeys.WOWHEAD,
+        [3394] = DropKeys.WOWHEAD,
+        [3395] = DropKeys.WOWHEAD,
+        [3396] = DropKeys.WOWHEAD,
+        [3397] = DropKeys.WOWHEAD,
+        [5837] = DropKeys.WOWHEAD,
+        [5838] = DropKeys.WOWHEAD,
+        [5841] = DropKeys.WOWHEAD,
+        [9456] = DropKeys.WOWHEAD,
+        [9523] = DropKeys.WOWHEAD,
+        [9524] = DropKeys.WOWHEAD,
+    },
     [5055] = { -- Intact Raptor Horn
+        [3256] = DropKeys.WOWHEAD,
+        [3257] = DropKeys.WOWHEAD,
+        [5842] = DropKeys.WOWHEAD,
+    },
+    [5062] = { -- Raptor Head
+        [3254] = DropKeys.WOWHEAD,
+        [3255] = DropKeys.WOWHEAD,
         [3256] = DropKeys.WOWHEAD,
         [3257] = DropKeys.WOWHEAD,
         [5842] = DropKeys.WOWHEAD,
@@ -251,6 +274,12 @@ QuestieItemDropCorrections.Era = {
         [3260] = 100,
         [3261] = 100,
         [3263] = 100,
+    },
+    [5086] = { -- Zhevra Hooves
+        [3242] = DropKeys.WOWHEAD,
+        [3426] = DropKeys.WOWHEAD,
+        [3466] = DropKeys.WOWHEAD,
+        [5831] = DropKeys.WOWHEAD,
     },
     [5170] = { -- Mossy Tumor
         [2027] = DropKeys.WOWHEAD,
@@ -359,6 +388,17 @@ QuestieItemDropCorrections.Era = {
         [5862] = 20, -- empyrical value
         [8419] = 20, -- empyrical value
     },
+    [10551] = { -- Thorium Plated Dagger
+        [5839] = 50,
+        [5840] = 50,
+        [5843] = 50,
+        [5844] = 50,
+        [5846] = 50,
+        [8337] = 50,
+        [8504] = 50,
+        [8566] = 50,
+        [8637] = 50,
+    },
     [10552] = { -- Symbol of Ragnaros
         [5860] = DropKeys.WOWHEAD,
         [5861] = DropKeys.WOWHEAD,
@@ -386,6 +426,9 @@ QuestieItemDropCorrections.Era = {
         [7100] = 100,
         [7101] = 100,
         [7104] = 100,
+    },
+    [11725] = { -- Solid Crystal Leg Shaft
+        [5856] = DropKeys.WOWHEAD,
     },
     [11829] = { -- Un'Goro Ash
         [6520] = 100.0,
@@ -597,6 +640,15 @@ QuestieItemDropCorrections.Tbc = { -- Corrections for Old World data should only
     [25463] = { -- Pair of Ivory Tusks
         [18334] = 100,
     },
+    [25767] = { -- Raliq's Debt
+        [18585] = 100,
+    },
+    [25768] = { -- Coosh'coosh's Debt
+        [18586] = 100,
+    },
+    [25769] = { -- Floon's Debt
+        [18588] = 100,
+    },
     [25891] = { -- Pristine Shimmerscale Eel
         [18750] = DropKeys.WOWHEAD,
     },
@@ -724,6 +776,9 @@ QuestieItemDropCorrections.Tbc = { -- Corrections for Old World data should only
     },
     [31814] = { -- Mature Bone Sifter Carcass
         [22482] = 100,
+    },
+    [31957] = { -- Ethereum Prisoner I.D. Tag
+        [20520] = 100,
     },
     [33087] = { -- Black Dragonkin Essence
         [4328] = 100,

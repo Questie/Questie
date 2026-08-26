@@ -138,7 +138,7 @@ A group-broadcast `QuestieH1` means the sender is announcing a join/reload and n
 
 `QuestieComms` continues to own the legacy absolute quest-log/progress transport and `remoteQuestLogs` semantics.
 
-The existing `Comms` module registers the Questie-owned daily quest prefix as active through `CommsPrefixRegistry` after its receiver is registered. That allows the hello payload to reflect reality instead of a hardcoded assumption. The old `REPUTABLE` receiver can remain registered for backward compatibility, but it is intentionally outside QuestieH1 capability discovery.
+The legacy daily `Questie` prefix remains in the static manifest as `false`. `master` replaced that receiver with `DailyQuestComms` and currently disables its transport, so H1 must not advertise the old path as active.
 
 Future modern comm modules should follow the same pattern: define the prefix in the hello manifest, register the AceComm receiver in the owning module, then call `CommsPrefixRegistry:RegisterLocalPrefix(prefix)`. If that module is later removed, the prefix will naturally remain false or disappear from the manifest, instead of being accidentally advertised as supported.
 
@@ -168,7 +168,7 @@ Questie embeds the full LibDeflate library for its proven addon-channel-safe byt
 
 All protocols using `CommsEncoding` share a maximum final encoded payload of 762 bytes. AceComm reserves one byte from each 255-byte multipart message, so 762 bytes is exactly three multipart payloads of 254 bytes. Encoding returns nil above that ceiling, and decoding rejects oversized input before addon-channel decoding, decompression, or CBOR deserialization. AceComm may still reassemble incoming multipart traffic before calling Questie.
 
-The existing `<= 245` H1 output guardrail remains intentionally stricter so normal hello traffic stays within one message. QuestieV1 relies on the shared three-message ceiling instead of defining a separate entry-count or encoded-size policy. If a future modern protocol needs more than three messages, changing that shared transport contract should be an explicit design decision.
+The existing `<= 245` H1 output guardrail remains intentionally stricter so normal hello traffic stays within one message. QuestieV1 also rejects snapshots with more entries than `C_QuestLog.GetMaxNumQuestsCanAccept()` and relies on the shared three-message ceiling for encoded size. If a future modern protocol needs more than three messages, changing that shared transport contract should be an explicit design decision.
 
 If a future prefix changes wire shape or codec incompatibly, create a new prefix instead of adding per-packet negotiation fields.
 
@@ -189,6 +189,7 @@ Receive-side rules:
 
 - every key must be a positive integer quest ID,
 - every value must be boolean,
+- the entry count must not exceed `C_QuestLog.GetMaxNumQuestsCanAccept()`,
 - the complete payload is validated before atomically replacing the player's prior snapshot; malformed or otherwise invalid payloads leave prior state unchanged,
 - no stored snapshot for a player means unknown and defaults to shown for backward compatibility,
 - after a valid full snapshot is stored, omitted quest IDs are authoritatively suppressed for that player's party pins,
@@ -259,9 +260,9 @@ A remote player that only understands `OldPrefix` can distinguish that from an u
 
 When a prefix is unknown to this build, it remains `nil`. Unknown remote claims are ignored for behavior. Unknown local registration attempts are errors because every advertised prefix must be intentionally defined in the hello manifest first.
 
-Questie-owned prefixes such as `questie` and `Questie` are included so their support can eventually be sunset deliberately. As long as their parser modules exist and register receivers, they advertise `true`. If a handler is removed and no longer calls `RegisterLocalPrefix`, the prefix stops being advertised as active.
+Questie-owned prefixes such as `questie` and `Questie` are included so their support can be sunset deliberately. The legacy quest-log module still registers `questie`, while the removed daily receiver leaves `Questie` false.
 
-`REPUTABLE` is different: it is an old compatibility receiver, not a QuestieH1 capability. Questie can still accept that old receiver path until production support is removed separately, but remote hello claims for it are ignored like any other unknown prefix.
+`REPUTABLE` is not a QuestieH1 capability, and the current production stack no longer registers that old callback. Remote hello claims for it are ignored like any other unknown prefix.
 
 ## Testing and contracts
 

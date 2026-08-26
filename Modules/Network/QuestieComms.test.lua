@@ -34,11 +34,11 @@ describe("QuestieComms", function()
     end)
 
     describe("Initialize", function()
-        it("advertises legacy quest sharing while keeping the old REPUTABLE receiver unadvertised", function()
+        it("registers and advertises only the legacy quest-sharing receiver", function()
             QuestieComms:Initialize()
 
+            assert.spy(Questie.RegisterComm).was.called(1)
             assert.spy(Questie.RegisterComm).was.called_with(Questie, "questie", QuestieComms.private.OnCommReceived)
-            assert.spy(Questie.RegisterComm).was.called_with(Questie, "REPUTABLE", QuestieLoader:ImportModule("DailyQuests").FilterDailies)
             assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.called(1)
             assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.called_with(CommsPrefixRegistry, "questie")
         end)

@@ -3,64 +3,75 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@class QuestieMapUtils
 QuestieMap.utils = QuestieMap.utils or {}
 
-local ZOOM_MODIFIER = 1;
-
 -- All the speed we can get is worth it.
 local pairs = pairs
 
----@param frame IconFrame
-function QuestieMap.utils:SetDrawOrder(frame)
-    -- We need to add 2015, because of the regular WorldMapFrame.ScrollContainer which seems to start at 2000
-    if frame.miniMapIcon then
-        local frameLevel = Minimap:GetFrameLevel() + 2015
-        if frame.isManualIcon then
-            frameLevel = frameLevel - 1 -- This is to make sure that manual icons are always below other icons
-        end
-        local frameStrata = Minimap:GetFrameStrata()
-        frame:SetParent(Minimap)
-        frame:SetFrameStrata(frameStrata)
-        frame:SetFrameLevel(frameLevel)
-    else
-        local frameLevel = WorldMapFrame:GetFrameLevel() + 2015
-        if frame.isManualIcon then
-            frameLevel = frameLevel - 1 -- This is to make sure that manual icons are always below other icons
-        end
-        local frameStrata = WorldMapFrame:GetFrameStrata()
-        frame:SetParent(WorldMapFrame)
-        frame:SetFrameStrata(frameStrata)
-        frame:SetFrameLevel(frameLevel)
-    end
+-- FrameLevel to be added for the icon based on its icon type.
+-- ! Order of these in the table must be the same as values of the constants Questie.ICON_TYPE_* in Questie.lua
+local DRAW_ORDER_BY_ICON_TYPE_LOOKUP = {
+    0, -- ICON_TYPE_SLAY
+    0, -- ICON_TYPE_LOOT
+    0, -- ICON_TYPE_EVENT
+    0, -- ICON_TYPE_OBJECT
+    0, -- ICON_TYPE_TALK
+    1, -- ICON_TYPE_AVAILABLE
+    0, -- ICON_TYPE_AVAILABLE_GRAY
+    3, -- ICON_TYPE_COMPLETE
+    0, -- ICON_TYPE_GLOW
+    2, -- ICON_TYPE_REPEATABLE
+    3, -- ICON_TYPE_REPEATABLE_COMPLETE
+    0, -- ICON_TYPE_INCOMPLETE
+    2, -- ICON_TYPE_EVENTQUEST
+    3, -- ICON_TYPE_EVENTQUEST_COMPLETE
+    2, -- ICON_TYPE_PVPQUEST
+    3, -- ICON_TYPE_PVPQUEST_COMPLETE
+    0, -- ICON_TYPE_INTERACT
+    3, -- ICON_TYPE_SODRUNE
+    0, -- ICON_TYPE_MOUNT_UP
+    0, -- ICON_TYPE_NODE_FISH
+    0, -- ICON_TYPE_NODE_HERB
+    0, -- ICON_TYPE_NODE_ORE
+    0, -- ICON_TYPE_CHEST
+    0, -- ICON_TYPE_PET_BATTLE
+}
 
-    -- Draw layer is between -8 and 7, please leave some number above so we don't paint ourselves into a corner...
-    -- These are sorted by order of most common occurrence to reduce if checks; it's less readable but more performant with so many icons
-    if frame.data then
-        if frame.data.Icon == Questie.ICON_TYPE_AVAILABLE then
-            frame.texture:SetDrawLayer("OVERLAY", 5)
-        elseif frame.data.Icon == Questie.ICON_TYPE_REPEATABLE then
-            frame.texture:SetDrawLayer("OVERLAY", 4)
-        elseif frame.data.Icon == Questie.ICON_TYPE_EVENTQUEST then
-            frame.texture:SetDrawLayer("OVERLAY", 4)
-        elseif frame.data.Icon == Questie.ICON_TYPE_PVPQUEST then
-            frame.texture:SetDrawLayer("OVERLAY", 4)
-        elseif frame.data.Icon == Questie.ICON_TYPE_COMPLETE then
-            frame.texture:SetDrawLayer("OVERLAY", 6)
-        elseif frame.data.Icon == Questie.ICON_TYPE_REPEATABLE_COMPLETE then
-            frame.texture:SetDrawLayer("OVERLAY", 6)
-        elseif frame.data.Icon == Questie.ICON_TYPE_EVENTQUEST_COMPLETE then
-            frame.texture:SetDrawLayer("OVERLAY", 6)
-        elseif frame.data.Icon == Questie.ICON_TYPE_PVPQUEST_COMPLETE then
-            frame.texture:SetDrawLayer("OVERLAY", 6)
-        elseif frame.data.Icon == Questie.ICON_TYPE_SODRUNE then
-            frame.texture:SetDrawLayer("OVERLAY", 6)
-        else
-            frame.texture:SetDrawLayer("OVERLAY", 0)
-        end
-    else
-        frame.texture:SetDrawLayer("OVERLAY", 0)
+-- Maximum value used in the above table. (value, not key/index)
+local MAX_DRAW_ORDER_BY_ICON_TYPE = 0
+for _, v in pairs(DRAW_ORDER_BY_ICON_TYPE_LOOKUP) do
+    if v > MAX_DRAW_ORDER_BY_ICON_TYPE then
+        MAX_DRAW_ORDER_BY_ICON_TYPE = v
     end
 end
+-- Add +1 here to make code that uses the value more efficient.
+MAX_DRAW_ORDER_BY_ICON_TYPE = MAX_DRAW_ORDER_BY_ICON_TYPE + 1
 
-function QuestieMap.utils:IsExplored(uiMapId, x, y)
+-- Framelevel that is infront of all aboves
+local DRAW_ORDER_QUEST_COMPLETE = 2 * MAX_DRAW_ORDER_BY_ICON_TYPE
+
+--- Set frame's frameLevel.
+---@param frame IconFrame
+function QuestieMap.utils.SetDrawOrder(frame)
+    -- We need to add 2015, because of the regular WorldMapFrame.ScrollContainer which seems to start at 2000
+    -- Add +1 to be above waypoint lines
+    local frameLevel = 2016
+
+    if frame.data and frame.data.Type == "complete" then
+        -- Show quest finishers always infront of other icons.
+        frameLevel = frameLevel + DRAW_ORDER_QUEST_COMPLETE
+    else
+        frameLevel = frameLevel
+            + ((frame.data and DRAW_ORDER_BY_ICON_TYPE_LOOKUP[frame.data.Icon]) or 0) -- Get draw order for the icon type
+            + ((frame.isManualIcon and 0) or MAX_DRAW_ORDER_BY_ICON_TYPE) -- This is to make sure that manual icons are always below other icons
+    end
+
+    -- Setting ParentFrame and FrameStrata are handled by HBD / WOW-UI code
+
+    frame:SetFixedFrameLevel(false)
+    frame:SetFrameLevel(frameLevel)
+    frame:SetFixedFrameLevel(true) -- Stop framelevel changes when parent changes
+end
+
+function QuestieMap.utils.IsExplored(uiMapId, x, y)
     local IsExplored = false
     if uiMapId then
         local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100))
@@ -83,12 +94,12 @@ function QuestieMap.utils:IsExplored(uiMapId, x, y)
     return IsExplored
 end
 
-function QuestieMap.utils:MapExplorationUpdate()
+function QuestieMap.utils.MapExplorationUpdate()
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do
             local frame = _G[frameName]
             if (frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
-                if (QuestieMap.utils:IsExplored(frame.UiMapID, frame.x, frame.y)) then
+                if (QuestieMap.utils.IsExplored(frame.UiMapID, frame.x, frame.y)) then
                     frame:FakeShow()
                 end
             end
@@ -99,7 +110,7 @@ end
 --- Rescale a single icon
 ---@param frameRef string|IconFrame @The global name/iconRef of the icon frame, e.g. "QuestieFrame1"
 ---@param mapScale number? @Scale value for the final size of the Icon
-function QuestieMap.utils:RescaleIcon(frameRef, mapScale)
+function QuestieMap.utils.RescaleIcon(frameRef, mapScale)
     local frame = frameRef;
     local iconScale = mapScale or 1
     if type(frameRef) == "string" then
@@ -120,10 +131,11 @@ function QuestieMap.utils:RescaleIcon(frameRef, mapScale)
             end
 
             if scale > 1 then
-                frame:SetSize(scale * ZOOM_MODIFIER, scale * ZOOM_MODIFIER);
+                frame:SetSize(scale, scale)
+                frame:GlowUpdate()
             end
         else
-            Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
+            Questie.Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
         end
     end
 end

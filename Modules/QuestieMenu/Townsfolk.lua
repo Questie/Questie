@@ -626,7 +626,7 @@ function Townsfolk.GetFactionSpecificMailboxes()
                 tinsert(allianceMailBoxes, id)
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "Missing mailbox:", tostring(id))
+            Questie.Debug(Questie.DEBUG_DEVELOP, "Missing mailbox:", tostring(id))
         end
     end
 

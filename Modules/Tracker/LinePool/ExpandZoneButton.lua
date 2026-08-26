@@ -63,7 +63,7 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
                     C_Timer.After(0.1, function()
                         if Questie.db.char.minAllQuestsInZone[self.zoneId].isTrue then
                             -- Places all QuestID's into the collapsedQuests table and keeps the Min/Max buttons in sync.
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:minAllQuestsInZone] - Minimize")
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:minAllQuestsInZone] - Minimize")
                             for questId, _ in pairs(Questie.db.char.minAllQuestsInZone[self.zoneId]) do
                                 if type(questId) == "number" then
                                     Questie.db.char.collapsedQuests[questId] = true
@@ -73,7 +73,7 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
                             Questie.db.char.minAllQuestsInZone[self.zoneId].isTrue = nil
                         else
                             -- Removes all QuestID's from the collapsedQuests table.
-                            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:minAllQuestsInZone] - Maximize")
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:minAllQuestsInZone] - Maximize")
                             for questId, _ in pairs(Questie.db.char.minAllQuestsInZone[self.zoneId]) do
                                 if type(questId) == "number" then
                                     Questie.db.char.collapsedQuests[questId] = nil
@@ -91,10 +91,10 @@ function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
             else
                 if self.mode == 1 then
                     self:SetMode(0)
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandZone] - Minimize")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandZone] - Minimize")
                 else
                     self:SetMode(1)
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandZone] - Maximize")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandZone] - Maximize")
                 end
 
                 if Questie.db.char.collapsedZones[self.zoneId] == true then

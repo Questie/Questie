@@ -1302,6 +1302,9 @@ function QuestieQuestBlacklist:Load()
         [96254] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
+        [95158] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95251] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95252] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
         [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
         [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
 
@@ -1716,7 +1719,7 @@ function QuestieQuestBlacklist:Load()
         [95106] = not Questie.IsTitanReforged, -- Naturalist's Embodiment
         [95205] = not Questie.IsTitanReforged, -- Greater Inscrptions of the Zandalar
         [96211] = not Questie.IsTitanReforged, -- Heart of the Eredar
-        [96312] = true, -- Brutallus Must Die! not open now
+        [96312] = not Questie.IsTitanReforged, -- Brutallus Must Die!
         [96315] = true, -- XT-002 Deconstructor Must Die! not open now
         [96318] = true, -- Shade of Aran Must Die! not open now
         [98183] = not Questie.IsTitanReforged, -- A Ritual Renewed
@@ -3577,9 +3580,9 @@ function QuestieQuestBlacklist:Load()
         [3804] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3821] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3822] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3823] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3824] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [3825] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [3823] = Expansions.Current >= Expansions.Wotlk, -- Removed with wotlk
+        [3824] = Expansions.Current >= Expansions.Wotlk, -- Removed with wotlk
+        [3825] = Expansions.Current >= Expansions.Wotlk, -- Removed with wotlk
         [3841] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3842] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [3843] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -5770,6 +5773,7 @@ function QuestieQuestBlacklist:Load()
         [25902] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25903] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [26104] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26016] = Expansions.Current >= Expansions.MoP, -- Not in MoP
         [26109] = true, -- Not in the game
         [26119] = true, -- Hidden quest
         [26123] = true, -- Not in the game
@@ -7088,19 +7092,19 @@ function QuestieQuestBlacklist:Load()
     }
 
     if Questie.IsSoD then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoD...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoD...")
         questsToBlacklist = ContentPhases.BlacklistSoDQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoD)
     elseif Questie.IsTBC then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for TBC...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for TBC...")
         questsToBlacklist = ContentPhases.BlacklistTbcQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.TBC)
     elseif Questie.IsAnniversaryEra or Questie.IsAnniversaryHardcore then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary Era/Hardcore...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Anniversary Era/Hardcore...")
         questsToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.Anniversary)
     elseif Questie.IsSoM then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for SoM...")
         questsToBlacklist = ContentPhases.BlacklistSoMQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.SoM)
     elseif Questie.IsMoP then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for MoP...")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for MoP...")
         questsToBlacklist = ContentPhases.BlacklistMoPQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.MoP)
     end
 
@@ -7740,7 +7744,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 
         -- Eastern Kingdoms -> Isle Of Queldanas (0 -> 4080)
         [11517] = true, --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11517) (Retail Data)
-        [11534] = true, --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11534) (Retail Data)
+        [11534] = not Questie.IsTitanReforged , --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11534) (Retail Data)
         [11552] = true, --* Rohendor, the Second Gate (https://www.wowhead.com/wotlk/quest=11552) (Retail Data)
         [11553] = true, --* Archonisus, the Final Gate (https://www.wowhead.com/wotlk/quest=11553) (Retail Data)
 --      [24522] = true, --* Journey To The Sunwell (https://www.wowhead.com/wotlk/quest=24522) (Retail Data)
@@ -7922,7 +7926,7 @@ end
 
 ---@return table<QuestId, boolean>
 function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "Blacklisting quests for Titan Reforged...")
     return {
         -- Professions
         [14103] = true, -- Titanium Powder
@@ -7976,39 +7980,39 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- [14108] = true, -- Get Kraken!
 
         -- Quel'Delar
-        [24554] = true, -- The Battered Hilt (H)
-        [14443] = true, -- The Battered Hilt (A)
-        [24555] = true, -- What The Dragons Know (H)
-        [14444] = true, -- What The Dragons Know (A)
-        [24557] = true, -- The Silver Covenant's Scheme (H)
-        [14457] = true, -- The Sunreaver Plan (A)
-        [24556] = true, -- A Suitable Disguise (H)
-        [20438] = true, -- A Suitable Disguise (A)
-        [24451] = true, -- An Audience With The Arcanist (H)
-        [20439] = true, -- A Meeting With The Magister (A)
-        [24558] = true, -- Return To Myralion Sunblaze (H)
-        [24454] = true, -- Return To Caladis Brightspear (A)
-        [24559] = true, -- Reforging The Sword (H)
-        [24461] = true, -- Reforging The Sword (A)
-        [24560] = true, -- Tempering The Blade (H)
-        [24476] = true, -- Tempering The Blade (A)
-        [24561] = true, -- The Halls Of Reflection (H)
-        [24480] = true, -- The Halls Of Reflection (A)
-        [24562] = true, -- Journey To The Sunwell (H)
-        [24522] = true, -- Journey To The Sunwell (A)
-        [24563] = true, -- Thalorien Dawnseeker (H)
-        [24535] = true, -- Thalorien Dawnseeker (A)
-        [24564] = true, -- The Purification of Quel'Delar (H)
-        [24553] = true, -- The Purification of Quel'Delar (A)
-        [24594] = true, -- The Purification of Quel'Delar (H Belf)
-        [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
-        [24598] = true, -- The Purification of Quel'Delar (H ?)
-        [24795] = true, -- A Victory For The Silver Covenant (A)
-        [24796] = true, -- A Victory For The Silver Covenant (A)
-        [24798] = true, -- A Victory For The Sunreavers (H)
-        [24799] = true, -- A Victory For The Sunreavers (H)
-        [24800] = true, -- A Victory For The Sunreavers (H)
-        [24801] = true, -- A Victory For The Sunreavers (H)
+        -- [24554] = true, -- The Battered Hilt (H)
+        -- [14443] = true, -- The Battered Hilt (A)
+        -- [24555] = true, -- What The Dragons Know (H)
+        -- [14444] = true, -- What The Dragons Know (A)
+        -- [24557] = true, -- The Silver Covenant's Scheme (H)
+        -- [14457] = true, -- The Sunreaver Plan (A)
+        -- [24556] = true, -- A Suitable Disguise (H)
+        -- [20438] = true, -- A Suitable Disguise (A)
+        -- [24451] = true, -- An Audience With The Arcanist (H)
+        -- [20439] = true, -- A Meeting With The Magister (A)
+        -- [24558] = true, -- Return To Myralion Sunblaze (H)
+        -- [24454] = true, -- Return To Caladis Brightspear (A)
+        -- [24559] = true, -- Reforging The Sword (H)
+        -- [24461] = true, -- Reforging The Sword (A)
+        -- [24560] = true, -- Tempering The Blade (H)
+        -- [24476] = true, -- Tempering The Blade (A)
+        -- [24561] = true, -- The Halls Of Reflection (H)
+        -- [24480] = true, -- The Halls Of Reflection (A)
+        -- [24562] = true, -- Journey To The Sunwell (H)
+        -- [24522] = true, -- Journey To The Sunwell (A)
+        -- [24563] = true, -- Thalorien Dawnseeker (H)
+        -- [24535] = true, -- Thalorien Dawnseeker (A)
+        -- [24564] = true, -- The Purification of Quel'Delar (H)
+        -- [24553] = true, -- The Purification of Quel'Delar (A)
+        -- [24594] = true, -- The Purification of Quel'Delar (H Belf)
+        -- [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        -- [24598] = true, -- The Purification of Quel'Delar (H ?)
+        -- [24795] = true, -- A Victory For The Silver Covenant (A)
+        -- [24796] = true, -- A Victory For The Silver Covenant (A)
+        -- [24798] = true, -- A Victory For The Sunreavers (H)
+        -- [24799] = true, -- A Victory For The Sunreavers (H)
+        -- [24800] = true, -- A Victory For The Sunreavers (H)
+        -- [24801] = true, -- A Victory For The Sunreavers (H)
 
         -- Ulduar
         [13604] = true,
@@ -8490,54 +8494,54 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [8119] = true, -- The Unmarred Vision of Voodress
 
         -- Zul'Aman
-        [11166] = true, -- X Marks... Your Doom!
-        [11171] = true, -- Hex Lord? Hah!
-        [11195] = true, -- Playin' With Dolls
-        [11130] = true, -- Oooh, Shinies!
-        [11178] = true, -- Blood of the Warlord
-        [11132] = true, -- Promises, Promises...
-        [11163] = true, -- Undercover Sister
-        [11164] = true, -- Tuskin' Raiders
-        [11165] = true, -- A Troll Among Trolls
+        -- [11166] = true, -- X Marks... Your Doom!
+        -- [11171] = true, -- Hex Lord? Hah!
+        -- [11195] = true, -- Playin' With Dolls
+        -- [11130] = true, -- Oooh, Shinies!
+        -- [11178] = true, -- Blood of the Warlord
+        -- [11132] = true, -- Promises, Promises...
+        -- [11163] = true, -- Undercover Sister
+        -- [11164] = true, -- Tuskin' Raiders
+        -- [11165] = true, -- A Troll Among Trolls
         [11196] = true, -- TEMP X
 
         -- Isle of Quel'Danas
-        [11526] = true, -- The Missing Magistrix
-        [11549] = true, -- A Magnanimous Benefactor
-        [11481] = true, -- Crisis at the Sunwell
-        [11482] = true, -- Duty Calls
-        [11524] = true, -- Erratic Behavior
-        [11536] = true, -- Don't Stop Now....
-        [11525] = true, -- Further Conversions
-        [11496] = true, -- The Sanctum Wards
-        [11557] = true, -- Exalted Among All Combatants
-        [11556] = true, -- Revered in the Field of Battle
-        [11555] = true, -- Honored by Your Allies
-        [11550] = true, -- Enter, the Deceiver...
-        [11548] = true, -- Your Continued Support
-        [11535] = true, -- Making Ready
-        [11554] = true, -- A Friend in the Frontlines
-        [11542] = true, -- Intercept the Reinforcements
-        [11546] = true, -- Open for Business
-        [11532] = true, -- Distraction at the Dead Scar
-        [11541] = true, -- Disrupt the Greengill Coast
-        [11543] = true, -- Keeping the Enemy at Bay
-        [11523] = true, -- Arm the Wards!
-        [11545] = true, -- A Charitable Donation
-        [11540] = true, -- Crush the Dawnblade
-        [11538] = true, -- The Battle for the Sun's Reach Armory
-        [11537] = true, -- The Battle Must Go On
-        [11521] = true, -- Rediscovering Your Roots
-        [11533] = true, -- The Air Strikes Must Continue
-        [11547] = true, -- Know Your Ley Lines
-        [11544] = true, -- Ata'mal Armaments
+        -- [11526] = true, -- The Missing Magistrix
+        -- [11549] = true, -- A Magnanimous Benefactor
+        -- [11481] = true, -- Crisis at the Sunwell
+        -- [11482] = true, -- Duty Calls
+        -- [11524] = true, -- Erratic Behavior
+        -- [11536] = true, -- Don't Stop Now....
+        -- [11525] = true, -- Further Conversions
+        -- [11496] = true, -- The Sanctum Wards
+        -- [11557] = true, -- Exalted Among All Combatants
+        -- [11556] = true, -- Revered in the Field of Battle
+        -- [11555] = true, -- Honored by Your Allies
+        -- [11550] = true, -- Enter, the Deceiver...
+        -- [11548] = true, -- Your Continued Support
+        -- [11535] = true, -- Making Ready
+        -- [11554] = true, -- A Friend in the Frontlines
+        -- [11542] = true, -- Intercept the Reinforcements
+        -- [11546] = true, -- Open for Business
+        -- [11532] = true, -- Distraction at the Dead Scar
+        -- [11541] = true, -- Disrupt the Greengill Coast
+        -- [11543] = true, -- Keeping the Enemy at Bay
+        -- [11523] = true, -- Arm the Wards!
+        -- [11545] = true, -- A Charitable Donation
+        -- [11540] = true, -- Crush the Dawnblade
+        -- [11538] = true, -- The Battle for the Sun's Reach Armory
+        -- [11537] = true, -- The Battle Must Go On
+        -- [11521] = true, -- Rediscovering Your Roots
+        -- [11533] = true, -- The Air Strikes Must Continue
+        -- [11547] = true, -- Know Your Ley Lines
+        -- [11544] = true, -- Ata'mal Armaments
 
         -- Magisters' Terrace
-        [11492] = true, -- Hard to Kill
-        [11500] = true, -- Wanted: Sisters of Torment
-        [11499] = true, -- Wanted: The Signet Ring of Prince Kael'thas
-        [11490] = true, -- The Scryer's Scryer
-        [11488] = true, -- Magisters' Terrace
+        -- [11492] = true, -- Hard to Kill
+        -- [11500] = true, -- Wanted: Sisters of Torment
+        -- [11499] = true, -- Wanted: The Signet Ring of Prince Kael'thas
+        -- [11490] = true, -- The Scryer's Scryer
+        -- [11488] = true, -- Magisters' Terrace
 
         -- Magtheridon's Lair
         [10888] = true, -- Trial of the Naaru: Magtheridon

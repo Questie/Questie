@@ -158,7 +158,7 @@ describe("CommsPrefixRegistry", function()
             scheduledCallback()
 
             assert.spy(Questie.Error).was.called(1)
-            assert.spy(Questie.Error).was.called_with(Questie, "[CommsPrefixRegistry] A module tried to register undefined Questie comm prefix 'QuestieZ9'. Add it to the QuestieH1 prefix manifest before registering support.")
+            assert.spy(Questie.Error).was.called_with("[CommsPrefixRegistry] A module tried to register undefined Questie comm prefix 'QuestieZ9'. Add it to the QuestieH1 prefix manifest before registering support.")
         end)
     end)
 

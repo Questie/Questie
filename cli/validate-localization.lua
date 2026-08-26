@@ -20,11 +20,11 @@ GetLocale = function()
     return "deDE"
 end
 
-local function _Debug(_, ...)
+local function _Debug(...)
     --print(...)
 end
 
-local function _ErrorOrWarning(_, text, ...)
+local function _ErrorOrWarning(text, ...)
     print(text)
 end
 
@@ -81,7 +81,7 @@ local function _CheckGermanClassicDatabase()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
-    Questie.db.global.debugEnabled = true
+    Questie.db.profile.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
 
     QuestieDB:Initialize()

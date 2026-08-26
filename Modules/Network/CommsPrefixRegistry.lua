@@ -8,7 +8,7 @@ currently listening to.
             QuestieH1 = true,    -- this module registered the hello receiver
             QuestieV1 = true,    -- CommsVisibility registered the visibility receiver
             questie = true,      -- legacy party quest-log comms receiver is active
-            Questie = true,      -- daily quest availability comms receiver is active
+            Questie = false,     -- legacy daily quest availability receiver is disabled
         }
 
     Wire path:
@@ -24,7 +24,7 @@ currently listening to.
             QuestieH1 = true,
             QuestieV1 = true,
             questie = true,
-            Questie = true,
+            Questie = false,
         }
 
 Known prefixes default to false. That means this client knows the prefix contract
@@ -66,7 +66,7 @@ local LOCAL_PREFIXES = {
     -- Modern comms modules
     QuestieV1 = false,
 
-    -- Legacy quest-log sharing and Questie-owned daily quest availability.
+    -- Legacy quest-log sharing and the disabled legacy daily quest prefix.
     questie = false,
     Questie = false,
 }
@@ -104,7 +104,7 @@ function CommsPrefixRegistry:Initialize()
     end
 
     if not CommsEncoding:HasCodecSupport() then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[CommsPrefixRegistry] Codec support unavailable, not registering QuestieH1")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[CommsPrefixRegistry] Codec support unavailable, not registering QuestieH1")
         return false
     end
 
@@ -258,7 +258,7 @@ function CommsPrefixRegistry:RegisterLocalPrefix(prefix)
         if not undefinedPrefixWarnings[prefixName] then
             undefinedPrefixWarnings[prefixName] = true
             C_Timer.After(5, function()
-                Questie:Error("[CommsPrefixRegistry] A module tried to register undefined Questie comm prefix '" .. prefixName .. "'. Add it to the QuestieH1 prefix manifest before registering support.")
+                Questie.Error("[CommsPrefixRegistry] A module tried to register undefined Questie comm prefix '" .. prefixName .. "'. Add it to the QuestieH1 prefix manifest before registering support.")
             end)
         end
 

@@ -106,7 +106,7 @@ function EventHandler:RegisterLateEvents()
 
     -- Spell objectives
     Questie:RegisterEvent("NEW_RECIPE_LEARNED", function() -- Needed for some spells that don't necessarily appear in the spellbook, but are definitely spells
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] NEW_RECIPE_LEARNED")
         QuestEventHandler.NewRecipeLearned()
         AvailableQuests.CalculateAndDrawAll()
     end)
@@ -171,7 +171,7 @@ function EventHandler:RegisterLateEvents()
     end)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
         -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
         -- backend Questie updates that occur when a player zones in/out of an instance. This
         -- is necessary to get everything back into it's "normal" state after all the updates.
@@ -179,7 +179,7 @@ function EventHandler:RegisterLateEvents()
 
         if isInInstance then
             C_Timer.After(8, function()
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
                 if Questie.db.profile.minimizeTrackerInDungeons then
                     trackerMinimizedByDungeon = true
 
@@ -190,7 +190,7 @@ function EventHandler:RegisterLateEvents()
 
                 -- Handle complete hiding in dungeons
                 if Questie.db.profile.hideTrackerInDungeons then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
                     trackerHiddenByDungeon = true
                     QuestieTracker:Hide()
                 end
@@ -199,7 +199,7 @@ function EventHandler:RegisterLateEvents()
             -- Handle exiting instances for both minimize and hide
             if trackerMinimizedByDungeon == true then
                 C_Timer.After(8, function()
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Minimize")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Minimize")
                     if Questie.db.profile.minimizeTrackerInDungeons and (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) then
                         trackerMinimizedByDungeon = false
 
@@ -213,7 +213,7 @@ function EventHandler:RegisterLateEvents()
             -- Handle complete hiding when exiting dungeons
             if trackerHiddenByDungeon == true then
                 C_Timer.After(8, function()
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
                     if Questie.db.profile.hideTrackerInDungeons then
                         trackerHiddenByDungeon = false
                         QuestieTracker:Show()
@@ -226,7 +226,7 @@ function EventHandler:RegisterLateEvents()
     -- Pet Battle Events (MoP onwards)
     if Expansions.Current >= Expansions.MoP then
         Questie:RegisterEvent("PET_BATTLE_OPENING_START", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_OPENING_START")
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Hide()
@@ -235,7 +235,7 @@ function EventHandler:RegisterLateEvents()
         end)
 
         Questie:RegisterEvent("PET_BATTLE_CLOSE", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_CLOSE")
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles then
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Show()
@@ -245,7 +245,7 @@ function EventHandler:RegisterLateEvents()
 
         -- Additional pet battle events to handle edge cases
         Questie:RegisterEvent("PET_BATTLE_PET_CHANGED", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_CHANGED")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_CHANGED")
             -- Ensure tracker stays hidden during pet changes/deaths
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
                 QuestieCombatQueue:Queue(function()
@@ -255,7 +255,7 @@ function EventHandler:RegisterLateEvents()
         end)
 
         Questie:RegisterEvent("PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE")
             -- Ensure tracker stays hidden during battle round transitions
             if Questie.db.profile.trackerEnabled and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
                 QuestieCombatQueue:Queue(function()
@@ -288,19 +288,19 @@ function EventHandler:RegisterLateEvents()
     if Expansions.Current >= Expansions.MoP then
         -- Challenge Mode and Scenario Events
         Questie:RegisterEvent("CHALLENGE_MODE_START", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHALLENGE_MODE_START")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHALLENGE_MODE_START")
             QuestieTracker:Update() -- Update the Tracker right away, because players are not infight on start
         end)
 
         Questie:RegisterEvent("CHALLENGE_MODE_RESET", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHALLENGE_MODE_RESET")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHALLENGE_MODE_RESET")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
         end)
 
         Questie:RegisterEvent("SCENARIO_CRITERIA_UPDATE", function(_, criteriaIndex)
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_CRITERIA_UPDATE")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_CRITERIA_UPDATE")
             QuestieTracker.UpdateScenarioLines(criteriaIndex)
             QuestieTracker.UpdateScenarioLines(0) -- Always update 0 index, because that is the trash count
             QuestieCombatQueue:Queue(function()
@@ -309,14 +309,14 @@ function EventHandler:RegisterLateEvents()
         end)
 
         Questie:RegisterEvent("SCENARIO_UPDATE", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_UPDATE")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_UPDATE")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
         end)
 
         Questie:RegisterEvent("SCENARIO_POI_UPDATE", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_POI_UPDATE")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] SCENARIO_POI_UPDATE")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
@@ -337,7 +337,7 @@ function EventHandler:RegisterLateEvents()
 
     if Expansions.Current >= Expansions.MoP then
         Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
@@ -376,7 +376,7 @@ function _EventHandler:PlayerLogin()
     -- Check config exists
     if not Questie.db or not QuestieConfig then
         -- Did you move Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig",.......) out of Questie:OnInitialize() ?
-        Questie:Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
+        Questie.Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         return
     end
@@ -423,8 +423,8 @@ function _EventHandler:PlayerLogin()
         --? Nothing worked :(
         if replaceCount and replaceCount < 1 then --- Error: Default to match EVERYTHING, because it's better that it works
             FACTION_STANDING_CHANGED_PATTERN = ".+"
-            Questie:Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN!")
-            Questie:Error("FACTION_STANDING_CHANGED is set to " .. tostring(FACTION_STANDING_CHANGED) .. ", please report this on GitHub!")
+            Questie.Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN!")
+            Questie.Error("FACTION_STANDING_CHANGED is set to " .. tostring(FACTION_STANDING_CHANGED) .. ", please report this on GitHub!")
         end
     end
 
@@ -471,9 +471,9 @@ end
 
 --- Fires on MAP_EXPLORATION_UPDATED.
 function _EventHandler:MapExplorationUpdated()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED")
     if Questie.db.profile.hideUnexploredMapIcons then
-        QuestieMap.utils:MapExplorationUpdate()
+        QuestieMap.utils.MapExplorationUpdate()
     end
 
     -- Exploratory based Achievement updates
@@ -487,7 +487,7 @@ end
 --- Fires when the player levels up
 ---@param level number
 function _EventHandler:PlayerLevelUp(level)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
 
     QuestiePlayer:SetPlayerLevel(level)
     QuestieJourney:PlayerLevelUp(level)
@@ -577,7 +577,7 @@ end
 
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_SKILL")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_SKILL")
 
     -- This needs to be done to draw new quests that just came available
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
@@ -595,7 +595,7 @@ end
 
 --- Fires when some chat messages about reputations are displayed
 function _EventHandler:ChatMsgCompatFactionChange()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_COMBAT_FACTION_CHANGE")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_COMBAT_FACTION_CHANGE")
     local factionChanged, newFaction = QuestieReputation:Update(false)
     if factionChanged or newFaction then
         QuestieCombatQueue:Queue(function()
@@ -609,7 +609,7 @@ end
 local trackerMinimizedByCombat, trackerHiddenByCombat = false, false
 local optionsHiddenByCombat, journeyHiddenByCombat = false, false
 function _EventHandler:PlayerRegenDisabled()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
     if QuestieTracker then
@@ -647,7 +647,7 @@ function _EventHandler:PlayerRegenDisabled()
 end
 
 function _EventHandler:PlayerRegenEnabled()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
     if Questie.db.profile.minimizeTrackerInCombat and trackerMinimizedByCombat then
         if (not Questie.db.profile.minimizeTrackerInDungeons) or (not IsInInstance()) then
             trackerMinimizedByCombat = false

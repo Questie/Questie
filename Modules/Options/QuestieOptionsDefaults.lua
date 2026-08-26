@@ -56,6 +56,7 @@ function QuestieOptionsDefaults:Load()
             enableTooltips = true,
             enableTooltipsItemID = false,
             enableTooltipsNPCID = false,
+            enableTooltipsBreadcrumbQuests = false,
             enableTooltipsObjectID = false,
             enableTooltipsQuestID = false,
             enableTooltipsQuestLevel = true,
@@ -209,8 +210,6 @@ function QuestieOptionsDefaults:Load()
             debugEnabled = false,
             debugEnabledPrint = false,
             debugLevel = 0,
-            skipValidation = false,
-
             -- TBC Isle of Quel'Danas
             isleOfQuelDanasPhase = 1,
             isIsleOfQuelDanasPhaseReminderDisabled = false,
@@ -237,8 +236,6 @@ function QuestieOptionsDefaults:Load()
             trackedAchievementIds = {},
         },
         global = {
-            lastDailyRequestResetTime = 0,
-            lastDailyRequestDate = "",
             questieLocale = "enUS",
             questieLocaleDiff = false,
             journeyKeybindDefaultApplied = false,

@@ -47,10 +47,10 @@ function ExpandQuestButton.New(index, parent)
     expandQuest:SetScript("OnClick", function(self)
         if self.mode == 1 then
             self:SetMode(0)
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandQuest] - Minimize")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandQuest] - Minimize")
         else
             self:SetMode(1)
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandQuest] - Maximize")
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:expandQuest] - Maximize")
         end
         if Questie.db.char.collapsedQuests[self.questId] then
             Questie.db.char.collapsedQuests[self.questId] = nil

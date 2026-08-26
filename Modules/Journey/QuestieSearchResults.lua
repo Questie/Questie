@@ -23,6 +23,20 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+
+-- this variable defines how many operations to run (batched at a time) before yielding for a frame.
+-- 1 would mean yielding every operation (so lower = slower but less lag)
+-- this variable is not a hard limit when invoked, but rather a guideline;
+-- each code block may put a modifier on it, for instance 10x  if the loop is lightweight
+local TICKS_PER_YIELD = 30
+
+if Questie.IsHardcore then
+    -- The addon timing restrictions from the Blizzard watchdog are much higher for HC servers.
+    -- Therefore we need a quite low tick rate to make sure we don't get bitten on less performant machines.
+    TICKS_PER_YIELD = 15
+end
 
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local stringrep = string.rep
@@ -114,25 +128,55 @@ local function CreateShowHideButton(id)
     end
     -- Functions for showing/hiding and switching behaviour afterwards
     button.RemoveFromMap = function(self)
+        self:SetText(l10n("Show on Map"))
+        self:SetCallback("OnClick", function() self:ShowOnMap(self) end)
+
         if self.idsToShow then
+            local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
-                QuestieMap:UnloadManualFrames(spawnId)
+                ids[#ids + 1] = spawnId
             end
+
+            ThreadLib.ThreadInstant(function()
+                local yieldCount = 0
+                for i = 1, #ids do
+                    QuestieMap:UnloadManualFrames(ids[i])
+                    yieldCount = yieldCount + 1
+                    if yieldCount >= TICKS_PER_YIELD then
+                        yieldCount = 0
+                        coroutine.yield()
+                    end
+                end
+            end)
         else
             QuestieMap:UnloadManualFrames(self.id)
         end
-        self:SetText(l10n("Show on Map"))
-        self:SetCallback("OnClick", function() self:ShowOnMap(self) end)
     end
     button.ShowOnMap = function(self)
+        self:SetText(l10n("Remove from Map"))
+        self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
+
         if self.idsToShow then
+            local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
-                if spawnId > 0 then
-                    QuestieMap:ShowNPC(spawnId)
-                else
-                    QuestieMap:ShowObject(-spawnId)
-                end
+                ids[#ids + 1] = spawnId
             end
+
+            ThreadLib.ThreadInstant(function()
+                local yieldCount = 0
+                for i = 1, #ids do
+                    if ids[i] > 0 then
+                        QuestieMap:ShowNPC(ids[i])
+                    else
+                        QuestieMap:ShowObject(-ids[i])
+                    end
+                    yieldCount = yieldCount + 1
+                    if yieldCount >= TICKS_PER_YIELD then
+                        yieldCount = 0
+                        coroutine.yield()
+                    end
+                end
+            end)
         else
             if self.id > 0 then
                 QuestieMap:ShowNPC(self.id)
@@ -140,8 +184,6 @@ local function CreateShowHideButton(id)
                 QuestieMap:ShowObject(-self.id)
             end
         end
-        self:SetText(l10n("Remove from Map"))
-        self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
     end
     return button
 end
@@ -616,7 +658,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
             elseif stringsub(searchText, 1, 4) == "|cff" then
                 -- This should be impossible to reach, since when you see an item link in the game the item should
                 -- be cached already which would be caught by the condition above
-                Questie:Debug(Questie.DEBUG_DEVELOP, "Search with link of an uncached item")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "Search with link of an uncached item")
             else
                 -- Normal search
                 local text = string.trim(searchText, " \n\r\t[]");

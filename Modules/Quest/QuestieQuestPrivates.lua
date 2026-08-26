@@ -80,7 +80,7 @@ end
 ---@return table<NpcId, SpawnListNPC>?
 monster = function(npcId, objective)
     if (not npcId) then
-        Questie:Error(
+        Questie.Error(
             "Corrupted objective data handed to objectiveSpawnListCallTable['monster']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."
@@ -90,13 +90,13 @@ monster = function(npcId, objective)
 
     local name = QuestieDB.QueryNPCSingle(npcId, "name")
     if (not name) then
-        Questie:Error("Name missing for NPC:", npcId, "- Please report this error on Discord or GitHub.")
+        Questie.Error("Name missing for NPC:", npcId, "- Please report this error on Discord or GitHub.")
         return nil
     end
 
     local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
     if (not spawns) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
+        Questie.Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
         spawns = {}
     end
 
@@ -129,7 +129,7 @@ end
 ---@return table<ObjectId, SpawnListObject>?
 object = function(objectId, objective)
     if (not objectId) then
-        Questie:Error(
+        Questie.Error(
             "Corrupted objective data handed to objectiveSpawnListCallTable['object']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."
@@ -139,13 +139,13 @@ object = function(objectId, objective)
 
     local name = QuestieDB.QueryObjectSingle(objectId, "name")
     if (not name) then
-        Questie:Error("Name missing for object:", objectId, "- Please report this error on Discord or GitHub.")
+        Questie.Error("Name missing for object:", objectId, "- Please report this error on Discord or GitHub.")
         return nil
     end
 
     local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
     if (not spawns) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
+        Questie.Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
         spawns = {}
     end
 
@@ -174,7 +174,7 @@ end
 event = function(eventId, objective)
     local spawns = objective.Coordinates
     if (not spawns) then
-        Questie:Error("Missing event data for Objective:", objective.Description, "id:", eventId)
+        Questie.Error("Missing event data for Objective:", objective.Description, "id:", eventId)
         spawns = {}
     end
 
@@ -199,7 +199,7 @@ end
 ---@return table<ItemId, SpawnListItem>?
 item = function(itemId, objective)
     if (not itemId) then
-        Questie:Error(
+        Questie.Error(
             "Corrupted objective data handed to objectiveSpawnListCallTable['item']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."
@@ -214,7 +214,7 @@ item = function(itemId, objective)
             if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
                 local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective)
                 if not sourceList then
-                    Questie:Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
+                    Questie.Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
                 else
                     for id, sourceData in pairs(sourceList) do
                         if (not ret[id]) then
@@ -280,7 +280,7 @@ end
 ---@return table<ItemId, SpawnListItem>?
 spell = function(spellId, objective, objectiveData)
     if (not spellId) then
-        Questie:Error(
+        Questie.Error(
             "Corrupted objective data handed to objectiveSpawnListCallTable['spell']:",
             "'" .. objective.Description .. "' -",
             "Please report this error on Discord or GitHub."

@@ -34,11 +34,11 @@ The harness has two modes because they answer different questions:
 
 The emulator is a deterministic lab for Questie comms, not a perfect clone of the WoW client or server. It should be realistic enough to catch addon-side mistakes in registration, routing, serialization, timers, and trust boundaries, while staying predictable enough that failures explain the Questie behavior under test.
 
-Keep the ownership line clear: the harness supplies mechanics, and owner modules protect protocol behavior. H1 assertions belong with `CommsPrefixRegistry`, V1 assertions belong with `CommsVisibility`, legacy quest-log assertions belong with `QuestieComms`, and daily `Questie` assertions belong with `Comms`. `CommsIntegration.test.lua` should remain a harness-mechanics safety net, not a second protocol inventory.
+Keep the ownership line clear: the harness supplies mechanics, and owner modules protect protocol behavior. H1 assertions belong with `CommsPrefixRegistry`, V1 assertions belong with `CommsVisibility`, and legacy quest-log assertions belong with `QuestieComms`. `CommsIntegration.test.lua` should remain a harness-mechanics safety net, not a second protocol inventory.
 
 Prefer real Ace libraries and real serializer paths over mocked `Questie:RegisterComm` / `Questie:SendCommMessage` flows. The bugs this suite is meant to catch often happen because the callback signature, prefix registration, chunking, compression, or timer boundary is slightly different from what a mock assumed.
 
-Assert final observable protocol state when possible: remote prefix caches, visibility decisions, remote quest logs, received daily removals, and routed addon messages. Use captured sinks or spies at true side-effect boundaries, such as tooltip registration or daily removal callbacks, where there is no more meaningful state to inspect.
+Assert final observable protocol state when possible: remote prefix caches, visibility decisions, remote quest logs, and routed addon messages. Use captured sinks or spies at true side-effect boundaries, such as tooltip registration, where there is no more meaningful state to inspect.
 
 Use real Questie data for payload guardrails. Synthetic maxima can look scary while missing the actual production shape, or compress unrealistically well compared with real quest IDs/objective IDs. If future data creates a larger realistic case, update the guardrail fixture to that new real case.
 
@@ -73,7 +73,7 @@ If a test asserts Questie protocol behavior, it belongs in that protocol's ownin
 - isolated H1 round-trips over PARTY and INSTANCE_CHAT;
 - H1 payload budget guardrail.
 
-`REPUTABLE` is intentionally not part of H1 discovery. Production may still receive the old direct `REPUTABLE` callback for compatibility, but H1 does not advertise it.
+`REPUTABLE` is intentionally not part of H1 discovery. The current production stack no longer registers that old callback.
 
 ### `Modules/Network/CommsVisibility.test.lua`
 
@@ -114,15 +114,9 @@ Legacy `questie` prefix ownership:
 
 The emulator loads real `QuestieStream`, `QuestieSerializer`, and `QuestieComms`, while fixture-stubbing broad DB/tooltip dependencies.
 
-### `Modules/Network/Comms.test.lua`
+### `Modules/Network/DailyQuestComms/DailyQuestComms.test.lua`
 
-Daily `Questie` prefix ownership:
-
-- unit-level daily message validation and routing decisions;
-- isolated AceSerializer-backed PARTY/RAID/GUILD routing;
-- guild+group duplicate delivery, matching production behavior;
-- self/malformed message rejection;
-- realistic high-count daily payload guardrail.
+Daily quest availability ownership remains with `DailyQuestComms`. Its transport is currently disabled in production, so the isolated emulator does not load or advertise the removed legacy `Questie` receiver.
 
 ### `Modules/Network/CommsEncoding.test.lua`
 
@@ -262,7 +256,6 @@ alice:LoadModernHelloStack()        -- H1 only
 alice:LoadModernCommsStack()        -- H1 + V1
 alice:LoadModernGroupStack()        -- H1 + V1 + GroupEventHandler
 alice:LoadLegacyQuestieCommsStack() -- legacy questie packets too
-alice:LoadDailyCommsStack()         -- daily Questie prefix too
 ```
 
 Drive time/events:
@@ -282,7 +275,6 @@ The H1 `<= 245` limit is an outbound performance target that keeps expected hell
 
 - `CommsPrefixRegistry.test.lua` keeps the H1 manifest under the conservative local single-message budget.
 - `QuestieComms.test.lua` builds a 25-quest legacy full-log fixture from real quests with large objective lists, verifies all 25 remote quest logs arrive, and requires every low-level AceComm chunk to stay `<= 255`.
-- `Comms.test.lua` sends a realistic high-count daily `Questie` payload for NPC `58646` and asserts the single low-level message stays within AceComm's `255` character limit while preserving the exact received quest ID list.
 
 ## Codec Setup Boundary
 
@@ -322,7 +314,7 @@ A representative live Classic Era H1 probe showed the local estimator is close b
 Focused owner files:
 
 ```bash
-busted -p ".test.lua" Modules/Network/CommsIntegration.test.lua Modules/Network/CommsPrefixRegistry.test.lua Modules/Network/CommsVisibility.test.lua Modules/EventHandler/GroupEventHandler.test.lua Modules/Network/QuestieComms.test.lua Modules/Network/Comms.test.lua Modules/Network/CommsEncoding.test.lua
+busted -p ".test.lua" Modules/Network/CommsIntegration.test.lua Modules/Network/CommsPrefixRegistry.test.lua Modules/Network/CommsVisibility.test.lua Modules/EventHandler/GroupEventHandler.test.lua Modules/Network/QuestieComms.test.lua Modules/Network/CommsEncoding.test.lua
 ```
 
 Broader comms suite, including the group lifecycle owner outside `Modules/Network`:
@@ -340,7 +332,7 @@ busted -p ".test.lua" .
 Targeted lint:
 
 ```bash
-luacheck -q -- cli/mocks/AceCommTestHarness.lua Modules/Network/CommsIntegration.test.lua Modules/Network/CommsPrefixRegistry.test.lua Modules/Network/CommsVisibility.test.lua Modules/EventHandler/GroupEventHandler.test.lua Modules/Network/QuestieComms.test.lua Modules/Network/Comms.test.lua Modules/Network/CommsEncoding.test.lua
+luacheck -q -- cli/mocks/AceCommTestHarness.lua Modules/Network/CommsIntegration.test.lua Modules/Network/CommsPrefixRegistry.test.lua Modules/Network/CommsVisibility.test.lua Modules/EventHandler/GroupEventHandler.test.lua Modules/Network/QuestieComms.test.lua Modules/Network/CommsEncoding.test.lua
 ```
 
 Diff health:

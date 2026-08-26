@@ -391,8 +391,7 @@ describe("QuestFinisher", function()
 
     it("should not add finisher when finisher NPC is missing in DB", function()
         QuestiePlayer.currentQuestlog[1] = true
-        local errorMock = spy.new(function() end)
-        _G.Questie.Error = errorMock
+        _G.Questie.Error = spy.new(function() end)
         QuestieDB.GetNPC = spy.new(function() return nil end)
         QuestieDB.GetObject = spy.new(function() end)
         local quest = {
@@ -412,6 +411,6 @@ describe("QuestFinisher", function()
         assert.spy(QuestieDB.GetObject).was.not_called()
         assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
         assert.spy(QuestieMap.DrawWaypoints).was.not_called()
-        assert.spy(errorMock).was.called_with(_G.Questie, "Finisher NPC", 123, "for quest:", 1, "is not in the DB")
+        assert.spy(_G.Questie.Error).was.called_with("Finisher NPC", 123, "for quest:", 1, "is not in the DB")
     end)
 end)

@@ -838,15 +838,6 @@ local function _LoadIsolatedRealAce(client)
     env.LibStub("AceComm-3.0"):Embed(env.Questie)
 end
 
-local function _LoadIsolatedAceSerializer(client)
-    local env = client.env
-
-    -- Daily `Questie` prefix messages use AceSerializer through Questie:Serialize,
-    -- unlike modern CBOR payloads or legacy QuestieSerializer packets.
-    client:DoFile("Libs/AceSerializer-3.0/AceSerializer-3.0.lua")
-    env.LibStub("AceSerializer-3.0"):Embed(env.Questie)
-end
-
 local function _InstallIsolatedCompression(client)
     local env = client.env
     local LibDeflate = env.LibStub("LibDeflate")
@@ -1146,25 +1137,9 @@ local function _InstallIsolatedLegacyDataBoundary(client)
     client.QuestieComms.remotePlayerTimes = {}
 end
 
-local function _InstallIsolatedDailyCommsFixture(client)
-    -- Daily comms only need the receive-side effect. Keep the AvailableQuests
-    -- boundary as captured calls so tests can assert routing and validation
-    -- without loading daily quest database behavior.
-    client.dailyQuestRemovals = {}
-
-    local AvailableQuests = client.env.QuestieLoader:ImportModule("AvailableQuests")
-    AvailableQuests.RemoveQuestsForToday = function(npcId, questIds)
-        client.dailyQuestRemovals[#client.dailyQuestRemovals + 1] = {
-            npcId = npcId,
-            questIds = deepCopy(questIds),
-        }
-    end
-
-    client.AvailableQuests = AvailableQuests
-end
-
 local function _LoadIsolatedCommsBase(client)
     client:DoFile("setupTests.lua")
+    client.env.C_QuestLog.GetMaxNumQuestsCanAccept = function() return 25 end
     _InstallIsolatedWowApi(client)
     _LoadIsolatedRealAce(client)
     _InstallIsolatedCompression(client)
@@ -1178,6 +1153,7 @@ local function _LoadIsolatedCommsBase(client)
 
     client.CommsEncoding = client.env.QuestieLoader:ImportModule("CommsEncoding")
     client.CommsPrefixRegistry = client.env.QuestieLoader:ImportModule("CommsPrefixRegistry")
+    client.CommsEncoding.Init()
     client.CommsPrefixRegistry:Initialize()
     client.CommsPrefixRegistry:ResetAll()
 end
@@ -1266,6 +1242,11 @@ function IsolatedClient:LoadModernGroupStack()
         self.fullQuestLogRequestCount = self.fullQuestLogRequestCount + 1
     end)
 
+    -- Daily quest comms are outside these H1/V1 lifecycle tests. GroupEventHandler still
+    -- calls their join hook, so keep that boundary inert here.
+    local DailyQuestComms = self.env.QuestieLoader:ImportModule("DailyQuestComms")
+    DailyQuestComms.RequestUnavailableDailyQuests = function() end
+
     self:DoFile("Modules/EventHandler/GroupEventHandler.lua")
     self.GroupEventHandler = self.env.QuestieLoader:ImportModule("GroupEventHandler")
 
@@ -1304,19 +1285,6 @@ function IsolatedClient:LoadLegacyQuestieCommsStack()
     -- Initializes the current production legacy comm module. Emulator assertions
     -- focus on the `questie` quest-log path; old daily-prefix cleanup is separate.
     self.QuestieComms:Initialize()
-end
-
--- Loads daily quest availability comms on the `Questie` prefix. This stack uses
--- real AceSerializer because Comms.lua calls Questie:Serialize/Deserialize,
--- while keeping AvailableQuests as a narrow receive-side fixture.
-function IsolatedClient:LoadDailyCommsStack()
-    self:LoadModernCommsStack()
-    _LoadIsolatedAceSerializer(self)
-    _InstallIsolatedDailyCommsFixture(self)
-
-    self:DoFile("Modules/Network/Comms.lua")
-    self.Comms = self.env.QuestieLoader:ImportModule("Comms")
-    self.Comms.Initialize()
 end
 
 function IsolatedNetwork:CreateClient(options)

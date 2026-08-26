@@ -31,7 +31,10 @@ describe("QuestieMap", function()
                 QuestieFrame2 = "QuestieFrame2",
             }
 
-            QuestieMap:UnloadQuestFrames(1)
+            local thread = coroutine.create(function()
+                QuestieMap:UnloadQuestFrames(1)
+            end)
+            coroutine.resume(thread)
 
             assert.are_same({}, objective.AlreadySpawned)
             assert.is_nil(QuestieMap.questIdFrames[1])
@@ -40,6 +43,22 @@ describe("QuestieMap", function()
 
             _G.QuestieFrame1 = nil
             _G.QuestieFrame2 = nil
+        end)
+
+        it("should not throw an error when called from a coroutine", function()
+            QuestieMap.questIdFrames[1] = {QuestieFrame1 = "QuestieFrame1"}
+
+            local co = coroutine.create(function()
+                QuestieMap:UnloadQuestFrames(1)
+            end)
+
+            assert.is_true(coroutine.resume(co))
+        end)
+
+        it("should throw an error when not called from a coroutine", function()
+            assert.has_error(function()
+                QuestieMap:UnloadQuestFrames(1)
+            end, "UnloadQuestFrames must be called from a coroutine")
         end)
     end)
 

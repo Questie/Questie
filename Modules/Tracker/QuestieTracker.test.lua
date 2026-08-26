@@ -80,7 +80,9 @@ describe("QuestieTracker", function()
         QuestieTracker.HookBaseTracker = spy.new(function() end)
         QuestieTracker.Update = spy.new(function() end)
 
-        QuestieTracker.Initialize()
+        local initCoroutine = coroutine.create(QuestieTracker.Initialize)
+        local initialized, initError = coroutine.resume(initCoroutine)
+        assert.is_true(initialized, initError)
         QuestieCombatQueue.Queue = spy.new(function(_, callback) callback() end)
     end)
 

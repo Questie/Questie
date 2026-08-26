@@ -138,7 +138,7 @@ function TrackerItemButton.New(buttonName)
                 self.count:Show()
             end
             if self.charges == 0 then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool: Button.OnUpdate]")
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool: Button.OnUpdate]")
                 QuestieCombatQueue:Queue(function()
                     C_Timer.After(0.2, function()
                         QuestieTracker:Update()

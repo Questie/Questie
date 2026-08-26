@@ -103,7 +103,7 @@ function QuestieTooltips:RemoveQuest(questId)
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:RemoveQuest]", questId)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:RemoveQuest]", questId)
 
     for _, key in pairs(QuestieTooltips.lookupKeysByQuestId[questId] or {}) do
         --Count to see if we should remove the main object
@@ -211,7 +211,7 @@ end
 ---@param playerZone AreaId|nil @Only needed for object tooltips, otherwise it can be nil
 ---@return table<number, string>|nil tooltipLines
 function QuestieTooltips.GetTooltip(key, playerZone)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips.GetTooltip]", key)
+    Questie.Debug(Questie.DEBUG_SPAM, "[QuestieTooltips.GetTooltip]", key)
     if (not key) then
         return nil
     end
@@ -233,7 +233,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
         if playerZone == 0 then
             objectIsInCurrentZone = true
         elseif (not playerZone) then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieTooltips.GetTooltip] was called without a playerZone for objects")
             objectIsInCurrentZone = true
         else
             local objectId = tonumber(key:sub(3))
@@ -293,7 +293,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 if Questie.db.profile.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
                     if tooltip.type then
-                        local level, _ = QuestieLib.GetTbcLevel(questId)
+                        local level, _ = QuestieLib.GetEffectiveQuestLevel(questId)
                         local colorText
                         if QuestieEvent.IsEventQuest(questId) then
                             colorText = ":108:227:20"

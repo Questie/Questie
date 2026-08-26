@@ -72,6 +72,7 @@ describe("CommsVisibility", function()
         _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
         _G.UnitInRaid = function() return false end
         _G.GetNumGroupMembers = function() return 5 end
+        _G.C_QuestLog.GetMaxNumQuestsCanAccept = function() return 25 end
         _G.C_Timer = nil
 
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
@@ -102,6 +103,7 @@ describe("CommsVisibility", function()
         dofile("Modules/Network/CommsVisibility.lua")
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         CommsVisibility:ResetAll()
+        CommsVisibility:Initialize()
     end
 
     before_each(function()
@@ -118,6 +120,8 @@ describe("CommsVisibility", function()
         end)
 
         it("does not register when modern payload encoding is unavailable", function()
+            Questie.RegisterComm:clear()
+            CommsPrefixRegistry.RegisterLocalPrefix:clear()
             CommsEncoding.HasCodecSupport = spy.new(function() return false end)
             dofile("Modules/Network/CommsVisibility.lua")
             CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
@@ -278,6 +282,30 @@ describe("CommsVisibility", function()
             receiveSnapshot({[101] = true, [202] = false, ["303"] = true, [404] = "false", [0] = true, [-1] = true, [1.5] = true})
 
             assertPriorValidSnapshotWasPreserved()
+        end)
+
+        it("preserves the prior valid snapshot when a payload exceeds the quest-log limit", function()
+            receivePriorValidSnapshot()
+            local oversizedSnapshot = {}
+            for questId = 1, 26 do
+                oversizedSnapshot[questId] = true
+            end
+
+            receiveSnapshot(oversizedSnapshot)
+
+            assertPriorValidSnapshotWasPreserved()
+        end)
+
+        it("accepts a payload at the quest-log limit", function()
+            local snapshot = {}
+            for questId = 1, 25 do
+                snapshot[questId] = true
+            end
+
+            receiveSnapshot(snapshot)
+
+            assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 25))
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called(1)
         end)
 
         it("rejects messages from self before decoding", function()

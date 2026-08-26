@@ -191,6 +191,27 @@ local migrationFunctions = {
     [31] = function()
         Questie.db.profile.showPartyQuestObjectives = true
     end,
+    [32] = function()
+        Questie.db.profile.skipValidation = nil
+    end,
+    [33] = function()
+        -- trackerFontOutline was previously stored as a localized string (e.g. "None", "无")
+        -- because the dropdown used the localized WoW global NONE as a key.
+        local outline = Questie.db.profile.trackerFontOutline
+        if outline ~= "" and outline ~= "OUTLINE" then
+            Questie.db.profile.trackerFontOutline = ""
+        end
+    end,
+    [34] = function()
+        Questie.db.profile.enableTooltipsBreadcrumbQuests = false
+    end,
+    [35] = function()
+        Questie.db.global.lastDailyRequestDate = nil
+        Questie.db.global.lastDailyRequestResetTime = nil
+    end,
+    [36] = function()
+        Questie.db.global.unavailableDailyQuestsByNpc = {}
+    end,
 }
 
 function Migration:Migrate()
@@ -202,11 +223,11 @@ function Migration:Migrate()
     local targetVersion = table.getn(migrationFunctions)
 
     if currentVersion == targetVersion then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[Migration] Nothing to migrate. Already on latest version:", targetVersion)
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[Migration] Nothing to migrate. Already on latest version:", targetVersion)
         return
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
 
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1

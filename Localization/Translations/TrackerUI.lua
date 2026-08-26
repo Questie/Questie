@@ -435,7 +435,7 @@ local trackerUILocales = {
         ["ptBR"] = "Missões (Por %% completo)",
         ["ruRU"] = "Задания (По %% выполнения)",
         ["zhCN"] = "任务（按完成度 %%）",
-        ["zhTW"] = "任務 (依完成度 %%)",
+        ["zhTW"] = "任務（依完成度 %%）",
     },
     ["Quests (By %% Complete Reversed)"] = {
         ["enUS"] = true,
@@ -447,7 +447,7 @@ local trackerUILocales = {
         ["ptBR"] = "Missões (Por %% completo invertido)",
         ["ruRU"] = "Задания (По %% выполнения убыв.)",
         ["zhCN"] = "任务（按完成度 %% 反向）",
-        ["zhTW"] = "任務 (依完成度 %% 反向)",
+        ["zhTW"] = "任務（依完成度 %% 反向）",
     },
     ["Quests (By Level)"] = {
         ["enUS"] = true,
@@ -459,7 +459,7 @@ local trackerUILocales = {
         ["ptBR"] = "Missões (Por nivel)",
         ["ruRU"] = "Задания (По уровню)",
         ["zhCN"] = "任务（按等级）",
-        ["zhTW"] = "任務 (依等級)",
+        ["zhTW"] = "任務（依等級）",
     },
     ["Quests (By Level Reversed)"] = {
         ["enUS"] = true,
@@ -471,7 +471,7 @@ local trackerUILocales = {
         ["ptBR"] = "Missões (Por nível invertido)",
         ["ruRU"] = "Задания (По уровню убыв.)",
         ["zhCN"] = "任务（按等级 反向）",
-        ["zhTW"] = "任務 (依等級 反向)",
+        ["zhTW"] = "任務（依等級 反向）",
     },
     ["Quests (By Proximity)"] = {
         ["enUS"] = true,
@@ -483,7 +483,7 @@ local trackerUILocales = {
         ["ptBR"] = "Missões (Por proximidade)",
         ["ruRU"] = "Задания (По близости)",
         ["zhCN"] = "任务（按远近）",
-        ["zhTW"] = "任務 (依遠近)",
+        ["zhTW"] = "任務（依遠近）",
     },
     ["Quests (By Proximity Reversed)"] = {
         ["enUS"] = true,
@@ -495,7 +495,7 @@ local trackerUILocales = {
         ["ptBR"] = "Missões (Por proximidade invertida)",
         ["ruRU"] = "Задания (По близости убыв.)",
         ["zhCN"] = "任务（按远近 反向）",
-        ["zhTW"] = "任務 (依遠近 反向)",
+        ["zhTW"] = "任務（依遠近 反向）",
     },
     ["Blizzard Timer Active!"] = {
         ["enUS"] = true,
@@ -509,17 +509,17 @@ local trackerUILocales = {
         ["zhCN"] = "暴雪计时器启动！",
         ["zhTW"] = "暴雪計時器啟動！",
     },
-    ["Time's up"] = {
+    ["Time's up!"] = {
         ["enUS"] = true,
-        ["deDE"] = "Zeit abgelaufen",
-        ["esES"] = "Se acabó el tiempo",
-        ["esMX"] = "Se acabó el tiempo",
-        ["frFR"] = "Le temps est écoulé",
-        ["koKR"] = "시간 종료",
-        ["ptBR"] = "O tempo acabou",
-        ["ruRU"] = "Время закончилось",
-        ["zhCN"] = "计时结束",
-        ["zhTW"] = false,
+        ["deDE"] = "Zeit abgelaufen!",
+        ["esES"] = "¡Se acabó el tiempo!",
+        ["esMX"] = "¡Se acabó el tiempo!",
+        ["frFR"] = "Le temps est écoulé !",
+        ["koKR"] = "시간 종료!",
+        ["ptBR"] = "O tempo acabou!",
+        ["ruRU"] = "Время закончилось!",
+        ["zhCN"] = "计时结束！",
+        ["zhTW"] = "計時結束！",
     },
 }
 
