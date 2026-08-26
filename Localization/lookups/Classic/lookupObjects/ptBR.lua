@@ -984,6 +984,7 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [175330] = "Reservas de Fruta Bosquenero",
 [175331] = "Reservas de Grão Bosquenero",
 [175334] = "Pertences de Biju",
+[175337] = "Poço lunar de Auberdine",
 [175338] = "Fogueira dos pelursos Bosquenero ao norte",
 [175382] = "Cofre do Finitudo",
 [175383] = "Bigorna",
@@ -1501,4 +1502,5 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [190484] = "Baú de Documentos",
 [375544] = "Estatueta de Madeira",
 [400001] = "Tocha Apagada",
+[400010] = "Poço lunar",
 }]])

@@ -14,48 +14,21 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
----@type table<number, boolean>
-ProfessionStations.dataClassic = {
-    -- Teldrassil Moonwells
-    [19549] = true, -- Shadowglen moonwell
-    [19550] = true, -- Starbreeze Village moonwell
-    [19551] = true, -- Pools of Arlithrien moonwell
-    [19552] = true, -- Oracle Glade moonwell
-    -- Ashenvale Moonwells
-    [20806] = true, -- Central Ashenvale moonwell
-    -- Felwood Moonwells
-    [148501] = true, -- Felwood cave moonwell
-    -- Darkshore Moonwells
-    [174795] = true, -- Auberdine (Main moonwell)
-    [175337] = true, -- Auberdine (Secondary moonwell)
-    -- Moonglade Moonwells
-    [400010] = true, -- Moonglade moonwell
-    -- Generic/Multi-location Moonwells
-    [177232] = true,
-    [177272] = true,
-    [177273] = true,
-    [177274] = true,
-    [177275] = true,
-    [177276] = true,
-    [177277] = true,
-    [177278] = true,
-    [177279] = true,
-    [177280] = true,
-    [177281] = true,
-}
-
----@type table<number, boolean>
-ProfessionStations.dataTBC = {
-    [410021] = true, -- Cenarion Thicket moonwell
-    [410022] = true, -- Evergrove moonwell
-    [410023] = true, -- Ghostlands moonwell
-}
-
 -- Object IDs for profession workstations, generated from the object databases of all
 -- expansions. Objects that have no spawns in the current expansion are skipped by
 -- QuestieMap:ShowObject, so a single list per category covers every expansion.
 ---@type table<string, ObjectId[]>
 ProfessionStations.data = {
+    moonwell = {
+        -- Specific-name Moonwells (Classic)
+        19549, 19550, 19551, 19552, 20806, 148501, 174795, 175337,
+        -- Moonglade (correction)
+        400010,
+        -- Generic Moonwells (Classic)
+        177232, 177272, 177273, 177274, 177275, 177276, 177277, 177278, 177279, 177280, 177281,
+        -- TBC Moonwells
+        410021, 410022, 410023,
+    },
     anvil = {
         1744, 1748, 1752, 1796, 1897, 2010, 2014, 2572,
         2574, 2726, 2729, 3187, 3222, 4087, 4088, 4089,
@@ -169,19 +142,8 @@ end
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
 local function _GetActiveData(category)
     local data = {}
-    if category == "moonwell" then
-        for objectId in pairs(ProfessionStations.dataClassic) do
-            data[objectId] = true
-        end
-        if Expansions.Current >= Expansions.Tbc then
-            for objectId in pairs(ProfessionStations.dataTBC) do
-                data[objectId] = true
-            end
-        end
-    else
-        for _, objectId in ipairs(ProfessionStations.data[category]) do
-            data[objectId] = true
-        end
+    for _, objectId in ipairs(ProfessionStations.data[category]) do
+        data[objectId] = true
     end
     return data
 end
@@ -193,7 +155,7 @@ function ProfessionStations.ShowAll(category)
     for objectID in pairs(_GetActiveData(category)) do
         local object = QuestieDB:GetObject(objectID)
         if object and object.spawns then
-            QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), {}, true, category)
+            QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), nil, true, category)
         end
     end
 end

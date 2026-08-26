@@ -1006,6 +1006,7 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [175330] = "Réserves de fruits des Noirbois",
 [175331] = "Réserves de céréales des Noirbois",
 [175334] = "Affaires de Bijou",
+[175337] = "Puits de lune d'Auberdine",
 [175338] = "Bûcher nord des furbolgs Noirbois",
 [175382] = "Coffret de Doomrigger",
 [175383] = "Enclume",
@@ -1550,4 +1551,5 @@ l10n.objectLookup["frFR"] = loadstring([[return {
 [190484] = "Coffre de documents",
 [375544] = "Figurine en bois",
 [400001] = "Torche éteinte",
+[400010] = "Puits de lune",
 }]])

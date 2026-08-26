@@ -31,7 +31,7 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY]={{35.45,65.71}},
                 [zoneIDs.TELDRASSIL]={{56.02,61.99}},
-                [zoneIDs.ASHENVALE]={{62.07,51.04},{60.21,72.91}},
+                [zoneIDs.ASHENVALE]={{62.07,51.04}},
                 [zoneIDs.FERALAS]={{32.56,43.91},{57.97,44.49}},
             },
         },

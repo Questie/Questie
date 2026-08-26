@@ -1007,6 +1007,7 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [175330] = "Obstlager der Schwarzfelle",
 [175331] = "Getreidelager der Schwarzfelle",
 [175334] = "Bijous Habseligkeiten",
+[175337] = "Mondbrunnen von Auberdine",
 [175338] = "Nördliches Freudenfeuer der Schwarzfelle",
 [175382] = "Doomriggers Kasten",
 [175383] = "Amboss",
@@ -1554,4 +1555,5 @@ l10n.objectLookup["deDE"] = loadstring([[return {
 [190484] = "Dokumententruhe",
 [375544] = "Holzstatuette",
 [400001] = "Nicht angezündete Fackel",
+[400010] = "Mondbrunnen",
 }]])

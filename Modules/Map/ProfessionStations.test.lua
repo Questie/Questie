@@ -47,25 +47,13 @@ describe("ProfessionStations", function()
         return shown
     end
 
-    local function getMoonwellIds()
+    local function getExpectedIds(category)
         local ids = {}
-        for id in pairs(ProfessionStations.dataClassic) do
-            table.insert(ids, id)
-        end
-        if Expansions.Current >= Expansions.Tbc then
-            for id in pairs(ProfessionStations.dataTBC) do
-                table.insert(ids, id)
-            end
+        for _, id in ipairs(ProfessionStations.data[category]) do
+            ids[#ids + 1] = id
         end
         table.sort(ids)
         return ids
-    end
-
-    local function getExpectedIds(category)
-        if category == "moonwell" then
-            return getMoonwellIds()
-        end
-        return ProfessionStations.data[category]
     end
 
     before_each(function()
@@ -107,7 +95,7 @@ describe("ProfessionStations", function()
                     assert.are_same(category.icon, call.vals[3])
                     assert.are_same(1.2, call.vals[4])
                     assert.are_same("Object name " .. call.vals[2], call.vals[5])
-                    assert.are_same({}, call.vals[6])
+                    assert.is_nil(call.vals[6])
                     assert.is_true(call.vals[7])
                     assert.are_same(category.key, call.vals[8])
                 end
@@ -131,16 +119,6 @@ describe("ProfessionStations", function()
         end)
     end
 
-    describe("ShowAll moonwell", function()
-        it("should also show TBC moonwells when TBC+", function()
-            Expansions.Current = Expansions.Tbc
-
-            ProfessionStations.ShowAll("moonwell")
-
-            assert.are_same(getMoonwellIds(), collectShown(QuestieMap.ShowObject))
-        end)
-    end)
-
     describe("ShowAll title fallback", function()
         it("should use the translated title when the object has no name", function()
             QuestieDB.GetObject = function(_, id) return {id = id, spawns = {[1] = {{50, 50}}}} end
@@ -161,7 +139,7 @@ describe("ProfessionStations", function()
             ProfessionStations.ShowAll("anvil")
 
             for _, call in ipairs(QuestieMap.ShowObject.calls) do
-                assert.are_same("Anvil", call.vals[5])
+                assert.are_same("Yunque", call.vals[5])
             end
             QuestieLoader:ImportModule("l10n"):SetUILocale("enUS")
         end)

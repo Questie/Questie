@@ -311,9 +311,21 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {
                 [zoneIDs.STORMWIND_CITY] = {{20.43,53.33}},
                 [zoneIDs.TELDRASSIL] = {{56.02,61.99}},
-                [zoneIDs.ASHENVALE] = {{62.07,51.04},{60.21,72.91}},
+                [zoneIDs.ASHENVALE] = {{62.07,51.04}},
                 [zoneIDs.FERALAS] = {{32.56,43.91},{57.97,44.49}},
             },
+        },
+        [177274] = { -- Moonwell
+            [objectKeys.spawns] = {},
+        },
+        [177276] = { -- Moonwell
+            [objectKeys.spawns] = {},
+        },
+        [177278] = { -- Moonwell
+            [objectKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{56.03,61.95}},[zoneIDs.ASHENVALE] = {{53.74,46.01},{59.31,59.96}},[zoneIDs.WINTERSPRING] = {{67.67,9.84}},[zoneIDs.MOONGLADE] = {{48.64,32.97}}},
+        },
+        [177280] = { -- Moonwell
+            [objectKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{49.2,33.29}},[zoneIDs.TELDRASSIL] = {{47.24,63.49}},[406] = {{36.82,7.9}},[zoneIDs.MOONGLADE] = {{52.5,41.46}}},
         },
         [177404] = { -- Altar of Elune
             [objectKeys.name] = "Altar of Elune",

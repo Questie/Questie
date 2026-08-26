@@ -2565,4 +2565,8 @@ l10n.objectLookup["ptBR"] = loadstring([[return {
 [211023] = "Panela de Ferro Fundido",
 [375544] = "Estatueta de Madeira",
 [400001] = "Tocha Apagada",
+[400010] = "Poço lunar",
+[410021] = "Poço lunar",
+[410022] = "Poço lunar",
+[410023] = "Poço lunar",
 }]])

@@ -2644,7 +2644,7 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [148437] = "Hoguera",
 [148498] = "Altar de Suntara",
 [148499] = "Caja de Félix",
-[148501] = "La Poza de la Luna corrupta",
+[148501] = "Poza de la Luna corrupta",
 [148503] = "Punto caliente de la Cresta del Penacho en Llamas",
 [148504] = "Una lápida llamativa",
 [148506] = "Artefacto Crepuscular",
@@ -5898,4 +5898,5 @@ l10n.objectLookup["esMX"] = loadstring([[return {
 [190484] = "Cofre de documentos",
 [375544] = "Figurilla de madera",
 [400001] = "Antorcha apagada",
+[400010] = "Poza de la Luna",
 }]])
