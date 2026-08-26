@@ -20,7 +20,7 @@ describe("DailyQuestComms", function()
         CommsEncoding.hasCodecSupport = true
         CommsEncoding.EncodePayload = function() return "eventAsSerializedString" end
         CommsEncoding.DecodePayload = function() return {} end
-        AvailableQuests.RemoveQuestsForToday = spy.new(function() end)
+        AvailableQuests.RemoveUnavailableDailyQuestsForToday = spy.new(function() end)
         AvailableQuests.MarkQuestsAsAvailable = spy.new(function() end)
         AvailableQuests.GetAvailableDailyQuests = spy.new(function() return {} end)
 

@@ -1203,7 +1203,7 @@ describe("AvailableQuests", function()
         end)
     end)
 
-    describe("RemoveQuestsForToday", function()
+    describe("RemoveUnavailableDailyQuestsForToday", function()
         it("should remove quests", function()
             local firstQuest = QUEST_ID
             QUEST_ID = QUEST_ID + 1
@@ -1216,7 +1216,7 @@ describe("AvailableQuests", function()
             AvailableQuests.__availableQuests[secondQuest] = true
             AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[firstQuest] = true, [secondQuest] = true}
 
-            AvailableQuests.RemoveQuestsForToday(NPC_ID, {firstQuest, secondQuest})
+            AvailableQuests.RemoveUnavailableDailyQuestsForToday(NPC_ID, {firstQuest, secondQuest})
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, firstQuest)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, firstQuest)
@@ -1236,7 +1236,7 @@ describe("AvailableQuests", function()
             QuestieTooltips.RemoveQuest = spy.new(function() end)
             QuestieMap.UnloadQuestFrames = spy.new(function() end)
 
-            AvailableQuests.RemoveQuestsForToday(NPC_ID, {QUEST_ID})
+            AvailableQuests.RemoveUnavailableDailyQuestsForToday(NPC_ID, {QUEST_ID})
 
             assert.spy(QuestieMap.UnloadQuestFrames).was.not_called_with(QuestieMap, QUEST_ID)
             assert.spy(QuestieTooltips.RemoveQuest).was.not_called_with(QuestieTooltips, QUEST_ID)

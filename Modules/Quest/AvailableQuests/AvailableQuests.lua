@@ -330,7 +330,7 @@ end
 
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
 ---@param questIds QuestId[] @An array of quest IDs that need to be hidden.
-function AvailableQuests.RemoveQuestsForToday(npcId, questIds)
+function AvailableQuests.RemoveUnavailableDailyQuestsForToday(npcId, questIds)
     for _, questId in pairs(questIds) do
         if availableQuestsByNpc[npcId] then
             AvailableQuests.RemoveQuest(questId)
@@ -366,7 +366,7 @@ function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
 
         local exclusiveTo = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
         if exclusiveTo then
-            AvailableQuests.RemoveQuestsForToday(npcId, exclusiveTo)
+            AvailableQuests.RemoveUnavailableDailyQuestsForToday(npcId, exclusiveTo)
         end
     end
 end
