@@ -42,6 +42,7 @@ describe("AvailableQuests", function()
             After = function() end
         }
 
+        Questie.db.char.complete = {}
         Questie.db.global.lastKnownDailyReset = {}
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
         Questie.db.global.availableDailyQuestsByNpc = {}
@@ -1287,6 +1288,33 @@ describe("AvailableQuests", function()
 
             ---@diagnostic disable-next-line: missing-fields
             QuestiePlayer.currentQuestlog = {[secondQuest] = {}}
+
+            AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {firstQuest, secondQuest})
+
+            assert.is_true(AvailableQuests.__availableQuests[firstQuest])
+            assert.is_nil(AvailableQuests.__availableQuests[secondQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][firstQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][secondQuest])
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called(1)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, firstQuest, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
+        end)
+
+        it("should not draw available quests when they are complete", function()
+            local firstQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local secondQuest = QUEST_ID
+            QuestieDB.GetQuest = function(questId)
+                if questId == firstQuest then
+                    return {Id = firstQuest, Starts = {NPC = {NPC_ID}}}
+                elseif questId == secondQuest then
+                    return {Id = secondQuest, Starts = {NPC = {NPC_ID}}}
+                end
+                return nil
+            end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            Questie.db.char.complete[secondQuest] = true
 
             AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {firstQuest, secondQuest})
 
