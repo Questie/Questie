@@ -902,6 +902,18 @@ local myJourneyLocales = {
         ["zhCN"] = "禁用任务已激活",
         ["zhTW"] = "停用任務已啟用",
     },
+    ["Missing Arena Rating"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Fehlende Arenawertung",
+        ["esES"] = "Índice de arena faltante",
+        ["esMX"] = "Índice de arena faltante",
+        ["frFR"] = "Cote d'arène manquante",
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = "Недостаточный рейтинг арены",
+        ["zhCN"] = "缺少竞技场等级",
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(myJourneyLocales) do

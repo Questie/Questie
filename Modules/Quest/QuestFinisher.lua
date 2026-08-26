@@ -69,7 +69,6 @@ end
 ---@param key string
 ---@param playerZone AreaId|nil
 _AddFinisherToMap = function(finisher, quest, key, playerZone)
-
     --[[-- Need to know when this quest finishes at an object, so we save it later
     ---@type string|nil
     local finisherType
@@ -112,6 +111,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
                             local x = value[2];
                             local y = value[3];
 
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", zone, x, y)
                             QuestieMap:DrawWorldIcon(data, zone, x, y)
                         end
                     end

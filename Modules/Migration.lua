@@ -209,6 +209,9 @@ local migrationFunctions = {
         Questie.db.global.lastDailyRequestDate = nil
         Questie.db.global.lastDailyRequestResetTime = nil
     end,
+    [36] = function()
+        Questie.db.global.unavailableDailyQuestsByNpc = {}
+    end,
 }
 
 function Migration:Migrate()

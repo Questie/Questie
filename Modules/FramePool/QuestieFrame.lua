@@ -234,13 +234,13 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.GlowUpdate(self)
-    if self.glowTexture and self.glowTexture.IsShown and self.glowTexture:IsShown() then
+    if self.glowTexture:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
         if (self.glowTexture:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glowTexture:GetHeight() ~= self:GetHeight() * 1.13
             self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
         end
-        if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color and self.glowTexture then
+        if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color then
             --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
             --The question is is it faster to get and compare or just set straight up?
             if (self.glowTexture.r ~= self.data.ObjectiveData.Color[1] or self.glowTexture.g ~= self.data.ObjectiveData.Color[2] or self.glowTexture.b ~= self.data.ObjectiveData.Color[3] or self.texture.a ~= self.glowTexture.a) then
@@ -346,7 +346,6 @@ function _QuestieFrame.Unload(self)
     self._needsUnload = nil
     self._loaded = nil
 
-    self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
     self:SetScript("OnHide", nil)
     self.isManualIcon = false
@@ -371,15 +370,9 @@ function _QuestieFrame.Unload(self)
     HBDPins:RemoveWorldMapIcon(Questie, self)
     QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self))
 
-    if (self.texture) then
-        self.texture:SetVertexColor(1, 1, 1, 1)
-    end
+    self.texture:SetVertexColor(1, 1, 1, 1)
     self.miniMapIcon = nil;
-    self:SetScript("OnUpdate", nil)
 
-    if self.fadeLogicTimer then
-        self.fadeLogicTimer:Cancel();
-    end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
         for _, lineFrame in pairs(self.data.lineFrames) do
@@ -405,14 +398,10 @@ end
 function _QuestieFrame.FadeOut(self)
     if not self.faded then
         self.faded = true
-        if self.texture then
-            local r, g, b = self.texture:GetVertexColor()
-            self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
-        end
-        if self.glowTexture then
-            local r, g, b = self.glowTexture:GetVertexColor()
-            self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
-        end
+        local r, g, b = self.texture:GetVertexColor()
+        self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
+        r, g, b = self.glowTexture:GetVertexColor()
+        self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         if self.data.lineFrames then
             for _, lineFrame in pairs(self.data.lineFrames) do
                 local line = lineFrame.line
@@ -428,14 +417,10 @@ end
 function _QuestieFrame.FadeIn(self)
     if self.faded then
         self.faded = nil
-        if self.texture then
-            local r, g, b = self.texture:GetVertexColor()
-            self.texture:SetVertexColor(r, g, b, 1)
-        end
-        if self.glowTexture then
-            local r, g, b = self.glowTexture:GetVertexColor()
-            self.glowTexture:SetVertexColor(r, g, b, 1)
-        end
+        local r, g, b = self.texture:GetVertexColor()
+        self.texture:SetVertexColor(r, g, b, 1)
+        r, g, b = self.glowTexture:GetVertexColor()
+        self.glowTexture:SetVertexColor(r, g, b, 1)
         if self.data.lineFrames then
             for _, lineFrame in pairs(self.data.lineFrames) do
                 local line = lineFrame.line

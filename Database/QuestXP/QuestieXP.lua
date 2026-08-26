@@ -24,7 +24,6 @@ function QuestXP.Init()
             globalXPMultiplier = globalXPMultiplier + 0.1 -- 10% bonus XP
         end
     end
-
 end
 
 ---@return boolean

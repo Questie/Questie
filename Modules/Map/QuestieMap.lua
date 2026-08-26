@@ -577,8 +577,6 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     icon.UiMapID = uiMapId
     icon.miniMapIcon = false;
     icon.texture:SetTexture(texture)
-    icon.texture:SetSnapToPixelGrid(false)
-    icon.texture:SetTexelSnappingBias(0)
     icon:SetWidth(16 * (data:GetIconScale() or 0.7))
     icon:SetHeight(16 * (data:GetIconScale() or 0.7))
 
@@ -601,8 +599,6 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     iconMinimap.AreaID = areaID -- used by QuestieFramePool
     iconMinimap.UiMapID = uiMapId
     iconMinimap.texture:SetTexture(texture)
-    iconMinimap.texture:SetSnapToPixelGrid(false)
-    iconMinimap.texture:SetTexelSnappingBias(0)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
 
@@ -689,8 +685,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     iconMap.UiMapID = uiMapId
     iconMap.miniMapIcon = false;
     iconMap:UpdateTexture(Questie.usedIcons[data.Icon]);
-    iconMap.texture:SetSnapToPixelGrid(false)
-    iconMap.texture:SetTexelSnappingBias(0)
 
     ---@type IconFrame
     local iconMinimap = QuestieFramePool:GetFrame()
@@ -703,8 +697,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
-    iconMinimap.texture:SetSnapToPixelGrid(false)
-    iconMinimap.texture:SetTexelSnappingBias(0)
 
     if (not iconMinimap.FadeLogic) then
         iconMinimap.SetFade = _MinimapIconSetFade
@@ -773,17 +765,14 @@ end
 _MinimapIconSetFade = function(self, value)
     if self.lastGlowFade ~= value then
         self.lastGlowFade = value
-        if self.glowTexture then
-            local r, g, b = self.glowTexture:GetVertexColor()
-            self.glowTexture:SetVertexColor(r, g, b, value)
-        end
+        self.glowTexture:SetVertexColor(self.glowTexture.r, self.glowTexture.g, self.glowTexture.b, value)
         self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, value)
     end
 end
 
 _MinimapIconFadeLogic = function(self)
     local profile = Questie.db.profile
-    if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
+    if self.miniMapIcon and self.x and self.y and self.UiMapID and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
         if (QuestieMap.playerX and QuestieMap.playerY) then
             local x, y
             if (not self.worldX) then

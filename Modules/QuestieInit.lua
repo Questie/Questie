@@ -59,8 +59,8 @@ local Hooks = QuestieLoader:ImportModule("Hooks")
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
----@type Comms
-local Comms = QuestieLoader:ImportModule("Comms")
+---@type DailyQuestComms
+local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieComms
@@ -107,6 +107,8 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 local DropDB = QuestieLoader:ImportModule("DropDB")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+---@type CommsEncoding
+local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 
 local coYield = coroutine.yield
 
@@ -278,8 +280,13 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieComms initializing.")
+    CommsEncoding.Init()
     CommsVisibility:Initialize()
-    Comms.Initialize()
+    DailyQuestComms.Initialize()
+    if (not Questie.IsClassic) then
+        -- There are no random daily quests on Era, HC or SoD so we skip this
+        DailyQuestComms.RequestUnavailableDailyQuests(true)
+    end
     QuestieComms:Initialize()
     coYield()
 
@@ -425,10 +432,6 @@ function QuestieInit:Init()
             hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
                 if TrackedQuestsScrollFrame then
                     TrackedQuestsScrollFrame.ScrollBar:Hide()
-                end
-
-                if QuestieProfilerScrollFrame then
-                    QuestieProfilerScrollFrame.ScrollBar:Hide()
                 end
             end)
         end

@@ -1318,7 +1318,7 @@ function MopObjectFixes.Load()
 
         -- Below are fake objects
         -- These objects are from previous expansions and they need updated coords
-        [430003] = {
+        [430003] = { -- Makeshift Cage
             [objectKeys.spawns] = {[zoneIDs.NEW_TINKERTOWN] = {{34.35,65.06},{36.57,68.47},{38.14,68.84},{37.97,72.46},{37.5,77.21},{38.77,74.26},{39.98,78.03},{41.17,69.78},{40.74,74.41},{42.04,73.67},{43.89,70.28},{45.04,73.37},{47.12,73.45},{45.79,69.35},{48.77,73.59},{47,71.02},{48.67,69.06}}},
             [objectKeys.zoneID] = zoneIDs.NEW_TINKERTOWN,
         },

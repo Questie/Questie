@@ -33,12 +33,6 @@ describe("CommsVisibility", function()
     end
 
     before_each(function()
-        _G.wipe = function(t)
-            for k in pairs(t) do
-                t[k] = nil
-            end
-            return t
-        end
         _G.math.random = function() return 0 end
 
         _G.C_Timer = {
@@ -56,7 +50,7 @@ describe("CommsVisibility", function()
         Questie.db = {char = {}}
 
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
-        CommsEncoding.HasCodecSupport = function() return true end
+        CommsEncoding.hasCodecSupport = true
         CommsEncoding.EncodePayload = function() return "encodedPayload" end
         CommsEncoding.DecodePayload = function() return {} end
 
@@ -89,7 +83,7 @@ describe("CommsVisibility", function()
 
     describe("Initialize", function()
         it("should not register comm when codec support is unavailable", function()
-            CommsEncoding.HasCodecSupport = function() return false end
+            CommsEncoding.hasCodecSupport = false
             Questie.RegisterComm = spy.new(function() end)
 
             -- Reload to reset the module-level initialized guard.

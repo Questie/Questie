@@ -1302,6 +1302,9 @@ function QuestieQuestBlacklist:Load()
         [96254] = true, -- Boosted character quest
 
         -- TBC Anniversary BG quests
+        [95158] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95251] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
+        [95252] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
         [95455] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
         [95457] = Expansions.Current >= Expansions.Wotlk, -- Only present in Anniversary TBC
 
@@ -5770,6 +5773,7 @@ function QuestieQuestBlacklist:Load()
         [25902] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [25903] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [26104] = Expansions.Current >= Expansions.Cata, -- Not in the game
+        [26016] = Expansions.Current >= Expansions.MoP, -- Not in MoP
         [26109] = true, -- Not in the game
         [26119] = true, -- Hidden quest
         [26123] = true, -- Not in the game

@@ -1,5 +1,5 @@
 ## Interface: 11508, 11509
-## Title: Questie|cFF00FF00 v11.35.0|r
+## Title: Questie|cFF00FF00 v11.37.0|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esES: Un asistente de misiones
@@ -20,14 +20,23 @@
 ## Category-ruRU: Задания
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
-## Version: 11.35.0
+## Version: 11.37.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
-## SavedVariables: QuestieConfig
+## LoadSavedVariablesFirst: 1
+## SavedVariables: QuestieConfig, QuestieProfilerEnabled
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## IconTexture: Interface\AddOns\Questie\Icons\questie.png
 ## X-Curse-Project-ID: 334372
 ## X-Wago-ID: qv634BKb
+
+# Loader module. First so that every file after it can be timed: the load-time hook lives here,
+# and anything loaded before it is invisible to measurement. It has no dependencies of its own.
+Modules\Libs\QuestieLoader.lua
+# As early as possible on purpose: a file above this one can still alias an unwrapped
+# function, and nothing would report that it did. Only the loader is above it.
+# Does nothing unless QuestieProfilerEnabled is set.
+Modules\Profiler\QuestieProfilerPreHook.lua
 
 Modules\QuestieCompat.lua
 
@@ -35,14 +44,7 @@ embeds.xml
 
 Modules\VersionCheck.lua
 
-# Loader module
-Modules\Libs\QuestieLoader.lua
 Modules\Expansions.lua
-
-Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
-Libs\HereBeDragons\HereBeDragons-2.0.lua
-Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
-Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua
@@ -222,7 +224,8 @@ Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 
 # Network
-Modules\Network\Comms.lua
+Modules\Network\DailyQuestComms\DailyQuestCommsBlacklist.lua
+Modules\Network\DailyQuestComms\DailyQuestComms.lua
 Modules\Network\CommsEncoding.lua
 Modules\Network\CommsRouting.lua
 Modules\Network\CommsVisibility.lua
@@ -295,7 +298,9 @@ Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 Modules\QuestieCleanup.lua
 
 # Profiler
-Modules\QuestieProfiler.lua
+Modules\Profiler\QuestieProfiler.lua
+Modules\Profiler\QuestieProfilerReport.lua
+Modules\Profiler\QuestieProfilerUI.lua
 
 # Public
 Public\Enums.lua
@@ -303,5 +308,5 @@ Public\GetQuestObjectiveIconForUnit.lua
 Public\RegisterForQuestUpdates.lua
 Public\RegisterOnReady.lua
 
-# Main
+# Main - Always load Questie.lua last
 Questie.lua

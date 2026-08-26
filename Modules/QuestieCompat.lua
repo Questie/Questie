@@ -8,6 +8,12 @@ local INDIZES_ACTIVE = 6
 
 local tinsert = table.insert
 
+-- QuestieDB loads later in the TOC, but ImportModule hands back the table CreateModule will populate, so this
+-- reference is the real module by the time any function below runs. This file is only able to import at all
+-- because QuestieLoader now loads ahead of it; it used to run first, when the global did not yet exist.
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
 local WatchFrame = QuestWatchFrame or WatchFrame
 
 ------------------------------------------
@@ -98,9 +104,6 @@ end
 ---@return GossipQuestUIInfo[]
 function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
-        -- QuestieDB needs to be loaded locally, otherwise it will be an empty module
-        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
         local activeQuests = C_GossipInfo.GetActiveQuests()
         for _, quest in pairs(activeQuests) do
             quest.isComplete = quest.isComplete or QuestieDB.IsComplete(quest.questID) == 1
@@ -262,7 +265,7 @@ function QuestieCompat.GetCurrentCalendarTime()
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_IsSpellKnown)
----Returns whether the player (or pet) knows the given spell. 
+---Returns whether the player (or pet) knows the given spell.
 ---@param spellID number The spell ID.
 ---@return boolean isKnown True if the player knows the spell/profession spell, false otherwise
 function QuestieCompat.IsSpellKnown(spellID)
