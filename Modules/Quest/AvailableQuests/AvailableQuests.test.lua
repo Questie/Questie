@@ -91,6 +91,7 @@ describe("AvailableQuests", function()
         AvailableQuests.Initialize()
         TestUtils.clearTable(AvailableQuests.__availableQuests)
         TestUtils.clearTable(AvailableQuests.__availableQuestsByNpc)
+        TestUtils.clearTable(AvailableQuests.__availableNpcsByQuest)
         TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)
         TestUtils.clearTable(AvailableQuests.__availableDailyQuestsByNpc)
 
@@ -406,6 +407,65 @@ describe("AvailableQuests", function()
 
             assert.spy(QuestieDB.GetNPC).was.called_with(QuestieDB, NPC_ID)
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
+        end)
+
+        it("should populate the availableNpcsByQuest reverse index when drawing an NPC quest", function()
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = function() end
+
+            ---@type Quest
+            ---@diagnostic disable-next-line: missing-fields
+            local quest = {
+                Id = QUEST_ID,
+                Starts = {NPC = {NPC_ID}}
+            }
+
+            AvailableQuests.DrawAvailableQuest(quest)
+
+            assert.is_not_nil(AvailableQuests.__availableNpcsByQuest[QUEST_ID])
+            assert.is_true(AvailableQuests.__availableNpcsByQuest[QUEST_ID][NPC_ID])
+        end)
+    end)
+
+    describe("RemoveQuest", function()
+        it("should remove the quest from availableQuestsByNpc when called", function()
+            QuestieMap.UnloadQuestFrames = function() end
+            QuestieTooltips.RemoveQuest = function() end
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.__availableNpcsByQuest[QUEST_ID] = {[NPC_ID] = true}
+
+            AvailableQuests.RemoveQuest(QUEST_ID)
+
+            assert.is_nil(AvailableQuests.__availableQuests[QUEST_ID])
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+            assert.is_nil(AvailableQuests.__availableNpcsByQuest[QUEST_ID])
+        end)
+
+        it("should remove the quest from availableQuestsByNpc for all NPCs that offered it", function()
+            local NPC_ID_2 = NPC_ID + 100
+            QuestieMap.UnloadQuestFrames = function() end
+            QuestieTooltips.RemoveQuest = function() end
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.__availableQuestsByNpc[NPC_ID_2] = {[QUEST_ID] = true}
+            AvailableQuests.__availableNpcsByQuest[QUEST_ID] = {[NPC_ID] = true, [NPC_ID_2] = true}
+
+            AvailableQuests.RemoveQuest(QUEST_ID)
+
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+            assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID_2][QUEST_ID])
+            assert.is_nil(AvailableQuests.__availableNpcsByQuest[QUEST_ID])
+        end)
+
+        it("should not error when the quest was never registered in availableNpcsByQuest", function()
+            QuestieMap.UnloadQuestFrames = function() end
+            QuestieTooltips.RemoveQuest = function() end
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+
+            assert.has_no.errors(function()
+                AvailableQuests.RemoveQuest(QUEST_ID)
+            end)
         end)
     end)
 

@@ -56,6 +56,12 @@ AvailableQuests.__availableQuests = availableQuests
 local availableQuestsByNpc = {}
 AvailableQuests.__availableQuestsByNpc = availableQuestsByNpc
 
+--- Reverse index of availableQuestsByNpc: maps each questId to the set of npcIds that offer it.
+--- Kept in sync with availableQuestsByNpc so that RemoveQuest can clean up both without iterating all NPCs.
+---@type table<QuestId, table<NpcId, boolean>>
+local availableNpcsByQuest = {}
+AvailableQuests.__availableNpcsByQuest = availableNpcsByQuest
+
 --- Quests that were hidden after talking to an NPC
 ---@type table<QuestId, boolean>
 local unavailableQuestsDeterminedByTalking
@@ -280,6 +286,11 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
             end
             availableQuestsByNpc[npc.id][quest.Id] = true
 
+            if (not availableNpcsByQuest[quest.Id]) then
+                availableNpcsByQuest[quest.Id] = {}
+            end
+            availableNpcsByQuest[quest.Id][npc.id] = true
+
             if limit == 0 or added < limit then
                 added = added + _AddStarter(npc, quest, "m_" .. npc.id, (limit == 0 and 0) or (limit - added))
             else
@@ -303,6 +314,16 @@ end
 ---@param onComplete function? Optional callback invoked after the starter/finisher frames are unloaded.
 function AvailableQuests.RemoveQuest(questId, onComplete)
     availableQuests[questId] = nil
+
+    if availableNpcsByQuest[questId] then
+        for npcId in pairs(availableNpcsByQuest[questId]) do
+            if availableQuestsByNpc[npcId] then
+                availableQuestsByNpc[npcId][questId] = nil
+            end
+        end
+        availableNpcsByQuest[questId] = nil
+    end
+
     ThreadLib.ThreadCallbackInstant(function()
         QuestieMap:UnloadQuestFrames(questId)
     end, function()
@@ -961,6 +982,13 @@ end
 _MarkQuestAsUnavailableFromNPC = function(questId, npcId)
     unavailableQuestsDeterminedByTalking[questId] = true
     availableQuestsByNpc[npcId][questId] = nil
+
+    if availableNpcsByQuest[questId] then
+        availableNpcsByQuest[questId][npcId] = nil
+        if next(availableNpcsByQuest[questId]) == nil then
+            availableNpcsByQuest[questId] = nil
+        end
+    end
 
     if availableDailyQuestsByNpc[npcId] then
         availableDailyQuestsByNpc[npcId][questId] = nil
