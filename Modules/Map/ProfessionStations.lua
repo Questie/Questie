@@ -155,7 +155,7 @@ function ProfessionStations.ShowAll(category)
     for objectID in pairs(_GetActiveData(category)) do
         local object = QuestieDB:GetObject(objectID)
         if object and object.spawns then
-            QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), nil, true, category)
+            QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), {}, true, category)
         end
     end
 end
