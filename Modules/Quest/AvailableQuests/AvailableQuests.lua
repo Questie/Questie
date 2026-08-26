@@ -346,6 +346,7 @@ end
 ---@param questIds QuestId[] @An array of quest IDs that are available.
 function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
     local completedQuests = Questie.db.char.complete
+    local hiddenQuests = Questie.db.char.hidden
     local currentQuestLog = QuestiePlayer.currentQuestlog
 
     for _, questId in pairs(questIds) do
@@ -355,7 +356,7 @@ function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
         end
         availableDailyQuestsByNpc[npcId][questId] = true
 
-        if (not availableQuests[questId]) and (not currentQuestLog[questId]) and (not completedQuests[questId]) then
+        if (not availableQuests[questId]) and (not currentQuestLog[questId]) and (not completedQuests[questId]) and (not hiddenQuests[questId]) then
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
