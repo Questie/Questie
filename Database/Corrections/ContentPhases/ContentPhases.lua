@@ -8,7 +8,7 @@ ContentPhases.activePhases = {
     SoD = 7,
     Anniversary = 6, -- Phase 6 is the final state of the game, with invasions inactive.
     MoP = Questie.IsChinaRegion and 4 or 5,
-    TBC = 2,
+    TBC = 3,
 }
 
 -- Central place to activate Invasion event
