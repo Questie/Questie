@@ -156,28 +156,11 @@ local _titles = {
     alchemyLab = "Alchemy Lab",
 }
 
-local PROXIMITY_TOLERANCE = 0.05
-
----@type table<string, boolean>
-local _genericNames = {
-    ["Moonwell"] = true,
-    ["Anvil"] = true,
-    ["Forge"] = true,
-    ["Alchemy Lab"] = true,
-}
-
----@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
----@param object Object|nil
----@return boolean
-local function _IsGeneric(category, object)
-    return not object or not object.name or object.name == l10n(_titles[category]) or _genericNames[object.name]
-end
-
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
 ---@param object Object|nil
 ---@return string
 local function _GetTitle(category, object)
-    if not _IsGeneric(category, object) then
+    if object and object.name then
         return Questie:Colorize(object.name, "white")
     end
     return Questie:Colorize(l10n(_titles[category]), "white")
@@ -203,67 +186,14 @@ local function _GetActiveData(category)
     return data
 end
 
----@param coordsA CoordPair
----@param coordsB CoordPair
----@return boolean
-local function _AreClose(coordsA, coordsB)
-    return math.abs(coordsA[1] - coordsB[1]) <= PROXIMITY_TOLERANCE and math.abs(coordsA[2] - coordsB[2]) <= PROXIMITY_TOLERANCE
-end
-
 ---@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
 function ProfessionStations.ShowAll(category)
     local icon = _icons[category]
-    local named = {}
-    local generic = {}
 
     for objectID in pairs(_GetActiveData(category)) do
         local object = QuestieDB:GetObject(objectID)
         if object and object.spawns then
-            local entry = {id = objectID, object = object}
-            if not _IsGeneric(category, object) then
-                named[#named + 1] = entry
-            else
-                generic[#generic + 1] = entry
-            end
-        end
-    end
-
-    -- Spawns are deduplicated by location, preferring stations with an actual name
-    -- over generic ones, so no overlapping icons are drawn for the same spot.
-    local taken = {} -- [zone] = CoordPair[]
-    local function _IsTaken(zone, coords)
-        for _, takenCoords in ipairs(taken[zone] or {}) do
-            if _AreClose(takenCoords, coords) then
-                return true
-            end
-        end
-        return false
-    end
-
-    for _, entry in ipairs(named) do
-        QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), {}, true, category)
-        for zone, spawns in pairs(entry.object.spawns) do
-            taken[zone] = taken[zone] or {}
-            for _, coords in ipairs(spawns) do
-                table.insert(taken[zone], coords)
-            end
-        end
-    end
-
-    for _, entry in ipairs(generic) do
-        local filteredSpawns = {}
-        for zone, spawns in pairs(entry.object.spawns) do
-            for _, coords in ipairs(spawns) do
-                if not _IsTaken(zone, coords) then
-                    filteredSpawns[zone] = filteredSpawns[zone] or {}
-                    table.insert(filteredSpawns[zone], coords)
-                    taken[zone] = taken[zone] or {}
-                    table.insert(taken[zone], coords)
-                end
-            end
-        end
-        if next(filteredSpawns) then
-            QuestieMap:ShowObject(entry.id, icon, 1.2, _GetTitle(category, entry.object), {}, true, category, filteredSpawns)
+            QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), {}, true, category)
         end
     end
 end

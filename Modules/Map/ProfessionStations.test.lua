@@ -142,26 +142,6 @@ describe("ProfessionStations", function()
     end)
 
     describe("ShowAll title fallback", function()
-        it("should use the translated title when the object name is generic", function()
-            QuestieDB.GetObject = function(_, id) return {id = id, name = "Anvil"} end
-
-            ProfessionStations.ShowAll("anvil")
-
-            for _, call in ipairs(QuestieMap.ShowObject.calls) do
-                assert.are_same("Anvil", call.vals[5])
-            end
-        end)
-
-        it("should use the object name when it is not generic", function()
-            QuestieDB.GetObject = function(_, id) return {id = id, name = "The Great Anvil", spawns = {[1] = {{50, 50}}}} end
-
-            ProfessionStations.ShowAll("anvil")
-
-            for _, call in ipairs(QuestieMap.ShowObject.calls) do
-                assert.are_same("The Great Anvil", call.vals[5])
-            end
-        end)
-
         it("should use the translated title when the object has no name", function()
             QuestieDB.GetObject = function(_, id) return {id = id, spawns = {[1] = {{50, 50}}}} end
 
@@ -173,34 +153,6 @@ describe("ProfessionStations", function()
             end
         end)
 
-        it("should skip generic stations whose spawns overlap a named station", function()
-            ProfessionStations.dataClassic = {[100] = true, [101] = true}
-            QuestieDB.GetObject = function(_, id)
-                if id == 100 then
-                    return {id = id, name = "Shadowglen Moonwell", spawns = {[1] = {{50, 50}}}}
-                end
-                return {id = id, name = "Moonwell", spawns = {[1] = {{50.02, 50.02}}}}
-            end
-
-            ProfessionStations.ShowAll("moonwell")
-
-            assert.are_same({100}, collectShown(QuestieMap.ShowObject))
-        end)
-
-        it("should show generic stations whose spawns do not overlap a named station", function()
-            ProfessionStations.dataClassic = {[100] = true, [101] = true}
-            QuestieDB.GetObject = function(_, id)
-                if id == 100 then
-                    return {id = id, name = "Shadowglen Moonwell", spawns = {[1] = {{50, 50}}}}
-                end
-                return {id = id, name = "Moonwell", spawns = {[1] = {{20, 20}}}}
-            end
-
-            ProfessionStations.ShowAll("moonwell")
-
-            assert.are_same({100, 101}, collectShown(QuestieMap.ShowObject))
-        end)
-
         it("should use the translated generic name on esMX", function()
             dofile("Localization/Translations/ProfessionStations.lua")
             QuestieLoader:ImportModule("l10n"):SetUILocale("esMX")
@@ -209,27 +161,7 @@ describe("ProfessionStations", function()
             ProfessionStations.ShowAll("anvil")
 
             for _, call in ipairs(QuestieMap.ShowObject.calls) do
-                assert.are_same("Yunque", call.vals[5])
-            end
-            QuestieLoader:ImportModule("l10n"):SetUILocale("enUS")
-        end)
-
-        it("should dedupe generic stations even when their name is localized", function()
-            dofile("Localization/Translations/ProfessionStations.lua")
-            QuestieLoader:ImportModule("l10n"):SetUILocale("esMX")
-            ProfessionStations.dataClassic = {[100] = true, [101] = true}
-            QuestieDB.GetObject = function(_, id)
-                if id == 100 then
-                    return {id = id, name = "Poza de la Luna de Claro de Sombra", spawns = {[1] = {{50, 50}}}}
-                end
-                return {id = id, name = "Poza de la Luna", spawns = {[1] = {{50.02, 50.02}}}}
-            end
-
-            ProfessionStations.ShowAll("moonwell")
-
-            assert.are_same({100}, collectShown(QuestieMap.ShowObject))
-            for _, call in ipairs(QuestieMap.ShowObject.calls) do
-                assert.are_same("Poza de la Luna de Claro de Sombra", call.vals[5])
+                assert.are_same("Anvil", call.vals[5])
             end
             QuestieLoader:ImportModule("l10n"):SetUILocale("enUS")
         end)
