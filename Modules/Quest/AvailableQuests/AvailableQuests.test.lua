@@ -61,6 +61,7 @@ describe("AvailableQuests", function()
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestiePlayer.currentQuestlog = {}
         originalGetPlayerLevel = QuestiePlayer.GetPlayerLevel
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
@@ -1267,6 +1268,34 @@ describe("AvailableQuests", function()
             assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][secondQuest])
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, firstQuest, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, secondQuest, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
+        end)
+
+        it("should not draw available quests when they are in the quest log", function()
+            local firstQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local secondQuest = QUEST_ID
+            QuestieDB.GetQuest = function(questId)
+                if questId == firstQuest then
+                    return {Id = firstQuest, Starts = {NPC = {NPC_ID}}}
+                elseif questId == secondQuest then
+                    return {Id = secondQuest, Starts = {NPC = {NPC_ID}}}
+                end
+                return nil
+            end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            ---@diagnostic disable-next-line: missing-fields
+            QuestiePlayer.currentQuestlog = {[secondQuest] = {}}
+
+            AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {firstQuest, secondQuest})
+
+            assert.is_true(AvailableQuests.__availableQuests[firstQuest])
+            assert.is_nil(AvailableQuests.__availableQuests[secondQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][firstQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][secondQuest])
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called(1)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, firstQuest, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
         end)
 
         it("should remove exclusiveTo quests", function()

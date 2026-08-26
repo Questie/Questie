@@ -345,6 +345,8 @@ end
 ---@param npcId NpcId @The ID of the NPC associated with the daily quests.
 ---@param questIds QuestId[] @An array of quest IDs that are available.
 function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
+    local currentQuestLog = QuestiePlayer.currentQuestlog
+
     for _, questId in pairs(questIds) do
         -- Add to available daily quests tracking
         if (not availableDailyQuestsByNpc[npcId]) then
@@ -352,7 +354,7 @@ function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
         end
         availableDailyQuestsByNpc[npcId][questId] = true
 
-        if (not availableQuests[questId]) then
+        if (not availableQuests[questId]) and (not currentQuestLog[questId]) then
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true
