@@ -522,7 +522,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
                     Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is not in the player's quest log, but is in the questLog of QuestEventHandler")
                     QuestiePlayer.currentQuestlog[questId] = quest
                 else
-                    Questie:Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
+                    Questie.Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
                 end
             end
 
