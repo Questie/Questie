@@ -66,7 +66,8 @@ AvailableQuests.__availableNpcsByQuest = availableNpcsByQuest
 ---@type table<QuestId, boolean>
 local unavailableQuestsDeterminedByTalking
 
---- Available daily/weekly quests grouped by NPC, built from talking to NPCs and comms events
+--- Available daily/weekly quests grouped by NPC, built from talking to NPCs and comms events.
+--- This table is used to answer comms calls about available daily quests.
 ---@type table<NpcId, table<QuestId, boolean>>
 local availableDailyQuestsByNpc
 
@@ -371,7 +372,8 @@ function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
     local currentQuestLog = QuestiePlayer.currentQuestlog
 
     for _, questId in pairs(questIds) do
-        -- Add to available daily quests tracking
+        -- Add to available daily quests tracking. It's on purpose to desync here to be able to share all daily quests NPCs offer today
+        -- regardless of the users quest log, completed and hidden quests
         if (not availableDailyQuestsByNpc[npcId]) then
             availableDailyQuestsByNpc[npcId] = {}
         end
