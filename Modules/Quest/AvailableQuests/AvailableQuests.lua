@@ -377,7 +377,7 @@ function AvailableQuests.MarkQuestsAsAvailable(npcId, questIds)
         end
         availableDailyQuestsByNpc[npcId][questId] = true
 
-        if (not availableQuests[questId]) and (not currentQuestLog[questId]) and (not completedQuests[questId]) and (not hiddenQuests[questId]) then
+        if (not availableQuests[questId]) and (not currentQuestLog[questId]) and (not completedQuests[questId]) and (not hiddenQuests[questId]) and (not QuestieCorrections.hiddenQuests[questId]) then
             local quest = QuestieDB.GetQuest(questId)
             if quest then
                 availableQuests[questId] = true

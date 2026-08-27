@@ -23,6 +23,8 @@ describe("AvailableQuests", function()
     local DailyQuestCommsBlacklist
     ---@type IsleOfQuelDanas
     local IsleOfQuelDanas
+    ---@type QuestieCorrections
+    local QuestieCorrections
 
     ---@type AvailableQuests
     local AvailableQuests
@@ -62,6 +64,8 @@ describe("AvailableQuests", function()
         QuestieDB.QueryQuestSingle = function() return nil end
         QuestieDB.IsDailyQuest = function() return false end
         QuestieDB.IsWeeklyQuest = function() return false end
+        QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+        QuestieCorrections.hiddenQuests = {}
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         originalGetPlayerLevel = QuestiePlayer.GetPlayerLevel
@@ -1403,6 +1407,33 @@ describe("AvailableQuests", function()
             QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
 
             Questie.db.char.hidden[secondQuest] = true
+
+            AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {firstQuest, secondQuest})
+
+            assert.is_true(AvailableQuests.__availableQuests[firstQuest])
+            assert.is_nil(AvailableQuests.__availableQuests[secondQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][firstQuest])
+            assert.is_true(AvailableQuests.__availableDailyQuestsByNpc[NPC_ID][secondQuest])
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called(1)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, firstQuest, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
+        end)
+
+        it("should not draw available quests when they are hidden entirely", function()
+            local firstQuest = QUEST_ID
+            QUEST_ID = QUEST_ID + 1
+            local secondQuest = QUEST_ID
+            QuestieDB.GetQuest = function(questId)
+                if questId == firstQuest then
+                    return {Id = firstQuest, Starts = {NPC = {NPC_ID}}}
+                elseif questId == secondQuest then
+                    return {Id = secondQuest, Starts = {NPC = {NPC_ID}}}
+                end
+                return nil
+            end
+            QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC"} end
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            QuestieCorrections.hiddenQuests[secondQuest] = true
 
             AvailableQuests.MarkQuestsAsAvailable(NPC_ID, {firstQuest, secondQuest})
 
