@@ -322,12 +322,12 @@ function MapIconTooltip:Show()
                                 QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and
                                 (not exclusiveQuestCompleted) and (not Questie.db.char.complete[availableUntilCompleted]) then
                                 if firstBreadcrumb then
-                                    local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
-                                    local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, breadcrumbTitleIndent)
                                     tooltipRows:AddLine(breadcrumbLabelPrefix .. l10n("Breadcrumb Quests") .. l10n(": "), 0.86, 0.86, 0.86)
-                                    tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
                                     firstBreadcrumb = false
                                 end
+                                local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
+                                local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, breadcrumbTitleIndent)
+                                tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
                             end
                         end
                     end
