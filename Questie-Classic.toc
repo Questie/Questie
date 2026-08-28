@@ -191,6 +191,8 @@ Modules\Tooltips\TooltipLayout.lua
 Modules\Tooltips\MapIconTooltip.lua
 Modules\Tooltips\TooltipHandler.lua
 Modules\Tooltips\DeveloperList.lua
+Modules\Hardcore\QuestieHardcore.lua
+Modules\Hardcore\QuestieHardcoreTooltip.lua
 
 # Auto
 Modules\Auto\AutoQuesting.lua
