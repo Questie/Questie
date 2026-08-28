@@ -2173,6 +2173,9 @@ function QuestieNPCFixes:Load()
         [11814] = { -- Kali Remik
             [npcKeys.questStarts] = {6069,8358},
         },
+        [11833] = { -- Rahauro
+            [npcKeys.waypoints] = {},
+        },
         [11836] = { -- Captured Rabid Thistle Bear
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{49.1,29.89},{49.95,34.58},{39,63.09},{38.62,77},{39.28,68.07}}},
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,

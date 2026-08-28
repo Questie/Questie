@@ -994,6 +994,7 @@ function QuestieQuestFixes:Load()
         [1131] = { -- Steelsnap
             [questKeys.preQuestSingle] = {}, -- #1065
             [questKeys.breadcrumbs] = {1130},
+            [questKeys.nextQuestInChain] = 1136,
         },
         [1132] = { -- Fiora Longears
             [questKeys.breadcrumbForQuestId] = 1133, -- #1738

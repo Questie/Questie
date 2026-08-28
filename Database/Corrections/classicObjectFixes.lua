@@ -161,6 +161,9 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{42.83,59.191},{42.854,59.193},{42.838,59.386},{42.798,59.381}}},
             [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
         },
+        [142477] = { -- Thermaplugg's Safe
+            [objectKeys.spawns] = {[zoneIDs.GNOMEREGAN_TINKERS_COURT] = {{-1,-1}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
+        },
         [143979] = { -- Cage Door
             [objectKeys.name] = "Cage Door",
             [objectKeys.spawns] = {[zoneIDs.TANARIS] = {{66.66,46.75}}},
@@ -224,6 +227,9 @@ function QuestieObjectFixes:Load()
         },
         [174848] = { -- Testing Equipment
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY] = {{47.85,73.48}}}, -- #1520
+        },
+        [175084] = { -- The Sparklematic 5200
+            [objectKeys.spawns] = {[zoneIDs.GNOMEREGAN_THE_DORMITORY] = {{-1,-1}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
         },
         [175124] = { -- Rookery Egg
             [objectKeys.name] = "Rookery Egg",

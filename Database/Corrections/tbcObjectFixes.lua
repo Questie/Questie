@@ -971,9 +971,13 @@ function QuestieTBCObjectFixes:Load()
         },
         [190483] = { -- Document Chest
             [objectKeys.name] = "Document Chest",
+            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{33.76,39.99}}},
+            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
         [190484] = { -- Document Chest
             [objectKeys.name] = "Document Chest",
+            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{39.34,41.53}}},
+            [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
 
         -- Below are fake objects

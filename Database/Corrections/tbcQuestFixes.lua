@@ -5064,6 +5064,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11012] = { -- Blood Oath of the Netherwing
             [questKeys.preQuestSingle] = {10870,10871},
+            [questKeys.nextQuestInChain] = 11013
         },
         [11013] = { -- In Service of the Illidari
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5089,11 +5090,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [11020] = { -- A Slow Death
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.requiredSourceItems] = {},
-            [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_SLAY, l10n("Kill any wildlife in Shadowmoon Valley to collect Fel Gland"), 0, {{"monster", 21408},{"monster", 21901},{"monster", 21462},{"monster", 21878},{"monster", 21879}}},
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Yarzill's Mutton together with the Fel Gland to poison Dragonmaw Peons"), 0, {{"monster", 22252}}},
-            },
+            [questKeys.requiredSourceItems] = {32502},
+            [questKeys.objectives] = {{{22252,nil,Questie.ICON_TYPE_EVENT}}},
         },
         [11021] = { -- Ishaal's Almanac
             [questKeys.preQuestSingle] = {11004},
@@ -5216,6 +5214,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11049] = { -- The Great Netherwing Egg Hunt
             [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.nextQuestInChain] = 11050,
         },
         [11050] = { -- Accepting All Eggs
             [questKeys.requiredRaces] = raceIDs.NONE,
