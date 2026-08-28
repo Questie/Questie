@@ -177,6 +177,18 @@ local trackerUILocales = {
         ["zhCN"] = "Ctrl + 左键单击或右键单击任务标题",
         ["zhTW"] = "Ctrl+左鍵或右鍵點擊任務標題",
     },
+    ["Toggle Questie Tracker"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questie-Tracker zeigen/verstecken",
+        ["esES"] = "Mostrar/ocultar el rastreador de Questie",
+        ["esMX"] = "Mostrar/ocultar el rastreador de Questie",
+        ["frFR"] = "Afficher/cacher le suivi de quêtes de Questie",
+        ["koKR"] = "Questie 추적기 표시",
+        ["ptBR"] = "Mostrar/ocultar o rastreador do Questie",
+        ["ruRU"] = "Включить трекер Questie",
+        ["zhCN"] = "切换Questie追踪器",
+        ["zhTW"] = "切換Questie追蹤器",
+    },
     ---------------------------------------------------------
     -- Quest/Achievement Right Click Menu
     ["Focus Quest"] = {

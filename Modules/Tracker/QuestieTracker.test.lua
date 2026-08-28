@@ -20,8 +20,11 @@ describe("QuestieTracker", function()
             collapsedQuests = {},
             AutoUntrackedQuests = {},
             TrackedQuests = {},
+            isTrackerExpanded = true,
         }
-        Questie.db.profile = {}
+        Questie.db.profile = {
+            trackerEnabled = true,
+        }
 
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = spy.new(function() end)
@@ -49,6 +52,37 @@ describe("QuestieTracker", function()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
             assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+        end)
+    end)
+
+    describe("ToggleTracker", function()
+        it("should collapse when tracker is expanded", function()
+            Questie.db.char.isTrackerExpanded = true
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.ToggleTracker()
+
+            assert.spy(QuestieTracker.Collapse).was.called()
+        end)
+
+        it("should expand when tracker is collapsed", function()
+            Questie.db.char.isTrackerExpanded = false
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.ToggleTracker()
+
+            assert.spy(QuestieTracker.Expand).was.called()
+        end)
+
+        it("should do nothing when tracker is disabled", function()
+            Questie.db.profile.trackerEnabled = false
+            QuestieTracker.Collapse = spy.new(function() end)
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.ToggleTracker()
+
+            assert.spy(QuestieTracker.Collapse).was.not_called()
+            assert.spy(QuestieTracker.Expand).was.not_called()
         end)
     end)
 end)

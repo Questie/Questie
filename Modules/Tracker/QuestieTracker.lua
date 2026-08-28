@@ -96,6 +96,10 @@ function QuestieTracker.Initialize()
         return
     end
 
+    -- Register keybinding label unconditionally so it's available in Key Bindings UI
+    -- even when tracker starts disabled
+    QuestieTracker.SetupKeybinding()
+
     if (not Questie.db.profile.trackerEnabled) then
         -- The Tracker is disabled, no need to continue
         return
@@ -544,6 +548,23 @@ function QuestieTracker:Show()
             QuestieTracker:Update()
         end)
     end
+end
+
+-- Toggles the QuestieTracker (Expand/Collapse)
+function QuestieTracker.ToggleTracker()
+    if (not Questie.db.profile.trackerEnabled) then
+        return
+    end
+
+    if Questie.db.char.isTrackerExpanded then
+        QuestieTracker:Collapse()
+    else
+        QuestieTracker:Expand()
+    end
+end
+
+function QuestieTracker.SetupKeybinding()
+    _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = l10n("Toggle Questie Tracker")
 end
 
 local function _UpdateLineWidth(line, objectiveMarginLeft)
