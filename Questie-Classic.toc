@@ -191,6 +191,8 @@ Modules\Tooltips\TooltipLayout.lua
 Modules\Tooltips\MapIconTooltip.lua
 Modules\Tooltips\TooltipHandler.lua
 Modules\Tooltips\DeveloperList.lua
+Modules\Hardcore\QuestieHardcoreRiskEngine.lua
+Modules\Hardcore\QuestieHardcoreQuestAnalyzer.lua
 Modules\Hardcore\QuestieHardcore.lua
 Modules\Hardcore\QuestieHardcoreTooltip.lua
 
