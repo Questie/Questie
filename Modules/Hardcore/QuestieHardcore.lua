@@ -2,6 +2,308 @@
 local QuestieHardcore = QuestieLoader:CreateModule("QuestieHardcore")
 local _QuestieHardcore = QuestieHardcore.private
 
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+
+local floor = math.floor
+local min = math.min
+local max = math.max
+
+local function Clamp(value, low, high)
+    if value < low then return low end
+    if value > high then return high end
+    return value
+end
+
+local function PlayerLevel()
+    return UnitLevel("player") or 1
+end
+
+local function QuestLevel(questId, quest)
+    if quest and quest.level and quest.level > 0 then
+        return quest.level
+    end
+
+    if QuestieLib and QuestieLib.GetEffectiveQuestLevel then
+        local level = QuestieLib.GetEffectiveQuestLevel(questId)
+        if level and level > 0 then
+            return level
+        end
+    end
+
+    return nil
+end
+
+local function LevelRisk(delta)
+    if delta <= -4 then return 0 end
+    if delta == -3 then return 2 end
+    if delta == -2 then return 5 end
+    if delta == -1 then return 10 end
+    if delta == 0 then return 16 end
+    if delta == 1 then return 30 end
+    if delta == 2 then return 48 end
+    if delta == 3 then return 67 end
+    if delta == 4 then return 83 end
+    return 95
+end
+
+local function GetCreatureRisk(quest)
+    if not quest or not QuestieDB.GetCreatureLevels then
+        return nil, nil, nil
+    end
+
+    local ok, minLevel, maxLevel = pcall(QuestieDB.GetCreatureLevels, quest)
+    if not ok then
+        return nil, nil, nil
+    end
+
+    -- Questie versions have returned slightly different shapes over time.
+    if type(minLevel) == "table" then
+        local data = minLevel
+        minLevel = data[1] or data.min
+        maxLevel = data[2] or data.max
+    end
+
+    if not minLevel and maxLevel then
+        minLevel = maxLevel
+    end
+    if not maxLevel and minLevel then
+        maxLevel = minLevel
+    end
+
+    if type(minLevel) ~= "number" or type(maxLevel) ~= "number" then
+        return nil, nil, nil
+    end
+
+    local playerLevel = PlayerLevel()
+    local delta = maxLevel - playerLevel
+    return LevelRisk(delta), minLevel, maxLevel
+end
+
+local function GetInstanceModifier(questId)
+    local modifier = 0
+    local dungeon = false
+    local raid = false
+    local pvp = false
+
+    if QuestieDB.IsDungeonQuest and QuestieDB.IsDungeonQuest(questId) then
+        dungeon = true
+        modifier = modifier + 8
+    end
+
+    if QuestieDB.IsRaidQuest and QuestieDB.IsRaidQuest(questId) then
+        raid = true
+        modifier = modifier + 15
+    end
+
+    if QuestieDB.IsPvPQuest and QuestieDB.IsPvPQuest(questId) then
+        pvp = true
+        modifier = modifier + 6
+    end
+
+    return modifier, dungeon, raid, pvp
+end
+
+-- Public API: returns a normalized 0-100 Hardcore risk score.
+function QuestieHardcore:GetQuestRisk(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if not quest then
+        return nil
+    end
+
+    local playerLevel = PlayerLevel()
+    local questLevel = QuestLevel(questId, quest)
+
+    local questRisk = nil
+    if questLevel then
+        questRisk = LevelRisk(questLevel - playerLevel)
+    end
+
+    local creatureRisk, creatureMin, creatureMax = GetCreatureRisk(quest)
+
+    -- If both are known, use the more dangerous of the two. This avoids
+    -- double-counting quest level and mob level.
+    local score = max(questRisk or 0, creatureRisk or 0)
+
+    local modifier, dungeon, raid, pvp = GetInstanceModifier(questId)
+    score = Clamp(score + modifier, 0, 100)
+
+    local label
+    if score < 20 then
+        label = "TRÈS FAIBLE"
+    elseif score < 40 then
+        label = "FAIBLE"
+    elseif score < 60 then
+        label = "MODÉRÉ"
+    elseif score < 80 then
+        label = "ÉLEVÉ"
+    else
+        label = "TRÈS ÉLEVÉ"
+    end
+
+    return {
+        score = floor(score + 0.5),
+        label = label,
+        playerLevel = playerLevel,
+        questLevel = questLevel,
+        creatureMin = creatureMin,
+        creatureMax = creatureMax,
+        questRisk = questRisk,
+        creatureRisk = creatureRisk,
+        dungeon = dungeon,
+        raid = raid,
+        pvp = pvp,
+        modifier = modifier,
+    }
+end
+
+function QuestieHardcore:GetQuestRiskLines(questId)
+    local result = self:GetQuestRisk(questId)
+    if not result then
+        return nil
+    end
+
+    local lines = {}
+
+    local scoreColor = "|cFF66FF66"
+    if result.score >= 80 then
+        scoreColor = "|cFFFF5555"
+    elseif result.score >= 60 then
+        scoreColor = "|cFFFFAA33"
+    elseif result.score >= 40 then
+        scoreColor = "|cFFFFFF55"
+    end
+
+    lines[#lines + 1] = "|TInterface\\AddOns\\Questie\\Icons\\questie_flat.png:14|t |cFF66CCFFHC|r |cFFFFFFFFANALYSE HARDCORE|r"
+    lines[#lines + 1] = scoreColor .. "Risque : " .. result.score .. "/100  •  " .. result.label .. "|r"
+    lines[#lines + 1] = "|cFFAAAAAANiveau joueur :|r " .. result.playerLevel
+
+    if result.questLevel then
+        lines[#lines + 1] = "|cFFAAAAAANiveau quête :|r " .. result.questLevel
+    end
+
+    if result.creatureMin and result.creatureMax then
+        if result.creatureMin == result.creatureMax then
+            lines[#lines + 1] = "|cFFAAAAAAMobs associés :|r niveau " .. result.creatureMax
+        else
+            lines[#lines + 1] = "|cFFAAAAAAMobs associés :|r " .. result.creatureMin .. "–" .. result.creatureMax
+        end
+    end
+
+    local factors = {}
+    if result.questRisk then
+        factors[#factors + 1] = "niveau quête"
+    end
+    if result.creatureRisk then
+        factors[#factors + 1] = "niveau des mobs"
+    end
+    if result.dungeon then
+        factors[#factors + 1] = "donjon"
+    end
+    if result.raid then
+        factors[#factors + 1] = "raid"
+    end
+    if result.pvp then
+        factors[#factors + 1] = "JcJ"
+    end
+
+    if #factors > 0 then
+        lines[#lines + 1] = "|cFF777777Facteurs :|r " .. table.concat(factors, " + ")
+    end
+
+    return lines
+end
+
+-- Adds the HC block to Questie's existing NPC/object tooltips without
+-- replacing or altering Questie's own text.
+function QuestieHardcore:HookQuestieTooltipAPI()
+    if not QuestieTooltips or not QuestieTooltips.GetTooltip then
+        return
+    end
+
+    if _QuestieHardcore.originalGetTooltip then
+        return
+    end
+
+    _QuestieHardcore.originalGetTooltip = QuestieTooltips.GetTooltip
+
+    QuestieTooltips.GetTooltip = function(key, playerZone)
+        local tooltipLines = _QuestieHardcore.originalGetTooltip(key, playerZone)
+
+        if type(key) ~= "string" or not QuestieTooltips.lookupByKey then
+            return tooltipLines
+        end
+
+        local entries = QuestieTooltips.lookupByKey[key]
+        if not entries then
+            return tooltipLines
+        end
+
+        local questIds = {}
+        for _, data in pairs(entries) do
+            if data and data.questId then
+                questIds[data.questId] = true
+            end
+        end
+
+        if not next(questIds) then
+            return tooltipLines
+        end
+
+        tooltipLines = tooltipLines or {}
+
+        -- A single object/item can be referenced by several quests. Showing one
+        -- complete HC block per quest quickly becomes noisy and can even look
+        -- like a duplicate. Keep only the highest-risk relevant analysis.
+        local selectedQuestId = nil
+        local selectedRisk = nil
+
+        for questId in pairs(questIds) do
+            local risk = QuestieHardcore:GetQuestRisk(questId)
+            if risk and (not selectedRisk or risk.score > selectedRisk.score) then
+                selectedQuestId = questId
+                selectedRisk = risk
+            end
+        end
+
+        if selectedQuestId then
+            local lines = QuestieHardcore:GetQuestRiskLines(selectedQuestId)
+            if lines then
+                tooltipLines[#tooltipLines + 1] = " "
+                for _, line in ipairs(lines) do
+                    tooltipLines[#tooltipLines + 1] = line
+                end
+            end
+        end
+
+        return tooltipLines
+    end
+end
+
+function QuestieHardcore:Initialize()
+    if _QuestieHardcore.initialized then
+        return
+    end
+
+    if Questie.IsHardcore == false then
+        return
+    end
+
+    _QuestieHardcore.initialized = true
+    self:HookQuestieTooltipAPI()
+end
+
+return QuestieHardcore
+---@class QuestieHardcore
+local QuestieHardcore = QuestieLoader:CreateModule("QuestieHardcore")
+local _QuestieHardcore = QuestieHardcore.private
+
 --- Hardcore analysis engine. Intentionally conservative and bounded to 0..100.
 
 local function Clamp(v, lo, hi)
