@@ -9,13 +9,10 @@ local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuest
 
 local shouldRunAuto = true
 
---- Checks if the given player is on the friends list. Returns nil when no player name is given.
----@param playerName string|nil
----@return boolean|nil
+--- Checks if the given player is on the friends list.
+---@param playerName string
+---@return boolean
 local function _IsFriend(playerName)
-    if not playerName then
-        return nil
-    end
     local found = false
     local basePlayerName = strsplit("-", playerName)
 
