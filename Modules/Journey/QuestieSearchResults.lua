@@ -114,12 +114,29 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
 end
 
 -- Create a button for showing/hiding manual notes of NPCs/objects
-local function CreateShowHideButton(id)
+---@param id number @NPC (>0) or object (<0) id, or item id when idsToShow is provided
+---@param idsToShow number[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
+local function CreateShowHideButton(id, idsToShow)
+    -- Check whether any of the relevant manual frames are already shown on the map
+    local function hasShownFrames()
+        if not QuestieMap.manualFrames["any"] then
+            return false
+        end
+        if idsToShow then
+            for _, spawnId in ipairs(idsToShow) do
+                if QuestieMap.manualFrames["any"][spawnId] then
+                    return true
+                end
+            end
+            return false
+        end
+        return QuestieMap.manualFrames["any"][id] ~= nil
+    end
     -- Initialise button
     local button = AceGUI:Create("Button")
     button.id = id
-    button.idsToShow = nil
-    if (not QuestieMap.manualFrames["any"]) or (not QuestieMap.manualFrames["any"][id]) then
+    button.idsToShow = idsToShow
+    if not hasShownFrames() then
         button:SetText(l10n("Show on Map"))
         button:SetCallback("OnClick", function(self) self:ShowOnMap(self) end)
     else
@@ -464,8 +481,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         npcLabel:SetText(l10n("%d NPCs drop this item", #npcIdsWithSpawns))
         f:AddChild(npcLabel)
         if (#npcIdsWithSpawns > 0) then
-            local showHideButton = CreateShowHideButton(itemId)
-            showHideButton.idsToShow = npcIdsWithSpawns
+            local showHideButton = CreateShowHideButton(itemId, npcIdsWithSpawns)
             f:AddChild(showHideButton)
         end
         AddLinkedParagraph(f, "npc", npcIdsWithSpawns, "", QuestieDB.QueryNPCSingle, false)
@@ -495,8 +511,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         objectLabel:SetText(l10n("%d Objects drop this item", #objectIdsWithSpawns))
         f:AddChild(objectLabel)
         if (#objectIdsWithSpawns > 0) then
-            local showHideButton = CreateShowHideButton(itemId)
-            showHideButton.idsToShow = objectIdsWithSpawns
+            local showHideButton = CreateShowHideButton(itemId, objectIdsWithSpawns)
             f:AddChild(showHideButton)
         end
         AddLinkedParagraph(f, "object", objectIdsWithSpawns, "", QuestieDB.QueryObjectSingle, false)
@@ -528,8 +543,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         vendorLabel:SetText(l10n("%d Vendors sell this item", #vendorIdsWithSpawns))
         f:AddChild(vendorLabel)
         if (#vendorIdsWithSpawns > 0) then
-            local showHideButton = CreateShowHideButton(itemId)
-            showHideButton.idsToShow = vendorIdsWithSpawns
+            local showHideButton = CreateShowHideButton(itemId, vendorIdsWithSpawns)
             f:AddChild(showHideButton)
         end
         AddLinkedParagraph(f, "npc", vendorIdsWithSpawns, "", QuestieDB.QueryNPCSingle)
