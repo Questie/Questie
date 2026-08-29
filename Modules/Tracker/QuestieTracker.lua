@@ -51,6 +51,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+---@type EventHandler
+local EventHandler = QuestieLoader:ImportModule("EventHandler")
 
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
@@ -157,11 +159,6 @@ function QuestieTracker.Initialize()
     end
 
     QuestieCombatQueue:Queue(function()
-        -- Hides tracker during a login or reloadUI
-        if Questie.db.profile.hideTrackerInDungeons and IsInInstance() then
-            QuestieTracker:Collapse()
-        end
-
         -- Sync and populate the QuestieTracker - this should only run when a player has loaded
         -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
 
@@ -586,6 +583,12 @@ function QuestieTracker:Update()
     end
 
     lastTrackerUpdate = now
+
+    -- Hide if logged in or reloaded UI in a dungeon with the option to hide enabled
+    if EventHandler.trackerHiddenByInstance then
+        EventHandler.trackerHiddenByInstance = false
+        return
+    end
 
     -- Check if we're in a pet battle and should hide the tracker
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
