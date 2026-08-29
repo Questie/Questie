@@ -42,7 +42,7 @@ describe("CommsEncoding", function()
         _G.Enum.CompressionLevel = {Default = 0}
     end)
 
-    it("should raise an error on Init when codec support is unavailable", function()
+    it("should report unavailable codec support and raise an error on Init", function()
         _G.LibStub = nil
         _G.Questie.Error = spy.new(function() end)
         dofile("Libs/LibStub/LibStub.lua")
@@ -50,6 +50,7 @@ describe("CommsEncoding", function()
         dofile("Modules/Network/CommsEncoding.lua")
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 
+        assert.is_false(CommsEncoding:HasCodecSupport())
         CommsEncoding.Init()
 
         assert.spy(Questie.Error).was.called()

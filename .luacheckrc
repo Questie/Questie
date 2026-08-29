@@ -171,6 +171,7 @@ globals = {
     "C_ChatInfo.ReportServerLag",
     "C_ChatInfo.SendAddonMessage",
     "C_ChatInfo.SendAddonMessageLogged",
+    "C_EncodingUtil",
     "C_Club.AcceptInvitation",
     "C_Club.AddClubStreamChatChannel",
     "C_Club.AdvanceStreamViewMarker",

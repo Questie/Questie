@@ -1,0 +1,19 @@
+# Network/comms guidance
+
+These instructions apply to files under `Modules/Network/`.
+
+Before changing any network/comms module, hello/capability behavior, protocol shape, serialization, compression, addon-channel transport, or remote quest/party state semantics, read:
+
+- `../../docs/questie-comms-design.md`
+- `../../docs/addon-channel-serialization-report.md`
+
+Key contracts to preserve:
+
+- `QuestieComms.remoteQuestLogs` is absolute remote quest-log/progress state. Do not filter or mutate it based on UI visibility, tracked, hidden, or shown state.
+- `QuestieH1` hello is a dumb boolean map of comm prefixes. Prefix meaning belongs to the owning modules, not the hello payload.
+- Known prefixes default to `false`; owning modules mark active support only after their receiver/parser is registered. Never trust or register prefixes dynamically from remote input.
+- Modern typed-prefix payloads use `CommsEncoding`: Lua table/body -> `C_EncodingUtil.SerializeCBOR` -> Blizzard Deflate via `C_EncodingUtil.CompressString` -> addon-channel-safe encoding.
+- `CommsEncoding` permits at most 762 final encoded bytes, equal to three AceComm multipart payloads. Feature protocols may define stricter output guardrails, but QuestieV1 relies on this shared ceiling; raising it requires an explicit transport decision.
+- Modern comm modules should register their static prefix receiver first, then call `CommsPrefixRegistry:RegisterLocalPrefix(prefix)`.
+- `QuestieV1` is a full visibility snapshot `{ [questId] = boolean }` for party objective map/minimap pins only. It must not hide contextual tooltip progress and must not touch `remoteQuestLogs`.
+- No stored `QuestieV1` snapshot for a peer means unknown and defaults to shown for backward compatibility. Once a complete valid snapshot is stored, omitted quest IDs are authoritatively suppressed. Validate the entire payload before atomically replacing prior state; invalid payloads leave it unchanged.

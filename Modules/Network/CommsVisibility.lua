@@ -21,6 +21,9 @@ truth and can still feed contextual tooltip progress.
 ---@class CommsVisibility : QuestieModule
 local CommsVisibility = QuestieLoader:CreateModule("CommsVisibility")
 
+-------------------------
+-- Import modules.
+-------------------------
 ---@type CommsEncoding
 local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 ---@type CommsRouting
@@ -31,6 +34,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 
@@ -60,6 +65,9 @@ end
 
 local initialized = false
 
+-------------------------
+-- Send eligibility.
+-------------------------
 ---@return boolean
 local function _CanSendVisibilitySnapshot()
     -- QuestieV1 only controls party objective pins, and those are only drawn for small groups.
@@ -67,22 +75,31 @@ local function _CanSendVisibilitySnapshot()
     return GetNumGroupMembers() <= MAX_VISIBILITY_GROUP_SIZE
 end
 
+-------------------------
+-- Initialization.
+-------------------------
+---@return boolean
 function CommsVisibility:Initialize()
     if initialized then
-        return
+        return true
     end
 
-    if (not CommsEncoding.hasCodecSupport) then
+    if not CommsEncoding:HasCodecSupport() then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[CommsVisibility] Codec support unavailable, not registering QuestieV1")
-        return
+        return false
     end
 
     MAX_SNAPSHOT_ENTRIES = C_QuestLog.GetMaxNumQuestsCanAccept()
 
     Questie:RegisterComm(VISIBILITY_PREFIX, CommsVisibility.OnCommReceived)
+    CommsPrefixRegistry:RegisterLocalPrefix(VISIBILITY_PREFIX)
     initialized = true
+    return true
 end
 
+-------------------------
+-- Sending visibility.
+-------------------------
 ---@return QuestieCommsVisibilitySnapshot
 local function _BuildLocalSnapshot()
     local snapshot = {}
@@ -107,31 +124,29 @@ end
 --- Call this whenever local visibility policy can change for the current quest log: quest
 --- accept/remove, hide/unhide, tracked/untracked, bulk tracker mode changes, profile changes,
 --- and group convergence points such as roster changes or full quest-log responses.
----@param reason string? Debug-only call-site label reserved for future logging.
-function CommsVisibility:ScheduleSnapshot(reason)
-    Questie.Debug(Questie.DEBUG_INFO, "[CommsVisibility:ScheduleSnapshot] Reason", reason)
-
+---@param _reason string? Debug-only call-site label reserved for future logging.
+function CommsVisibility:ScheduleSnapshot(_reason)
     -- Send with timer debounce.
     _CancelSnapshotTimer()
 
-    if (not _CanSendVisibilitySnapshot()) then
+    if not _CanSendVisibilitySnapshot() then
         return
     end
 
     snapshotTimer = C_Timer.NewTimer(math.random() * 2, function()
         snapshotTimer = nil
 
-        if (not _CanSendVisibilitySnapshot()) then
+        if not _CanSendVisibilitySnapshot() then
             return
         end
 
         local distribution = CommsRouting:GetGroupBroadcastDistribution(QuestiePlayer:GetGroupType())
-        if (not distribution) then
+        if not distribution then
             return
         end
 
         local message = CommsEncoding:EncodePayload(_BuildLocalSnapshot())
-        if (not message) then
+        if not message then
             return
         end
 
@@ -139,6 +154,9 @@ function CommsVisibility:ScheduleSnapshot(reason)
     end)
 end
 
+-------------------------
+-- Receiving visibility.
+-------------------------
 ---Rejects the whole payload instead of sanitizing partial authoritative state.
 ---@param payload any Decoded remote payload.
 ---@return QuestieCommsVisibilitySnapshot? snapshot Complete validated snapshot safe to store.
@@ -176,13 +194,13 @@ function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
         return
     end
 
-    if CommsRouting:IsSelf(sender) or (not CommsRouting:IsMessageFromGroupMember(distribution, sender)) then
+    if CommsRouting:IsSelf(sender) or not CommsRouting:IsMessageFromGroupMember(distribution, sender) then
         return
     end
 
     local payload = CommsEncoding:DecodePayload(message)
     local snapshot = _ValidateSnapshot(payload)
-    if (not snapshot) then
+    if not snapshot then
         return
     end
 
@@ -192,6 +210,9 @@ function CommsVisibility.OnCommReceived(prefix, message, distribution, sender)
     QuestiePartyObjectives:ScheduleUpdate()
 end
 
+-------------------------
+-- Remote visibility state and queries.
+-------------------------
 ---Returns the remote player's display intent for party objective pin rendering.
 ---Players without a snapshot default to shown for compatibility. Once a complete snapshot
 ---exists, only quests explicitly marked true are shown; false and omission are suppressed.
@@ -201,7 +222,7 @@ end
 ---@return boolean
 function CommsVisibility:ShouldShowPartyObjective(playerName, questId)
     local visibility = CommsVisibility.remoteQuestVisibility[playerName]
-    if (not visibility) then
+    if not visibility then
         return true
     end
 
@@ -215,7 +236,7 @@ end
 
 function CommsVisibility:PruneRemotePlayers()
     for playerName in pairs(CommsVisibility.remoteQuestVisibility) do
-        if (not (UnitInParty(playerName) or UnitInRaid(playerName))) then
+        if not (UnitInParty(playerName) or UnitInRaid(playerName)) then
             CommsVisibility.remoteQuestVisibility[playerName] = nil
         end
     end

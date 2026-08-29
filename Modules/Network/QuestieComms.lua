@@ -22,6 +22,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
@@ -163,6 +165,7 @@ end
 function QuestieComms:Initialize()
     -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
     Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
+    CommsPrefixRegistry:RegisterLocalPrefix(_QuestieComms.prefix)
 
     -- Events to be used to broadcast updates to other people
     Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);

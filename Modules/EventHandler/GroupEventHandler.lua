@@ -5,6 +5,8 @@ local GroupEventHandler = QuestieLoader:CreateModule("GroupEventHandler")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestiePartyObjectives
@@ -51,8 +53,9 @@ function GroupEventHandler.GroupRosterUpdate()
     -- Evaluate unconditionally so the online snapshot stays current even when the size also changed.
     local onlineChanged = _OnlineStatusChanged()
 
-    -- Since GroupRosterUpdate is bucketed, we prune on every event to keep the cache accurate.
+    -- Since GroupRosterUpdate is bucketed, prune on every event to keep the caches accurate.
     -- Otherwise same-size replacements might leave stale states.
+    CommsPrefixRegistry:PruneRemotePlayers()
     CommsVisibility:PruneRemotePlayers()
 
     -- Only resync visibility when group size or a quest-sharing member's online state changed.
@@ -74,6 +77,7 @@ function GroupEventHandler.GroupJoined()
         if partyPending then
             if (isInParty or isInRaid) then
                 Questie.Debug(Questie.DEBUG_DEVELOP, "[EventHandler] Player joined party/raid, ask for questlogs")
+                CommsPrefixRegistry:ScheduleHello("GROUP_JOINED")
                 CommsVisibility:ScheduleSnapshot("GROUP_JOINED")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
@@ -91,6 +95,7 @@ end
 function GroupEventHandler.GroupLeft()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll()
+    CommsPrefixRegistry:ResetAll()
     CommsVisibility:ResetAll()
     QuestiePartyObjectives:Clear()
     previousOnlineStatus = {}

@@ -229,6 +229,7 @@ Modules\Network\DailyQuestComms\DailyQuestCommsBlacklist.lua
 Modules\Network\DailyQuestComms\DailyQuestComms.lua
 Modules\Network\CommsEncoding.lua
 Modules\Network\CommsRouting.lua
+Modules\Network\CommsPrefixRegistry.lua
 Modules\Network\CommsVisibility.lua
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua

@@ -1,14 +1,17 @@
 dofile("setupTests.lua")
 
+local AceCommTestHarness = dofile("cli/mocks/AceCommTestHarness.lua")
+
+--[[
+CommsVisibility owns QuestieV1: local visibility snapshot policy, receive-side
+full-payload validation, party-objective visibility state, and V1 emulator round-trips.
+]]
 describe("CommsVisibility", function()
     ---@type CommsVisibility
     local CommsVisibility
 
-    ---@type CommsEncoding
-    local CommsEncoding
-
-    ---@type CommsRouting
-    local CommsRouting
+    ---@type QuestiePlayer
+    local QuestiePlayer
 
     ---@type QuestLogCache
     local QuestLogCache
@@ -16,491 +19,524 @@ describe("CommsVisibility", function()
     ---@type QuestieQuest
     local QuestieQuest
 
+    ---@type CommsPrefixRegistry
+    local CommsPrefixRegistry
+
     ---@type QuestiePartyObjectives
     local QuestiePartyObjectives
 
-    ---@type QuestiePlayer
-    local QuestiePlayer
+    ---@type QuestieComms
+    local QuestieComms
 
-    -- Fires the timer immediately, simulating C_Timer with zero delay.
-    local function _createInstantTimerMock()
-        return {
-            NewTimer = function(_, callback)
-                callback()
-                return {Cancel = function() end}
-            end
-        }
+    ---@type CommsEncoding
+    local CommsEncoding
+
+    local serializedPayload
+
+    ---@param decodedPayload any Value returned by the mocked decoder.
+    local function setupCodec(decodedPayload)
+        CommsEncoding.HasCodecSupport = spy.new(function() return true end)
+        CommsEncoding.EncodePayload = spy.new(function(_, payload)
+            serializedPayload = payload
+            return "wire"
+        end)
+        CommsEncoding.DecodePayload = spy.new(function()
+            return decodedPayload
+        end)
     end
 
-    before_each(function()
-        _G.math.random = function() return 0 end
+    ---@param decodedPayload any Value returned by the mocked decoder.
+    local function loadCommsVisibility(decodedPayload)
+        serializedPayload = nil
 
-        _G.C_Timer = {
-            NewTimer = function(_, callback)
-                local timer = {cancelled = false}
-                timer.callback = callback
-                timer.Cancel = function(self)
-                    self.cancelled = true
-                end
-                return timer
+        Questie.RegisterComm = spy.new(function() end)
+        Questie.SendCommMessage = spy.new(function() end)
+        Questie.Debug = function() end
+        Questie.db.char = {hidden = {}}
+        Questie.db.profile = {}
+
+        _G.GetTime = function() return 123 end
+        _G.wipe = function(t)
+            for k in pairs(t) do
+                t[k] = nil
             end
-        }
+        end
+        _G.UnitName = function() return "Player" end
+        _G.UnitFullName = function(unit)
+            if unit == "player" then
+                return "Player", "HomeRealm"
+            end
+        end
+        _G.GetNormalizedRealmName = function() return "HomeRealm" end
+        _G.GetRealmName = function() return "HomeRealm" end
+        _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
+        _G.UnitInRaid = function() return false end
+        _G.GetNumGroupMembers = function() return 5 end
+        _G.C_QuestLog.GetMaxNumQuestsCanAccept = function() return 25 end
+        _G.C_Timer = nil
 
-        Questie.RegisterComm = function() end
-        Questie.db = {char = {}}
-
-        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
-        CommsEncoding.hasCodecSupport = true
-        CommsEncoding.EncodePayload = function() return "encodedPayload" end
-        CommsEncoding.DecodePayload = function() return {} end
-
-        CommsRouting = QuestieLoader:ImportModule("CommsRouting")
-        CommsRouting.IsSelf = function() return false end
-        CommsRouting.IsMessageFromGroupMember = function() return true end
-        CommsRouting.GetGroupBroadcastDistribution = function() return "" end
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestiePlayer.GetGroupType = function() return "party" end
 
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.IsQuestTracked = function() return true end
+        QuestieQuest.IsQuestTracked = function(_, questId)
+            return questId ~= 202
+        end
+
+        CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
+        CommsPrefixRegistry.RegisterLocalPrefix = spy.new(function() return true end)
 
         QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
 
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.GetGroupType = function() return "party" end
+        QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+        QuestieComms.remoteQuestLogs = {}
 
-        _G.GetNumGroupMembers = function() return 2 end
-        _G.C_QuestLog.GetMaxNumQuestsCanAccept = function() return 25 end
+        dofile("Modules/Network/CommsEncoding.lua")
+        dofile("Modules/Network/CommsRouting.lua")
+        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+        setupCodec(decodedPayload or {[101] = true})
 
         dofile("Modules/Network/CommsVisibility.lua")
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
-        -- ResetAll resets the initialized guard so Initialize can be exercised per-test.
         CommsVisibility:ResetAll()
         CommsVisibility:Initialize()
+    end
+
+    before_each(function()
+        loadCommsVisibility({[101] = true})
     end)
 
     describe("Initialize", function()
-        it("should not register comm when codec support is unavailable", function()
-            CommsEncoding.hasCodecSupport = false
-            Questie.RegisterComm = spy.new(function() end)
+        it("registers QuestieV1 and marks the local prefix active when the codec is available", function()
+            local initialized = CommsVisibility:Initialize()
 
-            -- Reload to reset the module-level initialized guard.
+            assert.is_true(initialized)
+            assert.spy(Questie.RegisterComm).was.called_with(Questie, "QuestieV1", CommsVisibility.OnCommReceived)
+            assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.called_with(CommsPrefixRegistry, "QuestieV1")
+        end)
+
+        it("does not register when modern payload encoding is unavailable", function()
+            Questie.RegisterComm:clear()
+            CommsPrefixRegistry.RegisterLocalPrefix:clear()
+            CommsEncoding.HasCodecSupport = spy.new(function() return false end)
             dofile("Modules/Network/CommsVisibility.lua")
-            local freshCommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
-            freshCommsVisibility:ResetAll()
+            CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
-            freshCommsVisibility:Initialize()
+            local initialized = CommsVisibility:Initialize()
 
+            assert.is_false(initialized)
             assert.spy(Questie.RegisterComm).was.not_called()
-        end)
-
-        it("should register comm when codec support is available", function()
-            Questie.RegisterComm = spy.new(function() end)
-
-            -- Reload to reset the module-level initialized guard.
-            dofile("Modules/Network/CommsVisibility.lua")
-            local freshCommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
-            freshCommsVisibility:ResetAll()
-
-            freshCommsVisibility:Initialize()
-
-            assert.spy(Questie.RegisterComm).was.called_with(Questie, "QuestieV1", freshCommsVisibility.OnCommReceived)
-        end)
-
-        it("should not re-register comm when already initialized", function()
-            Questie.RegisterComm = spy.new(function() end)
-
-            -- Reload fresh and initialize once.
-            dofile("Modules/Network/CommsVisibility.lua")
-            local freshCommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
-            freshCommsVisibility:ResetAll()
-            freshCommsVisibility:Initialize()
-
-            freshCommsVisibility:Initialize()
-
-            assert.spy(Questie.RegisterComm).was.called(1)
+            assert.spy(CommsPrefixRegistry.RegisterLocalPrefix).was.not_called()
         end)
     end)
 
     describe("ScheduleSnapshot", function()
-        it("should not create a timer when group is too large", function()
-            _G.GetNumGroupMembers = function() return 6 end
+        local timers
+
+        local function installTimerMock()
+            timers = {}
             _G.C_Timer = {
-                NewTimer = spy.new(function() end)
+                NewTimer = spy.new(function(_, callback)
+                    local timer = {
+                        canceled = false,
+                        Cancel = spy.new(function(self)
+                            self.canceled = true
+                        end),
+                    }
+                    function timer:Fire()
+                        if not self.canceled then
+                            callback()
+                        end
+                    end
+                    table.insert(timers, timer)
+                    return timer
+                end),
+            }
+        end
+
+        before_each(function()
+            installTimerMock()
+        end)
+
+        it("sends the full visibility map to party when the debounce timer fires", function()
+            Questie.db.char.hidden = {[303] = true}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {
+                [101] = true,
+                [202] = true,
+                [303] = true,
+                notAQuestId = true,
             }
 
-            CommsVisibility:ScheduleSnapshot("test")
+            CommsVisibility:ScheduleSnapshot("quest-state-changed")
 
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1]:Fire()
+
+            assert.are_same({[101] = true, [202] = false, [303] = false}, serializedPayload)
+            assert.spy(CommsEncoding.EncodePayload).was.called(1)
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "PARTY")
+        end)
+
+        it("uses raid and instance distributions based on the group type", function()
+            QuestiePlayer.GetGroupType = function() return "raid" end
+            CommsVisibility:ScheduleSnapshot("raid")
+            timers[1]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "RAID")
+
+            Questie.SendCommMessage:clear()
+            QuestiePlayer.GetGroupType = function() return "instance" end
+            CommsVisibility:ScheduleSnapshot("instance")
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "INSTANCE_CHAT")
+        end)
+
+        it("debounces snapshots until the latest timer fires", function()
+            CommsVisibility:ScheduleSnapshot("first")
+            CommsVisibility:ScheduleSnapshot("second")
+
+            assert.are_equal(2, #timers)
+            assert.spy(timers[1].Cancel).was.called(1)
+            timers[1]:Fire()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "wire", "PARTY")
+        end)
+
+        it("cancels a queued snapshot on ResetAll", function()
+            CommsVisibility:ScheduleSnapshot("test")
+            CommsVisibility:ResetAll()
+            timers[1]:Fire()
+
+            assert.spy(timers[1].Cancel).was.called(1)
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("clears the timer handle after sending so a later schedule can queue again", function()
+            CommsVisibility:ScheduleSnapshot("first")
+            timers[1]:Fire()
+
+            CommsVisibility:ScheduleSnapshot("second")
+
+            assert.are_equal(2, #timers)
+            timers[2]:Fire()
+            assert.spy(Questie.SendCommMessage).was.called(2)
+        end)
+
+        it("does not queue a timer in groups too large for party objective pins", function()
+            _G.GetNumGroupMembers = function() return 6 end
+
+            CommsVisibility:ScheduleSnapshot("raid")
+
+            assert.are_equal(0, #timers)
             assert.spy(_G.C_Timer.NewTimer).was.not_called()
         end)
 
-        it("should not send when group grows too large before the timer fires", function()
-            -- Group is small when scheduling...
-            _G.GetNumGroupMembers = function() return 2 end
-            Questie.SendCommMessage = spy.new(function() end)
+        it("does not send if the player is no longer grouped when the timer fires", function()
+            CommsVisibility:ScheduleSnapshot("left-group")
+            QuestiePlayer.GetGroupType = function() return nil end
 
-            local capturedCallback
-            _G.C_Timer = {
-                NewTimer = function(_, callback)
-                    capturedCallback = callback
-                    return {Cancel = function() end}
-                end
-            }
-            CommsVisibility:ScheduleSnapshot("test")
+            timers[1]:Fire()
 
-            -- ...but grows too large before the timer fires.
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
+            assert.spy(Questie.SendCommMessage).was.not_called()
+        end)
+
+        it("re-checks the group size when the timer fires", function()
+            CommsVisibility:ScheduleSnapshot("raid-conversion")
             _G.GetNumGroupMembers = function() return 6 end
-            capturedCallback()
 
+            timers[1]:Fire()
+
+            assert.spy(CommsEncoding.EncodePayload).was.not_called()
             assert.spy(Questie.SendCommMessage).was.not_called()
-        end)
-
-        it("should not send when no broadcast distribution is available", function()
-            CommsRouting.GetGroupBroadcastDistribution = function() return nil end
-            Questie.SendCommMessage = spy.new(function() end)
-            _G.C_Timer = _createInstantTimerMock()
-
-            CommsVisibility:ScheduleSnapshot("test")
-
-            assert.spy(Questie.SendCommMessage).was.not_called()
-        end)
-
-        it("should not send when encoding fails", function()
-            CommsEncoding.EncodePayload = function() return nil end
-            Questie.SendCommMessage = spy.new(function() end)
-            _G.C_Timer = _createInstantTimerMock()
-
-            CommsVisibility:ScheduleSnapshot("test")
-
-            assert.spy(Questie.SendCommMessage).was.not_called()
-        end)
-
-        it("should send encoded snapshot to the broadcast distribution", function()
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[100] = true}
-            QuestieQuest.IsQuestTracked = function() return true end
-            CommsEncoding.EncodePayload = function() return "encodedPayload" end
-            CommsRouting.GetGroupBroadcastDistribution = function() return "PARTY" end
-            Questie.SendCommMessage = spy.new(function() end)
-            _G.C_Timer = _createInstantTimerMock()
-
-            CommsVisibility:ScheduleSnapshot("test")
-
-            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "encodedPayload", "PARTY")
-        end)
-
-        it("should mark hidden quests as false in snapshot", function()
-            Questie.db.char.hidden = {[100] = true}
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[100] = true}
-            local capturedPayload
-            CommsEncoding.EncodePayload = function(_, payload)
-                capturedPayload = payload
-                return "encodedPayload"
-            end
-            _G.C_Timer = _createInstantTimerMock()
-
-            CommsVisibility:ScheduleSnapshot("test")
-
-            assert.is_false(capturedPayload[100])
-        end)
-
-        it("should mark tracked quests as true in snapshot", function()
-            Questie.db.char.hidden = {}
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[100] = true}
-            QuestieQuest.IsQuestTracked = function() return true end
-            local capturedPayload
-            CommsEncoding.EncodePayload = function(_, payload)
-                capturedPayload = payload
-                return "encodedPayload"
-            end
-            _G.C_Timer = _createInstantTimerMock()
-
-            CommsVisibility:ScheduleSnapshot("test")
-
-            assert.is_true(capturedPayload[100])
-        end)
-
-        it("should skip non-number keys in quest log when building snapshot", function()
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[100] = true, ["notAQuestId"] = true}
-            local capturedPayload
-            CommsEncoding.EncodePayload = function(_, payload)
-                capturedPayload = payload
-                return "encodedPayload"
-            end
-            _G.C_Timer = _createInstantTimerMock()
-
-            CommsVisibility:ScheduleSnapshot("test")
-
-            assert.is_nil(capturedPayload["notAQuestId"])
-            assert.is_not_nil(capturedPayload[100])
-        end)
-
-        it("should cancel the previous timer when scheduling a new snapshot", function()
-            local firstTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
-            local firstTimerMock = spy.new(function() return firstTimer end)
-            local secondTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
-            local secondTimerMock = spy.new(function() return secondTimer end)
-
-            _G.C_Timer = {
-                NewTimer = firstTimerMock
-            }
-            CommsVisibility:ScheduleSnapshot("first")
-
-            _G.C_Timer = {
-                NewTimer = secondTimerMock
-            }
-            CommsVisibility:ScheduleSnapshot("second")
-
-            assert.is_true(firstTimer.cancelled)
-            assert.spy(firstTimerMock).was.called()
-            assert.spy(secondTimerMock).was.called()
         end)
     end)
 
     describe("OnCommReceived", function()
-        it("should store snapshot for valid message from group member", function()
-            local snapshot = {[100] = true, [200] = false}
-            CommsEncoding.DecodePayload = function() return snapshot end
+        ---@param payload any Decoded snapshot value to deliver.
+        local function receiveSnapshot(payload)
+            setupCodec(payload)
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
+        end
 
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
+        local function receivePriorValidSnapshot()
+            receiveSnapshot({[99] = true})
+            QuestiePartyObjectives.ScheduleUpdate:clear()
+        end
 
-            assert.are_same(snapshot, CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called()
-        end)
-
-        it("should reject messages with wrong prefix", function()
-            CommsEncoding.DecodePayload = spy.new(function() return {[100] = true} end)
-
-            CommsVisibility.OnCommReceived("WrongPrefix", "msg", "PARTY", "FriendName")
-
-            assert.spy(CommsEncoding.DecodePayload).was.not_called()
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-        end)
-
-        it("should reject messages from self", function()
-            CommsRouting.IsSelf = function() return true end
-            CommsEncoding.DecodePayload = spy.new(function() return {[100] = true} end)
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "PlayerName")
-
-            assert.spy(CommsEncoding.DecodePayload).was.not_called()
-        end)
-
-        it("should reject messages not from group members", function()
-            CommsRouting.IsMessageFromGroupMember = function() return false end
-            CommsEncoding.DecodePayload = spy.new(function() return {[100] = true} end)
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "WHISPER", "SomeSender")
-
-            assert.spy(CommsEncoding.DecodePayload).was.not_called()
-        end)
-
-        it("should reject nil payload", function()
-            CommsEncoding.DecodePayload = function() return nil end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
+        local function assertPriorValidSnapshotWasPreserved()
+            assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 99))
+            assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
+        end
+
+        it("preserves the prior valid snapshot when any entry is invalid", function()
+            receivePriorValidSnapshot()
+
+            receiveSnapshot({[101] = true, [202] = false, ["303"] = true, [404] = "false", [0] = true, [-1] = true, [1.5] = true})
+
+            assertPriorValidSnapshotWasPreserved()
         end)
 
-        it("should reject non-table payload", function()
-            CommsEncoding.DecodePayload = function() return "notATable" end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
-        end)
-
-        it("should reject payload with non-number quest id", function()
-            CommsEncoding.DecodePayload = function() return {["notANumber"] = true} end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
-        end)
-
-        it("should reject payload with non-boolean visibility value", function()
-            CommsEncoding.DecodePayload = function() return {[100] = "yes"} end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
-        end)
-
-        it("should reject payload with zero quest id", function()
-            CommsEncoding.DecodePayload = function() return {[0] = true} end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
-        end)
-
-        it("should reject payload with negative quest id", function()
-            CommsEncoding.DecodePayload = function() return {[-1] = true} end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
-        end)
-
-        it("should reject payload with fractional quest id", function()
-            CommsEncoding.DecodePayload = function() return {[1.5] = true} end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
-        end)
-
-        it("should accept empty snapshot and clear prior state for sender", function()
-            CommsVisibility.remoteQuestVisibility["FriendName"] = {[100] = true}
-            CommsEncoding.DecodePayload = function() return {} end
-
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
-
-            assert.are_same({}, CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called()
-        end)
-
-        it("should reject payload exceeding C_QuestLog.GetMaxNumQuestsCanAccept() entries", function()
-            local maxEntries = C_QuestLog.GetMaxNumQuestsCanAccept()
-            local oversizedPayload = {}
-            for i = 1, maxEntries + 1 do
-                oversizedPayload[i] = true
+        it("preserves the prior valid snapshot when a payload exceeds the quest-log limit", function()
+            receivePriorValidSnapshot()
+            local oversizedSnapshot = {}
+            for questId = 1, 26 do
+                oversizedSnapshot[questId] = true
             end
-            CommsEncoding.DecodePayload = function() return oversizedPayload end
 
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
+            receiveSnapshot(oversizedSnapshot)
 
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
+            assertPriorValidSnapshotWasPreserved()
         end)
 
-        it("should accept payload at exactly C_QuestLog.GetMaxNumQuestsCanAccept() entries", function()
-            local maxEntries = C_QuestLog.GetMaxNumQuestsCanAccept()
-            local exactPayload = {}
-            for i = 1, maxEntries do
-                exactPayload[i] = true
+        it("accepts a payload at the quest-log limit", function()
+            local snapshot = {}
+            for questId = 1, 25 do
+                snapshot[questId] = true
             end
-            CommsEncoding.DecodePayload = function() return exactPayload end
 
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
+            receiveSnapshot(snapshot)
 
-            assert.are_same(exactPayload, CommsVisibility.remoteQuestVisibility["FriendName"])
-            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called()
+            assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 25))
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called(1)
         end)
 
-        it("should atomically replace prior snapshot for sender", function()
-            CommsVisibility.remoteQuestVisibility["FriendName"] = {[100] = true, [200] = true}
-            local newSnapshot = {[300] = true}
-            CommsEncoding.DecodePayload = function() return newSnapshot end
+        it("rejects messages from self before decoding", function()
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "PARTY", "Player")
 
-            CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
+            assert.is_nil(CommsVisibility.remoteQuestVisibility.Player)
+        end)
 
-            assert.are_same(newSnapshot, CommsVisibility.remoteQuestVisibility["FriendName"])
+        it("rejects non-group whispers before decoding", function()
+            _G.UnitInParty = function() return false end
+            _G.UnitInRaid = function() return false end
+
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Stranger-Realm")
+
+            assert.spy(CommsEncoding.DecodePayload).was.not_called()
+            assert.is_nil(CommsVisibility.remoteQuestVisibility["Stranger-Realm"])
+        end)
+
+        it("preserves the prior valid snapshot when the decoded payload is malformed", function()
+            receivePriorValidSnapshot()
+
+            receiveSnapshot("not-a-snapshot")
+
+            assertPriorValidSnapshotWasPreserved()
+        end)
+
+        it("preserves the prior valid snapshot when the payload cannot be decoded", function()
+            receivePriorValidSnapshot()
+            CommsEncoding.DecodePayload = spy.new(function() return nil end)
+
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
+
+            assertPriorValidSnapshotWasPreserved()
+        end)
+
+        it("accepts an empty snapshot without mutating stale remoteQuestLogs", function()
+            local remoteQuestLogs = {
+                [101] = {
+                    ["Friend-Realm"] = {{finished = false}},
+                },
+            }
+            QuestieComms.remoteQuestLogs = remoteQuestLogs
+            setupCodec({})
+
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
+
+            assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
+            assert.are_equal(remoteQuestLogs, QuestieComms.remoteQuestLogs)
+            assert.are_same({[101] = { ["Friend-Realm"] = {{finished = false}} }}, QuestieComms.remoteQuestLogs)
         end)
     end)
 
     describe("ShouldShowPartyObjective", function()
-        it("should return true when no snapshot exists for player", function()
-            local result = CommsVisibility:ShouldShowPartyObjective("UnknownPlayer", 100)
-
-            assert.is_true(result)
+        it("defaults to showing when the player has not sent a snapshot", function()
+            assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
         end)
 
-        it("should return true when quest is explicitly marked true in snapshot", function()
-            CommsVisibility.remoteQuestVisibility["FriendName"] = {[100] = true}
+        it("suppresses an omitted quest after receiving a valid snapshot", function()
+            setupCodec({[202] = true})
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
 
-            local result = CommsVisibility:ShouldShowPartyObjective("FriendName", 100)
-
-            assert.is_true(result)
+            assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
         end)
 
-        it("should return false when quest is explicitly marked false in snapshot", function()
-            CommsVisibility.remoteQuestVisibility["FriendName"] = {[100] = false}
+        it("returns explicit true and false from a valid snapshot", function()
+            setupCodec({[101] = false, [202] = true})
+            CommsVisibility.OnCommReceived("QuestieV1", "wire", "WHISPER", "Friend-Realm")
 
-            local result = CommsVisibility:ShouldShowPartyObjective("FriendName", 100)
-
-            assert.is_false(result)
-        end)
-
-        it("should return false when quest is omitted from snapshot (suppressed by omission)", function()
-            CommsVisibility.remoteQuestVisibility["FriendName"] = {[200] = true}
-
-            local result = CommsVisibility:ShouldShowPartyObjective("FriendName", 100)
-
-            assert.is_false(result)
+            assert.is_false(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 101))
+            assert.is_true(CommsVisibility:ShouldShowPartyObjective("Friend-Realm", 202))
         end)
     end)
 
-    describe("ResetAll", function()
-        it("should clear all remote visibility data", function()
-            CommsVisibility.remoteQuestVisibility["FriendName"] = {[100] = true}
+    describe("ResetAll and PruneRemotePlayers", function()
+        it("clears all remote visibility", function()
+            CommsVisibility.remoteQuestVisibility["Friend-Realm"] = {[101] = true}
 
             CommsVisibility:ResetAll()
 
             assert.are_same({}, CommsVisibility.remoteQuestVisibility)
         end)
 
-        it("should cancel an in-flight snapshot timer", function()
-            local pendingTimer = nil
-            _G.C_Timer = {
-                NewTimer = function()
-                    pendingTimer = {cancelled = false}
-                    pendingTimer.Cancel = function(self) self.cancelled = true end
-                    return pendingTimer
-                end
+        it("drops remote players that are no longer in the group", function()
+            CommsVisibility.remoteQuestVisibility["Friend-Realm"] = {[101] = true}
+            CommsVisibility.remoteQuestVisibility["Gone-Realm"] = {[202] = false}
+            _G.UnitInParty = function(unit) return unit == "Friend-Realm" end
+
+            CommsVisibility:PruneRemotePlayers()
+
+            assert.are_same({[101] = true}, CommsVisibility.remoteQuestVisibility["Friend-Realm"])
+            assert.is_nil(CommsVisibility.remoteQuestVisibility["Gone-Realm"])
+        end)
+    end)
+
+    describe("isolated QuestieV1 emulator", function()
+        ---Fails the test if the isolated network cannot settle all timers and AceComm traffic.
+        ---@param network table Isolated comms network from AceCommTestHarness.
+        local function assertIsolatedNetworkFlushes(network)
+            assert.is_true(network:FlushUntilIdle())
+        end
+
+        it("round-trips QuestieV1 visibility between two isolated clients", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {
+                [101] = true,
+                [202] = true,
+                [303] = true,
             }
-            CommsVisibility:ScheduleSnapshot("setup")
+            alice.trackedQuests = {
+                [101] = true,
+                [202] = false,
+                [303] = true,
+            }
+            alice.env.Questie.db.char.hidden = {[303] = true}
 
-            CommsVisibility:ResetAll()
+            alice.CommsVisibility:ScheduleSnapshot("integration-test")
+            assertIsolatedNetworkFlushes(network)
 
-            assert.is_true(pendingTimer.cancelled)
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 202))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 303))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 404))
+            assert.are_equal(1, bob.QuestiePartyObjectives.scheduleUpdateCount)
+            assert.is_nil(next(bob.QuestieComms.remoteQuestLogs))
+        end)
+
+        it("replaces isolated QuestieV1 visibility with each full snapshot", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true, [202] = true}
+            alice.trackedQuests = {[101] = false, [202] = false}
+            alice.CommsVisibility:ScheduleSnapshot("first snapshot")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 202))
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[303] = true}
+            alice.trackedQuests = {[303] = true}
+            alice.CommsVisibility:ScheduleSnapshot("replacement snapshot")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 202))
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 303))
+            assert.are_equal(2, bob.QuestiePartyObjectives.scheduleUpdateCount)
+        end)
+
+        it("ignores isolated QuestieV1 visibility from senders outside the group trust boundary", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            local stranger = network:CreateClient({playerName = "Stranger", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+            stranger:LoadModernCommsStack()
+
+            local encodedSnapshot = stranger.CommsEncoding:EncodePayload({[101] = false})
+            stranger.env.Questie:SendCommMessage("QuestieV1", encodedSnapshot, "WHISPER", "Bob-TestRealm")
+            assertIsolatedNetworkFlushes(network)
+
+            -- WHISPER is a valid transport here, so this assertion protects Bob's
+            -- receive-side trust check rather than the harness send validator.
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Stranger", 101))
+            assert.are_equal(0, bob.QuestiePartyObjectives.scheduleUpdateCount)
+        end)
+
+        it("does not send isolated QuestieV1 visibility in larger groups", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            local charlie = network:CreateClient({playerName = "Charlie", realmName = "TestRealm"})
+            local dora = network:CreateClient({playerName = "Dora", realmName = "TestRealm"})
+            local erin = network:CreateClient({playerName = "Erin", realmName = "TestRealm"})
+            local finn = network:CreateClient({playerName = "Finn", realmName = "TestRealm"})
+            network:SetParty({alice, bob, charlie, dora, erin, finn})
+
+            alice:LoadModernCommsStack()
+            bob:LoadModernCommsStack()
+
+            alice.QuestLogCache.questLog_DO_NOT_MODIFY = {[101] = true}
+            alice.CommsVisibility:ScheduleSnapshot("large group")
+            assertIsolatedNetworkFlushes(network)
+
+            for _, sentMessage in ipairs(network.trace) do
+                assert.are_not_equal("QuestieV1", sentMessage.prefix)
+            end
+            assert.is_true(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+        end)
+
+        it("keeps isolated QuestieV1 visibility separate from legacy remoteQuestLogs", function()
+            local network = AceCommTestHarness.NewIsolatedNetwork()
+            local alice = network:CreateClient({playerName = "Alice", realmName = "TestRealm"})
+            local bob = network:CreateClient({playerName = "Bob", realmName = "TestRealm"})
+            network:SetParty({alice, bob})
+
+            alice:LoadLegacyQuestieCommsStack()
+            bob:LoadLegacyQuestieCommsStack()
+
+            alice.trackedQuests = {[101] = false}
+            alice.CommsVisibility:ScheduleSnapshot("legacy separation")
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
+            assert.is_nil(next(bob.QuestieComms.remoteQuestLogs))
+
+            -- V1 and legacy packets intentionally update different state stores:
+            -- visibility affects party-objective drawing, while questie packets own
+            -- durable remote progress in QuestieComms.remoteQuestLogs.
+            alice.QuestieComms.private:BroadcastQuestUpdate(101)
+            assertIsolatedNetworkFlushes(network)
+
+            assert.is_table(bob.QuestieComms.remoteQuestLogs[101]["Alice"])
+            assert.is_false(bob.CommsVisibility:ShouldShowPartyObjective("Alice", 101))
         end)
     end)
 
-    describe("PruneRemotePlayers", function()
-        it("should remove players who are no longer in the group", function()
-            CommsVisibility.remoteQuestVisibility["GoneSolo"] = {[100] = true}
-            CommsVisibility.remoteQuestVisibility["PartyMember"] = {[100] = true}
-            _G.UnitInParty = function(name) return name == "PartyMember" end
-            _G.UnitInRaid = function() return false end
-
-            CommsVisibility:PruneRemotePlayers()
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["GoneSolo"])
-            assert.is_not_nil(CommsVisibility.remoteQuestVisibility["PartyMember"])
-        end)
-
-        it("should keep players who are in the raid", function()
-            CommsVisibility.remoteQuestVisibility["GoneSolo"] = {[100] = true}
-            CommsVisibility.remoteQuestVisibility["RaidMember"] = {[100] = true}
-            _G.UnitInParty = function(name) return false end
-            _G.UnitInRaid = function(name) return name == "RaidMember" end
-
-            CommsVisibility:PruneRemotePlayers()
-
-            assert.is_nil(CommsVisibility.remoteQuestVisibility["GoneSolo"])
-            assert.is_not_nil(CommsVisibility.remoteQuestVisibility["RaidMember"])
-        end)
-
-        it("should handle empty remoteQuestVisibility without error", function()
-            CommsVisibility.remoteQuestVisibility = {}
-            _G.UnitInParty = spy.new(function() return false end)
-            _G.UnitInRaid = spy.new(function() return false end)
-
-            assert.has_no_error(function()
-                CommsVisibility:PruneRemotePlayers()
-            end)
-            assert.spy(_G.UnitInParty).was.not_called()
-            assert.spy(_G.UnitInRaid).was.not_called()
-        end)
-    end)
 end)

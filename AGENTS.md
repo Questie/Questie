@@ -53,7 +53,7 @@ python3 build.py --release      # omit commit hash from name
 
 ### Commit Message Prefixes (Changelog)
 
-Commits are automatically categorized in the changelog based on their prefix. Use one of these prefixes at the start of your commit message (case-insensitive):
+The changelog generator categorizes commits with these bracketed prefixes (case-insensitive). Use them for changes intended for the generated changelog:
 
 - `[feature]` - New features → "## New Features"
 - `[fix]` - General bug fixes → "## General Fixes"
@@ -62,6 +62,8 @@ Commits are automatically categorized in the changelog based on their prefix. Us
 - `[locale]` - Localization fixes → "## Localization Fixes"
 
 Example: `[fix] Fix journey keybind not working`
+
+For internal or maintenance changes intentionally excluded from the changelog, use an unbracketed conventional prefix such as `fix:`.
 
 ## Project Structure
 

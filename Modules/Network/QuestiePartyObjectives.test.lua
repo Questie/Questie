@@ -133,6 +133,16 @@ describe("QuestiePartyObjectives", function()
     end)
 
     describe("Update", function()
+        it("should not draw objectives suppressed by the remote player's visibility snapshot", function()
+            givenPartyQuest(2)
+            CommsVisibility.ShouldShowPartyObjective = function() return false end
+
+            QuestiePartyObjectives:Update()
+            runPendingThreads()
+
+            assert.equals(0, #drawnObjectives)
+        end)
+
         it("should record what it drew so Clear can unload it", function()
             givenPartyQuest(3)
 

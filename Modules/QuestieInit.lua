@@ -61,6 +61,8 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type DailyQuestComms
 local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
+---@type CommsPrefixRegistry
+local CommsPrefixRegistry = QuestieLoader:ImportModule("CommsPrefixRegistry")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieComms
@@ -281,6 +283,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieComms initializing.")
     CommsEncoding.Init()
+    CommsPrefixRegistry:Initialize()
     CommsVisibility:Initialize()
     DailyQuestComms.Initialize()
     if (not Questie.IsClassic) then

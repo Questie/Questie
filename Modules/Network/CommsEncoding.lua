@@ -38,7 +38,7 @@ CommsEncoding.hasCodecSupport = false
 
 ---Checks whether the client has the Blizzard CBOR/compression APIs, the compression enums and LibDeflate's addon-channel codec.
 ---@return boolean
-local function _HasCodecSupport()
+function CommsEncoding:HasCodecSupport()
     local hasBlizzardEncoding = C_EncodingUtil ~= nil
         and C_EncodingUtil.SerializeCBOR ~= nil
         and C_EncodingUtil.DeserializeCBOR ~= nil
@@ -62,7 +62,7 @@ end
 ---Every WoW client is expected to have codec support; if a future client does not, we want
 ---to fail loudly so the affected user reaches out to us.
 function CommsEncoding.Init()
-    CommsEncoding.hasCodecSupport = _HasCodecSupport()
+    CommsEncoding.hasCodecSupport = CommsEncoding:HasCodecSupport()
 
     if (not CommsEncoding.hasCodecSupport) then
         Questie.Error("Client does not have Codec support", l10n("Please report this on Github or Discord!"))
