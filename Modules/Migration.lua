@@ -212,6 +212,10 @@ local migrationFunctions = {
     [36] = function()
         Questie.db.global.unavailableDailyQuestsByNpc = {}
     end,
+    [37] = function()
+        Questie.db.global.availableDailyQuestsByNpc = {}
+        Questie.db.global.unavailableDailyQuestsByNpc = nil
+    end,
 }
 
 function Migration:Migrate()
