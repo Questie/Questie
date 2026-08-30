@@ -455,6 +455,9 @@ function QuestieTBCItemFixes:Load()
         [32723] = { -- Nethermine Cargo
             [itemKeys.npcDrops] = {},
         },
+        [32734] = { -- Hand of the Overseer
+            [itemKeys.npcDrops] = {23309},
+        },
         [32742] = { -- Adversarial Bloodlines
             [itemKeys.npcDrops] = {23363},
         },

@@ -5005,7 +5005,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 10983,
         },
         [10985] = { -- A Distraction for Akama
-            [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY] = {{71.05,46.11},{66.29,44.06}}}},
+            [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY] = {{71.05,46.11}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Let Xi'ri know you're ready to battle"), 1, {{"monster", 18528}}}},
         },
         [10987] = { -- To Catch A Sparrowhawk
@@ -5233,6 +5233,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10708},
             [questKeys.nextQuestInChain] = 10944,
         },
+        [11055] = { -- The Booterang: A Cure For The Common Worthless Peon
+            [questKeys.objectives] = {{{23311,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
         [11056] = { -- Hazzik's Bargain
             [questKeys.requiredLevel] = 70,
         },
@@ -5322,7 +5325,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11082] = { -- Seeker of Truth
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Murkblood Information Gathered", {[zoneIDs.SHADOWMOON_VALLEY] = {{73.06,82.26},{68.63,79.81}}}},
+            [questKeys.objectives] = {nil,nil,{{32734,nil,Questie.ICON_TYPE_TALK}},nil,{{{23309},23309,nil,Questie.ICON_TYPE_TALK}}},
         },
         [11083] = { -- Crazed and Confused
             [questKeys.requiredRaces] = raceIDs.NONE,
