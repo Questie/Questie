@@ -99,7 +99,7 @@ function QuestieMap.utils.MapExplorationUpdate()
         for _, frameName in pairs(frameList) do
             local frame = _G[frameName]
             if (frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
-                if (QuestieMap.utils.IsExplored(frame.UiMapID, frame.x, frame.y)) then
+                if (QuestieMap.utils.IsExplored(frame.UiMapID, frame.x, frame.y) and not frame:ShouldBeHidden()) then
                     frame:FakeShow()
                 end
             end

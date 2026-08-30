@@ -254,4 +254,28 @@ describe("QuestieMapUtils", function()
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
         end)
     end)
+
+    describe("MapExplorationUpdate", function()
+        it("should keep map icons hidden when settings hide them", function()
+            local frame = {
+                x = 50,
+                y = 50,
+                UiMapID = 1,
+                hidden = true,
+                FakeShow = function() end,
+                ShouldBeHidden = function() return true end,
+            }
+            _G.QuestieMapUtilsTestFrame = frame
+            QuestieMap.questIdFrames = {
+                [1] = {"QuestieMapUtilsTestFrame"},
+            }
+            QuestieMap.utils.IsExplored = function() return true end
+
+            local fakeShowSpy = spy.on(frame, "FakeShow")
+
+            QuestieMap.utils.MapExplorationUpdate()
+
+            assert.spy(fakeShowSpy).was.not_called()
+        end)
+    end)
 end)
