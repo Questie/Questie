@@ -397,24 +397,24 @@ _AddPlayerQuestProgress = function(tooltip, quest, starterName, starterZoneName,
         -- On Quest: display quest progress
         if (QuestieDB.IsComplete(quest.Id) == 0) then
             _AddTooltipLine(tooltip, " ")
-            _AddColoredTooltipLine(tooltip, l10n("Your progress")..l10n(": "), "gold")
+            _AddColoredTooltipLine(tooltip, l10n("Your progress") .. l10n(": "), "gold")
             for _, objective in pairs(quest.Objectives) do
                 local objDesc = QuestieLib:GetObjectiveDescription(objective)
 
                 if objective.Needed > 0 then
                     local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
-                    _AddTooltipLine(tooltip, " - " .. QuestieLib:GetRGBForObjective(objective) .. objDesc .. l10n(": ") .. lineEnding.."|r")
+                    _AddTooltipLine(tooltip, " - " .. QuestieLib:GetRGBForObjective(objective) .. objDesc .. l10n(": ") .. lineEnding .. "|r")
                 end
             end
-        -- Completed Quest (not turned in): display quest ended by npc and zone
         else
+            -- Completed Quest (not turned in): display quest ended by npc and zone
             if finisherName then
                 _AddTooltipLine(tooltip, " ")
-                _AddTooltipLine(tooltip, (l10n("Ended by")..l10n(": ") .. Questie:Colorize(finisherName, "gray")))
+                _AddTooltipLine(tooltip, (l10n("Ended by") .. l10n(": ") .. Questie:Colorize(finisherName, "gray")))
             end
             if finisherZoneName then
                 _AddTooltipLine(tooltip, " ")
-                _AddTooltipLine(tooltip, (l10n("Found in")..l10n(": ") .. Questie:Colorize(finisherZoneName, "gray")))
+                _AddTooltipLine(tooltip, (l10n("Found in") .. l10n(": ") .. Questie:Colorize(finisherZoneName, "gray")))
             end
         end
     else
@@ -424,23 +424,23 @@ _AddPlayerQuestProgress = function(tooltip, quest, starterName, starterZoneName,
                 local timestamp
                 for i = 1, #Questie.db.char.journey do
                     if Questie.db.char.journey[i].Quest ~= nil and Questie.db.char.journey[i].Quest == quest.Id then
-                        timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", 'lightBlue')
+                        timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", "lightBlue")
                     end
                 end
                 if timestamp then
                     _AddTooltipLine(tooltip, " ")
-                    _AddTooltipLine(tooltip, l10n("Completed on")..l10n(": "))
+                    _AddTooltipLine(tooltip, l10n("Completed on") .. l10n(": "))
                     _AddTooltipLine(tooltip, timestamp)
                 end
             end
-        -- Not on Quest: display quest started by npc and zone
         else
+            -- Not on Quest: display quest started by npc and zone
             if starterName then
                 _AddTooltipLine(tooltip, " ")
-                _AddTooltipLine(tooltip, (l10n("Started by")..l10n(": ") .. Questie:Colorize(starterName, "gray")))
+                _AddTooltipLine(tooltip, (l10n("Started by") .. l10n(": ") .. Questie:Colorize(starterName, "gray")))
             end
             if starterZoneName then
-                _AddTooltipLine(tooltip, (l10n("Found in")..l10n(": ") .. Questie:Colorize(starterZoneName, "gray")))
+                _AddTooltipLine(tooltip, (l10n("Found in") .. l10n(": ") .. Questie:Colorize(starterZoneName, "gray")))
             end
         end
     end
