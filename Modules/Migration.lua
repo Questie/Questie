@@ -212,6 +212,9 @@ local migrationFunctions = {
     [36] = function()
         Questie.db.global.unavailableDailyQuestsByNpc = {}
     end,
+    [37] = function()
+        Questie.db.profile.autoreject_nonfriend = false
+    end,
 }
 
 function Migration:Migrate()

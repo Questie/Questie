@@ -135,6 +135,7 @@ function QuestieOptionsDefaults:Load()
                 rejectSharedInBattleground = false,
                 abandonBreadcrumbFollowup = false,
             },
+            autoreject_nonfriend = false,
             questAnnounceChannel = "party",
             questAnnounceItems = true,
             questAnnounceAccepted = false,
