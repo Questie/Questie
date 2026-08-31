@@ -80,12 +80,18 @@ function QuestieLink:GetQuestHyperLink(questId, senderGUID)
     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.trackerShowQuestLevel, true)
     local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
     local isRepeatable = QuestieDB.IsRepeatable(questId)
+    local isEventQuest = QuestieEvent.IsEventQuest(questId)
+    local isPvPQuest = QuestieDB.IsPvPQuest(questId)
 
     if (not senderGUID) then
         senderGUID = UnitGUID("player")
     end
 
-    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)).."|h"
+    local openBracket = QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable, isEventQuest, isPvPQuest)
+    local closeBracket = QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable, isEventQuest, isPvPQuest)
+    local questName = openBracket .. coloredQuestName .. closeBracket .. "|h"
+
+    return "|Hquestie:" .. questId .. ":" .. senderGUID .. "|h" .. questName
 end
 
 ---@param link string
