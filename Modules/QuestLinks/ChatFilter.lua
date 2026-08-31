@@ -18,7 +18,8 @@ local prefetchedQuestIds = {}
 ---------------------------------------------------------------------------------------------------
 
 --- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
-ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...)
+ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName,
+    unused, lineID, senderGUID, bnSenderID, ...)
     if (not Questie.started) then
         return
     end
@@ -39,7 +40,7 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                 end
 
                 if questId and QuestieDB.QuestPointers[questId] then
-                    if  (not prefetchedQuestIds[questId]) and (not HaveQuestData(questId)) then
+                    if (not prefetchedQuestIds[questId]) and (not HaveQuestData(questId)) then
                         -- prefetch quest data from server to have data when user clicks the link
                         prefetchedQuestIds[questId] = true
                         C_QuestLog.GetQuestObjectives(questId)
@@ -55,19 +56,19 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                     -- Escape the magic characters
                     local function escapeMagic(toEsc)
                         return (toEsc
-                                :gsub("%%", "%%%%")
-                                :gsub("^%^", "%%^")
-                                :gsub("%$$", "%%$")
-                                :gsub("%(", "%%(")
-                                :gsub("%)", "%%)")
-                                :gsub("%.", "%%.")
-                                :gsub("%[", "%%[")
-                                :gsub("%]", "%%]")
-                                :gsub("%*", "%%*")
-                                :gsub("%+", "%%+")
-                                :gsub("%-", "%%-")
-                                :gsub("%?", "%%?")
-                                :gsub("%|", "%%|")
+                            :gsub("%%", "%%%%")
+                            :gsub("^%^", "%%^")
+                            :gsub("%$$", "%%$")
+                            :gsub("%(", "%%(")
+                            :gsub("%)", "%%)")
+                            :gsub("%.", "%%.")
+                            :gsub("%[", "%%[")
+                            :gsub("%]", "%%]")
+                            :gsub("%*", "%%*")
+                            :gsub("%+", "%%+")
+                            :gsub("%-", "%%-")
+                            :gsub("%?", "%%?")
+                            :gsub("%|", "%%|")
                         )
                     end
 
@@ -80,13 +81,14 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                     end
 
                     if questLevel then
-                        msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
+                        msg = string.gsub(msg, "%[%[" .. questLevel .. "%] " .. questName .. " %(" .. sqid .. "%)%]", questLink)
                     else
-                        msg = string.gsub(msg, "%["..questName.." %("..sqid.."%)%]", questLink)
+                        msg = string.gsub(msg, "%[" .. questName .. " %(" .. sqid .. "%)%]", questLink)
                     end
                 end
             end
-            return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...
+            return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID,
+                senderGUID, bnSenderID, ...
         end
     end
 end
