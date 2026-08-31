@@ -17,6 +17,51 @@ local prefetchedQuestIds = {}
 -- The Hyperlink hook is located in Link.lua
 ---------------------------------------------------------------------------------------------------
 
+-- Escape the magic characters for gsub
+local function escapeMagic(toEsc)
+    return (toEsc
+        :gsub("%%", "%%%%")
+        :gsub("^%^", "%%^")
+        :gsub("%$$", "%%$")
+        :gsub("%(", "%%(")
+        :gsub("%)", "%%)")
+        :gsub("%.", "%%.")
+        :gsub("%[", "%%[")
+        :gsub("%]", "%%]")
+        :gsub("%*", "%%*")
+        :gsub("%+", "%%+")
+        :gsub("%-", "%%-")
+        :gsub("%?", "%%?")
+        :gsub("%|", "%%|")
+    )
+end
+
+local nativeQuestPattern = "|cff%x%x%x%x%x%x|Hquest:(%d+):%d+|h%[(.-)%]|h|r"
+
+---@param message string
+---@param sender string
+---@return string
+local function replaceNativeQuestLinks(message, sender)
+    local result = message
+    for questIdStr, questName in string.gmatch(message, nativeQuestPattern) do
+        local questId = tonumber(questIdStr)
+        if questId and QuestieDB.QuestPointers[questId] then
+            if (not prefetchedQuestIds[questId]) and (not HaveQuestData(questId)) then
+                prefetchedQuestIds[questId] = true
+                C_QuestLog.GetQuestObjectives(questId)
+            end
+
+            local questLink = QuestieLink:GetQuestHyperLink(questId, sender)
+
+            local escapedQuestName = escapeMagic(questName)
+            -- Match the full native link pattern including color codes
+            local fullPattern = "|c?f?f?%x*|Hquest:" .. questIdStr .. ":%d+|h%[" .. escapedQuestName .. "%]|h|r?"
+            result = string.gsub(result, fullPattern, questLink)
+        end
+    end
+    return result
+end
+
 --- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
 ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName,
     unused, lineID, senderGUID, bnSenderID, ...)
@@ -24,6 +69,10 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
         return
     end
 
+    local sender = senderGUID or bnSenderID or "0"
+    msg = replaceNativeQuestLinks(msg, sender)
+
+    -- Existing bracketed link handling
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
@@ -53,25 +102,6 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
 
                     local questLink = QuestieLink:GetQuestHyperLink(questId, senderGUID)
 
-                    -- Escape the magic characters
-                    local function escapeMagic(toEsc)
-                        return (toEsc
-                            :gsub("%%", "%%%%")
-                            :gsub("^%^", "%%^")
-                            :gsub("%$$", "%%$")
-                            :gsub("%(", "%%(")
-                            :gsub("%)", "%%)")
-                            :gsub("%.", "%%.")
-                            :gsub("%[", "%%[")
-                            :gsub("%]", "%%]")
-                            :gsub("%*", "%%*")
-                            :gsub("%+", "%%+")
-                            :gsub("%-", "%%-")
-                            :gsub("%?", "%%?")
-                            :gsub("%|", "%%|")
-                        )
-                    end
-
                     if questName then
                         questName = escapeMagic(questName)
                     end
@@ -91,6 +121,9 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                 senderGUID, bnSenderID, ...
         end
     end
+    -- Return modified message even if only native links were replaced
+    return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID,
+        bnSenderID, ...
 end
 
 function ChatFilter:RegisterEvents() -- todo: register immediately and cache calls until db is available
