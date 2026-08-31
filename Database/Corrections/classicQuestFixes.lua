@@ -4037,10 +4037,18 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.NONE,
         },
         [7121] = { -- The Quartermaster
-            [questKeys.exclusiveTo] = {5892, 6892},
+            [questKeys.nextQuestInChain] = 7122,
+            [questKeys.breadcrumbForQuestId] = 7122,
+        },
+        [7122] = { -- Capture a Mine
+            [questKeys.breadcrumbs] = {7121},
         },
         [7123] = { -- Speak with our Quartermaster
-            [questKeys.exclusiveTo] = {5893, 6985},
+            [questKeys.nextQuestInChain] = 7124,
+            [questKeys.breadcrumbForQuestId] = 7124,
+        },
+        [7124] = { -- Capture a Mine
+            [questKeys.breadcrumbs] = {7123},
         },
         [7141] = { -- The Battle of Alterac
             [questKeys.triggerEnd] = {"Defeat Drek'thar.", {[zoneIDs.ALTERAC_VALLEY] = {{47.22, 86.95}}}},
