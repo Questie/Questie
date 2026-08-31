@@ -35,11 +35,12 @@ describe("QuestieLink", function()
             IsShown = function() return false end,
             SetOwner = function() end,
             ClearLines = function() end,
-            Show = function() end,
+            Show = spy.new(function() end),
             Hide = function() end,
+            SetHyperlink = function() end,
         }
         _G.ItemRefTooltipTextLeft1 = {
-            GetText = function() return "" end,
+            GetText = function() return "Test Quest" end,
         }
         _G.ShowUIPanel = function() end
         _G.UIParent = {}
@@ -84,6 +85,7 @@ describe("QuestieLink", function()
 
         dofile("Modules/QuestLinks/Link.lua")
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+        QuestieLink.lastItemRefTooltip = nil
     end)
 
     describe("GetQuestLinkStringById", function()
@@ -113,6 +115,79 @@ describe("QuestieLink", function()
             local result = QuestieLink:GetQuestLinkStringById(1234)
 
             assert.are_same("[Test Quest (1234)]", result)
+        end)
+    end)
+
+    describe("ItemRefTooltip:SetHyperlink native quest links", function()
+        before_each(function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId,
+                    name = "Test Quest",
+                    Description = {"Test description"},
+                    zoneOrSort = 0,
+                    specialFlags = 0,
+                    ObjectiveData = {},
+                    Objectives = {},
+                    Starts = nil,
+                    Finisher = {NPC = nil, GameObject = nil},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function()
+                return "You have not done this quest", nil, "AVAILABLE"
+            end
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetEffectiveQuestLevel = function()
+                return 15
+            end
+            QuestieLib.GetLevelString = function()
+                return "[15] "
+            end
+            TrackerUtils.GetZoneNameByID = function()
+                return "Test Zone"
+            end
+        end)
+
+        it("should detect and handle questie quest links", function()
+            local questieLink = "questie:74:GUID-0-1234"
+
+            ItemRefTooltip:SetHyperlink(questieLink)
+
+            assert.are_same({
+                "Test Quest",
+                "You have not done this quest",
+                " ",
+                "Test description",
+            }, tooltipLines)
+            assert.spy(_G.ItemRefTooltip.Show).was.called()
+            assert.is_equal("Test Quest", QuestieLink.lastItemRefTooltip)
+        end)
+
+        it("should detect and handle native quest links", function()
+            local nativeLink = "quest:74:28"
+
+            ItemRefTooltip:SetHyperlink(nativeLink)
+
+            assert.are_same({
+                "Test Quest",
+                "You have not done this quest",
+                " ",
+                "Test description",
+            }, tooltipLines)
+            assert.spy(_G.ItemRefTooltip.Show).was.called()
+            assert.is_equal("Test Quest", QuestieLink.lastItemRefTooltip)
+        end)
+
+        it("should not detect non-quest links", function()
+            local nonQuestLink = "item:12345:0:0:0"
+
+            ItemRefTooltip:SetHyperlink(nonQuestLink)
+
+            assert.are_same({}, tooltipLines)
+            assert.spy(_G.ItemRefTooltip.Show).was.not_called()
+            assert.is_equal("", QuestieLink.lastItemRefTooltip)
         end)
     end)
 

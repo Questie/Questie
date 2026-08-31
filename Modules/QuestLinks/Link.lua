@@ -34,6 +34,10 @@ function ItemRefTooltip:SetHyperlink(link, ...)
     local questiePrefix, questId = string.match(link, "(questie):(%d+):")
     local isQuestieLink = questiePrefix == "questie"
 
+    -- Detect native Blizzard quest links (format: quest:questId:level)
+    local nativeQuestId = string.match(link, "quest:(%d+):")
+    local isNativeQuestLink = nativeQuestId ~= nil
+
     if (not ItemRefTooltip:IsShown()) then
         QuestieLink.lastItemRefTooltip = ""
     else
@@ -46,6 +50,24 @@ function ItemRefTooltip:SetHyperlink(link, ...)
         ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
         ItemRefTooltip:ClearLines()
         QuestieLink:CreateQuestTooltip(link, ItemRefTooltip)
+        ItemRefTooltip:Show()
+
+        local tooltipText = ItemRefTooltipTextLeft1:GetText()
+        if QuestieLink.lastItemRefTooltip == tooltipText then
+            ItemRefTooltip:Hide()
+            QuestieLink.lastItemRefTooltip = ""
+            return
+        end
+
+        QuestieLink.lastItemRefTooltip = tooltipText
+        return
+    elseif isNativeQuestLink then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink (native):", link)
+        ShowUIPanel(ItemRefTooltip)
+        ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
+        ItemRefTooltip:ClearLines()
+        -- Convert to questie format for CreateQuestTooltip
+        QuestieLink:CreateQuestTooltip("questie:" .. nativeQuestId .. ":0", ItemRefTooltip)
         ItemRefTooltip:Show()
 
         local tooltipText = ItemRefTooltipTextLeft1:GetText()
