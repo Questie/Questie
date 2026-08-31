@@ -36,7 +36,26 @@ local function escapeMagic(toEsc)
     )
 end
 
-local nativeQuestPattern = "|cff%x%x%x%x%x%x|Hquest:(%d+):%d+|h%[(.-)%]|h|r"
+local nativeQuestPattern = "|cff%x%x%x%x%x%x%x?%x?|Hquest:(%d+):%d+|h%[(.-)%]|h|r"
+
+---@param message string
+---@param questId number
+---@param sender string
+---@param searchPattern string -- The exact pattern to search for in the message
+---@return string
+local function processQuestLink(message, questId, sender, searchPattern)
+    if not (questId and QuestieDB.QuestPointers[questId]) then
+        return message
+    end
+
+    if (not prefetchedQuestIds[questId]) and (not HaveQuestData(questId)) then
+        prefetchedQuestIds[questId] = true
+        C_QuestLog.GetQuestObjectives(questId)
+    end
+
+    local questLink = QuestieLink:GetQuestHyperLink(questId, sender)
+    return string.gsub(message, searchPattern, questLink)
+end
 
 ---@param message string
 ---@param sender string
@@ -45,19 +64,10 @@ local function replaceNativeQuestLinks(message, sender)
     local result = message
     for questIdStr, questName in string.gmatch(message, nativeQuestPattern) do
         local questId = tonumber(questIdStr)
-        if questId and QuestieDB.QuestPointers[questId] then
-            if (not prefetchedQuestIds[questId]) and (not HaveQuestData(questId)) then
-                prefetchedQuestIds[questId] = true
-                C_QuestLog.GetQuestObjectives(questId)
-            end
-
-            local questLink = QuestieLink:GetQuestHyperLink(questId, sender)
-
-            local escapedQuestName = escapeMagic(questName)
-            -- Match the full native link pattern including color codes
-            local fullPattern = "|c?f?f?%x*|Hquest:" .. questIdStr .. ":%d+|h%[" .. escapedQuestName .. "%]|h|r?"
-            result = string.gsub(result, fullPattern, questLink)
-        end
+        -- Build the exact pattern to match this specific native link
+        local escapedQuestName = escapeMagic(questName)
+        local searchPattern = "|cff%x%x%x%x%x%x%x?%x?|Hquest:" .. questIdStr .. ":%d+|h%[" .. escapedQuestName .. "%]|h|r"
+        result = processQuestLink(result, questId, sender, searchPattern)
     end
     return result
 end
@@ -89,18 +99,12 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                 end
 
                 if questId and QuestieDB.QuestPointers[questId] then
+                    local linkSender = senderGUID or bnSenderID or "0"
+
                     if (not prefetchedQuestIds[questId]) and (not HaveQuestData(questId)) then
-                        -- prefetch quest data from server to have data when user clicks the link
                         prefetchedQuestIds[questId] = true
                         C_QuestLog.GetQuestObjectives(questId)
                     end
-
-                    if (not senderGUID) then
-                        playerName = BNGetFriendInfoByID(bnSenderID)
-                        senderGUID = bnSenderID
-                    end
-
-                    local questLink = QuestieLink:GetQuestHyperLink(questId, senderGUID)
 
                     if questName then
                         questName = escapeMagic(questName)
@@ -110,11 +114,14 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                         questLevel = escapeMagic(questLevel)
                     end
 
+                    local searchPattern
                     if questLevel then
-                        msg = string.gsub(msg, "%[%[" .. questLevel .. "%] " .. questName .. " %(" .. sqid .. "%)%]", questLink)
+                        searchPattern = "%[%[" .. questLevel .. "%] " .. questName .. " %(" .. sqid .. "%)%]"
                     else
-                        msg = string.gsub(msg, "%[" .. questName .. " %(" .. sqid .. "%)%]", questLink)
+                        searchPattern = "%[" .. questName .. " %(" .. sqid .. "%)%]"
                     end
+
+                    msg = processQuestLink(msg, questId, linkSender, searchPattern)
                 end
             end
             return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID,
