@@ -268,8 +268,8 @@ _AddQuestRequirements = function(tooltip, quest)
                             objective.text = string.gsub(objective.text, "%s", objectiveText)
                         end
                     end
-                -- we look for any uncached objective
                 elseif string.byte(objective.text, 1) == 32 then
+                    -- we look for any uncached objective
                     local objectiveText = _GetObjectiveText(quest.ObjectiveData[i].Id, quest.ObjectiveData[i].Type)
                     objective.text = string.gsub(objective.text, "^%s", objectiveText)
                 end
