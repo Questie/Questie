@@ -68,7 +68,11 @@ function QuestieLink:GetQuestLinkStringById(questId)
     local questName = QuestieDB.QueryQuestSingle(questId, "name")
     local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
 
-    return "[[" .. tostring(questLevel) .. "] " .. questName .. " (" .. tostring(questId) .. ")]"
+    if Questie.db.profile.trackerShowQuestLevel then
+        return "[[" .. tostring(questLevel) .. "] " .. questName .. " (" .. tostring(questId) .. ")]"
+    else
+        return "[" .. questName .. " (" .. tostring(questId) .. ")]"
+    end
 end
 
 ---@return string

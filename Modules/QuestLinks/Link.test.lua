@@ -87,7 +87,8 @@ describe("QuestieLink", function()
     end)
 
     describe("GetQuestLinkStringById", function()
-        it("should return a formatted link string with level and name from the database", function()
+        it("should return a formatted link string with level and name from the database when trackerShowQuestLevel is true", function()
+            Questie.db.profile.trackerShowQuestLevel = true
             QuestieDB.QueryQuestSingle = function()
                 return "Test Quest"
             end
@@ -98,6 +99,20 @@ describe("QuestieLink", function()
             local result = QuestieLink:GetQuestLinkStringById(1234)
 
             assert.are_same("[[15] Test Quest (1234)]", result)
+        end)
+
+        it("should return a formatted link string without level when trackerShowQuestLevel is false", function()
+            Questie.db.profile.trackerShowQuestLevel = false
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetEffectiveQuestLevel = function()
+                return 15
+            end
+
+            local result = QuestieLink:GetQuestLinkStringById(1234)
+
+            assert.are_same("[Test Quest (1234)]", result)
         end)
     end)
 
