@@ -29,8 +29,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBCache
-local QuestieDBCache = QuestieLoader:ImportModule("QuestieDBCache")
+---@type QuestieDBStorage
+local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 ---@type Cleanup
 local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
 ---@type DBCompiler
@@ -153,11 +153,11 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- This needs to happen after ADDON_LOADED
     l10n.InitializeUILocale()
 
-    local activeDatabase = QuestieDBCache.GetActiveStorage()
+    local activeStorage = QuestieDBStorage.GetActiveStorage()
 
     -- Check if the DB needs to be recompiled
-    if (not activeDatabase.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= activeDatabase.dbCompiledOnVersion) or
-        (l10n:GetUILocale() ~= activeDatabase.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
+    if (not activeStorage.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= activeStorage.dbCompiledOnVersion) or
+        (l10n:GetUILocale() ~= activeStorage.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile beginning...")
         print("\124cFFAAEEFF" ..
             l10n("Questie DB is updating — ") .. "\124r\124cFFFF6F22" .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
@@ -173,7 +173,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loaded.")
     end
 
-    local dbCompiledCount = activeDatabase.dbCompiledCount
+    local dbCompiledCount = activeStorage.dbCompiledCount
 
     -- For townsfolkClass we use UnitClassBase so it works across locales
     if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClassBase("player")) then

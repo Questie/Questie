@@ -53,8 +53,8 @@ Modules\Libs\ThreadLib.lua
 Database\QuestXP\QuestieXP.lua
 Database\QuestXP\DB\xpDB-mop.lua
 
-# Database cache and stream modules
-Database\QuestieDBCache.lua
+# Database storage and stream modules
+Database\QuestieDBStorage.lua
 Modules\QuestieStream.lua
 
 # Zones

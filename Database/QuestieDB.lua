@@ -24,8 +24,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type DBCompiler
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type QuestieDBCache
-local QuestieDBCache = QuestieLoader:ImportModule("QuestieDBCache")
+---@type QuestieDBStorage
+local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -249,7 +249,7 @@ function QuestieDB:Initialize()
         button1 = l10n("Recompile Database"),
         button2 = l10n("Don't show again"),
         OnAccept = function()
-            QuestieDBCache.InvalidateActiveStorage()
+            QuestieDBStorage.InvalidateActiveStorage()
             ReloadUI()
         end,
         OnDecline = function()
@@ -266,23 +266,23 @@ function QuestieDB:Initialize()
 
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
-    local activeDatabase = QuestieDBCache.GetActiveStorage()
+    local activeStorage = QuestieDBStorage.GetActiveStorage()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Begin GetDBHandles")
     local npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
-    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(activeDatabase.npcBin, activeDatabase.npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
+    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(activeStorage.npcBin, activeStorage.npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] NPC GetDBHandles Complete")
 
     local questSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder)
-    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(activeDatabase.questBin, activeDatabase.questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
+    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(activeStorage.questBin, activeStorage.questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Quest GetDBHandles Complete")
 
     local objectSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder)
-    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(activeDatabase.objBin, activeDatabase.objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
+    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(activeStorage.objBin, activeStorage.objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Object GetDBHandles Complete")
 
     local itemSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder)
-    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(activeDatabase.itemBin, activeDatabase.itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
+    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(activeStorage.itemBin, activeStorage.itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Item GetDBHandles Complete")
 
     QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle

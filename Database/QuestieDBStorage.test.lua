@@ -1,8 +1,8 @@
 dofile("setupTests.lua")
 
-describe("QuestieDBCache", function()
-    ---@type QuestieDBCache
-    local QuestieDBCache
+describe("QuestieDBStorage", function()
+    ---@type QuestieDBStorage
+    local QuestieDBStorage
 
     before_each(function()
         Questie.IsSoD = false
@@ -12,37 +12,37 @@ describe("QuestieDBCache", function()
         Questie.db.global.name = "standard"
         Questie.db.global.dbIsCompiled = true
 
-        dofile("Database/QuestieDBCache.lua")
-        QuestieDBCache = QuestieLoader:ImportModule("QuestieDBCache")
+        dofile("Database/QuestieDBStorage.lua")
+        QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
     end)
 
     it("uses the standard database for normal clients", function()
-        assert.are_same(Questie.db.global, QuestieDBCache.GetActiveStorage())
+        assert.are_same(Questie.db.global, QuestieDBStorage.GetActiveStorage())
     end)
 
     it("uses the SoD database for Season of Discovery", function()
         Questie.IsSoD = true
 
-        assert.are_same(Questie.db.global.sod, QuestieDBCache.GetActiveStorage())
+        assert.are_same(Questie.db.global.sod, QuestieDBStorage.GetActiveStorage())
     end)
 
     it("uses the Titan database for Titan Reforged", function()
         Questie.IsTitanReforged = true
 
-        assert.are_same(Questie.db.global.titanReforged, QuestieDBCache.GetActiveStorage())
+        assert.are_same(Questie.db.global.titanReforged, QuestieDBStorage.GetActiveStorage())
     end)
 
     it("keeps SoD selection ahead of Titan selection", function()
         Questie.IsSoD = true
         Questie.IsTitanReforged = true
 
-        assert.are_same(Questie.db.global.sod, QuestieDBCache.GetActiveStorage())
+        assert.are_same(Questie.db.global.sod, QuestieDBStorage.GetActiveStorage())
     end)
 
     it("invalidates only the active database", function()
         Questie.IsTitanReforged = true
 
-        QuestieDBCache.InvalidateActiveStorage()
+        QuestieDBStorage.InvalidateActiveStorage()
 
         assert.is_false(Questie.db.global.titanReforged.dbIsCompiled)
         assert.is_true(Questie.db.global.sod.dbIsCompiled)

@@ -7,8 +7,8 @@ local QuestieStream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieDBCache
-local QuestieDBCache = QuestieLoader:ImportModule("QuestieDBCache")
+---@type QuestieDBStorage
+local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -932,7 +932,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
 
     local pointerMap = {}
     local stream = Questie.db.profile.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
-    local activeDatabase = QuestieDBCache.GetActiveStorage()
+    local activeStorage = QuestieDBStorage.GetActiveStorage()
 
     -- Localize functions
     local writers = QuestieDBCompiler.writers
@@ -968,8 +968,8 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
 
             index = index + 1
             if index == count then
-                activeDatabase[databaseKey.."Bin"] = stream:Save()
-                activeDatabase[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                activeStorage[databaseKey.."Bin"] = stream:Save()
+                activeStorage[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
                 stream:finished() -- relief memory pressure
                 return
             end
@@ -1052,11 +1052,11 @@ function QuestieDBCompiler:Compile()
 
     Questie.db.global.dbCompiledExpansion = WOW_PROJECT_ID
 
-    local activeDatabase = QuestieDBCache.GetActiveStorage()
-    activeDatabase.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
-    activeDatabase.dbCompiledLang = l10n:GetUILocale()
-    activeDatabase.dbIsCompiled = true
-    activeDatabase.dbCompiledCount = (activeDatabase.dbCompiledCount or 0) + 1
+    local activeStorage = QuestieDBStorage.GetActiveStorage()
+    activeStorage.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
+    activeStorage.dbCompiledLang = l10n:GetUILocale()
+    activeStorage.dbIsCompiled = true
+    activeStorage.dbCompiledCount = (activeStorage.dbCompiledCount or 0) + 1
 end
 
 function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, overrides)

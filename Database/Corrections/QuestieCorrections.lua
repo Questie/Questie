@@ -153,7 +153,7 @@ do
             addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
             addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
             addOverride(QuestieDB.questDataOverrides, QuestieWotlkQuestFixes:LoadFactionFixes())
-            -- Runtime overlays modify inherited WotLK records without changing which records belong in the compiled Titan cache.
+            -- Runtime overlays modify inherited WotLK records without changing which records belong in the compiled Titan storage.
             if Questie.IsTitanReforged then
                 addOverride(QuestieDB.npcDataOverrides, TitanReforgedNpcFixes.LoadNPCOverrides())
                 addOverride(QuestieDB.npcDataOverrides, TitanReforgedNpcFixes.LoadFactionNPCOverrides())
