@@ -540,16 +540,12 @@ local function HandleHyperlinkClick(link, button)
             Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkClick] Relinking Quest Link to chat:", link)
             questId = tonumber(questId)
 
-            local questLevel = QuestieLib.GetEffectiveQuestLevel(questId)
-            local questName = QuestieDB.QueryQuestSingle(questId, "name")
-            if questLevel and questName then
-                local activeWindow = ChatEdit_GetActiveWindow()
-                if activeWindow then
-                    local msg = activeWindow:GetText()
-                    if msg then
-                        activeWindow:SetText("")
-                        ChatEdit_InsertLink(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. questLevel .. "%] " .. questName .. " %(" .. questId .. "%)%]"))
-                    end
+            local activeWindow = ChatEdit_GetActiveWindow()
+            if activeWindow then
+                local msg = activeWindow:GetText()
+                if msg then
+                    activeWindow:SetText("")
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(questId))
                 end
             end
         end
