@@ -60,6 +60,31 @@ describe("ChatFilter", function()
             assert.is_equal("Check out this quest: |Hquestie:74:0|h[The Legend of Stalvan]|h", filteredMsg)
         end)
 
+        it("should handle native quest links with regex magic characters in quest name", function()
+            QuestieDB.QuestPointers[12345] = true
+            QuestieLink.GetQuestHyperLink = function(_, questId, senderGUID)
+                return "|Hquestie:12345:" .. (senderGUID or "0") .. "|h[Test [Quest] (Special?)]|h"
+            end
+
+            local msg = "Quest: |cffffff00|Hquest:12345:30|h[Test [Quest] (Special?)]|h|r"
+            local chatFrame = {historyBuffer = {elements = {1}}}
+
+            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, nil)
+
+            assert.is_not_nil(filteredMsg)
+            assert.is_equal("Quest: |Hquestie:12345:0|h[Test [Quest] (Special?)]|h", filteredMsg)
+        end)
+
+        it("should process a quest link with specific sender GUID", function()
+            local msg = "Quest: |cffffff00|Hquest:74:28|h[The Legend of Stalvan]|h|r"
+            local chatFrame = {historyBuffer = {elements = {1}}}
+            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, nil, "TEST_GUID_123",
+                nil)
+
+            assert.is_not_nil(filteredMsg)
+            assert.is_equal("Quest: |Hquestie:74:TEST_GUID_123|h[The Legend of Stalvan]|h", filteredMsg)
+        end)
+
         it("should replace Questie bracketed links with Questie hyperlink format", function()
             local msg = "Check out this quest: [[28] The Legend of Stalvan (74)]"
             local chatFrame = {historyBuffer = {elements = {1}}}
