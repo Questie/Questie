@@ -610,12 +610,7 @@ _HandleTreeItemClick = function(group, ...)
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(treePath[2])
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
-        if Questie.db.profile.trackerShowQuestLevel then
-            ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(selectedId))
-        else
-            local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
-            ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
-        end
+        ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(selectedId))
     end
 
     -- get master frame and create scroll frame inside
