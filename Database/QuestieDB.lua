@@ -24,6 +24,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type DBCompiler
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+---@type QuestieDBStorage
+local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -247,11 +249,7 @@ function QuestieDB:Initialize()
         button1 = l10n("Recompile Database"),
         button2 = l10n("Don't show again"),
         OnAccept = function()
-            if Questie.IsSoD then
-                Questie.db.global.sod.dbIsCompiled = false
-            else
-                Questie.db.global.dbIsCompiled = false
-            end
+            QuestieDBStorage.InvalidateActiveStorage()
             ReloadUI()
         end,
         OnDecline = function()
@@ -268,43 +266,23 @@ function QuestieDB:Initialize()
 
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
-    -- For now we store both, the SoD database and the Era/HC database
-    local npcBin, npcPtrs, questBin, questPtrs, objBin, objPtrs, itemBin, itemPtrs
-    if Questie.IsSoD then
-        npcBin = Questie.db.global.sod.npcBin
-        npcPtrs = Questie.db.global.sod.npcPtrs
-        questBin = Questie.db.global.sod.questBin
-        questPtrs = Questie.db.global.sod.questPtrs
-        objBin = Questie.db.global.sod.objBin
-        objPtrs = Questie.db.global.sod.objPtrs
-        itemBin = Questie.db.global.sod.itemBin
-        itemPtrs = Questie.db.global.sod.itemPtrs
-    else
-        npcBin = Questie.db.global.npcBin
-        npcPtrs = Questie.db.global.npcPtrs
-        questBin = Questie.db.global.questBin
-        questPtrs = Questie.db.global.questPtrs
-        objBin = Questie.db.global.objBin
-        objPtrs = Questie.db.global.objPtrs
-        itemBin = Questie.db.global.itemBin
-        itemPtrs = Questie.db.global.itemPtrs
-    end
+    local activeStorage = QuestieDBStorage.GetActiveStorage()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Begin GetDBHandles")
     local npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
-    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
+    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(activeStorage.npcBin, activeStorage.npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] NPC GetDBHandles Complete")
 
     local questSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder)
-    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(questBin, questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
+    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(activeStorage.questBin, activeStorage.questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Quest GetDBHandles Complete")
 
     local objectSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder)
-    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
+    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(activeStorage.objBin, activeStorage.objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Object GetDBHandles Complete")
 
     local itemSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder)
-    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(itemBin, itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
+    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(activeStorage.itemBin, activeStorage.itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Item GetDBHandles Complete")
 
     QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle

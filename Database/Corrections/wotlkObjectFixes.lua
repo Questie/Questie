@@ -773,11 +773,6 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{53.77,33.60}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN,
         },
-        [420002] = { -- Blood Ritual Altar
-            [objectKeys.name] = "Blood Ritual Altar",
-            [objectKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.ZUL_GURUB,
-        },
         -- TODO: Reuse 420003 - 420032
         [420033] = { -- Drakuru's Brazier
             [objectKeys.name] = "Drakuru's Brazier",

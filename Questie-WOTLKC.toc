@@ -53,7 +53,8 @@ Modules\Libs\ThreadLib.lua
 Database\QuestXP\QuestieXP.lua
 Database\QuestXP\DB\xpDB-wotlk.lua
 
-# stream module (used by DB)
+# Database storage and stream modules
+Database\QuestieDBStorage.lua
 Modules\QuestieStream.lua
 
 # Zones
@@ -123,6 +124,13 @@ Database\Corrections\wotlkQuestFixes.lua
 Database\Corrections\wotlkNPCFixes.lua
 Database\Corrections\wotlkItemFixes.lua
 Database\Corrections\wotlkObjectFixes.lua
+
+# Titan Reforged Corrections
+Database\Corrections\titanReforgedQuestFixes.lua
+Database\Corrections\titanReforgedNPCFixes.lua
+Database\Corrections\titanReforgedItemFixes.lua
+Database\Corrections\titanReforgedObjectFixes.lua
+Database\Corrections\titanReforgedQuestTags.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua

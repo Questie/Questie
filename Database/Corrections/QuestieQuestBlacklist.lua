@@ -1675,55 +1675,6 @@ function QuestieQuestBlacklist:Load()
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
-        [93950] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
-        [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
-        [94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers
-        [94576] = not Questie.IsTitanReforged, -- Find a New Way -- only present on Titan servers
-        [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
-        [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers
-        [95705] = not Questie.IsTitanReforged, -- Gobb's Grand Opening! -- only present on Titan servers
-        [95706] = not Questie.IsTitanReforged, -- Gobb's Weekly Greed Deal -- only present on Titan servers
-        [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
-        [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
-        [95037] = not Questie.IsTitanReforged, -- Lord Jaraxxus Must Die!
-        [95072] = not Questie.IsTitanReforged, -- Hoodoo Embodiment
-        [95074] = not Questie.IsTitanReforged, -- Falcon's Prophecy
-        [95075] = not Questie.IsTitanReforged, -- Destructive Prophecy
-        [95076] = not Questie.IsTitanReforged, -- Divine Prophecy
-        [95077] = not Questie.IsTitanReforged, -- Redeemer's Prophecy
-        [95078] = not Questie.IsTitanReforged, -- Prophecy of Protection
-        [95079] = not Questie.IsTitanReforged, -- Stormcaller's Prophecy
-        [95080] = not Questie.IsTitanReforged, -- Witchdoctor's Prophecy
-        [95081] = not Questie.IsTitanReforged, -- Guardian's Prophecy
-        [95082] = not Questie.IsTitanReforged, -- Lunar Prophecy
-        [95083] = not Questie.IsTitanReforged, -- Naturalist's Prophecy
-        [95084] = not Questie.IsTitanReforged, -- Dread Prophecy
-        [95085] = not Questie.IsTitanReforged, -- Desecrator's Prophecy
-        [95088] = not Questie.IsTitanReforged, -- Death's Embodiment
-        [95089] = not Questie.IsTitanReforged, -- Arcanist's Embodiment
-        [95090] = not Questie.IsTitanReforged, -- Embodiment of Desecration
-        [95092] = not Questie.IsTitanReforged, -- Embodiment of Dread
-        [95093] = not Questie.IsTitanReforged, -- Embodiment of Protection
-        [95094] = not Questie.IsTitanReforged, -- Embodiment of Wrath
-        [95095] = not Questie.IsTitanReforged, -- Auratic Embodiment
-        [95096] = not Questie.IsTitanReforged, -- Destructive Embodiment
-        [95097] = not Questie.IsTitanReforged, -- Syncretist's Embodiment
-        [95098] = not Questie.IsTitanReforged, -- Divine Embodiment
-        [95099] = not Questie.IsTitanReforged, -- Redeemer's Embodiment
-        [95100] = not Questie.IsTitanReforged, -- Witchdoctor's Embodiment
-        [95101] = not Questie.IsTitanReforged, -- Vodouisant's Embodiment
-        [95102] = not Questie.IsTitanReforged, -- Stormcaller's Embodiment
-        [95103] = not Questie.IsTitanReforged, -- Guardian's Embodiment
-        [95104] = not Questie.IsTitanReforged, -- Animist's Embodiment
-        [95105] = not Questie.IsTitanReforged, -- Lunar Embodiment
-        [95106] = not Questie.IsTitanReforged, -- Naturalist's Embodiment
-        [95205] = not Questie.IsTitanReforged, -- Greater Inscrptions of the Zandalar
-        [96211] = not Questie.IsTitanReforged, -- Heart of the Eredar
-        [96312] = not Questie.IsTitanReforged, -- Brutallus Must Die!
-        [96315] = true, -- XT-002 Deconstructor Must Die! not open now
-        [96318] = true, -- Shade of Aran Must Die! not open now
-        [98183] = not Questie.IsTitanReforged, -- A Ritual Renewed
-
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
         [24789] = true, -- Daily Heroic Random (Nth)
@@ -7935,6 +7886,10 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- Onyxia
         [24428] = true, -- A Most Puzzling Circumstance
         [24429] = true, -- A Most Puzzling Circumstance
+
+        -- Raid weeklies not yet available on Titan Reforged
+        [96315] = true, -- XT-002 Deconstructor Must Die!
+        [96318] = true, -- Shade of Aran Must Die!
 
         -- Black Knight
         -- [13633] = true, -- The Black Knight of Westfall?

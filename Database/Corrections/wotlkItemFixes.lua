@@ -752,44 +752,6 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658},
             [itemKeys.objectDrops] = {193597,193603,202336},
         },
-        [264272] = { -- Celestial Missive
-            [itemKeys.name] = "Celestial Missive",
-            [itemKeys.relatedQuests] = {94376},
-            [itemKeys.class] = itemClasses.QUEST,
-        },
-        [268145] = { -- Punctured Voodoo Doll
-            [itemKeys.name] = "Punctured Voodoo Doll",
-            [itemKeys.class] = itemClasses.QUEST,
-            [itemKeys.itemLevel] = 1,
-            [itemKeys.flags] = 33792,
-        },
-        [272955] = { -- Eredar Heart
-            [itemKeys.name] = "Eredar Heart",
-            [itemKeys.npcDrops] = {34780},
-            [itemKeys.class] = itemClasses.QUEST,
-            [itemKeys.relatedQuests] = {96211},
-            [itemKeys.startQuest] = 96211,
-        },
-        [274994] = { -- Primal Hakkari Idol
-            [itemKeys.name] = "Primal Hakkari Idol",
-            [itemKeys.class] = 15,
-            [itemKeys.requiredLevel] = 80,
-        },
-        [279578] = { -- Empowered Zandalari Bijou
-            [itemKeys.name] = "Empowered Zandalari Bijou",
-            [itemKeys.class] = itemClasses.QUEST,
-            [itemKeys.requiredLevel] = 80,
-        },
-    }
-end
-
-function QuestieWotlkItemFixes:LoadTitanReforgedFixes()
-    local itemKeys = QuestieDB.itemKeys
-
-    return {
-        [22734] = { -- Base of Atiesh
-            [itemKeys.npcDrops] = {15172},
-        },
     }
 end
 

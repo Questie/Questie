@@ -212,6 +212,16 @@ local migrationFunctions = {
     [36] = function()
         Questie.db.global.unavailableDailyQuestsByNpc = {}
     end,
+    [37] = function()
+        if Expansions.Current >= Expansions.Wotlk then
+            Questie.db.global.titanReforged = Questie.db.global.titanReforged or {}
+
+            -- Existing SavedVariables may hold Titan-compiled bins in the standard WotLK namespace.
+            -- Invalidate both namespaces so each flavor recompiles the next time it is active.
+            Questie.db.global.dbIsCompiled = false
+            Questie.db.global.titanReforged.dbIsCompiled = false
+        end
+    end,
 }
 
 function Migration:Migrate()

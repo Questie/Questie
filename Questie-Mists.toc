@@ -53,7 +53,8 @@ Modules\Libs\ThreadLib.lua
 Database\QuestXP\QuestieXP.lua
 Database\QuestXP\DB\xpDB-mop.lua
 
-# stream module (used by DB)
+# Database storage and stream modules
+Database\QuestieDBStorage.lua
 Modules\QuestieStream.lua
 
 # Zones
