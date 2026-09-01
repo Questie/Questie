@@ -1,5 +1,8 @@
 # QuestieTDB deletion manifest
 
+> Superseded by `TDB-DELETION-MANIFEST.md`. Keep this draft only as reconciliation history; do not
+> execute its branch or extraction instructions.
+
 ## Purpose
 
 This manifest defines the subtractive baseline for replacing Questie's entity compiler and raw
