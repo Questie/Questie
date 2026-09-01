@@ -48,6 +48,9 @@ function GroupEventHandler.GroupRosterUpdate()
     local sizeChanged = currentMembers ~= QuestiePlayer.numberOfGroupMembers
     QuestiePlayer.numberOfGroupMembers = currentMembers
 
+    -- Prune quest and tooltip data even when one member replaces another and the group size stays the same.
+    local groupMembersChanged = QuestieComms:PruneRemotePlayers()
+
     -- Evaluate unconditionally so the online snapshot stays current even when the size also changed.
     local onlineChanged = _OnlineStatusChanged()
 
@@ -57,7 +60,7 @@ function GroupEventHandler.GroupRosterUpdate()
 
     -- Only resync visibility when group size or a quest-sharing member's online state changed.
     -- Pure zone changes also fire GROUP_ROSTER_UPDATE and must NOT trigger a redraw.
-    if sizeChanged or onlineChanged then
+    if sizeChanged or onlineChanged or groupMembersChanged then
         CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")
         QuestiePartyObjectives:ScheduleUpdate()
     end

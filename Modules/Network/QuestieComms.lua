@@ -37,6 +37,11 @@ QuestieComms.remotePlayerClasses = {}
 QuestieComms.remotePlayerEnabled = {}
 QuestieComms.remotePlayerTimes = {}
 
+-- Players whose quest data was received while they were in the group. Keep this separate from
+-- remotePlayerTimes because that table tracks nearby/YELL players, whose data must not be pruned
+-- just because they are not in the current party or raid.
+local remoteGroupPlayers = {}
+
 -- The idea here is that all messages with the same "base number" are compatible
 -- New message versions increase the number by 0.1, and if the message becomes "incompatible" you increase with 1
 -- Say if the message is 1.5 it is valid as long as it is < 2. If it is 2.5 it is not compatible for example.
@@ -47,6 +52,12 @@ local suggestUpdate = true;
 
 -- forward declaration
 local _DoYell
+
+local function _TrackRemoteGroupPlayer(playerName)
+    if QuestieComms:CheckInGroup(playerName) then
+        remoteGroupPlayers[playerName] = true
+    end
+end
 
 --Not used, contains a list of hashes for quest, used to compare change.
 --_QuestieComms.questHashes = {};
@@ -323,6 +334,8 @@ function QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(questPacket, play
     --We don't want to insert our own quest data.
     local allDone = true
     if questPacket then
+        _TrackRemoteGroupPlayer(playerName)
+
         --Does it contain id and objectives?
         if (questPacket[1 + offset]) then
             -- Create empty quest.
@@ -379,6 +392,8 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, d
     --We don't want to insert our own quest data.
     local allDone = true
     if questPacket then
+        _TrackRemoteGroupPlayer(playerName)
+
         --Does it contain id and objectives?
         if (questPacket[2 + offset]) then
             -- Create empty quest.
@@ -449,11 +464,29 @@ function QuestieComms:RemoveRemotePlayer(name)
     QuestieComms.remotePlayerEnabled[name] = nil
     QuestieComms.remotePlayerClasses[name] = nil
     if not QuestieComms:CheckInGroup(name) then
+        remoteGroupPlayers[name] = nil
         for _, players in pairs(QuestieComms.remoteQuestLogs) do
             players[name] = nil
         end
+        QuestieComms.data:RemovePlayer(name)
     end
     QuestiePartyObjectives:ScheduleUpdate()
+end
+
+---@return boolean changed Whether a former group member was removed.
+function QuestieComms:PruneRemotePlayers()
+    local playersToRemove = {}
+    for name in pairs(remoteGroupPlayers) do
+        if not QuestieComms:CheckInGroup(name) then
+            playersToRemove[#playersToRemove + 1] = name
+        end
+    end
+
+    for _, name in ipairs(playersToRemove) do
+        QuestieComms:RemoveRemotePlayer(name)
+    end
+
+    return #playersToRemove > 0
 end
 
 function QuestieComms:SortRemotePlayers()
@@ -826,6 +859,8 @@ end
 function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
     --We don't want to insert our own quest data.
     if questPacket and playerName ~= UnitName("player") then
+        _TrackRemoteGroupPlayer(playerName)
+
         --Does it contain id and objectives?
         if (questPacket.objectives and questPacket.id) then
             -- Create empty quest.
@@ -1119,5 +1154,6 @@ end
 function QuestieComms:ResetAll()
     QuestieComms.data:ResetAll()
     QuestieComms.remoteQuestLogs = {}
+    remoteGroupPlayers = {}
     QuestiePartyObjectives:ScheduleUpdate()
 end
