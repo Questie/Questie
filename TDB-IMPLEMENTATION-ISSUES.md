@@ -1,45 +1,29 @@
 # QuestieTDB implementation issues
 
-## Object-hover tooltip name index
+## Object-hover tooltip name lookup
 
-**Status:** Open for the fresh QuestieTDB implementation.
+**Status:** Provider interface available; Questie integration remains open.
 
-Questie's Object-hover tooltip behavior is retained in `Modules/Tooltips/Tooltip.lua` and
-`Modules/Tooltips/TooltipHandler.lua`. It resolves a hovered Object name through
-`QuestieTooltips.objectNameLookup`, then displays Questie objective lines and optional Object IDs.
+The former plan to scan every composed Object into `QuestieTooltips.objectNameLookup` and rebuild it
+after initialization, locale changes, and Correction applies is withdrawn.
 
-The legacy index builder was removed from `Localization/l10n.lua` because entity localization does
-not belong to Questie's UI-string module. The retained index is intentionally empty until the fresh
-implementation wires its lifecycle.
+Follow `QUESTIE-OBJECT-NAME-INDEX.md`, which carries the complete Questie implementation guide for
+QuestieTDB ADR 0008. The provider interface is available at QuestieTDB commit
+`82a2d1088631c724ae8cebd936be221b7d92af41`.
 
-### Required implementation
+The replacement keeps two questions separate:
 
-- Build `QuestieTooltips.objectNameLookup` from composed QuestieTDB Object IDs and name queries after
-  `QuestieDB` initialization.
-- Clear the index before every rebuild so withdrawn corrections and locale changes cannot leave stale
-  names or duplicate IDs.
-- Rebuild it after entity-locale changes and any Correction apply that can change Object names or the
-  composed Object ID set.
-- Run the rebuild through the staged coroutine or `ThreadLib` when yielding is required.
-- Keep the index owned by `QuestieTooltips`; do not restore entity lookup registries or raw entity
-  writes in `Localization/l10n.lua`.
+- `QuestieTooltips.objectIdsByName` is an append-only registration set for Objects with active or
+  historical `o_` quest tooltip registrations. It is built incrementally and never scans the
+  database.
+- `LibQuestieDB.Object.IdsByName(name)` supplies every composed Object ID for the optional contributor
+  Object-ID line. Warm its provider-owned index with `BuildNameIndex()` only during initialization
+  when `enableTooltipsObjectID` is already enabled and when that setting is toggled on.
 
-### Acceptance checks
-
-- Object-hover tooltips still show deduplicated quest/objective lines.
-- The optional Object ID line preserves the current one, many, and `10+` presentation.
-- Rebuilding replaces old-locale names and does not append duplicate Object IDs.
-- Correction-added Objects become discoverable and withdrawn Objects disappear.
-- No production code reads raw Object tables or `l10n.objectNameLookup`.
-
-### Relevant files
-
-- `Modules/Tooltips/Tooltip.lua`
-- `Modules/Tooltips/TooltipHandler.lua`
-- `Modules/Tooltips/TooltipHandler.test.lua`
-- `Database/QuestieDB.lua`
-- `Modules/QuestieInit.lua`
-- `Localization/l10n.lua`
+Questie must not restore `l10n.objectNameLookup`, a Questie-side full Object scan, or a coroutine
+index rebuild. Provider invalidation owns database-index freshness. The accepted residual after a
+later invalidation is one synchronous first-hover rebuild unless measurements justify explicit
+rewarming.
 
 ## Runtime missing-Item repair
 

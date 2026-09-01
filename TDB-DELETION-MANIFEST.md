@@ -471,8 +471,10 @@ Reimplement Login Initialization in this order:
    flag;
 7. initialize Townsfolk and other database consumers from composed reads;
 8. initialize `QuestieEvent` after `QuestieDB` so later setters refresh Questie's bindings;
-9. continue later Initialization Stages. Stage 2 rebuilds `QuestieTooltips.objectNameLookup` from
-   composed Game Object reads inside the staged coroutine.
+9. continue later Initialization Stages. During Stage 2, warm
+   `LibQuestieDB.Object.BuildNameIndex()` only when `enableTooltipsObjectID` is enabled. Quest tooltip
+   registrations build `QuestieTooltips.objectIdsByName` incrementally; Questie performs no full
+   Object scan. See `QUESTIE-OBJECT-NAME-INDEX.md`.
 
 ### `Database/QuestieDB.lua`
 
@@ -571,8 +573,9 @@ Keep:
 
 Questie's UI-string module owns no entity behavior. A fresh focused seam outside `l10n` owns provider
 locale forwarding, four filtered External Locale Override Policy Corrections, withdrawal-first
-entity-locale switching, semantic cache invalidation, and scheduling the tooltip-owned Object-name
-index rebuild.
+entity-locale switching, and semantic cache invalidation. Object-hover lookup follows QuestieTDB ADR
+0008: tooltip registrations populate `QuestieTooltips.objectIdsByName`, while the optional Object-ID
+line uses provider `IdsByName`. See `QUESTIE-OBJECT-NAME-INDEX.md`.
 
 ### `Modules/QuestieMenu/Townsfolk.lua`
 
@@ -692,7 +695,8 @@ runtime modules around them, but it must not reconstruct the extracted data from
 | Rich entity projections | `QuestieDB.lua` | Questie semantics |
 | Semantic caches and ID aliases | `QuestieDB.lua` | Questie compatibility seam |
 | Focused Database Addon test seam | fresh `test/QuestieTDBMock.lua` and contract tests | Questie behavior tests |
-| Game Object name index | `QuestieTooltips.objectNameLookup` | Questie derived tooltip index |
+| Object quest-tooltip registration index | `QuestieTooltips.objectIdsByName` | Questie tooltip bookkeeping; append-only `o_` registration sets |
+| Composed Object name index | `LibQuestieDB.Object.IdsByName` / `BuildNameIndex` | Database Addon entity truth; warmed only for the optional Object-ID line |
 | Event and announcement visibility | `QuestieEvent.lua` | Questie policy |
 | Quest availability checks | `QuestieDB.lua` and Quest modules | Questie player-state policy |
 | WoW API quest-tag corrections | `questTagInfoCorrections.lua` | Questie API compatibility |
@@ -756,7 +760,8 @@ Rewrite tests to exercise the final interfaces:
 - Questie Policy Correction registration, composition, withdrawal, raw reads, and provenance;
 - Login Initialization order without compiler/cached branches;
 - provider locale forwarding and External Locale Override behavior;
-- generation-safe Game Object name-index rebuild;
+- Object-tooltip `o_` registration indexing plus provider `IdsByName` one/many/`10+` presentation;
+- conditional `BuildNameIndex()` warming during initialization and setting enablement;
 - Darkmoon initial selection and Event Quest policy;
 - asynchronous missing-Item repair;
 - Townsfolk and Available Quests through composed reads;
@@ -925,8 +930,9 @@ Also run:
     deletions. At that tip, Busted recorded 1,424 successes; luacheck recorded 0 warnings or errors
     across 322 files; loader-usage, `git diff --check`, and production retirement searches passed.
     These checks were not rerun for the current rebased stack
-  - `TDB-IMPLEMENTATION-ISSUES.md` records the Object tooltip index, runtime Item repair, provider
-    schema/test seams, and composed-read consumer verification that remain for fresh implementation
+  - `TDB-IMPLEMENTATION-ISSUES.md` records runtime Item repair, provider schema/test seams, and
+    composed-read consumer verification. `QUESTIE-OBJECT-NAME-INDEX.md` supersedes the former full
+    Object-scan plan with QuestieTDB ADR 0008 registration/provider indexing
 - Support cleanup facts:
   - The baseline removes the 24 support payloads and 51 flavor TOC entries while retaining the
     consumer wrappers. Tests use focused inline zone fixtures in `setupTests.lua` and
