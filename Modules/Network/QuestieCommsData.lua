@@ -18,6 +18,32 @@ local commsTooltipLookup = {}
 --}
 local playerRegisteredTooltips = {}
 
+---@param questId QuestId
+---@param objectiveIndex number
+---@param objectivesByQuest table<QuestId, table|false>
+---@return string?
+local function _GetApiObjectiveText(questId, objectiveIndex, objectivesByQuest)
+    local objectives = objectivesByQuest[questId]
+    if objectives == nil then
+        if HaveQuestData(questId) then
+            objectives = C_QuestLog.GetQuestObjectives(questId) or false
+        else
+            C_QuestLog.GetQuestObjectives(questId) -- Prime the client cache for the next tooltip update
+            objectives = false
+        end
+        objectivesByQuest[questId] = objectives
+    end
+
+    local objective = objectives and objectives ~= false and objectives[objectiveIndex]
+    local text = objective and objective.text
+    if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
+        return nil
+    end
+
+    text = QuestieLib.TrimObjectiveText(text, objective.type)
+    return text ~= "" and text or nil
+end
+
 ---@param tooltipKey string @A key in the form of "i_1337"
 ---@return boolean @true if exist false if not
 function QuestieComms.data:KeyExists(tooltipKey)
@@ -32,6 +58,7 @@ end
 ---@return table @tooltipData[questId][playerName][objectiveIndex].text
 function QuestieComms.data:GetTooltip(tooltipKey)
     local tooltipData = {}
+    local apiObjectivesByQuest = {}
     for playerName, questData in pairs(commsTooltipLookup[tooltipKey]) do
         for questId, objectives in pairs(questData) do
             if(not tooltipData[questId]) then
@@ -44,31 +71,35 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                 if(not tooltipData[questId][playerName][objectiveIndex]) then
                     tooltipData[questId][playerName][objectiveIndex] = {};
                 end
-                local oName = "";
-                if((objective.type == "monster" or objective.type == "m") and objective.id) then
-                    oName = QuestieDB:GetNPC(objective.id).name;
-                elseif((objective.type == "object" or objective.type == "o") and objective.id) then
-                    oName = QuestieDB:GetObject(objective.id).name;
-                elseif((objective.type == "item" or objective.type == "i") and objective.id) then
-                    local dbItem = QuestieDB:GetItem(objective.id);
-                    if(dbItem and dbItem.name and (not dbItem.Hidden)) then
-                        oName = dbItem.name;-- this is capital letters for some reason...
-                    else
-                        local itemName = GetItemInfo(objective.id)
-                        if(itemName) then
-                            oName = itemName;
+                local oName = _GetApiObjectiveText(questId, objectiveIndex, apiObjectivesByQuest)
+                if not oName then
+                    if((objective.type == "monster" or objective.type == "m") and objective.id) then
+                        local npc = QuestieDB:GetNPC(objective.id)
+                        oName = npc and npc.name
+                    elseif((objective.type == "object" or objective.type == "o") and objective.id) then
+                        local object = QuestieDB:GetObject(objective.id)
+                        oName = object and object.name
+                    elseif((objective.type == "item" or objective.type == "i") and objective.id) then
+                        local dbItem = QuestieDB:GetItem(objective.id);
+                        if(dbItem and dbItem.name and (not dbItem.Hidden)) then
+                            oName = dbItem.name;-- this is capital letters for some reason...
                         else
-                            oName = "Item missing from DB, fetching from server!";
-                            local item = Item:CreateFromItemID(objective.id)
-                            item:ContinueOnItemLoad(function()
-                                local name = item:GetItemName();
-                                oName = name;
-                                tooltipData[questId][playerName][objectiveIndex].text = name;
-                            end)
+                            local itemName = GetItemInfo(objective.id)
+                            if(itemName) then
+                                oName = itemName;
+                            else
+                                oName = "Item missing from DB, fetching from server!";
+                                local item = Item:CreateFromItemID(objective.id)
+                                item:ContinueOnItemLoad(function()
+                                    local name = item:GetItemName();
+                                    oName = name;
+                                    tooltipData[questId][playerName][objectiveIndex].text = name;
+                                end)
+                            end
                         end
                     end
                 end
-                tooltipData[questId][playerName][objectiveIndex].text = oName
+                tooltipData[questId][playerName][objectiveIndex].text = oName or ""
                 tooltipData[questId][playerName][objectiveIndex].fulfilled = objective.fulfilled;
                 tooltipData[questId][playerName][objectiveIndex].required = objective.required;
             end
