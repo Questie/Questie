@@ -268,7 +268,7 @@ describe("QuestieLoader", function()
             AdvanceClock(3)
 
             -- An inline Script chunk reports the XML's own path, ":<Scripts>" suffixed, in main chunk.
-            currentSourceFile = "Localization/lookups/Classic/lookupItems/lookupItems.xml:<Scripts>"
+            currentSourceFile = "Localization/Translations/Translations.xml:<Scripts>"
             QuestieLoader:StampLoadBoundary()
             AdvanceClock(200)
 
@@ -277,8 +277,7 @@ describe("QuestieLoader", function()
 
             -- Without the boundary, the group's whole parse cost lands on lookupZones.lua.
             assert.are_same(3, QuestieLoader.loadTimings["Localization/lookups/lookupZones.lua"])
-            assert.are_same(200,
-                QuestieLoader.loadTimings["Localization/lookups/Classic/lookupItems/lookupItems.xml"])
+            assert.are_same(200, QuestieLoader.loadTimings["Localization/Translations/Translations.xml"])
         end)
 
         it("uses an explicit source name for a boundary interval", function()
