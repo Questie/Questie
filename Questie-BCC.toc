@@ -94,7 +94,6 @@ Database\Corrections\Holidays\quests\WinterVeil.lua
 # Item Drops
 Database\DropTables\dropDB.lua
 
-# Compiler
 
 # Localization
 Localization\l10n.lua
