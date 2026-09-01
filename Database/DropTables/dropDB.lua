@@ -102,7 +102,7 @@ function DropDB.GetItemDroprate(itemId, npcId)
     -- We check each database in order for item:npc matches, and we report the first match we find.
 
     -- Wowhead data consists of the full drop rates (every NPC listed on wowhead for an item), for all items
-    -- contained in either item objectives or RequiredSourceItems for all quests in that expansion's compiled Questie DB.
+    -- contained in either item objectives or RequiredSourceItems for the supported expansion's Quest data.
 
     -- Pserver (Cmangos/Mangos3) data only consists of items that those databases believe drop only while on a quest (internally specified with a negative drop value).
 

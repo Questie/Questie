@@ -116,7 +116,6 @@ Database\DropTables\data\mopItemDrops.lua
 # if we implement mop pserver itemdrop data, we can remove this entry from mop toc
 Database\DropTables\data\cataItemDrops.lua
 
-# Compiler
 
 # Localization
 Localization\l10n.lua

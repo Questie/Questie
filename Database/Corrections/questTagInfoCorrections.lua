@@ -2618,7 +2618,7 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         --[95458] = {41, l10n("PvP")}, -- For Great Honor
     }
 
-    -- Keep Titan tags behind the same flavor boundary as their compiled quest templates.
+    -- Keep Titan tags behind the same flavor and season boundary as the provider's Titan Quest records.
     if Questie.IsTitanReforged then
         for questId, tagInfo in pairs(TitanReforgedQuestTags.LoadQuestTagCorrections()) do
             _QuestieDB.questTagCorrections[questId] = tagInfo
