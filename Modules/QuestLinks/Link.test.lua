@@ -200,6 +200,20 @@ describe("QuestieLink", function()
             assert.spy(_G.ItemRefTooltip.Show).was.not_called()
             assert.is_equal("", QuestieLink.lastItemRefTooltip)
         end)
+
+        it("should delegate native quest links not in QuestieDB to default handler", function()
+            QuestieDB.GetQuest = function()
+                return nil
+            end
+
+            local nativeLink = "quest:99999:28"
+
+            ItemRefTooltip:SetHyperlink(nativeLink)
+
+            assert.are_same({}, tooltipLines)
+            assert.spy(_G.ItemRefTooltip.Show).was.not_called()
+            assert.is_equal("", QuestieLink.lastItemRefTooltip)
+        end)
     end)
 
     describe("CreateQuestTooltip", function()
