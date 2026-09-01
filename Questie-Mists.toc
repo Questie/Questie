@@ -82,6 +82,8 @@ Database\FactionTemplates\factionTemplateMoP.lua
 
 # Corrections
 Database\Corrections\BlacklistFilter.lua
+Database\Corrections\QuestiePolicy\classicPolicyCorrections.lua
+Database\Corrections\QuestiePolicy\tbcPolicyCorrections.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua

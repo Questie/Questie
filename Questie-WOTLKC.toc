@@ -83,6 +83,8 @@ Database\FactionTemplates\factionTemplateWotlk.lua
 # Corrections
 Database\Corrections\AutoTableUpdates.lua
 Database\Corrections\BlacklistFilter.lua
+Database\Corrections\QuestiePolicy\classicPolicyCorrections.lua
+Database\Corrections\QuestiePolicy\tbcPolicyCorrections.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
