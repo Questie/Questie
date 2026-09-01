@@ -54,7 +54,6 @@ Database\QuestXP\QuestieXP.lua
 Database\QuestXP\DB\xpDB-classic.lua
 
 # Database storage and stream modules
-Database\QuestieDBStorage.lua
 Modules\QuestieStream.lua
 
 # Zones
@@ -68,10 +67,6 @@ Database\Zones\zoneDB.lua
 
 # Databases
 Database\QuestieDB.lua
-Database\questDB.lua
-Database\objectDB.lua
-Database\npcDB.lua
-Database\itemDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
 Database\FactionTemplates\factionTemplateClassic.lua
@@ -114,7 +109,6 @@ Database\DropTables\data\itemDropCorrections.lua
 Database\DropTables\data\classicItemDrops.lua
 
 # Compiler
-Database\compiler.lua
 
 # Localization
 Localization\l10n.lua
@@ -130,7 +124,6 @@ Modules\Libs\WrappedText.lua
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
-Modules\Libs\RamerDouglasPeucker.lua
 
 # Modules
 Modules\QuestieValidateGameCache.lua
@@ -274,7 +267,6 @@ Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 
 # Cleanup
-Modules\QuestieCleanup.lua
 
 # Profiler
 Modules\Profiler\QuestieProfiler.lua
