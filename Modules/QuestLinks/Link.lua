@@ -38,55 +38,52 @@ function ItemRefTooltip:SetHyperlink(link, ...)
     local nativeQuestId = string.match(link, "quest:(%d+):")
     local isNativeQuestLink = nativeQuestId ~= nil
 
+    local extractedQuestId
+    if isQuestieLink and questId then
+        extractedQuestId = tonumber(questId)
+    elseif isNativeQuestLink then
+        extractedQuestId = tonumber(nativeQuestId)
+    end
+
+    if (not extractedQuestId) then
+        -- We weren't able to find the questId. Nothing we can do, so we let the default handler take over
+        QuestieLink.lastItemRefTooltip = ""
+        oldItemSetHyperlink(self, link, ...)
+        return
+    end
+
+    local quest = QuestieDB.GetQuest(extractedQuestId)
+    if (not quest) then
+        -- We don't have the quest in our DB, so we let the default handler take over
+        QuestieLink.lastItemRefTooltip = ""
+        oldItemSetHyperlink(self, link, ...)
+        return
+    end
+
     if (not ItemRefTooltip:IsShown()) then
         QuestieLink.lastItemRefTooltip = ""
     else
         QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
     end
 
-    if isQuestieLink and questId then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink:", link)
-        ShowUIPanel(ItemRefTooltip)
-        ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
-        ItemRefTooltip:ClearLines()
-        QuestieLink:CreateQuestTooltip(link, ItemRefTooltip)
-        ItemRefTooltip:Show()
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink:", link)
+    ShowUIPanel(ItemRefTooltip)
+    ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
+    ItemRefTooltip:ClearLines()
 
-        local tooltipText = ItemRefTooltipTextLeft1:GetText()
-        if QuestieLink.lastItemRefTooltip == tooltipText then
-            ItemRefTooltip:Hide()
-            QuestieLink.lastItemRefTooltip = ""
-            return
-        end
+    local tooltipLink = isNativeQuestLink and ("questie:" .. extractedQuestId .. ":0") or link
 
-        QuestieLink.lastItemRefTooltip = tooltipText
+    QuestieLink:CreateQuestTooltip(tooltipLink, ItemRefTooltip)
+    ItemRefTooltip:Show()
+
+    local tooltipText = ItemRefTooltipTextLeft1:GetText()
+    if QuestieLink.lastItemRefTooltip == tooltipText then
+        ItemRefTooltip:Hide()
+        QuestieLink.lastItemRefTooltip = ""
         return
-    elseif isNativeQuestLink then
-        local nativeQuestIdNum = tonumber(nativeQuestId)
-        local quest = QuestieDB.GetQuest(nativeQuestIdNum)
-        if quest then
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink (native):", link)
-            ShowUIPanel(ItemRefTooltip)
-            ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
-            ItemRefTooltip:ClearLines()
-            -- Convert to questie format for CreateQuestTooltip
-            QuestieLink:CreateQuestTooltip("questie:" .. nativeQuestId .. ":0", ItemRefTooltip)
-            ItemRefTooltip:Show()
-
-            local tooltipText = ItemRefTooltipTextLeft1:GetText()
-            if QuestieLink.lastItemRefTooltip == tooltipText then
-                ItemRefTooltip:Hide()
-                QuestieLink.lastItemRefTooltip = ""
-                return
-            end
-
-            QuestieLink.lastItemRefTooltip = tooltipText
-            return
-        end
     end
 
-    -- Make sure to call the default function so everything that is not Questie can be handled (item links e.g.)
-    oldItemSetHyperlink(self, link, ...)
+    QuestieLink.lastItemRefTooltip = tooltipText
 end
 
 ---@return string
