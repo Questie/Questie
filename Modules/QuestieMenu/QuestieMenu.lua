@@ -29,8 +29,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
----@type Moonwell
-local Moonwell = QuestieLoader:ImportModule("Moonwell")
+---@type ProfessionStations
+local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -47,6 +47,9 @@ local _townsfolk_texturemap = {
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
     ["Mailbox"] = "Interface\\Minimap\\tracking\\mailbox",
     ["Moonwell"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
+    ["Anvil"] = QuestieLib.AddonPath.."Icons\\inv_hammer_20.png",
+    ["Forge"] = QuestieLib.AddonPath.."Icons\\spell_fire_flameblades.png",
+    ["Alchemy Lab"] = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png",
     ["Profession Trainers"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
@@ -122,11 +125,12 @@ local function getNpcTitle(id, key)
 end
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    if key == "Moonwell" then
-        if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
-            Moonwell:ShowAll()
+    local stationCategory = ProfessionStations.stationCategories[key]
+    if stationCategory then
+        if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and ProfessionStations.IsStationAvailable(key) then
+            ProfessionStations.ShowAll(stationCategory)
         else
-            Moonwell:HideAll()
+            ProfessionStations.HideAll(stationCategory)
         end
         return
     end
@@ -229,7 +233,10 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
             ["Flight Master"] = true,
             ["Mailbox"] = true,
             ["Meeting Stones"] = true,
-            ["Moonwell"] = false
+            ["Moonwell"] = false,
+            ["Anvil"] = false,
+            ["Forge"] = false,
+            ["Alchemy Lab"] = false,
         }
     end
     for key in pairs(Questie.db.profile.townsfolkConfig) do
@@ -317,8 +324,19 @@ function QuestieMenu.buildVendorMenu()
 end
 
 function QuestieMenu.buildTownsfolkMenu()
+    -- Refresh the player's professions so station entries reflect freshly
+    -- learned (or unlearned) skills instead of the bucketed event state
+    QuestieProfessions:Update()
+
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
+        if key == "Spirit Healer" then
+            -- Stations are grouped before the Spirit Healer,
+            -- ordered alphabetically by their localized titles
+            for _, stationKey in ipairs(ProfessionStations.GetAvailableStationKeys()) do
+                tinsert(townsfolkMenu, build(stationKey))
+            end
+        end
         if Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] then
             tinsert(townsfolkMenu, build(key))
         end
@@ -334,10 +352,6 @@ function QuestieMenu:Show(hideDelay)
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
-    local hasTailoring = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.TAILORING, 1})
-    if hasTailoring then
-        tinsert(menuTable, build("Moonwell"))
-    end
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.profile.enableAvailable
         Questie.db.profile.enableAvailable = value
