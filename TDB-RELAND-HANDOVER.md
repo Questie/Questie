@@ -20,6 +20,8 @@ How the four TDB documents relate:
   scope (TDB-06, TDB-08, TDB-11, TDB-12) and the change log. Its TDB-03 text describes
   replacing an init path the baseline deletes outright; treat the target order in this document
   as current.
+- **`TDB-IMPLEMENTATION-ISSUES.md`** — focused open seams intentionally retained by the clean
+  baseline: Object-hover indexing, runtime missing-Item repair, and provider schema/test metadata.
 - **This document** — branch mechanics, the historical-evidence rule, drift warnings, target final
   shapes, and the fresh implementation sequence.
 
@@ -82,10 +84,9 @@ code disagrees with them, the baseline and authoritative handovers win.
 1. `l10n.InitializeUILocale()`
 2. `LibQuestieDB.RequireContract(1)` — hard error on failure, before any locale or correction
    work (the four schema adapter files also gate at file load; keep both)
-3. `l10n.ApplyProviderLocale()` — forwards the effective UI locale to
-   `LibQuestieDB.l10n.SetLocale`
-4. `l10n.BuildExternalLocaleCorrections()` — `Exists`-filtered External Locale Override
-   tables, captured before the initial apply
+3. forward `l10n:GetUILocale()` to `LibQuestieDB.l10n.SetLocale()` outside the UI-string module
+4. build `Exists`-filtered External Locale Override Policy Corrections outside `l10n`, before the
+   initial owner apply
 5. Policy Correction registration + blacklist construction + initial apply of owner
    `"Questie"`; choose a fresh name because `MinimalInit` is meaningless without a full-init
    counterpart
@@ -94,8 +95,8 @@ code disagrees with them, the baseline and authoritative handovers win.
    `dbCompiledCount` rebuild key)
 8. `QuestieEvent.Initialize()` — after `QuestieDB:Initialize()`, so its async `Load()` hits an
    initialized database and setter calls refresh properly
-9. Later stages unchanged; Stage 2 runs `l10n:PostBoot()` →
-   `l10n.RebuildObjectNameLookup()` inside the staged coroutine
+9. Later stages continue; Stage 2 rebuilds `QuestieTooltips.objectNameLookup` from composed Object
+   reads inside the staged coroutine, as recorded in `TDB-IMPLEMENTATION-ISSUES.md`
 
 ### Module end states
 
@@ -108,11 +109,12 @@ code disagrees with them, the baseline and authoritative handovers win.
   `RefreshAfterCorrectionApply()`, semantic caches and runtime projections. No raw tables, no
   compiled-handle binding, no recompile popup. Keep the `*Pointers` seam — it shields
   consumers from the provider's ID-map identity swap on every `Apply()`.
-- **`l10n`** — UI Translation Entries, Zone/Category Lookups, `SetUILocale`/
-  `InitializeUILocale`, `ApplyProviderLocale`, `BuildExternalLocaleCorrections`,
-  `ApplyEntityLocale` (the withdraw-first switch sequence), `RebuildObjectNameLookup`. No
-  entity-table writes, no `Localization/lookups` entity files. The locale-change options path
-  calls `ApplyEntityLocale()` (plus UI refresh) instead of the recompile-and-reload popup.
+- **`l10n`** — Questie-owned UI Translation Entries, Zone/Category Lookups, `SetUILocale`, and
+  `InitializeUILocale` only. It owns no entity lookup registries, provider locale orchestration,
+  external entity corrections, or Object-name index.
+- **Entity locale orchestration** — a fresh focused seam outside `l10n` forwards the provider locale,
+  performs withdrawal-first External Locale Policy Correction switching, refreshes semantic caches,
+  and schedules the tooltip-owned Object-name index rebuild.
 - **`QuestieEvent` / `QuestieLib`** — one hoisted `SetDarkmoonNpcCorrections` call with
   NONE-location withdrawal; name-only `RepairMissingItem`, as required by the behavior contract.
 - **Extracted policy producers** — already present on `baseline` in the expansion-split
@@ -130,18 +132,18 @@ code disagrees with them, the baseline and authoritative handovers win.
 3. Implement the central slice in final shape (`QuestieDB`, `QuestieCorrections`, and Stage 1),
    connect the retained policy producers, then adapt the policy callers (`QuestieEvent`,
    `QuestieLib`, and `l10n`). Do not recreate a compiler-compatible intermediate state.
-4. Wire the locale-change path to `ApplyEntityLocale()`.
-5. Convert Townsfolk (TDB-06) and add the pinned Database Integration Check (TDB-12).
-6. Add a migration that drops compiler state under the ordinary global, SoD, and Titan Reforged
-   global scopes.
+4. Add the fresh entity-locale orchestration outside `l10n` and wire the locale-change path to it.
+5. Verify the baseline's composed-read Townsfolk and Available Quests paths against fresh provider
+   bindings, then add the pinned Database Integration Check (TDB-12).
+6. Verify the retained compiler-state migration against real Saved Variables fixtures.
 7. Run full validation and the manifest's consolidated work packets, then use the merge order above.
 
 ## Baseline replay evidence
 
-The subtractive code ends at
-`14bb2681f8a349a0470c8deb1f37c238ea72ae80` on branch
+Whole-file deletion ends at `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; clean mixed-runtime
+subtraction ends at `8b63c04beadef59b648cb558247609651e1f19e1` on branch
 `QuestieTDB-remove-baseline`. The commit containing this finalized evidence section completes WP-09
-and is the exact branch point for `implementation`; the code tip alone omits the handoff record. The
+and is the exact branch point for `implementation`; either earlier tip omits the final clean handoff. The
 baseline was created from Questie source commit
 `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57` and retains the WP-00 extraction commit
 `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1`. Push-triggered GitHub Actions run
@@ -159,6 +161,12 @@ The WP-00 evidence record is `09e0178e79775782cdabd75f506dccd6e8ec0698`. The del
 5. `ab8a78f2f127136b1b09e059fd6cc81ecc187203` — Questie-side entity validators and the old CI
    matrix, while retaining loader-usage validation;
 6. `14bb2681f8a349a0470c8deb1f37c238ea72ae80` — orphaned CLI database mocks.
+
+The nine clean mixed-runtime subtraction commits from
+`0b02060ca5ab4a853651bf55bfe3a3b73e00f266` through
+`8b63c04beadef59b648cb558247609651e1f19e1` remove obsolete entity localization, correction
+machinery, compiler lifecycle/UI/recovery/state, raw consumers, and stale terminology while
+retaining Questie policy and semantic constants. Their exact mapping is recorded in the manifest.
 
 Deletion commits `99493b08` through `14bb2681f`, measured by the exclusive diff
 `09e0178e..14bb2681f`, delete exactly 281 tracked files and 5,042,232 lines from deleted files. The
@@ -181,12 +189,13 @@ Login Initialization order. The eight Policy Correction names, API datatypes, an
 Event Quest data, Content Phase state, UI localization, Zone/Category lookups, QuestieStream, and
 deferred support data remain on the baseline.
 
-The baseline is intentionally nonfunctional: full Busted reports 2 successes and 65 errors, with
-every affected suite erroring at `setupTests.lua:5` because the deleted `Database/itemDB.lua` cannot
-be opened. Mixed-runtime compiler, raw-table, and provider references remain as implementation
-rewrite inputs; they are not a fallback. Ignored generated `cli/output/` was removed locally. The
-old `db-validation` matrix is gone, but the pinned WP-08 Database Integration Check is not
-implemented.
+The clean baseline removes mixed-runtime compiler, raw-table, provider-fix, and entity-localization
+commands while preserving their durable ownership and ordering rules as landmarks. Full Busted
+passes with 1,424 successes; production luacheck passes across 322 files; loader-usage and diff checks
+pass. It is not runtime-complete: Contract enforcement, provider query bindings, Policy Correction
+registration/application, entity-locale orchestration, and the pinned WP-08 Database Integration
+Check remain fresh implementation work. Focused open seams are recorded in
+`TDB-IMPLEMENTATION-ISSUES.md`.
 
 `origin/QuestieTDB` at `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains historical
 TDB-01/TDB-02 evidence only. Dirty and untracked Dynamic Corrections work under
