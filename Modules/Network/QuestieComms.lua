@@ -43,11 +43,16 @@ local NEARBY_SOURCE = "nearby"
 
 -- Keep the independently received group and Nearby/YELL snapshots so removing one source can
 -- restore the other instead of deleting or preserving unrelated quest data for the whole player.
+---@class RemoteQuestSources
+---@field group table?
+---@field nearby table?
+---@type table<number, table<string, RemoteQuestSources>>
 local remoteQuestSources = {}
 
 -- Players whose quest data was received while they were in the group. Keep this separate from
 -- remotePlayerTimes because that table tracks nearby/YELL players, whose data must not be pruned
 -- just because they are not in the current party or raid.
+---@type table<string, boolean>
 local remoteGroupPlayers = {}
 
 -- The idea here is that all messages with the same "base number" are compatible
@@ -61,6 +66,8 @@ local suggestUpdate = true;
 -- forward declaration
 local _DoYell
 
+---@param playerName string
+---@return boolean
 local function _TrackRemoteGroupPlayer(playerName)
     if QuestieComms:CheckInGroup(playerName) then
         remoteGroupPlayers[playerName] = true
@@ -70,6 +77,9 @@ local function _TrackRemoteGroupPlayer(playerName)
     return false
 end
 
+---@param questId number
+---@param playerName string
+---@param sources RemoteQuestSources?
 local function _RefreshRemoteQuestProjection(questId, playerName, sources)
     local questLogs = QuestieComms.remoteQuestLogs[questId]
     local current = questLogs and questLogs[playerName]
@@ -97,6 +107,11 @@ local function _RefreshRemoteQuestProjection(questId, playerName, sources)
     end
 end
 
+---@param questId number
+---@param playerName string
+---@param source "group"|"nearby"
+---@param objectives table
+---@return boolean
 local function _SetRemoteQuestSource(questId, playerName, source, objectives)
     if source == GROUP_SOURCE and not _TrackRemoteGroupPlayer(playerName) then
         return false
@@ -115,6 +130,10 @@ local function _SetRemoteQuestSource(questId, playerName, source, objectives)
     return true
 end
 
+---@param questId number
+---@param playerName string
+---@param source "group"|"nearby"
+---@return boolean
 local function _RemoveRemoteQuestSource(questId, playerName, source)
     local players = remoteQuestSources[questId]
     local sources = players and players[playerName]
@@ -134,6 +153,9 @@ local function _RemoveRemoteQuestSource(questId, playerName, source)
     return true
 end
 
+---@param playerName string
+---@param source "group"|"nearby"
+---@return boolean
 local function _RemoveRemotePlayerSource(playerName, source)
     local questIds = {}
     for questId, players in pairs(remoteQuestSources) do
@@ -161,6 +183,7 @@ _QuestieComms.QC_WRITE_WHISPER = "WHISPER"
 _QuestieComms.QC_WRITE_CHANNEL = "CHANNEL"
 _QuestieComms.QC_WRITE_YELL = "YELL"
 
+---@type table<string, boolean>
 local groupMessageDistributions = {
     [_QuestieComms.QC_WRITE_ALLGROUP] = true,
     [_QuestieComms.QC_WRITE_ALLINSTANCE] = true,
@@ -523,6 +546,7 @@ function QuestieComms:CheckInGroup(name)
     return IsInRaid() and UnitInRaid(name) or UnitInParty(name)
 end
 
+---@param name string
 local function _RemoveNearbyPlayer(name)
     QuestieComms.remotePlayerTimes[name] = nil
     QuestieComms.remotePlayerEnabled[name] = nil
