@@ -137,8 +137,8 @@ Before editing, an agent must claim an item and list the files it owns. Agents m
 | TDB-06 | Adapt raw entity-table consumers | not started | - | TDB-02 | Townsfolk, Available Quests, search, and pointer fallbacks. |
 | TDB-07 | Convert Darkmoon and asynchronous Item updates | done | Dynamic Corrections packet | TDB-02, TDB-04 | Both converted through the generic registrar (no Darkmoon-specific provider API exists); missing-Item model verified — the `{questId}`-in-`npcDrops` write was invalid and the repair is name-only; every post-initialization apply refreshes ID maps and semantic caches. Evidence in `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md`. |
 | TDB-08 | Remove compiler controls, state, popups, and SavedVariables payloads | not started | - | TDB-03 | Include migration cleanup. |
-| TDB-09 | Remove compiler and raw entity files from runtime TOCs | not started | - | TDB-03, TDB-06 | All flavor TOCs now declare `QuestieTDB` as a required dependency; raw-file removal still awaits the hard cutover. Preserve Objective Order Correction data first. |
-| TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | not started | - | TDB-09 | Physical repository cleanup after full tests pass. |
+| TDB-09 | Remove compiler and raw entity files from runtime TOCs | not started | - | WP-00 | The first green `baseline` commit extracts the Questie-owned Classic/TBC policy producers; later baseline commits keep those files while removing provider-owned inputs. Objective Order remains provider-owned through `LibQuestieDB.ObjectiveFirst`. TDB-03/TDB-06 gate the combined merge, not baseline deletion. |
+| TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | not started | - | TDB-09 | Physical deletion happens on `baseline` after WP-00. Full runtime validation gates the combined merge after `implementation`. |
 | TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Keep Questie's behavior wrappers. Do not switch to known-stale support copies. |
 | TDB-12 | Replace database validation CI with a pinned integration check | not started | - | TDB-10, TDB-11, QuestieTDB #19 | Data validation belongs in QuestieTDB; consumer behavior still needs integration coverage. |
 | TDB-13 | Bundle QuestieTDB and update release packaging | deferred | - | Runtime cutover | The hard TOC dependency is already declared. Bundling and release automation remain separate distribution work. |
@@ -330,16 +330,25 @@ Do not delete `QuestieStream`; serialization and communications still use it.
 
 ### TDB-09 and TDB-10: runtime removal and deletion
 
-Remove from every flavor TOC:
+Before bulk removal, make the green WP-00 extraction commit on `baseline`:
+
+- move the Classic Darkmoon producer into the expansion-split Questie policy file;
+- move the TBC Darkmoon and Content Phase producers into the TBC Questie policy file;
+- update callers and TOCs without changing behavior;
+- record source-file and source-commit provenance in the extracted files.
+
+Then remove from every flavor TOC:
 
 - raw expansion entity files
+- provider-owned correction files, while retaining the WP-00 policy files
 - `Database\compiler.lua`
 - `Modules\QuestieCleanup.lua`
 - generated Item, NPC, Object, and Quest lookup files
 
-Before removing correction files, extract Objective Order Correction tables that Questie still consumes.
+Do not extract Objective Order tables back into Questie. Keep consumers bound to
+`LibQuestieDB.ObjectiveFirst` and require provider parity before final merge.
 
-After the runtime cutover and full validation pass, physically delete:
+In the subsequent `baseline` commits, physically delete:
 
 - the compiler
 - raw entity files
@@ -380,7 +389,6 @@ Keep the Questie modules that interpret these datasets. QuestieTDB owns the data
 - Whether external locale addons continue to provide entity translations
 - Final ownership of Titan Reforged zhCN entity overrides
 - Whether coordinate normalization differences require caller changes or explicit acceptance
-- Whether Objective Order Correction data moves to QuestieTDB later
 
 ### Explicitly not a blocker
 
@@ -502,5 +510,5 @@ QuestieTDB contract:
 - TDB-01 and TDB-02 implementation: added the local Database Addon test double; bound Contract Version, Database Key Enums, entity queries, ID maps, and Objective Order Corrections; reset Questie semantic caches during initialization; localized Special Objective descriptions and custom spawn names.
 - TDB-01 and TDB-02 review fixes: added cold Contract guards before schema metadata access, stable provider-owned ID maps in the test fake, packed nil-slot coverage, fake-owned Objective Order setup, fresh table reads, creature-level cache reset, and nil-safe Special Objective localization. `Database/QuestieDB.test.lua` passed with 50 tests, the affected semantic command passed with 122 tests, the full suite passed with 1,451 tests, and full production luacheck passed with no warnings. Two fresh final reviewers found no issues, and independent validation passed.
 - TOC dependency: all five Questie flavor manifests now declare `## RequiredDeps: QuestieTDB`. Bundling and release packaging remain deferred.
-- Baseline/implementation branch strategy: the remaining delivery moves to a stacked-MR model — a non-functional `baseline` branch cut from `master` applies `TDB-DELETION-MANIFEST.md` (~5.04 million lines: entity lookups, raw DB data, static fixes, compiler, residue), and an `implementation` branch on top re-lands the QuestieTDB work in final shape per `TDB-RELAND-HANDOVER.md`, using the `QuestieTDB` branch as the reference implementation. Gated items (QuestieTDB #13, #14) are deleted and tracked as work packets; QuestieTDB's master-data sync transfers data fixes before the merge. This supersedes this document's TDB-03 detail text and any instruction to retain legacy paths until TDB-03.
+- Baseline/implementation branch strategy: the remaining delivery uses a stacked-MR model. `baseline` is cut from `master`; its first green commit extracts the Questie-owned Classic/TBC policy producers from mixed provider files into expansion-split files, then later commits apply `TDB-DELETION-MANIFEST.md` (~5.04 million lines: entity lookups, raw DB data, static fixes, compiler, residue). `implementation` adapts those retained producers and re-lands the remaining QuestieTDB work in final shape per `TDB-RELAND-HANDOVER.md`, using the `QuestieTDB` branch as the reference implementation. Gated items (QuestieTDB #13, #14) are deleted and tracked as work packets; QuestieTDB's master-data sync transfers data fixes before the merge. This supersedes this document's TDB-03 detail text and any instruction to retain legacy paths until TDB-03.
 - Dynamic Corrections packet (TDB-04, TDB-07, part of TDB-05): all runtime entity corrections now flow through the QuestieTDB registrar under owner `"Questie"` — gathering-node suppression, TBC Content Phase prerequisites, Darkmoon Faire NPC relocation with withdrawal, name-only asynchronous Item repair, and `Exists`-filtered External Locale Override entity data. Duplicate faction/SoD/Titan runtime application and the dead `*DataOverrides` write paths were removed; `QuestieDB` gained `IsInitialized` and `RefreshAfterCorrectionApply()`; Login Initialization gained an early `RequireContract(1)` gate and moved `QuestieEvent.Initialize()` after `QuestieDB:Initialize()`. Full suite 1,526 tests passing, luacheck clean; two fresh reviewers found no blocking issues and all actionable findings were fixed. Details and deferred items in `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md`.

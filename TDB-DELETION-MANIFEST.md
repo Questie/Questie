@@ -6,9 +6,11 @@ This is the master deletion manifest for replacing Questie's entity compiler and
 localization with the Database Addon. It reconciles `TDB-DELETE-MANIFEST_1.md` and
 `TDB-DELETE-MANIFEST_2.md`.
 
-The baseline branch is a review tool. It removes the old architecture so the implementation merge
-request shows only the code Questie still needs. The baseline branch must remain a draft and must
-not merge into `master` without the implementation branch merged into it first.
+The baseline branch is a review tool. It first extracts Questie-owned policy from mixed correction
+files, then removes the old architecture. This makes the ownership decision visible before the bulk
+deletion and leaves the implementation branch with the data it must keep. The baseline branch must
+remain a draft and must not merge into `master` without the implementation branch merged into it
+first.
 
 This file defines the deletion set and final ownership. It is not an instruction to delete files
 from the current working branch immediately.
@@ -32,22 +34,27 @@ The branch names in this document are `baseline` and `implementation`. After `im
 merges into `baseline`, "combined branch" means the now-functional `baseline` branch.
 
 1. Create `baseline` from the latest `master`.
-2. Record the exact Questie source commit in this file and in the Database Addon import evidence.
+2. Choose the exact Questie source commit and prepare its record in this file and the Database Addon
+   import evidence. Include those record changes in the extraction commit; do not create an earlier
+   `baseline` commit.
 3. Configure the Database Addon master-data import to fetch that recorded Questie commit. The import
    may run after `baseline` is created, but it must pass before the combined branch merges.
-4. Apply the deletions and reductions in this manifest.
-5. Open a draft `baseline` merge request targeting `master`. Mark it as not independently mergeable.
-   Its CI may be expected to fail or may be skipped because the deletion-only state is intentionally
-   non-functional.
-6. Create `implementation` from `baseline`.
-7. Reimplement the required Questie behavior and open its merge request against `baseline`. Use the
+4. Make the first `baseline` commit a behavior-neutral extraction. Move the Questie-owned Darkmoon
+   and TBC Content Phase producers out of mixed provider files, update their callers and TOC entries,
+   and keep this commit green.
+5. Apply the deletions and reductions in this manifest as a separate commit or commit series.
+6. Open a draft `baseline` merge request targeting `master`. Its commit order should show extraction
+   before deletion. Mark it as not independently mergeable. CI after the deletion commits may be
+   expected to fail or may be skipped because that state is intentionally non-functional.
+7. Create `implementation` from `baseline`.
+8. Reimplement the required Questie behavior and open its merge request against `baseline`. Use the
    old `QuestieTDB` branch as a behavior and test reference, not as a branch to merge or rebase.
-8. Require green CI and focused review on `implementation`, then merge it into `baseline`.
-9. Immediately before final merge, sync Database Addon master data again. Any fix that landed on
-   deleted Questie data while the stack was open must move to the provider and pass differential
-   validation.
-10. Run complete integration validation on the combined branch against the pinned provider revision.
-11. Merge the combined branch into `master`. Questie `master` must never contain the deletion-only
+9. Require green CI and focused review on `implementation`, then merge it into `baseline`.
+10. Immediately before final merge, sync Database Addon master data again. Any fix that landed on
+    deleted Questie data while the stack was open must move to the provider and pass differential
+    validation.
+11. Run complete integration validation on the combined branch against the pinned provider revision.
+12. Merge the combined branch into `master`. Questie `master` must never contain the deletion-only
     state.
 
 ## Classification
@@ -64,8 +71,44 @@ merges into `baseline`, "combined branch" means the now-functional `baseline` br
 
 ## Mandatory work packets
 
-These packets are merge gates for the combined branch. They should exist as files or linked issues
-on the branch so an agent cannot mistake missing provider behavior for dead Questie behavior.
+WP-00 gates the bulk deletion commit. The remaining packets gate the combined branch. They should
+exist as files or linked issues on the branch so an agent cannot mistake missing provider behavior
+for dead Questie behavior.
+
+### WP-00: extract Questie-owned policy from mixed correction files
+
+**Owner:** Questie `baseline` branch
+
+**Must complete before deleting provider-owned correction files:**
+
+- Move the Classic Darkmoon producer into
+  `Database/Corrections/QuestiePolicy/classicPolicyCorrections.lua`.
+- Move the TBC Darkmoon and Content Phase producers into
+  `Database/Corrections/QuestiePolicy/tbcPolicyCorrections.lua`.
+- Preserve the producer inputs, returned tables, IDs, fields, and load timing. Do not convert them to
+  the final registrar API in the extraction commit.
+- Update `QuestieEvent` and `QuestieCorrections` to use the extracted producers instead of reaching
+  into provider-owned correction modules.
+- Load `classicPolicyCorrections.lua` in all five flavor TOCs.
+- Load `tbcPolicyCorrections.lua` in BCC, WOTLKC, Cata, and Mists, but not Classic.
+- Add `Database/Corrections/QuestiePolicy/classicPolicyCorrections.test.lua` and
+  `Database/Corrections/QuestiePolicy/tbcPolicyCorrections.test.lua`. Cover every supported Darkmoon
+  location and TBC Content Phase result, then run the affected caller tests.
+- Run the full Busted suite, full production luacheck, and `git diff --check` at the extraction SHA.
+  Record successful normal CI for that exact commit before adding deletion commits.
+
+Each extracted file must start with a short provenance and ownership comment. Record the original
+file or files and the source commit, then explain why Questie keeps the data. Do not narrate the move
+without the ownership reason. For example:
+
+```lua
+-- Extracted verbatim from Database/Corrections/classicNPCFixes.lua at <source commit>.
+-- Questie keeps this data because Darkmoon location selection is Questie runtime policy.
+```
+
+**Evidence required:** source commit, extraction commit, old and new symbols, TOC matrix, focused and
+full test results, full luacheck result, `git diff --check` result, and normal CI result for the
+extraction SHA.
 
 ### WP-01: Database Addon master-data import
 
@@ -199,7 +242,8 @@ Before handing `baseline` to another agent, record:
 
 - the exact `baseline` commit;
 - the exact source commit containing the reference implementation;
-- every symbol to reintroduce;
+- every runtime symbol to reintroduce and every extracted policy symbol already retained on
+  `baseline`;
 - the eight Questie Policy Correction names, API datatypes, and load orders;
 - Login Initialization order;
 - changed tests and expected assertions;
@@ -311,9 +355,10 @@ The four standalone Titan files are part of current `master` and replace older T
 WotLK correction files. Keep `Database/Corrections/titanReforgedQuestTags.lua`; it feeds retained
 WoW API quest-tag correction behavior.
 
-Remove deleted correction TOC entries. Capture the Questie-owned Darkmoon and Content Phase
-producers verbatim before deleting the mixed NPC and TBC Quest files, then re-add them in their new
-Questie-owned homes on `implementation`. The older audited snapshot found them at
+WP-00 moves the Questie-owned producers before this deletion. The extraction commit must remove the
+producer definitions from the mixed files, wire existing callers to the expansion-split
+`QuestiePolicy` files, and remain behavior-neutral. The later deletion commit removes the remaining
+provider-owned files and TOC entries. The older audited snapshot found the producers at
 `classicNPCFixes.lua:3719-3778`, `tbcNPCFixes.lua:2096-2183`, and
 `tbcQuestFixes.lua:8819-8830`; refresh these anchors against the recorded source commit.
 
@@ -396,8 +441,9 @@ Keep `build.py`, `Questie.toc`, and `QuestieValidateGameCache`. Audit
 
 ## Reimplement mixed files
 
-`baseline` may delete a mixed file wholesale. `implementation` re-adds its smaller target form so
-the surviving Questie ownership is obvious.
+`baseline` extracts Questie-owned producers before deleting their mixed provider files. It may still
+delete other mixed runtime files wholesale. `implementation` re-adds or reduces those runtime files
+in their final form. Do not move the extracted policy data back into provider-owned modules.
 
 ### `Modules/QuestieInit.lua`
 
@@ -614,7 +660,7 @@ All five flavor TOC manifests must:
 
 - set `## RequiredDeps: QuestieTDB`, replacing an empty dependency declaration if necessary;
 - remove raw entity files;
-- remove provider-owned correction files;
+- remove provider-owned correction files while keeping the WP-00 `QuestiePolicy` extraction files;
 - remove generated entity localization XML/files;
 - remove `Database/compiler.lua`;
 - remove `Database/QuestieDBStorage.lua`;
@@ -626,8 +672,9 @@ The seven-line fallback `Questie.toc` is unaffected.
 
 ## Questie-owned artifacts that must survive
 
-`baseline` deletes provider-owned mixed files. `implementation` must restore the Questie-owned
-artifacts below before the combined branch merges.
+`baseline` extracts the artifacts embedded in provider-owned correction files before deleting those
+files. Already separate Questie-owned artifacts stay in place. `implementation` wires or reduces the
+runtime modules around them, but it must not reconstruct the extracted data from deleted sources.
 
 | Artifact | Current anchor | Target ownership |
 | --- | --- | --- |
@@ -635,10 +682,10 @@ artifacts below before the combined branch merges.
 | Blacklist expansion filtering | `BlacklistFilter.lua` | Questie policy |
 | SoD display/rune policy | `SeasonOfDiscovery.lua` | Questie policy, stripped of provider-owned entity loading |
 | Content Phase state | `Corrections/ContentPhases/` | Questie policy |
-| TBC prerequisite tables | `tbcQuestFixes.lua:LoadContentPhaseFixes()` | `ContentPhasePolicy` |
+| TBC prerequisite tables | `tbcQuestFixes.lua:LoadContentPhaseFixes()` → `QuestiePolicy/tbcPolicyCorrections.lua` | `ContentPhasePolicy` |
 | Gathering-node suppression | former `DeleteGatheringNodes`, 24 IDs | `GatheringNodeDisplayPolicy` |
-| Era Darkmoon NPC tables | `classicNPCFixes.lua:LoadDarkmoonFixes()` | Questie holiday policy file |
-| TBC Darkmoon NPC tables | `tbcNPCFixes.lua:LoadDarkmoonFixes()` | Questie holiday policy file |
+| Era Darkmoon NPC tables | `classicNPCFixes.lua:LoadDarkmoonFixes()` → `QuestiePolicy/classicPolicyCorrections.lua` | Questie holiday policy |
+| TBC Darkmoon NPC tables | `tbcNPCFixes.lua:LoadDarkmoonFixes()` → `QuestiePolicy/tbcPolicyCorrections.lua` | Questie holiday policy |
 | Event Quest data and schedules | `Corrections/Holidays/` | Questie policy |
 | External Locale Override UI strings | `QUESTIE_LOCALES_OVERRIDE.translations` | Questie UI localization |
 | External entity locale input | `QUESTIE_LOCALES_OVERRIDE` entity lookups | four Questie Policy Corrections |
@@ -697,6 +744,7 @@ count as an acceptance gate.
 
 Rewrite tests to exercise the final interfaces:
 
+- the expansion-split policy producers extracted by WP-00;
 - `QuestieDB` query bindings, ID aliases, projections, and cache refresh;
 - Questie Policy Correction registration, composition, withdrawal, raw reads, and provenance;
 - Login Initialization order without compiler/cached branches;
@@ -779,6 +827,7 @@ Also run:
 - Pre-merge Database Addon sync commit: not recorded
 - `baseline` branch: not created
 - `implementation` branch: not created
+- WP-00 policy extraction: not started
 - WP-01 master-data import: not started
 - WP-02 lookup/Titan zhCN: blocked on QuestieTDB issue #14
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
