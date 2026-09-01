@@ -140,11 +140,11 @@ code disagrees with them, the baseline and authoritative handovers win.
 
 ## Baseline replay evidence
 
-Whole-file deletion ends at `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; clean mixed-runtime
-subtraction ends at `8b63c04beadef59b648cb558247609651e1f19e1` on branch
+Whole-file deletion ends at `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; the reviewed
+clean-baseline code ends at `cf4349e9f647f3c1b077421863fc53ef6031da44` on branch
 `QuestieTDB-remove-baseline`. The commit containing this finalized evidence section completes WP-09
-and is the exact branch point for `implementation`; either earlier tip omits the final clean handoff. The
-baseline was created from Questie source commit
+and is the exact branch point for `implementation`; either earlier tip omits the final clean handoff.
+The baseline was created from Questie source commit
 `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57` and retains the WP-00 extraction commit
 `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1`. Push-triggered GitHub Actions run
 [33496726477](https://github.com/Questie/Questie/actions/runs/33496726477) passed for that exact SHA,
@@ -166,7 +166,10 @@ The nine clean mixed-runtime subtraction commits from
 `0b02060ca5ab4a853651bf55bfe3a3b73e00f266` through
 `8b63c04beadef59b648cb558247609651e1f19e1` remove obsolete entity localization, correction
 machinery, compiler lifecycle/UI/recovery/state, raw consumers, and stale terminology while
-retaining Questie policy and semantic constants. Their exact mapping is recorded in the manifest.
+retaining Questie policy and semantic constants. Review-fix commit
+`cf4349e9f647f3c1b077421863fc53ef6031da44` restores the consumed NPC flag constants, uses the
+provider metadata fixture in QuestiePolicy tests, removes final stale fixtures/translations, and
+keeps WP-06 open for provider-bound verification. Their exact mapping is recorded in the manifest.
 
 Deletion commits `99493b08` through `14bb2681f`, measured by the exclusive diff
 `09e0178e..14bb2681f`, delete exactly 281 tracked files and 5,042,232 lines from deleted files. The

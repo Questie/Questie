@@ -825,8 +825,8 @@ Also run:
 - Database Addon import commit: not recorded
 - Pre-merge Database Addon sync commit: not recorded
 - `baseline` branch: `QuestieTDB-remove-baseline`; whole-file deletion tip
-  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; clean mixed-runtime subtraction tip
-  `8b63c04beadef59b648cb558247609651e1f19e1`
+  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; reviewed clean-baseline code tip
+  `cf4349e9f647f3c1b077421863fc53ef6031da44`
 - `implementation` branch: not created
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
@@ -907,13 +907,15 @@ Also run:
   - `2f5fca8b616528214ff555153167ac8ea2f23ed1` — Questie-owned semantic constants retained
   - `653ec82ec60cbe59f4117b223e155ab6b2ea834d` — stale compiler terminology removed
   - `8b63c04beadef59b648cb558247609651e1f19e1` — focused Contract metadata test fixture added
-  - The follow-up changes 47 files with 814 insertions and 1,350 deletions. Full Busted passes with
-    1,424 successes; luacheck passes with 0 warnings or errors across 322 files; loader-usage and
-    `git diff --check` pass
+  - `cf4349e9f647f3c1b077421863fc53ef6031da44` — review fixes restore NPC flag semantics, bind
+    QuestiePolicy tests to provider metadata, and leave WP-06 verification explicitly in progress
+  - The follow-up through `cf4349e9f` changes 54 files with 984 insertions and 1,516 deletions. Full
+    Busted passes with 1,424 successes; luacheck passes with 0 warnings or errors across 322 files;
+    loader-usage and `git diff --check` pass
   - Production retirement searches find no compiler/storage, raw entity/override, provider-fix,
     precompile/waypoint, generated entity localization, or deleted-module references
-  - `TDB-IMPLEMENTATION-ISSUES.md` records the Object tooltip index, runtime Item repair, and minimal
-    provider schema/test seams that remain for fresh implementation
+  - `TDB-IMPLEMENTATION-ISSUES.md` records the Object tooltip index, runtime Item repair, provider
+    schema/test seams, and composed-read consumer verification that remain for fresh implementation
 - Expected baseline state: structurally clean and locally green, but not runtime-complete. Contract
   enforcement, provider query bindings, owner-scoped Policy Corrections, provider/external locale
   application, and the pinned integration check remain fresh implementation work
