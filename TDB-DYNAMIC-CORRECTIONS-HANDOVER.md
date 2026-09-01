@@ -353,9 +353,11 @@ Keep these as Questie policy, not Database Corrections:
 - Horde/Alliance announcement-quest selection;
 - Titan holiday-date selection.
 
-Before old expansion correction files are physically deleted in TDB-10, move the two existing
-Darkmoon table-producing functions into a Questie-owned holiday file without changing their
-behavior. That extraction is future cleanup and is not a dependency on `DMF-locations`.
+The first green commit on `baseline` moves the two Darkmoon producers and the TBC Content Phase
+producer into expansion-split Questie policy files before any provider-owned correction file is
+deleted. Preserve their inputs and returned tables in that commit. Each new file records its source
+file, source commit, and Questie ownership reason. This extraction does not depend on
+`DMF-locations`.
 
 #### 4. External Locale Override entity data
 
@@ -750,9 +752,10 @@ Legacy declarations/helpers to remove when no caller remains:
 - `_QuestieDB:DeleteGatheringNodes()`
 - runtime `addOverride` usage in `QuestieCorrections:MinimalInit()`
 
-Do not delete old Static Correction files in this packet if the compiler validators or Objective
-Order side effects still load them. Their physical deletion belongs to TDB-09/TDB-10 after
-extraction and validation.
+This completed packet did not delete the old Static Correction files because compiler validators and
+Objective Order side effects still loaded them. On `baseline`, WP-00 first extracts the Questie-owned
+producers and validates the behavior-neutral move. TDB-09/TDB-10 then delete the provider-owned
+files. Objective Order stays provider-owned through `LibQuestieDB.ObjectiveFirst`.
 
 ## Implementation sequence and ownership
 
@@ -865,8 +868,8 @@ rg -n 'DeleteGatheringNodes' Database Modules
 Expected interpretation:
 
 - `ApplyParameterized` must have no production usage.
-- `LoadDarkmoonFixes` may remain in Questie-owned source until later extraction, but must not be
-  called by or ported into QuestieTDB.
+- Before WP-00, `LoadDarkmoonFixes` may remain in the mixed correction files. After WP-00, it may
+  remain only in the expansion-split Questie policy files and must not be ported into QuestieTDB.
 - no production code should write legacy `*DataOverrides` after this packet;
 - provider-owned faction, Titan, and SoD calls must be absent from Questie's runtime
   orchestrator;
@@ -914,18 +917,21 @@ The wider refactor still needs:
 - TDB-05 completion after provider lookup parity;
 - TDB-06 raw-table consumer conversion;
 - TDB-08 compiler UI and Saved Variables cleanup;
-- TDB-09/TDB-10 TOC removal and physical deletion;
+- WP-00 behavior-neutral policy extraction on `baseline`, then TDB-09/TDB-10 TOC removal and
+  physical deletion;
 - TDB-11 support-data migration after issue #15;
 - TDB-12 pinned Database Integration Check;
 - release bundling and diagnostics.
 
-When the old correction files are deleted, first retain or relocate every Questie-owned artifact:
+Before the old correction files are deleted, WP-00 moves the embedded Questie-owned data into the
+expansion-split policy files:
 
-- Darkmoon correction tables;
-- Questie blacklists;
-- Event Quest data;
-- Content Phase policy;
-- any Objective Order consumer hints not already served by `LibQuestieDB.ObjectiveFirst`.
+- Classic and TBC Darkmoon correction tables;
+- TBC Content Phase prerequisites for quests `10944` and `11007`.
+
+Questie blacklists, Event Quest data, and Content Phase state are already separate and remain in
+place. Do not extract Objective Order tables into Questie; consumers stay bound to
+`LibQuestieDB.ObjectiveFirst`.
 
 ## Evidence map
 

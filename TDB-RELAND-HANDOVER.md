@@ -8,9 +8,9 @@ other documents.
 
 How the four TDB documents relate:
 
-- **`TDB-DELETION-MANIFEST.md`** — the specification for the `baseline` branch: what gets
-  deleted from `master`, with tags, gates, extraction targets, and the consolidated work
-  packets. Authoritative for the deletion set.
+- **`TDB-DELETION-MANIFEST.md`** — the specification for the `baseline` branch: what Questie-owned
+  policy is extracted first, what then gets deleted from `master`, and the consolidated gates and
+  work packets. Authoritative for extraction order and the deletion set.
 - **`TDB-DYNAMIC-CORRECTIONS-HANDOVER.md`** — the registrar contract (Contract Version 1),
   the Dynamic Correction design and ownership rules, the required-test lists, and the completed
   packet's evidence record. Authoritative for correction behavior and the QuestieTDB API.
@@ -25,18 +25,23 @@ How the four TDB documents relate:
 
 ## Branch strategy and mechanics
 
-1. `baseline` is cut from `master` and applies `TDB-DELETION-MANIFEST.md` mechanically. It is
-   intentionally non-functional. Its MR against `master` exists for review visibility only:
-   mark CI as expected-fail or skipped, and never merge it alone.
-2. `implementation` is cut from `baseline`. All QuestieTDB work re-lands here. Green CI is
-   enforced here and only here.
-3. Merge order: `implementation` merges into `baseline` first; the combined, fully green
-   `baseline` then merges to `master`. `master` never receives a broken state.
-4. Immediately before the final merge, run QuestieTDB's master-data sync so quest-data fixes
-   that landed on `master` during the stack's lifetime are transferred into the provider.
-   A modify/delete rebase conflict on a deleted file is the signal that a fix needs porting to
-   QuestieTDB data — it is data work, not a merge chore.
-5. Keep the stack short-lived. Every open week adds rebase friction against an active `master`.
+1. `baseline` is cut from `master`. Its first commit records the source commit and extracts the
+   Questie-owned Classic and TBC policy producers from mixed provider correction files into
+   expansion-split files. No earlier `baseline` commit is allowed. The extraction commit updates
+   callers and TOCs without changing behavior and must pass normal CI at that exact SHA.
+2. Later `baseline` commits apply the bulk deletions in `TDB-DELETION-MANIFEST.md`. The branch becomes
+   intentionally non-functional only after those commits. Its MR against `master` exists for review
+   visibility, must show extraction before deletion, and must never merge alone. CI on the
+   deletion-only tip may be expected-fail or skipped.
+3. `implementation` is cut from the completed `baseline`. It adapts the retained policy producers to
+   the final registrar design and re-lands the remaining QuestieTDB work. Green CI is enforced here.
+4. Merge order: `implementation` merges into `baseline` first; the combined, fully green `baseline`
+   then merges to `master`. `master` never receives a broken state.
+5. Immediately before the final merge, run QuestieTDB's master-data sync so quest-data fixes that
+   landed on `master` during the stack's lifetime are transferred into the provider. A modify/delete
+   rebase conflict on a deleted file means a fix needs porting to QuestieTDB data. It is data work,
+   not a merge chore.
+6. Keep the stack short-lived. Every open week adds rebase friction against an active `master`.
 
 ## Reference implementation rule
 
@@ -115,26 +120,30 @@ behavior, `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` wins.
 - **`QuestieEvent` / `QuestieLib`** — as on the reference branch: one hoisted
   `SetDarkmoonNpcCorrections` call with NONE-location withdrawal; name-only
   `RepairMissingItem`.
-- **Extractions** — re-add per the manifest's extraction list: the Era/TBC Darkmoon table
-  producers into a Questie-owned holiday file, `LoadContentPhaseFixes` (quests 10944/11007)
-  into a Questie-owned Content Phase policy file. Behavior identical; only the home changes.
+- **Extracted policy producers** — already present on `baseline` in the expansion-split
+  `QuestiePolicy` files. `implementation` connects them to `DarkmoonFaire` and
+  `ContentPhasePolicy`. It may reorganize them later only when the move and behavior change remain
+  separately reviewable.
 - **Hedges** — drop `(QuestPointers or questData)` / `(ItemPointers or itemData)`; the raw
   half no longer exists.
 
 ## Execution order (suggested)
 
-1. Commit/verify the reference branch state; create `baseline` from `master`; apply the
-   manifest; open the visibility MR.
-2. Create `implementation`; port the mock and all test files; watch them fail.
-3. Re-land the central slice in final shape (QuestieDB, QuestieCorrections, Stage 1), then the
-   extractions, then the policy callers (QuestieEvent, QuestieLib, l10n) — the reference
-   branch's per-file diffs are the guide.
-4. Wire the locale-change path to `ApplyEntityLocale()`.
-5. Convert Townsfolk (TDB-06) and the CI `db-validation` matrix to the pinned Database
-   Integration Check (TDB-12).
-6. Saved-variables cleanup: drop `dbCompiled*`/`sod.dbCompiled*` values via a `Migration.lua`
-   step.
-7. Full validation, then the manifest's consolidated work packets, then the merge order above.
+1. Commit or verify the reference branch state, then create `baseline` from `master`.
+2. Extract the Classic and TBC policy producers per WP-00. Update callers and TOCs, run focused and
+   full validation, and commit the behavior-neutral move. Require successful normal CI for that SHA
+   before proceeding.
+3. Apply the remaining manifest deletions in separate commits and open the visibility MR.
+4. Create `implementation`; port the mock and affected test files, then watch the intended failures.
+5. Re-land the central slice in final shape (QuestieDB, QuestieCorrections, Stage 1), connect the
+   retained policy producers, then adapt the policy callers (QuestieEvent, QuestieLib, l10n). The
+   reference branch's per-file diffs are the guide.
+6. Wire the locale-change path to `ApplyEntityLocale()`.
+7. Convert Townsfolk (TDB-06) and the CI `db-validation` matrix to the pinned Database Integration
+   Check (TDB-12).
+8. Add a migration that drops compiler state under the ordinary global, SoD, and Titan Reforged
+   global scopes.
+9. Run full validation and the manifest's consolidated work packets, then use the merge order above.
 
 ## Validation gates
 
@@ -157,5 +166,6 @@ behavior, `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` wins.
 - `TDB-REFACTOR.md` → TDB-03 detail text (compiler-driven Login Initialization replacement)
   and any instruction to retain legacy paths "until TDB-03": subsumed by this stack. The
   tracker rows and change log remain the historical record.
-- Anything, anywhere, instructing use of `ApplyParameterized`: obsolete; the API does not
-  exist.
+- Any instruction to delete the mixed correction files and re-add their Questie-owned producers on
+  `implementation`: superseded. WP-00 extracts and retains them on `baseline` before deletion.
+- Anything, anywhere, instructing use of `ApplyParameterized`: obsolete; the API does not exist.
