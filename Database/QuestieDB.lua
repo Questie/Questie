@@ -22,10 +22,6 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type QuestieDBStorage
-local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -235,11 +231,6 @@ local QuestieCorrectionshiddenQuests
 ---Questie.db.char.hidden
 local Questiedbcharhidden
 
-QuestieDB.itemDataOverrides = {}
-QuestieDB.npcDataOverrides = {}
-QuestieDB.objectDataOverrides = {}
-QuestieDB.questDataOverrides = {}
-
 QuestieDB.activeChildQuests = {}
 
 -- QuestieTDB owns Objective Order. Fresh QuestieDB initialization replaces these empty
@@ -250,85 +241,20 @@ QuestieDB.itemObjectiveFirst = {}
 QuestieDB.eventObjectiveFirst = {}
 QuestieDB.spellObjectiveFirst = {}
 
-function QuestieDB:Initialize()
-
-    StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-        text = l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."),
-        button1 = l10n("Recompile Database"),
-        button2 = l10n("Don't show again"),
-        OnAccept = function()
-            QuestieDBStorage.InvalidateActiveStorage()
-            ReloadUI()
-        end,
-        OnDecline = function()
-            Questie.db.profile.disableDatabaseWarnings = true
-        end,
-        OnShow = function(self)
-            self:SetFrameStrata("TOOLTIP")
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = false,
-        preferredIndex = 3
-    }
-
+---Initializes Questie-owned semantic state after fresh provider query bindings are installed.
+---@return nil
+function QuestieDB.Initialize()
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
-    local activeStorage = QuestieDBStorage.GetActiveStorage()
+    -- Provider locale and Policy Corrections are already applied when these semantic caches become visible.
+    _QuestieDB.questCache = {}
+    _QuestieDB.itemCache = {}
+    _QuestieDB.npcCache = {}
+    _QuestieDB.objectCache = {}
+    _QuestieDB.zoneCache = {}
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Begin GetDBHandles")
-    local npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
-    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(activeStorage.npcBin, activeStorage.npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] NPC GetDBHandles Complete")
-
-    local questSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder)
-    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(activeStorage.questBin, activeStorage.questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Quest GetDBHandles Complete")
-
-    local objectSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder)
-    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(activeStorage.objBin, activeStorage.objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Object GetDBHandles Complete")
-
-    local itemSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder)
-    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(activeStorage.itemBin, activeStorage.itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Item GetDBHandles Complete")
-
-    QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
-    QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
-    QuestieDB._QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
-    QuestieDB._QueryItemSingle = QuestieDB.QueryItem.QuerySingle
-
-    QuestieDB.NPCPointers = QuestieDB.QueryNPC.pointers
-    QuestieDB.QuestPointers = QuestieDB.QueryQuest.pointers
-    QuestieDB.ObjectPointers = QuestieDB.QueryObject.pointers
-    QuestieDB.ItemPointers = QuestieDB.QueryItem.pointers
-
-    QuestieDB._QueryNPC = QuestieDB.QueryNPC.Query
-    QuestieDB._QueryQuest = QuestieDB.QueryQuest.Query
-    QuestieDB._QueryObject = QuestieDB.QueryObject.Query
-    QuestieDB._QueryItem = QuestieDB.QueryItem.Query
-
-    QuestieDB.QueryNPC = QuestieDB._QueryNPC
-    QuestieDB.QueryQuest = QuestieDB._QueryQuest
-    QuestieDB.QueryObject = QuestieDB._QueryObject
-    QuestieDB.QueryItem = QuestieDB._QueryItem
-
-    QuestieDB.QueryQuestSingle = QuestieDB._QueryQuestSingle
-    QuestieDB.QueryNPCSingle = QuestieDB._QueryNPCSingle
-    QuestieDB.QueryObjectSingle = QuestieDB._QueryObjectSingle
-    QuestieDB.QueryItemSingle = QuestieDB._QueryItemSingle
-
-    -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
-    _QuestieDB.questCache = {};
-    _QuestieDB.itemCache = {};
-    _QuestieDB.npcCache = {};
-    _QuestieDB.objectCache = {};
-    _QuestieDB.zoneCache = {};
-
-    --? This improves performance a lot, the regular functions still work but this is much faster because i caches
-    checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
+    checkRace = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
     checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
-    --? Set the localized versions of these.
     QuestieCorrectionshiddenQuests = QuestieCorrections.hiddenQuests
     Questiedbcharhidden = Questie.db.char.hidden
 end
@@ -343,7 +269,6 @@ function QuestieDB:GetObject(objectId)
         return _QuestieDB.objectCache[objectId];
     end
 
-    --local rawdata = QuestieDB.objectData[objectId];
     local rawdata = QuestieDB.QueryObject(objectId, QuestieDB._objectAdapterQueryOrder)
 
     if not rawdata then
@@ -1866,21 +1791,6 @@ function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
 end
 
 ---------------------------------------------------------------------------------------------------
--- Modifications to objectDB
-function _QuestieDB:DeleteGatheringNodes()
-    local prune = { -- gathering nodes
-        1617,1618,1619,1620,1621,1622,1623,1624,1628, -- herbs
-
-        1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
-    }
-    local objectSpawnsKey = QuestieDB.objectKeys.spawns
-    for i=1, #prune do
-        local id = prune[i]
-        QuestieDB.objectData[id][objectSpawnsKey] = nil
-    end
-end
-
----------------------------------------------------------------------------------------------------
 -- Modifications to questDB
 
 local questsRequiringNewbieAchievement = {
@@ -2083,26 +1993,6 @@ function _QuestieDB:CheckAchievementRequirements(questId)
     if questsRequiringAllGrownsUpAchievement[questId] then
         return select(13, GetAchievementInfo(6570)) -- All Growns Up!
     end
-end
-
-function _QuestieDB:HideClassAndRaceQuests()
-    local questKeys = QuestieDB.questKeys
-    for _, entry in pairs(QuestieDB.questData) do
-        -- check requirements, set hidden flag if not met
-        local requiredClasses = entry[questKeys.requiredClasses]
-        if (requiredClasses) and (requiredClasses ~= 0) then
-            if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
-                entry.hidden = true
-            end
-        end
-        local requiredRaces = entry[questKeys.requiredRaces]
-        if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
-            if (not QuestiePlayer.HasRequiredRace(requiredRaces)) then
-                entry.hidden = true
-            end
-        end
-    end
-    Questie.Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
 end
 
 -- This function is intended for usage with Gossip and Greeting frames, where there's a list of quests but no QuestIDs are
