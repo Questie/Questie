@@ -429,7 +429,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function() return Questie.db.profile.enableMapIcons; end,
                         set = function(info, value)
                             Questie.db.profile.enableMapIcons = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:ToggleNotes(value, false, Questie.db.profile.enabled)
                         end,
                     },
                     alwaysGlowMap = {
@@ -507,7 +507,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         get = function() return Questie.db.profile.enableMiniMapIcons; end,
                         set = function(info, value)
                             Questie.db.profile.enableMiniMapIcons = value
-                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:ToggleNotes(value, true, Questie.db.profile.enabled)
                         end,
                     },
                     alwaysGlowMinimap = {
