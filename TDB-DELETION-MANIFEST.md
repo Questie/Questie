@@ -832,10 +832,11 @@ Also run:
 - Source Questie commit: `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57`
 - Database Addon import commit: not recorded
 - Pre-merge Database Addon sync commit: not recorded
-- `baseline` branch: `QuestieTDB-remove-baseline`; pre-rebase whole-file deletion tip
-  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; pre-rebase clean mixed-runtime subtraction tip
-  `8b63c04beadef59b648cb558247609651e1f19e1`. The rebased stack also contains the support payload
-  cleanup described below.
+- `baseline` branch: `QuestieTDB-remove-baseline`; historical pre-rebase whole-file deletion tip
+  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; clean mixed-runtime subtraction tip
+  `8b63c04beadef59b648cb558247609651e1f19e1`; reviewed clean-baseline code tip
+  `cf4349e9f647f3c1b077421863fc53ef6031da44`. The rebased stack also contains the support payload
+  cleanup described below; the commit containing this record is the current branch point.
 - `implementation` branch: not created
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
@@ -917,12 +918,15 @@ Also run:
   - `2f5fca8b616528214ff555153167ac8ea2f23ed1` — Questie-owned semantic constants retained
   - `653ec82ec60cbe59f4117b223e155ab6b2ea834d` — stale compiler terminology removed
   - `8b63c04beadef59b648cb558247609651e1f19e1` — focused Contract metadata test fixture added
-  - That pre-rebase follow-up changed 47 files with 814 insertions and 1,350 deletions. Its recorded
-    validation was 1,424 Busted successes, clean luacheck across 322 files, passing loader-usage and
-    `git diff --check`, and empty production retirement searches. These checks were not rerun for
-    this rebase
-  - `TDB-IMPLEMENTATION-ISSUES.md` records the Object tooltip index, runtime Item repair, and minimal
-    provider schema/test seams that remain for fresh implementation
+  - `cf4349e9f647f3c1b077421863fc53ef6031da44` — review fixes restored NPC flag semantics, bound
+    QuestiePolicy tests to provider metadata, removed final stale fixtures and translations, and
+    left WP-06 verification explicitly in progress
+  - The historical follow-up through `cf4349e9f` changed 54 files with 984 insertions and 1,516
+    deletions. At that tip, Busted recorded 1,424 successes; luacheck recorded 0 warnings or errors
+    across 322 files; loader-usage, `git diff --check`, and production retirement searches passed.
+    These checks were not rerun for the current rebased stack
+  - `TDB-IMPLEMENTATION-ISSUES.md` records the Object tooltip index, runtime Item repair, provider
+    schema/test seams, and composed-read consumer verification that remain for fresh implementation
 - Support cleanup facts:
   - The baseline removes the 24 support payloads and 51 flavor TOC entries while retaining the
     consumer wrappers. Tests use focused inline zone fixtures in `setupTests.lua` and

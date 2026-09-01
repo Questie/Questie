@@ -141,11 +141,12 @@ code disagrees with them, the baseline and authoritative handovers win.
 ## Baseline replay evidence
 
 Before this rebase, whole-file deletion ended at
-`14bb2681f8a349a0470c8deb1f37c238ea72ae80` and clean mixed-runtime subtraction ended at
-`8b63c04beadef59b648cb558247609651e1f19e1` on branch `QuestieTDB-remove-baseline`. The rebased stack
+`14bb2681f8a349a0470c8deb1f37c238ea72ae80`, clean mixed-runtime subtraction ended at
+`8b63c04beadef59b648cb558247609651e1f19e1`, and reviewed clean-baseline code ended at
+`cf4349e9f647f3c1b077421863fc53ef6031da44` on branch `QuestieTDB-remove-baseline`. The rebased stack
 also includes the support payload cleanup below. The commit containing this finalized evidence
-section completes WP-09 and is the branch point for `implementation`; either historical tip omits
-part of the final handoff. The baseline was created from Questie source commit
+section completes WP-09 and is the branch point for `implementation`; every historical tip omits
+part of the current handoff. The baseline was created from Questie source commit
 `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57` and retains the WP-00 extraction commit
 `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1`. Push-triggered GitHub Actions run
 [33496726477](https://github.com/Questie/Questie/actions/runs/33496726477) passed for that exact SHA,
@@ -167,7 +168,10 @@ The nine clean mixed-runtime subtraction commits from
 `0b02060ca5ab4a853651bf55bfe3a3b73e00f266` through
 `8b63c04beadef59b648cb558247609651e1f19e1` remove obsolete entity localization, correction
 machinery, compiler lifecycle/UI/recovery/state, raw consumers, and stale terminology while
-retaining Questie policy and semantic constants. Their exact mapping is recorded in the manifest.
+retaining Questie policy and semantic constants. Review-fix commit
+`cf4349e9f647f3c1b077421863fc53ef6031da44` restored the consumed NPC flag constants, used the
+provider metadata fixture in QuestiePolicy tests, removed final stale fixtures/translations, and
+kept WP-06 open for provider-bound verification. Their exact mapping is recorded in the manifest.
 
 Deletion commits `99493b08` through `14bb2681f`, measured by the exclusive diff
 `09e0178e..14bb2681f`, delete exactly 281 tracked files and 5,042,232 lines from deleted files. The
@@ -192,9 +196,9 @@ the support consumer wrappers remain on the baseline.
 
 The clean subtraction removes mixed-runtime compiler, raw-table, provider-fix, and entity-localization
 commands while preserving their durable ownership and ordering rules as landmarks. At the
-pre-rebase clean tip, the recorded validation was 1,424 Busted successes, clean production luacheck
-across 322 files, and passing loader-usage and diff checks. Those results were not rerun against the
-rebased stack.
+historical reviewed clean-baseline tip, the recorded validation was 1,424 Busted successes, clean
+production luacheck across 322 files, passing loader-usage and diff checks, and empty production
+retirement searches. Those results were not rerun against the current rebased stack.
 
 The rebased stack also removes all 24 payloads under `Database/QuestXP/DB`,
 `Database/DropTables/data`, `Database/FactionTemplates`, and `Database/Zones/data`, plus their 51
@@ -206,7 +210,7 @@ Classic/TBC policy tests.
 
 The support-cleanup commit separately recorded 2 Busted successes and 66 pre-existing missing-schema
 bootstrap errors before and after its change, plus 45 focused successes. That evidence predates the
-clean subtraction replay and does not describe the current combined stack. No tests were rerun while
+clean subtraction replay and does not describe the current rebased stack. No tests were rerun while
 resolving this documentation conflict.
 
 `implementation` inherits the cleanup. TDB-11 must bind zones, XP, drops, drop corrections, and
