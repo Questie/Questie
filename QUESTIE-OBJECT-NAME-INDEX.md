@@ -152,8 +152,10 @@ The Object ID line preserves its existing one, `(n)`, and `(10+)` presentation p
 exception. Never derive that count from `objectIdsByName`: the registration set is append-only and
 answers a different question.
 
-The quest-line loop preserves line deduplication and the ten-Object cap. Because the set uses
-`pairs`, no test may assume which ten IDs are visited when more than ten are registered.
+The quest-line loop preserves line deduplication and the ten-Object cap. The old provider-result
+`count > 10` guard does not belong here: `addedObjects >= 10` alone caps the independent registration
+set. Because the set uses `pairs`, no test may assume which ten IDs are visited when more than ten
+are registered.
 
 Nothing in this path reads from `l10n` except the Questie-owned `"Object ID"` UI label.
 
@@ -232,8 +234,8 @@ Retain the existing five behavior cases with these changes:
   not leak into the provider-ID path.
 - For the `10+` quest-line cap, seed eleven IDs and assert ten calls. Do not assert that a particular
   ID was skipped because set iteration order is undefined.
-- Remove any `l10n.objectNameLookup` fixture setup. Keep `l10n` only when the test needs the translated
-  `"Object ID"` label.
+- Remove any legacy `objectNameLookup` fixture setup, whether it was owned by `l10n` or
+  `QuestieTooltips`. Keep `l10n` only when the test needs the translated `"Object ID"` label.
 
 ### `Modules/Tooltips/Tooltip.test.lua`
 
