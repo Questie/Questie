@@ -62,27 +62,31 @@ function ItemRefTooltip:SetHyperlink(link, ...)
         QuestieLink.lastItemRefTooltip = tooltipText
         return
     elseif isNativeQuestLink then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink (native):", link)
-        ShowUIPanel(ItemRefTooltip)
-        ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
-        ItemRefTooltip:ClearLines()
-        -- Convert to questie format for CreateQuestTooltip
-        QuestieLink:CreateQuestTooltip("questie:" .. nativeQuestId .. ":0", ItemRefTooltip)
-        ItemRefTooltip:Show()
+        local nativeQuestIdNum = tonumber(nativeQuestId)
+        local quest = QuestieDB.GetQuest(nativeQuestIdNum)
+        if quest then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink (native):", link)
+            ShowUIPanel(ItemRefTooltip)
+            ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
+            ItemRefTooltip:ClearLines()
+            -- Convert to questie format for CreateQuestTooltip
+            QuestieLink:CreateQuestTooltip("questie:" .. nativeQuestId .. ":0", ItemRefTooltip)
+            ItemRefTooltip:Show()
 
-        local tooltipText = ItemRefTooltipTextLeft1:GetText()
-        if QuestieLink.lastItemRefTooltip == tooltipText then
-            ItemRefTooltip:Hide()
-            QuestieLink.lastItemRefTooltip = ""
+            local tooltipText = ItemRefTooltipTextLeft1:GetText()
+            if QuestieLink.lastItemRefTooltip == tooltipText then
+                ItemRefTooltip:Hide()
+                QuestieLink.lastItemRefTooltip = ""
+                return
+            end
+
+            QuestieLink.lastItemRefTooltip = tooltipText
             return
         end
-
-        QuestieLink.lastItemRefTooltip = tooltipText
-        return
-    else
-        -- Make sure to call the default function so everything that is not Questie can be handled (item links e.g.)
-        oldItemSetHyperlink(self, link, ...)
     end
+
+    -- Make sure to call the default function so everything that is not Questie can be handled (item links e.g.)
+    oldItemSetHyperlink(self, link, ...)
 end
 
 ---@return string
