@@ -72,8 +72,33 @@ The compiler-oriented schema files are deleted. Fresh minimal adapters must bind
 from `LibQuestieDB.Meta` and retain only Questie-owned constants still consumed by semantic modules,
 including NPC flags, race masks, class masks, quest flags, and adapter query orders.
 
-The baseline retains Questie-owned faction IDs and Item classes in `Database/QuestieDB.lua`.
-`test/QuestieTDBMetaMock.lua` supplies only the four provider key enums needed by retained semantic
-tests; it deliberately does not reconstruct raw entity tables, compiler metadata, or provider read
-behavior. The fresh Contract Version 1 test adapter must add the consumed query and Correction
-interfaces at this seam.
+The baseline retains Questie-owned faction IDs, NPC flags, and Item classes in
+`Database/QuestieDB.lua`. `test/QuestieTDBMetaMock.lua` supplies the four provider key enums used by
+retained semantic and QuestiePolicy tests; it deliberately does not reconstruct raw entity tables,
+compiler metadata, or provider read behavior. The fresh Contract Version 1 test adapter must add the
+consumed query and Correction interfaces at this seam.
+
+## Composed-read consumer verification
+
+**Status:** Open for the fresh QuestieTDB implementation.
+
+The clean baseline removed Townsfolk and Available Quests raw-table traversal and fallback paths.
+Their composed-read interfaces cannot be considered complete until real provider bindings exist and
+non-empty behavior is covered.
+
+### Required verification
+
+- Exercise Townsfolk initialization through composed NPC, Item, and Object ID maps and query functions.
+- Preserve Townsfolk category policy, faction and character filtering, and Manual Notes.
+- Exercise non-empty Available Quest enumeration through `QuestieDB.QuestPointers`.
+- Verify correction-added and withdrawn IDs are visible after QuestieDB pointer refresh.
+- Keep WP-06 in progress until these behaviors pass focused tests against the fresh Contract adapter.
+
+### Relevant files
+
+- `Modules/QuestieMenu/Townsfolk.lua`
+- `Modules/QuestieMenu/Townsfolk.test.lua`
+- `Modules/Quest/AvailableQuests/AvailableQuests.lua`
+- `Modules/Quest/AvailableQuests/AvailableQuests.test.lua`
+- `Database/QuestieDB.lua`
+- `test/QuestieTDBMetaMock.lua`
