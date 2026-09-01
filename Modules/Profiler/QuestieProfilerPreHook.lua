@@ -58,7 +58,6 @@ local EXCLUDED_MODULES = {
     ProfilerPreHook = true,
     ThreadLib = true,
     QuestieStreamLib = true,
-    DBCompiler = true,
     QuestieSerializer = true,
 }
 
