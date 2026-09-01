@@ -6,8 +6,6 @@ _G.GetQuestTimers = function() return nil end
 local QUEST_ID = 123
 
 describe("QuestEventHandler", function()
-    ---@type QuestieLib
-    local QuestieLib
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
     ---@type QuestLogCache
@@ -47,8 +45,6 @@ describe("QuestEventHandler", function()
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
-        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-        QuestieLib.CacheItemNames = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
         BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
@@ -91,7 +87,6 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
-        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
@@ -116,7 +111,6 @@ describe("QuestEventHandler", function()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
         assert.spy(QuestieAPI.PropagateQuestUpdate).was.not_called()
-        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.not_called()
         assert.spy(QuestieJourney.AcceptQuest).was.not_called()
         assert.spy(QuestieAnnounce.AcceptedQuest).was.not_called()
@@ -200,7 +194,6 @@ describe("QuestEventHandler", function()
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
-        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called(2)
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
