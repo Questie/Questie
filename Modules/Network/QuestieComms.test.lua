@@ -8,6 +8,9 @@ describe("QuestieComms", function()
     ---@type QuestieLib
     local QuestieLib
     local originalQuestieLibCount
+    ---@type QuestieSerializer
+    local QuestieSerializer
+    local originalQuestieSerializerDeserialize
 
     local playerName = "OtherPlayer-FancyRealm"
     local isPlayerInGroup
@@ -71,6 +74,8 @@ describe("QuestieComms", function()
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         originalQuestieLibCount = QuestieLib.Count
+        QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer")
+        originalQuestieSerializerDeserialize = QuestieSerializer.Deserialize
 
         dofile("Modules/Network/QuestieComms.lua")
         QuestieComms = QuestieLoader:ImportModule("QuestieComms")
@@ -86,6 +91,7 @@ describe("QuestieComms", function()
 
     after_each(function()
         QuestieLib.Count = originalQuestieLibCount
+        QuestieSerializer.Deserialize = originalQuestieSerializerDeserialize
     end)
 
     describe("remote quest sources", function()
@@ -309,6 +315,65 @@ describe("QuestieComms", function()
             isPlayerInGroup = false
             assert.is_false(QuestieComms:PruneRemotePlayers())
             assert.is_nil(next(QuestieComms.remoteQuestLogs))
+        end)
+    end)
+
+    describe("OnCommReceived_unsafe", function()
+        it("should reject group transports from a player who already left", function()
+            local deserializeCalls = 0
+            QuestieSerializer.Deserialize = function()
+                deserializeCalls = deserializeCalls + 1
+                return {}
+            end
+            isPlayerInGroup = false
+
+            for _, distribution in ipairs({"PARTY", "RAID", "INSTANCE_CHAT", "WHISPER"}) do
+                QuestieComms.private:OnCommReceived_unsafe("payload", distribution, playerName)
+            end
+
+            assert.are_equal(0, deserializeCalls)
+        end)
+
+        it("should accept group transports from a current party member", function()
+            local deserializeCalls = 0
+            QuestieSerializer.Deserialize = function()
+                deserializeCalls = deserializeCalls + 1
+                return {}
+            end
+
+            for _, distribution in ipairs({"PARTY", "RAID", "INSTANCE_CHAT", "WHISPER"}) do
+                QuestieComms.private:OnCommReceived_unsafe("payload", distribution, playerName)
+            end
+
+            assert.are_equal(4, deserializeCalls)
+        end)
+
+        it("should accept YELL from a player outside the group", function()
+            local deserializeEncoding
+            QuestieSerializer.Deserialize = function(_, _, encoding)
+                deserializeEncoding = encoding
+                return {}
+            end
+            isPlayerInGroup = false
+
+            QuestieComms.private:OnCommReceived_unsafe("payload", "YELL", playerName)
+
+            assert.are_equal("b89", deserializeEncoding)
+        end)
+
+        it("should leave non-group transports unchanged", function()
+            local deserializeCalls = 0
+            QuestieSerializer.Deserialize = function()
+                deserializeCalls = deserializeCalls + 1
+                return {}
+            end
+            isPlayerInGroup = false
+
+            for _, distribution in ipairs({"GUILD", "CHANNEL"}) do
+                QuestieComms.private:OnCommReceived_unsafe("payload", distribution, playerName)
+            end
+
+            assert.are_equal(2, deserializeCalls)
         end)
     end)
 end)

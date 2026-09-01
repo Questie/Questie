@@ -161,6 +161,13 @@ _QuestieComms.QC_WRITE_WHISPER = "WHISPER"
 _QuestieComms.QC_WRITE_CHANNEL = "CHANNEL"
 _QuestieComms.QC_WRITE_YELL = "YELL"
 
+local groupMessageDistributions = {
+    [_QuestieComms.QC_WRITE_ALLGROUP] = true,
+    [_QuestieComms.QC_WRITE_ALLINSTANCE] = true,
+    [_QuestieComms.QC_WRITE_ALLRAID] = true,
+    [_QuestieComms.QC_WRITE_WHISPER] = true,
+}
+
 --Message types.
 _QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE = 1 -- send quest_log_update status to party/raid members
 _QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE = 2 -- send quest remove status to party/raid members
@@ -1145,6 +1152,10 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
     --print("[" .. distribution .."][" .. sender .. "] " .. message)
     Questie.Debug(Questie.DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:", string.len(message))
     if message and sender and sender ~= UnitName("player") then
+        if groupMessageDistributions[distribution] and not QuestieComms:CheckInGroup(sender) then
+            return
+        end
+
         local decompressedData
         if distribution == "YELL" then
             --print("Decompressing YELL data")
