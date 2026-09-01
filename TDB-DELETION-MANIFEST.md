@@ -463,17 +463,16 @@ Reimplement Login Initialization in this order:
 
 1. call `l10n.InitializeUILocale()` to resolve Questie's effective UI locale;
 2. require Database Addon Contract Version 1 before any locale or Correction work;
-3. call `l10n.ApplyProviderLocale()` to forward the effective locale to
-   `LibQuestieDB.l10n.SetLocale()`;
-4. call `l10n.BuildExternalLocaleCorrections()` against clean composed reads;
+3. forward `l10n:GetUILocale()` to `LibQuestieDB.l10n.SetLocale()` outside the UI-string module;
+4. build External Locale Override Policy Corrections outside `l10n` against clean composed reads;
 5. initialize Questie blacklist and non-Correction policy, register every Questie Policy Correction
    once, and apply owner `"Questie"` once;
 6. initialize `QuestieDB` query bindings, ID maps, Objective Order hints, caches, and its lifecycle
    flag;
 7. initialize Townsfolk and other database consumers from composed reads;
 8. initialize `QuestieEvent` after `QuestieDB` so later setters refresh Questie's bindings;
-9. continue later Initialization Stages. Stage 2 runs `l10n:PostBoot()` and rebuilds the Game Object
-   name index inside the staged coroutine.
+9. continue later Initialization Stages. Stage 2 rebuilds `QuestieTooltips.objectNameLookup` from
+   composed Game Object reads inside the staged coroutine.
 
 ### `Database/QuestieDB.lua`
 
@@ -563,19 +562,17 @@ Delete:
 - generated Item, Quest, NPC, and Game Object lookup loading;
 - Titan zhCN raw correction handling after WP-02.
 
-Keep or reimplement:
+Keep:
 
 - UI Translation Entries;
 - User Locale Selection, fallback, and aliases;
 - Zone/Category Lookups;
-- `LibQuestieDB.l10n.SetLocale()` forwarding;
-- External Locale Override UI strings;
-- four filtered External Locale Override Policy Corrections;
-- withdrawal-first external locale switching;
-- semantic cache invalidation after entity locale changes;
-- generation-safe, coroutine-safe `objectNameLookup` rebuilds from composed Game Object reads;
-- runtime locale changes through `ApplyEntityLocale()` and the withdrawal-first sequence, replacing
-  the old recompile-and-reload popup.
+- External Locale Override UI strings.
+
+Questie's UI-string module owns no entity behavior. A fresh focused seam outside `l10n` owns provider
+locale forwarding, four filtered External Locale Override Policy Corrections, withdrawal-first
+entity-locale switching, semantic cache invalidation, and scheduling the tooltip-owned Object-name
+index rebuild.
 
 ### `Modules/QuestieMenu/Townsfolk.lua`
 
@@ -695,7 +692,7 @@ runtime modules around them, but it must not reconstruct the extracted data from
 | Rich entity projections | `QuestieDB.lua` | Questie semantics |
 | Semantic caches and ID aliases | `QuestieDB.lua` | Questie compatibility seam |
 | Focused Database Addon test seam | fresh `test/QuestieTDBMock.lua` and contract tests | Questie behavior tests |
-| Game Object name index | `l10n.objectNameLookup` | Questie derived index |
+| Game Object name index | `QuestieTooltips.objectNameLookup` | Questie derived tooltip index |
 | Event and announcement visibility | `QuestieEvent.lua` | Questie policy |
 | Quest availability checks | `QuestieDB.lua` and Quest modules | Questie player-state policy |
 | WoW API quest-tag corrections | `questTagInfoCorrections.lua` | Questie API compatibility |
@@ -835,8 +832,10 @@ Also run:
 - Source Questie commit: `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57`
 - Database Addon import commit: not recorded
 - Pre-merge Database Addon sync commit: not recorded
-- `baseline` branch: `QuestieTDB-remove-baseline`; initial subtractive code tip
-  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`
+- `baseline` branch: `QuestieTDB-remove-baseline`; pre-rebase whole-file deletion tip
+  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; pre-rebase clean mixed-runtime subtraction tip
+  `8b63c04beadef59b648cb558247609651e1f19e1`. The rebased stack also contains the support payload
+  cleanup described below.
 - `implementation` branch: not created
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
@@ -873,7 +872,9 @@ Also run:
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
 - WP-04 Objective Order/waypoint parity: verification required
 - WP-05 Contract/flavor gates: implementation exists on the Database Addon `ownership` branch; final integration verification required
-- WP-06 composed-read consumers: not started
+- WP-06 composed-read consumers: done on the clean baseline; Townsfolk and Available Quests use
+  composed ID maps and queries, raw fallbacks are gone, and runtime Item repair is recorded as an
+  open Policy Correction seam in `TDB-IMPLEMENTATION-ISSUES.md`
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
 - WP-08 pinned Database Integration Check: in progress; the old `db-validation` matrix was removed
   in `ab8a78f2f127136b1b09e059fd6cc81ecc187203` while loader-usage validation remains in the unit-test
@@ -900,17 +901,38 @@ Also run:
   - Objective Order was not extracted back into Questie; ownership remains with
     `LibQuestieDB.ObjectiveFirst`
   - Ignored generated `cli/output/` was removed locally
-- Support cleanup validation: full Busted before and after cleanup reports 2 successes, 0 failures,
-  and 66 identical error records, all at the pre-existing missing `Database/itemDB.lua` bootstrap
-  dependency. ZoneDB, tracker, and TOC tests pass with 45 successes using a temporary validation-only
-  helper that skips the missing `itemDB.lua` and `questDB.lua` bootstrap loads; no helper or entity
-  replacement is added to the repository. Production luacheck passes across 297 files, loader-usage
-  validation passes, and `git diff --check` passes. Static checks confirm the exact 24-file deletion
-  set, unchanged consumer wrappers, original values for all 12 fixture constants, and release exclusion.
-- Expected baseline state: intentionally nonfunctional. Full Busted reports 2 successes and 66
-  errors; every affected suite errors at `setupTests.lua:5` because the deleted
-  `Database/itemDB.lua` cannot be opened. Mixed-runtime compiler, raw-table, and provider references
-  are retained as implementation-branch rewrite inputs, not as a compiler fallback
+- Historical pre-rebase clean mixed-runtime subtraction evidence:
+  - `0b02060ca5ab4a853651bf55bfe3a3b73e00f266` — legacy entity localization removed while retaining
+    UI strings and Object-hover tooltip behavior
+  - `e1d1f37ed7e30c1e199c7d48d7cea7d6470f9028` — corrections reduced to Questie blacklist policy and
+    durable Dynamic Correction ordering
+  - `d06049d10991ecc54c2392fd457e9241a058002b` — compiler lifecycle removed from QuestieDB and Login
+    Initialization
+  - `3e6d66ca2f98e37219aa545279df2cae1dbd5b80` — compiler controls, recovery, profiler residue, and
+    translations removed
+  - `2c57c667af6f3ccc148f98ac39846f164cd0b9c9` — raw entity consumers removed or converted to composed
+    reads
+  - `e583ace460e593a0fe3a8c4b4c03156508df909e` — obsolete compiler SavedVariables migration added
+  - `2f5fca8b616528214ff555153167ac8ea2f23ed1` — Questie-owned semantic constants retained
+  - `653ec82ec60cbe59f4117b223e155ab6b2ea834d` — stale compiler terminology removed
+  - `8b63c04beadef59b648cb558247609651e1f19e1` — focused Contract metadata test fixture added
+  - That pre-rebase follow-up changed 47 files with 814 insertions and 1,350 deletions. Its recorded
+    validation was 1,424 Busted successes, clean luacheck across 322 files, passing loader-usage and
+    `git diff --check`, and empty production retirement searches. These checks were not rerun for
+    this rebase
+  - `TDB-IMPLEMENTATION-ISSUES.md` records the Object tooltip index, runtime Item repair, and minimal
+    provider schema/test seams that remain for fresh implementation
+- Support cleanup facts:
+  - The baseline removes the 24 support payloads and 51 flavor TOC entries while retaining the
+    consumer wrappers. Tests use focused inline zone fixtures in `setupTests.lua` and
+    `Database/Zones/zoneDB.test.lua`
+  - Before this rebase, the support-cleanup commit recorded the same 2 Busted successes and 66
+    missing-schema bootstrap errors before and after cleanup, 45 focused successes, clean production
+    luacheck across 297 files, passing loader-usage and `git diff --check`, and static confirmation of
+    the deletion set. Those historical results do not validate the current rebased stack
+- Expected baseline state: structurally clean but not runtime-complete. Contract enforcement,
+  provider query bindings, owner-scoped Policy Corrections, provider/external locale application,
+  support bindings, and the pinned integration check remain fresh implementation work
 - Historical evidence status: `origin/QuestieTDB` at
   `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains committed TDB-01/TDB-02 evidence only. The
   sibling `../Questie-tdb-claude` workspace contains prior dirty and untracked Dynamic Corrections
