@@ -53,6 +53,7 @@ describe("QuestieLink", function()
         end
 
         _G.HaveQuestData = function() return false end
+        _G.GetQuestLink = nil
         _G.C_QuestLog.GetQuestObjectives = function() return nil end
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -89,6 +90,16 @@ describe("QuestieLink", function()
     end)
 
     describe("GetQuestLinkStringById", function()
+        it("should return default link when GetQuestLink API is available", function()
+            _G.GetQuestLink = function()
+                return "Test Link"
+            end
+
+            local result = QuestieLink:GetQuestLinkStringById(1234)
+
+            assert.are_same("Test Link", result)
+        end)
+
         it("should return a formatted link string with level and name from the database when trackerShowQuestLevel is true", function()
             Questie.db.profile.trackerShowQuestLevel = true
             QuestieDB.QueryQuestSingle = function()

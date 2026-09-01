@@ -87,6 +87,10 @@ end
 
 ---@return string
 function QuestieLink:GetQuestLinkStringById(questId)
+    if GetQuestLink then
+        return GetQuestLink(questId)
+    end
+
     local questName = QuestieDB.QueryQuestSingle(questId, "name")
     local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
 
