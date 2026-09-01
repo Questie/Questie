@@ -830,8 +830,9 @@ Also run:
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
   code-changing baseline commit
-- WP-00 policy extraction: in progress; extraction implemented, freshly reviewed, and independently
-  validated locally; exact extraction SHA and normal CI evidence pending
+- WP-00 policy extraction: done; extraction commit
+  `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1` was freshly reviewed and independently validated
+  locally
   - `QuestieNPCFixes:LoadDarkmoonFixes()` moved from
     `Database/Corrections/classicNPCFixes.lua` to
     `QuestieClassicPolicyCorrections:LoadDarkmoonFixes()` in
@@ -852,8 +853,9 @@ Also run:
   - Full local validation: 1,768 Busted successes with 0 failures; luacheck passed with 0 warnings
     or errors across 366 files; `git diff --check` passed
   - Fresh extraction review: three independent reviewers found no actionable issues
-  - WP-00 extraction SHA: to be recorded in a separate evidence-only documentation commit after
-    normal CI validates the exact commit
+  - Normal CI: not run because the merge request is draft; David accepted local validation and
+    ocular review as the gate for continuing baseline deletion. This is a documented waiver, not a
+    claim that CI passed
 - WP-01 master-data import: not started
 - WP-02 lookup/Titan zhCN: blocked on QuestieTDB issue #14
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
@@ -863,4 +865,4 @@ Also run:
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
 - WP-08 pinned Database Integration Check: not started
 - WP-09 baseline replay handover: documented in `TDB-RELAND-HANDOVER.md`; baseline-specific commits not recorded
-- Commit status: WP-00 extraction commit pending; bulk deletion not started
+- Commit status: WP-00 extraction committed; bulk deletion not started
