@@ -634,7 +634,7 @@ end
 
 ---Renders one duration whose scale is not known in advance, carrying its own unit.
 ---
----A per-call cost spans five orders of magnitude in this addon: compiling the database is seconds, and a
+---A per-call cost spans five orders of magnitude in this addon: a full map redraw can take seconds, and a
 ---coordinate conversion is under a microsecond. Milliseconds to two places - which is right for the totals
 ---beside it, where anything under 0.01 ms genuinely is nothing - cannot show the small end at all. Measured on
 ---a normal session it rendered 18 of 50 called rows as "0.00", and gave the same "0.01" to a 6.8us call and an

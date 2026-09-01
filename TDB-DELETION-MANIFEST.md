@@ -863,9 +863,10 @@ Also run:
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
 - WP-04 Objective Order/waypoint parity: verification required
 - WP-05 Contract/flavor gates: implementation exists on the Database Addon `ownership` branch; final integration verification required
-- WP-06 composed-read consumers: done on the clean baseline; Townsfolk and Available Quests use
-  composed ID maps and queries, raw fallbacks are gone, and runtime Item repair is recorded as an
-  open Policy Correction seam in `TDB-IMPLEMENTATION-ISSUES.md`
+- WP-06 composed-read consumers: in progress; the clean baseline removed raw traversals and fallbacks,
+  but provider-bound Townsfolk and Available Quests behavior still needs focused verification on the
+  fresh implementation branch. Runtime Item repair remains an open Policy Correction seam in
+  `TDB-IMPLEMENTATION-ISSUES.md`
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
 - WP-08 pinned Database Integration Check: in progress; the old `db-validation` matrix was removed
   in `ab8a78f2f127136b1b09e059fd6cc81ecc187203` while loader-usage validation remains in the unit-test

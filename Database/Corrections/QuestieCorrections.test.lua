@@ -61,7 +61,7 @@ describe("QuestieCorrections", function()
         Questie.IsTitanReforged = originalIsTitanReforged
     end)
 
-    it("builds expansion-filtered Quest, NPC, and Item blacklists", function()
+    it("builds Quest, NPC, and Item blacklists from filtered module results", function()
         QuestieCorrections.Initialize()
 
         assert.are_same({[101] = true}, QuestieCorrections.questItemBlacklist)
