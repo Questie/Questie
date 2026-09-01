@@ -35,6 +35,7 @@ describe("QuestieReputation", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
 
+        dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.raceKeys = {HUMAN = 1}
 
