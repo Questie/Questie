@@ -201,6 +201,20 @@ describe("QuestieLink", function()
             assert.is_equal("", QuestieLink.lastItemRefTooltip)
         end)
 
+        it("should delegate questie quest links not in QuestieDB to default handler", function()
+            QuestieDB.GetQuest = function()
+                return nil
+            end
+
+            local questieLink = "questie:99999:GUID-0-1234"
+
+            ItemRefTooltip:SetHyperlink(questieLink)
+
+            assert.are_same({}, tooltipLines)
+            assert.spy(_G.ItemRefTooltip.Show).was.not_called()
+            assert.is_equal("", QuestieLink.lastItemRefTooltip)
+        end)
+
         it("should delegate native quest links not in QuestieDB to default handler", function()
             QuestieDB.GetQuest = function()
                 return nil
