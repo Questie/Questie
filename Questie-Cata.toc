@@ -122,13 +122,8 @@ Localization\l10n.lua
 Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories.lua
-Localization\lookups\lookupOverrides.lua
 Localization\lookups\lookupZones.lua
 Localization\lookups\lookupZonesCorrections.lua
-Localization\lookups\Cata\lookupItems\lookupItems.xml
-Localization\lookups\Cata\lookupNpcs\lookupNpcs.xml
-Localization\lookups\Cata\lookupObjects\lookupObjects.xml
-Localization\lookups\Cata\lookupQuests\lookupQuests.xml
 
 # Libs
 Modules\Libs\DistanceUtils.lua
