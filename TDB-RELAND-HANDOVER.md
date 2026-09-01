@@ -20,15 +20,17 @@ How the four TDB documents relate:
   scope (TDB-06, TDB-08, TDB-11, TDB-12) and the change log. Its TDB-03 text describes
   replacing an init path the baseline deletes outright; treat the target order in this document
   as current.
-- **This document** — branch mechanics, the reference-implementation rule, master-drift
-  warnings, target final shapes, and what ports versus what gets rewritten.
+- **This document** — branch mechanics, the historical-evidence rule, drift warnings, target final
+  shapes, and the fresh implementation sequence.
 
 ## Branch strategy and mechanics
 
-1. `baseline` is cut from `master`. Its first commit records the source commit and extracts the
-   Questie-owned Classic and TBC policy producers from mixed provider correction files into
-   expansion-split files. No earlier `baseline` commit is allowed. The extraction commit updates
-   callers and TOCs without changing behavior and must pass normal CI at that exact SHA.
+1. `baseline` is cut from `master`. Documentation-only commits
+   `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f` and
+   `e2b6d2d2db1cf2786792d9a13553863d62f3526d` record the plan before WP-00. WP-00 is the first
+   code-changing baseline commit: it records the source commit, extracts the Questie-owned Classic
+   and TBC policy producers into expansion-split files, updates callers and TOCs without changing
+   behavior, and must pass normal CI at that exact SHA.
 2. Later `baseline` commits apply the bulk deletions in `TDB-DELETION-MANIFEST.md`. The branch becomes
    intentionally non-functional only after those commits. Its MR against `master` exists for review
    visibility, must show extraction before deletion, and must never merge alone. CI on the
@@ -43,41 +45,35 @@ How the four TDB documents relate:
    not a merge chore.
 6. Keep the stack short-lived. Every open week adds rebase friction against an active `master`.
 
-## Reference implementation rule
+## Historical evidence rule
 
-Branch `QuestieTDB` is the **reference implementation**: TDB-01 (test fake), TDB-02 (QuestieDB
-binding to LibQuestieDB), and the completed Dynamic Corrections packet. It is evidence and
-design reference — do not rebase or merge it onto the stack.
+Build `implementation` fresh from the subtractive baseline, Contract Version 1, the retained
+QuestiePolicy producers, and the authoritative behavior in these handovers. Do not merge,
+cherry-pick, or mechanically port an earlier implementation.
 
-- **Tests port nearly as-is.** The mock (`test/QuestieTDBMock.lua`), its contract tests, and
-  the ~150 tests across `QuestieCorrections.test.lua`, `QuestieDB.test.lua`,
-  `QuestieEvent.test.lua`, `QuestieLib.test.lua`, and `l10n.test.lua` run against the fake, not
-  the compiler. Exceptions: `l10n.test.lua` describe blocks that exercise the legacy
-  `l10n:Initialize()` raw entity writes die with that path; the `*DataOverrides` empty-table
-  assertions in the QuestieEvent/QuestieLib tests seed their own sentinel tables and keep
-  working, but may be simplified since the fields no longer exist anywhere.
-- **Production code is rewritten in final shape, not cherry-picked.** The reference was built
-  to coexist with the compiler; its intermediate scaffolding must not be ported:
-  no `QuestieCorrections:Initialize(validationTables)`, no `_LoadCorrections`, no
-  `PreCompile`/`OptimizeWaypoints`, no Stage-1 compile branch, no compile/cached dual-path
-  reasoning. The register-once guard stays (it also protects repeated initialization in
-  tests), but its comment should no longer mention compile paths.
+Committed `origin/QuestieTDB` at `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains historical
+TDB-01/TDB-02 evidence. Dirty and untracked Dynamic Corrections work also exists in sibling
+workspace `../Questie-tdb-claude`. Both may be consulted selectively as behavioral archaeology when
+a requirement is unclear, but neither is an architectural reference, prerequisite, or merge source.
 
-## Master drift warning
+Design production code and tests from the final contract. Prior tests may suggest valuable behavior
+cases, but must not preserve raw-table assumptions, compiler coexistence, `*DataOverrides`, or other
+compatibility scaffolding. In particular, do not restore
+`QuestieCorrections:Initialize(validationTables)`, `_LoadCorrections`, `PreCompile`,
+`OptimizeWaypoints`, a Stage-1 compile branch, or compile/cached dual-path reasoning. A register-once
+guard remains useful because registration is append-only, not because an old compile path used it.
 
-The reference branch diverged from an older `master`. Verified drift that affects the re-land:
+## Historical drift warning
 
-- Titan Reforged corrections on `master` now live in standalone
-  `titanReforged{Item,NPC,Object,Quest}Fixes.lua` files called from `MinimalInit`; the
-  reference branch removed Titan calls that pointed into the WotLK fix files. The baseline
-  deletes the four standalone files; `titanReforgedQuestTags.lua` stays (it feeds
-  `questTagInfoCorrections.lua`).
-- `master`'s Stage 1 uses an `activeStorage` shape the reference predates.
+The historical work predates the current baseline and must not anchor the new design:
 
-Rule: the reference shows design, behavior, and tests. Implement against the baseline's actual
-(current-`master`-derived) code shapes, not against the reference's surroundings. When the two
-disagree about surrounding code, the baseline wins; when they disagree about correction
-behavior, `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` wins.
+- Titan Reforged corrections later moved to standalone
+  `titanReforged{Item,NPC,Object,Quest}Fixes.lua` files. The baseline deletes those provider-owned
+  files while retaining `titanReforgedQuestTags.lua` for WoW API quest-tag correction behavior.
+- The old Stage 1 and its `activeStorage` shape die with the compiler lifecycle.
+
+Implement against the subtractive baseline and the final contracts in these documents. If historical
+code disagrees with them, the baseline and authoritative handovers win.
 
 ## Target final shapes
 
@@ -91,8 +87,8 @@ behavior, `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` wins.
 4. `l10n.BuildExternalLocaleCorrections()` — `Exists`-filtered External Locale Override
    tables, captured before the initial apply
 5. Policy Correction registration + blacklist construction + initial apply of owner
-   `"Questie"` (the reference's repurposed `MinimalInit`; rename freely — the old name is
-   meaningless without a "full init" counterpart)
+   `"Questie"`; choose a fresh name because `MinimalInit` is meaningless without a full-init
+   counterpart
 6. `QuestieDB:Initialize()` — sets `QuestieDB.IsInitialized = true` at its end
 7. Townsfolk initialization **from composed reads** (TDB-06 work packet; also replaces the
    `dbCompiledCount` rebuild key)
@@ -117,9 +113,8 @@ behavior, `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` wins.
   `ApplyEntityLocale` (the withdraw-first switch sequence), `RebuildObjectNameLookup`. No
   entity-table writes, no `Localization/lookups` entity files. The locale-change options path
   calls `ApplyEntityLocale()` (plus UI refresh) instead of the recompile-and-reload popup.
-- **`QuestieEvent` / `QuestieLib`** — as on the reference branch: one hoisted
-  `SetDarkmoonNpcCorrections` call with NONE-location withdrawal; name-only
-  `RepairMissingItem`.
+- **`QuestieEvent` / `QuestieLib`** — one hoisted `SetDarkmoonNpcCorrections` call with
+  NONE-location withdrawal; name-only `RepairMissingItem`, as required by the behavior contract.
 - **Extracted policy producers** — already present on `baseline` in the expansion-split
   `QuestiePolicy` files. `implementation` connects them to `DarkmoonFaire` and
   `ContentPhasePolicy`. It may reorganize them later only when the move and behavior change remain
@@ -129,26 +124,82 @@ behavior, `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` wins.
 
 ## Execution order (suggested)
 
-1. Commit or verify the reference branch state, then create `baseline` from `master`.
-2. Extract the Classic and TBC policy producers per WP-00. Update callers and TOCs, run focused and
-   full validation, and commit the behavior-neutral move. Require successful normal CI for that SHA
-   before proceeding.
-3. Apply the remaining manifest deletions in separate commits and open the visibility MR.
-4. Create `implementation`; port the mock and affected test files, then watch the intended failures.
-5. Re-land the central slice in final shape (QuestieDB, QuestieCorrections, Stage 1), connect the
-   retained policy producers, then adapt the policy callers (QuestieEvent, QuestieLib, l10n). The
-   reference branch's per-file diffs are the guide.
-6. Wire the locale-change path to `ApplyEntityLocale()`.
-7. Convert Townsfolk (TDB-06) and the CI `db-validation` matrix to the pinned Database Integration
-   Check (TDB-12).
-8. Add a migration that drops compiler state under the ordinary global, SoD, and Titan Reforged
+1. Create `implementation` from the commit containing the finalized Baseline replay evidence below; do not branch from the earlier subtractive code tip alone.
+2. Design the focused QuestieTDB fake and affected tests fresh from Contract Version 1 and the final
+   behavior requirements, then confirm the intended baseline failures.
+3. Implement the central slice in final shape (`QuestieDB`, `QuestieCorrections`, and Stage 1),
+   connect the retained policy producers, then adapt the policy callers (`QuestieEvent`,
+   `QuestieLib`, and `l10n`). Do not recreate a compiler-compatible intermediate state.
+4. Wire the locale-change path to `ApplyEntityLocale()`.
+5. Convert Townsfolk (TDB-06) and add the pinned Database Integration Check (TDB-12).
+6. Add a migration that drops compiler state under the ordinary global, SoD, and Titan Reforged
    global scopes.
-9. Run full validation and the manifest's consolidated work packets, then use the merge order above.
+7. Run full validation and the manifest's consolidated work packets, then use the merge order above.
+
+## Baseline replay evidence
+
+The subtractive code ends at
+`14bb2681f8a349a0470c8deb1f37c238ea72ae80` on branch
+`QuestieTDB-remove-baseline`. The commit containing this finalized evidence section completes WP-09
+and is the exact branch point for `implementation`; the code tip alone omits the handoff record. The
+baseline was created from Questie source commit
+`ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57` and retains the WP-00 extraction commit
+`a85d6c5a2ad1e77f431907ef70d4163f623c1bd1`. Push-triggered GitHub Actions run
+[33496726477](https://github.com/Questie/Questie/actions/runs/33496726477) passed for that exact SHA,
+including unit tests, luacheck, and all `db-validation` matrix jobs. The separate pull-request run
+was skipped because the merge request was draft.
+
+The WP-00 evidence record is `09e0178e79775782cdabd75f506dccd6e8ec0698`. The deletion series is:
+
+1. `99493b08a5b35aabf7e4ca93d438bf58baf3c08a` — raw provider entity data;
+2. `64bd822b9c998e8cfc00262b7635d65cafd5c930` — provider-owned correction sources;
+3. `d3d08d244e341ebe68b7d7fabd4f50de13fc37a1` — generated entity localization;
+4. `c7454f1f79459de72586953870ff9f4447d048ab` — compiler, storage, cleanup, waypoint optimizer,
+   and compiler schemas;
+5. `ab8a78f2f127136b1b09e059fd6cc81ecc187203` — Questie-side entity validators and the old CI
+   matrix, while retaining loader-usage validation;
+6. `14bb2681f8a349a0470c8deb1f37c238ea72ae80` — orphaned CLI database mocks.
+
+Deletion commits `99493b08` through `14bb2681f`, measured by the exclusive diff
+`09e0178e..14bb2681f`, delete exactly 281 tracked files and 5,042,232 lines from deleted files. The
+overall diff changes 292 files with 25 insertions and 5,042,474 deletions. All five flavor TOCs
+require QuestieTDB. The Classic policy producer remains loaded in all five TOCs, while the TBC
+producer remains loaded in exactly the four TBC-and-later TOCs and is absent from Classic. Objective
+Order was not extracted and remains provider-owned through `LibQuestieDB.ObjectiveFirst`.
+
+The implementation branch inherits these retained policy symbols:
+
+- `QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore)`;
+- `QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar)`;
+- `QuestieTBCPolicyCorrections:LoadContentPhaseFixes()`.
+
+It must reintroduce the final provider-backed schema adapters and runtime symbols described above,
+including `QuestieDB.IsInitialized`, `QuestieDB.RefreshAfterCorrectionApply`, the owner-scoped
+`QuestieCorrections` registrar and setters, provider/external locale application, and the final
+Login Initialization order. The eight Policy Correction names, API datatypes, and load orders in
+`TDB-DELETION-MANIFEST.md` remain exact requirements. QuestiePolicy, Titan quest tags, blacklists,
+Event Quest data, Content Phase state, UI localization, Zone/Category lookups, QuestieStream, and
+deferred support data remain on the baseline.
+
+The baseline is intentionally nonfunctional: full Busted reports 2 successes and 65 errors, with
+every affected suite erroring at `setupTests.lua:5` because the deleted `Database/itemDB.lua` cannot
+be opened. Mixed-runtime compiler, raw-table, and provider references remain as implementation
+rewrite inputs; they are not a fallback. Ignored generated `cli/output/` was removed locally. The
+old `db-validation` matrix is gone, but the pinned WP-08 Database Integration Check is not
+implemented.
+
+`origin/QuestieTDB` at `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains historical
+TDB-01/TDB-02 evidence only. Dirty and untracked Dynamic Corrections work under
+`../Questie-tdb-claude` is optional behavioral archaeology, not a prerequisite or implementation
+source. Build fresh from the baseline and authoritative handovers; do not merge, cherry-pick, or
+mechanically port the historical work. The lack of an immutable Dynamic Corrections commit is not a
+blocker. The provider work packets remain combined-merge blockers and are not reasons to restore
+deleted provider-owned data.
 
 ## Validation gates
 
-- `busted -p ".test.lua" .` green on `implementation` (reference count after the packet:
-  1,526; expect drift from ported/retired describes).
+- `busted -p ".test.lua" .` green on `implementation` (the historical packet recorded 1,526;
+  expect the fresh test design to differ).
 - `luacheck -q -- Database Localization Modules Public Questie.lua` — zero warnings.
 - Retirement greps now expect **zero** references to `questData`/`npcData`/`itemData`/
   `objectData` raw tables, `QuestieDBCompiler`, `dbIsCompiled`, and `*DataOverrides` in
