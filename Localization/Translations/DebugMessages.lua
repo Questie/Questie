@@ -218,18 +218,6 @@ local debugMessagesLocales = {
         ["zhCN"] = "请稍等，等待 Questie 加载完成",
         ["zhTW"] = "請稍候，讓 Questie 完成載入",
     },
-    ["There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Es gab ein Problem beim Initialisieren der Questie-Datenbank. Ein Neukompilieren der Datenbank behebt das Problem in der Regel.",
-        ["esES"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
-        ["esMX"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
-        ["frFR"] = "Un problème est survenu lors de l'initialisation de la base de données de Questie. Cela peut généralement être résolu en recompilant la base de données.",
-        ["koKR"] = "Questie 정보를 초기화하는동안 문제가 발생했습니다. 일반적으로 정보를 다시 편집하여 수정 할 수 있습니다.",
-        ["ptBR"] = "Ocorreu um problema ao inicializar o banco de dados de Questie. Isso geralmente pode ser consertado recompilando o banco de dados.",
-        ["ruRU"] = "Выявлена проблема при инициализации базы данных Questie. Обычно это может быть исправлено путем рекомпиляции БД.",
-        ["zhCN"] = "初始化 Questie 的数据库时出现问题。 通常可以通过重新编辑数据库来解决问题",
-        ["zhTW"] = "初始化 Questie 的資料庫時發生問題，通常可以藉由重建資料庫來解決",
-    },
     ["There was an error populating objectives for %s %s %s %s"] = {
         ["enUS"] = true,
         ["deDE"] = "Es gab einen Fehler beim Weitergeben der Ziele für %s %s %s %s",
@@ -638,18 +626,6 @@ local debugMessagesLocales = {
         ["ruRU"] = "NPC, которого вы только что взяли в цель, отсутствует в БД Questie",
         ["zhCN"] = "你刚刚选中的 NPC 在 Questie 数据库中缺失数据",
         ["zhTW"] = "你剛才選為目標的 NPC 是 Questie 資料庫中所缺少的",
-    },
-    ["Questie has detected the database to be corrupted. You may type \"/run ReloadUI()\" or \"/reload\" to start the recompiling process when the conditions allow it.\n\nThe process will take 1-2 minutes depending on your configuration."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Questie hat festgestellt, dass die Datenbank beschädigt ist. Du kannst \"/run ReloadUI()\" oder \"/reload\" eingeben, um das Neukompilieren zu starten.\n\nDer Prozess wird je nach deiner Konfiguration 1-2 Minuten dauern.",
-        ["esES"] = "Questie ha detectado que la base de datos está corrompida. Puedes escribir \"/run ReloadUI()\" o \"/reload\" para iniciar el proceso de recompilación cuando las condiciones lo permitan.\n\nEl proceso tardará entre 1 y 2 minutos dependiendo de tu configuración.",
-        ["esMX"] = "Questie ha detectado que la base de datos está corrompida. Puedes escribir \"/run ReloadUI()\" o \"/reload\" para iniciar el proceso de recompilación cuando las condiciones lo permitan.\n\nEl proceso tardará entre 1 y 2 minutos dependiendo de tu configuración.",
-        ["frFR"] = "Questie a détecté que la base de données est corrompue. Vous pouvez taper \"/run ReloadUI()\" ou \"/reload\" pour lancer le processus de recompilation lorsque les conditions le permettent.\n\nLe processus prendra 1 à 2 minutes selon votre configuration.",
-        ["koKR"] = "Questie가 데이터베이스 손상을 감지했습니다. 조건이 충족될 때 재컴파일 과정을 시작하려면 /run ReloadUI() 또는 /reload를 입력하시기 바랍니다.이 과정은 사용자 설정에 따라 1~2분 정도 소요될 수 있습니다.",
-        ["ptBR"] = "O Questie detectou que o banco de dados está corrompido. Você pode digitar \"/run ReloadUI()\" ou \"/reload\" para iniciar o processo de recompilação quando as condições permitirem.\n\nO processo levará de 1 a 2 minutos dependendo da sua configuração.",
-        ["ruRU"] = "Questie обнаружил повреждение базы данных. Вы можете выполнить \"/run ReloadUI()\" или \"/reload\" для запуска процесса рекомпиляции, когда будут подходящие условия.\n\nПроцесс займет 1-2 минуты в зависимости от вашей конфигурации.",
-        ["zhCN"] = "Questie检测到数据库已损坏。在条件允许的情况下，你可以输入“/run ReloadUI()”或“/reload”来启动重新编译过程。\n\n根据你的配置情况，该过程将耗时1到2分钟。",
-        ["zhTW"] = "Questie偵測到資料庫已損毀。在允許的情況下，你可以輸入\"/run ReloadUI()\"或\"/reload\"來啟動重新編譯程序。\n\n根據你的設定，該過程將會花費約1到2分鐘。",
     },
 }
 
