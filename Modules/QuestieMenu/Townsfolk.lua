@@ -29,12 +29,12 @@ end
 ---@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
 local function _PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
     local count = 0
-    for id, npcData in pairs(QuestieDB.npcData) do
-        local flags = npcData[QuestieDB.npcKeys.npcFlags]
+    for id in pairs(QuestieDB.NPCPointers) do
+        local flags = QuestieDB.QueryNPCSingle(id, "npcFlags")
         for name, folkType in pairs(folkTypes) do
             if flags and folkType.mask and bitband(flags, folkType.mask) == folkType.mask then
-                local npcName = npcData[QuestieDB.npcKeys.name]
-                local subName = npcData[QuestieDB.npcKeys.subName]
+                local npcName = QuestieDB.QueryNPCSingle(id, "name")
+                local subName = QuestieDB.QueryNPCSingle(id, "subName")
                 if npcName and sub(npcName, 1, 5) ~= "[DND]" then
                     if (not folkType.requireSubname) or (subName and strlen(subName) > 1) then
                         folkType.data[#folkType.data+1] = id
@@ -163,8 +163,8 @@ function Townsfolk.Initialize()
     local validProfessionTrainers = Townsfolk.GetProfessionTrainers()
     for i=1, #validProfessionTrainers do
         local id = validProfessionTrainers[i]
-        if QuestieDB.npcData[id] then
-            local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
+        if QuestieDB.NPCPointers[id] then
+            local subName = QuestieDB.QueryNPCSingle(id, "subName")
             if subName then
                 if townfolk[subName] then -- weapon master,
                     tinsert(townfolk[subName], id)
@@ -393,8 +393,8 @@ function Townsfolk.Initialize()
 
     if Expansions.Current >= Expansions.MoP then
         townfolk["Battle Pet Trainer"] = {}
-        for id, npcData in pairs(QuestieDB.npcData) do
-            local subName = npcData[QuestieDB.npcKeys.subName]
+        for id in pairs(QuestieDB.NPCPointers) do
+            local subName = QuestieDB.QueryNPCSingle(id, "subName")
             if subName and subName == "Battle Pet Trainer" then
                 tinsert(townfolk["Battle Pet Trainer"], id)
             end
@@ -412,7 +412,7 @@ function Townsfolk.Initialize()
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
-            if QuestieDB.npcData[trainer] then
+            if QuestieDB.NPCPointers[trainer] then
                 tinsert(newTrainers, trainer)
             end
         end
@@ -437,8 +437,8 @@ function Townsfolk.Initialize()
     local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
 
     count = 0
-    for id, data in pairs(QuestieDB.itemData) do
-        local foodType = data[QuestieDB.itemKeys.foodType]
+    for id in pairs(QuestieDB.ItemPointers) do
+        local foodType = QuestieDB.QueryItemSingle(id, "foodType")
         if foodType then
             tinsert(petFoodVendorTypes[petFoodIndexes[foodType]], id)
         end
@@ -608,8 +608,8 @@ function Townsfolk.GetFactionSpecificMailboxes()
     local mailboxes = Townsfolk.GetMailboxes()
     for i=1, #mailboxes do
         local id = mailboxes[i]
-        if QuestieDB.objectData[id] then
-            local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
+        if QuestieDB.ObjectPointers[id] then
+            local factionID = QuestieDB.QueryObjectSingle(id, "factionID")
 
             if factionID == 0 then
                 tinsert(hordeMailBoxes, id)
