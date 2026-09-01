@@ -1,0 +1,791 @@
+# QuestieTDB deletion manifest
+
+## Purpose and authority
+
+This is the master deletion manifest for replacing Questie's entity compiler and raw entity
+localization with the Database Addon. It reconciles `TDB-DELETE-MANIFEST_1.md` and
+`TDB-DELETE-MANIFEST_2.md`.
+
+The baseline branch is a review tool. It removes the old architecture so the implementation merge
+request shows only the code Questie still needs. The baseline branch must remain a draft and must
+not merge into `master` without the implementation branch merged into it first.
+
+This file defines the deletion set and final ownership. It is not an instruction to delete files
+from the current working branch immediately.
+
+Use these documents to resolve implementation details:
+
+1. This manifest is authoritative for deletions, retention, merge gates, and required extractions.
+2. `TDB-RELAND-HANDOVER.md` is authoritative for branch mechanics, final module shapes, and Login
+   Initialization order.
+3. `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` is authoritative for the registrar contract, correction
+   ownership, and Policy Correction behavior.
+4. `TDB-REFACTOR.md` is the historical tracker. Its compiler-coexistence instructions and TDB-03
+   startup details are superseded by the re-land handover.
+
+`ApplyParameterized` does not exist. No implementation may restore it or preserve a compiler
+fallback.
+
+## Branch workflow
+
+The branch names in this document are `baseline` and `implementation`. After `implementation`
+merges into `baseline`, "combined branch" means the now-functional `baseline` branch.
+
+1. Create `baseline` from the latest `master`.
+2. Record the exact Questie source commit in this file and in the Database Addon import evidence.
+3. Configure the Database Addon master-data import to fetch that recorded Questie commit. The import
+   may run after `baseline` is created, but it must pass before the combined branch merges.
+4. Apply the deletions and reductions in this manifest.
+5. Open a draft `baseline` merge request targeting `master`. Mark it as not independently mergeable.
+   Its CI may be expected to fail or may be skipped because the deletion-only state is intentionally
+   non-functional.
+6. Create `implementation` from `baseline`.
+7. Reimplement the required Questie behavior and open its merge request against `baseline`. Use the
+   old `QuestieTDB` branch as a behavior and test reference, not as a branch to merge or rebase.
+8. Require green CI and focused review on `implementation`, then merge it into `baseline`.
+9. Immediately before final merge, sync Database Addon master data again. Any fix that landed on
+   deleted Questie data while the stack was open must move to the provider and pass differential
+   validation.
+10. Run complete integration validation on the combined branch against the pinned provider revision.
+11. Merge the combined branch into `master`. Questie `master` must never contain the deletion-only
+    state.
+
+## Classification
+
+- **Delete** means Questie no longer owns the implementation or data.
+- **Reimplement** means the current implementation is deleted and a smaller Questie-owned version is
+  added on `implementation`.
+- **Keep** means the code remains substantially as-is because it is Questie behavior or a deliberate
+  compatibility seam.
+- **Blocked** means deletion is allowed on the baseline, but the combined branch cannot merge until
+  the named work packet passes.
+- **Deferred** means it is outside this compiler/entity-localization delivery and must not be removed
+  incidentally.
+
+## Mandatory work packets
+
+These packets are merge gates for the combined branch. They should exist as files or linked issues
+on the branch so an agent cannot mistake missing provider behavior for dead Questie behavior.
+
+### WP-01: Database Addon master-data import
+
+**Owner:** Database Addon
+
+**Must complete before the combined branch merges:**
+
+- Import entity data, provider-owned corrections, generated entity localization, and relevant side
+  channels from the exact Questie `master` commit used to create `baseline`.
+- Record the source Questie commit and generated Database Addon commit.
+- Do not import from `baseline` after the source files have been removed.
+- Regenerate Source and Baked outputs.
+- Run differential validation against the recorded Questie source commit.
+- Immediately before final merge, repeat the sync for relevant data changes that landed on
+  `master` while the branch stack was open.
+- Record expected Questie policy differences separately rather than normalizing them into provider
+  data.
+
+**Evidence required:** baseline source commit, import command, generated commit, pre-merge sync
+source and generated commits, differential summary, and flavor coverage.
+
+### WP-02: built-in lookup overrides and Titan zhCN parity
+
+**Owner:** Database Addon
+
+**Tracking:** QuestieTDB issue #14
+
+**Must complete:**
+
+- Import `Localization/lookups/lookupOverrides.lua` behavior owned by the Database Addon.
+- Import Titan Reforged zhCN Quest entity localization.
+- Prove built-in localized Item, Quest, NPC, and Game Object reads match the source data for every
+  supported locale and applicable season.
+- Prove `LibQuestieDB.l10n.SetLocale()` switches provider localization without compilation.
+
+**Blocks the combined merge after baseline deletion of:** Questie's built-in entity lookup
+registration, raw entity localization writes, `lookupOverrides.lua`, and
+`Questie.LoadTitanQuestLookupOverrides()`.
+
+### WP-03: `requiredRaces` ownership and SoD composition
+
+**Owner:** Database Addon
+
+**Tracking:** QuestieTDB issue #13. Add any other issue only after confirming it is still an active
+dependency.
+
+**Must complete:**
+
+- Materialize or otherwise provide the current derived `requiredRaces` result.
+- Cover SoD entities after Dynamic Correction composition.
+- Prove parity for Era, SoD, TBC, WotLK, Cata, and MoP.
+- Record any deliberate behavior change from Questie's inferred starter-faction rule.
+
+**Blocks the combined merge after baseline deletion of:** the derived loop in
+`QuestieCorrections:Initialize()` that inspects Quest starters and NPC faction data.
+
+### WP-04: Objective Order and waypoint-derived parity
+
+**Owner:** Database Addon
+
+**Must complete:**
+
+- Verify all five `LibQuestieDB.ObjectiveFirst` tables are flavor-correct in Source and Baked modes.
+- Verify waypoint simplification is generated by the Database Addon and matches Questie's current
+  Ramer-Douglas-Peucker result where parity is intended.
+- Record any accepted differential as provider behavior, not as a silent deletion.
+
+**Blocks the combined merge after baseline deletion of:** Objective Order side effects in expansion
+correction files, `QuestieCorrections:PreCompile()`, `QuestieCorrections:OptimizeWaypoints()`, and
+`Modules/Libs/RamerDouglasPeucker.lua`.
+
+### WP-05: Database Addon contract and flavor gates
+
+**Owner:** Database Addon and Questie integration
+
+**Must complete:**
+
+- Contract Version 1 owner-scoped registrar is available to Questie.
+- Provider-owned faction, class, race, expansion, season, SoD, and Titan Corrections are registered
+  and gated by the Database Addon.
+- Titan Reforged is restricted to WotLK season `109`.
+- All five Questie TOCs require the Database Addon.
+- A pinned Database Integration Check loads the same provider revision used for final validation.
+
+### WP-06: composed-read consumer conversion
+
+**Owner:** Questie `implementation` branch
+
+**Tracking:** TDB-06
+
+**Must complete:**
+
+- Convert every Townsfolk raw traversal to composed ID maps and query functions.
+- Remove the `dbCompiledCount` rebuild gate. Rebuild Townsfolk on each Addon Load until the provider
+  exposes a stable data revision.
+- Remove the raw fallback in Available Quests.
+- Prove Townsfolk policy, faction filtering, character filtering, Manual Notes, and Available Quest
+  enumeration still work.
+
+### WP-07: provider differential coverage
+
+**Owner:** Database Addon
+
+**Tracking:** QuestieTDB issue #19
+
+**Must complete:**
+
+- Prove the provider represents `classicQuestReputationFixes.lua`, `itemStartFixes.lua`,
+  `AutoTableUpdates.lua` NPC flags, all static expansion fixes, and SoD side channels.
+- Cover provider Source and Baked outputs for every supported flavor.
+- Record accepted differences explicitly.
+
+### WP-08: pinned Database Integration Check
+
+**Owner:** Questie CI integration
+
+**Tracking:** TDB-12
+
+**Must complete:**
+
+- Replace the Questie `db-validation` matrix with a Database Integration Check pinned to the exact
+  provider revision used by the combined branch.
+- Keep Questie behavior tests in Questie.
+- Prove the check fails for an incompatible contract or provider revision.
+
+### WP-09: baseline replay handover
+
+**Owner:** Questie `implementation` branch
+
+Before handing `baseline` to another agent, record:
+
+- the exact `baseline` commit;
+- the exact source commit containing the reference implementation;
+- every symbol to reintroduce;
+- the eight Questie Policy Correction names, API datatypes, and load orders;
+- Login Initialization order;
+- changed tests and expected assertions;
+- provider work-packet status;
+- validation commands and known external failures.
+
+`TDB-RELAND-HANDOVER.md` is the entry point for replay. `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` is the
+detailed behavior source. Its compiler-coexistence instructions are obsolete. `TDB-REFACTOR.md`
+contains historical planning and is not sufficient by itself for replaying the work onto a
+subtractive baseline.
+
+## Delete whole files and directories
+
+### Raw entity data
+
+Delete all provider-owned raw entity tables:
+
+```text
+Database/Classic/
+Database/TBC/
+Database/Wotlk/
+Database/Cata/
+Database/MoP/
+```
+
+Remove every corresponding entry from:
+
+```text
+Questie-Classic.toc
+Questie-BCC.toc
+Questie-WOTLKC.toc
+Questie-Cata.toc
+Questie-Mists.toc
+```
+
+Known production consumers must be converted or deleted with the raw tables. Refresh line anchors
+against the recorded source commit before applying the manifest:
+
+- `Modules/QuestieMenu/Townsfolk.lua` has seven raw NPC, Item, and Game Object access sites. WP-06
+  converts them to composed reads.
+- `Localization/l10n.lua` writes localized values into raw entity tables. Delete that path.
+- `Database/Corrections/QuestieCorrections.lua` derives `requiredRaces` from raw Quest and NPC data.
+  WP-03 replaces it.
+- `_QuestieDB:HideClassAndRaceQuests()` traverses `questData` and has no production caller. Delete it.
+- `Modules/QuestieCleanup.lua` clears the raw tables. Delete it.
+- `Database/Corrections/AutoTableUpdates.lua` writes raw NPC flags. Delete it after WP-07 proves the
+  provider values.
+- Remove the `QuestPointers or questData` fallback in Available Quests.
+- Remove any `ItemPointers or itemData` fallback in `QuestieLib` if it remains on the baseline source.
+
+### Compiler and raw cleanup
+
+Delete:
+
+```text
+Database/compiler.lua
+Database/QuestieDBStorage.lua
+Database/QuestieDBStorage.test.lua
+Modules/QuestieCleanup.lua
+```
+
+`QuestieDBStorage` only selects compiled binary namespaces and invalidates compiler state. Remove its
+imports and calls from initialization, database, menu, options, stream, profiler, and CLI mock code.
+Remove its entry from all five flavor TOCs.
+
+Delete `Modules/Libs/RamerDouglasPeucker.lua` on `baseline` and remove its five TOC entries. WP-04
+blocks merging the combined branch until provider parity is proven. Do not delete `QuestieStream`;
+communications and serialization still use it.
+
+### Provider-owned correction sources
+
+Delete the provider-owned correction copies on the baseline. WP-01, WP-03, and WP-04 block
+merging the combined branch until their replacement behavior is proven:
+
+```text
+Database/Corrections/AutoTableUpdates.lua
+Database/Corrections/Automatic/
+Database/Corrections/classicQuestFixes.lua
+Database/Corrections/classicNPCFixes.lua
+Database/Corrections/classicItemFixes.lua
+Database/Corrections/classicObjectFixes.lua
+Database/Corrections/tbcQuestFixes.lua
+Database/Corrections/tbcNPCFixes.lua
+Database/Corrections/tbcItemFixes.lua
+Database/Corrections/tbcObjectFixes.lua
+Database/Corrections/wotlkQuestFixes.lua
+Database/Corrections/wotlkNPCFixes.lua
+Database/Corrections/wotlkItemFixes.lua
+Database/Corrections/wotlkObjectFixes.lua
+Database/Corrections/cataQuestFixes.lua
+Database/Corrections/cataNPCFixes.lua
+Database/Corrections/cataItemFixes.lua
+Database/Corrections/cataObjectFixes.lua
+Database/Corrections/mopQuestFixes.lua
+Database/Corrections/mopNPCFixes.lua
+Database/Corrections/mopItemFixes.lua
+Database/Corrections/mopObjectFixes.lua
+Database/Corrections/sodQuestFixes.lua
+Database/Corrections/sodNPCFixes.lua
+Database/Corrections/sodItemFixes.lua
+Database/Corrections/sodObjectFixes.lua
+Database/Corrections/titanReforgedQuestFixes.lua
+Database/Corrections/titanReforgedNPCFixes.lua
+Database/Corrections/titanReforgedItemFixes.lua
+Database/Corrections/titanReforgedObjectFixes.lua
+```
+
+The four standalone Titan files are part of current `master` and replace older Titan functions in
+WotLK correction files. Keep `Database/Corrections/titanReforgedQuestTags.lua`; it feeds retained
+WoW API quest-tag correction behavior.
+
+Remove deleted correction TOC entries. Capture the Questie-owned Darkmoon and Content Phase
+producers verbatim before deleting the mixed NPC and TBC Quest files, then re-add them in their new
+Questie-owned homes on `implementation`. The older audited snapshot found them at
+`classicNPCFixes.lua:3719-3778`, `tbcNPCFixes.lua:2096-2183`, and
+`tbcQuestFixes.lua:8819-8830`; refresh these anchors against the recorded source commit.
+
+WP-07 must explicitly cover `Automatic/classicQuestReputationFixes.lua`,
+`Automatic/itemStartFixes.lua`, `AutoTableUpdates.lua` NPC flags, SoD base data, and every static
+fix file before the combined branch merges.
+
+### Generated entity localization
+
+Delete the expansion entity lookup trees and their XML/loadstring tests on the baseline. WP-01 and
+WP-02 block merging the combined branch until provider parity is proven:
+
+```text
+Localization/lookups/Classic/lookupItems/
+Localization/lookups/Classic/lookupNpcs/
+Localization/lookups/Classic/lookupObjects/
+Localization/lookups/Classic/lookupQuests/
+Localization/lookups/Classic/lookupLoadstrings.test.lua
+Localization/lookups/TBC/lookupItems/
+Localization/lookups/TBC/lookupNpcs/
+Localization/lookups/TBC/lookupObjects/
+Localization/lookups/TBC/lookupQuests/
+Localization/lookups/TBC/lookupLoadstrings.test.lua
+Localization/lookups/Wotlk/lookupItems/
+Localization/lookups/Wotlk/lookupNpcs/
+Localization/lookups/Wotlk/lookupObjects/
+Localization/lookups/Wotlk/lookupQuests/
+Localization/lookups/Wotlk/lookupLoadstrings.test.lua
+Localization/lookups/Cata/lookupItems/
+Localization/lookups/Cata/lookupNpcs/
+Localization/lookups/Cata/lookupObjects/
+Localization/lookups/Cata/lookupQuests/
+Localization/lookups/Cata/lookupLoadstrings.test.lua
+Localization/lookups/MoP/lookupItems/
+Localization/lookups/MoP/lookupNpcs/
+Localization/lookups/MoP/lookupObjects/
+Localization/lookups/MoP/lookupQuests/
+Localization/lookups/MoP/lookupLoadstrings.test.lua
+Localization/lookups/lookupOverrides.lua
+Localization/lookups/lookupOverrides.test.lua
+```
+
+Remove only the entity lookup TOC entries. Keep Questie-owned Zone/Category Lookups:
+
+```text
+Localization/lookups/lookupQuestCategories.lua
+Localization/lookups/lookupZones.lua
+Localization/lookups/lookupZonesCorrections.lua
+```
+
+### Questie-side entity validators
+
+Delete the Questie-side entity validators on the baseline. WP-01 blocks merging the combined branch
+until source-data validation runs in the Database Addon:
+
+```text
+cli/validate-era.lua
+cli/validate-sod.lua
+cli/validate-tbc.lua
+cli/validate-wotlk.lua
+cli/validate-cata.lua
+cli/validate-mop.lua
+cli/validate-localization.lua
+cli/validators.lua
+cli/validators.test.lua
+```
+
+Remove `cli/output/` if it exists as locally generated output. It is not a tracked source deletion.
+
+Keep unrelated CLI tools and integration tests unless a separate audit proves they depend only on
+removed entity validation. In particular, do not delete `cli/integrationTests/6734.test.lua` merely
+because it lives under `cli/`. Audit `cli/dump.lua` and `cli/profiler.lua` separately rather than
+assuming they die with the raw tables.
+
+Replace the `.github/workflows/ci.yml` `db-validation` matrix with the WP-08 pinned Database
+Integration Check. Questie behavior tests remain in Questie.
+
+Keep `build.py`, `Questie.toc`, and `QuestieValidateGameCache`. Audit
+`ExternalScripts(DONOTINCLUDEINRELEASE)/` separately; it is outside this runtime deletion packet.
+
+## Reimplement mixed files
+
+`baseline` may delete a mixed file wholesale. `implementation` re-adds its smaller target form so
+the surviving Questie ownership is obvious.
+
+### `Modules/QuestieInit.lua`
+
+Delete:
+
+- the `DBCompiler`, `QuestieDBStorage`, and `Cleanup` imports;
+- `loadFullDatabase()`;
+- compiled-state selection and all compile/recompile paths;
+- `QuestieInit:LoadDatabase()`;
+- `QuestieInit:LoadBaseDB()`;
+- `dbCompiledCount` Townsfolk cache invalidation;
+- raw localization initialization;
+- raw cleanup calls.
+
+Reimplement Login Initialization in this order:
+
+1. call `l10n.InitializeUILocale()` to resolve Questie's effective UI locale;
+2. require Database Addon Contract Version 1 before any locale or Correction work;
+3. call `l10n.ApplyProviderLocale()` to forward the effective locale to
+   `LibQuestieDB.l10n.SetLocale()`;
+4. call `l10n.BuildExternalLocaleCorrections()` against clean composed reads;
+5. initialize Questie blacklist and non-Correction policy, register every Questie Policy Correction
+   once, and apply owner `"Questie"` once;
+6. initialize `QuestieDB` query bindings, ID maps, Objective Order hints, caches, and its lifecycle
+   flag;
+7. initialize Townsfolk and other database consumers from composed reads;
+8. initialize `QuestieEvent` after `QuestieDB` so later setters refresh Questie's bindings;
+9. continue later Initialization Stages. Stage 2 runs `l10n:PostBoot()` and rebuilds the Game Object
+   name index inside the staged coroutine.
+
+### `Database/QuestieDB.lua`
+
+Delete:
+
+- compiler error/recompile popup `QUESTIE_DATABASE_ERROR`;
+- any raw `questData`, `npcData`, `itemData`, or `objectData` manipulation;
+- `_QuestieDB:HideClassAndRaceQuests()` if no composed-data caller remains;
+- compiler decoding, pointer decoding, and raw fallback comments;
+- obsolete warning and `QuestieDBStorage` state tied only to recompilation.
+
+Keep:
+
+- direct `LibQuestieDB` query bindings;
+- Database Key Enum use;
+- `QuestPointers`, `NPCPointers`, `ItemPointers`, and `ObjectPointers` as compatibility names;
+- `RefreshAfterCorrectionApply()` and semantic cache invalidation;
+- rich Quest, NPC, Item, and Game Object projections;
+- availability, player-state, reputation, class, race, and Quest Log behavior;
+- Questie-owned tag and WoW API compatibility logic;
+- Objective Order consumers bound to `LibQuestieDB.ObjectiveFirst`;
+- Special Objective localization at projection time;
+- `questTagInfoCorrections.lua`, which corrects WoW API tag results rather than entity records.
+
+### Entity schema files
+
+Delete the current compiler-oriented versions of:
+
+```text
+Database/questDB.lua
+Database/npcDB.lua
+Database/itemDB.lua
+Database/objectDB.lua
+```
+
+Reintroduce only what Questie consumers need:
+
+- Contract Version guard before metadata access;
+- Database Key Enum bindings from `LibQuestieDB.Meta`;
+- adapter query orders used by rich projections;
+- Questie-owned constants such as quest flags, faction IDs, NPC flags, and Item classes.
+
+Do not reintroduce reversed keys, compiler types, compiler orders, encoders, or decoders.
+
+### `Database/Corrections/QuestieCorrections.lua`
+
+Delete:
+
+- `_LoadCorrections` and Static Correction orchestration;
+- expansion correction imports;
+- SoD base/entity Correction loading;
+- faction and Titan provider calls;
+- automatic Item-start mutation;
+- derived `requiredRaces` inference after WP-03;
+- waypoint optimization and `PreCompile()` after WP-04;
+- validator-only parameters and paths.
+
+Reimplement only:
+
+- owner-scoped registrar lifecycle under owner `"Questie"`;
+- Questie blacklist construction;
+- captured Policy Correction state and focused setters;
+- post-apply QuestieDB refresh.
+
+The target registrations are:
+
+| API datatype | Name | Load order | Owner |
+| --- | --- | ---: | --- |
+| `Npc` | `DarkmoonFaire` | 100 | Questie |
+| `Object` | `GatheringNodeDisplayPolicy` | 200 | Questie |
+| `Quest` | `ContentPhasePolicy` | 300 | Questie |
+| `Item` | `RuntimeItemRepair` | 400 | Questie |
+| `Item` | `ExternalLocaleItem` | 500 | Questie |
+| `Quest` | `ExternalLocaleQuest` | 501 | Questie |
+| `Npc` | `ExternalLocaleNpc` | 502 | Questie |
+| `Object` | `ExternalLocaleObject` | 503 | Questie |
+
+Use the API literals exactly as shown. Registration is append-only, so each provider registers once.
+
+### `Localization/l10n.lua`
+
+Delete:
+
+- built-in entity lookup registries;
+- `l10n:Initialize()` raw entity writes;
+- compiled-locale behavior;
+- generated Item, Quest, NPC, and Game Object lookup loading;
+- Titan zhCN raw correction handling after WP-02.
+
+Keep or reimplement:
+
+- UI Translation Entries;
+- User Locale Selection, fallback, and aliases;
+- Zone/Category Lookups;
+- `LibQuestieDB.l10n.SetLocale()` forwarding;
+- External Locale Override UI strings;
+- four filtered External Locale Override Policy Corrections;
+- withdrawal-first external locale switching;
+- semantic cache invalidation after entity locale changes;
+- generation-safe, coroutine-safe `objectNameLookup` rebuilds from composed Game Object reads;
+- runtime locale changes through `ApplyEntityLocale()` and the withdrawal-first sequence, replacing
+  the old recompile-and-reload popup.
+
+### `Modules/QuestieMenu/Townsfolk.lua`
+
+Replace raw traversal of `QuestieDB.npcData`, `itemData`, and `objectData` with composed ID maps and
+query functions. Preserve Townsfolk policy, character filtering, faction handling, and Manual Note
+behavior. Rebuild from the Database Addon each Addon Load until a stable provider data revision is
+available.
+
+### `Modules/Quest/AvailableQuests/AvailableQuests.lua`
+
+Remove the `QuestieDB.questData` fallback. Iterate `QuestieDB.QuestPointers` only.
+
+### `Modules/Libs/QuestieLib.lua`
+
+Keep asynchronous missing-Item repair, but use the `RuntimeItemRepair` name-only Policy Correction.
+Do not infer `npcDrops` or store a Quest ID in an Item relationship field.
+
+### `Database/Corrections/Holidays/QuestieEvent.lua`
+
+Keep Event Quest state, calendars, announcements, faction selection, Anniversary behavior, and Titan
+holiday dates. Use the generic Darkmoon Policy Correction setter. Do not write raw NPC data or call a
+Darkmoon-specific Database Addon interface.
+
+### Options, menu, stream recovery, settings, and migration
+
+Delete compiler-specific behavior from:
+
+```text
+Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua
+Modules/QuestieMenu/QuestieMenu.lua
+Modules/QuestieStream.lua
+Modules/Profiler/QuestieProfiler.lua
+Modules/Profiler/QuestieProfilerPreHook.lua
+Modules/Profiler/README.md
+Database/QuestieDB.lua
+cli/apiMocks.lua
+```
+
+This includes:
+
+- Recompile Database options and menu entries;
+- `QUESTIE_RECOMPILE_DATABASE_CONFIRM`;
+- locale-triggered compiler invalidation;
+- profile/reset compiler invalidation;
+- compiler corruption recovery and compile warnings;
+- profiler hooks, exclusions, timers, tests, and README guidance that depend on `DBCompiler`;
+- the CLI API mock's compiler-specific ticker cancellation;
+- compiler progress and error strings that have no remaining caller.
+
+Keep `QuestieStream` itself. Audit compiler-only entries in
+`Localization/Translations/Options/Advanced.lua` and
+`Localization/Translations/DebugMessages.lua`; remove only entries with no surviving caller.
+
+Add a Settings Migration that clears obsolete compiler state and payloads in their existing scopes.
+Clear copies under `Questie.db.global`, `Questie.db.global.sod`, and
+`Questie.db.global.titanReforged` where present:
+
+```text
+dbIsCompiled
+dbCompiledOnVersion
+dbCompiledLang
+dbCompiledExpansion
+dbCompiledCount
+npcBin
+npcPtrs
+questBin
+questPtrs
+objBin
+objPtrs
+itemBin
+itemPtrs
+```
+
+Also clear the obsolete `disableDatabaseWarnings` Profile Setting. Audit whether the `sod` and
+`titanReforged` default subtables still have non-compiler fields before removing an empty default.
+Do not remove unrelated Saved Variables or Settings Profile data.
+
+This three-scope migration requirement supersedes any SoD-only cleanup wording in older handovers.
+
+### TOC manifests
+
+All five flavor TOC manifests must:
+
+- set `## RequiredDeps: QuestieTDB`, replacing an empty dependency declaration if necessary;
+- remove raw entity files;
+- remove provider-owned correction files;
+- remove generated entity localization XML/files;
+- remove `Database/compiler.lua`;
+- remove `Database/QuestieDBStorage.lua`;
+- remove `Modules/QuestieCleanup.lua`;
+- remove `Modules/Libs/RamerDouglasPeucker.lua` on the baseline; WP-04 gates the combined merge;
+- keep Questie policy, UI localization, Zone/Category Lookups, and semantic modules.
+
+The seven-line fallback `Questie.toc` is unaffected.
+
+## Questie-owned artifacts that must survive
+
+`baseline` deletes provider-owned mixed files. `implementation` must restore the Questie-owned
+artifacts below before the combined branch merges.
+
+| Artifact | Current anchor | Target ownership |
+| --- | --- | --- |
+| Quest, NPC, and Item blacklists | `Questie*Blacklist.lua`, `HardcoreBlacklist.lua` | Questie policy |
+| Blacklist expansion filtering | `BlacklistFilter.lua` | Questie policy |
+| SoD display/rune policy | `SeasonOfDiscovery.lua` | Questie policy, stripped of provider-owned entity loading |
+| Content Phase state | `Corrections/ContentPhases/` | Questie policy |
+| TBC prerequisite tables | `tbcQuestFixes.lua:LoadContentPhaseFixes()` | `ContentPhasePolicy` |
+| Gathering-node suppression | former `DeleteGatheringNodes`, 24 IDs | `GatheringNodeDisplayPolicy` |
+| Era Darkmoon NPC tables | `classicNPCFixes.lua:LoadDarkmoonFixes()` | Questie holiday policy file |
+| TBC Darkmoon NPC tables | `tbcNPCFixes.lua:LoadDarkmoonFixes()` | Questie holiday policy file |
+| Event Quest data and schedules | `Corrections/Holidays/` | Questie policy |
+| External Locale Override UI strings | `QUESTIE_LOCALES_OVERRIDE.translations` | Questie UI localization |
+| External entity locale input | `QUESTIE_LOCALES_OVERRIDE` entity lookups | four Questie Policy Corrections |
+| Runtime missing-Item names | `QuestieLib:CacheItemNames()` | `RuntimeItemRepair` |
+| Rich entity projections | `QuestieDB.lua` | Questie semantics |
+| Semantic caches and ID aliases | `QuestieDB.lua` | Questie compatibility seam |
+| Focused Database Addon test seam | reference `test/QuestieTDBMock.lua` and contract tests | Questie behavior tests |
+| Game Object name index | `l10n.objectNameLookup` | Questie derived index |
+| Event and announcement visibility | `QuestieEvent.lua` | Questie policy |
+| Quest availability checks | `QuestieDB.lua` and Quest modules | Questie player-state policy |
+| WoW API quest-tag corrections | `questTagInfoCorrections.lua` | Questie API compatibility |
+| UI translations and Zone/Category Lookups | `Localization/Translations/`, shared lookup files | Questie localization |
+
+## Deferred support-data migration
+
+Do not remove these as part of `baseline` unless the separate
+support-data packet is explicitly included and QuestieTDB issue #15 is complete:
+
+```text
+Database/Zones/
+Database/QuestXP/
+Database/DropTables/
+Database/FactionTemplates/
+```
+
+Questie should eventually consume their data through `LibQuestieDB.Support`, while retaining the
+Questie modules that interpret that data. Until provider parity is proven, these files are **Keep**
+for this delivery.
+
+## Review scale
+
+An older audit against `origin/master` commit `ba0f5ac` estimated this deletion at about 5.04 million
+lines:
+
+| Area | Approximate lines |
+| --- | ---: |
+| Generated entity lookups and lookup tests | 4,323,000 |
+| Raw entity data | 502,600 |
+| Static and Automatic corrections, including Titan | 210,300 |
+| Compiler, lifecycle, UI, CLI, and TOC residue | 5,500 |
+
+These figures are review aids, not acceptance evidence. Recalculate them from the recorded source
+commit before opening the baseline merge request.
+
+## Tests to delete or rewrite
+
+Delete tests whose only contract is removed raw data, generated lookup registration, compilation,
+encoding, or Questie-side entity validation. This includes `Database/QuestieDBStorage.test.lua`.
+Rewrite `Modules/Profiler/QuestieProfiler.test.lua` and
+`Modules/Profiler/QuestieProfilerPreHook.test.lua` so they do not preserve compiler hooks or
+exclusions. Remove compiler-specific setup from `cli/apiMocks.lua`.
+
+Port `test/QuestieTDBMock.lua`, its contract tests, and the affected correction, database, event,
+Item-repair, and localization tests from the reference branch. Do not treat an old approximate test
+count as an acceptance gate.
+
+Rewrite tests to exercise the final interfaces:
+
+- `QuestieDB` query bindings, ID aliases, projections, and cache refresh;
+- Questie Policy Correction registration, composition, withdrawal, raw reads, and provenance;
+- Login Initialization order without compiler/cached branches;
+- provider locale forwarding and External Locale Override behavior;
+- generation-safe Game Object name-index rebuild;
+- Darkmoon initial selection and Event Quest policy;
+- asynchronous missing-Item repair;
+- Townsfolk and Available Quests through composed reads;
+- migration cleanup of obsolete compiler Saved Variables;
+- pinned Database Addon Contract integration.
+
+Do not add tests that merely preserve the absence of deleted compiler features.
+
+## Final static checks
+
+The combined branch should satisfy:
+
+```bash
+rg -n 'DBCompiler|QuestieDBStorage|ApplyParameterized|LoadBaseDB|LoadDatabase\(|dbIsCompiled|dbCompiled(OnVersion|Lang|Expansion|Count)' \
+  --glob '!**/*.test.lua' --glob '!Modules/Migration.lua' \
+  Database Localization Modules Public cli Questie.lua Questie-*.toc
+
+rg -n 'QuestieDB\.(npcData|questData|objectData|itemData|npcDataOverrides|questDataOverrides|objectDataOverrides|itemDataOverrides)' \
+  Database Localization Modules Public
+
+rg -n 'Database\\(Classic|TBC|Wotlk|Cata|MoP)|Database\\compiler.lua|Modules\\QuestieCleanup.lua' \
+  Questie-*.toc
+
+rg -n 'Localization\\lookups\\(Classic|TBC|Wotlk|Cata|MoP)|lookupOverrides.lua' \
+  Questie-*.toc
+
+rg -n 'LoadFactionFixes|LoadTitanReforgedFixes|LoadFactionQuestFixes|PreCompile|OptimizeWaypoints' \
+  Database Localization Modules Public
+
+rg -n 'GetRegistrar\(' --glob '!**/*.test.lua' Database Localization Modules Public
+
+for toc in Questie-{Classic,BCC,WOTLKC,Cata,Mists}.toc; do
+  test "$(rg -c '^## RequiredDeps' "$toc")" -eq 1 || exit 1
+  rg -qx '## RequiredDeps: QuestieTDB' "$toc" || exit 1
+done
+```
+
+Expected results:
+
+- compiler, `QuestieDBStorage`, `ApplyParameterized`, raw entity, compiled-state, and provider-owned
+  correction searches return no production matches;
+- generated entity localization has no TOC entries;
+- the only production `GetRegistrar` call is inside `QuestieCorrections`;
+- the dependency loop passes for all five flavor TOCs;
+- support-data matches may remain only as allowed by the deferred section.
+
+## Final validation
+
+Before the combined baseline merges:
+
+```bash
+busted -p ".test.lua" .
+luacheck -q -- Database Localization Modules Public Questie.lua
+git diff --check
+```
+
+Also run:
+
+- the final Database Addon master-data sync from the latest relevant `master` commit;
+- WP-07 differential coverage for correction side channels and static fixes;
+- the pinned Database Integration Check;
+- Database Addon Source and Baked validation for every supported flavor;
+- Database Addon locale validation for all supported locales;
+- Era, SoD, TBC before and after phase 3, WotLK, Titan Reforged, Cata, and MoP smoke tests;
+- one built-in non-English locale;
+- one External Locale Override fixture;
+- Townsfolk, Available Quests, Objective Order, Special Objective text, gathering-node suppression,
+  Darkmoon, and runtime missing-Item checks.
+
+## Manifest completion record
+
+- Master manifest reconciliation: complete
+- Source Questie commit: not recorded
+- Database Addon import commit: not recorded
+- Pre-merge Database Addon sync commit: not recorded
+- `baseline` branch: not created
+- `implementation` branch: not created
+- WP-01 master-data import: not started
+- WP-02 lookup/Titan zhCN: blocked on QuestieTDB issue #14
+- WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
+- WP-04 Objective Order/waypoint parity: verification required
+- WP-05 Contract/flavor gates: implementation exists on the Database Addon `ownership` branch; final integration verification required
+- WP-06 composed-read consumers: not started
+- WP-07 provider differential coverage: blocked on QuestieTDB issue #19
+- WP-08 pinned Database Integration Check: not started
+- WP-09 baseline replay handover: documented in `TDB-RELAND-HANDOVER.md`; baseline-specific commits not recorded
+- Commit status: no implementation commit created
