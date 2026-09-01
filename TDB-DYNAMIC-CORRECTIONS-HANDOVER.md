@@ -405,14 +405,13 @@ After locale changes:
 - call `LibQuestieDB.l10n.SetLocale()` for built-in provider localization;
 - reapply Questie Corrections if external entity data changed;
 - clear Questie's semantic caches;
-- clear and rebuild `QuestieTooltips.objectNameLookup` from composed Object reads;
 - keep UI Translation Entries, Zone/Category Lookups, and External Locale Override UI strings in
   Questie.
 
-Questie's UI-string module owns no entity index. Run the tooltip-owned clear-before-build operation
-through the existing staged coroutine or `ThreadLib`; do not call a yielding rebuild directly from
-an arbitrary options callback. Repeated rebuilds must remove old-locale names and must not append
-duplicate Object IDs.
+Questie's UI-string module owns no entity index. Effective locale changes currently reload the UI,
+which recreates the append-only `QuestieTooltips.objectIdsByName` registration sets under the active
+locale. QuestieTDB invalidates its provider-owned Name index automatically. Do not add a Questie-side
+full Object scan or runtime locale callback. See `QUESTIE-OBJECT-NAME-INDEX.md`.
 
 #### 5. Asynchronous missing-Item repair
 
@@ -547,8 +546,10 @@ reference can hide a correction-added entity or retain a withdrawn entity.
 The initial correction apply happens before `QuestieDB:Initialize()`, which binds current maps and
 starts with empty semantic caches. Later applications must call the refresh function.
 
-The locale-derived `QuestieTooltips.objectNameLookup` is owned by the tooltip module and must be
-rebuilt when relevant entity data changes.
+Object-hover lookup follows QuestieTDB ADR 0008: tooltip registrations populate
+`QuestieTooltips.objectIdsByName`, while `LibQuestieDB.Object.IdsByName(name)` supplies composed entity
+truth for the optional Object-ID line. Provider invalidation drops its Name index automatically; no
+Questie-side rebuild follows Correction applies. See `QUESTIE-OBJECT-NAME-INDEX.md`.
 
 ## Registration and initialization order
 
@@ -575,13 +576,16 @@ The final Login Initialization order is:
 10. `QuestieDB:Initialize()` binds queries, current ID maps, Objective Order hints, caches, and
     finally sets `QuestieDB.IsInitialized = true`.
 11. Townsfolk and other database consumers initialize.
-12. The coroutine-safe Object name index rebuild runs from composed Object reads.
-13. `QuestieEvent.Initialize()` begins calendar/event detection.
+12. `QuestieEvent.Initialize()` begins calendar/event detection.
+13. During the later Stage 2, call `LibQuestieDB.Object.BuildNameIndex()` only when
+    `enableTooltipsObjectID` is enabled. Quest tooltip registrations build
+    `QuestieTooltips.objectIdsByName` incrementally.
 14. Later initialization stages continue.
 
 At runtime, a locale change first updates UI locale state, then changes QuestieTDB's provider
-locale, withdraws old external locale Corrections, filters/builds the new external tables,
-applies them, refreshes QuestieDB, and schedules the coroutine-safe Object index rebuild.
+locale, withdraws old external locale Corrections, filters/builds the new external tables, applies
+them, and refreshes QuestieDB. Current effective locale changes reload the UI. Do not add a
+Questie-side Object scan or index-rebuild callback.
 
 Event callbacks and asynchronous Item callbacks may run after step 10. Their setter calls must
 reapply and refresh QuestieDB.
@@ -694,8 +698,10 @@ the fresh entity-locale seam separately for:
 - effective locale forwarded to QuestieTDB without raw entity-table writes;
 - external Item, Quest, NPC, and Game Object data registered under owner `"Questie"`;
 - switching or removing an external locale withdraws old values;
-- semantic caches and `QuestieTooltips.objectNameLookup` refresh;
-- UI translations and Zone/Category Lookups remaining Questie-owned.
+- semantic caches refresh without a Questie-side Object scan;
+- UI translations and Zone/Category Lookups remaining Questie-owned;
+- Object-hover behavior follows `QUESTIE-OBJECT-NAME-INDEX.md`, including registration-set and
+  provider `IdsByName` coverage.
 
 ### Runtime Item tests
 
@@ -994,8 +1000,9 @@ The implementation agent must update this section before handoff:
     invalid `{questId}`-in-`npcDrops` tuple was verified wrong and dropped (+ test file, 50 tests)
   - Historical `Localization/l10n.lua` work placed provider/external entity-locale orchestration and
     Object-name rebuilding in the UI-string module. The clean baseline deliberately removes that
-    placement; fresh implementation keeps `l10n` UI-only and designs a focused entity-locale seam
-    plus `QuestieTooltips.objectNameLookup` lifecycle (+ historical test file, 26 tests)
+    placement. QuestieTDB ADR 0008 now supersedes the former rebuild plan: fresh implementation keeps
+    `l10n` UI-only, indexes `o_` registrations in `QuestieTooltips.objectIdsByName`, and uses provider
+    `IdsByName` for the optional Object-ID line. See `QUESTIE-OBJECT-NAME-INDEX.md`
   - `Localization/lookups/lookupOverrides.lua` — issue #14 retention marker on the now
     caller-less `Questie.LoadTitanQuestLookupOverrides`
 - Focused validation: QuestieCorrections 21/0, QuestieTDBMock 26/0, QuestieDB 56/0,

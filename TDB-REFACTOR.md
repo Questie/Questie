@@ -268,7 +268,13 @@ selection. A fresh focused entity-locale seam outside `l10n` must:
 - forward the effective locale to `LibQuestieDB.l10n.SetLocale`
 - apply withdrawal-first external entity locale Policy Corrections
 - clear locale-derived Questie caches when the entity locale changes
-- schedule `QuestieTooltips.objectNameLookup` rebuilding from composed Object IDs and queries
+
+Object-hover lookup follows QuestieTDB ADR 0008 and `QUESTIE-OBJECT-NAME-INDEX.md`:
+
+- index registered `o_` tooltip keys incrementally in `QuestieTooltips.objectIdsByName`
+- use `LibQuestieDB.Object.IdsByName(name)` for the optional Object-ID line
+- warm `BuildNameIndex()` during initialization only when that option is enabled and when toggled on
+- never build or rebuild a full Object-name index inside Questie
 
 QuestieTDB stores `extraObjectives[3]` as the enUS localization key and does not translate that
 structured field. TDB-02 owns the `QuestieDB.lua` projection change; this item owns locale selection

@@ -95,8 +95,10 @@ code disagrees with them, the baseline and authoritative handovers win.
    `dbCompiledCount` rebuild key)
 8. `QuestieEvent.Initialize()` — after `QuestieDB:Initialize()`, so its async `Load()` hits an
    initialized database and setter calls refresh properly
-9. Later stages continue; Stage 2 rebuilds `QuestieTooltips.objectNameLookup` from composed Object
-   reads inside the staged coroutine, as recorded in `TDB-IMPLEMENTATION-ISSUES.md`
+9. Later stages continue. During Stage 2, call `LibQuestieDB.Object.BuildNameIndex()` only when
+   `enableTooltipsObjectID` is enabled, after Questie's initial Correction apply. Quest tooltip
+   registrations build `QuestieTooltips.objectIdsByName` incrementally; Questie performs no full
+   Object scan. See `QUESTIE-OBJECT-NAME-INDEX.md`.
 
 ### Module end states
 
@@ -113,8 +115,13 @@ code disagrees with them, the baseline and authoritative handovers win.
   `InitializeUILocale` only. It owns no entity lookup registries, provider locale orchestration,
   external entity corrections, or Object-name index.
 - **Entity locale orchestration** — a fresh focused seam outside `l10n` forwards the provider locale,
-  performs withdrawal-first External Locale Policy Correction switching, refreshes semantic caches,
-  and schedules the tooltip-owned Object-name index rebuild.
+  performs withdrawal-first External Locale Policy Correction switching, and refreshes semantic
+  caches. QuestieTDB invalidates its provider-owned Name index; do not rebuild a consumer-owned index.
+- **Object-hover lookup** — `QuestieTooltips.objectIdsByName` indexes `o_` registrations for quest
+  lines. `LibQuestieDB.Object.IdsByName(name)` supplies the optional Object-ID line, with
+  `BuildNameIndex()` warming during initialization and when the setting is enabled. QuestieTDB
+  feature commit `82a2d1088631c724ae8cebd936be221b7d92af41` provides the interface; it is evidence,
+  not the final integration pin. The full design is in `QUESTIE-OBJECT-NAME-INDEX.md`.
 - **`QuestieEvent` / `QuestieLib`** — one hoisted `SetDarkmoonNpcCorrections` call with
   NONE-location withdrawal; name-only `RepairMissingItem`, as required by the behavior contract.
 - **Extracted policy producers** — already present on `baseline` in the expansion-split
