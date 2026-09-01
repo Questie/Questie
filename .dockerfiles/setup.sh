@@ -6,7 +6,5 @@
 #luarocks install penlight
 #luarocks install lua-nucleo
 cd code
-lua ./cli/validate-era.lua
-lua ./cli/validate-sod.lua
-lua ./cli/validate-tbc.lua
-lua ./cli/validate-wotlk.lua
+# Entity database validation is owned by QuestieTDB.
+lua ./cli/validate-loader-usage.lua
