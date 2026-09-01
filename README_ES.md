@@ -74,13 +74,11 @@ Questie usa `luacheck` para linting. Puedes ejecutarlo localmente con:
 1. Ejecuta `busted -p ".test.lua" .` en el directorio raíz del proyecto
 2. Al agregar nuevos tests, asegúrate de nombrarlos `<module>.test.lua` y ubicarlos junto al módulo
 
-### Validación de la base de datos
+### Validación de la base de datos de entidades
 
-Hay un script de validación para cada expansión que comprueba la base de datos en busca de errores comunes. De esa manera intentamos mantener los datos lo más correctos posible, y no olvidarnos de ajustar el campo `NPC.questStarts` cuando ajustamos `Quest.startedBy`. Puedes ejecutar los scripts con:
+QuestieTDB se encarga de validar la base de datos de entidades. Questie conserva la validación del uso del cargador, que puedes ejecutar con:
 
-`lua cli/validate-<expansion>.lua`
-
-Reemplaza `<expansion>` con la expansión que quieras validar (revisa la carpeta `cli` para ver los scripts disponibles).
+`lua cli/validate-loader-usage.lua`
 
 ## Donaciones
 Si quieres apoyar el desarrollo de Questie mediante una donación, puedes hacerlo vía PayPal:
