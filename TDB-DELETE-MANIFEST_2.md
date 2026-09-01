@@ -1,5 +1,8 @@
 # QuestieTDB deletion manifest
 
+> Superseded by `TDB-DELETION-MANIFEST.md`. Keep this draft only as reconciliation history; do not
+> execute its branch or extraction instructions.
+
 ## Purpose and branch strategy
 
 This document is the specification for the `baseline` branch: a branch cut from `master` that
