@@ -21,7 +21,7 @@
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
 ## Version: 11.37.1
-## RequiredDeps:
+## RequiredDeps: QuestieTDB
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: QuestieConfig, QuestieProfilerEnabled
@@ -67,10 +67,6 @@ Database\Zones\data\instanceIdToAreaId.lua
 Database\Zones\zoneDB.lua
 
 # Databases
-Database\MoP\mopItemDB.lua
-Database\MoP\mopNpcDB.lua
-Database\MoP\mopObjectDB.lua
-Database\MoP\mopQuestDB.lua
 Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua
