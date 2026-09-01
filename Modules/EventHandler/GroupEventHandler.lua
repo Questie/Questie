@@ -92,8 +92,8 @@ function GroupEventHandler.GroupJoined()
 end
 
 function GroupEventHandler.GroupLeft()
-    --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
-    QuestieComms:ResetAll()
+    -- Keep Nearby/YELL data while removing the group-specific snapshots.
+    QuestieComms:RemoveAllRemoteGroupPlayers()
     CommsVisibility:ResetAll()
     QuestiePartyObjectives:Clear()
     previousOnlineStatus = {}
