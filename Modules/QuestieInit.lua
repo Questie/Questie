@@ -122,7 +122,7 @@ local function loadFullDatabase()
     print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. l10n("..."))
 
     coYield()
-    QuestieCorrections:Initialize()
+    QuestieCorrections.Initialize()
 
     print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townsfolk") .. l10n("..."))
     coYield()
@@ -130,10 +130,6 @@ local function loadFullDatabase()
 
     coYield()
     QuestieDB.private:DeleteGatheringNodes()
-
-    print("\124cFF4DDBFF [4/9] " .. l10n("Optimizing waypoints") .. l10n("..."))
-    coYield()
-    QuestieCorrections:PreCompile()
 end
 
 -- ********************************************************************************
@@ -165,7 +161,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     else
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loading...")
         coYield()
-        QuestieCorrections:MinimalInit()
+        QuestieCorrections.Initialize()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loaded.")
     end
 

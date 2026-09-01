@@ -242,6 +242,13 @@ QuestieDB.questDataOverrides = {}
 
 QuestieDB.activeChildQuests = {}
 
+-- QuestieTDB owns Objective Order. Fresh QuestieDB initialization replaces these empty
+-- compatibility maps with `LibQuestieDB.ObjectiveFirst` before rich Quest projections run.
+QuestieDB.killCreditObjectiveFirst = {}
+QuestieDB.objectObjectiveFirst = {}
+QuestieDB.itemObjectiveFirst = {}
+QuestieDB.eventObjectiveFirst = {}
+QuestieDB.spellObjectiveFirst = {}
 
 function QuestieDB:Initialize()
 
@@ -1561,7 +1568,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
-                    if QuestieCorrections.objectObjectiveFirst[questId] then
+                    if QuestieDB.objectObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, objectObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
@@ -1582,7 +1589,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
-                    if QuestieCorrections.itemObjectiveFirst[questId] then
+                    if QuestieDB.itemObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, itemObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
@@ -1614,7 +1621,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
                 --? There are quest(s) which have the killCredit first so we need to switch them
                 -- Place the kill credit objective first
-                if QuestieCorrections.killCreditObjectiveFirst[questId] then
+                if QuestieDB.killCreditObjectiveFirst[questId] then
                     tinsert(QO.ObjectiveData, 1, killCreditObjective)
                 else
                     QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
@@ -1635,7 +1642,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
                     --? There are quest(s) which have the spellObjective first so we need to switch them
                     -- Place the spell objective first
-                    if QuestieCorrections.spellObjectiveFirst[questId] then
+                    if QuestieDB.spellObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, spellObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
@@ -1654,7 +1661,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
-        if QuestieCorrections.eventObjectiveFirst[questId] then
+        if QuestieDB.eventObjectiveFirst[questId] then
             tinsert(QO.ObjectiveData, 1, triggerEndObjective)
         else
             QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective

@@ -80,18 +80,12 @@ local alwaysTurnInAbleQuests = {
     [7945] = true, -- Your Fortune Awaits You...
 }
 
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieClassicPolicyCorrections
-local QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
----@type QuestieTBCPolicyCorrections
-local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -382,19 +376,17 @@ end
 --- The faire ends the sunday after it has begun.
 _LoadDarkmoonFaire = function()
     local eventLocation = _GetDarkmoonFaireLocation()
-    if (eventLocation == DMF_LOCATIONS.NONE) then
+    if eventLocation == DMF_LOCATIONS.NONE then
+        -- Fresh Dynamic Corrections publish an empty DarkmoonFaire table here to withdraw the previous location.
         return
     end
 
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
     local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    local npcFixes
-    if Questie.IsTBC then
-        npcFixes = QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
-    else
-        npcFixes = QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore)
-    end
+    -- Fresh Dynamic Corrections publish the selected table exactly once, outside the Event Quest loop.
+    -- Classic uses QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore).
+    -- TBC uses QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar), so Terokkar wins.
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local hideQuest = questData[7]
@@ -402,11 +394,6 @@ _LoadDarkmoonFaire = function()
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
-
-            -- Update the NPC spawns based on the place of the faire
-            for id, data in pairs(npcFixes) do
-                QuestieDB.npcDataOverrides[id] = data
-            end
         end
     end
 

@@ -25,14 +25,14 @@ describe("QuestieDB", function()
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
-        QuestieCorrections.killCreditObjectiveFirst = {}
-        QuestieCorrections.objectObjectiveFirst = {}
-        QuestieCorrections.itemObjectiveFirst = {}
-        QuestieCorrections.eventObjectiveFirst = {}
-        QuestieCorrections.spellObjectiveFirst = {}
 
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.killCreditObjectiveFirst = {}
+        QuestieDB.objectObjectiveFirst = {}
+        QuestieDB.itemObjectiveFirst = {}
+        QuestieDB.eventObjectiveFirst = {}
+        QuestieDB.spellObjectiveFirst = {}
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
         QuestieDB.private.itemCache = {}
@@ -107,7 +107,7 @@ describe("QuestieDB", function()
                 [1] = {{1000, "Slay the target"}},
                 [6] = {{12345, "Cast the spell", 67890}}
             }
-            QuestieCorrections.spellObjectiveFirst[123] = true
+            QuestieDB.spellObjectiveFirst[123] = true
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
             QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
