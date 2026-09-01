@@ -20,6 +20,8 @@ How the four TDB documents relate:
   scope (TDB-06, TDB-08, TDB-11, TDB-12) and the change log. Its TDB-03 text describes
   replacing an init path the baseline deletes outright; treat the target order in this document
   as current.
+- **`TDB-IMPLEMENTATION-ISSUES.md`** — focused open seams intentionally retained by the clean
+  baseline: Object-hover indexing, runtime missing-Item repair, and provider schema/test metadata.
 - **This document** — branch mechanics, the historical-evidence rule, drift warnings, target final
   shapes, and the fresh implementation sequence.
 
@@ -82,10 +84,9 @@ code disagrees with them, the baseline and authoritative handovers win.
 1. `l10n.InitializeUILocale()`
 2. `LibQuestieDB.RequireContract(1)` — hard error on failure, before any locale or correction
    work (the four schema adapter files also gate at file load; keep both)
-3. `l10n.ApplyProviderLocale()` — forwards the effective UI locale to
-   `LibQuestieDB.l10n.SetLocale`
-4. `l10n.BuildExternalLocaleCorrections()` — `Exists`-filtered External Locale Override
-   tables, captured before the initial apply
+3. forward `l10n:GetUILocale()` to `LibQuestieDB.l10n.SetLocale()` outside the UI-string module
+4. build `Exists`-filtered External Locale Override Policy Corrections outside `l10n`, before the
+   initial owner apply
 5. Policy Correction registration + blacklist construction + initial apply of owner
    `"Questie"`; choose a fresh name because `MinimalInit` is meaningless without a full-init
    counterpart
@@ -94,8 +95,8 @@ code disagrees with them, the baseline and authoritative handovers win.
    `dbCompiledCount` rebuild key)
 8. `QuestieEvent.Initialize()` — after `QuestieDB:Initialize()`, so its async `Load()` hits an
    initialized database and setter calls refresh properly
-9. Later stages unchanged; Stage 2 runs `l10n:PostBoot()` →
-   `l10n.RebuildObjectNameLookup()` inside the staged coroutine
+9. Later stages continue; Stage 2 rebuilds `QuestieTooltips.objectNameLookup` from composed Object
+   reads inside the staged coroutine, as recorded in `TDB-IMPLEMENTATION-ISSUES.md`
 
 ### Module end states
 
@@ -108,11 +109,12 @@ code disagrees with them, the baseline and authoritative handovers win.
   `RefreshAfterCorrectionApply()`, semantic caches and runtime projections. No raw tables, no
   compiled-handle binding, no recompile popup. Keep the `*Pointers` seam — it shields
   consumers from the provider's ID-map identity swap on every `Apply()`.
-- **`l10n`** — UI Translation Entries, Zone/Category Lookups, `SetUILocale`/
-  `InitializeUILocale`, `ApplyProviderLocale`, `BuildExternalLocaleCorrections`,
-  `ApplyEntityLocale` (the withdraw-first switch sequence), `RebuildObjectNameLookup`. No
-  entity-table writes, no `Localization/lookups` entity files. The locale-change options path
-  calls `ApplyEntityLocale()` (plus UI refresh) instead of the recompile-and-reload popup.
+- **`l10n`** — Questie-owned UI Translation Entries, Zone/Category Lookups, `SetUILocale`, and
+  `InitializeUILocale` only. It owns no entity lookup registries, provider locale orchestration,
+  external entity corrections, or Object-name index.
+- **Entity locale orchestration** — a fresh focused seam outside `l10n` forwards the provider locale,
+  performs withdrawal-first External Locale Policy Correction switching, refreshes semantic caches,
+  and schedules the tooltip-owned Object-name index rebuild.
 - **`QuestieEvent` / `QuestieLib`** — one hoisted `SetDarkmoonNpcCorrections` call with
   NONE-location withdrawal; name-only `RepairMissingItem`, as required by the behavior contract.
 - **Extracted policy producers** — already present on `baseline` in the expansion-split
@@ -130,19 +132,20 @@ code disagrees with them, the baseline and authoritative handovers win.
 3. Implement the central slice in final shape (`QuestieDB`, `QuestieCorrections`, and Stage 1),
    connect the retained policy producers, then adapt the policy callers (`QuestieEvent`,
    `QuestieLib`, and `l10n`). Do not recreate a compiler-compatible intermediate state.
-4. Wire the locale-change path to `ApplyEntityLocale()`.
-5. Convert Townsfolk (TDB-06) and add the pinned Database Integration Check (TDB-12).
-6. Add a migration that drops compiler state under the ordinary global, SoD, and Titan Reforged
-   global scopes.
+4. Add the fresh entity-locale orchestration outside `l10n` and wire the locale-change path to it.
+5. Verify the baseline's composed-read Townsfolk and Available Quests paths against fresh provider
+   bindings, then add the pinned Database Integration Check (TDB-12).
+6. Verify the retained compiler-state migration against real Saved Variables fixtures.
 7. Run full validation and the manifest's consolidated work packets, then use the merge order above.
 
 ## Baseline replay evidence
 
-The initial subtractive code series ends at
-`14bb2681f8a349a0470c8deb1f37c238ea72ae80` on branch
-`QuestieTDB-remove-baseline`. The commit containing this finalized evidence section completes WP-09
-and is the exact branch point for `implementation`; the code tip alone omits the handoff record. The
-baseline was created from Questie source commit
+Before this rebase, whole-file deletion ended at
+`14bb2681f8a349a0470c8deb1f37c238ea72ae80` and clean mixed-runtime subtraction ended at
+`8b63c04beadef59b648cb558247609651e1f19e1` on branch `QuestieTDB-remove-baseline`. The rebased stack
+also includes the support payload cleanup below. The commit containing this finalized evidence
+section completes WP-09 and is the branch point for `implementation`; either historical tip omits
+part of the final handoff. The baseline was created from Questie source commit
 `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57` and retains the WP-00 extraction commit
 `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1`. Push-triggered GitHub Actions run
 [33496726477](https://github.com/Questie/Questie/actions/runs/33496726477) passed for that exact SHA,
@@ -159,6 +162,12 @@ The WP-00 evidence record is `09e0178e79775782cdabd75f506dccd6e8ec0698`. The del
 5. `ab8a78f2f127136b1b09e059fd6cc81ecc187203` — Questie-side entity validators and the old CI
    matrix, while retaining loader-usage validation;
 6. `14bb2681f8a349a0470c8deb1f37c238ea72ae80` — orphaned CLI database mocks.
+
+The nine clean mixed-runtime subtraction commits from
+`0b02060ca5ab4a853651bf55bfe3a3b73e00f266` through
+`8b63c04beadef59b648cb558247609651e1f19e1` remove obsolete entity localization, correction
+machinery, compiler lifecycle/UI/recovery/state, raw consumers, and stale terminology while
+retaining Questie policy and semantic constants. Their exact mapping is recorded in the manifest.
 
 Deletion commits `99493b08` through `14bb2681f`, measured by the exclusive diff
 `09e0178e..14bb2681f`, delete exactly 281 tracked files and 5,042,232 lines from deleted files. The
@@ -181,26 +190,34 @@ Login Initialization order. The eight Policy Correction names, API datatypes, an
 Event Quest data, Content Phase state, UI localization, Zone/Category lookups, QuestieStream, and
 the support consumer wrappers remain on the baseline.
 
-The subsequent support cleanup removes all 24 payloads under `Database/QuestXP/DB`,
-`Database/DropTables/data`, `Database/FactionTemplates`, and `Database/Zones/data`, plus their
-51 entries across the five flavor TOCs. Production wrappers and calculations are unchanged.
-Inline fixtures in `setupTests.lua` and `Database/Zones/zoneDB.test.lua` replace real zone-data
-loads without adding a provider fake or packaging test data. In particular, the bootstrap retains
-`ICECROWN` and `DEEPHOLM` for QuestieDB's file-scope routes, in addition to the constants used by
-zone, tracker, and Classic/TBC policy tests.
+The clean subtraction removes mixed-runtime compiler, raw-table, provider-fix, and entity-localization
+commands while preserving their durable ownership and ordering rules as landmarks. At the
+pre-rebase clean tip, the recorded validation was 1,424 Busted successes, clean production luacheck
+across 322 files, and passing loader-usage and diff checks. Those results were not rerun against the
+rebased stack.
 
-Replay must include this cleanup as well as the initial deletion series. TDB-11 still needs
-provider bindings for zones, XP, drops, drop corrections, and faction templates, with QuestieTDB
-issue #15 parity validation before the combined merge. Adapt the focused ZoneDB fixtures to that
-final input contract rather than restoring the deleted payloads or preserving loadstring plumbing.
+The rebased stack also removes all 24 payloads under `Database/QuestXP/DB`,
+`Database/DropTables/data`, `Database/FactionTemplates`, and `Database/Zones/data`, plus their 51
+entries across the five flavor TOCs. Production consumer wrappers and calculations remain. Inline
+fixtures in `setupTests.lua` and `Database/Zones/zoneDB.test.lua` replace real zone-data loads without
+adding a provider fake or packaging test data. In particular, the bootstrap retains `ICECROWN` and
+`DEEPHOLM` for QuestieDB's file-scope routes, in addition to constants used by zone, tracker, and
+Classic/TBC policy tests.
 
-The baseline is intentionally nonfunctional: full Busted before and after support cleanup reports
-2 successes and 66 errors, with
-every affected suite erroring at `setupTests.lua:5` because the deleted `Database/itemDB.lua` cannot
-be opened. Mixed-runtime compiler, raw-table, and provider references remain as implementation
-rewrite inputs; they are not a fallback. Ignored generated `cli/output/` was removed locally. The
-old `db-validation` matrix is gone, but the pinned WP-08 Database Integration Check is not
-implemented.
+The support-cleanup commit separately recorded 2 Busted successes and 66 pre-existing missing-schema
+bootstrap errors before and after its change, plus 45 focused successes. That evidence predates the
+clean subtraction replay and does not describe the current combined stack. No tests were rerun while
+resolving this documentation conflict.
+
+`implementation` inherits the cleanup. TDB-11 must bind zones, XP, drops, drop corrections, and
+faction templates through the provider, with QuestieTDB issue #15 parity validation before the
+combined merge. Adapt the focused ZoneDB fixtures to the final input contract instead of restoring
+payloads or preserving loadstring plumbing.
+
+The baseline is structurally clean but not runtime-complete. Contract enforcement, provider query
+bindings, Policy Correction registration and application, entity-locale orchestration, support
+bindings, and the pinned WP-08 Database Integration Check remain fresh implementation work. Focused
+open seams are recorded in `TDB-IMPLEMENTATION-ISSUES.md`. The old `db-validation` matrix is gone.
 
 `origin/QuestieTDB` at `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains historical
 TDB-01/TDB-02 evidence only. Dirty and untracked Dynamic Corrections work under
