@@ -59,51 +59,15 @@ jobs:
           luarocks install busted 2.2.0-1
           luarocks install luafilesystem 1.8.0-1
 
+      - name: Validate QuestieLoader usage
+        run: lua cli/validate-loader-usage.lua
+
       - name: Run busted Unit Tests
         run: busted -p ".test.lua" .
 
-  db-validation:
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
-    env:
-      TZ: Europe/Berlin
-    strategy:
-      matrix:
-        expansion: [era, sod, tbc, wotlk, mop, localization, loader-usage]
-      fail-fast: false
-
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v7.0.1
-
-      - name: Install Lua
-        uses: leafo/gh-actions-lua@v13.0.0
-        with:
-          luaVersion: "5.1"
-
-      - name: Install luarocks packages
-        uses: leafo/gh-actions-luarocks@v6.1.0
-        with:
-          luaRocksVersion: "3.13.0"
-
-      - name: Install dependencies
-        run: |
-          luarocks install bit32 5.3.5.1-1
-          luarocks install luafilesystem 1.8.0-1
-
-      - name: Validate ${{ matrix.expansion }} database
-        run: lua cli/validate-${{ matrix.expansion }}.lua
-
-      - name: Upload correction files
-        uses: actions/upload-artifact@v7.0.1
-        with:
-          name: correction-files-${{ matrix.expansion }}
-          path: cli/output/
-        if: success() || failure()
-
   notify:
     runs-on: ubuntu-latest
-    needs: [luacheck, unit-tests, db-validation]
+    needs: [luacheck, unit-tests]
     if: failure()
 
     steps:

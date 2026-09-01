@@ -75,13 +75,11 @@ Questie uses `luacheck` for linting. You can run it locally with:
 1. Run `busted -p ".test.lua" .` in the root directory of the project
 2. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
 
-### Database validation
+### Entity database validation
 
-There is a validation script for every expansion that checks the database for common errors. That way we try to keep data as correct as possible, and we don't forget to adjust the `NPC.questStarts` field when we adjust `Quest.startedBy`. You can run the scripts with:
+Entity database validation is owned by QuestieTDB. Questie retains loader-usage validation, which you can run with:
 
-`lua cli/validate-<expansion>.lua`
-
-Replace `<expansion>` with the expansion you want to validate (check the `cli` folder for available scripts).
+`lua cli/validate-loader-usage.lua`
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
