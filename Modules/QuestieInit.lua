@@ -132,14 +132,10 @@ local function loadFullDatabase()
     coYield()
     Townsfolk.Initialize()
 
-    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. l10n("..."))
-    coYield()
-    l10n:Initialize()
-
     coYield()
     QuestieDB.private:DeleteGatheringNodes()
 
-    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. l10n("..."))
+    print("\124cFF4DDBFF [4/9] " .. l10n("Optimizing waypoints") .. l10n("..."))
     coYield()
     QuestieCorrections:PreCompile()
 end
@@ -154,9 +150,11 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] UI Locale initializing.")
-    -- This needs to happen after ADDON_LOADED
+    -- This needs to happen after ADDON_LOADED.
     l10n.InitializeUILocale()
 
+    -- Fresh QuestieTDB implementation inserts entity-locale setup here, after UI locale selection:
+    -- require Contract Version 1, forward the provider locale, then build external Policy Corrections.
     local activeStorage = QuestieDBStorage.GetActiveStorage()
 
     -- Check if the DB needs to be recompiled
@@ -170,8 +168,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile completed.")
     else
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loading...")
-        l10n:Initialize()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Localizations initialized.")
         coYield()
         QuestieCorrections:MinimalInit()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loaded.")
@@ -203,9 +199,7 @@ end
 
 QuestieInit.Stages[2] = function()
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
-    -- We do this while we wait for the Quest Cache anyway.
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] Localization PostBoot running.")
-    l10n:PostBoot()
+    -- Fresh implementation rebuilds the Object-name index here from composed reads; see TDB-IMPLEMENTATION-ISSUES.md.
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] QuestiePlayer initializing.")
     QuestiePlayer:Initialize()
     coYield()

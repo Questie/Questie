@@ -2,8 +2,7 @@ dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 
-dofile("Database/itemDB.lua")
-dofile("Database/questDB.lua")
+-- Entity schemas come from the QuestieTDB seam in tests that need database metadata.
 
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
