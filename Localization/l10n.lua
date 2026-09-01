@@ -4,126 +4,55 @@
 ---@field zoneCategoryLookup table
 ---@field questCategoryLookup table
 ---@field translations table<string, table<string, string|boolean>>
----@field itemLookup table<string, fun(): table>
----@field npcNameLookup table<string, fun(): table>
----@field objectNameLookup table<string, table<number, number>>
----@field objectLookup table<string, fun(): table>
----@field questLookup table<string, fun(): table>
----@field questLookupOverrides? fun(): table
 local l10n = QuestieLoader:CreateModule("l10n")
 local _l10n = {}
 l10n.translations = {}
 
-l10n.itemLookup = {}
-l10n.npcNameLookup = {}
-l10n.objectNameLookup = {}
-l10n.objectLookup = {}
-l10n.questLookup = {}
-
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+-- Questie owns UI strings and UI locale selection. QuestieTDB owns built-in entity
+-- localization; external entity data belongs to Questie Policy Corrections, not this UI module.
 
 ---@type fun(): nil
 local _InitializeLocaleOverride
 
 ---@type string
-local locale = 'enUS'
+local locale = "enUS"
 ---@type table<string, boolean>
 local supportedLocals = {
-    ['enUS'] = true,
-    ['deDE'] = true,
-    ['esES'] = true,
-    ['esMX'] = true,
-    ['frFR'] = true,
-    ['koKR'] = true,
-    ['ptBR'] = true,
-    ['ruRU'] = true,
-    ['zhCN'] = true,
-    ['zhTW'] = true,
+    ["enUS"] = true,
+    ["deDE"] = true,
+    ["esES"] = true,
+    ["esMX"] = true,
+    ["frFR"] = true,
+    ["koKR"] = true,
+    ["ptBR"] = true,
+    ["ruRU"] = true,
+    ["zhCN"] = true,
+    ["zhTW"] = true,
 }
 
-function l10n:Initialize()
-    local itemLookup = l10n.itemLookup[locale] and l10n.itemLookup[locale]() or {}
-    for id, data in pairs(l10n.itemLookupOverrides and l10n.itemLookupOverrides() or {}) do
-        itemLookup[id] = data
-    end
-	
-    local questLookup = l10n.questLookup[locale] and l10n.questLookup[locale]() or {}
-    for id, data in pairs(l10n.questLookupOverrides and l10n.questLookupOverrides() or {}) do
-        questLookup[id] = data
-    end
-
-    local npcNameLookup = l10n.npcNameLookup[locale] and l10n.npcNameLookup[locale]() or {}
-    local objectLookup = l10n.objectLookup[locale] and l10n.objectLookup[locale]() or {}
-
-    -- Load item locales
-    for id, name in pairs(itemLookup) do
-        if QuestieDB.itemData[id] and name then
-            QuestieDB.itemData[id][QuestieDB.itemKeys.name] = name
-        end
-    end
-
-    -- data is {<questName>, {<questObjective>, ...}}
-    -- Load quest locales
-    for id, data in pairs(questLookup) do
-        if QuestieDB.questData[id] then
-            if data[1] then
-                QuestieDB.questData[id][QuestieDB.questKeys.name] = data[1]
-            end
-            if data[2] then
-                QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[2]
-            end
-        end
-    end
-
-    -- Load NPC locales
-    for id, data in pairs(npcNameLookup) do
-        if QuestieDB.npcData[id] and data then
-            if type(data) == "string" then
-                QuestieDB.npcData[id][QuestieDB.npcKeys.name] = data
-            else
-                QuestieDB.npcData[id][QuestieDB.npcKeys.name] = data[1]
-                QuestieDB.npcData[id][QuestieDB.npcKeys.subName] = data[2]
-            end
-        end
-    end
-
-    -- Load object locales
-    for id, name in pairs(objectLookup) do
-        if QuestieDB.objectData[id] and name then
-            QuestieDB.objectData[id][QuestieDB.objectKeys.name] = name
-        end
-    end
-end
-
+---Resolves Questie's UI locale after Saved Variables and external UI translations are available.
+---@return nil
 function l10n.InitializeUILocale()
     if QUESTIE_LOCALES_OVERRIDE ~= nil then
         _InitializeLocaleOverride()
     end
 
-    -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
-        l10n:SetUILocale(Questie.db.global.questieLocale);
+        l10n:SetUILocale(Questie.db.global.questieLocale)
+    elseif QUESTIE_LOCALES_OVERRIDE ~= nil then
+        l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale)
     else
-        if QUESTIE_LOCALES_OVERRIDE ~= nil then
-            l10n:SetUILocale(QUESTIE_LOCALES_OVERRIDE.locale);
-        else
-            l10n:SetUILocale(GetLocale());
-        end
+        l10n:SetUILocale(GetLocale())
     end
 end
 
----Load the locale override from QUESTIE_LOCALES_OVERRIDE (provided by a different addon)
+---Registers UI translations supplied by another addon.
 ---@return nil
 _InitializeLocaleOverride = function()
     local overridingLocale = QUESTIE_LOCALES_OVERRIDE.locale
     supportedLocals[overridingLocale] = true
-    l10n.itemLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.itemLookup
-    l10n.questLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.questLookup
-    l10n.npcNameLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.npcNameLookup
-    l10n.objectLookup[overridingLocale] = QUESTIE_LOCALES_OVERRIDE.objectLookup
 
-    for id, _ in pairs(l10n.translations) do
+    for id in pairs(l10n.translations) do
         if QUESTIE_LOCALES_OVERRIDE.translations[id] ~= nil then
             l10n.translations[id][overridingLocale] = QUESTIE_LOCALES_OVERRIDE.translations[id]
         else
@@ -132,79 +61,61 @@ _InitializeLocaleOverride = function()
     end
 end
 
---Must be run in a coroutine as it yields
-function l10n:PostBoot()
-
-    local count = 0
-    -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
-    for id in pairs(QuestieDB.ObjectPointers) do
-        local name = QuestieDB.QueryObjectSingle(id, "name")
-        if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
-            local entry = l10n.objectNameLookup[name]
-            if not entry then
-                l10n.objectNameLookup[name] = { id }
-            else
-                entry[#entry+1] = id
-            end
-        end
-
-        if count > 300 then
-            count = 0
-            coroutine.yield()
-        end
-        count = count + 1
-    end
-end
-
 local format, unpack, tostring = string.format, unpack, tostring
+
+---Translates one Questie-owned UI string for the active UI locale.
+---@param key string English translation key and fallback format string.
+---@param ... unknown Format arguments.
+---@return string translatedText
 function _l10n:translate(key, ...)
     local args = {...}
 
-    for i, v in ipairs(args) do
-        args[i] = tostring(v);
+    for i, value in ipairs(args) do
+        args[i] = tostring(value)
     end
 
     local translationEntry = l10n.translations[key]
     if not translationEntry then
-        if (Questie.db.profile.debugEnabled) then
+        if Questie.db.profile.debugEnabled then
             Questie.Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' are missing completely!")
         end
         return format(key, unpack(args))
     end
 
     local translationValue = translationEntry[locale]
-    if (not translationValue) then
-        if (Questie.db.profile.debugEnabled) then
+    if not translationValue then
+        if Questie.db.profile.debugEnabled then
             Questie.Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' are missing the entry for language", locale, "!")
         end
         return format(key, unpack(args))
     end
 
     if translationValue == true then
-        -- Fallback to enUS which is the key
         return format(key, unpack(args))
     end
 
     return format(translationValue, unpack(args))
 end
 
-setmetatable(l10n, { __call = function(_, ...) return _l10n:translate(...) end})
+setmetatable(l10n, {__call = function(_, ...) return _l10n:translate(...) end})
 
----@param lang string|nil
+---Returns a supported UI locale or the English fallback.
+---@param lang string|nil Requested locale.
 ---@return string locale
 function l10n:GetFallbackLocale(lang)
-    if (not lang) then
-        return 'enUS'
+    if not lang then
+        return "enUS"
     end
 
     if supportedLocals[lang] then
         return lang
-    else
-        return 'enUS'
     end
+
+    return "enUS"
 end
 
----@param lang string|nil
+---Selects the active locale for Questie-owned UI strings.
+---@param lang string|nil Requested locale, or the client locale when nil.
 ---@return nil
 function l10n:SetUILocale(lang)
     if lang then
@@ -214,6 +125,7 @@ function l10n:SetUILocale(lang)
     end
 end
 
+---Returns the active locale for Questie-owned UI strings.
 ---@return string locale
 function l10n:GetUILocale()
     return locale
