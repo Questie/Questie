@@ -47,8 +47,9 @@ merges into `baseline`, "combined branch" means the now-functional `baseline` br
    before deletion. Mark it as not independently mergeable. CI after the deletion commits may be
    expected to fail or may be skipped because that state is intentionally non-functional.
 7. Create `implementation` from `baseline`.
-8. Reimplement the required Questie behavior and open its merge request against `baseline`. Use the
-   old `QuestieTDB` branch as a behavior and test reference, not as a branch to merge or rebase.
+8. Reimplement the required Questie behavior fresh from the final contracts and open its merge
+   request against `baseline`. Historical code may clarify behavior but is not a merge, rebase,
+   cherry-pick, or mechanical-port source.
 9. Require green CI and focused review on `implementation`, then merge it into `baseline`.
 10. Immediately before final merge, sync Database Addon master data again. Any fix that landed on
     deleted Questie data while the stack was open must move to the provider and pass differential
@@ -241,7 +242,7 @@ correction files, `QuestieCorrections:PreCompile()`, `QuestieCorrections:Optimiz
 Before handing `baseline` to another agent, record:
 
 - the exact `baseline` commit;
-- the exact source commit containing the reference implementation;
+- the exact subtractive baseline and source commits used for the fresh implementation;
 - every runtime symbol to reintroduce and every extracted policy symbol already retained on
   `baseline`;
 - the eight Questie Policy Correction names, API datatypes, and load orders;
@@ -692,7 +693,7 @@ runtime modules around them, but it must not reconstruct the extracted data from
 | Runtime missing-Item names | `QuestieLib:CacheItemNames()` | `RuntimeItemRepair` |
 | Rich entity projections | `QuestieDB.lua` | Questie semantics |
 | Semantic caches and ID aliases | `QuestieDB.lua` | Questie compatibility seam |
-| Focused Database Addon test seam | reference `test/QuestieTDBMock.lua` and contract tests | Questie behavior tests |
+| Focused Database Addon test seam | fresh `test/QuestieTDBMock.lua` and contract tests | Questie behavior tests |
 | Game Object name index | `l10n.objectNameLookup` | Questie derived index |
 | Event and announcement visibility | `QuestieEvent.lua` | Questie policy |
 | Quest availability checks | `QuestieDB.lua` and Quest modules | Questie player-state policy |
@@ -738,9 +739,10 @@ Rewrite `Modules/Profiler/QuestieProfiler.test.lua` and
 `Modules/Profiler/QuestieProfilerPreHook.test.lua` so they do not preserve compiler hooks or
 exclusions. Remove compiler-specific setup from `cli/apiMocks.lua`.
 
-Port `test/QuestieTDBMock.lua`, its contract tests, and the affected correction, database, event,
-Item-repair, and localization tests from the reference branch. Do not treat an old approximate test
-count as an acceptance gate.
+Design `test/QuestieTDBMock.lua`, its contract tests, and the affected correction, database, event,
+Item-repair, and localization tests fresh from Contract Version 1 and the required behavior below.
+Prior tests may be consulted selectively as behavioral archaeology, but must not preserve compiler
+compatibility scaffolding or turn an old approximate test count into an acceptance gate.
 
 Rewrite tests to exercise the final interfaces:
 
@@ -825,7 +827,8 @@ Also run:
 - Source Questie commit: `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57`
 - Database Addon import commit: not recorded
 - Pre-merge Database Addon sync commit: not recorded
-- `baseline` branch: `QuestieTDB-remove-baseline`
+- `baseline` branch: `QuestieTDB-remove-baseline`; subtractive code tip
+  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`
 - `implementation` branch: not created
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
@@ -853,9 +856,10 @@ Also run:
   - Full local validation: 1,768 Busted successes with 0 failures; luacheck passed with 0 warnings
     or errors across 366 files; `git diff --check` passed
   - Fresh extraction review: three independent reviewers found no actionable issues
-  - Normal CI: not run because the merge request is draft; David accepted local validation and
-    ocular review as the gate for continuing baseline deletion. This is a documented waiver, not a
-    claim that CI passed
+  - Normal CI: push-triggered run
+    [33496726477](https://github.com/Questie/Questie/actions/runs/33496726477) passed for the exact
+    extraction SHA, including unit tests, luacheck, and all `db-validation` matrix jobs. The
+    separate pull-request run was skipped because the merge request was draft
 - WP-01 master-data import: not started
 - WP-02 lookup/Titan zhCN: blocked on QuestieTDB issue #14
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
@@ -863,6 +867,41 @@ Also run:
 - WP-05 Contract/flavor gates: implementation exists on the Database Addon `ownership` branch; final integration verification required
 - WP-06 composed-read consumers: not started
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
-- WP-08 pinned Database Integration Check: not started
-- WP-09 baseline replay handover: documented in `TDB-RELAND-HANDOVER.md`; baseline-specific commits not recorded
-- Commit status: WP-00 extraction committed; bulk deletion not started
+- WP-08 pinned Database Integration Check: in progress; the old `db-validation` matrix was removed
+  in `ab8a78f2f127136b1b09e059fd6cc81ecc187203` while loader-usage validation remains in the unit-test
+  job; the pinned provider integration check is not implemented
+- WP-09 baseline replay handover: complete in the commit containing this completion record and the
+  matching evidence in `TDB-RELAND-HANDOVER.md`; `implementation` must branch from that commit and
+  start fresh from the subtractive baseline and authoritative behavior contracts
+- Subtractive deletion evidence:
+  - WP-00 evidence record: `09e0178e79775782cdabd75f506dccd6e8ec0698`
+  - Raw provider entity data: `99493b08a5b35aabf7e4ca93d438bf58baf3c08a`
+  - Provider-owned correction sources: `64bd822b9c998e8cfc00262b7635d65cafd5c930`
+  - Generated entity localization: `d3d08d244e341ebe68b7d7fabd4f50de13fc37a1`
+  - Legacy compiler and compiler schemas: `c7454f1f79459de72586953870ff9f4447d048ab`
+  - Questie-side entity validation: `ab8a78f2f127136b1b09e059fd6cc81ecc187203`
+  - Orphaned CLI database mocks: `14bb2681f8a349a0470c8deb1f37c238ea72ae80`
+  - Deletion commits `99493b08` through `14bb2681f`, measured by the exclusive diff
+    `09e0178e..14bb2681f`, delete 281 tracked files and 5,042,232 deleted-file lines; the overall
+    diff changes 292 files with 25 insertions and 5,042,474 deletions
+  - All five flavor TOCs require QuestieTDB. The Classic policy file remains in all five TOCs; the
+    TBC policy file remains in the four TBC-and-later TOCs and is absent from Classic
+  - QuestiePolicy, `titanReforgedQuestTags.lua`, blacklists, Event Quest data, Content Phase state,
+    UI localization, Zone/Category lookups, QuestieStream, and deferred support data remain intact
+  - Objective Order was not extracted back into Questie; ownership remains with
+    `LibQuestieDB.ObjectiveFirst`
+  - Ignored generated `cli/output/` was removed locally
+- Expected baseline state: intentionally nonfunctional. Full Busted reports 2 successes and 65
+  errors; every affected suite errors at `setupTests.lua:5` because the deleted
+  `Database/itemDB.lua` cannot be opened. Mixed-runtime compiler, raw-table, and provider references
+  are retained as implementation-branch rewrite inputs, not as a compiler fallback
+- Historical evidence status: `origin/QuestieTDB` at
+  `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains committed TDB-01/TDB-02 evidence only. The
+  sibling `../Questie-tdb-claude` workspace contains prior dirty and untracked Dynamic Corrections
+  work, but it is optional behavioral archaeology rather than a prerequisite or implementation
+  source. Do not merge, cherry-pick, or mechanically port it. Build production code and tests fresh
+  from Contract Version 1, the retained QuestiePolicy producers, the current baseline, and the
+  authoritative handovers
+- Commit status: the commit containing this completion record finalizes the subtractive baseline
+  and is the exact branch point for `implementation`. Provider work packets and every combined-merge
+  gate remain unchanged
