@@ -136,7 +136,7 @@ _ScheduleDailyResetTimer = function()
         _ScheduleDailyResetTimer() -- Reschedule for the next reset
 
         if QuestieDB.QuestPointers then
-            -- We don't want to do this while the database is compiling. This happens after updating Questie on the first login of the day
+            -- A reset may fire during Login Initialization; draw only after composed Quest IDs are bound.
             AvailableQuests.CalculateAndDrawAll()
         end
     end)
@@ -556,7 +556,7 @@ _CalculateAndDrawAvailableQuests = function()
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
 
-    local questData = QuestieDB.QuestPointers or QuestieDB.questData
+    local questData = QuestieDB.QuestPointers
 
     local playerLevel = QuestiePlayer.GetPlayerLevel()
     local minLevel = playerLevel - GetQuestGreenRange("player")

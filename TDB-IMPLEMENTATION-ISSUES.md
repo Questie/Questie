@@ -40,3 +40,44 @@ implementation wires its lifecycle.
 - `Database/QuestieDB.lua`
 - `Modules/QuestieInit.lua`
 - `Localization/l10n.lua`
+
+## Runtime missing-Item repair
+
+**Status:** Open for the fresh QuestieTDB implementation.
+
+The legacy `QuestieLib:CacheItemNames()` path was removed because it wrote raw Item overrides and
+stored a Quest ID in the Item `npcDrops` field. Quest acceptance no longer invokes that invalid path.
+
+### Required implementation
+
+- Register one name-only `RuntimeItemRepair` Policy Correction under owner `"Questie"`.
+- When an asynchronous Item load returns a non-nil name, accumulate only
+  `[itemId] = {[itemKeys.name] = itemName}` and reapply the Questie owner.
+- Refresh composed Item IDs and Questie's semantic Item cache after post-initialization repairs.
+- Preserve earlier repairs, make repeated callbacks idempotent, and ignore nil names.
+- Do not restore raw Item tables, `*DataOverrides`, or the invalid Quest-ID relationship value.
+
+### Relevant files
+
+- `Modules/Libs/QuestieLib.lua`
+- `Modules/EventHandler/QuestEventHandler.lua`
+- `Database/Corrections/QuestieCorrections.lua`
+- `Database/QuestieDB.lua`
+
+## Provider-backed schema constants and test seam
+
+**Status:** Open for the fresh QuestieTDB implementation.
+
+The compiler-oriented schema files are deleted. Fresh minimal adapters must bind Database Key Enums
+from `LibQuestieDB.Meta` and retain only Questie-owned constants still consumed by semantic modules,
+including faction IDs, Item classes, NPC flags, race masks, class masks, quest flags, and adapter
+query orders.
+
+Current focused failures identify the first required constants:
+
+- `QuestieDB.factionIDs` for `QuestieReputation` and Journey faction views.
+- `QuestieDB.itemClasses` for tracker Item buttons.
+- Quest, Item, and NPC key metadata for `QuestieDB` and retained policy tests.
+
+The focused QuestieTDB test adapter should provide this interface without reconstructing raw entity
+tables or compiler metadata.
