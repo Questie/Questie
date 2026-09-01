@@ -1,8 +1,6 @@
 dofile("setupTests.lua")
 
-dofile("Database/questDB.lua")
-dofile("Database/itemDB.lua")
-dofile("Database/npcDB.lua")
+local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
@@ -18,6 +16,7 @@ describe("QuestieDB", function()
     local testQuest
 
     before_each(function()
+        LoadQuestieTDBMetaMock()
         Questie.db.char.complete = {}
         Questie.IsTitanReforged = false
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")

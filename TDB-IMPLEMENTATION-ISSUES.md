@@ -70,14 +70,10 @@ stored a Quest ID in the Item `npcDrops` field. Quest acceptance no longer invok
 
 The compiler-oriented schema files are deleted. Fresh minimal adapters must bind Database Key Enums
 from `LibQuestieDB.Meta` and retain only Questie-owned constants still consumed by semantic modules,
-including faction IDs, Item classes, NPC flags, race masks, class masks, quest flags, and adapter
-query orders.
+including NPC flags, race masks, class masks, quest flags, and adapter query orders.
 
-Current focused failures identify the first required constants:
-
-- `QuestieDB.factionIDs` for `QuestieReputation` and Journey faction views.
-- `QuestieDB.itemClasses` for tracker Item buttons.
-- Quest, Item, and NPC key metadata for `QuestieDB` and retained policy tests.
-
-The focused QuestieTDB test adapter should provide this interface without reconstructing raw entity
-tables or compiler metadata.
+The baseline retains Questie-owned faction IDs and Item classes in `Database/QuestieDB.lua`.
+`test/QuestieTDBMetaMock.lua` supplies only the four provider key enums needed by retained semantic
+tests; it deliberately does not reconstruct raw entity tables, compiler metadata, or provider read
+behavior. The fresh Contract Version 1 test adapter must add the consumed query and Correction
+interfaces at this seam.
