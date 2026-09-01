@@ -389,7 +389,7 @@ For a later external-locale switch, use this exact sequence:
 3. Build the new tables, accepting only IDs where the now-clean composed Entity `Exists(id)` is
    true. Other Questie providers remain active during this check.
 4. Replace the captured tables and apply again.
-5. Refresh Questie caches and locale-derived indexes after the final apply.
+5. Refresh Questie's pointer maps and semantic caches after the final apply.
 
 This withdrawal-first sequence prevents an entity created only by the previous external locale
 from validating itself. Build ordinary correction rows with Database Key Enums. Add tests proving
