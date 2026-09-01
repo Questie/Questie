@@ -88,10 +88,10 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieNPCFixes
-local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
----@type QuestieTBCNpcFixes
-local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
+---@type QuestieClassicPolicyCorrections
+local QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
+---@type QuestieTBCPolicyCorrections
+local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -391,9 +391,9 @@ _LoadDarkmoonFaire = function()
 
     local npcFixes
     if Questie.IsTBC then
-        npcFixes = QuestieTBCNpcFixes:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
+        npcFixes = QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
     else
-        npcFixes = QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
+        npcFixes = QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore)
     end
 
     for _, questData in pairs(QuestieEvent.eventQuests) do

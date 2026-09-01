@@ -51,6 +51,8 @@ local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
 local QuestieTBCItemFixes = QuestieLoader:ImportModule("QuestieTBCItemFixes")
 ---@type QuestieTBCObjectFixes
 local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes")
+---@type QuestieTBCPolicyCorrections
+local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 
 ---@type QuestieWotlkQuestFixes
 local QuestieWotlkQuestFixes = QuestieLoader:ImportModule("QuestieWotlkQuestFixes")
@@ -144,7 +146,7 @@ do
             addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
             addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
 
-            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadContentPhaseFixes())
+            addOverride(QuestieDB.questDataOverrides, QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
         end
 
         -- WOTLK Corrections

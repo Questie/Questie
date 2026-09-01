@@ -822,12 +822,38 @@ Also run:
 ## Manifest completion record
 
 - Master manifest reconciliation: complete
-- Source Questie commit: not recorded
+- Source Questie commit: `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57`
 - Database Addon import commit: not recorded
 - Pre-merge Database Addon sync commit: not recorded
-- `baseline` branch: not created
+- `baseline` branch: `QuestieTDB-remove-baseline`
 - `implementation` branch: not created
-- WP-00 policy extraction: not started
+- Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
+  and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
+  code-changing baseline commit
+- WP-00 policy extraction: in progress; extraction implemented, freshly reviewed, and independently
+  validated locally; exact extraction SHA and normal CI evidence pending
+  - `QuestieNPCFixes:LoadDarkmoonFixes()` moved from
+    `Database/Corrections/classicNPCFixes.lua` to
+    `QuestieClassicPolicyCorrections:LoadDarkmoonFixes()` in
+    `Database/Corrections/QuestiePolicy/classicPolicyCorrections.lua`
+  - `QuestieTBCNpcFixes:LoadDarkmoonFixes()` moved from
+    `Database/Corrections/tbcNPCFixes.lua` to
+    `QuestieTBCPolicyCorrections:LoadDarkmoonFixes()` in
+    `Database/Corrections/QuestiePolicy/tbcPolicyCorrections.lua`
+  - `QuestieTBCQuestFixes:LoadContentPhaseFixes()` moved from
+    `Database/Corrections/tbcQuestFixes.lua` to
+    `QuestieTBCPolicyCorrections:LoadContentPhaseFixes()` in
+    `Database/Corrections/QuestiePolicy/tbcPolicyCorrections.lua`
+  - Temporary complete-table extraction parity: `busted /tmp/wp00-extraction-parity.test.lua`
+    passed with 2 successes and 0 failures for all Classic/TBC Darkmoon inputs and TBC Content
+    Phases 2, 3, and 4; the temporary test was removed
+  - Focused tests: Classic policy 2 successes, TBC policy 8 successes, and QuestieEvent 29
+    successes, all with 0 failures
+  - Full local validation: 1,768 Busted successes with 0 failures; luacheck passed with 0 warnings
+    or errors across 366 files; `git diff --check` passed
+  - Fresh extraction review: three independent reviewers found no actionable issues
+  - WP-00 extraction SHA: to be recorded in a separate evidence-only documentation commit after
+    normal CI validates the exact commit
 - WP-01 master-data import: not started
 - WP-02 lookup/Titan zhCN: blocked on QuestieTDB issue #14
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
@@ -837,4 +863,4 @@ Also run:
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
 - WP-08 pinned Database Integration Check: not started
 - WP-09 baseline replay handover: documented in `TDB-RELAND-HANDOVER.md`; baseline-specific commits not recorded
-- Commit status: no implementation commit created
+- Commit status: WP-00 extraction commit pending; bulk deletion not started
