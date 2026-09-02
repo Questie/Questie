@@ -80,6 +80,9 @@ end
 ---Pass the slot's full replacement rows every time; nil (or `{}`, which normalizes to it)
 ---withdraws the slot. Withdrawing a slot that was never published is a no-op, so callers do not
 ---need their own "was anything active" bookkeeping.
+---
+---Slot names are plain strings: a typo on the withdrawal side creates a second slot and leaves the
+---original published, so keep the name in one place at the owning module and use it at both ends.
 ---@param datatype "Quest"|"Npc"|"Item"|"Object"
 ---@param name string Slot name, unique per datatype within owner "Questie".
 ---@param rows PolicyCorrectionRows|nil
