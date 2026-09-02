@@ -27,6 +27,22 @@ local function _LookupRows(lookup)
     return lookup or {}
 end
 
+---An external name is usable only as a non-empty string: the provider keeps `""` distinct from nil,
+---so an empty string would blank the composed name.
+---@param value unknown
+---@return boolean
+local function _IsText(value)
+    return type(value) == "string" and value ~= ""
+end
+
+---Objective lines are usable only as a non-empty table: `{}` is the Correction idiom that clears a
+---field, which would erase the quest's objective text.
+---@param value unknown
+---@return boolean
+local function _HasLines(value)
+    return type(value) == "table" and next(value) ~= nil
+end
+
 ---Builds the four external locale Policy Correction tables from `QUESTIE_LOCALES_OVERRIDE`.
 ---
 ---Rows are accepted only for IDs whose composed entity currently exists. QuestieTDB Corrections can
@@ -52,7 +68,7 @@ function EntityLocale.BuildExternalLocaleCorrections(locale)
 
     -- Items: `[itemId] = name`
     for itemId, name in pairs(_LookupRows(override.itemLookup)) do
-        if name and itemExists(itemId) then
+        if _IsText(name) and itemExists(itemId) then
             corrections.Item[itemId] = {[itemKeys.name] = name}
         end
     end
@@ -61,10 +77,10 @@ function EntityLocale.BuildExternalLocaleCorrections(locale)
     for questId, data in pairs(_LookupRows(override.questLookup)) do
         if type(data) == "table" and questExists(questId) then
             local row = {}
-            if data[1] then
+            if _IsText(data[1]) then
                 row[questKeys.name] = data[1]
             end
-            if data[2] then
+            if _HasLines(data[2]) then
                 row[questKeys.objectivesText] = data[2]
             end
             if next(row) then
@@ -77,13 +93,13 @@ function EntityLocale.BuildExternalLocaleCorrections(locale)
     for npcId, data in pairs(_LookupRows(override.npcNameLookup)) do
         if data and npcExists(npcId) then
             local row = {}
-            if type(data) == "string" then
+            if _IsText(data) then
                 row[npcKeys.name] = data
             elseif type(data) == "table" then
-                if data[1] then
+                if _IsText(data[1]) then
                     row[npcKeys.name] = data[1]
                 end
-                if data[2] then
+                if _IsText(data[2]) then
                     row[npcKeys.subName] = data[2]
                 end
             end
@@ -95,7 +111,7 @@ function EntityLocale.BuildExternalLocaleCorrections(locale)
 
     -- Objects: `[objectId] = name`
     for objectId, name in pairs(_LookupRows(override.objectLookup)) do
-        if name and objectExists(objectId) then
+        if _IsText(name) and objectExists(objectId) then
             corrections.Object[objectId] = {[objectKeys.name] = name}
         end
     end

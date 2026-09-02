@@ -135,6 +135,24 @@ describe("EntityLocale", function()
             assert.are_same({[30] = {[npcKeys.name] = "Waldspinne"}}, rows.Npc)
         end)
 
+        it("skips empty strings and empty objective tables instead of blanking or clearing composed fields", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {
+                locale = "zzZZ",
+                translations = {},
+                itemLookup = function() return {[5] = ""} end,
+                questLookup = function() return {[2] = {"", {}}, [3] = {"Webwood-Gift", {}}} end,
+                npcNameLookup = function() return {[30] = {"", ""}} end,
+                objectLookup = function() return {[31] = ""} end,
+            }
+
+            local rows = EntityLocale.BuildExternalLocaleCorrections("zzZZ")
+
+            assert.are_same({}, rows.Item)
+            assert.are_same({[3] = {[questKeys.name] = "Webwood-Gift"}}, rows.Quest)
+            assert.are_same({}, rows.Npc)
+            assert.are_same({}, rows.Object)
+        end)
+
         it("accepts lookup tables as well as lookup functions and skips rows without values", function()
             _G.QUESTIE_LOCALES_OVERRIDE = {
                 locale = "zzZZ",
