@@ -282,6 +282,68 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("RepairMissingItemNames", function()
+        ---@type QuestieCorrections
+        local QuestieCorrections
+        local loadCallbacks
+
+        before_each(function()
+            loadCallbacks = {}
+            QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+            QuestieCorrections.RepairMissingItem = spy.new(function() end)
+            QuestieDB.ItemPointers = {[5] = true}
+            QuestieDB.GetQuest = function()
+                return {
+                    ObjectiveData = {
+                        {Type = "item", Id = 5},
+                        {Type = "item", Id = 999},
+                        {Type = "monster", Id = 30},
+                    },
+                }
+            end
+            _G.Item = {
+                CreateFromItemID = spy.new(function(_, itemId)
+                    return {
+                        ContinueOnItemLoad = function(_, callback)
+                            loadCallbacks[itemId] = callback
+                        end,
+                        GetItemName = function()
+                            return "Loaded " .. itemId
+                        end,
+                    }
+                end),
+            }
+        end)
+
+        after_each(function()
+            _G.Item = nil
+        end)
+
+        it("requests only the objective Items missing from the composed database", function()
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+
+            assert.spy(Item.CreateFromItemID).was.called(1)
+            assert.spy(Item.CreateFromItemID).was.called_with(Item, 999)
+            assert.spy(QuestieCorrections.RepairMissingItem).was.not_called()
+        end)
+
+        it("repairs the Item name through QuestieCorrections once the client load completes", function()
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+
+            loadCallbacks[999]()
+
+            assert.spy(QuestieCorrections.RepairMissingItem).was.called_with(999, "Loaded 999")
+        end)
+
+        it("does nothing for a quest without objective data", function()
+            QuestieDB.GetQuest = function() return nil end
+
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+
+            assert.spy(Item.CreateFromItemID).was.not_called()
+        end)
+    end)
+
     describe("DidDailyResetHappenSinceLastLogin", function()
         it("should return true when last login is not set", function()
             _G.GetRealmName = function() return "Ook Ook" end

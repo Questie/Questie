@@ -26,6 +26,10 @@ describe("QuestieEvent", function()
         _G.SetCVar = function() end
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
+        QuestieCorrections.SetDarkmoonNpcCorrections = function() end
+        -- The Darkmoon NPC producers are exercised in their own QuestiePolicy tests; here they only need to exist.
+        QuestieLoader:ImportModule("QuestieClassicPolicyCorrections").LoadDarkmoonFixes = function() return {} end
+        QuestieLoader:ImportModule("QuestieTBCPolicyCorrections").LoadDarkmoonFixes = function() return {} end
 
         Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -664,6 +668,131 @@ describe("QuestieEvent", function()
 
             assert.spy(getCvarBoolMock).was.called_with("calendarShowDarkmoon")
             assert.spy(setCvarMock).was.called_with("calendarShowDarkmoon", "0")
+        end)
+    end)
+
+    describe("Darkmoon NPC Policy Correction", function()
+        ---@type QuestieClassicPolicyCorrections
+        local QuestieClassicPolicyCorrections
+        ---@type QuestieTBCPolicyCorrections
+        local QuestieTBCPolicyCorrections
+
+        ---Points the calendar mocks at one moment; `firstWeekday` is the weekday of the 1st of that month.
+        ---@param year number
+        ---@param month number
+        ---@param monthDay number
+        ---@param hour number
+        ---@param firstWeekday number
+        ---@return nil
+        local function _MockCalendar(year, month, monthDay, hour, firstWeekday)
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = monthDay, month = month, year = year, hour = hour, minute = 0}
+                end
+            }
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return {year = year, month = month}
+                    end
+                    return {firstWeekday = firstWeekday}
+                end
+            }
+        end
+
+        before_each(function()
+            QuestieCorrections.SetDarkmoonNpcCorrections = spy.new(function() end)
+            QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
+            QuestieClassicPolicyCorrections.LoadDarkmoonFixes = function(_, isInMulgore)
+                return {producer = "classic", isInMulgore = isInMulgore}
+            end
+            QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
+            QuestieTBCPolicyCorrections.LoadDarkmoonFixes = function(_, isInMulgore, isInTerokkar)
+                return {producer = "tbc", isInMulgore = isInMulgore, isInTerokkar = isInTerokkar}
+            end
+        end)
+
+        it("publishes the Classic Mulgore table exactly once, independent of the Event Quest count", function()
+            _MockCalendar(2024, 12, 11, 0, 1)
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "classic", isInMulgore = true})
+        end)
+
+        it("publishes the Classic Elwynn Forest table in an odd month", function()
+            _MockCalendar(2025, 3, 15, 2, 2)
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "classic", isInMulgore = false})
+        end)
+
+        it("publishes the TBC Mulgore table", function()
+            _MockCalendar(2025, 1, 12, 12, 7)
+            Questie.IsTBC = true
+            Expansions.Current = Expansions.Tbc
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "tbc", isInMulgore = true, isInTerokkar = false})
+        end)
+
+        it("publishes the TBC Terokkar Forest table", function()
+            _MockCalendar(2025, 3, 10, 12, 2)
+            Questie.IsTBC = true
+            Expansions.Current = Expansions.Tbc
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "tbc", isInMulgore = false, isInTerokkar = true})
+        end)
+
+        it("withdraws the NPC table with an empty table when no faire is active", function()
+            _MockCalendar(2025, 4, 1, 0, 7)
+            Questie.IsTBC = true
+            Expansions.Current = Expansions.Tbc
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({})
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("leaves the NPC Policy Correction untouched on Anniversary realms before phase 3", function()
+            _MockCalendar(2024, 12, 11, 0, 1)
+            ContentPhases.activePhases.Anniversary = 2
+            Questie.IsClassic = true
+            Questie.IsAnniversaryEra = true
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.not_called()
+        end)
+
+        it("leaves the NPC Policy Correction untouched on MoP, where the faire is not relocated", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekDay = 4, monthDay = 3, month = 12, year = 2025, hour = 12, minute = 0}
+                end
+            }
+            Expansions.Current = Expansions.MoP
+            _G.C_Calendar = {
+                GetNumDayEvents = function() return 1 end,
+                GetHolidayInfo = function() return {texture = 235447, calendarType = "HOLIDAY"} end
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.not_called()
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
     end)
 

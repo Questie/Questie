@@ -82,6 +82,10 @@ local alwaysTurnInAbleQuests = {
 
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieClassicPolicyCorrections
+local QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
+---@type QuestieTBCPolicyCorrections
+local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
@@ -377,16 +381,21 @@ end
 _LoadDarkmoonFaire = function()
     local eventLocation = _GetDarkmoonFaireLocation()
     if eventLocation == DMF_LOCATIONS.NONE then
-        -- Fresh Dynamic Corrections publish an empty DarkmoonFaire table here to withdraw the previous location.
+        -- An empty table withdraws the previous location; an inactive faire must not keep stale NPC coordinates.
+        QuestieCorrections.SetDarkmoonNpcCorrections({})
         return
     end
 
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
     local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    -- Fresh Dynamic Corrections publish the selected table exactly once, outside the Event Quest loop.
-    -- Classic uses QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore).
-    -- TBC uses QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar), so Terokkar wins.
+    -- The NPC Policy Correction is published exactly once per load, outside the Event Quest loop below:
+    -- the number of visible Event Quests must not control entity Correction application.
+    if Questie.IsTBC then
+        QuestieCorrections.SetDarkmoonNpcCorrections(QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
+    else
+        QuestieCorrections.SetDarkmoonNpcCorrections(QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
+    end
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local hideQuest = questData[7]

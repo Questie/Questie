@@ -188,6 +188,7 @@ function QuestEventHandler.InitQuestLogStates(changes)
         questLog[questId] = {
             state = QUEST_LOG_STATES.QUEST_ACCEPTED
         }
+        QuestieLib.RepairMissingItemNames(questId)
     end
 end
 
@@ -231,6 +232,7 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
         lastMarkerQuestEventTime = GetTime()
     end
 
+    QuestieLib.RepairMissingItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
 
     if Questie.db.profile.questAnnounceIncompleteBreadcrumb or Questie.db.profile.autoAccept.abandonBreadcrumbFollowup then

@@ -37,6 +37,8 @@ describe("QuestEventHandler", function()
     local QuestiePartyObjectives
     ---@type AvailableQuests
     local AvailableQuests
+    ---@type QuestieLib
+    local QuestieLib
     ---@type QuestEventHandler
     local QuestEventHandler
 
@@ -64,13 +66,21 @@ describe("QuestEventHandler", function()
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.ResetLastNpcGuid = spy.new(function() end)
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.RepairMissingItemNames = spy.new(function() end)
 
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
     end)
 
+    it("should request missing Item names for quests already in the quest log at login", function()
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called(1)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called_with(QUEST_ID)
+    end)
+
     it("should handle quest accept", function()
+        QuestieLib.RepairMissingItemNames:clear()
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
@@ -86,6 +96,8 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(QuestLifecycle.AcceptQuest).was.called_with(QuestLifecycle, QUEST_ID)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called(1)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called_with(QUEST_ID)
     end)
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()

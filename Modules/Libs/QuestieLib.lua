@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 QuestieLib.AddonPath = "Interface\\Addons\\Questie\\"
 
@@ -393,6 +395,29 @@ function QuestieLib:GetClassString(classMask)
             end
         end
         return classString
+    end
+end
+
+---Asks the client for the names of objective Items the composed database lacks and repairs each one
+---through the name-only RuntimeItemRepair Policy Correction when the asynchronous load completes.
+---Runs on quest accept and for every quest already in the log at login.
+---@param questId QuestId
+---@return nil
+function QuestieLib.RepairMissingItemNames(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if not (quest and quest.ObjectiveData) then
+        return
+    end
+
+    for _, objective in pairs(quest.ObjectiveData) do
+        if objective.Type == "item" and not QuestieDB.ItemPointers[objective.Id] then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieLib.RepairMissingItemNames] Requesting client data for missing itemId:",
+                objective.Id)
+            local item = Item:CreateFromItemID(objective.Id)
+            item:ContinueOnItemLoad(function()
+                QuestieCorrections.RepairMissingItem(objective.Id, item:GetItemName())
+            end)
+        end
     end
 end
 
