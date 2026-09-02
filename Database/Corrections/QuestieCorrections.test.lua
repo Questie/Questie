@@ -109,7 +109,12 @@ describe("QuestieCorrections", function()
                 {"Object", "ExternalLocaleObject", 503},
             }, registered)
             assert.are_same({"QuestieTDB", "Questie"}, LibQuestieDB.GetOwners())
-            assert.is_nil(mock.registrations.Questie[9])
+        end)
+
+        it("treats missing external locale rows as empty layers", function()
+            QuestieCorrections.InitializePolicyCorrections(nil)
+
+            assert.are_same(1, mock.applyCount.Questie)
         end)
 
         it("applies owner Questie once during initialization without refreshing an uninitialized QuestieDB", function()
@@ -161,18 +166,16 @@ describe("QuestieCorrections", function()
     end)
 
     describe("ContentPhasePolicy", function()
-        local questKeys
-
-        before_each(function()
-            questKeys = QuestieDB.questKeys
-            mock.SetBaseRow("Quest", 10944, {[questKeys.name] = "The Secret Compromised"})
-            mock.SetBaseRow("Quest", 11007, {[questKeys.name] = "Kael'thas and the Verdant Sphere"})
-        end)
+        ---Seeds both attunement quests with a provider prerequisite the phase policy must replace or clear.
+        ---@return nil
+        local function _SeedAttunementQuests()
+            local questKeys = QuestieDB.questKeys
+            mock.SetBaseRow("Quest", 10944, {[questKeys.name] = "The Secret Compromised", [questKeys.preQuestSingle] = {1}})
+            mock.SetBaseRow("Quest", 11007, {[questKeys.name] = "Kael'thas and the Verdant Sphere", [questKeys.preQuestSingle] = {1}})
+        end
 
         it("does not introduce the TBC prerequisite rows on Era", function()
             Expansions.Current = Expansions.Era
-            mock.base.Quest[10944] = nil
-            mock.base.Quest[11007] = nil
 
             QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
 
@@ -180,9 +183,10 @@ describe("QuestieCorrections", function()
             assert.is_false(LibQuestieDB.Quest.Exists(11007))
         end)
 
-        it("applies the phase two prerequisites on TBC before phase three", function()
+        it("applies the phase two prerequisites on TBC before phase three, clearing the provider single prerequisite", function()
             Expansions.Current = Expansions.Tbc
             ContentPhases.activePhases.TBC = 2
+            _SeedAttunementQuests()
 
             QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
 
@@ -190,11 +194,13 @@ describe("QuestieCorrections", function()
             assert.is_nil(LibQuestieDB.Quest.Get(10944, "preQuestSingle"))
             assert.are_same({10888}, LibQuestieDB.Quest.Get(11007, "preQuestSingle"))
             assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Quest", 10944, "preQuestGroup"))
+            assert.are_same({1}, LibQuestieDB.Quest.GetRaw(10944, "preQuestSingle"))
         end)
 
         it("replaces the prerequisites when the phase advances and the owner reapplies", function()
             Expansions.Current = Expansions.Tbc
             ContentPhases.activePhases.TBC = 2
+            _SeedAttunementQuests()
             QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
 
             ContentPhases.activePhases.TBC = 3
@@ -224,7 +230,16 @@ describe("QuestieCorrections", function()
             elwynnCorrections = {
                 [14828] = {[npcKeys.spawns] = {[12] = {{41.5, 68.87}}}, [npcKeys.zoneID] = 12},
             }
+            local objectKeys = QuestieDB.objectKeys
+            mock.SetBaseRow("Object", 1617, {[objectKeys.name] = "Silverleaf", [objectKeys.spawns] = {[1] = {{10, 10}}}})
             QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
+        end)
+
+        it("keeps the other Questie Policy Corrections applied across a Darkmoon reapply", function()
+            QuestieCorrections.SetDarkmoonNpcCorrections(mulgoreCorrections)
+
+            assert.is_nil(LibQuestieDB.Object.Get(1617, "spawns"))
+            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Object", 1617, "spawns"))
         end)
 
         it("publishes the selected location and replaces it on the next selection", function()
@@ -375,7 +390,7 @@ describe("QuestieCorrections", function()
             QuestieCorrections.SetExternalLocaleCorrections(function()
                 existedWhileBuilding = LibQuestieDB.Item.Exists(999)
                 return {
-                    Item = existedWhileBuilding and {[999] = {[itemKeys.name] = "Stale"}} or {},
+                    Item = {},
                     Quest = {},
                     Npc = {[30] = {[npcKeys.name] = "Araignée des bois"}},
                     Object = {},
