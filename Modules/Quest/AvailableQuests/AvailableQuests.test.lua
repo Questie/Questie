@@ -338,7 +338,7 @@ describe("AvailableQuests", function()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)
 
-        it("timer callback should not calculate available quests while the database is compiling", function()
+        it("timer callback should not calculate available quests before composed Quest IDs are bound", function()
             local realmName = "TestRealm"
             _G.GetRealmName = function() return realmName end
             _G.GetServerTime = function() return 1000 end

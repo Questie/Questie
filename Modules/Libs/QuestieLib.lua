@@ -396,31 +396,6 @@ function QuestieLib:GetClassString(classMask)
     end
 end
 
-function QuestieLib:CacheItemNames(questId)
-    local quest = QuestieDB.GetQuest(questId)
-    if (quest and quest.ObjectiveData) then
-        for _, objectiveDB in pairs(quest.ObjectiveData) do
-            if objectiveDB.Type == "item" then
-                if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:", objectiveDB.Id)
-                    local item = Item:CreateFromItemID(objectiveDB.Id)
-                    item:ContinueOnItemLoad(
-                        function()
-                            local itemName = item:GetItemName()
-                            if not QuestieDB.itemDataOverrides[objectiveDB.Id] then
-                                QuestieDB.itemDataOverrides[objectiveDB.Id] = {itemName, {questId}, {}, {}}
-                            else
-                                QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
-                            end
-                            Questie.Debug(Questie.DEBUG_DEVELOP,
-                                "[QuestieLib:CacheItemNames] Created item information for item:", itemName, ":", objectiveDB.Id)
-                        end)
-                end
-            end
-        end
-    end
-end
-
 function QuestieLib.Euclid(x, y, i, e)
     -- No need for absolute values as these are used only as squared
     local xd = x - i

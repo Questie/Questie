@@ -89,8 +89,8 @@ its predecessor. XML groups that would otherwise be invisible open with
   It also could never run: `QuestieLoader` calls `GetTimePreciseSec` directly and would have aborted the addon
   first. If the clock is ever absent the loader records nothing and the profiler declines to arm, saying so in
   chat. Do not reintroduce a second clock; a measurement that can go backwards is worse than none.
-- **`PROFILING_DISALLOWED_PATHS` is deliberate.** `QuestieStreamLib`, the `DBCompiler` reader/writer/skipper
-  tables, the serializer dispatch tables and the `QuestieDB.Query*` slots run thousands of times inside one
+- **`PROFILING_DISALLOWED_PATHS` is deliberate.** `QuestieStreamLib`, the serializer dispatch tables, and the
+  `QuestieDB.Query*` slots run thousands of times inside one
   useful high-level measurement and would otherwise dominate every result. Their cost is still visible
   inclusively in whatever called them. Do not "fix" this.
 - **Never re-open generic frame traversal.** Frames are runtime objects with protected behaviour and enormous

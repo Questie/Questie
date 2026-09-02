@@ -30,6 +30,7 @@ describe("TrackerItemButton", function()
         Questie.db.profile = {}
         CreateFrame.resetMockedFrames()
 
+        dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
         dofile("Modules/Tracker/LinePool/TrackerItemButton.lua")

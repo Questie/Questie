@@ -418,9 +418,6 @@ local profilingCallbacks = {
 -- Those primitives can run thousands of times inside one useful high-level measurement and otherwise dominate the profiler.
 local PROFILING_DISALLOWED_PATHS = {
     ["QuestieStreamLib"] = true,
-    ["DBCompiler.readers"] = true,
-    ["DBCompiler.writers"] = true,
-    ["DBCompiler.skippers"] = true,
     ["QuestieSerializer.ReaderTable"] = true,
     ["QuestieSerializer.WriterTable"] = true,
     ["QuestieDB.QueryNPC"] = true,

@@ -463,17 +463,18 @@ Reimplement Login Initialization in this order:
 
 1. call `l10n.InitializeUILocale()` to resolve Questie's effective UI locale;
 2. require Database Addon Contract Version 1 before any locale or Correction work;
-3. call `l10n.ApplyProviderLocale()` to forward the effective locale to
-   `LibQuestieDB.l10n.SetLocale()`;
-4. call `l10n.BuildExternalLocaleCorrections()` against clean composed reads;
+3. forward `l10n:GetUILocale()` to `LibQuestieDB.l10n.SetLocale()` outside the UI-string module;
+4. build External Locale Override Policy Corrections outside `l10n` against clean composed reads;
 5. initialize Questie blacklist and non-Correction policy, register every Questie Policy Correction
    once, and apply owner `"Questie"` once;
 6. initialize `QuestieDB` query bindings, ID maps, Objective Order hints, caches, and its lifecycle
    flag;
 7. initialize Townsfolk and other database consumers from composed reads;
 8. initialize `QuestieEvent` after `QuestieDB` so later setters refresh Questie's bindings;
-9. continue later Initialization Stages. Stage 2 runs `l10n:PostBoot()` and rebuilds the Game Object
-   name index inside the staged coroutine.
+9. continue later Initialization Stages. During Stage 2, warm
+   `LibQuestieDB.Object.BuildNameIndex()` only when `enableTooltipsObjectID` is enabled. Quest tooltip
+   registrations build `QuestieTooltips.objectIdsByName` incrementally; Questie performs no full
+   Object scan. See `QUESTIE-OBJECT-NAME-INDEX.md`.
 
 ### `Database/QuestieDB.lua`
 
@@ -563,19 +564,18 @@ Delete:
 - generated Item, Quest, NPC, and Game Object lookup loading;
 - Titan zhCN raw correction handling after WP-02.
 
-Keep or reimplement:
+Keep:
 
 - UI Translation Entries;
 - User Locale Selection, fallback, and aliases;
 - Zone/Category Lookups;
-- `LibQuestieDB.l10n.SetLocale()` forwarding;
-- External Locale Override UI strings;
-- four filtered External Locale Override Policy Corrections;
-- withdrawal-first external locale switching;
-- semantic cache invalidation after entity locale changes;
-- generation-safe, coroutine-safe `objectNameLookup` rebuilds from composed Game Object reads;
-- runtime locale changes through `ApplyEntityLocale()` and the withdrawal-first sequence, replacing
-  the old recompile-and-reload popup.
+- External Locale Override UI strings.
+
+Questie's UI-string module owns no entity behavior. A fresh focused seam outside `l10n` owns provider
+locale forwarding, four filtered External Locale Override Policy Corrections, withdrawal-first
+entity-locale switching, and semantic cache invalidation. Object-hover lookup follows QuestieTDB ADR
+0008: tooltip registrations populate `QuestieTooltips.objectIdsByName`, while the optional Object-ID
+line uses provider `IdsByName`. See `QUESTIE-OBJECT-NAME-INDEX.md`.
 
 ### `Modules/QuestieMenu/Townsfolk.lua`
 
@@ -694,7 +694,8 @@ runtime modules around them, but it must not reconstruct the extracted data from
 | Rich entity projections | `QuestieDB.lua` | Questie semantics |
 | Semantic caches and ID aliases | `QuestieDB.lua` | Questie compatibility seam |
 | Focused Database Addon test seam | fresh `test/QuestieTDBMock.lua` and contract tests | Questie behavior tests |
-| Game Object name index | `l10n.objectNameLookup` | Questie derived index |
+| Object quest-tooltip registration index | `QuestieTooltips.objectIdsByName` | Questie tooltip bookkeeping; append-only `o_` registration sets |
+| Composed Object name index | `LibQuestieDB.Object.IdsByName` / `BuildNameIndex` | Database Addon entity truth; warmed only for the optional Object-ID line |
 | Event and announcement visibility | `QuestieEvent.lua` | Questie policy |
 | Quest availability checks | `QuestieDB.lua` and Quest modules | Questie player-state policy |
 | WoW API quest-tag corrections | `questTagInfoCorrections.lua` | Questie API compatibility |
@@ -751,7 +752,8 @@ Rewrite tests to exercise the final interfaces:
 - Questie Policy Correction registration, composition, withdrawal, raw reads, and provenance;
 - Login Initialization order without compiler/cached branches;
 - provider locale forwarding and External Locale Override behavior;
-- generation-safe Game Object name-index rebuild;
+- Object-tooltip `o_` registration indexing plus provider `IdsByName` one/many/`10+` presentation;
+- conditional `BuildNameIndex()` warming during initialization and setting enablement;
 - Darkmoon initial selection and Event Quest policy;
 - asynchronous missing-Item repair;
 - Townsfolk and Available Quests through composed reads;
@@ -827,8 +829,9 @@ Also run:
 - Source Questie commit: `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57`
 - Database Addon import commit: not recorded
 - Pre-merge Database Addon sync commit: not recorded
-- `baseline` branch: `QuestieTDB-remove-baseline`; subtractive code tip
-  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`
+- `baseline` branch: `QuestieTDB-remove-baseline`; whole-file deletion tip
+  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; reviewed clean-baseline code tip
+  `cf4349e9f647f3c1b077421863fc53ef6031da44`
 - `implementation` branch: not created
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
@@ -865,7 +868,10 @@ Also run:
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
 - WP-04 Objective Order/waypoint parity: verification required
 - WP-05 Contract/flavor gates: implementation exists on the Database Addon `ownership` branch; final integration verification required
-- WP-06 composed-read consumers: not started
+- WP-06 composed-read consumers: in progress; the clean baseline removed raw traversals and fallbacks,
+  but provider-bound Townsfolk and Available Quests behavior still needs focused verification on the
+  fresh implementation branch. Runtime Item repair remains an open Policy Correction seam in
+  `TDB-IMPLEMENTATION-ISSUES.md`
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
 - WP-08 pinned Database Integration Check: in progress; the old `db-validation` matrix was removed
   in `ab8a78f2f127136b1b09e059fd6cc81ecc187203` while loader-usage validation remains in the unit-test
@@ -891,10 +897,34 @@ Also run:
   - Objective Order was not extracted back into Questie; ownership remains with
     `LibQuestieDB.ObjectiveFirst`
   - Ignored generated `cli/output/` was removed locally
-- Expected baseline state: intentionally nonfunctional. Full Busted reports 2 successes and 65
-  errors; every affected suite errors at `setupTests.lua:5` because the deleted
-  `Database/itemDB.lua` cannot be opened. Mixed-runtime compiler, raw-table, and provider references
-  are retained as implementation-branch rewrite inputs, not as a compiler fallback
+- Clean mixed-runtime subtraction evidence:
+  - `0b02060ca5ab4a853651bf55bfe3a3b73e00f266` — legacy entity localization removed while retaining
+    UI strings and Object-hover tooltip behavior
+  - `e1d1f37ed7e30c1e199c7d48d7cea7d6470f9028` — corrections reduced to Questie blacklist policy and
+    durable Dynamic Correction ordering
+  - `d06049d10991ecc54c2392fd457e9241a058002b` — compiler lifecycle removed from QuestieDB and Login
+    Initialization
+  - `3e6d66ca2f98e37219aa545279df2cae1dbd5b80` — compiler controls, recovery, profiler residue, and
+    translations removed
+  - `2c57c667af6f3ccc148f98ac39846f164cd0b9c9` — raw entity consumers removed or converted to composed
+    reads
+  - `e583ace460e593a0fe3a8c4b4c03156508df909e` — obsolete compiler SavedVariables migration added
+  - `2f5fca8b616528214ff555153167ac8ea2f23ed1` — Questie-owned semantic constants retained
+  - `653ec82ec60cbe59f4117b223e155ab6b2ea834d` — stale compiler terminology removed
+  - `8b63c04beadef59b648cb558247609651e1f19e1` — focused Contract metadata test fixture added
+  - `cf4349e9f647f3c1b077421863fc53ef6031da44` — review fixes restore NPC flag semantics, bind
+    QuestiePolicy tests to provider metadata, and leave WP-06 verification explicitly in progress
+  - The follow-up through `cf4349e9f` changes 54 files with 984 insertions and 1,516 deletions. Full
+    Busted passes with 1,424 successes; luacheck passes with 0 warnings or errors across 322 files;
+    loader-usage and `git diff --check` pass
+  - Production retirement searches find no compiler/storage, raw entity/override, provider-fix,
+    precompile/waypoint, generated entity localization, or deleted-module references
+  - `TDB-IMPLEMENTATION-ISSUES.md` records runtime Item repair, provider schema/test seams, and
+    composed-read consumer verification. `QUESTIE-OBJECT-NAME-INDEX.md` supersedes the former full
+    Object-scan plan with QuestieTDB ADR 0008 registration/provider indexing
+- Expected baseline state: structurally clean and locally green, but not runtime-complete. Contract
+  enforcement, provider query bindings, owner-scoped Policy Corrections, provider/external locale
+  application, and the pinned integration check remain fresh implementation work
 - Historical evidence status: `origin/QuestieTDB` at
   `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains committed TDB-01/TDB-02 evidence only. The
   sibling `../Questie-tdb-claude` workspace contains prior dirty and untracked Dynamic Corrections

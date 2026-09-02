@@ -21,8 +21,6 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
----@type QuestieDBStorage
-local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -304,16 +302,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                 func = function() QuestieJourney:ShowCharacterBrowserFrame() end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
-            recompileDatabase = {
-                type = "execute",
-                order = 4.6,
-                name = function() return l10n("Recompile Database"); end,
-                desc = function() return l10n("Forces a recompile of the Questie database. This will also reload the UI."); end,
-                func = function(_, _)
-                    StaticPopup_Show("QUESTIE_RECOMPILE_DATABASE_CONFIRM")
-                end,
-            },
-            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
             openProfiler = {
                 type = "execute",
                 order = 4.8,
@@ -492,8 +480,6 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
         Questie.db.profile.migrationVersion = nil
         Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
 
-        QuestieDBStorage.InvalidateActiveStorage()
-
         Questie.db.char.hidden = nil
         Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
         Questie.db.global.unavailableQuestsDeterminedByTalking = {}
@@ -548,7 +534,6 @@ StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
         l10n:SetUILocale(effectiveLocale)
         Questie.db.global.questieLocale = effectiveLocale
         Questie.db.global.questieLocaleDiff = pendingLocaleSelection ~= "auto"
-        QuestieDBStorage.InvalidateActiveStorage()
         pendingLocaleSelection = nil
         ReloadUI()
     end,
@@ -557,27 +542,6 @@ StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
     end,
     OnShow = function(self)
         local confirmText = l10n("This will reload the UI. Are you sure you want to change the language?")
-        self.Text:SetText(confirmText)
-        self:SetFrameStrata("FULLSCREEN_DIALOG")
-        self:Raise()
-    end,
-    timeout = 0,
-    whileDead = true,
-    hideOnEscape = true,
-    preferredIndex = 3,
-}
-
-StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
-    text = "", -- we set it in OnShow
-    button1 = YES,
-    button2 = NO,
-    OnAccept = function(self)
-        QuestieDBStorage.InvalidateActiveStorage()
-        ReloadUI()
-    end,
-    OnShow = function(self)
-        local confirmText = l10n(
-            "Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
         self.Text:SetText(confirmText)
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()

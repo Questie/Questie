@@ -16,6 +16,7 @@ describe("TooltipHandler", function()
         l10n = QuestieLoader:ImportModule("l10n")
 
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+        QuestieTooltips.objectNameLookup = {}
 
         dofile("Modules/Tooltips/TooltipHandler.lua")
         _QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips").private
@@ -25,7 +26,7 @@ describe("TooltipHandler", function()
         it("should show a quest title with objective", function()
             local name = "test"
             local objectId = 1
-            l10n.objectNameLookup[name] = {objectId}
+            QuestieTooltips.objectNameLookup[name] = {objectId}
 
             QuestieTooltips.GetTooltip = spy.new(function()
                 return {"Quest Name", "0/1 Test Objective", "0/1 Other Objective"}
@@ -48,7 +49,7 @@ describe("TooltipHandler", function()
 
         it("should add list of quest names", function()
             local name = "test"
-            l10n.objectNameLookup[name] = {1, 2}
+            QuestieTooltips.objectNameLookup[name] = {1, 2}
 
             QuestieTooltips.GetTooltip = spy.new(function(id)
                 if id == "o_1" then
@@ -76,7 +77,7 @@ describe("TooltipHandler", function()
         it("should add object IDs", function()
             local name = "test"
             local objectId = 1
-            l10n.objectNameLookup[name] = {objectId}
+            QuestieTooltips.objectNameLookup[name] = {objectId}
 
             QuestieTooltips.GetTooltip = spy.new(function() end)
 
@@ -94,7 +95,7 @@ describe("TooltipHandler", function()
 
         it("should add multiple object IDs", function()
             local name = "test"
-            l10n.objectNameLookup[name] = {1, 2}
+            QuestieTooltips.objectNameLookup[name] = {1, 2}
 
             QuestieTooltips.GetTooltip = spy.new(function() end)
 
@@ -112,7 +113,7 @@ describe("TooltipHandler", function()
 
         it("should stop counting after 10", function()
             local name = "test"
-            l10n.objectNameLookup[name] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+            QuestieTooltips.objectNameLookup[name] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
 
             QuestieTooltips.GetTooltip = spy.new(function() return {""} end)
 

@@ -30,6 +30,11 @@ QuestieTooltips.lookupKeysByQuestId = {
     --["questId"] = {"u_Grell", ... }
 }
 
+-- QuestieTooltips owns this derived index; QuestieTDB supplies the composed Object reads used to rebuild it.
+-- See TDB-IMPLEMENTATION-ISSUES.md for the pending initialization and refresh wiring.
+---@type table<string, ObjectId[]>
+QuestieTooltips.objectNameLookup = {}
+
 local MAX_GROUP_MEMBER_COUNT = 6
 
 local _InitObjectiveTexts

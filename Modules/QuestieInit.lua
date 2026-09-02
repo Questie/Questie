@@ -27,20 +27,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBStorage
-local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
----@type Cleanup
-local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
----@type Townsfolk
-local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type IsleOfQuelDanas
@@ -83,8 +71,6 @@ local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type Tutorial
@@ -114,32 +100,6 @@ local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 
 local coYield = coroutine.yield
 
-local function loadFullDatabase()
-    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. l10n("..."))
-
-    QuestieInit:LoadBaseDB()
-
-    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. l10n("..."))
-
-    coYield()
-    QuestieCorrections:Initialize()
-
-    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townsfolk") .. l10n("..."))
-    coYield()
-    Townsfolk.Initialize()
-
-    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. l10n("..."))
-    coYield()
-    l10n:Initialize()
-
-    coYield()
-    QuestieDB.private:DeleteGatheringNodes()
-
-    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. l10n("..."))
-    coYield()
-    QuestieCorrections:PreCompile()
-end
-
 -- ********************************************************************************
 -- Start of QuestieInit.Stages ******************************************************
 
@@ -150,58 +110,25 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] UI Locale initializing.")
-    -- This needs to happen after ADDON_LOADED
+    -- This needs to happen after ADDON_LOADED.
     l10n.InitializeUILocale()
 
-    local activeStorage = QuestieDBStorage.GetActiveStorage()
-
-    -- Check if the DB needs to be recompiled
-    if (not activeStorage.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= activeStorage.dbCompiledOnVersion) or
-        (l10n:GetUILocale() ~= activeStorage.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile beginning...")
-        print("\124cFFAAEEFF" ..
-            l10n("Questie DB is updating — ") .. "\124r\124cFFFF6F22" .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
-        loadFullDatabase()
-        QuestieDBCompiler:Compile()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile completed.")
-    else
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loading...")
-        l10n:Initialize()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Localizations initialized.")
-        coYield()
-        QuestieCorrections:MinimalInit()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loaded.")
-    end
-
-    local dbCompiledCount = activeStorage.dbCompiledCount
-
-    -- For townsfolkClass we use UnitClassBase so it works across locales
-    if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClassBase("player")) then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Townsfolk building.")
-        Questie.db.char.townsfolkVersion = dbCompiledCount
-        coYield()
-        Townsfolk:BuildCharacterTownsfolk()
-    end
-
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieEvent initializing.")
-    QuestieEvent.Initialize()
-    coYield()
-
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieDB initializing.")
-    QuestieDB:Initialize()
+    -- Fresh QuestieTDB database integration resumes here in this order:
+    -- 1. Require Contract Version 1, then forward the effective entity locale.
+    -- 2. Build external locale Policy Corrections from clean composed reads.
+    -- 3. Build blacklists, register Questie Policy Corrections once, and apply owner "Questie".
+    -- 4. Initialize QuestieDB query bindings, ID maps, ObjectiveFirst hints, and semantic caches.
+    -- 5. Initialize Townsfolk from composed reads, then initialize QuestieEvent after QuestieDB.
+    -- Later stages assume this sequence has completed before they read entity data.
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
     Tutorial.Initialize()
     coYield()
-
-    QuestieCleanup:Run()
 end
 
 QuestieInit.Stages[2] = function()
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
-    -- We do this while we wait for the Quest Cache anyway.
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] Localization PostBoot running.")
-    l10n:PostBoot()
+    -- Fresh implementation rebuilds the Object-name index here from composed reads; see TDB-IMPLEMENTATION-ISSUES.md.
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] QuestiePlayer initializing.")
     QuestiePlayer:Initialize()
     coYield()
@@ -290,7 +217,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     end
 
     WorldMapButton.Initialize()
-    Townsfolk.PostBoot()
     coYield()
 
     QuestieAnnounce:InitializeLogoFilter()
@@ -336,9 +262,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- register events that rely on questie being initialized
     EventHandler:RegisterLateEvents()
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Drawing available quests.")
-    -- We do this last because it will run for a while and we don't want to block the rest of the init
-    AvailableQuests.CalculateAndDrawAll()
+    -- Fresh composed-read integration draws Available Quests here after all database consumers are ready.
 
     -- Let other addons know that Questie is ready
     Questie.API.isReady = true
@@ -351,29 +275,6 @@ end
 -- ********************************************************************************
 
 
-
-function QuestieInit:LoadDatabase(key)
-    if QuestieDB[key] then
-        coYield()
-        local func, err = loadstring(QuestieDB[key]) -- load the table from string (returns a function)
-        if (not func) then
-            Questie.Error("Failed to load database: ", key, err)
-            return
-        end
-        QuestieDB[key] = func
-        coYield()
-        QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
-    else
-        Questie.Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
-    end
-end
-
-function QuestieInit:LoadBaseDB()
-    QuestieInit:LoadDatabase("npcData")
-    QuestieInit:LoadDatabase("objectData")
-    QuestieInit:LoadDatabase("questData")
-    QuestieInit:LoadDatabase("itemData")
-end
 
 function _QuestieInit.StartStageCoroutine()
     for i = 1, #QuestieInit.Stages do

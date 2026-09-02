@@ -111,7 +111,6 @@ Database\DropTables\dropDB.lua
 Database\DropTables\data\itemDropCorrections.lua
 Database\DropTables\data\wotlkItemDrops.lua
 
-# Compiler
 
 # Localization
 Localization\l10n.lua

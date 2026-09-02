@@ -21,14 +21,10 @@ describe("QuestieProfiler", function()
     local originalQuestieOrderedModules
     local originalQuestieError
     local QuestieStreamLib
-    local DBCompiler
     local QuestieSerializer
     local QuestieDB
     local originalStreamLoad
     local originalStreamHotRead
-    local originalCompilerReaders
-    local originalCompilerWriters
-    local originalCompilerSkippers
     local originalSerializerReaders
     local originalSerializerWriters
     local originalSerialize
@@ -58,14 +54,10 @@ describe("QuestieProfiler", function()
         originalQuestieOrderedModules = Questie.orderedModules
         originalQuestieError = Questie.Error
         QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib")
-        DBCompiler = QuestieLoader:ImportModule("DBCompiler")
         QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         originalStreamLoad = QuestieStreamLib.Load
         originalStreamHotRead = QuestieStreamLib.HotRead
-        originalCompilerReaders = DBCompiler.readers
-        originalCompilerWriters = DBCompiler.writers
-        originalCompilerSkippers = DBCompiler.skippers
         originalSerializerReaders = QuestieSerializer.ReaderTable
         originalSerializerWriters = QuestieSerializer.WriterTable
         originalSerialize = QuestieSerializer.Serialize
@@ -121,9 +113,6 @@ describe("QuestieProfiler", function()
         Questie.Error = originalQuestieError
         QuestieStreamLib.Load = originalStreamLoad
         QuestieStreamLib.HotRead = originalStreamHotRead
-        DBCompiler.readers = originalCompilerReaders
-        DBCompiler.writers = originalCompilerWriters
-        DBCompiler.skippers = originalCompilerSkippers
         QuestieSerializer.ReaderTable = originalSerializerReaders
         QuestieSerializer.WriterTable = originalSerializerWriters
         QuestieSerializer.Serialize = originalSerialize
@@ -401,9 +390,6 @@ describe("QuestieProfiler", function()
             stream.reads = (stream.reads or 0) + 1
             return stream.reads
         end
-        local reader = function() return "read" end
-        local writer = function() end
-        local skipper = function() end
         local hotQuery = function() return "query" end
         local getQuest = function()
             clock = clock + 2
@@ -417,9 +403,6 @@ describe("QuestieProfiler", function()
         }
         QuestieStreamLib.Load = streamLoad
         QuestieStreamLib.HotRead = streamRead
-        DBCompiler.readers = {u8 = reader}
-        DBCompiler.writers = {u8 = writer}
-        DBCompiler.skippers = {u8 = skipper}
         QuestieDB.GetQuest = getQuest
         for _, slotName in ipairs(querySlotNames) do
             QuestieDB[slotName] = hotQuery
@@ -431,9 +414,6 @@ describe("QuestieProfiler", function()
 
         assert.are_equal(streamLoad, QuestieStreamLib.Load)
         assert.are_equal(streamRead, QuestieStreamLib.HotRead)
-        assert.are_equal(reader, DBCompiler.readers.u8)
-        assert.are_equal(writer, DBCompiler.writers.u8)
-        assert.are_equal(skipper, DBCompiler.skippers.u8)
         assert.are_equal(streamLoad, testModule.copiedStream.Load)
         assert.are_equal(streamRead, testModule.copiedStream.ReadByte)
         assert.are_equal(queryTablePrimitive, QuestieDB.QueryNPC.Primitive)
@@ -489,11 +469,9 @@ describe("QuestieProfiler", function()
             lowLevelCalls = lowLevelCalls + 1
         end
         QuestieStreamLib.HotRead = hotPrimitive
-        DBCompiler.readers = {u8 = hotPrimitive}
         QuestieDB.QueryQuest = hotQuery
         QuestieDB.GetQuest = function()
             for _ = 1, 200 do
-                DBCompiler.readers.u8()
                 QuestieStreamLib.HotRead()
                 QuestieDB.QueryQuest()
             end
@@ -506,9 +484,8 @@ describe("QuestieProfiler", function()
         end
 
         assert.are_equal(getterWrapper, QuestieDB.GetQuest)
-        assert.are_same(12000, lowLevelCalls)
+        assert.are_same(8000, lowLevelCalls)
         assert.are_same(20, Profiler.hookCallCount["QuestieDB.GetQuest"])
-        assert.is_nil(Profiler.hookCallCount["DBCompiler.readers.u8"])
         assert.is_nil(Profiler.hookCallCount["QuestieStreamLib.HotRead"])
         assert.is_nil(Profiler.hookCallCount["QuestieDB.QueryQuest"])
     end)

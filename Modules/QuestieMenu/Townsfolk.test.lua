@@ -24,7 +24,6 @@ describe("Townsfolk", function()
     before_each(function()
         _G["Questie"] = {db={profile={}},IsClassic=true, Debug = function() end}
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        QuestieDB.objectKeys = {factionID = "factionID"}
         QuestieDB.factionTemplate = {
             [factionIds.NeutralFaction1] = 1,
             [factionIds.HordeFaction1] = 2,
@@ -35,17 +34,26 @@ describe("Townsfolk", function()
             [factionIds.NeutralFaction5] = 12,
             [factionIds.NeutralFaction3] = 16,
         }
-        QuestieDB.objectData = {
-            [1] = {factionID = factionIds.NeutralFaction1},
-            [2] = {factionID = factionIds.NeutralFaction2},
-            [3] = {factionID = factionIds.NeutralFaction3},
-            [4] = {factionID = factionIds.HordeFaction1},
-            [5] = {factionID = factionIds.HordeFaction2},
-            [6] = {factionID = factionIds.NeutralFaction4},
-            [7] = {factionID = factionIds.NeutralFaction5},
-            [8] = {factionID = factionIds.AllianceFaction1},
-            [9] = {factionID = factionIds.AllianceFaction2},
+        local objectFactions = {
+            [1] = factionIds.NeutralFaction1,
+            [2] = factionIds.NeutralFaction2,
+            [3] = factionIds.NeutralFaction3,
+            [4] = factionIds.HordeFaction1,
+            [5] = factionIds.HordeFaction2,
+            [6] = factionIds.NeutralFaction4,
+            [7] = factionIds.NeutralFaction5,
+            [8] = factionIds.AllianceFaction1,
+            [9] = factionIds.AllianceFaction2,
         }
+        QuestieDB.ObjectPointers = {}
+        for objectId in pairs(objectFactions) do
+            QuestieDB.ObjectPointers[objectId] = true
+        end
+        QuestieDB.QueryObjectSingle = function(objectId, field)
+            if field == "factionID" then
+                return objectFactions[objectId]
+            end
+        end
 
         dofile("Modules/QuestieMenu/Townsfolk.lua")
         Townsfolk = QuestieLoader:ImportModule("Townsfolk")

@@ -1,7 +1,5 @@
 ---@class Migration
 local Migration = QuestieLoader:CreateModule("Migration")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -213,14 +211,41 @@ local migrationFunctions = {
         Questie.db.global.unavailableDailyQuestsByNpc = {}
     end,
     [37] = function()
-        if Expansions.Current >= Expansions.Wotlk then
-            Questie.db.global.titanReforged = Questie.db.global.titanReforged or {}
+        -- Reserved for the former Titan compiler-storage invalidation migration.
+    end,
+    [38] = function()
+        -- Compiler payloads existed in the ordinary, SoD, and Titan global scopes.
+        local compilerPayloadKeys = {
+            "dbIsCompiled",
+            "dbCompiledOnVersion",
+            "dbCompiledLang",
+            "dbCompiledExpansion",
+            "dbCompiledCount",
+            "npcBin",
+            "npcPtrs",
+            "questBin",
+            "questPtrs",
+            "objBin",
+            "objPtrs",
+            "itemBin",
+            "itemPtrs",
+        }
+        local compilerScopes = {
+            Questie.db.global,
+            Questie.db.global.sod,
+            Questie.db.global.titanReforged,
+        }
 
-            -- Existing SavedVariables may hold Titan-compiled bins in the standard WotLK namespace.
-            -- Invalidate both namespaces so each flavor recompiles the next time it is active.
-            Questie.db.global.dbIsCompiled = false
-            Questie.db.global.titanReforged.dbIsCompiled = false
+        for _, scope in ipairs(compilerScopes) do
+            if scope then
+                for _, key in ipairs(compilerPayloadKeys) do
+                    scope[key] = nil
+                end
+            end
         end
+
+        Questie.db.profile.disableDatabaseWarnings = nil
+        Questie.db.char.townsfolkVersion = nil
     end,
 }
 

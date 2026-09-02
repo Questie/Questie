@@ -1,8 +1,6 @@
 dofile("setupTests.lua")
 
-dofile("Database/questDB.lua")
-dofile("Database/itemDB.lua")
-dofile("Database/npcDB.lua")
+local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
@@ -18,6 +16,7 @@ describe("QuestieDB", function()
     local testQuest
 
     before_each(function()
+        LoadQuestieTDBMetaMock()
         Questie.db.char.complete = {}
         Questie.IsTitanReforged = false
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
@@ -25,14 +24,14 @@ describe("QuestieDB", function()
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
-        QuestieCorrections.killCreditObjectiveFirst = {}
-        QuestieCorrections.objectObjectiveFirst = {}
-        QuestieCorrections.itemObjectiveFirst = {}
-        QuestieCorrections.eventObjectiveFirst = {}
-        QuestieCorrections.spellObjectiveFirst = {}
 
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.killCreditObjectiveFirst = {}
+        QuestieDB.objectObjectiveFirst = {}
+        QuestieDB.itemObjectiveFirst = {}
+        QuestieDB.eventObjectiveFirst = {}
+        QuestieDB.spellObjectiveFirst = {}
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
         QuestieDB.private.itemCache = {}
@@ -107,7 +106,7 @@ describe("QuestieDB", function()
                 [1] = {{1000, "Slay the target"}},
                 [6] = {{12345, "Cast the spell", 67890}}
             }
-            QuestieCorrections.spellObjectiveFirst[123] = true
+            QuestieDB.spellObjectiveFirst[123] = true
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
             QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
