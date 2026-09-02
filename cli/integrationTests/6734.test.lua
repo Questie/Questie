@@ -131,7 +131,10 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
 
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        -- The quest is absent from the database: single and bulk reads both return nil, so the
+        -- missing-Item repair on accept has nothing to request.
         QuestieDB.QueryQuestSingle = function() return nil end
+        QuestieDB.QueryQuest = function() return nil end
 
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
