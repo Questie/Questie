@@ -123,6 +123,10 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         end
     end
 
+    -- The zone filter in GetTooltip only exists to pick the right object when several share a name.
+    -- A unique name has nothing to disambiguate, so skip the filter for it (0 = any zone).
+    local zoneFilter = count > 1 and playerZone or 0
+
     local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
     for _, gameObjectId in pairs(lookup) do
@@ -131,7 +135,7 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
             break
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone);
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, zoneFilter);
         if tooltipData then
             for _, line in pairs (tooltipData) do
                 if (not alreadyAddedObjectiveLines[line]) then

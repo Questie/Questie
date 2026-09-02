@@ -116,6 +116,25 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
     error("No AreaId found for UiMapId: " .. uiMapId .. ":" .. C_Map.GetMapInfo(uiMapId).name)
 end
 
+local areaNameToAreaId -- built on first use, C_Map.GetAreaInfo needs a fully loaded client
+
+---@param name string Localized zone name, e.g. from GetRealZoneText()
+---@return AreaId?
+function ZoneDB:GetAreaIdByName(name)
+    if not areaNameToAreaId then
+        areaNameToAreaId = {}
+        for areaId in pairs(areaIdToUiMapId) do
+            local areaName = C_Map.GetAreaInfo(areaId)
+            -- Sub areas can share the name of their zone; the zone has the lower ID, keep that one
+            if areaName and ((not areaNameToAreaId[areaName]) or areaId < areaNameToAreaId[areaName]) then
+                areaNameToAreaId[areaName] = areaId
+            end
+        end
+    end
+
+    return areaNameToAreaId[name]
+end
+
 ---@param areaId AreaId
 ---@return AreaCoordinate?
 function ZoneDB:GetDungeonLocation(areaId)

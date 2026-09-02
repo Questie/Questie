@@ -9,6 +9,41 @@ describe("QuestiePlayer", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
     end)
 
+    describe("GetCurrentZoneId", function()
+        ---@type ZoneDB
+        local ZoneDB
+
+        before_each(function()
+            ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+            ZoneDB.GetAreaIdByUiMapId = function(_, uiMapId)
+                return ({[1426] = 1, [1415] = 10074})[uiMapId]
+            end
+            ZoneDB.GetAreaIdByName = function(_, name)
+                if name == "Dun Morogh" then return 1 end
+            end
+            _G.GetRealZoneText = function() return "Dun Morogh" end
+        end)
+
+        it("should return the zone of the players map", function()
+            _G.C_Map = {GetBestMapForUnit = function() return 1426 end, GetMapInfo = function() return {mapType = Enum.UIMapType.Zone} end}
+
+            assert.is_equal(1, QuestiePlayer:GetCurrentZoneId())
+        end)
+
+        it("should resolve a continent map to the zone named by the zone text", function()
+            _G.C_Map = {GetBestMapForUnit = function() return 1415 end, GetMapInfo = function() return {mapType = Enum.UIMapType.Continent} end}
+
+            assert.is_equal(1, QuestiePlayer:GetCurrentZoneId())
+        end)
+
+        it("should keep the continent AreaId when the zone text is unknown", function()
+            _G.C_Map = {GetBestMapForUnit = function() return 1415 end, GetMapInfo = function() return {mapType = Enum.UIMapType.Continent} end}
+            _G.GetRealZoneText = function() return "Unknown" end
+
+            assert.is_equal(10074, QuestiePlayer:GetCurrentZoneId())
+        end)
+    end)
+
     describe("GetPartyMemberByName", function()
         it("should return nil if the player is not in a party and not in a raid", function()
             _G.UnitInParty = function() return false end

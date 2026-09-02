@@ -134,7 +134,7 @@ function CataObjectFixes.Load()
             [objectKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{63.72,58.80}}},
         },
         [148503] = { -- Fire Plume Ridge Hot Spot
-            [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.48}}}, -- only showing it here so we can put the tooltip on it
+            [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{48.32,43.48}}}, -- one of many spawns, kept to a single icon to not clutter the map
         },
         [150075] = { -- Wanted Poster
             [objectKeys.questStarts] = {2781,2875},

@@ -77,6 +77,29 @@ describe("ZoneDB", function()
         end)
     end)
 
+    describe("GetAreaIdByName", function()
+        it("should resolve a localized zone name to its AreaId", function()
+            _G.C_Map.GetAreaInfo = function(areaId)
+                if areaId == ZoneDB.zoneIDs.DUN_MOROGH then
+                    return "Dun Morogh"
+                end
+            end
+
+            assert.is_equal(ZoneDB.zoneIDs.DUN_MOROGH, ZoneDB:GetAreaIdByName("Dun Morogh"))
+            assert.is_nil(ZoneDB:GetAreaIdByName("Nowhere"))
+        end)
+
+        it("should prefer the zone over a sub area sharing its name", function()
+            _G.C_Map.GetAreaInfo = function(areaId)
+                if areaId == ZoneDB.zoneIDs.DUN_MOROGH or areaId == ZoneDB.zoneIDs.GNOMEREGAN then
+                    return "Same Name"
+                end
+            end
+
+            assert.is_equal(ZoneDB.zoneIDs.DUN_MOROGH, ZoneDB:GetAreaIdByName("Same Name"))
+        end)
+    end)
+
     describe("IsDungeonZone", function()
         it("should return true for a primary dungeon areaId", function()
             assert.is_true(ZoneDB.IsDungeonZone(ZoneDB.zoneIDs.DIRE_MAUL))
