@@ -16,29 +16,6 @@ Rules for every step:
   `TDB-STATUS.md`. Delete this file when it is empty.
 - Steps 5 and 6 need a game client and the user. Do steps 1 to 4 without waiting.
 
-## Step 2. Coalesce Item repairs into one write per frame (F2)
-
-Why: `QuestieLib.RepairMissingItemNames` (`Modules/Libs/QuestieLib.lua:412`) writes the
-`Item:RuntimeItemRepair` slot inside every asynchronous Item callback. On SoD one provider write is
-19 ms and 2.7 MB (`TDB-FINDINGS.md` F1, QuestieTDB #20), and the login quest log fires one callback
-per missing Item. Even after #20 lands, one write per frame is cheaper than one per callback.
-
-Do:
-
-1. Keep accumulating into the module-local `repairedItemNames`. Replace the per-callback
-   `SetCorrection` with a "publish pending" flag and one deferred write. Use the existing
-   `C_Timer.After(0, ...)` pattern from the codebase, guarded so only one timer is outstanding.
-2. The deferred write must still pass the full accumulated table, still be idempotent for duplicate
-   callbacks, and still ignore nil names. Preserve the behavior the current tests pin.
-3. Tests in `Modules/Libs/QuestieLib.test.lua`: three callbacks in one frame produce one
-   `SetCorrection` call carrying all three rows; a callback after the flush produces a second write;
-   a duplicate callback does not schedule a second timer. Stub `C_Timer.After` to capture the callback.
-4. Update the `RuntimeItemRepair` line in the `QuestieCorrections.lua` header comment and the F2
-   entry in `TDB-FINDINGS.md`.
-
-Done when: tests pass and a login on SoD via the bridge shows one `Item:RuntimeItemRepair` write
-per frame in `QuestieCorrections.correctionSources` timing (step 5 verifies).
-
 ## Step 3. Remove leftover ceremony
 
 Why: these exist because a handover packet named them, not because the code needs them. All
