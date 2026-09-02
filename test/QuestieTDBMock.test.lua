@@ -59,11 +59,12 @@ describe("QuestieTDBMock", function()
             assert.are_same(12, LibQuestieDB.Npc.zoneID(30))
         end)
 
-        it("returns nil for every field of an unknown entity", function()
+        it("returns nil for every field of an unknown entity, whose provenance is still the provider", function()
             assert.is_nil(LibQuestieDB.Npc.Get(31, "name"))
             assert.is_nil(LibQuestieDB.Npc.GetAll(31, {"name", "zoneID"}))
             assert.is_false(LibQuestieDB.Npc.Exists(31))
             assert.is_nil(LibQuestieDB.Npc.Get(nil, "name"))
+            assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Npc", 31, "name"))
         end)
 
         it("packs bulk reads with n so nil slots survive unpack", function()
@@ -234,15 +235,35 @@ describe("QuestieTDBMock", function()
             assert.is_nil(LibQuestieDB.Item.GetAllIds(true)[999])
         end)
 
-        it("shares one ID map between applies and swaps its identity on apply", function()
+        it("does not invent an entity from a row that writes no schema field", function()
+            darkmoonRows[14830] = {}
+            darkmoonRows[14831] = {[999] = "outside the schema", note = "ignored"}
             local beforeApply = LibQuestieDB.Npc.GetAllIds(true)
-            assert.are_equal(beforeApply, LibQuestieDB.Npc.GetAllIds(true))
 
             registrar.Apply()
 
-            local afterApply = LibQuestieDB.Npc.GetAllIds(true)
-            assert.are_not_equal(beforeApply, afterApply)
-            assert.are_same(beforeApply, afterApply)
+            assert.is_false(LibQuestieDB.Npc.Exists(14830))
+            assert.is_false(LibQuestieDB.Npc.Exists(14831))
+            assert.are_equal(beforeApply, LibQuestieDB.Npc.GetAllIds(true))
+        end)
+
+        it("keeps the ID map identity while an apply adds no entity, and swaps it when one is added", function()
+            local beforeApply = LibQuestieDB.Npc.GetAllIds(true)
+            assert.are_equal(beforeApply, LibQuestieDB.Npc.GetAllIds(true))
+
+            darkmoonRows[14828] = {[npcKeys.zoneID] = 12}
+            registrar.Apply()
+            assert.are_equal(beforeApply, LibQuestieDB.Npc.GetAllIds(true))
+
+            darkmoonRows[14829] = {[npcKeys.name] = "Yebb Neblegear"}
+            registrar.Apply()
+            local afterAdd = LibQuestieDB.Npc.GetAllIds(true)
+            assert.are_not_equal(beforeApply, afterAdd)
+            assert.are_same({[14828] = true, [14829] = true}, afterAdd)
+
+            darkmoonRows[14829] = nil
+            registrar.Apply()
+            assert.are_equal(beforeApply, LibQuestieDB.Npc.GetAllIds(true))
         end)
 
         it("lets the later loadOrder win within one owner", function()
@@ -329,7 +350,7 @@ describe("QuestieTDBMock", function()
             local npcMapBefore = LibQuestieDB.Npc.GetAllIds(true)
             local objectMapBefore = LibQuestieDB.Object.GetAllIds(true)
 
-            LibQuestieDB.Corrections.Set("Questie", "Object", "GatheringNodeDisplayPolicy", {[1617] = {[objectKeys.spawns] = {}}})
+            LibQuestieDB.Corrections.Set("Questie", "Object", "AddedObject", {[1618] = {[objectKeys.name] = "Peacebloom"}})
 
             assert.are_equal(npcMapBefore, LibQuestieDB.Npc.GetAllIds(true))
             assert.are_not_equal(objectMapBefore, LibQuestieDB.Object.GetAllIds(true))

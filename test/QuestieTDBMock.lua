@@ -1,14 +1,17 @@
 -- Focused Contract Version 1 test double for LibQuestieDB.
 --
 -- It reproduces only what Questie consumes from QuestieTDB: the Contract check, composed entity
--- reads, shared ID maps that swap identity when their datatype is republished, the owner-scoped
--- Correction registrar, the data-shaped Correction slots (`Corrections.Set`), provenance,
--- provider locale forwarding, Objective Order tables, and the entity Name index. Publication is
--- per datatype, as in the provider: an Item write leaves Quest, Npc, and Object ID maps and Name
--- indexes untouched. It deliberately omits encoding, Source/Baked storage, and provider read
--- caches. Tests seed literal rows; reads return fresh copies and apply the provider's nil rules:
--- number fields of an existing entity read 0, `{}` reads nil, and the never-nil Quest structures
--- read `{}`.
+-- reads, shared ID maps that swap identity only when a republish adds or withdraws an entity,
+-- the owner-scoped Correction registrar, the data-shaped Correction slots (`Corrections.Set`),
+-- provenance, provider locale forwarding, Objective Order tables, and the entity Name index.
+-- Publication is per datatype, as in the provider: an Item write leaves Quest, Npc, and Object
+-- ID maps and Name indexes untouched. It deliberately omits encoding, Source/Baked storage, and
+-- provider read caches. Tests seed literal rows; reads return fresh copies and apply the
+-- provider's nil rules: number fields of an existing entity read 0, `{}` reads nil, and the
+-- never-nil Quest structures read `{}`. Correction values are stored as written: the provider's
+-- write-time normalization (constant fields, tables on scalar fields, `""`, `{0, 0}`) is not
+-- modeled, so tests seed normalized values. `test/QuestieTDBMock.conformance.test.lua` runs the
+-- same cases against the real provider; the intentional differences are listed there.
 local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
 
 local ENTITY_TYPES = {"Quest", "Npc", "Item", "Object"}
@@ -73,6 +76,17 @@ local function LoadQuestieTDBMock()
     -- sequence fraction, so unnumbered entries apply before explicitly numbered ones.
     local registrationSequence = 0
 
+    -- Highest Database Key Enum index per datatype; a write outside the schema is dropped.
+    ---@type table<QuestieTDBMockDatatype, integer>
+    local fieldCounts = {}
+    for _, datatype in ipairs(ENTITY_TYPES) do
+        local fieldCount = 0
+        for _, fieldIndex in pairs(keys[datatype]) do
+            fieldCount = math.max(fieldCount, fieldIndex)
+        end
+        fieldCounts[datatype] = fieldCount
+    end
+
     -- Quest `startedBy`, `finishedBy`, and `objectives` read `{}` rather than nil for an entity that
     -- exists; Questie's Quest projection indexes them unconditionally.
     ---@type table<QuestieTDBMockDatatype, table<integer, true>>
@@ -87,7 +101,12 @@ local function LoadQuestieTDBMock()
         Object = {},
     }
 
-    -- Derived structures the provider drops per datatype on publish and rebuilds on the next read.
+    -- ID maps. The base map is the provider's backend map: it lives as long as the base rows.
+    -- The composed map is dropped per datatype on publish and rebuilt on the next read; when no
+    -- Correction adds an entity it is the base map itself, so its identity survives a publish
+    -- that only edits fields, exactly as in the provider.
+    ---@type table<QuestieTDBMockDatatype, {map: table<number, true>, list: number[]}>
+    local baseIdMaps = {}
     ---@type table<QuestieTDBMockDatatype, {map: table<number, true>, list: number[]}>
     local idMaps = {}
     ---@type table<QuestieTDBMockDatatype, table<string, number[]>>
@@ -95,6 +114,7 @@ local function LoadQuestieTDBMock()
 
     ---@return nil
     local function InvalidateIdMaps()
+        baseIdMaps = {}
         idMaps = {}
     end
 
@@ -192,26 +212,42 @@ local function LoadQuestieTDBMock()
         return value, owner
     end
 
+    ---@param ids table<number, unknown>
+    ---@return {map: table<number, true>, list: number[]}
+    local function SortedIds(ids)
+        local map, list = {}, {}
+        for id in pairs(ids) do
+            map[id] = true
+            list[#list + 1] = id
+        end
+        table.sort(list)
+        return {map = map, list = list}
+    end
+
     ---@param datatype QuestieTDBMockDatatype
     ---@return {map: table<number, true>, list: number[]} ids Shared until the datatype is republished.
     local function ComposedIds(datatype)
         if idMaps[datatype] then
             return idMaps[datatype]
         end
-        local map, list = {}, {}
-        for id in pairs(mock.base[datatype]) do
-            map[id] = true
-        end
+        baseIdMaps[datatype] = baseIdMaps[datatype] or SortedIds(mock.base[datatype])
+        local base = baseIdMaps[datatype]
+        local added = {}
         for _, owner in ipairs(ownerOrder) do
             for id in pairs(layers[owner][datatype]) do
-                map[id] = true
+                if not base.map[id] then
+                    added[id] = true
+                end
             end
         end
-        for id in pairs(map) do
-            list[#list + 1] = id
+        if next(added) == nil then
+            idMaps[datatype] = base
+        else
+            for id in pairs(base.map) do
+                added[id] = true
+            end
+            idMaps[datatype] = SortedIds(added)
         end
-        table.sort(list)
-        idMaps[datatype] = {map = map, list = list}
         return idMaps[datatype]
     end
 
@@ -395,7 +431,8 @@ local function LoadQuestieTDBMock()
 
     ---Rebuilds one owner's layer from its entries: function providers run again, data slots are
     ---used as-is. Nothing accumulates across rebuilds, so an entry returning or holding `{}`
-    ---withdraws its earlier rows.
+    ---withdraws its earlier rows. As in the provider, a layer row exists only once a field inside
+    ---the schema is written: a row of ignored keys, or an empty one, never invents an entity.
     ---@param owner string
     ---@return nil
     local function RebuildOwnerLayer(owner)
@@ -419,11 +456,18 @@ local function LoadQuestieTDBMock()
                     error(("QuestieTDBMock: correction %q must return a table"):format(registration.name), 2)
                 end
             end
+            local datatypeLayer = layer[registration.datatype]
+            local fieldCount = fieldCounts[registration.datatype]
             for id, fields in pairs(rows) do
-                local row = layer[registration.datatype][id] or {}
-                layer[registration.datatype][id] = row
                 for fieldIndex, value in pairs(fields) do
-                    row[fieldIndex] = value
+                    if type(fieldIndex) == "number" and fieldIndex <= fieldCount then
+                        local row = datatypeLayer[id]
+                        if not row then
+                            row = {}
+                            datatypeLayer[id] = row
+                        end
+                        row[fieldIndex] = value
+                    end
                 end
             end
         end
@@ -566,15 +610,12 @@ local function LoadQuestieTDBMock()
     ---@param datatype QuestieTDBMockDatatype
     ---@param id number
     ---@param key string|integer
-    ---@return string|nil owner Owner whose value a reader receives, `"QuestieTDB"` for base data.
+    ---@return string owner Owner whose value a reader receives; `"QuestieTDB"` when no Correction won, including for an unknown entity.
     function lib.Corrections.GetProvenance(datatype, id, key)
         AssertDatatype(datatype)
         local fieldIndex = FieldIndex(datatype, key)
-        if not Exists(datatype, id) then
-            return nil
-        end
         local _, owner = ComposedValue(datatype, id, fieldIndex)
-        return owner
+        return owner or BASE_OWNER
     end
     lib.GetProvenance = lib.Corrections.GetProvenance
     lib.SetCorrection = lib.Corrections.Set
