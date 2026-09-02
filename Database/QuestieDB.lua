@@ -1,8 +1,8 @@
 ---@class QuestieDB : QuestieModule
----@field questKeys DatabaseQuestKeys
----@field npcKeys DatabaseNpcKeys
----@field itemKeys DatabaseItemKeys
----@field objectKeys DatabaseObjectKeys
+---@field questKeys QuestieTDBQuestKeys
+---@field npcKeys QuestieTDBNpcKeys
+---@field itemKeys QuestieTDBItemKeys
+---@field objectKeys QuestieTDBObjectKeys
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 ---@class QuestieDBPrivate
 local _QuestieDB = QuestieDB.private
@@ -401,95 +401,10 @@ QuestieDB._CreatureLevelCache = {}
 -- the composed view Questie's own Policy Corrections change during Login Initialization.
 -------------------------------------------------------------------------------------------------
 
----Quest Database Key Enum owned by QuestieTDB. Values index provider rows and Correction rows.
----@class DatabaseQuestKeys
----@field name integer string
----@field startedBy integer table {creatureStart: NpcId[], objectStart: ObjectId[], itemStart: ItemId[]}
----@field finishedBy integer table {creatureEnd: NpcId[], objectEnd: ObjectId[]}
----@field requiredLevel integer int
----@field questLevel integer int
----@field requiredRaces integer bitmask
----@field requiredClasses integer bitmask
----@field objectivesText integer table {string, ...}
----@field triggerEnd integer table {text, {[zoneID] = {coordPair, ...}, ...}}
----@field objectives integer table {creatureObjective, objectObjective, itemObjective, reputationObjective, killCreditObjective, spellObjective}
----@field sourceItemId integer int, item provided by quest starter
----@field preQuestGroup integer table {QuestId, ...}, all required
----@field preQuestSingle integer table {QuestId, ...}, one required
----@field childQuests integer table {QuestId, ...}
----@field inGroupWith integer table {QuestId, ...}
----@field exclusiveTo integer table {QuestId, ...}
----@field zoneOrSort integer int, >0 AreaTable ID, <0 QuestSort ID
----@field requiredSkill integer table {skill, value}
----@field requiredMinRep integer table {faction, value}
----@field requiredMaxRep integer table {faction, value}
----@field requiredSourceItems integer table {ItemId, ...}
----@field nextQuestInChain integer int
----@field questFlags integer bitmask
----@field specialFlags integer bitmask, 1 = repeatable
----@field parentQuest integer int
----@field reputationReward integer table {{faction, value}, ...}
----@field breadcrumbForQuestId integer int
----@field breadcrumbs integer table {QuestId, ...}
----@field extraObjectives integer table {{spawnlist, iconFile, text, objectiveIndex?, {{dbReferenceType, id}, ...}?}, ...}
----@field requiredSpell integer int, negative means the spell must be unknown
----@field requiredSpecialization integer int
----@field requiredMaxLevel integer int
----@field availableUntilCompleted integer int
----@field availableStartingWith integer int
----@field requiredRanks integer table {{skill, value}, ...}
----@field disabledByQuest integer int
-
----NPC Database Key Enum owned by QuestieTDB. Values index provider rows and Correction rows.
----@class DatabaseNpcKeys
----@field name integer string
----@field minLevelHealth integer int, deprecated placeholder
----@field maxLevelHealth integer int, deprecated placeholder
----@field minLevel integer int
----@field maxLevel integer int
----@field rank integer int
----@field spawns integer table {[zoneID] = {coordPair, ...}, ...}
----@field waypoints integer table {[zoneID] = {coordPair, ...}, ...}
----@field zoneID integer int, most common zone
----@field questStarts integer table {QuestId, ...}
----@field questEnds integer table {QuestId, ...}
----@field factionID integer int
----@field friendlyToFaction integer string, "A", "H", "AH", or nil when hostile to both
----@field subName integer string
----@field npcFlags integer bitmask, see QuestieDB.npcFlags
-
----Item Database Key Enum owned by QuestieTDB. Values index provider rows and Correction rows.
----@class DatabaseItemKeys
----@field name integer string
----@field npcDrops integer table {NpcId, ...}
----@field objectDrops integer table {ObjectId, ...}
----@field itemDrops integer table {ItemId, ...}
----@field startQuest integer int
----@field questRewards integer table {QuestId, ...}
----@field flags integer int
----@field foodType integer int
----@field itemLevel integer int
----@field requiredLevel integer int
----@field ammoType integer int
----@field class integer int, see QuestieDB.itemClasses
----@field subClass integer int
----@field vendors integer table {NpcId, ...}
----@field relatedQuests integer table {QuestId, ...}
----@field teachesSpell integer int
-
----Game Object Database Key Enum owned by QuestieTDB. Values index provider rows and Correction rows.
----@class DatabaseObjectKeys
----@field name integer string
----@field questStarts integer table {QuestId, ...}
----@field questEnds integer table {QuestId, ...}
----@field spawns integer table {[zoneID] = {coordPair, ...}, ...}
----@field zoneID integer int, most common zone
----@field factionID integer int, faction restriction mask
----@field waypoints integer table, waypoints for objects on ships and zeppelins
-
--- Database Key Enums per datatype, and the field names in enum order. Rich projections request
--- every field through `QueryNPC(id, QuestieDB._npcAdapterQueryOrder)` and friends, so the packed
--- result lines up with the matching key enum.
+-- Database Key Enums per datatype (declared in `.types/QuestieTDB/Meta.t.lua`, a copy of the
+-- provider's declarations), and the field names in enum order. Rich projections request every
+-- field through `QueryNPC(id, QuestieDB._npcAdapterQueryOrder)` and friends, so the packed result
+-- lines up with the matching key enum.
 for datatype, prefix in pairs({Quest = "quest", Npc = "npc", Item = "item", Object = "object"}) do
     local keys = LibQuestieDB.Meta[datatype .. "Meta"][prefix .. "Keys"]
     local queryOrder = {}
