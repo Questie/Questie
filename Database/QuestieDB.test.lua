@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
+local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
@@ -11,12 +11,14 @@ describe("QuestieDB", function()
     local QuestieCorrections
     ---@type QuestieDB
     local QuestieDB
+    ---@type QuestieTDBMock
+    local mock
 
     ---@type Quest
     local testQuest
 
     before_each(function()
-        LoadQuestieTDBMetaMock()
+        mock = LoadQuestieTDBMock()
         Questie.db.char.complete = {}
         Questie.IsTitanReforged = false
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
@@ -403,6 +405,203 @@ describe("QuestieDB", function()
         it("should return false for unfulfilled preQuestSingle", function()
             Questie.db.char.complete = {[2] = true}
             assert.is_false(QuestieDB:IsPreQuestSingleFulfilled({1}))
+        end)
+    end)
+
+    describe("Initialize", function()
+        local LibQuestieDB
+
+        before_each(function()
+            LibQuestieDB = mock.lib
+            dofile("Database/questDB.lua")
+            dofile("Database/npcDB.lua")
+            dofile("Database/itemDB.lua")
+            dofile("Database/objectDB.lua")
+            QuestieLib.TableMemoizeFunction = function() return {} end
+            Questie.db.char.hidden = {}
+
+            local questKeys, npcKeys, itemKeys, objectKeys = QuestieDB.questKeys, QuestieDB.npcKeys, QuestieDB.itemKeys, QuestieDB.objectKeys
+            mock.SetBaseRow("Quest", 2, {
+                [questKeys.name] = "Sharptalon's Claw",
+                [questKeys.startedBy] = {{100}},
+                [questKeys.finishedBy] = {{200}},
+                [questKeys.requiredLevel] = 20,
+            })
+            mock.SetBaseRow("Npc", 30, {
+                [npcKeys.name] = "Forest Spider",
+                [npcKeys.zoneID] = 12,
+                [npcKeys.friendlyToFaction] = "H",
+            })
+            mock.SetBaseRow("Item", 5, {
+                [itemKeys.name] = "Sharptalon's Claw",
+                [itemKeys.npcDrops] = {30},
+            })
+            mock.SetBaseRow("Object", 31, {
+                [objectKeys.name] = "Old Lion Statue",
+                [objectKeys.zoneID] = 1519,
+            })
+        end)
+
+        it("binds the provider query functions by identity", function()
+            QuestieDB.Initialize()
+
+            assert.are_equal(LibQuestieDB.Quest.Get, QuestieDB.QueryQuestSingle)
+            assert.are_equal(LibQuestieDB.Npc.Get, QuestieDB.QueryNPCSingle)
+            assert.are_equal(LibQuestieDB.Item.Get, QuestieDB.QueryItemSingle)
+            assert.are_equal(LibQuestieDB.Object.Get, QuestieDB.QueryObjectSingle)
+            assert.are_equal(LibQuestieDB.Quest.GetAll, QuestieDB.QueryQuest)
+            assert.are_equal(LibQuestieDB.Npc.GetAll, QuestieDB.QueryNPC)
+            assert.are_equal(LibQuestieDB.Item.GetAll, QuestieDB.QueryItem)
+            assert.are_equal(LibQuestieDB.Object.GetAll, QuestieDB.QueryObject)
+        end)
+
+        it("binds the composed ID maps and the provider Objective Order tables", function()
+            LibQuestieDB.ObjectiveFirst.spellObjectiveFirst[2] = true
+
+            QuestieDB.Initialize()
+
+            assert.are_equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
+            assert.are_equal(LibQuestieDB.Npc.GetAllIds(true), QuestieDB.NPCPointers)
+            assert.are_equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
+            assert.are_equal(LibQuestieDB.Object.GetAllIds(true), QuestieDB.ObjectPointers)
+            assert.is_true(QuestieDB.QuestPointers[2])
+            assert.is_true(QuestieDB.NPCPointers[30])
+            assert.is_true(QuestieDB.ItemPointers[5])
+            assert.is_true(QuestieDB.ObjectPointers[31])
+
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst, QuestieDB.killCreditObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.objectObjectiveFirst, QuestieDB.objectObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.itemObjectiveFirst, QuestieDB.itemObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.eventObjectiveFirst, QuestieDB.eventObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.spellObjectiveFirst, QuestieDB.spellObjectiveFirst)
+            assert.is_true(QuestieDB.spellObjectiveFirst[2])
+        end)
+
+        it("projects composed rows through the adapter query orders", function()
+            QuestieLib.GetEffectiveQuestLevel = function() return 20, 20 end
+            QuestiePlayer.faction = "Horde"
+
+            QuestieDB.Initialize()
+
+            local quest = QuestieDB.GetQuest(2)
+            assert.are_same("Sharptalon's Claw", quest.name)
+            assert.are_same({100}, quest.Starts.NPC)
+            assert.are_same({200}, quest.Finisher.NPC)
+            assert.are_same({}, quest.ObjectiveData)
+
+            local npc = QuestieDB:GetNPC(30)
+            assert.are_same("Forest Spider", npc.name)
+            assert.are_same(12, npc.zoneID)
+            assert.is_true(npc.friendly)
+
+            local item = QuestieDB:GetItem(5)
+            assert.are_same("Sharptalon's Claw", item.name)
+            assert.are_same({{Id = 30, Type = "monster"}}, item.Sources)
+
+            local object = QuestieDB:GetObject(31)
+            assert.are_same("Old Lion Statue", object.name)
+            assert.are_same(1519, object.zoneID)
+        end)
+
+        it("keeps IsInitialized false while binding and sets it true afterwards", function()
+            local flagWhileBinding
+            local originalGetAllIds = LibQuestieDB.Object.GetAllIds
+            LibQuestieDB.Object.GetAllIds = function(hashmap)
+                flagWhileBinding = QuestieDB.IsInitialized
+                return originalGetAllIds(hashmap)
+            end
+            QuestieDB.IsInitialized = true
+
+            QuestieDB.Initialize()
+
+            assert.is_false(flagWhileBinding)
+            assert.is_true(QuestieDB.IsInitialized)
+        end)
+
+        it("clears semantic caches filled before initialization", function()
+            QuestieDB.private.questCache[2] = {}
+            QuestieDB.private.itemCache[5] = {}
+            QuestieDB.private.npcCache[30] = {}
+            QuestieDB.private.objectCache[31] = {}
+            QuestieDB.private.zoneCache[1] = {}
+            QuestieDB._CreatureLevelCache[2] = {}
+
+            QuestieDB.Initialize()
+
+            assert.are_same({}, QuestieDB.private.questCache)
+            assert.are_same({}, QuestieDB.private.itemCache)
+            assert.are_same({}, QuestieDB.private.npcCache)
+            assert.are_same({}, QuestieDB.private.objectCache)
+            assert.are_same({}, QuestieDB.private.zoneCache)
+            assert.are_same({}, QuestieDB._CreatureLevelCache)
+        end)
+    end)
+
+    describe("RefreshAfterCorrectionApply", function()
+        local LibQuestieDB
+        local registrar
+        local repairedItems
+
+        before_each(function()
+            LibQuestieDB = mock.lib
+            dofile("Database/questDB.lua")
+            dofile("Database/npcDB.lua")
+            dofile("Database/itemDB.lua")
+            dofile("Database/objectDB.lua")
+            QuestieLib.TableMemoizeFunction = function() return {} end
+            Questie.db.char.hidden = {}
+
+            repairedItems = {}
+            registrar = LibQuestieDB.GetRegistrar("Questie")
+            registrar.RegisterRuntimeCorrection("Item", "RuntimeItemRepair", function() return repairedItems end, 400)
+            registrar.Apply()
+            QuestieDB.Initialize()
+        end)
+
+        it("rebinds all four ID maps to the maps the provider replaced on apply", function()
+            registrar.Apply()
+            assert.are_not_equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
+
+            QuestieDB.RefreshAfterCorrectionApply()
+
+            assert.are_equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
+            assert.are_equal(LibQuestieDB.Npc.GetAllIds(true), QuestieDB.NPCPointers)
+            assert.are_equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
+            assert.are_equal(LibQuestieDB.Object.GetAllIds(true), QuestieDB.ObjectPointers)
+        end)
+
+        it("makes a correction-added Item visible and a withdrawn Item disappear", function()
+            repairedItems[999] = {[QuestieDB.itemKeys.name] = "Repaired Item"}
+            registrar.Apply()
+            QuestieDB.RefreshAfterCorrectionApply()
+
+            assert.is_true(QuestieDB.ItemPointers[999])
+            assert.are_same("Repaired Item", QuestieDB:GetItem(999).name)
+
+            repairedItems[999] = nil
+            registrar.Apply()
+            QuestieDB.RefreshAfterCorrectionApply()
+
+            assert.is_nil(QuestieDB.ItemPointers[999])
+            assert.is_nil(QuestieDB:GetItem(999))
+        end)
+
+        it("clears every semantic cache", function()
+            QuestieDB.private.questCache[2] = {}
+            QuestieDB.private.itemCache[5] = {}
+            QuestieDB.private.npcCache[30] = {}
+            QuestieDB.private.objectCache[31] = {}
+            QuestieDB.private.zoneCache[1] = {}
+            QuestieDB._CreatureLevelCache[2] = {}
+
+            QuestieDB.RefreshAfterCorrectionApply()
+
+            assert.are_same({}, QuestieDB.private.questCache)
+            assert.are_same({}, QuestieDB.private.itemCache)
+            assert.are_same({}, QuestieDB.private.npcCache)
+            assert.are_same({}, QuestieDB.private.objectCache)
+            assert.are_same({}, QuestieDB.private.zoneCache)
+            assert.are_same({}, QuestieDB._CreatureLevelCache)
         end)
     end)
 end)
