@@ -46,7 +46,7 @@ QuestieCorrections.hiddenQuests = {}
 --   Npc    DarkmoonFaire               QuestieEvent — calendar state selects the location
 --   Object GatheringNodeDisplayPolicy  Initialize below — static display policy
 --   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
---   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads
+--   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads, published once per frame
 --
 -- External translation addons do not go through here: `l10n` forwards their entity lookups to the
 -- provider under the `QuestieLocalesOverride` owner while resolving the UI locale.

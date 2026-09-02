@@ -286,11 +286,38 @@ describe("QuestieLib", function()
         ---@type QuestieCorrections
         local QuestieCorrections
         local loadCallbacks
+        -- Deferred publishes captured from C_Timer.After; the test decides when the frame ends.
+        local scheduledPublishes
+        -- Rows of each SetCorrection call, copied at call time: the module publishes one live
+        -- table, so a reference would show the final content for every call.
+        local publishedRows
+
+        ---Runs and clears every captured deferred publish, as the next frame would.
+        local function _NextFrame()
+            local publishes = scheduledPublishes
+            scheduledPublishes = {}
+            for _, publish in ipairs(publishes) do
+                publish()
+            end
+        end
 
         before_each(function()
             loadCallbacks = {}
+            scheduledPublishes = {}
+            publishedRows = {}
+            _G.C_Timer = {
+                After = function(_, callback)
+                    table.insert(scheduledPublishes, callback)
+                end,
+            }
             QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
-            QuestieCorrections.SetCorrection = spy.new(function() end)
+            QuestieCorrections.SetCorrection = spy.new(function(_, _, rows)
+                local snapshot = {}
+                for itemId, row in pairs(rows) do
+                    snapshot[itemId] = {[1] = row[1]}
+                end
+                table.insert(publishedRows, snapshot)
+            end)
             QuestieDB.itemKeys = {name = 1}
             QuestieDB.ItemPointers = {[5] = true}
             QuestieDB.GetQuest = function()
@@ -318,6 +345,7 @@ describe("QuestieLib", function()
 
         after_each(function()
             _G.Item = nil
+            _G.C_Timer = nil
         end)
 
         it("requests only the objective Items missing from the composed database", function()
@@ -328,15 +356,40 @@ describe("QuestieLib", function()
             assert.spy(QuestieCorrections.SetCorrection).was.not_called()
         end)
 
-        it("publishes the RuntimeItemRepair slot with a name-only row once the client load completes", function()
+        it("publishes the RuntimeItemRepair slot with a name-only row on the frame after the client load completes", function()
             QuestieLib.RepairMissingItemNames(QUEST_ID)
 
             loadCallbacks[999]()
+            assert.spy(QuestieCorrections.SetCorrection).was.not_called()
+
+            _NextFrame()
 
             assert.spy(QuestieCorrections.SetCorrection).was.called_with("Item", "RuntimeItemRepair", {[999] = {[1] = "Loaded 999"}})
         end)
 
-        it("accumulates repairs and re-publishes the whole slot when another Item loads", function()
+        it("coalesces every Item loaded in one frame into a single publish of the whole slot", function()
+            QuestieDB.GetQuest = function()
+                return {
+                    ObjectiveData = {
+                        {Type = "item", Id = 999},
+                        {Type = "item", Id = 1000},
+                        {Type = "item", Id = 1001},
+                    },
+                }
+            end
+
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+            loadCallbacks[999]()
+            loadCallbacks[1000]()
+            loadCallbacks[1001]()
+            _NextFrame()
+
+            assert.spy(QuestieCorrections.SetCorrection).was.called(1)
+            assert.spy(QuestieCorrections.SetCorrection).was.called_with("Item", "RuntimeItemRepair",
+                {[999] = {[1] = "Loaded 999"}, [1000] = {[1] = "Loaded 1000"}, [1001] = {[1] = "Loaded 1001"}})
+        end)
+
+        it("publishes again, with every repair so far, for an Item loaded after the frame ended", function()
             QuestieDB.GetQuest = function()
                 return {
                     ObjectiveData = {
@@ -348,19 +401,25 @@ describe("QuestieLib", function()
 
             QuestieLib.RepairMissingItemNames(QUEST_ID)
             loadCallbacks[999]()
+            _NextFrame()
             loadCallbacks[1000]()
+            _NextFrame()
 
-            assert.spy(QuestieCorrections.SetCorrection).was.called_with("Item", "RuntimeItemRepair",
-                {[999] = {[1] = "Loaded 999"}, [1000] = {[1] = "Loaded 1000"}})
+            assert.are_same({
+                {[999] = {[1] = "Loaded 999"}},
+                {[999] = {[1] = "Loaded 999"}, [1000] = {[1] = "Loaded 1000"}},
+            }, publishedRows)
         end)
 
-        it("treats a repeated client callback with an unchanged name as a no-op", function()
+        it("treats a repeated client callback with an unchanged name as a no-op and schedules nothing", function()
             QuestieLib.RepairMissingItemNames(QUEST_ID)
             loadCallbacks[999]()
+            _NextFrame()
 
             QuestieLib.RepairMissingItemNames(QUEST_ID)
             loadCallbacks[999]()
 
+            assert.are_same(0, #scheduledPublishes)
             assert.spy(QuestieCorrections.SetCorrection).was.called(1)
         end)
 
@@ -378,6 +437,7 @@ describe("QuestieLib", function()
 
             QuestieLib.RepairMissingItemNames(QUEST_ID)
             loadCallbacks[999]()
+            _NextFrame()
 
             assert.spy(QuestieCorrections.SetCorrection).was.not_called()
         end)

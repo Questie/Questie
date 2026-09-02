@@ -400,9 +400,27 @@ end
 
 -- Name-only repair rows for Items the client loaded because the composed database lacked them.
 -- This table is the RuntimeItemRepair slot's full replacement rows: repairs accumulate across
--- quests, and the whole table is re-published on every new repair.
+-- quests, and the whole table is published once per frame after any new repair.
 ---@type table<ItemId, table<integer, string>>
 local repairedItemNames = {}
+
+-- True from the first new repair in a frame until the deferred publish runs, so every client
+-- callback that lands in the same frame (the already-cached Items of the login quest log fire
+-- synchronously, in one burst) shares one provider write.
+local repairPublishPending = false
+
+---Publishes the accumulated repairs on the next frame unless a publish is already scheduled.
+---@return nil
+local function _ScheduleRepairPublish()
+    if repairPublishPending then
+        return
+    end
+    repairPublishPending = true
+    C_Timer.After(0, function()
+        repairPublishPending = false
+        QuestieCorrections.SetCorrection("Item", "RuntimeItemRepair", repairedItemNames)
+    end)
+end
 
 ---Asks the client for the names of objective Items the composed database lacks and repairs each one
 ---through the name-only RuntimeItemRepair Policy Correction slot when the asynchronous load completes.
@@ -421,7 +439,7 @@ function QuestieLib.RepairMissingItemNames(questId)
                 objective.Id)
             local item = Item:CreateFromItemID(objective.Id)
             item:ContinueOnItemLoad(function()
-                ---Records one client-loaded Item name and re-publishes the RuntimeItemRepair slot so the Item
+                ---Records one client-loaded Item name and schedules the RuntimeItemRepair publish so the Item
                 ---becomes readable and enumerable. A repeated callback with an unchanged name is a no-op and a
                 ---nil name is ignored. Name only: no relationship field is inferred.
                 local itemName = item:GetItemName()
@@ -436,7 +454,7 @@ function QuestieLib.RepairMissingItemNames(questId)
                 end
 
                 repairedItemNames[objective.Id] = {[nameKey] = itemName}
-                QuestieCorrections.SetCorrection("Item", "RuntimeItemRepair", repairedItemNames)
+                _ScheduleRepairPublish()
             end)
         end
     end

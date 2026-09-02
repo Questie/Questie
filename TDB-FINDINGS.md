@@ -75,8 +75,12 @@ written. Questie-side mitigation in the meantime is F2.
 during quest-log initialization. Was deferred as "coalesce if a hitch ever shows"; the SoD numbers
 show it.
 
-Proposed action: accumulate names and publish once per frame (`C_Timer.After(0, ...)` guarded by a
-pending flag). Idempotency and nil-name handling stay as they are.
+Resolved: `RepairMissingItemNames` accumulates names and publishes once per frame through
+`C_Timer.After(0, ...)` guarded by a pending flag; idempotency and nil-name handling are
+unchanged. This coalesces the synchronous burst of already-cached Items at login. Items the
+client has to fetch arrive one `ITEM_DATA_LOAD_RESULT` at a time across frames and still cost
+one write each; if that hitch shows on SoD, widen the window to a short debounce. Step 5 checks
+the write count in `QuestieCorrections.correctionSources` timing.
 
 ### F3. Provider: `requiredRaces` inference — withdrawn on Era, open on SoD
 

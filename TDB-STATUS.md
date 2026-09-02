@@ -63,9 +63,9 @@ None block the merge. Numbered items came from the simplification review.
   `Database/Corrections/QuestiePolicy`. They are plain row producers now and can flatten.
 - `_QuestieDB.objectCache` is read but never written (the store is commented out). Delete or
   enable, not both halves.
-- Item repair writes the `Item:RuntimeItemRepair` slot once per asynchronous callback. On SoD each
-  write costs 19 ms and 2.7 MB in the client (`TDB-FINDINGS.md` F1), so a login with several
-  missing objective Items is a visible hitch. Coalesce the callbacks into one write per frame.
+- Item repair now publishes `Item:RuntimeItemRepair` once per frame (`TDB-FINDINGS.md` F2).
+  Uncached Items still arrive one per client event across frames; if that shows as a hitch on
+  SoD, widen the window from `C_Timer.After(0)` to a short debounce.
 - Townsfolk rebuilds every login and still writes to `Questie.db.global` although nothing reads it
   across sessions. Replace with a module-local table once the provider exposes a data revision.
 - Distribution: bundle QuestieTDB in release packaging. Diagnostics: surface provider Source or
