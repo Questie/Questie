@@ -841,8 +841,12 @@ Also run:
   `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; clean mixed-runtime subtraction tip
   `8b63c04beadef59b648cb558247609651e1f19e1`; reviewed clean-baseline code tip
   `cf4349e9f647f3c1b077421863fc53ef6031da44`. The rebased stack also contains the support payload
-  cleanup described below; the commit containing this record is the current branch point.
-- `implementation` branch: not created
+  cleanup described below.
+- `implementation` branch: `QuestieTDB-implementation`, created from the historical baseline handoff
+  commit `ad8e6ec19979f42eeecc1e3262575014fa8c3fe8`; the Contract seam, QuestieDB binding, Policy
+  Corrections, Login Initialization, entity locale seam, policy callers, Object-hover split, and
+  consumer verification landed. Pre-rebase validation recorded 1,530 Busted successes and clean
+  luacheck across 329 files; those checks have not been rerun for the current rebased stack
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
   code-changing baseline commit
@@ -878,17 +882,18 @@ Also run:
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
 - WP-04 Objective Order/waypoint parity: verification required
 - WP-05 Contract/flavor gates: implementation exists on the Database Addon `ownership` branch; final integration verification required
-- WP-06 composed-read consumers: in progress; the clean baseline removed raw traversals and fallbacks,
-  but provider-bound Townsfolk and Available Quests behavior still needs focused verification on the
-  fresh implementation branch. Runtime Item repair remains an open Policy Correction seam in
-  `TDB-IMPLEMENTATION-ISSUES.md`
+- WP-06 composed-read consumers: focused verification complete on `QuestieTDB-implementation`;
+  Townsfolk policy, character and faction filtering, hand-maintained additions, vendors, mailbox
+  factions, pet food grouping, and non-empty Available Quest enumeration pass against the Contract
+  adapter, and `RuntimeItemRepair` is registered. Live provider smoke remains a combined-merge gate
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
-- WP-08 pinned Database Integration Check: in progress; the old `db-validation` matrix was removed
+- WP-08 pinned Database Integration Check: blocked; the old `db-validation` matrix was removed
   in `ab8a78f2f127136b1b09e059fd6cc81ecc187203` while loader-usage validation remains in the unit-test
-  job; the pinned provider integration check is not implemented
-- WP-09 baseline replay handover: complete in the commit containing this completion record and the
-  matching evidence in `TDB-RELAND-HANDOVER.md`; `implementation` must branch from that commit and
-  start fresh from the subtractive baseline and authoritative behavior contracts
+  job. The provider repository documents no consumer-side integration command and pins Questie through
+  its own `QUESTIE_COMMIT`, so the check waits for the final provider revision and command
+- WP-09 baseline replay handover: complete in the historical baseline handoff commit and the
+  matching evidence in `TDB-RELAND-HANDOVER.md`; `implementation` was created from that handoff and
+  implemented fresh from the subtractive baseline and authoritative behavior contracts
 - Subtractive deletion evidence:
   - WP-00 evidence record: `09e0178e79775782cdabd75f506dccd6e8ec0698`
   - Raw provider entity data: `99493b08a5b35aabf7e4ca93d438bf58baf3c08a`
@@ -941,9 +946,10 @@ Also run:
     missing-schema bootstrap errors before and after cleanup, 45 focused successes, clean production
     luacheck across 297 files, passing loader-usage and `git diff --check`, and static confirmation of
     the deletion set. Those historical results do not validate the current rebased stack
-- Expected baseline state: structurally clean but not runtime-complete. Contract enforcement,
-  provider query bindings, owner-scoped Policy Corrections, provider/external locale application,
-  support bindings, and the pinned integration check remain fresh implementation work
+- Expected baseline handoff state: structurally clean but not runtime-complete. The implementation
+  adds Contract enforcement, provider query bindings, owner-scoped Policy Corrections, and
+  provider/external locale application. Support binding is not part of this replay point and lands
+  later in the historical replay; the pinned integration check remains incomplete
 - Historical evidence status: `origin/QuestieTDB` at
   `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains committed TDB-01/TDB-02 evidence only. The
   sibling `../Questie-tdb-claude` workspace contains prior dirty and untracked Dynamic Corrections
@@ -951,6 +957,6 @@ Also run:
   source. Do not merge, cherry-pick, or mechanically port it. Build production code and tests fresh
   from Contract Version 1, the retained QuestiePolicy producers, the current baseline, and the
   authoritative handovers
-- Commit status: the commit containing this completion record finalizes the subtractive baseline
-  and is the exact branch point for `implementation`. Provider work packets and every combined-merge
-  gate remain unchanged
+- Commit status: the historical commit containing the baseline completion record was the branch
+  point for `implementation`. Provider work packets and every combined-merge gate remain unchanged;
+  support binding lands later in the historical replay
