@@ -116,14 +116,6 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
     error("No AreaId found for UiMapId: " .. uiMapId .. ":" .. C_Map.GetMapInfo(uiMapId).name)
 end
 
---- Continent maps are what C_Map.GetBestMapForUnit returns in caves and other areas without a map
---- of their own, so an AreaId for one never identifies a real zone.
----@param areaId AreaId
----@return boolean
-function ZoneDB.IsContinentZone(areaId)
-    return areaId == 0 or areaId == ZoneDB.zoneIDs.KALIMDOR or areaId == ZoneDB.zoneIDs.EASTERN_KINGDOMS
-end
-
 local areaNameToAreaId -- built on first use, C_Map.GetAreaInfo needs a fully loaded client
 
 ---@param name string Localized zone name, e.g. from GetRealZoneText()

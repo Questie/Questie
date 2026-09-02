@@ -18,7 +18,6 @@ describe("QuestiePlayer", function()
             ZoneDB.GetAreaIdByUiMapId = function(_, uiMapId)
                 return ({[1426] = 1, [1415] = 10074})[uiMapId]
             end
-            ZoneDB.IsContinentZone = function(areaId) return areaId == 10074 end
             ZoneDB.GetAreaIdByName = function(_, name)
                 if name == "Dun Morogh" then return 1 end
             end
@@ -26,19 +25,19 @@ describe("QuestiePlayer", function()
         end)
 
         it("should return the zone of the players map", function()
-            _G.C_Map = {GetBestMapForUnit = function() return 1426 end}
+            _G.C_Map = {GetBestMapForUnit = function() return 1426 end, GetMapInfo = function() return {mapType = Enum.UIMapType.Zone} end}
 
             assert.is_equal(1, QuestiePlayer:GetCurrentZoneId())
         end)
 
         it("should resolve a continent map to the zone named by the zone text", function()
-            _G.C_Map = {GetBestMapForUnit = function() return 1415 end}
+            _G.C_Map = {GetBestMapForUnit = function() return 1415 end, GetMapInfo = function() return {mapType = Enum.UIMapType.Continent} end}
 
             assert.is_equal(1, QuestiePlayer:GetCurrentZoneId())
         end)
 
         it("should keep the continent AreaId when the zone text is unknown", function()
-            _G.C_Map = {GetBestMapForUnit = function() return 1415 end}
+            _G.C_Map = {GetBestMapForUnit = function() return 1415 end, GetMapInfo = function() return {mapType = Enum.UIMapType.Continent} end}
             _G.GetRealZoneText = function() return "Unknown" end
 
             assert.is_equal(10074, QuestiePlayer:GetCurrentZoneId())

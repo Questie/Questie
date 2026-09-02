@@ -96,13 +96,13 @@ end
 function QuestiePlayer:GetCurrentZoneId()
     local uiMapId = C_Map.GetBestMapForUnit("player")
     if uiMapId then
-        local areaId = ZoneDB:GetAreaIdByUiMapId(uiMapId)
-        if ZoneDB.IsContinentZone(areaId) then
+        local mapInfo = C_Map.GetMapInfo(uiMapId)
+        if mapInfo and mapInfo.mapType <= Enum.UIMapType.Continent then
             -- Pre-Cata caves and dungeon entrance areas have no map of their own, so the client
-            -- reports the continent map. The zone text still names the real zone, so use that.
-            return ZoneDB:GetAreaIdByName(GetRealZoneText()) or areaId
+            -- reports the continent (or world) map. The zone text still names the real zone, so use that.
+            return ZoneDB:GetAreaIdByName(GetRealZoneText()) or ZoneDB:GetAreaIdByUiMapId(uiMapId)
         end
-        return areaId
+        return ZoneDB:GetAreaIdByUiMapId(uiMapId)
     end
 
     return ZoneDB.instanceIdToAreaId[select(8, GetInstanceInfo())]

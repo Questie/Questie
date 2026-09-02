@@ -48,7 +48,10 @@ _G.wipe = function(t)
     return t
 end
 
-_G.Enum = {ItemQuality = {Poor = 0, Standard = 1}}
+_G.Enum = {
+    ItemQuality = {Poor = 0, Standard = 1},
+    UIMapType = {Cosmic = 0, World = 1, Continent = 2, Zone = 3, Dungeon = 4, Micro = 5, Orphan = 6},
+}
 
 _G.MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
