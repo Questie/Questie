@@ -70,8 +70,13 @@ local questieRegistrar
 local activeDarkmoonNpcCorrections = {}
 ---@type PolicyCorrectionRows
 local activeRuntimeItemCorrections = {}
+---@return ExternalLocaleCorrections
+local function _EmptyExternalLocaleCorrections()
+    return {Item = {}, Quest = {}, Npc = {}, Object = {}}
+end
+
 ---@type ExternalLocaleCorrections
-local activeExternalLocaleCorrections = {Item = {}, Quest = {}, Npc = {}, Object = {}}
+local activeExternalLocaleCorrections = _EmptyExternalLocaleCorrections()
 
 -- Gathering nodes have thousands of spawns that Questie never displays. Exactly these 24 Objects.
 ---@type ObjectId[]
@@ -171,12 +176,13 @@ function QuestieCorrections.InitializePolicyCorrections(externalLocaleCorrection
         questieRegistrar.RegisterRuntimeCorrection("Object", "ExternalLocaleObject", _ExternalLocaleObject, EXTERNAL_LOCALE_OBJECT_LOAD_ORDER)
     end
 
-    activeExternalLocaleCorrections = externalLocaleCorrections
+    activeExternalLocaleCorrections = externalLocaleCorrections or _EmptyExternalLocaleCorrections()
     _ApplyQuestieCorrections()
 end
 
 ---Reapplies owner "Questie" after Questie state that a provider reads has changed, such as the
----active Content Phase. Setters below call the same path after replacing their captured table.
+---active Content Phase. The active phases are constants today, so nothing in production calls this
+---yet; it stays public as the seam a live phase switch must call. Setters below use the same path.
 ---@return nil
 function QuestieCorrections.ReapplyPolicyCorrections()
     _ApplyQuestieCorrections()
@@ -223,7 +229,7 @@ end
 ---Withdraws all four external locale layers by applying empty tables.
 ---@return nil
 function QuestieCorrections.WithdrawExternalLocaleCorrections()
-    activeExternalLocaleCorrections = {Item = {}, Quest = {}, Npc = {}, Object = {}}
+    activeExternalLocaleCorrections = _EmptyExternalLocaleCorrections()
     _ApplyQuestieCorrections()
 end
 
