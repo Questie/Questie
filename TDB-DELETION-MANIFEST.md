@@ -554,6 +554,12 @@ The target registrations are:
 
 Use the API literals exactly as shown. Registration is append-only, so each provider registers once.
 
+> Superseded by the write-through simplification (`TDB-SIMPLIFICATION.md`): the names and API
+> datatypes above survive as data slot names, but the load orders, provider functions, and
+> once-only registration are gone — each slot is written through
+> `QuestieCorrections.SetCorrection(datatype, name, rows)` and Era publishes no
+> `ContentPhasePolicy` slot at all.
+
 ### `Localization/l10n.lua`
 
 Delete:
