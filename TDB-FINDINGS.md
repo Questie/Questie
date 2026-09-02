@@ -131,6 +131,10 @@ calls. `_CallerSource` takes `debugstack(3, 1, 0)`, which is the profiler's wrap
 functions are hooked. Either walk past frames inside `QuestieProfiler.lua` or accept that the
 field is only meaningful with the profiler off.
 
+Resolved: `_CallerSource` walks up from the `SetCorrection` caller past frames in
+`QuestieProfiler.lua`, the `(tail call)` slot the profiler wrapper leaves, and `[C]` frames.
+Step 5 confirms the recorded source under the profiler in a live client.
+
 ### F6. Measurement note: garbage-collector noise
 
 A single-shot timing of `RefreshAfterCorrectionApply` read 13 ms and 2 MB; best of five with a

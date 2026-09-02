@@ -60,8 +60,9 @@ None block the merge. Numbered items came from the simplification review.
 - Item repair now publishes `Item:RuntimeItemRepair` once per frame (`TDB-FINDINGS.md` F2).
   Uncached Items still arrive one per client event across frames; if that shows as a hitch on
   SoD, widen the window from `C_Timer.After(0)` to a short debounce.
-- Townsfolk rebuilds every login and still writes to `Questie.db.global` although nothing reads it
-  across sessions. Replace with a module-local table once the provider exposes a data revision.
+- Townsfolk rebuilds every login into module tables (`Townsfolk.townsfolk` and friends);
+  Migration 39 drops the five former `Questie.db.global` keys. Caching across sessions waits
+  for a provider data revision.
 - Distribution: bundle QuestieTDB in release packaging. Diagnostics: surface provider Source or
   Baked mode in Questie's debug output.
 - Pre-existing, noted during review: the Isle of Quel'Danas phase option writes

@@ -247,6 +247,14 @@ local migrationFunctions = {
         Questie.db.profile.disableDatabaseWarnings = nil
         Questie.db.char.townsfolkVersion = nil
     end,
+    [39] = function()
+        -- Townsfolk lookups moved from SavedVariables to the Townsfolk module; they are rebuilt every login.
+        Questie.db.global.townsfolk = nil
+        Questie.db.global.professionTrainers = nil
+        Questie.db.global.classSpecificTownsfolk = nil
+        Questie.db.global.factionSpecificTownsfolk = nil
+        Questie.db.global.petFoodVendorTypes = nil
+    end,
 }
 
 function Migration:Migrate()
