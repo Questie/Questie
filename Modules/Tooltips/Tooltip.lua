@@ -240,7 +240,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
         else
             local objectId = tonumber(key:sub(3))
             local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
-            if spawns then
+            if spawns and next(spawns) then
                 -- Dungeon floors and sub areas report their own AreaId while objects are usually
                 -- listed under the dungeon or zone itself, so the parent zone counts as a match too.
                 local parentZone = ZoneDB:GetParentZoneId(playerZone)
@@ -251,6 +251,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     end
                 end
             else
+                -- No spawn data at all, so there is nothing to compare the zone against
                 objectIsInCurrentZone = true
             end
         end

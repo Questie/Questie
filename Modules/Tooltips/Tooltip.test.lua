@@ -302,6 +302,26 @@ describe("Tooltip", function()
             assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
         end)
 
+        it("should return quest name and objective description when object has an empty spawn table", function()
+            QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
+                questId = 1,
+                objective = {
+                    Index = 1,
+                    Description = "do it",
+                    Update = function() end,
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+            QuestieDB.QueryObjectSingle = spy.new(function()
+                return {}
+            end)
+            local playerZone = 440
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
+
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
+        end)
+
         it("should only return quest name when tooltip has completed objective and showQuestsInNpcTooltip is true", function()
             Questie.db.profile.showQuestsInNpcTooltip = true
             QuestieTooltips.lookupByKey = {["key"] = {
