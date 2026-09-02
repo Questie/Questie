@@ -1029,3 +1029,34 @@ The implementation agent must update this section before handoff:
   QuestieCorrections integration-flow test rather than a Stage 1 test; pre-existing test-suite
   isolation leaks (`Expansions.Current`, `C_Calendar`, unrestored module stubs) continue in the
   Event/QuestieLib suites
+
+## Fresh implementation record
+
+Branch `QuestieTDB-implementation`, built fresh from baseline handoff commit
+`ad8e6ec19979f42eeecc1e3262575014fa8c3fe8` against Contract Version 1; nothing was ported from the
+historical packet above.
+
+- `Database/Corrections/QuestieCorrections.lua`: owner `"Questie"` registrar, the eight registrations
+  (`DarkmoonFaire` Npc/100, `GatheringNodeDisplayPolicy` Object/200, `ContentPhasePolicy` Quest/300,
+  `RuntimeItemRepair` Item/400, `ExternalLocaleItem` 500, `ExternalLocaleQuest` 501,
+  `ExternalLocaleNpc` 502, `ExternalLocaleObject` 503), `InitializePolicyCorrections`,
+  `ReapplyPolicyCorrections`, `SetDarkmoonNpcCorrections`, `RepairMissingItem`,
+  `WithdrawExternalLocaleCorrections`, and withdrawal-first `SetExternalLocaleCorrections`; the
+  shared apply path refreshes QuestieDB only once `QuestieDB.IsInitialized` is true.
+- `Database/QuestieDB.lua`: `IsInitialized`, `Initialize`, `RefreshAfterCorrectionApply`. Deviation from
+  the packet text above: the post-initialization refresh rebinds the four ID maps and clears the NPC,
+  Item, Object, zone, and creature-level caches but keeps quest objects, because the quest lifecycle
+  stores the object `GetQuest` returned and updates it in place; no post-initialization apply changes
+  Quest rows today, and a future Quest-row setter must invalidate specific quest IDs through the
+  lifecycle. `Initialize` still drops every cache before lifecycle state exists.
+- `Localization/EntityLocale.lua`: provider locale forwarding and existence-filtered external locale
+  rows; `l10n.lua` stays UI-only.
+- `Modules/QuestieInit.lua`: the Login Initialization order in `TDB-RELAND-HANDOVER.md`.
+- `Database/Corrections/Holidays/QuestieEvent.lua`: one `SetDarkmoonNpcCorrections` call per load,
+  outside the Event Quest loop, with `{}` withdrawal when no faire is active.
+- `Modules/Libs/QuestieLib.lua` and `Modules/EventHandler/QuestEventHandler.lua`: name-only
+  `RepairMissingItemNames` on quest accept and at login.
+- Tests: `Database/Corrections/QuestieCorrections.test.lua` (25), `Database/QuestieDB.test.lua` (45),
+  `test/QuestieTDBMock.test.lua` (29), `Localization/EntityLocale.test.lua` (9),
+  `Modules/QuestieInit.test.lua` (5), plus the Darkmoon, Item repair, tooltip, Townsfolk, and
+  Available Quests additions. Full Busted: 1,530 successes.

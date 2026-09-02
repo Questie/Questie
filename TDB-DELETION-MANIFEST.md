@@ -832,7 +832,10 @@ Also run:
 - `baseline` branch: `QuestieTDB-remove-baseline`; whole-file deletion tip
   `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; reviewed clean-baseline code tip
   `cf4349e9f647f3c1b077421863fc53ef6031da44`
-- `implementation` branch: not created
+- `implementation` branch: `QuestieTDB-implementation`, created from baseline handoff commit
+  `ad8e6ec19979f42eeecc1e3262575014fa8c3fe8`; fresh Contract seam, QuestieDB binding, Policy
+  Corrections, Login Initialization, entity locale seam, policy callers, Object-hover split, and
+  consumer verification landed with 1,530 Busted successes and clean luacheck across 329 files
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
   and `e2b6d2d2db1cf2786792d9a13553863d62f3526d` precede WP-00; WP-00 is the first
   code-changing baseline commit
@@ -868,14 +871,15 @@ Also run:
 - WP-03 `requiredRaces`: blocked on QuestieTDB issue #13
 - WP-04 Objective Order/waypoint parity: verification required
 - WP-05 Contract/flavor gates: implementation exists on the Database Addon `ownership` branch; final integration verification required
-- WP-06 composed-read consumers: in progress; the clean baseline removed raw traversals and fallbacks,
-  but provider-bound Townsfolk and Available Quests behavior still needs focused verification on the
-  fresh implementation branch. Runtime Item repair remains an open Policy Correction seam in
-  `TDB-IMPLEMENTATION-ISSUES.md`
+- WP-06 composed-read consumers: focused verification complete on `QuestieTDB-implementation`;
+  Townsfolk policy, character and faction filtering, hand-maintained additions, vendors, mailbox
+  factions, pet food grouping, and non-empty Available Quest enumeration pass against the Contract
+  adapter, and `RuntimeItemRepair` is registered. Live provider smoke remains a combined-merge gate
 - WP-07 provider differential coverage: blocked on QuestieTDB issue #19
-- WP-08 pinned Database Integration Check: in progress; the old `db-validation` matrix was removed
+- WP-08 pinned Database Integration Check: blocked; the old `db-validation` matrix was removed
   in `ab8a78f2f127136b1b09e059fd6cc81ecc187203` while loader-usage validation remains in the unit-test
-  job; the pinned provider integration check is not implemented
+  job. The provider repository documents no consumer-side integration command and pins Questie through
+  its own `QUESTIE_COMMIT`, so the check waits for the final provider revision and command
 - WP-09 baseline replay handover: complete in the commit containing this completion record and the
   matching evidence in `TDB-RELAND-HANDOVER.md`; `implementation` must branch from that commit and
   start fresh from the subtractive baseline and authoritative behavior contracts
