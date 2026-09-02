@@ -1,5 +1,7 @@
 dofile("setupTests.lua")
 
+local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+
 describe("Tooltip", function()
     ---@type QuestieDB
     local QuestieDB
@@ -453,6 +455,56 @@ describe("Tooltip", function()
 
             assert.spy(QuestieDB.GetQuest).was.not_called()
             assert.are_same({[1] = {"key"}}, QuestieTooltips.lookupKeysByQuestId)
+        end)
+    end)
+    describe("objectIdsByName", function()
+        ---@type QuestieTDBMock
+        local mock
+        local indexedObjective = {Index = 1}
+
+        before_each(function()
+            mock = LoadQuestieTDBMock()
+            local objectKeys = mock.lib.Meta.ObjectMeta.objectKeys
+            mock.SetBaseRow("Object", 5, {[objectKeys.name] = "Battered Chest"})
+            mock.SetBaseRow("Object", 6, {[objectKeys.name] = "Battered Chest"})
+            QuestieTooltips.objectIdsByName = {}
+            QuestieTooltips.lookupByKey = {}
+            QuestieTooltips.lookupKeysByQuestId = {}
+        end)
+
+        it("indexes an o_ objective registration under the Object's composed name", function()
+            QuestieTooltips:RegisterObjectiveTooltip(1, "o_5", indexedObjective)
+
+            assert.are_same({["Battered Chest"] = {[5] = true}}, QuestieTooltips.objectIdsByName)
+        end)
+
+        it("does not duplicate an Object registered again for other quests or as a quest starter", function()
+            QuestieTooltips:RegisterObjectiveTooltip(1, "o_5", indexedObjective)
+            QuestieTooltips:RegisterObjectiveTooltip(2, "o_5", indexedObjective)
+            QuestieTooltips:RegisterQuestStartTooltip(3, "Battered Chest", 5, "o_5", "Object")
+
+            assert.are_same({["Battered Chest"] = {[5] = true}}, QuestieTooltips.objectIdsByName)
+        end)
+
+        it("groups Objects sharing one name across objective and quest start registrations", function()
+            QuestieTooltips:RegisterQuestStartTooltip(3, "Battered Chest", 6, "o_6", "Object")
+            QuestieTooltips:RegisterObjectiveTooltip(1, "o_5", indexedObjective)
+
+            assert.are_same({["Battered Chest"] = {[5] = true, [6] = true}}, QuestieTooltips.objectIdsByName)
+        end)
+
+        it("ignores keys that are not Object keys", function()
+            QuestieTooltips:RegisterObjectiveTooltip(1, "i_5", indexedObjective)
+            QuestieTooltips:RegisterObjectiveTooltip(1, "m_5", indexedObjective)
+            QuestieTooltips:RegisterQuestStartTooltip(3, "Battered Chest", 5, "m_5", "NPC")
+
+            assert.are_same({}, QuestieTooltips.objectIdsByName)
+        end)
+
+        it("ignores an Object key whose ID has no composed name", function()
+            QuestieTooltips:RegisterObjectiveTooltip(1, "o_999", indexedObjective)
+
+            assert.are_same({}, QuestieTooltips.objectIdsByName)
         end)
     end)
 end)

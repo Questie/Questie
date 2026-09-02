@@ -103,38 +103,45 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
+---Adds Questie's lines to a hovered world object's tooltip. The client only supplies a name, so two
+---questions with different owners are answered separately: the optional Object ID line reads
+---composed provider truth, and the quest lines come only from Objects Questie registered tooltip
+---data for.
 ---@param name string
 ---@param playerZone AreaId
+---@return nil
 function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
     if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end
 
-    local lookup = QuestieTooltips.objectNameLookup[name] or {}
-    local count = table.getn(lookup)
-
-    if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then
+    if Questie.db.profile.enableTooltipsObjectID then
+        -- Contributors need every composed Object with this name, not only Objects whose quest
+        -- tooltip data is currently registered. Login Initialization warms the provider index.
+        local ids = LibQuestieDB.Object.IdsByName(name)
+        local count = ids and #ids or 0
         if count == 1 then
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. "|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. "|r")
         elseif count > 10 and (not Questie.db.profile.debugEnabled) then
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (10+)|r")
-        else
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. " (10+)|r")
+        elseif count > 1 then
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. " (" .. count .. ")|r")
         end
     end
 
+    -- Quest lines come only from Objects for which Questie registered tooltip data. An append-only
+    -- set entry with no remaining tooltip data costs one GetTooltip call that returns nil.
     local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
-    for _, gameObjectId in pairs(lookup) do
-        if count > 10 and addedObjects >= 10 then
-            -- only show 10 tooltips
+    for gameObjectId in pairs(QuestieTooltips.objectIdsByName[name] or {}) do
+        if addedObjects >= 10 then
             break
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone);
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone)
         if tooltipData then
-            for _, line in pairs (tooltipData) do
-                if (not alreadyAddedObjectiveLines[line]) then
+            for _, line in pairs(tooltipData) do
+                if not alreadyAddedObjectiveLines[line] then
                     alreadyAddedObjectiveLines[line] = true
                     GameTooltip:AddLine(line)
                 end
@@ -142,8 +149,9 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
             addedObjects = addedObjects + 1
         end
     end
+
     GameTooltip:Show()
-    QuestieTooltips.lastGametooltipType = "object";
+    QuestieTooltips.lastGametooltipType = "object"
 end
 
 function _QuestieTooltips:CountTooltip()
