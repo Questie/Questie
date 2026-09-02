@@ -1093,6 +1093,6 @@ implementation moved it one level lower, into the provider:
 - `EntityLocale.ForwardProviderLocale` is inlined: Login Initialization calls
   `LibQuestieDB.l10n.SetLocale(effectiveLocale)` directly.
 - 2026-09-02: `Localization/EntityLocale.lua` and the four `ExternalLocale*` slots are removed
-  entirely. External translation addons publish entity rows to the provider under their own owner;
-  the `EntityLocale` mentions in the file and test lists above are historical. See
-  `TDB-ENTITYLOCALE.md`.
+  entirely. `l10n.InitializeUILocale` forwards an external addon's entity lookups to the provider
+  under the `QuestieLocalesOverride` owner; the `EntityLocale` mentions in the file and test lists
+  above are historical. See `TDB-ENTITYLOCALE.md`.
