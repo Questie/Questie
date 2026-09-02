@@ -3,7 +3,7 @@
 Questie reads entity data from the QuestieTDB addon instead of a runtime compiler. Decisions:
 `docs/adr/0001` to `0003` here, ADR 0007 to 0009 in QuestieTDB. Object-hover lookup:
 `QUESTIE-OBJECT-NAME-INDEX.md`. How it was delivered, with commit pointers and review findings:
-`docs/tdb-history.md`. How the pieces fit is documented in the code: the header of
+`docs/tdb-history.md`. Live client findings: `TDB-FINDINGS.md`. How the pieces fit is documented in the code: the header of
 `Database/Corrections/QuestieCorrections.lua`, Stage 1 of `Modules/QuestieInit.lua`, and the header
 of `Localization/l10n.lua`.
 
@@ -37,7 +37,7 @@ Questie-side gates:
 - Pinned Database Integration Check in CI. The old `db-validation` matrix is gone; the provider
   pins Questie through its own `QUESTIE_COMMIT` and documents no consumer-side command, so this
   waits for the final provider revision.
-- Live smoke matrix (Era done, see below): SoD, TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
+- Live smoke matrix (Era and SoD done, `TDB-FINDINGS.md`): SoD, TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
   one built-in non-English locale, one external locale addon. Check gathering-node suppression,
   Darkmoon, Content Phase prerequisites, Townsfolk, Available Quests, Objective Order, Special
   Objective text, and runtime missing-Item repair.
@@ -64,7 +64,7 @@ None block the merge. Numbered items came from the simplification review.
 - `_QuestieDB.objectCache` is read but never written (the store is commented out). Delete or
   enable, not both halves.
 - Item repair writes the `Item:RuntimeItemRepair` slot once per asynchronous callback. On SoD each
-  write costs 19 ms and 2.7 MB in the client (see the live smoke results), so a login with several
+  write costs 19 ms and 2.7 MB in the client (`TDB-FINDINGS.md` F1), so a login with several
   missing objective Items is a visible hitch. Coalesce the callbacks into one write per frame.
 - Townsfolk rebuilds every login and still writes to `Questie.db.global` although nothing reads it
   across sessions. Replace with a module-local table once the provider exposes a data revision.
@@ -76,43 +76,6 @@ None block the merge. Numbered items came from the simplification review.
 
 ## Live smoke results
 
-**Era, 2026-09-02, enUS, baked mode, QuestieTDB `eaea07d`.** Passed through the Lua bridge on a
-level 5 character: Contract gate, ID maps populated, gathering-node spawns hidden with raw data
-intact and `Questie` provenance, quests 10944 and 11007 absent, Townsfolk built, tracker drawn, name
-index and `IdsByName` working, `SetLocale("deDE")` localizing reads and rebuilding the name index
-with the gathering suppression intact. A write-through probe (publish, verify composed read, cached
-NPC eviction, NPC map swap with Quest map kept, correction-added ID visible, withdraw, restore)
-passed, and the Classic Darkmoon producer published and withdrew correctly through the live slot.
-
-Found:
-
-- Provider: `ObjectiveFirst.eventObjectiveFirst` carries the three SoD quest IDs (85304, 85386,
-  89567) on plain Era in baked mode. Upstream loaded those only on SoD. Harmless today because the
-  IDs do not exist on Era, but it is the flavor leak issue #17 describes, in baked rather than
-  Source mode.
-- Provider: `requiredRaces` inference (#1/#13) is not active. 1,382 of 4,257 Era quests read `0`
-  raw and composed; 16 of those have only Alliance-faction starters and none only Horde, so the
-  regression against upstream's inference is 16 quests on Era. SoD and later flavors unmeasured.
-- Questie: `QuestieCorrections.correctionSources` records the profiler wrapper or the bridge's
-  `pcall` frame instead of the real caller while the profiler is on. Cosmetic.
-
-Still to smoke: SoD, TBC before and after phase 3, WotLK season 109, Cata, MoP, an external locale
-addon, and a Darkmoon week with the calendar-driven path.
-
-**SoD, 2026-09-02, enUS, baked mode, season 2, QuestieTDB `eaea07d`.** Same probes on a level 2
-character, all passed: 1,234 SoD quests present and owned by the provider layer, rune Item readable,
-Questie publishes only the gathering slot (no SoD copies), gathering suppression, Townsfolk,
-tracker, write-through publish and withdraw for Item and NPC with eviction and map swap.
-
-Found:
-
-- Provider cost per slot write on SoD, best of five in the client: Item 19 ms and 2.7 MB, NPC
-  25 ms and 4.6 MB, Object 3 ms and 0.5 MB. Questie's own refresh is 0.03 ms. The cause is
-  `recompose` in the provider registry: every write rebuilds the datatype's whole composed overlay
-  from every dynamic entry, re-normalizing 6,874 Item rows for a one-row Questie write. The
-  memoization in ADR 0009 removes the materialization, not the merge. An incremental overlay
-  (keep the composed map, re-merge only the written slot's old and new IDs) would make consumer
-  writes proportional to the rows written. Until then, Questie coalesces Item repairs.
-- `requiredRaces` inference gap on SoD: 2,171 of 5,534 quests read `0`; 35 have only Alliance
-  starters and 5 only Horde, so 40 quests regress against upstream, including SoD quests such as
-  90125 Rebuke and 90114 Endless Rage.
+Era and SoD passed on 2026-09-02. Every finding, with evidence and proposed action, is in
+`TDB-FINDINGS.md`. Still to run: TBC before and after phase 3, WotLK season 109, Cata, MoP, a
+Darkmoon week, an external locale addon, and a non-English client locale.
