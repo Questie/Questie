@@ -66,8 +66,6 @@ None block the merge. Numbered items came from the simplification review.
 - Item repair writes the `Item:RuntimeItemRepair` slot once per asynchronous callback. On SoD each
   write costs 19 ms and 2.7 MB in the client (see the live smoke results), so a login with several
   missing objective Items is a visible hitch. Coalesce the callbacks into one write per frame.
-  Formerly: Measured
-  cost was the Item compose iteration only.
 - Townsfolk rebuilds every login and still writes to `Questie.db.global` although nothing reads it
   across sessions. Replace with a module-local table once the provider exposes a data revision.
 - Distribution: bundle QuestieTDB in release packaging. Diagnostics: surface provider Source or
