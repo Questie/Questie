@@ -438,9 +438,10 @@ function Townsfolk.Initialize()
 
     count = 0
     for id in pairs(QuestieDB.ItemPointers) do
-        local foodType = QuestieDB.QueryItemSingle(id, "foodType")
-        if foodType then
-            tinsert(petFoodVendorTypes[petFoodIndexes[foodType]], id)
+        -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
+        local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
+        if petFoodCategory then
+            tinsert(petFoodVendorTypes[petFoodCategory], id)
         end
         if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
             count = 0

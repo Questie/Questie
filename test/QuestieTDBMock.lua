@@ -3,8 +3,9 @@
 -- It reproduces only what Questie consumes from QuestieTDB: the Contract check, composed entity
 -- reads, shared ID maps that swap identity on every apply, the owner-scoped Correction registrar,
 -- provenance, provider locale forwarding, Objective Order tables, and the entity Name index.
--- It deliberately omits encoding, Source/Baked storage, provider read caches, and the
--- nil-to-zero numeric defaults: tests seed literal rows and read them back unchanged.
+-- It deliberately omits encoding, Source/Baked storage, and provider read caches. Tests seed literal
+-- rows; reads apply the provider's nil rules: number fields of an existing entity read 0, `{}`
+-- reads nil, and the never-nil Quest structures read `{}`.
 local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
 
 local ENTITY_TYPES = {"Quest", "Npc", "Item", "Object"}
@@ -38,6 +39,7 @@ local BASE_OWNER = "QuestieTDB"
 ---@return QuestieTDBMock mock
 local function LoadQuestieTDBMock()
     local keys = LoadQuestieTDBMetaMock.keys
+    local types = LoadQuestieTDBMetaMock.types
 
     ---@type QuestieTDBMock
     local mock = {
@@ -147,13 +149,18 @@ local function LoadQuestieTDBMock()
                 value, owner = row[fieldIndex], layerOwner
             end
         end
-        -- `{}` is the clear idiom: an empty table never reaches a reader, except through the
-        -- never-nil Quest structures, which read as a fresh empty table.
+        -- `{}` is the clear idiom: an empty table never reaches a reader.
         if type(value) == "table" and next(value) == nil then
             value = nil
         end
-        if value == nil and neverNilFields[datatype][fieldIndex] then
-            value = {}
+        -- Provider read rule for an entity that exists: number fields read 0, never nil, and the
+        -- never-nil Quest structures read a fresh empty table.
+        if value == nil then
+            if types[datatype][fieldIndex] == "number" then
+                value = 0
+            elseif neverNilFields[datatype][fieldIndex] then
+                value = {}
+            end
         end
         return value, owner
     end
@@ -297,10 +304,10 @@ local function LoadQuestieTDBMock()
     -------------------------------------------------------------------------------------------
 
     lib.Meta = {
-        QuestMeta = {questKeys = keys.Quest},
-        NpcMeta = {npcKeys = keys.Npc},
-        ItemMeta = {itemKeys = keys.Item},
-        ObjectMeta = {objectKeys = keys.Object},
+        QuestMeta = {questKeys = keys.Quest, types = types.Quest},
+        NpcMeta = {npcKeys = keys.Npc, types = types.Npc},
+        ItemMeta = {itemKeys = keys.Item, types = types.Item},
+        ObjectMeta = {objectKeys = keys.Object, types = types.Object},
     }
 
     -- Provider-owned Objective Order hints; tests seed IDs directly.
