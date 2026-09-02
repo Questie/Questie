@@ -57,6 +57,8 @@ describe("Tooltip", function()
         QuestiePlayer.GetPartyMemberByName = function() return nil end
         QuestiePlayer.currentQuestlog = {}
         QuestiePlayer.numberOfGroupMembers = 0
+        local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        ZoneDB.GetParentZoneId = function() return nil end
         dofile("Localization/l10n.lua")
 
         dofile("Modules/Tooltips/Tooltip.lua")
@@ -210,6 +212,31 @@ describe("Tooltip", function()
 
             assert.is_nil(tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
+        end)
+
+        it("should return tooltip for objects in the parent zone of the players zone", function()
+            QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
+                questId = 1,
+                objective = {
+                    Index = 1,
+                    Description = "do it",
+                    Update = function() end,
+                }
+            }}}
+            QuestiePlayer.currentQuestlog[1] = {}
+            QuestieDB.QueryObjectSingle = spy.new(function()
+                return {[721]={{10,10}}} -- Gnomeregan
+            end)
+            local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+            ZoneDB.GetParentZoneId = spy.new(function(_, areaId)
+                if areaId == 10030 then return 721 end
+            end)
+            local playerZone = 10030 -- Gnomeregan - The Dormitory
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
+
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
+            assert.spy(ZoneDB.GetParentZoneId).was.called_with(ZoneDB, 10030)
         end)
 
         it("should return quest name and objective description when players zone ID is 0", function()

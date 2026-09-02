@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
@@ -239,8 +241,11 @@ function QuestieTooltips.GetTooltip(key, playerZone)
             local objectId = tonumber(key:sub(3))
             local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
             if spawns then
+                -- Dungeon floors and sub areas report their own AreaId while objects are usually
+                -- listed under the dungeon or zone itself, so the parent zone counts as a match too.
+                local parentZone = ZoneDB:GetParentZoneId(playerZone)
                 for zoneId in pairs(spawns) do
-                    if zoneId == playerZone then
+                    if zoneId == playerZone or zoneId == parentZone then
                         objectIsInCurrentZone = true
                         break
                     end
