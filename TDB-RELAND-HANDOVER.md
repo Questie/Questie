@@ -195,7 +195,14 @@ It must reintroduce the final provider-backed schema adapters and runtime symbol
 including `QuestieDB.IsInitialized`, `QuestieDB.RefreshAfterCorrectionApply`, the owner-scoped
 `QuestieCorrections` registrar and setters, provider/external locale application, and the final
 Login Initialization order. The eight Policy Correction names, API datatypes, and load orders in
-`TDB-DELETION-MANIFEST.md` remain exact requirements. QuestiePolicy, Titan quest tags, blacklists,
+`TDB-DELETION-MANIFEST.md` remain exact requirements.
+
+> Superseded by the write-through simplification (`TDB-SIMPLIFICATION.md`, and the
+> "Write-through simplification record" in `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md`): the slot names
+> and datatypes remain, but corrections are now data slots written through
+> `QuestieCorrections.SetCorrection` — there are no load orders, no registrar setters, no
+> `QuestieDB.IsInitialized`, and `RefreshAfterCorrectionApply(datatype, changedIds)` is targeted.
+> Era publishes no ContentPhase slot, so a plain login writes as few as one static slot. QuestiePolicy, Titan quest tags, blacklists,
 Event Quest data, Content Phase state, UI localization, Zone/Category lookups, QuestieStream, and
 deferred support data remain on the baseline.
 

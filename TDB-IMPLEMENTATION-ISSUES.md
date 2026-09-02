@@ -98,14 +98,15 @@ non-empty behavior is covered.
 
 **Status:** Recorded, not blocking.
 
-- `QuestieCorrections.RepairMissingItem` reapplies owner `"Questie"` per asynchronous Item callback.
-  Each apply recomposes the provider overlay and clears Questie's NPC, Item, and Object caches. Missing
-  Items are rare, so this is left as is; if measurements show a Stage 3 hitch, coalesce the callbacks
-  into one apply per frame.
+- Item name repair publishes the `Item:RuntimeItemRepair` slot per asynchronous callback. Since the
+  write-through simplification, one write recomposes only the Item datatype against memoized provider
+  layers and evicts only the repaired IDs, so the former 67 ms SoD re-materialization per apply drops to the Item datatype's
+  compose iteration (14.8 ms measured offline; sub-millisecond on other flavors); coalescing callbacks into one write per frame remains an easy option if a
+  Stage 3 hitch ever shows.
 - Townsfolk rebuilds on every login and still writes its results to `Questie.db.global` although
   nothing reads them across sessions. A module-local table can replace those writes once the provider
   exposes a stable data revision.
 - `QuestieDB:GetObject` never populates `objectCache`, so clearing it is a no-op. Pre-existing.
-- An in-session entity locale switch composes `EntityLocale.ForwardProviderLocale` with
-  `QuestieCorrections.SetExternalLocaleCorrections`; effective locale changes reload the UI today, so
-  no production caller exists.
+- An in-session entity locale switch would be `LibQuestieDB.l10n.SetLocale(locale)` followed by
+  `EntityLocale.ApplyExternalLocaleCorrections(locale)`; effective locale changes reload the UI today,
+  so no production caller exists.

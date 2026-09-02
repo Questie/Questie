@@ -560,3 +560,15 @@ QuestieTDB contract:
   at initialization, `LibQuestieDB` leaking between test files, and the test-coupling findings.
   Deferred with the reviewers' notes: coalescing per-Item `RepairMissingItem` applies, Townsfolk's
   per-login SavedVariables writes, and the pre-existing `objectCache` no-op.
+- Write-through simplification (working tree, Questie + QuestieTDB): QuestieTDB gained the
+  data-shaped `Corrections.Set` slot API with per-datatype recomposition/publish and memoized
+  function-entry materialization (provider suite gained `set-corrections`, 35 checks; an offline
+  consumer apply on SoD dropped from 67.6 ms / 3.4 MB garbage to 14.8 ms / 2.0 MB — the residue
+  is the datatype's compose iteration — and to sub-millisecond on flavors without huge dynamic
+  sets; QuestieTDB ADR 0009 records the provider decisions).
+  Questie's corrections seam collapsed to `QuestieCorrections.SetCorrection` with targeted
+  `QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)`; slot state moved to
+  QuestieEvent, QuestieLib, and EntityLocale; `IsInitialized`, `InitializePolicyCorrections`,
+  `ReapplyPolicyCorrections`, the per-correction setters, and `ForwardProviderLocale` are
+  deleted. Full Busted 1,533 successes, production luacheck clean across 329 files, loader
+  validation and `git diff --check` clean. Proposal: `TDB-SIMPLIFICATION.md` §1–2.
