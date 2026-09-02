@@ -713,6 +713,7 @@ describe("QuestieEvent", function()
         end)
 
         it("publishes the Classic Mulgore table exactly once, independent of the Event Quest count", function()
+            -- December 2024, an even month: Mulgore. The 1st is a Sunday, so the faire runs from Monday the 9th.
             _MockCalendar(2024, 12, 11, 0, 1)
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
@@ -724,6 +725,7 @@ describe("QuestieEvent", function()
         end)
 
         it("publishes the Classic Elwynn Forest table in an odd month", function()
+            -- March 2025, an odd month: Elwynn Forest. The 1st is a Monday, so the faire runs from the 8th until 03:00 on the 15th.
             _MockCalendar(2025, 3, 15, 2, 2)
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
@@ -734,6 +736,7 @@ describe("QuestieEvent", function()
         end)
 
         it("publishes the TBC Mulgore table", function()
+            -- January 2025, month % 3 == 1: Mulgore on TBC. The 1st is a Saturday, so the faire runs from the 10th.
             _MockCalendar(2025, 1, 12, 12, 7)
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -745,6 +748,7 @@ describe("QuestieEvent", function()
         end)
 
         it("publishes the TBC Terokkar Forest table", function()
+            -- March 2025, month % 3 == 0: Terokkar Forest. The 1st is a Monday, so the faire runs from the 8th.
             _MockCalendar(2025, 3, 10, 12, 2)
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -755,6 +759,7 @@ describe("QuestieEvent", function()
         end)
 
         it("withdraws the NPC table with an empty table when no faire is active", function()
+            -- April 1st 2025 is before the faire week: the 1st is a Saturday, so the faire starts on the 10th.
             _MockCalendar(2025, 4, 1, 0, 7)
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -767,6 +772,7 @@ describe("QuestieEvent", function()
         end)
 
         it("leaves the NPC Policy Correction untouched on Anniversary realms before phase 3", function()
+            -- December 2024 would be a Mulgore faire week; phases 1 and 2 have no faire at all.
             _MockCalendar(2024, 12, 11, 0, 1)
             ContentPhases.activePhases.Anniversary = 2
             Questie.IsClassic = true
@@ -775,6 +781,19 @@ describe("QuestieEvent", function()
             QuestieEvent:Load()
 
             assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.not_called()
+        end)
+
+        it("uses the Era location behavior on Anniversary realms from phase 3", function()
+            -- December 2024, an even month: Mulgore. The 1st is a Sunday, so the faire runs from Monday the 9th.
+            _MockCalendar(2024, 12, 11, 0, 1)
+            ContentPhases.activePhases.Anniversary = 3
+            Questie.IsClassic = true
+            Questie.IsAnniversaryEra = true
+
+            QuestieEvent:Load()
+
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
+            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "classic", isInMulgore = true})
         end)
 
         it("leaves the NPC Policy Correction untouched on MoP, where the faire is not relocated", function()
