@@ -139,20 +139,40 @@ Before editing, an agent must claim an item and list the files it owns. Agents m
 
 | ID | Work item | State | Owner | Depends on | Evidence or notes |
 | --- | --- | --- | --- | --- | --- |
-| TDB-01 | Add focused QuestieTDB test fake and contract tests | not started | fresh implementation | - | Design fresh from Contract Version 1. Prior work at `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` is optional historical evidence only. |
-| TDB-02 | Bind `QuestieDB` queries, keys, ID maps, Objective Order Corrections, and caches to `LibQuestieDB` | not started | fresh implementation | TDB-01, QuestieTDB #17 | Implement fresh on the subtractive baseline; historical seam tests may clarify behavior but do not define architecture. |
-| TDB-03 | Replace compiler-driven Login Initialization with the target startup order | not started | - | TDB-02, TDB-04, TDB-05, QuestieTDB #16 | No compile checks or fallback. |
-| TDB-04 | Convert Questie-owned policy to Dynamic Corrections | not started | fresh implementation | TDB-01 | Implement the final owner-scoped registrar directly from the authoritative contract and retained QuestiePolicy producers. Historical Dynamic Corrections work is optional behavioral archaeology only. |
-| TDB-05 | Forward entity locale to QuestieTDB and remove raw entity localization writes | not started | fresh implementation | TDB-01, TDB-02, QuestieTDB #14 | Raw/generated entity localization is removed and `l10n` now owns UI strings only. Design provider/external entity-locale orchestration fresh outside `l10n`; built-in lookup deletion remains combined-merge gated on QuestieTDB #14. |
-| TDB-06 | Adapt raw entity-table consumers | in progress | clean baseline / fresh implementation | TDB-02 | Raw traversals and fallbacks are removed. Fresh provider bindings must still verify Townsfolk policy, character filtering, Manual Notes, non-empty Available Quest enumeration, and the RuntimeItemRepair seam. |
-| TDB-07 | Convert Darkmoon and asynchronous Item updates | not started | fresh implementation | TDB-02, TDB-04 | Implement from the final behavior contract: generic Darkmoon policy correction and name-only runtime Item repair. Prior code and tests are optional evidence, not porting sources. |
+| TDB-01 | Add focused QuestieTDB test fake and contract tests | in progress | QuestieTDB-implementation session | - | Design fresh from Contract Version 1. Prior work at `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` is optional historical evidence only. |
+| TDB-02 | Bind `QuestieDB` queries, keys, ID maps, Objective Order Corrections, and caches to `LibQuestieDB` | in progress | QuestieTDB-implementation session | TDB-01, QuestieTDB #17 | Implement fresh on the subtractive baseline; historical seam tests may clarify behavior but do not define architecture. |
+| TDB-03 | Replace compiler-driven Login Initialization with the target startup order | in progress | QuestieTDB-implementation session | TDB-02, TDB-04, TDB-05, QuestieTDB #16 | No compile checks or fallback. |
+| TDB-04 | Convert Questie-owned policy to Dynamic Corrections | in progress | QuestieTDB-implementation session | TDB-01 | Implement the final owner-scoped registrar directly from the authoritative contract and retained QuestiePolicy producers. Historical Dynamic Corrections work is optional behavioral archaeology only. |
+| TDB-05 | Forward entity locale to QuestieTDB and remove raw entity localization writes | in progress | QuestieTDB-implementation session | TDB-01, TDB-02, QuestieTDB #14 | Raw/generated entity localization is removed and `l10n` now owns UI strings only. Design provider/external entity-locale orchestration fresh outside `l10n`; built-in lookup deletion remains combined-merge gated on QuestieTDB #14. |
+| TDB-06 | Adapt raw entity-table consumers | in progress | QuestieTDB-implementation session | TDB-02 | Raw traversals and fallbacks are removed. Fresh provider bindings must still verify Townsfolk policy, character filtering, Manual Notes, non-empty Available Quest enumeration, and the RuntimeItemRepair seam. |
+| TDB-07 | Convert Darkmoon and asynchronous Item updates | in progress | QuestieTDB-implementation session | TDB-02, TDB-04 | Implement from the final behavior contract: generic Darkmoon policy correction and name-only runtime Item repair. Prior code and tests are optional evidence, not porting sources. |
 | TDB-08 | Remove compiler controls, state, popups, and SavedVariables payloads | done | clean baseline | TDB-03 | Compiler lifecycle, controls, recovery, profiler residue, translations, defaults, and storage references are removed; Migration 38 clears all former payload scopes and warning state. |
 | TDB-09 | Remove compiler and raw entity files from runtime TOCs | done | baseline deletion | WP-00 | All five TOCs require QuestieTDB and no longer load provider raw data, provider corrections, generated entity localization, compiler/storage/schema/cleanup files, or Questie-side entity validators. The retained QuestiePolicy matrix is 5 Classic / 4 TBC; Objective Order remains provider-owned through `LibQuestieDB.ObjectiveFirst`. Evidence starts at `99493b08a5b35aabf7e4ca93d438bf58baf3c08a`. |
 | TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | done | baseline deletion | TDB-09 | Whole-file subtraction ends at `14bb2681f8a349a0470c8deb1f37c238ea72ae80`: 281 tracked files and 5,042,232 deleted-file lines. Reviewed clean-baseline code ends at `cf4349e9f647f3c1b077421863fc53ef6031da44`; full runtime validation still gates the combined merge after `implementation`. |
 | TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Keep Questie's behavior wrappers. Do not switch to known-stale support copies. |
-| TDB-12 | Replace database validation CI with a pinned integration check | in progress | baseline deletion / implementation | TDB-10, TDB-11, QuestieTDB #19 | The old `db-validation` matrix is removed and loader-usage validation remains in the unit-test job. The pinned Database Integration Check is not implemented; data validation belongs in QuestieTDB and consumer behavior still needs integration coverage. |
+| TDB-12 | Replace database validation CI with a pinned integration check | in progress | QuestieTDB-implementation session | TDB-10, TDB-11, QuestieTDB #19 | The old `db-validation` matrix is removed and loader-usage validation remains in the unit-test job. The pinned Database Integration Check is not implemented; data validation belongs in QuestieTDB and consumer behavior still needs integration coverage. |
 | TDB-13 | Bundle QuestieTDB and update release packaging | deferred | - | Runtime cutover | The hard TOC dependency is already declared. Bundling and release automation remain separate distribution work. |
 | TDB-14 | Expose QuestieTDB source-mode status in Questie diagnostics | not started | - | TDB-02 | Do after the main cutover works. |
+
+
+### Active claims
+
+The `QuestieTDB-implementation` session owns these files while the rows above are `in progress`:
+
+- TDB-01: `test/QuestieTDBMetaMock.lua`, new `test/QuestieTDBMock.lua`, new `test/QuestieTDBMock.test.lua`
+- TDB-02: `Database/QuestieDB.lua`, `Database/QuestieDB.test.lua`, new `Database/questDB.lua`,
+  `Database/npcDB.lua`, `Database/itemDB.lua`, `Database/objectDB.lua`, the five flavor TOCs,
+  `.luacheckrc`
+- TDB-03: `Modules/QuestieInit.lua`, new `Modules/QuestieInit.test.lua`
+- TDB-04: `Database/Corrections/QuestieCorrections.lua`, `Database/Corrections/QuestieCorrections.test.lua`
+- TDB-05: new `Localization/EntityLocale.lua`, new `Localization/EntityLocale.test.lua`,
+  `Modules/Tooltips/Tooltip.lua`, `Modules/Tooltips/Tooltip.test.lua`,
+  `Modules/Tooltips/TooltipHandler.lua`, `Modules/Tooltips/TooltipHandler.test.lua`,
+  `Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua`
+- TDB-06: `Modules/QuestieMenu/Townsfolk.test.lua`, `Modules/Quest/AvailableQuests/AvailableQuests.test.lua`
+- TDB-07: `Database/Corrections/Holidays/QuestieEvent.lua`, `Database/Corrections/Holidays/QuestieEvent.test.lua`,
+  `Modules/Libs/QuestieLib.lua`, `Modules/Libs/QuestieLib.test.lua`, `Modules/EventHandler/QuestEventHandler.lua`
+- TDB-12: `.github/workflows/ci.yml` (blocked on the provider pin; see the row)
 
 ## Work item details
 
