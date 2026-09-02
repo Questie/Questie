@@ -278,6 +278,83 @@ describe("QuestieTDBMock", function()
                 registrar.RegisterRuntimeCorrection("npc", "lowercase", function() return {} end, 1)
             end, "QuestieTDBMock: unknown datatype \"npc\"; use Quest, Npc, Item, or Object")
         end)
+
+        it("republishes only the datatypes the owner has entries in", function()
+            local objectMapBefore = LibQuestieDB.Object.GetAllIds(true)
+
+            registrar.Apply()
+
+            assert.are_equal(objectMapBefore, LibQuestieDB.Object.GetAllIds(true))
+            assert.are_same(0, mock.publishCounts.Object)
+            assert.are_same(1, mock.publishCounts.Npc)
+        end)
+    end)
+
+    describe("Corrections.Set", function()
+        before_each(function()
+            mock.SetBaseRow("Npc", 14828, {
+                [npcKeys.name] = "Gelvas Grimegate",
+                [npcKeys.zoneID] = 1,
+            })
+            mock.SetBaseRow("Object", 1617, {
+                [objectKeys.name] = "Silverleaf",
+                [objectKeys.spawns] = {[1] = {{20, 20}}},
+            })
+        end)
+
+        it("publishes a data slot immediately and composes it over base data", function()
+            local changed = LibQuestieDB.Corrections.Set("Questie", "Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+            assert.is_true(changed)
+            assert.are_same(215, LibQuestieDB.Npc.Get(14828, "zoneID"))
+            assert.are_same(1, LibQuestieDB.Npc.GetRaw(14828, "zoneID"))
+            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
+            assert.are_same({"QuestieTDB", "Questie"}, LibQuestieDB.GetOwners())
+        end)
+
+        it("replaces a slot in place and removes it with nil", function()
+            local registrar = LibQuestieDB.GetRegistrar("Questie")
+            registrar.Set("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+            registrar.Set("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 12}})
+            assert.are_same(12, LibQuestieDB.Npc.Get(14828, "zoneID"))
+
+            assert.is_true(registrar.Set("Npc", "DarkmoonFaire", nil))
+            assert.are_same(1, LibQuestieDB.Npc.Get(14828, "zoneID"))
+            assert.is_false(registrar.Set("Npc", "DarkmoonFaire", nil))
+        end)
+
+        it("republishes only the written datatype", function()
+            LibQuestieDB.Corrections.Set("Questie", "Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+            local npcMapBefore = LibQuestieDB.Npc.GetAllIds(true)
+            local objectMapBefore = LibQuestieDB.Object.GetAllIds(true)
+
+            LibQuestieDB.Corrections.Set("Questie", "Object", "GatheringNodeDisplayPolicy", {[1617] = {[objectKeys.spawns] = {}}})
+
+            assert.are_equal(npcMapBefore, LibQuestieDB.Npc.GetAllIds(true))
+            assert.are_not_equal(objectMapBefore, LibQuestieDB.Object.GetAllIds(true))
+            assert.are_same(1, mock.publishCounts.Npc)
+            assert.are_same(1, mock.publishCounts.Object)
+        end)
+
+        it("refuses a data write into a function-shaped correction name", function()
+            local registrar = LibQuestieDB.GetRegistrar("Questie")
+            registrar.RegisterRuntimeCorrection("Npc", "DarkmoonFaire", function() return {} end)
+
+            assert.has_error(function()
+                registrar.Set("Npc", "DarkmoonFaire", {})
+            end, "QuestieTDBMock: \"DarkmoonFaire\" is a function-shaped correction; update its captured state and Apply instead")
+        end)
+
+        it("fixes owner precedence at the first write", function()
+            LibQuestieDB.Corrections.Set("Questie", "Npc", "slotA", {[14828] = {[npcKeys.zoneID] = 215}})
+            LibQuestieDB.Corrections.Set("ThirdParty", "Npc", "slotB", {[14828] = {[npcKeys.zoneID] = 99}})
+
+            LibQuestieDB.Corrections.Set("Questie", "Npc", "slotA", {[14828] = {[npcKeys.zoneID] = 300}})
+
+            assert.are_same(99, LibQuestieDB.Npc.Get(14828, "zoneID"))
+            assert.are_same({"QuestieTDB", "Questie", "ThirdParty"}, LibQuestieDB.GetOwners())
+        end)
     end)
 
     describe("l10n.SetLocale", function()

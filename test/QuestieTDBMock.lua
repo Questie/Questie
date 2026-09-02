@@ -1,11 +1,14 @@
 -- Focused Contract Version 1 test double for LibQuestieDB.
 --
 -- It reproduces only what Questie consumes from QuestieTDB: the Contract check, composed entity
--- reads, shared ID maps that swap identity on every apply, the owner-scoped Correction registrar,
--- provenance, provider locale forwarding, Objective Order tables, and the entity Name index.
--- It deliberately omits encoding, Source/Baked storage, and provider read caches. Tests seed literal
--- rows; reads return fresh copies and apply the provider's nil rules: number fields of an existing
--- entity read 0, `{}` reads nil, and the never-nil Quest structures read `{}`.
+-- reads, shared ID maps that swap identity when their datatype is republished, the owner-scoped
+-- Correction registrar, the data-shaped Correction slots (`Corrections.Set`), provenance,
+-- provider locale forwarding, Objective Order tables, and the entity Name index. Publication is
+-- per datatype, as in the provider: an Item write leaves Quest, Npc, and Object ID maps and Name
+-- indexes untouched. It deliberately omits encoding, Source/Baked storage, and provider read
+-- caches. Tests seed literal rows; reads return fresh copies and apply the provider's nil rules:
+-- number fields of an existing entity read 0, `{}` reads nil, and the never-nil Quest structures
+-- read `{}`.
 local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
 
 local ENTITY_TYPES = {"Quest", "Npc", "Item", "Object"}
@@ -19,14 +22,18 @@ local BASE_OWNER = "QuestieTDB"
 ---@class QuestieTDBMockRegistration
 ---@field datatype QuestieTDBMockDatatype
 ---@field name string
----@field provider fun(): QuestieTDBMockRows
----@field loadOrder number
+---@field provider (fun(): QuestieTDBMockRows)? Function-shaped registration; absent on a data slot.
+---@field rows QuestieTDBMockRows? Data slot written through `Corrections.Set`; absent on a function entry.
+---@field loadOrder number? Explicit order as passed by the caller, when any.
+---@field order number Effective order: loadOrder, or a registration-sequence fraction mirroring the provider.
+---@field sequence integer Creation order, breaking order ties.
 
 ---@class QuestieTDBMock
 ---@field lib table The installed `LibQuestieDB` fake, also reachable as `_G.LibQuestieDB`.
 ---@field base table<QuestieTDBMockDatatype, QuestieTDBMockRows> Base rows; seed them through `SetBaseRow`.
----@field registrations table<string, QuestieTDBMockRegistration[]> Registrations per owner, in registration order.
+---@field registrations table<string, QuestieTDBMockRegistration[]> Function entries and data slots per owner, in creation order.
 ---@field applyCount table<string, number> `Apply()` calls per owner.
+---@field publishCounts table<QuestieTDBMockDatatype, number> How often each datatype's composed view was republished.
 ---@field setLocaleCalls string[] Locales forwarded through `l10n.SetLocale`, in call order.
 ---@field nameIndexBuilds table<QuestieTDBMockDatatype, number> Name index builds per datatype.
 ---@field contractVersion number Highest Contract Version the fake provides.
@@ -46,6 +53,7 @@ local function LoadQuestieTDBMock()
         base = {Quest = {}, Npc = {}, Item = {}, Object = {}},
         registrations = {},
         applyCount = {},
+        publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         contractVersion = 1,
@@ -53,13 +61,17 @@ local function LoadQuestieTDBMock()
     }
     local lib = {}
 
-    -- Correction Overlay state: one layer per owner, owners ranked by their first apply.
+    -- Correction Overlay state: one layer per owner, owners ranked by their first apply or Set.
     ---@type table<string, table<QuestieTDBMockDatatype, QuestieTDBMockRows>>
     local layers = {}
     ---@type string[]
     local ownerOrder = {}
     ---@type table<string, number>
     local ownerRank = {}
+
+    -- Mirrors the provider's global registration sequence: a nil loadOrder defaults to a tiny
+    -- sequence fraction, so unnumbered entries apply before explicitly numbered ones.
+    local registrationSequence = 0
 
     -- Quest `startedBy`, `finishedBy`, and `objectives` read `{}` rather than nil for an entity that
     -- exists; Questie's Quest projection indexes them unconditionally.
@@ -75,7 +87,7 @@ local function LoadQuestieTDBMock()
         Object = {},
     }
 
-    -- Derived structures the provider drops on invalidation and rebuilds on the next read.
+    -- Derived structures the provider drops per datatype on publish and rebuilds on the next read.
     ---@type table<QuestieTDBMockDatatype, {map: table<number, true>, list: number[]}>
     local idMaps = {}
     ---@type table<QuestieTDBMockDatatype, table<string, number[]>>
@@ -181,7 +193,7 @@ local function LoadQuestieTDBMock()
     end
 
     ---@param datatype QuestieTDBMockDatatype
-    ---@return {map: table<number, true>, list: number[]} ids Shared until the next apply.
+    ---@return {map: table<number, true>, list: number[]} ids Shared until the datatype is republished.
     local function ComposedIds(datatype)
         if idMaps[datatype] then
             return idMaps[datatype]
@@ -260,7 +272,7 @@ local function LoadQuestieTDBMock()
         end
 
         ---@param hashmap boolean? true for the `{[id] = true}` map, otherwise the ascending list.
-        ---@return table ids Shared, read-only; replaced after every apply.
+        ---@return table ids Shared, read-only; replaced when an apply or Set touches this datatype.
         function entity.GetAllIds(hashmap)
             local ids = ComposedIds(datatype)
             if hashmap then
@@ -351,7 +363,7 @@ local function LoadQuestieTDBMock()
     lib.l10n = {currentLocale = "enUS"}
 
     ---Records the forwarded locale. Built-in translations are not modeled; a locale change only
-    ---drops the Name index, as provider invalidation does.
+    ---drops the Name indexes, as provider invalidation does.
     ---@param locale string
     ---@return nil
     function lib.l10n.SetLocale(locale)
@@ -361,24 +373,89 @@ local function LoadQuestieTDBMock()
     end
 
     -------------------------------------------------------------------------------------------
-    -- Owner-scoped Correction registrar
+    -- Correction Overlay: owner ranking, layer rebuild, per-datatype publish
     -------------------------------------------------------------------------------------------
 
+    ---Owner precedence is fixed by the first apply or Set; later refreshes stay in place.
     ---@param owner string
-    ---@return table registrar `{RegisterRuntimeCorrection = fun(...), Apply = fun()}`
+    ---@return nil
+    local function RankOwner(owner)
+        if not ownerRank[owner] then
+            table.insert(ownerOrder, owner)
+            ownerRank[owner] = #ownerOrder
+        end
+    end
+
+    ---@param owner string
+    ---@return nil
+    local function EnsureOwnerState(owner)
+        mock.registrations[owner] = mock.registrations[owner] or {}
+        mock.applyCount[owner] = mock.applyCount[owner] or 0
+    end
+
+    ---Rebuilds one owner's layer from its entries: function providers run again, data slots are
+    ---used as-is. Nothing accumulates across rebuilds, so an entry returning or holding `{}`
+    ---withdraws its earlier rows.
+    ---@param owner string
+    ---@return nil
+    local function RebuildOwnerLayer(owner)
+        local ordered = {}
+        for index, registration in ipairs(mock.registrations[owner]) do
+            ordered[index] = registration
+        end
+        table.sort(ordered, function(a, b)
+            if a.order ~= b.order then
+                return a.order < b.order
+            end
+            return a.sequence < b.sequence
+        end)
+
+        local layer = {Quest = {}, Npc = {}, Item = {}, Object = {}}
+        for _, registration in ipairs(ordered) do
+            local rows = registration.rows
+            if rows == nil then
+                rows = registration.provider()
+                if type(rows) ~= "table" then
+                    error(("QuestieTDBMock: correction %q must return a table"):format(registration.name), 2)
+                end
+            end
+            for id, fields in pairs(rows) do
+                local row = layer[registration.datatype][id] or {}
+                layer[registration.datatype][id] = row
+                for fieldIndex, value in pairs(fields) do
+                    row[fieldIndex] = value
+                end
+            end
+        end
+        layers[owner] = layer
+    end
+
+    ---Drops the shared ID map and Name index of exactly the given datatypes, as the provider's
+    ---per-datatype publish does. Untouched datatypes keep both.
+    ---@param datatypes table<QuestieTDBMockDatatype, true>
+    ---@return nil
+    local function PublishDatatypes(datatypes)
+        for datatype in pairs(datatypes) do
+            idMaps[datatype] = nil
+            nameIndexes[datatype] = nil
+            mock.publishCounts[datatype] = mock.publishCounts[datatype] + 1
+        end
+    end
+
+    ---@param owner string
+    ---@return table registrar `{RegisterRuntimeCorrection = fun(...), Apply = fun(), Set = fun(...)}`
     function lib.GetRegistrar(owner)
         if type(owner) ~= "string" or owner == "" then
             error("QuestieTDBMock: registrar owner must be a non-empty string", 2)
         end
-        mock.registrations[owner] = mock.registrations[owner] or {}
-        mock.applyCount[owner] = mock.applyCount[owner] or 0
+        EnsureOwnerState(owner)
         local registrar = {}
 
         ---Append-only, like the provider: registering one name twice keeps both entries.
         ---@param datatype QuestieTDBMockDatatype
         ---@param name string
         ---@param provider fun(): QuestieTDBMockRows
-        ---@param loadOrder number Sequence within this owner; later values overwrite earlier ones.
+        ---@param loadOrder number? Sequence within this owner; later values overwrite earlier ones.
         ---@return nil
         function registrar.RegisterRuntimeCorrection(datatype, name, provider, loadOrder)
             AssertDatatype(datatype)
@@ -388,59 +465,103 @@ local function LoadQuestieTDBMock()
             if type(provider) ~= "function" then
                 error(("QuestieTDBMock: correction %q must be registered as a provider function"):format(name), 2)
             end
-            if type(loadOrder) ~= "number" then
-                error(("QuestieTDBMock: correction %q needs a numeric loadOrder"):format(name), 2)
+            if loadOrder ~= nil and type(loadOrder) ~= "number" then
+                error(("QuestieTDBMock: correction %q needs a numeric loadOrder or none"):format(name), 2)
             end
-            table.insert(mock.registrations[owner], {datatype = datatype, name = name, provider = provider, loadOrder = loadOrder})
+            registrationSequence = registrationSequence + 1
+            table.insert(mock.registrations[owner], {
+                datatype = datatype,
+                name = name,
+                provider = provider,
+                loadOrder = loadOrder,
+                order = loadOrder or (registrationSequence * 0.001),
+                sequence = registrationSequence,
+            })
         end
 
-        ---Runs every provider again and rebuilds this owner's layer from scratch. Nothing
-        ---accumulates across applies, so a provider returning `{}` withdraws its earlier rows.
+        ---Runs every provider again and rebuilds this owner's layer from scratch, then republishes
+        ---the datatypes this owner has entries in — other datatypes keep their ID maps and indexes.
         ---@return nil
         function registrar.Apply()
-            local ordered = {}
-            for index, registration in ipairs(mock.registrations[owner]) do
-                ordered[index] = {index = index, registration = registration}
-            end
-            table.sort(ordered, function(a, b)
-                if a.registration.loadOrder ~= b.registration.loadOrder then
-                    return a.registration.loadOrder < b.registration.loadOrder
-                end
-                return a.index < b.index
-            end)
-
-            local layer = {Quest = {}, Npc = {}, Item = {}, Object = {}}
-            for _, entry in ipairs(ordered) do
-                local registration = entry.registration
-                local rows = registration.provider()
-                if type(rows) ~= "table" then
-                    error(("QuestieTDBMock: correction %q must return a table"):format(registration.name), 2)
-                end
-                for id, fields in pairs(rows) do
-                    local row = layer[registration.datatype][id] or {}
-                    layer[registration.datatype][id] = row
-                    for fieldIndex, value in pairs(fields) do
-                        row[fieldIndex] = value
-                    end
-                end
-            end
-            layers[owner] = layer
-
-            -- Owner precedence is fixed by the first apply; reapplying refreshes the layer in place.
-            if not ownerRank[owner] then
-                table.insert(ownerOrder, owner)
-                ownerRank[owner] = #ownerOrder
-            end
+            RebuildOwnerLayer(owner)
+            RankOwner(owner)
             mock.applyCount[owner] = mock.applyCount[owner] + 1
 
-            InvalidateIdMaps()
-            InvalidateNameIndexes()
+            local touched = {}
+            for _, registration in ipairs(mock.registrations[owner]) do
+                touched[registration.datatype] = true
+            end
+            PublishDatatypes(touched)
+        end
+
+        ---@param datatype QuestieTDBMockDatatype
+        ---@param name string
+        ---@param rows QuestieTDBMockRows?
+        ---@return boolean changed
+        function registrar.Set(datatype, name, rows)
+            return lib.Corrections.Set(owner, datatype, name, rows)
         end
 
         return registrar
     end
 
     lib.Corrections = {}
+
+    ---Data-shaped write-through slot, as the provider's `Corrections.Set`: each (owner, datatype,
+    ---name) holds one rows table; writing replaces it, nil removes it, and only the written
+    ---datatype is republished. A name registered as a function correction is refused.
+    ---@param owner string
+    ---@param datatype QuestieTDBMockDatatype
+    ---@param name string
+    ---@param rows QuestieTDBMockRows?
+    ---@return boolean changed False only when removing a slot that does not exist.
+    function lib.Corrections.Set(owner, datatype, name, rows)
+        if type(owner) ~= "string" or owner == "" then
+            error("QuestieTDBMock: Set owner must be a non-empty string", 2)
+        end
+        AssertDatatype(datatype)
+        if type(name) ~= "string" or name == "" then
+            error("QuestieTDBMock: Set name must be a non-empty string", 2)
+        end
+        if rows ~= nil and type(rows) ~= "table" then
+            error(("QuestieTDBMock: Set rows for %q must be a table or nil"):format(name), 2)
+        end
+        EnsureOwnerState(owner)
+
+        local entryIndex
+        for index, registration in ipairs(mock.registrations[owner]) do
+            if registration.datatype == datatype and registration.name == name then
+                if registration.provider then
+                    error(("QuestieTDBMock: %q is a function-shaped correction; update its captured state and Apply instead"):format(name), 2)
+                end
+                entryIndex = index
+                break
+            end
+        end
+
+        if rows == nil then
+            if not entryIndex then
+                return false
+            end
+            table.remove(mock.registrations[owner], entryIndex)
+        elseif entryIndex then
+            mock.registrations[owner][entryIndex].rows = rows
+        else
+            registrationSequence = registrationSequence + 1
+            table.insert(mock.registrations[owner], {
+                datatype = datatype,
+                name = name,
+                rows = rows,
+                order = registrationSequence * 0.001,
+                sequence = registrationSequence,
+            })
+        end
+
+        RebuildOwnerLayer(owner)
+        RankOwner(owner)
+        PublishDatatypes({[datatype] = true})
+        return true
+    end
 
     ---@param datatype QuestieTDBMockDatatype
     ---@param id number
@@ -456,6 +577,7 @@ local function LoadQuestieTDBMock()
         return owner
     end
     lib.GetProvenance = lib.Corrections.GetProvenance
+    lib.SetCorrection = lib.Corrections.Set
 
     ---@return string[] owners `"QuestieTDB"` followed by registered owners in first-apply order.
     function lib.GetOwners()
