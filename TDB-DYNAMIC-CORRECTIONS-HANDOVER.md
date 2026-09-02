@@ -1060,3 +1060,35 @@ historical packet above.
   `test/QuestieTDBMock.test.lua` (29), `Localization/EntityLocale.test.lua` (9),
   `Modules/QuestieInit.test.lua` (5), plus the Darkmoon, Item repair, tooltip, Townsfolk, and
   Available Quests additions. Full Busted: 1,530 successes.
+
+## Write-through simplification record
+
+The eight-registration captured-state design above was replaced in both working trees (Questie and
+QuestieTDB) by a data-shaped seam. `TDB-SIMPLIFICATION.md` §1–2 holds the proposal; the
+implementation moved it one level lower, into the provider:
+
+- QuestieTDB Contract addition (additive, still Version 1): `Corrections.Set(owner, datatype,
+  name, rows)` — one slot per (owner, datatype, name); writing replaces the slot, `nil` removes
+  it, publication is immediate and scoped to the written datatype, owner rank is fixed at the
+  first write or apply, and there is no loadOrder. Function-shaped entries now memoize their
+  materialization and re-run only on their own owner's apply, which cut a SoD consumer apply
+  from 67.6 ms / 3.4 MB to 14.8 ms / 2.0 MB measured offline (the residue is the datatype's
+  compose iteration; flavors without huge dynamic sets write in sub-millisecond time).
+  QuestieTDB's `docs/adr/0009-data-shaped-correction-slots.md` records the provider decisions.
+- `QuestieCorrections` shrank to `SetCorrection(datatype, name, rows)` — forwards under owner
+  `"Questie"`, normalizes `{}` to a withdrawal, records the writer through `debugstack`, and
+  passes the union of the slot's old and new row IDs to the refresh — plus the blacklists and
+  the two static slots (`GatheringNodeDisplayPolicy`; `ContentPhasePolicy`, which Era no longer
+  publishes at all). The per-correction load-order constants, captured locals, provider
+  closures, public setters, `InitializePolicyCorrections`, `ReapplyPolicyCorrections`, and the
+  withdraw-first external-locale pair are deleted.
+- Slot state lives with its owners: `QuestieEvent` writes `Npc:DarkmoonFaire` (nil when no faire
+  is active), `QuestieLib` owns the accumulated `Item:RuntimeItemRepair` rows, and
+  `EntityLocale.ApplyExternalLocaleCorrections` writes the four external locale slots.
+- `QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)` is targeted: it rebinds only the
+  written datatype's ID map and evicts only the changed entities — quest objects included, which
+  supersedes the "keeps quest objects" deviation recorded above (a changed quest's object is
+  stale by definition; untouched quests keep their identity). NPC writes additionally wipe the
+  derived `_CreatureLevelCache`. `QuestieDB.IsInitialized` and its guard are deleted.
+- `EntityLocale.ForwardProviderLocale` is inlined: Login Initialization calls
+  `LibQuestieDB.l10n.SetLocale(effectiveLocale)` directly.
