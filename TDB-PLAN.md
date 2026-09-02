@@ -16,19 +16,6 @@ Rules for every step:
   `TDB-STATUS.md`. Delete this file when it is empty.
 - Steps 5 and 6 need a game client and the user. Do steps 1 to 4 without waiting.
 
-## Step 4. Townsfolk stops writing SavedVariables
-
-Why: `Modules/QuestieMenu/Townsfolk.lua:456-461` writes five tables into `Questie.db.global` on
-every login, and only the same module reads them back (`:513-527`). Nothing survives across
-sessions on purpose.
-
-Do: replace the five globals with module-local tables, keep the readers, and add a Migration step
-that nils the five keys once. Keep the "rebuild every login" behavior; a provider data revision for
-caching is a later item. Update `Townsfolk.test.lua` where it asserts on `Questie.db.global`.
-
-Done when: tests pass and a login via the bridge shows the five keys absent from
-`QuestieConfig.global` after the migration.
-
 ## Step 5. Smoke matrix, remaining flavors
 
 Needs the user to bring up each client and to switch `wow_path` in
