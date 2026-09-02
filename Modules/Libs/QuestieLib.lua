@@ -398,8 +398,14 @@ function QuestieLib:GetClassString(classMask)
     end
 end
 
+-- Name-only repair rows for Items the client loaded because the composed database lacked them.
+-- This table is the RuntimeItemRepair slot's full replacement rows: repairs accumulate across
+-- quests, and the whole table is re-published on every new repair.
+---@type table<ItemId, table<integer, string>>
+local repairedItemNames = {}
+
 ---Asks the client for the names of objective Items the composed database lacks and repairs each one
----through the name-only RuntimeItemRepair Policy Correction when the asynchronous load completes.
+---through the name-only RuntimeItemRepair Policy Correction slot when the asynchronous load completes.
 ---Runs on quest accept and for every quest already in the log at login.
 ---@param questId QuestId
 ---@return nil
@@ -415,7 +421,22 @@ function QuestieLib.RepairMissingItemNames(questId)
                 objective.Id)
             local item = Item:CreateFromItemID(objective.Id)
             item:ContinueOnItemLoad(function()
-                QuestieCorrections.RepairMissingItem(objective.Id, item:GetItemName())
+                ---Records one client-loaded Item name and re-publishes the RuntimeItemRepair slot so the Item
+                ---becomes readable and enumerable. A repeated callback with an unchanged name is a no-op and a
+                ---nil name is ignored. Name only: no relationship field is inferred.
+                local itemName = item:GetItemName()
+                if not itemName then
+                    return
+                end
+
+                local nameKey = QuestieDB.itemKeys.name
+                local existingRepair = repairedItemNames[objective.Id]
+                if existingRepair and existingRepair[nameKey] == itemName then
+                    return
+                end
+
+                repairedItemNames[objective.Id] = {[nameKey] = itemName}
+                QuestieCorrections.SetCorrection("Item", "RuntimeItemRepair", repairedItemNames)
             end)
         end
     end

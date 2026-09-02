@@ -132,16 +132,14 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity locale forwarding.")
     -- Entity localization is provider-owned; the effective UI locale is forwarded outside l10n.
     local effectiveLocale = l10n:GetUILocale()
-    EntityLocale.ForwardProviderLocale(effectiveLocale)
-
-    -- External locale rows are filtered against the composed view before Questie contributes anything.
-    local externalLocaleCorrections = EntityLocale.BuildExternalLocaleCorrections(effectiveLocale)
+    LibQuestieDB.l10n.SetLocale(effectiveLocale)
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Questie policy initializing.")
+    -- Blacklists plus the static Policy Correction slots (gathering nodes, Content Phase).
     QuestieCorrections.Initialize()
-    -- Registers the Questie Policy Corrections once and applies owner "Questie" for the first time.
-    QuestieCorrections.InitializePolicyCorrections(externalLocaleCorrections)
+    -- External locale rows are existence-filtered and published before QuestieDB binds the composed view.
+    EntityLocale.ApplyExternalLocaleCorrections(effectiveLocale)
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieDB initializing.")
@@ -170,7 +168,9 @@ QuestieInit.Stages[2] = function()
 
     if Questie.db.profile.enableTooltipsObjectID then
         -- Contributors keep this option on; warm the provider Object name index here instead of on
-        -- their first hover. QuestieTDB owns its invalidation, so no rebuild follows later applies.
+        -- their first hover. Only an Object-datatype Correction write or a locale change drops the
+        -- index (QuestieTDB ADR 0009), and no production write touches Objects after this point, so
+        -- the warm-up holds for the session.
         LibQuestieDB.Object.BuildNameIndex()
     end
 

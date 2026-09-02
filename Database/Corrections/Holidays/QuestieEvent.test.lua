@@ -26,7 +26,7 @@ describe("QuestieEvent", function()
         _G.SetCVar = function() end
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
-        QuestieCorrections.SetDarkmoonNpcCorrections = function() end
+        QuestieCorrections.SetCorrection = function() end
         -- The Darkmoon NPC producers are exercised in their own QuestiePolicy tests; here they only need to exist.
         QuestieLoader:ImportModule("QuestieClassicPolicyCorrections").LoadDarkmoonFixes = function() return {} end
         QuestieLoader:ImportModule("QuestieTBCPolicyCorrections").LoadDarkmoonFixes = function() return {} end
@@ -676,6 +676,8 @@ describe("QuestieEvent", function()
         local QuestieClassicPolicyCorrections
         ---@type QuestieTBCPolicyCorrections
         local QuestieTBCPolicyCorrections
+        ---@type {datatype: string, name: string, rows: table|nil}[]
+        local setCorrectionCalls
 
         ---Points the calendar mocks at one moment; `firstWeekday` is the weekday of the 1st of that month.
         ---@param year number
@@ -701,7 +703,10 @@ describe("QuestieEvent", function()
         end
 
         before_each(function()
-            QuestieCorrections.SetDarkmoonNpcCorrections = spy.new(function() end)
+            setCorrectionCalls = {}
+            QuestieCorrections.SetCorrection = function(datatype, name, rows)
+                table.insert(setCorrectionCalls, {datatype = datatype, name = name, rows = rows})
+            end
             QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
             QuestieClassicPolicyCorrections.LoadDarkmoonFixes = function(_, isInMulgore)
                 return {producer = "classic", isInMulgore = isInMulgore}
@@ -720,8 +725,8 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "classic", isInMulgore = true})
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "classic", isInMulgore = true}}, setCorrectionCalls[1])
         end)
 
         it("publishes the Classic Elwynn Forest table in an odd month", function()
@@ -732,7 +737,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "classic", isInMulgore = false})
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "classic", isInMulgore = false}}, setCorrectionCalls[#setCorrectionCalls])
         end)
 
         it("publishes the TBC Mulgore table", function()
@@ -743,8 +748,8 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "tbc", isInMulgore = true, isInTerokkar = false})
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "tbc", isInMulgore = true, isInTerokkar = false}}, setCorrectionCalls[1])
         end)
 
         it("publishes the TBC Terokkar Forest table", function()
@@ -755,10 +760,10 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "tbc", isInMulgore = false, isInTerokkar = true})
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "tbc", isInMulgore = false, isInTerokkar = true}}, setCorrectionCalls[#setCorrectionCalls])
         end)
 
-        it("withdraws the NPC table with an empty table when no faire is active", function()
+        it("withdraws the NPC slot with nil when no faire is active", function()
             -- April 1st 2025 is before the faire week: the 1st is a Saturday, so the faire starts on the 10th.
             _MockCalendar(2025, 4, 1, 0, 7)
             Questie.IsTBC = true
@@ -766,8 +771,9 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({})
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire"}, setCorrectionCalls[1])
+            assert.is_nil(setCorrectionCalls[1].rows)
             assert.is_nil(next(QuestieEvent.activeQuests))
         end)
 
@@ -780,7 +786,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.not_called()
+            assert.are_same(0, #setCorrectionCalls)
         end)
 
         it("uses the Era location behavior on Anniversary realms from phase 3", function()
@@ -792,8 +798,8 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called(1)
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.called_with({producer = "classic", isInMulgore = true})
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "classic", isInMulgore = true}}, setCorrectionCalls[1])
         end)
 
         it("leaves the NPC Policy Correction untouched on MoP, where the faire is not relocated", function()
@@ -810,7 +816,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(QuestieCorrections.SetDarkmoonNpcCorrections).was.not_called()
+            assert.are_same(0, #setCorrectionCalls)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
     end)

@@ -31,12 +31,42 @@ describe("EntityLocale", function()
         _G.QUESTIE_LOCALES_OVERRIDE = nil
     end)
 
-    describe("ForwardProviderLocale", function()
-        it("forwards the effective locale to LibQuestieDB.l10n.SetLocale", function()
-            EntityLocale.ForwardProviderLocale("deDE")
+    describe("ApplyExternalLocaleCorrections", function()
+        ---@type {datatype: string, name: string, rows: table}[]
+        local setCorrectionCalls
 
-            assert.are_same({"deDE"}, mock.setLocaleCalls)
-            assert.are_same("deDE", LibQuestieDB.l10n.currentLocale)
+        before_each(function()
+            setCorrectionCalls = {}
+            local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+            QuestieCorrections.SetCorrection = function(datatype, name, rows)
+                table.insert(setCorrectionCalls, {datatype = datatype, name = name, rows = rows})
+            end
+        end)
+
+        it("publishes all four external locale slots with the built rows", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {
+                locale = "zzZZ",
+                translations = {},
+                itemLookup = function() return {[5] = "Klaue von Scharfkralle"} end,
+            }
+
+            EntityLocale.ApplyExternalLocaleCorrections("zzZZ")
+
+            assert.are_same({
+                {datatype = "Item", name = "ExternalLocaleItem", rows = {[5] = {[itemKeys.name] = "Klaue von Scharfkralle"}}},
+                {datatype = "Quest", name = "ExternalLocaleQuest", rows = {}},
+                {datatype = "Npc", name = "ExternalLocaleNpc", rows = {}},
+                {datatype = "Object", name = "ExternalLocaleObject", rows = {}},
+            }, setCorrectionCalls)
+        end)
+
+        it("publishes empty rows when no external addon is loaded, which SetCorrection treats as withdrawals", function()
+            EntityLocale.ApplyExternalLocaleCorrections("enUS")
+
+            assert.are_same(4, #setCorrectionCalls)
+            for _, call in ipairs(setCorrectionCalls) do
+                assert.are_same({}, call.rows)
+            end
         end)
     end)
 

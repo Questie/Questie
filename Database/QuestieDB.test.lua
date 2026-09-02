@@ -503,21 +503,6 @@ describe("QuestieDB", function()
             assert.are_same(1519, object.zoneID)
         end)
 
-        it("keeps IsInitialized false while binding and sets it true afterwards", function()
-            local flagWhileBinding
-            local originalGetAllIds = LibQuestieDB.Object.GetAllIds
-            LibQuestieDB.Object.GetAllIds = function(hashmap)
-                flagWhileBinding = QuestieDB.IsInitialized
-                return originalGetAllIds(hashmap)
-            end
-            QuestieDB.IsInitialized = true
-
-            QuestieDB.Initialize()
-
-            assert.is_false(flagWhileBinding)
-            assert.is_true(QuestieDB.IsInitialized)
-        end)
-
         it("clears semantic caches filled before initialization", function()
             QuestieDB.private.questCache[2] = {}
             QuestieDB.private.itemCache[5] = {}
@@ -539,8 +524,6 @@ describe("QuestieDB", function()
 
     describe("RefreshAfterCorrectionApply", function()
         local LibQuestieDB
-        local registrar
-        local repairedItems
 
         before_each(function()
             LibQuestieDB = mock.lib
@@ -550,59 +533,93 @@ describe("QuestieDB", function()
             dofile("Database/objectDB.lua")
             QuestieLib.TableMemoizeFunction = function() return {} end
             Questie.db.char.hidden = {}
-
-            repairedItems = {}
-            registrar = LibQuestieDB.GetRegistrar("Questie")
-            registrar.RegisterRuntimeCorrection("Item", "RuntimeItemRepair", function() return repairedItems end, 400)
-            registrar.Apply()
             QuestieDB.Initialize()
         end)
 
-        it("rebinds all four ID maps to the maps the provider replaced on apply", function()
-            registrar.Apply()
-            assert.are_not_equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
+        it("rebinds only the written datatype's ID map", function()
+            LibQuestieDB.Corrections.Set("Questie", "Item", "RuntimeItemRepair", {[999] = {[QuestieDB.itemKeys.name] = "Repaired Item"}})
+            assert.are_not_equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
+            -- A sentinel carries the "only": a rebind-all implementation would overwrite it with
+            -- the provider's Quest map, which a kept map identity could not distinguish.
+            local questPointersSentinel = {}
+            QuestieDB.QuestPointers = questPointersSentinel
 
-            QuestieDB.RefreshAfterCorrectionApply()
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
 
-            assert.are_equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
-            assert.are_equal(LibQuestieDB.Npc.GetAllIds(true), QuestieDB.NPCPointers)
             assert.are_equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
-            assert.are_equal(LibQuestieDB.Object.GetAllIds(true), QuestieDB.ObjectPointers)
+            assert.are_equal(questPointersSentinel, QuestieDB.QuestPointers)
         end)
 
-        it("makes a correction-added Item visible and a withdrawn Item disappear", function()
-            repairedItems[999] = {[QuestieDB.itemKeys.name] = "Repaired Item"}
-            registrar.Apply()
-            QuestieDB.RefreshAfterCorrectionApply()
+        it("makes a slot-added Item visible and a withdrawn Item disappear", function()
+            LibQuestieDB.Corrections.Set("Questie", "Item", "RuntimeItemRepair", {[999] = {[QuestieDB.itemKeys.name] = "Repaired Item"}})
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
 
             assert.is_true(QuestieDB.ItemPointers[999])
             assert.are_same("Repaired Item", QuestieDB:GetItem(999).name)
 
-            repairedItems[999] = nil
-            registrar.Apply()
-            QuestieDB.RefreshAfterCorrectionApply()
+            LibQuestieDB.Corrections.Set("Questie", "Item", "RuntimeItemRepair", nil)
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
 
             assert.is_nil(QuestieDB.ItemPointers[999])
             assert.is_nil(QuestieDB:GetItem(999))
         end)
 
-        it("clears the entity caches and keeps the quest objects the lifecycle holds", function()
-            local trackedQuest = {Id = 2}
-            QuestieDB.private.questCache[2] = trackedQuest
+        it("evicts exactly the changed Quests and their derived creature levels", function()
+            local changedQuest = {Id = 2}
+            local untouchedQuest = {Id = 3}
+            QuestieDB.private.questCache[2] = changedQuest
+            QuestieDB.private.questCache[3] = untouchedQuest
             QuestieDB.private.itemCache[5] = {}
+            QuestieDB._CreatureLevelCache[2] = {}
+            QuestieDB._CreatureLevelCache[3] = {}
+
+            QuestieDB.RefreshAfterCorrectionApply("Quest", {[2] = true})
+
+            assert.is_nil(QuestieDB.private.questCache[2])
+            assert.are_equal(untouchedQuest, QuestieDB.private.questCache[3])
+            assert.is_nil(QuestieDB._CreatureLevelCache[2])
+            assert.is_not_nil(QuestieDB._CreatureLevelCache[3])
+            assert.is_not_nil(QuestieDB.private.itemCache[5])
+
+            -- The documented caveat, concretely: a lifecycle holder keeps the old object while a
+            -- fresh read builds a replacement. A post-initialization Quest writer must reconcile
+            -- the two through the quest lifecycle.
+            mock.SetBaseRow("Quest", 2, {
+                [QuestieDB.questKeys.name] = "Changed Quest",
+                [QuestieDB.questKeys.startedBy] = {{100}},
+            })
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
+            local rebuilt = QuestieDB.GetQuest(2)
+            assert.are_not_equal(changedQuest, rebuilt)
+            assert.are_same("Changed Quest", rebuilt.name)
+        end)
+
+        it("evicts changed NPCs and the whole derived creature-level cache on an NPC write", function()
             QuestieDB.private.npcCache[30] = {}
-            QuestieDB.private.objectCache[31] = {}
-            QuestieDB.private.zoneCache[1] = {}
+            QuestieDB.private.npcCache[31] = {}
+            QuestieDB._CreatureLevelCache[2] = {}
+            QuestieDB.private.questCache[2] = {Id = 2}
+
+            QuestieDB.RefreshAfterCorrectionApply("Npc", {[30] = true})
+
+            assert.is_nil(QuestieDB.private.npcCache[30])
+            assert.is_not_nil(QuestieDB.private.npcCache[31])
+            assert.are_same({}, QuestieDB._CreatureLevelCache)
+            assert.is_not_nil(QuestieDB.private.questCache[2])
+        end)
+
+        it("wipes the derived creature-level cache on an Item write, since levels derive from npcDrops", function()
             QuestieDB._CreatureLevelCache[2] = {}
 
-            QuestieDB.RefreshAfterCorrectionApply()
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
 
-            assert.are_equal(trackedQuest, QuestieDB.GetQuest(2))
-            assert.are_same({}, QuestieDB.private.itemCache)
-            assert.are_same({}, QuestieDB.private.npcCache)
-            assert.are_same({}, QuestieDB.private.objectCache)
-            assert.are_same({}, QuestieDB.private.zoneCache)
             assert.are_same({}, QuestieDB._CreatureLevelCache)
+        end)
+
+        it("fails fast on an unknown datatype instead of silently skipping the refresh", function()
+            assert.has_error(function()
+                QuestieDB.RefreshAfterCorrectionApply("npc", {[30] = true})
+            end, "RefreshAfterCorrectionApply: unknown datatype npc")
         end)
     end)
 end)

@@ -290,7 +290,8 @@ describe("QuestieLib", function()
         before_each(function()
             loadCallbacks = {}
             QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
-            QuestieCorrections.RepairMissingItem = spy.new(function() end)
+            QuestieCorrections.SetCorrection = spy.new(function() end)
+            QuestieDB.itemKeys = {name = 1}
             QuestieDB.ItemPointers = {[5] = true}
             QuestieDB.GetQuest = function()
                 return {
@@ -324,15 +325,61 @@ describe("QuestieLib", function()
 
             assert.spy(Item.CreateFromItemID).was.called(1)
             assert.spy(Item.CreateFromItemID).was.called_with(Item, 999)
-            assert.spy(QuestieCorrections.RepairMissingItem).was.not_called()
+            assert.spy(QuestieCorrections.SetCorrection).was.not_called()
         end)
 
-        it("repairs the Item name through QuestieCorrections once the client load completes", function()
+        it("publishes the RuntimeItemRepair slot with a name-only row once the client load completes", function()
             QuestieLib.RepairMissingItemNames(QUEST_ID)
 
             loadCallbacks[999]()
 
-            assert.spy(QuestieCorrections.RepairMissingItem).was.called_with(999, "Loaded 999")
+            assert.spy(QuestieCorrections.SetCorrection).was.called_with("Item", "RuntimeItemRepair", {[999] = {[1] = "Loaded 999"}})
+        end)
+
+        it("accumulates repairs and re-publishes the whole slot when another Item loads", function()
+            QuestieDB.GetQuest = function()
+                return {
+                    ObjectiveData = {
+                        {Type = "item", Id = 999},
+                        {Type = "item", Id = 1000},
+                    },
+                }
+            end
+
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+            loadCallbacks[999]()
+            loadCallbacks[1000]()
+
+            assert.spy(QuestieCorrections.SetCorrection).was.called_with("Item", "RuntimeItemRepair",
+                {[999] = {[1] = "Loaded 999"}, [1000] = {[1] = "Loaded 1000"}})
+        end)
+
+        it("treats a repeated client callback with an unchanged name as a no-op", function()
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+            loadCallbacks[999]()
+
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+            loadCallbacks[999]()
+
+            assert.spy(QuestieCorrections.SetCorrection).was.called(1)
+        end)
+
+        it("ignores a nil Item name from the client", function()
+            _G.Item.CreateFromItemID = spy.new(function(_, itemId)
+                return {
+                    ContinueOnItemLoad = function(_, callback)
+                        loadCallbacks[itemId] = callback
+                    end,
+                    GetItemName = function()
+                        return nil
+                    end,
+                }
+            end)
+
+            QuestieLib.RepairMissingItemNames(QUEST_ID)
+            loadCallbacks[999]()
+
+            assert.spy(QuestieCorrections.SetCorrection).was.not_called()
         end)
 
         it("does nothing for a quest without objective data", function()
