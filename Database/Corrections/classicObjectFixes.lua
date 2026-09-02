@@ -55,8 +55,8 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{18,89},{19,90},{20,85},{21,87},{21,90},{21,92},{22,84},{22,90},{23,84},{23,90},{23,88},{23,89},{23,92},{24,87},{24,88},{24,89},{24,85},{24,86},{25,86},{25,87},{25,89},{25,90},{25,91}}},
         },
         [2743] = { -- Carved Stone Urn
-            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{34.72,23.94},{39.79,19.67},{42.81,9.95}},[zoneIDs.LOCH_MODAN] = {{34.64,96.14},{33.84,92.91},{33.87,95.63},{32.16,90.6},{33.03,88.66},{38.78,92.87},{35.13,90.97},{35.46,86.71},{40.06,90.65},{37.34,88.77},{39.73,87.12}}},
-            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{34.72,23.94},{39.79,19.67},{42.81,9.95},{34.98,22.10},{34.09,18.52},{34.12,21.53},{32.23,15.95},{33.19,13.80},{39.57,18.47},{35.52,16.36},{35.89,11.64},{40.99,16.01},{37.97,13.92},{40.62,12.09}}}, -- the Loch Modan map overlaps the Uldaman dig site, which is Badlands
+            [objectKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [2744] = { -- Giant Clam
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{23.6,23.4},{23.6,23.5},{23.7,27.2},{23.7,29.8},{23.8,29.1},{24,25.4},{24,25.5},{24.4,28},{24.8,29.5},{24.9,29.1},{25.2,26.9},{25.3,25},{25.3,26.4},{25.3,27.5},{25.4,22.7},{25.4,24.1},{25.7,22.9},{25.7,25.3},{25.8,24.4},{25.8,28.3},{25.9,29.4},{25.9,30.4},{26.1,30.6},{26.3,26.1},{26.4,27.1},{26.5,29.4},{26.5,29.5},{26.6,24.5},{26.8,30.8},{27.1,23.1},{27.1,26.5},{27.2,26.3},{27.3,24},{27.3,27.9},{27.5,24.2},{27.6,25.6},{27.6,29.2},{27.8,23},{27.8,25.3},{27.8,27.7},{28,26.7}}},
@@ -126,20 +126,20 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
         [124388] = { -- Garrett Family Chest
-            [objectKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{33.93,93.01}}},
-            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{34.19,18.63}}},
+            [objectKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [124389] = { -- Krom Stoutarm's Chest
             [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{35.56,23.51}}},
             [objectKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [126049] = { -- Magenta Cap Clusters
-            [objectKeys.spawns] = {[38] = {{33.27,88.68},{37.57,91.57},{39.79,85.71},{35.74,87.49},{40.08,89.74},{36.98,89.97},{37.19,85.58},{37.19,85.58},{36.98,89.97},{37.57,91.57}},[3] = {{34.04,24.42}},[1337] = {{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{34.04,24.42},{33.46,13.82},{38.23,17.03},{40.69,10.53},{36.20,12.50},{41.01,15.00},{37.57,15.26},{37.81,10.39}},[zoneIDs.ULDAMAN] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [126260] = { -- Ancient Chest
-            [objectKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{38.57,93.18}}},
-            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{39.34,18.82}}},
+            [objectKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [140911] = { -- Spool of Light Chartreuse Silk Thread
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.94,46.14}}},
