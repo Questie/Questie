@@ -100,15 +100,48 @@ local objectKeys = {
     ["waypoints"] = 7, -- waypoints for objects on ships/zeppelins/etc
 }
 
----Key enums per Contract datatype, shared with the full LibQuestieDB fake in `test/QuestieTDBMock.lua`.
+-- Field storage types per Database Key Enum index, copied from the provider's src/meta/*Meta.lua.
+-- The full fake applies the provider's load-bearing read rule with them: a number field of an
+-- existing entity reads 0, never nil.
+local questTypes = {
+    [1] = "string", [2] = "table", [3] = "table", [4] = "number", [5] = "number", [6] = "number", [7] = "number",
+    [8] = "table", [9] = "table", [10] = "table", [11] = "number", [12] = "table", [13] = "table", [14] = "table",
+    [15] = "table", [16] = "table", [17] = "number", [18] = "table", [19] = "table", [20] = "table", [21] = "table",
+    [22] = "number", [23] = "number", [24] = "number", [25] = "number", [26] = "table", [27] = "number", [28] = "table",
+    [29] = "table", [30] = "number", [31] = "number", [32] = "number", [33] = "number", [34] = "number", [35] = "table",
+    [36] = "number",
+}
+local npcTypes = {
+    [1] = "string", [2] = "number", [3] = "number", [4] = "number", [5] = "number", [6] = "number", [7] = "table",
+    [8] = "table", [9] = "number", [10] = "table", [11] = "table", [12] = "number", [13] = "string", [14] = "string",
+    [15] = "number",
+}
+local itemTypes = {
+    [1] = "string", [2] = "table", [3] = "table", [4] = "table", [5] = "number", [6] = "table", [7] = "number",
+    [8] = "number", [9] = "number", [10] = "number", [11] = "number", [12] = "number", [13] = "number", [14] = "table",
+    [15] = "table", [16] = "number",
+}
+local objectTypes = {
+    [1] = "string", [2] = "table", [3] = "table", [4] = "table", [5] = "number", [6] = "number", [7] = "table",
+}
+
+---Key enums and field types per Contract datatype, shared with the full LibQuestieDB fake in
+---`test/QuestieTDBMock.lua`.
 ---@class QuestieTDBMetaMock
 ---@field keys table<"Quest"|"Npc"|"Item"|"Object", table<string, integer>>
+---@field types table<"Quest"|"Npc"|"Item"|"Object", table<integer, "string"|"number"|"table">>
 local QuestieTDBMetaMock = {
     keys = {
         Quest = questKeys,
         Npc = npcKeys,
         Item = itemKeys,
         Object = objectKeys,
+    },
+    types = {
+        Quest = questTypes,
+        Npc = npcTypes,
+        Item = itemTypes,
+        Object = objectTypes,
     },
 }
 

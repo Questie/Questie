@@ -84,6 +84,14 @@ describe("QuestieTDBMock", function()
             assert.is_true(LibQuestieDB.Npc.Exists(7))
         end)
 
+        it("reads 0 for a number field an existing entity does not store, and nil for a string field", function()
+            assert.are_same(0, LibQuestieDB.Npc.Get(30, "rank"))
+            assert.are_same(0, LibQuestieDB.Npc.npcFlags(30))
+            assert.is_nil(LibQuestieDB.Npc.Get(30, "subName"))
+            assert.is_nil(LibQuestieDB.Npc.Get(31, "rank"))
+            assert.are_same({0, nil, n = 2}, LibQuestieDB.Npc.GetAll(30, {"rank", "subName"}))
+        end)
+
         it("reads the never-nil Quest structures as empty tables for an existing Quest", function()
             mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Sharptalon's Claw"})
 
