@@ -37,7 +37,7 @@ Questie-side gates:
 - Pinned Database Integration Check in CI. The old `db-validation` matrix is gone; the provider
   pins Questie through its own `QUESTIE_COMMIT` and documents no consumer-side command, so this
   waits for the final provider revision.
-- Live smoke matrix (Era and SoD done, `TDB-FINDINGS.md`): SoD, TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
+- Live smoke matrix (Era and SoD done, `TDB-FINDINGS.md`): TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
   one built-in non-English locale, one external locale addon. Check gathering-node suppression,
   Darkmoon, Content Phase prerequisites, Townsfolk, Available Quests, Objective Order, Special
   Objective text, and runtime missing-Item repair.
