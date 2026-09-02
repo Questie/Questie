@@ -141,7 +141,7 @@ describe("Townsfolk", function()
         it("collects townsfolk by NPC flag, requiring a sub-name for bankers and skipping [DND] NPCs", function()
             _RunInitialize()
 
-            local townsfolk = Questie.db.global.townsfolk
+            local townsfolk = Townsfolk.townsfolk
             assert.are_same({1001}, townsfolk["Repair"])
             assert.are_same({1002}, townsfolk["Banker"])
             assert.are_same({1005}, townsfolk["Innkeeper"])
@@ -152,15 +152,15 @@ describe("Townsfolk", function()
         it("collects profession trainers and weapon masters from the curated list present in the database", function()
             _RunInitialize()
 
-            assert.are_same({2001}, Questie.db.global.professionTrainers[professionKeys.BLACKSMITHING])
-            assert.is_nil(Questie.db.global.professionTrainers[professionKeys.RIDING])
-            assert.are_same({2003}, Questie.db.global.townsfolk["Weapon Master"])
+            assert.are_same({2001}, Townsfolk.professionTrainers[professionKeys.BLACKSMITHING])
+            assert.is_nil(Townsfolk.professionTrainers[professionKeys.RIDING])
+            assert.are_same({2003}, Townsfolk.townsfolk["Weapon Master"])
         end)
 
         it("adds the hand-maintained trainer IDs for the flavor without checking the database", function()
             _RunInitialize()
 
-            local professionTrainers = Questie.db.global.professionTrainers
+            local professionTrainers = Townsfolk.professionTrainers
             assert.are_same({2805, 13476}, professionTrainers[professionKeys.FIRST_AID])
             assert.is_nil(professionTrainers[professionKeys.JEWELCRAFTING])
         end)
@@ -168,7 +168,7 @@ describe("Townsfolk", function()
         it("keeps only class trainers present in the database and adds the class-specific extras", function()
             _RunInitialize()
 
-            local classSpecific = Questie.db.global.classSpecificTownsfolk
+            local classSpecific = Townsfolk.classSpecificTownsfolk
             assert.are_same({4001}, classSpecific.WARRIOR["Class Trainer"])
             assert.are_same({4002}, classSpecific.DRUID["Class Trainer"])
             assert.is_true(#classSpecific.MAGE["Portal Trainer"] > 0)
@@ -178,7 +178,7 @@ describe("Townsfolk", function()
         it("assigns spirit healers and neutral mailboxes to both factions", function()
             _RunInitialize()
 
-            local factionSpecific = Questie.db.global.factionSpecificTownsfolk
+            local factionSpecific = Townsfolk.factionSpecificTownsfolk
             assert.are_same({5001}, factionSpecific.Horde["Spirit Healer"])
             assert.are_same({5001}, factionSpecific.Alliance["Spirit Healer"])
             assert.are_same({6001}, factionSpecific.Horde["Mailbox"])
@@ -188,7 +188,7 @@ describe("Townsfolk", function()
         it("groups pet food Items by food type", function()
             _RunInitialize()
 
-            local petFood = Questie.db.global.petFoodVendorTypes
+            local petFood = Townsfolk.petFoodVendorTypes
             assert.are_same({7001}, petFood["Meat"])
             assert.are_same({7002}, petFood["Fish"])
             assert.are_same({}, petFood["Cheese"])
