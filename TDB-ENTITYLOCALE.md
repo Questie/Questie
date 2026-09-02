@@ -2,9 +2,11 @@
 
 ## Decision status
 
-David is leaning toward removing `Localization/EntityLocale.lua` after external entity locale addons migrate to QuestieTDB's dynamic correction system.
+**Removed on 2026-09-02.** `Localization/EntityLocale.lua`, its test, the TOC lines, and the `ApplyExternalLocaleCorrections` call in `Modules/QuestieInit.lua` are gone; `l10n.lua` documents the narrowed `QUESTIE_LOCALES_OVERRIDE` contract (`locale`, `localeName`, `translations`). The removal landed ahead of the external addon migration, so until Jakanis/QuestieUkrainianTranslation publishes entity rows through `LibQuestieDB.GetRegistrar("QuestieUkrainianTranslation").Set(...)`, Ukrainian UI strings keep working and Ukrainian entity names fall back to English. The rest of this document is the record of what the module did and why it was not moved into the provider.
 
-This is a proposed direction, not an approved removal. The existing compatibility path has a known user: [Jakanis/QuestieUkrainianTranslation](https://github.com/Jakanis/QuestieUkrainianTranslation).
+David was leaning toward removing `Localization/EntityLocale.lua` after external entity locale addons migrate to QuestieTDB's dynamic correction system.
+
+That was the proposed direction before the removal above. The existing compatibility path has a known user: [Jakanis/QuestieUkrainianTranslation](https://github.com/Jakanis/QuestieUkrainianTranslation).
 
 The proposal does not remove external Questie UI translations. `QUESTIE_LOCALES_OVERRIDE.locale`, `.localeName`, and `.translations` should remain supported by `Localization/l10n.lua` and the locale options.
 
@@ -66,19 +68,21 @@ When no external addon defines the global, or its locale is not effective, the f
 
 QuestieTDB cannot localize those entities through `LibQuestieDB.l10n.SetLocale("ukUA")` because `ukUA` has no provider locale index. `EntityLocale` currently preserves that addon's entity translations by converting them into Corrections.
 
-There is a lookup-shape mismatch to resolve during migration. The external Quest data appears to use:
+There is a lookup-shape mismatch to resolve during migration, and it is not an `EntityLocale` bug. Upstream Questie changed the quest lookup shape on 2026-02-06 (commit `dd335d357`, "Use the new questLookup structure"). Before it, rows were:
 
 ```text
-{name, description, objectives}
+{name, {description, ...}, {objectives, ...}}
 ```
 
-`EntityLocale` currently expects:
+with objectives read from index 3. Since then upstream `l10n:Initialize` reads:
 
 ```text
-{name, objectives}
+{name, {objectives, ...}}
 ```
 
-That means the current adapter can mistake description lines for objective text. The migration should establish one supported shape rather than carrying both formats forward implicitly.
+`EntityLocale` mirrors current upstream index for index. The Ukrainian addon (version 0.6.3 at the time of writing) still generates the old three-element shape, so on every Questie build since February its description lines land in `objectivesText`. That happens with or without this branch.
+
+The fix belongs in the addon's generator when it migrates: emit provider rows directly, or at least the current two-element shape. Questie should not carry both formats.
 
 ## Why not move EntityLocale into QuestieTDB
 

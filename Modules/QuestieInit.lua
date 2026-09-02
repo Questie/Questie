@@ -101,8 +101,6 @@ local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type EntityLocale
-local EntityLocale = QuestieLoader:ImportModule("EntityLocale")
 ---@type Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 ---@type QuestieEvent
@@ -138,8 +136,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Questie policy initializing.")
     -- Blacklists plus the static Policy Correction slots (gathering nodes, Content Phase).
     QuestieCorrections.Initialize()
-    -- External locale rows are existence-filtered and published before QuestieDB binds the composed view.
-    EntityLocale.ApplyExternalLocaleCorrections(effectiveLocale)
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieDB initializing.")

@@ -118,7 +118,6 @@ Database\DropTables\data\wotlkItemDrops.lua
 
 # Localization
 Localization\l10n.lua
-Localization\EntityLocale.lua
 Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories.lua

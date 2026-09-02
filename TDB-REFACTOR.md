@@ -568,7 +568,11 @@ QuestieTDB contract:
   sets; QuestieTDB ADR 0009 records the provider decisions).
   Questie's corrections seam collapsed to `QuestieCorrections.SetCorrection` with targeted
   `QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)`; slot state moved to
-  QuestieEvent, QuestieLib, and EntityLocale; `IsInitialized`, `InitializePolicyCorrections`,
+  QuestieEvent and QuestieLib (EntityLocale too, until its removal below); `IsInitialized`, `InitializePolicyCorrections`,
   `ReapplyPolicyCorrections`, the per-correction setters, and `ForwardProviderLocale` are
   deleted. Full Busted 1,533 successes, production luacheck clean across 329 files, loader
   validation and `git diff --check` clean. Proposal: `TDB-SIMPLIFICATION.md` §1–2.
+- 2026-09-02: `Localization/EntityLocale.lua` removed with its test, TOC lines, and the Login
+  Initialization call. External translation addons publish entity rows to QuestieTDB under their
+  own owner; Questie keeps only their UI strings via `QUESTIE_LOCALES_OVERRIDE`. Record and
+  Ukrainian addon consequence: `TDB-ENTITYLOCALE.md`.

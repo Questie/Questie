@@ -8,8 +8,12 @@ local l10n = QuestieLoader:CreateModule("l10n")
 local _l10n = {}
 l10n.translations = {}
 
--- Questie owns UI strings and UI locale selection. QuestieTDB owns built-in entity
--- localization; external entity data belongs to Questie Policy Corrections, not this UI module.
+-- Questie owns UI strings and UI locale selection. QuestieTDB owns entity localization.
+-- An external translation addon therefore splits in two: its UI strings arrive through the
+-- `QUESTIE_LOCALES_OVERRIDE` global read below (`locale`, `localeName`, `translations`), and its
+-- entity names go straight to QuestieTDB under the addon's own Correction owner. The old entity
+-- lookup fields on the global (`itemLookup`, `questLookup`, `npcNameLookup`, `objectLookup`) are
+-- not read anymore.
 
 ---@type fun(): nil
 local _InitializeLocaleOverride
