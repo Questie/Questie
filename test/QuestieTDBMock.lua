@@ -59,6 +59,20 @@ local function LoadQuestieTDBMock()
     ---@type table<string, number>
     local ownerRank = {}
 
+    -- Quest `startedBy`, `finishedBy`, and `objectives` read `{}` rather than nil for an entity that
+    -- exists; Questie's Quest projection indexes them unconditionally.
+    ---@type table<QuestieTDBMockDatatype, table<integer, true>>
+    local neverNilFields = {
+        Quest = {
+            [keys.Quest.startedBy] = true,
+            [keys.Quest.finishedBy] = true,
+            [keys.Quest.objectives] = true,
+        },
+        Npc = {},
+        Item = {},
+        Object = {},
+    }
+
     -- Derived structures the provider drops on invalidation and rebuilds on the next read.
     ---@type table<QuestieTDBMockDatatype, {map: table<number, true>, list: number[]}>
     local idMaps = {}
@@ -133,9 +147,13 @@ local function LoadQuestieTDBMock()
                 value, owner = row[fieldIndex], layerOwner
             end
         end
-        -- `{}` is the clear idiom: an empty table never reaches a reader.
+        -- `{}` is the clear idiom: an empty table never reaches a reader, except through the
+        -- never-nil Quest structures, which read as a fresh empty table.
         if type(value) == "table" and next(value) == nil then
             value = nil
+        end
+        if value == nil and neverNilFields[datatype][fieldIndex] then
+            value = {}
         end
         return value, owner
     end
