@@ -2,7 +2,9 @@
 
 ## Object-hover tooltip name lookup
 
-**Status:** Provider interface available; Questie integration remains open.
+**Status:** Implemented on `QuestieTDB-implementation`. `QuestieTooltips.objectIdsByName` indexes `o_`
+registrations, the Object-ID line reads `LibQuestieDB.Object.IdsByName`, and `BuildNameIndex` is warmed
+in Stage 2 and when the setting is toggled on. The final provider pin remains open.
 
 The former plan to scan every composed Object into `QuestieTooltips.objectNameLookup` and rebuild it
 after initialization, locale changes, and Correction applies is withdrawn.
@@ -27,7 +29,9 @@ rewarming.
 
 ## Runtime missing-Item repair
 
-**Status:** Open for the fresh QuestieTDB implementation.
+**Status:** Implemented. `RuntimeItemRepair` is registered under owner `"Questie"`;
+`QuestieLib.RepairMissingItemNames` feeds `QuestieCorrections.RepairMissingItem` on quest accept and for
+the login quest log.
 
 The legacy `QuestieLib:CacheItemNames()` path was removed because it wrote raw Item overrides and
 stored a Quest ID in the Item `npcDrops` field. Quest acceptance no longer invokes that invalid path.
@@ -50,7 +54,9 @@ stored a Quest ID in the Item `npcDrops` field. Quest acceptance no longer invok
 
 ## Provider-backed schema constants and test seam
 
-**Status:** Open for the fresh QuestieTDB implementation.
+**Status:** Implemented. The four adapters bind the `LibQuestieDB.Meta` key enums behind a Contract gate,
+and `test/QuestieTDBMock.lua` supplies the consumed query and Correction interfaces on top of the meta
+fixture.
 
 The compiler-oriented schema files are deleted. Fresh minimal adapters must bind Database Key Enums
 from `LibQuestieDB.Meta` and retain only Questie-owned constants still consumed by semantic modules,
@@ -64,7 +70,8 @@ consumed query and Correction interfaces at this seam.
 
 ## Composed-read consumer verification
 
-**Status:** Open for the fresh QuestieTDB implementation.
+**Status:** Verified against the Contract adapter on `QuestieTDB-implementation`. Live provider smoke
+verification remains a combined-merge gate.
 
 The clean baseline removed Townsfolk and Available Quests raw-table traversal and fallback paths.
 Their composed-read interfaces cannot be considered complete until real provider bindings exist and
@@ -86,3 +93,19 @@ non-empty behavior is covered.
 - `Modules/Quest/AvailableQuests/AvailableQuests.test.lua`
 - `Database/QuestieDB.lua`
 - `test/QuestieTDBMetaMock.lua`
+
+## Deferred follow-ups from the implementation review
+
+**Status:** Recorded, not blocking.
+
+- `QuestieCorrections.RepairMissingItem` reapplies owner `"Questie"` per asynchronous Item callback.
+  Each apply recomposes the provider overlay and clears Questie's NPC, Item, and Object caches. Missing
+  Items are rare, so this is left as is; if measurements show a Stage 3 hitch, coalesce the callbacks
+  into one apply per frame.
+- Townsfolk rebuilds on every login and still writes its results to `Questie.db.global` although
+  nothing reads them across sessions. A module-local table can replace those writes once the provider
+  exposes a stable data revision.
+- `QuestieDB:GetObject` never populates `objectCache`, so clearing it is a no-op. Pre-existing.
+- An in-session entity locale switch composes `EntityLocale.ForwardProviderLocale` with
+  `QuestieCorrections.SetExternalLocaleCorrections`; effective locale changes reload the UI today, so
+  no production caller exists.
