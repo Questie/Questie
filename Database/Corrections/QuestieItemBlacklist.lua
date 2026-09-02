@@ -100,6 +100,8 @@ function QuestieItemBlacklist:Load()
         [15422] = true, -- Frostsaber Leather
         [15423] = true, -- Chimera Leather
         [17012] = true, -- Core Leather
+        [17057] = true, -- Shiny Fish Scales
+        [17058] = true, -- Fish Oil
         [19767] = true, -- Primal Bat Leather
         [19768] = true, -- Primal Tiger Leather
 
