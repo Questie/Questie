@@ -97,6 +97,16 @@ local DropDB = QuestieLoader:ImportModule("DropDB")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type CommsEncoding
 local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type EntityLocale
+local EntityLocale = QuestieLoader:ImportModule("EntityLocale")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 local coYield = coroutine.yield
 
@@ -113,13 +123,42 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- This needs to happen after ADDON_LOADED.
     l10n.InitializeUILocale()
 
-    -- Fresh QuestieTDB database integration resumes here in this order:
-    -- 1. Require Contract Version 1, then forward the effective entity locale.
-    -- 2. Build external locale Policy Corrections from clean composed reads.
-    -- 3. Build blacklists, register Questie Policy Corrections once, and apply owner "Questie".
-    -- 4. Initialize QuestieDB query bindings, ID maps, ObjectiveFirst hints, and semantic caches.
-    -- 5. Initialize Townsfolk from composed reads, then initialize QuestieEvent after QuestieDB.
-    -- Later stages assume this sequence has completed before they read entity data.
+    -- QuestieTDB Contract gate: a hard error before any entity read, locale forwarding, or Correction work.
+    local contractSupported, contractError = LibQuestieDB.RequireContract(1)
+    if not contractSupported then
+        error(contractError, 0)
+    end
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity locale forwarding.")
+    -- Entity localization is provider-owned; the effective UI locale is forwarded outside l10n.
+    local effectiveLocale = l10n:GetUILocale()
+    EntityLocale.ForwardProviderLocale(effectiveLocale)
+
+    -- External locale rows are filtered against the composed view before Questie contributes anything.
+    local externalLocaleCorrections = EntityLocale.BuildExternalLocaleCorrections(effectiveLocale)
+    coYield()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Questie policy initializing.")
+    QuestieCorrections.Initialize()
+    -- Registers the Questie Policy Corrections once and applies owner "Questie" for the first time.
+    QuestieCorrections.InitializePolicyCorrections(externalLocaleCorrections)
+    coYield()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieDB initializing.")
+    -- Binds queries, ID maps, Objective Order, and caches against the applied composed view.
+    QuestieDB.Initialize()
+    coYield()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Townsfolk building.")
+    -- Rebuilt from composed reads on every login until the provider exposes a stable data revision.
+    Townsfolk.Initialize()
+    Townsfolk:BuildCharacterTownsfolk()
+    coYield()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieEvent initializing.")
+    -- After QuestieDB, so the calendar callback's Darkmoon apply refreshes bound pointers and caches.
+    QuestieEvent.Initialize()
+    coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
     Tutorial.Initialize()
@@ -128,7 +167,13 @@ end
 
 QuestieInit.Stages[2] = function()
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
-    -- Fresh implementation rebuilds the Object-name index here from composed reads; see TDB-IMPLEMENTATION-ISSUES.md.
+
+    if Questie.db.profile.enableTooltipsObjectID then
+        -- Contributors keep this option on; warm the provider Object name index here instead of on
+        -- their first hover. QuestieTDB owns its invalidation, so no rebuild follows later applies.
+        LibQuestieDB.Object.BuildNameIndex()
+    end
+
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] QuestiePlayer initializing.")
     QuestiePlayer:Initialize()
     coYield()
@@ -217,6 +262,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     end
 
     WorldMapButton.Initialize()
+    Townsfolk.PostBoot()
     coYield()
 
     QuestieAnnounce:InitializeLogoFilter()
@@ -262,7 +308,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- register events that rely on questie being initialized
     EventHandler:RegisterLateEvents()
 
-    -- Fresh composed-read integration draws Available Quests here after all database consumers are ready.
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Drawing available quests.")
+    -- Last, because it runs for a while and must not block the rest of the init.
+    AvailableQuests.CalculateAndDrawAll()
 
     -- Let other addons know that Questie is ready
     Questie.API.isReady = true
