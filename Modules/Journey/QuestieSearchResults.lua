@@ -113,21 +113,19 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
     end
 end
 
+-- Track which items the user explicitly chose to show on the map
+local _shownItemIds = {}
+
 -- Create a button for showing/hiding manual notes of NPCs/objects
 ---@param id number @NPC (>0) or object (<0) id, or item id when idsToShow is provided
 ---@param idsToShow number[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
 local function CreateShowHideButton(id, idsToShow)
-    -- Check whether any of the relevant manual frames are already shown on the map
+    -- Check whether the relevant manual frames are already shown on the map
     local function hasShownFrames()
-        if not QuestieMap.manualFrames["any"] then
-            return false
-        end
         if idsToShow then
-            for _, spawnId in ipairs(idsToShow) do
-                if QuestieMap.manualFrames["any"][spawnId] then
-                    return true
-                end
-            end
+            return _shownItemIds[id] ~= nil
+        end
+        if not QuestieMap.manualFrames["any"] then
             return false
         end
         return QuestieMap.manualFrames["any"][id] ~= nil
@@ -149,6 +147,7 @@ local function CreateShowHideButton(id, idsToShow)
         self:SetCallback("OnClick", function() self:ShowOnMap(self) end)
 
         if self.idsToShow then
+            _shownItemIds[self.id] = nil
             local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
                 ids[#ids + 1] = spawnId
@@ -174,6 +173,7 @@ local function CreateShowHideButton(id, idsToShow)
         self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
 
         if self.idsToShow then
+            _shownItemIds[self.id] = true
             local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
                 ids[#ids + 1] = spawnId
