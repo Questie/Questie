@@ -10,8 +10,6 @@ describe("QuestieInit", function()
 
     ---@type string[]
     local callOrder
-    local externalRowsBuilt
-    local externalRowsReceived
 
     ---@param name string
     ---@return fun(): nil
@@ -37,30 +35,27 @@ describe("QuestieInit", function()
     before_each(function()
         mock = LoadQuestieTDBMock()
         callOrder = {}
-        externalRowsBuilt = nil
-        externalRowsReceived = nil
         Questie.db.profile.enableTooltipsObjectID = false
 
         local l10n = QuestieLoader:ImportModule("l10n")
         l10n.InitializeUILocale = _Record("l10n.InitializeUILocale")
         l10n.GetUILocale = function() return "deDE" end
 
-        local EntityLocale = QuestieLoader:ImportModule("EntityLocale")
-        EntityLocale.ForwardProviderLocale = function(locale)
-            table.insert(callOrder, "EntityLocale.ForwardProviderLocale:" .. locale)
+        -- The provider locale forward goes through the mock, so the recorded order proves it
+        -- lands between the UI locale and the policy writes.
+        local originalSetLocale = mock.lib.l10n.SetLocale
+        mock.lib.l10n.SetLocale = function(locale)
+            table.insert(callOrder, "LibQuestieDB.l10n.SetLocale:" .. locale)
+            originalSetLocale(locale)
         end
-        EntityLocale.BuildExternalLocaleCorrections = function(locale)
-            table.insert(callOrder, "EntityLocale.BuildExternalLocaleCorrections:" .. locale)
-            externalRowsBuilt = {Item = {}, Quest = {}, Npc = {}, Object = {}}
-            return externalRowsBuilt
+
+        local EntityLocale = QuestieLoader:ImportModule("EntityLocale")
+        EntityLocale.ApplyExternalLocaleCorrections = function(locale)
+            table.insert(callOrder, "EntityLocale.ApplyExternalLocaleCorrections:" .. locale)
         end
 
         local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.Initialize = _Record("QuestieCorrections.Initialize")
-        QuestieCorrections.InitializePolicyCorrections = function(externalLocaleCorrections)
-            table.insert(callOrder, "QuestieCorrections.InitializePolicyCorrections")
-            externalRowsReceived = externalLocaleCorrections
-        end
 
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.Initialize = _Record("QuestieDB.Initialize")
@@ -85,10 +80,9 @@ describe("QuestieInit", function()
 
             assert.are_same({
                 "l10n.InitializeUILocale",
-                "EntityLocale.ForwardProviderLocale:deDE",
-                "EntityLocale.BuildExternalLocaleCorrections:deDE",
+                "LibQuestieDB.l10n.SetLocale:deDE",
                 "QuestieCorrections.Initialize",
-                "QuestieCorrections.InitializePolicyCorrections",
+                "EntityLocale.ApplyExternalLocaleCorrections:deDE",
                 "QuestieDB.Initialize",
                 "Townsfolk.Initialize",
                 "Townsfolk:BuildCharacterTownsfolk",
@@ -97,11 +91,10 @@ describe("QuestieInit", function()
             }, callOrder)
         end)
 
-        it("hands the external locale rows built before the initial apply to the registrar", function()
+        it("forwards the effective locale to the provider exactly once", function()
             _RunStage(1)
 
-            assert.is_not_nil(externalRowsBuilt)
-            assert.are_equal(externalRowsBuilt, externalRowsReceived)
+            assert.are_same({"deDE"}, mock.setLocaleCalls)
         end)
 
         it("stops with the Contract error before forwarding the locale or touching Corrections", function()

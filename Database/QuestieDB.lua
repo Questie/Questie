@@ -400,13 +400,9 @@ QuestieDB.itemObjectiveFirst = {}
 QuestieDB.eventObjectiveFirst = {}
 QuestieDB.spellObjectiveFirst = {}
 
----True once query bindings, ID maps, Objective Order, and caches are ready. Correction applies
----after this point refresh through `RefreshAfterCorrectionApply`; the initial apply needs no
----refresh because `Initialize` binds the composed view that exists at that moment.
-QuestieDB.IsInitialized = false
-
----Rebinds the composed ID maps. QuestieTDB replaces these shared read-only maps on every
----Correction apply, so a retained reference can hide an added entity or keep a withdrawn one.
+---Rebinds the composed ID maps. QuestieTDB replaces a shared read-only map when a Correction
+---write touches its datatype, so a retained reference can hide an added entity or keep a
+---withdrawn one.
 ---@return nil
 local function _BindEntityIdMaps()
     QuestieDB.QuestPointers = LibQuestieDB.Quest.GetAllIds(true)
@@ -415,13 +411,9 @@ local function _BindEntityIdMaps()
     QuestieDB.ObjectPointers = LibQuestieDB.Object.GetAllIds(true)
 end
 
----Drops the Questie-owned projection caches fed by composed NPC, Item, and Object rows. QuestieTDB
----invalidates its own read caches but cannot see these.
----
----Quest objects are deliberately kept. The quest lifecycle stores the object `GetQuest` returned in
----`QuestiePlayer.currentQuestlog`, the tracker, and map icons, and updates it in place, so handing
----out a replacement object would split that state. No post-initialization apply changes Quest rows
----today; a future Quest-row setter must invalidate specific quest IDs through the lifecycle.
+---Drops every Questie-owned projection cache fed by composed NPC, Item, and Object rows.
+---Full-reset form for `Initialize` only; a Correction write evicts through the targeted
+---`RefreshAfterCorrectionApply` instead.
 ---@return nil
 local function _ClearEntityCaches()
     _QuestieDB.itemCache = {}
@@ -432,11 +424,10 @@ local function _ClearEntityCaches()
 end
 
 ---Binds QuestieDB to LibQuestieDB during Login Initialization. It runs after the provider locale
----is forwarded and after Questie's initial Policy Correction apply, so the first bound view is
+---is forwarded and after Questie's initial Policy Correction writes, so the first bound view is
 ---already composed.
 ---@return nil
 function QuestieDB.Initialize()
-    QuestieDB.IsInitialized = false
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
     -- Query bindings keep the provider's plain-function (dot-call) shape.
@@ -466,17 +457,55 @@ function QuestieDB.Initialize()
     checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
     QuestieCorrectionshiddenQuests = QuestieCorrections.hiddenQuests
     Questiedbcharhidden = Questie.db.char.hidden
-
-    QuestieDB.IsInitialized = true
 end
 
----Refreshes Questie's view after a post-initialization Correction apply: rebinds the four ID
----maps and clears the entity caches while keeping quest objects. `QuestieCorrections` calls this
----from its shared apply path.
+---Refreshes Questie's view after one Policy Correction write. Targeted on purpose: only the
+---written datatype's ID map is rebound (the provider replaces it when a Correction adds or
+---withdraws an entity), and only the changed entities leave the projection caches.
+---`QuestieCorrections.SetCorrection` is the only caller and passes the union of the slot's old
+---and new row IDs.
+---
+---Quest evictions carry a caveat: the quest lifecycle (tracker, `QuestiePlayer.currentQuestlog`,
+---map icons) holds the object `GetQuest` returned and updates it in place, so evicting a quest
+---that lifecycle state already references splits identity — the holders keep the stale object
+---while new reads build a fresh one. Every Quest slot today is written before
+---`QuestieDB.Initialize` (Content Phase and external locale, both in Stage 1), where no
+---lifecycle state exists yet; a future post-initialization Quest writer must additionally
+---invalidate the affected quests through the quest lifecycle.
+---@param datatype "Quest"|"Npc"|"Item"|"Object"
+---@param changedIds table<number, true> Entity IDs whose composed rows can have changed.
 ---@return nil
-function QuestieDB.RefreshAfterCorrectionApply()
-    _BindEntityIdMaps()
-    _ClearEntityCaches()
+function QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)
+    if datatype == "Quest" then
+        QuestieDB.QuestPointers = LibQuestieDB.Quest.GetAllIds(true)
+        for questId in pairs(changedIds) do
+            _QuestieDB.questCache[questId] = nil
+            QuestieDB._CreatureLevelCache[questId] = nil
+        end
+    elseif datatype == "Npc" then
+        QuestieDB.NPCPointers = LibQuestieDB.Npc.GetAllIds(true)
+        for npcId in pairs(changedIds) do
+            _QuestieDB.npcCache[npcId] = nil
+        end
+        -- Creature levels derive from NPC rows per quest, and which quests reference a changed
+        -- NPC is unknown here, so the whole derived cache goes.
+        QuestieDB._CreatureLevelCache = {}
+    elseif datatype == "Item" then
+        QuestieDB.ItemPointers = LibQuestieDB.Item.GetAllIds(true)
+        for itemId in pairs(changedIds) do
+            _QuestieDB.itemCache[itemId] = nil
+        end
+        -- Creature levels also derive from Item npcDrops reads (GetCreatureLevels), and which
+        -- quests reference a changed Item is unknown here — same rule as NPC writes.
+        QuestieDB._CreatureLevelCache = {}
+    elseif datatype == "Object" then
+        QuestieDB.ObjectPointers = LibQuestieDB.Object.GetAllIds(true)
+        for objectId in pairs(changedIds) do
+            _QuestieDB.objectCache[objectId] = nil
+        end
+    else
+        error("RefreshAfterCorrectionApply: unknown datatype " .. tostring(datatype), 2)
+    end
 end
 
 ---@param objectId ObjectId
