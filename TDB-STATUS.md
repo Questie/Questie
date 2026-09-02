@@ -43,9 +43,9 @@ Questie-side gates:
   Objective text, and runtime missing-Item repair.
 - Coordinate normalization, QuestieTDB #3: ADR 0006 stores raw coordinates where the compiler used to
   round. Decide whether the differences need caller changes or are accepted as-is, and record it.
-- Mock-versus-provider conformance: run `test/QuestieTDBMock.test.lua` semantics against the real
-  `LibQuestieDB`. The double has been wrong about provider semantics once (`0`, not nil, for an
-  absent number field).
+- Mock-versus-provider conformance: done. `test/QuestieTDBMock.conformance.test.lua` runs the
+  double's cases against the real provider in Source mode (`TDB-FINDINGS.md` F7, F8); it pends
+  when the QuestieTDB checkout is absent.
 
 ## Open Questie follow-ups
 

@@ -133,6 +133,42 @@ A single-shot timing of `RefreshAfterCorrectionApply` read 13 ms and 2 MB; best 
 collect before each run reads 0.03 ms. Time provider and Questie calls best-of-N with
 `collectgarbage("collect")` before each sample, or the collector's own work lands in the sample.
 
+### F7. Mock: `GetProvenance` read nil for an unknown entity
+
+**Owner:** Questie test double. **Severity:** none in production; found by the conformance run.
+
+The provider answers `"QuestieTDB"` for any field no Dynamic Correction won, including an
+entity that does not exist. The mock returned nil. No Questie code reads provenance outside
+tests. Resolved: the mock returns `"QuestieTDB"` whenever no layer set the field.
+
+### F8. Mock: ID maps swapped identity on every publish
+
+**Owner:** Questie test double. **Severity:** none in production; found by the conformance run.
+
+The provider's `GetAllIds(true)` is the backend's own map whenever no Correction adds an entity,
+so a publish that only edits fields keeps the map's identity, and withdrawing an added entity
+hands the original map back. The mock built a fresh map on every publish. Questie only rebinds
+`*Pointers` from `GetAllIds(true)` in `RefreshAfterCorrectionApply`, so no production code
+depended on the swap. Resolved: the mock keeps a base map per datatype and returns it unless a
+layer adds an ID.
+
+The same run showed a third gap, fixed with F8: a Correction row that writes no schema field
+(`{[id] = {}}`, or only keys outside the schema) invented an entity in the mock; the provider
+creates a row only when a field write survives.
+
+Two mock guards are kept on purpose and excluded from the conformance run: the mock raises on an
+unknown field name where the provider returns nil, and on a lowercase datatype where the provider
+accepts it. Both can only fail a test loudly. Not modeled and not compared: the provider's
+write-time normalization (constant fields dropped, a table on a scalar field refused, `""` and
+`{0, 0}` reading nil); Questie tests seed normalized values.
+
+The conformance run itself: `test/QuestieTDBMock.conformance.test.lua` loads the provider in
+Source mode from `../Questie-toc/QuestieTDB` (override with `QUESTIE_TDB_PATH`) in about one
+second, seeds the mock from the provider's composed rows for a fixed set of Era entities, and
+runs every behavioral case of `test/QuestieTDBMock.test.lua` against both. It pends with the
+path in the message when the checkout is absent. The Database Key Enums and field types of
+`test/QuestieTDBMetaMock.lua` match the provider's exactly.
+
 ## Not yet run
 
 TBC before and after phase 3 (Content Phase slot, TBC Darkmoon producer), WotLK season 109
