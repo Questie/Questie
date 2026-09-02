@@ -178,7 +178,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.FERALAS,
         },
         [148503] = { -- Fire Plume Ridge Hot Spot
-            [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{49.69,45.64}}}, -- only showing it here so we can put the tooltip on it
+            [objectKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{49.69,45.64}}}, -- one of many spawns, kept to a single icon to not clutter the map
         },
         [148513] = { -- Tablet of Jin'yael
             [objectKeys.spawns] = {[zoneIDs.AZSHARA] = {{34,59.9},{34.8,53.3},{35.4,58.5},{35.5,52.3},{35.6,49.6},{35.9,51.2},{36,56.9},{36.3,58.7},{36.3,62.2},{36.4,54},{36.4,60.6},{36.5,54.1},{37.4,60.7},{37.5,60.7},{37.7,52.4},{37.9,56.4},{38,51.3},{38.4,53.4},{38.7,63.3},{39.2,61.4},{39.2,61.6},{39.4,56.5},{39.5,56.5},{39.8,53.4},{39.8,53.5},{39.8,59.7},{40.1,62.4},{40.2,62.5},{40.5,61.1},{40.5,64},{41,55},{41.2,62},{42.2,64.6},{43.4,64},{43.9,64.7}}},

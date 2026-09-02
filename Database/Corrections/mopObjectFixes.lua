@@ -775,7 +775,7 @@ function MopObjectFixes.Load()
         },
         [214543] = { -- Dreadspore Bulb
             [objectKeys.name] = "Dreadspore Bulb",
-            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.2,85.93}}}, -- there are like 100 more spawns, used one so we can have tooltips
+            [objectKeys.spawns] = {[zoneIDs.DREAD_WASTES] = {{33.2,85.93}}}, -- one of ~100 spawns, kept to a single icon to not clutter the map
             [objectKeys.zoneID] = zoneIDs.DREAD_WASTES,
         },
         [214572] = { -- Tablet of Thunder
