@@ -415,11 +415,15 @@ local function _BindEntityIdMaps()
     QuestieDB.ObjectPointers = LibQuestieDB.Object.GetAllIds(true)
 end
 
----Drops every Questie-owned semantic projection cache. QuestieTDB invalidates its own read
----caches but cannot see these.
+---Drops the Questie-owned projection caches fed by composed NPC, Item, and Object rows. QuestieTDB
+---invalidates its own read caches but cannot see these.
+---
+---Quest objects are deliberately kept. The quest lifecycle stores the object `GetQuest` returned in
+---`QuestiePlayer.currentQuestlog`, the tracker, and map icons, and updates it in place, so handing
+---out a replacement object would split that state. No post-initialization apply changes Quest rows
+---today; a future Quest-row setter must invalidate specific quest IDs through the lifecycle.
 ---@return nil
-local function _ClearSemanticCaches()
-    _QuestieDB.questCache = {}
+local function _ClearEntityCaches()
     _QuestieDB.itemCache = {}
     _QuestieDB.npcCache = {}
     _QuestieDB.objectCache = {}
@@ -453,8 +457,10 @@ function QuestieDB.Initialize()
     QuestieDB.spellObjectiveFirst = LibQuestieDB.ObjectiveFirst.spellObjectiveFirst
 
     _BindEntityIdMaps()
-    -- Anything that reached the API before Login Initialization saw an uncorrected view.
-    _ClearSemanticCaches()
+    -- Anything that reached the API before Login Initialization saw an uncorrected view. No quest
+    -- lifecycle state exists yet, so quest objects are dropped along with the entity caches.
+    _QuestieDB.questCache = {}
+    _ClearEntityCaches()
 
     checkRace = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
     checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
@@ -465,11 +471,12 @@ function QuestieDB.Initialize()
 end
 
 ---Refreshes Questie's view after a post-initialization Correction apply: rebinds the four ID
----maps and clears the semantic caches. `QuestieCorrections` calls this from its shared apply path.
+---maps and clears the entity caches while keeping quest objects. `QuestieCorrections` calls this
+---from its shared apply path.
 ---@return nil
 function QuestieDB.RefreshAfterCorrectionApply()
     _BindEntityIdMaps()
-    _ClearSemanticCaches()
+    _ClearEntityCaches()
 end
 
 ---@param objectId ObjectId

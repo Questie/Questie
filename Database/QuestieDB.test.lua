@@ -586,8 +586,9 @@ describe("QuestieDB", function()
             assert.is_nil(QuestieDB:GetItem(999))
         end)
 
-        it("clears every semantic cache", function()
-            QuestieDB.private.questCache[2] = {}
+        it("clears the entity caches and keeps the quest objects the lifecycle holds", function()
+            local trackedQuest = {Id = 2}
+            QuestieDB.private.questCache[2] = trackedQuest
             QuestieDB.private.itemCache[5] = {}
             QuestieDB.private.npcCache[30] = {}
             QuestieDB.private.objectCache[31] = {}
@@ -596,7 +597,7 @@ describe("QuestieDB", function()
 
             QuestieDB.RefreshAfterCorrectionApply()
 
-            assert.are_same({}, QuestieDB.private.questCache)
+            assert.are_equal(trackedQuest, QuestieDB.GetQuest(2))
             assert.are_same({}, QuestieDB.private.itemCache)
             assert.are_same({}, QuestieDB.private.npcCache)
             assert.are_same({}, QuestieDB.private.objectCache)

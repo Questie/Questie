@@ -189,6 +189,12 @@ end
 ---@param npcCorrections PolicyCorrectionRows
 ---@return nil
 function QuestieCorrections.SetDarkmoonNpcCorrections(npcCorrections)
+    -- Nothing published and nothing to withdraw: skip the recomposition and Questie's cache refresh
+    -- that every login without an active faire would otherwise pay.
+    if next(npcCorrections) == nil and next(activeDarkmoonNpcCorrections) == nil then
+        return
+    end
+
     activeDarkmoonNpcCorrections = npcCorrections
     _ApplyQuestieCorrections()
 end
