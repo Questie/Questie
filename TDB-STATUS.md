@@ -41,7 +41,7 @@ Questie-side gates:
   one built-in non-English locale, one external locale addon. Check gathering-node suppression,
   Darkmoon, Content Phase prerequisites, Townsfolk, Available Quests, Objective Order, Special
   Objective text, and runtime missing-Item repair.
-- Coordinate normalization: QuestieTDB ADR 0006 stores raw coordinates where the compiler used to
+- Coordinate normalization, QuestieTDB #3: ADR 0006 stores raw coordinates where the compiler used to
   round. Decide whether the differences need caller changes or are accepted as-is, and record it.
 - Mock-versus-provider conformance: run `test/QuestieTDBMock.test.lua` semantics against the real
   `LibQuestieDB`. The double has been wrong about provider semantics once (`0`, not nil, for an
