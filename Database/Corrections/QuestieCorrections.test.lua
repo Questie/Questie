@@ -123,7 +123,7 @@ describe("QuestieCorrections", function()
             QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
             QuestieDB.IsInitialized = true
 
-            QuestieCorrections.SetDarkmoonNpcCorrections({})
+            QuestieCorrections.SetDarkmoonNpcCorrections({[14828] = {[QuestieDB.npcKeys.zoneID] = 215}})
             QuestieCorrections.ReapplyPolicyCorrections()
 
             assert.are_same(3, mock.applyCount.Questie)
@@ -248,6 +248,15 @@ describe("QuestieCorrections", function()
             assert.are_same({[1519] = {{60, 60}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
             assert.are_same(1519, LibQuestieDB.Npc.Get(14828, "zoneID"))
             assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "spawns"))
+        end)
+
+        it("skips the apply when withdrawing while no location is published", function()
+            local applyCountBefore = mock.applyCount.Questie
+
+            QuestieCorrections.SetDarkmoonNpcCorrections({})
+
+            assert.are_same(applyCountBefore, mock.applyCount.Questie)
+            assert.are_same({[1519] = {{60, 60}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
         end)
 
         it("applies exactly once per selection, keeps GetRaw unchanged, and is idempotent", function()
