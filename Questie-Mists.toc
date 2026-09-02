@@ -21,7 +21,7 @@
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
 ## Version: 11.37.1
-## RequiredDeps:
+## RequiredDeps: QuestieTDB
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: QuestieConfig, QuestieProfilerEnabled
@@ -54,7 +54,6 @@ Database\QuestXP\QuestieXP.lua
 Database\QuestXP\DB\xpDB-mop.lua
 
 # Database storage and stream modules
-Database\QuestieDBStorage.lua
 Modules\QuestieStream.lua
 
 # Zones
@@ -67,21 +66,15 @@ Database\Zones\data\instanceIdToAreaId.lua
 Database\Zones\zoneDB.lua
 
 # Databases
-Database\MoP\mopItemDB.lua
-Database\MoP\mopNpcDB.lua
-Database\MoP\mopObjectDB.lua
-Database\MoP\mopQuestDB.lua
 Database\QuestieDB.lua
-Database\questDB.lua
-Database\objectDB.lua
-Database\npcDB.lua
-Database\itemDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
 Database\FactionTemplates\factionTemplateMoP.lua
 
 # Corrections
 Database\Corrections\BlacklistFilter.lua
+Database\Corrections\QuestiePolicy\classicPolicyCorrections.lua
+Database\Corrections\QuestiePolicy\tbcPolicyCorrections.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
@@ -104,38 +97,16 @@ Database\Corrections\Holidays\quests\PilgrimsBounty.lua
 Database\Corrections\Holidays\quests\WinterVeil.lua
 
 # Automatic General Corrections
-Database\Corrections\Automatic\itemStartFixes.lua
-Database\Corrections\Automatic\classicQuestReputationFixes.lua
 
 # Classic Corrections
-Database\Corrections\classicQuestFixes.lua
-Database\Corrections\classicNPCFixes.lua
-Database\Corrections\classicItemFixes.lua
-Database\Corrections\classicObjectFixes.lua
 
 # TBC Corrections
-Database\Corrections\tbcQuestFixes.lua
-Database\Corrections\tbcNPCFixes.lua
-Database\Corrections\tbcItemFixes.lua
-Database\Corrections\tbcObjectFixes.lua
 
 # Wotlk Corrections
-Database\Corrections\wotlkQuestFixes.lua
-Database\Corrections\wotlkNPCFixes.lua
-Database\Corrections\wotlkItemFixes.lua
-Database\Corrections\wotlkObjectFixes.lua
 
 # Cata Corrections
-Database\Corrections\cataQuestFixes.lua
-Database\Corrections\cataNPCFixes.lua
-Database\Corrections\cataItemFixes.lua
-Database\Corrections\cataObjectFixes.lua
 
 # MoP Corrections
-Database\Corrections\mopQuestFixes.lua
-Database\Corrections\mopNPCFixes.lua
-Database\Corrections\mopItemFixes.lua
-Database\Corrections\mopObjectFixes.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua
@@ -146,20 +117,14 @@ Database\DropTables\data\mopItemDrops.lua
 Database\DropTables\data\cataItemDrops.lua
 
 # Compiler
-Database\compiler.lua
 
 # Localization
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories.lua
-Localization\lookups\lookupOverrides.lua
 Localization\lookups\lookupZones.lua
 Localization\lookups\lookupZonesCorrections.lua
-Localization\lookups\MoP\lookupItems\lookupItems.xml
-Localization\lookups\MoP\lookupNpcs\lookupNpcs.xml
-Localization\lookups\MoP\lookupObjects\lookupObjects.xml
-Localization\lookups\MoP\lookupQuests\lookupQuests.xml
 
 # Libs
 Modules\Libs\DistanceUtils.lua
@@ -168,7 +133,6 @@ Modules\Libs\WrappedText.lua
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
-Modules\Libs\RamerDouglasPeucker.lua
 
 # Modules
 Modules\QuestieValidateGameCache.lua
@@ -316,7 +280,6 @@ Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 
 # Cleanup
-Modules\QuestieCleanup.lua
 
 # Profiler
 Modules\Profiler\QuestieProfiler.lua

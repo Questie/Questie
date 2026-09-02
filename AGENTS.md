@@ -31,17 +31,13 @@ busted -p ".test.lua" Localization/lookups
 luacheck -q -- Database Localization Modules Public Questie.lua
 ```
 
-### Database Validation (CLI scripts)
+### Loader usage validation
+
+Entity database validation is owned by QuestieTDB. Validate Questie's loader usage with:
 
 ```bash
-lua cli/validate-era.lua
-lua cli/validate-tbc.lua
-lua cli/validate-wotlk.lua
-lua cli/validate-mop.lua
-lua cli/validate-sod.lua
+lua cli/validate-loader-usage.lua
 ```
-
-> **Note:** Any change to `cli/validators.lua` must be accompanied by a matching test in `cli/validators.test.lua`.
 
 ### Build (release packaging)
 
@@ -265,7 +261,7 @@ end)
 
 ## CI Pipeline
 
-CI runs on every push/PR: busted tests, database validators for each expansion, luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
+CI runs on every push/PR: Busted tests, QuestieLoader usage validation, and luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
 
 ## Test Requirements
 

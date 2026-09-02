@@ -75,13 +75,11 @@ Questie 使用 `luacheck`进行代码规范检查。你可以在本地运行此�
 1. 在项目根目录中运行 `busted -p ".test.lua" .`
 2. 添加新测试时，确保将测试文件命名为 `<模块名>.test.lua` 并将其放置在对应模块旁。
 
-### 数据库验证
+### 实体数据库验证
 
-每个扩展包都有一个验证脚本，用于检查数据库中常见的错误。通过这种方式，我们尽量保证数据的正确性，并且当我们调整 `Quest.startedBy` 时，不会忘记调整 `NPC.questStarts` 字段。你可以运行以下脚本：
+实体数据库验证由 QuestieTDB 负责。Questie 保留了加载器使用验证，可通过以下命令运行：
 
-`lua cli/validate-<扩展包名>.lua`
-
-将 `<扩展包名>` 替换为你想要验证的扩展包名称 (可查看 `cli` 文件夹获取可用脚本).
+`lua cli/validate-loader-usage.lua`
 
 ## 捐赠
 如果您想通过捐赠来支持 Questie 的开发，您可以通过贝宝（PayPal）进行捐赠：
