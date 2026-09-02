@@ -381,20 +381,20 @@ end
 _LoadDarkmoonFaire = function()
     local eventLocation = _GetDarkmoonFaireLocation()
     if eventLocation == DMF_LOCATIONS.NONE then
-        -- An empty table withdraws the previous location; an inactive faire must not keep stale NPC coordinates.
-        QuestieCorrections.SetDarkmoonNpcCorrections({})
+        -- nil withdraws the slot; an inactive faire must not keep stale NPC coordinates.
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
         return
     end
 
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
     local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    -- The NPC Policy Correction is published exactly once per load, outside the Event Quest loop below:
-    -- the number of visible Event Quests must not control entity Correction application.
+    -- The NPC Policy Correction slot is written exactly once per load, outside the Event Quest loop
+    -- below: the number of visible Event Quests must not control entity Correction application.
     if Questie.IsTBC then
-        QuestieCorrections.SetDarkmoonNpcCorrections(QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
     else
-        QuestieCorrections.SetDarkmoonNpcCorrections(QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
     end
 
     for _, questData in pairs(QuestieEvent.eventQuests) do

@@ -20,11 +20,6 @@ describe("QuestieCorrections", function()
     local originalIsTitanReforged
     local originalTBCPhase
 
-    ---@return ExternalLocaleCorrections
-    local function _EmptyExternalLocaleCorrections()
-        return {Item = {}, Quest = {}, Npc = {}, Object = {}}
-    end
-
     before_each(function()
         mock = LoadQuestieTDBMock()
         LibQuestieDB = mock.lib
@@ -45,7 +40,6 @@ describe("QuestieCorrections", function()
         dofile("Database/Corrections/QuestiePolicy/tbcPolicyCorrections.lua")
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        QuestieDB.IsInitialized = false
         QuestieDB.RefreshAfterCorrectionApply = spy.new(function() end)
 
         local BlacklistFilter = QuestieLoader:ImportModule("BlacklistFilter")
@@ -89,59 +83,112 @@ describe("QuestieCorrections", function()
         ContentPhases.activePhases.TBC = originalTBCPhase
     end)
 
-    describe("Policy Correction registration", function()
-        it("registers exactly the eight Questie Policy Corrections once under owner Questie", function()
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
+    describe("SetCorrection", function()
+        local npcKeys
 
-            local registered = {}
-            for index, registration in ipairs(mock.registrations.Questie) do
-                registered[index] = {registration.datatype, registration.name, registration.loadOrder}
-            end
-            assert.are_same({
-                {"Npc", "DarkmoonFaire", 100},
-                {"Object", "GatheringNodeDisplayPolicy", 200},
-                {"Quest", "ContentPhasePolicy", 300},
-                {"Item", "RuntimeItemRepair", 400},
-                {"Item", "ExternalLocaleItem", 500},
-                {"Quest", "ExternalLocaleQuest", 501},
-                {"Npc", "ExternalLocaleNpc", 502},
-                {"Object", "ExternalLocaleObject", 503},
-            }, registered)
+        before_each(function()
+            npcKeys = QuestieDB.npcKeys
+            mock.SetBaseRow("Npc", 14828, {
+                [npcKeys.name] = "Gelvas Grimegate",
+                [npcKeys.spawns] = {[1519] = {{60, 60}}},
+                [npcKeys.zoneID] = 1519,
+            })
+        end)
+
+        it("publishes rows under owner Questie immediately, leaving GetRaw untouched", function()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+            assert.are_same(215, LibQuestieDB.Npc.Get(14828, "zoneID"))
+            assert.are_same(1519, LibQuestieDB.Npc.GetRaw(14828, "zoneID"))
+            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
             assert.are_same({"QuestieTDB", "Questie"}, LibQuestieDB.GetOwners())
         end)
 
-        it("treats missing external locale rows as empty layers", function()
-            QuestieCorrections.InitializePolicyCorrections(nil)
+        it("replaces the slot's rows on the next write", function()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {
+                [14828] = {[npcKeys.spawns] = {[215] = {{37.24, 37.67}}}, [npcKeys.zoneID] = 215},
+            })
 
-            assert.are_same(1, mock.applyCount.Questie)
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {
+                [14828] = {[npcKeys.spawns] = {[12] = {{41.5, 68.87}}}, [npcKeys.zoneID] = 12},
+            })
+
+            assert.are_same({[12] = {{41.5, 68.87}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
+            assert.are_same(12, LibQuestieDB.Npc.Get(14828, "zoneID"))
         end)
 
-        it("applies owner Questie once during initialization without refreshing an uninitialized QuestieDB", function()
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
+        it("withdraws the slot with nil so the provider rows show through again", function()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
 
-            assert.are_same(1, mock.applyCount.Questie)
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
+
+            assert.are_same(1519, LibQuestieDB.Npc.Get(14828, "zoneID"))
+            assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
+        end)
+
+        it("normalizes empty rows to a withdrawal", function()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {})
+
+            assert.are_same(1519, LibQuestieDB.Npc.Get(14828, "zoneID"))
+        end)
+
+        it("skips the provider entirely when withdrawing a slot that was never published", function()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {})
+
+            assert.are_same(0, mock.publishCounts.Npc)
             assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.not_called()
         end)
 
-        it("refreshes QuestieDB after every apply once QuestieDB is initialized", function()
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
-            QuestieDB.IsInitialized = true
+        it("refreshes exactly the union of the old and new row IDs for the written datatype", function()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.called_with("Npc", {[14828] = true})
 
-            QuestieCorrections.SetDarkmoonNpcCorrections({[14828] = {[QuestieDB.npcKeys.zoneID] = 215}})
-            QuestieCorrections.ReapplyPolicyCorrections()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14829] = {[npcKeys.zoneID] = 12}})
+            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.called_with("Npc", {[14828] = true, [14829] = true})
 
-            assert.are_same(3, mock.applyCount.Questie)
-            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.called(2)
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
+
+            -- Withdrawal must evict what the withdrawn rows had published.
+            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.called(3)
+            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.called_with("Npc", {[14829] = true})
+        end)
+
+        it("keeps independent slots independent", function()
+            local objectKeys = QuestieDB.objectKeys
+            mock.SetBaseRow("Object", 1617, {[objectKeys.name] = "Silverleaf", [objectKeys.spawns] = {[1] = {{10, 10}}}})
+            QuestieCorrections.SetCorrection("Object", "GatheringNodeDisplayPolicy", {[1617] = {[objectKeys.spawns] = {}}})
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
+
+            assert.is_nil(LibQuestieDB.Object.Get(1617, "spawns"))
+            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Object", 1617, "spawns"))
+        end)
+
+        it("records where each slot was last written", function()
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+            assert.are_same("string", type(QuestieCorrections.correctionSources["Npc:DarkmoonFaire"]))
         end)
     end)
 
-    describe("GatheringNodeDisplayPolicy", function()
+    describe("Initialize policy slots", function()
         local GATHERING_NODE_OBJECT_IDS = {
             1617, 1618, 1619, 1620, 1621, 1622, 1623, 1624, 1628,
             1731, 1732, 1733, 1734, 1735, 123848, 150082, 175404, 176643,
             177388, 324, 150079, 176645, 2040, 123310,
         }
+
+        ---Seeds both attunement quests with a provider prerequisite the phase policy must replace or clear.
+        ---@return nil
+        local function _SeedAttunementQuests()
+            local questKeys = QuestieDB.questKeys
+            mock.SetBaseRow("Quest", 10944, {[questKeys.name] = "The Secret Compromised", [questKeys.preQuestSingle] = {1}})
+            mock.SetBaseRow("Quest", 11007, {[questKeys.name] = "Kael'thas and the Verdant Sphere", [questKeys.preQuestSingle] = {1}})
+        end
 
         it("clears composed spawns for all 24 gathering-node Objects while GetRaw keeps provider spawns", function()
             local objectKeys = QuestieDB.objectKeys
@@ -153,7 +200,7 @@ describe("QuestieCorrections", function()
             end
             mock.SetBaseRow("Object", 31, {[objectKeys.name] = "Old Lion Statue", [objectKeys.spawns] = {[1519] = {{50, 50}}}})
 
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
+            QuestieCorrections.Initialize()
 
             for _, objectId in ipairs(GATHERING_NODE_OBJECT_IDS) do
                 assert.is_nil(LibQuestieDB.Object.Get(objectId, "spawns"), "spawns visible for " .. objectId)
@@ -163,22 +210,17 @@ describe("QuestieCorrections", function()
             end
             assert.are_same({[1519] = {{50, 50}}}, LibQuestieDB.Object.Get(31, "spawns"))
         end)
-    end)
 
-    describe("ContentPhasePolicy", function()
-        ---Seeds both attunement quests with a provider prerequisite the phase policy must replace or clear.
-        ---@return nil
-        local function _SeedAttunementQuests()
-            local questKeys = QuestieDB.questKeys
-            mock.SetBaseRow("Quest", 10944, {[questKeys.name] = "The Secret Compromised", [questKeys.preQuestSingle] = {1}})
-            mock.SetBaseRow("Quest", 11007, {[questKeys.name] = "Kael'thas and the Verdant Sphere", [questKeys.preQuestSingle] = {1}})
-        end
-
-        it("does not introduce the TBC prerequisite rows on Era", function()
+        it("publishes only the gathering-node slot on Era", function()
             Expansions.Current = Expansions.Era
 
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
+            QuestieCorrections.Initialize()
 
+            local slots = {}
+            for index, registration in ipairs(mock.registrations.Questie) do
+                slots[index] = registration.datatype .. ":" .. registration.name
+            end
+            assert.are_same({"Object:GatheringNodeDisplayPolicy"}, slots)
             assert.is_false(LibQuestieDB.Quest.Exists(10944))
             assert.is_false(LibQuestieDB.Quest.Exists(11007))
         end)
@@ -188,7 +230,7 @@ describe("QuestieCorrections", function()
             ContentPhases.activePhases.TBC = 2
             _SeedAttunementQuests()
 
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
+            QuestieCorrections.Initialize()
 
             assert.are_same({10901, 11052}, LibQuestieDB.Quest.Get(10944, "preQuestGroup"))
             assert.is_nil(LibQuestieDB.Quest.Get(10944, "preQuestSingle"))
@@ -197,212 +239,22 @@ describe("QuestieCorrections", function()
             assert.are_same({1}, LibQuestieDB.Quest.GetRaw(10944, "preQuestSingle"))
         end)
 
-        it("replaces the prerequisites when the phase advances and the owner reapplies", function()
+        it("replaces the prerequisites when a phase switch re-publishes the ContentPhasePolicy slot", function()
             Expansions.Current = Expansions.Tbc
             ContentPhases.activePhases.TBC = 2
             _SeedAttunementQuests()
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
+            QuestieCorrections.Initialize()
 
+            -- The live-switch pattern: whoever advances the phase re-publishes the slot. A real
+            -- post-initialization switch must also invalidate the affected quests through the
+            -- quest lifecycle; see the Quest caveat on QuestieDB.RefreshAfterCorrectionApply.
             ContentPhases.activePhases.TBC = 3
-            QuestieCorrections.ReapplyPolicyCorrections()
+            local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
+            QuestieCorrections.SetCorrection("Quest", "ContentPhasePolicy", QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
 
             assert.is_nil(LibQuestieDB.Quest.Get(10944, "preQuestGroup"))
             assert.are_same({10708, 11052}, LibQuestieDB.Quest.Get(10944, "preQuestSingle"))
             assert.is_nil(LibQuestieDB.Quest.Get(11007, "preQuestSingle"))
-        end)
-    end)
-
-    describe("SetDarkmoonNpcCorrections", function()
-        local npcKeys
-        local mulgoreCorrections
-        local elwynnCorrections
-
-        before_each(function()
-            npcKeys = QuestieDB.npcKeys
-            mock.SetBaseRow("Npc", 14828, {
-                [npcKeys.name] = "Gelvas Grimegate",
-                [npcKeys.spawns] = {[1519] = {{60, 60}}},
-                [npcKeys.zoneID] = 1519,
-            })
-            mulgoreCorrections = {
-                [14828] = {[npcKeys.spawns] = {[215] = {{37.24, 37.67}}}, [npcKeys.zoneID] = 215},
-            }
-            elwynnCorrections = {
-                [14828] = {[npcKeys.spawns] = {[12] = {{41.5, 68.87}}}, [npcKeys.zoneID] = 12},
-            }
-            local objectKeys = QuestieDB.objectKeys
-            mock.SetBaseRow("Object", 1617, {[objectKeys.name] = "Silverleaf", [objectKeys.spawns] = {[1] = {{10, 10}}}})
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
-        end)
-
-        it("keeps the other Questie Policy Corrections applied across a Darkmoon reapply", function()
-            QuestieCorrections.SetDarkmoonNpcCorrections(mulgoreCorrections)
-
-            assert.is_nil(LibQuestieDB.Object.Get(1617, "spawns"))
-            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Object", 1617, "spawns"))
-        end)
-
-        it("publishes the selected location and replaces it on the next selection", function()
-            QuestieCorrections.SetDarkmoonNpcCorrections(mulgoreCorrections)
-
-            assert.are_same({[215] = {{37.24, 37.67}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
-            assert.are_same(215, LibQuestieDB.Npc.Get(14828, "zoneID"))
-            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "spawns"))
-
-            QuestieCorrections.SetDarkmoonNpcCorrections(elwynnCorrections)
-
-            assert.are_same({[12] = {{41.5, 68.87}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
-            assert.are_same(12, LibQuestieDB.Npc.Get(14828, "zoneID"))
-        end)
-
-        it("withdraws the location through an empty table", function()
-            QuestieCorrections.SetDarkmoonNpcCorrections(mulgoreCorrections)
-
-            QuestieCorrections.SetDarkmoonNpcCorrections({})
-
-            assert.are_same({[1519] = {{60, 60}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
-            assert.are_same(1519, LibQuestieDB.Npc.Get(14828, "zoneID"))
-            assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "spawns"))
-        end)
-
-        it("skips the apply when withdrawing while no location is published", function()
-            local applyCountBefore = mock.applyCount.Questie
-
-            QuestieCorrections.SetDarkmoonNpcCorrections({})
-
-            assert.are_same(applyCountBefore, mock.applyCount.Questie)
-            assert.are_same({[1519] = {{60, 60}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
-        end)
-
-        it("applies exactly once per selection, keeps GetRaw unchanged, and is idempotent", function()
-            local applyCountBefore = mock.applyCount.Questie
-
-            QuestieCorrections.SetDarkmoonNpcCorrections(mulgoreCorrections)
-            QuestieCorrections.SetDarkmoonNpcCorrections(mulgoreCorrections)
-
-            assert.are_same(applyCountBefore + 2, mock.applyCount.Questie)
-            assert.are_same({[215] = {{37.24, 37.67}}}, LibQuestieDB.Npc.Get(14828, "spawns"))
-            assert.are_same({[1519] = {{60, 60}}}, LibQuestieDB.Npc.GetRaw(14828, "spawns"))
-            assert.are_same("Gelvas Grimegate", LibQuestieDB.Npc.Get(14828, "name"))
-        end)
-    end)
-
-    describe("RepairMissingItem", function()
-        before_each(function()
-            QuestieCorrections.InitializePolicyCorrections(_EmptyExternalLocaleCorrections())
-            QuestieDB.IsInitialized = true
-        end)
-
-        it("adds a name-only Item Correction for a missing Item and refreshes QuestieDB", function()
-            QuestieCorrections.RepairMissingItem(999, "Repaired Item")
-
-            assert.is_true(LibQuestieDB.Item.Exists(999))
-            assert.are_same("Repaired Item", LibQuestieDB.Item.Get(999, "name"))
-            assert.is_nil(LibQuestieDB.Item.Get(999, "npcDrops"))
-            assert.is_nil(LibQuestieDB.Item.GetRaw(999, "name"))
-            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Item", 999, "name"))
-            assert.is_true(LibQuestieDB.Item.GetAllIds(true)[999])
-            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.called(1)
-        end)
-
-        it("preserves earlier repairs when another Item loads", function()
-            QuestieCorrections.RepairMissingItem(999, "Repaired Item")
-
-            QuestieCorrections.RepairMissingItem(1000, "Second Item")
-
-            assert.are_same("Repaired Item", LibQuestieDB.Item.Get(999, "name"))
-            assert.are_same("Second Item", LibQuestieDB.Item.Get(1000, "name"))
-        end)
-
-        it("treats a repeated callback for one Item as a no-op", function()
-            QuestieCorrections.RepairMissingItem(999, "Repaired Item")
-            local applyCountAfterFirst = mock.applyCount.Questie
-
-            QuestieCorrections.RepairMissingItem(999, "Repaired Item")
-
-            assert.are_same(applyCountAfterFirst, mock.applyCount.Questie)
-            assert.are_same("Repaired Item", LibQuestieDB.Item.Get(999, "name"))
-        end)
-
-        it("ignores a nil Item name", function()
-            local applyCountBefore = mock.applyCount.Questie
-
-            QuestieCorrections.RepairMissingItem(999, nil)
-
-            assert.are_same(applyCountBefore, mock.applyCount.Questie)
-            assert.is_false(LibQuestieDB.Item.Exists(999))
-            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.not_called()
-        end)
-
-    end)
-
-    describe("external locale Corrections", function()
-        local itemKeys, questKeys, npcKeys, objectKeys
-        local externalRows
-
-        before_each(function()
-            itemKeys, questKeys, npcKeys, objectKeys = QuestieDB.itemKeys, QuestieDB.questKeys, QuestieDB.npcKeys, QuestieDB.objectKeys
-            mock.SetBaseRow("Item", 5, {[itemKeys.name] = "Sharptalon's Claw"})
-            mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Sharptalon's Claw", [questKeys.objectivesText] = {"Bring the claw."}})
-            mock.SetBaseRow("Npc", 30, {[npcKeys.name] = "Forest Spider", [npcKeys.subName] = "Spider"})
-            mock.SetBaseRow("Object", 31, {[objectKeys.name] = "Old Lion Statue"})
-            externalRows = {
-                Item = {[5] = {[itemKeys.name] = "Klaue von Scharfkralle"}},
-                Quest = {[2] = {[questKeys.name] = "Klaue von Scharfkralle", [questKeys.objectivesText] = {"Bringt die Klaue."}}},
-                Npc = {[30] = {[npcKeys.name] = "Waldspinne", [npcKeys.subName] = "Spinne"}},
-                Object = {[31] = {[objectKeys.name] = "Alte Löwenstatue"}},
-            }
-        end)
-
-        it("applies the initial external rows under owner Questie for all four datatypes", function()
-            QuestieCorrections.InitializePolicyCorrections(externalRows)
-
-            assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Item.Get(5, "name"))
-            assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Quest.Get(2, "name"))
-            assert.are_same({"Bringt die Klaue."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
-            assert.are_same("Waldspinne", LibQuestieDB.Npc.Get(30, "name"))
-            assert.are_same("Spinne", LibQuestieDB.Npc.Get(30, "subName"))
-            assert.are_same("Alte Löwenstatue", LibQuestieDB.Object.Get(31, "name"))
-            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Npc", 30, "subName"))
-            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.GetRaw(5, "name"))
-        end)
-
-        it("withdraws all four external layers", function()
-            QuestieCorrections.InitializePolicyCorrections(externalRows)
-
-            QuestieCorrections.WithdrawExternalLocaleCorrections()
-
-            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
-            assert.are_same("Sharptalon's Claw", LibQuestieDB.Quest.Get(2, "name"))
-            assert.are_same("Forest Spider", LibQuestieDB.Npc.Get(30, "name"))
-            assert.are_same("Old Lion Statue", LibQuestieDB.Object.Get(31, "name"))
-            assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Object", 31, "name"))
-        end)
-
-        it("switches withdrawal-first so an entity created only by the old external layer cannot validate itself", function()
-            externalRows.Item[999] = {[itemKeys.name] = "Only in the old locale"}
-            QuestieCorrections.InitializePolicyCorrections(externalRows)
-            assert.is_true(LibQuestieDB.Item.Exists(999))
-            QuestieDB.IsInitialized = true
-            local applyCountBefore = mock.applyCount.Questie
-
-            local existedWhileBuilding
-            QuestieCorrections.SetExternalLocaleCorrections(function()
-                existedWhileBuilding = LibQuestieDB.Item.Exists(999)
-                return {
-                    Item = {},
-                    Quest = {},
-                    Npc = {[30] = {[npcKeys.name] = "Araignée des bois"}},
-                    Object = {},
-                }
-            end)
-
-            assert.is_false(existedWhileBuilding)
-            assert.is_false(LibQuestieDB.Item.Exists(999))
-            assert.are_same("Araignée des bois", LibQuestieDB.Npc.Get(30, "name"))
-            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
-            assert.are_same(applyCountBefore + 2, mock.applyCount.Questie)
-            assert.spy(QuestieDB.RefreshAfterCorrectionApply).was.called(2)
         end)
     end)
 
@@ -413,13 +265,6 @@ describe("QuestieCorrections", function()
             assert.are_same({[101] = true}, QuestieCorrections.questItemBlacklist)
             assert.are_same({[201] = true}, QuestieCorrections.questNPCBlacklist)
             assert.are_same({[301] = true}, QuestieCorrections.hiddenQuests)
-        end)
-
-        it("keeps blacklist construction separate from registrar state", function()
-            QuestieCorrections.Initialize()
-
-            assert.is_nil(mock.registrations.Questie)
-            assert.is_nil(mock.applyCount.Questie)
         end)
 
         it("merges the completed Isle of Quel'Danas phase without overriding existing policy", function()

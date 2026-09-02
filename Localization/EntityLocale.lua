@@ -3,18 +3,12 @@ local EntityLocale = QuestieLoader:CreateModule("EntityLocale")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
--- Entity localization is provider-owned. This seam forwards Questie's effective locale to
--- QuestieTDB and turns an external locale addon's entity lookups into Questie Policy Correction
--- rows. UI strings stay in l10n; QuestieCorrections applies the rows built here.
-
----Forwards Questie's effective locale to QuestieTDB's built-in entity localization. Login
----Initialization calls this after the Contract check and before any entity read.
----@param locale string Effective UI locale, e.g. "deDE".
----@return nil
-function EntityLocale.ForwardProviderLocale(locale)
-    LibQuestieDB.l10n.SetLocale(locale)
-end
+-- Entity localization is provider-owned; UI strings stay in l10n. This module's one job is
+-- turning an external locale addon's entity lookups into Questie Policy Correction rows and
+-- publishing them through QuestieCorrections' external locale slots.
 
 ---Resolves one external lookup. The addon contract supplies a function returning a table, because
 ---generated lookups were loadstring functions; a plain table is accepted as well.
@@ -48,11 +42,15 @@ end
 ---Rows are accepted only for IDs whose composed entity currently exists. QuestieTDB Corrections can
 ---create entities, so an unfiltered external lookup could add stale or wrong-flavor name-only
 ---entities to the composed view and to Questie's pointer maps. Build against a view the external
----layer has not contributed to: before the initial apply, or after
----`QuestieCorrections.WithdrawExternalLocaleCorrections`.
+---layer has not contributed to — Login Initialization builds before publishing anything external.
+---
+---The filter runs after Questie's static slots publish (gathering nodes, Content Phase). Neither
+---adds entities on live flavors, but a slot writing only `{}`-cleared fields makes its IDs pass
+---`Exists` even where the flavor's base data lacks them — keep static slots to IDs that exist on
+---every flavor, or publish them after this build.
 ---
 ---Returns empty tables when no external addon is loaded or when it supplies a different locale
----than the effective one; external entity names only ever applied under their own locale.
+---than the effective one; external entity names only ever apply under their own locale.
 ---@param locale string Effective UI locale.
 ---@return ExternalLocaleCorrections
 function EntityLocale.BuildExternalLocaleCorrections(locale)
@@ -118,3 +116,26 @@ function EntityLocale.BuildExternalLocaleCorrections(locale)
 
     return corrections
 end
+
+---Builds the external locale rows for the effective locale and publishes them as the four
+---external locale slots. Empty tables normalize to withdrawals inside SetCorrection, so the
+---common no-external-addon login publishes nothing and recomposes nothing.
+---
+---Login-only by design: a second in-session call would build against a composed view already
+---containing this layer's rows, letting them self-validate through the existence filter. An
+---effective locale change reloads the UI, so no second call exists.
+---@param locale string Effective UI locale.
+---@return nil
+function EntityLocale.ApplyExternalLocaleCorrections(locale)
+    local corrections = EntityLocale.BuildExternalLocaleCorrections(locale)
+    QuestieCorrections.SetCorrection("Item", "ExternalLocaleItem", corrections.Item)
+    QuestieCorrections.SetCorrection("Quest", "ExternalLocaleQuest", corrections.Quest)
+    QuestieCorrections.SetCorrection("Npc", "ExternalLocaleNpc", corrections.Npc)
+    QuestieCorrections.SetCorrection("Object", "ExternalLocaleObject", corrections.Object)
+end
+
+---@class ExternalLocaleCorrections Rows supplied by an external locale addon, one table per datatype.
+---@field Item PolicyCorrectionRows
+---@field Quest PolicyCorrectionRows
+---@field Npc PolicyCorrectionRows
+---@field Object PolicyCorrectionRows

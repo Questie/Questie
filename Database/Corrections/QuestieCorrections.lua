@@ -33,50 +33,88 @@ QuestieCorrections.hiddenQuests = {}
 -- QuestieTDB composes provider-owned entity corrections cumulatively: Classic on every flavor,
 -- followed by TBC, WotLK, Cata, and MoP where applicable. SoD applies only during its active
 -- season; Titan applies only on the WotLK client during season 109. Those layers exist before
--- Questie registers, so Questie registers no faction, class, race, expansion, SoD, or Titan copies.
+-- Questie writes anything, so Questie publishes no faction, class, race, expansion, SoD, or
+-- Titan copies.
 --
--- Questie owns a Correction only when choosing it depends on Questie state or policy. Every such
--- Correction is registered once under owner "Questie" and applied through one shared path. The
--- initial apply happens before QuestieDB initialization; later Darkmoon, Content Phase, runtime
--- Item, and external locale changes reapply the owner and refresh Questie's composed views.
+-- Questie owns a Correction only when choosing it depends on Questie state or policy. Each one
+-- is a named data slot written through `SetCorrection` below: the write publishes immediately
+-- (the provider recomposes only the written datatype), writing again replaces the slot's rows,
+-- and nil withdraws the slot so the layers underneath show through again. There is no separate
+-- registration or apply step.
+--
+-- Slots and the modules that own their state:
+--   Npc    DarkmoonFaire               QuestieEvent — calendar state selects the location
+--   Object GatheringNodeDisplayPolicy  Initialize below — static display policy
+--   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
+--   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads
+--   *      ExternalLocale{Item,Quest,Npc,Object}  EntityLocale — external locale addon rows
 ---------------------------------------------------------------------------------------------------
 
 local QUESTIE_OWNER = "Questie"
 
--- Load order only sequences entries of one datatype within owner "Questie"; later wins.
-local DARKMOON_LOAD_ORDER = 100
-local GATHERING_NODE_LOAD_ORDER = 200
-local CONTENT_PHASE_LOAD_ORDER = 300
-local RUNTIME_ITEM_LOAD_ORDER = 400
-local EXTERNAL_LOCALE_ITEM_LOAD_ORDER = 500
-local EXTERNAL_LOCALE_QUEST_LOAD_ORDER = 501
-local EXTERNAL_LOCALE_NPC_LOAD_ORDER = 502
-local EXTERNAL_LOCALE_OBJECT_LOAD_ORDER = 503
-
 ---@alias PolicyCorrectionRows table<number, table<integer, unknown>> Entity ID to Database Key Enum index to value.
 
----@class ExternalLocaleCorrections Rows supplied by an external locale addon, one table per datatype.
----@field Item PolicyCorrectionRows
----@field Quest PolicyCorrectionRows
----@field Npc PolicyCorrectionRows
----@field Object PolicyCorrectionRows
+-- Entity IDs each slot last touched, so a replace or withdrawal evicts exactly the entities
+-- whose composed rows can have changed.
+---@type table<string, table<number, true>>
+local lastCorrectionIds = {}
 
--- Owner-scoped registrar; nil until the first InitializePolicyCorrections call registers the providers.
-local questieRegistrar
+-- "datatype:name" -> "file:line" of the last writer, for debugging who published a slot.
+---@type table<string, string>
+QuestieCorrections.correctionSources = {}
 
--- Captured Policy Correction state. The providers below return these tables on every apply, so a
--- setter only has to replace a table and reapply. Replacing with `{}` withdraws that layer.
----@type PolicyCorrectionRows
-local activeDarkmoonNpcCorrections = {}
----@type PolicyCorrectionRows
-local activeRuntimeItemCorrections = {}
----@return ExternalLocaleCorrections
-local function _EmptyExternalLocaleCorrections()
-    return {Item = {}, Quest = {}, Npc = {}, Object = {}}
+---The caller two frames up: WoW's debugstack in the client, a placeholder under busted.
+---@return string
+local function _CallerSource()
+    if type(debugstack) == "function" then
+        return string.trim(debugstack(3, 1, 0) or "")
+    end
+    return "test"
 end
 
----@type ExternalLocaleCorrections
-local activeExternalLocaleCorrections = _EmptyExternalLocaleCorrections()
+---Publishes one Questie-owned Policy Correction slot and refreshes Questie's composed views.
+---
+---Write-through: the provider recomposes the written datatype immediately — no separate apply.
+---Pass the slot's full replacement rows every time; nil (or `{}`, which normalizes to it)
+---withdraws the slot. Withdrawing a slot that was never published is a no-op, so callers do not
+---need their own "was anything active" bookkeeping.
+---@param datatype "Quest"|"Npc"|"Item"|"Object"
+---@param name string Slot name, unique per datatype within owner "Questie".
+---@param rows PolicyCorrectionRows|nil
+---@return nil
+function QuestieCorrections.SetCorrection(datatype, name, rows)
+    if rows ~= nil and next(rows) == nil then
+        rows = nil
+    end
+
+    local slot = datatype .. ":" .. name
+    local previousIds = lastCorrectionIds[slot]
+    if rows == nil and previousIds == nil then
+        return
+    end
+
+    LibQuestieDB.Corrections.Set(QUESTIE_OWNER, datatype, name, rows)
+    QuestieCorrections.correctionSources[slot] = _CallerSource()
+
+    -- The union of old and new row IDs is exactly the set of entities whose composed rows can
+    -- have changed: everything outside it is untouched by construction, and an unchanged row
+    -- inside it re-reads identically.
+    local changedIds = {}
+    for id in pairs(previousIds or {}) do
+        changedIds[id] = true
+    end
+    local currentIds
+    if rows ~= nil then
+        currentIds = {}
+        for id in pairs(rows) do
+            currentIds[id] = true
+            changedIds[id] = true
+        end
+    end
+    lastCorrectionIds[slot] = currentIds
+
+    QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)
+end
 
 -- Gathering nodes have thousands of spawns that Questie never displays. Exactly these 24 Objects.
 ---@type ObjectId[]
@@ -86,17 +124,9 @@ local GATHERING_NODE_OBJECT_IDS = {
     177388, 324, 150079, 176645, 2040, 123310,
 }
 
--- Providers: each returns the current rows for one registered Policy Correction. --------------
-
----Darkmoon Faire NPC spawns for the location QuestieEvent selected; `{}` while no faire is up.
+---Rows clearing the spawns of the 24 gathering-node Objects; `{}` as a field value clears it.
 ---@return PolicyCorrectionRows
-local function _DarkmoonFaireCorrections()
-    return activeDarkmoonNpcCorrections
-end
-
----Clears the spawns of the 24 gathering-node Objects; `{}` as a field value clears it.
----@return PolicyCorrectionRows
-local function _GatheringNodeDisplayPolicy()
+local function _GatheringNodeDisplayRows()
     local spawnsKey = QuestieDB.objectKeys.spawns
     local rows = {}
     for _, objectId in ipairs(GATHERING_NODE_OBJECT_IDS) do
@@ -105,150 +135,14 @@ local function _GatheringNodeDisplayPolicy()
     return rows
 end
 
----TBC attunement prerequisites that follow Questie's Content Phase. The Era gate is required:
----without it the overlay would create malformed rows for Quests 10944 and 11007 on Era.
----The producer reads the active phase on every apply, so a phase change only needs a reapply.
----@return PolicyCorrectionRows
-local function _ContentPhasePolicy()
-    if Expansions.Current < Expansions.Tbc then
-        return {}
-    end
-    return QuestieTBCPolicyCorrections:LoadContentPhaseFixes()
-end
-
----Name-only rows for Items the client loaded asynchronously because the database lacked them.
----@return PolicyCorrectionRows
-local function _RuntimeItemRepair()
-    return activeRuntimeItemCorrections
-end
-
----@return PolicyCorrectionRows
-local function _ExternalLocaleItem()
-    return activeExternalLocaleCorrections.Item
-end
-
----@return PolicyCorrectionRows
-local function _ExternalLocaleQuest()
-    return activeExternalLocaleCorrections.Quest
-end
-
----@return PolicyCorrectionRows
-local function _ExternalLocaleNpc()
-    return activeExternalLocaleCorrections.Npc
-end
-
----@return PolicyCorrectionRows
-local function _ExternalLocaleObject()
-    return activeExternalLocaleCorrections.Object
-end
-
--- Shared apply path ---------------------------------------------------------------------------
-
----Reapplies owner "Questie". QuestieTDB rebuilds the layer from the providers and invalidates its
----own caches; Questie's pointer maps and semantic caches only need a refresh once QuestieDB has
----bound them.
----@return nil
-local function _ApplyQuestieCorrections()
-    questieRegistrar.Apply()
-
-    if QuestieDB.IsInitialized then
-        QuestieDB.RefreshAfterCorrectionApply()
-    end
-end
-
----Registers the eight Questie Policy Corrections exactly once, captures the initial external
----locale rows, and applies owner "Questie" for the first time. Login Initialization calls this
----after the provider locale is forwarded and before QuestieDB.Initialize, so the first apply also
----fixes Questie's owner precedence.
----@param externalLocaleCorrections ExternalLocaleCorrections Existence-filtered rows built against the clean composed view.
----@return nil
-function QuestieCorrections.InitializePolicyCorrections(externalLocaleCorrections)
-    if not questieRegistrar then
-        -- Registration is append-only in QuestieTDB; registering twice would duplicate every entry.
-        questieRegistrar = LibQuestieDB.GetRegistrar(QUESTIE_OWNER)
-        questieRegistrar.RegisterRuntimeCorrection("Npc", "DarkmoonFaire", _DarkmoonFaireCorrections, DARKMOON_LOAD_ORDER)
-        questieRegistrar.RegisterRuntimeCorrection("Object", "GatheringNodeDisplayPolicy", _GatheringNodeDisplayPolicy, GATHERING_NODE_LOAD_ORDER)
-        questieRegistrar.RegisterRuntimeCorrection("Quest", "ContentPhasePolicy", _ContentPhasePolicy, CONTENT_PHASE_LOAD_ORDER)
-        questieRegistrar.RegisterRuntimeCorrection("Item", "RuntimeItemRepair", _RuntimeItemRepair, RUNTIME_ITEM_LOAD_ORDER)
-        questieRegistrar.RegisterRuntimeCorrection("Item", "ExternalLocaleItem", _ExternalLocaleItem, EXTERNAL_LOCALE_ITEM_LOAD_ORDER)
-        questieRegistrar.RegisterRuntimeCorrection("Quest", "ExternalLocaleQuest", _ExternalLocaleQuest, EXTERNAL_LOCALE_QUEST_LOAD_ORDER)
-        questieRegistrar.RegisterRuntimeCorrection("Npc", "ExternalLocaleNpc", _ExternalLocaleNpc, EXTERNAL_LOCALE_NPC_LOAD_ORDER)
-        questieRegistrar.RegisterRuntimeCorrection("Object", "ExternalLocaleObject", _ExternalLocaleObject, EXTERNAL_LOCALE_OBJECT_LOAD_ORDER)
-    end
-
-    activeExternalLocaleCorrections = externalLocaleCorrections or _EmptyExternalLocaleCorrections()
-    _ApplyQuestieCorrections()
-end
-
----Reapplies owner "Questie" after Questie state that a provider reads has changed, such as the
----active Content Phase. The active phases are constants today, so nothing in production calls this
----yet; it stays public as the seam a live phase switch must call. Setters below use the same path.
----@return nil
-function QuestieCorrections.ReapplyPolicyCorrections()
-    _ApplyQuestieCorrections()
-end
-
--- Setters: one per Questie-owned runtime input ------------------------------------------------
-
----Publishes the NPC rows for the active Darkmoon Faire location. QuestieEvent calls this once per
----load with the Classic or TBC producer result, or with `{}` to withdraw an inactive faire.
----@param npcCorrections PolicyCorrectionRows
----@return nil
-function QuestieCorrections.SetDarkmoonNpcCorrections(npcCorrections)
-    -- Nothing published and nothing to withdraw: skip the recomposition and Questie's cache refresh
-    -- that every login without an active faire would otherwise pay.
-    if next(npcCorrections) == nil and next(activeDarkmoonNpcCorrections) == nil then
-        return
-    end
-
-    activeDarkmoonNpcCorrections = npcCorrections
-    _ApplyQuestieCorrections()
-end
-
----Records the client-loaded name of an Item the database lacked and reapplies so the Item becomes
----readable and enumerable. Repairs accumulate; a repeated callback with the same name is a no-op
----and a nil name is ignored. Name only: no relationship field is inferred.
----@param itemId ItemId
----@param itemName string|nil
----@return nil
-function QuestieCorrections.RepairMissingItem(itemId, itemName)
-    if not itemName then
-        return
-    end
-
-    local nameKey = QuestieDB.itemKeys.name
-    local existingRepair = activeRuntimeItemCorrections[itemId]
-    if existingRepair and existingRepair[nameKey] == itemName then
-        return
-    end
-
-    activeRuntimeItemCorrections[itemId] = {[nameKey] = itemName}
-    _ApplyQuestieCorrections()
-end
-
----Withdraws all four external locale layers by applying empty tables.
----@return nil
-function QuestieCorrections.WithdrawExternalLocaleCorrections()
-    activeExternalLocaleCorrections = _EmptyExternalLocaleCorrections()
-    _ApplyQuestieCorrections()
-end
-
----Replaces the external locale layers withdrawal-first: the old layer is withdrawn and applied
----before `buildCorrections` runs, so an entity that existed only through the previous external
----locale cannot pass the builder's existence filter and validate itself.
----@param buildCorrections fun(): ExternalLocaleCorrections Builds the new rows against the now-clean composed view.
----@return nil
-function QuestieCorrections.SetExternalLocaleCorrections(buildCorrections)
-    QuestieCorrections.WithdrawExternalLocaleCorrections()
-    activeExternalLocaleCorrections = buildCorrections()
-    _ApplyQuestieCorrections()
-end
-
 ---------------------------------------------------------------------------------------------------
--- Blacklist policy: what Questie shows, independent of entity facts and registrar state.
+-- Blacklist policy plus the static Policy Correction slots. Both express what Questie shows:
+-- blacklists by hiding quests Questie-side, Correction slots by changing composed entity rows.
 ---------------------------------------------------------------------------------------------------
 
----Builds Questie-owned blacklist policy for the active flavor, season, and Content Phase.
+---Builds Questie-owned blacklist policy for the active flavor, season, and Content Phase, and
+---publishes the Policy Correction slots that need no runtime state beyond this point. Darkmoon,
+---Item repair, and external locale slots are written later by the modules that own their state.
 ---@return nil
 function QuestieCorrections.Initialize()
     QuestieCorrections.questItemBlacklist = BlacklistFilter.filterExpansion(QuestieItemBlacklist:Load())
@@ -286,5 +180,14 @@ function QuestieCorrections.Initialize()
         for questId in pairs(HardcoreBlacklist:Load()) do
             QuestieCorrections.hiddenQuests[questId] = true
         end
+    end
+
+    QuestieCorrections.SetCorrection("Object", "GatheringNodeDisplayPolicy", _GatheringNodeDisplayRows())
+
+    -- TBC attunement prerequisites that follow Questie's Content Phase. The Era gate is required:
+    -- the rows reference Quests that only exist from TBC on. The active phases are constants
+    -- today; a live phase switch would simply re-publish this slot with the producer's new rows.
+    if Expansions.Current >= Expansions.Tbc then
+        QuestieCorrections.SetCorrection("Quest", "ContentPhasePolicy", QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
     end
 end
