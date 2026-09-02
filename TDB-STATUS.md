@@ -37,7 +37,7 @@ Questie-side gates:
 - Pinned Database Integration Check in CI. The old `db-validation` matrix is gone; the provider
   pins Questie through its own `QUESTIE_COMMIT` and documents no consumer-side command, so this
   waits for the final provider revision.
-- Live smoke matrix: Era, SoD, TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
+- Live smoke matrix (Era done, see below): SoD, TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
   one built-in non-English locale, one external locale addon. Check gathering-node suppression,
   Darkmoon, Content Phase prerequisites, Townsfolk, Available Quests, Objective Order, Special
   Objective text, and runtime missing-Item repair.
@@ -72,3 +72,28 @@ None block the merge. Numbered items came from the simplification review.
 - Pre-existing, noted during review: the Isle of Quel'Danas phase option writes
   `Questie.db.profile` while the blacklist merge reads `global`; the Event and QuestieLib test
   suites leak `Expansions.Current` and `C_Calendar` stubs between cases.
+
+## Live smoke results
+
+**Era, 2026-09-02, enUS, baked mode, QuestieTDB `eaea07d`.** Passed through the Lua bridge on a
+level 5 character: Contract gate, ID maps populated, gathering-node spawns hidden with raw data
+intact and `Questie` provenance, quests 10944 and 11007 absent, Townsfolk built, tracker drawn, name
+index and `IdsByName` working, `SetLocale("deDE")` localizing reads and rebuilding the name index
+with the gathering suppression intact. A write-through probe (publish, verify composed read, cached
+NPC eviction, NPC map swap with Quest map kept, correction-added ID visible, withdraw, restore)
+passed, and the Classic Darkmoon producer published and withdrew correctly through the live slot.
+
+Found:
+
+- Provider: `ObjectiveFirst.eventObjectiveFirst` carries the three SoD quest IDs (85304, 85386,
+  89567) on plain Era in baked mode. Upstream loaded those only on SoD. Harmless today because the
+  IDs do not exist on Era, but it is the flavor leak issue #17 describes, in baked rather than
+  Source mode.
+- Provider: `requiredRaces` inference (#1/#13) is not active. 1,382 of 4,257 Era quests read `0`
+  raw and composed; 16 of those have only Alliance-faction starters and none only Horde, so the
+  regression against upstream's inference is 16 quests on Era. SoD and later flavors unmeasured.
+- Questie: `QuestieCorrections.correctionSources` records the profiler wrapper or the bridge's
+  `pcall` frame instead of the real caller while the profiler is on. Cosmetic.
+
+Still to smoke: SoD, TBC before and after phase 3, WotLK season 109, Cata, MoP, an external locale
+addon, and a Darkmoon week with the calendar-driven path.
