@@ -49,11 +49,6 @@ describe("QuestieInit", function()
             originalSetLocale(locale)
         end
 
-        local EntityLocale = QuestieLoader:ImportModule("EntityLocale")
-        EntityLocale.ApplyExternalLocaleCorrections = function(locale)
-            table.insert(callOrder, "EntityLocale.ApplyExternalLocaleCorrections:" .. locale)
-        end
-
         local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.Initialize = _Record("QuestieCorrections.Initialize")
 
@@ -82,7 +77,6 @@ describe("QuestieInit", function()
                 "l10n.InitializeUILocale",
                 "LibQuestieDB.l10n.SetLocale:deDE",
                 "QuestieCorrections.Initialize",
-                "EntityLocale.ApplyExternalLocaleCorrections:deDE",
                 "QuestieDB.Initialize",
                 "Townsfolk.Initialize",
                 "Townsfolk:BuildCharacterTownsfolk",
