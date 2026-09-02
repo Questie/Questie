@@ -67,10 +67,6 @@ Database\Zones\zoneDB.lua
 
 # Databases
 Database\QuestieDB.lua
-Database\questDB.lua
-Database\objectDB.lua
-Database\npcDB.lua
-Database\itemDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
 Database\FactionTemplates\factionTemplateTBC.lua

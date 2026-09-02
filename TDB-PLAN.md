@@ -16,47 +16,6 @@ Rules for every step:
   `TDB-STATUS.md`. Delete this file when it is empty.
 - Steps 5 and 6 need a game client and the user. Do steps 1 to 4 without waiting.
 
-## Step 3. Remove leftover ceremony
-
-Why: these exist because a handover packet named them, not because the code needs them. All
-deletions, no behavior change. One commit.
-
-Do, in this order, running the full suite after each sub-step:
-
-1. **Contract gate once.** `Database/questDB.lua`, `npcDB.lua`, `itemDB.lua`, `objectDB.lua` each
-   call `LibQuestieDB.RequireContract(1)` at file load and `error()` on failure, which aborts one
-   file and leaves Questie half-loaded. Keep only the Stage 1 check in `Modules/QuestieInit.lua:125`.
-   Check `Modules/QuestieInit.test.lua` still pins that gate.
-2. **Fold the four adapter files.** Each binds one key enum (`QuestieDB.npcKeys =
-   LibQuestieDB.Meta.NpcMeta.npcKeys`) and builds one inverse `_npcAdapterQueryOrder`. Replace with
-   one loop in `Database/QuestieDB.lua` over `{Quest = "quest", Npc = "npc", Item = "item",
-   Object = "object"}`. Move the `---@class DatabaseQuestKeys` style annotations into `QuestieDB.lua`
-   so the type hints survive. Delete the four files and their lines from all five flavor TOCs
-   (`Questie-Classic.toc:70-73` and the same block in BCC, WOTLKC, Cata, Mists). Run
-   `lua cli/validate-loader-usage.lua`.
-3. **Bind queries at file load.** `QuestieDB.Initialize` (`Database/QuestieDB.lua:430-448`) assigns
-   the eight query aliases and five Objective Order tables. The provider is a `RequiredDeps` and
-   present at file load, so bind them where the fields are declared; `Initialize` keeps only cache
-   resets and the four pointer binds. Keep `QuestieDB.QueryNPCSingle` and friends as the names
-   callers use; renaming callers is not this step.
-4. **Flatten the policy producers.** `QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore)`,
-   `QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar)`, and
-   `LoadContentPhaseFixes()` in `Database/Corrections/QuestiePolicy/` are method-style classes that
-   return rows. Make them dot-call functions with names that say what they return
-   (`DarkmoonNpcRows`, `ContentPhaseQuestRows`), keep the provenance comment at the top of each file,
-   update the callers in `QuestieEvent.lua:395-397` and `QuestieCorrections.lua:193`, and rename the
-   tests to match.
-5. **Dead objectCache.** `Database/QuestieDB.lua:517` reads `_QuestieDB.objectCache`; the store at
-   `:536` is commented out. Delete the read, the declaration at `:371`, the reset at `:421`, and the
-   eviction at `:504`. Do not enable it.
-6. **F5: honest `correctionSources`.** `_CallerSource` in `QuestieCorrections.lua` uses
-   `debugstack(3, 1, 0)`, which records the profiler wrapper or pcall frame instead of the writer.
-   Walk up until the frame is outside `QuestieCorrections.lua` and known wrapper files, or accept
-   the caller as a parameter from `SetCorrection`. Keep the `"test"` fallback under busted.
-
-Done when: full suite green, luacheck clean, loader validation passes, the five TOCs no longer list
-the adapter files, and `rg RequireContract` finds one production call.
-
 ## Step 4. Townsfolk stops writing SavedVariables
 
 Why: `Modules/QuestieMenu/Townsfolk.lua:456-461` writes five tables into `Questie.db.global` on

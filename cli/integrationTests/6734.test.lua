@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
 
 -- Issue references:
 -- https://github.com/Questie/Questie/issues/6734
@@ -129,6 +130,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
         QuestieAnnounce.CompletedQuest = spy.new(function() end)
 
+        -- QuestieDB binds the provider schema and queries at file load.
+        LoadQuestieTDBMock()
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         -- The quest is absent from the database: single and bulk reads both return nil, so the

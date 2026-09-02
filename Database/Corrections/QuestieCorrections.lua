@@ -65,13 +65,36 @@ local lastCorrectionIds = {}
 ---@type table<string, string>
 QuestieCorrections.correctionSources = {}
 
----The caller two frames up: WoW's debugstack in the client, a placeholder under busted.
+-- Frames that sit between a writer and `SetCorrection` without being the writer: the profiler's
+-- hook wrappers, the tail-call slot those wrappers leave behind, and C frames such as the
+-- bridge's pcall. This file's own writers (`Initialize`) are legitimate callers and stay recorded.
+local WRAPPER_FRAME_PATTERNS = {"QuestieProfiler%.lua", "^%(tail call%)", "^%[C%]"}
+
+---The nearest stack frame above `SetCorrection` that is not a known wrapper: WoW's debugstack in
+---the client, a placeholder under busted.
 ---@return string
 local function _CallerSource()
-    if type(debugstack) == "function" then
-        return string.trim(debugstack(3, 1, 0) or "")
+    if type(debugstack) ~= "function" then
+        return "test"
     end
-    return "test"
+    local fallback = string.trim(debugstack(3, 1, 0) or "")
+    for level = 3, 12 do
+        local frame = string.trim(debugstack(level, 1, 0) or "")
+        if frame == "" then
+            break
+        end
+        local isWrapper = false
+        for _, pattern in ipairs(WRAPPER_FRAME_PATTERNS) do
+            if frame:find(pattern) then
+                isWrapper = true
+                break
+            end
+        end
+        if not isWrapper then
+            return frame
+        end
+    end
+    return fallback
 end
 
 ---Publishes one Questie-owned Policy Correction slot and refreshes Questie's composed views.

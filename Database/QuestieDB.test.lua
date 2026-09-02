@@ -413,10 +413,6 @@ describe("QuestieDB", function()
 
         before_each(function()
             LibQuestieDB = mock.lib
-            dofile("Database/questDB.lua")
-            dofile("Database/npcDB.lua")
-            dofile("Database/itemDB.lua")
-            dofile("Database/objectDB.lua")
             QuestieLib.TableMemoizeFunction = function() return {} end
             Questie.db.char.hidden = {}
 
@@ -442,8 +438,18 @@ describe("QuestieDB", function()
             })
         end)
 
-        it("binds the provider query functions by identity", function()
-            QuestieDB.Initialize()
+        it("binds the provider schema, query functions, and Objective Order tables at file load", function()
+            LibQuestieDB.ObjectiveFirst.spellObjectiveFirst[2] = true
+            -- The outer before_each stubs some of these after loading; a fresh load shows the bindings.
+            dofile("Database/QuestieDB.lua")
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+            assert.are_equal(LibQuestieDB.Meta.QuestMeta.questKeys, QuestieDB.questKeys)
+            assert.are_equal(LibQuestieDB.Meta.NpcMeta.npcKeys, QuestieDB.npcKeys)
+            assert.are_equal(LibQuestieDB.Meta.ItemMeta.itemKeys, QuestieDB.itemKeys)
+            assert.are_equal(LibQuestieDB.Meta.ObjectMeta.objectKeys, QuestieDB.objectKeys)
+            assert.are_same("name", QuestieDB._npcAdapterQueryOrder[QuestieDB.npcKeys.name])
+            assert.are_same("zoneID", QuestieDB._objectAdapterQueryOrder[QuestieDB.objectKeys.zoneID])
 
             assert.are_equal(LibQuestieDB.Quest.Get, QuestieDB.QueryQuestSingle)
             assert.are_equal(LibQuestieDB.Npc.Get, QuestieDB.QueryNPCSingle)
@@ -453,11 +459,16 @@ describe("QuestieDB", function()
             assert.are_equal(LibQuestieDB.Npc.GetAll, QuestieDB.QueryNPC)
             assert.are_equal(LibQuestieDB.Item.GetAll, QuestieDB.QueryItem)
             assert.are_equal(LibQuestieDB.Object.GetAll, QuestieDB.QueryObject)
+
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst, QuestieDB.killCreditObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.objectObjectiveFirst, QuestieDB.objectObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.itemObjectiveFirst, QuestieDB.itemObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.eventObjectiveFirst, QuestieDB.eventObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.spellObjectiveFirst, QuestieDB.spellObjectiveFirst)
+            assert.is_true(QuestieDB.spellObjectiveFirst[2])
         end)
 
-        it("binds the composed ID maps and the provider Objective Order tables", function()
-            LibQuestieDB.ObjectiveFirst.spellObjectiveFirst[2] = true
-
+        it("binds the composed ID maps", function()
             QuestieDB.Initialize()
 
             assert.are_equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
@@ -468,13 +479,6 @@ describe("QuestieDB", function()
             assert.is_true(QuestieDB.NPCPointers[30])
             assert.is_true(QuestieDB.ItemPointers[5])
             assert.is_true(QuestieDB.ObjectPointers[31])
-
-            assert.are_equal(LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst, QuestieDB.killCreditObjectiveFirst)
-            assert.are_equal(LibQuestieDB.ObjectiveFirst.objectObjectiveFirst, QuestieDB.objectObjectiveFirst)
-            assert.are_equal(LibQuestieDB.ObjectiveFirst.itemObjectiveFirst, QuestieDB.itemObjectiveFirst)
-            assert.are_equal(LibQuestieDB.ObjectiveFirst.eventObjectiveFirst, QuestieDB.eventObjectiveFirst)
-            assert.are_equal(LibQuestieDB.ObjectiveFirst.spellObjectiveFirst, QuestieDB.spellObjectiveFirst)
-            assert.is_true(QuestieDB.spellObjectiveFirst[2])
         end)
 
         it("projects composed rows through the adapter query orders", function()
@@ -507,7 +511,6 @@ describe("QuestieDB", function()
             QuestieDB.private.questCache[2] = {}
             QuestieDB.private.itemCache[5] = {}
             QuestieDB.private.npcCache[30] = {}
-            QuestieDB.private.objectCache[31] = {}
             QuestieDB.private.zoneCache[1] = {}
             QuestieDB._CreatureLevelCache[2] = {}
 
@@ -516,7 +519,6 @@ describe("QuestieDB", function()
             assert.are_same({}, QuestieDB.private.questCache)
             assert.are_same({}, QuestieDB.private.itemCache)
             assert.are_same({}, QuestieDB.private.npcCache)
-            assert.are_same({}, QuestieDB.private.objectCache)
             assert.are_same({}, QuestieDB.private.zoneCache)
             assert.are_same({}, QuestieDB._CreatureLevelCache)
         end)
@@ -527,10 +529,6 @@ describe("QuestieDB", function()
 
         before_each(function()
             LibQuestieDB = mock.lib
-            dofile("Database/questDB.lua")
-            dofile("Database/npcDB.lua")
-            dofile("Database/itemDB.lua")
-            dofile("Database/objectDB.lua")
             QuestieLib.TableMemoizeFunction = function() return {} end
             Questie.db.char.hidden = {}
             QuestieDB.Initialize()

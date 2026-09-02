@@ -120,7 +120,7 @@ describe("QuestieTDBMock", function()
     end)
 
     describe("schema", function()
-        it("binds the provider Database Key Enums onto QuestieDB, as the adapters do at Addon Load", function()
+        it("binds the provider Database Key Enums onto QuestieDB, as QuestieDB.lua does at Addon Load", function()
             local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
             assert.are_equal(questKeys, QuestieDB.questKeys)

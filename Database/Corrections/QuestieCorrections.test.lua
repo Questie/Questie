@@ -95,6 +95,11 @@ describe("QuestieCorrections", function()
             })
         end)
 
+        after_each(function()
+            -- The caller-source test stubs WoW's debugstack; busted has none of its own.
+            _G.debugstack = nil
+        end)
+
         it("publishes rows under owner Questie immediately, leaving GetRaw untouched", function()
             QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
 
@@ -172,6 +177,24 @@ describe("QuestieCorrections", function()
             QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
 
             assert.are_same("string", type(QuestieCorrections.correctionSources["Npc:DarkmoonFaire"]))
+        end)
+
+        it("records the writer's frame, not the pcall, profiler wrapper, or tail-call slot between them", function()
+            -- The profiler's hook wrapper tail-calls the module function, which Lua reports as "(tail call)".
+            local frames = {
+                [3] = "[C]: in function 'pcall'",
+                [4] = "Modules/Profiler/QuestieProfiler.lua:544: in function <...>",
+                [5] = "(tail call): ?",
+                [6] = "Database/Corrections/Holidays/QuestieEvent.lua:395: in function 'Load'",
+                [7] = "Modules/QuestieInit.lua:150: in function <...>",
+            }
+            _G.debugstack = function(level)
+                return frames[level]
+            end
+
+            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+            assert.are_same(frames[6], QuestieCorrections.correctionSources["Npc:DarkmoonFaire"])
         end)
     end)
 

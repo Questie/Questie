@@ -53,16 +53,10 @@ None block the merge. Numbered items came from the simplification review.
 
 - Provider-side: build the Object name index lazily or on `SetLocale` so the two Questie
   `BuildNameIndex` call sites (Stage 2, options toggle) can go.
-- `RequireContract(1)` runs five times: Stage 1 plus file load in the four `Database/*DB.lua`
-  adapters. A file-load `error()` leaves Questie half-loaded; keep only the Stage 1 check.
-- The four adapter files each bind one key enum and one query order. One loop in `QuestieDB.lua`
-  replaces them and four TOC lines each.
-- Seventeen query and Objective Order aliases are bound in `QuestieDB.Initialize` although the
-  provider is present at file load. Bind statically; `Initialize` becomes caches plus pointers.
-- `LoadDarkmoonFixes` and `LoadContentPhaseFixes` are still method-style classes in
-  `Database/Corrections/QuestiePolicy`. They are plain row producers now and can flatten.
-- `_QuestieDB.objectCache` is read but never written (the store is commented out). Delete or
-  enable, not both halves.
+- Contract gate: only Stage 1 checks `RequireContract(1)`. `QuestieDB.lua` indexes the provider
+  at file load without a gate; a provider that passes the Contract but lacks a field would
+  nil-index there, and Stage 1 still reports the Contract message afterwards because later
+  files keep loading.
 - Item repair now publishes `Item:RuntimeItemRepair` once per frame (`TDB-FINDINGS.md` F2).
   Uncached Items still arrive one per client event across frames; if that shows as a hitch on
   SoD, widen the window from `C_Timer.After(0)` to a short debounce.
