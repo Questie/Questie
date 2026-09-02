@@ -43,7 +43,7 @@ describe("TooltipHandler", function()
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/1 Test Objective")
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/1 Other Objective")
             assert.spy(GameTooltip.Show).was.called()
-            assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_" .. objectId, PLAYER_ZONE)
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_" .. objectId, 0) -- unique name, no zone filter
         end)
 
         it("should add list of quest names", function()

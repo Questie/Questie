@@ -116,6 +116,33 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
     error("No AreaId found for UiMapId: " .. uiMapId .. ":" .. C_Map.GetMapInfo(uiMapId).name)
 end
 
+--- Continent maps are what C_Map.GetBestMapForUnit returns in caves and other areas without a map
+--- of their own, so an AreaId for one never identifies a real zone.
+---@param areaId AreaId
+---@return boolean
+function ZoneDB.IsContinentZone(areaId)
+    return areaId == 0 or areaId == ZoneDB.zoneIDs.KALIMDOR or areaId == ZoneDB.zoneIDs.EASTERN_KINGDOMS
+end
+
+local areaNameToAreaId -- built on first use, C_Map.GetAreaInfo needs a fully loaded client
+
+---@param name string Localized zone name, e.g. from GetRealZoneText()
+---@return AreaId?
+function ZoneDB:GetAreaIdByName(name)
+    if not areaNameToAreaId then
+        areaNameToAreaId = {}
+        for areaId in pairs(areaIdToUiMapId) do
+            local areaName = C_Map.GetAreaInfo(areaId)
+            -- Sub areas can share the name of their zone; the zone has the lower ID, keep that one
+            if areaName and ((not areaNameToAreaId[areaName]) or areaId < areaNameToAreaId[areaName]) then
+                areaNameToAreaId[areaName] = areaId
+            end
+        end
+    end
+
+    return areaNameToAreaId[name]
+end
+
 ---@param areaId AreaId
 ---@return AreaCoordinate?
 function ZoneDB:GetDungeonLocation(areaId)

@@ -2,8 +2,9 @@
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- If you want to add something to uiMapIdToAreaId overwrite the data in this table.
---- We map continent zone to 0, because they can be returned from C_Map.GetBestMapForUnit("player") when
---- the player is in a cave for example.
+--- Continent maps are returned from C_Map.GetBestMapForUnit("player") when the player is in a cave for example.
+--- Kalimdor and Eastern Kingdoms get fake AreaIds so icons can be placed on them, the rest map to 0.
+--- QuestiePlayer:GetCurrentZoneId() resolves both back to the real zone by name.
 ---@type table<AreaId, UiMapId>
 ZoneDB.private.uiMapIdToAreaIdOverride = [[return {
     [113] = 0, -- Northrend
