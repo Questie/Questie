@@ -78,25 +78,35 @@ show it.
 Proposed action: accumulate names and publish once per frame (`C_Timer.After(0, ...)` guarded by a
 pending flag). Idempotency and nil-name handling stay as they are.
 
-### F3. Provider: `requiredRaces` inference is not active
+### F3. Provider: `requiredRaces` inference — withdrawn on Era, open on SoD
 
-**Owner:** QuestieTDB, issues #1 and #13. **Severity:** behavior regression, merge gate.
+**Owner:** QuestieTDB, issue #13 for SoD. **Severity:** none on Era; SoD unmeasured.
 
-Composed `requiredRaces` equals raw everywhere. Upstream Questie inferred a faction for quests
-with `requiredRaces == 0` whose starter NPCs are all one faction. Counted in the client by
-starter `friendlyToFaction`:
+First reading (wrong): composed `requiredRaces` equalled raw for every quest, and applying
+upstream's starter-faction rule to composed data flagged 16 Era quests (35 plus 5 on SoD) as
+"should have been inferred". Concluded the inference was inactive.
 
-| Flavor | Quests with 0 | Alliance-only starters | Horde-only starters | Regressed |
-| --- | ---: | ---: | ---: | ---: |
-| Era | 1,382 of 4,257 | 16 | 0 | 16 |
-| SoD | 2,171 of 5,534 | 35 | 5 | 40 |
+What is actually true: QuestieTDB runs the inference as a bake-time Derived Pass
+(`src/derived/requiredRaces.lua`, registered in `src/derived/_end.lua`, ADR 0004), so the baked
+base rows already carry it and `GetRaw` equals composed by design. The Era histogram shows it
+working: 1,370 quests at `ALL_ALLIANCE` (77) and 1,216 at `ALL_HORDE` (178). Re-running
+upstream's exact rule over `GetRaw` starter and NPC data patches zero quests on Era.
 
-Era examples: 8254 Cenarion Aid, 1953 Return to the Marsh, 737 Forbidden Knowledge. SoD examples:
-90125 Rebuke, 90114 Endless Rage (Horde), 82309 and 80307 A Full Shipment.
+The 16 flagged quests were an artifact of the probe: it read composed `startedBy`, which the
+provider's runtime faction correction had already narrowed for the Alliance test character. Quest
+8254 Cenarion Aid has raw starters 3045 (H), 5489 (A), 6018, 11406 (A) and composed starters
+5489 and 11406, so the rule sees "Alliance only" on composed data and "mixed" on raw. Upstream
+ran its loop before the faction fixes, on the mixed list, and also left it at 0. Parity holds.
 
-The counts use the composed starter data and treat `nil` `friendlyToFaction` as unknown, which is
-how upstream's loop behaved. The scope is small enough to materialize as explicit provider
-correction rows per flavor rather than running an inference pass at load.
+Still open: SoD. SoD quests are Dynamic Corrections composed at runtime, after the bake-time
+pass, so they never receive the inference, which is exactly issue #13. The SoD count of 40
+recorded earlier is an upper bound polluted by the same faction-filter artifact; measure it again
+on the SoD client using the rule over the composed rows of SoD-only quest IDs with the faction
+correction's effect removed, or fix #13 and check that no SoD quest with single-faction creature
+starters reads 0.
+
+Probe rule for next time: compare against upstream's compiled result, which means running the
+rule over `GetRaw` rows, never over composed rows on a faction-specific character.
 
 ### F4. Provider: `eventObjectiveFirst` carries SoD quest IDs on plain Era
 

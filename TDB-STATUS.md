@@ -24,7 +24,7 @@ Provider issues, all in the QuestieTDB repo:
 
 | Issue | What it gates |
 | --- | --- |
-| #1 / #13 | `requiredRaces` inference, including SoD after composition. Questie deleted its own inference and consumes the provider result. |
+| #1 / #13 | `requiredRaces` inference for SoD quests composed at runtime. The bake-time pass already matches upstream on Era (`TDB-FINDINGS.md` F3). |
 | #14 | Built-in lookup overrides and Titan zhCN entity localization. Questie deleted `lookupOverrides.lua`. |
 | #15 | Support data sync and Source-mode flavor selection. Unblocks reading Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. |
 | #17 | `ObjectiveFirst` flavor scoping in Source mode. |
