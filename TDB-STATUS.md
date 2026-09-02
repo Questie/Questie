@@ -47,6 +47,13 @@ Questie-side gates:
   double's cases against the real provider in Source mode (`TDB-FINDINGS.md` F7, F8); it pends
   when the QuestieTDB checkout is absent.
 
+## Provider type declarations
+
+`.types/QuestieTDB/` is a verbatim copy of QuestieTDB `src/types/*.t.lua` (provider commit
+`fdf740d`), the LuaLS declarations for `LibQuestieDB` and the Database Key Enums. WoW never
+loads them. Refresh by copying the seven files again when the provider schema changes; the ID
+aliases (`QuestId`, `NpcId`, ...) are defined on both sides by design.
+
 ## Open Questie follow-ups
 
 None block the merge. Numbered items came from the simplification review.
