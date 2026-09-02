@@ -179,8 +179,9 @@ QuestieDB.raceKeys = {
 QuestieDB.classKeys = {
     -- Allow all classes
     ALL_CLASSES = (function()
-        if Questie.IsClassic then -- alliance 1439, horde 1501
-            return playerFaction == "Alliance" and 1439 or 1501
+        if Questie.IsClassic then
+            -- alliance 1439, horde 1501, all 1503
+            return 1503
         elseif Questie.IsTBC then
             return 1503
         elseif Questie.IsWotlk or Questie.IsCata then
@@ -189,7 +190,7 @@ QuestieDB.classKeys = {
             return 2047
         else
             print("Unknown expansion for ALL_CLASSES")
-            return playerFaction == "Alliance" and 1439 or 1501
+            return 1503
         end
     end)(),
 
