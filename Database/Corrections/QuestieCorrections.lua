@@ -48,8 +48,8 @@ QuestieCorrections.hiddenQuests = {}
 --   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
 --   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads
 --
--- External locale addons do not go through here: they publish entity rows to QuestieTDB under
--- their own owner (`LibQuestieDB.GetRegistrar(owner).Set`). Questie only carries their UI strings.
+-- External translation addons do not go through here: `l10n` forwards their entity lookups to the
+-- provider under the `QuestieLocalesOverride` owner while resolving the UI locale.
 ---------------------------------------------------------------------------------------------------
 
 local QUESTIE_OWNER = "Questie"

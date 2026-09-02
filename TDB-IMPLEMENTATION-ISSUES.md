@@ -109,5 +109,5 @@ non-empty behavior is covered.
 - `QuestieDB:GetObject` never populates `objectCache`, so clearing it is a no-op. Pre-existing.
 - An in-session entity locale switch would be a single `LibQuestieDB.l10n.SetLocale(locale)` call;
   effective locale changes reload the UI today, so no production caller exists. `EntityLocale` was
-  removed on 2026-09-02 (`TDB-ENTITYLOCALE.md`); external addons publish entity rows to the provider
-  under their own owner.
+  removed on 2026-09-02 (`TDB-ENTITYLOCALE.md`); `l10n.InitializeUILocale` forwards an external
+  addon's entity lookups to the provider under the `QuestieLocalesOverride` owner.
