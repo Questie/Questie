@@ -14,10 +14,11 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
----Updates the NPC spawns to be in Elwynn Forest, Mulgore, or Terokkar Forest
+---Darkmoon Faire NPC rows for the `Npc:DarkmoonFaire` slot: every faire NPC placed in Terokkar
+---Forest, Mulgore, or Elwynn Forest, whichever the calendar selected.
 ---@param isInMulgore boolean
 ---@param isInTerokkar boolean
----@return table<number, any>
+---@return PolicyCorrectionRows
 function QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
@@ -106,7 +107,9 @@ function QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar
     end
 end
 
--- Use ContentPhases to apply corrections specific to the current content phase
+---Quest prerequisite rows for the `Quest:ContentPhasePolicy` slot, following the active TBC
+---Content Phase: the SSC and TK attunements are prerequisites before phase 3 and gone from it.
+---@return PolicyCorrectionRows
 function QuestieTBCPolicyCorrections:LoadContentPhaseFixes()
     local questKeys = QuestieDB.questKeys
     return {

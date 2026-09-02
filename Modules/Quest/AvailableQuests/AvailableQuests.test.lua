@@ -1,6 +1,7 @@
 local TestUtils = dofile("setupTests.lua")
 
 local match = require("luassert.match")
+local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
 
 describe("AvailableQuests", function()
     ---@type ZoneDB
@@ -1399,6 +1400,73 @@ describe("AvailableQuests", function()
             AvailableQuests.CalculateAndDrawAll() -- queued
 
             assert.are_equal(2, passCount)
+        end)
+    end)
+    describe("composed Quest enumeration", function()
+        local originalIsClassic
+        local originalIsSoD
+        local submittedJobs
+
+        before_each(function()
+            originalIsClassic = Questie.IsClassic
+            originalIsSoD = Questie.IsSoD
+
+            -- The availability pass captures these at load, so this describe loads AvailableQuests again.
+            QuestieDB.IsDoable = function() return true end
+            QuestieDB.IsComplete = function() return 0 end
+            QuestieLoader:ImportModule("AvailableQuests").IsLevelRequirementsFulfilled = function() return true end
+            dofile("Modules/Quest/AvailableQuests/AvailableQuests.lua")
+            AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+            AvailableQuests.Initialize()
+            TestUtils.clearTable(AvailableQuests.__availableQuests)
+            TestUtils.clearTable(AvailableQuests.__availableQuestsByNpc)
+            TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)
+
+            local mock = LoadQuestieTDBMock()
+            local questKeys = mock.lib.Meta.QuestMeta.questKeys
+            mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Sharptalon's Claw"})
+            mock.SetBaseRow("Quest", 3, {[questKeys.name] = "Webwood Venom"})
+            mock.SetBaseRow("Quest", 4, {[questKeys.name] = "Already Complete"})
+            mock.SetBaseRow("Quest", 5, {[questKeys.name] = "Blacklisted"})
+            QuestieDB.QuestPointers = mock.lib.Quest.GetAllIds(true)
+            QuestieDB.autoBlacklist = {}
+            QuestieDB.IsRepeatable = function() return false end
+            QuestieDB.IsPvPQuest = function() return false end
+            QuestieDB.IsDungeonQuest = function() return false end
+            QuestieDB.IsRaidQuest = function() return false end
+            QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests = {[5] = true}
+            QuestieLoader:ImportModule("QuestieQuestBlacklist").AQWarEffortQuests = {}
+            Questie.db.char.complete = {[4] = true}
+            Questie.db.char.hidden = {}
+            Questie.IsClassic = false
+            Questie.IsSoD = false
+            IsleOfQuelDanas.quests = {}
+            QuestiePlayer.currentQuestlog = {}
+            QuestiePlayer.GetPlayerLevel = function() return 60 end
+            QuestieMap.questIdFrames = {}
+
+            submittedJobs = {}
+            ThreadLib.Thread = function(threadFunction, _, _, _, _, threadName)
+                table.insert(submittedJobs, {threadFunction = threadFunction, threadName = threadName})
+                return {Cancel = function() end}
+            end
+        end)
+
+        after_each(function()
+            Questie.IsClassic = originalIsClassic
+            Questie.IsSoD = originalIsSoD
+        end)
+
+        it("marks every doable Quest from the provider-backed QuestPointers as available", function()
+            AvailableQuests.CalculateAndDrawAll()
+            -- The first job is the calculation pass; it submits one draw job per available quest.
+            assert.are_same("AvailableQuests.CalculateAndDrawAll", submittedJobs[1].threadName)
+            submittedJobs[1].threadFunction()
+
+            assert.are_same({[2] = true, [3] = true}, AvailableQuests.__availableQuests)
+            assert.are_same("_DrawAvailableQuest", submittedJobs[2].threadName)
+            assert.are_same("_DrawAvailableQuest", submittedJobs[3].threadName)
+            assert.is_nil(submittedJobs[4])
         end)
     end)
 end)

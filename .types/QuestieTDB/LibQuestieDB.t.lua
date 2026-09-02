@@ -1,0 +1,26 @@
+---@meta _
+
+---@class LibQuestieDB
+---@field Quest QuestDB Quest entity reads.
+---@field Npc NpcDB NPC entity reads.
+---@field Item ItemDB Item entity reads.
+---@field Object ObjectDB Object entity reads.
+---@field contractVersion integer Public API and storage contract version.
+---@field addonName string Loaded addon name.
+---@field readMode QuestieTDBReadMode Active source or baked reader.
+---@field RequireContract fun(required: number): boolean, string? Check whether this release supports a consumer contract.
+---@field InvalidateCache fun(datatype?: QuestieTDBDatatype, id?: number) Drop one entity cache, one datatype cache, or every cache.
+---@field ApplyRegisteredCorrections fun(owner?: string): integer Apply pending Corrections for one owner or all pending owners.
+---@field RegisterCorrection fun(owner: string, datatype: QuestieTDBDatatype, name: string, func: QuestieTDBCorrectionProvider, loadOrder?: number): QuestieTDBCorrectionEntry Register a Static Correction.
+---@field RegisterRuntimeCorrection fun(owner: string, datatype: QuestieTDBDatatype, name: string, func: QuestieTDBCorrectionProvider, loadOrder?: number): QuestieTDBCorrectionEntry Register a query-time Correction.
+---@field SetCorrection fun(owner: string, datatype: QuestieTDBDatatype, name: string, rows: QuestieTDBCorrections?): boolean Write-through data correction; nil rows removes the slot.
+---@field GetRegistrar fun(owner: string): QuestieTDBRegistrar Bind correction calls to one owner.
+---@field GetProvenance fun(datatype: QuestieTDBDatatype, id: number, key: string|integer): string? Return the winning correction owner.
+---@field GetOwners fun(): string[] Return owners in applied precedence order.
+---@field Corrections QuestieTDBCorrectionsAPI Correction registration, application, and provenance API.
+---@field Meta QuestieTDBMeta Schema names, indices, storage types, and structures.
+---@field ObjectiveFirst QuestieTDBObjectiveFirst Shared objective-ordering hints; read-only for consumers.
+---@field l10n QuestieTDBL10n Localization controls and state.
+---@field Support table Whole-table support data.
+---@field ModeIndicator table Source-mode indicator API.
+LibQuestieDB = {}

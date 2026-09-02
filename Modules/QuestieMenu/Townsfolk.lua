@@ -16,6 +16,20 @@ local sub, bitband, strlen = string.sub, bit.band, string.len
 
 local professionKeys = QuestieProfessions.professionKeys
 
+-- Townsfolk lookups, rebuilt from composed reads on every login by `Initialize`. They live on
+-- the module rather than in SavedVariables because nothing is meant to survive a session;
+-- QuestieMenu reads them to build the townsfolk and profession menus.
+---@type table<string, NpcId[]> Category name to NPC IDs, both factions
+Townsfolk.townsfolk = {}
+---@type table<ProfessionKey, NpcId[]>
+Townsfolk.professionTrainers = {}
+---@type table<string, table<string, NpcId[]>> Class file name to category to NPC IDs
+Townsfolk.classSpecificTownsfolk = {}
+---@type table<string, table<string, NpcId[]>> Faction name to category to NPC IDs
+Townsfolk.factionSpecificTownsfolk = {}
+---@type table<string, ItemId[]> Pet food category to Item IDs
+Townsfolk.petFoodVendorTypes = {}
+
 
 local function _reformatVendors(lst, existingTable)
     local newList = existingTable or {}
@@ -438,9 +452,10 @@ function Townsfolk.Initialize()
 
     count = 0
     for id in pairs(QuestieDB.ItemPointers) do
-        local foodType = QuestieDB.QueryItemSingle(id, "foodType")
-        if foodType then
-            tinsert(petFoodVendorTypes[petFoodIndexes[foodType]], id)
+        -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
+        local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
+        if petFoodCategory then
+            tinsert(petFoodVendorTypes[petFoodCategory], id)
         end
         if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
             count = 0
@@ -451,13 +466,11 @@ function Townsfolk.Initialize()
 
     coroutine.yield()
 
-    --- Set the globals
-    Questie.db.global.townsfolk = townfolk
-
-    Questie.db.global.professionTrainers = professionTrainers
-    Questie.db.global.classSpecificTownsfolk = classSpecificTownsfolk
-    Questie.db.global.factionSpecificTownsfolk = factionSpecificTownsfolk
-    Questie.db.global.petFoodVendorTypes = petFoodVendorTypes
+    Townsfolk.townsfolk = townfolk
+    Townsfolk.professionTrainers = professionTrainers
+    Townsfolk.classSpecificTownsfolk = classSpecificTownsfolk
+    Townsfolk.factionSpecificTownsfolk = factionSpecificTownsfolk
+    Townsfolk.petFoodVendorTypes = petFoodVendorTypes
 end
 
 function Townsfolk.PostBoot() -- post DB boot (use queries here)
@@ -509,11 +522,11 @@ function Townsfolk:BuildCharacterTownsfolk()
     Questie.db.char.vendorList = {}
     Questie.db.char.townsfolkClass = UnitClassBase("player")
 
-    for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
+    for key, npcs in pairs(Townsfolk.factionSpecificTownsfolk[playerFaction]) do
         Questie.db.char.townsfolk[key] = npcs
     end
 
-    for key, npcs in pairs(Questie.db.global.classSpecificTownsfolk[playerClass]) do
+    for key, npcs in pairs(Townsfolk.classSpecificTownsfolk[playerClass]) do
         Questie.db.char.townsfolk[key] = npcs
     end
 end
@@ -522,8 +535,8 @@ local function _UpdatePetFood() -- call on change pet
     Questie.db.char.vendorList["Pet Food"] = {}
     -- detect petfood vendors for player's pet
     for _, key in pairs({GetStablePetFoodTypes(0)}) do
-        if Questie.db.global.petFoodVendorTypes[key] then
-            Townsfolk:PopulateVendors(Questie.db.global.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"], true)
+        if Townsfolk.petFoodVendorTypes[key] then
+            Townsfolk:PopulateVendors(Townsfolk.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"], true)
         end
     end
     Questie.db.char.vendorList["Pet Food"] = _reformatVendors(Questie.db.char.vendorList["Pet Food"])

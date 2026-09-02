@@ -2886,6 +2886,7 @@ globals = {
     -----------------------------------------------------> Project Specific
     "Questie",
     "QuestieLoader",
+    "LibQuestieDB",
     "ICON_TYPE_COMPLETE",
     "ICON_TYPE_EVENT",
     "ICON_TYPE_GLOW",
