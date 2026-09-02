@@ -16,32 +16,6 @@ Rules for every step:
   `TDB-STATUS.md`. Delete this file when it is empty.
 - Steps 5 and 6 need a game client and the user. Do steps 1 to 4 without waiting.
 
-## Step 1. Mock-versus-provider conformance run
-
-Why: every Questie test passes against `test/QuestieTDBMock.lua`, a hand-written double. It has
-already hidden one crash (the provider returns `0`, never nil, for an absent number field). Nothing
-proves the rest of its semantics match the real `LibQuestieDB`.
-
-Do:
-
-1. Load the real provider headless. `../Questie-toc/QuestieTDB/test.lua` shows how its own suite
-   loads `src/` under plain Lua 5.1 with `dofile`; `src/api.lua` builds `LibQuestieDB`. The provider
-   must run in Source mode on a small fixture or on the Classic data, whichever its test harness
-   already supports. Do not write a second loader if one exists in `tools/` or `emulator/`.
-2. Write `test/QuestieTDBMock.conformance.test.lua`: run the behavioral cases from
-   `test/QuestieTDBMock.test.lua` (sections `entity reads`, `Correction registrar`, `Corrections.Set`,
-   `l10n.SetLocale`, `Object name index`) twice, once against the mock and once against the real
-   provider, with the same inputs, and assert the observable results agree. Use real entity IDs from
-   the fixture rather than the mock's invented ones; parameterize the cases by a small "known
-   entities" table so both runs read the same IDs.
-3. Where the mock disagrees with the provider, fix the mock, not the test, then fix any Questie code
-   the mock was hiding. Add each disagreement to `TDB-FINDINGS.md` as a new finding.
-4. The conformance test may stay skipped in CI if the provider checkout is absent. Guard on the
-   path and print why it was skipped.
-
-Done when: the conformance test passes locally against the provider, and any mock fix has a
-matching red-then-green Questie test.
-
 ## Step 2. Coalesce Item repairs into one write per frame (F2)
 
 Why: `QuestieLib.RepairMissingItemNames` (`Modules/Libs/QuestieLib.lua:412`) writes the
