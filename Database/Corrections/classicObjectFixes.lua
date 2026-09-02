@@ -55,8 +55,8 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{18,89},{19,90},{20,85},{21,87},{21,90},{21,92},{22,84},{22,90},{23,84},{23,90},{23,88},{23,89},{23,92},{24,87},{24,88},{24,89},{24,85},{24,86},{25,86},{25,87},{25,89},{25,90},{25,91}}},
         },
         [2743] = { -- Carved Stone Urn
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{52.32,63.467}},[zoneIDs.BADLANDS] = {{34.72,23.94},{39.79,19.67},{42.81,9.95}},[zoneIDs.LOCH_MODAN] = {{34.64,96.14},{33.84,92.91},{33.87,95.63},{32.16,90.6},{33.03,88.66},{38.78,92.87},{35.13,90.97},{35.46,86.71},{40.06,90.65},{37.34,88.77},{39.73,87.12}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{34.72,23.94},{39.79,19.67},{42.81,9.95}},[zoneIDs.LOCH_MODAN] = {{34.64,96.14},{33.84,92.91},{33.87,95.63},{32.16,90.6},{33.03,88.66},{38.78,92.87},{35.13,90.97},{35.46,86.71},{40.06,90.65},{37.34,88.77},{39.73,87.12}}},
+            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
         },
         [2744] = { -- Giant Clam
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{23.6,23.4},{23.6,23.5},{23.7,27.2},{23.7,29.8},{23.8,29.1},{24,25.4},{24,25.5},{24.4,28},{24.8,29.5},{24.9,29.1},{25.2,26.9},{25.3,25},{25.3,26.4},{25.3,27.5},{25.4,22.7},{25.4,24.1},{25.7,22.9},{25.7,25.3},{25.8,24.4},{25.8,28.3},{25.9,29.4},{25.9,30.4},{26.1,30.6},{26.3,26.1},{26.4,27.1},{26.5,29.4},{26.5,29.5},{26.6,24.5},{26.8,30.8},{27.1,23.1},{27.1,26.5},{27.2,26.3},{27.3,24},{27.3,27.9},{27.5,24.2},{27.6,25.6},{27.6,29.2},{27.8,23},{27.8,25.3},{27.8,27.7},{28,26.7}}},
@@ -69,7 +69,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.DARKSHORE,
         },
         [13891] = { -- Serpentbloom
-            [objectKeys.spawns] = {[zoneIDs.KALIMDOR] = {{51.877,54.964}},[zoneIDs.THE_BARRENS] = {{49.08,33.51},{48.06,31.9},{47.49,32.92},{46.91,32.73},{48.85,32.25},{46.66,34.48},{46.06,32.74},{46.51,35.56},{49.05,34.16},{48.09,32.41},{47.66,32.22},{46.21,34.72},{45.68,33.82},{48.08,34.31},{47.62,33.85}},[zoneIDs.WAILING_CAVERNS] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{49.08,33.51},{48.06,31.9},{47.49,32.92},{46.91,32.73},{48.85,32.25},{46.66,34.48},{46.06,32.74},{46.51,35.56},{49.05,34.16},{48.09,32.41},{47.66,32.22},{46.21,34.72},{45.68,33.82},{48.08,34.31},{47.62,33.85}},[zoneIDs.WAILING_CAVERNS] = {{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
         },
         [15885] = { -- Shrine Of Remulos
@@ -108,7 +108,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.WETLANDS] = {{32.2,50.8},{32.3,48.4},{32.3,48.6},{32.7,51},{33.2,46.4},{33.3,49},{33.4,47.4},{33.4,47.6},{33.4,51.5},{33.8,48.6},{33.9,46.6},{34.1,49.7},{34.2,47.6},{34.2,50.8},{34.3,45.7},{34.4,44.4},{34.4,44.5},{34.7,52.5},{34.8,50.3},{34.9,47},{35,47.9},{35.1,51.5},{35.2,44.3},{35.2,44.5},{35.2,48.9},{35.2,51.4},{35.4,46.3},{35.5,45},{35.5,46},{35.6,47.9},{36.1,48.8},{36.1,50},{36.4,42.1},{36.6,42.2}}},
         },
         [37099] = { -- Atal'ai Tablet
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{54.298,79.389}},[zoneIDs.SWAMP_OF_SORROWS] = {{76.17,43.79},{74.7,43.84},{70.55,44.53},{75.68,44.95},{72.09,45.22},{74.77,46.71},{71.0,46.89},{76.07,47.44},{72.83,47.65},{75.85,48.3},{76.61,49.05},{75.81,49.4},{75.31,49.51},{78.27,49.54},{76.71,51.31}},[1477] = {{-1,-1}}},
+            [objectKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS] = {{76.17,43.79},{74.7,43.84},{70.55,44.53},{75.68,44.95},{72.09,45.22},{74.77,46.71},{71.0,46.89},{76.07,47.44},{72.83,47.65},{75.85,48.3},{76.61,49.05},{75.81,49.4},{75.31,49.51},{78.27,49.54},{76.71,51.31}},[1477] = {{-1,-1}}},
         },
         [92423] = { -- Damaged Chest
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{43.44,32.69}}},
@@ -126,20 +126,20 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
         },
         [124388] = { -- Garrett Family Chest
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{51.795,63.997}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [objectKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{33.93,93.01}}},
+            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
         },
         [124389] = { -- Krom Stoutarm's Chest
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{51.878,64.295}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS] = {{35.56,23.51}}},
+            [objectKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [126049] = { -- Magenta Cap Clusters
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{52.039,63.9}},[38] = {{33.27,88.68},{37.57,91.57},{39.79,85.71},{35.74,87.49},{40.08,89.74},{36.98,89.97},{37.19,85.58},{37.19,85.58},{36.98,89.97},{37.57,91.57}},[3] = {{34.04,24.42}},[1337] = {{-1,-1}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [objectKeys.spawns] = {[38] = {{33.27,88.68},{37.57,91.57},{39.79,85.71},{35.74,87.49},{40.08,89.74},{36.98,89.97},{37.19,85.58},{37.19,85.58},{36.98,89.97},{37.57,91.57}},[3] = {{34.04,24.42}},[1337] = {{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
         },
         [126260] = { -- Ancient Chest
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{52.107,64.008}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [objectKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{38.57,93.18}}},
+            [objectKeys.zoneID] = zoneIDs.LOCH_MODAN,
         },
         [140911] = { -- Spool of Light Chartreuse Silk Thread
             [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{39.94,46.14}}},
@@ -158,8 +158,8 @@ function QuestieObjectFixes:Load()
             [objectKeys.questStarts] = {2954,2967,2977},
         },
         [142345] = { -- Matrix Punchograph 3005-A
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_KINGDOMS] = {{42.83,59.191},{42.854,59.193},{42.838,59.386},{42.798,59.381}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_KINGDOMS,
+            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{21.99,32.58},{21.65,32.54},{21.92,30.96},{22.12,30.99}}},
+            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
         [142477] = { -- Thermaplugg's Safe
             [objectKeys.spawns] = {[zoneIDs.GNOMEREGAN_TINKERS_COURT] = {{-1,-1}},[zoneIDs.GNOMEREGAN] = {{-1,-1}}},
@@ -355,8 +355,8 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
         },
         [178224] = { -- Dire Pool
-            [objectKeys.spawns] = {[zoneIDs.KALIMDOR] = {{42.719,68.613}}},
-            [objectKeys.zoneID] = zoneIDs.KALIMDOR,
+            [objectKeys.spawns] = {[zoneIDs.FERALAS] = {{58.94,35.97}}},
+            [objectKeys.zoneID] = zoneIDs.FERALAS,
         },
         [178227] = { -- Murgut's Totem Basket
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE] = {{56.5,63.5}}},
@@ -433,7 +433,7 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [180453] = { -- Hive'Regal Glyphed Crystal
-            [objectKeys.spawns] = {[zoneIDs.KALIMDOR] = {{44.404,86.1}}},
+            [objectKeys.spawns] = {[zoneIDs.KALIMDOR] = {{44.404,86.1}}}, -- inside the hive, outside the Silithus map
             [objectKeys.zoneID] = zoneIDs.KALIMDOR,
         },
         [180652] = { -- Freshly Dug Dirt
