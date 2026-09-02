@@ -389,30 +389,87 @@ local Questiedbcharhidden
 
 QuestieDB.activeChildQuests = {}
 
--- QuestieTDB owns Objective Order. Fresh QuestieDB initialization replaces these empty
--- compatibility maps with `LibQuestieDB.ObjectiveFirst` before rich Quest projections run.
+---@type table<QuestId, table<string, table>> Creature levels per Quest, rebuilt from composed NPC reads.
+QuestieDB._CreatureLevelCache = {}
+
+-- QuestieTDB owns Objective Order. `Initialize` rebinds these to `LibQuestieDB.ObjectiveFirst`
+-- before any rich Quest projection runs; the empty tables only cover reads before Login Initialization.
 QuestieDB.killCreditObjectiveFirst = {}
 QuestieDB.objectObjectiveFirst = {}
 QuestieDB.itemObjectiveFirst = {}
 QuestieDB.eventObjectiveFirst = {}
 QuestieDB.spellObjectiveFirst = {}
 
----Initializes Questie-owned semantic state after fresh provider query bindings are installed.
----@return nil
-function QuestieDB.Initialize()
-    _QuestieDB.InitializeQuestTagInfoCorrections()
+---True once query bindings, ID maps, Objective Order, and caches are ready. Correction applies
+---after this point refresh through `RefreshAfterCorrectionApply`; the initial apply needs no
+---refresh because `Initialize` binds the composed view that exists at that moment.
+QuestieDB.IsInitialized = false
 
-    -- Provider locale and Policy Corrections are already applied when these semantic caches become visible.
+---Rebinds the composed ID maps. QuestieTDB replaces these shared read-only maps on every
+---Correction apply, so a retained reference can hide an added entity or keep a withdrawn one.
+---@return nil
+local function _BindEntityIdMaps()
+    QuestieDB.QuestPointers = LibQuestieDB.Quest.GetAllIds(true)
+    QuestieDB.NPCPointers = LibQuestieDB.Npc.GetAllIds(true)
+    QuestieDB.ItemPointers = LibQuestieDB.Item.GetAllIds(true)
+    QuestieDB.ObjectPointers = LibQuestieDB.Object.GetAllIds(true)
+end
+
+---Drops every Questie-owned semantic projection cache. QuestieTDB invalidates its own read
+---caches but cannot see these.
+---@return nil
+local function _ClearSemanticCaches()
     _QuestieDB.questCache = {}
     _QuestieDB.itemCache = {}
     _QuestieDB.npcCache = {}
     _QuestieDB.objectCache = {}
     _QuestieDB.zoneCache = {}
+    QuestieDB._CreatureLevelCache = {}
+end
+
+---Binds QuestieDB to LibQuestieDB during Login Initialization. It runs after the provider locale
+---is forwarded and after Questie's initial Policy Correction apply, so the first bound view is
+---already composed.
+---@return nil
+function QuestieDB.Initialize()
+    QuestieDB.IsInitialized = false
+    _QuestieDB.InitializeQuestTagInfoCorrections()
+
+    -- Query bindings keep the provider's plain-function (dot-call) shape.
+    QuestieDB.QueryQuestSingle = LibQuestieDB.Quest.Get
+    QuestieDB.QueryNPCSingle = LibQuestieDB.Npc.Get
+    QuestieDB.QueryItemSingle = LibQuestieDB.Item.Get
+    QuestieDB.QueryObjectSingle = LibQuestieDB.Object.Get
+    QuestieDB.QueryQuest = LibQuestieDB.Quest.GetAll
+    QuestieDB.QueryNPC = LibQuestieDB.Npc.GetAll
+    QuestieDB.QueryItem = LibQuestieDB.Item.GetAll
+    QuestieDB.QueryObject = LibQuestieDB.Object.GetAll
+
+    -- Objective Order hints are provider tables that consumers must not mutate.
+    QuestieDB.killCreditObjectiveFirst = LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst
+    QuestieDB.objectObjectiveFirst = LibQuestieDB.ObjectiveFirst.objectObjectiveFirst
+    QuestieDB.itemObjectiveFirst = LibQuestieDB.ObjectiveFirst.itemObjectiveFirst
+    QuestieDB.eventObjectiveFirst = LibQuestieDB.ObjectiveFirst.eventObjectiveFirst
+    QuestieDB.spellObjectiveFirst = LibQuestieDB.ObjectiveFirst.spellObjectiveFirst
+
+    _BindEntityIdMaps()
+    -- Anything that reached the API before Login Initialization saw an uncorrected view.
+    _ClearSemanticCaches()
 
     checkRace = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
     checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
     QuestieCorrectionshiddenQuests = QuestieCorrections.hiddenQuests
     Questiedbcharhidden = Questie.db.char.hidden
+
+    QuestieDB.IsInitialized = true
+end
+
+---Refreshes Questie's view after a post-initialization Correction apply: rebinds the four ID
+---maps and clears the semantic caches. `QuestieCorrections` calls this from its shared apply path.
+---@return nil
+function QuestieDB.RefreshAfterCorrectionApply()
+    _BindEntityIdMaps()
+    _ClearSemanticCaches()
 end
 
 ---@param objectId ObjectId
@@ -1829,7 +1886,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     return QO
 end
 
-QuestieDB._CreatureLevelCache = {}
 ---@param quest Quest
 ---@return table<string, table> @List of creature names with their min-max level and rank
 function QuestieDB:GetCreatureLevels(quest)

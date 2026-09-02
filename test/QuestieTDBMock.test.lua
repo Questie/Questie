@@ -84,6 +84,16 @@ describe("QuestieTDBMock", function()
             assert.is_true(LibQuestieDB.Npc.Exists(7))
         end)
 
+        it("reads the never-nil Quest structures as empty tables for an existing Quest", function()
+            mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Sharptalon's Claw"})
+
+            assert.are_same({}, LibQuestieDB.Quest.Get(2, "startedBy"))
+            assert.are_same({}, LibQuestieDB.Quest.Get(2, "finishedBy"))
+            assert.are_same({}, LibQuestieDB.Quest.Get(2, "objectives"))
+            assert.is_nil(LibQuestieDB.Quest.Get(2, "preQuestSingle"))
+            assert.is_nil(LibQuestieDB.Quest.Get(3, "startedBy"))
+        end)
+
         it("fails fast on an unknown field name instead of returning nil", function()
             assert.has_error(function()
                 LibQuestieDB.Npc.Get(30, "healthPool")
