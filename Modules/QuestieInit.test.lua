@@ -117,6 +117,8 @@ describe("QuestieInit", function()
     end)
 
     describe("Stage 2", function()
+        local originalCTimer
+
         before_each(function()
             local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
             QuestiePlayer.Initialize = function() end
@@ -124,7 +126,12 @@ describe("QuestieInit", function()
             QuestieJourney.Initialize = function() end
             local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
             QuestieValidateGameCache.IsCacheGood = function() return true end
+            originalCTimer = _G.C_Timer
             _G.C_Timer = {After = function() end}
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalCTimer
         end)
 
         it("warms the provider Object name index when the Object ID tooltip setting is enabled", function()

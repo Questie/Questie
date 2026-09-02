@@ -467,9 +467,6 @@ describe("Tooltip", function()
             local objectKeys = mock.lib.Meta.ObjectMeta.objectKeys
             mock.SetBaseRow("Object", 5, {[objectKeys.name] = "Battered Chest"})
             mock.SetBaseRow("Object", 6, {[objectKeys.name] = "Battered Chest"})
-            QuestieTooltips.objectIdsByName = {}
-            QuestieTooltips.lookupByKey = {}
-            QuestieTooltips.lookupKeysByQuestId = {}
         end)
 
         it("indexes an o_ objective registration under the Object's composed name", function()

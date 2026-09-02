@@ -74,9 +74,14 @@ describe("QuestEventHandler", function()
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
     end)
 
-    it("should request missing Item names for quests already in the quest log at login", function()
-        assert.spy(QuestieLib.RepairMissingItemNames).was.called(1)
+    it("should request missing Item names for every quest already in the quest log at login", function()
+        QuestieLib.RepairMissingItemNames:clear()
+
+        QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true, [456] = true})
+
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called(2)
         assert.spy(QuestieLib.RepairMissingItemNames).was.called_with(QUEST_ID)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called_with(456)
     end)
 
     it("should handle quest accept", function()

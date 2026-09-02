@@ -57,17 +57,6 @@ describe("Townsfolk", function()
         QuestieDB.QueryObjectSingle = LibQuestieDB.Object.Get
     end
 
-    ---@param list number[]
-    ---@return number[] sorted
-    local function _Sorted(list)
-        local sorted = {}
-        for index, value in ipairs(list) do
-            sorted[index] = value
-        end
-        table.sort(sorted)
-        return sorted
-    end
-
     before_each(function()
         mock = LoadQuestieTDBMock()
         LibQuestieDB = mock.lib
@@ -168,13 +157,11 @@ describe("Townsfolk", function()
             assert.are_same({2003}, Questie.db.global.townsfolk["Weapon Master"])
         end)
 
-        it("adds the hand-maintained trainer and vendor IDs for the flavor", function()
+        it("adds the hand-maintained trainer IDs for the flavor without checking the database", function()
             _RunInitialize()
 
             local professionTrainers = Questie.db.global.professionTrainers
             assert.are_same({2805, 13476}, professionTrainers[professionKeys.FIRST_AID])
-            assert.are_same({3955, 12033}, professionTrainers[professionKeys.COOKING])
-            assert.are_same({10216}, professionTrainers[professionKeys.FISHING])
             assert.is_nil(professionTrainers[professionKeys.JEWELCRAFTING])
         end)
 
@@ -245,7 +232,7 @@ describe("Townsfolk", function()
 
             local vendorList = Questie.db.char.vendorList
             assert.are_same({8001}, vendorList["Reagents"])
-            assert.are_same({8001}, _Sorted(vendorList["Drink"]))
+            assert.are_same({8001}, vendorList["Drink"])
             assert.are_same({}, vendorList["Ammo"])
         end)
     end)

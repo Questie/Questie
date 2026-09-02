@@ -4,8 +4,8 @@
 -- reads, shared ID maps that swap identity on every apply, the owner-scoped Correction registrar,
 -- provenance, provider locale forwarding, Objective Order tables, and the entity Name index.
 -- It deliberately omits encoding, Source/Baked storage, and provider read caches. Tests seed literal
--- rows; reads apply the provider's nil rules: number fields of an existing entity read 0, `{}`
--- reads nil, and the never-nil Quest structures read `{}`.
+-- rows; reads return fresh copies and apply the provider's nil rules: number fields of an existing
+-- entity read 0, `{}` reads nil, and the never-nil Quest structures read `{}`.
 local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
 
 local ENTITY_TYPES = {"Quest", "Npc", "Item", "Object"}
@@ -89,6 +89,21 @@ local function LoadQuestieTDBMock()
     ---@return nil
     local function InvalidateNameIndexes()
         nameIndexes = {}
+    end
+
+    ---Every table read is a fresh copy, as with the provider: a caller may mutate what it read
+    ---without changing the next read, and two reads are never the same table.
+    ---@param value unknown
+    ---@return unknown
+    local function CopyValue(value)
+        if type(value) ~= "table" then
+            return value
+        end
+        local copy = {}
+        for key, entry in pairs(value) do
+            copy[key] = CopyValue(entry)
+        end
+        return copy
     end
 
     ---@param datatype QuestieTDBMockDatatype
@@ -226,7 +241,7 @@ local function LoadQuestieTDBMock()
             if type(id) ~= "number" or not Exists(datatype, id) then
                 return nil
             end
-            return (ComposedValue(datatype, id, fieldIndex))
+            return CopyValue((ComposedValue(datatype, id, fieldIndex)))
         end
 
         ---Packed bulk read: `n` carries the requested count so nil slots survive `unpack`.
@@ -239,7 +254,7 @@ local function LoadQuestieTDBMock()
             end
             local values = {n = #requestedKeys}
             for i = 1, #requestedKeys do
-                values[i] = (ComposedValue(datatype, id, FieldIndex(datatype, requestedKeys[i])))
+                values[i] = CopyValue((ComposedValue(datatype, id, FieldIndex(datatype, requestedKeys[i]))))
             end
             return values
         end
@@ -270,7 +285,7 @@ local function LoadQuestieTDBMock()
             if not row then
                 return nil
             end
-            return row[fieldIndex]
+            return CopyValue(row[fieldIndex])
         end
 
         ---@param name string
