@@ -61,7 +61,7 @@ rebuilds it from every dynamic entry of every applied owner, re-normalizing each
 Item datatype has 6,874 dynamic rows, so a one-row Questie write re-merges all of them. ADR 0009's
 memoization removed the re-materialization of provider functions, not the merge.
 
-Proposed action: incremental overlay. Keep the composed map and provenance per datatype; on a
+Tracked as QuestieTDB #20. Proposed action: incremental overlay. Keep the composed map and provenance per datatype; on a
 slot write, remove the slot's previous IDs from the composed map, re-merge only the entries that
 touch those IDs plus the new rows, and publish. Consumer writes become proportional to the rows
 written. Questie-side mitigation in the meantime is F2.
