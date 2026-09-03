@@ -11,6 +11,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieSearch
 local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
+---@type QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
@@ -152,7 +154,8 @@ function QuestieSlash.HandleCommands(input)
             -- reset command
             if searchType == "reset" then
                 QuestieMap:ResetManualFrames()
-                print(Questie:Colorize("/questie "..input..":"), l10n("All map markers cleared."))
+                QuestieSearchResults.ClearShownItemIds()
+                print(Questie:Colorize("/questie " .. input .. ":"), l10n("All map markers cleared."))
                 return
             end
             -- no search term provided

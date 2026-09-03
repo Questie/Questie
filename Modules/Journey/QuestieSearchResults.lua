@@ -116,6 +116,10 @@ end
 -- Track which items the user explicitly chose to show on the map
 local _shownItemIds = {}
 
+function QuestieSearchResults.ClearShownItemIds()
+    _shownItemIds = {}
+end
+
 -- Create a button for showing/hiding manual notes of NPCs/objects
 ---@param id number @NPC (>0) or object (<0) id, or item id when idsToShow is provided
 ---@param idsToShow number[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
