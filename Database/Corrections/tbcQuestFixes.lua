@@ -5261,10 +5261,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [11063] = { -- Earning Your Wings...
             [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.preQuestSingle] = {11084},
+            [questKeys.nextQuestInChain] = 11064,
         },
         [11064] = { -- Dragonmaw Race: The Ballad of Oldie McOld
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{23340,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 11067,
         },
         [11065] = { -- Wrangle Some Aether Rays!
             [questKeys.requiredLevel] = 70,
@@ -5278,18 +5281,22 @@ function QuestieTBCQuestFixes:Load()
         [11067] = { -- Dragonmaw Race: Trope the Filth-Belcher
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{23342,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 11068,
         },
         [11068] = { -- Dragonmaw Race: Corlok the Vet
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{23344,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 11069,
         },
         [11069] = { -- Dragonmaw Race: Wing Commander Ichman
             [questKeys.startedBy] = {{23345}},
             [questKeys.objectives] = {{{23345,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 11070,
         },
         [11070] = { -- Dragonmaw Race: Wing Commander Mulverick
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{23346,nil,Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 11071,
         },
         [11071] = { -- Dragonmaw Race: Captain Skyshatter
             [questKeys.requiredRaces] = raceIDs.NONE,
