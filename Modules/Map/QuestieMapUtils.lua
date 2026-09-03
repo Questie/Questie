@@ -125,7 +125,7 @@ function QuestieMap.utils.RescaleIcon(frameRef, mapScale)
                 local scaleProfile = frame.isManualIcon and Questie.db.profile.globalMiniMapTownsfolkScale or Questie.db.profile.globalMiniMapScale
                 scale = 16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7);
             else
-                --? If you ever chanage this logic, make sure you change the logic in QuestieMap:ProcessQueue() too!
+                --? If you ever chanage this logic, make sure you change the logic in DrawQueuedWorldIcon too!
                 local scaleProfile = frame.isManualIcon and Questie.db.profile.globalTownsfolkScale or Questie.db.profile.globalScale
                 scale = (16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7)) * iconScale;
             end
