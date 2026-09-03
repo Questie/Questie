@@ -443,6 +443,12 @@ function QuestieTBCItemFixes:Load()
         [32406] = { -- Skyguard Blasting Charges
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [32464] = { -- Nethercite Ore
+            [itemKeys.npcDrops] = {},
+        },
+        [32470] = { -- Nethermine Flayer Hide
+            [itemKeys.npcDrops] = {},
+        },
         [32598] = { -- Unstable Flask of the Beast
             [itemKeys.objectDrops] = {185920},
         },
