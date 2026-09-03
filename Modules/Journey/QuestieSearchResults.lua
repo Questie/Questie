@@ -114,31 +114,35 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
 end
 
 -- Track which items the user explicitly chose to show on the map
+---@type table<ItemId, true>
 local _shownItemIds = {}
 
 function QuestieSearchResults.ClearShownItemIds()
     _shownItemIds = {}
 end
 
--- Create a button for showing/hiding manual notes of NPCs/objects
----@param id number @NPC (>0) or object (<0) id, or item id when idsToShow is provided
----@param idsToShow number[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
-local function CreateShowHideButton(id, idsToShow)
-    -- Check whether the relevant manual frames are already shown on the map
-    local function hasShownFrames()
-        if idsToShow then
-            return _shownItemIds[id] ~= nil
-        end
-        if not QuestieMap.manualFrames["any"] then
-            return false
-        end
-        return QuestieMap.manualFrames["any"][id] ~= nil
+-- Check whether the relevant manual frames are already shown on the map
+---@param id NpcId|ObjectId|ItemId @NPC (>0) or object (<0) id, or item id when idsToShow is provided
+---@param idsToShow NpcId[]|ObjectId[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
+local function _HasShownFrames(id, idsToShow)
+    if idsToShow then
+        return _shownItemIds[id] ~= nil
     end
+    if (not QuestieMap.manualFrames["any"]) then
+        return false
+    end
+    return QuestieMap.manualFrames["any"][id] ~= nil
+end
+
+-- Create a button for showing/hiding manual notes of NPCs/objects
+---@param id NpcId|ObjectId|ItemId @NPC (>0) or object (<0) id, or item id when idsToShow is provided
+---@param idsToShow NpcId[]|ObjectId[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
+local function CreateShowHideButton(id, idsToShow)
     -- Initialise button
     local button = AceGUI:Create("Button")
     button.id = id
     button.idsToShow = idsToShow
-    if not hasShownFrames() then
+    if (not _HasShownFrames(id, idsToShow)) then
         button:SetText(l10n("Show on Map"))
         button:SetCallback("OnClick", function(self) self:ShowOnMap(self) end)
     else
@@ -391,9 +395,9 @@ QuestieScanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
 --- This function queries an item tooltip from the server, waits for the result, then calls the following function to draw an item info frame to a given parent frame.
 ---@param f Frame The frame to attach the created item details frame to
----@param itemId ItemID The ID for the item to show details about
+---@param itemId ItemId The ID for the item to show details about
 ---@return nil
- function QuestieSearchResults:ItemDetailsFrame(f, itemId)
+function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     -- Caching an item creates visible lag of 2 or 3 seconds at times (e.g. 13490, 13492 on Era)
     -- So we need to make sure the item data is *sufficiently* cached before we draw the frame
     -- We can't use the following because it creates a delay in the tooltip being drawn:
@@ -416,8 +420,7 @@ end
 
 --- This function draws an item info frame to a given parent frame after the previous function made sure its data is cached.
 ---@param f Frame The frame to attach the created item details frame to
----@param itemId ItemID The ID for the item to show details about
----@return nil
+---@param itemId ItemId The ID for the item to show details about
 function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     local header = AceGUI:Create("Heading")
     header:SetFullWidth(true)
