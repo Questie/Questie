@@ -876,6 +876,10 @@ function TitanReforgedQuestFixes.LoadQuestOverrides()
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
         },
+        [11195] = { -- Playin' With Dolls
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredLevel] = 80,
+        },
         [13432] = { -- The Vials of Eternity
             [questKeys.questLevel] = 80,
             [questKeys.requiredLevel] = 80,
