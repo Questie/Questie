@@ -19,22 +19,21 @@ local commsTooltipLookup = {}
 local playerRegisteredTooltips = {}
 
 ---@param questId QuestId
----@param objectiveIndex number
----@param objectivesByQuest table<QuestId, table|false>
----@return string?
-local function _GetApiObjectiveText(questId, objectiveIndex, objectivesByQuest)
-    local objectives = objectivesByQuest[questId]
-    if objectives == nil then
-        if HaveQuestData(questId) then
-            objectives = C_QuestLog.GetQuestObjectives(questId) or false
-        else
-            C_QuestLog.GetQuestObjectives(questId) -- Prime the client cache for the next tooltip update
-            objectives = false
-        end
-        objectivesByQuest[questId] = objectives
+---@return table
+local function _GetApiObjectives(questId)
+    if not HaveQuestData(questId) then
+        C_QuestLog.GetQuestObjectives(questId) -- Prime the client cache for the next tooltip update
+        return {}
     end
 
-    local objective = objectives and objectives ~= false and objectives[objectiveIndex]
+    return C_QuestLog.GetQuestObjectives(questId) or {}
+end
+
+---@param objectiveIndex number
+---@param objectives table
+---@return string?
+local function _GetApiObjectiveText(objectiveIndex, objectives)
+    local objective = objectives[objectiveIndex]
     local text = objective and objective.text
     if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
         return nil
@@ -67,25 +66,37 @@ function QuestieComms.data:GetTooltip(tooltipKey)
             if(not tooltipData[questId][playerName]) then
                 tooltipData[questId][playerName] = {};
             end
+            local apiObjectives = apiObjectivesByQuest[questId]
+            if not apiObjectives then
+                apiObjectives = _GetApiObjectives(questId)
+                apiObjectivesByQuest[questId] = apiObjectives
+            end
             for objectiveIndex, objective in pairs(objectives) do
                 if(not tooltipData[questId][playerName][objectiveIndex]) then
                     tooltipData[questId][playerName][objectiveIndex] = {};
                 end
-                local oName = _GetApiObjectiveText(questId, objectiveIndex, apiObjectivesByQuest)
-                if not oName then
+                local apiObjectiveText = _GetApiObjectiveText(objectiveIndex, apiObjectives)
+                local oName = ""
+                if apiObjectiveText then
+                    oName = apiObjectiveText
+                else
                     if((objective.type == "monster" or objective.type == "m") and objective.id) then
                         local npc = QuestieDB:GetNPC(objective.id)
-                        oName = npc and npc.name
+                        if npc and npc.name then
+                            oName = npc.name
+                        end
                     elseif((objective.type == "object" or objective.type == "o") and objective.id) then
                         local object = QuestieDB:GetObject(objective.id)
-                        oName = object and object.name
+                        if object and object.name then
+                            oName = object.name
+                        end
                     elseif((objective.type == "item" or objective.type == "i") and objective.id) then
                         local dbItem = QuestieDB:GetItem(objective.id);
                         if(dbItem and dbItem.name and (not dbItem.Hidden)) then
                             oName = dbItem.name;-- this is capital letters for some reason...
                         else
                             local itemName = GetItemInfo(objective.id)
-                            if(itemName) then
+                            if itemName then
                                 oName = itemName;
                             else
                                 oName = "Item missing from DB, fetching from server!";
@@ -99,7 +110,7 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                         end
                     end
                 end
-                tooltipData[questId][playerName][objectiveIndex].text = oName or ""
+                tooltipData[questId][playerName][objectiveIndex].text = oName
                 tooltipData[questId][playerName][objectiveIndex].fulfilled = objective.fulfilled;
                 tooltipData[questId][playerName][objectiveIndex].required = objective.required;
             end

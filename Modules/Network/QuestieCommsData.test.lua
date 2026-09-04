@@ -102,10 +102,13 @@ describe("QuestieCommsData", function()
             end
 
             QuestieComms.data:RegisterTooltip(questId, playerName, {objective("m", 19305)})
+            QuestieComms.data:RegisterTooltip(questId, "AnotherPlayer", {objective("m", 19305)})
 
             local result = QuestieComms.data:GetTooltip("m_19305")
 
             assert.equals("Goliathon", result[questId][playerName][1].text)
+            assert.equals("Goliathon", result[questId]["AnotherPlayer"][1].text)
+            assert.spy(C_QuestLog.GetQuestObjectives).was.called(1)
             assert.spy(C_QuestLog.GetQuestObjectives).was.called_with(questId)
         end)
 
