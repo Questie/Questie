@@ -1,6 +1,5 @@
 ---@class QuestieLink
 local QuestieLink = QuestieLoader:CreateModule("QuestieLink")
-local _QuestieLink = QuestieLink.private
 -------------------------
 --Import modules
 -------------------------
@@ -20,6 +19,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type HandleSetHyperlink
+local HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
 
 QuestieLink.lastItemRefTooltip = ""
 
@@ -32,71 +33,6 @@ function QuestieLink.Initialize()
     _InstallSetHyperlinkOverride()
     _InstallChatFrameHoverHooks()
     _InstallHyperlinkClickHook()
-end
-
----@param self Frame
----@param fallbackHandler function
----@param link string
-_QuestieLink.HandleSetHyperlink = function(self, fallbackHandler, link, ...)
-    -- If Questie hasn't started yet, delegate to the default handler to avoid accessing uninitialized DB
-    if (not Questie.started) then
-        fallbackHandler(self, link, ...)
-        return
-    end
-
-    local questiePrefix, questId = string.match(link, "(questie):(%d+):")
-    local isQuestieLink = questiePrefix == "questie"
-
-    -- Detect native Blizzard quest links (format: quest:questId:level)
-    local nativeQuestId = string.match(link, "quest:(%d+):")
-    local isNativeQuestLink = nativeQuestId ~= nil
-
-    local extractedQuestId
-    if isQuestieLink and questId then
-        extractedQuestId = tonumber(questId)
-    elseif isNativeQuestLink then
-        extractedQuestId = tonumber(nativeQuestId)
-    end
-
-    if (not extractedQuestId) then
-        -- We weren't able to find the questId. Nothing we can do, so we let the default handler take over
-        QuestieLink.lastItemRefTooltip = ""
-        fallbackHandler(self, link, ...)
-        return
-    end
-
-    local quest = QuestieDB.GetQuest(extractedQuestId)
-    if (not quest) then
-        -- We don't have the quest in our DB, so we let the default handler take over
-        QuestieLink.lastItemRefTooltip = ""
-        fallbackHandler(self, link, ...)
-        return
-    end
-
-    if (not ItemRefTooltip:IsShown()) then
-        QuestieLink.lastItemRefTooltip = ""
-    else
-        QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
-    end
-
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink:", link)
-    ShowUIPanel(ItemRefTooltip)
-    ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
-    ItemRefTooltip:ClearLines()
-
-    local tooltipLink = isNativeQuestLink and ("questie:" .. extractedQuestId .. ":0") or link
-
-    QuestieLink:CreateQuestTooltip(tooltipLink, ItemRefTooltip)
-    ItemRefTooltip:Show()
-
-    local tooltipText = ItemRefTooltipTextLeft1:GetText()
-    if QuestieLink.lastItemRefTooltip == tooltipText then
-        ItemRefTooltip:Hide()
-        QuestieLink.lastItemRefTooltip = ""
-        return
-    end
-
-    QuestieLink.lastItemRefTooltip = tooltipText
 end
 
 ---@return string
@@ -495,7 +431,7 @@ _InstallSetHyperlinkOverride = function()
     --- Override of the default SetHyperlink function to filter Questie links
     ---@param link string
     function ItemRefTooltip:SetHyperlink(link, ...)
-        _QuestieLink.HandleSetHyperlink(self, oldItemSetHyperlink, link, ...)
+        HandleSetHyperlink.Run(self, oldItemSetHyperlink, link, ...)
     end
 end
 

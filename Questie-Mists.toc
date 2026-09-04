@@ -201,6 +201,7 @@ Modules\DebugFunctions.lua
 # QuestLinks
 Modules\QuestLinks\ChatFilter.lua
 Modules\QuestLinks\Hooks.lua
+Modules\QuestLinks\HandleSetHyperlink.lua
 Modules\QuestLinks\Link.lua
 
 # Tooltips
