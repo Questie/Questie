@@ -34,7 +34,7 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
 
     if (not extractedQuestId) then
         -- We weren't able to find the questId. Nothing we can do, so we let the default handler take over
-        QuestieLink.lastItemRefTooltip = ""
+        QuestieLink.lastItemRefTooltip = nil
         fallbackHandler(self, link, ...)
         return
     end
@@ -42,15 +42,13 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
     local quest = QuestieDB.GetQuest(extractedQuestId)
     if (not quest) then
         -- We don't have the quest in our DB, so we let the default handler take over
-        QuestieLink.lastItemRefTooltip = ""
+        QuestieLink.lastItemRefTooltip = nil
         fallbackHandler(self, link, ...)
         return
     end
 
     if (not ItemRefTooltip:IsShown()) then
-        QuestieLink.lastItemRefTooltip = ""
-    else
-        QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
+        QuestieLink.lastItemRefTooltip = nil
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink:", link)
@@ -63,12 +61,12 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
     QuestieLink:CreateQuestTooltip(tooltipLink, ItemRefTooltip)
     ItemRefTooltip:Show()
 
-    local tooltipText = ItemRefTooltipTextLeft1:GetText()
-    if QuestieLink.lastItemRefTooltip == tooltipText then
+    -- A repeated click on the same quest link closes the tooltip.
+    if QuestieLink.lastItemRefTooltip == extractedQuestId then
         ItemRefTooltip:Hide()
-        QuestieLink.lastItemRefTooltip = ""
+        QuestieLink.lastItemRefTooltip = nil
         return
     end
 
-    QuestieLink.lastItemRefTooltip = tooltipText
+    QuestieLink.lastItemRefTooltip = extractedQuestId
 end

@@ -16,10 +16,7 @@ describe("HandleSetHyperlink", function()
             SetOwner = function() end,
             ClearLines = function() end,
             Show = spy.new(function() end),
-            Hide = function() end,
-        }
-        _G.ItemRefTooltipTextLeft1 = {
-            GetText = function() return "Test Quest" end,
+            Hide = spy.new(function() end),
         }
         _G.ShowUIPanel = function() end
         _G.UIParent = {}
@@ -30,7 +27,7 @@ describe("HandleSetHyperlink", function()
         end
 
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
-        QuestieLink.lastItemRefTooltip = ""
+        QuestieLink.lastItemRefTooltip = nil
         QuestieLink.CreateQuestTooltip = spy.new(function() end)
 
         dofile("Modules/QuestLinks/HandleSetHyperlink.lua")
@@ -55,7 +52,7 @@ describe("HandleSetHyperlink", function()
         HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
 
         assert.spy(fallbackHandler).was.called_with(ItemRefTooltip, link)
-        assert.is_equal("", QuestieLink.lastItemRefTooltip)
+        assert.is_nil(QuestieLink.lastItemRefTooltip)
     end)
 
     it("should delegate to the fallback handler when the quest is not in QuestieDB", function()
@@ -66,7 +63,7 @@ describe("HandleSetHyperlink", function()
         HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
 
         assert.spy(fallbackHandler).was.called_with(ItemRefTooltip, link)
-        assert.is_equal("", QuestieLink.lastItemRefTooltip)
+        assert.is_nil(QuestieLink.lastItemRefTooltip)
     end)
 
     it("should build the quest tooltip for questie links without calling the fallback handler", function()
@@ -79,7 +76,7 @@ describe("HandleSetHyperlink", function()
         assert.spy(QuestieLink.CreateQuestTooltip).was.called()
         assert.are_same(link, QuestieLink.CreateQuestTooltip.calls[1].vals[2])
         assert.spy(ItemRefTooltip.Show).was.called()
-        assert.is_equal("Test Quest", QuestieLink.lastItemRefTooltip)
+        assert.is_equal(74, QuestieLink.lastItemRefTooltip)
     end)
 
     it("should build the quest tooltip for native quest links without calling the fallback handler", function()
@@ -92,5 +89,31 @@ describe("HandleSetHyperlink", function()
         assert.spy(QuestieLink.CreateQuestTooltip).was.called()
         assert.are_same("questie:74:0", QuestieLink.CreateQuestTooltip.calls[1].vals[2])
         assert.spy(ItemRefTooltip.Show).was.called()
+    end)
+
+    it("should hide the tooltip on a repeated click of the same quest", function()
+        local fallbackHandler = spy.new(function() end)
+        local link = "questie:74:GUID-0-1234"
+        ItemRefTooltip.IsShown = function() return true end
+        QuestieLink.lastItemRefTooltip = 74
+
+        HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
+
+        assert.spy(ItemRefTooltip.Hide).was.called()
+        assert.is_nil(QuestieLink.lastItemRefTooltip)
+    end)
+
+    it("should not hide the tooltip when a different quest happens to render the same title", function()
+        local fallbackHandler = spy.new(function() end)
+        -- Quest 74 is already shown (title irrelevant: identity is tracked by questId, not by
+        -- the rendered tooltip text, since unrelated quests can share the same display name).
+        ItemRefTooltip.IsShown = function() return true end
+        QuestieLink.lastItemRefTooltip = 74
+
+        local link = "questie:75:GUID-0-5678"
+        HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
+
+        assert.spy(ItemRefTooltip.Hide).was.not_called()
+        assert.is_equal(75, QuestieLink.lastItemRefTooltip)
     end)
 end)
