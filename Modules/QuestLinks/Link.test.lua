@@ -176,6 +176,10 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function()
                 return "Test Zone"
             end
+
+            -- Reload Link.lua to capture the new mock
+            dofile("Modules/QuestLinks/Link.lua")
+            QuestieLink = QuestieLoader:ImportModule("QuestieLink")
         end)
 
         it("should detect and handle questie quest links", function()
@@ -212,6 +216,21 @@ describe("QuestieLink", function()
             local nonQuestLink = "item:12345:0:0:0"
 
             ItemRefTooltip:SetHyperlink(nonQuestLink)
+
+            assert.are_same({}, tooltipLines)
+            assert.spy(_G.ItemRefTooltip.Show).was.not_called()
+            assert.is_equal("", QuestieLink.lastItemRefTooltip)
+        end)
+
+        it("should delegate questie quest links when Questie is not started", function()
+            Questie.started = false
+            QuestieDB.GetQuest = function()
+                return nil
+            end
+
+            local questieLink = "questie:99999:GUID-0-1234"
+
+            ItemRefTooltip:SetHyperlink(questieLink)
 
             assert.are_same({}, tooltipLines)
             assert.spy(_G.ItemRefTooltip.Show).was.not_called()
