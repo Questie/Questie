@@ -100,6 +100,23 @@ describe("QuestieLink", function()
             assert.are_same("Test Link", result)
         end)
 
+        it("should fall back to Questie format when GetQuestLink returns nil (quest not in quest log)", function()
+            _G.GetQuestLink = function()
+                return nil
+            end
+            Questie.db.profile.trackerShowQuestLevel = true
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetEffectiveQuestLevel = function()
+                return 15
+            end
+
+            local result = QuestieLink:GetQuestLinkStringById(1234)
+
+            assert.are_same("[[15] Test Quest (1234)]", result)
+        end)
+
         it("should return a formatted link string with level and name from the database when trackerShowQuestLevel is true", function()
             Questie.db.profile.trackerShowQuestLevel = true
             QuestieDB.QueryQuestSingle = function()
