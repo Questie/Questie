@@ -26,7 +26,13 @@ QuestieLink.lastItemRefTooltip = ""
 -- Forward declaration
 local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _AddDungeonInfo, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
 local _AddTooltipLine, _AddColoredTooltipLine, _GetObjectiveText
+local _InstallSetHyperlinkOverride, _InstallChatFrameHoverHooks, _InstallHyperlinkClickHook
 
+function QuestieLink.Initialize()
+    _InstallSetHyperlinkOverride()
+    _InstallChatFrameHoverHooks()
+    _InstallHyperlinkClickHook()
+end
 
 ---@param self Frame
 ---@param fallbackHandler function
@@ -91,14 +97,6 @@ _QuestieLink.HandleSetHyperlink = function(self, fallbackHandler, link, ...)
     end
 
     QuestieLink.lastItemRefTooltip = tooltipText
-end
-
-local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
-
---- Override of the default SetHyperlink function to filter Questie links
----@param link string
-function ItemRefTooltip:SetHyperlink(link, ...)
-    _QuestieLink.HandleSetHyperlink(self, oldItemSetHyperlink, link, ...)
 end
 
 ---@return string
@@ -491,6 +489,16 @@ _AddPlayerQuestProgress = function(tooltip, quest, starterName, starterZoneName,
     end
 end
 
+_InstallSetHyperlinkOverride = function()
+    local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
+
+    --- Override of the default SetHyperlink function to filter Questie links
+    ---@param link string
+    function ItemRefTooltip:SetHyperlink(link, ...)
+        _QuestieLink.HandleSetHyperlink(self, oldItemSetHyperlink, link, ...)
+    end
+end
+
 -- Show quest tooltip on hover.
 local function ShowQuestieHoverTooltip(link)
     local questiePrefix = string.match(link or "", "^(questie):")
@@ -554,27 +562,27 @@ local function HookDefaultChatFrames()
     end
 end
 
--- Try Chattynator first (returns true if Chattynator is active)
-local chattynatorHooked = HookChattynator()
+-- Try Chattynator first (returns true if Chattynator is active),
+-- otherwise hook the default chat frames, and handle Chattynator loading
+-- after Questie via ADDON_LOADED.
+_InstallChatFrameHoverHooks = function()
+    local chattynatorHooked = HookChattynator()
 
--- If Chattynator is not installed, hook default chat frames
-if not chattynatorHooked then
-    HookDefaultChatFrames()
-end
+    if (not chattynatorHooked) then
+        HookDefaultChatFrames()
 
--- Also handle Chattynator loading after Questie via ADDON_LOADED
-if not chattynatorHooked then
-    local loaderFrame = CreateFrame("Frame")
-    loaderFrame:RegisterEvent("ADDON_LOADED")
-    loaderFrame:SetScript("OnEvent", function(_, _, addonName)
-        if addonName == "Chattynator" then
-            C_Timer.After(0, function()
-                if HookChattynator() then
-                    loaderFrame:UnregisterAllEvents()
-                end
-            end)
-        end
-    end)
+        local loaderFrame = CreateFrame("Frame")
+        loaderFrame:RegisterEvent("ADDON_LOADED")
+        loaderFrame:SetScript("OnEvent", function(_, _, addonName)
+            if addonName == "Chattynator" then
+                C_Timer.After(0, function()
+                    if HookChattynator() then
+                        loaderFrame:UnregisterAllEvents()
+                    end
+                end)
+            end
+        end)
+    end
 end
 
 -- Compatibility: 2.5.5+ uses ChatFrameMixin:OnHyperlinkClick instead of ChatFrame_OnHyperlinkShow
@@ -602,23 +610,27 @@ local function HandleHyperlinkClick(link, button)
     end
 end
 
--- Try new API first (2.5.5+)
-if ChatFrameMixin and ChatFrameMixin.OnHyperlinkClick then
-    local function HookChatFrameHyperlink(chatFrame)
-        chatFrame:HookScript("OnHyperlinkClick", function(_, link, _, button)
+--- Installs the shift-click "insert quest link into chat" hook.
+--- Uses the new ChatFrameMixin:OnHyperlinkClick API on 2.5.5+, falling back
+--- to hooksecurefunc("ChatFrame_OnHyperlinkShow", ...) on older clients.
+_InstallHyperlinkClickHook = function()
+    if ChatFrameMixin and ChatFrameMixin.OnHyperlinkClick then
+        local function HookChatFrameHyperlink(chatFrame)
+            chatFrame:HookScript("OnHyperlinkClick", function(_, link, _, button)
+                HandleHyperlinkClick(link, button)
+            end)
+        end
+
+        for i = 1, (NUM_CHAT_WINDOWS or 10) do
+            local chatFrame = _G["ChatFrame" .. i]
+            if chatFrame then
+                HookChatFrameHyperlink(chatFrame)
+            end
+        end
+    else
+        -- Fallback to old API (pre-2.5.5)
+        hooksecurefunc("ChatFrame_OnHyperlinkShow", function(_, link, _, button)
             HandleHyperlinkClick(link, button)
         end)
     end
-
-    for i = 1, (NUM_CHAT_WINDOWS or 10) do
-        local chatFrame = _G["ChatFrame" .. i]
-        if chatFrame then
-            HookChatFrameHyperlink(chatFrame)
-        end
-    end
-else
-    -- Fallback to old API (pre-2.5.5)
-    hooksecurefunc("ChatFrame_OnHyperlinkShow", function(_, link, _, button)
-        HandleHyperlinkClick(link, button)
-    end)
 end
