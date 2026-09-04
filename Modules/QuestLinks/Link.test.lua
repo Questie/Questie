@@ -76,7 +76,7 @@ describe("QuestieLink", function()
         dofile("Modules/QuestLinks/Link.lua")
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
         QuestieLink.Initialize()
-        QuestieLink.lastItemRefTooltip = ""
+        QuestieLink.lastItemRefTooltip = nil
     end)
 
     describe("GetQuestLinkStringById", function()
