@@ -1,5 +1,6 @@
 ---@class QuestieLink
 local QuestieLink = QuestieLoader:CreateModule("QuestieLink")
+local _QuestieLink = QuestieLink.private
 -------------------------
 --Import modules
 -------------------------
@@ -27,13 +28,13 @@ local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequiremen
 local _AddTooltipLine, _AddColoredTooltipLine, _GetObjectiveText
 
 
-local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
---- Override of the default SetHyperlink function to filter Questie links
+---@param self Frame
+---@param fallbackHandler function
 ---@param link string
-function ItemRefTooltip:SetHyperlink(link, ...)
+_QuestieLink.HandleSetHyperlink = function(self, fallbackHandler, link, ...)
     -- If Questie hasn't started yet, delegate to the default handler to avoid accessing uninitialized DB
     if (not Questie.started) then
-        oldItemSetHyperlink(self, link, ...)
+        fallbackHandler(self, link, ...)
         return
     end
 
@@ -54,7 +55,7 @@ function ItemRefTooltip:SetHyperlink(link, ...)
     if (not extractedQuestId) then
         -- We weren't able to find the questId. Nothing we can do, so we let the default handler take over
         QuestieLink.lastItemRefTooltip = ""
-        oldItemSetHyperlink(self, link, ...)
+        fallbackHandler(self, link, ...)
         return
     end
 
@@ -62,7 +63,7 @@ function ItemRefTooltip:SetHyperlink(link, ...)
     if (not quest) then
         -- We don't have the quest in our DB, so we let the default handler take over
         QuestieLink.lastItemRefTooltip = ""
-        oldItemSetHyperlink(self, link, ...)
+        fallbackHandler(self, link, ...)
         return
     end
 
@@ -90,6 +91,14 @@ function ItemRefTooltip:SetHyperlink(link, ...)
     end
 
     QuestieLink.lastItemRefTooltip = tooltipText
+end
+
+local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
+
+--- Override of the default SetHyperlink function to filter Questie links
+---@param link string
+function ItemRefTooltip:SetHyperlink(link, ...)
+    _QuestieLink.HandleSetHyperlink(self, oldItemSetHyperlink, link, ...)
 end
 
 ---@return string
