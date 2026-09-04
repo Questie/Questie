@@ -5,6 +5,11 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
+---Used to track the last questId that was displayed in the ItemRefTooltip. This is used to
+---detect repeated clicks on the same quest link, which should close the tooltip.
+---@type QuestId?
+local lastItemRefTooltip
+
 --- Body of the ItemRefTooltip:SetHyperlink override. The fallback handler is passed in as a
 --- parameter (instead of being captured as an upvalue by the caller) so it can be unit tested
 --- with a mock/spy in isolation, without installing the real hook.
@@ -34,7 +39,7 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
 
     if (not extractedQuestId) then
         -- We weren't able to find the questId. Nothing we can do, so we let the default handler take over
-        QuestieLink.lastItemRefTooltip = nil
+        lastItemRefTooltip = nil
         fallbackHandler(self, link, ...)
         return
     end
@@ -42,13 +47,13 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
     local quest = QuestieDB.GetQuest(extractedQuestId)
     if (not quest) then
         -- We don't have the quest in our DB, so we let the default handler take over
-        QuestieLink.lastItemRefTooltip = nil
+        lastItemRefTooltip = nil
         fallbackHandler(self, link, ...)
         return
     end
 
     if (not ItemRefTooltip:IsShown()) then
-        QuestieLink.lastItemRefTooltip = nil
+        lastItemRefTooltip = nil
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink:", link)
@@ -62,11 +67,11 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
     ItemRefTooltip:Show()
 
     -- A repeated click on the same quest link closes the tooltip.
-    if QuestieLink.lastItemRefTooltip == extractedQuestId then
+    if lastItemRefTooltip == extractedQuestId then
         ItemRefTooltip:Hide()
-        QuestieLink.lastItemRefTooltip = nil
+        lastItemRefTooltip = nil
         return
     end
 
-    QuestieLink.lastItemRefTooltip = extractedQuestId
+    lastItemRefTooltip = extractedQuestId
 end

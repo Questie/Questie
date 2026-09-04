@@ -22,8 +22,6 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type HandleSetHyperlink
 local HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
 
-QuestieLink.lastItemRefTooltip = nil
-
 -- Forward declaration
 local _AddQuestTitle, _AddQuestStatus, _AddQuestDescription, _AddQuestRequirements, _AddDungeonInfo, _GetQuestStarter, _GetQuestFinisher, _AddPlayerQuestProgress
 local _AddTooltipLine, _AddColoredTooltipLine, _GetObjectiveText

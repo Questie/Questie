@@ -27,7 +27,6 @@ describe("HandleSetHyperlink", function()
         end
 
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
-        QuestieLink.lastItemRefTooltip = nil
         QuestieLink.CreateQuestTooltip = spy.new(function() end)
 
         dofile("Modules/QuestLinks/HandleSetHyperlink.lua")
@@ -52,7 +51,6 @@ describe("HandleSetHyperlink", function()
         HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
 
         assert.spy(fallbackHandler).was.called_with(ItemRefTooltip, link)
-        assert.is_nil(QuestieLink.lastItemRefTooltip)
     end)
 
     it("should delegate to the fallback handler when the quest is not in QuestieDB", function()
@@ -63,7 +61,6 @@ describe("HandleSetHyperlink", function()
         HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
 
         assert.spy(fallbackHandler).was.called_with(ItemRefTooltip, link)
-        assert.is_nil(QuestieLink.lastItemRefTooltip)
     end)
 
     it("should build the quest tooltip for questie links without calling the fallback handler", function()
@@ -76,7 +73,6 @@ describe("HandleSetHyperlink", function()
         assert.spy(QuestieLink.CreateQuestTooltip).was.called()
         assert.are_same(link, QuestieLink.CreateQuestTooltip.calls[1].vals[2])
         assert.spy(ItemRefTooltip.Show).was.called()
-        assert.is_equal(74, QuestieLink.lastItemRefTooltip)
     end)
 
     it("should build the quest tooltip for native quest links without calling the fallback handler", function()
@@ -94,26 +90,27 @@ describe("HandleSetHyperlink", function()
     it("should hide the tooltip on a repeated click of the same quest", function()
         local fallbackHandler = spy.new(function() end)
         local link = "questie:74:GUID-0-1234"
-        ItemRefTooltip.IsShown = function() return true end
-        QuestieLink.lastItemRefTooltip = 74
 
+        -- First click: tooltip is closed, so it opens and tracks quest 74.
+        HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
+
+        -- Second click on the same link while the tooltip is still shown should close it.
+        ItemRefTooltip.IsShown = function() return true end
         HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
 
         assert.spy(ItemRefTooltip.Hide).was.called()
-        assert.is_nil(QuestieLink.lastItemRefTooltip)
     end)
 
     it("should not hide the tooltip when a different quest happens to render the same title", function()
         local fallbackHandler = spy.new(function() end)
-        -- Quest 74 is already shown (title irrelevant: identity is tracked by questId, not by
-        -- the rendered tooltip text, since unrelated quests can share the same display name).
-        ItemRefTooltip.IsShown = function() return true end
-        QuestieLink.lastItemRefTooltip = 74
 
-        local link = "questie:75:GUID-0-5678"
-        HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
+        -- First click opens quest 74.
+        HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, "questie:74:GUID-0-1234")
+
+        -- Second click on a different quest while the tooltip is still shown
+        ItemRefTooltip.IsShown = function() return true end
+        HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, "questie:75:GUID-0-5678")
 
         assert.spy(ItemRefTooltip.Hide).was.not_called()
-        assert.is_equal(75, QuestieLink.lastItemRefTooltip)
     end)
 end)
