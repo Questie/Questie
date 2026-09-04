@@ -5,10 +5,8 @@ describe("QuestieEvent", function()
     local QuestieEvent
     ---@type QuestieCorrections
     local QuestieCorrections
-    ---@type QuestieNPCFixes
-    local QuestieNPCFixes
-    ---@type QuestieTBCNpcFixes
-    local QuestieTBCNpcFixes
+    ---@type DarkmoonFaireFixes
+    local DarkmoonFaireFixes
     ---@type ContentPhases
     local ContentPhases
     ---@type Expansions
@@ -16,12 +14,37 @@ describe("QuestieEvent", function()
 
     ---@type luassert.spy
     local printMock
+    local originalTime
+
+    ---Mocks the current date and the weekday on which its month begins.
+    ---@param currentDate CalendarTime
+    ---@param firstWeekday number
+    ---@return nil
+    local function _MockCalendarDate(currentDate, firstWeekday)
+        _G.QuestieCompat = {
+            GetCurrentCalendarTime = function()
+                return currentDate
+            end,
+        }
+        _G.C_Calendar = {
+            GetMonthInfo = function(offset)
+                if offset == nil then
+                    return {year = currentDate.year, month = currentDate.month}
+                end
+                return {firstWeekday = firstWeekday}
+            end,
+        }
+    end
 
     before_each(function()
+        originalTime = _G.time
         Questie.IsClassic = false
         Questie.IsAnniversaryEra = false
         Questie.IsAnniversaryHardcore = false
+        Questie.IsSoD = false
         Questie.IsTBC = false
+        Questie.IsWotlk = false
+        Questie.IsTitanReforged = false
         Questie.db.profile.showEventQuests = true
         _G.Questie.Colorize = function(_, str) return str end
         printMock = spy.new(function() end)
@@ -32,11 +55,10 @@ describe("QuestieEvent", function()
         QuestieCorrections.hiddenQuests = {}
 
         Expansions = QuestieLoader:ImportModule("Expansions")
+        Expansions.Current = Expansions.Era
 
-        QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
-        QuestieNPCFixes.LoadDarkmoonFixes = function() return {} end
-        QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
-        QuestieTBCNpcFixes.LoadDarkmoonFixes = function() return {} end
+        DarkmoonFaireFixes = QuestieLoader:ImportModule("DarkmoonFaireFixes")
+        DarkmoonFaireFixes.GetNpcFixes = function() return {} end
 
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
         ContentPhases = QuestieLoader:ImportModule("ContentPhases")
@@ -47,6 +69,10 @@ describe("QuestieEvent", function()
         QuestieEvent.eventQuests = {} -- This is done on top level in QuestieEvent.lua
         QuestieEvent.activeQuests = {} -- This is done on top level in QuestieEvent.lua
         dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
+    end)
+
+    after_each(function()
+        _G.time = originalTime
     end)
 
     describe("Darkmoon Faire", function()
@@ -243,14 +269,60 @@ describe("QuestieEvent", function()
                     end
                 end
             }
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
 
             Questie.IsClassic = true
 
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        end)
+
+        it("should pass the active SoD location to the NPC corrections", function()
+            _MockCalendarDate({
+                monthDay = 4,
+                month = 12,
+                year = 2023,
+                hour = 0,
+                minute = 1,
+            }, 6)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+            _G.time = os.time
+
+            Questie.IsClassic = true
+            Questie.IsSoD = true
+
+            QuestieEvent:Load()
+
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
+        end)
+
+        it("should apply NPC corrections without visible Darkmoon Faire quests", function()
+            _MockCalendarDate({
+                monthDay = 11,
+                month = 12,
+                year = 2024,
+                hour = 12,
+                minute = 0,
+            }, 1)
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            local npcFix = {source = "Darkmoon Faire"}
+            QuestieDB.npcDataOverrides = {}
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function()
+                return {[14828] = npcFix}
+            end)
+            QuestieEvent.eventQuests = {}
+
+            Questie.IsClassic = true
+
+            QuestieEvent:Load()
+
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(1)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
+            assert.are_same(npcFix, QuestieDB.npcDataOverrides[14828])
         end)
 
         it("should not be active at 02:30 on start Monday for Era (hour gating)", function()
@@ -524,7 +596,7 @@ describe("QuestieEvent", function()
                 end
             }
 
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
 
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -534,7 +606,7 @@ describe("QuestieEvent", function()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_true(QuestieEvent.activeQuests[7926] == true)
             assert.is_nil(QuestieEvent.activeQuests[7905])
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, true, false)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
         end)
 
         it("should load for TBC servers when faire is in Elwynn Forest", function()
@@ -560,7 +632,7 @@ describe("QuestieEvent", function()
                 end
             }
 
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
 
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -570,7 +642,7 @@ describe("QuestieEvent", function()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
             assert.is_true(QuestieEvent.activeQuests[7905] == true)
             assert.is_nil(QuestieEvent.activeQuests[7926])
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, false)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("ELWYNN_FOREST")
         end)
 
         it("should load for TBC servers when faire is in Terokkar Forest and activate both announcement quests", function()
@@ -596,7 +668,7 @@ describe("QuestieEvent", function()
                 end
             }
 
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
 
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -606,7 +678,165 @@ describe("QuestieEvent", function()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
             assert.is_true(QuestieEvent.activeQuests[7905] == true)
             assert.is_true(QuestieEvent.activeQuests[7926] == true)
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, true)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("TEROKKAR_FOREST")
+        end)
+
+        it("should not load for WotLK at 00:00 on the first Sunday", function()
+            _MockCalendarDate({
+                monthDay = 4,
+                month = 1,
+                year = 2026,
+                hour = 0,
+                minute = 0,
+            }, 5)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.not_called()
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.not_called()
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("should load WotLK in Mulgore at 00:01 on the first Sunday in January", function()
+            _MockCalendarDate({
+                monthDay = 4,
+                month = 1,
+                year = 2026,
+                hour = 0,
+                minute = 1,
+            }, 5)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
+        end)
+
+        it("should load WotLK in Terokkar Forest in February", function()
+            _MockCalendarDate({
+                monthDay = 1,
+                month = 2,
+                year = 2026,
+                hour = 12,
+                minute = 0,
+            }, 1)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
+            assert.is_true(QuestieEvent.activeQuests[7905])
+            assert.is_true(QuestieEvent.activeQuests[7926])
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("TEROKKAR_FOREST")
+        end)
+
+        it("should load WotLK in Elwynn Forest through Saturday at 23:59 in March", function()
+            _MockCalendarDate({
+                monthDay = 7,
+                month = 3,
+                year = 2026,
+                hour = 23,
+                minute = 59,
+            }, 1)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("ELWYNN_FOREST")
+        end)
+
+        it("should not load for WotLK on the Sunday after the faire", function()
+            _MockCalendarDate({
+                monthDay = 8,
+                month = 3,
+                year = 2026,
+                hour = 0,
+                minute = 0,
+            }, 1)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.not_called()
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("should load Titan in Terokkar Forest from the January 2026 anchor", function()
+            _MockCalendarDate({
+                monthDay = 4,
+                month = 1,
+                year = 2026,
+                hour = 12,
+                minute = 0,
+            }, 5)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Questie.IsTitanReforged = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("TEROKKAR_FOREST")
+        end)
+
+        it("should continue the Titan rotation in Elwynn Forest in February", function()
+            _MockCalendarDate({
+                monthDay = 1,
+                month = 2,
+                year = 2026,
+                hour = 12,
+                minute = 0,
+            }, 1)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Questie.IsTitanReforged = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("ELWYNN_FOREST")
+        end)
+
+        it("should continue the Titan rotation in Mulgore in March", function()
+            _MockCalendarDate({
+                monthDay = 1,
+                month = 3,
+                year = 2026,
+                hour = 12,
+                minute = 0,
+            }, 1)
+            DarkmoonFaireFixes.GetNpcFixes = spy.new(function() return {} end)
+
+            Questie.IsWotlk = true
+            Questie.IsTitanReforged = true
+            Expansions.Current = Expansions.Wotlk
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
         end)
 
         it("should not load for TBC servers when faire is not active", function()
