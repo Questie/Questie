@@ -31,6 +31,12 @@ local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 --- Override of the default SetHyperlink function to filter Questie links
 ---@param link string
 function ItemRefTooltip:SetHyperlink(link, ...)
+    -- If Questie hasn't started yet, delegate to the default handler to avoid accessing uninitialized DB
+    if (not Questie.started) then
+        oldItemSetHyperlink(self, link, ...)
+        return
+    end
+
     local questiePrefix, questId = string.match(link, "(questie):(%d+):")
     local isQuestieLink = questiePrefix == "questie"
 
@@ -564,6 +570,11 @@ end
 
 -- Compatibility: 2.5.5+ uses ChatFrameMixin:OnHyperlinkClick instead of ChatFrame_OnHyperlinkShow
 local function HandleHyperlinkClick(link, button)
+    -- If Questie hasn't started yet, do nothing to avoid accessing uninitialized DB
+    if (not Questie.started) then
+        return
+    end
+
     if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
         local linkType, questId, _ = string.split(":", link)
         if linkType and linkType == "questie" and questId then
