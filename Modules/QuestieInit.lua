@@ -73,6 +73,8 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink");
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
 ---@type TrackerQuestTimers
@@ -231,6 +233,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieTooltips initializing.")
     QuestieTooltips:Initialize()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieLink initializing.")
+    QuestieLink.Initialize()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] DropDB initializing.")
     DropDB:Initialize()

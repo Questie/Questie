@@ -86,7 +86,8 @@ describe("QuestieLink", function()
 
         dofile("Modules/QuestLinks/Link.lua")
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
-        QuestieLink.lastItemRefTooltip = nil
+        QuestieLink.Initialize()
+        QuestieLink.lastItemRefTooltip = ""
     end)
 
     describe("GetQuestLinkStringById", function()
@@ -176,10 +177,6 @@ describe("QuestieLink", function()
             TrackerUtils.GetZoneNameByID = function()
                 return "Test Zone"
             end
-
-            -- Reload Link.lua to capture the new mock
-            dofile("Modules/QuestLinks/Link.lua")
-            QuestieLink = QuestieLoader:ImportModule("QuestieLink")
         end)
 
         it("should detect and handle questie quest links", function()
