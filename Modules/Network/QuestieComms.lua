@@ -37,6 +37,24 @@ QuestieComms.remotePlayerClasses = {}
 QuestieComms.remotePlayerEnabled = {}
 QuestieComms.remotePlayerTimes = {}
 
+local REMOTE_PLAYER_TIMEOUT = 60 * 4
+local GROUP_SOURCE = "group"
+local NEARBY_SOURCE = "nearby"
+
+-- Keep the independently received group and Nearby/YELL snapshots so removing one source can
+-- restore the other instead of deleting or preserving unrelated quest data for the whole player.
+---@class RemoteQuestSources
+---@field group table?
+---@field nearby table?
+---@type table<number, table<string, RemoteQuestSources>>
+local remoteQuestSources = {}
+
+-- Players whose quest data was received while they were in the group. Keep this separate from
+-- remotePlayerTimes because that table tracks nearby/YELL players, whose data must not be pruned
+-- just because they are not in the current party or raid.
+---@type table<string, boolean>
+local remoteGroupPlayers = {}
+
 -- The idea here is that all messages with the same "base number" are compatible
 -- New message versions increase the number by 0.1, and if the message becomes "incompatible" you increase with 1
 -- Say if the message is 1.5 it is valid as long as it is < 2. If it is 2.5 it is not compatible for example.
@@ -47,6 +65,111 @@ local suggestUpdate = true;
 
 -- forward declaration
 local _DoYell
+
+---@param playerName string
+---@return boolean
+local function _TrackRemoteGroupPlayer(playerName)
+    if QuestieComms:CheckInGroup(playerName) then
+        remoteGroupPlayers[playerName] = true
+        return true
+    end
+
+    return false
+end
+
+---@param questId number
+---@param playerName string
+---@param sources RemoteQuestSources?
+local function _RefreshRemoteQuestProjection(questId, playerName, sources)
+    local questLogs = QuestieComms.remoteQuestLogs[questId]
+    local current = questLogs and questLogs[playerName]
+    local projected = sources and (sources[GROUP_SOURCE] or sources[NEARBY_SOURCE])
+
+    if current == projected then
+        return
+    end
+
+    if current then
+        QuestieComms.data:RemoveQuestFromPlayer(questId, playerName)
+    end
+    if projected then
+        if not questLogs then
+            questLogs = {}
+            QuestieComms.remoteQuestLogs[questId] = questLogs
+        end
+        questLogs[playerName] = projected
+        QuestieComms.data:RegisterTooltip(questId, playerName, projected)
+    elseif questLogs then
+        questLogs[playerName] = nil
+        if not next(questLogs) then
+            QuestieComms.remoteQuestLogs[questId] = nil
+        end
+    end
+end
+
+---@param questId number
+---@param playerName string
+---@param source "group"|"nearby"
+---@param objectives table
+---@return boolean
+local function _SetRemoteQuestSource(questId, playerName, source, objectives)
+    if source == GROUP_SOURCE and not _TrackRemoteGroupPlayer(playerName) then
+        return false
+    end
+
+    if not remoteQuestSources[questId] then
+        remoteQuestSources[questId] = {}
+    end
+    if not remoteQuestSources[questId][playerName] then
+        remoteQuestSources[questId][playerName] = {}
+    end
+
+    local sources = remoteQuestSources[questId][playerName]
+    sources[source] = objectives
+    _RefreshRemoteQuestProjection(questId, playerName, sources)
+    return true
+end
+
+---@param questId number
+---@param playerName string
+---@param source "group"|"nearby"
+---@return boolean
+local function _RemoveRemoteQuestSource(questId, playerName, source)
+    local players = remoteQuestSources[questId]
+    local sources = players and players[playerName]
+    if not sources or not sources[source] then
+        return false
+    end
+
+    sources[source] = nil
+    _RefreshRemoteQuestProjection(questId, playerName, sources)
+
+    if not next(sources) then
+        players[playerName] = nil
+        if not next(players) then
+            remoteQuestSources[questId] = nil
+        end
+    end
+    return true
+end
+
+---@param playerName string
+---@param source "group"|"nearby"
+---@return boolean
+local function _RemoveRemotePlayerSource(playerName, source)
+    local questIds = {}
+    for questId, players in pairs(remoteQuestSources) do
+        if players[playerName] and players[playerName][source] then
+            questIds[#questIds + 1] = questId
+        end
+    end
+
+    for _, questId in ipairs(questIds) do
+        _RemoveRemoteQuestSource(questId, playerName, source)
+    end
+
+    return #questIds > 0
+end
 
 --Not used, contains a list of hashes for quest, used to compare change.
 --_QuestieComms.questHashes = {};
@@ -59,6 +182,14 @@ _QuestieComms.QC_WRITE_ALLRAID = "RAID"
 _QuestieComms.QC_WRITE_WHISPER = "WHISPER"
 _QuestieComms.QC_WRITE_CHANNEL = "CHANNEL"
 _QuestieComms.QC_WRITE_YELL = "YELL"
+
+---@type table<string, boolean>
+local groupMessageDistributions = {
+    [_QuestieComms.QC_WRITE_ALLGROUP] = true,
+    [_QuestieComms.QC_WRITE_ALLINSTANCE] = true,
+    [_QuestieComms.QC_WRITE_ALLRAID] = true,
+    [_QuestieComms.QC_WRITE_WHISPER] = true,
+}
 
 --Message types.
 _QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE = 1 -- send quest_log_update status to party/raid members
@@ -355,18 +486,9 @@ function QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(questPacket, play
                 offset = offset + 4
             end
             if not (allDone and disableCompleteQuests) then
-                if not QuestieComms.remoteQuestLogs[questPacketid] then
-                    QuestieComms.remoteQuestLogs[questPacketid] = {}
-                end
-                -- Create empty player.
-                if not QuestieComms.remoteQuestLogs[questPacketid][playerName] then
-                    QuestieComms.remoteQuestLogs[questPacketid][playerName] = {}
-                end
-
-                QuestieComms.remoteQuestLogs[questPacketid][playerName] = objectives
-
-                --Write to tooltip data
-                QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
+                _SetRemoteQuestSource(questPacketid, playerName, GROUP_SOURCE, objectives)
+            elseif disableCompleteQuests then
+                _RemoveRemoteQuestSource(questPacketid, playerName, GROUP_SOURCE)
             end
 
             QuestiePartyObjectives:ScheduleUpdate(questPacketid)
@@ -408,24 +530,10 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, d
                 offset = offset + 4
             end
             if not (allDone and disableCompleteQuests) then
-                if not QuestieComms.remoteQuestLogs[questPacketid] then
-                    QuestieComms.remoteQuestLogs[questPacketid] = {}
-                end
-                -- Create empty player.
-                if not QuestieComms.remoteQuestLogs[questPacketid][playerName] then
-                    QuestieComms.remoteQuestLogs[questPacketid][playerName] = {}
-                end
-
-                QuestieComms.remoteQuestLogs[questPacketid][playerName] = objectives
+                _SetRemoteQuestSource(questPacketid, playerName, NEARBY_SOURCE, objectives)
                 QuestieComms.remotePlayerClasses[playerName] = class
-
-                --Write to tooltip data
-                QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
             elseif disableCompleteQuests then
-                -- remove player if they exist
-                if QuestieComms.remoteQuestLogs[questPacketid] and QuestieComms.remoteQuestLogs[questPacketid][playerName] then
-                    QuestieComms.remoteQuestLogs[questPacketid][playerName] = nil
-                end
+                _RemoveRemoteQuestSource(questPacketid, playerName, NEARBY_SOURCE)
             end
 
             QuestiePartyObjectives:ScheduleUpdate(questPacketid)
@@ -438,30 +546,72 @@ function QuestieComms:CheckInGroup(name)
     return IsInRaid() and UnitInRaid(name) or UnitInParty(name)
 end
 
+---@param name string
+local function _RemoveNearbyPlayer(name)
+    QuestieComms.remotePlayerTimes[name] = nil
+    QuestieComms.remotePlayerEnabled[name] = nil
+    QuestieComms.remotePlayerClasses[name] = nil
+    _RemoveRemotePlayerSource(name, NEARBY_SOURCE)
+    QuestiePartyObjectives:ScheduleUpdate()
+end
+
 function QuestieComms:RemoveAllRemotePlayers()
     for name in pairs(QuestieComms.remotePlayerTimes) do
-        QuestieComms:RemoveRemotePlayer(name)
+        _RemoveNearbyPlayer(name)
     end
 end
 
 function QuestieComms:RemoveRemotePlayer(name)
-    QuestieComms.remotePlayerTimes[name] = nil
-    QuestieComms.remotePlayerEnabled[name] = nil
-    QuestieComms.remotePlayerClasses[name] = nil
+    _RemoveNearbyPlayer(name)
     if not QuestieComms:CheckInGroup(name) then
-        for _, players in pairs(QuestieComms.remoteQuestLogs) do
-            players[name] = nil
+        _RemoveRemotePlayerSource(name, GROUP_SOURCE)
+        remoteGroupPlayers[name] = nil
+        QuestieComms.data:RemovePlayer(name)
+    end
+end
+
+function QuestieComms:RemoveAllRemoteGroupPlayers()
+    local playerNames = {}
+    for name in pairs(remoteGroupPlayers) do
+        playerNames[#playerNames + 1] = name
+    end
+
+    for _, name in ipairs(playerNames) do
+        remoteGroupPlayers[name] = nil
+        _RemoveRemotePlayerSource(name, GROUP_SOURCE)
+    end
+
+    if #playerNames > 0 then
+        QuestiePartyObjectives:ScheduleUpdate()
+    end
+end
+
+---@return boolean changed Whether a former group member was removed.
+function QuestieComms:PruneRemotePlayers()
+    local playersToRemove = {}
+    for name in pairs(remoteGroupPlayers) do
+        if not QuestieComms:CheckInGroup(name) then
+            playersToRemove[#playersToRemove + 1] = name
         end
     end
-    QuestiePartyObjectives:ScheduleUpdate()
+
+    for _, name in ipairs(playersToRemove) do
+        remoteGroupPlayers[name] = nil
+        _RemoveRemotePlayerSource(name, GROUP_SOURCE)
+    end
+
+    if #playersToRemove > 0 then
+        QuestiePartyObjectives:ScheduleUpdate()
+    end
+    return #playersToRemove > 0
 end
 
 function QuestieComms:SortRemotePlayers()
     local now = GetTime()
     local current = {}
     for name, time in pairs(QuestieComms.remotePlayerTimes) do
-        if now - time > 60 * 4 then -- not seen in the last 4 minutes
-            QuestieComms:RemoveRemotePlayer(name)
+        if now - time > REMOTE_PLAYER_TIMEOUT then -- not seen in the last 4 minutes
+            _RemoveNearbyPlayer(name)
         else
             tinsert(current, name)
         end
@@ -828,14 +978,6 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
     if questPacket and playerName ~= UnitName("player") then
         --Does it contain id and objectives?
         if (questPacket.objectives and questPacket.id) then
-            -- Create empty quest.
-            if not QuestieComms.remoteQuestLogs[questPacket.id] then
-                QuestieComms.remoteQuestLogs[questPacket.id] = {}
-            end
-            -- Create empty player.
-            if not QuestieComms.remoteQuestLogs[questPacket.id][playerName] then
-                QuestieComms.remoteQuestLogs[questPacket.id][playerName] = {}
-            end
             local objectives = {}
             for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
                 --This is to check that all the data we require exist.
@@ -848,12 +990,9 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
                     required = objectiveData.req,
                 }
             end
-            QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
-
-            --Write to tooltip data
-            QuestieComms.data:RegisterTooltip(questPacket.id, playerName, objectives);
-
-            QuestiePartyObjectives:ScheduleUpdate(questPacket.id)
+            if _SetRemoteQuestSource(questPacket.id, playerName, GROUP_SOURCE, objectives) then
+                QuestiePartyObjectives:ScheduleUpdate(questPacket.id)
+            end
         end
     end
 end
@@ -891,11 +1030,9 @@ _QuestieComms.packets = {
             local playerName = remoteQuestPacket.playerName;
             local questId = remoteQuestPacket.id;
 
-            if (QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][playerName]) then
+            if _RemoveRemoteQuestSource(questId, playerName, GROUP_SOURCE) then
                 Questie.Debug(Questie.DEBUG_INFO, "[QuestieComms] Removed quest:", questId, "for player:", playerName);
-                QuestieComms.remoteQuestLogs[questId][playerName] = nil;
             end
-            QuestieComms.data:RemoveQuestFromPlayer(questId, playerName);
             QuestiePartyObjectives:ScheduleUpdate(questId)
         end
     },
@@ -1039,6 +1176,10 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
     --print("[" .. distribution .."][" .. sender .. "] " .. message)
     Questie.Debug(Questie.DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:", string.len(message))
     if message and sender and sender ~= UnitName("player") then
+        if groupMessageDistributions[distribution] and not QuestieComms:CheckInGroup(sender) then
+            return
+        end
+
         local decompressedData
         if distribution == "YELL" then
             --print("Decompressing YELL data")
@@ -1119,5 +1260,10 @@ end
 function QuestieComms:ResetAll()
     QuestieComms.data:ResetAll()
     QuestieComms.remoteQuestLogs = {}
+    QuestieComms.remotePlayerClasses = {}
+    QuestieComms.remotePlayerEnabled = {}
+    QuestieComms.remotePlayerTimes = {}
+    remoteQuestSources = {}
+    remoteGroupPlayers = {}
     QuestiePartyObjectives:ScheduleUpdate()
 end
