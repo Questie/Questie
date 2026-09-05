@@ -221,9 +221,9 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
             LibDropDown:CloseDropDownMenus()
 
             if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(QuestieLink:GetQuestLinkStringById(quest.Id))
+                ChatFrame_OpenChat(QuestieLink.GetQuestLinkStringById(quest.Id))
             else
-                ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(quest.Id))
+                ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
             end
         end
     })
