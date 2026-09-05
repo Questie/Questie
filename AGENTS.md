@@ -332,6 +332,8 @@ Prefer plain **functions** over **methods** when `self` is not needed. This avoi
 
 **Bad** — unnecessary method syntax:
 
+Method: `QuestieMap.utils:IsExplored` (using `:` and implicitly handing `self` aka `QuestieMap.utils` as first parameter)
+
 ```lua
 function QuestieMap.utils:IsExplored(uiMapId, x, y)
     -- self is not used
@@ -344,6 +346,8 @@ local isExplored = QuestieMap.utils:IsExplored(123, 50, 50)
 ```
 
 **Good** — plain function when `self` is unused:
+
+Function: `QuestieMap.utils.IsExplored` (using `.` and no implicit `self`)
 
 ```lua
 function QuestieMap.utils.IsExplored(uiMapId, x, y)
