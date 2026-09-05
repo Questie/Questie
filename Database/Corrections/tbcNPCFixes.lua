@@ -1394,6 +1394,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
         },
+        [20931] = { -- Tyrantus
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{45.95,7.56}}},
+            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{46.24,9.14},{46.17,8.69},{46.48,7.33},{46.15,7.1},{46.05,7.42},{45.59,8.35},{45.5,8.53},{45.8,9.0},{45.66,9.85},{45.42,10.95},{46.1,11.08},{46.41,10.92},{46.24,9.14}}}},
+        },
         [21007] = { -- Sergeant Chawni
             [npcKeys.waypoints] = {},
         },

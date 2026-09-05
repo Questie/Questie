@@ -5348,10 +5348,12 @@ function QuestieTBCQuestFixes:Load()
         [11089] = { -- The Soul Cannon of Reth'hedron
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Sar'this for his help hunting a Flawless Arcane Elemental"), 4, {{"monster", 23093}}}},
+            [questKeys.requiredMinRep] = {factionIDs.NETHERWING, 9000},
         },
         [11090] = { -- Subdue the Subduer
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {{{22357,nil,Questie.ICON_TYPE_INTERACT}}},
+            [questKeys.requiredMinRep] = {factionIDs.NETHERWING, 9000},
         },
         [11093] = { -- Hungry Nether Rays
             [questKeys.objectives] = {{{23219}}},

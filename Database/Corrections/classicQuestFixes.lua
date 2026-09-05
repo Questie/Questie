@@ -4272,14 +4272,8 @@ function QuestieQuestFixes:Load()
         [7738] = { -- Perfect Yeti Hide H
             [questKeys.preQuestSingle] = {2822},
         },
-        [7781] = { -- The Lord of Blackrock
-            [questKeys.preQuestSingle] = {7761},
-        },
         [7782] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{1748}},
-        },
-        [7783] = { -- The Lord of Blackrock
-            [questKeys.preQuestSingle] = {7761},
         },
         [7784] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{4949}},

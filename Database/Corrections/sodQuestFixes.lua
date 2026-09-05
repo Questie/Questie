@@ -53,14 +53,20 @@ function SeasonOfDiscovery:LoadQuests()
         [5676] = { -- Feedback (Stormwind)
             [questKeys.startedBy] = {{376},nil,nil},
         },
-        [7636] = { -- An Introduction
-            [questKeys.nextQuestInChain] = 84546,
-        },
         [7493] = { -- The Journey Has Just Begun
             [questKeys.preQuestSingle] = {84561},
         },
         [7497] = { -- The Journey Has Just Begun
             [questKeys.preQuestSingle] = {84560},
+        },
+        [7636] = { -- An Introduction
+            [questKeys.nextQuestInChain] = 84546,
+        },
+        [7781] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {7761},
+        },
+        [7783] = { -- The Lord of Blackrock
+            [questKeys.preQuestSingle] = {7761},
         },
         [8728] = { -- The Good News and The Bad News
             [questKeys.preQuestSingle] = {86444},
