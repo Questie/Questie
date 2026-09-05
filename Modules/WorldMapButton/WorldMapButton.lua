@@ -46,7 +46,8 @@ local function UpdateTooltip(self)
     tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
     tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
     tooltip:AddLine(" ")
-    local toggleLabel = Questie.db.profile.enabled and l10n('Hide Questie') or l10n('Show Questie')
+    local mapIconsShown = Questie.db.profile.enabled and Questie.db.profile.enableMapIcons
+    local toggleLabel = mapIconsShown and l10n("Hide Map Icons") or l10n("Show Map Icons")
     tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(toggleLabel, 'white'))
     tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
     tooltip:Show()
@@ -57,8 +58,17 @@ QuestieWorldMapButtonMixin = {
     OnHide = function() end,
     OnMouseDown = function(_, button)
         if button == "LeftButton" then
-            Questie.db.profile.enabled = (not Questie.db.profile.enabled)
-            QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
+            local mapIconsShown = Questie.db.profile.enabled and Questie.db.profile.enableMapIcons
+            if mapIconsShown then
+                Questie.db.profile.enableMapIcons = false
+            else
+                if not Questie.db.profile.enabled then
+                    Questie.db.profile.enableMiniMapIcons = false
+                end
+                Questie.db.profile.enabled = true
+                Questie.db.profile.enableMapIcons = true
+            end
+            QuestieQuest:ToggleNotes(not mapIconsShown, false)
             if GameTooltip:IsShown() and GameTooltip:GetOwner() == mapButton then
                 UpdateTooltip(mapButton)
             end
