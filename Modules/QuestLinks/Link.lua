@@ -33,15 +33,12 @@ function QuestieLink.Initialize()
     _InstallHyperlinkClickHook()
 end
 
+--- Returns a plain, chat-safe quest link string in Questie's own bracket format.
+--- This is used for manual linking (shift-click in Tracker/Journey, etc.) where
+--- we want a predictable representation that works in chat regardless of whether
+--- the quest is in the player's quest log.
 ---@return string
-function QuestieLink:GetQuestLinkStringById(questId)
-    if GetQuestLink then
-        local link = GetQuestLink(questId)
-        if link then
-            return link
-        end
-    end
-
+function QuestieLink.GetQuestLinkStringById(questId)
     local questName = QuestieDB.QueryQuestSingle(questId, "name")
     local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
 
@@ -50,6 +47,21 @@ function QuestieLink:GetQuestLinkStringById(questId)
     else
         return "[" .. questName .. " (" .. tostring(questId) .. ")]"
     end
+end
+
+--- Prefers the native Blizzard quest link (works for any player, addon or not),
+--- falling back to the Questie format when the API is unavailable or the quest
+--- is not in the player's quest log (GetQuestLink only works for those).
+---@return string
+function QuestieLink.GetNativeQuestLinkStringById(questId)
+    if GetQuestLink then
+        local link = GetQuestLink(questId)
+        if link then
+            return link
+        end
+    end
+
+    return QuestieLink.GetQuestLinkStringById(questId)
 end
 
 ---@return string
@@ -537,7 +549,7 @@ local function HandleHyperlinkClick(link, button)
                 local msg = activeWindow:GetText()
                 if msg then
                     activeWindow:SetText("")
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(questId))
+                    ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(questId))
                 end
             end
         end

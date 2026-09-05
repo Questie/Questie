@@ -207,7 +207,7 @@ _OnClickQuest = function(self, button)
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(self.Quest.Id))
+            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(self.Quest.Id))
         else
             QuestieTracker:UntrackQuestId(self.Quest.Id)
             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame

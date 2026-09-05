@@ -634,7 +634,7 @@ _HandleTreeItemClick = function(group, ...)
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(treePath[2])
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
-        ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(selectedId))
+        ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(selectedId))
     end
 
     -- get master frame and create scroll frame inside

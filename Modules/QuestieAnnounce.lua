@@ -89,7 +89,7 @@ end
 ---@param objectiveProgress string
 function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText, objectiveProgress)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId);
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
         local objective = objectiveProgress .. " " .. objectiveText
         local message = l10n("%s for %s!", objective, questLink)
 
@@ -124,7 +124,7 @@ end
 ---@param itemId ItemId
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceItems then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId);
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
         local itemLink = select(2, GetItemInfo(itemId))
         local message = l10n("Picked up %s which starts %s!", itemLink, questLink)
 
@@ -236,8 +236,8 @@ end
 ---@param questId QuestId
 function QuestieAnnounce:AcceptedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAccepted then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId)
-        local message = l10n("Quest %s: %s", l10n('Accepted'), questLink or "no quest name")
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n("Accepted"), questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
@@ -251,8 +251,8 @@ end
 ---@param questId QuestId
 function QuestieAnnounce:AbandonedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAbandoned then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId)
-        local message = l10n("Quest %s: %s", l10n('Abandoned'), questLink or "no quest name")
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n("Abandoned"), questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
@@ -266,8 +266,8 @@ end
 ---@param questId QuestId
 function QuestieAnnounce:CompletedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceCompleted then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId)
-        local message = l10n("Quest %s: %s", l10n('Completed'), questLink or "no quest name")
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n("Completed"), questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
