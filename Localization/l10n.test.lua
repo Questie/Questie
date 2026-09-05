@@ -105,45 +105,52 @@ describe("l10n", function()
             mock.SetBaseRow("Object", 31, {[objectKeys.name] = "Old Lion Statue"})
         end)
 
-        it("forwards the four lookups to the provider under their own owner", function()
-            _G.QUESTIE_LOCALES_OVERRIDE = {
-                locale = "zzZZ",
-                translations = {},
-                itemLookup = function() return {[5] = "Klaue von Scharfkralle"} end,
-                questLookup = {[2] = {"Klaue von Scharfkralle", {"Bringt die Klaue."}}},
-                npcNameLookup = function() return {[30] = {"Waldspinne", "Spinne"}} end,
-                objectLookup = {[31] = "Alte Löwenstatue"},
-            }
+        for _, externalLocale in ipairs({"deDE", "ukUA"}) do
+            it("forwards all four lookups under " .. externalLocale, function()
+                _G.QUESTIE_LOCALES_OVERRIDE = {
+                    locale = externalLocale,
+                    translations = {},
+                    itemLookup = function() return {[5] = "Klaue von Scharfkralle"} end,
+                    questLookup = {[2] = {"Klaue von Scharfkralle", {"Bringt die Klaue."}}},
+                    npcNameLookup = function() return {[30] = {"Waldspinne", "Spinne"}} end,
+                    objectLookup = {[31] = "Alte Löwenstatue"},
+                }
 
-            l10n.InitializeUILocale()
+                l10n.InitializeUILocale()
+                LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+                l10n.PublishLocaleOverrideEntityNames()
 
-            assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Item.Get(5, "name"))
-            assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Quest.Get(2, "name"))
-            assert.are_same({"Bringt die Klaue."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
-            assert.are_same("Waldspinne", LibQuestieDB.Npc.Get(30, "name"))
-            assert.are_same("Spinne", LibQuestieDB.Npc.Get(30, "subName"))
-            assert.are_same("Alte Löwenstatue", LibQuestieDB.Object.Get(31, "name"))
-            assert.are_same("QuestieLocalesOverride", LibQuestieDB.GetProvenance("Item", 5, "name"))
-        end)
+                assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Item.Get(5, "name"))
+                assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Quest.Get(2, "name"))
+                assert.are_same({"Bringt die Klaue."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
+                assert.are_same("Waldspinne", LibQuestieDB.Npc.Get(30, "name"))
+                assert.are_same("Spinne", LibQuestieDB.Npc.Get(30, "subName"))
+                assert.are_same("Alte Löwenstatue", LibQuestieDB.Object.Get(31, "name"))
+                assert.are_same("QuestieLocalesOverride", LibQuestieDB.GetProvenance("Item", 5, "name"))
+            end)
+        end
 
-        it("publishes nothing when the player configured another UI locale", function()
+        it("registers inactive translations for a later provider locale switch", function()
             Questie.db.global.questieLocaleDiff = true
             Questie.db.global.questieLocale = "frFR"
             _G.QUESTIE_LOCALES_OVERRIDE = {
-                locale = "zzZZ",
+                locale = "ukUA",
                 translations = {},
                 itemLookup = {[5] = "Klaue von Scharfkralle"},
             }
 
             l10n.InitializeUILocale()
+            LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+            l10n.PublishLocaleOverrideEntityNames()
 
             assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
-            assert.are_same({"QuestieTDB"}, LibQuestieDB.GetOwners())
+            LibQuestieDB.l10n.SetLocale("ukUA")
+            assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Item.Get(5, "name"))
         end)
 
         it("drops unknown IDs, empty strings, and empty objective tables", function()
             _G.QUESTIE_LOCALES_OVERRIDE = {
-                locale = "zzZZ",
+                locale = "ukUA",
                 translations = {},
                 itemLookup = {[5] = "", [6] = "Unbekannt"},
                 questLookup = {[2] = {"", {}}, [4] = {"Unbekannt"}},
@@ -152,6 +159,8 @@ describe("l10n", function()
             }
 
             l10n.InitializeUILocale()
+            LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+            l10n.PublishLocaleOverrideEntityNames()
 
             assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
             assert.are_same("Sharptalon's Claw", LibQuestieDB.Quest.Get(2, "name"))
@@ -165,9 +174,56 @@ describe("l10n", function()
             assert.are_same({"QuestieTDB"}, LibQuestieDB.GetOwners())
         end)
 
+        it("keeps UI initialization free of entity reads and publication", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {locale = "ukUA", translations = {}, itemLookup = function()
+                error("entity lookup ran during UI initialization")
+            end}
+            LibQuestieDB.Item.Exists = function() error("entity read during UI initialization") end
+            LibQuestieDB.l10n.SetCorrection = function() error("publication during UI initialization") end
+            l10n.InitializeUILocale()
+            assert.are_same("ukUA", l10n:GetUILocale())
+        end)
+
+        it("bypasses English external entity overrides", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {locale = "enUS", translations = {}, itemLookup = {[5] = "Override"}}
+            LibQuestieDB.l10n.SetCorrection = function() error("English must not be published") end
+            l10n.InitializeUILocale()
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+        end)
+
+        it("replaces rows and withdraws disappeared locales without touching unrelated slots", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {locale = "deDE", translations = {}, itemLookup = {[5] = "Klaue"}}
+            LibQuestieDB.l10n.SetLocale("deDE")
+            LibQuestieDB.l10n.SetCorrection("QuestieLocalesOverride", "deDE", "Npc", "Other", {[30] = {[npcKeys.name] = "Spinne"}})
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Klaue", LibQuestieDB.Item.Get(5, "name"))
+            QUESTIE_LOCALES_OVERRIDE.itemLookup = {}
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+            QUESTIE_LOCALES_OVERRIDE.itemLookup = {[5] = "Neue Klaue"}
+            l10n.PublishLocaleOverrideEntityNames()
+            _G.QUESTIE_LOCALES_OVERRIDE = nil
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+            assert.are_same("Spinne", LibQuestieDB.Npc.Get(30, "name"))
+            assert.are_same({}, mock.applyCount)
+        end)
+
+        for _, objectives in ipairs({{}, {[2] = "Sparse"}, {"Line", false}, {note = "Map"}, {""}}) do
+            it("ignores malformed or empty legacy objectives without using the description", function()
+                _G.QUESTIE_LOCALES_OVERRIDE = {locale = "deDE", translations = {},
+                    questLookup = {[2] = {"Name", {"Description"}, objectives}}}
+                LibQuestieDB.l10n.SetLocale("deDE")
+                l10n.PublishLocaleOverrideEntityNames()
+                assert.are_same("Name", LibQuestieDB.Quest.Get(2, "name"))
+                assert.are_same({"Bring the claw."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
+            end)
+        end
+
         it("reads objectives from the third element of the older three-element quest shape", function()
             _G.QUESTIE_LOCALES_OVERRIDE = {
-                locale = "zzZZ",
+                locale = "ukUA",
                 translations = {},
                 questLookup = {
                     [2] = {"Klaue", {"Beschreibung."}, {"Bringt die Klaue."}},
@@ -176,6 +232,8 @@ describe("l10n", function()
             }
 
             l10n.InitializeUILocale()
+            LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+            l10n.PublishLocaleOverrideEntityNames()
 
             assert.are_same({"Bringt die Klaue."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
             assert.are_same("Webwood Venom", LibQuestieDB.Quest.Get(3, "name"))

@@ -1,8 +1,11 @@
 dofile("setupTests.lua")
 
+local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+
 describe("ZoneDB", function()
     ---@type ZoneDB
     local ZoneDB
+    local zoneData
 
     before_each(function()
         _G["Questie"] = {db = {profile = {}}}
@@ -12,22 +15,66 @@ describe("ZoneDB", function()
             GetAreaInfo = function() return nil end,
         }
 
+        local mock = LoadQuestieTDBMock()
+        -- Focused provider-shaped inputs, not a copy of the zone database.
+        -- Fresh tables keep dungeon mutations and alternative IDs isolated between tests.
+        zoneData = {
+            zoneIDs = {
+                DUN_MOROGH = 1,
+                BURNING_STEPPES = 46,
+                SEARING_GORGE = 51,
+                FERALAS = 357,
+                GNOMEREGAN = 721,
+                DIRE_MAUL = 2557,
+            },
+            instanceIdToAreaId = {},
+            private = {
+                -- Both named areas must participate in lowest-ID name matching.
+                areaIdToUiMapId = "return {[1] = 1426, [721] = 226}",
+                areaIdToUiMapIdOverride = "return {[10073] = 1414}",
+                uiMapIdToAreaId = "return {[1426] = 1, [226] = 721, [113] = 3979}",
+                uiMapIdToAreaIdOverride = "return {[1414] = 10073, [1415] = 10074, [113] = 0, [1945] = 0}",
+                subZoneToParentZone = "return {}",
+                subZoneToParentZoneOverride = "return {[133] = 1}",
+                dungeons = {
+                    [2557] = {"Dire Maul", nil, 357, {{357, 59.2, 45.1}}},
+                    [1584] = {"Blackrock Depths", {1585}, 51, {{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
+                },
+            },
+        }
+        mock.supportModules.ZoneDB = zoneData
         dofile("Database/Zones/zoneDB.lua")
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
-        -- Focused inputs for the existing loadstring-based wrapper, not a copy of the zone database.
-        -- Recreate mutable dungeon data for each test so added alternative IDs cannot leak between cases.
-        ZoneDB.private.areaIdToUiMapId = "return {[1] = 1426}"
-        ZoneDB.private.areaIdToUiMapIdOverride = "return {}"
-        ZoneDB.private.uiMapIdToAreaId = "return {[1426] = 1, [113] = 3979}"
-        ZoneDB.private.uiMapIdToAreaIdOverride = "return {[1414] = 10073, [1415] = 10074, [113] = 0, [1945] = 0}"
-        ZoneDB.private.subZoneToParentZone = "return {}"
-        ZoneDB.private.subZoneToParentZoneOverride = "return {}"
-        ZoneDB.private.dungeons = {
-            [2557] = {"Dire Maul", nil, 357, {{357, 59.2, 45.1}}},
-            [1584] = {"Blackrock Depths", {1585}, 51, {{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
-        }
         ZoneDB.Initialize()
+    end)
+
+    it("binds static tables without replacing the wrapper or its private functions", function()
+        assert.are_not_equal(zoneData, ZoneDB)
+        assert.are_not_equal(zoneData.private, ZoneDB.private)
+        assert.are_equal(zoneData.zoneIDs, ZoneDB.zoneIDs)
+        assert.are_equal(zoneData.instanceIdToAreaId, ZoneDB.instanceIdToAreaId)
+        assert.are_equal(zoneData.private.dungeons, ZoneDB:GetDungeons())
+        assert.is_function(ZoneDB.private.RunTests)
+    end)
+
+    it("decodes maps and applies overrides without changing the provider sources", function()
+        zoneData.private.areaIdToUiMapId = "return {[10] = 20}"
+        zoneData.private.areaIdToUiMapIdOverride = "return {[10] = 21}"
+        zoneData.private.uiMapIdToAreaId = "return {[21] = 9}"
+        zoneData.private.uiMapIdToAreaIdOverride = "return {[21] = 10}"
+        zoneData.private.subZoneToParentZone = "return {[11] = 9}"
+        zoneData.private.subZoneToParentZoneOverride = "return {[11] = 10}"
+        dofile("Database/Zones/zoneDB.lua")
+        ZoneDB.Initialize()
+        assert.are_equal(21, ZoneDB:GetUiMapIdByAreaId(10))
+        assert.are_equal(10, ZoneDB:GetAreaIdByUiMapId(21))
+        assert.are_equal(10, ZoneDB:GetParentZoneId(11))
+        ZoneDB.Initialize()
+        assert.are_equal(21, ZoneDB:GetUiMapIdByAreaId(10))
+        assert.are_equal("return {[10] = 20}", zoneData.private.areaIdToUiMapId)
+        assert.are_equal("return {[21] = 9}", zoneData.private.uiMapIdToAreaId)
+        assert.are_equal("return {[11] = 9}", zoneData.private.subZoneToParentZone)
     end)
 
     describe("GetAreaIdByUiMapId", function()
@@ -138,8 +185,10 @@ describe("ZoneDB", function()
         end)
 
         it("should return correct values for all alternativeAreaIds when multiple are given", function()
-            local testDungeons = ZoneDB:GetDungeons()
-            testDungeons[99991] = {"Test Dungeon", {99992, 99993}, 1, {{1, 10.0, 20.0}}}
+            zoneData.private.dungeons = {
+                [99991] = {"Test Dungeon", {99992, 99993}, 1, {{1, 10.0, 20.0}}},
+            }
+            dofile("Database/Zones/zoneDB.lua")
             ZoneDB.Initialize()
 
             assert.are_same({{1, 10.0, 20.0}}, ZoneDB:GetDungeonLocation(99991))

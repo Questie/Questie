@@ -440,6 +440,7 @@ describe("QuestieDB", function()
 
         it("binds the provider schema, query functions, and Objective Order tables at file load", function()
             LibQuestieDB.ObjectiveFirst.spellObjectiveFirst[2] = true
+            mock.supportModules.QuestieDB.factionTemplate = {[35] = 12}
             -- The outer before_each stubs some of these after loading; a fresh load shows the bindings.
             dofile("Database/QuestieDB.lua")
             QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -466,6 +467,8 @@ describe("QuestieDB", function()
             assert.are_equal(LibQuestieDB.ObjectiveFirst.eventObjectiveFirst, QuestieDB.eventObjectiveFirst)
             assert.are_equal(LibQuestieDB.ObjectiveFirst.spellObjectiveFirst, QuestieDB.spellObjectiveFirst)
             assert.is_true(QuestieDB.spellObjectiveFirst[2])
+            assert.are_equal(mock.supportModules.QuestieDB.factionTemplate, QuestieDB.factionTemplate)
+            assert.are_equal(12, QuestieDB.factionTemplate[35])
         end)
 
         it("binds the composed ID maps", function()

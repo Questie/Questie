@@ -39,6 +39,7 @@ describe("QuestieInit", function()
 
         local l10n = QuestieLoader:ImportModule("l10n")
         l10n.InitializeUILocale = _Record("l10n.InitializeUILocale")
+        l10n.PublishLocaleOverrideEntityNames = _Record("l10n.PublishLocaleOverrideEntityNames")
         l10n.GetUILocale = function() return "deDE" end
 
         -- The provider locale forward goes through the mock, so the recorded order proves it
@@ -76,6 +77,7 @@ describe("QuestieInit", function()
             assert.are_same({
                 "l10n.InitializeUILocale",
                 "LibQuestieDB.l10n.SetLocale:deDE",
+                "l10n.PublishLocaleOverrideEntityNames",
                 "QuestieCorrections.Initialize",
                 "QuestieDB.Initialize",
                 "Townsfolk.Initialize",
@@ -91,14 +93,22 @@ describe("QuestieInit", function()
             assert.are_same({"deDE"}, mock.setLocaleCalls)
         end)
 
+        it("rejects an older contract-2 provider missing translation slots before forwarding", function()
+            mock.lib.l10n.SetCorrection = nil
+            assert.has_error(function() _RunStage(1) end,
+                "Questie requires QuestieTDB localization corrections. Update QuestieTDB.")
+            assert.are_same({"l10n.InitializeUILocale"}, callOrder)
+            assert.are_same({}, mock.setLocaleCalls)
+        end)
+
         it("stops with the Contract error before forwarding the locale or touching Corrections", function()
-            mock.minSupportedContract = 2
-            mock.contractVersion = 2
+            mock.minSupportedContract = 1
+            mock.contractVersion = 1
 
             assert.has_error(function()
                 _RunStage(1)
-            end, "QuestieTDB contract mismatch: this consumer needs version 1, the installed QuestieTDB provides 2 " ..
-                "(supporting consumers back to 2). Update whichever is older.")
+            end, "QuestieTDB contract mismatch: this consumer needs version 2, the installed QuestieTDB provides 1 " ..
+                "(supporting consumers back to 1). Update whichever is older.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
         end)
     end)

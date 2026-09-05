@@ -75,12 +75,20 @@ local function LoadProvider()
     -- The emulator writes into an existing `Enum` table in place; give it a fresh one so the
     -- restore below hands Questie's own back untouched.
     _G.Enum = nil
+    _G.LibStub = nil
 
-    local client = dofile(PROVIDER_PATH .. "/emulator/client.lua")
-    local emulator = dofile(PROVIDER_PATH .. "/emulator/metadata.lua")
-    client.reset()
-    client.install({expansion = "Classic"})
-    local lib = emulator.loadAddon(PROVIDER_TOC, "QuestieTDB", PROVIDER_PATH)
+    -- Emulator dependencies resolve relative to the provider checkout. Restore cwd even on failure.
+    local lfs = require("lfs")
+    local previousDirectory = lfs.currentdir()
+    assert(lfs.chdir(PROVIDER_PATH))
+    local ok, lib = pcall(function()
+        local client = dofile("emulator/client.lua")
+        local emulator = dofile("emulator/metadata.lua")
+        client.reset()
+        client.install({expansion = "Classic"})
+        return emulator.loadAddon("QuestieTDB.toc", "QuestieTDB", ".")
+    end)
+    assert(lfs.chdir(previousDirectory))
 
     for key in pairs(_G) do
         if snapshot[key] == nil then
@@ -90,6 +98,7 @@ local function LoadProvider()
     for key, value in pairs(snapshot) do
         _G[key] = value
     end
+    assert(ok, lib)
     return lib
 end
 
@@ -161,6 +170,13 @@ end
 ---@return fun() cleanup
 local function RecordProviderWrites(lib)
     local slots, entries = {}, {}
+    local translationSlots = {}
+    local originalTranslationSet = lib.l10n.SetCorrection
+    lib.l10n.SetCorrection = function(owner, locale, datatype, name, rows)
+        local changed = originalTranslationSet(owner, locale, datatype, name, rows)
+        translationSlots[owner .. "/" .. locale .. "/" .. datatype .. "/" .. name] = {owner, locale, datatype, name}
+        return changed
+    end
     local originalSet = lib.Corrections.Set
     local originalGetRegistrar = lib.GetRegistrar
 
@@ -190,6 +206,10 @@ local function RecordProviderWrites(lib)
 
     return function()
         lib.l10n.SetLocale("enUS")
+        for key, slot in pairs(translationSlots) do
+            originalTranslationSet(slot[1], slot[2], slot[3], slot[4], nil)
+            translationSlots[key] = nil
+        end
         for key, slot in pairs(slots) do
             originalSet(slot[1], slot[2], slot[3], nil)
             slots[key] = nil
@@ -705,6 +725,67 @@ describe("QuestieTDBMock conformance with LibQuestieDB", function()
             end)
             assert.are_same(99, seen.zoneID)
         end)
+    end)
+
+    describe("translation slots", function()
+        it("distinguishes entity provenance from translated provenance and retains nontranslated fields", function()
+            local seen = Conform(function(lib, owner)
+                local npcKeys = lib.Meta.NpcMeta.npcKeys
+                local id = FIXTURE.Npc.forestSpider
+                local entityOwner = owner .. "EntityOwner"
+                local translationOwner = owner .. "TranslationOwner"
+                lib.Corrections.Set(entityOwner, "Npc", "normal", {
+                    [id] = {[npcKeys.name] = "Corrected", [npcKeys.zoneID] = 99},
+                })
+                lib.l10n.SetCorrection(translationOwner, "ukUA", "Npc", "names", {
+                    [id] = {[npcKeys.name] = "Translated"},
+                })
+                lib.l10n.SetLocale("ukUA")
+                return {
+                    name = lib.Npc.Get(id, "name"),
+                    entityOwner = lib.Corrections.GetProvenance("Npc", id, "name") == entityOwner,
+                    translationOwner = lib.GetProvenance("Npc", id, "name") == translationOwner,
+                    zoneID = lib.Npc.Get(id, "zoneID"),
+                    entityZoneOwner = lib.Corrections.GetProvenance("Npc", id, "zoneID") == entityOwner,
+                    composedZoneOwner = lib.GetProvenance("Npc", id, "zoneID") == entityOwner,
+                }
+            end)
+            assert.are_same({
+                name = "Translated", entityOwner = true, translationOwner = true,
+                zoneID = 99, entityZoneOwner = true, composedZoneOwner = true,
+            }, seen)
+        end)
+
+        for _, locale in ipairs({"deDE", "ukUA"}) do
+            it("snapshots and withdraws all entity translations in " .. locale, function()
+                local seen = Conform(function(lib, owner)
+                    local observations = {}
+                    for _, datatype in ipairs({"Item", "Quest", "Npc", "Object"}) do
+                        local ids = {Item = 5518, Quest = 2, Npc = 30, Object = 31}
+                        local id = ids[datatype]
+                        local key = lib.Meta[datatype .. "Meta"][datatype:sub(1, 1):lower() .. datatype:sub(2) .. "Keys"].name
+                        lib.Corrections.Set(owner, datatype, "normal", {[id] = {[key] = "Corrected"}})
+                        local rows = {[id] = {[key] = "Translated"}}
+                        lib.l10n.SetCorrection(owner, locale, datatype, "names", rows)
+                        rows[id][key] = "Mutated"
+                        local inactive = lib[datatype].Get(id, "name")
+                        lib.l10n.SetLocale(locale)
+                        observations[datatype] = {
+                            inactive = inactive,
+                            active = lib[datatype].Get(id, "name"),
+                            provenance = lib.GetProvenance(datatype, id, "name"),
+                        }
+                        lib.l10n.SetCorrection(owner, locale, datatype, "names", nil)
+                        observations[datatype].withdrawn = lib[datatype].Get(id, "name")
+                        lib.l10n.SetLocale("enUS")
+                    end
+                    return observations
+                end)
+                assert.are_same("Translated", seen.Item.active)
+                assert.are_same("Corrected", seen.Item.inactive)
+                assert.are_same("Corrected", seen.Item.withdrawn)
+            end)
+        end
     end)
 
     -- Source mode ships no translations, so these cases cover the locale plumbing, not the translated text.

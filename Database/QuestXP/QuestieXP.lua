@@ -5,8 +5,9 @@ local QuestXP = QuestieLoader:CreateModule("QuestXP")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
+-- Shared, read-only base XP; level and buff adjustments stay in this wrapper.
 ---@type table<QuestId,table<Level,XP>> -- { questId={level, xp}, ..... }
-QuestXP.db = {}
+QuestXP.db = LibQuestieDB.Support.Get("QuestXP").db
 
 local floor = floor
 local UnitLevel = UnitLevel
