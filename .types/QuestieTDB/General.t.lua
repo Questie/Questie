@@ -71,27 +71,30 @@
 
 ---@alias QuestieTDBLocalizedValue string|string[]
 ---@alias QuestieTDBL10nProvider fun(id: number, entityFieldIndex: integer): QuestieTDBLocalizedValue?
+---@alias QuestieTDBL10nScalarFields table<integer, true>
+---@alias QuestieTDBL10nIsActive fun(): boolean
 ---@alias QuestieTDBLocaleChangedCallback fun(locale: string)
 ---@alias QuestieTDBL10nFieldName "name"|"objectivesText"|"subName"
+---@alias QuestieTDBEntity QuestDB|NpcDB|ItemDB|ObjectDB
 
 ---@class QuestieTDBL10nField
 ---@field name QuestieTDBL10nFieldName Canonical entity field carrying translations.
----@field list? true The localized segment decodes to a string list instead of a scalar string.
+---@field list? true The Localization block column contains string lists instead of scalar strings.
 
 ---Localization state and dot-called controls. Missing translations fall back to base entity data.
 ---@class QuestieTDBL10n
----@field locales string[] Configured non-English locale order used by Baked metadata segments.
----@field separator string Separator between locale segments in a Metadata field.
----@field localeIndex table<string, integer> Stored locale to one-based segment index; enUS is absent.
+---@field locales string[] Configured non-English locales with Baked Localization blocks.
+---@field localeIndex table<string, integer> Stored locale to stable configuration index; enUS is absent.
 ---@field currentLocale string Active locale; enUS selects base entity data.
----@field currentIndex? integer Stored segment index for the active locale; nil for enUS or an unstored locale.
+---@field currentIndex? integer Configuration index for a configured locale; nil for enUS or an unsupported locale.
 ---@field onLocaleChanged QuestieTDBLocaleChangedCallback[] Callbacks invoked after cache invalidation with the selected locale.
+---@field available boolean Whether the artifact declares Localization blocks.
 ---@field fields table<QuestieTDBCanonicalDatatype, QuestieTDBL10nField[]> Localized field coverage by entity type.
----@field CreateProvider fun(meta: QuestieTDBEntitySchema): QuestieTDBL10nProvider? Build a translation provider from a generated schema, or nil when that entity type has no localization data.
+---@field CreateProvider fun(meta: QuestieTDBEntitySchema, entity: QuestieTDBEntity): QuestieTDBL10nProvider?, QuestieTDBL10nScalarFields?, QuestieTDBL10nIsActive? Build a provider over active columns plus Baked scalar-row cache hints, or nil when the entity type has no Localization block.
 ---@field Initialize fun() Attach available providers and select the client locale.
 ---@field DetectLocale fun(): string Return the client locale, or enUS outside the client.
----@field SetLocale fun(locale?: string): string Select a locale, defaulting nil to enUS, and invalidate entity caches.
----@field IsAvailable fun(): boolean Test whether any entity has localization data.
+---@field SetLocale fun(locale?: string): string Select and eagerly decode a changed locale, defaulting nil to enUS, then invalidate entity caches; selecting the active locale is a no-op.
+---@field IsAvailable fun(): boolean Test whether the artifact contains Localization blocks.
 
 --------------------------------------------------------------------------------
 -- Corrections
