@@ -15,7 +15,7 @@
 ---@field RegisterRuntimeCorrection fun(owner: string, datatype: QuestieTDBDatatype, name: string, func: QuestieTDBCorrectionProvider, loadOrder?: number): QuestieTDBCorrectionEntry Register a query-time Correction.
 ---@field SetCorrection fun(owner: string, datatype: QuestieTDBDatatype, name: string, rows: QuestieTDBCorrections?): boolean Write-through data correction; nil rows removes the slot.
 ---@field GetRegistrar fun(owner: string): QuestieTDBRegistrar Bind correction calls to one owner.
----@field GetProvenance fun(datatype: QuestieTDBDatatype, id: number, key: string|integer): string? Return the winning correction owner.
+---@field GetProvenance fun(datatype: QuestieTDBDatatype, id: number, key: string|integer): string? Return the owner of the composed value, including active translations.
 ---@field GetOwners fun(): string[] Return owners in applied precedence order.
 ---@field Corrections QuestieTDBCorrectionsAPI Correction registration, application, and provenance API.
 ---@field Meta QuestieTDBMeta Schema names, indices, storage types, and structures.
