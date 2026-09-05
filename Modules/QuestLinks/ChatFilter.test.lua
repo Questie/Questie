@@ -37,9 +37,6 @@ describe("ChatFilter", function()
         QuestieLink.GetQuestHyperLink = function(_, questId, senderGUID)
             return "|Hquestie:" .. questId .. ":" .. (senderGUID or "0") .. "|h[The Legend of Stalvan]|h"
         end
-        QuestieLink.GetQuestLinkStringById = function(_, questId)
-            return "[[28] The Legend of Stalvan (74)]"
-        end
 
         dofile("Modules/QuestLinks/ChatFilter.lua")
         ChatFilter = QuestieLoader:ImportModule("ChatFilter")
