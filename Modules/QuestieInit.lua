@@ -122,15 +122,20 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     l10n.InitializeUILocale()
 
     -- QuestieTDB Contract gate: a hard error before any entity read, locale forwarding, or Correction work.
-    local contractSupported, contractError = LibQuestieDB.RequireContract(1)
+    local contractSupported, contractError = LibQuestieDB.RequireContract(2)
     if not contractSupported then
         error(contractError, 0)
+    end
+
+    if type(LibQuestieDB.l10n.SetCorrection) ~= "function" then
+        error("Questie requires QuestieTDB localization corrections. Update QuestieTDB.", 0)
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity locale forwarding.")
     -- Entity localization is provider-owned; the effective UI locale is forwarded outside l10n.
     local effectiveLocale = l10n:GetUILocale()
     LibQuestieDB.l10n.SetLocale(effectiveLocale)
+    l10n.PublishLocaleOverrideEntityNames()
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Questie policy initializing.")

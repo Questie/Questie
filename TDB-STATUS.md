@@ -12,7 +12,9 @@ of `Localization/l10n.lua`.
 - `QuestieTDB-remove-baseline`: deletes the compiler, raw data, generated localization, static
   corrections, and validators from `master`. Intentionally non-functional. Never merges alone.
 - `QuestieTDB-implementation`: cut from the baseline, lands the provider binding and Policy
-  Corrections. Green: full Busted, production luacheck, loader-usage validation.
+  Corrections. The Contract Version 2, localization, and support-data integration passed 1,609
+  Busted tests with real-provider conformance, production luacheck, and loader-usage validation.
+  Live-client validation remains outstanding.
 - Merge `implementation` into `baseline`, then the combined branch into `master`. Immediately before
   that, run QuestieTDB's master-data sync so data fixes landed on `master` while the stack was open
   move to the provider. A modify/delete rebase conflict on a deleted file means a fix needs porting to
@@ -25,8 +27,8 @@ Provider issues, all in the QuestieTDB repo:
 | Issue | What it gates |
 | --- | --- |
 | #1 / #13 | `requiredRaces` inference for SoD quests composed at runtime. The bake-time pass already matches upstream on Era (`TDB-FINDINGS.md` F3). |
-| #14 | Built-in lookup overrides and Titan zhCN entity localization. Questie deleted `lookupOverrides.lua`. |
-| #15 | Support data sync and Source-mode flavor selection. Unblocks reading Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. |
+| #14 | Built-in lookup overrides and Titan zhCN entity localization. Implemented in the provider; Questie consumes translation slots, including custom locales. Offline validation passed. |
+| #15 | Support data sync and Source-mode flavor selection. Questie reads Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. All five flavors and both factions passed the wrapper check. |
 | #17 | `ObjectiveFirst` flavor scoping in Source mode. |
 | #19 | Differential coverage proving `classicQuestReputationFixes`, `itemStartFixes`, `AutoTableUpdates` NPC flags, static fixes, and SoD side channels are represented in provider data. |
 
@@ -43,9 +45,10 @@ Questie-side gates:
   Objective text, and runtime missing-Item repair.
 - Coordinate normalization, QuestieTDB #3: ADR 0006 stores raw coordinates where the compiler used to
   round. Decide whether the differences need caller changes or are accepted as-is, and record it.
-- Mock-versus-provider conformance: done. `test/QuestieTDBMock.conformance.test.lua` runs the
-  double's cases against the real provider in Source mode (`TDB-FINDINGS.md` F7, F8); it pends
-  when the QuestieTDB checkout is absent.
+- Mock-versus-provider conformance: the harness runs the double's cases against the real provider
+  in Source mode (`TDB-FINDINGS.md` F7, F8) and pends when the QuestieTDB checkout is absent. It now
+  covers Contract Version 2 translation slots and passed in the full consumer suite. Support
+  wrapper checks separately passed against real provider data for all five flavors and both factions.
 
 ## Provider type declarations
 
@@ -60,10 +63,10 @@ None block the merge. Numbered items came from the simplification review.
 
 - Provider-side: build the Object name index lazily or on `SetLocale` so the two Questie
   `BuildNameIndex` call sites (Stage 2, options toggle) can go.
-- Contract gate: only Stage 1 checks `RequireContract(1)`. `QuestieDB.lua` indexes the provider
-  at file load without a gate; a provider that passes the Contract but lacks a field would
-  nil-index there, and Stage 1 still reports the Contract message afterwards because later
-  files keep loading.
+- Contract gate: Stage 1 checks `RequireContract(2)` and the `l10n.SetCorrection` capability before
+  locale forwarding or external entity publication. Support wrappers bind provider payloads while
+  addon files load, before Stage 1; an incompatible provider can therefore still fail at a binding
+  site before the Contract message is raised.
 - Item repair now publishes `Item:RuntimeItemRepair` once per frame (`TDB-FINDINGS.md` F2).
   Uncached Items still arrive one per client event across frames; if that shows as a hitch on
   SoD, widen the window from `C_Timer.After(0)` to a short debounce.
@@ -78,6 +81,7 @@ None block the merge. Numbered items came from the simplification review.
 
 ## Live smoke results
 
-Era and SoD passed on 2026-09-02. Every finding, with evidence and proposed action, is in
-`TDB-FINDINGS.md`. Still to run: TBC before and after phase 3, WotLK season 109, Cata, MoP, a
-Darkmoon week, an external locale addon, and a non-English client locale.
+Era and SoD passed on 2026-09-02 for the historical Contract Version 1 revision. Every finding,
+with evidence and proposed action, is in `TDB-FINDINGS.md`. The current Contract Version 2
+integration has not completed live validation. Still to run: TBC before and after phase 3, WotLK
+season 109, Cata, MoP, a Darkmoon week, an external locale addon, and a non-English client locale.

@@ -43,7 +43,21 @@ In order: Contract Version 1 test double; `QuestieDB` binding; Policy Correction
 `Questie`; entity locale seam; compiler-free Login Initialization; Darkmoon and runtime-Item
 callers; Object-hover split between tooltip registrations and the provider name index; Townsfolk
 and Available Quests verification. Then the write-through simplification (provider `Corrections.Set`,
-QuestieTDB ADR 0009) and the EntityLocale removal on 2026-09-02.
+QuestieTDB ADR 0009) and the EntityLocale removal on 2026-09-02. These Contract Version 1 entries
+describe the original migration revisions and remain historical.
+
+## Contract Version 2 consumer integration
+
+The integration built on revision `cb986af34` in checkout
+`/home/logon/projects/Questie-clones/Questie-tdb-claude`, branch `QuestieTDB-implementation`, moves
+Questie to Contract Version 2. It publishes external entity translations through provider
+localization slots and binds Zone, Quest XP, drop, and faction-template payloads through
+`LibQuestieDB.Support`. The local support payload files remain in the checkout but are no longer
+loaded by flavor TOCs; Questie's wrappers remain consumer-owned.
+
+Offline validation passed: 1,609 consumer tests with real-provider conformance, production lint,
+loader validation, and support-wrapper checks for all five flavors and both factions. These are
+not live smoke results or evidence of a released Questie revision.
 
 ## Review findings and what was done
 

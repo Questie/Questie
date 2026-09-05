@@ -13,12 +13,12 @@ l10n.translations = {}
 -- same contract upstream Questie reads: `locale`, `localeName`, and `translations` for UI strings,
 -- plus the optional `itemLookup`, `questLookup`, `npcNameLookup`, and `objectLookup` entity
 -- lookups. UI strings stay in this module; the entity lookups are forwarded to QuestieTDB as
--- Corrections under their own owner, so one addon build serves both Questie variants.
+-- locale-scoped translation slots under their own owner, so one addon build serves both Questie variants.
 
 ---@type fun(): nil
 local _InitializeLocaleOverride
----@type fun(): nil
-local _PublishLocaleOverrideEntityNames
+---@type string|nil
+local publishedLocale
 
 ---Correction owner for the external addon's entity names, so provenance names the source.
 local LOCALE_OVERRIDE_OWNER = "QuestieLocalesOverride"
@@ -54,11 +54,7 @@ function l10n.InitializeUILocale()
         l10n:SetUILocale(GetLocale())
     end
 
-    -- External entity names apply only under their own locale, as upstream's per-locale lookup
-    -- tables did, so this waits for the effective locale above.
-    if QUESTIE_LOCALES_OVERRIDE ~= nil and QUESTIE_LOCALES_OVERRIDE.locale == locale then
-        _PublishLocaleOverrideEntityNames()
-    end
+
 end
 
 ---Registers UI translations supplied by another addon.
@@ -146,22 +142,22 @@ function l10n:GetUILocale()
     return locale
 end
 
----Forwards the external addon's entity lookups to QuestieTDB as Corrections.
+---Publishes external entity translations after the provider contract gate.
 ---
 ---Runs at login before QuestieDB binds anything, so the rows go straight to the provider with
 ---nothing to evict. Rows are kept only for IDs the composed database already has, as upstream's
 ---`if QuestieDB.itemData[id]` did, so stale locale data cannot create name-only entities.
 ---@return nil
-_PublishLocaleOverrideEntityNames = function()
+function l10n.PublishLocaleOverrideEntityNames()
     ---Resolves one external lookup. Generated lookups are loadstring functions returning a table; a
     ---plain table is accepted as well.
     ---@param lookup (fun(): table)|table|nil
     ---@return table rows
     local function _LookupRows(lookup)
         if type(lookup) == "function" then
-            return lookup() or {}
+            lookup = lookup()
         end
-        return lookup or {}
+        return type(lookup) == "table" and lookup or {}
     end
 
     ---A usable name is a non-empty string: the provider keeps `""` as a real value, so forwarding
@@ -175,19 +171,23 @@ _PublishLocaleOverrideEntityNames = function()
         return nil
     end
 
-    ---Usable objective lines are a non-empty table: `{}` is the Correction idiom that clears a field,
-    ---so forwarding it would erase the quest's objective text.
-    ---@param value unknown
-    ---@return string[]|nil
-    local function _Lines(value)
-        if type(value) == "table" and next(value) ~= nil then
-            return value
-        end
-        return nil
+    local override = QUESTIE_LOCALES_OVERRIDE
+    local Meta, Set = LibQuestieDB.Meta, LibQuestieDB.l10n.SetCorrection
+    local overridingLocale = override and override.locale
+    if overridingLocale == "enUS" then
+        overridingLocale = nil
     end
 
-    local override = QUESTIE_LOCALES_OVERRIDE
-    local Meta, Set = LibQuestieDB.Meta, LibQuestieDB.Corrections.Set
+    -- Withdraw only this adapter's slots when the addon disappears or changes locale.
+    if publishedLocale and publishedLocale ~= overridingLocale then
+        for _, datatype in ipairs({"Item", "Quest", "Npc", "Object"}) do
+            Set(LOCALE_OVERRIDE_OWNER, publishedLocale, datatype, "EntityNames", nil)
+        end
+        publishedLocale = nil
+    end
+    if not overridingLocale then
+        return
+    end
 
     -- Items: `[itemId] = name`
     local itemKeys, itemExists = Meta.ItemMeta.itemKeys, LibQuestieDB.Item.Exists
@@ -205,9 +205,35 @@ _PublishLocaleOverrideEntityNames = function()
     local quests = {}
     for questId, data in pairs(_LookupRows(override.questLookup)) do
         if type(data) == "table" and questExists(questId) then
+            -- A present legacy third slot wins even when empty or malformed. Never use its description as objectives.
+            local lines = data[2]
+            if data[3] ~= nil then
+                lines = data[3]
+            end
+            local objectives
+            if type(lines) == "table" and next(lines) ~= nil then
+                local count, valid = 0, true
+                for index, text in pairs(lines) do
+                    count = count + 1
+                    if type(index) ~= "number" or index < 1 or index == math.huge or index % 1 ~= 0
+                        or type(text) ~= "string" or text == "" then
+                        valid = false
+                    end
+                end
+                local copy = {}
+                for index = 1, count do
+                    copy[index] = lines[index]
+                    if lines[index] == nil then
+                        valid = false
+                    end
+                end
+                if valid then
+                    objectives = copy
+                end
+            end
             local row = {
                 [questKeys.name] = _Text(data[1]),
-                [questKeys.objectivesText] = _Lines(data[3]) or _Lines(data[2]),
+                [questKeys.objectivesText] = objectives,
             }
             if next(row) then
                 quests[questId] = row
@@ -242,10 +268,9 @@ _PublishLocaleOverrideEntityNames = function()
         end
     end
 
-    -- Empty slots would still recompose their datatype, so only populated ones are written.
+    -- Stable names replace removed rows too; nil withdraws empty slots without touching other owners.
     for datatype, rows in pairs({Item = items, Quest = quests, Npc = npcs, Object = objects}) do
-        if next(rows) then
-            Set(LOCALE_OVERRIDE_OWNER, datatype, override.locale, rows)
-        end
+        Set(LOCALE_OVERRIDE_OWNER, overridingLocale, datatype, "EntityNames", next(rows) and rows or nil)
     end
+    publishedLocale = overridingLocale
 end

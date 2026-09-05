@@ -1,4 +1,4 @@
--- Focused Contract Version 1 test double for LibQuestieDB.
+-- Focused Contract Version 2 test double for LibQuestieDB.
 --
 -- It reproduces only what Questie consumes from QuestieTDB: the Contract check, composed entity
 -- reads, shared ID maps that swap identity only when a republish adds or withdraws an entity,
@@ -39,6 +39,7 @@ local BASE_OWNER = "QuestieTDB"
 ---@field publishCounts table<QuestieTDBMockDatatype, number> How often each datatype's composed view was republished.
 ---@field setLocaleCalls string[] Locales forwarded through `l10n.SetLocale`, in call order.
 ---@field nameIndexBuilds table<QuestieTDBMockDatatype, number> Name index builds per datatype.
+---@field supportModules table<string, table> Shared support modules; tests seed literal provider-shaped values.
 ---@field contractVersion number Highest Contract Version the fake provides.
 ---@field minSupportedContract number Lowest Contract Version the fake still accepts.
 ---@field SetBaseRow fun(datatype: QuestieTDBMockDatatype, id: number, row: QuestieTDBMockRow): nil
@@ -59,10 +60,33 @@ local function LoadQuestieTDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 1,
+        contractVersion = 2,
         minSupportedContract = 1,
     }
     local lib = {}
+    -- Support values retain provider identity; wrappers own any decoded or merged tables.
+    mock.supportModules = {
+        QuestieDB = {factionTemplate = {}},
+        QuestXP = {db = {}},
+        ZoneDB = {
+            zoneIDs = {}, instanceIdToAreaId = {},
+            private = {
+                areaIdToUiMapId = "return {}", areaIdToUiMapIdOverride = "return {}",
+                uiMapIdToAreaId = "return {}", uiMapIdToAreaIdOverride = "return {}",
+                subZoneToParentZone = "return {}", subZoneToParentZoneOverride = "return {}",
+                dungeons = {},
+            },
+        },
+    }
+    lib.Support = {}
+
+    ---@param name string
+    ---@return table? module Shared, read-only support values for the selected flavor.
+    function lib.Support.Get(name)
+        return mock.supportModules[name]
+    end
+
+    local translationSlots, translationOwnerOrder = {}, {}
 
     -- Correction Overlay state: one layer per owner, owners ranked by their first apply or Set.
     ---@type table<string, table<QuestieTDBMockDatatype, QuestieTDBMockRows>>
@@ -182,9 +206,9 @@ local function LoadQuestieTDBMock()
     ---@param datatype QuestieTDBMockDatatype
     ---@param id number
     ---@param fieldIndex integer
-    ---@return unknown value Composed value; `{}` from any layer reads back as nil.
-    ---@return string|nil owner Owner whose value won, `"QuestieTDB"` for base data, nil when no layer set the field.
-    local function ComposedValue(datatype, id, fieldIndex)
+    ---@return unknown value Entity value before translations and read defaults.
+    ---@return string|nil owner Entity correction owner, `"QuestieTDB"` for base data, nil when no layer set the field.
+    local function EntityValue(datatype, id, fieldIndex)
         local value, owner
         local baseRow = mock.base[datatype][id]
         if baseRow and baseRow[fieldIndex] ~= nil then
@@ -194,6 +218,26 @@ local function LoadQuestieTDBMock()
             local row = layers[layerOwner][datatype][id]
             if row and row[fieldIndex] ~= nil then
                 value, owner = row[fieldIndex], layerOwner
+            end
+        end
+        return value, owner
+    end
+
+    ---@param datatype QuestieTDBMockDatatype
+    ---@param id number
+    ---@param fieldIndex integer
+    ---@return unknown value Composed value; `{}` from any layer reads back as nil.
+    ---@return string|nil owner Owner whose value won, including active translations.
+    local function ComposedValue(datatype, id, fieldIndex)
+        local value, owner = EntityValue(datatype, id, fieldIndex)
+        if lib.l10n and lib.l10n.currentLocale ~= "enUS" then
+            for _, translatedOwner in ipairs(translationOwnerOrder) do
+                for _, slot in ipairs(translationSlots[translatedOwner]) do
+                    local row = slot.rows and slot.rows[id]
+                    if slot.locale == lib.l10n.currentLocale and slot.datatype == datatype and row and row[fieldIndex] ~= nil then
+                        value, owner = row[fieldIndex], translatedOwner
+                    end
+                end
             end
         end
         -- `{}` is the clear idiom: an empty table never reaches a reader.
@@ -398,14 +442,51 @@ local function LoadQuestieTDBMock()
 
     lib.l10n = {currentLocale = "enUS"}
 
-    ---Records the forwarded locale. Built-in translations are not modeled; a locale change only
-    ---drops the Name indexes, as provider invalidation does.
+    ---Selects active translation slots and drops Name indexes. Built-in translations are not modeled.
     ---@param locale string
     ---@return nil
     function lib.l10n.SetLocale(locale)
         lib.l10n.currentLocale = locale
         table.insert(mock.setLocaleCalls, locale)
         InvalidateNameIndexes()
+    end
+
+    ---Snapshot a locale-scoped translation slot without rerunning entity corrections.
+    ---@param owner string
+    ---@param locale string
+    ---@param datatype QuestieTDBMockDatatype
+    ---@param name string
+    ---@param rows QuestieTDBMockRows?
+    ---@return boolean changed
+    function lib.l10n.SetCorrection(owner, locale, datatype, name, rows)
+        AssertDatatype(datatype)
+        assert(type(locale) == "string" and locale ~= "" and locale ~= "enUS", "invalid translation locale")
+        assert(rows == nil or type(rows) == "table", "translation rows must be a table or nil")
+        local slots = translationSlots[owner]
+        local slot
+        for _, candidate in ipairs(slots or {}) do
+            if candidate.locale == locale and candidate.datatype == datatype and candidate.name == name then
+                slot = candidate
+                break
+            end
+        end
+        if rows == nil and (not slot or slot.rows == nil) then
+            return false
+        end
+        if not slots then
+            slots = {}
+            translationSlots[owner] = slots
+            table.insert(translationOwnerOrder, owner)
+        end
+        if not slot then
+            slot = {locale = locale, datatype = datatype, name = name}
+            table.insert(slots, slot)
+        end
+        slot.rows = CopyValue(rows)
+        if locale == lib.l10n.currentLocale then
+            nameIndexes[datatype] = nil
+        end
+        return true
     end
 
     -------------------------------------------------------------------------------------------
@@ -610,14 +691,24 @@ local function LoadQuestieTDBMock()
     ---@param datatype QuestieTDBMockDatatype
     ---@param id number
     ---@param key string|integer
-    ---@return string owner Owner whose value a reader receives; `"QuestieTDB"` when no Correction won, including for an unknown entity.
+    ---@return string owner Entity correction owner, ignoring translations; `"QuestieTDB"` when no Correction won.
     function lib.Corrections.GetProvenance(datatype, id, key)
+        AssertDatatype(datatype)
+        local fieldIndex = FieldIndex(datatype, key)
+        local _, owner = EntityValue(datatype, id, fieldIndex)
+        return owner or BASE_OWNER
+    end
+
+    ---@param datatype QuestieTDBMockDatatype
+    ---@param id number
+    ---@param key string|integer
+    ---@return string owner Owner whose value a reader receives, including translations; `"QuestieTDB"` when none won.
+    function lib.GetProvenance(datatype, id, key)
         AssertDatatype(datatype)
         local fieldIndex = FieldIndex(datatype, key)
         local _, owner = ComposedValue(datatype, id, fieldIndex)
         return owner or BASE_OWNER
     end
-    lib.GetProvenance = lib.Corrections.GetProvenance
     lib.SetCorrection = lib.Corrections.Set
 
     ---@return string[] owners `"QuestieTDB"` followed by registered owners in first-apply order.

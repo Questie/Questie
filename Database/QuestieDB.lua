@@ -425,6 +425,9 @@ QuestieDB.QueryNPC = LibQuestieDB.Npc.GetAll
 QuestieDB.QueryItem = LibQuestieDB.Item.GetAll
 QuestieDB.QueryObject = LibQuestieDB.Object.GetAll
 
+-- Shared support data is read-only; faction filtering remains in Questie.
+QuestieDB.factionTemplate = LibQuestieDB.Support.Get("QuestieDB").factionTemplate
+
 -- QuestieTDB owns Objective Order. These are provider tables that consumers must not mutate.
 QuestieDB.killCreditObjectiveFirst = LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst
 QuestieDB.objectObjectiveFirst = LibQuestieDB.ObjectiveFirst.objectObjectiveFirst

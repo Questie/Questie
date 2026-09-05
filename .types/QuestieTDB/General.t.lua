@@ -70,10 +70,12 @@
 --------------------------------------------------------------------------------
 
 ---@alias QuestieTDBLocalizedValue string|string[]
----@alias QuestieTDBL10nProvider fun(id: number, entityFieldIndex: integer): QuestieTDBLocalizedValue?
+---@alias QuestieTDBL10nProvider fun(id: number, entityFieldIndex: integer): QuestieTDBLocalizedValue?, string?
 ---@alias QuestieTDBL10nScalarFields table<integer, true>
 ---@alias QuestieTDBL10nIsActive fun(): boolean
 ---@alias QuestieTDBLocaleChangedCallback fun(locale: string)
+---@alias QuestieTDBTranslationLocale string Non-empty locale other than enUS; custom locales need no Baked blocks.
+---@alias QuestieTDBTranslationRows table<integer, table<integer, QuestieTDBLocalizedValue>>
 ---@alias QuestieTDBL10nFieldName "name"|"objectivesText"|"subName"
 ---@alias QuestieTDBEntity QuestDB|NpcDB|ItemDB|ObjectDB
 
@@ -81,20 +83,22 @@
 ---@field name QuestieTDBL10nFieldName Canonical entity field carrying translations.
 ---@field list? true The Localization block column contains string lists instead of scalar strings.
 
----Localization state and dot-called controls. Missing translations fall back to base entity data.
+---Localization state and dot-called controls. Missing translations fall back to corrected entity data.
 ---@class QuestieTDBL10n
 ---@field locales string[] Configured non-English locales with Baked Localization blocks.
 ---@field localeIndex table<string, integer> Stored locale to stable configuration index; enUS is absent.
 ---@field currentLocale string Active locale; enUS selects base entity data.
----@field currentIndex? integer Configuration index for a configured locale; nil for enUS or an unsupported locale.
+---@field currentIndex? integer Configuration index for a stored locale; nil for enUS or a custom locale.
 ---@field onLocaleChanged QuestieTDBLocaleChangedCallback[] Callbacks invoked after cache invalidation with the selected locale.
 ---@field available boolean Whether the artifact declares Localization blocks.
 ---@field fields table<QuestieTDBCanonicalDatatype, QuestieTDBL10nField[]> Localized field coverage by entity type.
----@field CreateProvider fun(meta: QuestieTDBEntitySchema, entity: QuestieTDBEntity): QuestieTDBL10nProvider?, QuestieTDBL10nScalarFields?, QuestieTDBL10nIsActive? Build a provider over active columns plus Baked scalar-row cache hints, or nil when the entity type has no Localization block.
+---@field CreateProvider fun(meta: QuestieTDBEntitySchema, entity: QuestieTDBEntity): QuestieTDBL10nProvider?, QuestieTDBL10nScalarFields?, QuestieTDBL10nIsActive? Build a provider over active columns plus Baked scalar-row cache hints, or nil when the entity type has no translatable fields.
 ---@field Initialize fun() Attach available providers and select the client locale.
 ---@field DetectLocale fun(): string Return the client locale, or enUS outside the client.
 ---@field SetLocale fun(locale?: string): string Select and eagerly decode a changed locale, defaulting nil to enUS, then invalidate entity caches; selecting the active locale is a no-op.
----@field IsAvailable fun(): boolean Test whether the artifact contains Localization blocks.
+---@field IsAvailable fun(): boolean Test whether the artifact contains base Localization blocks; dynamic translations also work in Source mode.
+---@field SetCorrection fun(owner: string, locale: QuestieTDBTranslationLocale, datatype: QuestieTDBDatatype, name: string, rows: QuestieTDBTranslationRows?): boolean Snapshot and publish a translation slot; nil withdraws it. Accepts custom non-English locales and only translatable entity field indices.
+---@field GetProvenance fun(datatype: QuestieTDBDatatype, id: number, key: string|integer): string? Return the active translation owner, or nil when entity fallback supplies the value.
 
 --------------------------------------------------------------------------------
 -- Corrections

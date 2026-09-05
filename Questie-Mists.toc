@@ -51,25 +51,17 @@ Modules\Libs\ThreadLib.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
-Database\QuestXP\DB\xpDB-mop.lua
 
 # Database storage and stream modules
 Modules\QuestieStream.lua
 
 # Zones
-Database\Zones\data\MoP\areaIdToUiMapId.lua
-Database\Zones\data\dungeons.lua
-Database\Zones\data\subZoneToParentZone.lua
-Database\Zones\data\MoP\uiMapIdToAreaId.lua
-Database\Zones\data\zoneIds.lua
-Database\Zones\data\instanceIdToAreaId.lua
 Database\Zones\zoneDB.lua
 
 # Databases
 Database\QuestieDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
-Database\FactionTemplates\factionTemplateMoP.lua
 
 # Corrections
 Database\Corrections\BlacklistFilter.lua
@@ -110,11 +102,6 @@ Database\Corrections\Holidays\quests\WinterVeil.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua
-Database\DropTables\data\itemDropCorrections.lua
-Database\DropTables\data\mopItemDrops.lua
-# this is not a mistake - we load cata pserver data for mop because mop pserver data is so spotty;
-# if we implement mop pserver itemdrop data, we can remove this entry from mop toc
-Database\DropTables\data\cataItemDrops.lua
 
 
 # Localization
