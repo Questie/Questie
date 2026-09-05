@@ -50,7 +50,7 @@ describe("QuestieAnnounce", function()
                 end
                 return true
             end
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "1/10")
 
@@ -59,7 +59,7 @@ describe("QuestieAnnounce", function()
 
         it("should announce to instance chat when in an instance group", function()
             _G.IsInGroup = function() return true end
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "2/10")
 
@@ -76,7 +76,7 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "disabled"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
@@ -89,7 +89,7 @@ describe("QuestieAnnounce", function()
         it("should print locally when questAnnounceLocally is true and channel is disabled and not in a group", function()
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "disabled"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
@@ -109,7 +109,7 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
@@ -161,7 +161,7 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "raid"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
@@ -176,7 +176,7 @@ describe("QuestieAnnounce", function()
             _G.IsInGroup = function() return true end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
@@ -191,7 +191,7 @@ describe("QuestieAnnounce", function()
             _G.IsInGroup = function() return true end
             Questie.db.profile.questAnnounceLocally = false
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             Questie.Print = spy.new(function() end)
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "10/10")
@@ -211,7 +211,7 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = false
             Questie.db.profile.questAnnounceChannel = "raid"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             Questie.Print = spy.new(function() end)
 
             QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "11/10")
@@ -225,7 +225,7 @@ describe("QuestieAnnounce", function()
             _G.IsInGroup = function() return true end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "raid"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
@@ -245,7 +245,7 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
@@ -265,7 +265,7 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "plain quest link" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "plain quest link" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 

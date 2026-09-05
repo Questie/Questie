@@ -349,7 +349,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         local quest = QuestieDB.GetQuest(questId)
 
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(quest.Id))
+            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
         end
 
         QuestDetailsFrame:Draw(scrollFrame, quest)

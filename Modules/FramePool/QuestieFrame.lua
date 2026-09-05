@@ -191,7 +191,7 @@ function _QuestieFrame.OnClick(self, button)
         if uiMapId and button == "LeftButton" then
             local frameData = self.data
             if ChatEdit_GetActiveWindow() and frameData.QuestData then
-                ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(frameData.Id))
+                ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(frameData.Id))
             else
                 if frameData.Type == "available" and IsShiftKeyDown() then
                     StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(frameData.Id)
