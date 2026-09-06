@@ -204,5 +204,20 @@ describe("ChatFilter", function()
             assert.is_not_nil(filteredMsg)
             assert.is_equal("Check out this quest: |Hquestie:74:PLAYER_GUID_456|h[The Legend of Stalvan]|h", filteredMsg)
         end)
+
+        it("should replace native quest links with negative quest level", function()
+            QuestieDB.QuestPointers[8367] = true
+            QuestieLink.GetQuestHyperLink = function()
+                return "|Hquestie:8367:0|h[For Great Honor]|h"
+            end
+
+            local msg = "Check out this quest: |cff808080|Hquest:8367:-1|h[For Great Honor]|h|r"
+            local chatFrame = {historyBuffer = {elements = {1}}}
+
+            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, nil)
+
+            assert.is_not_nil(filteredMsg)
+            assert.is_equal("Check out this quest: |Hquestie:8367:0|h[For Great Honor]|h", filteredMsg)
+        end)
     end)
 end)
