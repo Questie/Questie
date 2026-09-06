@@ -30,10 +30,13 @@ QuestieTooltips.lookupKeysByQuestId = {
     --["questId"] = {"u_Grell", ... }
 }
 
--- QuestieTooltips owns this derived index; QuestieTDB supplies the composed Object reads used to rebuild it.
--- See TDB-IMPLEMENTATION-ISSUES.md for the pending initialization and refresh wiring.
----@type table<string, ObjectId[]>
-QuestieTooltips.objectNameLookup = {}
+---Object IDs with registered `o_` tooltip data, grouped by the Object name at registration time.
+---The sets are append-only: removing all tooltip data for one ID makes `GetTooltip` return nil, so
+---quest removal needs no index bookkeeping. Effective locale changes reload the UI, which recreates
+---the sets under the active locale. The database-wide question "which Objects carry this name" is
+---answered by `LibQuestieDB.Object.IdsByName`, not by this set.
+---@type table<string, table<ObjectId, true>>
+QuestieTooltips.objectIdsByName = {}
 
 local MAX_GROUP_MEMBER_COUNT = 6
 
@@ -45,10 +48,35 @@ If you change the way the tooltip keys are structured and/or the return value of
 we need to let the Plater addon devs know about it.
 --]]
 
+---Indexes one Object tooltip key under its current composed name, so a hovered world object can
+---find the Objects Questie registered quest lines for without scanning the database. Fake Object
+---IDs added for extra spawn locations carry the real Object's name and group with it.
+---@param key string Tooltip registry key; only `o_` keys are indexed.
+---@return nil
+local function _IndexObjectKeyByName(key)
+    if key:sub(1, 2) ~= "o_" then
+        return
+    end
+
+    local objectId = tonumber(key:sub(3))
+    local name = objectId and LibQuestieDB.Object.name(objectId)
+    if not name then
+        return
+    end
+
+    local ids = QuestieTooltips.objectIdsByName[name]
+    if not ids then
+        ids = {}
+        QuestieTooltips.objectIdsByName[name] = ids
+    end
+    ids[objectId] = true
+end
+
 ---@param questId number
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
 function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
+    _IndexObjectKeyByName(key)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
@@ -69,6 +97,7 @@ end
 ---@param key string @Either m_<npcId> or o_<objectId>
 ---@param type string Indicates the type of quest starter; this changes icon in tooltip
 function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key, type)
+    _IndexObjectKeyByName(key)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end

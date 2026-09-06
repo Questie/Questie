@@ -51,25 +51,17 @@ Modules\Libs\ThreadLib.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
-Database\QuestXP\DB\xpDB-cata.lua
 
 # Database storage and stream modules
 Modules\QuestieStream.lua
 
 # Zones
-Database\Zones\data\areaIdToUiMapId.lua
-Database\Zones\data\dungeons.lua
-Database\Zones\data\subZoneToParentZone.lua
-Database\Zones\data\uiMapIdToAreaId.lua
-Database\Zones\data\zoneIds.lua
-Database\Zones\data\instanceIdToAreaId.lua
 Database\Zones\zoneDB.lua
 
 # Databases
 Database\QuestieDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
-Database\FactionTemplates\factionTemplateCata.lua
 
 # Corrections
 Database\Corrections\BlacklistFilter.lua
@@ -106,8 +98,6 @@ Database\Corrections\Holidays\quests\WinterVeil.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua
-Database\DropTables\data\itemDropCorrections.lua
-Database\DropTables\data\cataItemDrops.lua
 
 
 # Localization

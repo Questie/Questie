@@ -129,9 +129,9 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
         return
     end
 
-    local ids = Questie.db.global.townsfolk[key] or
+    local ids = Townsfolk.townsfolk[key] or
             Questie.db.char.townsfolk[key] or
-            Questie.db.global.professionTrainers[key] or
+            Townsfolk.professionTrainers[key] or
             Questie.db.char.vendorList[key]
 
     if (not ids) then
@@ -277,7 +277,7 @@ function QuestieMenu.buildProfessionMenu()
     local profMenuSorted = {}
     local secondaryProfMenuSorted = {}
     local profMenuData = {}
-    for key, _ in pairs(Questie.db.global.professionTrainers) do
+    for key, _ in pairs(Townsfolk.professionTrainers) do
         local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
         profMenuData[localizedKey] = buildLocalized(key, localizedKey)
         if secondaryProfessions[key] then
@@ -317,7 +317,7 @@ end
 function QuestieMenu.buildTownsfolkMenu()
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
-        if Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] then
+        if Townsfolk.townsfolk[key] or Questie.db.char.townsfolk[key] then
             tinsert(townsfolkMenu, build(key))
         end
     end

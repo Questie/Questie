@@ -1,15 +1,11 @@
 dofile("setupTests.lua")
 
-dofile("Database/Zones/data/dungeons.lua")
-dofile("Database/Zones/data/zoneIds.lua")
-dofile("Database/Zones/data/areaIdToUiMapId.lua")
-dofile("Database/Zones/data/uiMapIdToAreaId.lua")
-dofile("Database/Zones/data/subZoneToParentZone.lua")
-
+local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
 
 describe("ZoneDB", function()
     ---@type ZoneDB
     local ZoneDB
+    local zoneData
 
     before_each(function()
         _G["Questie"] = {db = {profile = {}}}
@@ -19,9 +15,50 @@ describe("ZoneDB", function()
             GetAreaInfo = function() return nil end,
         }
 
+        local mock = LoadQuestieTDBMock()
+        zoneData = {private = {}}
+        -- Execute legacy fixtures into an isolated stand-in, never the bound wrapper.
+        local fixtureLoader = {ImportModule = function(_, name)
+            if name == "ZoneDB" then return zoneData end
+            return QuestieLoader:ImportModule(name)
+        end}
+        for _, file in ipairs({"dungeons", "zoneIds", "instanceIdToAreaId", "areaIdToUiMapId", "uiMapIdToAreaId", "subZoneToParentZone"}) do
+            local chunk = assert(loadfile("Database/Zones/data/" .. file .. ".lua"))
+            setfenv(chunk, setmetatable({QuestieLoader = fixtureLoader}, {__index = _G}))
+            chunk()
+        end
+        mock.supportModules.ZoneDB = zoneData
         dofile("Database/Zones/zoneDB.lua")
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.Initialize()
+    end)
+
+    it("binds static tables without replacing the wrapper or its private functions", function()
+        assert.are_not_equal(zoneData, ZoneDB)
+        assert.are_not_equal(zoneData.private, ZoneDB.private)
+        assert.are_equal(zoneData.zoneIDs, ZoneDB.zoneIDs)
+        assert.are_equal(zoneData.instanceIdToAreaId, ZoneDB.instanceIdToAreaId)
+        assert.are_equal(zoneData.private.dungeons, ZoneDB:GetDungeons())
+        assert.is_function(ZoneDB.private.RunTests)
+    end)
+
+    it("decodes maps and applies overrides without changing the provider sources", function()
+        zoneData.private.areaIdToUiMapId = "return {[10] = 20}"
+        zoneData.private.areaIdToUiMapIdOverride = "return {[10] = 21}"
+        zoneData.private.uiMapIdToAreaId = "return {[21] = 9}"
+        zoneData.private.uiMapIdToAreaIdOverride = "return {[21] = 10}"
+        zoneData.private.subZoneToParentZone = "return {[11] = 9}"
+        zoneData.private.subZoneToParentZoneOverride = "return {[11] = 10}"
+        dofile("Database/Zones/zoneDB.lua")
+        ZoneDB.Initialize()
+        assert.are_equal(21, ZoneDB:GetUiMapIdByAreaId(10))
+        assert.are_equal(10, ZoneDB:GetAreaIdByUiMapId(21))
+        assert.are_equal(10, ZoneDB:GetParentZoneId(11))
+        ZoneDB.Initialize()
+        assert.are_equal(21, ZoneDB:GetUiMapIdByAreaId(10))
+        assert.are_equal("return {[10] = 20}", zoneData.private.areaIdToUiMapId)
+        assert.are_equal("return {[21] = 9}", zoneData.private.uiMapIdToAreaId)
+        assert.are_equal("return {[11] = 9}", zoneData.private.subZoneToParentZone)
     end)
 
     describe("GetAreaIdByUiMapId", function()
@@ -109,8 +146,10 @@ describe("ZoneDB", function()
         end)
 
         it("should return correct values for all alternativeAreaIds when multiple are given", function()
-            local testDungeons = ZoneDB:GetDungeons()
-            testDungeons[99991] = {"Test Dungeon", {99992, 99993}, 1, {{1, 10.0, 20.0}}}
+            zoneData.private.dungeons = {
+                [99991] = {"Test Dungeon", {99992, 99993}, 1, {{1, 10.0, 20.0}}},
+            }
+            dofile("Database/Zones/zoneDB.lua")
             ZoneDB.Initialize()
 
             assert.are_same({{1, 10.0, 20.0}}, ZoneDB:GetDungeonLocation(99991))

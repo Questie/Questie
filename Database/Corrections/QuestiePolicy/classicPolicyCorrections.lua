@@ -10,9 +10,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
----Updates the NPC spawns to be either in Elwynn Forest or Mulgore
+---Darkmoon Faire NPC rows for the `Npc:DarkmoonFaire` slot: every faire NPC placed in Mulgore or
+---in Elwynn Forest, whichever the calendar selected.
 ---@param isInMulgore boolean
----@return table<number, any>
+---@return PolicyCorrectionRows
 function QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore)
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs

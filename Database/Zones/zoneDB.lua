@@ -3,6 +3,19 @@ local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
 
 local _ZoneDB = ZoneDB.private
 
+-- Keep the wrapper and its private functions consumer-owned. Static support tables are read-only;
+-- Initialize decodes the source strings into owned maps before applying overrides.
+local zoneData = LibQuestieDB.Support.Get("ZoneDB")
+ZoneDB.zoneIDs = zoneData.zoneIDs
+ZoneDB.instanceIdToAreaId = zoneData.instanceIdToAreaId
+_ZoneDB.areaIdToUiMapId = zoneData.private.areaIdToUiMapId
+_ZoneDB.areaIdToUiMapIdOverride = zoneData.private.areaIdToUiMapIdOverride
+_ZoneDB.uiMapIdToAreaId = zoneData.private.uiMapIdToAreaId
+_ZoneDB.uiMapIdToAreaIdOverride = zoneData.private.uiMapIdToAreaIdOverride
+_ZoneDB.subZoneToParentZone = zoneData.private.subZoneToParentZone
+_ZoneDB.subZoneToParentZoneOverride = zoneData.private.subZoneToParentZoneOverride
+_ZoneDB.dungeons = zoneData.private.dungeons
+
 -------------------------
 --Import modules.
 -------------------------

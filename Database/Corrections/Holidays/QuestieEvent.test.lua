@@ -26,6 +26,10 @@ describe("QuestieEvent", function()
         _G.SetCVar = function() end
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
+        QuestieCorrections.SetCorrection = function() end
+        -- The Darkmoon NPC producers are exercised in their own QuestiePolicy tests; here they only need to exist.
+        QuestieLoader:ImportModule("QuestieClassicPolicyCorrections").LoadDarkmoonFixes = function() return {} end
+        QuestieLoader:ImportModule("QuestieTBCPolicyCorrections").LoadDarkmoonFixes = function() return {} end
 
         Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -664,6 +668,156 @@ describe("QuestieEvent", function()
 
             assert.spy(getCvarBoolMock).was.called_with("calendarShowDarkmoon")
             assert.spy(setCvarMock).was.called_with("calendarShowDarkmoon", "0")
+        end)
+    end)
+
+    describe("Darkmoon NPC Policy Correction", function()
+        ---@type QuestieClassicPolicyCorrections
+        local QuestieClassicPolicyCorrections
+        ---@type QuestieTBCPolicyCorrections
+        local QuestieTBCPolicyCorrections
+        ---@type {datatype: string, name: string, rows: table|nil}[]
+        local setCorrectionCalls
+
+        ---Points the calendar mocks at one moment; `firstWeekday` is the weekday of the 1st of that month.
+        ---@param year number
+        ---@param month number
+        ---@param monthDay number
+        ---@param hour number
+        ---@param firstWeekday number
+        ---@return nil
+        local function _MockCalendar(year, month, monthDay, hour, firstWeekday)
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = monthDay, month = month, year = year, hour = hour, minute = 0}
+                end
+            }
+            _G.C_Calendar = {
+                GetMonthInfo = function(offset)
+                    if offset == nil then
+                        return {year = year, month = month}
+                    end
+                    return {firstWeekday = firstWeekday}
+                end
+            }
+        end
+
+        before_each(function()
+            setCorrectionCalls = {}
+            QuestieCorrections.SetCorrection = function(datatype, name, rows)
+                table.insert(setCorrectionCalls, {datatype = datatype, name = name, rows = rows})
+            end
+            QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
+            QuestieClassicPolicyCorrections.LoadDarkmoonFixes = function(_, isInMulgore)
+                return {producer = "classic", isInMulgore = isInMulgore}
+            end
+            QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
+            QuestieTBCPolicyCorrections.LoadDarkmoonFixes = function(_, isInMulgore, isInTerokkar)
+                return {producer = "tbc", isInMulgore = isInMulgore, isInTerokkar = isInTerokkar}
+            end
+        end)
+
+        it("publishes the Classic Mulgore table exactly once, independent of the Event Quest count", function()
+            -- December 2024, an even month: Mulgore. The 1st is a Sunday, so the faire runs from Monday the 9th.
+            _MockCalendar(2024, 12, 11, 0, 1)
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            QuestieEvent:Load()
+
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "classic", isInMulgore = true}}, setCorrectionCalls[1])
+        end)
+
+        it("publishes the Classic Elwynn Forest table in an odd month", function()
+            -- March 2025, an odd month: Elwynn Forest. The 1st is a Monday, so the faire runs from the 8th until 03:00 on the 15th.
+            _MockCalendar(2025, 3, 15, 2, 2)
+            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
+
+            QuestieEvent:Load()
+
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "classic", isInMulgore = false}}, setCorrectionCalls[#setCorrectionCalls])
+        end)
+
+        it("publishes the TBC Mulgore table", function()
+            -- January 2025, month % 3 == 1: Mulgore on TBC. The 1st is a Saturday, so the faire runs from the 10th.
+            _MockCalendar(2025, 1, 12, 12, 7)
+            Questie.IsTBC = true
+            Expansions.Current = Expansions.Tbc
+
+            QuestieEvent:Load()
+
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "tbc", isInMulgore = true, isInTerokkar = false}}, setCorrectionCalls[1])
+        end)
+
+        it("publishes the TBC Terokkar Forest table", function()
+            -- March 2025, month % 3 == 0: Terokkar Forest. The 1st is a Monday, so the faire runs from the 8th.
+            _MockCalendar(2025, 3, 10, 12, 2)
+            Questie.IsTBC = true
+            Expansions.Current = Expansions.Tbc
+
+            QuestieEvent:Load()
+
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "tbc", isInMulgore = false, isInTerokkar = true}}, setCorrectionCalls[#setCorrectionCalls])
+        end)
+
+        it("withdraws the NPC slot with nil when no faire is active", function()
+            -- April 1st 2025 is before the faire week: the 1st is a Saturday, so the faire starts on the 10th.
+            _MockCalendar(2025, 4, 1, 0, 7)
+            Questie.IsTBC = true
+            Expansions.Current = Expansions.Tbc
+
+            QuestieEvent:Load()
+
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire"}, setCorrectionCalls[1])
+            assert.is_nil(setCorrectionCalls[1].rows)
+            assert.is_nil(next(QuestieEvent.activeQuests))
+        end)
+
+        it("leaves the NPC Policy Correction untouched on Anniversary realms before phase 3", function()
+            -- December 2024 would be a Mulgore faire week; phases 1 and 2 have no faire at all.
+            _MockCalendar(2024, 12, 11, 0, 1)
+            ContentPhases.activePhases.Anniversary = 2
+            Questie.IsClassic = true
+            Questie.IsAnniversaryEra = true
+
+            QuestieEvent:Load()
+
+            assert.are_same(0, #setCorrectionCalls)
+        end)
+
+        it("uses the Era location behavior on Anniversary realms from phase 3", function()
+            -- December 2024, an even month: Mulgore. The 1st is a Sunday, so the faire runs from Monday the 9th.
+            _MockCalendar(2024, 12, 11, 0, 1)
+            ContentPhases.activePhases.Anniversary = 3
+            Questie.IsClassic = true
+            Questie.IsAnniversaryEra = true
+
+            QuestieEvent:Load()
+
+            assert.are_same(1, #setCorrectionCalls)
+            assert.are_same({datatype = "Npc", name = "DarkmoonFaire", rows = {producer = "classic", isInMulgore = true}}, setCorrectionCalls[1])
+        end)
+
+        it("leaves the NPC Policy Correction untouched on MoP, where the faire is not relocated", function()
+            _G.QuestieCompat = {
+                GetCurrentCalendarTime = function()
+                    return {weekDay = 4, monthDay = 3, month = 12, year = 2025, hour = 12, minute = 0}
+                end
+            }
+            Expansions.Current = Expansions.MoP
+            _G.C_Calendar = {
+                GetNumDayEvents = function() return 1 end,
+                GetHolidayInfo = function() return {texture = 235447, calendarType = "HOLIDAY"} end
+            }
+
+            QuestieEvent:Load()
+
+            assert.are_same(0, #setCorrectionCalls)
+            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
     end)
 

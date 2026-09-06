@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 QuestieLib.AddonPath = "Interface\\Addons\\Questie\\"
 
@@ -393,6 +395,68 @@ function QuestieLib:GetClassString(classMask)
             end
         end
         return classString
+    end
+end
+
+-- Name-only repair rows for Items the client loaded because the composed database lacked them.
+-- This table is the RuntimeItemRepair slot's full replacement rows: repairs accumulate across
+-- quests, and the whole table is published once per frame after any new repair.
+---@type table<ItemId, table<integer, string>>
+local repairedItemNames = {}
+
+-- True from the first new repair in a frame until the deferred publish runs, so every client
+-- callback that lands in the same frame (the already-cached Items of the login quest log fire
+-- synchronously, in one burst) shares one provider write.
+local repairPublishPending = false
+
+---Publishes the accumulated repairs on the next frame unless a publish is already scheduled.
+---@return nil
+local function _ScheduleRepairPublish()
+    if repairPublishPending then
+        return
+    end
+    repairPublishPending = true
+    C_Timer.After(0, function()
+        repairPublishPending = false
+        QuestieCorrections.SetCorrection("Item", "RuntimeItemRepair", repairedItemNames)
+    end)
+end
+
+---Asks the client for the names of objective Items the composed database lacks and repairs each one
+---through the name-only RuntimeItemRepair Policy Correction slot when the asynchronous load completes.
+---Runs on quest accept and for every quest already in the log at login.
+---@param questId QuestId
+---@return nil
+function QuestieLib.RepairMissingItemNames(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if not (quest and quest.ObjectiveData) then
+        return
+    end
+
+    for _, objective in pairs(quest.ObjectiveData) do
+        if objective.Type == "item" and not QuestieDB.ItemPointers[objective.Id] then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieLib.RepairMissingItemNames] Requesting client data for missing itemId:",
+                objective.Id)
+            local item = Item:CreateFromItemID(objective.Id)
+            item:ContinueOnItemLoad(function()
+                ---Records one client-loaded Item name and schedules the RuntimeItemRepair publish so the Item
+                ---becomes readable and enumerable. A repeated callback with an unchanged name is a no-op and a
+                ---nil name is ignored. Name only: no relationship field is inferred.
+                local itemName = item:GetItemName()
+                if not itemName then
+                    return
+                end
+
+                local nameKey = QuestieDB.itemKeys.name
+                local existingRepair = repairedItemNames[objective.Id]
+                if existingRepair and existingRepair[nameKey] == itemName then
+                    return
+                end
+
+                repairedItemNames[objective.Id] = {[nameKey] = itemName}
+                _ScheduleRepairPublish()
+            end)
+        end
     end
 end
 
