@@ -18,6 +18,7 @@ describe("QuestieDB", function()
     local testQuest
 
     before_each(function()
+        QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = function() return true end
         mock = LoadQuestieTDBMock()
         Questie.db.char.complete = {}
         Questie.IsTitanReforged = false
@@ -623,4 +624,21 @@ describe("QuestieDB", function()
             end, "RefreshAfterCorrectionApply: unknown datatype npc")
         end)
     end)
+    it("validates the bound faction template before initializing consumer state with debug disabled", function()
+        Questie.db.profile.debugEnabled = false
+        local bound = {[1] = 99}
+        QuestieDB.factionTemplate = bound
+        local validator = spy.new(function() return false, "faction report" end)
+        QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = validator
+        local initTags = spy.new(function() end)
+        QuestieDB.private.InitializeQuestTagInfoCorrections = initTags
+        local valid, report = QuestieDB.Initialize()
+        assert.is_false(valid)
+        assert.are_equal("faction report", report)
+        assert.spy(validator).was.called_with(bound, QuestieLoader:ImportModule("Expansions").Current)
+        assert.spy(initTags).was.not_called()
+        assert.are_same({[1] = 99}, bound)
+        assert.are_not_equal(bound, mock.supportModules.QuestieDB.factionTemplate)
+    end)
+
 end)

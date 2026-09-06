@@ -2,7 +2,8 @@
 
 Questie reads entity data from the QuestieTDB addon instead of a runtime compiler. Decisions:
 `docs/adr/0001` to `0003` here, ADR 0007 to 0009 in QuestieTDB. Object-hover lookup:
-`QUESTIE-OBJECT-NAME-INDEX.md`. How it was delivered, with commit pointers and review findings:
+`QUESTIE-OBJECT-NAME-INDEX.md`. Runtime support-data controls and failure behavior:
+[`docs/support-validation.md`](docs/support-validation.md). How the cutover was delivered, with commit pointers and review findings:
 `docs/tdb-history.md`. Live client findings: `TDB-FINDINGS.md`. How the pieces fit is documented in the code: the header of
 `Database/Corrections/QuestieCorrections.lua`, Stage 1 of `Modules/QuestieInit.lua`, and the header
 of `Localization/l10n.lua`.
@@ -28,7 +29,7 @@ Provider issues, all in the QuestieTDB repo:
 | --- | --- |
 | #1 / #13 | `requiredRaces` inference for SoD quests composed at runtime. The bake-time pass already matches upstream on Era (`TDB-FINDINGS.md` F3). |
 | #14 | Built-in lookup overrides and Titan zhCN entity localization. Implemented in the provider; Questie consumes translation slots, including custom locales. Offline validation passed. |
-| #15 | Support data sync and Source-mode flavor selection. Questie reads Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. All five flavors and both factions passed the wrapper check. |
+| #15 | Support data sync and Source-mode flavor selection. Questie reads Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. All five flavors and both factions passed the offline real-provider wrapper checks. Questie also applies [bounded runtime controls](docs/support-validation.md) to the support tables it consumes. |
 | #17 | `ObjectiveFirst` flavor scoping in Source mode. |
 | #19 | Differential coverage proving `classicQuestReputationFixes`, `itemStartFixes`, `AutoTableUpdates` NPC flags, static fixes, and SoD side channels are represented in provider data. |
 

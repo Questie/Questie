@@ -7,7 +7,16 @@ describe("ZoneDB", function()
     local ZoneDB
     local zoneData
 
+    local originalLoadstring
+
+    after_each(function()
+        _G.loadstring = originalLoadstring
+    end)
+
     before_each(function()
+        originalLoadstring = _G.loadstring
+        dofile("Database/SupportValidation.lua")
+        QuestieLoader:ImportModule("SupportValidation").ValidateZones = function() return true end
         _G["Questie"] = {db = {profile = {}}}
         _G.Questie.Debug = function() end
         _G.C_Map = {
@@ -157,4 +166,56 @@ describe("ZoneDB", function()
             assert.are_same({{1, 10.0, 20.0}}, ZoneDB:GetDungeonLocation(99993))
         end)
     end)
+    it("validates actual decoded and overridden maps with debug disabled before dungeon indexing", function()
+        Questie.db.profile.debugEnabled = false
+        -- A rejected old scalar row must never reach ipairs in the index builder.
+        ZoneDB.private.dungeons = {[206] = {"Utgarde Keep", 10057}}
+        local validator = spy.new(function(zones, expansion)
+            assert.are_equal(QuestieLoader:ImportModule("Expansions").Current, expansion)
+            assert.are_equal(ZoneDB.zoneIDs, zones.zoneIDs)
+            assert.are_equal(ZoneDB.instanceIdToAreaId, zones.instanceIdToAreaId)
+            assert.are_equal(ZoneDB.private.dungeons, zones.dungeons)
+            assert.are_equal(1414, zones.areaIdToUiMapId[10073])
+            assert.are_equal(1414, zones.areaIdToUiMapIdOverride[10073])
+            assert.are_equal(0, zones.uiMapIdToAreaId[113])
+            assert.are_equal(0, zones.uiMapIdToAreaIdOverride[113])
+            assert.are_equal(1, zones.subZoneToParentZone[133])
+            assert.are_equal(1, zones.subZoneToParentZoneOverride[133])
+            return false, "zone report"
+        end)
+        QuestieLoader:ImportModule("SupportValidation").ValidateZones = validator
+        _G.loadstring = spy.new(originalLoadstring)
+        local valid, report = ZoneDB.Initialize()
+        assert.spy(_G.loadstring).was.called(6)
+        assert.is_false(valid)
+        assert.are_equal("zone report", report)
+        assert.spy(validator).was.called(1)
+    end)
+
+    for _, field in ipairs({"areaIdToUiMapId", "areaIdToUiMapIdOverride", "uiMapIdToAreaId",
+        "uiMapIdToAreaIdOverride", "subZoneToParentZone", "subZoneToParentZoneOverride"}) do
+        for _, value in ipairs({"false", "nil", "42"}) do
+            it("reports decoded " .. value .. " in " .. field .. " before merging", function()
+                dofile("Database/SupportValidation.lua")
+                ZoneDB.private[field] = "return " .. value
+                _G.loadstring = spy.new(originalLoadstring)
+                local valid, report = ZoneDB.Initialize()
+                assert.is_false(valid)
+                local expectedType = ({["false"] = "boolean", ["nil"] = "nil", ["42"] = "number"})[value]
+                assert.matches(field .. ": expected table, actual " .. expectedType, report, 1, true)
+                assert.matches("Dataset: Zones", report, 1, true)
+                assert.spy(_G.loadstring).was.called(6)
+            end)
+        end
+    end
+
+    it("aggregates malformed merge inputs before writing any overrides", function()
+        ZoneDB.private.areaIdToUiMapId = "return false"
+        ZoneDB.private.uiMapIdToAreaIdOverride = "return nil"
+        local valid, report = ZoneDB.Initialize()
+        assert.is_false(valid)
+        assert.matches("areaIdToUiMapId: expected table, actual boolean", report, 1, true)
+        assert.matches("uiMapIdToAreaIdOverride: expected table, actual nil", report, 1, true)
+    end)
+
 end)

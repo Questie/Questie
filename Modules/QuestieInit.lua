@@ -107,6 +107,22 @@ local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 local coYield = coroutine.yield
+local supportValidationFailed = false
+
+---Latch failures for this addon instance; yielding stages retain the normal ThreadError path for unrelated errors.
+---@param valid boolean|nil @Only explicit false means validation failed.
+---@param report string?
+---@return boolean stopped
+local function _StopOnSupportFailure(valid, report)
+    if valid == false then
+        if not supportValidationFailed then
+            supportValidationFailed = true
+            Questie.Error(report)
+        end
+        return true
+    end
+    return supportValidationFailed
+end
 
 -- ********************************************************************************
 -- Start of QuestieInit.Stages ******************************************************
@@ -146,7 +162,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieDB initializing.")
     -- Binds the ID maps and resets the caches against the applied composed view; queries and
     -- Objective Order were bound when QuestieDB.lua loaded.
-    QuestieDB.Initialize()
+    if _StopOnSupportFailure(QuestieDB.Initialize()) then return false end
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Townsfolk building.")
@@ -207,7 +223,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieTooltips:Initialize()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] DropDB initializing.")
-    DropDB:Initialize()
+    if _StopOnSupportFailure(DropDB:Initialize()) then return false end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Timers initializing.")
     TrackerQuestTimers:Initialize()
@@ -325,18 +341,33 @@ end
 -- ********************************************************************************
 
 
-
+---@async
+---@return false|nil stopped
 function _QuestieInit.StartStageCoroutine()
     for i = 1, #QuestieInit.Stages do
-        QuestieInit.Stages[i]()
+        if supportValidationFailed or QuestieInit.Stages[i]() == false then return false end
         Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
         coYield()
     end
 end
 
 -- The UI elements might not be loaded at this point, so we must only initialize modules that do not rely on the UI
+---@return false|nil stopped
 function QuestieInit.OnAddonLoaded()
-    -- Loading everything for that it is totally irrelevant when exactly it is done
+    if supportValidationFailed then return false end
+
+    MinimapIcon:Init()
+
+    Questie.SetIcons()
+
+    Migration:Migrate()
+
+    if _StopOnSupportFailure(ZoneDB.Initialize()) then return false end
+    AvailableQuests.Initialize()
+    QuestieProfessions:Init()
+    if _StopOnSupportFailure(QuestXP.Init()) then return false end
+
+    -- This block still runs on a later frame. Submit it only after synchronous support checks pass.
     ThreadLib.ThreadError(function()
         HBDHooks:Init()
         QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
@@ -347,16 +378,6 @@ function QuestieInit.OnAddonLoaded()
         QuestieOptions.Initialize()
     end, 0, "Error during AddonLoaded initialization!")
 
-    MinimapIcon:Init()
-
-    Questie.SetIcons()
-
-    Migration:Migrate()
-
-    ZoneDB.Initialize()
-    AvailableQuests.Initialize()
-    QuestieProfessions:Init()
-    QuestXP.Init()
     Phasing.Initialize()
 
     if Questie.IsSoD then
@@ -365,7 +386,9 @@ function QuestieInit.OnAddonLoaded()
 end
 
 -- called by the PLAYER_LOGIN event handler
+---@return false|nil stopped
 function QuestieInit:Init()
+    if supportValidationFailed then return false end
     ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 
     if Questie.db.profile.trackerEnabled then
