@@ -4915,6 +4915,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {31881},
             [questKeys.nextQuestInChain] = 10968,
         },
+        [10959] = { -- The Fall of the Betrayer
+            [questKeys.reputationReward] = {{factionIDs.ASHTONGUE_DEATHSWORN,500}},
+        },
         [10960] = { -- When I Grow Up...
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = -1,
@@ -5372,6 +5375,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11094},
             [questKeys.requiredMaxRep] = {932,0},
+            [questKeys.nextQuestInChain] = 11097,
         },
         [11097] = { -- The Deadliest Trap Ever Laid
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5394,6 +5398,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,11099},
             [questKeys.requiredMaxRep] = {934,0},
+            [questKeys.nextQuestInChain] = 11101,
         },
         [11101] = { -- The Deadliest Trap Ever Laid
             [questKeys.requiredRaces] = raceIDs.NONE,
