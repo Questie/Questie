@@ -58,8 +58,6 @@ local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
-EventHandler.trackerMinimizedByInstance = false
-EventHandler.trackerHiddenByInstance = false
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
@@ -81,14 +79,7 @@ function EventHandler:RegisterEarlyEvents()
         end
 
         if isInitialLogin or isReloadingUi then
-            local isInInstance = IsInInstance()
-            if isInInstance and Questie.db.profile.trackerEnabled then
-                if Questie.db.profile.minimizeTrackerInInstances then
-                    EventHandler.trackerMinimizedByInstance = true
-                elseif Questie.db.profile.hideTrackerInInstances then
-                    EventHandler.trackerHiddenByInstance = true
-                end
-            end
+            C_Timer.After(8, QuestieTracker.HandleZoneChanged)
         end
 
         if Expansions.Current >= Expansions.MoP then
@@ -193,46 +184,7 @@ function EventHandler:RegisterLateEvents()
         -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
         -- backend Questie updates that occur when a player zones in/out of an instance. This
         -- is necessary to get everything back into it's "normal" state after all the updates.
-        local isInInstance, instanceType = IsInInstance()
-
-        if isInInstance then
-            C_Timer.After(8, function()
-                Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
-                if Questie.db.profile.minimizeTrackerInInstances then
-                    EventHandler.trackerMinimizedByInstance = true
-
-                    QuestieCombatQueue:Queue(function()
-                        QuestieTracker:Collapse()
-                    end)
-                elseif Questie.db.profile.hideTrackerInInstances then
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
-                    EventHandler.trackerHiddenByInstance = true
-                    QuestieTracker:Hide()
-                end
-            end)
-        else
-            -- Handle minimize when exiting instances
-            if EventHandler.trackerMinimizedByInstance == true then
-                C_Timer.After(8, function()
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Minimize")
-                    if Questie.db.profile.minimizeTrackerInInstances and (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) then
-                        EventHandler.trackerMinimizedByInstance = false
-
-                        QuestieCombatQueue:Queue(function()
-                            QuestieTracker:Expand()
-                        end)
-                    end
-                end)
-            elseif EventHandler.trackerHiddenByInstance == true then
-                C_Timer.After(8, function()
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
-                    if Questie.db.profile.hideTrackerInInstances then
-                        EventHandler.trackerHiddenByInstance = false
-                        QuestieTracker:Show()
-                    end
-                end)
-            end
-        end
+        C_Timer.After(8, QuestieTracker.HandleZoneChanged)
     end)
 
     -- Pet Battle Events (MoP onwards)
