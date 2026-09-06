@@ -1,6 +1,9 @@
 ---@class DropDB
 local DropDB = QuestieLoader:CreateModule("DropDB")
 
+---@type SupportValidation
+local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -21,6 +24,8 @@ DropDB.correctionKeys = { -- all keys must be negative or they'll be parsed as r
     PSERVER = -2,
 }
 
+---@return boolean valid
+---@return string? report
 function DropDB:Initialize()
     local QuestieItemDropCorrections = LibQuestieDB.Support.Get("QuestieItemDropCorrections")
     if Questie.IsClassic then
@@ -57,6 +62,22 @@ function DropDB:Initialize()
         Questie.Error("ItemDrops: Unknown Expansion!")
     end
 
+    -- Only selected correction sources participate; later/unused flavors need not exist.
+    local mergeInputs = {
+        {"Wowhead", DropDB.tableWowhead},
+        {"Pserver", DropDB.tablePserver},
+        {"QuestieItemDropCorrections", QuestieItemDropCorrections},
+    }
+    if type(QuestieItemDropCorrections) == "table" then
+        for index, flavor in ipairs({"Era", "Tbc", "Wotlk", "Cata", "MoP"}) do
+            if index <= Expansions.Current then
+                mergeInputs[#mergeInputs + 1] = {"QuestieItemDropCorrections." .. flavor, QuestieItemDropCorrections[flavor]}
+            end
+        end
+    end
+    local valid, report = SupportValidation.ValidateTableShapes(mergeInputs, "DropTables", Expansions.Current)
+    if not valid then return false, report end
+
     -- Corrections are loaded starting from Era; this means Era corrections are still
     -- applied to later expansions unless overridden by later expansions' corrections
     -- Only the merged map is written; correction rows stay shared and read-only.
@@ -74,6 +95,8 @@ function DropDB:Initialize()
             end
         end
     end
+    return SupportValidation.ValidateDropTables(
+        DropDB.tableWowhead, DropDB.tablePserver, DropDB.tableCorrections, DropDB.sourcePserver, Expansions.Current)
 end
 
 -- To obtain final drop rate data, query QuestieDB.GetItemDroprate(ItemID,NpcID)

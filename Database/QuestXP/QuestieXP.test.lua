@@ -6,6 +6,7 @@ describe("QuestXP support data", function()
     local QuestXP, mock, playerLevel
 
     before_each(function()
+        QuestieLoader:ImportModule("SupportValidation").ValidateQuestXP = function() return true end
         mock = LoadQuestieTDBMock()
         mock.supportModules.QuestXP.db = {[101] = {20, 1000}, [102] = {-1, 1000}, [103] = {20, 0}}
         playerLevel = 20
@@ -49,4 +50,22 @@ describe("QuestXP support data", function()
         assert.are_equal(1100, QuestXP:GetQuestLogRewardXP(101))
         assert.are_same({20, 1000}, mock.supportModules.QuestXP.db[101])
     end)
+    it("validates the bound raw XP even when debug is disabled and before reading player perks", function()
+        Questie.db.profile.debugEnabled = false
+        local bound = {[999] = {1, 2}}
+        QuestXP.db = bound
+        local validator = spy.new(function() return false, "XP report" end)
+        QuestieLoader:ImportModule("SupportValidation").ValidateQuestXP = validator
+        local perks = spy.new(function() return true end)
+        _G.IsSpellKnown = perks
+        QuestieLoader:ImportModule("Expansions").Current = 3
+        local valid, report = QuestXP.Init()
+        assert.is_false(valid)
+        assert.are_equal("XP report", report)
+        assert.spy(validator).was.called_with(bound, 3)
+        assert.spy(perks).was.not_called()
+        assert.are_same({[999] = {1, 2}}, bound)
+        assert.are_not_equal(bound, mock.supportModules.QuestXP.db)
+    end)
+
 end)

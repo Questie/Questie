@@ -2,7 +2,8 @@
 
 Questie reads entity data from the QuestieTDB addon instead of a runtime compiler. Decisions:
 `docs/adr/0001` to `0003` here, ADR 0007 to 0009 in QuestieTDB. Object-hover lookup:
-`QUESTIE-OBJECT-NAME-INDEX.md`. How it was delivered, with commit pointers and review findings:
+`QUESTIE-OBJECT-NAME-INDEX.md`. Runtime support-data controls and failure behavior:
+[`docs/support-validation.md`](docs/support-validation.md). How the cutover was delivered, with commit pointers and review findings:
 `docs/tdb-history.md`. Live client findings: `TDB-FINDINGS.md`. How the pieces fit is documented in the code: the header of
 `Database/Corrections/QuestieCorrections.lua`, Stage 1 of `Modules/QuestieInit.lua`, and the header
 of `Localization/l10n.lua`.
@@ -36,7 +37,7 @@ Provider issues, all in the QuestieTDB repo:
 | --- | --- |
 | #1 / #13 | `requiredRaces` inference for SoD quests composed at runtime. The bake-time pass already matches upstream on Era (`TDB-FINDINGS.md` F3). |
 | #14 | Built-in lookup overrides and Titan zhCN entity localization. Implemented in the provider; Questie consumes translation slots, including custom locales. Offline validation passed. |
-| #15 | Support data sync and Source-mode flavor selection. Questie reads Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. All five flavors and both factions passed the wrapper check. |
+| #15 | Support data sync and Source-mode flavor selection. Questie reads Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. All five flavors and both factions passed the offline real-provider wrapper checks. Questie also applies [bounded runtime controls](docs/support-validation.md) to the support tables it consumes. |
 | #17 | `ObjectiveFirst` flavor scoping in Source mode. |
 | #19 | Differential coverage proving `classicQuestReputationFixes`, `itemStartFixes`, `AutoTableUpdates` NPC flags, static fixes, and SoD side channels are represented in provider data. |
 
@@ -101,7 +102,9 @@ None block the merge. Numbered items came from the simplification review.
 
 After the bottom-up restack, the implementation passed the full suite with
 `QUESTIE_TDB_PATH=/home/david/private/questietdb`: 1,665 successes, 0 failures, 0 errors, and 0 pending. Luacheck passed across 304 files; loader-usage validation and `git diff --check` also passed.
-A fresh focused review found no issues. No live-client test, build, push, or provider change was made.
+A fresh focused review found no issues. With the two support commits replayed, the full suite passed
+1,779 tests with the same provider checkout and no failures, errors, or pending tests. No live-client
+test, build, push, or provider change was made.
 
 ## Live smoke results
 
