@@ -2,6 +2,9 @@
 ---@class QuestXP
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
 
+---@type SupportValidation
+local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
+
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -16,7 +19,12 @@ local globalXPMultiplier = 1
 
 local _GetBuffMultiplier
 
+---@return false|nil valid @Nil on success; false stops initialization.
+---@return string? report
 function QuestXP.Init()
+    local valid, report = SupportValidation.ValidateQuestXP(QuestXP.db, Expansions.Current)
+    if not valid then return false, report end
+
     if Expansions.Current >= Expansions.Wotlk then
         -- Handle Fast Track "Guild Perk"
         -- We don't check for Rank 1, because Blizzard made Rank 2 active for all characters

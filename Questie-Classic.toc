@@ -50,6 +50,7 @@ Modules\Expansions.lua
 Modules\Libs\ThreadLib.lua
 
 #Quest XP
+Database\SupportValidation.lua
 Database\QuestXP\QuestieXP.lua
 
 # Database storage and stream modules

@@ -4,6 +4,9 @@
 ---@field itemKeys QuestieTDBItemKeys
 ---@field objectKeys QuestieTDBObjectKeys
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
+
+---@type SupportValidation
+local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
 ---@class QuestieDBPrivate
 local _QuestieDB = QuestieDB.private
 
@@ -460,8 +463,12 @@ end
 ---Binds the composed ID maps and resets the caches during Login Initialization. It runs after the
 ---provider locale is forwarded and after Questie's initial Policy Correction writes, so the first
 ---bound view is already composed.
----@return nil
+---@return false|nil valid @Nil on success; false stops initialization.
+---@return string? report
 function QuestieDB.Initialize()
+    local valid, report = SupportValidation.ValidateFactionTemplates(QuestieDB.factionTemplate, Expansions.Current)
+    if not valid then return false, report end
+
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
     _BindEntityIdMaps()
