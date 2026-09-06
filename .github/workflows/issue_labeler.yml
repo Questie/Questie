@@ -16,7 +16,7 @@ jobs:
           sparse-checkout: .github/labeler.yml
           sparse-checkout-cone-mode: false
 
-      - uses: github/issue-labeler@v3.4
+      - uses: github/issue-labeler@v3.5
         with:
           configuration-path: .github/labeler.yml
           not-before: 2024-10-01T00:00:00Z
