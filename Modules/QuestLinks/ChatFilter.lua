@@ -36,7 +36,7 @@ local function escapeMagic(toEsc)
     )
 end
 
-local nativeQuestPattern = "|cff%x%x%x%x%x%x%x?%x?|Hquest:(%d+):%d+|h%[(.-)%]|h|r"
+local nativeQuestPattern = "|cff%x%x%x%x%x%x%x?%x?|Hquest:(%d+):%-?%d+|h%[(.-)%]|h|r"
 
 ---@param message string
 ---@param questId number
@@ -66,7 +66,7 @@ local function replaceNativeQuestLinks(message, sender)
         local questId = tonumber(questIdStr)
         -- Build the exact pattern to match this specific native link
         local escapedQuestName = escapeMagic(questName)
-        local searchPattern = "|cff%x%x%x%x%x%x%x?%x?|Hquest:" .. questIdStr .. ":%d+|h%[" .. escapedQuestName .. "%]|h|r"
+        local searchPattern = "|cff%x%x%x%x%x%x%x?%x?|Hquest:" .. questIdStr .. ":%-?%d+|h%[" .. escapedQuestName .. "%]|h|r"
         result = processQuestLink(result, questId, sender, searchPattern)
     end
     return result
