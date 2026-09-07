@@ -104,7 +104,7 @@ This removes the missing-September-data obstacle: updated CSVs can supply the ex
 
 ## Working-copy implementation
 
-`Database/Corrections/Holidays/DarkmoonFaire.lua` now owns schedule and location resolution. Its `rules` table contains expansion defaults and explicit known season entries. Each season can replace the complete `timing` or `location` rule independently; omitted rules inherit the expansion default. These are code configuration, not saved user settings.
+`Database/Corrections/Holidays/DarkmoonFaire.lua` now owns schedule and location resolution. Its `rules` table contains expansion defaults and explicit known season entries. Each season can replace the complete `timing`, `location`, or optional `availability` rule independently; omitted rules inherit the expansion default. Availability names a `ContentPhases.activePhases` counter through `phaseKey` and requires `minimumPhase`. These are code configuration, not saved user settings.
 
 - Era, SoM, Anniversary Era/Hardcore, TBC, and Anniversary TBC use the Monday after the first Friday, from 03:00 through the following Monday at 03:00 (exclusive). Anniversary Era/Hardcore retain phase-3 availability gating.
 - SoD uses its December 4, 2023 anchor, exact fourteen-civil-day recurrence, and alternating Mulgore/Elwynn locations. Civil-day arithmetic removes the old accumulating two-minute cycle error and does not depend on the computer's timezone.

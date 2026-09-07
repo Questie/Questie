@@ -135,6 +135,41 @@ describe("DarkmoonFaire", function()
             end
             seasonId = 1
             assert.equals("active", DarkmoonFaire.GetCurrentState().status)
+
+            QuestieLoader:ImportModule("ContentPhases").activePhases.Anniversary = 3
+            for _, id in ipairs({11, 12}) do
+                seasonId = id
+                assert.equals("active", DarkmoonFaire.GetCurrentState().status)
+            end
+        end)
+
+        it("inherits default availability independently of season timing and location", function()
+            seasonId = Enum.SeasonID.SeasonOfMastery
+            DarkmoonFaire.rules[Expansions.Era].default.availability = {phaseKey = "SoM", minimumPhase = 4}
+            local phases = QuestieLoader:ImportModule("ContentPhases").activePhases
+            phases.Anniversary, phases.SoM = 6, 3
+            assert.equals("inactive", DarkmoonFaire.GetCurrentState().status)
+
+            phases.SoM = 4
+            assert.same({status = "active", location = "MULGORE"}, DarkmoonFaire.GetCurrentState())
+        end)
+
+        it("lets a season replace the default availability counter and threshold", function()
+            seasonId = Enum.SeasonID.SeasonOfMastery
+            DarkmoonFaire.rules[Expansions.Era].default.availability = {phaseKey = "Anniversary", minimumPhase = 6}
+            DarkmoonFaire.rules[Expansions.Era].seasons[seasonId].availability = {phaseKey = "SoM", minimumPhase = 4}
+            local phases = QuestieLoader:ImportModule("ContentPhases").activePhases
+            phases.Anniversary, phases.SoM = 2, 4
+
+            assert.same({status = "active", location = "MULGORE"}, DarkmoonFaire.GetCurrentState())
+        end)
+
+        it("treats a missing phase counter as phase zero", function()
+            DarkmoonFaire.rules[Expansions.Era].default.availability = {phaseKey = "SoM", minimumPhase = 1}
+            assert.equals("inactive", DarkmoonFaire.GetCurrentState().status)
+
+            QuestieLoader:ImportModule("ContentPhases").activePhases = nil
+            assert.equals("inactive", DarkmoonFaire.GetCurrentState().status)
         end)
 
         it("keeps explicit TBC Anniversary and default rotations in January order", function()
@@ -374,6 +409,26 @@ describe("DarkmoonFaire", function()
             Expansions.Current = Expansions.Wotlk
             now.monthDay, now.hour = 2, 12
             events = {holiday()}
+        end)
+
+        it("checks availability before requesting calendar data", function()
+            Expansions.Current = Expansions.MoP
+            DarkmoonFaire.rules[Expansions.MoP].default.availability = {phaseKey = "MoP", minimumPhase = 4}
+            local phases = QuestieLoader:ImportModule("ContentPhases").activePhases
+            phases.MoP = 3
+            QuestieCompat.GetCurrentCalendarTime = spy.new(QuestieCompat.GetCurrentCalendarTime)
+            C_Calendar.GetMonthInfo = spy.new(C_Calendar.GetMonthInfo)
+            C_Calendar.GetNumDayEvents = spy.new(function() return #events end)
+
+            assert.equals("inactive", DarkmoonFaire.GetCurrentState(true).status)
+            assert.spy(QuestieCompat.GetCurrentCalendarTime).was.not_called()
+            assert.spy(C_Calendar.GetMonthInfo).was.not_called()
+            assert.spy(C_Calendar.GetNumDayEvents).was.not_called()
+            assert.same({}, writes)
+
+            phases.MoP = 4
+            assert.equals("pending", DarkmoonFaire.GetCurrentState(false).status)
+            assert.equals("active", DarkmoonFaire.GetCurrentState(true).status)
         end)
 
         it("requires readiness and distinguishes inactive from unavailable", function()

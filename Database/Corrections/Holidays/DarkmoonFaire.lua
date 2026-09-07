@@ -33,10 +33,13 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@field locations DMFLocation[]? January-first monthly rotation, or anchor-first fortnightly rotation.
 ---@field anchor CalendarTime? Location rotation anchor, independent of the timing rule.
 ---@field location DMFLocation?
+---@class DMFAvailabilityRule
+---@field phaseKey string Key in ContentPhases.activePhases; an unknown counter is treated as phase 0.
+---@field minimumPhase number
 ---@class DMFRule
 ---@field timing DMFTimingRule?
 ---@field location DMFLocationRule?
----@field minimumAnniversaryPhase number?
+---@field availability DMFAvailabilityRule?
 ---@class DMFExpansionRules
 ---@field default DMFRule
 ---@field seasons table<number, DMFRule>
@@ -106,7 +109,10 @@ DarkmoonFaire.rules = {
                     endHour = 3, endMinute = 0
                 },
                 location = {source = "monthly", locations = {"ELWYNN_FOREST", "MULGORE"}},
-                minimumAnniversaryPhase = 3,
+                availability = {
+                    phaseKey = "Anniversary",
+                    minimumPhase = 3,
+                },
             },
             [Enum.SeasonID.FreshHardcore] = {
                 timing = {
@@ -121,7 +127,10 @@ DarkmoonFaire.rules = {
                     endHour = 3, endMinute = 0
                 },
                 location = {source = "monthly", locations = {"ELWYNN_FOREST", "MULGORE"}},
-                minimumAnniversaryPhase = 3,
+                availability = {
+                    phaseKey = "Anniversary",
+                    minimumPhase = 3,
+                },
             },
         },
     },
@@ -414,7 +423,7 @@ local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
 end
 
 ---Resolves one startup snapshot; the caller owns calendar requests, readiness, retries and timeout.
----A season replaces each timing/location rule as a whole, with omitted rules inherited from the expansion.
+---A season replaces each timing/location/availability rule as a whole; omitted rules inherit the expansion default.
 ---@param calendarReady boolean? True after the calendar event list has loaded.
 ---@return DarkmoonFaireState
 function DarkmoonFaire.GetCurrentState(calendarReady)
@@ -430,9 +439,12 @@ function DarkmoonFaire.GetCurrentState(calendarReady)
     local season = expansionRules.seasons[seasonId] or {}
     local timing = season.timing or expansionRules.default.timing
     local locationRule = season.location or expansionRules.default.location
-    local minimumPhase = season.minimumAnniversaryPhase or expansionRules.default.minimumAnniversaryPhase
-    if minimumPhase and (not ContentPhases.activePhases or (ContentPhases.activePhases.Anniversary or 0) < minimumPhase) then
-        return {status = "inactive"}
+    local availability = season.availability or expansionRules.default.availability
+    if availability then
+        local activePhase = ContentPhases.activePhases and ContentPhases.activePhases[availability.phaseKey] or 0
+        if activePhase < availability.minimumPhase then
+            return {status = "inactive"}
+        end
     end
 
     local now = QuestieCompat.GetCurrentCalendarTime()
