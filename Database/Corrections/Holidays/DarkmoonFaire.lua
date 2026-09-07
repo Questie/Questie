@@ -96,6 +96,20 @@ DarkmoonFaire.rules = {
                     locations = {"MULGORE", "ELWYNN_FOREST"}
                 },
             },
+            [Enum.SeasonID.Hardcore] = {
+                timing = {
+                    -- Meta
+                    source = "monthly",
+                    setupWeekday = 6,
+                    -- Start
+                    startWeekday = 2,
+                    startHour = 3, startMinute = 0,
+                    -- End
+                    endDayOffset = 7,
+                    endHour = 3, endMinute = 0
+                },
+                location = {source = "monthly", locations = {"ELWYNN_FOREST", "MULGORE"}},
+            },
             [Enum.SeasonID.Fresh] = {
                 timing = {
                     -- Meta

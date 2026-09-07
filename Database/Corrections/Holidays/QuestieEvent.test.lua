@@ -22,7 +22,9 @@ describe("QuestieEvent", function()
         for _, name in ipairs({"QuestieCompat", "C_Calendar", "C_Timer", "C_Seasons", "GetCVarBool", "SetCVar", "print", "Enum"}) do
             originalGlobals[name] = _G[name]
         end
-        _G.Enum = {SeasonID = {SeasonOfMastery = 1, SeasonOfDiscovery = 2, Fresh = 11, FreshHardcore = 12, TitanReforged = 109}}
+        _G.Enum = {SeasonID = {
+            SeasonOfMastery = 1, SeasonOfDiscovery = 2, Hardcore = 3, Fresh = 11, FreshHardcore = 12, TitanReforged = 109,
+        }}
         TestUtils.resetEvents()
         Questie.IsTitanReforged = false
         Questie.IsSoD = false
@@ -230,6 +232,8 @@ describe("QuestieEvent", function()
             assert.is_true(timers[2].cancelled)
             assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
             assert.spy(Questie.Warning).was.called(1)
+            assert.spy(Questie.Warning).was.called_with(
+                "Darkmoon Faire calendar data is unavailable; event availability could not be determined. Reload to retry.")
         end)
 
         it("finishes immediately when calendar requests are unavailable or fail", function()
@@ -403,6 +407,26 @@ describe("QuestieEvent", function()
                 end
             end)
         end
+
+        it("keeps a quest hidden until tomorrow even though its event is already active", function()
+            QuestieCompat.GetCurrentCalendarTime = function()
+                return {year = 2026, month = 8, monthDay = 2, hour = 12, minute = 0}
+            end
+            QuestieEvent.eventDates = {Other = {startDate = "1/8", endDate = "5/8"}}
+            QuestieEvent.eventQuests = {
+                {"Other", 123, "3/8", "5/8"},
+                {"Other", 456, "2/8", "5/8"},
+            }
+            QuestieCorrections.hiddenQuests[123] = true
+            QuestieCorrections.hiddenQuests[456] = true
+
+            QuestieEvent:Load()
+
+            assert.is_nil(QuestieEvent.activeQuests[123])
+            assert.is_true(QuestieCorrections.hiddenQuests[123])
+            assert.is_true(QuestieEvent.activeQuests[456])
+            assert.is_nil(QuestieCorrections.hiddenQuests[456])
+        end)
 
         it("honors quest-specific windows within an active event", function()
             QuestieEvent.eventDates = {Other = {startDate = "1/8", endDate = "5/8"}}

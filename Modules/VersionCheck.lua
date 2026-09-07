@@ -58,9 +58,10 @@ Questie._sessionWarnings = {}
 Enum.SeasonID = Enum.SeasonID or {}
 Enum.SeasonID.SeasonOfMastery = Enum.SeasonID.SeasonOfMastery or 1
 Enum.SeasonID.SeasonOfDiscovery = Enum.SeasonID.SeasonOfDiscovery or 2
+Enum.SeasonID.Hardcore = Enum.SeasonID.Hardcore or 3
 Enum.SeasonID.Fresh = Enum.SeasonID.Fresh or 11
 Enum.SeasonID.FreshHardcore = Enum.SeasonID.FreshHardcore or 12
-Enum.SeasonID.TitanReforged = Enum.SeasonID.TitanReforged or 109
+Enum.SeasonID.TitanReforged = Enum.SeasonID.TitanReforged or 109 -- There is no entry in Enum.SeasonID for this so we set it
 
 
 --- Addon is running on Classic MoP client
@@ -97,9 +98,9 @@ Questie.IsSoM = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons
 ---@type boolean
 Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery)
 
---- Addon is running on Classic "WotLK" client and on a Titan Forged realm specifically
+--- Addon is running on Classic "WotLK" client and on a Titan Reforged realm specifically
 ---@type boolean
-Questie.IsTitanReforged = Questie.IsWotlk and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 109) -- There is no entry in Enum.SeasonID for this
+Questie.IsTitanReforged = Questie.IsWotlk and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.TitanReforged)
 
 --- Addon is running on Classic "Vanilla" client and on Classic Anniversary realm ( )
 ---@type boolean

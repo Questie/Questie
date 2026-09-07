@@ -206,7 +206,7 @@ function QuestieEvent:Load(dmfState)
         return false
     end
     if dmfState.status == "unavailable" then
-        Questie.Warning("Darkmoon Faire calendar data is unavailable; its quests remain hidden until the next reload.")
+        Questie.Warning("Darkmoon Faire calendar data is unavailable; event availability could not be determined. Reload to retry.")
     end
 
     local year = date("%y")

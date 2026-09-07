@@ -16,7 +16,9 @@ describe("DarkmoonFaire", function()
         events = {}
         filter = false
         writes = {}
-        _G.Enum = {SeasonID = {SeasonOfMastery = 1, SeasonOfDiscovery = 2, Fresh = 11, FreshHardcore = 12, TitanReforged = 109}}
+        _G.Enum = {SeasonID = {
+            SeasonOfMastery = 1, SeasonOfDiscovery = 2, Hardcore = 3, Fresh = 11, FreshHardcore = 12, TitanReforged = 109,
+        }}
         _G.C_Seasons = {
             HasActiveSeason = function() return seasonId ~= nil end,
             GetActiveSeason = function() return seasonId end,
@@ -115,11 +117,11 @@ describe("DarkmoonFaire", function()
         end)
 
         it("defines Era seasons explicitly and preserves unknown/nonseasonal defaults", function()
-            for _, id in ipairs({1, 11, 12, 999}) do
+            for _, id in ipairs({1, 3, 11, 12, 999}) do
                 seasonId = id
                 assert.equals("MULGORE", DarkmoonFaire.GetCurrentState().location)
             end
-            for _, id in ipairs({1, 2, 11, 12}) do
+            for _, id in ipairs({1, 2, 3, 11, 12}) do
                 assert.is_table(DarkmoonFaire.rules[Expansions.Era].seasons[id].timing)
                 assert.is_table(DarkmoonFaire.rules[Expansions.Era].seasons[id].location)
             end
