@@ -54,6 +54,15 @@ Questie.db = {profile = {minimap = {hide = false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
+-- Define missing enums
+Enum.SeasonID = Enum.SeasonID or {}
+Enum.SeasonID.SeasonOfMastery = Enum.SeasonID.SeasonOfMastery or 1
+Enum.SeasonID.SeasonOfDiscovery = Enum.SeasonID.SeasonOfDiscovery or 2
+Enum.SeasonID.Fresh = Enum.SeasonID.Fresh or 11
+Enum.SeasonID.FreshHardcore = Enum.SeasonID.FreshHardcore or 12
+Enum.SeasonID.TitanReforged = Enum.SeasonID.TitanReforged or 109
+
+
 --- Addon is running on Classic MoP client
 ---@type boolean
 Questie.IsMoP = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC

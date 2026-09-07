@@ -190,6 +190,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieEvent initializing.")
+    -- This yields until holiday NPC overrides are resolved, with a bounded wait for calendar data.
     QuestieEvent.Initialize()
     coYield()
 
