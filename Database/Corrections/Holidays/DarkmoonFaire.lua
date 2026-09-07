@@ -62,25 +62,64 @@ DarkmoonFaire.rules = {
         },
         seasons = {
             [Enum.SeasonID.SeasonOfMastery] = {
-                timing = {source = "monthly", setupWeekday = 6, startWeekday = 2,
-                    startHour = 3, startMinute = 0, endDayOffset = 7, endHour = 3, endMinute = 0},
+                timing = {
+                    -- Meta
+                    source = "monthly",
+                    setupWeekday = 6,
+                    -- Start
+                    startWeekday = 2,
+                    startHour = 3, startMinute = 0,
+                    -- End
+                    endDayOffset = 7,
+                    endHour = 3, endMinute = 0
+                },
                 location = {source = "monthly", locations = {"ELWYNN_FOREST", "MULGORE"}},
             },
             [Enum.SeasonID.SeasonOfDiscovery] = {
-                timing = {source = "fortnightly", anchor = {year = 2023, month = 12, monthDay = 4},
-                    startHour = 0, startMinute = 1, endDayOffset = 6, endHour = 23, endMinute = 59, endInclusive = true},
-                location = {source = "fortnightly", anchor = {year = 2023, month = 12, monthDay = 4},
-                    locations = {"MULGORE", "ELWYNN_FOREST"}},
+                timing = {
+                    -- Meta
+                    source = "fortnightly",
+                    anchor = {year = 2023, month = 12, monthDay = 4},
+                    -- Start
+                    startHour = 0, startMinute = 1,
+                    -- End
+                    endDayOffset = 6,
+                    endHour = 23, endMinute = 59,
+                    endInclusive = true
+                },
+                location = {
+                    source = "fortnightly",
+                    anchor = {year = 2023, month = 12, monthDay = 4},
+                    locations = {"MULGORE", "ELWYNN_FOREST"}
+                },
             },
             [Enum.SeasonID.Fresh] = {
-                timing = {source = "monthly", setupWeekday = 6, startWeekday = 2,
-                    startHour = 3, startMinute = 0, endDayOffset = 7, endHour = 3, endMinute = 0},
+                timing = {
+                    -- Meta
+                    source = "monthly",
+                    setupWeekday = 6,
+                    -- Start
+                    startWeekday = 2,
+                    startHour = 3, startMinute = 0,
+                    -- End
+                    endDayOffset = 7,
+                    endHour = 3, endMinute = 0
+                },
                 location = {source = "monthly", locations = {"ELWYNN_FOREST", "MULGORE"}},
                 minimumAnniversaryPhase = 3,
             },
             [Enum.SeasonID.FreshHardcore] = {
-                timing = {source = "monthly", setupWeekday = 6, startWeekday = 2,
-                    startHour = 3, startMinute = 0, endDayOffset = 7, endHour = 3, endMinute = 0},
+                timing = {
+                    -- Meta
+                    source = "monthly",
+                    setupWeekday = 6,
+                    -- Start
+                    startWeekday = 2,
+                    startHour = 3, startMinute = 0,
+                    -- End
+                    endDayOffset = 7,
+                    endHour = 3, endMinute = 0
+                },
                 location = {source = "monthly", locations = {"ELWYNN_FOREST", "MULGORE"}},
                 minimumAnniversaryPhase = 3,
             },
@@ -88,14 +127,32 @@ DarkmoonFaire.rules = {
     },
     [Expansions.Tbc] = {
         default = {
-            timing = {source = "monthly", setupWeekday = 6, startWeekday = 2,
-                startHour = 3, startMinute = 0, endDayOffset = 7, endHour = 3, endMinute = 0},
+            timing = {
+                -- Meta
+                source = "monthly",
+                setupWeekday = 6,
+                -- Start
+                startWeekday = 2,
+                startHour = 3, startMinute = 0,
+                -- End
+                endDayOffset = 7,
+                endHour = 3, endMinute = 0
+            },
             location = {source = "monthly", locations = {"MULGORE", "ELWYNN_FOREST", "TEROKKAR_FOREST"}},
         },
         seasons = {
             [Enum.SeasonID.Fresh] = {
-                timing = {source = "monthly", setupWeekday = 6, startWeekday = 2,
-                    startHour = 3, startMinute = 0, endDayOffset = 7, endHour = 3, endMinute = 0},
+                timing = {
+                    -- Meta
+                    source = "monthly",
+                    setupWeekday = 6,
+                    -- Start
+                    startWeekday = 2,
+                    startHour = 3, startMinute = 0,
+                    -- End
+                    endDayOffset = 7,
+                    endHour = 3, endMinute = 0
+                },
                 location = {source = "monthly", locations = {"MULGORE", "ELWYNN_FOREST", "TEROKKAR_FOREST"}},
             },
         },
@@ -111,11 +168,15 @@ DarkmoonFaire.rules = {
         },
     },
     [Expansions.Cata] = {
-        default = {timing = {source = "calendar"}, location = {source = "fixed", location = "DARKMOON_ISLAND"}},
+        default = {
+            timing = {source = "calendar"}, location = {source = "fixed", location = "DARKMOON_ISLAND"}
+        },
         seasons = {},
     },
     [Expansions.MoP] = {
-        default = {timing = {source = "calendar"}, location = {source = "fixed", location = "DARKMOON_ISLAND"}},
+        default = {
+            timing = {source = "calendar"}, location = {source = "fixed", location = "DARKMOON_ISLAND"}
+        },
         seasons = {},
     },
 }
