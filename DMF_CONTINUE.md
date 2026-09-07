@@ -1,8 +1,27 @@
 # Darkmoon Faire continuation
 
+## Live calendar follow-up
+
+Native MoP testing and tester-supplied Titan output now supplement the original audit:
+
+- [MoP captures and limitations](Database/Corrections/Holidays/DMF_MOP_LIVE_FINDINGS.md), build 5.5.4.69585.
+- [Titan tester captures](Database/Corrections/Holidays/DMF_TITAN_TESTER_FINDINGS.md), exact build not supplied.
+
+MoP confirms September's two native occurrences, matching texture fields, and immediate warm-calendar filter changes.
+Titan confirms August Elwynn (374, END, both textures 235446) and September Mulgore (375, ONGOING, both textures 235450).
+Titan's September timestamps are September 6 at 00:01 through September 12 at 23:59. October Terokkar is expected, not captured.
+
+The MoP probes exposed false inactivity when October was selected: querying September 7 at offset -1 returned no records.
+`SetMonth(0)` refreshes the selected month rather than selecting today's month. The resolver now selects each queried month
+with `SetAbsMonth`, reads at offset 0, and restores the previous month and filter, including on query errors.
+Tests cover the captured records, cross-month searches, and synchronous selection/restoration notifications.
+
+The texture mappings and choice of `GetHolidayInfo().texture` are unchanged; no texture-field mismatch was reproduced.
+No corrected build has been deployed. Cold-login readiness, world opening/closing transitions, and Titan Terokkar remain unverified.
+
 ## Read this first
 
-This branch improves Darkmoon Faire (DMF) scheduling, location detection, and quest handling. The architecture is implemented, but **the audit findings are not all fixed and native calendar behavior has not been verified in-game**.
+This branch improves Darkmoon Faire (DMF) scheduling, location detection, and quest handling. The architecture is implemented, but **the audit findings are not all fixed and native verification remains partial**.
 
 Do not interpret passing tests, completed commits, or earlier conversational claims as proof that every requested fix landed. Several tasks were interrupted by conversation branches. The open items below were checked against the repository at `dbc3102aa`.
 
@@ -12,9 +31,9 @@ Immediate next steps:
 2. Address calendar sequence texture selection and make the fixtures distinguish `GetDayEvent` from `GetHolidayInfo`.
 3. Add explicit Hardcore season coverage and finish replacing the Titan literal in `VersionCheck`.
 4. Restore missing test coverage using independent expectations.
-5. Obtain native calendar evidence before declaring the implementation ready.
+5. Complete the remaining native checks, especially cold-login readiness and real opening/closing transitions, before declaring the implementation ready.
 
-Do not alter a WoW installation, running client, live database, or daily-driver preview without David's permission. The work so far used repository data, downloaded artifacts, published UI source, and offline tests only.
+Do not alter a WoW installation, running client, live database, or daily-driver preview without David's permission. The initial audit was offline; subsequent native calendar probes were explicitly authorized. The selected-month code fix has only been tested offline.
 
 ## Branch and history
 
@@ -53,13 +72,28 @@ David wants sensible expansion defaults **and explicit entries for every known s
 
 - Configuration lives directly inside `DarkmoonFaire.rules`.
 - Each expansion contains `default` and `seasons`.
-- Resolve `timing` and `location` independently.
-- A season replaces a whole timing/location rule, not selected fields through a deep merge.
+- Resolve `timing`, `location`, and optional `availability` independently.
+- A season replaces a whole timing/location/availability rule, not selected fields through a deep merge.
 - An omitted rule inherits the expansion default.
 - Do not reintroduce `_AddSeason` or scattered conditional table construction. `VersionCheck.lua` supplies missing enum constants before this module loads.
 - These are developer code settings, not saved user preferences. No settings migration is needed for this configuration.
 
 `WOW_PROJECT_ID` identifies the client/expansion; `C_Seasons.GetActiveSeason()` distinguishes variants. Anniversary Era and Anniversary TBC both use `Fresh`, so expansion plus season matters. General Hardcore detection also uses `C_GameRules.IsHardcoreActive()`.
+
+### Phase availability
+
+Availability rules name a counter in `ContentPhases.activePhases` and the first phase allowing DMF:
+
+```lua
+availability = {
+    phaseKey = "Anniversary",
+    minimumPhase = 3,
+},
+```
+
+Both Era `Fresh` and `FreshHardcore` use this rule. It replaces the old Anniversary-specific field without changing their phase-3 behavior. Missing counters are treated as phase 0. When neither the season nor its expansion default supplies availability, there is no phase gate.
+
+Phase counters are maintained in code, not discovered from the realm. For a future fresh cycle, update the new or reused season rule and the corresponding counter as needed. We do not retain historical cycles or add selectors for retired fresh realms.
 
 ### Timing and locations
 
@@ -97,7 +131,7 @@ Active versions reported by David: Era, Anniversary TBC, Titan WotLK, and MoP. O
 - Calculated timing with calendar location searches the calculated occurrence's days. Searching only today was wrong on a calculated closing Monday absent from the native Sunday-through-Saturday calendar.
 - Calendar timing with calculated location retains the native timing while resolving location separately.
 - Temporarily enables `calendarShowDarkmoon` while reading and restores the previous value, including on protected query failures.
-- Uses current calendar month/year to calculate query offsets; it does not assume the displayed calendar is on the current month.
+- Selects each queried absolute month and reads at offset 0, then restores the selected month. Native off-month queries can omit active events even with a mathematically correct offset.
 - Currently identifies locations from **`GetHolidayInfo().texture`**, not `GetDayEvent().iconTexture`. This is an open finding, not a completed fix.
 
 ### Startup and application
@@ -200,7 +234,7 @@ Retain original deck exclusions on SoD and normal original-deck behavior elsewhe
 
 ### 2. Use the documented sequence texture field
 
-Status: source-supported correction still pending; no confirmed live failure.
+Status: source-supported field change still pending. MoP and the captured Titan Elwynn/Mulgore records populate both fields identically; no live mismatch was reproduced. This was not changed as part of the selected-month fix.
 
 The current resolver reads `GetDayEvent` but maps location from `GetHolidayInfo().texture`. Blizzard's UI uses **`GetDayEvent().iconTexture`** as the holiday sequence/day artwork. Our DBC mappings are Start/Ongoing/End sequence IDs.
 
@@ -225,15 +259,15 @@ Tests currently inject full enum tables and bypass actual `VersionCheck` bootstr
 Status: still pending in the current test files.
 
 - Restore the previous general-holiday case where the event is active but the quest's own start date is tomorrow. The new test only differentiates hours on the same date.
-- The test named “excludes setup” moves now before an ordinary open-Faire interval; it does not supply a genuine native setup-stage record. Rename it to its actual claim. Obtain native fixtures before claiming setup behavior is covered.
-- Model filter setting, cached event-list refresh, and notification as separate states. Existing fixtures make data instantly available regardless of filter/readiness. This hides the question of whether an initially empty filtered list is authoritative.
-- Include a synchronous notification emitted by `OpenCalendar` in lifecycle coverage; code review found the path sensible, but it lacks an explicit test.
+- The misleading “excludes setup” test has been renamed to its actual timestamp-interval claim. MoP's queried setup days have no DMF record, but this does not prove world setup behavior.
+- The new lifecycle fixture separates filter visibility, cached data, and notification. Broader cold-login readiness remains unverified; a warm filtered list is not evidence about an initially incomplete native cache.
+- Synchronous `OpenCalendar` notification and nested selection/restoration notifications now have explicit lifecycle coverage. The live warm MoP probe observed synchronous `SetMonth(0)`, not synchronous `OpenCalendar`.
 
 Passing a test invented from the implementation is not evidence of the game rule. Ground expectations in original behavior, actual correction data, or captured native API values.
 
 ### 5. Native calendar verification
 
-Status: no live client evidence obtained. This remains the principal release-confidence gap.
+Status: partial MoP and Titan evidence obtained; see the follow-up notes above. Cold-login behavior and actual world transitions remain release-confidence gaps.
 
 On matching Titan and MoP clients, capture build, project, season, region, current calendar time, and both calendar records for the same holiday entry:
 
@@ -268,7 +302,7 @@ Confirm whether the barkers/quests actually exist on Titan before adding coordin
 - **Warning wording is too broad:** “its quests remain hidden” is not literally true for all item-started decks. Narrow the message to unresolved event visibility/turn-ins if changing it. It is currently English-only; project conventions for debug warnings should guide whether localization is needed.
 - **Disable during startup remains unsafe.** `Questie:OnDisable()` does not cancel the outer ThreadLib job or raw calendar timers. AceEvent removes the listener, but timeout can resume initialization and eventually publish readiness after disable. This is an inherited general initialization problem, made more visible by the new wait. Keep a separate lifecycle fix unless David expands scope.
 - Unexpected application errors now abort the owning startup coroutine rather than permitting initialization with partially applied holiday data. This intentionally increases holiday application failure impact while avoiding the former endless wait.
-- `GetCVarBool` and restoration `SetCVar` are outside the resolver's query `pcall`. An exceptional failure can leave its reentrancy guard set until timeout. Timer construction failures are also not fully cleaned up. These are low-likelihood defensive concerns, not reproduced failures on supported clients.
+- The selected-month fix protects `GetCVarBool` and attempts filter/month restoration independently with `pcall`. A restoration failure returns unavailable, but cannot guarantee native UI state was restored. Timer construction failures are still not fully cleaned up; these remain low-likelihood defensive concerns, not reproduced failures on supported clients.
 - Whole-record runtime NPC override assignment could discard future non-location overrides for those six IDs. No current conflict was found. Preserve current precedence unless deliberately changing and testing it.
 - The extracted data module retains three tiny location tables rather than allocating only the active one. The audit judged this negligible; do not add lazy-loading machinery without a reason.
 
@@ -343,7 +377,19 @@ Read the `wow-ui-source` skill before further source investigation. Channel name
 
 ## Validation and audit history
 
-Last full-suite run after the compatibility correction:
+After the selected-month fix, native-capture tests, and availability-rule generalization:
+
+```text
+1843 successes / 0 failures / 0 errors / 0 pending
+```
+
+The four changed Lua source/test files pass luacheck with zero warnings/errors; `git diff --check` passes.
+A fresh calendar/lifecycle review found no implementation defects. Its request for month-restoration failure coverage
+was added before the final full-suite run. A focused availability-rule review also found no implementation defects;
+its early-return test was tightened to assert no clock/calendar access below the configured phase.
+The corrected code has not been deployed or validated through normal client startup.
+
+Historical full-suite run after the compatibility correction:
 
 ```text
 1831 successes / 0 failures / 0 errors / 0 pending
