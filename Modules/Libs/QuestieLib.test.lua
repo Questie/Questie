@@ -282,6 +282,139 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("ContinueOnQuestObjectivesLoad", function()
+        local ThreadLib
+        local originalThread
+        local originalHaveQuestData
+        local originalGetQuestObjectives
+        local thread
+        local timer
+        local callback
+        local objectives
+
+        ---@return nil
+        local function Tick()
+            local success, err = coroutine.resume(thread)
+            assert.is_true(success, err)
+        end
+
+        before_each(function()
+            ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+            originalThread = ThreadLib.Thread
+            originalHaveQuestData = _G.HaveQuestData
+            originalGetQuestObjectives = _G.C_QuestLog.GetQuestObjectives
+            timer = {}
+            ThreadLib.Thread = spy.new(function(body, delay)
+                assert.are_same(0.1, delay)
+                thread = coroutine.create(body)
+                return timer, thread
+            end)
+            objectives = {{text = "Wolf slain: 0/1", type = "monster"}}
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = spy.new(function() return objectives end)
+            callback = spy.new(function() end)
+        end)
+
+        after_each(function()
+            ThreadLib.Thread = originalThread
+            _G.HaveQuestData = originalHaveQuestData
+            _G.C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
+        end)
+
+        it("should asynchronously deliver the loaded array once and return the thread handles", function()
+            local returnedTimer, returnedThread = QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+
+            assert.are.equal(timer, returnedTimer)
+            assert.are.equal(thread, returnedThread)
+            assert.spy(callback).was.not_called()
+            Tick()
+
+            assert.spy(callback).was.called(1)
+            assert.spy(callback).was.called_with(objectives)
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called_with(QUEST_ID)
+            assert.are_same("dead", coroutine.status(thread))
+        end)
+
+        local incompleteObjectives = {
+            {name = "missing text", objective = {type = "item"}},
+            {name = "empty text", objective = {text = "", type = "item"}},
+            {name = "leading-space text", objective = {text = " : 0/1", type = "item"}},
+            {name = "missing type", objective = {text = "Item: 0/1"}},
+        }
+        for _, case in ipairs(incompleteObjectives) do
+            it("should refetch all objectives when a later objective has " .. case.name, function()
+                objectives[2] = case.objective
+                QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+                Tick()
+                assert.spy(callback).was.not_called()
+
+                objectives = {
+                    {text = "Wolf slain: 1/1", type = "monster"},
+                    {text = "Item: 0/1", type = "item"},
+                }
+                Tick()
+
+                assert.spy(callback).was.called(1)
+                assert.spy(callback).was.called_with(objectives)
+                assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(2)
+                assert.are_same("dead", coroutine.status(thread))
+            end)
+        end
+
+        it("should retry nil API results", function()
+            objectives = nil
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+            Tick()
+            assert.spy(callback).was.not_called()
+
+            objectives = {{text = "Wolf slain: 0/1", type = "monster"}}
+            Tick()
+            assert.spy(callback).was.called_with(objectives)
+        end)
+
+        it("should prime objectives while quest data is missing and accept a loaded quest with no objectives", function()
+            objectives = {}
+            _G.HaveQuestData = function() return false end
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+            Tick()
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called_with(QUEST_ID)
+            assert.spy(callback).was.not_called()
+
+            _G.HaveQuestData = function() return true end
+            Tick()
+            assert.spy(callback).was.called_with({})
+            assert.are_same("dead", coroutine.status(thread))
+        end)
+
+        it("should stop after 20 unsuccessful attempts without calling back", function()
+            objectives = {{text = "", type = "event"}}
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+            for _ = 1, 20 do
+                Tick()
+            end
+
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(20)
+            assert.spy(callback).was.not_called()
+            assert.are_same("dead", coroutine.status(thread))
+        end)
+
+        it("should still call back if objectives load on the twentieth attempt", function()
+            objectives = nil
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+            for _ = 1, 19 do
+                Tick()
+            end
+            assert.spy(callback).was.not_called()
+
+            objectives = {{text = "Wolf slain: 0/1", type = "monster"}}
+            Tick()
+
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(20)
+            assert.spy(callback).was.called_with(objectives)
+            assert.are_same("dead", coroutine.status(thread))
+        end)
+    end)
+
     describe("DidDailyResetHappenSinceLastLogin", function()
         it("should return true when last login is not set", function()
             _G.GetRealmName = function() return "Ook Ook" end
