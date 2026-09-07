@@ -30,6 +30,7 @@ describe("DarkmoonFaire", function()
         end
         _G.C_Calendar = {
             GetMonthInfo = function() return {year = now.year, month = now.month} end,
+            SetAbsMonth = spy.new(function() end),
             GetNumDayEvents = function() return #events end,
             GetDayEvent = function(_, _, index) return {calendarType = events[index].calendarType or "HOLIDAY"} end,
             GetHolidayInfo = function(_, _, index)
@@ -58,19 +59,24 @@ describe("DarkmoonFaire", function()
             {year = 2026, month = 8, monthDay = 8, hour = 23, minute = 59}}
     end
 
-    ---Calendar fixtures are keyed by actual month offset and day, not the current test date.
+    ---Fixtures are keyed relative to their original base; changing the selected month does not move the data.
     ---@param year number
     ---@param month number
     ---@param days table<number, table<number, table[]>>
     ---@return nil
     local function mockCalendarDays(year, month, days)
+        local selectedYear, selectedMonth = year, month
         ---@param offset number
         ---@param day number
         ---@return table[]
         local function dayEvents(offset, day)
-            return days[offset] and days[offset][day] or {}
+            local dataOffset = (selectedYear - year) * 12 + selectedMonth - month + offset
+            return days[dataOffset] and days[dataOffset][day] or {}
         end
-        C_Calendar.GetMonthInfo = function() return {year = year, month = month} end
+        C_Calendar.GetMonthInfo = function() return {year = selectedYear, month = selectedMonth} end
+        C_Calendar.SetAbsMonth = spy.new(function(newMonth, newYear)
+            selectedMonth, selectedYear = newMonth, newYear
+        end)
         C_Calendar.GetNumDayEvents = spy.new(function(offset, day) return #dayEvents(offset, day) end)
         C_Calendar.GetDayEvent = function(offset, day, index)
             local event = dayEvents(offset, day)[index]
@@ -198,7 +204,9 @@ describe("DarkmoonFaire", function()
                 assert.equals("TEROKKAR_FOREST", DarkmoonFaire.GetCurrentState(true).location)
                 assert.spy(C_Calendar.GetNumDayEvents).was.called_with(0, example.anchor.monthDay)
                 assert.spy(C_Calendar.GetNumDayEvents).was.called_with(0, example.lastMonthDay)
-                assert.spy(C_Calendar.GetNumDayEvents).was.called_with(1, 1)
+                assert.spy(C_Calendar.GetNumDayEvents).was.called_with(0, 1)
+                assert.spy(C_Calendar.SetAbsMonth).was.called_with(now.month, now.year)
+                assert.same({year = example.baseYear, month = example.baseMonth}, C_Calendar.GetMonthInfo())
                 assert.is_false(filter)
             end
         end)
@@ -255,6 +263,112 @@ describe("DarkmoonFaire", function()
 
     end)
 
+    describe("native month selection", function()
+        local selectedMonth, dayEvent, holidayInfo
+
+        before_each(function()
+            Expansions.Current = Expansions.MoP
+            now = {year = 2026, month = 9, monthDay = 7, hour = 17, minute = 44}
+            selectedMonth = {year = 2026, month = 10}
+            -- Relevant fields from the live MoP 5.5.4.69585 September 7 capture.
+            dayEvent = {
+                calendarType = "HOLIDAY", eventID = 479, sequenceType = "ONGOING", iconTexture = 235447,
+                startTime = {year = 2026, month = 9, monthDay = 6, hour = 0, minute = 1},
+                endTime = {year = 2026, month = 9, monthDay = 12, hour = 23, minute = 59},
+            }
+            holidayInfo = {
+                texture = 235447,
+                startTime = {year = 2026, month = 9, monthDay = 6, hour = 0, minute = 1},
+                endTime = {year = 2026, month = 9, monthDay = 12, hour = 23, minute = 59},
+            }
+            C_Calendar.GetMonthInfo = function() return selectedMonth end
+            C_Calendar.SetAbsMonth = spy.new(function(month, year)
+                selectedMonth = {year = year, month = month}
+            end)
+            C_Calendar.GetNumDayEvents = spy.new(function(offset, day)
+                -- Live queries omitted September 7 when October was selected, even at offset -1.
+                if selectedMonth.year ~= 2026 or selectedMonth.month ~= 9 or offset ~= 0 or day ~= 7 then
+                    return 0
+                end
+                return filter and 2 or 1
+            end)
+            C_Calendar.GetDayEvent = function(_, _, index)
+                if filter and index == 1 then return dayEvent end
+                return {calendarType = "HOLIDAY", eventID = 436, sequenceType = "END"}
+            end
+            C_Calendar.GetHolidayInfo = function(_, _, index)
+                if filter and index == 1 then return holidayInfo end
+                return { -- Call to Arms: Twin Peaks has timestamps but no texture in either record.
+                    startTime = {year = 2026, month = 9, monthDay = 4, hour = 0, minute = 1},
+                    endTime = {year = 2026, month = 9, monthDay = 7, hour = 23, minute = 59},
+                }
+            end
+        end)
+
+        it("finds the active Faire despite the selected month and hidden filter, then restores both", function()
+            assert.equals(0, C_Calendar.GetNumDayEvents(-1, 7))
+
+            assert.same({
+                status = "active", location = "DARKMOON_ISLAND",
+                startTime = {year = 2026, month = 9, monthDay = 6, hour = 0, minute = 1},
+                endTime = {year = 2026, month = 9, monthDay = 12, hour = 23, minute = 59},
+            }, DarkmoonFaire.GetCurrentState(true))
+
+            assert.same({year = 2026, month = 10}, selectedMonth)
+            assert.is_false(filter)
+            assert.same({"1", "0"}, writes)
+            assert.spy(C_Calendar.SetAbsMonth).was.called(2)
+            assert.spy(C_Calendar.SetAbsMonth).was.called_with(9, 2026)
+            assert.spy(C_Calendar.SetAbsMonth).was.called_with(10, 2026)
+            assert.spy(C_Calendar.GetNumDayEvents).was.called_with(0, 7)
+        end)
+
+        it("does not change the selected month when it already contains the queried date", function()
+            selectedMonth = {year = 2026, month = 9}
+            assert.equals("active", DarkmoonFaire.GetCurrentState(true).status)
+            assert.spy(C_Calendar.SetAbsMonth).was.not_called()
+        end)
+
+        it("restores the month and filter after an incomplete record", function()
+            holidayInfo.endTime = nil
+            assert.equals("pending", DarkmoonFaire.GetCurrentState(true).status)
+            assert.same({year = 2026, month = 10}, selectedMonth)
+            assert.is_false(filter)
+        end)
+
+        it("restores the month and filter after a native query error", function()
+            C_Calendar.GetHolidayInfo = function() error("native calendar failure") end
+            assert.equals("unavailable", DarkmoonFaire.GetCurrentState(true).status)
+            assert.same({year = 2026, month = 10}, selectedMonth)
+            assert.is_false(filter)
+        end)
+
+        it("still restores the month if restoring the filter throws", function()
+            _G.SetCVar = function(_, value)
+                if value == "0" then error("filter restoration failure") end
+                filter = true
+            end
+            assert.equals("unavailable", DarkmoonFaire.GetCurrentState(true).status)
+            assert.same({year = 2026, month = 10}, selectedMonth)
+        end)
+
+        it("returns unavailable with the filter restored if restoring the month throws", function()
+            C_Calendar.SetAbsMonth = function(month, year)
+                if month == 10 then error("month restoration failure") end
+                selectedMonth = {year = year, month = month}
+            end
+            assert.equals("unavailable", DarkmoonFaire.GetCurrentState(true).status)
+            assert.is_false(filter)
+            assert.same({year = 2026, month = 9}, selectedMonth)
+        end)
+
+        it("requires absolute month selection rather than accepting incomplete off-month lists", function()
+            C_Calendar.SetAbsMonth = nil
+            assert.equals("unavailable", DarkmoonFaire.GetCurrentState(true).status)
+            assert.same({}, writes)
+        end)
+    end)
+
     describe("calendar schedules", function()
         before_each(function()
             Expansions.Current = Expansions.Wotlk
@@ -271,7 +385,7 @@ describe("DarkmoonFaire", function()
             assert.equals("unavailable", DarkmoonFaire.GetCurrentState(true).status)
         end)
 
-        it("uses exact timestamps, excludes setup, and includes the native ending minute", function()
+        it("rejects times outside the returned interval and includes the native ending minute", function()
             now.monthDay, now.hour, now.minute = 1, 12, 0
             assert.equals("inactive", DarkmoonFaire.GetCurrentState(true).status)
             now.monthDay, now.hour = 2, 0
@@ -312,7 +426,7 @@ describe("DarkmoonFaire", function()
             end
         end)
 
-        it("uses the server month offset and compares cross-year intervals", function()
+        it("selects the queried month and compares cross-year intervals", function()
             now = {year = 2027, month = 1, monthDay = 1, hour = 0, minute = 1}
             events = {holiday(235447, {year = 2026, month = 12, monthDay = 27, hour = 0, minute = 1},
                 {year = 2027, month = 1, monthDay = 2, hour = 23, minute = 59})}
@@ -321,7 +435,9 @@ describe("DarkmoonFaire", function()
             local state = DarkmoonFaire.GetCurrentState(true)
             assert.equals("active", state.status)
             assert.same(events[1].startTime, state.startTime)
-            assert.spy(_G.C_Calendar.GetNumDayEvents).was.called_with(1, 1)
+            assert.spy(_G.C_Calendar.GetNumDayEvents).was.called_with(0, 1)
+            assert.spy(_G.C_Calendar.SetAbsMonth).was.called_with(1, 2027)
+            assert.spy(_G.C_Calendar.SetAbsMonth).was.called_with(12, 2026)
             now.year = 2028
             assert.equals("inactive", DarkmoonFaire.GetCurrentState(true).status)
         end)

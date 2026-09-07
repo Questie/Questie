@@ -299,27 +299,23 @@ local function _CalendarLocation(texture, locationRule)
     return location
 end
 
+---The caller selects this date's month; off-month queries can omit native holiday records.
 ---@param now CalendarTime
 ---@param locationRule DMFLocationRule
 ---@param useCalendarTiming boolean
 ---@return DarkmoonFaireState
 local function _ReadCalendar(now, locationRule, useCalendarTiming)
-    local base = C_Calendar.GetMonthInfo()
-    if not base or not base.year or not base.month then
-        return {status = "pending"}
-    end
-    local offset = (now.year - base.year) * 12 + now.month - base.month
-    local count = C_Calendar.GetNumDayEvents(offset, now.monthDay)
+    local count = C_Calendar.GetNumDayEvents(0, now.monthDay)
     if not count then
         return {status = "pending"}
     end
     local pending = false
     for index = 1, count do
-        local dayEvent = C_Calendar.GetDayEvent and C_Calendar.GetDayEvent(offset, now.monthDay, index)
+        local dayEvent = C_Calendar.GetDayEvent and C_Calendar.GetDayEvent(0, now.monthDay, index)
         if C_Calendar.GetDayEvent and not dayEvent then
             pending = true
         elseif not dayEvent or dayEvent.calendarType == "HOLIDAY" then
-            local holiday = C_Calendar.GetHolidayInfo(offset, now.monthDay, index)
+            local holiday = C_Calendar.GetHolidayInfo(0, now.monthDay, index)
             local location = holiday and _CalendarLocation(holiday.texture, locationRule)
             if not holiday then
                 pending = true
@@ -352,7 +348,7 @@ end
 ---@param calculatedRange DMFCalendarRange? Search this occurrence for location only; nil uses today's native timing.
 ---@return DarkmoonFaireState
 local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
-    if not C_Calendar or not C_Calendar.GetMonthInfo or not C_Calendar.GetNumDayEvents
+    if not C_Calendar or not C_Calendar.GetMonthInfo or not C_Calendar.SetAbsMonth or not C_Calendar.GetNumDayEvents
         or not C_Calendar.GetHolidayInfo or not GetCVarBool or not SetCVar then
         return {status = "unavailable"}
     end
@@ -360,20 +356,41 @@ local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
         return {status = "pending"}
     end
 
-    local wasVisible = GetCVarBool("calendarShowDarkmoon")
-    -- Restore the player's filter even when native calendar access throws.
+    local wasVisible, originalMonth
+    local monthChanged = false
     local ok, state = pcall(function()
+        originalMonth = C_Calendar.GetMonthInfo()
+        if not originalMonth or not originalMonth.year or not originalMonth.month then
+            return {status = "pending"}
+        end
+        local selectedMonth = originalMonth
+        wasVisible = GetCVarBool("calendarShowDarkmoon")
         if not wasVisible then
             SetCVar("calendarShowDarkmoon", "1")
         end
+
+        ---@param date CalendarTime
+        ---@param useCalendarTiming boolean
+        ---@return DarkmoonFaireState
+        local function readCalendar(date, useCalendarTiming)
+            if selectedMonth.year ~= date.year or selectedMonth.month ~= date.month then
+                -- SetMonth(0) only refreshes the selected month. Negative offsets can return false empty lists.
+                -- Selecting/restoring a month can notify synchronously; startup's caller guards reentrant checks.
+                monthChanged = true
+                C_Calendar.SetAbsMonth(date.month, date.year)
+                selectedMonth = date
+            end
+            return _ReadCalendar(date, locationRule, useCalendarTiming)
+        end
+
         if not calculatedRange then
-            return _ReadCalendar(now, locationRule, true)
+            return readCalendar(now, true)
         end
 
         -- A calculated closing day may have no native event. Find the location elsewhere in this occurrence.
         for day = calculatedRange.firstDay, calculatedRange.lastDay do
             local date = _DateAtDayNumber(now, day)
-            local locationState = _ReadCalendar(date, locationRule, false)
+            local locationState = readCalendar(date, false)
             if locationState.status == "active" then
                 return locationState
             end
@@ -381,10 +398,16 @@ local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
         -- Timing is known to be active; missing location data must not turn it into an inactive result.
         return {status = "pending"}
     end)
-    if not wasVisible then
-        SetCVar("calendarShowDarkmoon", "0")
+
+    -- Attempt both restorations even if querying or one of the restoration calls throws.
+    local filterRestored, monthRestored = true, true
+    if wasVisible == false then
+        filterRestored = pcall(SetCVar, "calendarShowDarkmoon", "0")
     end
-    if not ok then
+    if monthChanged then
+        monthRestored = pcall(C_Calendar.SetAbsMonth, originalMonth.month, originalMonth.year)
+    end
+    if not ok or not filterRestored or not monthRestored then
         return {status = "unavailable"}
     end
     return state

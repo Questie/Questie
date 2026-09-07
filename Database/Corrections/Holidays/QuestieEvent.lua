@@ -155,7 +155,7 @@ function QuestieEvent.Initialize()
         resolvedState = result
     end
 
-    ---Filter changes can trigger another calendar notification while a query is in progress.
+    ---Month selection/restoration and filter changes can notify synchronously during a query.
     ---@return nil
     local function checkCalendar()
         if checking or finished then
@@ -179,7 +179,7 @@ function QuestieEvent.Initialize()
     end)
     retry = C_Timer.NewTicker(0.25, checkCalendar)
 
-    -- SetMonth reliably triggers the initial list update even when OpenCalendar alone does not.
+    -- Refresh the selected month when OpenCalendar does not notify. The resolver selects each queried month.
     local ok = pcall(function()
         C_Calendar.OpenCalendar()
         if not finished then C_Calendar.SetMonth(0) end

@@ -295,24 +295,84 @@ describe("QuestieEvent", function()
             assert.same({"location correction"}, QuestieDB.npcDataOverrides[14828])
         end)
 
-        it("uses native Titan dates and textures rather than a calculated monthly rotation", function()
+        it("uses the tester-captured Titan September dates and Mulgore artwork", function()
+            QuestieCompat.GetCurrentCalendarTime = function()
+                return {year = 2026, month = 9, monthDay = 8, hour = 0, minute = 4}
+            end
             C_Seasons = {HasActiveSeason = function() return true end, GetActiveSeason = function() return 109 end}
-            C_Calendar.GetMonthInfo = function() return {year = 2026, month = 8} end
+            C_Calendar.GetMonthInfo = function() return {year = 2026, month = 9} end
+            C_Calendar.SetAbsMonth = spy.new(function() end)
             C_Calendar.GetNumDayEvents = function() return 1 end
-            C_Calendar.GetDayEvent = function() return {calendarType = "HOLIDAY"} end
+            C_Calendar.GetDayEvent = function()
+                return {calendarType = "HOLIDAY", eventID = 375, sequenceType = "ONGOING", iconTexture = 235450}
+            end
             C_Calendar.GetHolidayInfo = function()
-                return {texture = 235447,
-                    startTime = {year = 2026, month = 8, monthDay = 2, hour = 0, minute = 1},
-                    endTime = {year = 2026, month = 8, monthDay = 8, hour = 23, minute = 59}}
+                return {texture = 235450,
+                    startTime = {year = 2026, month = 9, monthDay = 6, hour = 0, minute = 1},
+                    endTime = {year = 2026, month = 9, monthDay = 12, hour = 23, minute = 59}}
             end
             dofile("Database/Corrections/Holidays/DarkmoonFaire.lua")
             startInitialization()
             TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
             resumeInitialization()
             assert.is_true(QuestieEvent.initialized)
+            assert.is_true(QuestieEvent.activeQuests[7926])
+            assert.is_nil(QuestieEvent.activeQuests[7905])
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
+        end)
+
+        it("handles synchronous OpenCalendar and nested month-selection notifications before applying corrections", function()
+            Expansions.Current = Expansions.MoP
+            QuestieCompat.GetCurrentCalendarTime = function()
+                return {year = 2026, month = 9, monthDay = 7, hour = 17, minute = 44}
+            end
+            local selectedMonth = 10
+            local visible, cached = false, false
+            _G.GetCVarBool = function() return visible end
+            _G.SetCVar = function(_, value) visible = value == "1" end
+            C_Calendar.GetMonthInfo = function() return {year = 2026, month = selectedMonth} end
+            C_Calendar.SetAbsMonth = spy.new(function(month, year)
+                assert.equals(2026, year)
+                selectedMonth = month
+                TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+                assert.is_false(QuestieEvent.initialized)
+            end)
+            C_Calendar.GetNumDayEvents = spy.new(function(offset, day)
+                if not cached then return nil end
+                if selectedMonth ~= 9 or offset ~= 0 or day ~= 7 or not visible then return 0 end
+                return 1
+            end)
+            C_Calendar.GetDayEvent = function()
+                return {calendarType = "HOLIDAY", eventID = 479, sequenceType = "ONGOING", iconTexture = 235447}
+            end
+            C_Calendar.GetHolidayInfo = function()
+                return {texture = 235447,
+                    startTime = {year = 2026, month = 9, monthDay = 6, hour = 0, minute = 1},
+                    endTime = {year = 2026, month = 9, monthDay = 12, hour = 23, minute = 59}}
+            end
+            C_Calendar.OpenCalendar = function()
+                -- Cache population, filter visibility and list notification are independent state changes.
+                cached = true
+                assert.equals(0, C_Calendar.GetNumDayEvents(0, 7))
+                TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+                assert.is_false(QuestieEvent.initialized)
+            end
+            dofile("Database/Corrections/Holidays/DarkmoonFaire.lua")
+
+            startInitialization()
+
+            assert.is_true(QuestieEvent.initialized)
             assert.is_true(QuestieEvent.activeQuests[7905])
-            assert.is_nil(QuestieEvent.activeQuests[7926])
-            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("ELWYNN_FOREST")
+            assert.is_true(QuestieEvent.activeQuests[7926])
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(1)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("DARKMOON_ISLAND")
+            assert.equals(10, selectedMonth)
+            assert.is_false(visible)
+            assert.spy(C_Calendar.SetAbsMonth).was.called(2)
+            assert.spy(C_Calendar.SetMonth).was.not_called()
+            assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
+            assert.is_true(timers[1].cancelled)
+            assert.is_true(timers[2].cancelled)
         end)
     end)
 
