@@ -125,7 +125,7 @@ local function _GetApiObjectiveText(questId, objectiveIndex)
     local objectives = C_QuestLog.GetQuestObjectives(questId)
     local objective = objectives and objectives[objectiveIndex]
     local text = objective and objective.text
-    if (not text) or text == "" then
+    if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
         return nil
     end
 
