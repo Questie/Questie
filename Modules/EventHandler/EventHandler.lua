@@ -78,10 +78,6 @@ function EventHandler:RegisterEarlyEvents()
             questPOIHandled = true
         end
 
-        if isInitialLogin or isReloadingUi then
-            C_Timer.After(8, QuestieTracker.HandleZoneChanged)
-        end
-
         if Expansions.Current >= Expansions.MoP then
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
@@ -181,10 +177,7 @@ function EventHandler:RegisterLateEvents()
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-        -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
-        -- backend Questie updates that occur when a player zones in/out of an instance. This
-        -- is necessary to get everything back into it's "normal" state after all the updates.
-        C_Timer.After(8, QuestieTracker.HandleZoneChanged)
+        QuestieTracker.HandleZoneChanged()
     end)
 
     -- Pet Battle Events (MoP onwards)

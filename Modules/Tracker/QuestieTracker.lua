@@ -82,6 +82,8 @@ end
 
 local isFirstRun = true
 local allowFormattingUpdate = false
+local minimizedByInstance = false
+local hiddenByInstance = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
@@ -161,6 +163,8 @@ function QuestieTracker.Initialize()
     end
 
     QuestieCombatQueue:Queue(function()
+        QuestieTracker.HandleZoneChanged() -- covers login/reload while already inside an instance
+
         -- Sync and populate the QuestieTracker - this should only run when a player has loaded
         -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
 
@@ -534,6 +538,8 @@ end
 
 -- Shows the QuestieTracker
 function QuestieTracker:Show()
+    hiddenByInstance = false
+
     if trackerBaseFrame and Questie.db.profile.trackerEnabled then
         if not trackerBaseFrame:IsShown() then
             trackerBaseFrame:Show()
@@ -544,9 +550,6 @@ function QuestieTracker:Show()
         end)
     end
 end
-
-local minimizedByInstance = false
-local hiddenByInstance = false
 
 -- Single entry point for EventHandler to notify the tracker that the player's instance status
 -- may have changed (zone change, or login/reload while already inside an instance). Checks
@@ -1625,13 +1628,15 @@ function QuestieTracker:UpdateFormatting()
 
     -- This is responsible for handling the visibility of the Tracker
     -- when nothing is tracked or when alwaysShowTracker is being used.
+    -- Skipped while hiddenByInstance is true, so a normal Update() doesn't undo the
+    -- explicit Hide() applied by HandleZoneChanged().
     if (not TrackerUtils.HasQuest()) then
-        if Questie.db.profile.alwaysShowTracker then
+        if Questie.db.profile.alwaysShowTracker and (not hiddenByInstance) then
             trackerBaseFrame:Show()
         else
             trackerBaseFrame:Hide()
         end
-    else
+    elseif (not hiddenByInstance) then
         trackerBaseFrame:Show()
     end
 
