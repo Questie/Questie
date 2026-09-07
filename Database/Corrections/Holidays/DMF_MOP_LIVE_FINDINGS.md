@@ -100,7 +100,7 @@ Focused tests reproduce the captured false-empty query and verify synchronous no
 
 - Actual world behavior at the opening minute, closing minute, and following minute. Native endpoint values were captured; inclusive world activity was not observed at those times.
 - Cold-login notifications, initially incomplete lists, and the five-second timeout under latency.
-- Titan's full startup behavior, Terokkar artwork, and announcement questgivers. The later [tester captures](DMF_TITAN_TESTER_FINDINGS.md) confirm Elwynn/Mulgore artwork and August/September holiday timestamps.
+- Titan's full startup behavior and announcement questgivers. The later [tester captures](DMF_TITAN_TESTER_FINDINGS.md) confirm Elwynn/Mulgore artwork and August/September holiday timestamps. Terokkar is accepted from DBC evidence without requiring another native texture capture.
 - Era/TBC world timing boundaries.
 - Faction announcement visibility and NPC positions in the world.
 - Any unusual timezone relationship at a date boundary.

@@ -24,6 +24,8 @@ These values match the existing location texture mappings. There is no demonstra
 
 Logon confirmed the expected Titan rotation: August Elwynn, September Mulgore, October Terokkar. **October/Terokkar was not dumped**, so its expected next occurrence and artwork are not live-validated by this exchange.
 
+Terokkar's mapping is accepted for this change based on the DBC data and the matching Elwynn/Mulgore captures. A further native texture dump is not a release requirement; retain the distinction between DBC-backed and live-verified data.
+
 ## Selected-month lesson
 
 The first commands used offset `0` with the current clock's day number. They returned the August 8 END record even though the native clock reported September 8:
