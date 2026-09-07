@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 QuestieLib.AddonPath = "Interface\\Addons\\Questie\\"
 
@@ -172,14 +174,14 @@ end
 ---@type Color[]
 local colors = {
     -- Light (200)         Standard (500)         -- Family
-    {0.99, 0.73, 0.73},    {0.94, 0.19, 0.19},    -- Red
-    {0.99, 0.81, 0.59},    {0.98, 0.46, 0.05},    -- Orange
-    {0.99, 0.93, 0.54},    {0.92, 0.68, 0.05},    -- Yellow
-    {0.73, 0.96, 0.80},    {0.13, 0.77, 0.36},    -- Green
-    {0.75, 0.87, 0.99},    {0.23, 0.55, 0.94},    -- Blue
-    {0.78, 0.82, 0.99},    {0.39, 0.45, 0.94},    -- Indigo
-    {0.87, 0.82, 1.00},    {0.55, 0.35, 0.96},    -- Violet
-    {0.99, 0.76, 0.89},    {0.93, 0.16, 0.55},    -- Pink
+    {0.99, 0.73, 0.73}, {0.94, 0.19, 0.19}, -- Red
+    {0.99, 0.81, 0.59}, {0.98, 0.46, 0.05}, -- Orange
+    {0.99, 0.93, 0.54}, {0.92, 0.68, 0.05}, -- Yellow
+    {0.73, 0.96, 0.80}, {0.13, 0.77, 0.36}, -- Green
+    {0.75, 0.87, 0.99}, {0.23, 0.55, 0.94}, -- Blue
+    {0.78, 0.82, 0.99}, {0.39, 0.45, 0.94}, -- Indigo
+    {0.87, 0.82, 1.00}, {0.55, 0.35, 0.96}, -- Violet
+    {0.99, 0.76, 0.89}, {0.93, 0.16, 0.55}, -- Pink
 }
 
 -- Shuffle colors on startup (Fisher-Yates)
@@ -315,23 +317,23 @@ function QuestieLib:GetRaceString(raceMask)
         local langCode = l10n:GetUILocale()
         local spaceString = ((langCode == "zhCN" or langCode == "zhTW") and "") or " " -- no spaces for chinese strings
         local stringTable = {
-            l10n("Human"),                                          -- 1
-            l10n("Orc"),                                            -- 2
-            l10n("Dwarf"),                                          -- 4
-            l10n("Night Elf"),                                      -- 8
-            l10n("Undead"),                                         -- 16
-            l10n("Tauren"),                                         -- 32
-            l10n("Gnome"),                                          -- 64
-            l10n("Troll"),                                          -- 128
-            l10n("Goblin"),                                         -- 256
-            l10n("Blood Elf"),                                      -- 512
-            l10n("Draenei"),                                        -- 1024
-            nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,                -- 2^11 -> 2^20
-            l10n("Worgen"),                                         -- 2097152
-            nil,                                                    -- 2^22
-            l10n("Pandaren"),                                       -- 8388608
-            l10n("Pandaren") .. spaceString .. l10n("Alliance"),    -- 16777216
-            l10n("Pandaren") .. spaceString .. l10n("Horde"),       -- 33554432
+            l10n("Human"), -- 1
+            l10n("Orc"), -- 2
+            l10n("Dwarf"), -- 4
+            l10n("Night Elf"), -- 8
+            l10n("Undead"), -- 16
+            l10n("Tauren"), -- 32
+            l10n("Gnome"), -- 64
+            l10n("Troll"), -- 128
+            l10n("Goblin"), -- 256
+            l10n("Blood Elf"), -- 512
+            l10n("Draenei"), -- 1024
+            nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, -- 2^11 -> 2^20
+            l10n("Worgen"), -- 2097152
+            nil, -- 2^22
+            l10n("Pandaren"), -- 8388608
+            l10n("Pandaren") .. spaceString .. l10n("Alliance"), -- 16777216
+            l10n("Pandaren") .. spaceString .. l10n("Horde"), -- 33554432
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
@@ -356,30 +358,30 @@ function QuestieLib:GetClassString(classMask)
         local classTable = QuestieLib:UnpackBinary(classMask)
         local classColors = {
             -- Class colors taken from RAID_CLASS_COLORS["WARRIOR"] etc
-            WARRIOR      = "|c" .. RAID_CLASS_COLORS["WARRIOR"].colorStr,
-            PALADIN      = "|c" .. RAID_CLASS_COLORS["PALADIN"].colorStr,
-            HUNTER       = "|c" .. RAID_CLASS_COLORS["HUNTER"].colorStr,
-            ROGUE        = "|c" .. RAID_CLASS_COLORS["ROGUE"].colorStr,
-            PRIEST       = "|c" .. RAID_CLASS_COLORS["PRIEST"].colorStr,
+            WARRIOR = "|c" .. RAID_CLASS_COLORS["WARRIOR"].colorStr,
+            PALADIN = "|c" .. RAID_CLASS_COLORS["PALADIN"].colorStr,
+            HUNTER = "|c" .. RAID_CLASS_COLORS["HUNTER"].colorStr,
+            ROGUE = "|c" .. RAID_CLASS_COLORS["ROGUE"].colorStr,
+            PRIEST = "|c" .. RAID_CLASS_COLORS["PRIEST"].colorStr,
             DEATH_KNIGHT = "|c" .. RAID_CLASS_COLORS["DEATHKNIGHT"].colorStr,
-            SHAMAN       = "|c" .. RAID_CLASS_COLORS["SHAMAN"].colorStr,
-            MAGE         = "|c" .. RAID_CLASS_COLORS["MAGE"].colorStr,
-            WARLOCK      = "|c" .. RAID_CLASS_COLORS["WARLOCK"].colorStr,
-            MONK         = "|c" .. RAID_CLASS_COLORS["MONK"].colorStr,
-            DRUID        = "|c" .. RAID_CLASS_COLORS["DRUID"].colorStr,
+            SHAMAN = "|c" .. RAID_CLASS_COLORS["SHAMAN"].colorStr,
+            MAGE = "|c" .. RAID_CLASS_COLORS["MAGE"].colorStr,
+            WARLOCK = "|c" .. RAID_CLASS_COLORS["WARLOCK"].colorStr,
+            MONK = "|c" .. RAID_CLASS_COLORS["MONK"].colorStr,
+            DRUID = "|c" .. RAID_CLASS_COLORS["DRUID"].colorStr,
         }
         local stringTable = {
-            classColors.WARRIOR .. l10n("Warrior") .. "|r",                 -- 1
-            classColors.PALADIN .. l10n("Paladin") .. "|r",                 -- 2
-            classColors.HUNTER .. l10n("Hunter") .. "|r",                   -- 4
-            classColors.ROGUE .. l10n("Rogue") .. "|r",                     -- 8
-            classColors.PRIEST .. l10n("Priest") .. "|r",                   -- 16
-            classColors.DEATH_KNIGHT .. l10n("Death Knight") .. "|r",       -- 32
-            classColors.SHAMAN .. l10n("Shaman") .. "|r",                   -- 64
-            classColors.MAGE .. l10n("Mage") .. "|r",                       -- 128
-            classColors.WARLOCK .. l10n("Warlock") .. "|r",                 -- 256
-            classColors.MONK .. l10n("Monk") .. "|r",                       -- 512
-            classColors.DRUID .. l10n("Druid") .. "|r",                     -- 1024
+            classColors.WARRIOR .. l10n("Warrior") .. "|r", -- 1
+            classColors.PALADIN .. l10n("Paladin") .. "|r", -- 2
+            classColors.HUNTER .. l10n("Hunter") .. "|r", -- 4
+            classColors.ROGUE .. l10n("Rogue") .. "|r", -- 8
+            classColors.PRIEST .. l10n("Priest") .. "|r", -- 16
+            classColors.DEATH_KNIGHT .. l10n("Death Knight") .. "|r", -- 32
+            classColors.SHAMAN .. l10n("Shaman") .. "|r", -- 64
+            classColors.MAGE .. l10n("Mage") .. "|r", -- 128
+            classColors.WARLOCK .. l10n("Warlock") .. "|r", -- 256
+            classColors.MONK .. l10n("Monk") .. "|r", -- 512
+            classColors.DRUID .. l10n("Druid") .. "|r", -- 1024
         }
         local firstRun = true
         for k, v in pairs(classTable) do
@@ -394,6 +396,46 @@ function QuestieLib:GetClassString(classMask)
         end
         return classString
     end
+end
+
+---Polls every 0.1 seconds, up to 20 attempts. Calls back once only if every objective has loaded text and type.
+---The callback is asynchronous and is not called on exhaustion or cancellation. Loaded quests may have zero objectives.
+---@param questId QuestId
+---@param callback fun(objectives: QuestObjectiveInfo[])
+---@param tickSpeed? number @Optional, defaults to 0.1 seconds
+---@return Ticker timer @Call timer:Cancel() if the consumer no longer needs the result
+---@return thread thread
+function QuestieLib.ContinueOnQuestObjectivesLoad(questId, callback, tickSpeed)
+    return ThreadLib.Thread(function()
+        local attempts = 0
+        local objectives
+        local ready
+        repeat
+            attempts = attempts + 1
+            local haveQuestData = HaveQuestData(questId)
+            -- Fetch even when quest data is missing: this also requests objective data from the client.
+            objectives = C_QuestLog.GetQuestObjectives(questId)
+            ready = haveQuestData and objectives ~= nil
+            if ready then
+                for objectiveIndex = 1, #objectives do
+                    local objective = objectives[objectiveIndex]
+                    local text = objective.text
+                    if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
+                        ready = false
+                        break
+                    end
+                end
+            end
+
+            if (not ready) and attempts < 20 then
+                coroutine.yield()
+            end
+        until ready or attempts >= 20
+
+        if ready then
+            callback(objectives)
+        end
+    end, tickSpeed or 0.1)
 end
 
 function QuestieLib:CacheItemNames(questId)
@@ -722,7 +764,7 @@ function QuestieLib.FormatDate(timeStamp)
     elseif langCode == "frFR" then
         return date(weekDay .. " %d " .. monthName .. " %Y à %H:%M", timeStamp)
     elseif langCode == "koKR" then
-        return date("%Y년 " .. monthName .. " %d일" .. " " .. weekDay .." %H:%M", timeStamp)
+        return date("%Y년 " .. monthName .. " %d일" .. " " .. weekDay .. " %H:%M", timeStamp)
     elseif langCode == "ptBR" then
         return date(weekDay .. ", %d de " .. monthName .. " de %Y às %H:%M", timeStamp)
     elseif langCode == "ruRU" then
